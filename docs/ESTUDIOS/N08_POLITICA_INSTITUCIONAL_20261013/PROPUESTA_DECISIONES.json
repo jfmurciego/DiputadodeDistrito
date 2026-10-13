@@ -1,0 +1,205 @@
+{
+  "schema": "ddd.congress-institutional-policy-proposal/1.0",
+  "proposal_id": "N08-7-DECISIONS-20261013",
+  "status": "NOT_APPROVED",
+  "derived_from_main": "c1449aa65fd391b77314441a6567163c1af92fe1",
+  "reference_population_year": 2025,
+  "source_geometry_year": 2025,
+  "institutional_K_approved": 407,
+  "administrative_origin_units": 52,
+  "electoral_districts_are_uninominal": true,
+  "generation_authorized": false,
+  "production_contract_modified": false,
+  "reference_evidence": [
+    "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/PROPUESTA_POBLACION_MUNICIPIOS.md",
+    "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/FACTIBILIDAD_OPCIONES.json",
+    "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/FACTIBILIDAD_ESTRUCTURAL.md",
+    "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/CANTABRIA.md",
+    "docs/ESTUDIOS/N08_CACERES_20261012/INFORME.md"
+  ],
+  "decisions": {
+    "minimum_unit": {
+      "status": "NOT_APPROVED",
+      "proposed_contract_value": "official_2025_CUSEC_indivisible",
+      "definition": "Asignación de toda la sección censal CUSEC a un único distrito; sus partes geométricas conservan la misma etiqueta, sin imputar población a cada parte.",
+      "conditions": [
+        "CUSEC exacto del par INE 2025/2025",
+        "no cortes dentro de una sección",
+        "la sección multipoligonal no crea adyacencias ficticias"
+      ]
+    },
+    "contiguity": {
+      "status": "NOT_APPROVED",
+      "proposed_contract_value": "positive_line_shared_boundary_on_original_polygon_parts",
+      "definition": "Una mera intersección puntual no establece continuidad; exigir fronteras compartidas de longitud estrictamente positiva y preservar grafo de componentes de polígonos.",
+      "conditions": [
+        "sin buffer, redondeo, make_valid ni puentes artificiales",
+        "sin conexiones transprovinciales",
+        "discontinuidades excepcionales requieren registro individual y autorización expresa"
+      ]
+    },
+    "population_limits": {
+      "status": "NOT_APPROVED",
+      "proposed_basis": "P_i/K_i",
+      "institutional_reference": "120000_reference_for_K_only",
+      "tolerance_fraction": "3/20",
+      "proposed_contract_value": {
+        "population_floor_ratio": 0.85,
+        "population_cap_ratio": 1.15,
+        "target_tolerance_ratio": 0.15
+      },
+      "integer_bounds": "lower=ceil(17*P_i/(20*K_i)); upper=floor(23*P_i/(20*K_i))",
+      "constraints": [
+        "los limites son duros por defecto",
+        "una excepción se aprueba por caso y no modifica el K",
+        "no convertir limites de Aragón ni autonómicos en valores implícitos"
+      ]
+    },
+    "municipal_indivisibility": {
+      "status": "NOT_APPROVED",
+      "proposed_contract_value": "preserve_when_feasible_split_by_whole_CUSEC_when_necessary",
+      "definition": "Priorizar municipios íntegros cuando resulte viable; permitir dividir municipios por secciones completas si el equilibrio, K o conectividad lo requieren.",
+      "optimization_priority": "Minimizar cortes municipales como criterio subordinado a legalidad, K, contigüidad y límites duros; registrar cada corte.",
+      "conditions": [
+        "prohibido romper CUSEC",
+        "municipios físicamente discontinuos no crean continuidad artificial",
+        "sin inviabilizar por indivisibilidad municipal absoluta"
+      ]
+    },
+    "islands": {
+      "status": "NOT_APPROVED",
+      "proposed_contract_value": "preserve_physical_islands_named_exceptions_only",
+      "definition": "Conservar la fragmentación territorial real de cada isla e islote; la agrupación electoral físicamente discontinua no se presume y requiere excepción nominal aprobada.",
+      "conditions": [
+        "no inventar aristas sobre agua",
+        "no pasar límites provinciales",
+        "acreditar asignación administrativa y edición de cada componente",
+        "no autorizar automáticamente excepciones por estar en un archipiélago"
+      ]
+    },
+    "enclaves": {
+      "status": "NOT_APPROVED",
+      "proposed_contract_value": "accredited_administrative_enclaves_named_exceptions_only",
+      "definition": "Los enclaves legítimos conservan su provincia de pertenencia, sin construir conexiones físicas sobre otra provincia.",
+      "conditions": [
+        "acreditar enclave con fuentes oficiales administrativas/geométricas",
+        "registrar excepciones caso por caso",
+        "Valle de Villaverde requiere acreditación y decisión nominal antes de tratar su aislamiento"
+      ]
+    },
+    "physical_discontinuities": {
+      "status": "NOT_APPROVED",
+      "proposed_contract_value": "case_registry_bound_to_edition_cusec_parts_and_hashes",
+      "definition": "Registrar y acreditar componentes físicos separados de secciones y municipios; el grafo de partes domina sobre la conectividad nominal por CUSEC.",
+      "conditions": [
+        "asignación completa de cada CUSEC indivisible",
+        "todas sus partes heredan distrito, nunca pasarela",
+        "validar continuidad real de cada componente o excepción nominal antes de M06",
+        "revalidar excepciones al variar fuente/edición/geometría",
+        "no inferir población de partes por superficie"
+      ]
+    }
+  },
+  "national_impact_under_proposed_limits": {
+    "scenario_basis": "provincial_mean",
+    "tolerance_fraction": "3/20",
+    "section_graph_arithmetic_blocked_origin_units": 16,
+    "section_graph_arithmetic_blocked_codes": [
+      "06",
+      "07",
+      "09",
+      "13",
+      "17",
+      "28",
+      "31",
+      "34",
+      "35",
+      "36",
+      "38",
+      "39",
+      "43",
+      "46",
+      "47",
+      "48"
+    ],
+    "physical_part_components_exceed_K_origin_units": 9,
+    "physical_part_components_exceed_K_codes": [
+      "04",
+      "07",
+      "09",
+      "15",
+      "17",
+      "27",
+      "30",
+      "34",
+      "36"
+    ],
+    "absolute_municipal_indivisibility_incompatible_units": 31,
+    "municipalities_above_ordinary_upper_bound": 48,
+    "sections_above_ordinary_upper_bound": 0,
+    "mathematical_conditions_are_necessary_not_sufficient": true
+  },
+  "pilot_diagnostics": {
+    "caceres": {
+      "CPRO": "10",
+      "population": 388190,
+      "K": 3,
+      "sections": 411,
+      "edges": 1125,
+      "integer_floor": 109988,
+      "integer_cap": 148806,
+      "discontinuous_municipalities": 11,
+      "multipart_sections_spanning_physical_components": 0,
+      "arithmetic_component_impossibility_detected": false,
+      "feasibility_proven": false,
+      "generation_authorized": false
+    },
+    "cantabria": {
+      "CPRO": "39",
+      "population": 593623,
+      "K": 5,
+      "sections": 458,
+      "edges": 1208,
+      "integer_floor": 100916,
+      "integer_cap": 136533,
+      "physically_isolated_valle_de_villaverde_CUSEC": "3910101001",
+      "isolated_enclave_population": 249,
+      "multipart_sections_spanning_physical_components": 3,
+      "enclosed_voids": 28,
+      "arithmetic_component_impossibility_detected": true,
+      "feasibility_proven": false,
+      "generation_authorized": false
+    }
+  },
+  "exception_registry": {
+    "status": "NOT_APPROVED",
+    "approved_cases": [],
+    "required_identity_fields": [
+      "exception_id",
+      "CPRO",
+      "CUSEC_or_polygon_part_ids",
+      "source_edition",
+      "source_sha256",
+      "topology_unit_sha256",
+      "official_administrative_evidence",
+      "physical_geometry_evidence",
+      "exception_kind",
+      "permitted_discontinuity_scope",
+      "owner_decision_id",
+      "invalidation_conditions"
+    ],
+    "rules": [
+      "no generalized exception",
+      "no cross-province connection",
+      "no fictitious topology edges",
+      "no approval from a status of a deprecated plan",
+      "invalidate on changed source or geometry"
+    ]
+  },
+  "technical_prerequisite_not_authorization": {
+    "issue": "The closed-schema validator does not currently admit a mapping under decisions.population_limits.value; a strict typed schema extension is required before contract promotion.",
+    "action": "Introduce explicit validation for exactly population_floor_ratio, population_cap_ratio and target_tolerance_ratio in a separate reviewed increment.",
+    "must_not_change_current_contract": true
+  },
+  "owner_action": "Explicitly approve or revise the seven general policies and separately decide individual physical exceptions; do not infer approval from this PR."
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "ddd.congress-institutional-owner-decision/1.0",
+  "decision_id": "N08-OWNER-20261013-7RULES",
+  "decided_at": "2026-10-13",
+  "authority": "Propietario de DDD; aprobación expresa comunicada a Work en esta conversación",
+  "status": "APPROVED_BY_OWNER",
+  "proposal_id": "N08-7-DECISIONS-20261013",
+  "proposal_file": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/PROPUESTA_DECISIONES.json",
+  "proposal_snapshot_status": "NOT_APPROVED",
+  "approval_scope": "seven_general_institutional_rules_only",
+  "approved_rules": [
+    "minimum_unit",
+    "contiguity",
+    "population_limits",
+    "municipal_indivisibility",
+    "islands",
+    "enclaves",
+    "physical_discontinuities"
+  ],
+  "population_limits": {
+    "basis": "P_i/K_i",
+    "tolerance_fraction": "3/20",
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15
+  },
+  "constraints": {
+    "original_n06_k": 407,
+    "retain_2025_source_identity": true,
+    "preserve_52_administrative_origin_units": true,
+    "municipalities": "preserve when feasible; split only at complete CUSEC when necessary",
+    "physical_connectivity": "original positive shared linear boundary; no synthetic bridges",
+    "minimum_unit": "entire official 2025 CUSEC",
+    "islands_enclaves_discontinuities": "case-by-case source-backed exceptions; none approved by this decision"
+  },
+  "explicitly_not_approved": {
+    "case_specific_exceptions": [],
+    "general_production_ready": false,
+    "national_52_of_52_accreditation": false,
+    "real_m04_m06_pilot": false,
+    "generate_or_publish_districts": false,
+    "automatic_execution_authorization": false,
+    "legal_constitutional_compliance_certification": false
+  },
+  "contract_change": "to be reviewed and integrated separately, preserving source/product evidentiary hash lineage",
+  "source_product_rebinding": "required: current N08 products bind previous contract SHA; do not rewrite historic manifests or treat previous preflight as proof against revised contract",
+  "generation_authorized": false
+}

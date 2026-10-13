@@ -128,9 +128,9 @@ class MaterializedPackageTests(unittest.TestCase):
 
         contract_path = package.parents[1] / "contrato_congreso_2026.json"
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
-        self.assertEqual(contract["metadata"]["status"], "CANDIDATO_N06_APPROVED_GENERATION_BLOCKED")
+        self.assertEqual(contract["metadata"]["status"], "CANDIDATO_N08_7_REGLAS_APROBADAS_GENERACION_BLOQUEADA")
         self.assertEqual(contract["population_reference"]["status"], "APPROVED_BY_OWNER")
-        self.assertTrue(all(decision["status"] == "WAIT_OWNER" and decision["value"] is None
+        self.assertTrue(all(decision["status"] == "APPROVED" and decision["value"] is not None
                             for name, decision in contract["decisions"].items()
                             if name != "population_reference"))
         self.assertEqual(contract["decisions"]["population_reference"]["status"], "APPROVED")

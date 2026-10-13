@@ -1,0 +1,648 @@
+{
+  "schema": "ddd.n08-national-close-verification/1.0",
+  "read_only": true,
+  "source_evidence": "existing versioned artifacts only; no source download or dataset regeneration",
+  "national_manifest": {
+    "entries": 74,
+    "verified": 74,
+    "files": [
+      {
+        "path": "ANOMALIAS.md",
+        "expected_sha256": "9e9f636c2c9211e4eeedcc9f4e580570ddeaa260730a99c6f03e03edc39523c4",
+        "actual_sha256": "9e9f636c2c9211e4eeedcc9f4e580570ddeaa260730a99c6f03e03edc39523c4",
+        "verified": true
+      },
+      {
+        "path": "AUDITORIA_GEOMETRICA.log",
+        "expected_sha256": "fbb949d56a7e6adccd95f0cff34420663079f884db71464ce852e20632dd3672",
+        "actual_sha256": "fbb949d56a7e6adccd95f0cff34420663079f884db71464ce852e20632dd3672",
+        "verified": true
+      },
+      {
+        "path": "AUDITORIA_INDEPENDIENTE.json",
+        "expected_sha256": "c3539ab90423f304d4af71ad5aa1054366bf0e7c5cd05e369e64c24912a4c54e",
+        "actual_sha256": "c3539ab90423f304d4af71ad5aa1054366bf0e7c5cd05e369e64c24912a4c54e",
+        "verified": true
+      },
+      {
+        "path": "CANTABRIA.md",
+        "expected_sha256": "1969d35a3f91b0eb15c47eecafa81a12c3c25c9f8f7270a1999fe41e6640337b",
+        "actual_sha256": "1969d35a3f91b0eb15c47eecafa81a12c3c25c9f8f7270a1999fe41e6640337b",
+        "verified": true
+      },
+      {
+        "path": "CHECKPOINT_CONTINUACION.json",
+        "expected_sha256": "b422b18bc8b8caddb1ce773cd94c974fe96f1b78821ede02d76e95de52c7ccae",
+        "actual_sha256": "b422b18bc8b8caddb1ce773cd94c974fe96f1b78821ede02d76e95de52c7ccae",
+        "verified": true
+      },
+      {
+        "path": "COMPATIBILIDAD_M01_M06.md",
+        "expected_sha256": "7ee39bffdd33231c5aa5bfe622211982c085b0e6582a06f0021bf9ec252d7d51",
+        "actual_sha256": "7ee39bffdd33231c5aa5bfe622211982c085b0e6582a06f0021bf9ec252d7d51",
+        "verified": true
+      },
+      {
+        "path": "COMPONENTES_POBLACION.csv",
+        "expected_sha256": "e6bedd04fda5d44de270ee5cea9dc767e65478180a0c4c068f15de1017a1a482",
+        "actual_sha256": "e6bedd04fda5d44de270ee5cea9dc767e65478180a0c4c068f15de1017a1a482",
+        "verified": true
+      },
+      {
+        "path": "ENTREGA.md",
+        "expected_sha256": "834177d35747961d84cfa668d11a59884a797a6b9a7a7187fbe23c4d0c2eee1a",
+        "actual_sha256": "834177d35747961d84cfa668d11a59884a797a6b9a7a7187fbe23c4d0c2eee1a",
+        "verified": true
+      },
+      {
+        "path": "FACTIBILIDAD_ESTRUCTURAL.md",
+        "expected_sha256": "b03eaf3b6b03e16e9ad1b6003d195aa26364b3fe380d3f61317287440f9b0391",
+        "actual_sha256": "b03eaf3b6b03e16e9ad1b6003d195aa26364b3fe380d3f61317287440f9b0391",
+        "verified": true
+      },
+      {
+        "path": "FACTIBILIDAD_OPCIONES.json",
+        "expected_sha256": "74e7d686a80e1d0ef86fa7df4d5651f1c4f9265a33debcb5517c7bc5fe9df379",
+        "actual_sha256": "74e7d686a80e1d0ef86fa7df4d5651f1c4f9265a33debcb5517c7bc5fe9df379",
+        "verified": true
+      },
+      {
+        "path": "INFORME_EJECUTIVO.md",
+        "expected_sha256": "e4b3a3eddd7d0134f6f403d69a645795cb907a00da8e2c1d38a47f3fd4ce027c",
+        "actual_sha256": "e4b3a3eddd7d0134f6f403d69a645795cb907a00da8e2c1d38a47f3fd4ce027c",
+        "verified": true
+      },
+      {
+        "path": "INVENTARIO_52.csv",
+        "expected_sha256": "a6573ba67928a109a70209ac6d44689a9e39ad567f008dd32441c5445bc33348",
+        "actual_sha256": "a6573ba67928a109a70209ac6d44689a9e39ad567f008dd32441c5445bc33348",
+        "verified": true
+      },
+      {
+        "path": "METODO_Y_REPRODUCCION.md",
+        "expected_sha256": "570e4cd8b43d0335b3e98503d1f602b52bb4d395bad07d45db6c134c70666138",
+        "actual_sha256": "570e4cd8b43d0335b3e98503d1f602b52bb4d395bad07d45db6c134c70666138",
+        "verified": true
+      },
+      {
+        "path": "PROPUESTA_POBLACION_MUNICIPIOS.md",
+        "expected_sha256": "0aabf0fe22788aa82a2bd0d0e93b5e16d8466a326d0fad1299213e6b7bca114e",
+        "actual_sha256": "0aabf0fe22788aa82a2bd0d0e93b5e16d8466a326d0fad1299213e6b7bca114e",
+        "verified": true
+      },
+      {
+        "path": "PRUEBAS_159.log",
+        "expected_sha256": "21d4e2c947dceb15f686c59978530b4b5e2a2374f51ba587b676682a78d327ab",
+        "actual_sha256": "21d4e2c947dceb15f686c59978530b4b5e2a2374f51ba587b676682a78d327ab",
+        "verified": true
+      },
+      {
+        "path": "PRUEBAS_184.log",
+        "expected_sha256": "b4b5ed1b340b1c0c9230c887b721b94081f19cf814dee273424ece26eb8b49b2",
+        "actual_sha256": "b4b5ed1b340b1c0c9230c887b721b94081f19cf814dee273424ece26eb8b49b2",
+        "verified": true
+      },
+      {
+        "path": "REPRODUCCION.log",
+        "expected_sha256": "cfbbd99ac517166ffd0c43fa7b7a14ff4f4045563777cbbb1b8b2f267d23b390",
+        "actual_sha256": "cfbbd99ac517166ffd0c43fa7b7a14ff4f4045563777cbbb1b8b2f267d23b390",
+        "verified": true
+      },
+      {
+        "path": "REPRODUCCION_INDEPENDIENTE.json",
+        "expected_sha256": "8746a205da27280378098ca8ac067666d222cba958d5d25d5deb06b3dc21990d",
+        "actual_sha256": "8746a205da27280378098ca8ac067666d222cba958d5d25d5deb06b3dc21990d",
+        "verified": true
+      },
+      {
+        "path": "REVISION_INDEPENDIENTE.md",
+        "expected_sha256": "971a3f1e6ae5421257d6099f7423d68f5f525ccfe2ae5ac1ea40868b2be11d69",
+        "actual_sha256": "971a3f1e6ae5421257d6099f7423d68f5f525ccfe2ae5ac1ea40868b2be11d69",
+        "verified": true
+      },
+      {
+        "path": "producto/checkpoint.json",
+        "expected_sha256": "73d663d5d086c9e4dc1d54a2dad244ee720f8905d9fb26ca6b7b59eaeeb1acf9",
+        "actual_sha256": "73d663d5d086c9e4dc1d54a2dad244ee720f8905d9fb26ca6b7b59eaeeb1acf9",
+        "verified": true
+      },
+      {
+        "path": "producto/contactos_interprovinciales.json.gz",
+        "expected_sha256": "820fe12639678250dbf029ef32dbe95c1be8449d54d40ecc5f8922606a0fa315",
+        "actual_sha256": "820fe12639678250dbf029ef32dbe95c1be8449d54d40ecc5f8922606a0fa315",
+        "verified": true
+      },
+      {
+        "path": "producto/manifest.json",
+        "expected_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+        "actual_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/01.json.gz",
+        "expected_sha256": "44faccf2d180b886e1b2188e795d0c2249b13ff2be5bfee09381c8f277080785",
+        "actual_sha256": "44faccf2d180b886e1b2188e795d0c2249b13ff2be5bfee09381c8f277080785",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/02.json.gz",
+        "expected_sha256": "644f399c0d36c86e7baf374f749f08a868b895bf32198f46f4291333abf8044e",
+        "actual_sha256": "644f399c0d36c86e7baf374f749f08a868b895bf32198f46f4291333abf8044e",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/03.json.gz",
+        "expected_sha256": "f38a7e21318335f792cc24064e5ec8f1617c6adc34d44794acb2455cf9899dd0",
+        "actual_sha256": "f38a7e21318335f792cc24064e5ec8f1617c6adc34d44794acb2455cf9899dd0",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/04.json.gz",
+        "expected_sha256": "e73cb90994ffadfa3ee25decfc94a3fb9022051540174a57a6621ce0d1a48cd0",
+        "actual_sha256": "e73cb90994ffadfa3ee25decfc94a3fb9022051540174a57a6621ce0d1a48cd0",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/05.json.gz",
+        "expected_sha256": "51878e880627d1765c99649197e727b56812aba47cc359abbfcf42f2327eb7d3",
+        "actual_sha256": "51878e880627d1765c99649197e727b56812aba47cc359abbfcf42f2327eb7d3",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/06.json.gz",
+        "expected_sha256": "10d08378aaf435230c22f36ad52000b53236e0b2bc80bead33b9bd24c43957c4",
+        "actual_sha256": "10d08378aaf435230c22f36ad52000b53236e0b2bc80bead33b9bd24c43957c4",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/07.json.gz",
+        "expected_sha256": "93f57e05543df927cf808d438cd216f1fb572119e1da3e2e3b6123a191e2232c",
+        "actual_sha256": "93f57e05543df927cf808d438cd216f1fb572119e1da3e2e3b6123a191e2232c",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/08.json.gz",
+        "expected_sha256": "9c25390c56b809cb290d14a95fcb9ac6177458ac8128bcb67ae159488204f6f6",
+        "actual_sha256": "9c25390c56b809cb290d14a95fcb9ac6177458ac8128bcb67ae159488204f6f6",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/09.json.gz",
+        "expected_sha256": "b2cf207045f9f785c5e747276d7dbefa961fb6d347d4f6d8577f81b1a5a9a532",
+        "actual_sha256": "b2cf207045f9f785c5e747276d7dbefa961fb6d347d4f6d8577f81b1a5a9a532",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/10.json.gz",
+        "expected_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+        "actual_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/11.json.gz",
+        "expected_sha256": "508025fc93321c392ca8db8424e8ad68c6ba6867d1b855fbe38b841bd2aedd94",
+        "actual_sha256": "508025fc93321c392ca8db8424e8ad68c6ba6867d1b855fbe38b841bd2aedd94",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/12.json.gz",
+        "expected_sha256": "1513eeccfbf1a3f6045a89b8c5568abb6a34d8ebb552d2042552907d55061ca3",
+        "actual_sha256": "1513eeccfbf1a3f6045a89b8c5568abb6a34d8ebb552d2042552907d55061ca3",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/13.json.gz",
+        "expected_sha256": "5ccdd59ac5bd4f47aaa6ba7150cc03ea17f9201b29898cf97984b0010a1cd444",
+        "actual_sha256": "5ccdd59ac5bd4f47aaa6ba7150cc03ea17f9201b29898cf97984b0010a1cd444",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/14.json.gz",
+        "expected_sha256": "aa0bfd8ca4349407ba42f5eaa2f86d6a89fcc3d330315cf52c56e20ea2dc2f22",
+        "actual_sha256": "aa0bfd8ca4349407ba42f5eaa2f86d6a89fcc3d330315cf52c56e20ea2dc2f22",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/15.json.gz",
+        "expected_sha256": "10d7e6faf9167fb7b51124d93a122ed093113dcc7f236600058be14d21e35c56",
+        "actual_sha256": "10d7e6faf9167fb7b51124d93a122ed093113dcc7f236600058be14d21e35c56",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/16.json.gz",
+        "expected_sha256": "5956b5e82051d56153002ae0345f883dca7d7f8342a7a1aabe903debe15d673e",
+        "actual_sha256": "5956b5e82051d56153002ae0345f883dca7d7f8342a7a1aabe903debe15d673e",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/17.json.gz",
+        "expected_sha256": "2596b69c6e6587a7afac8fcdf799ecf6308c3c605dfd680dcc28cb1b655c2d0f",
+        "actual_sha256": "2596b69c6e6587a7afac8fcdf799ecf6308c3c605dfd680dcc28cb1b655c2d0f",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/18.json.gz",
+        "expected_sha256": "823da7f0a4ad8fb9d6c45d47300549a9aa1f6f2c52b6807da0d5810e6531b7ab",
+        "actual_sha256": "823da7f0a4ad8fb9d6c45d47300549a9aa1f6f2c52b6807da0d5810e6531b7ab",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/19.json.gz",
+        "expected_sha256": "64c784ad428f570b426a1a3151d775d0664a6463dcb822d1f89ffa52a25b5225",
+        "actual_sha256": "64c784ad428f570b426a1a3151d775d0664a6463dcb822d1f89ffa52a25b5225",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/20.json.gz",
+        "expected_sha256": "4abaa7aa395e45640428d2de6a708384a8b8359e56ef0d914f2008c43d72ffc8",
+        "actual_sha256": "4abaa7aa395e45640428d2de6a708384a8b8359e56ef0d914f2008c43d72ffc8",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/21.json.gz",
+        "expected_sha256": "e0b9e23d9e85393cafb306249c9bebb9398c3b4f6e7d55f4c86c18e228ca7dc9",
+        "actual_sha256": "e0b9e23d9e85393cafb306249c9bebb9398c3b4f6e7d55f4c86c18e228ca7dc9",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/22.json.gz",
+        "expected_sha256": "eadcbb2ff1a7e9db94bf8658b204881f4625c4d28933b00e552082594ff98aa8",
+        "actual_sha256": "eadcbb2ff1a7e9db94bf8658b204881f4625c4d28933b00e552082594ff98aa8",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/23.json.gz",
+        "expected_sha256": "3841b5e96291e8f769d30d210d8a4b6d17a183b2f695bf8685abdf33729132d0",
+        "actual_sha256": "3841b5e96291e8f769d30d210d8a4b6d17a183b2f695bf8685abdf33729132d0",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/24.json.gz",
+        "expected_sha256": "a2b5845b49ebac4e24aca8f923983cd9ee717f9cb7b7ee345fdbec70e932d06b",
+        "actual_sha256": "a2b5845b49ebac4e24aca8f923983cd9ee717f9cb7b7ee345fdbec70e932d06b",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/25.json.gz",
+        "expected_sha256": "c1141a4dd8b95953662709ac3ac6bc38d82631ff02ac11dd3e65928f401bc7e1",
+        "actual_sha256": "c1141a4dd8b95953662709ac3ac6bc38d82631ff02ac11dd3e65928f401bc7e1",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/26.json.gz",
+        "expected_sha256": "55751b64bd875bb67d8a70ce8a8c356bdaa4956ea5ddf5d4211ba0bb1f160ed7",
+        "actual_sha256": "55751b64bd875bb67d8a70ce8a8c356bdaa4956ea5ddf5d4211ba0bb1f160ed7",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/27.json.gz",
+        "expected_sha256": "a6caa593f0188db7c55e87973d8c4d6e8cdf145782fa9cf3dbea8a8825953a16",
+        "actual_sha256": "a6caa593f0188db7c55e87973d8c4d6e8cdf145782fa9cf3dbea8a8825953a16",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/28.json.gz",
+        "expected_sha256": "025cec058f2803f3be5e69fcd4d5a4420a2907292222ba8938b69d657a37bd0f",
+        "actual_sha256": "025cec058f2803f3be5e69fcd4d5a4420a2907292222ba8938b69d657a37bd0f",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/29.json.gz",
+        "expected_sha256": "394c137070e96569c7ae38d400dfc43b92ce01d21dbf8080ca305316a29b2a40",
+        "actual_sha256": "394c137070e96569c7ae38d400dfc43b92ce01d21dbf8080ca305316a29b2a40",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/30.json.gz",
+        "expected_sha256": "75734db6618056f99406bae2e5ff6a0a519c814c946cc5cc2be7b94f22bdfbb3",
+        "actual_sha256": "75734db6618056f99406bae2e5ff6a0a519c814c946cc5cc2be7b94f22bdfbb3",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/31.json.gz",
+        "expected_sha256": "b46aa7ce15b45c3971eda4e4c74e065192b96b8a268457c008162fc426e717f6",
+        "actual_sha256": "b46aa7ce15b45c3971eda4e4c74e065192b96b8a268457c008162fc426e717f6",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/32.json.gz",
+        "expected_sha256": "7a595148c7bf6109ee62cff08d1ed4b2ff8252d90893c8737ea6c2ab42456f5a",
+        "actual_sha256": "7a595148c7bf6109ee62cff08d1ed4b2ff8252d90893c8737ea6c2ab42456f5a",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/33.json.gz",
+        "expected_sha256": "61dae685772830aade16a9c3f2691c842bf72797d671b83b1d4a43fe9aed0dfe",
+        "actual_sha256": "61dae685772830aade16a9c3f2691c842bf72797d671b83b1d4a43fe9aed0dfe",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/34.json.gz",
+        "expected_sha256": "3d3f4f480455644f118227fd7731fb30c2a2bacd7b7978b961bc979fb165b6ad",
+        "actual_sha256": "3d3f4f480455644f118227fd7731fb30c2a2bacd7b7978b961bc979fb165b6ad",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/35.json.gz",
+        "expected_sha256": "54047358f868edfabf1681d61fc54a3e6aff1acbe4dd6ae99a3b4ce93d92fa4d",
+        "actual_sha256": "54047358f868edfabf1681d61fc54a3e6aff1acbe4dd6ae99a3b4ce93d92fa4d",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/36.json.gz",
+        "expected_sha256": "1a1693f81904df8fa738d6eb715432ba5980a0357089da33a414da04627f743b",
+        "actual_sha256": "1a1693f81904df8fa738d6eb715432ba5980a0357089da33a414da04627f743b",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/37.json.gz",
+        "expected_sha256": "ddca7c90e6af19a226862d7f3fd137630fa0dc75fb9a075f6de93aa199739175",
+        "actual_sha256": "ddca7c90e6af19a226862d7f3fd137630fa0dc75fb9a075f6de93aa199739175",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/38.json.gz",
+        "expected_sha256": "48426f77944dc46a753f3344831c1d3b778e0659b30d8a23101b0b1a9f322cbe",
+        "actual_sha256": "48426f77944dc46a753f3344831c1d3b778e0659b30d8a23101b0b1a9f322cbe",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/39.json.gz",
+        "expected_sha256": "7e46e8ef52e8a0a734ccb2dedf92311a4a29588510fd164b99046764146b68d3",
+        "actual_sha256": "7e46e8ef52e8a0a734ccb2dedf92311a4a29588510fd164b99046764146b68d3",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/40.json.gz",
+        "expected_sha256": "f27d7e9f0d7062509ea580541f27ea39ea957d4dc303f849b02576c8bfa32ea8",
+        "actual_sha256": "f27d7e9f0d7062509ea580541f27ea39ea957d4dc303f849b02576c8bfa32ea8",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/41.json.gz",
+        "expected_sha256": "e50e286aac03f2be0fd3ec7ccaa7261b324b1f7721d3b9719f2fb1cd5ce6843b",
+        "actual_sha256": "e50e286aac03f2be0fd3ec7ccaa7261b324b1f7721d3b9719f2fb1cd5ce6843b",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/42.json.gz",
+        "expected_sha256": "212dfd2f7b0c0b552c923f4b925f8a10aafe78e211c0477b125a6f531e165fca",
+        "actual_sha256": "212dfd2f7b0c0b552c923f4b925f8a10aafe78e211c0477b125a6f531e165fca",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/43.json.gz",
+        "expected_sha256": "459bc2bb8c050534d67c368ce69519c3827ad6af0ac8a623028ef5b275ad6972",
+        "actual_sha256": "459bc2bb8c050534d67c368ce69519c3827ad6af0ac8a623028ef5b275ad6972",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/44.json.gz",
+        "expected_sha256": "d002c0a4048a5c2d28ca2523d7e24c93f709446f9bfdf933990a70c2e895342c",
+        "actual_sha256": "d002c0a4048a5c2d28ca2523d7e24c93f709446f9bfdf933990a70c2e895342c",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/45.json.gz",
+        "expected_sha256": "d923fdb38134617e06e488092b4bc342c5ce98397b54546df2abaceb53accb23",
+        "actual_sha256": "d923fdb38134617e06e488092b4bc342c5ce98397b54546df2abaceb53accb23",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/46.json.gz",
+        "expected_sha256": "5523dbad5736f5326d7b8ffcbebe39314b6f09dd2f0a7215c9835f2cb9974233",
+        "actual_sha256": "5523dbad5736f5326d7b8ffcbebe39314b6f09dd2f0a7215c9835f2cb9974233",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/47.json.gz",
+        "expected_sha256": "8f1149f2507f7c757f76321c64c90ccafb90e120f3a474a9299a110d3cd6e62f",
+        "actual_sha256": "8f1149f2507f7c757f76321c64c90ccafb90e120f3a474a9299a110d3cd6e62f",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/48.json.gz",
+        "expected_sha256": "91deac2db5c77a26babc4638ba1bdaa4131bc2337771fe5b4762b0bd0234a6f4",
+        "actual_sha256": "91deac2db5c77a26babc4638ba1bdaa4131bc2337771fe5b4762b0bd0234a6f4",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/49.json.gz",
+        "expected_sha256": "fe91175c1b8c48f02e7f50538bbf32cabac3071206adca707242ab5edc791693",
+        "actual_sha256": "fe91175c1b8c48f02e7f50538bbf32cabac3071206adca707242ab5edc791693",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/50.json.gz",
+        "expected_sha256": "9e88a9a1ce405898066f29bc054c5b93fbd5b5d6fc149d4e92183a019f6faa66",
+        "actual_sha256": "9e88a9a1ce405898066f29bc054c5b93fbd5b5d6fc149d4e92183a019f6faa66",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/51.json.gz",
+        "expected_sha256": "16fb951cf5bb3553e2ce38bfda95212006cd4e4daabfcd46e983beb880495120",
+        "actual_sha256": "16fb951cf5bb3553e2ce38bfda95212006cd4e4daabfcd46e983beb880495120",
+        "verified": true
+      },
+      {
+        "path": "producto/unidades/52.json.gz",
+        "expected_sha256": "00940668086499d50c1ddc716cf9571bdb5dcb1dc0630e65f352bf6ce9e72178",
+        "actual_sha256": "00940668086499d50c1ddc716cf9571bdb5dcb1dc0630e65f352bf6ce9e72178",
+        "verified": true
+      }
+    ]
+  },
+  "caceres_manifest": {
+    "entries": 26,
+    "verified": 26,
+    "files": [
+      {
+        "path": "ddd_core/config.py",
+        "expected_sha256": "c8503114cbe5ff3ef72ef2ce4c603fdc4600376ad5466366e64ae0becc6d9a45",
+        "actual_sha256": "c8503114cbe5ff3ef72ef2ce4c603fdc4600376ad5466366e64ae0becc6d9a45",
+        "verified": true
+      },
+      {
+        "path": "ddd_core/congreso_contract.py",
+        "expected_sha256": "de6f79732233e0b23df6479b66cf294c574c8b594ce231579fa66e393794b01a",
+        "actual_sha256": "de6f79732233e0b23df6479b66cf294c574c8b594ce231579fa66e393794b01a",
+        "verified": true
+      },
+      {
+        "path": "ddd_core/congreso_preflight_adapter.py",
+        "expected_sha256": "13c2cb5c8e5ebc6482b676fd539f8885cb4bc66d1a478e3b9917d194546415b6",
+        "actual_sha256": "13c2cb5c8e5ebc6482b676fd539f8885cb4bc66d1a478e3b9917d194546415b6",
+        "verified": true
+      },
+      {
+        "path": "ddd_core/m04_seed_engine.py",
+        "expected_sha256": "a4835ef8197d4be65a9311a78c882870abd844e8938d4a32b9e3213792a4a627",
+        "actual_sha256": "a4835ef8197d4be65a9311a78c882870abd844e8938d4a32b9e3213792a4a627",
+        "verified": true
+      },
+      {
+        "path": "ddd_core/m05_population_repair.py",
+        "expected_sha256": "1c87809aefaa015307288f1d1491815ba3bbeafd70ddef8800fad9916cc874b8",
+        "actual_sha256": "1c87809aefaa015307288f1d1491815ba3bbeafd70ddef8800fad9916cc874b8",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/INFORME.md",
+        "expected_sha256": "b0b56bc5e2763c723d36f7f234022c6cfbd0fad9c7283cd1e9eeb84fd7a77477",
+        "actual_sha256": "b0b56bc5e2763c723d36f7f234022c6cfbd0fad9c7283cd1e9eeb84fd7a77477",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/PROCEDIMIENTO_FUTURO.md",
+        "expected_sha256": "664a8b0a34b1edc40741f3da8ba65b43512a94aeb7dc038b19c532c07254edae",
+        "actual_sha256": "664a8b0a34b1edc40741f3da8ba65b43512a94aeb7dc038b19c532c07254edae",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/REVISIONES.md",
+        "expected_sha256": "79411d63c4e009b2bd7b28daafbac7bfc118a11c35a0d24002420ed4e22c6480",
+        "actual_sha256": "79411d63c4e009b2bd7b28daafbac7bfc118a11c35a0d24002420ed4e22c6480",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/logs/ejecucion.txt",
+        "expected_sha256": "96186210b53d6894087801f0c76f049233e04193acc0f5065c73ae70a1ce465e",
+        "actual_sha256": "96186210b53d6894087801f0c76f049233e04193acc0f5065c73ae70a1ce465e",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/logs/ejecucion_final.txt",
+        "expected_sha256": "f0014f0fd5e34eae535b5afca9903455e4a462b62fc8744c98070f099badfaf7",
+        "actual_sha256": "f0014f0fd5e34eae535b5afca9903455e4a462b62fc8744c98070f099badfaf7",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/logs/pruebas_finales.txt",
+        "expected_sha256": "af405c9530c6b2ff9381f45b54b351162944facfff5bbf5d4d2da2a8ea596317",
+        "actual_sha256": "af405c9530c6b2ff9381f45b54b351162944facfff5bbf5d4d2da2a8ea596317",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/logs/reproduccion_final.txt",
+        "expected_sha256": "814f6bf4fe24279c948ab971f7704aa963eaa37845bd933fcaacac7d7c1d5f51",
+        "actual_sha256": "814f6bf4fe24279c948ab971f7704aa963eaa37845bd933fcaacac7d7c1d5f51",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/preflight/CHECKPOINT.json",
+        "expected_sha256": "fc6a49b95cae9cd8150ec06a1e5b412538cf755cb318347061e7fc9f24296b77",
+        "actual_sha256": "fc6a49b95cae9cd8150ec06a1e5b412538cf755cb318347061e7fc9f24296b77",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_CACERES_20261012/preflight/PREFLIGHT.json",
+        "expected_sha256": "2e669bd401eb1e8a487c4af99040e14f40384ebe5c02a51cefc68eb0124c562d",
+        "actual_sha256": "2e669bd401eb1e8a487c4af99040e14f40384ebe5c02a51cefc68eb0124c562d",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/manifest.json",
+        "expected_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+        "actual_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+        "verified": true
+      },
+      {
+        "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/10.json.gz",
+        "expected_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+        "actual_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+        "verified": true
+      },
+      {
+        "path": "herramientas/preflight_caceres_n08.py",
+        "expected_sha256": "eeff555f2879f0424b71e86913f0d3725f03b50ec998168600c5a97cbf917cab",
+        "actual_sha256": "eeff555f2879f0424b71e86913f0d3725f03b50ec998168600c5a97cbf917cab",
+        "verified": true
+      },
+      {
+        "path": "modulos/01_preparar_base_territorial.py",
+        "expected_sha256": "194e0946b1dd0036d67d96b4c2bbcc6abe339790a77a6aeaede0b680768e6a22",
+        "actual_sha256": "194e0946b1dd0036d67d96b4c2bbcc6abe339790a77a6aeaede0b680768e6a22",
+        "verified": true
+      },
+      {
+        "path": "modulos/02_construir_adyacencias.py",
+        "expected_sha256": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c",
+        "actual_sha256": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c",
+        "verified": true
+      },
+      {
+        "path": "modulos/03_construir_grafo.py",
+        "expected_sha256": "798dedb8c3068d16dd43fb77f68821f275da1565403f0f25e1225aebdcaac036",
+        "actual_sha256": "798dedb8c3068d16dd43fb77f68821f275da1565403f0f25e1225aebdcaac036",
+        "verified": true
+      },
+      {
+        "path": "modulos/06_consolidar_distritos.py",
+        "expected_sha256": "16e61eeb6bc455756c91a1a26aa92cdc5ec8bf2a0a5974f51ee215b6fff21864",
+        "actual_sha256": "16e61eeb6bc455756c91a1a26aa92cdc5ec8bf2a0a5974f51ee215b6fff21864",
+        "verified": true
+      },
+      {
+        "path": "territorios/congreso/contrato_congreso_2026.json",
+        "expected_sha256": "bc2ebcac4e89a3aadecccc72ce3ff91a9314ae64ae2f5b3dff9086b2251f0b5e",
+        "actual_sha256": "bc2ebcac4e89a3aadecccc72ce3ff91a9314ae64ae2f5b3dff9086b2251f0b5e",
+        "verified": true
+      },
+      {
+        "path": "territorios/congreso/fuentes/ine_2025_2025/crosswalk_n07_2025.csv",
+        "expected_sha256": "0ceb2cab2b7843a9ab042e5130a66762ffa958983ced91220e18d2bb38f14d54",
+        "actual_sha256": "0ceb2cab2b7843a9ab042e5130a66762ffa958983ced91220e18d2bb38f14d54",
+        "verified": true
+      },
+      {
+        "path": "territorios/congreso/fuentes/ine_2025_2025/manifest.json",
+        "expected_sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37",
+        "actual_sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37",
+        "verified": true
+      },
+      {
+        "path": "territorios/congreso/fuentes/ine_2025_2025/poblacion_por_seccion_2025.csv",
+        "expected_sha256": "c4a22fc47f7542da0b3e1cef65ea59dc555442eda23f7f74ba4f4db7d6c4a988",
+        "actual_sha256": "c4a22fc47f7542da0b3e1cef65ea59dc555442eda23f7f74ba4f4db7d6c4a988",
+        "verified": true
+      },
+      {
+        "path": "tests/test_preflight_caceres_n08.py",
+        "expected_sha256": "5d71d18b7786057b99db3eff5184ddf2493a524edeb26366d003f20db9fca44d",
+        "actual_sha256": "5d71d18b7786057b99db3eff5184ddf2493a524edeb26366d003f20db9fca44d",
+        "verified": true
+      }
+    ]
+  },
+  "coverage": {
+    "origin_units": 52,
+    "sections": 36554,
+    "population_2025": 49128297,
+    "K": 407,
+    "physical_edges": 99597
+  },
+  "derived_results": {
+    "CUSec_over_115pct_cap": [],
+    "polygon_component_count_gt_K": [
+      "04",
+      "07",
+      "09",
+      "15",
+      "17",
+      "27",
+      "30",
+      "34",
+      "36"
+    ],
+    "overlap_pairs": 498,
+    "overlaps_between_distinct_physical_components": 9,
+    "CUSec_without_multipart_population_attribution": 115,
+    "limitations": [
+      "necessary conditions only; no constructive partition certified",
+      "overlaps are not admitted as graph edges"
+    ]
+  },
+  "contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+  "matrix_sha256": "75b6d0467ff5c217b5cedf709b0c6d15a6a75ce9d2337bc6986537c8e666c8a8",
+  "generation_authorized": false
+}

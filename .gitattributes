@@ -1,2 +1,11 @@
+# Versión 1.1.0; configuración Git de atributos; fecha 2026-10-13.
+# Alcance: reglas de diff; estado: candidato.
+# Cambios: preservar bytes de snapshots históricos hash-locked con espacio final.
+# Motivo: diff --check no debe incentivar reescribir evidencia histórica idéntica.
+# Anterior: legacy/gitattributes_pre_n08_20261013.
+
 inputs/seccionado_2025.zip filter=lfs diff=lfs merge=lfs -text
 inputs/65034.csv.zip filter=lfs diff=lfs merge=lfs -text
+
+# Byte-locked Cáceres historical snapshots preserve original EOF whitespace.
+legacy/n08_caceres_20261012/* whitespace=-blank-at-eof

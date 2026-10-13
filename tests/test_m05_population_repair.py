@@ -375,4 +375,100 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertEqual(x["result"],r.RESULT_REPAIRED); self.assertEqual(set(x["assignments"]),set(ass)); self.assertTrue(x["constraints_verified"])
 
 
+class CongressMunicipalPolicyTests(unittest.TestCase):
+    policy = r.MUNICIPAL_POLICY_N08
+
+    def cusec_units(self, populations=(100, 100, 100, 100), groups=("39001", "39001", "39001", "39002")):
+        ids = ("3900101001", "3900101002", "3900101003", "3900201001")
+        return {
+            ident: {"population": population, "province": ident[:2],
+                    "municipality_group": group, "CPRO": ident[:2], "CUMUN": ident[:5]}
+            for ident, population, group in zip(ids, populations, groups)
+        }
+
+    def test_under_cap_municipality_stays_whole_and_split_is_rejected(self):
+        ids = ("3900101001", "3900101002", "3900201001")
+        units = {
+            ids[0]: {"population": 60, "province": "39", "municipality_group": "39001", "CPRO": "39", "CUMUN": "39001"},
+            ids[1]: {"population": 60, "province": "39", "municipality_group": "39001", "CPRO": "39", "CUMUN": "39001"},
+            ids[2]: {"population": 100, "province": "39", "municipality_group": "39002", "CPRO": "39", "CUMUN": "39002"},
+        }
+        adjacency = {ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]}, ids[2]: {ids[1]}}
+        whole = {ids[0]: "A", ids[1]: "A", ids[2]: "B"}
+        checked = r.verify_partition_constraints(whole, units, adjacency, floor=50, cap=200,
+                                                 municipality_policy=self.policy)
+        self.assertTrue(checked["valid"])
+        self.assertEqual(checked["municipality_splits"], [])
+        split = {ids[0]: "A", ids[1]: "B", ids[2]: "B"}
+        checked = r.verify_partition_constraints(split, units, adjacency, floor=50, cap=200,
+                                                 municipality_policy=self.policy)
+        self.assertEqual(checked["reason"], "MUNICIPAL_SPLIT_NEED_NOT_PROVEN")
+
+    def test_necessary_split_is_limited_to_whole_cusec_and_audited(self):
+        units = self.cusec_units()
+        ids = tuple(units)
+        adjacency = {ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]},
+                     ids[2]: {ids[1], ids[3]}, ids[3]: {ids[2]}}
+        state = {ids[0]: "A", ids[1]: "A", ids[2]: "B", ids[3]: "B"}
+        checked = r.verify_partition_constraints(state, units, adjacency, floor=100, cap=200,
+                                                 municipality_policy=self.policy)
+        self.assertTrue(checked["valid"])
+        self.assertTrue(checked["hard_limits_met"])
+        self.assertEqual(checked["municipality_splits"][0]["necessity"],
+                         "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_HARD_POPULATION_CAP")
+        self.assertEqual(checked["municipality_splits"][0]["cusecs"], list(ids[:3]))
+        overfragmented = {ids[0]: "A", ids[1]: "B", ids[2]: "C", ids[3]: "C"}
+        rejected = r.verify_partition_constraints(overfragmented, units, adjacency, floor=1, cap=200,
+                                                  municipality_policy=self.policy)
+        self.assertEqual(rejected["reason"], "MUNICIPAL_SPLIT_EXCEEDS_MINIMUM")
+        broken = dict(units)
+        broken[ids[0]] = {**units[ids[0]], "CUMUN": "39002"}
+        with self.assertRaisesRegex(ValueError, "MUNICIPAL_CUT_REQUIRES_WHOLE_CUSEC"):
+            r.verify_partition_constraints(state, broken, adjacency, floor=100, cap=200,
+                                           municipality_policy=self.policy)
+
+    def test_split_that_disconnects_district_remains_rejected(self):
+        units = self.cusec_units()
+        ids = tuple(units)
+        adjacency = {ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]},
+                     ids[2]: {ids[1], ids[3]}, ids[3]: {ids[2]}}
+        state = {ids[0]: "A", ids[1]: "B", ids[2]: "A", ids[3]: "B"}
+        result = r.verify_partition_constraints(state, units, adjacency, floor=1, cap=500,
+                                                municipality_policy=self.policy)
+        self.assertEqual(result["reason"], "DISTRICT_CONTIGUITY")
+
+    def test_population_repair_creates_only_needed_municipal_split(self):
+        units = self.cusec_units()
+        ids = tuple(units)
+        adjacency = {ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]},
+                     ids[2]: {ids[1], ids[3]}, ids[3]: {ids[2]}}
+        assignments = {ids[0]: "A", ids[1]: "A", ids[2]: "A", ids[3]: "B"}
+        result = r.repair(assignments=assignments, units=units, adjacency=adjacency,
+                          target=150, tolerance=50, floor=100, cap=200,
+                          municipality_policy=self.policy,
+                          limits=r.SearchLimits(max_depth=2, max_transfer_set=1,
+                                                max_candidates=100, max_seconds=2, seed=0))
+        self.assertEqual(result["result"], r.RESULT_REPAIRED)
+        self.assertEqual(result["schema"], "ddd.m05-population-repair/1.7")
+        self.assertTrue(result["hard_limits_met"])
+        self.assertEqual(result["municipality_splits"][0]["municipality_group"], "39001")
+        self.assertEqual(result["municipality_splits"][0]["necessity"],
+                         "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_HARD_POPULATION_CAP")
+
+    def test_national_mode_does_not_weaken_autonomous_default_or_population_gate(self):
+        units = self.cusec_units()
+        ids = tuple(units)
+        adjacency = {ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]},
+                     ids[2]: {ids[1], ids[3]}, ids[3]: {ids[2]}}
+        split = {ids[0]: "A", ids[1]: "B", ids[2]: "C", ids[3]: "C"}
+        self.assertEqual(r.verify_partition_constraints(split, units, adjacency, floor=100, cap=200)["reason"],
+                         "MUNICIPAL_INTEGRITY")
+        over = dict(units)
+        over[ids[0]] = {**units[ids[0]], "population": 210}
+        checked = r.verify_partition_constraints(split, over, adjacency, floor=100, cap=200,
+                                                 municipality_policy=self.policy)
+        self.assertTrue(checked["valid"])
+        self.assertFalse(checked["hard_limits_met"])
+
+
 if __name__=="__main__": unittest.main()

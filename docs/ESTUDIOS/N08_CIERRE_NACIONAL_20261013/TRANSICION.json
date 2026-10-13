@@ -1,0 +1,44 @@
+{
+  "schema": "ddd.congress-artifact-transition/1.0",
+  "status": "CANDIDATE_DIAGNOSTIC_ONLY",
+  "created": "2026-10-13",
+  "source_product": {
+    "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012",
+    "manifest": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/MANIFEST_ENTREGA.json",
+    "manifest_entries": 74,
+    "manifest_verified": 74,
+    "product_manifest_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f"
+  },
+  "historical_caceres": {
+    "path": "docs/ESTUDIOS/N08_CACERES_20261012",
+    "manifest": "docs/ESTUDIOS/N08_CACERES_20261012/MANIFEST.json",
+    "manifest_entries": 26,
+    "manifest_verified": 26,
+    "changed_file_comparison": "byte-identical historical snapshots retained under legacy/n08_caceres_20261012/"
+  },
+  "contracts": {
+    "historical": "N08 Cáceres manifest and N08 national product retain their original contract bindings; historical manifests are immutable",
+    "current": "territorios/congreso/contrato_congreso_2026.json",
+    "current_contract_sha256": "computed by verifier in VERIFICACION.json"
+  },
+  "reuse_classification": {
+    "SOURCE_REUSE": "SHA and 2025 edition bindings in the existing accredited artifacts retained; source bytes not downloaded or modified",
+    "ARTIFACT_REUSE": "74/74 national product-manifest entries and 26/26 Cáceres dossier-manifest entries verified",
+    "STRUCTURAL_REVALIDATION": "diagnostic counts reproduced from existing graphs; policy compatibility is not inferred from hash identity",
+    "POLICY_REEVALUATION": "current seven-rule contract validated by PR #259 tests; case-specific exceptions remain unresolved",
+    "PRODUCT_CERTIFICATION": "NOT_PERFORMED"
+  },
+  "invariants": {
+    "K": 407,
+    "origin_units": 52,
+    "source_edition": 2025,
+    "generation_authorized": false,
+    "real_districts_generated": false
+  },
+  "open_evidence": [
+    "constructive nationwide partition feasibility",
+    "nominally approved exceptions for islands, enclaves, and physical discontinuities",
+    "per-part population allocation for multipart CUSEC lacking official attribution",
+    "independent certification under the effective N08 contract"
+  ]
+}

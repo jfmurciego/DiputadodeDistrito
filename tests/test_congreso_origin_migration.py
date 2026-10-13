@@ -27,7 +27,7 @@ class Migration(unittest.TestCase):
         self.assertNotIn('OWNER_DECISION_PENDING',b)
         self.assertNotIn('CONGRESS_K_UNDECIDED_OR_INVALID',b)
         self.assertNotIn('SOURCE_POPULATION_MISSING',b)
-        self.assertIn('DECISION_CONTIGUITY_PENDING',b)
+        self.assertIn('CIRCUMSCRIPTION_COVERAGE_NOT_ACCREDITED_52_OF_52',b)
         self.assertFalse(self.c['accreditation']['generation_authorized'])
     def test_bad_quota_and_contamination_fail_closed(self):
         c=copy.deepcopy(self.c); c['quotas_by_origin_unit'][0]['k']+=1

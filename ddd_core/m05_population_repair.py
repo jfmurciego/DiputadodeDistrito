@@ -1,16 +1,82 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""M05: reparación poblacional genérica, dirigida, acotada y determinista."""
+"""Versión 1.7.0; nombre M05 population repair; fecha 2026-10-13.
+Alcance: reparación genérica con estrategia municipal explícita para Congreso.
+Estado: candidato; cambios: fragmentación municipal auditada por CUSEC y contrato.
+Motivo: cumplir la política N08 preservando la disciplina autonómica por defecto.
+Anterior: legacy/n08_caceres_20261012/m05_population_repair_v1_6.py.
+"""
 from __future__ import annotations
 
 from collections import deque
 from dataclasses import asdict, dataclass
 import heapq
+import math
+import re
 import time
 
 RESULT_REPAIRED = "REPAIRED"
 RESULT_IMPROVED = "IMPROVED_NOT_REPAIRED"
 RESULT_NONE = "NO_FEASIBLE_REPAIR_FOUND"
+MUNICIPAL_POLICY_INDIVISIBLE = "indivisible"
+MUNICIPAL_POLICY_N08 = "preserve_when_feasible_split_by_whole_CUSEC_when_necessary"
+
+
+def _validate_municipal_policy(units, municipality_policy):
+    if municipality_policy not in (MUNICIPAL_POLICY_INDIVISIBLE, MUNICIPAL_POLICY_N08):
+        raise ValueError("MUNICIPAL_POLICY_UNSUPPORTED")
+    if municipality_policy == MUNICIPAL_POLICY_N08:
+        for unit, row in units.items():
+            ident = str(unit)
+            province = str(row.get("province", "")).zfill(2)
+            municipality = str(row.get("municipality_group", "")).zfill(5)
+            administrative_municipality = str(row.get("CUMUN", "")).zfill(5)
+            if (re.fullmatch(r"[0-9]{10}", ident) is None
+                    or province != ident[:2]
+                    or municipality != ident[:5]
+                    or administrative_municipality != ident[:5]):
+                raise ValueError("MUNICIPAL_CUT_REQUIRES_WHOLE_CUSEC")
+
+
+def _municipal_groups(state, units):
+    groups = {}
+    for unit, row in units.items():
+        group = row.get("municipality_group")
+        if group:
+            item = groups.setdefault(str(group), {"units": [], "districts": set(), "population": 0})
+            item["units"].append(unit)
+            item["districts"].add(state[unit])
+            item["population"] += int(row["population"])
+    return groups
+
+
+def _municipal_split_evidence(state, units, *, cap, municipality_policy):
+    groups = _municipal_groups(state, units)
+    split = []
+    for group, item in sorted(groups.items()):
+        if len(item["districts"]) <= 1:
+            continue
+        if municipality_policy != MUNICIPAL_POLICY_N08:
+            return None, {"valid": False, "reason": "MUNICIPAL_INTEGRITY", "groups": [group]}
+        # A municipality whose total exceeds the hard district ceiling cannot
+        # fit in one district. This is a checkable necessity certificate.
+        if item["population"] <= cap:
+            return None, {"valid": False, "reason": "MUNICIPAL_SPLIT_NEED_NOT_PROVEN", "groups": [group]}
+        minimum_districts = math.ceil(item["population"] / cap)
+        if len(item["districts"]) != minimum_districts:
+            return None, {"valid": False, "reason": "MUNICIPAL_SPLIT_EXCEEDS_MINIMUM",
+                          "groups": [group], "minimum_districts": minimum_districts,
+                          "districts_used": len(item["districts"])}
+        split.append({
+            "municipality_group": group,
+            "cusecs": sorted(map(str, item["units"])),
+            "population": item["population"],
+            "cap": cap,
+            "minimum_districts_by_population": minimum_districts,
+            "districts_used": len(item["districts"]),
+            "necessity": "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_HARD_POPULATION_CAP",
+        })
+    return split, {"valid": True}
 
 
 @dataclass(frozen=True)
@@ -95,8 +161,12 @@ def _controlled_population_transition(before, after, *, floor, cap, district_flo
 
 
 def _verify_final_constraints(
-    state, units, adjacency, *, expected_districts, floor, cap, district_floors=None
+    state, units, adjacency, *, expected_districts, floor, cap, district_floors=None,
+    municipality_policy=MUNICIPAL_POLICY_INDIVISIBLE,
 ):
+    _validate_municipal_policy(units, municipality_policy)
+    if set(state) != set(units):
+        return {"valid": False, "reason": "UNIT_COVERAGE"}
     districts = set(state.values())
     if districts != set(expected_districts):
         return {"valid": False, "reason": "DISTRICT_SET_CHANGED"}
@@ -109,14 +179,11 @@ def _verify_final_constraints(
         if len(provinces) != 1:
             return {"valid": False, "reason": "CROSS_PROVINCE", "district": district}
 
-    municipality_groups = {}
-    for unit, row in units.items():
-        group = row.get("municipality_group")
-        if group:
-            municipality_groups.setdefault(group, set()).add(state[unit])
-    split_groups = sorted((str(group) for group, ds in municipality_groups.items() if len(ds) != 1))
-    if split_groups:
-        return {"valid": False, "reason": "MUNICIPAL_INTEGRITY", "groups": split_groups}
+    municipality_splits, municipality_check = _municipal_split_evidence(
+        state, units, cap=cap, municipality_policy=municipality_policy
+    )
+    if not municipality_check["valid"]:
+        return municipality_check
 
     populations = _district_pops(state, units)
     hard_count, hard_magnitude = _hard_population_signature(
@@ -128,11 +195,14 @@ def _verify_final_constraints(
         "hard_population_violations": hard_count,
         "hard_violation_magnitude": hard_magnitude,
         "populations": populations,
+        "municipality_policy": municipality_policy,
+        "municipality_splits": municipality_splits,
     }
 
 
 def verify_partition_constraints(
-    state, units, adjacency, *, floor, cap, district_floors=None
+    state, units, adjacency, *, floor, cap, district_floors=None,
+    municipality_policy=MUNICIPAL_POLICY_INDIVISIBLE,
 ):
     """Validate structural invariants of a partition and report hard population violations."""
     return _verify_final_constraints(
@@ -143,6 +213,7 @@ def verify_partition_constraints(
         floor=floor,
         cap=cap,
         district_floors=district_floors,
+        municipality_policy=municipality_policy,
     )
 
 
@@ -165,16 +236,21 @@ def _outlier_distance(pops,target,tolerance):
 def _primary_improves(obj, baseline_obj): return obj[1] < baseline_obj[1] or obj[2] < baseline_obj[2]
 
 
-def _municipality_complete(moved,donor,state,units):
+def _municipality_complete(moved,donor,state,units,*,cap,municipality_policy):
     moved=set(moved); groups={units[u].get("municipality_group") for u in moved if units[u].get("municipality_group")}
     for group in groups:
+        municipality_population=sum(int(row["population"]) for row in units.values()
+                                    if row.get("municipality_group")==group)
+        if municipality_policy == MUNICIPAL_POLICY_N08 and municipality_population > cap:
+            continue
         owned={u for u,d in state.items() if d==donor and units[u].get("municipality_group")==group}
         if owned and not owned <= moved: return False
     return True
 
 
 def _valid_transfer(
-    state,units,adjacency,moved,donor,receiver,*,floor,cap,district_floors=None
+    state,units,adjacency,moved,donor,receiver,*,floor,cap,district_floors=None,
+    municipality_policy=MUNICIPAL_POLICY_INDIVISIBLE,
 ):
     moved=set(moved); checks={"province_verified":False,"donor_contiguity_verified":False,
         "receiver_contiguity_verified":False,"atomic_units_verified":False,"municipal_integrity_verified":False}
@@ -183,7 +259,8 @@ def _valid_transfer(
     provinces={units[u].get("province") for u in moved}; receiver_provinces={units[v].get("province") for v in state if state[v]==receiver}
     if len(provinces)!=1 or len(receiver_provinces)!=1 or provinces!=receiver_provinces: return False,"CROSS_PROVINCE",checks
     checks["province_verified"]=True
-    if not _municipality_complete(moved,donor,state,units): return False,"MUNICIPAL_INTEGRITY",checks
+    if not _municipality_complete(moved,donor,state,units,cap=cap,municipality_policy=municipality_policy):
+        return False,"MUNICIPAL_INTEGRITY",checks
     checks["municipal_integrity_verified"]=True
     if not connected(moved,adjacency): return False,"TRANSFER_SET_DISCONNECTED",checks
     donor_nodes={u for u,d in state.items() if d==donor}-moved; receiver_nodes={u for u,d in state.items() if d==receiver}|moved
@@ -193,6 +270,11 @@ def _valid_transfer(
     checks["receiver_contiguity_verified"]=True
     trial=dict(state)
     for u in moved: trial[u]=receiver
+    _, municipal_check = _municipal_split_evidence(
+        trial, units, cap=cap, municipality_policy=municipality_policy
+    )
+    if not municipal_check["valid"]:
+        return False, municipal_check["reason"], checks
     before_pops=_district_pops(state,units); after_pops=_district_pops(trial,units)
     controlled,before_sig,after_sig=_controlled_population_transition(
         before_pops,after_pops,floor=floor,cap=cap,district_floors=district_floors
@@ -259,7 +341,8 @@ def _churn(path):
     return (units,districts,len(path))
 
 
-def _rank(state,path,units,adjacency,target,tolerance,floor,cap,district_floors=None):
+def _rank(state,path,units,adjacency,target,tolerance,floor,cap,district_floors=None,
+          municipality_policy=MUNICIPAL_POLICY_INDIVISIBLE):
     pops=_district_pops(state,units); tm=territorial_metrics(state,adjacency); obj=objective(
         pops,target=target,tolerance=tolerance,floor=floor,cap=cap,
         cohesion=tm["cut_boundary_edges"],district_floors=district_floors
@@ -267,7 +350,15 @@ def _rank(state,path,units,adjacency,target,tolerance,floor,cap,district_floors=
     hard_count,hard_magnitude=_hard_population_signature(
         pops,floor=floor,cap=cap,district_floors=district_floors
     )
-    return (hard_count,hard_magnitude,obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
+    splits, municipal_check = _municipal_split_evidence(
+        state, units, cap=cap, municipality_policy=municipality_policy
+    )
+    if not municipal_check["valid"]:
+        split_penalty = 10**9
+    else:
+        split_penalty = sum(max(0, row["districts_used"] - row["minimum_districts_by_population"])
+                            for row in splits)
+    return (hard_count,hard_magnitude,split_penalty,obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
 
 
 def _province_rank_from_pops(
@@ -301,13 +392,17 @@ def _focal_single_transfer(
     floor,
     cap,
     district_floors=None,
+    municipality_policy=MUNICIPAL_POLICY_INDIVISIBLE,
 ):
     checks={"province_verified":True,"donor_contiguity_verified":False,
         "receiver_contiguity_verified":True,"atomic_units_verified":True,"municipal_integrity_verified":False}
     group=units[u].get("municipality_group")
     if group:
         owned={v for v in province_units if state[v]==donor and units[v].get("municipality_group")==group}
-        if owned and owned != {u}: return False,"MUNICIPAL_INTEGRITY",checks
+        municipality_population=sum(int(units[v]["population"]) for v in province_units
+                                     if units[v].get("municipality_group")==group)
+        may_split=(municipality_policy == MUNICIPAL_POLICY_N08 and municipality_population > cap)
+        if owned and owned != {u} and not may_split: return False,"MUNICIPAL_INTEGRITY",checks
     checks["municipal_integrity_verified"]=True
     donor_nodes={v for v in province_units if state[v]==donor and v!=u}
     if not donor_nodes or not connected(donor_nodes,adjacency): return False,"DONOR_CONTIGUITY",checks
@@ -326,7 +421,8 @@ def _focal_single_transfer(
 
 def _focal_chain_search(
     *,state,units,adjacency,target,tolerance,floor,cap,limits,deadline,
-    candidate_budget,district_floors=None
+    candidate_budget,district_floors=None,
+    municipality_policy=MUNICIPAL_POLICY_INDIVISIBLE,
 ):
     """Beam search focal con dos modos explícitos.
 
@@ -419,6 +515,7 @@ def _focal_chain_search(
                         ok,reason,checks=_focal_single_transfer(
                             current,pops,province_units,units,adjacency,u,donor,receiver,
                             floor=floor,cap=cap,district_floors=district_floors,
+                            municipality_policy=municipality_policy,
                         )
                         if not ok:
                             rejection_counts[reason]=rejection_counts.get(reason,0)+1
@@ -487,9 +584,13 @@ def _focal_chain_search(
 
 def repair(
     *,assignments,units,adjacency,target,tolerance,floor,cap,limits=None,
-    district_floors=None
+    district_floors=None,
+    municipality_policy=MUNICIPAL_POLICY_INDIVISIBLE,
 ):
     """Búsqueda best-first + reparación focal bajo un único presupuesto temporal y de candidatos."""
+    _validate_municipal_policy(units, municipality_policy)
+    if set(assignments) != set(units):
+        raise ValueError("M05_UNIT_COVERAGE_INVALID")
     limits=limits or SearchLimits(); start=time.monotonic(); deadline=start+float(limits.max_seconds)
     examined=0; primary_transitions_evaluated=0; created=1; secondary_only=0
     baseline=dict(assignments); baseline_pops=_district_pops(baseline,units); baseline_tm=territorial_metrics(baseline,adjacency)
@@ -516,7 +617,8 @@ def repair(
         primary_deadline=deadline
     best_primary=None; rejected=[]; rejection_counts={}; depth_exhausted=0; seen={_state_key(baseline)}; heap=[]
     baseline_rank,_=_rank(
-        baseline,[],units,adjacency,target,tolerance,floor,cap,district_floors
+        baseline,[],units,adjacency,target,tolerance,floor,cap,district_floors,
+        municipality_policy,
     )
     rank=baseline_rank; heapq.heappush(heap,(rank,0,baseline,[]))
     serial=0; termination="QUEUE_EMPTY"
@@ -548,7 +650,8 @@ def repair(
                 primary_transitions_evaluated+=1
                 ok,reason,checks=_valid_transfer(
                     state,units,adjacency,moved,donor,receiver,
-                    floor=floor,cap=cap,district_floors=district_floors
+                    floor=floor,cap=cap,district_floors=district_floors,
+                    municipality_policy=municipality_policy,
                 )
                 if not ok:
                     rejection_counts[reason]=rejection_counts.get(reason,0)+1
@@ -565,7 +668,8 @@ def repair(
                     district_floors=district_floors,
                 )
                 new_path=path+[step]; rank,obj=_rank(
-                    trial,new_path,units,adjacency,target,tolerance,floor,cap,district_floors
+                    trial,new_path,units,adjacency,target,tolerance,floor,cap,district_floors,
+                    municipality_policy,
                 ); created+=1
                 primary_improves=(
                     (baseline_hard[0] > 0 and rank[:-1] < baseline_rank[:-1])
@@ -594,7 +698,8 @@ def repair(
         focal_state,focal_steps,focal_meta=_focal_chain_search(
             state=best_state,units=units,adjacency=adjacency,target=target,tolerance=tolerance,
             floor=floor,cap=cap,limits=limits,deadline=deadline,
-            candidate_budget=remaining_candidates,district_floors=district_floors)
+            candidate_budget=remaining_candidates,district_floors=district_floors,
+            municipality_policy=municipality_policy)
         focal_pops=_district_pops(focal_state,units); focal_tm=territorial_metrics(focal_state,adjacency)
         focal_obj=objective(
             focal_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,
@@ -636,6 +741,7 @@ def repair(
         best_state,units,adjacency,
         expected_districts=set(baseline.values()),
         floor=floor,cap=cap,district_floors=district_floors,
+        municipality_policy=municipality_policy,
     )
     if baseline_hard[0] > 0 and final_hard[0] == 0:
         termination="HARD_LIMITS_REPAIRED"
@@ -649,7 +755,10 @@ def repair(
         for district,value in sorted((district_floors or {}).items(),key=lambda item:str(item[0]))
         if float(value)!=float(floor)
     }
-    return {"schema":"ddd.m05-population-repair/1.6","result":status,"limits":asdict(limits),
+    return {"schema":"ddd.m05-population-repair/1.7" if municipality_policy == MUNICIPAL_POLICY_N08 else "ddd.m05-population-repair/1.6",
+        "result":status,"limits":asdict(limits),
+        "municipality_policy":municipality_policy,
+        "municipality_splits":final_verification.get("municipality_splits", []),
         "hard_population_floor":float(floor),"hard_population_cap":float(cap),
         "district_floor_overrides":floor_overrides,
         "candidates_examined":total_candidates,"primary_candidates_examined":examined,
@@ -660,7 +769,7 @@ def repair(
         "primary_improvement_found":best_primary is not None,"secondary_only_candidates":secondary_only,"baseline_restored":baseline_restored,
         # objective_* mantiene el contrato durable histórico de cinco posiciones.
         # La magnitud dura pertenece al ranking interno y se expone por separado.
-        "objective_hierarchy":["hard_violation_count","outliers","max_deviation","total_deviation","cohesion"],"queue_priority":["hard_violation_count","hard_violation_magnitude","outliers","max_deviation","outlier_distance_to_tolerance","total_deviation","cohesion","units_moved","districts_affected","chain_length","depth","deterministic_key"],
+        "objective_hierarchy":["hard_violation_count","outliers","max_deviation","total_deviation","cohesion"],"queue_priority":["hard_violation_count","hard_violation_magnitude","necessary_municipal_fragmentation","outliers","max_deviation","outlier_distance_to_tolerance","total_deviation","cohesion","units_moved","districts_affected","chain_length","depth","deterministic_key"],
         "objective_before":list(baseline_obj),"objective_after":list(best_obj),
         "hard_signature_before":list(baseline_hard),"hard_signature_after":list(final_hard),
         "hard_violation_magnitude_before":int(baseline_hard[1]),"hard_violation_magnitude_after":int(final_hard[1]),

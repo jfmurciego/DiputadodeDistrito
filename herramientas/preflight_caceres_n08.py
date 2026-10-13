@@ -1,8 +1,8 @@
-"""Versión 1.0.0; nombre puerta Congreso Cáceres M01-M06; fecha 2026-10-12.
+"""Versión 1.1.0; nombre puerta Congreso Cáceres M01-M06; fecha 2026-10-13.
 Alcance: inspección reproducible sin partición real ni ejecución productiva.
-Estado: candidato; cambios: validar fuentes, grafo e interfaces nacionales.
-Motivo: preparar una puerta única antes de autorizar un primer ensayo.
-Origen: N06/N07/#241/#251; herramienta nueva sin predecesor.
+Estado: candidato; cambios: política municipal M05/M06 derivada del contrato.
+Motivo: probar la configuración nacional efectiva manteniendo generación bloqueada.
+Anterior: legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py.
 """
 from __future__ import annotations
 import argparse
@@ -169,7 +169,9 @@ def _synthetic_m05_contract(nodes, edges, *, province, floor=1, cap=None):
 
 def _synthetic_m06_contract(contract, source_binding, *, province, quota, population):
     """Synthetic output contract fixture; never a real assignment."""
-    from ddd_core.congreso_preflight_adapter import audit_synthetic_partition
+    from ddd_core.congreso_preflight_adapter import (
+        audit_synthetic_partition, congreso_m05_municipal_policy,
+    )
     if type(quota) is not int or quota < 1 or population < quota:
         raise ValueError('M06_FIXTURE_QUOTA_OR_POPULATION')
     quotient, remainder = divmod(population, quota)
@@ -187,7 +189,8 @@ def _synthetic_m06_contract(contract, source_binding, *, province, quota, popula
               'overlap_m2': 0.0, 'edge_type': 'geometric',
               'contact_sha256': f'{i + 1:064x}'} for i in range(quota - 1)]
     rows = [{'id': n['id'], 'district_id': str(i + 1), 'pop': n['pop']} for i, n in enumerate(nodes)]
-    policy = {'minimum_unit': 'section', 'municipal_policy': 'indivisible',
+    policy = {'minimum_unit': 'section',
+              'municipal_policy': congreso_m05_municipal_policy(contract),
               'population_floor': 1, 'population_cap': population}
     result = audit_synthetic_partition(contract, nodes, edges, source_binding, rows, policy, synthetic_fixture=True)
     if result['status'] != 'SYNTHETIC_OUTPUT_AUDIT_PASS' or len(result['district_populations']) != quota or sum(result['district_populations'].values()) != population:
