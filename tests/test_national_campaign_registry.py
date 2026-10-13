@@ -63,7 +63,10 @@ def test_completion_matrix_is_derived_from_task_registry():
 
 def test_campaign_ledger_preserves_all_production_barriers():
     manifest = json.loads((CAMPAIGN / "CAMPAIGN_MANIFEST.json").read_text())
-    assert manifest["state"] == "NATIONAL_INCOMPLETE"
+    assert manifest["state"] in {"NATIONAL_INCOMPLETE", "NATIONAL_EXHAUSTED_AUTHORIZED_WORK"}
+    if manifest["state"] == "NATIONAL_EXHAUSTED_AUTHORIZED_WORK":
+        registry = json.loads((CAMPAIGN / "TASK_REGISTRY.json").read_text())
+        assert all(task["status"] not in {"READY", "DISCOVERED"} for task in registry["tasks"])
     assert manifest["baseline_main"] == "21a4a150eb14f1abecd5d798b159d84a71df1f4a"
     assert manifest["permissions"]["merge"] is False
     assert manifest["permissions"]["production_generation"] is False

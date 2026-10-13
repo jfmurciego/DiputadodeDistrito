@@ -30,6 +30,6 @@
   "review_queue": "REVIEW_QUEUE.json",
   "schema": "ddd.national-campaign-manifest/1.0",
   "scope": "Lines A-J national Congress; no A-FONTES/19 autonomous production behavior",
-  "state": "NATIONAL_INCOMPLETE",
+  "state": "NATIONAL_EXHAUSTED_AUTHORIZED_WORK",
   "task_registry": "TASK_REGISTRY.json"
 }

@@ -7,14 +7,14 @@
       "sha256": "cbf5e29f4eca8fc9e36e824449b3afa6c13653cf76c61d138eac8d090824b74f"
     },
     {
-      "bytes": 1254,
+      "bytes": 1269,
       "path": "CAMPAIGN_MANIFEST.json",
-      "sha256": "56f6a131c118b62099e63efa322fd21908e49b8e5ee754859e43920b333dec34"
+      "sha256": "03963974581593fb7b33cce3703e134d88ac85f901cc0e5164b966bdd10a7348"
     },
     {
-      "bytes": 4053,
+      "bytes": 4222,
       "path": "CHECKPOINT.json",
-      "sha256": "2c598acbfc5dce63b578dcaac4e948e724af1155f79cf2c97afe4345c155c1ce"
+      "sha256": "139aace9823482afd9ddc6baa1a491f5cbaa8af147236fe5831005ffd5e69667"
     },
     {
       "bytes": 1656,
@@ -37,9 +37,9 @@
       "sha256": "e591bebef5233aadd7dea1489c306d4b456fdf508af299ddd28a341c19e78936"
     },
     {
-      "bytes": 16676,
+      "bytes": 17524,
       "path": "EVENT_LOG.jsonl",
-      "sha256": "14fd4bf3bb2d3484ac94499d8e6a19de5b83854830fb059310bcbc31fd64f236"
+      "sha256": "bb667206d5e6e9c8ac4979c0d3273cc3137b1b936b0ab1d1b845e61fbf8e5073"
     },
     {
       "bytes": 7222,
@@ -982,9 +982,9 @@
       "sha256": "89ff1bbb754b33487089ad8a100e2562ffb0c3e090c83b888ac676707c9b72c6"
     },
     {
-      "bytes": 8800,
+      "bytes": 8967,
       "path": "FINAL_REPORT.md",
-      "sha256": "3cbd1a09a648280a75df7c452e942055c93c6884426e368529a6d4fb0751895d"
+      "sha256": "40251ca0e274e1357a01eaab47bfd0211100b1e36b1b9e09f7e034beeb25eded"
     },
     {
       "bytes": 6187,
