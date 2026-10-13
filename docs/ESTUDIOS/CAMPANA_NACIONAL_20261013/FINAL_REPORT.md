@@ -4,7 +4,7 @@
 
 ## Contabilidad verificable
 
-Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENCIES.json`; bitácora acumulativa: `EVENT_LOG.jsonl`; checkpoint: `CHECKPOINT.json`; matriz derivada: `MATRIZ_CIERRE_AJ.csv`. El registro contiene **80 tareas**: **6 COMPLETE**, **16 INTEGRATED** en el candidato local, **2 TESTING**, **1 REVIEW_PASS**, **53 BLOCKED_EVIDENCE**, **1 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT** (publicación de PR/CI). `INTEGRATED` significa integrado en la rama candidata, no fusionado a `main`.
+Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENCIES.json`; bitácora acumulativa: `EVENT_LOG.jsonl`; checkpoint: `CHECKPOINT.json`; matriz derivada: `MATRIZ_CIERRE_AJ.csv`. El registro contiene **80 tareas**: **6 COMPLETE**, **18 INTEGRATED** en el candidato local, **1 REVIEW_PASS**, **53 BLOCKED_EVIDENCE**, **1 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT** (publicación de PR/CI). `INTEGRATED` significa integrado en la rama candidata, no fusionado a `main`.
 
 | Línea | Tareas | Complete | Integrated | Testing | Ready | Bloqueadas por evidencia | Wait owner | Estado de cierre |
 |---|---:|---:|---:|---:|---:|---:|---:|---|

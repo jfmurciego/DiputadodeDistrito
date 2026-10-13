@@ -122,21 +122,26 @@
       "dependencies": [
         "NAT-B-001"
       ],
-      "evidence": "Prueba de no dependencia temporal incluida; se ejecutará también en suite integrada.",
+      "evidence": "Independent read-only audit: canonical source manifests and Congress consumers have no machine-local temp dependency. Existing worktree paths are metadata; automated test covers 7 entrypoints only, supplemented by inspection of the campaign/product/source manifests.",
       "files_affected": [
         "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/REFERENCIAS_TEMPORALES.md",
         "tests/test_campaign_no_temp_dependencies.py"
       ],
       "id": "NAT-B-003",
-      "integration": null,
+      "integration": "Present in codex/national-campaign-controller candidate branch; not merged to main.",
       "line": "B",
-      "next_action": "Revisión independiente de la suite integrada.",
+      "next_action": "",
       "objective": "Detectar referencias a rutas temporales como dependencia de reproducción",
       "owner": "controller",
       "permissions_required": [],
       "priority": 3,
-      "review": null,
-      "status": "TESTING",
+      "review": {
+        "head": "1d12b87dfd34d05937cb3cfab50f4d6a372729ad",
+        "reviewer": "audit_topology_c, independent read-only",
+        "scope": "temporary-path audit and canonical manifests",
+        "verdict": "REVIEW_PASS_WITH_SCOPE_LIMITS"
+      },
+      "status": "INTEGRATED",
       "tests": [
         "tests/test_campaign_no_temp_dependencies.py"
       ],
@@ -2173,18 +2178,23 @@
       "commit": null,
       "data_required": [],
       "dependencies": [],
-      "evidence": "Registry, dependency graph, checkpoint and derived A–J matrix created and validated; currently uncommitted.",
+      "evidence": "Independent read-only audit: 80 unique task IDs, DAG coverage/dependencies and acyclicity, derived matrix, append-only 53-event log, checkpoint/queue/locks consistency; focused 10-test suite passes.",
       "files_affected": [],
       "id": "NAT-J-001",
-      "integration": null,
+      "integration": "Present in codex/national-campaign-controller candidate branch; not merged to main.",
       "line": "J",
-      "next_action": "Revisión independiente del registro y validar estado final tras anexar tareas I.",
+      "next_action": "",
       "objective": "Registro A–J, DAG, incidentes y checkpoints auditables",
       "owner": "controller",
       "permissions_required": [],
       "priority": 1,
-      "review": null,
-      "status": "TESTING",
+      "review": {
+        "head": "1d12b87dfd34d05937cb3cfab50f4d6a372729ad",
+        "reviewer": "audit_topology_c, independent read-only",
+        "scope": "registry, DAG, event append-only, matrix/checkpoint/locks",
+        "verdict": "REVIEW_PASS"
+      },
+      "status": "INTEGRATED",
       "tests": [
         "tests/test_national_campaign_registry.py"
       ],
