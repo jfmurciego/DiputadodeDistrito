@@ -48,18 +48,16 @@ class AutoPilot(unittest.TestCase):
         self.policy=json.loads((BUNDLE/'auto-policy.json').read_text())
         self.policy.update(authorized_local_tasks=['F03','F04'],revalidate=['F03','F04'])
         self.policy['technical_seeds']={}
-        packet=self.root/'F03-synthetic.zip'
-        import zipfile
-        with zipfile.ZipFile(packet,'w') as z:z.writestr('simulation.json','{"task":"F03","result":"PASS"}\n')
-        self.policy['tasks']['F03']['inputs']['F03.zip']={'path':str(packet),'sha256':auto.digest(packet)}
         validator=ROOT/'tests/fixtures/ddd_auto_validator_fixture.py'
-        self.policy['tasks']['F03']['validators'][0]['argv']=[sys.executable,str(validator),'F03','--repo','{repo}',
-            '--output','{output}','--packet','{inputs}/F03.zip']
+        import zipfile
+        for task in ('F03','F04'):
+            packet=self.root/f'{task}-synthetic.zip'
+            with zipfile.ZipFile(packet,'w') as z:z.writestr('simulation.json',json.dumps({'task':task,'result':'PASS'})+'\n')
+            self.policy['tasks'][task]['inputs'][f'{task}.zip']={'path':str(packet),'sha256':auto.digest(packet)}
+            self.policy['tasks'][task]['validators'][0]['argv']=[sys.executable,str(validator),task,'--repo','{repo}',
+                '--output','{output}','--packet',f'{{inputs}}/{task}.zip']
         self.policy['simulation_acceptance']={t['id']:t['acceptance'][0] for t in catalog['tasks'] if t['id'] in ('F03','F04')}
         for t in self.policy['tasks'].values():t['validate_existing']=False
-        # Only the disposable simulation points F04 at pre-existing real evidence.
-        # No product/worktree modifications occur there. Normal policy uses delivery/tree.
-        self.policy['tasks']['F04']['validators'][0]['argv'][4]=str(REAL)
         jsonwrite(self.data/'policy.json',self.policy)
         self.plan=self.root/'plan';self.plan.mkdir()
         jsonwrite(self.plan/'estado.json',{'plan_revision':'SIMULATION','tasks':[dict(t,status='PASS' if t['id'] in ('F01','F02') else 'PENDING') for t in catalog['tasks']]})
@@ -171,6 +169,16 @@ class AutoPilot(unittest.TestCase):
         p=self.run_auto('F03');self.assertEqual(p.returncode,0,p.stdout+p.stderr)
         self.assertEqual(self.states()['F03'],'TECH_PASS')
         self.assertEqual(json.loads((self.campaign_path()/'F03/delivery/validator-0.json').read_text())['status'],'PASS')
+
+    def test_real_f04_validator_accepts_reusable_packages_when_available(self):
+        evidence=REAL/'docs/AUDITORIAS/F04_F10_20261009'
+        if not evidence.is_dir():
+            self.skipTest('El repositorio local con evidencia F04 no está disponible en este entorno')
+        output=self.root/'F04-real-validator.json'
+        command=[str(GIS),str(BUNDLE/'validar_piloto.py'),'F04','--repo',str(REAL),'--output',str(output)]
+        result=subprocess.run(command,capture_output=True,text=True,timeout=120)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+        self.assertEqual(json.loads(output.read_text())['status'],'PASS')
 
     def test_synthetic_f02_seed_cannot_be_credited(self):
         seed=self.root/'synthetic-f02.json'

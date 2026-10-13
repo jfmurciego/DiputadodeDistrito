@@ -21,8 +21,8 @@
   "legacy_history_changed": false,
   "tests": {
     "result": "PASS_LOCAL",
-    "count": 33,
-    "seconds": 51.01,
+    "count": 34,
+    "seconds": 31.385,
     "evidence": "evidencias/validacion-1.2.1.json"
   },
   "review": {
@@ -50,10 +50,9 @@
     "infraestructura/ordenes-manuales/auto-policy.json": "13b2b076f9aeea60198efa88cef99ecc84243b6d7ff1ca478f1455629bd89092",
     "infraestructura/ordenes-manuales/validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
     "infraestructura/ordenes-manuales/AUTO.md": "a5f8d77a1d137f97b1846eb7078159815cabff482dcc0aa847db88d04ed85032",
-    "infraestructura/ordenes-manuales/ENTREGA.json": "5eb94be8fc381b0f909d3c24bdfabe8827beaa4746d809f7520184f1b557d57e",
-    "tests/test_ddd_auto.py": "7a38f76569cf6f6792e6a2b50d0788c63c3b90f34c22bf7e4a67f5e4558ba198",
-    "tests/fixtures/ddd_auto_validator_fixture.py": "08626ef1c62646ec182c1402c4b2a65b19f9a2c7c9306014ecdf9d99af8d28f0",
-    "Dockerfile": "c7b50e49ee94e72fd35034ac4c25a940120df678f67b56b0858d0d402b01f3df"
+    "infraestructura/ordenes-manuales/ENTREGA.json": "2d5bc7aa10d91bdc7434145a99bad2d472f730ec559fa575b8f37e120534a805",
+    "tests/test_ddd_auto.py": "fa53d58e113395c240ae5618a9498c90464c86d2d1fb43007306aad0d4e0c593",
+    "tests/fixtures/ddd_auto_validator_fixture.py": "2ef3b4450b05a408aee81eedc843e83a5c1830f391708bf4b16335b95e6a28ec"
   },
   "head": "PENDING_COMMIT",
   "final_diff": "/private/tmp/ddd-auto-1.2.0-review.patch",
