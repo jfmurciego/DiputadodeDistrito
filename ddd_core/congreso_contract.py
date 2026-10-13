@@ -108,6 +108,22 @@ def _normalize_origin_units(payload: Mapping[str, Any]) -> dict[str, Any]:
 
 
 
+# Immutable approved values under N08-OWNER-20261013-7RULES.
+# A future policy requires a new, explicit decision and validator version.
+N08_OWNER_DECISION_ID = "N08-OWNER-20261013-7RULES"
+N08_POLICY_VALUES = {
+    "minimum_unit": "official_2025_CUSEC_indivisible",
+    "contiguity": "positive_line_shared_boundary_on_original_polygon_parts",
+    "municipal_indivisibility": "preserve_when_feasible_split_by_whole_CUSEC_when_necessary",
+    "islands": "preserve_physical_islands_named_exceptions_only",
+    "enclaves": "accredited_administrative_enclaves_named_exceptions_only",
+    "physical_discontinuities": "case_registry_bound_to_edition_cusec_parts_and_hashes",
+}
+N08_POPULATION_RATIOS = {
+    "population_floor_ratio": Decimal("0.85"),
+    "population_cap_ratio": Decimal("1.15"),
+    "target_tolerance_ratio": Decimal("0.15"),
+}
 POLICY_RULES = (
     "minimum_unit", "contiguity", "population_limits",
     "municipal_indivisibility", "islands", "enclaves",
@@ -116,7 +132,7 @@ POLICY_RULES = (
 
 
 def _approved_policy_errors(payload: Mapping[str, Any]) -> list[str]:
-    """Validate approved values strictly; never supply implied policy defaults."""
+    """Admit only explicitly versioned owner-approved national policies."""
     decisions = payload.get("decisions")
     if not isinstance(decisions, Mapping):
         return []
@@ -125,35 +141,30 @@ def _approved_policy_errors(payload: Mapping[str, Any]) -> list[str]:
         decision = decisions.get(name)
         if not isinstance(decision, Mapping) or decision.get("status") != "APPROVED":
             continue
-        if not isinstance(decision.get("decision_id"), str) or not decision["decision_id"].strip():
-            errors.append("APPROVED_POLICY_DECISION_ID_MISSING:" + name)
+        if decision.get("decision_id") != N08_OWNER_DECISION_ID:
+            errors.append("APPROVED_POLICY_DECISION_ID_INVALID:" + name)
         value = decision.get("value")
         if name != "population_limits":
-            if not isinstance(value, str) or not value.strip():
+            if not isinstance(value, str) or value != N08_POLICY_VALUES[name]:
                 errors.append("APPROVED_POLICY_VALUE_INVALID:" + name)
             continue
-        required = {"population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio"}
-        if not isinstance(value, Mapping) or set(value) != required:
+        if not isinstance(value, Mapping) or set(value) != set(N08_POPULATION_RATIOS):
             errors.append("APPROVED_POPULATION_LIMITS_FIELDS_INVALID")
             continue
-        if any(type(value[key]) not in (int, float) for key in required):
+        if any(type(value[key]) not in (int, float) for key in N08_POPULATION_RATIOS):
             errors.append("APPROVED_POPULATION_LIMITS_NUMERIC_REQUIRED")
             continue
-        numbers = {key: Decimal(str(value[key])) for key in required}
-        floor, cap, tol = (numbers["population_floor_ratio"],
-                           numbers["population_cap_ratio"],
-                           numbers["target_tolerance_ratio"])
+        numbers = {key: Decimal(str(value[key])) for key in N08_POPULATION_RATIOS}
         if not all(number.is_finite() for number in numbers.values()):
             errors.append("APPROVED_POPULATION_LIMITS_NONFINITE")
-        elif not (Decimal(0) < floor <= Decimal(1) <= cap
-                  and Decimal(0) <= tol
-                  and floor == Decimal(1) - tol
-                  and cap == Decimal(1) + tol):
-            errors.append("APPROVED_POPULATION_LIMITS_INCONSISTENT")
+        elif numbers != N08_POPULATION_RATIOS:
+            errors.append("APPROVED_POPULATION_LIMITS_NOT_OWNER_APPROVED")
     minimum = payload.get("minimum_unit")
     named = decisions.get("minimum_unit")
-    if isinstance(minimum, Mapping) and isinstance(named, Mapping) and named.get("status") == "APPROVED":
-        if minimum.get("status") != "APPROVED" or minimum.get("value") != named.get("value"):
+    if isinstance(named, Mapping) and named.get("status") == "APPROVED":
+        if (not isinstance(minimum, Mapping)
+                or minimum.get("status") != "APPROVED"
+                or minimum.get("value") != named.get("value")):
             errors.append("APPROVED_MINIMUM_UNIT_REPRESENTATIONS_CONFLICT")
     return errors
 
