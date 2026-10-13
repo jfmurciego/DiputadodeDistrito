@@ -19,7 +19,8 @@
     "NAT-H-001 reviewed PASS: CPRO=01 diagnostic only; gate still blocks; generation false.",
     "NAT-I-002 independently reviewed PASS: strict schema/helper binding product manifest to 2025 source contract; product gate still closed.",
     "NAT-H-002 reviewed PASS: real CPRO39 diagnostic; actual M01-M03, M04 necessary only, M05/M06 synthetic; no partition.",
-    "NAT-E-002 exact bounded connected partition solver reviewed PASS on small fixtures; commit/integration still pending."
+    "NAT-E-002 exact bounded connected partition solver reviewed PASS on small fixtures; commit/integration still pending.",
+    "NAT-J-004 read-only planner independently REVIEW_PASS_WITH_SCOPE_LIMITS at bc330771; 10 focused tests and 324/324 manifest verified."
   ],
   "completed_work": [
     "verified main and PR #265 merge",
@@ -37,17 +38,14 @@
   "global_state": "NATIONAL_INCOMPLETE",
   "head": "ae260f56cdb03be61bbe030c5277203e7b545013",
   "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
-  "latest_event": "EV-0050",
+  "latest_event": "EV-0053",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
-  "next_action": "When GitHub DNS/connectivity returns, push the existing local branch fast-forward, open draft PR against main, then verify exact-SHA CI; do not regenerate the candidate.",
+  "next_action": "Restore authorized GitHub write/connectivity; fast-forward-push the retained local integration branch, open one draft PR, then verify CI on its exact SHA. No task is READY under current external blockers.",
   "no_authorized_generation": true,
   "ready_next": [],
-  "reviewing_work": [
-    "NAT-J-004"
-  ],
+  "reviewing_work": [],
   "running_work": [
-    "NAT-J-001",
-    "NAT-J-004"
+    "NAT-J-001"
   ],
   "schema": "ddd.national-campaign-checkpoint/1.0",
   "tests_passed": [

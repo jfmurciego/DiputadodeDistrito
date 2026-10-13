@@ -1,10 +1,10 @@
 {
   "items": [
     {
-      "head": "campaign candidate after commit",
-      "reviewer": "independent read-only reviewer",
+      "head": "bc330771e12d1850084598638f6e77d7788ceb4f",
+      "reviewer": "audit_topology_c",
       "scope": "DAG validation, deterministic READY selection, locks, fail-closed behavior; no task mutation/execution",
-      "status": "IN_PROGRESS",
+      "status": "REVIEW_PASS",
       "task_id": "NAT-J-004"
     }
   ],

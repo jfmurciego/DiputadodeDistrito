@@ -69,7 +69,7 @@
     {
       "owner": "controller",
       "resource": "ddd_core/national_campaign_planner.py;tests/test_national_campaign_planner.py",
-      "status": "RUNNING",
+      "status": "REVIEW_PASS",
       "task": "NAT-J-004"
     }
   ],

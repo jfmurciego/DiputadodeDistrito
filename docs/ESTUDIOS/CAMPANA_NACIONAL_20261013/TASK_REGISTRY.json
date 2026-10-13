@@ -2335,7 +2335,7 @@
       "dependencies": [
         "NAT-J-001"
       ],
-      "evidence": "Selector diagnostic-only; descubrió y permitió corregir dependencia ausente NAT-F-001 → NAT-H-001.",
+      "evidence": "Independent final review confirms deterministic snapshot, no ready tasks, no execution/generation, and 324/324 manifest entries. Focused planner/ledger/temp-dependency suite: 10 passed.",
       "files_affected": [
         "ddd_core/national_campaign_planner.py",
         "tests/test_national_campaign_planner.py"
@@ -2343,13 +2343,19 @@
       "id": "NAT-J-004",
       "integration": null,
       "line": "J",
-      "next_action": "Revisar independientemente sobre el HEAD de campaña y publicar en PR draft.",
+      "next_action": "No further planner work; wait for integration branch publication/PR environment and then exact-SHA CI.",
       "objective": "Seleccionador nacional read-only de READY a partir del DAG y locks persistentes",
       "owner": "controller",
       "permissions_required": [],
       "priority": 2,
-      "review": null,
-      "status": "REVIEWING",
+      "review": {
+        "evidence": "Planner snapshot matches current registry/DAG/locks; no READY tasks, execution_started=false, generation_authorized=false. Campaign manifest 324/324 verified; focused tests 10 passed. Remote branch/PR/CI remain blocked and are outside this technical pass.",
+        "head": "bc330771e12d1850084598638f6e77d7788ceb4f",
+        "reviewer": "audit_topology_c, independent read-only",
+        "scope": "campaign ledger, planner snapshot, 324 artifact hashes, reporting consistency; no GitHub writes",
+        "verdict": "REVIEW_PASS_WITH_SCOPE_LIMITS"
+      },
+      "status": "REVIEW_PASS",
       "tests": [
         "tests/test_national_campaign_planner.py (4 passed)"
       ],
