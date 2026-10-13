@@ -63,6 +63,15 @@
       "severity": "HIGH",
       "status": "RESOLVED",
       "task": "NAT-G-002"
+    },
+    {
+      "evidence": "Rama codex/national-campaign-controller publicada en origin al SHA 384d214e05e554fb3cddbcd16a3dddcd8cfb749d; MCP github_create_pull_request devolvió approval-required; un intento de gh pr create devolvió error connecting to api.github.com.",
+      "finding": "Draft PR no disponible en esta sesión: la herramienta GitHub exige aprobación, bloqueada por approval policy never; gh pr create falló por conexión a api.github.com.",
+      "handling": "No eludir controles ni repetir el mismo intento. Conservar rama/commits. Crear PR draft y comprobar CI cuando exista una vía autorizada de escritura/conectividad.",
+      "id": "INC-NAT-008",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "task": "NAT-J-003"
     }
   ],
   "schema": "ddd.national-incidents/1.0"

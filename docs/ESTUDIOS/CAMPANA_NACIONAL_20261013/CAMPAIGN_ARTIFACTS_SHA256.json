@@ -12,9 +12,9 @@
       "sha256": "56f6a131c118b62099e63efa322fd21908e49b8e5ee754859e43920b333dec34"
     },
     {
-      "bytes": 3624,
+      "bytes": 3757,
       "path": "CHECKPOINT.json",
-      "sha256": "fd518ed12113eddfa439e3f9c1389c01410ff9cc427955ebee10d74025feb8c6"
+      "sha256": "dbe546643e21b2d62a339d08d4f1e06fc5f7fcf4ccbce781d4898306408c098e"
     },
     {
       "bytes": 1656,
@@ -37,9 +37,9 @@
       "sha256": "e591bebef5233aadd7dea1489c306d4b456fdf508af299ddd28a341c19e78936"
     },
     {
-      "bytes": 14440,
+      "bytes": 14779,
       "path": "EVENT_LOG.jsonl",
-      "sha256": "809e2ac93b0690016daf48760403a74fb65afe39a9a11a159c1c74ee9043b37b"
+      "sha256": "4ddb0a8a0e7e440dfab36c538731cfbe7b4fdc29fcd7e91604000b53c1984357"
     },
     {
       "bytes": 7222,
@@ -982,24 +982,24 @@
       "sha256": "89ff1bbb754b33487089ad8a100e2562ffb0c3e090c83b888ac676707c9b72c6"
     },
     {
-      "bytes": 8283,
+      "bytes": 8488,
       "path": "FINAL_REPORT.md",
-      "sha256": "de624f01e48dab01171c7c30186fca89a31477e65c202029e1bf2d25697fc407"
+      "sha256": "dd34fb5302a51f2026cc4b94580f5d096cdee09bcafc23ff26e46ed5b4780804"
     },
     {
-      "bytes": 4638,
+      "bytes": 5392,
       "path": "INCIDENTS.json",
-      "sha256": "02425192ed081de1f1239fdb10b4f692d6660cf96d598da1f4eab334bc97ef58"
+      "sha256": "c0d51eaee65449b9530ae469090683ca03992ab98fd6c4ee8dcb086d85a0821f"
     },
     {
-      "bytes": 474,
+      "bytes": 516,
       "path": "INTEGRATION_QUEUE.json",
-      "sha256": "1e34d371307629abb76560b624872250ef0f731b86bfffc2cac3c99bf0351dea"
+      "sha256": "fabd6e22ed4fdf5782f854219af388b747babfc113645e0475143b00270e4798"
     },
     {
       "bytes": 834,
       "path": "MATRIZ_CIERRE_AJ.csv",
-      "sha256": "1d92d43a437786e0ef731ca9e035408bbe5bff758c0e93a2926215e8b6c23676"
+      "sha256": "fb39f9eab0fe1e0e1201ff29a25f239b73a9a687bce3bc2b0ca48bbd8ebd7acf"
     },
     {
       "bytes": 927,
@@ -1589,7 +1589,7 @@
     {
       "bytes": 315,
       "path": "READY_SELECTION.json",
-      "sha256": "a26a6fb9dd2d5f167030ecd24eb40d89161e5353a6c8295c8f1a53ad49d7c02c"
+      "sha256": "969413dde3163a8749080df2fa024922f1a6b878f6bfecd0ce71b75e45cb3ddb"
     },
     {
       "bytes": 1466,
@@ -1617,9 +1617,9 @@
       "sha256": "0bed722cb64bb896fd2ab87745acf5fcad749b362d946ec0e1d619b42537ed11"
     },
     {
-      "bytes": 93722,
+      "bytes": 93963,
       "path": "TASK_REGISTRY.json",
-      "sha256": "909012c59a994ee5d9e6613a5e8bed6df41ae276a7fc7784a41c8dcbf3ea3b48"
+      "sha256": "c070b2169e00898fc8cf589504387f4802ea05b061a852c3e27d8afcc47fe466"
     }
   ],
   "schema": "ddd.national-campaign-artifact-manifest/1.0"

@@ -4,7 +4,7 @@
 
 ## Contabilidad verificable
 
-Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENCIES.json`; bitácora acumulativa: `EVENT_LOG.jsonl`; checkpoint: `CHECKPOINT.json`; matriz derivada: `MATRIZ_CIERRE_AJ.csv`. El registro contiene **80 tareas**: **6 COMPLETE**, **16 INTEGRATED** en el candidato local, **2 TESTING**, **1 REVIEWING**, **1 READY**, **53 BLOCKED_EVIDENCE** y **1 WAIT_OWNER**. `INTEGRATED` significa integrado en la rama candidata, no fusionado a `main`.
+Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENCIES.json`; bitácora acumulativa: `EVENT_LOG.jsonl`; checkpoint: `CHECKPOINT.json`; matriz derivada: `MATRIZ_CIERRE_AJ.csv`. El registro contiene **80 tareas**: **6 COMPLETE**, **16 INTEGRATED** en el candidato local, **2 TESTING**, **1 REVIEWING**, **53 BLOCKED_EVIDENCE**, **1 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT** (publicación de PR/CI). `INTEGRATED` significa integrado en la rama candidata, no fusionado a `main`.
 
 | Línea | Tareas | Complete | Integrated | Testing | Ready | Bloqueadas por evidencia | Wait owner | Estado de cierre |
 |---|---:|---:|---:|---:|---:|---:|---:|---|
@@ -55,4 +55,4 @@ Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENC
 
 ## Integración y siguiente acción
 
-Los incrementos técnicos E002, E003, F001, F002, G002, G003, H e I están integrados serialmente en la rama `codex/national-campaign-controller`; no fusionados a `main`. La rama tiene una sola tarea lista para la puerta de publicación (`NAT-J-003`). Aún falta serializar el cierre de ledger y selector, obtener revisión independiente agregada, publicar una PR draft contra `main`, comprobar CI para el SHA exacto y corregir fallos atribuibles al incremento. No marcar `READY_FOR_FINAL_REVIEW` antes de eso.
+Los incrementos técnicos E002, E003, F001, F002, G002, G003, H e I y el ledger están en la rama publicada `codex/national-campaign-controller` (`384d214e05e554fb3cddbcd16a3dddcd8cfb749d`), sin fusionar a `main`. El selector fue recalculado contra el registro vigente; sus 324 artefactos se verifican mediante `CAMPAIGN_ARTIFACTS_SHA256.json`. La creación de una PR draft quedó bloqueada por la herramienta GitHub (aprobación requerida con política `never`) y un único intento `gh` falló por conectividad. No existe PR ni CI de este HEAD. La revisión independiente del HEAD corregido está solicitada. Estado `NATIONAL_INCOMPLETE`; no declarar `READY_FOR_FINAL_REVIEW`.

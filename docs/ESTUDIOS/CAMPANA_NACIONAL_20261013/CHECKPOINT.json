@@ -5,6 +5,9 @@
     "NAT-D-exceptions: nominal exceptions require owner decisions",
     "NAT-H: 52 technical preflights complete but structural/factibility gates remain blocked or conditional"
   ],
+  "blocked_environment": [
+    "NAT-J-003: GitHub draft PR creation/CI unavailable due connector approval gate and API connectivity; branch is already published."
+  ],
   "branch": "codex/national-campaign-controller",
   "campaign_id": "ddd-national-campaign-20261013",
   "completed_local_tasks": [
@@ -34,13 +37,11 @@
   "global_state": "NATIONAL_INCOMPLETE",
   "head": "a2e565fff2da871a83b8d962b6a047fb877d9092",
   "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
-  "latest_event": "EV-0048",
+  "latest_event": "EV-0049",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
-  "next_action": "Run final full relevant regression on current HEAD; independent review of planner and aggregate campaign; publish one draft PR and verify CI exact SHA.",
+  "next_action": "Open draft PR against main once GitHub connector approval/write access or API connectivity is available; then verify exact HEAD and CI.",
   "no_authorized_generation": true,
-  "ready_next": [
-    "NAT-J-003"
-  ],
+  "ready_next": [],
   "reviewing_work": [
     "NAT-J-004"
   ],

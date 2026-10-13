@@ -1,10 +1,10 @@
 {
   "items": [
     {
-      "head": "candidate commit pending",
+      "head": "384d214e05e554fb3cddbcd16a3dddcd8cfb749d",
       "merge_authorized": false,
-      "next_action": "Publish candidate branch and open draft PR against main; await CI on exact remote SHA and final campaign review.",
-      "status": "READY_TO_PUBLISH",
+      "next_action": "Open draft PR against main once GitHub connector approval/write access or API connectivity is available; then verify exact HEAD and CI.",
+      "status": "BLOCKED_ENVIRONMENT",
       "task_id": "NAT-J-003"
     }
   ],
