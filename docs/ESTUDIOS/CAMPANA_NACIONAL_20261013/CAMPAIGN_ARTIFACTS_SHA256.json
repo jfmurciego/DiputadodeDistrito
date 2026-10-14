@@ -14,7 +14,7 @@
     {
       "path": "BLOCKER_REGISTRY.json",
       "bytes": 3113,
-      "sha256": "a7e51b965c1aa2fd5a45c83389aea3c925d56ff304c96cea6cdde16bbe559e8f"
+      "sha256": "8915f4714b130e7a0181e9199d8232f8559a0aa52a90be7ab00f6120aecaf85a"
     },
     {
       "path": "CAMPAIGN_MANIFEST.json",
@@ -24,7 +24,7 @@
     {
       "path": "CHECKPOINT.json",
       "bytes": 5597,
-      "sha256": "a86b533b3dbef74c8efbbebf3e83c3d207044b08ca57480a7f6b11f410162e58"
+      "sha256": "8d266d88ba94c08ec49fc3d7b4133322ba58cdc5fdf51dcce26c754238d8f587"
     },
     {
       "path": "D04_COMPONENTES_MAYORES_QUE_K.csv",
@@ -48,8 +48,8 @@
     },
     {
       "path": "EVENT_LOG.jsonl",
-      "bytes": 20035,
-      "sha256": "c5358416190c7701a16bc048e2e0b77ee9cd6897273ff4f4c9e394370071eb3a"
+      "bytes": 20405,
+      "sha256": "78322eb7095119ca5ab5f1a9686f9d3f01659f00a5038c65fb70806d77c71e83"
     },
     {
       "path": "F001_CAMPAIGN_52/CAMPAIGN_PREFLIGHT.json",
@@ -1003,8 +1003,8 @@
     },
     {
       "path": "INTEGRATION_QUEUE.json",
-      "bytes": 1019,
-      "sha256": "d22742bd7d4a4608ffa309d2618c3a84d274bea89ff042375ae894be6c393704"
+      "bytes": 1065,
+      "sha256": "df633a3f8e0bd8ed3db0dea3b7585502bdc2174f1e7a28979a873258780c16f9"
     },
     {
       "path": "MATRIZ_CIERRE_AJ.csv",

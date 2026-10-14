@@ -1,6 +1,6 @@
 {
   "schema": "ddd.national-blockers/1.0",
-  "updated_head": "889485658166928d89bd5bdc5de39cac599c188f",
+  "updated_head": "ab60d480ade765c55e0461700c8dab17aa2aa183",
   "blockers": [
     {
       "id": "NAT-BLK-CNIG-RECEIPT",

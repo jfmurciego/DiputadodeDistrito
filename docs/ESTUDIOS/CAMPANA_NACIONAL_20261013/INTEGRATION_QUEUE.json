@@ -1,14 +1,14 @@
 {
   "items": [
     {
-      "head": "889485658166928d89bd5bdc5de39cac599c188f",
-      "local_head": "889485658166928d89bd5bdc5de39cac599c188f",
+      "head": "ab60d480ade765c55e0461700c8dab17aa2aa183",
+      "local_head": "ab60d480ade765c55e0461700c8dab17aa2aa183",
       "merge_authorized": false,
       "next_action": "Open a draft PR against current main through an authorized write route; then verify CI on the exact published HEAD. The GitHub connector denied create-pull-request for approval under policy never; gh auth token is invalid. Do not retry or bypass.",
       "remote_head": "889485658166928d89bd5bdc5de39cac599c188f",
       "status": "BLOCKED_ENVIRONMENT",
       "task_id": "NAT-J-003",
-      "evidence": "Remote branch 889485658166928d89bd5bdc5de39cac599c188f verified by read-only GitHub API; PR list for this head is empty. Create-draft request denied by approval policy never; no PR CI. Current ledger changes are local after that remote HEAD."
+      "evidence": "Most recent content candidate before checkpoint-only commit: ab60d480ade765c55e0461700c8dab17aa2aa183. Remote branch confirmed at 889485658166928d89bd5bdc5de39cac599c188f. No PR for the remote head; draft creation denied by approval policy never; current local updates are not on remote."
     }
   ],
   "policy": "serial integration; branch/PR only with explicit campaign authorization; never merge automatically",
