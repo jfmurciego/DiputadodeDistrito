@@ -2610,7 +2610,7 @@
         "NAT-B-002",
         "NAT-I-001"
       ],
-      "evidence": "Read-only GitHub API: remote branch points to 889485658166928d89bd5bdc5de39cac599c188f; pull request collection filtered to this head returned []. Draft creation was denied for approval under policy never; gh auth invalid; shell Git DNS fails. No PR-triggered CI exists.",
+      "evidence": "Read-only GitHub API verifies remote branch codex/national-campaign-controller at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR exists. A prior draft-PR creation request was denied for approval under policy never; gh token invalid. No PR-triggered CI exists. Do not retry or bypass.",
       "files_affected": [],
       "id": "NAT-J-003",
       "integration": null,

@@ -20,12 +20,13 @@
     },
     {
       "evidence": "test_national_campaign_registry.py falló por Extra items: NAT-F-003 en TASK_REGISTRY sin nodo DAG.",
-      "finding": "Tras separar generación real de pruebas sintéticas se añadió NAT-F-003, pero la proyección inicial del grafo no se regeneró; test detectó nodo ausente.",
+      "finding": "Remote branch was subsequently fast-forward-published and verified at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR exists. GitHub create-pull-request previously returned approval required under policy never; gh auth token invalid. No PR-triggered CI for this candidate.",
       "id": "INC-NAT-003",
       "resolution": "Recrear nodos y aristas desde TASK_REGISTRY; validar suite focal.",
       "severity": "LOW",
       "status": "RESOLVED",
-      "task": "NAT-J-001"
+      "task": "NAT-J-001",
+      "handling": "Branch push succeeded; preserve candidate. Do not retry denied PR creation or bypass approval; wait for an authorized write route."
     },
     {
       "evidence": "Ejecución inicial devolvió TOPOLOGY_CONTRACT_HASH; TRANSICION.json declara artefacto histórico candidato diagnóstico y MANIFEST_ENTREGA vincula el manifiesto.",
@@ -87,8 +88,8 @@
       "severity": "HIGH",
       "status": "OPEN",
       "task": "NAT-J-003",
-      "finding": "Remote branch 889485658166928d89bd5bdc5de39cac599c188f exists, but no PR is open. GitHub create-pull-request connector returned approval required under policy never; gh token is invalid. Git DNS in shell currently fails, preventing fetch/push/CI checks.",
-      "handling": "Do not repeat denied PR create or bypass approval. Record environment blocker; continue local DAG/source audit."
+      "finding": "Remote branch was subsequently fast-forward-published and verified at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR exists. GitHub create-pull-request previously returned approval required under policy never; gh auth token invalid. No PR-triggered CI for this candidate.",
+      "handling": "Branch push succeeded; preserve candidate. Do not retry denied PR creation or bypass approval; wait for an authorized write route."
     }
   ],
   "schema": "ddd.national-incidents/1.0"

@@ -7,7 +7,7 @@
     "NAT-H: diagnostics complete at available evidence level; no territorial product/factibility certification."
   ],
   "blocked_environment": [
-    "NAT-J-003: branch 889485658166928d89bd5bdc5de39cac599c188f verified in GitHub; no PR exists; PR-create connector requires approval unavailable under policy never, gh token invalid; no PR-triggered CI."
+    "NAT-J-003: branch remote verified at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR; GitHub connector PR-create requires approval unavailable under policy never; gh token invalid; no PR-triggered CI."
   ],
   "branch": "codex/national-campaign-controller",
   "campaign_id": "ddd-national-campaign-20261013",
@@ -45,9 +45,9 @@
   ],
   "created_at": "2026-10-13",
   "global_state": "NATIONAL_EXHAUSTED_AUTHORIZED_WORK",
-  "head": "ab60d480ade765c55e0461700c8dab17aa2aa183",
+  "head": "ab40ac19294487b571c9c557bb77a5005a05ac21",
   "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
-  "latest_event": "EV-0064",
+  "latest_event": "EV-0067",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
   "next_action": "Authorize/receive one official historical administrative-boundary package to unblock 52 independent CPRO comparisons; separately provide an authorized GitHub write route for PR draft. Production remains prohibited.",
   "no_authorized_generation": true,
@@ -65,5 +65,7 @@
     "NAT-J-004 planner: 4 tests pass; read-only CLI discovered/corrected omitted dependency.",
     "NAT-C-002..056 DAG/acquisition ledger tests + national planner/registry/temp-dependency regressions: 13 passed; one initial assertion bug in the new test was corrected and full focused rerun passed."
   ],
-  "worktree": "/private/tmp/ddd-national-campaign-20261013"
+  "worktree": "/private/tmp/ddd-national-campaign-20261013",
+  "reconciled_remote_head": "ab40ac19294487b571c9c557bb77a5005a05ac21",
+  "audit_scope": "Audited all former C blockers, DAG semantics, bounded local source inventory, readiness snapshot and campaign manifest; no source downloaded, generation or PR creation."
 }

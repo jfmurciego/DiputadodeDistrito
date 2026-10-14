@@ -13,8 +13,8 @@
     },
     {
       "path": "BLOCKER_REGISTRY.json",
-      "bytes": 3113,
-      "sha256": "8915f4714b130e7a0181e9199d8232f8559a0aa52a90be7ab00f6120aecaf85a"
+      "bytes": 3156,
+      "sha256": "9d422a943a819ddb06777458ebfba61a43e83e3ae5bb170ac2b5a81b15183d00"
     },
     {
       "path": "CAMPAIGN_MANIFEST.json",
@@ -23,8 +23,8 @@
     },
     {
       "path": "CHECKPOINT.json",
-      "bytes": 5597,
-      "sha256": "8d266d88ba94c08ec49fc3d7b4133322ba58cdc5fdf51dcce26c754238d8f587"
+      "bytes": 5858,
+      "sha256": "036518b804ab1adadeed98e4cef6d8af89e8a2de43afa28012900ae7d81d5c08"
     },
     {
       "path": "D04_COMPONENTES_MAYORES_QUE_K.csv",
@@ -48,8 +48,8 @@
     },
     {
       "path": "EVENT_LOG.jsonl",
-      "bytes": 20405,
-      "sha256": "78322eb7095119ca5ab5f1a9686f9d3f01659f00a5038c65fb70806d77c71e83"
+      "bytes": 22039,
+      "sha256": "1b43243da405a71d480098629597f63831528caf85dfa85c9662fdddd073d0ef"
     },
     {
       "path": "F001_CAMPAIGN_52/CAMPAIGN_PREFLIGHT.json",
@@ -993,18 +993,18 @@
     },
     {
       "path": "FINAL_REPORT.md",
-      "bytes": 11359,
-      "sha256": "aed2e460da399b21241f864ca17f3fd6a83ddde85e3359f6cc5478dbf7752c18"
+      "bytes": 11413,
+      "sha256": "9c1978a89eb107841f31f318aa337f2f3199404030d38bf6f1e36d496065f1d6"
     },
     {
       "path": "INCIDENTS.json",
-      "bytes": 6710,
-      "sha256": "e31ed1747348bf0f218b98e7d4e774aadb86dedbcd32d7f53a69487e32ac8982"
+      "bytes": 7014,
+      "sha256": "0bca98ffbac2912f60d8353f61fdd953cad0421c9094f0157a267db68ea0b759"
     },
     {
       "path": "INTEGRATION_QUEUE.json",
-      "bytes": 1065,
-      "sha256": "df633a3f8e0bd8ed3db0dea3b7585502bdc2174f1e7a28979a873258780c16f9"
+      "bytes": 960,
+      "sha256": "dde46f39d9a54c580aeed7d1e436d87bc8e032b7483f22aaedbcf21574790e80"
     },
     {
       "path": "MATRIZ_CIERRE_AJ.csv",
@@ -1599,7 +1599,7 @@
     {
       "path": "READY_SELECTION.json",
       "bytes": 296,
-      "sha256": "43bd8e11aab297602f6dd9396b5146143ff68a936f9fd87818ca43e235a8ac06"
+      "sha256": "7e26f375ab346565a39eccdb554df8844c446feabc925935fc589c4f468f210e"
     },
     {
       "path": "REFERENCIAS_TEMPORALES.md",
@@ -1628,8 +1628,8 @@
     },
     {
       "path": "TASK_REGISTRY.json",
-      "bytes": 130454,
-      "sha256": "54ee0f6de21229a8da0f731c5cbe917f6641f7d1d61b3e446b81a83f95f1ba04"
+      "bytes": 130468,
+      "sha256": "35d6b63d1bac56f3158dbe975b057644e9df3f860fc4736633a6931751e514b0"
     }
   ]
 }

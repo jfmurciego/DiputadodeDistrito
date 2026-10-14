@@ -1,6 +1,6 @@
 {
   "schema": "ddd.national-blockers/1.0",
-  "updated_head": "ab60d480ade765c55e0461700c8dab17aa2aa183",
+  "updated_head": "ab40ac19294487b571c9c557bb77a5005a05ac21",
   "blockers": [
     {
       "id": "NAT-BLK-CNIG-RECEIPT",
@@ -92,7 +92,7 @@
     {
       "id": "NAT-BLK-PUBLICATION",
       "class": "BLOCKED_ENVIRONMENT",
-      "cause": "El branch se puede leer en GitHub, pero no hay ruta de escritura habilitada para PR; connector exige aprobación (policy never), token gh inválido.",
+      "cause": "Remote candidate branch exists at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR exists. GitHub connector denied PR creation for approval under policy never and gh authentication is invalid.",
       "tasks": [
         "NAT-J-003"
       ],
