@@ -145,7 +145,7 @@ jobs:
             gh release download "$tag" --pattern "$tag.zip" --dir work/prior
             unzip -qo "work/prior/$tag.zip" -d work/ensemble
           fi
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ensemble-base-${{ steps.key.outputs.value }}
           retention-days: 7
@@ -171,7 +171,7 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ensemble.lock
       - run: python -m pip install --requirement requirements-ensemble.lock
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ensemble-base-${{ needs.base.outputs.run_key }}
           path: .
@@ -184,7 +184,7 @@ jobs:
               --config configuracion/ensemble/aragon.json --mode run \
               --profile '${{ matrix.profile }}' \
               --count '${{ needs.base.outputs.candidate_count }}' --output work/ensemble
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: ensemble-${{ needs.base.outputs.run_key }}-${{ matrix.profile }}
@@ -212,11 +212,11 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ensemble.lock
       - run: python -m pip install --requirement requirements-ensemble.lock
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ensemble-base-${{ needs.base.outputs.run_key }}
           path: .
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: ensemble-${{ needs.base.outputs.run_key }}-*
           path: work/ensemble
@@ -276,7 +276,7 @@ jobs:
               --notes 'Ensemble DDD: evidencia, métricas, galería y matriz de reintento.'
           fi
           echo "release_tag=$tag" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ steps.status.outputs.complete == 'true' }}
         with:
           name: ensemble-site-${{ needs.base.outputs.run_key }}
@@ -334,7 +334,7 @@ jobs:
           print(f'base_name={bases[0]}')
           PY
       - name: Recuperar base analítica del run fuente
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ${{ steps.source.outputs.base_name }}
           path: .
@@ -342,7 +342,7 @@ jobs:
           repository: ${{ github.repository }}
           run-id: ${{ inputs.republish_source_run_id }}
       - name: Recuperar candidatos analíticos del run fuente
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: ensemble-${{ steps.source.outputs.run_key }}-*
           path: work/ensemble
@@ -453,7 +453,7 @@ jobs:
               --notes 'Ensemble DDD republicado desde artefactos existentes; sin recálculo GerryChain.'
           fi
           echo "release_tag=$tag" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ensemble-site-${{ steps.source.outputs.run_key }}
           retention-days: 14
