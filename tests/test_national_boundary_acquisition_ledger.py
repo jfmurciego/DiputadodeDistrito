@@ -3,6 +3,8 @@ import json
 import re
 from pathlib import Path
 
+from ddd_core.national_campaign_planner import select_ready_tasks
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CAMPAIGN = ROOT / "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013"
@@ -21,8 +23,10 @@ def test_boundary_acquisition_gate_and_province_dependencies():
 
     assert rollup["status"] == "BLOCKED_DEPENDENCY"
     assert set(rollup["dependencies"]) == {f"NAT-C-{n:03d}" for n in range(3, 55)}
-    assert catalog["status"] == "IMPLEMENTED"
+    assert catalog["status"] == "INTEGRATED"
     assert catalog["dependencies"] == []
+    assert catalog["commit"] == "edcc767c77fb1e0f552c3316d3d4042bd63680db"
+    assert catalog["review"]["verdict"] == "REVIEW_PASS_WITH_SCOPE_LIMITS"
     assert receipt["status"] == "WAIT_OWNER"
     assert receipt["dependencies"] == ["NAT-C-055"]
     assert receipt["permissions_required"] == [
@@ -42,6 +46,9 @@ def test_boundary_acquisition_gate_and_province_dependencies():
     assert set(rollup["dependencies"]) == {task["id"] for task in province_tasks}
 
     graph = _read("DEPENDENCIES.json")
+    locks = _read("RESOURCE_LOCKS.json")
+    selection = _read("READY_SELECTION.json")
+    assert select_ready_tasks(registry, graph, locks) == selection
     projected = {(edge["from"], edge["to"]) for edge in graph["edges"]}
     assert projected == {
         (dependency, task["id"])

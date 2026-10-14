@@ -2744,7 +2744,7 @@
       "id": "NAT-C-055",
       "line": "C",
       "objective": "Catalogar una fuente oficial independiente candidata y especificar criterios reproducibles de adquisición, sin descarga ni acreditación",
-      "status": "IMPLEMENTED",
+      "status": "INTEGRATED",
       "priority": 1,
       "dependencies": [],
       "acceptance_criteria": "Identificar autoridad/producto/ficha/licencia/edición candidata, aptitud temporal no demostrada, búsqueda local acotada y campos exigibles en receipt; no descargar ni declarar acreditación.",
@@ -2764,9 +2764,14 @@
         "tests/test_national_boundary_acquisition_ledger.py::test_boundary_acquisition_gate_and_province_dependencies"
       ],
       "evidence": "Expediente de catálogo CNIG/IGN y especificación del receipt; revisión topológica previa confirmó ausencia local de bytes, sin elevar acreditación. La ficha 2026 no prueba vigencia al 2025-01-01.",
-      "review": null,
-      "integration": null,
-      "commit": null,
+      "review": {
+        "head": "WORKTREE@edcc767c77fb1e0f552c3316d3d4042bd63680db + audited ledger diff",
+        "reviewer": "audit_topology_c, independent read-only",
+        "scope": "source catalog dossier, corrected C DAG and ledger semantics; no source download or territorial accreditation",
+        "verdict": "REVIEW_PASS_WITH_SCOPE_LIMITS"
+      },
+      "integration": "Present in codex/national-campaign-controller at edcc767c77fb1e0f552c3316d3d4042bd63680db; candidate branch only, not merged to main.",
+      "commit": "edcc767c77fb1e0f552c3316d3d4042bd63680db",
       "owner": "owner",
       "worktree": null,
       "next_action": ""

@@ -23,7 +23,8 @@
     "NAT-E-002 exact bounded connected partition solver reviewed PASS on small fixtures; commit/integration still pending.",
     "NAT-J-004 read-only planner independently REVIEW_PASS_WITH_SCOPE_LIMITS at bc330771; 10 focused tests and 324/324 manifest verified.",
     "NAT-B-003 integrated/reviewed with explicit scope limit",
-    "NAT-J-001 integrated/reviewed; DAG/matrix/event/checkpoint acceptance verified"
+    "NAT-J-001 integrated/reviewed; DAG/matrix/event/checkpoint acceptance verified",
+    "NAT-C-055 catalog/dossier independently REVIEW_PASS_WITH_SCOPE_LIMITS; source receipt NAT-C-056 remains WAIT_OWNER."
   ],
   "completed_work": [
     "verified main and PR #265 merge",
@@ -38,13 +39,15 @@
     "NAT-G-002 exact local/global municipality counterexample fixed; final result gating and independent REVIEW_PASS",
     "Auditoría del DAG C: eliminada dependencia semánticamente circular entre agregación 52/52 y contrastes CPRO; catálogo candidato CNIG separado del recibo y del roll-up.",
     "Verificación GitHub read-only: branch codex/national-campaign-controller apunta exactamente a 889485658166928d89bd5bdc5de39cac599c188f; no hay PR existente para esa rama.",
-    "NAT-C ledger identity preserved after review: C002 remains downstream 52/52 roll-up; source catalog and receipt assigned to C055/C056."
+    "NAT-C ledger identity preserved after review: C002 remains downstream 52/52 roll-up; source catalog and receipt assigned to C055/C056.",
+    "Independent review of edcc767 returned REVIEW_NO_GO; two documentation ambiguities are corrected in current working tree, canonical planner hash allegation was disproven by direct CLI equality check.",
+    "Independent review cleared corrected C task identities/dependencies and manifest; no acquisition or territorial accreditation."
   ],
   "created_at": "2026-10-13",
   "global_state": "NATIONAL_EXHAUSTED_AUTHORIZED_WORK",
   "head": "889485658166928d89bd5bdc5de39cac599c188f",
   "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
-  "latest_event": "EV-0061",
+  "latest_event": "EV-0063",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
   "next_action": "Authorize/receive one official historical administrative-boundary package to unblock 52 independent CPRO comparisons; separately provide an authorized GitHub write route for PR draft. Production remains prohibited.",
   "no_authorized_generation": true,

@@ -116,6 +116,20 @@
       "scope": "Schema/manifiesto candidato validado; producción cerrada.",
       "task_id": "NAT-I-002",
       "verdict": "REVIEW_PASS"
+    },
+    {
+      "head": "edcc767c77fb1e0f552c3316d3d4042bd63680db",
+      "reviewer": "audit_topology_c",
+      "scope": "C boundary blocker DAG, task identities, acquisition dossier, report/manifest/checkpoint coherence",
+      "verdict": "REVIEW_NO_GO",
+      "evidence": "Two real findings: audit CSV dependency label was ambiguous and FINAL_REPORT incorrectly said the catalog was pending commit. The reviewer also compared READY_SELECTION.registry_sha256 to raw file SHA; planner contract hashes canonical sorted compact JSON. Direct planner CLI output equals READY_SELECTION.json and its canonical hash matches the registry, so that allegation is not a defect. Corrective changes follow in the next ledger revision."
+    },
+    {
+      "head": "WORKTREE@edcc767c77fb1e0f552c3316d3d4042bd63680db + audited ledger diff",
+      "integrated_in": "edcc767c77fb1e0f552c3316d3d4042bd63680db",
+      "reviewer": "audit_topology_c",
+      "scope": "NAT-C-002/055/056 identities, provincial dependencies, clarified source blocker CSV, canonical READY hash, report and 326 artifact hashes",
+      "verdict": "REVIEW_PASS_WITH_SCOPE_LIMITS"
     }
   ],
   "schema": "ddd.national-review-decisions/1.0"

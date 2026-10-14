@@ -6,7 +6,7 @@ La rama remota `codex/national-campaign-controller` se verificó mediante GitHub
 
 La auditoría real del ledger encontró una dependencia semánticamente imposible en C: NAT-C-002 pedía acreditación 52/52, y cada uno de sus 52 hijos requería completar NAT-C-002. El grafo no tenía ciclo sintáctico, pero sí circularidad de aceptación. Se separaron catálogo (NAT-C-055), recibo de adquisición común (NAT-C-056), comparaciones independientes por CPRO (NAT-C-003…054) y agregación nacional NAT-C-002. El roll-up ahora depende de los 52 informes; ningún hijo depende del roll-up. La fuente candidata CNIG/IGN está identificada en `ADQUISICION_FUENTE_LIMITE_CNIG.md`, pero no se descargó: la fuente 2026 no prueba sin inspección su vigencia efectiva a 2025-01-01 y la adquisición requiere autorización.
 
-La matriz `MATRIZ_CIERRE_AJ.csv` y `AUDITORIA_BLOQUEOS_C_003_056.csv` se derivan del registro actualizado. Son **82 tareas**: **6 COMPLETE**, **18 INTEGRATED**, **1 IMPLEMENTED** (NAT-C-055, pendiente de commit/revisión), **1 REVIEW_PASS**, **53 BLOCKED_DEPENDENCY**, **2 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT**. Las tareas C003–C054 son 52 dominios provinciales distintos, no 52 fuentes distintas; comparten un único recibo faltante. NAT-C-002 es el roll-up. NAT-C-055 es el catálogo implementado localmente pero aún no integrado/versionado; la acreditación topológica no avanzó.
+La matriz `MATRIZ_CIERRE_AJ.csv` se deriva del registro; `AUDITORIA_BLOQUEOS_C_003_056.csv` documenta explícitamente la dependencia histórica supersedida y la dependencia actual del DAG. Son **82 tareas**: **6 COMPLETE**, **19 INTEGRATED** (incluido NAT-C-055), **1 REVIEW_PASS**, **53 BLOCKED_DEPENDENCY**, **2 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT**. Las tareas C003–C054 son 52 dominios provinciales distintos, no 52 fuentes distintas; comparten un único recibo faltante. NAT-C-002 es el roll-up. NAT-C-055 quedó integrado en la rama candidata en edcc767 y obtuvo REVIEW_PASS_WITH_SCOPE_LIMITS; la acreditación topológica no avanzó.
 
 El estado `NATIONAL_EXHAUSTED_AUTHORIZED_WORK` describe el selector actual tras la corrección: no hay tareas elegibles sin el receipt externo o los permisos requeridos. No significa cierre técnico de las 52 fronteras externas, factibilidad provincial, producto certificado ni disponibilidad para producción. Se mantienen K=407 y `generation_authorized=false`.
 
@@ -20,7 +20,7 @@ Registro: `TASK_REGISTRY.json`; DAG: `DEPENDENCIES.json`; bitácora acumulativa:
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | A | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Cerrada para siete reglas N08 y K=407; generación falsa. |
 | B | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Linaje N06/N08 verificado dentro del alcance acreditado. |
-| C | 56 | 1 | 0 | 1 | 0 | 53 | 0 | 1 | 0 | Catálogo implementado localmente; fuente común espera autorización; 52 contrastes y roll-up bloqueados por dependencia real. |
+| C | 56 | 1 | 1 | 0 | 0 | 53 | 0 | 1 | 0 | Catálogo/dossier integrado en rama; fuente común espera autorización; 52 contrastes y roll-up bloqueados por dependencia real. |
 | D | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | Anomalías inventariadas; excepciones nominales permanecen pendientes. |
 | E | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Condiciones necesarias/testigos condicionales; sin factibilidad territorial certificada. |
 | F | 3 | 0 | 2 | 0 | 0 | 0 | 0 | 1 | 0 | Preflight y composición diagnósticos; generación espera autorización. |

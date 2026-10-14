@@ -8,8 +8,8 @@
     },
     {
       "path": "AUDITORIA_BLOQUEOS_C_003_056.csv",
-      "bytes": 34588,
-      "sha256": "61b7466b3d14ecc7469bf48a26e021a67fff518d0a947a3679fb05db42c47760"
+      "bytes": 38540,
+      "sha256": "10a52af58465768e41b2221880adec1dc66d98bb3d1790bc8d73e50269a937a0"
     },
     {
       "path": "BLOCKER_REGISTRY.json",
@@ -23,8 +23,8 @@
     },
     {
       "path": "CHECKPOINT.json",
-      "bytes": 5133,
-      "sha256": "d6c912fd28e9a6183d4190fbf707466d6850359b18f9110e85db0f4921b0303e"
+      "bytes": 5597,
+      "sha256": "a86b533b3dbef74c8efbbebf3e83c3d207044b08ca57480a7f6b11f410162e58"
     },
     {
       "path": "D04_COMPONENTES_MAYORES_QUE_K.csv",
@@ -48,8 +48,8 @@
     },
     {
       "path": "EVENT_LOG.jsonl",
-      "bytes": 19178,
-      "sha256": "2269371073069fc83f004d3afaea1b32647c5d65c7290946033b03953e40e793"
+      "bytes": 20035,
+      "sha256": "c5358416190c7701a16bc048e2e0b77ee9cd6897273ff4f4c9e394370071eb3a"
     },
     {
       "path": "F001_CAMPAIGN_52/CAMPAIGN_PREFLIGHT.json",
@@ -993,8 +993,8 @@
     },
     {
       "path": "FINAL_REPORT.md",
-      "bytes": 11302,
-      "sha256": "7c6f96f1030bcbddec757039e779daad7b522d10995d24b7a8980e40ad9d7cae"
+      "bytes": 11359,
+      "sha256": "aed2e460da399b21241f864ca17f3fd6a83ddde85e3359f6cc5478dbf7752c18"
     },
     {
       "path": "INCIDENTS.json",
@@ -1009,7 +1009,7 @@
     {
       "path": "MATRIZ_CIERRE_AJ.csv",
       "bytes": 834,
-      "sha256": "4c5921ec7397a53db3db5940995fd2a0ea1425f64e0606598b32a0baa6ba895f"
+      "sha256": "681c38c673afdc768f6204a78de3fdc74d7f76f9543fdf3468eaef26ec292295"
     },
     {
       "path": "NATIONAL_PLANNER.md",
@@ -1599,7 +1599,7 @@
     {
       "path": "READY_SELECTION.json",
       "bytes": 296,
-      "sha256": "359c88dcea5543d04aa40ee8d2efab4d814400f8a6dbe356edf6339b8cc6360b"
+      "sha256": "43bd8e11aab297602f6dd9396b5146143ff68a936f9fd87818ca43e235a8ac06"
     },
     {
       "path": "REFERENCIAS_TEMPORALES.md",
@@ -1618,8 +1618,8 @@
     },
     {
       "path": "REVIEW_DECISIONS.json",
-      "bytes": 5596,
-      "sha256": "63267e0b78efa8372555f9937e5afd87662660c6f82484e02fa3e50572572f06"
+      "bytes": 6734,
+      "sha256": "c6e51c59d0f8462c8b045ed80469edbd7658585da55bfa568ed4cbd997dfb9e5"
     },
     {
       "path": "REVIEW_QUEUE.json",
@@ -1628,8 +1628,8 @@
     },
     {
       "path": "TASK_REGISTRY.json",
-      "bytes": 129946,
-      "sha256": "e9f24a9fd8e14a3a6aa8d5a3ceb0c69886ec207215e97be2a9d974468343a88e"
+      "bytes": 130454,
+      "sha256": "54ee0f6de21229a8da0f731c5cbe917f6641f7d1d61b3e446b81a83f95f1ba04"
     }
   ]
 }
