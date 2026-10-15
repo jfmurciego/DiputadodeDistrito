@@ -65,7 +65,14 @@ def _report(code, context):
 
 class CongressPreflightCampaignTests(unittest.TestCase):
     def test_current_contract_source_and_topology_hash_inventory_is_52_units(self):
-        context = campaign._root_context()
+        # The runtime Docker image deliberately contains no .git directory.
+        # Stub only the Git identity lookup; all source, contract and topology
+        # hashes are still verified against the actual versioned inputs.
+        with patch.object(campaign.subprocess, "check_output",
+                          return_value="a" * 40 + "\n") as git_identity:
+            context = campaign._root_context()
+        git_identity.assert_called_once()
+        self.assertEqual(context["base"], "a" * 40)
         self.assertEqual(len(context["topology_unit_sha256"]), 52)
         self.assertEqual(sum(row["sections"] for row in context["units"].values()), 36554)
         self.assertEqual(sum(row["population"] for row in context["units"].values()), 49128297)
