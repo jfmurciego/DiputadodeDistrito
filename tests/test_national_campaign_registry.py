@@ -128,3 +128,14 @@ def test_active_implementation_paths_are_real_and_match_task_scope():
     for task_id in ("NAT-B-002", "NAT-I-001"):
         assert by_id[task_id]["files_affected"]
         assert all((ROOT / rel).is_file() for rel in by_id[task_id]["files_affected"])
+
+
+# Bridge function-style regressions into the repository's unittest CI.
+def load_tests(loader, tests, pattern):
+    import unittest
+
+    suite = unittest.TestSuite()
+    for name, fn in sorted(globals().items()):
+        if name.startswith("test_") and callable(fn):
+            suite.addTest(unittest.FunctionTestCase(fn, description=name))
+    return suite
