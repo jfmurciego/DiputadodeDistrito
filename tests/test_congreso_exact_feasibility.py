@@ -91,3 +91,14 @@ def test_rejects_non_symmetric_or_boolean_population_input():
         assert "non-negative integer" in str(exc)
     else:
         raise AssertionError("bool must not be accepted as an integer population")
+
+
+# Bridge function-style regressions into the repository's unittest CI.
+def load_tests(loader, tests, pattern):
+    import unittest
+
+    suite = unittest.TestSuite()
+    for name, fn in sorted(globals().items()):
+        if name.startswith("test_") and callable(fn):
+            suite.addTest(unittest.FunctionTestCase(fn, description=name))
+    return suite
