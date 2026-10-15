@@ -95,3 +95,14 @@ def test_publication_and_production_gates_remain_closed():
     receipt_blocker = next(item for item in blockers if item["id"] == "NAT-BLK-CNIG-RECEIPT")
     assert receipt_blocker["class"] == "WAIT_OWNER"
     assert receipt_blocker["tasks"] == ["NAT-C-056"]
+
+
+# Bridge function-style regressions into the repository's unittest CI.
+def load_tests(loader, tests, pattern):
+    import unittest
+
+    suite = unittest.TestSuite()
+    for name, fn in sorted(globals().items()):
+        if name.startswith("test_") and callable(fn):
+            suite.addTest(unittest.FunctionTestCase(fn, description=name))
+    return suite
