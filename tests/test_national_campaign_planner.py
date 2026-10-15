@@ -1,3 +1,4 @@
+from pathlib import Path
 import pytest
 
 from ddd_core.national_campaign_planner import select_ready_tasks
@@ -53,3 +54,18 @@ def test_invalid_dependency_graph_fails_closed(mutation, error):
         graph["edges"].pop()
     with pytest.raises(ValueError, match=error):
         select_ready_tasks(registry, graph, {"locks": []})
+
+
+# Run pytest-style cases, including fixture injection, from the unittest CI suite.
+def load_tests(loader, tests, pattern):
+    import unittest
+
+    def run_pytest_module():
+        import pytest
+        result = pytest.main(["-q", str(Path(__file__).resolve())])
+        if result != 0:
+            raise AssertionError("PYTEST_MODULE_FAILED:" + str(result))
+
+    return unittest.TestSuite([unittest.FunctionTestCase(
+        run_pytest_module, description="pytest module regression suite"
+    )])
