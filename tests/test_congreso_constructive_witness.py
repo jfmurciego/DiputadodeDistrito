@@ -238,3 +238,19 @@ def test_topology_manifest_identity_or_source_binding_mutation_rejects_witness(t
     assert "TOPOLOGY_MANIFEST_CANONICAL_IDENTITY_INVALID" in result["errors"]
     assert "TOPOLOGY_MANIFEST_GEOMETRY_BINDING_MISMATCH" in result["errors"]
     assert result["assignment"] == []
+
+
+# Bridge existing function-style regressions into the repository's unittest CI.
+def load_tests(loader, tests, pattern):
+    import tempfile
+    import unittest
+    from pathlib import Path
+
+    suite = unittest.TestSuite()
+    for name, fn in sorted(globals().items()):
+        if name.startswith("test_") and callable(fn):
+            def run(fn=fn):
+                with tempfile.TemporaryDirectory() as directory:
+                    fn(Path(directory))
+            suite.addTest(unittest.FunctionTestCase(run, description=name))
+    return suite
