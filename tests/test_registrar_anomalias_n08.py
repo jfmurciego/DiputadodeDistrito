@@ -108,3 +108,18 @@ def test_registry_rejects_overlap_pair_also_present_as_accepted_edge(monkeypatch
     monkeypatch.setattr(registry.gzip, "open", contradictory_open)
     with pytest.raises(ValueError, match="OVERLAP_PAIR_PRESENT_AS_ACCEPTED_EDGE:02:"):
         registry.extract(PRODUCT, COMPONENTS)
+
+
+# Run pytest-style cases, including fixture injection, from the unittest CI suite.
+def load_tests(loader, tests, pattern):
+    import unittest
+
+    def run_pytest_module():
+        import pytest
+        result = pytest.main(["-q", str(Path(__file__).resolve())])
+        if result != 0:
+            raise AssertionError("PYTEST_MODULE_FAILED:" + str(result))
+
+    return unittest.TestSuite([unittest.FunctionTestCase(
+        run_pytest_module, description="pytest module regression suite"
+    )])
