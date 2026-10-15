@@ -43,3 +43,14 @@ def test_reproduces_n08_evidence_without_mutating_versioned_outputs():
     assert result["source_manifests_unchanged"] is True
     assert result["versioned_outputs_unchanged"] is True
     assert {path: path.read_bytes() for path in paths} == before
+
+
+# Bridge function-style regressions into the repository's unittest CI.
+def load_tests(loader, tests, pattern):
+    import unittest
+
+    suite = unittest.TestSuite()
+    for name, fn in sorted(globals().items()):
+        if name.startswith("test_") and callable(fn):
+            suite.addTest(unittest.FunctionTestCase(fn, description=name))
+    return suite
