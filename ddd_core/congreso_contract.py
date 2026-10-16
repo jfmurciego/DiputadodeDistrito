@@ -110,6 +110,60 @@ def _normalize_origin_units(payload: Mapping[str, Any]) -> dict[str, Any]:
 
 # Immutable approved values under N08-OWNER-20261013-7RULES.
 # A future policy requires a new, explicit decision and validator version.
+N06_K_DECISION_ID = "N06-OWNER-20261012-K"
+N06_K_TOTAL = 407
+N06_K_QUOTA_METHOD = "max(1,(P_i+60000)//120000); nearest_half_up_independent; reference_2025"
+N06_K_QUOTAS = dict(zip(CONGRESS_CODES, (3, 3, 17, 6, 1, 6, 10, 50, 3, 3, 11, 5, 4, 6, 9, 2, 7, 8, 2, 6, 4, 2, 5, 4, 4, 3, 3, 59, 15, 13, 6, 3, 8, 1, 10, 8, 3, 9, 5, 1, 16, 1, 7, 1, 6, 23, 4, 10, 1, 8, 1, 1), strict=True))
+
+
+def _approved_k_errors(payload: Mapping[str, Any]) -> list[str]:
+    """Reject changes to N06 owner-approved K, quotas or decision provenance."""
+    errors: list[str] = []
+    decision = payload.get("k_decision")
+    expected = {
+        "status": "APPROVED_BY_OWNER",
+        "total": N06_K_TOTAL,
+        "source_scope": "congreso",
+        "decision_id": N06_K_DECISION_ID,
+        "quota_method": N06_K_QUOTA_METHOD,
+    }
+    if not isinstance(decision, Mapping):
+        errors.append("N06_K_DECISION_MISSING")
+    else:
+        for field, approved in expected.items():
+            value = decision.get(field)
+            if type(value) is not type(approved) or value != approved:
+                errors.append("N06_K_DECISION_NOT_APPROVED:" + field)
+        if decision.get("source_territory_id") not in (None, "espana_congreso"):
+            errors.append("N06_K_SOURCE_TERRITORY_INVALID")
+
+    institutional = payload.get("institutional_decision")
+    if (not isinstance(institutional, Mapping)
+            or institutional.get("status") != "APPROVED_BY_OWNER"
+            or institutional.get("decision_id") != N06_K_DECISION_ID
+            or institutional.get("authority") != "propietario; instrucción expresa a Ejecutor, Work dirige"):
+        errors.append("N06_K_INSTITUTIONAL_PROVENANCE_INVALID")
+
+    rows = payload.get("quotas_by_circumscription")
+    if not isinstance(rows, list) or len(rows) != len(CONGRESS_CODES):
+        errors.append("N06_K_QUOTAS_INVALID")
+    else:
+        seen: dict[str, int] = {}
+        for row in rows:
+            if not isinstance(row, Mapping):
+                errors.append("N06_K_QUOTAS_INVALID")
+                break
+            code, count = row.get("code"), row.get("k")
+            if (not isinstance(code, str) or code not in N06_K_QUOTAS
+                    or code in seen or type(count) is not int):
+                errors.append("N06_K_QUOTAS_INVALID")
+                break
+            seen[code] = count
+        if seen != N06_K_QUOTAS:
+            errors.append("N06_K_QUOTAS_NOT_APPROVED")
+    return errors
+
+
 N08_OWNER_DECISION_ID = "N08-OWNER-20261013-7RULES"
 N08_POLICY_VALUES = {
     "minimum_unit": "official_2025_CUSEC_indivisible",
@@ -184,6 +238,7 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
         errors.append("CONTRACT_FIELDS_UNKNOWN:" + ",".join(sorted(map(str, unknown))))
     errors.extend(_validate_closed_objects(payload))
     errors.extend(_approved_policy_errors(payload))
+    errors.extend(_approved_k_errors(payload))
     def find_forbidden(value: Any, path: str = "$") -> list[str]:
         found: list[str] = []
         if isinstance(value, Mapping):
