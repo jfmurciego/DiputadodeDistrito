@@ -1,0 +1,68 @@
+{
+  "schema": "ddd.fuentes-cierre-checkpoint/1",
+  "date": "2026-10-16",
+  "base": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "mandate": "Cierre integral de Fuentes Oficiales solicitado por Jesus en chat 2026-10-16",
+  "status": "IN_PROGRESS",
+  "authorizations": [
+    "official_acquisition",
+    "edition_comparison",
+    "electoral_reconciliation",
+    "geometric_audit",
+    "adapters_crosswalks",
+    "technical_fixes",
+    "receipts",
+    "local_tests",
+    "ci",
+    "branches_prs",
+    "artifact_recovery",
+    "independent_review"
+  ],
+  "reserved": [
+    "contract_changes",
+    "nominal_exceptions",
+    "reserved_budgets",
+    "merge",
+    "publication",
+    "institutional_request_send"
+  ],
+  "generation_authorized": false,
+  "source_status_reported": {
+    "territorial_closed": 18,
+    "electoral_admissible": 15,
+    "pairs_pass": 14,
+    "total": 19
+  },
+  "national_target": {
+    "constituencies": 52,
+    "cusec": 36554,
+    "population": 49128297,
+    "K": 407
+  },
+  "tasks": [
+    {
+      "id": "F10-CROSSWALKS",
+      "owner": "fuentes_f10",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "F10-VALENCIA-EXTREMADURA",
+      "owner": "fuentes_expedientes",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "N08-ACCREDITATION",
+      "owner": "fuentes_n08",
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "FINAL-INDEPENDENT-REVIEW",
+      "status": "PENDING"
+    }
+  ],
+  "notes": [
+    "Existing READ_ONLY controller cards do not implement this extended mandate. Do not bypass budget or platform restrictions.",
+    "Do not rerun historical validations without affected inputs or code.",
+    "No source accreditation inferred from package existence."
+  ]
+}
