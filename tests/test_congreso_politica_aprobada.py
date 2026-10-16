@@ -178,6 +178,16 @@ class CongressOwnerPolicyApprovalTests(unittest.TestCase):
         bad = copy.deepcopy(self.contract)
         bad["institutional_decision"]["decision_id"] = "FAKE"
         cases.append(("institutional_decision", bad))
+        bad = copy.deepcopy(self.contract)
+        bad["k_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        bad["institutional_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        cases.append(("both_decision_ids_forged", bad))
+        bad = copy.deepcopy(self.contract)
+        bad["k_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        bad["institutional_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        bad["k_decision"]["total"] = 406
+        bad["quotas_by_origin_unit"][0]["k"] -= 1
+        cases.append(("forged_provenance_k_and_quota", bad))
         for label, bad in cases:
             with self.subTest(label=label):
                 with self.assertRaisesRegex(ValueError, "CONGRESS_CONTRACT_INVALID"):
