@@ -354,8 +354,11 @@ def production_blockers(contract: Mapping[str, Any]) -> list[str]:
         contract = _normalize_origin_units(contract)
         validate_congress_identity(contract)
     except ValueError as exc:
-        blockers.append(str(exc))
-        return blockers
+        message = str(exc)
+        blockers.append(message)
+        if message.startswith("CONGRESS_CONTRACT_INVALID: "):
+            blockers.extend(message.split(": ", 1)[1].split(";"))
+        return sorted(set(blockers))
 
     decision = contract.get("institutional_decision")
     k = contract.get("k_decision")
