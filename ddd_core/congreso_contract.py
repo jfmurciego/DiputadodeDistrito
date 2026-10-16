@@ -367,6 +367,21 @@ def production_blockers(contract: Mapping[str, Any]) -> list[str]:
         blockers.append(message)
         if message.startswith("CONGRESS_CONTRACT_INVALID: "):
             blockers.extend(message.split(": ", 1)[1].split(";"))
+        # Preserve independently actionable structural blockers even when
+        # an owner-approved K claim is rejected first.
+        barriers = contract.get("barriers") if isinstance(contract, Mapping) else None
+        if (not isinstance(barriers, Mapping)
+                or barriers.get("province_circumscription") != "hard"
+                or barriers.get("ceuta_melilla_separate") is not True
+                or barriers.get("cross_circumscription_edges") is not False):
+            blockers.append("MANDATORY_CIRCUMSCRIPTION_BARRIERS_MISSING_OR_INVALID")
+        quotas = contract.get("quotas_by_circumscription") if isinstance(contract, Mapping) else None
+        if isinstance(quotas, list):
+            codes = [row.get("code") for row in quotas if isinstance(row, Mapping)]
+            if (len(quotas) != 52 or len(codes) != 52
+                    or any(not isinstance(code, str) for code in codes)
+                    or len(set(codes)) != 52 or set(codes) != set(CONGRESS_CODES)):
+                blockers.append("CIRCUMSCRIPTION_QUOTAS_MUST_COVER_52_CODES_EXACTLY")
         return sorted(set(blockers))
 
     decision = contract.get("institutional_decision")
