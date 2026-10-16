@@ -118,6 +118,14 @@ N06_K_QUOTAS = dict(zip(CONGRESS_CODES, (3, 3, 17, 6, 1, 6, 10, 50, 3, 3, 11, 5,
 
 def _approved_k_errors(payload: Mapping[str, Any]) -> list[str]:
     """Reject changes to N06 owner-approved K, quotas or decision provenance."""
+    # Partial/legacy candidates do not assert the approved N06 decision.
+    k_input = payload.get("k_decision")
+    owner_input = payload.get("institutional_decision")
+    if not (
+        isinstance(k_input, Mapping) and k_input.get("decision_id") == N06_K_DECISION_ID
+        or isinstance(owner_input, Mapping) and owner_input.get("decision_id") == N06_K_DECISION_ID
+    ):
+        return []
     errors: list[str] = []
     decision = payload.get("k_decision")
     expected = {
@@ -133,7 +141,7 @@ def _approved_k_errors(payload: Mapping[str, Any]) -> list[str]:
         for field, approved in expected.items():
             value = decision.get(field)
             if type(value) is not type(approved) or value != approved:
-                errors.append("N06_K_DECISION_NOT_APPROVED:" + field)
+                errors.append("N06_DECISION_INVALID:N06_K_DECISION_NOT_APPROVED:" + field)
         if decision.get("source_territory_id") not in (None, "espana_congreso"):
             errors.append("N06_K_SOURCE_TERRITORY_INVALID")
 
@@ -160,7 +168,11 @@ def _approved_k_errors(payload: Mapping[str, Any]) -> list[str]:
                 break
             seen[code] = count
         if seen != N06_K_QUOTAS:
-            errors.append("N06_K_QUOTAS_NOT_APPROVED")
+            errors.append("N06_QUOTAS_INVALID:N06_K_QUOTAS_NOT_APPROVED")
+            if (isinstance(decision, Mapping) and type(decision.get("total")) is int
+                    and all(type(value) is int for value in seen.values())
+                    and sum(seen.values()) != decision["total"]):
+                errors.append("CIRCUMSCRIPTION_QUOTAS_DO_NOT_SUM_TO_K")
     return errors
 
 
