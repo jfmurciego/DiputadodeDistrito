@@ -121,9 +121,18 @@ def _approved_k_errors(payload: Mapping[str, Any]) -> list[str]:
     # Partial/legacy candidates do not assert the approved N06 decision.
     k_input = payload.get("k_decision")
     owner_input = payload.get("institutional_decision")
+    # Structural admission remains possible for legacy candidates, but any
+    # assertion of owner approval must match the fixed N06 decision.
+    approved_status = "APPROVED_BY_OWNER"
     if not (
-        isinstance(k_input, Mapping) and k_input.get("decision_id") == N06_K_DECISION_ID
-        or isinstance(owner_input, Mapping) and owner_input.get("decision_id") == N06_K_DECISION_ID
+        isinstance(k_input, Mapping) and (
+            k_input.get("decision_id") == N06_K_DECISION_ID
+            or k_input.get("status") == approved_status
+        )
+        or isinstance(owner_input, Mapping) and (
+            owner_input.get("decision_id") == N06_K_DECISION_ID
+            or owner_input.get("status") == approved_status
+        )
     ):
         return []
     errors: list[str] = []
