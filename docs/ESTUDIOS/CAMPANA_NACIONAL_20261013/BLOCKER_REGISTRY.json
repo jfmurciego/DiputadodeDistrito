@@ -1,16 +1,7 @@
 {
   "schema": "ddd.national-blockers/1.0",
-  "updated_head": "ab40ac19294487b571c9c557bb77a5005a05ac21",
+  "updated_head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
   "blockers": [
-    {
-      "id": "NAT-BLK-CNIG-RECEIPT",
-      "class": "WAIT_OWNER",
-      "cause": "No source bytes/receipt in the bounded local search; acquisition is not authorized. The 2026 candidate does not establish effective geometry at 2025-01-01.",
-      "tasks": [
-        "NAT-C-056"
-      ],
-      "unblocks_when": "Explicit acquisition authorization or owner-provided official package; receipt proves independent authority, SHA, license, schema/codes and effective date."
-    },
     {
       "id": "NAT-BLK-CPRO-COMPARISONS",
       "class": "BLOCKED_DEPENDENCY",
@@ -88,6 +79,19 @@
         "NAT-F-003"
       ],
       "unblocks_when": "Autorización expresa por ejecución; no se presume en esta campaña."
+    }
+  ],
+  "resolved_blockers": [
+    {
+      "id": "NAT-BLK-CNIG-RECEIPT",
+      "class": "WAIT_OWNER",
+      "cause": "No source bytes/receipt in the bounded local search; acquisition is not authorized. The 2026 candidate does not establish effective geometry at 2025-01-01.",
+      "tasks": [
+        "NAT-C-056"
+      ],
+      "unblocks_when": "Explicit acquisition authorization or owner-provided official package; receipt proves independent authority, SHA, license, schema/codes and effective date.",
+      "resolved_on": "2026-10-17",
+      "resolution": "Owner authorized acquisition; receipt NOT yet verified; task NAT-C-056 now READY"
     },
     {
       "id": "NAT-BLK-PUBLICATION",
@@ -96,7 +100,15 @@
       "tasks": [
         "NAT-J-003"
       ],
-      "unblocks_when": "Ruta GitHub autorizada de escritura para PR; sin eludir control."
+      "unblocks_when": "Ruta GitHub autorizada de escritura para PR; sin eludir control.",
+      "resolved_on": "2026-10-17",
+      "resolution": "PR #268 opened; CI 38895708383 SUCCESS on then-current SHA; post-reconciliation CI/review still required"
     }
-  ]
+  ],
+  "acquisition_evidence_pending": {
+    "task": "NAT-C-056",
+    "authorization": "GRANTED_2026-10-15",
+    "receipt": "NOT_ACQUIRED_OR_NOT_VALIDATED",
+    "effective_date": "2025-01-01"
+  }
 }
