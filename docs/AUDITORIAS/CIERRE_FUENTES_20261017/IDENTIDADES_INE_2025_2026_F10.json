@@ -1,0 +1,204 @@
+{
+  "schema": "ddd.f10-ine-2025-2026-identity-evidence/1.0",
+  "date": "2026-10-17",
+  "authority": "Instituto Nacional de Estadística (INE)",
+  "attribution": "Seccionado cedido por el Instituto Nacional de Estadística",
+  "retrieval": "INE GeoServer WFS 2.0.0; server-side CQL_FILTER CPRO/CUMUN and TIPO='SECCIONADO'; propertyName CUSEC,CPRO,CUMUN,TIPO; numberReturned and numberMatched checked against observed records; source responses were inspected live but are not separately archived for these province/municipality queries",
+  "edition_2025_layer": "WMS_INE_SECCIONES_G01:Secciones_2025",
+  "edition_2026_layer": "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit",
+  "endpoint": "https://www.ine.es/geoserver/WMS_INE_SECCIONES_G01/wfs",
+  "andaluces": {
+    "provinces": [
+      {
+        "CPRO": "04",
+        "sections_2025": 469,
+        "sections_2026": 469,
+        "added_2026": [],
+        "removed_since_2025": []
+      },
+      {
+        "CPRO": "11",
+        "sections_2025": 923,
+        "sections_2026": 923,
+        "added_2026": [
+          "1100602011",
+          "1101504017",
+          "1102804011"
+        ],
+        "removed_since_2025": [
+          "1101203005",
+          "1101204005",
+          "1101206006"
+        ]
+      },
+      {
+        "CPRO": "14",
+        "sections_2025": 622,
+        "sections_2026": 624,
+        "added_2026": [
+          "1402110049",
+          "1403801007"
+        ],
+        "removed_since_2025": []
+      },
+      {
+        "CPRO": "18",
+        "sections_2025": 674,
+        "sections_2026": 676,
+        "added_2026": [
+          "1802101016",
+          "1814501010"
+        ],
+        "removed_since_2025": []
+      },
+      {
+        "CPRO": "21",
+        "sections_2025": 374,
+        "sections_2026": 375,
+        "added_2026": [
+          "2103502005"
+        ],
+        "removed_since_2025": []
+      },
+      {
+        "CPRO": "23",
+        "sections_2025": 498,
+        "sections_2026": 496,
+        "added_2026": [],
+        "removed_since_2025": [
+          "2301803001",
+          "2306301004"
+        ]
+      },
+      {
+        "CPRO": "29",
+        "sections_2025": 1092,
+        "sections_2026": 1100,
+        "added_2026": [
+          "2906702052",
+          "2906702053",
+          "2906707098",
+          "2906708077",
+          "2906708078",
+          "2906708079",
+          "2906708080",
+          "2906708081",
+          "2906711014",
+          "2906711015",
+          "2907001040",
+          "2907001041"
+        ],
+        "removed_since_2025": [
+          "2906703003",
+          "2906704013",
+          "2906707060",
+          "2906709057"
+        ]
+      },
+      {
+        "CPRO": "41",
+        "sections_2025": 1377,
+        "sections_2026": 1382,
+        "added_2026": [
+          "4103804022",
+          "4103805032",
+          "4104701008",
+          "4108102019",
+          "4109110030"
+        ],
+        "removed_since_2025": []
+      }
+    ],
+    "sections_2025": 6029,
+    "sections_2026": 6045,
+    "added_2026": 25,
+    "removed_since_2025": 9,
+    "net_change": 16,
+    "reported_SIEL_2026_electoral_sections": 6044,
+    "difference_ine_2026_minus_siel_2026": 1,
+    "gate": "BLOCKED_OFFICIAL_ELECTION_EDITION_CROSSWALK_NOT_ACCREDITED"
+  },
+  "municipal_cases": [
+    {
+      "CUMUN": "24089",
+      "sections_2025": 101,
+      "sections_2026": 103,
+      "added_2026": [
+        "2408904017",
+        "2408906020"
+      ],
+      "removed_since_2025": []
+    },
+    {
+      "CUMUN": "37023",
+      "sections_2025": 1,
+      "sections_2026": 2,
+      "added_2026": [
+        "3702301002"
+      ],
+      "removed_since_2025": []
+    },
+    {
+      "CUMUN": "42173",
+      "sections_2025": 26,
+      "sections_2026": 27,
+      "added_2026": [
+        "4217302016"
+      ],
+      "removed_since_2025": []
+    },
+    {
+      "CUMUN": "47010",
+      "sections_2025": 11,
+      "sections_2026": 12,
+      "added_2026": [
+        "4701001012"
+      ],
+      "removed_since_2025": []
+    },
+    {
+      "CUMUN": "50025",
+      "sections_2025": 3,
+      "sections_2026": 4,
+      "added_2026": [
+        "5002501003"
+      ],
+      "removed_since_2025": []
+    },
+    {
+      "CUMUN": "22213",
+      "sections_2025": 3,
+      "sections_2026": 2,
+      "added_2026": [],
+      "removed_since_2025": [
+        "2221301003"
+      ]
+    },
+    {
+      "CUMUN": "34120",
+      "sections_2025": 59,
+      "sections_2026": 58,
+      "added_2026": [],
+      "removed_since_2025": [
+        "3412004006"
+      ]
+    },
+    {
+      "CUMUN": "37107",
+      "sections_2025": 11,
+      "sections_2026": 10,
+      "added_2026": [],
+      "removed_since_2025": [
+        "3710701002"
+      ]
+    }
+  ],
+  "identity_status": "SOURCE_EDITION_IDENTITY_VERIFIED_NOT_CROSSWALK_ACCREDITED",
+  "limits": [
+    "Dates/editions of an annual INE layer cannot be assumed equivalent to the electoral effective date",
+    "No mapping or redistribution of electoral votes",
+    "No promotion, exception approval, contract change or opening of generation gates",
+    "Do not confuse common CUSEC strings with officially proven transfer of precinct votes"
+  ],
+  "production_authorized": false
+}
