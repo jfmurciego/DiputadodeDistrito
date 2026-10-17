@@ -8,6 +8,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
 from collections import Counter
 from pathlib import Path
 
@@ -20,6 +21,7 @@ from herramientas.preflight_topologico_nacional import ROOT, load_inputs
 
 CASES = ("04", "07", "09", "15", "17", "27", "30", "34", "36")
 MATRIX = ROOT / "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/D04_COMPONENTES_MAYORES_QUE_K.csv"
+BOUNDS = ROOT / "docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/MATRIZ_FACTIBILIDAD_52.csv"
 
 
 def closest_pair(left, right, lookup):
@@ -68,6 +70,8 @@ def run():
         expected = {r["CPRO"]: r for r in csv.DictReader(stream)}
     if set(CASES) - set(expected):
         raise ValueError("NINE_CASE_MATRIX_INCOMPLETE")
+    with BOUNDS.open(encoding="utf-8", newline="") as stream:
+        population_bounds = {r["CPRO"]: r for r in csv.DictReader(stream)}
     reports = []
     for cpro in CASES:
         unit = frame.loc[frame.CPRO == cpro].sort_values("CUSEC").copy()
@@ -86,11 +90,20 @@ def run():
                                    "pop": int(row.POB_2025)}
                   for row in unit.itertuples()}
         component_info = []
+        floor = int(population_bounds[cpro]["floor_85pct"])
+        cap = int(population_bounds[cpro]["cap_115pct"])
+        assert 0 < floor <= cap
         for ix, group in enumerate(components):
             municipalities = Counter(lookup[uid]["CUMUN"] for uid in group)
+            component_population = sum(lookup[uid]["pop"] for uid in group)
+            min_seats = math.ceil(component_population / cap)
+            max_seats = component_population // floor
             component_info.append({
                 "component": ix + 1, "section_count": len(group),
-                "population_2025": sum(lookup[uid]["pop"] for uid in group),
+                "population_2025": component_population,
+                "min_districts_under_cap": min_seats,
+                "max_districts_above_floor": max_seats,
+                "can_form_whole_connected_districts_by_population": 1 <= min_seats <= max_seats,
                 "municipality_count": len(municipalities),
                 "municipalities": sorted(municipalities.items()) if len(group) <= 15
                                   else sorted(municipalities.items())[:12],
@@ -105,9 +118,15 @@ def run():
         report = {
             "CPRO": cpro,
             "K_approved": int(record["K_aprobado"]),
+            "floor_85pct": floor, "cap_115pct": cap,
             "sections": len(ids),
             "section_components": len(components),
             "component_over_K": len(components) > int(record["K_aprobado"]),
+            "strict_connected_partition_necessarily_impossible": (
+                len(components) > int(record["K_aprobado"])
+                or any(not item["can_form_whole_connected_districts_by_population"]
+                       for item in component_info)
+            ),
             "components": component_info,
             "nearest_original_pairs": nearest,
             "point_contacts": sum(r["kind"] == "point" for r in contact_records),
@@ -122,8 +141,13 @@ def run():
                                            separators=(",", ":")), flush=True)
     assert len(reports) == 9
     assert [r["CPRO"] for r in reports if r["component_over_K"]] == ["09", "34"]
+    assert [r["CPRO"] for r in reports if r["strict_connected_partition_necessarily_impossible"]] == [
+        "07", "09", "17", "34", "36"
+    ]
     summary = {"cases":len(reports), "section_components_count_verified":True,
-               "blocking_CPPO":["09","34"], "source_sha256":evidence["source_binding"]["geometry"]["sha256"],
+               "blocking_CPPO":["09","34"],
+               "blocking_strict_population_and_connectivity":["07","09","17","34","36"],
+               "source_sha256":evidence["source_binding"]["geometry"]["sha256"],
                "generation_authorized":False}
     print("DDD_N08_FINAL " + json.dumps(summary, sort_keys=True), flush=True)
 
