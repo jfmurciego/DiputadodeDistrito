@@ -3,7 +3,9 @@
   "deferred": [],
   "execution_started": false,
   "generation_authorized": false,
-  "ready_task_ids": [],
-  "registry_sha256": "d7d09e197ea938320fa489ac25f8a0c4f1051049f9aa1917789a4efdcf8dae05",
+  "ready_task_ids": [
+    "NAT-C-056"
+  ],
+  "registry_sha256": "980b70214f36602e33099883d68244c7a3bac4726a9020158a0f5e0dfcc14884",
   "schema": "ddd.national-ready-proposal/1.0"
 }
