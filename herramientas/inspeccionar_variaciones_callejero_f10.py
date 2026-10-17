@@ -5,6 +5,10 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 URL = "https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip"
+ALLOWED_URLS = {
+    URL:"2025-07_to_2026-01",
+    "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip":"2026-01_to_2026-07",
+}
 CUSEC = ("5002501003","2221301003","2408904017","2408906020",
          "3702301002","4217302016","4701001012","3412004006","3710701002")
 
@@ -83,15 +87,18 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--zip",type=Path,help="Protected official ZIP for offline verification")
     parser.add_argument("--output",type=Path,required=True)
+    parser.add_argument("--source-url",default=URL,choices=sorted(ALLOWED_URLS))
     args=parser.parse_args()
     if args.zip:
         raw=args.zip.read_bytes()
     else:
-        req=urllib.request.Request(URL,headers={"User-Agent":"DDD-F10-FuentesOficiales/1.0"})
+        req=urllib.request.Request(args.source_url,headers={"User-Agent":"DDD-F10-FuentesOficiales/1.0"})
         with urllib.request.urlopen(req,timeout=45) as response:
             if response.status!=200: raise RuntimeError("HTTP_"+str(response.status))
             raw=response.read(100_000_001)
     report=inspect(raw)
+    report["source_url"]=args.source_url
+    report["interval"]=ALLOWED_URLS[args.source_url]
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,sort_keys=True,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     from collections import Counter
