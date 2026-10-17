@@ -12,6 +12,24 @@ ALLOWED_URLS = {
 CUSEC = ("5002501003","2221301003","2408904017","2408906020",
          "3702301002","4217302016","4701001012","3412004006","3710701002")
 
+def known_f10_targets() -> tuple[str,...]:
+    """Include every added/removed INE Andalusian 2025/26 identity, no inferred match."""
+    path=(Path(__file__).resolve().parents[1]/
+        "docs/AUDITORIAS/CIERRE_FUENTES_20261017/IDENTIDADES_INE_2025_2026_F10.json")
+    data=json.loads(path.read_text(encoding="utf-8"))
+    codes=set(CUSEC)
+    provinces=data["andaluces"]["provinces"]
+    for row in provinces:
+        codes.update(row["added_2026"])
+        codes.update(row["removed_since_2025"])
+    if len(provinces)!=8 or sum(len(row["added_2026"]) for row in provinces)!=25:
+        raise ValueError("ANDALUCIA_EDITION_EVIDENCE_CHANGED")
+    if sum(len(row["removed_since_2025"]) for row in provinces)!=9:
+        raise ValueError("ANDALUCIA_REMOVED_EDITION_CHANGED")
+    if len(codes)!=43:
+        raise ValueError("TARGET_UNIVERSE_NOT_43")
+    return tuple(sorted(codes))
+
 def decode_tram_change(line: bytes):
     """Fixed-width TRAM layout from INE Variacionesencallejero.pdf, pages 6-7.
 
@@ -45,7 +63,8 @@ def inspect(data: bytes) -> dict:
         "members": [], "cusec": {},
         "crosswalk_accredited": False, "generation_authorized": False
     }
-    matches = {code: [] for code in CUSEC}
+    targets = known_f10_targets()
+    matches = {code: [] for code in targets}
     relevant_changes=[]
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         bad = z.testzip()
@@ -68,19 +87,20 @@ def inspect(data: bytes) -> dict:
             for line_number,line in enumerate(lines,1):
                 if family == "TRAM":
                     changed = decode_tram_change(line)
-                    if changed and (changed["source_section"] in CUSEC or changed["other_section"] in CUSEC):
+                    if changed and (changed["source_section"] in targets or changed["other_section"] in targets):
                         relevant_changes.append({"member":member.filename,"line":line_number,**changed})
-                for code in CUSEC:
+                for code in targets:
                     if code.encode("ascii") in line:
                         matches[code].append({"member":member.filename,
                           "line":line_number,"prefix":line[:240].decode("latin-1")})
+    report["target_count"]=len(targets)
     report["change_records_involving_targets"] = relevant_changes
     report["change_record_scope"] = "TRAM fixed-width segment changes only; no official complete-section/vote crosswalk"
     report["cusec"] = {code: {
         "full_code_literal_occurrences":len(matches[code]),
         "examples":matches[code][:5],
         "interpretation":"Literal scan only; zero matches DOES NOT rule out fixed-width separated CPRO/CMUN/CDIS/CSEC"
-    } for code in CUSEC}
+    } for code in targets}
     return report
 
 def main():
