@@ -1,3 +1,7 @@
+> **ACTUALIZACIÓN VIGENTE 2026-10-17 (el resto es historial)**: PR #268 existente OPEN/DRAFT; CI 38895708383 SUCCESS en HEAD anterior al cambio de ledger `115947fb…`. NAT-C-056 ahora READY, fuente no adquirida ni acreditada; NAT-J-003 IMPLEMENTED, pendiente CI exacta del nuevo HEAD y revisor independiente. La vía de geometría INE original está en `inputs/partes/seccionado_2025.zip.part00..02`; los nueve casos tienen ficha en `RESOLUCION_NUEVE_CASOS_20261017.md`. K=407, `generation_authorized=false`; NO merge. Verificar siempre el SHA vigente de PR en GitHub, no inferirlo de este informe.
+
+---
+
 # RAMA NACIONAL — BALANCE A–J
 
 ## Actualización de auditoría y publicación — 2026-10-14
