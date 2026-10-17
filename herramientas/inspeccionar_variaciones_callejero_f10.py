@@ -8,6 +8,27 @@ URL = "https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip"
 CUSEC = ("5002501003","2221301003","2408904017","2408906020",
          "3702301002","4217302016","4701001012","3412004006","3710701002")
 
+def decode_tram_change(line: bytes):
+    """Fixed-width TRAM layout from INE Variacionesencallejero.pdf, pages 6-7.
+
+    The two identities are two sections named in a change record, not an
+    accredited vote transfer or necessarily a whole-section correspondence.
+    """
+    if len(line) < 79:
+        return None
+    old = line[0:10].decode("ascii", errors="ignore")
+    next_code = old[:5] + line[74:79].decode("ascii", errors="ignore")
+    if len(old)!=10 or not old.isascii() or not old.isdigit():
+        return None
+    if not next_code[5:].strip():
+        next_code = None
+    elif len(next_code)!=10 or not next_code.isascii() or not next_code.isdigit():
+        next_code = None
+    return {"source_section":old, "other_section":next_code,
+            "date":line[61:69].decode("ascii", errors="replace"),
+            "sequence":line[69:73].decode("ascii", errors="replace"),
+            "change_code":line[73:74].decode("ascii", errors="replace")}
+
 def inspect(data: bytes) -> dict:
     if len(data) > 100_000_000 or not data.startswith(b"PK"):
         raise ValueError("ZIP_EXPECTED_UNDER_100MB")
@@ -21,6 +42,7 @@ def inspect(data: bytes) -> dict:
         "crosswalk_accredited": False, "generation_authorized": False
     }
     matches = {code: [] for code in CUSEC}
+    relevant_changes=[]
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         bad = z.testzip()
         if bad is not None:
@@ -40,10 +62,16 @@ def inspect(data: bytes) -> dict:
             })
             if family not in {"SECC","TRAM","VIAS","PSEU","UP"}: continue
             for line_number,line in enumerate(lines,1):
+                if family == "TRAM":
+                    changed = decode_tram_change(line)
+                    if changed and (changed["source_section"] in CUSEC or changed["other_section"] in CUSEC):
+                        relevant_changes.append({"member":member.filename,"line":line_number,**changed})
                 for code in CUSEC:
                     if code.encode("ascii") in line:
                         matches[code].append({"member":member.filename,
                           "line":line_number,"prefix":line[:240].decode("latin-1")})
+    report["change_records_involving_targets"] = relevant_changes
+    report["change_record_scope"] = "TRAM fixed-width segment changes only; no official complete-section/vote crosswalk"
     report["cusec"] = {code: {
         "full_code_literal_occurrences":len(matches[code]),
         "examples":matches[code][:5],
@@ -66,6 +94,12 @@ def main():
     report=inspect(raw)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,sort_keys=True,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    from collections import Counter
+    grouped = Counter((x["source_section"],x["other_section"],x["date"],x["change_code"]) for x in report["change_records_involving_targets"])
+    print("DDD_F10_INE_TRAM_CHANGES="+json.dumps(
+        [{"source":a,"other":b,"date":d,"code":kind,"records":n}
+         for (a,b,d,kind),n in sorted(grouped.items())],
+        ensure_ascii=False,sort_keys=True))
     print("DDD_F10_INE_VARIACIONES_FORMAT="+json.dumps({"members":report["members"],"examples":{k:v["examples"][:2] for k,v in report["cusec"].items() if v["examples"]}},ensure_ascii=False,sort_keys=True))
     print(json.dumps({"zip_sha256":report["zip_sha256"],
                       "members":len(report["members"]),
