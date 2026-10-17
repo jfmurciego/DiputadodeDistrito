@@ -1,0 +1,66 @@
+{
+  "schema": "ddd.f10-andalucia-2026-siel-vs-ine-one-section-difference/1.0",
+  "date": "2026-10-17",
+  "type": "identity-difference-investigation",
+  "scope": "Comparison of CUSEC identifiers only, NOT electoral vote reconciliation",
+  "ine": {
+    "authority": "Instituto Nacional de Estadística",
+    "wfs_base": "https://www.ine.es/geoserver/WMS_INE_SECCIONES_G01/wfs",
+    "layer_2025": "WMS_INE_SECCIONES_G01:Secciones_2025",
+    "layer_2026": "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit",
+    "filter": "TIPO='SECCIONADO'",
+    "provinces": [
+      "04",
+      "11",
+      "14",
+      "18",
+      "21",
+      "23",
+      "29",
+      "41"
+    ],
+    "full_2026_code_set_count": 6045
+  },
+  "electoral_locator": {
+    "role": "SECTION_LOCATOR_ONLY; provisional locator used to address official SIEL queries",
+    "source_url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv",
+    "expected_source_sha256_from_contract": "13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21",
+    "observed_unique_codes": 6044,
+    "source_is_final_official_election": false
+  },
+  "comparison": {
+    "intersection_count": 6044,
+    "locator_only": [],
+    "ine_only": [
+      "2102502002"
+    ],
+    "ine_minus_locator": 1,
+    "all_locator_codes_present_in_ine_2026": true
+  },
+  "discrepant_cusec": {
+    "cusec": "2102502002",
+    "CPRO": "21",
+    "CUMUN": "21025",
+    "municipality_name": "Cortegana",
+    "district": "02",
+    "section": "002",
+    "ine_2025_present": true,
+    "ine_2026_present": true,
+    "siel_section_menu_url": "https://ws040.juntadeandalucia.es/siel-api/v1/opciones/seccion?cautonoma=1&tconvocatoria=5&fconvocatoria=202605&provincia=21&municipio=25&distrito=2",
+    "siel_section_values": [
+      "0001"
+    ],
+    "siel_0002_present": false
+  },
+  "evidence_limitations": [
+    "Locator is provisional, even though it was used as address list for definitive SIEL official result requests",
+    "No 2025->2026 votes redistribution supported",
+    "The difference is within a municipality already present in both INE annual editions and therefore unrelated to the list of 34 annual added/retired codes",
+    "Need confirm official election-day section identity and whether source locator omissions exist despite vote totals reconciling",
+    "No proof of final electoral crosswalk for 6044 other codes solely because the locator IDs match 2026 INE"
+  ],
+  "gates": {
+    "F10_electoral": "BLOCKED_CROSSWALK_NOT_PROVEN",
+    "generation_authorized": false
+  }
+}
