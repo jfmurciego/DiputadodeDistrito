@@ -66,6 +66,7 @@ def main():
     report=inspect(raw)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,sort_keys=True,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print("DDD_F10_INE_VARIACIONES_FORMAT="+json.dumps({"members":report["members"],"examples":{k:v["examples"][:2] for k,v in report["cusec"].items() if v["examples"]}},ensure_ascii=False,sort_keys=True))
     print(json.dumps({"zip_sha256":report["zip_sha256"],
                       "members":len(report["members"]),
                       "literal_hits":{k:v["full_code_literal_occurrences"] for k,v in report["cusec"].items()}},sort_keys=True))
