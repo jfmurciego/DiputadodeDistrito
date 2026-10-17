@@ -2604,24 +2604,24 @@
         "local_code",
         "local_tests"
       ],
-      "commit": null,
+      "commit": "115947fb548682d784e2e8350aca4c3c5446c8f7",
       "data_required": [],
       "dependencies": [
         "NAT-B-002",
         "NAT-I-001"
       ],
-      "evidence": "Read-only GitHub API verifies remote branch codex/national-campaign-controller at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR exists. A prior draft-PR creation request was denied for approval under policy never; gh token invalid. No PR-triggered CI exists. Do not retry or bypass.",
+      "evidence": "PR #268 OPEN/DRAFT en codex/national-campaign-controller creada 2026-10-15; CI 38895708383 SUCCESS para HEAD verificado 115947fb548682d784e2e8350aca4c3c5446c8f7. La presente reconciliación crea un HEAD posterior; obtener CI de ese SHA y revisión independiente antes de integración.",
       "files_affected": [],
       "id": "NAT-J-003",
       "integration": null,
       "line": "J",
-      "next_action": "When an authorized GitHub write route is available, open draft PR against current main and verify CI on the exact HEAD; do not retry or bypass current denial.",
+      "next_action": "Confirmar CI del nuevo HEAD de #268 y solicitar revisión independiente en sesión distinta. No fusionar ni promover generación.",
       "objective": "Regresión nacional/autonómica y publicación progresiva de incrementos aceptados",
       "owner": "controller",
       "permissions_required": [],
       "priority": 3,
       "review": null,
-      "status": "BLOCKED_ENVIRONMENT",
+      "status": "IMPLEMENTED",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
@@ -2780,7 +2780,7 @@
       "id": "NAT-C-056",
       "line": "C",
       "objective": "Adquirir/recibir y validar el snapshot oficial independiente de límites administrativos con estado efectivo 2025-01-01",
-      "status": "WAIT_OWNER",
+      "status": "READY",
       "priority": 2,
       "dependencies": [
         "NAT-C-055"
@@ -2791,9 +2791,7 @@
         "local_read",
         "local_tests"
       ],
-      "permissions_required": [
-        "explicit_authorization_for_official_source_download_or_owner_supplied_package"
-      ],
+      "permissions_required": [],
       "data_required": [
         "CNIG/IGN BDLJE/RCC candidate described in ADQUISICION_FUENTE_LIMITE_CNIG.md or an official historical equivalent"
       ],
@@ -2801,13 +2799,13 @@
         "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_SOURCE_RECEIPT/"
       ],
       "tests": [],
-      "evidence": "Adquisición expresamente no autorizada; el candidato CNIG 2026 está identificado pero no descargado y no prueba por sí mismo el estado 2025-01-01.",
+      "evidence": "Adquisición puntual de fuente CNIG/IGN autorizada expresamente por el propietario el 2026-10-15. No hay bytes/receipt ni validez histórica 2025-01-01 verificados; autorización no es acreditación.",
       "review": null,
       "integration": null,
       "commit": null,
-      "owner": "owner",
+      "owner": "controller",
       "worktree": null,
-      "next_action": "Recibir autorización de descarga puntual o paquete oficial proporcionado por Work/propietario; validar temporalidad antes de desbloquear los contrastes."
+      "next_action": "Obtener o solicitar el snapshot oficial independiente efectivo 2025-01-01 y validar sus bytes, SHA, edición, CRS, códigos, licencia y temporalidad. No usar geometría 2026 como equivalente automático."
     }
   ]
 }
