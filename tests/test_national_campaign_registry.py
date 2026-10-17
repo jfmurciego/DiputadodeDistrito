@@ -70,7 +70,9 @@ def test_campaign_ledger_preserves_all_production_barriers():
     assert manifest["baseline_main"] == "21a4a150eb14f1abecd5d798b159d84a71df1f4a"
     assert manifest["permissions"]["merge"] is False
     assert manifest["permissions"]["production_generation"] is False
-    assert manifest["permissions"]["source_download"] is False
+    assert manifest["permissions"]["source_download"] is True
+    assert manifest["source_acquisition_authorization"]["decision"] == "OWNER_AUTHORIZED"
+    assert manifest["source_acquisition_authorization"]["receipt_verified"] is False
     assert "K=407" in manifest["owner_decisions_preserved"]
     assert "generation_authorized=false" in manifest["owner_decisions_preserved"]
 
@@ -120,6 +122,22 @@ def test_checkpoint_queues_and_blockers_agree_with_task_states():
     for blocker in blockers["blockers"]:
         for task_id in blocker["tasks"]:
             assert by_id[task_id]["status"] in {"WAIT_OWNER", "BLOCKED_EVIDENCE", "BLOCKED_DEPENDENCY", "BLOCKED_ENVIRONMENT"}
+
+
+def test_national_live_authorization_and_pr_reconciliation_is_explicit():
+    registry = json.loads((CAMPAIGN / "TASK_REGISTRY.json").read_text())
+    tasks = {row["id"]: row for row in registry["tasks"]}
+    assert len(tasks) == 82
+    assert tasks["NAT-C-056"]["status"] == "READY"
+    assert tasks["NAT-C-056"]["permissions_required"] == []
+    assert tasks["NAT-J-003"]["status"] == "IMPLEMENTED"
+    assert tasks["NAT-F-003"]["status"] == "WAIT_OWNER"
+    manifest = json.loads((CAMPAIGN / "CAMPAIGN_MANIFEST.json").read_text())
+    assert manifest["state"] == "NATIONAL_INCOMPLETE"
+    assert manifest["publication"]["pr"] == 268
+    assert manifest["publication"]["merge_authorized"] is False
+    assert manifest["permissions"]["production_generation"] is False
+    assert manifest["source_acquisition_authorization"]["receipt_verified"] is False
 
 
 def test_active_implementation_paths_are_real_and_match_task_scope():
