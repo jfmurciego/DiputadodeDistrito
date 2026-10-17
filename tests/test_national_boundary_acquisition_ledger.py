@@ -27,11 +27,9 @@ def test_boundary_acquisition_gate_and_province_dependencies():
     assert catalog["dependencies"] == []
     assert catalog["commit"] == "edcc767c77fb1e0f552c3316d3d4042bd63680db"
     assert catalog["review"]["verdict"] == "REVIEW_PASS_WITH_SCOPE_LIMITS"
-    assert receipt["status"] == "WAIT_OWNER"
+    assert receipt["status"] == "READY"
     assert receipt["dependencies"] == ["NAT-C-055"]
-    assert receipt["permissions_required"] == [
-        "explicit_authorization_for_official_source_download_or_owner_supplied_package"
-    ]
+    assert receipt["permissions_required"] == []
 
     province_tasks = [tasks[f"NAT-C-{number:03d}"] for number in range(3, 55)]
     assert len(province_tasks) == 52
@@ -63,7 +61,7 @@ def test_boundary_acquisition_dossier_does_not_claim_source_accreditation():
     assert "no descargado; no acreditado" in dossier
     assert "2026-08-10" in dossier
     assert "2025-01-01" in dossier
-    assert "source_download=false" in dossier
+    assert "source_download=true" in dossier
 
     with (CAMPAIGN / "AUDITORIA_BLOQUEOS_C_003_056.csv").open(
         newline="", encoding="utf-8"
@@ -86,15 +84,17 @@ def test_publication_and_production_gates_remain_closed():
     selection = _read("READY_SELECTION.json")
     assert "K=407" in manifest["owner_decisions_preserved"]
     assert "generation_authorized=false" in manifest["owner_decisions_preserved"]
-    assert manifest["permissions"]["source_download"] is False
+    assert manifest["permissions"]["source_download"] is True
+    assert manifest["source_acquisition_authorization"]["receipt_verified"] is False
     assert manifest["permissions"]["production_generation"] is False
-    assert selection["ready_task_ids"] == []
+    assert selection["ready_task_ids"] == ["NAT-C-056"]
     assert selection["execution_started"] is False
     assert selection["generation_authorized"] is False
     blockers = _read("BLOCKER_REGISTRY.json")["blockers"]
-    receipt_blocker = next(item for item in blockers if item["id"] == "NAT-BLK-CNIG-RECEIPT")
-    assert receipt_blocker["class"] == "WAIT_OWNER"
-    assert receipt_blocker["tasks"] == ["NAT-C-056"]
+    assert all("NAT-C-056" not in blocker["tasks"] for blocker in blockers)
+    resolved = _read("BLOCKER_REGISTRY.json")["resolved_blockers"]
+    assert any(item["id"] == "NAT-BLK-CNIG-RECEIPT" for item in resolved)
+    assert any(item["id"] == "NAT-BLK-PUBLICATION" for item in resolved)
 
 
 # Bridge function-style regressions into the repository's unittest CI.
