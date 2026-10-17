@@ -17,6 +17,11 @@ ZIP_SHA = "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
 NAMES = tuple(f"seccionado_2025.zip.part{i:02d}" for i in range(3))
 
 
+@unittest.skipUnless(
+    (PARTS / "MANIFEST_PARTES.sha256").is_file(),
+    "Original INE source parts are intentionally excluded from Docker; "
+    "the dedicated GitHub checkout step verifies the actual source bytes.",
+)
 class NationalOriginalINEArchiveTests(unittest.TestCase):
     def test_reconstruct_2025_geometry_without_changing_source_files(self):
         expected = {}
