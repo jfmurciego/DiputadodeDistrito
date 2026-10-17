@@ -1,0 +1,30 @@
+name: F10 - diagnostico variaciones callejero oficial INE
+on:
+  push:
+    branches:
+      - chatgpt/fuentes-wfs-20261017
+    paths:
+      - herramientas/inspeccionar_variaciones_callejero_f10.py
+      - .github/workflows/f10-investigar-variaciones-callejero-ine.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  investigar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar script sin adquisicion
+        run: python -m py_compile herramientas/inspeccionar_variaciones_callejero_f10.py
+      - name: Adquirir ZIP oficial de variaciones y comprobar CRC y SHA
+        run: |
+          python herramientas/inspeccionar_variaciones_callejero_f10.py \
+            --output "$RUNNER_TEMP/variaciones_ine_0725_0126.json"
+      - name: Conservar evidencia no productiva
+        uses: actions/upload-artifact@v4
+        with:
+          name: f10-ine-variaciones-0725-0126
+          path: ${{ runner.temp }}/variaciones_ine_0725_0126.json
+          if-no-files-found: error
+          retention-days: 30
