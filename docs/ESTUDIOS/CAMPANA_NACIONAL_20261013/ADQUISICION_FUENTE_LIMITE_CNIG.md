@@ -1,3 +1,5 @@
+> **Actualización 2026-10-17:** autorización expresa del propietario el 2026-10-15 para adquirir cartografía oficial CNIG/IGN y solicitar el histórico vigente a 2025-01-01. `source_download=true` **sólo para esta adquisición**, `NAT-C-056=READY`. Estado de datos: **no descargado; no acreditado**. Las alusiones a `source_download=false` inferiores son históricas (2026-10-14), no vigentes. `generation_authorized=false`.
+
 # Expediente único de adquisición: límites administrativos independientes 2025
 
 **Campaña:** `ddd-national-campaign-20261013`  
