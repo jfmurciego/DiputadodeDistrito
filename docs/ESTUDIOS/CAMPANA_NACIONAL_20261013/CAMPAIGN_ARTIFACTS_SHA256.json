@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "ADQUISICION_FUENTE_LIMITE_CNIG.md",
-      "bytes": 5321,
-      "sha256": "5ba7b1a59186ff69fcd28af4f3eba0a370ec1e420a9a07b02ec705689ca2d8ec"
+      "bytes": 5751,
+      "sha256": "04b424f79f970ce7d30160266b5e3546c996cc3ab552f053b15c00988212b3eb"
     },
     {
       "path": "AUDITORIA_BLOQUEOS_C_003_056.csv",
@@ -13,18 +13,23 @@
     },
     {
       "path": "BLOCKER_REGISTRY.json",
-      "bytes": 3156,
-      "sha256": "9d422a943a819ddb06777458ebfba61a43e83e3ae5bb170ac2b5a81b15183d00"
+      "bytes": 3679,
+      "sha256": "2235f8161831709d783a9737ea16fe81e89ea499b6bd68cb6bd96ce9f0455d61"
     },
     {
       "path": "CAMPAIGN_MANIFEST.json",
-      "bytes": 1485,
-      "sha256": "a98594507cfaf81bf43e939b6acbc88a9a318e4994e38f7e1be56668fc4a9203"
+      "bytes": 2084,
+      "sha256": "3624dd9101bd790ceee8e2648402c37ad882d3a9cf7c44d4d887013696611088"
     },
     {
       "path": "CHECKPOINT.json",
-      "bytes": 5858,
-      "sha256": "036518b804ab1adadeed98e4cef6d8af89e8a2de43afa28012900ae7d81d5c08"
+      "bytes": 5966,
+      "sha256": "49d6944a202092d1bf50039ecd3013f5adae05019bcb3f8270a528ef489f020a"
+    },
+    {
+      "path": "D_ANOMALIAS.md",
+      "bytes": 1997,
+      "sha256": "e591bebef5233aadd7dea1489c306d4b456fdf508af299ddd28a341c19e78936"
     },
     {
       "path": "D04_COMPONENTES_MAYORES_QUE_K.csv",
@@ -42,24 +47,14 @@
       "sha256": "1394f4385bafaf59b4c7edf5a3cb2fde236ff35dac536daaa413df2b15df7ef1"
     },
     {
-      "path": "D_ANOMALIAS.md",
-      "bytes": 1997,
-      "sha256": "e591bebef5233aadd7dea1489c306d4b456fdf508af299ddd28a341c19e78936"
-    },
-    {
       "path": "EVENT_LOG.jsonl",
-      "bytes": 22039,
-      "sha256": "1b43243da405a71d480098629597f63831528caf85dfa85c9662fdddd073d0ef"
+      "bytes": 22611,
+      "sha256": "44151f393456d8bc64eae5c4030be1648c15b4b4f65399e67efb61c98e728e46"
     },
     {
-      "path": "F001_CAMPAIGN_52/CAMPAIGN_PREFLIGHT.json",
-      "bytes": 7222,
-      "sha256": "96392c63b0e48fc085d5daa3eb0a7daac43a311d96890f5e0ca7cf14965bb51c"
-    },
-    {
-      "path": "F001_CAMPAIGN_52/CHECKPOINT.json",
-      "bytes": 11554,
-      "sha256": "9bceb0cb96545a0404755713e21d942a535592da10ca6560e6dbff0b4ed2f478"
+      "path": "EXPEDIENTE_ACEPTACION_PR268_20261017.md",
+      "bytes": 3348,
+      "sha256": "c361732d2334eec6e51212f6b4763a9aa6349f7ef2bffd573eeb9121d192acb3"
     },
     {
       "path": "F001_CAMPAIGN_52_FINAL/01/CHECKPOINT.json",
@@ -992,29 +987,34 @@
       "sha256": "89ff1bbb754b33487089ad8a100e2562ffb0c3e090c83b888ac676707c9b72c6"
     },
     {
+      "path": "F001_CAMPAIGN_52/CAMPAIGN_PREFLIGHT.json",
+      "bytes": 7222,
+      "sha256": "96392c63b0e48fc085d5daa3eb0a7daac43a311d96890f5e0ca7cf14965bb51c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52/CHECKPOINT.json",
+      "bytes": 11554,
+      "sha256": "9bceb0cb96545a0404755713e21d942a535592da10ca6560e6dbff0b4ed2f478"
+    },
+    {
       "path": "FINAL_REPORT.md",
-      "bytes": 11413,
-      "sha256": "9c1978a89eb107841f31f318aa337f2f3199404030d38bf6f1e36d496065f1d6"
+      "bytes": 12020,
+      "sha256": "6307f5c034800989f3be53b6ed5f5b62ba4bc974e9f21d864cc912e29a790d5e"
     },
     {
       "path": "INCIDENTS.json",
-      "bytes": 7014,
-      "sha256": "0bca98ffbac2912f60d8353f61fdd953cad0421c9094f0157a267db68ea0b759"
+      "bytes": 7071,
+      "sha256": "b042b677fc626c4048a8eaf864de348d402f90d9e251c41fa0e6109da643a6cf"
     },
     {
       "path": "INTEGRATION_QUEUE.json",
-      "bytes": 960,
-      "sha256": "dde46f39d9a54c580aeed7d1e436d87bc8e032b7483f22aaedbcf21574790e80"
+      "bytes": 916,
+      "sha256": "ccac9ee668499dbc74fd8f1ec15a1aff325048d3eb43c5412b2dc443791d8c7d"
     },
     {
       "path": "MATRIZ_CIERRE_AJ.csv",
       "bytes": 834,
-      "sha256": "681c38c673afdc768f6204a78de3fdc74d7f76f9543fdf3468eaef26ec292295"
-    },
-    {
-      "path": "NATIONAL_PLANNER.md",
-      "bytes": 927,
-      "sha256": "9a09dc091d673a6c688205065f0591df356fc21ef83d7ec8e4a63e473492904c"
+      "sha256": "f4094a231d1d11604a70c8fad6cf79132b7ad63cec745a05d8c658bc80ac2b09"
     },
     {
       "path": "NAT_E_002_EXACT_SOLVER.md",
@@ -1047,9 +1047,19 @@
       "sha256": "f889b57f290cfab8eadac062992743c130d26cd210db1a61000e5d34b26c98d3"
     },
     {
+      "path": "NATIONAL_PLANNER.md",
+      "bytes": 927,
+      "sha256": "9a09dc091d673a6c688205065f0591df356fc21ef83d7ec8e4a63e473492904c"
+    },
+    {
       "path": "PREFLIGHT_52_RESUMEN.md",
       "bytes": 1559,
       "sha256": "c76b1e76f1be0b7d366f8117d4737c36b9c5ef82dccb1df97c81be0efe349c24"
+    },
+    {
+      "path": "PREFLIGHT_CPRO01_ATTEMPT.json",
+      "bytes": 2008,
+      "sha256": "c28229dd358bfc41494fd30181bfbf006d33232b2550ce4937cfe26950350ccb"
     },
     {
       "path": "PREFLIGHT_CPRO01/CHECKPOINT.json",
@@ -1060,11 +1070,6 @@
       "path": "PREFLIGHT_CPRO01/PREFLIGHT.json",
       "bytes": 6372,
       "sha256": "5bdf0413c6ca35e94982bf726dcba66dfb61d51695830e3ba6ed860df6f4ef71"
-    },
-    {
-      "path": "PREFLIGHT_CPRO01_ATTEMPT.json",
-      "bytes": 2008,
-      "sha256": "c28229dd358bfc41494fd30181bfbf006d33232b2550ce4937cfe26950350ccb"
     },
     {
       "path": "PREFLIGHT_CPRO02/CHECKPOINT.json",
@@ -1437,14 +1442,9 @@
       "sha256": "93f542ae7de5ecc4ee1374e976e3c3b61946f7afdfc197093bb4304014c624f0"
     },
     {
-      "path": "PREFLIGHT_CPRO39/CHECKPOINT.json",
-      "bytes": 824,
-      "sha256": "5557aa54a9a6608fa1b3b21a9e33bb2c29640edbd386b62f64651258ccb3f6a9"
-    },
-    {
-      "path": "PREFLIGHT_CPRO39/PREFLIGHT.json",
-      "bytes": 6242,
-      "sha256": "1ebb11b52445fa2b7088a9a2cf6f1ee6fc8d17e019c1f7fb21d80b107fe66bf4"
+      "path": "PREFLIGHT_CPRO39_ATTEMPT.json",
+      "bytes": 1785,
+      "sha256": "e2872aa8fe421e92275dbf4b13749a9b5b57c182584beeabe12d67467223face"
     },
     {
       "path": "PREFLIGHT_CPRO39-debug/CHECKPOINT.json",
@@ -1457,9 +1457,14 @@
       "sha256": "e51afa0ce4de63d1e351179880ac6b675f5b9e4540a515097d8580e9be97c2ff"
     },
     {
-      "path": "PREFLIGHT_CPRO39_ATTEMPT.json",
-      "bytes": 1785,
-      "sha256": "e2872aa8fe421e92275dbf4b13749a9b5b57c182584beeabe12d67467223face"
+      "path": "PREFLIGHT_CPRO39/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5557aa54a9a6608fa1b3b21a9e33bb2c29640edbd386b62f64651258ccb3f6a9"
+    },
+    {
+      "path": "PREFLIGHT_CPRO39/PREFLIGHT.json",
+      "bytes": 6242,
+      "sha256": "1ebb11b52445fa2b7088a9a2cf6f1ee6fc8d17e019c1f7fb21d80b107fe66bf4"
     },
     {
       "path": "PREFLIGHT_CPRO40/CHECKPOINT.json",
@@ -1598,8 +1603,8 @@
     },
     {
       "path": "READY_SELECTION.json",
-      "bytes": 296,
-      "sha256": "7e26f375ab346565a39eccdb554df8844c446feabc925935fc589c4f468f210e"
+      "bytes": 315,
+      "sha256": "c795b5d9d78f76c987f2743be668f73abfec852d93fe89001aa5bb1cdfdf135d"
     },
     {
       "path": "REFERENCIAS_TEMPORALES.md",
@@ -1610,6 +1615,11 @@
       "path": "REGISTRO_NOMINAL_D.csv",
       "bytes": 6089737,
       "sha256": "5f8d86f8da0c9a2584e6c5d7198235155ee66f826f19df070b049b33417e0af6"
+    },
+    {
+      "path": "RESOLUCION_NUEVE_CASOS_20261017.md",
+      "bytes": 6950,
+      "sha256": "112b5a72f7a71fa3052c531eb22193c4efde2d535f5aa6e30e87b882df997ae8"
     },
     {
       "path": "RESOURCE_LOCKS.json",
@@ -1628,8 +1638,8 @@
     },
     {
       "path": "TASK_REGISTRY.json",
-      "bytes": 130468,
-      "sha256": "35d6b63d1bac56f3158dbe975b057644e9df3f860fc4736633a6931751e514b0"
+      "bytes": 130474,
+      "sha256": "03ef33b31815fbb3bb923139a3ce9a0c1116d27ed846f5cc3493dc4ceb6706af"
     }
   ]
 }
