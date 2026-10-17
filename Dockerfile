@@ -14,6 +14,7 @@ COPY requirements.lock /app/requirements.lock
 COPY requirements-gerrychain-m05.lock /app/requirements-gerrychain-m05.lock
 RUN python -m pip install --no-cache-dir --upgrade pip==25.2 \
  && python -m pip install --no-cache-dir -r /app/requirements.lock \
+ && python -m pip install --no-cache-dir pytest==8.4.2 \
  && python -m venv /opt/ddd-gerrychain \
  && /opt/ddd-gerrychain/bin/python -m pip install --no-cache-dir --upgrade pip==25.2 \
  && /opt/ddd-gerrychain/bin/python -m pip install --no-cache-dir -r /app/requirements-gerrychain-m05.lock

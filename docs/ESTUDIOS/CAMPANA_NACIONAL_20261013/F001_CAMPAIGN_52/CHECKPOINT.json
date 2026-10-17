@@ -1,0 +1,307 @@
+{
+  "checkpoint_sha256": "45e94fca7e19ce8e0dd066e498a3e5f542eb7ee99e8a375e2a93934be559c4f8",
+  "coverage": {
+    "expected": 52,
+    "failed": 52,
+    "passed": 0
+  },
+  "generation_authorized": false,
+  "identity": {
+    "base": "f4daec5f244a030e209f670afe2baa9ea8b27d90",
+    "campaign_tool_sha256": "2b8f4ead1ea81f58d2660923e84aa99be48046d0d125e83f854968bf1608183d",
+    "consumer_code_sha256": {
+      "ddd_core/config.py": "c8503114cbe5ff3ef72ef2ce4c603fdc4600376ad5466366e64ae0becc6d9a45",
+      "ddd_core/congreso_preflight_adapter.py": "23980f47c09816f86467a701a8551d25c829f810f1a340105c189ca360f1e488",
+      "ddd_core/m04_seed_engine.py": "a4835ef8197d4be65a9311a78c882870abd844e8938d4a32b9e3213792a4a627",
+      "ddd_core/m05_population_repair.py": "78b98682ef9eccc029b5ad73f681125edca33830e84d3c55bfb74ec899acfba8",
+      "herramientas/preflight_topologico_nacional.py": "91ca4e6cd7c76dfbbbec68edf2acdc27b2c1a5b8d7261344455d3c53209e6b28",
+      "modulos/01_preparar_base_territorial.py": "194e0946b1dd0036d67d96b4c2bbcc6abe339790a77a6aeaede0b680768e6a22",
+      "modulos/02_construir_adyacencias.py": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c",
+      "modulos/03_construir_grafo.py": "798dedb8c3068d16dd43fb77f68821f275da1565403f0f25e1225aebdcaac036",
+      "modulos/06_consolidar_distritos.py": "16e61eeb6bc455756c91a1a26aa92cdc5ec8bf2a0a5974f51ee215b6fff21864"
+    },
+    "contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+    "runner_report_version": "1.2.0",
+    "runner_sha256": "1873a261e1b3a85c2ad34b74db2ab0fb61902663173e91aa262cc648093d1455",
+    "source_binding": {
+      "geometry": {
+        "edition": 2025,
+        "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+      },
+      "population": {
+        "edition": 2025,
+        "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+      }
+    },
+    "source_manifest_sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37",
+    "topology_manifest_identity_sha256": "59e4273f49a60d0d6f522389d0cb0c43738d68faed7053381d9bbde212d266f8",
+    "topology_manifest_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+    "topology_unit_sha256": {
+      "01": "44faccf2d180b886e1b2188e795d0c2249b13ff2be5bfee09381c8f277080785",
+      "02": "644f399c0d36c86e7baf374f749f08a868b895bf32198f46f4291333abf8044e",
+      "03": "f38a7e21318335f792cc24064e5ec8f1617c6adc34d44794acb2455cf9899dd0",
+      "04": "e73cb90994ffadfa3ee25decfc94a3fb9022051540174a57a6621ce0d1a48cd0",
+      "05": "51878e880627d1765c99649197e727b56812aba47cc359abbfcf42f2327eb7d3",
+      "06": "10d08378aaf435230c22f36ad52000b53236e0b2bc80bead33b9bd24c43957c4",
+      "07": "93f57e05543df927cf808d438cd216f1fb572119e1da3e2e3b6123a191e2232c",
+      "08": "9c25390c56b809cb290d14a95fcb9ac6177458ac8128bcb67ae159488204f6f6",
+      "09": "b2cf207045f9f785c5e747276d7dbefa961fb6d347d4f6d8577f81b1a5a9a532",
+      "10": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+      "11": "508025fc93321c392ca8db8424e8ad68c6ba6867d1b855fbe38b841bd2aedd94",
+      "12": "1513eeccfbf1a3f6045a89b8c5568abb6a34d8ebb552d2042552907d55061ca3",
+      "13": "5ccdd59ac5bd4f47aaa6ba7150cc03ea17f9201b29898cf97984b0010a1cd444",
+      "14": "aa0bfd8ca4349407ba42f5eaa2f86d6a89fcc3d330315cf52c56e20ea2dc2f22",
+      "15": "10d7e6faf9167fb7b51124d93a122ed093113dcc7f236600058be14d21e35c56",
+      "16": "5956b5e82051d56153002ae0345f883dca7d7f8342a7a1aabe903debe15d673e",
+      "17": "2596b69c6e6587a7afac8fcdf799ecf6308c3c605dfd680dcc28cb1b655c2d0f",
+      "18": "823da7f0a4ad8fb9d6c45d47300549a9aa1f6f2c52b6807da0d5810e6531b7ab",
+      "19": "64c784ad428f570b426a1a3151d775d0664a6463dcb822d1f89ffa52a25b5225",
+      "20": "4abaa7aa395e45640428d2de6a708384a8b8359e56ef0d914f2008c43d72ffc8",
+      "21": "e0b9e23d9e85393cafb306249c9bebb9398c3b4f6e7d55f4c86c18e228ca7dc9",
+      "22": "eadcbb2ff1a7e9db94bf8658b204881f4625c4d28933b00e552082594ff98aa8",
+      "23": "3841b5e96291e8f769d30d210d8a4b6d17a183b2f695bf8685abdf33729132d0",
+      "24": "a2b5845b49ebac4e24aca8f923983cd9ee717f9cb7b7ee345fdbec70e932d06b",
+      "25": "c1141a4dd8b95953662709ac3ac6bc38d82631ff02ac11dd3e65928f401bc7e1",
+      "26": "55751b64bd875bb67d8a70ce8a8c356bdaa4956ea5ddf5d4211ba0bb1f160ed7",
+      "27": "a6caa593f0188db7c55e87973d8c4d6e8cdf145782fa9cf3dbea8a8825953a16",
+      "28": "025cec058f2803f3be5e69fcd4d5a4420a2907292222ba8938b69d657a37bd0f",
+      "29": "394c137070e96569c7ae38d400dfc43b92ce01d21dbf8080ca305316a29b2a40",
+      "30": "75734db6618056f99406bae2e5ff6a0a519c814c946cc5cc2be7b94f22bdfbb3",
+      "31": "b46aa7ce15b45c3971eda4e4c74e065192b96b8a268457c008162fc426e717f6",
+      "32": "7a595148c7bf6109ee62cff08d1ed4b2ff8252d90893c8737ea6c2ab42456f5a",
+      "33": "61dae685772830aade16a9c3f2691c842bf72797d671b83b1d4a43fe9aed0dfe",
+      "34": "3d3f4f480455644f118227fd7731fb30c2a2bacd7b7978b961bc979fb165b6ad",
+      "35": "54047358f868edfabf1681d61fc54a3e6aff1acbe4dd6ae99a3b4ce93d92fa4d",
+      "36": "1a1693f81904df8fa738d6eb715432ba5980a0357089da33a414da04627f743b",
+      "37": "ddca7c90e6af19a226862d7f3fd137630fa0dc75fb9a075f6de93aa199739175",
+      "38": "48426f77944dc46a753f3344831c1d3b778e0659b30d8a23101b0b1a9f322cbe",
+      "39": "7e46e8ef52e8a0a734ccb2dedf92311a4a29588510fd164b99046764146b68d3",
+      "40": "f27d7e9f0d7062509ea580541f27ea39ea957d4dc303f849b02576c8bfa32ea8",
+      "41": "e50e286aac03f2be0fd3ec7ccaa7261b324b1f7721d3b9719f2fb1cd5ce6843b",
+      "42": "212dfd2f7b0c0b552c923f4b925f8a10aafe78e211c0477b125a6f531e165fca",
+      "43": "459bc2bb8c050534d67c368ce69519c3827ad6af0ac8a623028ef5b275ad6972",
+      "44": "d002c0a4048a5c2d28ca2523d7e24c93f709446f9bfdf933990a70c2e895342c",
+      "45": "d923fdb38134617e06e488092b4bc342c5ce98397b54546df2abaceb53accb23",
+      "46": "5523dbad5736f5326d7b8ffcbebe39314b6f09dd2f0a7215c9835f2cb9974233",
+      "47": "8f1149f2507f7c757f76321c64c90ccafb90e120f3a474a9299a110d3cd6e62f",
+      "48": "91deac2db5c77a26babc4638ba1bdaa4131bc2337771fe5b4762b0bd0234a6f4",
+      "49": "fe91175c1b8c48f02e7f50538bbf32cabac3071206adca707242ab5edc791693",
+      "50": "9e88a9a1ce405898066f29bc054c5b93fbd5b5d6fc149d4e92183a019f6faa66",
+      "51": "16fb951cf5bb3553e2ce38bfda95212006cd4e4daabfcd46e983beb880495120",
+      "52": "00940668086499d50c1ddc716cf9571bdb5dcb1dc0630e65f352bf6ce9e72178"
+    }
+  },
+  "records": {
+    "01": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "02": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "03": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "04": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "05": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "06": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "07": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "08": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "09": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "10": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "11": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "12": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "13": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "14": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "15": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "16": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "17": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "18": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "19": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "20": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "21": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "22": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "23": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "24": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "25": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "26": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "27": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "28": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "29": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "30": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "31": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "32": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "33": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "34": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "35": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "36": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "37": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "38": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "39": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "40": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "41": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "42": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "43": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "44": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "45": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "46": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "47": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "48": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "49": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "50": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "51": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    },
+    "52": {
+      "error": "ValueError:TOPOLOGY_CONTRACT_HASH",
+      "status": "FAILED"
+    }
+  },
+  "schema": "ddd.congreso-preflight-campaign/1.0",
+  "updated_province": "52",
+  "version": "1.0.0"
+}

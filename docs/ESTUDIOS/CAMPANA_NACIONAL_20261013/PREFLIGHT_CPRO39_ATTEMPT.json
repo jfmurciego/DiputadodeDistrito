@@ -1,0 +1,44 @@
+{
+  "schema": "ddd.congress-preflight-attempt/1.0",
+  "campaign_id": "ddd-national-campaign-20261013",
+  "base": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "province": "39",
+  "command": "TMPDIR=/private/tmp /usr/local/Caskroom/miniforge/base/envs/ddd/bin/python herramientas/preflight_caceres_n08.py --province 39 --parts-dir inputs/partes --transition-path docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/TRANSICION.json --output docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/PREFLIGHT_CPRO39",
+  "status": "DIAGNOSTIC_EXECUTED_BLOCKED_ON_NATIONAL_CONTRACT",
+  "attempts": [
+    {
+      "runtime": "conda env ddd; geopandas 1.1.2; shapely 2.1.2",
+      "status": "EXECUTED",
+      "exit_code": 0,
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "preflight_sha256": "24d20151ef66ca2f6fc80ff2d97d5e4f134fa3a8230daa57bca450456528bde5",
+      "checkpoint_sha256": "0ca891f564c01d5b5ba87d6f6b98e8d6e13bbf81b76c69e7ab5e9875644b6043",
+      "tool_sha256": "e189a0ee2a3c95ab2f28a78fe947907e02d839c3ab605992dcc2b584f26d2b72",
+      "modules": {
+        "M01": "PASS",
+        "M02": "PASS",
+        "M03": "PASS",
+        "M04": "PASS_NECESSARY_ONLY",
+        "M05": "SYNTHETIC_CONTRACT_PASS_ONLY",
+        "M06": "SYNTHETIC_CONTRACT_PASS_ONLY"
+      },
+      "generation_authorized": false,
+      "real_partition_created": false,
+      "districts_generated": 0,
+      "product_certification": "NOT_PERFORMED"
+    }
+  ],
+  "inputs": {
+    "CPRO": "39",
+    "sections": 458,
+    "population": 593623,
+    "K": 5,
+    "edges": 1208,
+    "section_components": 2,
+    "physical_part_components": 5,
+    "overlap_pairs": 30,
+    "enclosed_voids": 28
+  },
+  "diagnostic_transition": "CANDIDATE_DIAGNOSTIC_ONLY; product certification NOT_PERFORMED",
+  "output_report_written": true
+}

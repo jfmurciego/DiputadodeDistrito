@@ -1,0 +1,53 @@
+{
+  "authority": "Work",
+  "baseline_main": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "blockers": "BLOCKER_REGISTRY.json",
+  "campaign_id": "ddd-national-campaign-20261013",
+  "checkpoint": "CHECKPOINT.json",
+  "completion_matrix": "MATRIZ_CIERRE_AJ.csv",
+  "dependency_graph": "DEPENDENCIES.json",
+  "event_log": "EVENT_LOG.jsonl",
+  "integration_branch": "codex/national-campaign-controller",
+  "integration_head_before_final_commit": "889485658166928d89bd5bdc5de39cac599c188f",
+  "integration_queue": "INTEGRATION_QUEUE.json",
+  "owner_decisions_preserved": [
+    "N08-OWNER-20261013-7RULES",
+    "K=407",
+    "generation_authorized=false"
+  ],
+  "permissions": {
+    "branch_and_draft_pr": true,
+    "change_institutional_rules": false,
+    "local_code": true,
+    "local_read": true,
+    "local_tests": true,
+    "merge": false,
+    "production_generation": false,
+    "source_download": true
+  },
+  "repository": "jfmurciego/DiputadodeDistrito",
+  "resource_locks": "RESOURCE_LOCKS.json",
+  "review_queue": "REVIEW_QUEUE.json",
+  "schema": "ddd.national-campaign-manifest/1.0",
+  "scope": "Lines A-J national Congress; no A-FONTES/19 autonomous production behavior",
+  "state": "NATIONAL_INCOMPLETE",
+  "task_registry": "TASK_REGISTRY.json",
+  "source_acquisition_dossier": "ADQUISICION_FUENTE_LIMITE_CNIG.md",
+  "blocker_audit": "AUDITORIA_BLOQUEOS_C_003_056.csv",
+  "candidate_branch_head_before_ledger_commit": "889485658166928d89bd5bdc5de39cac599c188f",
+  "source_acquisition_authorization": {
+    "decision": "OWNER_AUTHORIZED",
+    "date": "2026-10-15",
+    "scope": "Descarga puntual cartografía oficial CNIG/IGN y solicitud de histórico válido a 2025-01-01; nunca acreditación automática ni generación",
+    "receipt_verified": false
+  },
+  "publication": {
+    "pr": 268,
+    "branch": "codex/national-campaign-controller",
+    "verified_head_before_this_reconciliation": "115947fb548682d784e2e8350aca4c3c5446c8f7",
+    "verified_ci_run": 38895708383,
+    "ci_conclusion": "SUCCESS",
+    "independent_final_review": false,
+    "merge_authorized": false
+  }
+}

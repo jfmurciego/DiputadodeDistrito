@@ -461,6 +461,9 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
                          "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS")
         self.assertEqual(split["topology_certificate"]["certificate"],
                          "NO_FEASIBLE_LOWER_COUNT_PRESERVING_CONNECTIVITY_AND_POPULATION_BOUNDS")
+        self.assertEqual(split["topology_certificate"]["proof_scope"],
+                         "OTHER_CUSEC_ASSIGNMENTS_FIXED")
+        self.assertFalse(split["topology_certificate"]["global_minimality_proven"])
         repaired = r.repair(
             assignments=state, units=units, adjacency=adjacency,
             target=80, tolerance=0, floor=80, cap=80,
@@ -471,6 +474,58 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
         self.assertTrue(repaired["constraints_verified"])
         self.assertTrue(repaired["hard_limits_met"])
         self.assertEqual(repaired["assignments"], state)
+
+    def test_fixed_assignment_minimum_is_not_claimed_as_global_minimum(self):
+        # On a four-node path, the endpoints belong to one municipality.
+        # The observed split A={left endpoint}, B={other three} is valid and
+        # no consolidation can preserve the other assignments. Moving the
+        # middle non-municipal CUSEC together with the right municipal CUSEC
+        # yields another valid partition with the municipality intact.
+        ids = ("3900101001", "3900201001", "3900101002", "3900301001")
+        units = {
+            ident: {"population": 1, "province": "39",
+                    "municipality_group": ident[:5], "CPRO": "39",
+                    "CUMUN": ident[:5]}
+            for ident in ids
+        }
+        adjacency = {
+            ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]},
+            ids[2]: {ids[1], ids[3]}, ids[3]: {ids[2]},
+        }
+        fixed = {ids[0]: "A", ids[1]: "B", ids[2]: "B", ids[3]: "B"}
+        local = r.verify_partition_constraints(
+            fixed, units, adjacency, floor=1, cap=3,
+            municipality_policy=self.policy,
+        )
+        self.assertTrue(local["valid"])
+        split = next(row for row in local["municipality_splits"]
+                     if row["municipality_group"] == "39001")
+        self.assertEqual(split["necessity"],
+                         "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS")
+        self.assertEqual(split["topology_certificate"]["proof_scope"],
+                         "OTHER_CUSEC_ASSIGNMENTS_FIXED")
+        self.assertFalse(split["topology_certificate"]["global_minimality_proven"])
+
+        global_alternative = {
+            ids[0]: "A", ids[1]: "A", ids[2]: "A", ids[3]: "B",
+        }
+        alternative = r.verify_partition_constraints(
+            global_alternative, units, adjacency, floor=1, cap=3,
+            municipality_policy=self.policy,
+        )
+        self.assertTrue(alternative["valid"])
+        self.assertEqual(alternative["municipality_splits"], [])
+
+        repaired = r.repair(
+            assignments=fixed, units=units, adjacency=adjacency,
+            target=2, tolerance=0, floor=1, cap=3,
+            municipality_policy=self.policy,
+            limits=r.SearchLimits(max_depth=3, max_transfer_set=2,
+                                  max_candidates=1000, max_seconds=2, seed=0),
+        )
+        self.assertTrue(repaired["constraints_verified"])
+        self.assertEqual(repaired["assignments"], global_alternative)
+        self.assertEqual(repaired["municipality_splits"], [])
 
     def test_topology_minimality_search_exhaustion_is_not_proof(self):
         units = self.cusec_units()

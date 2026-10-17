@@ -110,6 +110,81 @@ def _normalize_origin_units(payload: Mapping[str, Any]) -> dict[str, Any]:
 
 # Immutable approved values under N08-OWNER-20261013-7RULES.
 # A future policy requires a new, explicit decision and validator version.
+N06_K_DECISION_ID = "N06-OWNER-20261012-K"
+N06_K_TOTAL = 407
+N06_K_QUOTA_METHOD = "max(1,(P_i+60000)//120000); nearest_half_up_independent; reference_2025"
+N06_K_QUOTAS = dict(zip(CONGRESS_CODES, (3, 3, 17, 6, 1, 6, 10, 50, 3, 3, 11, 5, 4, 6, 9, 2, 7, 8, 2, 6, 4, 2, 5, 4, 4, 3, 3, 59, 15, 13, 6, 3, 8, 1, 10, 8, 3, 9, 5, 1, 16, 1, 7, 1, 6, 23, 4, 10, 1, 8, 1, 1), strict=True))
+
+
+def _approved_k_errors(payload: Mapping[str, Any]) -> list[str]:
+    """Reject changes to N06 owner-approved K, quotas or decision provenance."""
+    # Partial/legacy candidates do not assert the approved N06 decision.
+    k_input = payload.get("k_decision")
+    owner_input = payload.get("institutional_decision")
+    # Structural admission remains possible for legacy candidates, but any
+    # assertion of owner approval must match the fixed N06 decision.
+    approved_status = "APPROVED_BY_OWNER"
+    if not (
+        isinstance(k_input, Mapping) and (
+            k_input.get("decision_id") == N06_K_DECISION_ID
+            or k_input.get("status") == approved_status
+        )
+        or isinstance(owner_input, Mapping) and (
+            owner_input.get("decision_id") == N06_K_DECISION_ID
+            or owner_input.get("status") == approved_status
+        )
+    ):
+        return []
+    errors: list[str] = []
+    decision = payload.get("k_decision")
+    expected = {
+        "status": "APPROVED_BY_OWNER",
+        "total": N06_K_TOTAL,
+        "source_scope": "congreso",
+        "decision_id": N06_K_DECISION_ID,
+        "quota_method": N06_K_QUOTA_METHOD,
+    }
+    if not isinstance(decision, Mapping):
+        errors.append("N06_K_DECISION_MISSING")
+    else:
+        for field, approved in expected.items():
+            value = decision.get(field)
+            if type(value) is not type(approved) or value != approved:
+                errors.append("N06_DECISION_INVALID:N06_K_DECISION_NOT_APPROVED:" + field)
+        if decision.get("source_territory_id") not in (None, "espana_congreso"):
+            errors.append("N06_K_SOURCE_TERRITORY_INVALID")
+
+    institutional = payload.get("institutional_decision")
+    if (not isinstance(institutional, Mapping)
+            or institutional.get("status") != "APPROVED_BY_OWNER"
+            or institutional.get("decision_id") != N06_K_DECISION_ID
+            or institutional.get("authority") != "propietario; instrucción expresa a Ejecutor, Work dirige"):
+        errors.append("N06_K_INSTITUTIONAL_PROVENANCE_INVALID")
+
+    rows = payload.get("quotas_by_circumscription")
+    if not isinstance(rows, list) or len(rows) != len(CONGRESS_CODES):
+        errors.append("N06_K_QUOTAS_INVALID")
+    else:
+        seen: dict[str, int] = {}
+        for row in rows:
+            if not isinstance(row, Mapping):
+                errors.append("N06_K_QUOTAS_INVALID")
+                break
+            code, count = row.get("code"), row.get("k")
+            if (not isinstance(code, str) or code not in N06_K_QUOTAS
+                    or code in seen or type(count) is not int):
+                errors.append("N06_K_QUOTAS_INVALID")
+                break
+            seen[code] = count
+        if seen != N06_K_QUOTAS:
+            errors.append("N06_QUOTAS_INVALID:N06_K_QUOTAS_NOT_APPROVED")
+            if (isinstance(decision, Mapping) and type(decision.get("total")) is int
+                    and all(type(value) is int for value in seen.values())
+                    and sum(seen.values()) != decision["total"]):
+                errors.append("CIRCUMSCRIPTION_QUOTAS_DO_NOT_SUM_TO_K")
+    return errors
+
+
 N08_OWNER_DECISION_ID = "N08-OWNER-20261013-7RULES"
 N08_POLICY_VALUES = {
     "minimum_unit": "official_2025_CUSEC_indivisible",
@@ -184,6 +259,7 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
         errors.append("CONTRACT_FIELDS_UNKNOWN:" + ",".join(sorted(map(str, unknown))))
     errors.extend(_validate_closed_objects(payload))
     errors.extend(_approved_policy_errors(payload))
+    errors.extend(_approved_k_errors(payload))
     def find_forbidden(value: Any, path: str = "$") -> list[str]:
         found: list[str] = []
         if isinstance(value, Mapping):
@@ -287,8 +363,26 @@ def production_blockers(contract: Mapping[str, Any]) -> list[str]:
         contract = _normalize_origin_units(contract)
         validate_congress_identity(contract)
     except ValueError as exc:
-        blockers.append(str(exc))
-        return blockers
+        message = str(exc)
+        blockers.append(message)
+        if message.startswith("CONGRESS_CONTRACT_INVALID: "):
+            blockers.extend(message.split(": ", 1)[1].split(";"))
+        # Preserve independently actionable structural blockers even when
+        # an owner-approved K claim is rejected first.
+        barriers = contract.get("barriers") if isinstance(contract, Mapping) else None
+        if (not isinstance(barriers, Mapping)
+                or barriers.get("province_circumscription") != "hard"
+                or barriers.get("ceuta_melilla_separate") is not True
+                or barriers.get("cross_circumscription_edges") is not False):
+            blockers.append("MANDATORY_CIRCUMSCRIPTION_BARRIERS_MISSING_OR_INVALID")
+        quotas = contract.get("quotas_by_circumscription") if isinstance(contract, Mapping) else None
+        if isinstance(quotas, list):
+            codes = [row.get("code") for row in quotas if isinstance(row, Mapping)]
+            if (len(quotas) != 52 or len(codes) != 52
+                    or any(not isinstance(code, str) for code in codes)
+                    or len(set(codes)) != 52 or set(codes) != set(CONGRESS_CODES)):
+                blockers.append("CIRCUMSCRIPTION_QUOTAS_MUST_COVER_52_CODES_EXACTLY")
+        return sorted(set(blockers))
 
     decision = contract.get("institutional_decision")
     k = contract.get("k_decision")

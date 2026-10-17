@@ -1,0 +1,1645 @@
+{
+  "campaign_id": "ddd-national-campaign-20261013",
+  "files": [
+    {
+      "path": "ADQUISICION_FUENTE_LIMITE_CNIG.md",
+      "bytes": 5751,
+      "sha256": "04b424f79f970ce7d30160266b5e3546c996cc3ab552f053b15c00988212b3eb"
+    },
+    {
+      "path": "AUDITORIA_BLOQUEOS_C_003_056.csv",
+      "bytes": 38540,
+      "sha256": "10a52af58465768e41b2221880adec1dc66d98bb3d1790bc8d73e50269a937a0"
+    },
+    {
+      "path": "BLOCKER_REGISTRY.json",
+      "bytes": 3679,
+      "sha256": "2235f8161831709d783a9737ea16fe81e89ea499b6bd68cb6bd96ce9f0455d61"
+    },
+    {
+      "path": "CAMPAIGN_MANIFEST.json",
+      "bytes": 2084,
+      "sha256": "3624dd9101bd790ceee8e2648402c37ad882d3a9cf7c44d4d887013696611088"
+    },
+    {
+      "path": "CHECKPOINT.json",
+      "bytes": 5966,
+      "sha256": "49d6944a202092d1bf50039ecd3013f5adae05019bcb3f8270a528ef489f020a"
+    },
+    {
+      "path": "D_ANOMALIAS.md",
+      "bytes": 1997,
+      "sha256": "e591bebef5233aadd7dea1489c306d4b456fdf508af299ddd28a341c19e78936"
+    },
+    {
+      "path": "D04_COMPONENTES_MAYORES_QUE_K.csv",
+      "bytes": 1656,
+      "sha256": "6f6238c763e0bfb7d5b34ae05c557fc0b378449561eb1d7909f7933774097a1f"
+    },
+    {
+      "path": "D04_COMPONENTES_MAYORES_QUE_K.md",
+      "bytes": 2217,
+      "sha256": "dcdff53583772636d24e2ca68731be4f0fd69a55369045775863a67ab4bd7dc1"
+    },
+    {
+      "path": "DEPENDENCIES.json",
+      "bytes": 13512,
+      "sha256": "1394f4385bafaf59b4c7edf5a3cb2fde236ff35dac536daaa413df2b15df7ef1"
+    },
+    {
+      "path": "EVENT_LOG.jsonl",
+      "bytes": 22611,
+      "sha256": "44151f393456d8bc64eae5c4030be1648c15b4b4f65399e67efb61c98e728e46"
+    },
+    {
+      "path": "EXPEDIENTE_ACEPTACION_PR268_20261017.md",
+      "bytes": 3348,
+      "sha256": "c361732d2334eec6e51212f6b4763a9aa6349f7ef2bffd573eeb9121d192acb3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/01/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "6671dea86d4a422717a49745062bf09b8f71b29fea8ac202e6ad7672ddda6163"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/01/PREFLIGHT.json",
+      "bytes": 6372,
+      "sha256": "718bfdefbc599915d380b3c2de4c73f22f77d44d4ec8e717c97bda8602d1daa7"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/02/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "0e3dfb4a4fa2292c5b48eebdc6b23eb61c3e6bcbbaff71919f1a784e2f15b452"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/02/PREFLIGHT.json",
+      "bytes": 6237,
+      "sha256": "9ac71b0bb11397081154669a462204b0aeaa7cbb8540417cf1e8a6a2ad05988d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/03/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "986aeb04ddcfc74565a0e9583bf524726d3c3b580b8c190abd4ed5612d0308d9"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/03/PREFLIGHT.json",
+      "bytes": 6388,
+      "sha256": "52acca9f1182332fad2119a61adae9bdc27bd816f9403de4cb2854700d9831ac"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/04/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "0953975853ddb31e7e3f1001caa7e5bc5bf4f46c33c0344a49fec7ada30a5744"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/04/PREFLIGHT.json",
+      "bytes": 6302,
+      "sha256": "1b3cc47df4e70fdca75d47efe2378bbb4eca4dfe6f3e1f0937d0299aeba9aa08"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/05/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "62402a5e1ef00f0cc1ef00abc5c9368858052b3f6169b00ee15d0861a0e6573f"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/05/PREFLIGHT.json",
+      "bytes": 6282,
+      "sha256": "c8c1c54af29692ce927f5f71dc4224934f7142b6c57f46ac0bc844a06b052d9d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/06/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "6fdabf31ca22c36b4c0ce6ea63cc16371a1dc05890c0741c658f263bd8bfd13f"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/06/PREFLIGHT.json",
+      "bytes": 6450,
+      "sha256": "45546ced0be3ce3f14dd74abda095245fe12ce5adcadfae22525a8d5a8a49cb2"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/07/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "188626428dca94af15970a9b4c3d13cecf48e7b26e4362838ffe32a0ebfe6438"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/07/PREFLIGHT.json",
+      "bytes": 6444,
+      "sha256": "1a8d8773119c7001941f44385aa9ebe8133412c09e78ec3259dc5f4189d42106"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/08/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5a7b2e7be8feee2c759069ca383581655cc714c39a95b61433c435540e52b28c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/08/PREFLIGHT.json",
+      "bytes": 6466,
+      "sha256": "d8d0627b28ac0e7b15c3fb342aaf8681eb92b366882ae12d39b95d7e3b0d7c00"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/09/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "e3244989ea1531b9a056af784f378f6b88589c2594056928ff9431d366e2cd4d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/09/PREFLIGHT.json",
+      "bytes": 6577,
+      "sha256": "a98ba52e0cc5a7e1ec7de127ff7faa0cb527ef82a63b322079b50a0bd6aef677"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/10/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "ac2fc92a03a7f8675fa398ae6420398ea472f2ed55c4a54be631a353eaf5a43a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/10/PREFLIGHT.json",
+      "bytes": 6330,
+      "sha256": "2e529992d265fe3f19bd887f6ec81e8146a64ae5f4f972480023af111d4104bd"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/11/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "b19c0d8717f72c09df7258b0c455aa2dd650b8f22c88f91e5bef69697d0b54ed"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/11/PREFLIGHT.json",
+      "bytes": 6217,
+      "sha256": "3e292123eac542b598776518012ddcd9c9bf480d40a20d23bec3c5757a498ac5"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/12/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f3ea0d2f22ac740f0e7c06df89302e507b435a77cad8d781af180e955dc71648"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/12/PREFLIGHT.json",
+      "bytes": 6210,
+      "sha256": "36cc90c999f53deeef198d23af3a5896c3124f93528115a0d463dd2cd493c5b4"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/13/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "418949bddab2931d80aabb6de0e460d1600696468e61462b735d7c5bdd1223bc"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/13/PREFLIGHT.json",
+      "bytes": 6315,
+      "sha256": "ca6e8f638df59c48f10d1d0d313d98a072e903d0483aea8b6872c66a49636449"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/14/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5fcb235b32955e4414581b354092644f9901a1150974d6470fd3612db1170b4b"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/14/PREFLIGHT.json",
+      "bytes": 6240,
+      "sha256": "0df053097553f11a91cd0054940c50a9063e830dc936450398b0563f47feba4c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/15/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "fa32852271245a498a82543894cd9b2c6b0e7ea66664146a0e135c1af18dd84c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/15/PREFLIGHT.json",
+      "bytes": 6273,
+      "sha256": "c09aab2c43bd385a075bfeb81393ed7cf50de006680131d27c872a748cbcc0ae"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/16/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "2012f3f954b7d2f0a32e45eed47cd63c93d3dd9d5820ece870fce64e5bed814d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/16/PREFLIGHT.json",
+      "bytes": 6342,
+      "sha256": "797a40b0a3b2b9282f5290e3781710bcd685594ed271ed41d96ff84914ac3a3f"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/17/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "1e59a32d99a307c10baba58d24770eba46d7953049e0dfb71bcf8e2950bce367"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/17/PREFLIGHT.json",
+      "bytes": 6451,
+      "sha256": "0fca00f4ceaac7b0e117b96910fe1da06a37cd45f8c5b654e6568acb5ffcafcb"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/18/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "e9cdb3a622e440bd3ad487a6f17dd7b2e91ff2c49620b5d06be3cd262993df4e"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/18/PREFLIGHT.json",
+      "bytes": 6330,
+      "sha256": "6f09169e618bf7b8a1c63c0b7fd58f937684c69ab8c6f839cf462f773186b265"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/19/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "59116031ec4e30aaf4b0b5ae2be28d9848338d2f70aa495d3ef6cc42517c72c7"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/19/PREFLIGHT.json",
+      "bytes": 6375,
+      "sha256": "15b2a45513f5166c5153d0cb27220b04fbd2f7277b31dc18832d484323a936c5"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/20/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "909509cc897f3da83e57bf86bc60b0e52bf147e7c15bd477a364e5f6bdf92de0"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/20/PREFLIGHT.json",
+      "bytes": 6360,
+      "sha256": "e72c9211038f31c481663a26d3627a67cd13e73bcf901b4c212f84c71384d158"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/21/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "72270a89225a4af10496bb833dd66b8d3c74e08af2b377a3f4a4d1745883a051"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/21/PREFLIGHT.json",
+      "bytes": 6225,
+      "sha256": "9f2de42fd190bc0039f97fad53226831c0fd7a6edca7beb57c29d51f88c9906f"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/22/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "07315f9b6a4f995f5cb5fb910bba81b49c9c2fab21bf893832dbe9430ce596c1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/22/PREFLIGHT.json",
+      "bytes": 6327,
+      "sha256": "4596ff55f5f2007c36c5257d28b8a179b6dfe1582546f689f3eb1e2c243baddb"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/23/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "524d80a987d8138ba38b556434be6007658cdfd77994d0e7c9fdeb5406d8b94e"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/23/PREFLIGHT.json",
+      "bytes": 6331,
+      "sha256": "d4720dce990a32628ffdd53432a21091afe6e44eecf9872e585dbcce8c269f7a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/24/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "6fc62a1b2d8003b77ef89f02629d01ea7c3b012beea4caec3698d149cebea396"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/24/PREFLIGHT.json",
+      "bytes": 6255,
+      "sha256": "fdb8bd24321b99e0685a085324551c13045b082f9ee12f6ecadfeee12d93f4b1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/25/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "0b54235e38a815853b67c99eaf6887b2c39c9ac41228541f70ecc7f556c3fc3e"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/25/PREFLIGHT.json",
+      "bytes": 6646,
+      "sha256": "e537cec7772ec698892711b7983d6016bb56ffed302c49caa9bdf4d7e7683bd1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/26/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "7060bcd6ae70338c2ecfdf23a6c322f5da6f5d7374837b03f01c2c77ddc235b1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/26/PREFLIGHT.json",
+      "bytes": 6267,
+      "sha256": "76520af86d2fc48a3792249fe49715d420fe6beb7481070e3526d907a494e377"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/27/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "1342094996c565b8a2a8c01887ac680e0b912f93b760c171970aeba8ca4609be"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/27/PREFLIGHT.json",
+      "bytes": 6267,
+      "sha256": "589d3716fa12266a525e23cbea959b7bb719843f5ff710dc39fa909ec27b11ca"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/28/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "7d7ce2d1692c09313fd949fe808d27a96aa9345eaa637707c5560b6416f13772"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/28/PREFLIGHT.json",
+      "bytes": 6333,
+      "sha256": "4c2ba919bfbf6eee6672ef0678d2900d8e82cd4537327d10ca57a1ae7deae960"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/29/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "a550d704ff7191b55c9f2a6ac8009a71793ab67d852f252008383abebdc94139"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/29/PREFLIGHT.json",
+      "bytes": 6284,
+      "sha256": "bd5545d4543e9290ae8c645efd3489f7fa9e4df5c0a09b9b7aae0892c59a93a9"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/30/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "1675975eb9e9b396779e3d06adba750f840156bb13143c45d5e6f4e004c2a39d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/30/PREFLIGHT.json",
+      "bytes": 6240,
+      "sha256": "cd8346d344927509bfb8adbefa4475eaa3b3e6112442dd79b3b1e02cf2b6864f"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/31/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "d520a95855ff5d95004763bbb52456727cf1dc30f32c15e80952ee030afaf74e"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/31/PREFLIGHT.json",
+      "bytes": 6451,
+      "sha256": "1ced4b9242f3f2878363177c240a59b345816077051dd681abace56253ba6635"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/32/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "c475d8b73690739e1c665b2e3ba5e6fd30d0efa5c4810eb4e9ba8ac5f9917f92"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/32/PREFLIGHT.json",
+      "bytes": 6192,
+      "sha256": "14ace6c47eb051f9f734a0eae9348dafc0d80e121648accfdfd866a16b4c8d7f"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/33/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "d301770f6d09a2d274746393d5b2d23d939137284aab50abb73ffd0d305418d2"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/33/PREFLIGHT.json",
+      "bytes": 6212,
+      "sha256": "4b9ee2f48677b68dd6edcfdcc004ed292cc966d19b3ef0abfbf0b751c0e5762a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/34/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "88713619be332e3e3bc4e23c5c4e19ccb85f825c08b218cfa938f6c686b28e06"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/34/PREFLIGHT.json",
+      "bytes": 6316,
+      "sha256": "9a89236c2f171c2cb0af6ea6e562304c193e9d56751595e2b10c13c7d03c8a1c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/35/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "fdbc88b3755a7069fcfb260d5ce7b1acd18dc97e88b420b660e171223b284018"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/35/PREFLIGHT.json",
+      "bytes": 6203,
+      "sha256": "b7ce8feb4970def57af97a2932434516c32f2bc17ef024c3e310fc1deaaa0324"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/36/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "8b0ad45a3734e88f71c02a3e87193e2859d715d65130013f8112e32d84dc5da7"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/36/PREFLIGHT.json",
+      "bytes": 6271,
+      "sha256": "0d871888a4a045b72bf4b7bab41e611676a004a7740708495f2cc1ba4b143835"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/37/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f5a476da972575b10591d09ae6398f6001d9a85977866eff6be6d84d8f4ff9a4"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/37/PREFLIGHT.json",
+      "bytes": 6510,
+      "sha256": "480d4562cfb664391b7afe571991cc65a8596e7ec0c0aceced13e47a97ce3ee5"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/38/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "4d2205cb07be063c0bbb1a6c9a21d307d3a06d5a3237426e0db41ac66c385f35"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/38/PREFLIGHT.json",
+      "bytes": 6164,
+      "sha256": "8d7c17bea3c4148fb46dc54ef420853b6a781b6b70042992e192f89ae1756189"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/39/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "27d14a7a328441f9de2635adbbce80cb6ad1e5bc9caf446254d12885471386a1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/39/PREFLIGHT.json",
+      "bytes": 6242,
+      "sha256": "ec384f2f82429c556e1d8c2c6397b2811df433b696b43126dfa10972b9a9c8e0"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/40/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "531d1a0269c0976ad0cb40a64a1f3e20338547d06224f5c74853a41db32116c0"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/40/PREFLIGHT.json",
+      "bytes": 6387,
+      "sha256": "f1cbdab48843a145fc024aa17e07c5ab292f8c049b80e192750e6ebfdf86c3e9"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/41/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "d614127186f6bd824177e8519984608d0aeabe902bdd55eeb9af123a9ff2d268"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/41/PREFLIGHT.json",
+      "bytes": 6284,
+      "sha256": "430a59c5526de7db58911c13ef2732d1c4d3f644f7000c3e8e187281f5929cbb"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/42/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "546cbcd7e259f7fc71089fa0d2ebbb551decd3d97ada75247916fce298bfccd0"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/42/PREFLIGHT.json",
+      "bytes": 6280,
+      "sha256": "4d301cbf10d2a8e2d8f862bf42efc8b20e942be4e94af6d36c292f34c85e58c3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/43/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "3c4171588c26c29487960e4b89fa56d1241442f67942312827c63c872a312356"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/43/PREFLIGHT.json",
+      "bytes": 6332,
+      "sha256": "5e70ce1b5e114a82f800e12fd2cb0739bb01d0afd368492db62eb8cdd9f0ed56"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/44/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "3266446e430c6fda3ab43fc4b3b6b2ed3a3f3c35b8256e91a75a6fbea1fb13b0"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/44/PREFLIGHT.json",
+      "bytes": 6207,
+      "sha256": "c5e6894969ee813d4b0b9edbe4454de4193dc5b17db122de3bb43494d30ca875"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/45/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "1ced9bda421ddd093575c518a0811612694e5108ddb0fba342de1d71d642b346"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/45/PREFLIGHT.json",
+      "bytes": 6315,
+      "sha256": "10fa171b28c817e904227faee7087a9f6b33f6497c42ad6debed5acedbdedb6c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/46/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "d19655a26add1ba79f50e468080817e9f5fddb16dd464029b206569cc7545d83"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/46/PREFLIGHT.json",
+      "bytes": 6660,
+      "sha256": "ae860be3e9bf36ee1aa3e62a1366856a2833e0f413761d8a6c47bab799972f8d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/47/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "a3441ef6e7a3c66d30ce7f2e203ddbc5e9b87590b6223c5c1cbd30bb686ed633"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/47/PREFLIGHT.json",
+      "bytes": 6405,
+      "sha256": "279998bc3c8a650c7c95c33fb34782040531ea8525b071b2443c675d8572e3a3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/48/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "2f2b2d047049d793badfd315d19c40750aee4784a01332cd001420a50f5839c5"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/48/PREFLIGHT.json",
+      "bytes": 6322,
+      "sha256": "f8b44a5ea4e306c74c917b4401dd6721cde9dc068f62e63c0530f164815af55a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/49/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "57781a9a3093ca57c86e3814452fd87f7a4b9b9b06b041d3b900b7d2f7c0bed3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/49/PREFLIGHT.json",
+      "bytes": 6207,
+      "sha256": "45ad5b5c23a36ae030a0d83e9c2b0322aae36861882fcb13b0fc8be7aacdac0b"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/50/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5de0735d52e535da902f594907098542248af39e635cff53df26afdd487bc1f9"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/50/PREFLIGHT.json",
+      "bytes": 6345,
+      "sha256": "6087853a6520b3b8af64c1c6e08b43f0de561485e2f331df01b300c9daece46d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/51/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "d30ed651f12634c1d87457130524ebdef8552580a274bd51264bb93ab862e594"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/51/PREFLIGHT.json",
+      "bytes": 6150,
+      "sha256": "8bf18c5c8b5949733679e1b4cbce8006a11db048d34ecf4bfa99100deff2f8ad"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/52/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "37148fa98f41cd9b6d60595824a369568115c9c4255c02f1565fa524d4ecaaf3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/52/PREFLIGHT.json",
+      "bytes": 6150,
+      "sha256": "a82d954955352ad716e5433d19d5f96f5ea69a760a9a32d0f1b4b3cfbc4ae38d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/CAMPAIGN_PREFLIGHT.json",
+      "bytes": 7316,
+      "sha256": "c61d81efc98ac9eb4e1e757d7c1e01abf325490ee0237a7835d4f302ec8588d4"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/CHECKPOINT.json",
+      "bytes": 22359,
+      "sha256": "367d8c93c8e91bfa8cdd0ea749715cdf8f13ed4eced4d66f3585571f34e297ff"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_FINAL/EVIDENCE_VERIFIED.json",
+      "bytes": 17539,
+      "sha256": "9f2e4d0373682ac017bfc04cc5aca85604061bf66c44f50eb5f5b1ab8022caf6"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/01/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "36107694e9c51ff1c094ca37d332a3aa5a78d04ab72ee46f9b15d453a59b1a27"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/01/PREFLIGHT.json",
+      "bytes": 6372,
+      "sha256": "129226985d690e6da3897baf70a2679836a4873623f6868584995cf6ffa5baba"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/02/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "a71decae73b1525f7bd73843616bca7a2eadc15eb50e9080b650d258b4911346"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/02/PREFLIGHT.json",
+      "bytes": 6237,
+      "sha256": "81772526914b9fe3359d96ed3aced8d8d90eb9e2a39ccf98dc1dff6f18f4ea43"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/03/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "6843b3c11bc10c706346cd89655e41887c67f24d2030fd74e56f5478b6a4d0e4"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/03/PREFLIGHT.json",
+      "bytes": 6388,
+      "sha256": "8d47d37a28fcfcc5c8f63e95f5b07cbfeda71fe227b2c415b7751840dc2cb2f3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/04/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "56ed880dccd08d22f2783089e19afcf77fc435f5fc60feaeeea5acf3910299a3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/04/PREFLIGHT.json",
+      "bytes": 6302,
+      "sha256": "b426475c394769feffdf2dc0a6bed8a5c814f5726f621c67deab0cb299f7d335"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/05/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f5688b2efed89576ff5c56d5be0c316260ffb0061e6be9a8e4aff153c173a0f3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/05/PREFLIGHT.json",
+      "bytes": 6282,
+      "sha256": "d22dc367e3dcdf47adc3462b41efcd6decc9aecea0d73fd1cdf763b783482dc2"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/06/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "c82a92d95cbb2458fbfa691f7bb8b9880d1d7da100e99798534ba0a1f1933d9c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/06/PREFLIGHT.json",
+      "bytes": 6450,
+      "sha256": "c4fa3de1fd61a3f2af33bd98ae600d56e84f2d9b39aac09e77c5f174fb0db469"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/07/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "781310d898a17d1dbe61bf60b2940e8b01a2f3ceb9f519d26c4df2effc8942bb"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/07/PREFLIGHT.json",
+      "bytes": 6444,
+      "sha256": "9efb898119b0a58e42e2dfdff823b82b26f6c421f3fd07aae81ea902f3cbacbe"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/08/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "b8934eada1add53c7f3415cd89f720b99de1859b61787cc957494b503c5f6b8f"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/08/PREFLIGHT.json",
+      "bytes": 6466,
+      "sha256": "483aef6cdaf700294a42e7eda3852b7bf54714a477134cfb3fe1f040b622ca79"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/09/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "267879f06e6029f0896775d46c37d43851e7407ce3449a5978313ffdb0bfd645"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/09/PREFLIGHT.json",
+      "bytes": 6577,
+      "sha256": "f74c1500ede248f329935492a13661dc7707f2e035bf4f4483e80fa41de34619"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/10/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "82c31e5706e39c80993dd3852e6fc24f01aa67bb7d3ea372840220dd5b86dcf3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/10/PREFLIGHT.json",
+      "bytes": 6330,
+      "sha256": "f37ef0f5a7aa363b8b7f5c8a7cf140e9392aa8940aa9138edd5c52e43c379653"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/11/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "c33e72d4b2768874693b19ebad34dccf25bc33cd8e4ee57d7beb9d1841fd5c29"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/11/PREFLIGHT.json",
+      "bytes": 6217,
+      "sha256": "9e4dcce655f0f40f4dbe43a4f20f601ad1a461d9a9286e36eb9fe572f50bdae5"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/12/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "2715915093b9b4d2bb94160909711d968f22d81b1266710595e15e07d7567a28"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/12/PREFLIGHT.json",
+      "bytes": 6210,
+      "sha256": "70b5194e0ccd36826d562a76ac8341caa47ea20df0090d48e0bef8ff08d13862"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/13/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5c38c0075bb85cef7f06c880c5775a29781969f216d031437b06f46f61e970f1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/13/PREFLIGHT.json",
+      "bytes": 6315,
+      "sha256": "4716252b634867e81e7cc132a3e9193658e6480da33ea37a9f1c228e66d7824c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/14/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "4b9903dafaea95f8b2dad8a8945241710133e138be8dced7affefef448494c1c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/14/PREFLIGHT.json",
+      "bytes": 6240,
+      "sha256": "5605b0abd6159d85dbf9824a7b01e1dafa547db5f2db6f18349228bf49d27c4a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/15/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "c1837316ac8d2e2eeff7e3dd4ee485d88b2ae87da42ad52e0c619e7188fd7be4"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/15/PREFLIGHT.json",
+      "bytes": 6273,
+      "sha256": "2098920b72cc1c03cb38cfdd4a8a6e34a822d6ddf9434c4378dee08ae73c9ce2"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/16/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "804f01f70d97492fc48ff010dbf777b70143dec50144b7fc510551ccc3ead31b"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/16/PREFLIGHT.json",
+      "bytes": 6342,
+      "sha256": "b9749f757d223c8f4488064e2c857c0fc23e674e7b3c4437b93fcbba6c6a409d"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/17/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "b4ab5851619aa2cac50eba71e0ff8969cf15063313d29cd5520a637d1de9e4ba"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/17/PREFLIGHT.json",
+      "bytes": 6451,
+      "sha256": "714962af59ba5581ed814167a7483d3f1b72510a6009395325c9cfebc877b645"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/18/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "e241816f3ef236c97952c10ced577e3afb010d876282b9e5e9bf5dd1839bb8ce"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/18/PREFLIGHT.json",
+      "bytes": 6330,
+      "sha256": "33150c66518b832d16660259255d39f36086b3d93a18e761241cc6bfa5a13cff"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/19/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "81170c3295b9494d3219491cb72b7178c23286a24540f68a70c414dafafa69fa"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/19/PREFLIGHT.json",
+      "bytes": 6375,
+      "sha256": "e07cd2ffdf611b6101dc173234ca61f50038ea745bc101d12b3a396a2b406ce3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/20/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "e22ea81c199c7d7e64f93f19fd634e4cac4d3c1bb01cd27f0c932db1ad1c58cf"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/20/PREFLIGHT.json",
+      "bytes": 6360,
+      "sha256": "f2ca25bfff716bc61f5e83d69d18e36790b63e9a827fda2dadbe113d0d69bc89"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/21/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "04ccbebee1d771bb8f6151d439c62a052b8cf441842c1403677a9ba5555e18c0"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/21/PREFLIGHT.json",
+      "bytes": 6225,
+      "sha256": "267b39d7f9798fef73d4de137a2f8ca8e8c5c1979a5399ff16b61dffb8df97eb"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/22/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "d577e375316fceb9bd24f19a169e8b43e8c6e726b5795028e8444e425058a359"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/22/PREFLIGHT.json",
+      "bytes": 6327,
+      "sha256": "79fe26cc8c6a169b29cee6237465dd95a1cc03a08c7459b5d4d731fe271037c1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/23/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5c0d490e57854ba31e64da931420cc06b203fb4fe449375898160d027f52cc2a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/23/PREFLIGHT.json",
+      "bytes": 6331,
+      "sha256": "bf581e41c2b9821cd665c8f0e14de1e8c32a2b8df3ae99109837c11c9e6a0f71"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/24/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "56f9acf6c1bb82f5b2593de9815364bfd960ff2cbe58f614172fd282de9d066c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/24/PREFLIGHT.json",
+      "bytes": 6255,
+      "sha256": "3a6a20b2e2966d138e069f3948b895227542a2140c502176428185cfbb347466"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/25/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "13dd2388ba38f955cd1da40046ab6321bac6be12813da5f2fee578c2cb499829"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/25/PREFLIGHT.json",
+      "bytes": 6646,
+      "sha256": "ec57e233a84089efee6866308973f74429117071226b457f9fd3a9035dd967ce"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/26/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "c1e8e3ad0a4a6dad97d5acf5f11b7f2eb1d4edbef64ba6afc0d540872f1d09e7"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/26/PREFLIGHT.json",
+      "bytes": 6267,
+      "sha256": "47503e84dcadcf61c920ce39dfd4d652b525f19a01cb0c6f2e9f9a9a677b3afc"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/27/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "553bdbb7e2c55e27c35705b2ecb1d72180b3b2041828058fe200423a9ad074d2"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/27/PREFLIGHT.json",
+      "bytes": 6267,
+      "sha256": "980ecc8137fd3bcc5b1860adf91dfbdff7d859428b19d36c19be5cfa2489e2c7"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/28/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "6180caedf03b5dbcde4a3f6fa3970635aa9ed7040ffcdc715cea2719088708a1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/28/PREFLIGHT.json",
+      "bytes": 6333,
+      "sha256": "75e7709f2b64871820e0eabb5af96997b8b97b37bce3dee2213443b3261ddfca"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/29/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "6c22ea1b21ce77ab62b98a18443e3875b1735297060d78ee1299dcecdc7025f3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/29/PREFLIGHT.json",
+      "bytes": 6284,
+      "sha256": "73e80d305f5ff1ca69ec7412482f0717450356e634432976c7bb45c9dfde0b02"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/30/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "df88bdfc3efe5726fb5095eef4195920bd7f19e0574177212e4764fcdf76f636"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/30/PREFLIGHT.json",
+      "bytes": 6240,
+      "sha256": "82a69d3687e4a4c7b6ec75435cdea529241434acb33e00f0f78b97695a41ae4a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/31/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "9c70658907971440b8fd96938e7e8cf443766db66df7ce6bd14804e90f5cf2a3"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/31/PREFLIGHT.json",
+      "bytes": 6451,
+      "sha256": "bf17ac37882e46935ddf6f8b8f4e31a197f16be937e2e5b8f775b472246d6f31"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/32/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "3c5fbac139c5b966eba7f8d292c35efc36ddd431e7b8abe69b081fb79a45e325"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/32/PREFLIGHT.json",
+      "bytes": 6192,
+      "sha256": "313b4eef5e20bc08c6dfdb4d1a2e7b2b88e72b24adbca7bb32feead65e7a307c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/33/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "75aa8e447414af9674e69608f17e5adc967a981fc5688a067e1b42de0930545b"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/33/PREFLIGHT.json",
+      "bytes": 6212,
+      "sha256": "4d555c72f4e1cda3d24d0015e2a735a475a9397cbdacec88c2b9830f892ea25e"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/34/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "461e9b3c51c93cbd62643704c832e7b91dd1d60efa3daa58e589e1d6ce27e87a"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/34/PREFLIGHT.json",
+      "bytes": 6316,
+      "sha256": "faef356143e68460d847190ec38fd83f4cb5a2c97c6826749a21e1cbefac7b7e"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/35/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "ed159ab47bf7a8bd835d8e9b48a001b1da3e11b0de6c7463f908a45933a17453"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/35/PREFLIGHT.json",
+      "bytes": 6203,
+      "sha256": "df721a58bdc92bb853e0a66dc8e106fad5cd740c6f370526d5d38ecfbceb5521"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/36/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "c5d08f528a90b3d219e8044caacfdd419f9461112609c8f6550bb5941f2d2ccf"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/36/PREFLIGHT.json",
+      "bytes": 6271,
+      "sha256": "aa64b30d30a96007a2ff3e2421fc3d8d2e1895a25c4674926ea466b550427d61"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/37/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f5a476da972575b10591d09ae6398f6001d9a85977866eff6be6d84d8f4ff9a4"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/37/PREFLIGHT.json",
+      "bytes": 6510,
+      "sha256": "480d4562cfb664391b7afe571991cc65a8596e7ec0c0aceced13e47a97ce3ee5"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/38/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "4d2205cb07be063c0bbb1a6c9a21d307d3a06d5a3237426e0db41ac66c385f35"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/38/PREFLIGHT.json",
+      "bytes": 6164,
+      "sha256": "8d7c17bea3c4148fb46dc54ef420853b6a781b6b70042992e192f89ae1756189"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/39/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "27d14a7a328441f9de2635adbbce80cb6ad1e5bc9caf446254d12885471386a1"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/39/PREFLIGHT.json",
+      "bytes": 6242,
+      "sha256": "ec384f2f82429c556e1d8c2c6397b2811df433b696b43126dfa10972b9a9c8e0"
+    },
+    {
+      "path": "F001_CAMPAIGN_52_TRANSITION/CHECKPOINT.json",
+      "bytes": 17845,
+      "sha256": "89ff1bbb754b33487089ad8a100e2562ffb0c3e090c83b888ac676707c9b72c6"
+    },
+    {
+      "path": "F001_CAMPAIGN_52/CAMPAIGN_PREFLIGHT.json",
+      "bytes": 7222,
+      "sha256": "96392c63b0e48fc085d5daa3eb0a7daac43a311d96890f5e0ca7cf14965bb51c"
+    },
+    {
+      "path": "F001_CAMPAIGN_52/CHECKPOINT.json",
+      "bytes": 11554,
+      "sha256": "9bceb0cb96545a0404755713e21d942a535592da10ca6560e6dbff0b4ed2f478"
+    },
+    {
+      "path": "FINAL_REPORT.md",
+      "bytes": 12020,
+      "sha256": "6307f5c034800989f3be53b6ed5f5b62ba4bc974e9f21d864cc912e29a790d5e"
+    },
+    {
+      "path": "INCIDENTS.json",
+      "bytes": 7071,
+      "sha256": "b042b677fc626c4048a8eaf864de348d402f90d9e251c41fa0e6109da643a6cf"
+    },
+    {
+      "path": "INTEGRATION_QUEUE.json",
+      "bytes": 916,
+      "sha256": "ccac9ee668499dbc74fd8f1ec15a1aff325048d3eb43c5412b2dc443791d8c7d"
+    },
+    {
+      "path": "MATRIZ_CIERRE_AJ.csv",
+      "bytes": 834,
+      "sha256": "f4094a231d1d11604a70c8fad6cf79132b7ad63cec745a05d8c658bc80ac2b09"
+    },
+    {
+      "path": "NAT_E_002_EXACT_SOLVER.md",
+      "bytes": 1817,
+      "sha256": "ee17e06d3381660bae865a64f369ef20317450c03ba3e2ca2a476cfbbc506293"
+    },
+    {
+      "path": "NAT_E_003_CONSTRUCTIVE_WITNESS.md",
+      "bytes": 4280,
+      "sha256": "71cc73a14f9eb0460d1256409abd007b34156753d9fb1ea80bc7380816460541"
+    },
+    {
+      "path": "NAT_E_003_WITNESSES.json",
+      "bytes": 194931,
+      "sha256": "b386cf28717af68587b8db553db6e3ff93f33642827f411109ae9691477fc3a8"
+    },
+    {
+      "path": "NAT_F_002_COMPOSICION_NACIONAL.md",
+      "bytes": 2942,
+      "sha256": "5349a9ed4f8d1f9fd2ee8c2e08502d7d6a3ce78290330ff2a2d7742af36d75f2"
+    },
+    {
+      "path": "NAT_G_002_GLOBAL_SPLIT_COUNTEREXAMPLE.md",
+      "bytes": 2535,
+      "sha256": "4baef92eed63ae8baea99c35501b6fccb97479025f261290af991e860a498086"
+    },
+    {
+      "path": "NAT_G_003_ESCALABILIDAD_SINTETICA.md",
+      "bytes": 3933,
+      "sha256": "f889b57f290cfab8eadac062992743c130d26cd210db1a61000e5d34b26c98d3"
+    },
+    {
+      "path": "NATIONAL_PLANNER.md",
+      "bytes": 927,
+      "sha256": "9a09dc091d673a6c688205065f0591df356fc21ef83d7ec8e4a63e473492904c"
+    },
+    {
+      "path": "PREFLIGHT_52_RESUMEN.md",
+      "bytes": 1559,
+      "sha256": "c76b1e76f1be0b7d366f8117d4737c36b9c5ef82dccb1df97c81be0efe349c24"
+    },
+    {
+      "path": "PREFLIGHT_CPRO01_ATTEMPT.json",
+      "bytes": 2008,
+      "sha256": "c28229dd358bfc41494fd30181bfbf006d33232b2550ce4937cfe26950350ccb"
+    },
+    {
+      "path": "PREFLIGHT_CPRO01/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "72b7817782908a583011c44756299dc46a94b1ec7447cb1f74f88ce4e087c855"
+    },
+    {
+      "path": "PREFLIGHT_CPRO01/PREFLIGHT.json",
+      "bytes": 6372,
+      "sha256": "5bdf0413c6ca35e94982bf726dcba66dfb61d51695830e3ba6ed860df6f4ef71"
+    },
+    {
+      "path": "PREFLIGHT_CPRO02/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "b12784711c2b67f1b0576016d4cc8d484f2c6436648fe00d687097aaf5c106f0"
+    },
+    {
+      "path": "PREFLIGHT_CPRO02/PREFLIGHT.json",
+      "bytes": 6237,
+      "sha256": "491c22c715a068d9117eab7183a9bde7a0f623ed825ef0f6e8bb3c1ced16cba5"
+    },
+    {
+      "path": "PREFLIGHT_CPRO03/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5c9dc231d912249b80a253a67136850bae7d97355ca2e315f699ce1318846456"
+    },
+    {
+      "path": "PREFLIGHT_CPRO03/PREFLIGHT.json",
+      "bytes": 6388,
+      "sha256": "f4c7e1095de7a1975e990967620a699c3f6817e5a8fd9f4b38d8d62800361068"
+    },
+    {
+      "path": "PREFLIGHT_CPRO04/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "203a44d2a9c8333e3e3736bd85260d8c064e97b08aee89f20a4853fb03c7c675"
+    },
+    {
+      "path": "PREFLIGHT_CPRO04/PREFLIGHT.json",
+      "bytes": 6302,
+      "sha256": "17e3428e1cdf486092224775d1d3fedf61072f2d79d14abea1103a36d8f1d17d"
+    },
+    {
+      "path": "PREFLIGHT_CPRO05/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "974cdf983cf8f7b1e6df1866abfc44856cf0b8895cbfb9acdf35230cc4aeda76"
+    },
+    {
+      "path": "PREFLIGHT_CPRO05/PREFLIGHT.json",
+      "bytes": 6282,
+      "sha256": "0c30ec4311d2a17b39a0f0ffbcf9290beb6cf2fb5180de2196d60336f3587e7b"
+    },
+    {
+      "path": "PREFLIGHT_CPRO06/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "1b44ecd39776cc1c49b0eb9d4f7dc483a7d527ac99d6a8e6ec6335eee324e0c7"
+    },
+    {
+      "path": "PREFLIGHT_CPRO06/PREFLIGHT.json",
+      "bytes": 6450,
+      "sha256": "e6d47e86f78d8434b54bde55b81bd01a4a4e7c057783a263467337b356f88dd4"
+    },
+    {
+      "path": "PREFLIGHT_CPRO07/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "a6bdc2fac66bc6dd2f07ea78fb9cc45796a5875b1cab1298d0eac68af6522ecd"
+    },
+    {
+      "path": "PREFLIGHT_CPRO07/PREFLIGHT.json",
+      "bytes": 6444,
+      "sha256": "faf73864daf7ba313fd30d536b7c6c0d20eeabf8887ea8c69f4e71453c747746"
+    },
+    {
+      "path": "PREFLIGHT_CPRO08/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "e1d3150bad4d7e4b493a7ce767527cd124965559ce03e7643d5847acba21edf4"
+    },
+    {
+      "path": "PREFLIGHT_CPRO08/PREFLIGHT.json",
+      "bytes": 6466,
+      "sha256": "be5764ebcedbb969f4828b6440a5a69f0876878c1e3cc06dad112de265e69ae1"
+    },
+    {
+      "path": "PREFLIGHT_CPRO09/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "0e44cdca04864ad1445a8af65f2ec89280622541dc7670f4cb21db7d24b80b8d"
+    },
+    {
+      "path": "PREFLIGHT_CPRO09/PREFLIGHT.json",
+      "bytes": 6577,
+      "sha256": "532b811b867e3da2efb832835151432db451a9cf305dced5255cf993373edc43"
+    },
+    {
+      "path": "PREFLIGHT_CPRO10/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "7d36cf7a5dfc5069ceaef31edc4c44099c38f4dfd5fe60e3d93a094657c58a25"
+    },
+    {
+      "path": "PREFLIGHT_CPRO10/PREFLIGHT.json",
+      "bytes": 6330,
+      "sha256": "e95d8fcfa816c524a8427e7b9abb0b2e02d752b6befde696b54d2e9ebcc20088"
+    },
+    {
+      "path": "PREFLIGHT_CPRO11/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "087e492fb9b4999946ffca7a6434ccba53ac285b69eebf6d8bb806c2d766e143"
+    },
+    {
+      "path": "PREFLIGHT_CPRO11/PREFLIGHT.json",
+      "bytes": 6217,
+      "sha256": "d642a1721ccd2a3322549ebbdb56b8029d5b7663e576c244f9b2c0e746c3f992"
+    },
+    {
+      "path": "PREFLIGHT_CPRO12/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "10668633237c8f0dd75fa7c27f5567c3eba0b3da7435e3a5d85bc67dacb33d93"
+    },
+    {
+      "path": "PREFLIGHT_CPRO12/PREFLIGHT.json",
+      "bytes": 6210,
+      "sha256": "27fbf8c1e510b981606891e257fc6779b1b360c1731ecd4fa44f7c3b39eddcb0"
+    },
+    {
+      "path": "PREFLIGHT_CPRO13/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "9b6bf6f8f1179478d346da54c757f91ba65a83bdbafe250caa2dce5ae90bc862"
+    },
+    {
+      "path": "PREFLIGHT_CPRO13/PREFLIGHT.json",
+      "bytes": 6315,
+      "sha256": "0125f56e97e5fd8f50ae41d6574c1da7a2a626d45728960b5c86ac965ac3ca04"
+    },
+    {
+      "path": "PREFLIGHT_CPRO14/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "1ff891ac1d9e28dc845a026cf88bbcc73692c7f57031b189da4b09c902418de5"
+    },
+    {
+      "path": "PREFLIGHT_CPRO14/PREFLIGHT.json",
+      "bytes": 6240,
+      "sha256": "631a9015be0018bb9316324138cc9607b4d4dc459f9c8ad0fd2c66889631a660"
+    },
+    {
+      "path": "PREFLIGHT_CPRO15/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "7aca1132c7a5cae23a7995d57614948a41c97ab1fce17199c3999baa61d3be0b"
+    },
+    {
+      "path": "PREFLIGHT_CPRO15/PREFLIGHT.json",
+      "bytes": 6273,
+      "sha256": "7f206870527596de1214a6677b4d92fe89445a1c57e095ebcda272873c36b2c1"
+    },
+    {
+      "path": "PREFLIGHT_CPRO16/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "3a710d24827b7ee818897f29e06d816bb62966d72237468cc90c3f41bf184a8c"
+    },
+    {
+      "path": "PREFLIGHT_CPRO16/PREFLIGHT.json",
+      "bytes": 6342,
+      "sha256": "b3752b5611fccf45a0cb82887e3023fc98de81b26eb9e740edd3c0769f47d9c6"
+    },
+    {
+      "path": "PREFLIGHT_CPRO17/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5990a5a78936e0455938ac847593ed0e51bccb967e3fc422ccb6a4c742a208c0"
+    },
+    {
+      "path": "PREFLIGHT_CPRO17/PREFLIGHT.json",
+      "bytes": 6451,
+      "sha256": "bc5ecc0ec89e66030dcb4913901954afe9eabbfeba266ab816bbe6a01828a318"
+    },
+    {
+      "path": "PREFLIGHT_CPRO18/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "433ebe564cd8a035d0b440cb60e8735adeac9a71a09646b6ecf02d824b4ca534"
+    },
+    {
+      "path": "PREFLIGHT_CPRO18/PREFLIGHT.json",
+      "bytes": 6330,
+      "sha256": "316edf2654297a60385cfb30a21ec0a0222eefeb63db3f7ed898f5f5bb4f1235"
+    },
+    {
+      "path": "PREFLIGHT_CPRO19/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "603bc10c82fa63ab2713fe460988d94813e877a6848fb3ab42c27e950675a411"
+    },
+    {
+      "path": "PREFLIGHT_CPRO19/PREFLIGHT.json",
+      "bytes": 6375,
+      "sha256": "55048f07caedbe68185bd3c842b0308a3b4667ee5ff017495f6fb582a23d7aea"
+    },
+    {
+      "path": "PREFLIGHT_CPRO20/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "fd6fa0246939246b58f0eca2ff314ce82dcfe33e0b25b6735cb040ad355feed2"
+    },
+    {
+      "path": "PREFLIGHT_CPRO20/PREFLIGHT.json",
+      "bytes": 6360,
+      "sha256": "6c59faab49908373b9b68c9908bcb485ae63a5c531f8636af7768086615482a0"
+    },
+    {
+      "path": "PREFLIGHT_CPRO21/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "7043bb942e8f52a95641f3962a4d005f280137393480e6a4614467273aead0c4"
+    },
+    {
+      "path": "PREFLIGHT_CPRO21/PREFLIGHT.json",
+      "bytes": 6225,
+      "sha256": "5621ccfc369c27d3685d21df12f5fbd45056d7b8eb9be728ff9040154b37b6d9"
+    },
+    {
+      "path": "PREFLIGHT_CPRO22/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f94d01e3f23859533672e3a1f1be8fa43117cfb78999f160e4ccf54c71116545"
+    },
+    {
+      "path": "PREFLIGHT_CPRO22/PREFLIGHT.json",
+      "bytes": 6327,
+      "sha256": "08440c8cc8211849aa435a1b8ad872d559561a470dd2bfedb4f4792b0b4e21e0"
+    },
+    {
+      "path": "PREFLIGHT_CPRO23/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f9bbca427bd93f559c5c70a9aaf9f19ea5368860a943d983dba61d112051c6d2"
+    },
+    {
+      "path": "PREFLIGHT_CPRO23/PREFLIGHT.json",
+      "bytes": 6331,
+      "sha256": "1709538415f3e2d0741743870f14d1b70cfe97993347e44bc1f1703ba55a3045"
+    },
+    {
+      "path": "PREFLIGHT_CPRO24/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "44242cb7981478183bbc11b411b7ebe36aabde1f38a7ef47bcb89758b2dafe59"
+    },
+    {
+      "path": "PREFLIGHT_CPRO24/PREFLIGHT.json",
+      "bytes": 6255,
+      "sha256": "a8f5550a4ddcec02d3cd64dc0af3d5de38738776c82d5f07fe44d5495600a0de"
+    },
+    {
+      "path": "PREFLIGHT_CPRO25/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "4bc0ef7d667cc3f32abf7d71ee1a1a30610873416efd364cfdbb53311dabb08b"
+    },
+    {
+      "path": "PREFLIGHT_CPRO25/PREFLIGHT.json",
+      "bytes": 6646,
+      "sha256": "f448492eef53d4abf648085aca63353e46a687c69e6b23c9bdb039521aac6a71"
+    },
+    {
+      "path": "PREFLIGHT_CPRO26/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "048246b09dcb9caed51cf739d6079a8016d2b087250084d8ca7bc8159c8f8e8d"
+    },
+    {
+      "path": "PREFLIGHT_CPRO26/PREFLIGHT.json",
+      "bytes": 6267,
+      "sha256": "dcf51e9aefb613c79a49e4c16543c4952b912611fda2052819dcb7fe33019c83"
+    },
+    {
+      "path": "PREFLIGHT_CPRO27/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "388bb101a5008ade2008390943d7261f3ccf6f8d9316d4a4fe601b9f3c84fcdd"
+    },
+    {
+      "path": "PREFLIGHT_CPRO27/PREFLIGHT.json",
+      "bytes": 6267,
+      "sha256": "789daf0f518834215d007bd180ddedccf2929262f99a732635a195f6d89f00c2"
+    },
+    {
+      "path": "PREFLIGHT_CPRO28/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "9ed73e5707e48fc5813e78c1b05bd59aa650d26a86ed8ce1af288d66fbb1e045"
+    },
+    {
+      "path": "PREFLIGHT_CPRO28/PREFLIGHT.json",
+      "bytes": 6333,
+      "sha256": "34bb6155cb115e96ec7d012872bdd25039442d824bf871cd89d90931439712f9"
+    },
+    {
+      "path": "PREFLIGHT_CPRO29/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "0a24798db116852792da3ca362f9103d4c50ca5bccdc7eae25331a5d6ed5e55e"
+    },
+    {
+      "path": "PREFLIGHT_CPRO29/PREFLIGHT.json",
+      "bytes": 6284,
+      "sha256": "680d1056c919de069dba61267edf63a9cc8dec628c21edddf44322c75c7351fc"
+    },
+    {
+      "path": "PREFLIGHT_CPRO30/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "cec8029b0cacd733224075671ebd10d050d9a823d5bea7b89b5f78d04a36be47"
+    },
+    {
+      "path": "PREFLIGHT_CPRO30/PREFLIGHT.json",
+      "bytes": 6240,
+      "sha256": "5ebf229df8e8d1e7f33b78350adac683e184691594c633f8bbdb896c39354247"
+    },
+    {
+      "path": "PREFLIGHT_CPRO31/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "3e612ae10007f0cd84c320f73ec73a5564d84225c5431fb818cf7deaffb232bc"
+    },
+    {
+      "path": "PREFLIGHT_CPRO31/PREFLIGHT.json",
+      "bytes": 6451,
+      "sha256": "0ad5dd0aad2c16269013fa9513441bad36ae774db9400550c0351f1db7df07b0"
+    },
+    {
+      "path": "PREFLIGHT_CPRO32/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f2b32ef49a9a6b12b2af5fcce73d5aa4e1bb00487db0d440737b4ee56c46ff20"
+    },
+    {
+      "path": "PREFLIGHT_CPRO32/PREFLIGHT.json",
+      "bytes": 6192,
+      "sha256": "4111456fd67f64e94295d2320c1fb784968f1fae0ceb64d1ec45db0c74b6e11b"
+    },
+    {
+      "path": "PREFLIGHT_CPRO33/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "de5229115ae7955894227efb58c3574220a1f80e55c31c710e25d62c36ad4988"
+    },
+    {
+      "path": "PREFLIGHT_CPRO33/PREFLIGHT.json",
+      "bytes": 6212,
+      "sha256": "f49528ce87bc45965d748160a070260814932ca24ed73532cfcad125c2fa8413"
+    },
+    {
+      "path": "PREFLIGHT_CPRO34/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "e5bc9d3e43ad3e48c4d1ae2e0530d88a32391eb2d7ba58205a7157bbf4694685"
+    },
+    {
+      "path": "PREFLIGHT_CPRO34/PREFLIGHT.json",
+      "bytes": 6316,
+      "sha256": "22b069177b99e30ee97b7cdbd6f0e739a4c1a0935c404c9d44a177991c9f448a"
+    },
+    {
+      "path": "PREFLIGHT_CPRO35/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "40b2bb81a7645ad35ac1a9a2c9cbd7d54f6b2d387a505b11f4d535e59deb93d9"
+    },
+    {
+      "path": "PREFLIGHT_CPRO35/PREFLIGHT.json",
+      "bytes": 6203,
+      "sha256": "4ce9e364d1ab31fbec4ae978f95b28afb91441e3eac9b29d430804236f643bef"
+    },
+    {
+      "path": "PREFLIGHT_CPRO36/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "75f537011429ea2c5ba13a8fd051edb2f0bb5534fe8cf556a02ab1b9a65d2a17"
+    },
+    {
+      "path": "PREFLIGHT_CPRO36/PREFLIGHT.json",
+      "bytes": 6271,
+      "sha256": "7606ee42fe4247814cc850178e9b3e04651d37bb66aabc59c0c9741c3a384df5"
+    },
+    {
+      "path": "PREFLIGHT_CPRO37/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "4e0e9352097c96753a52989f171d1e71e67167073fb2f23f4f4604b1b6d6415b"
+    },
+    {
+      "path": "PREFLIGHT_CPRO37/PREFLIGHT.json",
+      "bytes": 6510,
+      "sha256": "2f01240ef48715d57f6a15e987adb963c4625581028eec0a994be666be595d25"
+    },
+    {
+      "path": "PREFLIGHT_CPRO38/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "de0b71b364424af59d86448506010984261be5e30684c3e07090f5ee86d237f5"
+    },
+    {
+      "path": "PREFLIGHT_CPRO38/PREFLIGHT.json",
+      "bytes": 6164,
+      "sha256": "93f542ae7de5ecc4ee1374e976e3c3b61946f7afdfc197093bb4304014c624f0"
+    },
+    {
+      "path": "PREFLIGHT_CPRO39_ATTEMPT.json",
+      "bytes": 1785,
+      "sha256": "e2872aa8fe421e92275dbf4b13749a9b5b57c182584beeabe12d67467223face"
+    },
+    {
+      "path": "PREFLIGHT_CPRO39-debug/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "2d958cd5964a3751f32a6eb5d29bfde8e3174ccfe3814d434f3de0c58e754daf"
+    },
+    {
+      "path": "PREFLIGHT_CPRO39-debug/PREFLIGHT.json",
+      "bytes": 5970,
+      "sha256": "e51afa0ce4de63d1e351179880ac6b675f5b9e4540a515097d8580e9be97c2ff"
+    },
+    {
+      "path": "PREFLIGHT_CPRO39/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "5557aa54a9a6608fa1b3b21a9e33bb2c29640edbd386b62f64651258ccb3f6a9"
+    },
+    {
+      "path": "PREFLIGHT_CPRO39/PREFLIGHT.json",
+      "bytes": 6242,
+      "sha256": "1ebb11b52445fa2b7088a9a2cf6f1ee6fc8d17e019c1f7fb21d80b107fe66bf4"
+    },
+    {
+      "path": "PREFLIGHT_CPRO40/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "bf0be82d778aabeea3a16a7400a81706f101115bac26ed4071d0c562c3bcd32d"
+    },
+    {
+      "path": "PREFLIGHT_CPRO40/PREFLIGHT.json",
+      "bytes": 6387,
+      "sha256": "a716b7e098f7e9480ce2ad6f6abc41f4f39e9496c2504e13eada00aea6f3ca82"
+    },
+    {
+      "path": "PREFLIGHT_CPRO41/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "2cc30d85f3595ac0aa223789f862680fcd32e8da0a63629bec74bf4e6fa0e55d"
+    },
+    {
+      "path": "PREFLIGHT_CPRO41/PREFLIGHT.json",
+      "bytes": 6284,
+      "sha256": "cb902340de5eda0f1de5bdca145405e0350af41ac1216d8b5bbba6581db2dba8"
+    },
+    {
+      "path": "PREFLIGHT_CPRO42/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "0d5c91307b8232f71b3b4ae41642722f566151a6254867c55942af127b50444e"
+    },
+    {
+      "path": "PREFLIGHT_CPRO42/PREFLIGHT.json",
+      "bytes": 6280,
+      "sha256": "4de0cd0769add3a1950d1c01d622896d3331a0a9766d9862bb756a4bb89ae6c5"
+    },
+    {
+      "path": "PREFLIGHT_CPRO43/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "fe0b145a91cab037da5675abc525a751be287ca561d493870cc509a72ff06faf"
+    },
+    {
+      "path": "PREFLIGHT_CPRO43/PREFLIGHT.json",
+      "bytes": 6332,
+      "sha256": "5e5037b528a487096b888f3f468c7e5e750b9051f54d84ca13c48b98f97c6db3"
+    },
+    {
+      "path": "PREFLIGHT_CPRO44/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "fc3aae87d64bd62f096daa552f2545db8ed73e96676f2a1945146fba40198462"
+    },
+    {
+      "path": "PREFLIGHT_CPRO44/PREFLIGHT.json",
+      "bytes": 6207,
+      "sha256": "0bcc7026ca585c8cf4df9157b1e7d3143e3c0dd443ec6a91962c86388ba3a72b"
+    },
+    {
+      "path": "PREFLIGHT_CPRO45/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "57ec2229a3e4695b2c39ae78c65c056ea72b95ab031d0d83356fcdd3436977cd"
+    },
+    {
+      "path": "PREFLIGHT_CPRO45/PREFLIGHT.json",
+      "bytes": 6315,
+      "sha256": "bf317fa843a7c08c7c8db509017e9254cf08bddf1ac0d64b525391088f4d61ef"
+    },
+    {
+      "path": "PREFLIGHT_CPRO46/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "9cd45880c583f07a03e4a5a576e09fc251ba68460608d1072acac598fb6ad80d"
+    },
+    {
+      "path": "PREFLIGHT_CPRO46/PREFLIGHT.json",
+      "bytes": 6660,
+      "sha256": "c4e0662edeff644ef5eae6113de4a0e2a1809c1bfe43bc50134a136ecf5dd28d"
+    },
+    {
+      "path": "PREFLIGHT_CPRO47/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "357209923d655984a8d05dc360028c788ccc5ec795192c84f96b19f356d3d79e"
+    },
+    {
+      "path": "PREFLIGHT_CPRO47/PREFLIGHT.json",
+      "bytes": 6405,
+      "sha256": "4704b627ba6f5c66fa4901f017849d678a378f0ac935397996fffa60af3b543c"
+    },
+    {
+      "path": "PREFLIGHT_CPRO48/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "fd11e0eeb8dd6f194512d04181a3164e270e681686cb4e25c05dc4ce2403c612"
+    },
+    {
+      "path": "PREFLIGHT_CPRO48/PREFLIGHT.json",
+      "bytes": 6322,
+      "sha256": "c5a19e572596593781a5559e7b604e97a04ac46959592b107b9fcc042c078704"
+    },
+    {
+      "path": "PREFLIGHT_CPRO49/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "3f5ac618370a15b338ce9c88e9e685971cded32df021d246cd6ee9fdeffd1752"
+    },
+    {
+      "path": "PREFLIGHT_CPRO49/PREFLIGHT.json",
+      "bytes": 6207,
+      "sha256": "331a1fa5faa246e2e4f4bb9f690f365a91060f6f31bf8504bf8713e1c0975672"
+    },
+    {
+      "path": "PREFLIGHT_CPRO50/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "f36271a160b79188c9a81dadb3b42e85e2e848d70c6e436bf8082c396a3dafdd"
+    },
+    {
+      "path": "PREFLIGHT_CPRO50/PREFLIGHT.json",
+      "bytes": 6345,
+      "sha256": "b8e50d4abb921443b12b5521a9a9e1bf4ef0632629e2eea447e0c0069a2ebc5a"
+    },
+    {
+      "path": "PREFLIGHT_CPRO51/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "0f1c1daf8e55e53d810e4c032d5a7e97811a97963720b88a44625bde05340734"
+    },
+    {
+      "path": "PREFLIGHT_CPRO51/PREFLIGHT.json",
+      "bytes": 6150,
+      "sha256": "0501c7085ce85b78ba290f75a7e30c3e51087528be0887e18cf87a2b0df66e36"
+    },
+    {
+      "path": "PREFLIGHT_CPRO52/CHECKPOINT.json",
+      "bytes": 824,
+      "sha256": "440d966a6967c9ec5151b5805385afcff41531f13157f69456d5c8aae15911fc"
+    },
+    {
+      "path": "PREFLIGHT_CPRO52/PREFLIGHT.json",
+      "bytes": 6150,
+      "sha256": "aae54624b81cfe24ba9dc452124ebf59a7ae8abe2b04176f7c5eaf41ee5a3145"
+    },
+    {
+      "path": "PREFLIGHT_NATIONAL_BATCH.json",
+      "bytes": 86351,
+      "sha256": "0595df6237b183c9f6499c16e28ff7da7331ab54d46f4f2a00f1c5564f10efc5"
+    },
+    {
+      "path": "READY_SELECTION.json",
+      "bytes": 315,
+      "sha256": "c795b5d9d78f76c987f2743be668f73abfec852d93fe89001aa5bb1cdfdf135d"
+    },
+    {
+      "path": "REFERENCIAS_TEMPORALES.md",
+      "bytes": 1466,
+      "sha256": "fd4d756a2d2c422a4c79142dc466c073f4ead24b8369730fc61566d0548ca872"
+    },
+    {
+      "path": "REGISTRO_NOMINAL_D.csv",
+      "bytes": 6089737,
+      "sha256": "5f8d86f8da0c9a2584e6c5d7198235155ee66f826f19df070b049b33417e0af6"
+    },
+    {
+      "path": "RESOLUCION_NUEVE_CASOS_20261017.md",
+      "bytes": 6950,
+      "sha256": "112b5a72f7a71fa3052c531eb22193c4efde2d535f5aa6e30e87b882df997ae8"
+    },
+    {
+      "path": "RESOURCE_LOCKS.json",
+      "bytes": 2704,
+      "sha256": "7c1c7fddf14d3239778ff4c1825932038a4bd0ef0c630c36205c5b760ed783b3"
+    },
+    {
+      "path": "REVIEW_DECISIONS.json",
+      "bytes": 6734,
+      "sha256": "c6e51c59d0f8462c8b045ed80469edbd7658585da55bfa568ed4cbd997dfb9e5"
+    },
+    {
+      "path": "REVIEW_QUEUE.json",
+      "bytes": 355,
+      "sha256": "b5a17f53483c3e8125d4a480bebb05ac314eeecf75fa5f6d9c5defaef5ed8ec5"
+    },
+    {
+      "path": "TASK_REGISTRY.json",
+      "bytes": 130474,
+      "sha256": "03ef33b31815fbb3bb923139a3ce9a0c1116d27ed846f5cc3493dc4ceb6706af"
+    }
+  ]
+}
