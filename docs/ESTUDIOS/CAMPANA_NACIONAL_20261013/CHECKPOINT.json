@@ -1,14 +1,12 @@
 {
   "blocked": [
-    "NAT-C-056: official independent boundary source acquisition/receipt needs explicit authorization; 2026 candidate not temporally accredited for 2025-01-01.",
     "NAT-C-003..NAT-C-054: 52 distinct provincial comparisons await the shared receipt; NAT-C-002 is the downstream 52/52 roll-up.",
     "NAT-F-003: real generation requires explicit owner authorization.",
     "NAT-D nominal exceptions: individual owner decisions pending where identified.",
-    "NAT-H: diagnostics complete at available evidence level; no territorial product/factibility certification."
+    "NAT-H: diagnostics complete at available evidence level; no territorial product/factibility certification.",
+    "NAT-C-056 now READY: official acquisition authorized 2026-10-15; receipt absent, historical validity unaccredited; 52 provincial checks and NAT-C-002 remain blocked until verified receipt."
   ],
-  "blocked_environment": [
-    "NAT-J-003: branch remote verified at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR; GitHub connector PR-create requires approval unavailable under policy never; gh token invalid; no PR-triggered CI."
-  ],
+  "blocked_environment": [],
   "branch": "codex/national-campaign-controller",
   "campaign_id": "ddd-national-campaign-20261013",
   "completed_local_tasks": [
@@ -41,21 +39,25 @@
     "Verificación GitHub read-only: branch codex/national-campaign-controller apunta exactamente a 889485658166928d89bd5bdc5de39cac599c188f; no hay PR existente para esa rama.",
     "NAT-C ledger identity preserved after review: C002 remains downstream 52/52 roll-up; source catalog and receipt assigned to C055/C056.",
     "Independent review of edcc767 returned REVIEW_NO_GO; two documentation ambiguities are corrected in current working tree, canonical planner hash allegation was disproven by direct CLI equality check.",
-    "Independent review cleared corrected C task identities/dependencies and manifest; no acquisition or territorial accreditation."
+    "Independent review cleared corrected C task identities/dependencies and manifest; no acquisition or territorial accreditation.",
+    "PR #268 opened and CI 38895708383 SUCCESS on verified pre-reconciliation HEAD 115947fb5; download explicitly authorized 2026-10-15; no source receipt yet.",
+    "INE ZIP three parts and reconstruction hashes located in GitHub; no bytes reconstructed in this tool session."
   ],
   "created_at": "2026-10-13",
-  "global_state": "NATIONAL_EXHAUSTED_AUTHORIZED_WORK",
-  "head": "ab40ac19294487b571c9c557bb77a5005a05ac21",
+  "global_state": "NATIONAL_INCOMPLETE",
+  "head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
   "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
-  "latest_event": "EV-0067",
+  "latest_event": "EV-0069",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
-  "next_action": "Authorize/receive one official historical administrative-boundary package to unblock 52 independent CPRO comparisons; separately provide an authorized GitHub write route for PR draft. Production remains prohibited.",
+  "next_action": "Acquire/obtain effective 2025-01-01 CNIG/IGN evidence for NAT-C-056; review exact post-reconciliation PR268 HEAD/CI. Real generation remains disallowed.",
   "no_authorized_generation": true,
-  "ready_next": [],
+  "ready_next": [
+    "NAT-C-056"
+  ],
   "reviewing_work": [],
   "running_work": [],
   "schema": "ddd.national-campaign-checkpoint/1.0",
-  "state": "NATIONAL_EXHAUSTED_AUTHORIZED_WORK",
+  "state": "NATIONAL_INCOMPLETE",
   "tests_passed": [
     "Final integrated Congress/N08/M05/preflight/ledger/planner suite: 263 passed, 7 skipped, 82 subtests passed.",
     "Separate autonomous regression suite: 65 passed, 7 subtests passed.",
@@ -66,6 +68,7 @@
     "NAT-C-002..056 DAG/acquisition ledger tests + national planner/registry/temp-dependency regressions: 13 passed; one initial assertion bug in the new test was corrected and full focused rerun passed."
   ],
   "worktree": "/private/tmp/ddd-national-campaign-20261013",
-  "reconciled_remote_head": "ab40ac19294487b571c9c557bb77a5005a05ac21",
-  "audit_scope": "Audited all former C blockers, DAG semantics, bounded local source inventory, readiness snapshot and campaign manifest; no source downloaded, generation or PR creation."
+  "reconciled_remote_head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
+  "audit_scope": "Audited all former C blockers, DAG semantics, bounded local source inventory, readiness snapshot and campaign manifest; no source downloaded, generation or PR creation.",
+  "head_semantics": "PRE_RECONCILIATION_VERIFIED_SNAPSHOT_NOT_FINAL_PR_HEAD"
 }
