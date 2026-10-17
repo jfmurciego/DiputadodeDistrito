@@ -1,4 +1,4 @@
-name: F10 - diagnostico variaciones callejero oficial INE
+name: F10 - variaciones oficiales INE 2026
 on:
   push:
     branches:
@@ -20,11 +20,12 @@ jobs:
       - name: Adquirir ZIP oficial de variaciones y comprobar CRC y SHA
         run: |
           python herramientas/inspeccionar_variaciones_callejero_f10.py \
-            --output "$RUNNER_TEMP/variaciones_ine_0725_0126.json"
+            --source-url "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip" \
+            --output "$RUNNER_TEMP/variaciones_ine_0126_0726.json"
       - name: Conservar evidencia no productiva
         uses: actions/upload-artifact@v4
         with:
-          name: f10-ine-variaciones-0725-0126
-          path: ${{ runner.temp }}/variaciones_ine_0725_0126.json
+          name: f10-ine-variaciones-0126-0726
+          path: ${{ runner.temp }}/variaciones_ine_0126_0726.json
           if-no-files-found: error
           retention-days: 30
