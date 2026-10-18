@@ -1,0 +1,70 @@
+{
+  "schema": "ddd.f10-andalucia-2025-2026-spatial-evidence-manifest/1.0",
+  "date": "2026-10-18",
+  "scope": "17 municipalities / 34 changed CUSEC identities from official INE annual editions",
+  "sources": {
+    "provider": "INE",
+    "type": "WFS 2.0.0 Secciones_2025 and SU.VectorStatisticalUnit (2026)",
+    "number_of_municipalities": 17,
+    "source_extractions": 34,
+    "source_file_pattern": "docs/AUDITORIAS/CIERRE_FUENTES_20261017/ANDALUCIA_EXTRACTED_{CUMUN}_{year}.geojson",
+    "source_representation": "WFS_TEXT_REENCODED_NOT_RAW_HTTP",
+    "source_original_http_hashes_accredited": false,
+    "geometry_crs": "EPSG:25830",
+    "analysis_crs": "EPSG:3035"
+  },
+  "workflow": {
+    "run_id": 39138622871,
+    "status": "SUCCESS",
+    "url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/39138622871",
+    "artifact_id": 12140099955,
+    "artifact_name": "f10-andalucia-2025-2026-matriz-espacial",
+    "artifact_sha256": "5210f417b6609b8bc6d01cf638bd7b45d4855acecc37b85c1bace03b29ace771",
+    "artifact_expiry": "2027-01-16T15:01:48Z"
+  },
+  "validated": {
+    "municipalities_expected": 17,
+    "municipalities_analyzed": 17,
+    "source_extractions_expected": 34,
+    "source_extractions_archived": 34,
+    "added_2026": 25,
+    "retired_2025": 9,
+    "changed_sections_covered": 34,
+    "acquisition_errors": 0,
+    "identity_difference_errors": 0,
+    "geometry_errors": 0,
+    "all_changed_geometries_have_near_complete_other_year_coverage": true,
+    "minimum_recorded_fraction": 0.99999987
+  },
+  "election": {
+    "authority": "Junta de Andalucia SIEL 202605",
+    "candidate_votes_official": 4157539,
+    "electoral_sections_reported": 6044,
+    "ine_2026_sections": 6045,
+    "siel_absent_ine_present": "2102502002",
+    "specific_issue": "Cortegana, Huelva: official electoral outcome of this INE 2025/26 section not certified"
+  },
+  "previous_failed_raw_attempt": {
+    "run_id": 39137139872,
+    "successful_original_http_responses": 1,
+    "failed_requests": 33,
+    "timeout_errors": 25,
+    "connection_refused_errors": 8,
+    "artifact_id": 12140033910,
+    "description": "Do not misrepresent reserialized later extracts as raw HTTP byte-exact copies"
+  },
+  "policy": {
+    "SOURCE_IDENTITIES_ACQUIRED": true,
+    "GEOMETRY_SPATIAL_CANDIDATES_ANALYZED": true,
+    "ELECTORAL_CROSSWALK_ACCREDITED": false,
+    "RAW_OFFICIAL_HTTP_RECEIPTS_COMPLETE": false,
+    "F10_ELECTORAL_PASS": false,
+    "GENERATION_AUTHORIZED": false
+  },
+  "next_requirements": [
+    "Accredit actual electoral edition and documentary treatment of section 2102502002 in Cortegana",
+    "Obtain official legal/administrative 2025↔2026 crosswalk for affected precinct results; geometric predecessor candidates cannot allocate votes",
+    "Preserve byte-exact official HTTP or certified original files for final consumer receipts",
+    "Run canonical electoral consumer and independent review before any formal F10 promotion"
+  ]
+}
