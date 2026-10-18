@@ -99,8 +99,14 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
              and quota == max(1, (population + 60000) // 120000),
              "PROVINCIAL_K_MISMATCH")
 
+    # Exact integer N08 0.85/1.15 bounds, computed without float rounding.
+    # A budget failure means *no* strict connected partition exists on this
+    # section graph; it does not authorize a fictitious edge or exception.
+    floor = (17 * population + 20 * quota - 1) // (20 * quota)
+    cap = (23 * population) // (20 * quota)
     structural = structural_component_bound(
-        [int(component["population"]) for component in unit["physical_components"]], quota)
+        [int(component["population"]) for component in unit["physical_components"]],
+        quota, floor=floor, cap=cap)
     decisions = contract.get("decisions", {})
     pending = sorted(key for key in OWNER_POLICIES
                      if not isinstance(decisions.get(key), dict)
@@ -108,7 +114,7 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
                      or decisions[key].get("value") is None)
     blockers = []
     if not structural["necessary_condition"]:
-        blockers.append("PHYSICAL_COMPONENTS_EXCEED_K")
+        blockers.append(structural["reason"])
     if summary.get("discontinuous_municipalities"):
         blockers.append("MUNICIPAL_DISCONTINUITIES_REQUIRE_REVIEW")
     if summary.get("multipart_sections_spanning_physical_components"):
@@ -121,6 +127,11 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
         "pending_owner_decisions": pending,
         "structural_necessary_condition": structural["necessary_condition"],
         "structural_feasibility_proven": False,
+        "structural_necessary_reason": structural["reason"],
+        "structural_population_floor": floor,
+        "structural_population_cap": cap,
+        "structural_minimum_districts_total": structural["minimum_districts_total"],
+        "structural_maximum_districts_total": structural["maximum_districts_total"],
         "territorial_cautions": blockers,
         "evidence_scope": "ACCREDITED_N08_PRODUCT_NOT_REAL_M04_M06_PARTITION",
         "sections": graph["nodes"], "edges": graph["edges"],

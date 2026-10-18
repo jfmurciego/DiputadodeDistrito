@@ -118,17 +118,56 @@ def validate_physical_product(contract, nodes, edges, source_binding, *, require
             'production_blockers': production_blockers(contract)}
 
 
-def structural_component_bound(component_populations, k):
-    """Necessary bound under strict physical contiguity; not a feasibility proof.
+def structural_component_bound(component_populations, k, *, floor=None, cap=None):
+    """Necessary conditions for strictly connected districts, never sufficiency.
 
-    Even zero-population components contain sections requiring coverage.
+    A district cannot span two disconnected section-graph components without
+    an externally accredited nominal exception. Under population bounds every
+    component must accommodate an integer number of whole districts. This
+    upper/lower budget is optimistic: sections/municipalities are indivisible,
+    so passing it does NOT prove a partition exists.
+
+    Without floor/cap, preserve the legacy components<=K contract for small
+    synthetic callers.
     """
     _require(type(k) is int and k > 0, 'K_INVALID')
-    _require(all(type(p) is int and p >= 0 for p in component_populations), 'COMPONENT_POPULATION_INVALID')
-    return {'necessary_condition': len(component_populations) <= k,
-            'reason': 'PHYSICAL_COMPONENTS_EXCEED_K' if len(component_populations) > k
-                      else 'NO_IMPOSSIBILITY_FROM_COMPONENT_COUNT',
-            'feasibility_proven': False}
+    _require(all(type(p) is int and p >= 0 for p in component_populations),
+             'COMPONENT_POPULATION_INVALID')
+    component_populations = list(component_populations)
+    result = {'necessary_condition': len(component_populations) <= k,
+              'reason': ('PHYSICAL_COMPONENTS_EXCEED_K'
+                         if len(component_populations) > k
+                         else 'NO_IMPOSSIBILITY_FROM_COMPONENT_COUNT'),
+              'feasibility_proven': False}
+    if floor is None and cap is None:
+        return result
+    _require(type(floor) is int and type(cap) is int and 0 < floor <= cap,
+             'COMPONENT_POPULATION_BOUNDS_INVALID')
+    minimum = [max(1, (population + cap - 1) // cap)
+               for population in component_populations]
+    maximum = [population // floor for population in component_populations]
+    min_total, max_total = sum(minimum), sum(maximum)
+    if len(component_populations) > k:
+        reason = 'PHYSICAL_COMPONENTS_EXCEED_K'
+    elif any(low > high for low, high in zip(minimum, maximum)):
+        reason = 'COMPONENT_POPULATION_BOUNDS_IMPOSSIBLE'
+    elif min_total > k:
+        reason = 'COMPONENT_MINIMUM_DISTRICT_BUDGET_EXCEEDS_K'
+    elif max_total < k:
+        reason = 'COMPONENT_MAXIMUM_DISTRICT_BUDGET_BELOW_K'
+    else:
+        reason = 'NO_IMPOSSIBILITY_FROM_COMPONENT_COUNT_OR_POPULATION'
+    result.update({
+        'necessary_condition': reason.startswith('NO_IMPOSSIBILITY_'),
+        'reason': reason,
+        'population_floor': floor,
+        'population_cap': cap,
+        'minimum_districts_by_component': minimum,
+        'maximum_districts_by_component': maximum,
+        'minimum_districts_total': min_total,
+        'maximum_districts_total': max_total,
+    })
+    return result
 
 
 def engine_input_contract():
