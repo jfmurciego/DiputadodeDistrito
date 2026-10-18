@@ -2799,13 +2799,13 @@
         "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_SOURCE_RECEIPT/"
       ],
       "tests": [],
-      "evidence": "Adquisición puntual de fuente CNIG/IGN autorizada expresamente por el propietario el 2026-10-15. No hay bytes/receipt ni validez histórica 2025-01-01 verificados; autorización no es acreditación.",
+      "evidence": "Adquisición autorizada 2026-10-15; consulta oficial CNIG enviada y confirmada 2026-10-18 en CNIG_CONSULTA_OFICIAL_20261018.json, sin número de registro. Respuesta, bytes, hash, edición y vigencia administrativa 2025-01-01 pendientes. NO hay recibo geográfico.",
       "review": null,
       "integration": null,
       "commit": null,
       "owner": "controller",
       "worktree": null,
-      "next_action": "Obtener o solicitar el snapshot oficial independiente efectivo 2025-01-01 y validar sus bytes, SHA, edición, CRS, códigos, licencia y temporalidad. No usar geometría 2026 como equivalente automático."
+      "next_action": "Esperar respuesta CNIG al formulario enviado 2026-10-18; si llega un paquete, verificar edición, bytes/SHA, licencia, códigos y vigencia al 2025-01-01. No iniciar CPRO sin recibo validado. No aceptar costes sin autorización."
     }
   ]
 }

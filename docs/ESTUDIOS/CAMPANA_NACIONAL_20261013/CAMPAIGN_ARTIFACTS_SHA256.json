@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "ADQUISICION_FUENTE_LIMITE_CNIG.md",
-      "bytes": 5751,
-      "sha256": "04b424f79f970ce7d30160266b5e3546c996cc3ab552f053b15c00988212b3eb"
+      "bytes": 6257,
+      "sha256": "d60cf198c9698605199f40c29dba15f145503456b92c133f86c63b88dfacde02"
     },
     {
       "path": "AUDITORIA_BLOQUEOS_C_003_056.csv",
@@ -18,13 +18,18 @@
     },
     {
       "path": "CAMPAIGN_MANIFEST.json",
-      "bytes": 2084,
-      "sha256": "3624dd9101bd790ceee8e2648402c37ad882d3a9cf7c44d4d887013696611088"
+      "bytes": 2446,
+      "sha256": "685aee0c0b1b5ae4483ce60815dace1e4eefaa99fb38d39fcf276d9215764bfe"
     },
     {
       "path": "CHECKPOINT.json",
-      "bytes": 5966,
-      "sha256": "49d6944a202092d1bf50039ecd3013f5adae05019bcb3f8270a528ef489f020a"
+      "bytes": 6063,
+      "sha256": "f49cc1e49810f9754e8c7fbd4393c93c7756ffa265d3ad4a7e850a321d9a7587"
+    },
+    {
+      "path": "CNIG_CONSULTA_OFICIAL_20261018.json",
+      "bytes": 1088,
+      "sha256": "72df61f84a1ceb7ec1d2d10bfd1986140a37e846bab75133ff9c7fe6857c62f8"
     },
     {
       "path": "D_ANOMALIAS.md",
@@ -48,8 +53,8 @@
     },
     {
       "path": "EVENT_LOG.jsonl",
-      "bytes": 22611,
-      "sha256": "44151f393456d8bc64eae5c4030be1648c15b4b4f65399e67efb61c98e728e46"
+      "bytes": 22922,
+      "sha256": "ad11d94d6692ec4b294bd3f908b50e8330b20136a7074034dddfaeff9e9e8dbc"
     },
     {
       "path": "EXPEDIENTE_ACEPTACION_PR268_20261017.md",
@@ -1604,7 +1609,7 @@
     {
       "path": "READY_SELECTION.json",
       "bytes": 315,
-      "sha256": "c795b5d9d78f76c987f2743be668f73abfec852d93fe89001aa5bb1cdfdf135d"
+      "sha256": "d3964fa7d8a54137fd0b47643f2700151e40cc96c13941af5480ce1ede209692"
     },
     {
       "path": "REFERENCIAS_TEMPORALES.md",
@@ -1638,8 +1643,8 @@
     },
     {
       "path": "TASK_REGISTRY.json",
-      "bytes": 130474,
-      "sha256": "03ef33b31815fbb3bb923139a3ce9a0c1116d27ed846f5cc3493dc4ceb6706af"
+      "bytes": 130562,
+      "sha256": "f279317f7c1980c301c8330e3a437e534b23f7a1409820d66e9b22527578190c"
     }
   ]
 }

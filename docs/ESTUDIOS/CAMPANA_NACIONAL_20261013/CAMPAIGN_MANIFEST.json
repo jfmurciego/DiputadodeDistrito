@@ -49,5 +49,16 @@
     "ci_conclusion": "SUCCESS",
     "independent_final_review": false,
     "merge_authorized": false
+  },
+  "official_source_inquiry": {
+    "date": "2026-10-18",
+    "channel": "CNIG official contact form",
+    "status": "CONFIRMED_SUBMITTED",
+    "confirmation_reference": null,
+    "record": "CNIG_CONSULTA_OFICIAL_20261018.json",
+    "official_reply_received": false,
+    "source_received": false,
+    "source_accredited": false,
+    "cost_commitment": false
   }
 }

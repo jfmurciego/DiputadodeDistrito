@@ -47,9 +47,9 @@
   "global_state": "NATIONAL_INCOMPLETE",
   "head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
   "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
-  "latest_event": "EV-0069",
+  "latest_event": "EV-0070",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
-  "next_action": "Acquire/obtain effective 2025-01-01 CNIG/IGN evidence for NAT-C-056; review exact post-reconciliation PR268 HEAD/CI. Real generation remains disallowed.",
+  "next_action": "CNIG official inquiry submitted successfully 2026-10-18; await dated source or official answer, then verify receipt NAT-C-056. CPRO comparisons and roll-up stay BLOCKED_DEPENDENCY. PR268 requires separate independent review and owner merge decision.",
   "no_authorized_generation": true,
   "ready_next": [
     "NAT-C-056"

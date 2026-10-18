@@ -1,3 +1,5 @@
+> **Actuación comprobada el 2026-10-18:** consulta remitida por el formulario oficial CNIG/IGN para solicitar el histórico vigente el **01/01/2025**. Confirmación del sitio: **«Tu consulta ha sido enviada correctamente»**. No proporcionó número de expediente. **No hubo respuesta oficial, descarga ni verificación de datos; no se autorizó gasto.** Evidencia estructurada: `CNIG_CONSULTA_OFICIAL_20261018.json`. `NAT-C-056` mantiene `READY`; `NAT-C-003…054` y `NAT-C-002` continúan bloqueadas.
+
 > **Actualización 2026-10-17:** autorización expresa del propietario el 2026-10-15 para adquirir cartografía oficial CNIG/IGN y solicitar el histórico vigente a 2025-01-01. `source_download=true` **sólo para esta adquisición**, `NAT-C-056=READY`. Estado de datos: **no descargado; no acreditado**. Las alusiones a `source_download=false` inferiores son históricas (2026-10-14), no vigentes. `generation_authorized=false`.
 
 # Expediente único de adquisición: límites administrativos independientes 2025
