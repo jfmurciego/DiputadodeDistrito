@@ -1,0 +1,37 @@
+name: F10 preservacion original INE callejero 2025-2026
+on:
+  push:
+    branches:
+      - chatgpt/fuentes-wfs-20261017
+    paths:
+      - .github/workflows/f10-preservar-ine-callejero-20261018.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  conservar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar sintaxis
+        run: python -m py_compile herramientas/inspeccionar_variaciones_callejero_f10.py
+      - name: Adquirir y preservar originales INE y auditorias
+        run: |
+          mkdir -p "$RUNNER_TEMP/ine"
+          python herramientas/inspeccionar_variaciones_callejero_f10.py \
+            --source-url https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip \
+            --raw-out "$RUNNER_TEMP/ine/Var_Callejero_0725_0126.zip" \
+            --output "$RUNNER_TEMP/ine/Var_Callejero_0725_0126.audit.json"
+          python herramientas/inspeccionar_variaciones_callejero_f10.py \
+            --source-url https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip \
+            --raw-out "$RUNNER_TEMP/ine/Var_Callejero_0126_0726.zip" \
+            --output "$RUNNER_TEMP/ine/Var_Callejero_0126_0726.audit.json"
+          sha256sum "$RUNNER_TEMP/ine"/*.zip
+      - name: Guardar originales y auditorias temporales
+        uses: actions/upload-artifact@v4
+        with:
+          name: f10-ine-callejero-originales-2025-2026
+          path: ${{ runner.temp }}/ine/
+          if-no-files-found: error
+          retention-days: 90
