@@ -108,6 +108,7 @@ def main():
     parser.add_argument("--zip",type=Path,help="Protected official ZIP for offline verification")
     parser.add_argument("--output",type=Path,required=True)
     parser.add_argument("--source-url",default=URL,choices=sorted(ALLOWED_URLS))
+    parser.add_argument("--raw-out",type=Path,help="Persist byte-exact downloaded ZIP; fail if existing differs")
     args=parser.parse_args()
     if args.zip:
         raw=args.zip.read_bytes()
@@ -117,6 +118,16 @@ def main():
             if response.status!=200: raise RuntimeError("HTTP_"+str(response.status))
             raw=response.read(100_000_001)
     report=inspect(raw)
+    if args.raw_out:
+        args.raw_out.parent.mkdir(parents=True,exist_ok=True)
+        if args.raw_out.exists():
+            if hashlib.sha256(args.raw_out.read_bytes()).hexdigest()!=report["zip_sha256"]:
+                raise ValueError("EXISTING_RAW_ZIP_HASH_COLLISION")
+        else:
+            args.raw_out.write_bytes(raw)
+        if hashlib.sha256(args.raw_out.read_bytes()).hexdigest()!=report["zip_sha256"]:
+            raise ValueError("RAW_PERSISTENCE_HASH_MISMATCH")
+        report["raw_original_archive"]=str(args.raw_out)
     report["source_url"]=args.source_url
     report["interval"]=ALLOWED_URLS[args.source_url]
     args.output.parent.mkdir(parents=True,exist_ok=True)
