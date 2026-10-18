@@ -47,6 +47,12 @@ class N08ConnectedPopulationBudgetTests(unittest.TestCase):
         self.assertTrue(structural_component_bound([770554], 6)["necessary_condition"])
         self.assertFalse(structural_component_bound([100, 100], 1)["necessary_condition"])
 
+    def test_generator_population_input_preserves_component_count(self):
+        result = structural_component_bound((p for p in (100, 100)), 1)
+        self.assertFalse(result["necessary_condition"])
+        result = structural_component_bound((p for p in (100,)), 1, floor=90, cap=120)
+        self.assertTrue(result["necessary_condition"])
+
     def test_invalid_budget_is_rejected(self):
         for kwargs in ({"floor": 0, "cap": 100},
                        {"floor": 200, "cap": 100},

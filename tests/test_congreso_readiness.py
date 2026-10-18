@@ -47,6 +47,32 @@ class CongressThreeGatesTests(unittest.TestCase):
         self.assertTrue(province["structural_necessary_condition"])
         self.assertFalse(province["generation_authorized"])
 
+    def test_five_original_cpro_products_fail_connected_population_budget(self):
+        expected = {
+            "07": "COMPONENT_POPULATION_BOUNDS_IMPOSSIBLE",
+            "09": "PHYSICAL_COMPONENTS_EXCEED_K",
+            "17": "COMPONENT_POPULATION_BOUNDS_IMPOSSIBLE",
+            "34": "PHYSICAL_COMPONENTS_EXCEED_K",
+            "36": "COMPONENT_POPULATION_BOUNDS_IMPOSSIBLE",
+        }
+        for cpro, reason in expected.items():
+            with self.subTest(CPRO=cpro):
+                province = provincial_preflight(self.contract, PRODUCT, cpro)
+                self.assertFalse(province["structural_necessary_condition"])
+                self.assertFalse(province["structural_feasibility_proven"])
+                self.assertEqual(province["structural_necessary_reason"], reason)
+                self.assertIn(reason, province["territorial_cautions"])
+                self.assertFalse(province["generation_authorized"])
+                national = national_readiness(self.contract)
+                execution = execution_authorization(province, national)
+                self.assertEqual(execution["status"], "DENIED")
+                self.assertIn("PROVINCIAL_STRUCTURAL_BLOCK", execution["blockers"])
+        # A positive necessary bound is not a generated or certified district.
+        almeria = provincial_preflight(self.contract, PRODUCT, "04")
+        self.assertTrue(almeria["structural_necessary_condition"])
+        self.assertFalse(almeria["structural_feasibility_proven"])
+        self.assertFalse(almeria["generation_authorized"])
+
     def test_missing_national_coverage_does_not_veto_input_diagnostics(self):
         local = copy.deepcopy(self.contract)
         local["circumscription_accreditation"] = []

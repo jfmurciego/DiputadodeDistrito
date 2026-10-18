@@ -131,9 +131,9 @@ def structural_component_bound(component_populations, k, *, floor=None, cap=None
     synthetic callers.
     """
     _require(type(k) is int and k > 0, 'K_INVALID')
+    component_populations = list(component_populations)
     _require(all(type(p) is int and p >= 0 for p in component_populations),
              'COMPONENT_POPULATION_INVALID')
-    component_populations = list(component_populations)
     result = {'necessary_condition': len(component_populations) <= k,
               'reason': ('PHYSICAL_COMPONENTS_EXCEED_K'
                          if len(component_populations) > k
