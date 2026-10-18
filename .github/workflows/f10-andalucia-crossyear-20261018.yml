@@ -1,4 +1,4 @@
-name: F10 Andalucia source geometries 2025 2026
+name: F10 Andalucia spatial evidence offline 2025 2026
 on:
   push:
     branches:
@@ -18,16 +18,16 @@ jobs:
         run: |
           python -m pip install --quiet shapely==2.1.2 pyproj==3.7.2
           python -m py_compile herramientas/auditar_ine_andalucia_secciones_2025_2026.py
-      - name: Conservar WFS originales y calcular matriz espacial
+      - name: Calcular matriz espacial sobre evidencia WFS versionada sin red
         run: |
           mkdir -p "$RUNNER_TEMP/ine-andalucia"
           python herramientas/auditar_ine_andalucia_secciones_2025_2026.py \
-            --out "$RUNNER_TEMP/ine-andalucia" --workers 3
+            --out "$RUNNER_TEMP/ine-andalucia" --workers 3 --use-extracted
       - name: Conservar resultado incluso si algun municipio bloquea
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: f10-andalucia-2025-2026-geometrias-raw
+          name: f10-andalucia-2025-2026-matriz-espacial
           path: ${{ runner.temp }}/ine-andalucia/
           if-no-files-found: warn
           retention-days: 90

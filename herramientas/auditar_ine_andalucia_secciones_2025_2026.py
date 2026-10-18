@@ -52,8 +52,13 @@ def required_groups() -> dict:
         raise ValueError("EXPECTED_34_IDENTITY_CHANGES")
     return groups
 
-def acquire(municipality: str, year: int, out: Path) -> dict:
-    raw_file = out / "raw" / municipality / f"{year}.geojson"
+def acquire(municipality: str, year: int, out: Path, use_extracted: bool = False) -> dict:
+    raw_file = (
+        EVIDENCE / f"ANDALUCIA_EXTRACTED_{municipality}_{year}.geojson"
+        if use_extracted else out / "raw" / municipality / f"{year}.geojson"
+    )
+    if use_extracted and not raw_file.is_file():
+        raise ValueError(f"EXTRACTED_EVIDENCE_MISSING_{municipality}_{year}")
     url = source_url(municipality,year)
     if raw_file.exists():
         raw = raw_file.read_bytes()
@@ -88,7 +93,8 @@ def acquire(municipality: str, year: int, out: Path) -> dict:
     if len(set(codes))!=len(codes):
         raise ValueError("DUPLICATE_OFFICIAL_SECTION_CODE")
     return {
-        "municipality":municipality,"year":year,"uri":url,"raw_relpath":str(raw_file.relative_to(out)),
+        "municipality":municipality,"year":year,"uri":url,"raw_relpath":str(raw_file.relative_to(REPO if use_extracted else out)),
+        "source_representation":"WFS_TEXT_REENCODED_NOT_RAW_HTTP" if use_extracted else "RAW_OFFICIAL_HTTP_RESPONSE",
         "sha256":digest(raw),"bytes":len(raw),"count":n,
         "timestamp":obj.get("timeStamp"),"features":obj["features"],
     }
@@ -165,6 +171,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--out",required=True,type=Path)
     parser.add_argument("--workers",type=int,default=3)
+    parser.add_argument("--use-extracted",action="store_true",help="Only read reserialized INE WFS evidence staged in GitHub; no download")
     args=parser.parse_args()
     if args.workers not in (1,2,3,4):
         parser.error("--workers must be 1..4")
@@ -175,7 +182,7 @@ def main():
     snapshots={}
     failures=[]
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
-        futures={executor.submit(acquire,mun,year,out):(mun,year) for mun,year in jobs}
+        futures={executor.submit(acquire,mun,year,out,args.use_extracted):(mun,year) for mun,year in jobs}
         for future in concurrent.futures.as_completed(futures):
             mun,year=futures[future]
             try:
@@ -201,6 +208,7 @@ def main():
         "sources_archived":len(snapshots),
         "new_sections_expected":25,"retired_sections_expected":9,
         "source_crs":SOURCE_CRS,"working_crs":WORK_CRS,
+        "source_representation":"WFS_TEXT_REENCODED_NOT_RAW_HTTP" if args.use_extracted else "RAW_OFFICIAL_HTTP_RESPONSE",
         "results":results,"acquisition_errors":failures,
         "source_data_sha256":digest(INE.read_bytes()),
         "crosswalk_accredited":False,"generation_authorized":False,
