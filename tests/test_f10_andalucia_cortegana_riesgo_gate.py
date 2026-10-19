@@ -39,6 +39,8 @@ class AndaluciaGateEvidence(unittest.TestCase):
         self.assertEqual(len(fresh),25)
         self.assertEqual(len(persisted),41)
         self.assertEqual(len(merged),9)
+        self.assertTrue(all(None not in x for x in merged), "Cada fila CSV debe tener exactamente cinco columnas")
+        self.assertTrue(all("no repartir votos" in x["comentario"] for x in merged))
         new_ids={x["CUSEC_electoral_2026"] for x in fresh}
         persisted_ids={x["CUSEC_2025_y_2026"] for x in persisted}
         old_ids={x["CUSEC_territorial_2025_retirada"] for x in merged}
