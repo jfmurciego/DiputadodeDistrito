@@ -1,0 +1,15 @@
+{
+  "source_id": "prepared-territorial-sources:poblacion_por_sexo_y_edad,secciones_censales",
+  "territory_id": "comunidad_valenciana",
+  "edition": 2025,
+  "population_year": 2023,
+  "section_year": 2023,
+  "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2703%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2712%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2746%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+  "path": "prepared_sources.zip",
+  "bytes": 85944605,
+  "sha256": "2a58c757c816b1ca834d93777aeee992e7a224e75d002fb7fbbeaa3a5e21934d",
+  "records": 2,
+  "acquired_at": "2026-10-19T20:25:34.144551+00:00",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.1",
+  "source_year": 2023
+}

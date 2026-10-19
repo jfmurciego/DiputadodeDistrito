@@ -67,4 +67,6 @@ class F10Receipts2025Tests(unittest.TestCase):
         self.assertEqual(indexed["aragon"]["last_valid_checkpoint"]["run_id"], 36321736287)
         self.assertEqual(indexed["castilla_y_leon"]["last_valid_checkpoint"]["run_id"], 35889595424)
         self.assertIsNone(indexed["andalucia"]["last_valid_checkpoint"])
-        self.assertNotIn("independent_source_evidence",indexed["comunidad_valenciana"])
+        self.assertEqual(39315133646, indexed["comunidad_valenciana"]["independent_source_evidence"]["run_id"])
+        self.assertEqual(36273981926, indexed["comunidad_valenciana"]["preparation_evidence"]["run_id"])
+        self.assertIs(indexed["comunidad_valenciana"]["independent_source_evidence"]["promoted"], False)

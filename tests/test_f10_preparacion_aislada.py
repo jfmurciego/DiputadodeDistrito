@@ -15,7 +15,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.consumir_par_fuentes_legislatura import (
-    PreparedPairExecutionBlock, validate_territorial_receipt,
+    validate_territorial_receipt,
 )
 from herramientas.evaluar_persistencia_preparacion import resolve_persist_state, terminal_decision
 
@@ -125,10 +125,16 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                 self.assertEqual(row['package_sha256'], receipt['package_sha256'])
                 self.assertEqual(row['territorial_identity_sha256'], receipt['territorial_identity_sha256'])
                 self.assertEqual('PASS', row['controls']['F03_effective_consumer'])
-        # Valencia 2023 permanece bloqueada; las otras cuatro evidencias F10
-        # son auténticas y NO sustituyen preparación/productos históricos.
-        with self.assertRaises(PreparedPairExecutionBlock):
-            validate_territorial_receipt(root_dir=ROOT, territory='comunidad_valenciana', edition='2025')
+        # Valencia 2023 es una evidencia independiente no promovida; no sustituye
+        # la preparación histórica ni el estado de producto/generación.
+        valenciana, valenciana_receipt = validate_territorial_receipt(
+            root_dir=ROOT, territory='comunidad_valenciana', edition='2025')
+        self.assertEqual((2023, 2023), (valenciana_receipt['population_year'], valenciana_receipt['section_year']))
+        self.assertEqual(39315133646, valenciana_receipt['run_id'])
+        self.assertEqual(36273981926, valenciana['preparation_evidence']['run_id'])
+        self.assertFalse(valenciana['independent_source_evidence']['promoted'])
+        self.assertFalse(valenciana['territorial_product_available'])
+        self.assertIsNone(valenciana['last_valid_checkpoint'])
         for territory in ('andalucia', 'aragon', 'castilla_y_leon'):
             with self.subTest(territory=territory):
                 state, receipt = validate_territorial_receipt(

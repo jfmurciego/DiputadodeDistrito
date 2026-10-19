@@ -36,11 +36,13 @@ class F10DerivedDoorsTests(unittest.TestCase):
         cls.projection = derive_f10(ROOT, activity_authorizations=AUTHORIZATIONS)
 
     def test_real_receipts_rederive_four_independent_counts(self):
-        self.assertEqual({"BLOCKED": 1, "CLOSED": 18}, self.projection["counts"]["territorial_acquisition"])
+        self.assertEqual({"CLOSED": 19}, self.projection["counts"]["territorial_acquisition"])
         self.assertEqual({"ADMISSIBLE": 15, "BLOCKED": 4}, self.projection["counts"]["electoral_admissibility"])
         self.assertEqual({"PASS": 14, "BLOCKED": 5}, self.projection["counts"]["joint_admissibility"])
         self.assertEqual({"NOT_AUTHORIZED_BY_F10": 19}, self.projection["counts"]["production"])
         self.assertEqual("PENDING", self.projection["f10_global"])
+        self.assertIn("adquisición territorial CLOSED 19/19", self.projection["f10_global_reason"])
+        self.assertIn("admisibilidad electoral ADMISSIBLE 15/19", self.projection["f10_global_reason"])
         self.assertEqual([], self.projection["catalog_validation_errors"])
 
     def test_independent_receipts_are_not_promoted_or_used_as_historical_products(self):
@@ -50,8 +52,8 @@ class F10DerivedDoorsTests(unittest.TestCase):
             with self.subTest(territory=territory_id):
                 self.assertEqual("CLOSED", rows[territory_id]["territorial_acquisition"])
                 self.assertEqual(run_id, rows[territory_id]["territorial_run_id"])
-        self.assertEqual("BLOCKED", rows["comunidad_valenciana"]["territorial_acquisition"])
-        self.assertIn("receipt territorial versionado", " ".join(rows["comunidad_valenciana"]["territorial_reason"]))
+        self.assertEqual("CLOSED", rows["comunidad_valenciana"]["territorial_acquisition"])
+        self.assertEqual(39315133646, rows["comunidad_valenciana"]["territorial_run_id"])
 
     def test_historical_receipt_arrivals_replay_A_through_D(self):
         stages = {
@@ -72,8 +74,49 @@ class F10DerivedDoorsTests(unittest.TestCase):
         self.assertNotIn("extremadura", ready_a)
         self.assertIn("extremadura", ready_b)
         self.assertTrue({"andalucia", "aragon", "castilla_y_leon"} <= ready_c)
-        self.assertNotIn("comunidad_valenciana", ready_c)
-        self.assertEqual("BLOCKED", next(x for x in self.projection["territories"] if x["territory_id"] == "comunidad_valenciana")["territorial_acquisition"])
+        cv = next(x for x in replay["C"]["work_items"] if x["territory_id"] == "comunidad_valenciana")
+        self.assertFalse(cv["selectable"])
+        self.assertEqual("CLOSED", next(x for x in self.projection["territories"] if x["territory_id"] == "comunidad_valenciana")["territorial_acquisition"])
+
+    def test_valencia_2023_receipt_is_temporally_selected_and_not_promoted(self):
+        from herramientas.consumir_par_fuentes_legislatura import validate_territorial_receipt
+        from herramientas.resolver_preparacion_legislatura import resolve
+
+        state, receipt = validate_territorial_receipt(
+            root_dir=ROOT, territory="comunidad_valenciana", edition="2025"
+        )
+        self.assertEqual((2023, 2023), (receipt["population_year"], receipt["section_year"]))
+        self.assertEqual("AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED",
+                         state["independent_source_evidence"]["status"])
+        self.assertIs(state["independent_source_evidence"]["promoted"], False)
+        self.assertEqual(36273981926, state["preparation_evidence"]["run_id"])
+        self.assertIs(state["territorial_product_available"], False)
+
+        plan = resolve(ROOT, "Comunidad Valenciana")["plans"][0]
+        self.assertEqual((2023, 2023), (plan["population_year_selected"], plan["section_year_selected"]))
+        self.assertEqual("ADMISSIBLE", plan["territorial_admissibility"])
+        self.assertEqual("ADMISSIBLE", plan["electoral_admissibility"])
+        self.assertIs(plan["blocked"], False)
+
+    def test_valencia_2023_geometry_evidence_records_full_m02_contract(self):
+        evidence = next(
+            ROOT.glob("territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/evidencia_geometrica.json")
+        )
+        data = json.loads(evidence.read_text(encoding="utf-8"))
+        m02 = data["m02"]
+        self.assertEqual("EPSG:25830", m02["working_crs"])
+        self.assertEqual(1.0, m02["max_precision_overlap_area_m2"])
+        self.assertEqual(0.0, m02["buffer_m"])
+        self.assertEqual(0.0, m02["simplify_m"])
+        self.assertEqual(0, m02["pairs_over_1m2"])
+        self.assertEqual(148, m02["total_positive_area_pairs_in_full_universe"])
+        self.assertAlmostEqual(0.18890051866037538,
+                               m02["target_pairs"]["4617201001/4619401008"]["intersection_area_m2"])
+        self.assertAlmostEqual(0.19342763282640657,
+                               m02["target_pairs"]["4617201001/4619401013"]["intersection_area_m2"])
+        self.assertEqual(3503, data["m03"]["nodes"])
+        self.assertEqual(5216195, data["m03"]["total_pop"])
+        self.assertEqual(0, data["m03"]["isolated"])
 
     def test_corrupt_hash_wrong_identity_time_and_contradictory_dossier_fail_closed(self):
         canonical = next(x for x in self.projection["territories"] if x["territory_id"] == "extremadura")
@@ -84,9 +127,15 @@ class F10DerivedDoorsTests(unittest.TestCase):
                     receipt_sha256=canonical["territorial_receipt_sha256"], dossier_row=dossier_row)
         with self.assertRaisesRegex(ValueError, "receipt_sha256"):
             check_territorial_evidence(receipt, **{**args, "receipt_sha256": "0" * 64})
+        wrong_edition = copy.deepcopy(receipt); wrong_edition["edition"] = "2024"
+        with self.assertRaisesRegex(ValueError, "identidad/edición"):
+            check_territorial_evidence(wrong_edition, **args)
         wrong_identity = copy.deepcopy(receipt); wrong_identity["territory_id"] = "aragon"
         with self.assertRaisesRegex(ValueError, "identidad/edición"):
             check_territorial_evidence(wrong_identity, **args)
+        wrong_hash = copy.deepcopy(receipt); wrong_hash["artifact_sha256"] = "0" * 64
+        with self.assertRaisesRegex(ValueError, "artifact_sha256"):
+            check_territorial_evidence(wrong_hash, **args)
         wrong_time = copy.deepcopy(receipt); wrong_time["section_year"] = "2025"
         with self.assertRaisesRegex(ValueError, "años"):
             check_territorial_evidence(wrong_time, **args)

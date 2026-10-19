@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Versión: 1.1.0; nombre: Puertas derivadas F10; fecha: 2026-10-13.
+# Versión: 1.1.1; nombre: Puertas derivadas F10; fecha: 2026-10-19.
 # Alcance: validar fichas READ_ONLY y evidencias de actividades F10.
-# Estado: candidato. Cambios/motivo: impedir selección de tareas con validadores
-# incompletos o informe estructurado que no supere la validación determinista.
-# Anterior: legacy/herramientas/estado_derivado_f10_v1.0.0_20261012.py.
+# Estado: candidato. Cambios/motivo: mantener la razón global sincronizada con las
+# puertas territoriales, electorales y conjuntas derivadas sin declarar F10 cerrado.
+# Anterior: legacy/herramientas/estado_derivado_f10_v1.1.0_20261013.py.
 """Read-only F10 door projection from current receipts and canonical consumers.
 
 The closure dossier is cross-checked as a tracking record; it never grants PASS.
@@ -377,7 +377,12 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
         } | plan_inputs,
         "counts": counts,
         "f10_global": "PENDING",
-        "f10_global_reason": "Comunidad Valenciana territorial BLOCKED; el cierre de adquisición requiere decisión formal posterior.",
+        "f10_global_reason": (
+            "F10 permanece PENDING: "
+            f"adquisición territorial CLOSED {counts['territorial_acquisition'].get('CLOSED', 0)}/19; "
+            f"admisibilidad electoral ADMISSIBLE {counts['electoral_admissibility'].get('ADMISSIBLE', 0)}/19; "
+            f"admisibilidad conjunta PASS {counts['joint_admissibility'].get('PASS', 0)}/19."
+        ),
         "production_authorized": False,
         "catalog_validation_errors": catalog_errors,
         "task_spec_validation_errors": [
