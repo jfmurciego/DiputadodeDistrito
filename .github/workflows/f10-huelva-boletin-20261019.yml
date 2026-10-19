@@ -20,12 +20,15 @@ jobs:
             'https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf' \
             --output "$RUNNER_TEMP/bop/Anuncio_350957_BOP-61_2026.pdf"
           test "$(head -c 4 "$RUNNER_TEMP/bop/Anuncio_350957_BOP-61_2026.pdf")" = "%PDF"
-          pdftotext -layout "$RUNNER_TEMP/bop/Anuncio_350957_BOP-61_2026.pdf" "$RUNNER_TEMP/bop/BOP_2026_61_Cortegana_extraccion.txt"
+          python -m pip install --quiet pymupdf==1.26.4
           python - <<'PY'
           from pathlib import Path
           import hashlib,json,os,re
           p=Path(os.environ["RUNNER_TEMP"])/"bop/Anuncio_350957_BOP-61_2026.pdf"
-          t=(Path(os.environ["RUNNER_TEMP"])/"bop/BOP_2026_61_Cortegana_extraccion.txt").read_text(errors="replace")
+          import fitz
+          pdf=fitz.open(p)
+          t="\n".join(page.get_text(sort=True) for page in pdf)
+          (p.parent/"BOP_2026_61_Cortegana_extraccion.txt").write_text(t,encoding="utf-8")
           anchor=re.search(r"MUNICIPIO\s*:\s*025\s+CORTEGANA",t)
           if not anchor: raise RuntimeError("MUNICIPAL_ENTRY_NOT_FOUND")
           next_anchor=re.search(r"MUNICIPIO\s*:\s*026\s+CORTELAZOR",t[anchor.start():])
@@ -42,7 +45,7 @@ jobs:
             "pdf_sha256":hashlib.sha256(p.read_bytes()).hexdigest(),"pdf_bytes":p.stat().st_size,
             "cortegana_district02_section001_tables":["A","B","C"],
             "cortegana_district02_section002_present":False,
-            "verified_by":"pdftotext -layout regex anchored municipal records",
+            "verified_by":"PyMuPDF 1.26.4 text extraction and regex anchored municipal records",
             "vote_transfer_authorized":False}
           (p.parent/"bop_receipt.json").write_text(json.dumps(manifest,indent=2)+"\n",encoding="utf-8")
           print("DDD_BOP_HUELVA_CORTEGANA_VERIFIED="+json.dumps(manifest,sort_keys=True))
