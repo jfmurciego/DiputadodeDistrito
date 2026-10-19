@@ -1,0 +1,9 @@
+$ pytest -q tests/test_m02_candidate_completeness.py tests/test_ejecucion_completa.py tests/test_materializacion_contratos_nacionales.py tests/test_topology_preflight.py
+...............................................................................................                                  [100%]
+=============================== warnings summary ===============================
+tests/test_materializacion_contratos_nacionales.py::NationalGenerationMaterializationTests::test_physical_preparer_materializes_verifiable_m04_input_without_running_seed_engine
+  /usr/local/Caskroom/miniforge/base/lib/python3.13/site-packages/pyogrio/geopandas.py:917: UserWarning: 'crs' was not provided.  The output dataset will not have projection information defined and may not be usable in other systems.
+    write(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+95 passed, 1 warning, 16 subtests passed in 11.18s
