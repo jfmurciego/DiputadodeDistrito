@@ -348,6 +348,17 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotIn("  publicar_galerias:",text)
   self.assertNotIn("_reutilizable-publicar-sitio.yml",text)
 
+ def test_workflow_aggregate_uses_import_safe_package_invocation(self):
+  text=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  summary=text[text.index("  resumen:"):]
+  self.assertIn("python -m herramientas.gestor_campana_nacional aggregate",summary)
+  self.assertNotIn("python herramientas/gestor_campana_nacional.py aggregate",summary)
+  self.assertIn("needs: [preparar, territorios]",summary)
+  self.assertIn("always()",summary)
+  self.assertIn("if-no-files-found: error",summary)
+  self.assertNotIn("  promover_galerias:",text)
+  self.assertNotIn("  publicar_galerias:",text)
+
  def test_mixed_states_are_valid_summary_but_not_certified(self):
   m={"campaign_instance":"mixed","source_sha":"a"*40,"optimization_algorithm":"Canónico",
      "territories":[
