@@ -10,7 +10,7 @@ La contigüidad de un distrito no puede decidirse por apariencia visual ni por p
 GeoJSON canónico de M01.
 
 ## Criterio vigente
-Predicado `touches`, CRS métrico ETRS89/UTM 30N, sin buffer ni simplificación y sin longitud mínima de frontera configurada. El índice espacial limita candidatos antes de comprobar topología.
+Predicado `touches`, CRS métrico ETRS89/UTM 30N, sin buffer ni simplificación y sin longitud mínima de frontera configurada. El índice espacial genera un superset de candidatos; todos sus resultados se ordenan de forma estable y se comprueban topológicamente. `max_candidates` se conserva por compatibilidad de configuración, pero no trunca la enumeración ni puede eliminar contactos válidos.
 
 ## Producto canónico
 `aragon_2025_m02_adyacencias.jsonl`. Cada línea es una arista real `{u, v}`. En la base vigente contiene 4.293 relaciones. La ejecución publica el JSONL completo en `M02/adyacencias.jsonl` y su identidad en `PRODUCTOS.json`.

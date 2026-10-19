@@ -1,0 +1,9 @@
+.........                                                                [100%]
+9 passed in 2.61s
+test_candidate_limit_does_not_drop_far_centroid_shared_boundary (tests.test_m02_candidate_completeness.M02CandidateCompletenessTests.test_candidate_limit_does_not_drop_far_centroid_shared_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.181s
+
+OK
+OK: 234 ficheros test_*.py aportan al menos un test descubrible.

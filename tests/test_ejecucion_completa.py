@@ -568,7 +568,12 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 optimization_algorithm="GerryChain 50",
                 force_selected_algorithm=True,
             )
-            self.assertFalse(plan["run_prepare_territorial"])
+            self.assertTrue(plan["run_prepare_territorial"])
+            self.assertTrue(plan["pre_m04_accreditation_planned"])
+            self.assertEqual(
+                {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                plan["generation_gate"],
+            )
             self.assertTrue(plan["run_generate"])
             self.assertFalse(plan["run_prepare_electoral"])
             self.assertTrue(plan["run_incorporate"])
@@ -689,7 +694,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                     root_dir=root,
                 )
 
-    def test_gerrychain_50_is_preserved_in_plan(self):
+    def test_gerrychain_50_cannot_bypass_incomplete_contract_after_m02_change(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             contract = root / "territorios/demo/config/demo_2025.yaml"
@@ -726,17 +731,20 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 }, allow_unicode=True, sort_keys=False),
                 encoding="utf-8",
             )
-            plan = build_plan(
-                territory="Demo",
-                edition="2025",
-                execution_mode="reuse",
-                catalog=catalog,
-                root_dir=root,
-                optimization_algorithm="GerryChain 50",
-            )
-            self.assertEqual(plan["optimization_algorithm"], "GerryChain 50")
-            self.assertTrue(plan["run_generate"])
-            self.assertTrue(plan["run_incorporate"])
+            # M02 v7.3.3 changes the implementation binding, so a prior
+            # pre-M04 approval cannot be assumed. This incomplete fixture
+            # must fail closed instead of returning a plan for generation.
+            with self.assertRaisesRegex(ValueError, "GENERATION_CONTRACT_BLOCK: Demo: CAP_CONTRACT"):
+                build_plan(
+                    territory="Demo",
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=catalog,
+                    root_dir=root,
+                    optimization_algorithm="GerryChain 50",
+                )
+            # The failure above is the contract guard; algorithm selection is
+            # asserted by the valid-contract case.
 
     def test_catalog_source_mode_requires_current_compatibility_identity(self):
         catalog = load(ROOT / "configuracion/catalogo_preparacion.yaml")

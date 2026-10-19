@@ -117,6 +117,11 @@ class CaceresN08PreflightTests(unittest.TestCase):
         # con N08 0.4 se comprueban contra copias idénticas del HEAD acreditado;
         # ninguna de las 26 entradas ni un SHA del manifiesto se reescribe.
         original = {
+            # El manifiesto de Cáceres acredita el estado histórico anterior a
+            # M02 v7.3.3; mantenerlo ligado al snapshot archivado evita que la
+            # nueva implementación se presente como parte de aquella evidencia.
+            'modulos/02_construir_adyacencias.py':
+                'legacy/modulo02/02_construir_adyacencias_v7.3.2.py',
             'ddd_core/congreso_contract.py':
                 'legacy/n08_caceres_20261012/congreso_contract_v1_1.py',
             'territorios/congreso/contrato_congreso_2026.json':

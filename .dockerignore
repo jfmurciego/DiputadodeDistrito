@@ -1,9 +1,9 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.4.0
-# NOMBRE: Imagen sin datos con snapshots contractuales N06 y Cáceres N08
-# FECHA: 2026-10-13
-# QUÉ HACE: excluye datasets y resultados, pero incorpora el pequeño manifiesto SHA-256 requerido por la puerta de contratos.
-# ANTERIOR: legacy/dockerignore_v1.2.0
+# VERSIÓN: 1.4.1
+# NOMBRE: Imagen sin datos con snapshots contractuales y M02 histórico de regresión
+# FECHA: 2026-10-19
+# QUÉ HACE: excluye datasets y resultados, pero incorpora únicamente los snapshots históricos mínimos requeridos por las regresiones.
+# ANTERIOR: legacy/dockerignore_v1.4.0
 # Evita duplicar datos y resultados dentro de cada imagen Docker.
 .git
 inputs/*
@@ -24,7 +24,10 @@ andalucia-section-locator.csv
 siel-andalucia-2026.zip
 .ddd-electoral-package
 
-# CAMBIOS/MOTIVO: incluir sólo dos JSON predecesores para regresión N06/INE; no datasets históricos.
+# CAMBIOS/MOTIVO: incluir el snapshot M02 v7.3.2 para demostrar que cap=50 perdía una arista; no incluir datasets históricos.
+!legacy/modulo02/
+legacy/modulo02/*
+!legacy/modulo02/02_construir_adyacencias_v7.3.2.py
 !legacy/n06_contrato_20261012/
 legacy/n06_contrato_20261012/*
 !legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json
