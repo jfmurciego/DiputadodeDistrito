@@ -8,6 +8,7 @@ URL = "https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip"
 ALLOWED_URLS = {
     URL:"2025-07_to_2026-01",
     "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip":"2026-01_to_2026-07",
+    "https://ine.es/prodyser/callejero/Var_Callejero_0125_0725.zip":"2025-01_to_2025-07",
 }
 CUSEC = ("5002501003","2221301003","2408904017","2408906020",
          "3702301002","4217302016","4701001012","3412004006","3710701002")
@@ -26,8 +27,22 @@ def known_f10_targets() -> tuple[str,...]:
         raise ValueError("ANDALUCIA_EDITION_EVIDENCE_CHANGED")
     if sum(len(row["removed_since_2025"]) for row in provinces)!=9:
         raise ValueError("ANDALUCIA_REMOVED_EDITION_CHANGED")
-    if len(codes)!=43:
-        raise ValueError("TARGET_UNIVERSE_NOT_43")
+    # Persistent code + materially modified boundary is not a harmless identity match.
+    # Count only the CSV of material changes already confirmed by the 17 municipal WFS pairs.
+    risk=Path(__file__).resolve().parents[1]/"docs/AUDITORIAS/CIERRE_FUENTES_20261019/ANDALUCIA_41_CUSEC_MISMO_CODIGO_LIMITES_CAMBIADOS_VOTOS_2026.csv"
+    import csv
+    with risk.open(newline="",encoding="utf-8") as stream:
+        impacted=list(csv.DictReader(stream,delimiter=";"))
+    if len(impacted)!=41:
+        raise ValueError("PERSISTENT_GEOMETRY_CHANGE_UNIVERSE_NOT_41")
+    persistent={row["CUSEC_2025_y_2026"] for row in impacted}
+    if len(persistent)!=41 or codes & persistent:
+        raise ValueError("PERSISTENT_CHANGED_CODES_DUPLICATED")
+    codes.update(persistent)
+    codes.add("2102502001") # Cortegana official election-day district 02 precinct 001.
+    codes.add("2102502002") # INE 2025/2026 map only, not electoral 2026.
+    if len(codes)!=86:
+        raise ValueError("F10_TARGET_UNIVERSE_NOT_86")
     return tuple(sorted(codes))
 
 def decode_tram_change(line: bytes):
