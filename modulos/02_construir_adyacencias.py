@@ -3,15 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 02 — Construir adyacencias
-VERSIÓN: 7.3.2
-NOMBRE DE VERSIÓN: Política topológica con acreditación ligada a fuente
-FECHA: 2026-09-16
+VERSIÓN: 7.3.3
+NOMBRE DE VERSIÓN: Enumeración completa de candidatos topológicos
+FECHA: 2026-10-14
 ESTADO: candidato
 QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
 POR QUÉ ES SEPARADO: M02 define la relación territorial elemental; M03 solo audita el grafo resultante y los módulos posteriores no deben compensar una adyacencia mal construida.
-CAMBIOS: reutiliza la validación común de pasarelas y evalúa necesidad/eficacia dentro del subgrafo inducido por admin_scope.
-MOTIVO: evitar interpretaciones divergentes entre M02 y el preflight topológico.
-ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.1.0.py
+CAMBIOS: conserva todos los hits del índice espacial y los recorre en orden estable; max_candidates ya no elimina candidatos geométricos válidos.
+MOTIVO: el truncamiento por distancia entre centroides omitía fronteras reales fuera de los N candidatos más cercanos.
+ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.3.2.py
 """
 from __future__ import annotations
 
@@ -121,17 +121,11 @@ def iter_edges(
         gi = row["_geom_work"]
         if gi is None or gi.is_empty:
             continue
-        cand_pos = list(sindex.intersection(gi.bounds))
-        if max_candidates and len(cand_pos) > max_candidates:
-            ib = gi.bounds
-            icx, icy = (ib[0] + ib[2]) / 2, (ib[1] + ib[3]) / 2
-
-            def _dist(j):
-                jb = work.iloc[j]["_geom_work"].bounds
-                jcx, jcy = (jb[0] + jb[2]) / 2, (jb[1] + jb[3]) / 2
-                return (icx - jcx) ** 2 + (icy - jcy) ** 2
-
-            cand_pos = sorted(cand_pos, key=_dist)[:max_candidates]
+        # max_candidates se conserva por compatibilidad de configuración, pero no
+        # puede limitar un superset geométrico: una frontera válida puede estar
+        # entre los hits más lejanos por centroide. Orden estable para reproducir
+        # la enumeración sin perder contactos.
+        cand_pos = sorted(sindex.intersection(gi.bounds))
 
         u = str(row[id_field])
         for j in cand_pos:
@@ -241,7 +235,7 @@ def main():
 
     n, ng, nb = write_edges_jsonl(geometric, bridges, out_edges)
     print(
-        f"[Módulo 2] OK v7.3.2 edges={n} geometric={ng} bridges={nb} "
+        f"[Módulo 2] OK v7.3.3 edges={n} geometric={ng} bridges={nb} "
         f"predicate={predicate} min_shared_border_m={min_shared} crs={working_crs} out={out_edges}"
     )
 

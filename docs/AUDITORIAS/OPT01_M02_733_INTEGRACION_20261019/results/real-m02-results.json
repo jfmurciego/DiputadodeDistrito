@@ -1,0 +1,137 @@
+{
+  "code_sha256": "7e588c5454620bbca18d27ed49c670f6740a20aa40031bae128716c40bc6a42f",
+  "runs": {
+    "cataluna": {
+      "sections": 5117,
+      "historical_geom_edges": 14315,
+      "historical_duplicates": 0,
+      "historical_edges_sha256": "0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576",
+      "runs": {
+        "v733_cap0": {
+          "seconds": 16.541093,
+          "edges": 14315,
+          "unique": 14315,
+          "duplicates": 0,
+          "sha256": "0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        },
+        "v733_cap50": {
+          "seconds": 16.345901,
+          "edges": 14315,
+          "unique": 14315,
+          "duplicates": 0,
+          "sha256": "0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        },
+        "v732_cap0": {
+          "seconds": 19.414432,
+          "edges": 14315,
+          "unique": 14315,
+          "duplicates": 0,
+          "sha256": "0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        },
+        "v732_cap50": {
+          "seconds": 16.741217,
+          "edges": 14315,
+          "unique": 14315,
+          "duplicates": 0,
+          "sha256": "0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        },
+        "v733_repeat": {
+          "seconds": 18.458455,
+          "edges": 14315,
+          "unique": 14315,
+          "duplicates": 0,
+          "sha256": "0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        }
+      }
+    },
+    "murcia": {
+      "sections": 1223,
+      "historical_geom_edges": 3416,
+      "historical_duplicates": 0,
+      "historical_edges_sha256": "8ae16664ba47d29a5d03d953a4cbb3d21b8cd549d071654a803b08b0113f8b9a",
+      "runs": {
+        "v733_cap0": {
+          "seconds": 4.370147,
+          "edges": 3416,
+          "unique": 3416,
+          "duplicates": 0,
+          "sha256": "8ae16664ba47d29a5d03d953a4cbb3d21b8cd549d071654a803b08b0113f8b9a",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        },
+        "v733_cap50": {
+          "seconds": 4.155751,
+          "edges": 3416,
+          "unique": 3416,
+          "duplicates": 0,
+          "sha256": "8ae16664ba47d29a5d03d953a4cbb3d21b8cd549d071654a803b08b0113f8b9a",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        },
+        "v732_cap0": {
+          "seconds": 4.283194,
+          "edges": 3416,
+          "unique": 3416,
+          "duplicates": 0,
+          "sha256": "8ae16664ba47d29a5d03d953a4cbb3d21b8cd549d071654a803b08b0113f8b9a",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        },
+        "v732_cap50": {
+          "seconds": 4.240979,
+          "edges": 3415,
+          "unique": 3415,
+          "duplicates": 0,
+          "sha256": "9f04efb43dfe7c74225b4b0dc5eefcd29c8e720de29b3e37b3807c584e135448",
+          "missing": 1,
+          "extra": 0,
+          "missing_examples": [
+            [
+              "3001902001",
+              "3002202001"
+            ]
+          ],
+          "extra_examples": []
+        },
+        "v733_repeat": {
+          "seconds": 4.59104,
+          "edges": 3416,
+          "unique": 3416,
+          "duplicates": 0,
+          "sha256": "8ae16664ba47d29a5d03d953a4cbb3d21b8cd549d071654a803b08b0113f8b9a",
+          "missing": 0,
+          "extra": 0,
+          "missing_examples": [],
+          "extra_examples": []
+        }
+      }
+    }
+  },
+  "max_rss_kb": 200142848
+}

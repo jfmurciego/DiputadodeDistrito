@@ -887,15 +887,19 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-            # El catálogo vigente ya conserva una evidencia pre-M04 durable
-            # ligada exactamente a esta identidad territorial. El plan puede
-            # reutilizarla sin repetir 01; sin esa evidencia, el gate directo
-            # comprobado arriba sigue bloqueando.
-            self.assertFalse(plan["pre_m04_accreditation_planned"], territory_id)
-            self.assertFalse(plan["run_prepare_territorial"], territory_id)
+            # El preflight durable se produjo con el blob anterior de M02.
+            # El cambio de completitud de adyacencias invalida esa ligadura y
+            # obliga a reacreditar pre-M04 antes de una futura generación.
+            self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
+            self.assertTrue(plan["run_prepare_territorial"], territory_id)
+            self.assertEqual(
+                {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                plan["generation_gate"],
+                territory_id,
+            )
             self.assertTrue(plan["run_generate"], territory_id)
             self.assertTrue(plan["generation_gate"]["allowed"], territory_id)
-            self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"], territory_id)
+            self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"], territory_id)
             self.assertFalse(plan["catalog_state"]["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
 

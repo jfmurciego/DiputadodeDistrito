@@ -1,0 +1,75 @@
+{
+  "input_sha256": "f4e660fa2b59c26068eb14cd101f900be00622db23e2fa4bd092528bbd029c4b",
+  "input_embedded_sha256": "4d6e8df4c6646c53dc74ae332a02d643d6764bcaf05ef175514e21872c85f201",
+  "expected_zip_product_sha256": "f4e660fa2b59c26068eb14cd101f900be00622db23e2fa4bd092528bbd029c4b",
+  "m02_expected_sha256": "54ba4e11adb6af59e0397475747b5ed22fadaad81f02828698c318ff622dfff8",
+  "historical_edges": 4293,
+  "historical_duplicates": 0,
+  "sections": 1463,
+  "contract": {
+    "predicate": "touches",
+    "working_crs": "EPSG:25830",
+    "min_shared_border_m": 0.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "max_candidates": 50
+  },
+  "runs": {
+    "v733_cap0": {
+      "seconds": 5.036697,
+      "edges": 4293,
+      "unique": 4293,
+      "duplicates": 0,
+      "sha256": "4bbd79db908221e62cf2cdb5f7f16bbefd567ff5f7ff8adb4aa1a3bb2c4b3fa0",
+      "missing": 0,
+      "extra": 0,
+      "missing_examples": [],
+      "extra_examples": []
+    },
+    "v733_cap50": {
+      "seconds": 4.149847,
+      "edges": 4293,
+      "unique": 4293,
+      "duplicates": 0,
+      "sha256": "4bbd79db908221e62cf2cdb5f7f16bbefd567ff5f7ff8adb4aa1a3bb2c4b3fa0",
+      "missing": 0,
+      "extra": 0,
+      "missing_examples": [],
+      "extra_examples": []
+    },
+    "v733_repeat": {
+      "seconds": 4.803848,
+      "edges": 4293,
+      "unique": 4293,
+      "duplicates": 0,
+      "sha256": "4bbd79db908221e62cf2cdb5f7f16bbefd567ff5f7ff8adb4aa1a3bb2c4b3fa0",
+      "missing": 0,
+      "extra": 0,
+      "missing_examples": [],
+      "extra_examples": []
+    },
+    "v732_cap0": {
+      "seconds": 3.753367,
+      "edges": 4293,
+      "unique": 4293,
+      "duplicates": 0,
+      "sha256": "4bbd79db908221e62cf2cdb5f7f16bbefd567ff5f7ff8adb4aa1a3bb2c4b3fa0",
+      "missing": 0,
+      "extra": 0,
+      "missing_examples": [],
+      "extra_examples": []
+    },
+    "v732_cap50": {
+      "seconds": 3.742038,
+      "edges": 4293,
+      "unique": 4293,
+      "duplicates": 0,
+      "sha256": "4bbd79db908221e62cf2cdb5f7f16bbefd567ff5f7ff8adb4aa1a3bb2c4b3fa0",
+      "missing": 0,
+      "extra": 0,
+      "missing_examples": [],
+      "extra_examples": []
+    }
+  },
+  "max_rss_kb": 139489280
+}

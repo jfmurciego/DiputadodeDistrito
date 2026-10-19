@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.3
+Versión: 1.0.4
 Fecha: 2026-10-19
-Alcance: registro acumulativo de cambios autonómicos fail-closed
+Alcance: registro acumulativo de cambios autonómicos fail-closed y exhaustividad M02
 Estado: candidato
-Cambios/motivo: registrar validación de identidad de unidades en preflight topológico
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.2_20261013.md
+Cambios/motivo: registrar la enumeración espacial exhaustiva de candidatos M02
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.3_20261019.md
 -->
+
+## 2026-10-19 — OPT-01 — enumeración completa de candidatos M02
+
+M02 conserva todos los hits del índice espacial y los procesa en orden estable;
+`max_candidates` deja de truncar el superset geométrico y omitir contactos
+válidos. La configuración continúa aceptada por compatibilidad, pero no limita
+la exhaustividad. Las evidencias pre-M04 ligadas al blob M02 anterior requieren
+reacreditación antes de cualquier generación posterior.
 
 ## 2026-10-19 — AUTO-01 — identidad fail-closed de unidades topológicas
 
