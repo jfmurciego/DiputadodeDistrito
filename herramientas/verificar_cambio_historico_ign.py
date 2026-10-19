@@ -18,7 +18,8 @@ from urllib.request import Request, urlopen
 BASE = "https://www.ign.es/wms-inspire/unidades-administrativas"
 BBOX = "-0.45,39.16,-0.36,39.24"
 BOUNDARY_ID = "M34104646029M34104646197T0246715"
-START_OF_NEW_BOUNDARY = "2025-06-19"
+START_OF_NEW_BOUNDARY = "2025-06-18"  # WMS date_boundary in UTC, differs from OGC API by one day
+API_REPORTED_DATE = "2025-06-19"  # Do not assert legal date equivalence.
 DATES = ("2025-01-01", "2026-01-01")
 MAX_BYTES = 5 * 1024 * 1024
 
@@ -92,7 +93,9 @@ def compare(before: bytes, after: bytes) -> dict:
         "wms_layer": "LimitesTime",
         "bbox": BBOX,
         "boundary_id": BOUNDARY_ID,
-        "change_effective_start": START_OF_NEW_BOUNDARY,
+        "boundary_start_wms_utc_date": START_OF_NEW_BOUNDARY,
+        "boundary_start_ogc_api_date_observed": API_REPORTED_DATE,
+        "date_semantics_discrepancy_requires_official_explanation": True,
         "historical": old,
         "later": new,
         "target_excluded_at_2025_01_01": True,
@@ -101,6 +104,7 @@ def compare(before: bytes, after: bytes) -> dict:
         "coverage_52_verified": False,
         "official_temporal_source_edition_accredited": False,
         "jurisdictional_legal_causation_accredited": False,
+        "boundary_effective_date_accredited": False,
         "n08_discontinuities_resolved": False,
         "generation_authorized": False,
         "status": "OFFICIAL_BOUNDED_TEMPORAL_CHANGE_PROVEN_ONLY",

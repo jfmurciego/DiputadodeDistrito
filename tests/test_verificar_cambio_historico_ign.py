@@ -26,6 +26,9 @@ class HistoricTransitionTests(unittest.TestCase):
         self.assertFalse(result["coverage_52_verified"])
         self.assertFalse(result["generation_authorized"])
         self.assertFalse(result["official_temporal_source_edition_accredited"])
+        self.assertTrue(result["date_semantics_discrepancy_requires_official_explanation"])
+        self.assertEqual(result["boundary_start_wms_utc_date"], "2025-06-18")
+        self.assertEqual(result["boundary_start_ogc_api_date_observed"], "2025-06-19")
 
     def test_different_time_queries_are_explicit(self):
         self.assertIn("2025-01-01", build_url("2025-01-01"))
