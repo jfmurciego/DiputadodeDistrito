@@ -1,0 +1,48 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.4.0
+# NOMBRE: Imagen sin datos con snapshots contractuales N06 y Cáceres N08
+# FECHA: 2026-10-13
+# QUÉ HACE: excluye datasets y resultados, pero incorpora el pequeño manifiesto SHA-256 requerido por la puerta de contratos.
+# ANTERIOR: legacy/dockerignore_v1.2.0
+# Evita duplicar datos y resultados dentro de cada imagen Docker.
+.git
+inputs/*
+!inputs/MANIFEST.sha256
+# Regresión electoral materializada: verifica REUSE real de Castilla y León sin red.
+!inputs/cyl_2026_secciones_partidos.csv
+.cache
+ejecuciones
+# Mantener excluido el archivo histórico excepto fixtures mínimas de regresión.
+legacy/*
+!legacy/configuracion/
+legacy/configuracion/*
+!legacy/configuracion/aragon_2025_v7.14.0.yaml
+__pycache__
+*.pyc
+.ddd-siel-andalucia-2026
+andalucia-section-locator.csv
+siel-andalucia-2026.zip
+.ddd-electoral-package
+
+# CAMBIOS/MOTIVO: incluir sólo dos JSON predecesores para regresión N06/INE; no datasets históricos.
+!legacy/n06_contrato_20261012/
+legacy/n06_contrato_20261012/*
+!legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json
+!legacy/territorios/
+legacy/territorios/*
+!legacy/territorios/congreso/
+legacy/territorios/congreso/*
+!legacy/territorios/congreso/contrato_congreso_2026_pre_n06_integracion.json
+
+# N08 2026-10-13: incluir SOLO tres snapshots históricos del preflight
+# de Cáceres. Cada uno se verifica por SHA-256 del MANIFEST original 26/26.
+# No permite importar datasets ni el resto del directorio legacy.
+!legacy/n08_caceres_20261012/
+legacy/n08_caceres_20261012/*
+!legacy/n08_caceres_20261012/congreso_contract_v1_1.py
+!legacy/n08_caceres_20261012/contrato_congreso_2026_v0_3.json
+!legacy/n08_caceres_20261012/test_preflight_caceres_n08_v1.py
+!legacy/n08_caceres_20261012/congreso_preflight_adapter_v0_1.py
+!legacy/n08_caceres_20261012/m05_population_repair_v1_6.py
+!legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py
+!legacy/gitattributes_pre_n08_20261013

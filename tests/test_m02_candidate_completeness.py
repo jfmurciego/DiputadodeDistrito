@@ -17,6 +17,8 @@ OLD_SPEC = importlib.util.spec_from_file_location(
     ROOT / "legacy" / "modulo02" / "02_construir_adyacencias_v7.3.2.py",
 )
 OLD_M02 = importlib.util.module_from_spec(OLD_SPEC)
+if OLD_SPEC is None or OLD_SPEC.loader is None:
+    raise ImportError("No se pudo cargar el predecesor M02 v7.3.2")
 OLD_SPEC.loader.exec_module(OLD_M02)
 
 

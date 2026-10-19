@@ -1060,7 +1060,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     root_dir=root,
                 )
 
-    def test_current_durable_pre_m04_evidence_is_reused_without_reacquisition(self):
+    def test_old_m02_identity_requires_pre_m04_reaccreditation(self):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
 
         reuse = build_plan(
@@ -1070,11 +1070,14 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertFalse(reuse["run_prepare_territorial"])
-        self.assertFalse(reuse["pre_m04_accreditation_planned"])
+        # Las evidencias se produjeron con el blob M02 anterior. Al cambiar
+        # la identidad del generador de adyacencias, el plan debe fail-closed
+        # y volver a preparar/acreditar antes de permitir la generación.
+        self.assertTrue(reuse["run_prepare_territorial"])
+        self.assertTrue(reuse["pre_m04_accreditation_planned"])
         self.assertTrue(reuse["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "validated_pre_m04_topology"},
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
             reuse["generation_gate"],
         )
 
@@ -1085,11 +1088,11 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertFalse(catalog_source["run_prepare_territorial"])
-        self.assertFalse(catalog_source["pre_m04_accreditation_planned"])
+        self.assertTrue(catalog_source["run_prepare_territorial"])
+        self.assertTrue(catalog_source["pre_m04_accreditation_planned"])
         self.assertTrue(catalog_source["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "validated_pre_m04_topology"},
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
             catalog_source["generation_gate"],
         )
         self.assertEqual(

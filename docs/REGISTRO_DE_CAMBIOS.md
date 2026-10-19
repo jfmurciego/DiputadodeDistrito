@@ -1,12 +1,22 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.4
+Versión: 1.0.5
 Fecha: 2026-10-19
 Alcance: registro acumulativo de cambios autonómicos fail-closed y exhaustividad M02
 Estado: candidato
-Cambios/motivo: registrar la enumeración espacial exhaustiva de candidatos M02
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.3_20261019.md
+Cambios/motivo: preservar snapshots históricos de M02 y forzar reacreditación de evidencias ligadas al blob anterior
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.4_20261019.md
 -->
+
+## 2026-10-19 — OPT-01 — preservar evidencia histórica y reacreditar M02
+
+El CI mostró que los manifiestos N08 y los productos pre-M04 conservados
+corresponden al blob M02 anterior. La verificación histórica usa ahora el
+snapshot v7.3.2 archivado, sin reescribir los manifiestos ni outputs
+inmutables; la planificación territorial fail-closed exige preparar y
+acreditar de nuevo cuando detecta esa identidad anterior. La imagen de pruebas
+incluye únicamente el archivo histórico necesario para comparar el defecto de
+truncamiento. No se reacreditan territorios por actualizar sus hashes.
 
 ## 2026-10-19 — OPT-01 — enumeración completa de candidatos M02
 

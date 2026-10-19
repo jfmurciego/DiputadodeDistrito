@@ -1,13 +1,14 @@
-"""Versión 1.0.0; 2026-10-13; reproducción aislada y read-only de evidencias N08.
+"""Versión 1.1.0; 2026-10-19; reproducción aislada y read-only de evidencias N08.
 
 Nombre: verificador read-only de la evidencia nacional y Cáceres.
 Alcance: verificar 74/74 y 26/26, y reproducir la matriz de cierre sin escribir
          en el repositorio ni mutar artefactos versionados.
 Estado: candidato diagnóstico.
 Cambios/motivo: ejecuta el verificador histórico en un root temporal aislado,
-                conserva su hash y compara sus salidas byte a byte.
+                conserva su hash y compara sus salidas byte a byte. Usa el
+                snapshot M02 archivado que el manifiesto histórico acredita.
 Origen: nuevo; no sustituye ni modifica el verificador histórico.
-Anterior: no aplicable; herramienta nueva.
+Anterior: legacy/herramientas/verificar_evidencia_n08_readonly_v1.0.0_20261019.py
 """
 from __future__ import annotations
 
@@ -80,12 +81,25 @@ def verify(root: Path | str) -> dict[str, Any]:
             Path("docs/ESTUDIOS/N08_CACERES_20261012"),
             Path("ddd_core"),
             Path("herramientas"),
-            Path("modulos"),
             Path("tests"),
             Path("territorios/congreso"),
             Path("legacy/n08_caceres_20261012"),
         ):
             _link_source(root, temp_root, rel)
+
+        # El verificador histórico compara su manifiesto con el M02 que
+        # existía al crear el expediente. El código activo puede evolucionar;
+        # en la copia aislada se monta el snapshot exacto archivado para que
+        # esta comprobación siga validando evidencia histórica, no el HEAD.
+        source_modules = root / "modulos"
+        temp_modules = temp_root / "modulos"
+        temp_modules.mkdir(parents=True, exist_ok=True)
+        historical_m02 = root / "legacy/modulo02/02_construir_adyacencias_v7.3.2.py"
+        if not historical_m02.is_file():
+            raise EvidenceMismatch("MISSING_HISTORICAL_M02_SNAPSHOT")
+        for item in source_modules.iterdir():
+            target = historical_m02 if item.name == "02_construir_adyacencias.py" else item
+            (temp_modules / item.name).symlink_to(target, target_is_directory=target.is_dir())
 
         temp_output = temp_root / HISTORICAL_REL.parent
         temp_output.mkdir(parents=True, exist_ok=True)
