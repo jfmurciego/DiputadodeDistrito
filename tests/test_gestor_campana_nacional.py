@@ -348,6 +348,29 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotIn("  publicar_galerias:",text)
   self.assertNotIn("_reutilizable-publicar-sitio.yml",text)
 
+ def test_mixed_states_are_valid_summary_but_not_certified(self):
+  m={"campaign_instance":"mixed","source_sha":"a"*40,"optimization_algorithm":"Canónico",
+     "territories":[
+       {"territory_id":t,"slot":str(i).zfill(2),"publication_mode":"electoral",
+        "preflight_status":"BLOCKED" if t=="blocked" else "GENERATION_READY",
+        "preflight_blockers":["SOURCE_BLOCK"] if t=="blocked" else []}
+       for i,t in enumerate(("pass","blocked","missing","fail"),1)]}
+  freeze(m)
+  def report(t,status):
+   return {"territory_id":t,"status":status,"slot":next(r["slot"] for r in m["territories"] if r["territory_id"]==t),
+           "publication_mode":"electoral","campaign_instance":"mixed",
+           "source_sha":"a"*40,"manifest_sha256":m["manifest_sha256"]}
+  result=aggregate(m,[report("pass","PASS"),report("fail","FAIL")])
+  self.assertEqual([r["status"] for r in result["territories"]],["PASS","BLOCKED","MISSING","FAIL"])
+  self.assertEqual(result["integrity_status"],"VALID")
+  self.assertEqual(result["completion_status"],"FAILED")
+  self.assertEqual(result["status"],"FAIL")
+  with self.assertRaises(ValueError):
+   validate_campaign_summary_for_promotion(result)
+  partial=aggregate(m,[report("pass","PASS")])
+  self.assertEqual(partial["completion_status"],"PARTIAL")
+  self.assertEqual(partial["integrity_status"],"VALID")
+
  def test_failed_campaign_cannot_replace_previous_certified_publication(self):
   summary={"status":"FAIL","territory_count_expected":2,"territories":[
     {"territory_id":"a","status":"PASS"},{"territory_id":"b","status":"FAIL"}]}
