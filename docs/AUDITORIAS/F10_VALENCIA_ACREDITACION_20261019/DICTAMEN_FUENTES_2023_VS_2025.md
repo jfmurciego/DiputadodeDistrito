@@ -20,3 +20,11 @@
 - **Gobierno:** ninguna evidencia descrita autoriza cambiar `territorial_acquisition` a `CLOSED`, marcar `joint_admissibility=PASS`, generar o publicar.
 
 **Alcance de esta revisión:** lectura del repositorio, documentos y pruebas de CI existentes. No se afirma haber recalculado las geometrías originales 2023 ni ejecutado un nuevo consumidor canónico en esta auditoría.
+
+## Evidencia acotada comprobable en CI
+
+`tests/test_f10_valencia_2023_fuente_crs.py` valida sobre los tres CUSEC originales WFS 2023 conservados en GitHub que `4617201001` toca a `4619401008` y `4619401013` en CRS fuente EPSG:25830 sin solapamiento interior; en la reproyección independiente a EPSG:3035 se excede 1 m². Esto acredita **únicamente estos dos pares en ese fichero WFS**, no el universo provincial completo ni la identidad de los ZIP protegidos locales.
+
+El universo 2023 publicado en `universo_2023.json` registra 3503 filas poblacionales numéricas para 3503 secciones geométricas, identidad exacta y cero blancos *en la tabla seleccionada*. Las 46 filas originales en blanco se excluyeron de esa selección: **no equivale a atribuirles población cero**. La falta actual es de **admisión integral del paquete histórico exacto y recibo canónico**, no una demostración de que esas 3503 observaciones seleccionadas carezcan de población.
+
+No se ha materializado en esta sesión el conjunto completo de originales del almacén Mac ni recalculado su SHA. Hasta verificar esos bytes y la edición 2023/2023, el consumidor F10 debe mantener el bloqueo.
