@@ -124,9 +124,9 @@ def prepare_candidate_receipt(archive_path: Path, metadata: dict) -> dict:
         # treating the file contents or its claimed provenance as certified.
         with path.open("rb") as stream:
             signature = stream.read(4096)
-        if extension == ".gpkg" and not signature.startswith(b"SQLite format 3\\x00"):
+        if extension == ".gpkg" and not signature.startswith(b"SQLite format 3\x00"):
             raise ValueError("SOURCE_GPKG_MAGIC_INVALID")
-        if extension == ".gml" and not signature.lstrip(b"\\xef\\xbb\\xbf \\t\\r\\n").startswith(b"<"):
+        if extension == ".gml" and not signature.lstrip(b"\xef\xbb\xbf \t\r\n").startswith(b"<"):
             raise ValueError("SOURCE_GML_XML_SIGNATURE_INVALID")
         members = []
         vector_layers = [path.name]

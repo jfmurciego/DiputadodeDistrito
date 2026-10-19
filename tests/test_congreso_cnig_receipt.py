@@ -38,7 +38,7 @@ class CNIGReceiptTests(unittest.TestCase):
 
     def test_standalone_official_geopackage_signature(self):
         self.path = Path(self.temp.name) / "historic_boundaries.gpkg"
-        self.path.write_bytes(b"SQLite format 3\\x00" + b"synthetic example only")
+        self.path.write_bytes(b"SQLite format 3\x00" + b"synthetic example only")
         receipt = prepare_candidate_receipt(self.path, dict(SOURCE, product="BDLJE"))
         self.assertEqual(receipt["container_format"], "GPKG")
         self.assertEqual(receipt["zip_member_count"], 0)
