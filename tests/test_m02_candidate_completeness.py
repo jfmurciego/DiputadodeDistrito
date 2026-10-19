@@ -1,6 +1,7 @@
 """Asegura que el límite histórico no omita contactos del índice espacial."""
 import importlib.util
 from pathlib import Path
+import unittest
 
 import geopandas as gpd
 from shapely.geometry import Polygon
@@ -83,14 +84,15 @@ def _edges(gdf, max_candidates, module=M02):
     )
 
 
-def test_candidate_limit_does_not_drop_far_centroid_shared_boundary():
-    gdf = _fixture()
+class M02CandidateCompletenessTests(unittest.TestCase):
+    def test_candidate_limit_does_not_drop_far_centroid_shared_boundary(self):
+        gdf = _fixture()
 
-    before = _edges(gdf, 50, OLD_M02)
-    capped = _edges(gdf, 50)
-    exhaustive = _edges(gdf, 0)
+        before = _edges(gdf, 50, OLD_M02)
+        capped = _edges(gdf, 50)
+        exhaustive = _edges(gdf, 0)
 
-    assert ("LBIG", "RBIG") not in before
-    assert ("LBIG", "RBIG") in exhaustive
-    assert capped == exhaustive
-    assert _edges(gdf, 50) == capped
+        self.assertNotIn(("LBIG", "RBIG"), before)
+        self.assertIn(("LBIG", "RBIG"), exhaustive)
+        self.assertEqual(capped, exhaustive)
+        self.assertEqual(_edges(gdf, 50), capped)
