@@ -330,9 +330,23 @@ class NationalCampaignTests(unittest.TestCase):
                 "campaign_evidence_receipt_sha256","campaign_territorial_identity_sha256"):
    self.assertIn(token,text); self.assertIn(token,child)
   self.assertIn("CAMPAIGN_MANIFEST_MISMATCH",child)
-  recovery=text[text.index("  recuperar_portfolio:"):text.index("  resumen:")]
-  self.assertNotIn("generation_ready_contract",recovery)
-  self.assertNotIn("campaign_contract_sha256",recovery)
+  self.assertNotIn("  recuperar_portfolio:",text)
+  self.assertNotIn("  publicar_recuperacion:",text)
+
+ def test_minimal_campaign_form_aggregates_without_publication(self):
+  text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  form=text[text.index("  workflow_dispatch:"):text.index("  pull_request:")]
+  for required in ("campana:","estrategia:","publication_mode:","territorios:"):
+   self.assertIn(required,form)
+  for forbidden in ("confirmacion:","portfolio_run_id:","portfolio_artifact_id:","portfolio_source_sha:"):
+   self.assertNotIn(forbidden,form)
+  summary=text[text.index("  resumen:"):]
+  self.assertIn("always()",summary)
+  self.assertNotIn("strategy == 'GerryChain 50'",summary)
+  self.assertIn("ddd-campaign-summary-",summary)
+  self.assertNotIn("  promover_galerias:",text)
+  self.assertNotIn("  publicar_galerias:",text)
+  self.assertNotIn("_reutilizable-publicar-sitio.yml",text)
 
  def test_failed_campaign_cannot_replace_previous_certified_publication(self):
   summary={"status":"FAIL","territory_count_expected":2,"territories":[
@@ -340,7 +354,9 @@ class NationalCampaignTests(unittest.TestCase):
   with self.assertRaises(ValueError):
    validate_campaign_summary_for_promotion(summary)
   text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
-  self.assertIn("needs.resumen.result == 'success'",text)
+  self.assertNotIn("  promover_galerias:",text)
+  self.assertNotIn("  publicar_galerias:",text)
+  self.assertNotIn("  resultado_publicacion:",text)
   self.assertIn("publish_result: false",text)
   self.assertIn("persist_state: false",text)
 
