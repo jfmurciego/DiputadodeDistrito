@@ -1,0 +1,16 @@
+{
+  "source": "protected official INE 2025 section universe; selected features copied without geometry transformation",
+  "source_universe_path": "DDD-control/entregas/f10-revision-integral-20261013/evidencias/valencia_m02_reprojection_resolution_20261019/protected_original_2025.geojson",
+  "source_universe_sha256": "38803150a52c689eefb6d9d68608c7ceb42225a158dc565fba75b144a669883c",
+  "source_package_sha256": "76ffdfc3c11291b7578560cd31b9eeab2e9b8aedc06bdfbd6c763590d6f969d9",
+  "source_crs": "EPSG:4326",
+  "fixture_ids": [
+    "4616401004",
+    "4619401013",
+    "4620701007",
+    "4624404012"
+  ],
+  "fixture_sha256": "bac6c3f657386bd66e9974804ef4075ae4b53266e327ede60aaf02d6bd7ffcff",
+  "selection_only": true,
+  "geometry_changed": false
+}

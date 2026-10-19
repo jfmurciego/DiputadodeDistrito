@@ -1,0 +1,88 @@
+{
+  "schema": "ddd.valencia-m02-m03-reprojection/1.0",
+  "date": "2026-10-19",
+  "base_main": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "source_package_sha256": "76ffdfc3c11291b7578560cd31b9eeab2e9b8aedc06bdfbd6c763590d6f969d9",
+  "source_geometry_zip_sha256": "8da40f4ac5f1b246507f08195872fefbb9e2eeb22701bf1bdbe81899e1f08f86",
+  "source_crs": "EPSG:4326",
+  "source_universe": {
+    "sections": 3515,
+    "population_total": 5425182,
+    "identity_sha256": "bdece2fdc0af7e0aa5e7d03788c8b694691a98ccb567f6941280c7cd9b7d4913"
+  },
+  "original_config_sha256": "2748d089c648438fa8bfa865b36898ebcdbdb224d0e44b4d84344d52cb28df66",
+  "m02_module_sha256": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c",
+  "contract_parameters": {
+    "predicate": "contact",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0
+  },
+  "runs": {
+    "EPSG:3035": {
+      "m01_rows": 3515,
+      "missing_population": 0,
+      "total_population": 5425182,
+      "m02_geometric_edges": 9722,
+      "m02_bridges": 2,
+      "m02_sha256": "3581820b5d4548688f5fc68844edba40734389a47b10e33533aa739a05791049",
+      "m03_nodes": 3515,
+      "m03_edges": 9724,
+      "components": 1,
+      "isolated": 0,
+      "m03_sha256": "83756cb48b1777be075820c6ff9bdb04e95d92c4b657957124e0b1907368a476",
+      "m03_report_sha256": "1579620532472fc8145c914a9d413a131a156dbc453e0be71bcfd8ddab9772eb",
+      "positive_overlap_pairs": 74,
+      "overlaps_gt_1m2": 3,
+      "max_overlap_m2": 6.6252638143487275
+    },
+    "EPSG:25830": {
+      "m01_rows": 3515,
+      "missing_population": 0,
+      "total_population": 5425182,
+      "m02_geometric_edges": 9724,
+      "m02_bridges": 2,
+      "m02_sha256": "527b36fed6aeaba0e27be45909bf5d8e9e25200ebd09c29bc8935cd1566e1d1e",
+      "m03_nodes": 3515,
+      "m03_edges": 9726,
+      "components": 1,
+      "isolated": 0,
+      "m03_sha256": "84a72982b7db5e76669f7400a0b37bce47732a92a4b21246d53016c53701caf1",
+      "m03_report_sha256": "5f36b8d47c32d7a9b559d7bee45951a48b3e838330e874e9e19e53f210360bbe",
+      "positive_overlap_pairs": 68,
+      "overlaps_gt_1m2": 0,
+      "max_overlap_m2": 0.225482904133969
+    }
+  },
+  "graph_delta": {
+    "added_edges": [
+      [
+        "4616401004",
+        "4620701007"
+      ],
+      [
+        "4619401013",
+        "4624404012"
+      ]
+    ],
+    "removed_edges": [],
+    "same_node_ids": true,
+    "same_population_by_cusec": true
+  },
+  "execution": {
+    "modules": [
+      "M01",
+      "M02",
+      "M03"
+    ],
+    "location": "/private/tmp/valencia-m01-m03-crs-check",
+    "production": false,
+    "M04_M06": "not run",
+    "territorial_receipt": "not emitted",
+    "F10_gate": "unchanged"
+  },
+  "candidate_config_sha256": "59e52cfad9920071282b18dbdb9d92cd9c729f0b9499099ae459ff4550681292",
+  "test_fixture_sha256": "bac6c3f657386bd66e9974804ef4075ae4b53266e327ede60aaf02d6bd7ffcff",
+  "test_suite": "tests.test_valencia_m02_native_crs: 2 tests PASS"
+}

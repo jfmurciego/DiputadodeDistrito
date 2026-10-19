@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.2
-Fecha: 2026-10-13
-Alcance: registro acumulativo del incremento F10 de Fuentes Oficiales
+Versión: 1.0.3
+Fecha: 2026-10-19
+Alcance: registro acumulativo de cambios técnicos DDD
 Estado: candidato
-Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoción
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.1_20261013.md
+Cambios/motivo: documentar la corrección reproducible de reproyección M02 en Comunidad Valenciana
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.2_20261019.md
 -->
 
 ## 2026-10-12 — F10 — receipts independientes sin promoción de producto
@@ -502,3 +502,7 @@ error. C-01 emite `UNSUPPORTED` para esta estrategia, cuya semilla anidada no
 varía en el auditor. Los runs reproducibles de Madrid constituyen evidencia
 experimental, no certificación territorial. Este cambio no activa Madrid, no
 certifica el Motor Nacional y no habilita A3.
+
+## 2026-10-19 — Comunidad Valenciana — CRS métrico para M02
+
+La configuración candidata pasa de EPSG:3035 a EPSG:25830 y declara las ediciones de población y seccionado 2025 que M01 requiere. El umbral de solape continúa en 1 m²; no se editan geometrías ni se usan buffers, snapping o tolerancias nuevas. La prueba M01–M03 sobre el paquete protegido conserva los 3.515 CUSEC, 5.425.182 habitantes y la conectividad global, elimina tres solapes proyectados superiores a 1 m² y recupera dos contactos lineales de la fuente. La auditoría detallada y los hashes están en `docs/AUDITORIAS/F10_VALENCIA_M02_REPROYECCION_20261019/`. La configuración es candidata; no supone receipt ni cierre territorial.

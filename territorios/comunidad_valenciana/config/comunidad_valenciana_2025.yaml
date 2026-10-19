@@ -1,3 +1,12 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Comunidad Valenciana
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: Reproyección métrica UTM para topología M02
+# FECHA: 2026-10-19
+# ESTADO: candidato, pendiente de CI y revisión independiente
+# CAMBIOS: M02 usa EPSG:25830; declara ediciones fuente 2025 para población y seccionado.
+# MOTIVO: evitar solapes de reproyección >1 m² y conservar los contactos lineales de los originales, sin alterar geometrías ni umbral.
+# ANTERIOR: legacy/configuracion/comunidad_valenciana_2025_v1.0.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   territory_id: comunidad_valenciana
@@ -5,11 +14,13 @@ meta:
   run_name: comunidad_valenciana_2025
   year: 2025
   scope: provincial
-  schema_version: 1.0.0
+  schema_version: 1.0.1
   status: production_ready_auto_materialized
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
+  source_population_year: 2025
+  source_section_year: 2025
   production_authorization: AUTHORIZED
 io:
   project_root:
@@ -79,7 +90,7 @@ modulos:
     id_field: CUSEC_KEY
     out_edges_jsonl: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     predicate: contact
-    working_crs: EPSG:3035
+    working_crs: EPSG:25830
     min_shared_border_m: 1.0
     max_precision_overlap_area_m2: 1.0
     buffer_m: 0.0
