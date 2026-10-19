@@ -66,3 +66,20 @@ Dos incidencias específicas requieren aclaración: `1102804011` figura en las v
 **Evidencia preservada:** `ANDALUCIA_SIEL_25_NUEVAS_TRAM_CRUCE_20261019.json`, `ANDALUCIA_SIEL_VOTOS_25_NUEVAS_20261019.json`, `ANDALUCIA_SIEL_25_NUEVAS_2026_VOTOS_20261019.csv`, `ANDALUCIA_CANDIDATOS_GEOMETRICOS_34_20261019.csv`. Originales de variaciones INE: ZIP SHA-256 `f2f8299b...` y `154b8eac...`. Snapshot electoral SIEL: run `37150399030` y huellas verificadas.
 
 **Estado:** borrador sin enviar, `CROSSWALK_ACCREDITED=false`. Ningún voto trasladado a geografía 2025.
+
+
+## 6. Addenda 19/10/2026 — 67 secciones electorales y cierre de correspondencia temporal integral
+
+Se ha realizado una comprobación más exigente que la comparación de identificadores: en los **17 municipios andaluces con cambios de identidad entre INE 2025 y 2026**, **41 secciones conservan CUSEC pero modifican materialmente su perímetro** (>100 m² de diferencia simétrica, en CRS original EPSG:25830). La conciliación de fuente SIEL 202605 identifica **31.792 votos a candidaturas** en esas 41 secciones.
+
+Las **25 secciones nuevas** identificadas en SIEL acumulan **15.425 votos**; y la sección electoral de Cortegana `2102502001`, con **658 votos a candidaturas**, tiene tres mesas en el BOP oficial. Los tres grupos son disjuntos y afectan conjuntamente a **67 secciones y 47.875 votos**. Las 9 antiguas secciones eliminadas, cuyos sucesores actuales totalizan **6.901 votos**, **ya están incluidas** en los 31.792 de las 41 secciones con el mismo código y límites modificados; no deben añadirse de nuevo.
+
+**Acreditación de Cortegana:** la Delegación Provincial del INE/OCE en Huelva publicó la lista legal de mesas para el 17/05/2026 en el **BOP Huelva 61/2026 del 30/03/2026**, anuncio 350957:
+https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf .
+El **distrito 02 solo contiene la sección electoral 001**, con mesa A en Biblioteca Municipal de Cortegana, mesa B en San Telmo y mesa C en Valdelamusa. No se enumera la sección 02-002 que sí figura en la cartografía anual INE 2025/2026. **PDF original conservado byte a byte** con SHA-256 `cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa`, adquisición GitHub Actions `39235809732`. Esto acredita la **identidad electoral efectiva**, no la asignación de votos de las tres mesas a los polígonos de 2025.
+
+**Solicitud concreta al INE/OCE y a la autoridad electoral SIEL/Junta de Andalucía:** aportar o certificar la relación oficial entre los seccionados **territorial INE 2025** y **electoral vigente en la jornada del 17/05/2026**, con fecha de efecto, división/fusión, adscripción de calles/tramos y, cuando corresponda, de mesas/subsecciones. Se adjuntan identidades y superficies de las 25 altas, nueve bajas y 41 perímetros materialmente distintos conservando CUSEC. Para Cortegana solicitar el criterio oficial de adscripción de las tres mesas A/B/C de 02-001 respecto a las dos CUSEC cartográficas 2025 `2102502001` y `2102502002`. Si no existe tabla de correspondencia, confirmar el nivel granular auténtico disponible y el órgano que puede certificarlo.
+
+**Entregables verificables:** `docs/AUDITORIAS/CIERRE_FUENTES_20261019/ANDALUCIA_SIEL_RIESGO_CONSOLIDADO_20261019.json` y CSV de 41 secciones en el mismo directorio; 25 nuevas en `docs/AUDITORIAS/CIERRE_FUENTES_20261017/ANDALUCIA_SIEL_25_NUEVAS_2026_VOTOS_20261019.csv`. Cálculo original de GitHub Actions `39236696347` SUCCESS. Los votos no han sido redistribuidos; `CROSSWALK_ACCREDITED=false`.
+
+**Estado:** `DRAFT_NOT_SENT`, solicitada autorización de envío a Work/propietario; **ningún cambio de puerta F10 ni contrato**.
