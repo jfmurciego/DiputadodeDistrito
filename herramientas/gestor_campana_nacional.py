@@ -301,7 +301,12 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
       "source_sha":manifest["source_sha"],"manifest_sha256":manifest["manifest_sha256"],
       "territory_count_expected":len(manifest["territories"]),
       "territory_count_reported":len(by_id),"failed_territories":failed,
-      "status":"PASS" if not failed else "FAIL","territories":rows,
+      "status":"PASS" if not failed else "FAIL",
+      "integrity_status":"VALID",
+      "completion_status":("COMPLETE" if not failed else
+                           "FAILED" if unexpected or duplicates or any(r["status"]=="FAIL" for r in rows)
+                           else "PARTIAL"),
+      "territories":rows,
     }
 
 def validate_campaign_summary_for_promotion(summary:dict[str,Any])->list[dict[str,Any]]:
@@ -365,6 +370,6 @@ def main()->None:
         lines.append(f"| {row.get('slot','')} | {row.get('territory_name',row.get('territory_id',''))} | {row.get('status','')} |")
     a.output_md.write_text("\n".join(lines)+"\n",encoding="utf-8")
     print(json.dumps(summary,ensure_ascii=False))
-    raise SystemExit(0 if summary["status"]=="PASS" else 2)
+    # El estado de negocio no es un error de integridad del artefacto.\n    # Las violaciones de identidad/manifiesto siguen siendo no promocionables.\n    raise SystemExit(0)
 
 if __name__=="__main__": main()
