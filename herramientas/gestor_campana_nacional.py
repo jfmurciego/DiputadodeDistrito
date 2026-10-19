@@ -22,6 +22,15 @@ MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 CONFIRMATION="EXECUTE_CAMPAIGN_CONFIRMED"
 MODES={"electoral","territorial_only"}
+_DISPATCHABLE_ROUTES={"GENERATION_READY","PRODUCT_REUSE_READY","SOURCE_PREPARATION_REQUIRED"}
+
+
+def _manifest_route(row:dict[str,Any])->str|None:
+    route=row.get("execution_route")
+    if route:
+        return str(route)
+    # Compatibilidad de agregación con manifiestos sintéticos/históricos pre-route.
+    return "GENERATION_READY" if row.get("preflight_status")=="GENERATION_READY" else None
 STRATEGIES={
  "Canónico":("",0,False),
  "GerryChain":("",1,False),
@@ -59,11 +68,26 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
     if len(matches)!=1:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: territory/slot")
     row=matches[0]
-    if row["preflight_status"]!="GENERATION_READY" or row.get("preflight_blockers"):
-        raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: entrada bloqueada")
+    route=_manifest_route(row)
+    if (row.get("preflight_status")!=route or route not in _DISPATCHABLE_ROUTES
+            or row.get("preflight_blockers")):
+        raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: entrada bloqueada o ruta no despachable")
     if plan.get("publication_mode_effective")!=row["publication_mode"]:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: publication_mode")
+    if route=="SOURCE_PREPARATION_REQUIRED" and frozen_inputs is None:
+        raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: falta la identidad de persistencia de la preparación pre-M04")
     if frozen_inputs is not None:
+        if str(frozen_inputs.get("CAMPAIGN_CONTRACT_PATH") or "")!=str(row.get("contract_path") or ""):
+            raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: caller.CAMPAIGN_CONTRACT_PATH")
+        phases=row.get("execution_plan") or {}
+        persist_expected=bool(phases.get("pre_m04_accreditation_planned")
+                              or phases.get("run_prepare_electoral")
+                              or phases.get("run_incorporate"))
+        if str(frozen_inputs.get("PERSIST_INPUT", "")).lower()!=str(persist_expected).lower():
+            if route=="SOURCE_PREPARATION_REQUIRED" and persist_expected:
+                raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: la preparación pre-M04 requiere persist_state=true")
+            raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: caller.PERSIST_INPUT")
+    if frozen_inputs is not None and route=="GENERATION_READY":
         refs=row["generation_contract"]
         source=refs.get("source") or {}
         expected={"CAMPAIGN_CONTRACT_PATH":refs.get("contract_path"),
@@ -85,21 +109,40 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
                                           edition=manifest["data_edition"],strategy=manifest["optimization_algorithm"])
     except (ValueError,OSError,yaml.YAMLError) as exc:
         raise ValueError(f"CAMPAIGN_GENERATION_CONTRACT_BLOCK: {exc}") from exc
-    if execution_route(effective)!="GENERATION_READY":
-        raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: el resolver común exige otra ruta")
-    actual=generation_ready_contract(root_dir=root,state=state,territory_id=row["territory_id"])
-    if not actual.get("allowed") or actual.get("status")!="GENERATION_READY":
-        raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: validación efectiva ausente")
-    if actual!=row["generation_contract"] or plan.get("contract_path")!=actual["contract_path"]:
-        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: generation_contract")
+    if execution_route(effective)!=route:
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: execution_route")
+    if effective.get("contract_path")!=row.get("contract_path") or plan.get("contract_path")!=row.get("contract_path"):
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: contract_path")
+    effective_plan={key:effective[key] for key in (
+        "run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate",
+        "pre_m04_accreditation_planned","generation_gate") if key in effective}
+    if effective_plan!=row.get("execution_plan"):
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: execution_plan")
+    if _campaign_lineage_identity(effective)!=row.get("execution_lineage"):
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: execution_lineage")
+    gate=effective.get("generation_gate") or {}
+    if route=="GENERATION_READY":
+        actual=generation_ready_contract(root_dir=root,state=state,territory_id=row["territory_id"])
+        if not actual.get("allowed") or actual.get("status")!="GENERATION_READY":
+            raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: validación efectiva ausente")
+        if actual!=row["generation_contract"] or plan.get("contract_path")!=actual["contract_path"]:
+            raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: generation_contract")
+        resolved=(plan.get("existing") or {}).get("territorial_source") or {}
+        for key in ("run_id","artifact_name","artifact_sha256","package_sha256","source_commit"):
+            if str(resolved.get(key) or "")!=str(actual["source"].get(key) or ""):
+                raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: resolved_source.{key}")
+    elif route=="PRODUCT_REUSE_READY":
+        if any(effective.get(k) for k in ("run_prepare_territorial","run_generate")):
+            raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: PRODUCT_REUSE_READY no puede rehacer el producto territorial")
+        if not gate.get("allowed") or gate.get("route")!="certified_product_lineage":
+            raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: linaje de producto no certificado")
+    elif route=="SOURCE_PREPARATION_REQUIRED":
+        if not (effective.get("run_prepare_territorial") and effective.get("run_generate")
+                and effective.get("pre_m04_accreditation_planned") and gate.get("allowed")
+                and gate.get("route")=="planned_pre_m04_accreditation"):
+            raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: preparación/pre-M04 no habilitada por el resolver")
     if _evidence_identity(root,state,row["publication_mode"])!=row["evidence"]:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: evidence receipt")
-    # La fuente resuelta por 00 debe ser la misma que habilitó generación,
-    # no basta con comprobar el catálogo y consumir luego otro receipt.
-    resolved=(plan.get("existing") or {}).get("territorial_source") or {}
-    for key in ("run_id","artifact_name","artifact_sha256","package_sha256","source_commit"):
-        if str(resolved.get(key) or "")!=str(actual["source"].get(key) or ""):
-            raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: resolved_source.{key}")
     evidence=row["evidence"]
     prepared=plan.get("prepared_source_pair" if row["publication_mode"]=="electoral" else "prepared_territorial_source") or {}
     keys=("receipt_path","territorial_identity_sha256")
@@ -178,6 +221,15 @@ def execution_route(plan:dict[str,Any])->str:
     return "PRODUCT_REUSE_READY"
 
 
+def _campaign_lineage_identity(plan:dict[str,Any])->dict[str,Any]:
+    """Fija en el manifiesto los productos/fuentes que justifican la ruta resuelta."""
+    existing=plan.get("existing") or {}
+    fields=("run_id","artifact_name","artifact_sha256","package_sha256",
+            "source_commit","election_id","decision")
+    return {name:{key:value[key] for key in fields if key in value}
+            for name,value in sorted(existing.items()) if isinstance(value,dict) and value}
+
+
 def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,strategy:str,
                    campaign_instance:str,root:Path=Path("."),edition:str="2025")->dict[str,Any]:
     if publication_mode not in MODES: raise ValueError("Modo de publicación no permitido")
@@ -207,12 +259,17 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
             generation=generation_ready_contract(root_dir=root,state=state,territory_id=tid)
             if not generation.get("allowed"):
                 blockers.append("GENERATION_NOT_READY:"+str(generation.get("capability") or "UNKNOWN"))
+        elif status=="PRODUCT_REUSE_READY":
+            gate=plan.get("generation_gate") or {}
+            if not gate.get("allowed") or gate.get("route")!="certified_product_lineage":
+                blockers.append("PRODUCT_REUSE_LINEAGE_NOT_CERTIFIED")
         if blockers:
             status="BLOCKED"
         territories.append({
           "slot":code,"codauto":code,"territory_id":tid,"territory_name":str(master["name"]),
           "publication_mode":publication_mode,"contract_path":contract,
           "evidence":evidence,
+          "execution_lineage":_campaign_lineage_identity(plan) if plan else {},
           "generation_contract":generation,
           "preflight_status":status,
           "execution_route":execution_route(plan) if plan else "BLOCKED",
@@ -245,7 +302,32 @@ def build_matrix(manifest:dict[str,Any],confirmation:str)->dict[str,Any]:
     entrypoint,count,unique=STRATEGIES[manifest["optimization_algorithm"]]
     include=[]
     for row in manifest["territories"]:
-        if row["preflight_status"]!="GENERATION_READY": continue
+        route=_manifest_route(row)
+        if row.get("preflight_status")=="BLOCKED":
+            if not row.get("preflight_blockers"):
+                raise ValueError(f"CAMPAIGN_BLOCKED_WITHOUT_REASON: {row.get('slot')}")
+            continue
+        if route not in _DISPATCHABLE_ROUTES or row.get("preflight_status")!=route:
+            raise ValueError(f"CAMPAIGN_ROUTE_UNSUPPORTED: {row.get('slot')}:{route}")
+        if row.get("preflight_blockers"):
+            raise ValueError(f"CAMPAIGN_ROUTE_BLOCKER_INCONSISTENT: {row.get('slot')}")
+        phases=row.get("execution_plan") or {}
+        gate=phases.get("generation_gate") or {}
+        if route=="PRODUCT_REUSE_READY" and any(phases.get(k) for k in (
+                "run_prepare_territorial","run_generate")):
+            raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: PRODUCT_REUSE_READY no puede rehacer el producto territorial")
+        if route=="PRODUCT_REUSE_READY" and not (
+                gate.get("allowed") and gate.get("route")=="certified_product_lineage"):
+            raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: linaje de producto no certificado")
+        if route=="SOURCE_PREPARATION_REQUIRED" and not (
+                phases.get("run_prepare_territorial") and phases.get("run_generate")
+                and phases.get("pre_m04_accreditation_planned") and gate.get("allowed")
+                and gate.get("route")=="planned_pre_m04_accreditation"):
+            raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: preparación/pre-M04 no habilitada")
+        if route=="GENERATION_READY" and not (
+                row.get("generation_contract",{}).get("allowed")
+                and row.get("generation_contract",{}).get("status")=="GENERATION_READY"):
+            raise ValueError("CAMPAIGN_ROUTE_CONTRACT_BLOCK: generation_ready_contract ausente")
         tid=row["territory_id"]; slot=row["slot"]; ci=manifest["campaign_instance"]
         include.append({
           **row,"campaign_instance":ci,"namespace":f"{ci}/{slot}/{tid}",
@@ -254,6 +336,9 @@ def build_matrix(manifest:dict[str,Any],confirmation:str)->dict[str,Any]:
           "data_edition":manifest["data_edition"],"execution_mode":manifest["execution_mode"],
           "optimization_algorithm":manifest["optimization_algorithm"],"entrypoint":entrypoint,
           "candidate_count":count,"require_unique_hashes":unique,"retry_failed":False,
+          "persist_state":bool(phases.get("pre_m04_accreditation_planned")
+                                or phases.get("run_prepare_electoral")
+                                or phases.get("run_incorporate")),
         })
     return {"include":include}
 
@@ -268,8 +353,11 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
                       *(f"DUPLICATE_REPORT:{t}" for t in duplicates)]
     for expected in manifest["territories"]:
         tid=expected["territory_id"]
-        if expected["preflight_status"]!="GENERATION_READY":
+        if expected["preflight_status"]=="BLOCKED":
             item={**expected,"status":"BLOCKED","reason":", ".join(expected["preflight_blockers"]) or expected["preflight_status"]}
+        elif _manifest_route(expected) not in _DISPATCHABLE_ROUTES:
+            item={**expected,"status":"FAIL","reason":"CAMPAIGN_ROUTE_UNSUPPORTED"}
+            integrity_errors.append(f"CAMPAIGN_ROUTE_UNSUPPORTED:{tid}")
         else:
             observed=by_id.get(tid)
             if observed is None:

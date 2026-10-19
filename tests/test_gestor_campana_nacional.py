@@ -161,7 +161,13 @@ class NationalCampaignTests(unittest.TestCase):
      self.assertFalse(r["generation_contract"]["allowed"])
      self.assertEqual(r["execution_plan"]["run_generate"],strategy!="Canónico")
      self.assertEqual(r["execution_plan"]["run_prepare_territorial"],strategy!="Canónico")
-     self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+     matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
+     self.assertEqual(len(matrix),1)
+     self.assertEqual(matrix[0]["execution_route"],status)
+     self.assertEqual(matrix[0]["persist_state"],bool(
+      r["execution_plan"].get("pre_m04_accreditation_planned")
+      or r["execution_plan"].get("run_prepare_electoral")
+      or r["execution_plan"].get("run_incorporate")))
      self.assertEqual(aggregate(m,[])["status"],"FAIL")
 
  def test_common_resolver_decision_is_authoritative_for_every_territory(self):
@@ -221,7 +227,7 @@ class NationalCampaignTests(unittest.TestCase):
   text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
   self.assertIn("name: 0 Gestor de Campañas",text)
   self.assertIn("fail-fast: false",text); self.assertIn("max-parallel: 5",text)
-  self.assertIn("publish_result: false",text); self.assertIn("persist_state: false",text)
+  self.assertIn("publish_result: false",text); self.assertIn("persist_state: ${{ matrix.persist_state }}",text)
   self.assertNotIn("retry_failed: true",text)
   self.assertNotIn("preparacion-fuentes.yml",text)
   self.assertNotIn("preparacion-resultados-electorales.yml",text)
@@ -251,6 +257,61 @@ class NationalCampaignTests(unittest.TestCase):
     self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
     validate_campaign_child(manifest=m,plan=p,root=root,expected_sha=m["manifest_sha256"],
                             source_sha=m["source_sha"],slot="06",campaign_instance="fixture")
+
+ def test_campaign_dispatches_reuse_and_source_preparation_routes_but_not_blocked(self):
+  from herramientas.gestor_campana_nacional import campaign_execution_plan
+  reuse=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
+      source_sha="a"*40,strategy="Canónico",campaign_instance="reuse-route",root=ROOT)
+  reuse_row=reuse["territories"][0]
+  self.assertEqual(reuse_row["preflight_status"],"PRODUCT_REUSE_READY")
+  reuse_matrix=build_matrix(reuse,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
+  self.assertEqual(len(reuse_matrix),1)
+  self.assertEqual(reuse_matrix[0]["execution_route"],"PRODUCT_REUSE_READY")
+  self.assertFalse(reuse_matrix[0]["persist_state"])
+  self.assertEqual(aggregate(reuse,[])["territories"][0]["status"],"MISSING")
+  reuse_plan=campaign_execution_plan(root=ROOT,territory_id="principado_de_asturias",
+      edition="2025",strategy="Canónico")
+  reuse_plan["publication_mode_effective"]="electoral"
+  reuse_plan["prepared_source_pair"]={k:v for k,v in reuse_row["evidence"].items()
+      if k not in ("kind","receipt_sha256")}
+  validate_campaign_child(manifest=reuse,plan=reuse_plan,root=ROOT,
+      expected_sha=reuse["manifest_sha256"],source_sha=reuse["source_sha"],slot="03",
+      campaign_instance="reuse-route",frozen_inputs={
+       "CAMPAIGN_CONTRACT_PATH":reuse_row["contract_path"],"PERSIST_INPUT":"false"})
+
+  prepare=build_manifest(selected=["canarias"],publication_mode="electoral",
+      source_sha="b"*40,strategy="GerryChain 50",campaign_instance="prepare-route",root=ROOT)
+  prepare_row=prepare["territories"][0]
+  self.assertEqual(prepare_row["preflight_status"],"SOURCE_PREPARATION_REQUIRED")
+  prepare_matrix=build_matrix(prepare,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
+  self.assertEqual(len(prepare_matrix),1)
+  self.assertEqual(prepare_matrix[0]["execution_route"],"SOURCE_PREPARATION_REQUIRED")
+  self.assertTrue(prepare_matrix[0]["persist_state"])
+  self.assertEqual(aggregate(prepare,[])["territories"][0]["status"],"MISSING")
+  prepare_plan=campaign_execution_plan(root=ROOT,territory_id="canarias",
+      edition="2025",strategy="GerryChain 50")
+  prepare_plan["publication_mode_effective"]="electoral"
+  prepare_plan["prepared_source_pair"]={k:v for k,v in prepare_row["evidence"].items()
+      if k not in ("kind","receipt_sha256")}
+  validate_campaign_child(manifest=prepare,plan=prepare_plan,root=ROOT,
+      expected_sha=prepare["manifest_sha256"],source_sha=prepare["source_sha"],slot="05",
+      campaign_instance="prepare-route",frozen_inputs={
+       "CAMPAIGN_CONTRACT_PATH":prepare_row["contract_path"],"PERSIST_INPUT":"true"})
+  with self.assertRaisesRegex(ValueError,"persist_state=true"):
+   validate_campaign_child(manifest=prepare,plan=prepare_plan,root=ROOT,
+       expected_sha=prepare["manifest_sha256"],source_sha=prepare["source_sha"],slot="05",
+       campaign_instance="prepare-route",frozen_inputs={
+        "CAMPAIGN_CONTRACT_PATH":prepare_row["contract_path"],"PERSIST_INPUT":"false"})
+
+  blocked=build_manifest(selected=["ceuta"],publication_mode="electoral",
+      source_sha="c"*40,strategy="Canónico",campaign_instance="blocked-route",root=ROOT)
+  blocked_row=blocked["territories"][0]
+  self.assertEqual(blocked_row["preflight_status"],"BLOCKED")
+  self.assertTrue(blocked_row["preflight_blockers"])
+  self.assertEqual(build_matrix(blocked,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+  blocked_summary=aggregate(blocked,[])
+  self.assertEqual(blocked_summary["territories"][0]["status"],"BLOCKED")
+  self.assertIn("DURABLE_LINEAGE_INCOMPATIBLE",blocked_summary["territories"][0]["reason"])
 
  def test_child_blocks_frozen_identity_and_resolved_source_drift(self):
   for mode in ("territorial_only","electoral"):
@@ -440,6 +501,6 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotIn("  publicar_galerias:",text)
   self.assertNotIn("  resultado_publicacion:",text)
   self.assertIn("publish_result: false",text)
-  self.assertIn("persist_state: false",text)
+  self.assertIn("persist_state: ${{ matrix.persist_state }}",text)
 
 if __name__=="__main__": unittest.main()

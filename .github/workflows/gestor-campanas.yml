@@ -158,14 +158,14 @@ jobs:
       optimization_algorithm: ${{ matrix.optimization_algorithm }}
       publish_result: false
       source_ref: ${{ matrix.source_sha }}
-      persist_state: false
+      persist_state: ${{ matrix.persist_state }}
       publication_mode: ${{ matrix.publication_mode }}
       artifact_namespace: ${{ matrix.artifact_namespace }}
       campaign_instance: ${{ matrix.campaign_instance }}
       campaign_slot: ${{ matrix.slot }}
       campaign_namespace: ${{ matrix.namespace }}
       campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
-      campaign_contract_path: ${{ matrix.generation_contract.contract_path }}
+      campaign_contract_path: ${{ matrix.contract_path }}
       campaign_contract_sha256: ${{ matrix.generation_contract.contract_sha256 }}
       campaign_generation_evidence_path: ${{ matrix.generation_contract.generation_evidence_path }}
       campaign_generation_evidence_sha256: ${{ matrix.generation_contract.generation_evidence_sha256 }}
@@ -237,7 +237,7 @@ jobs:
             exit 4
           }
           test "${{ needs.preparar.outputs.ready_count }}" != 0 || {
-            echo "::error::CAMPAIGN_ZERO_EXECUTABLE: ningún territorio tiene GENERATION_READY; informe generado y preservado, campaña NO ejecutada."
+            echo "::error::CAMPAIGN_ZERO_EXECUTABLE: ningún territorio tiene una ruta despachable; informe generado y preservado, campaña NO ejecutada."
             exit 5
           }
           jq -e '.completion_status == "COMPLETE" and .status == "PASS"' .ddd-campaign/summary/campaign-summary.json >/dev/null || {
