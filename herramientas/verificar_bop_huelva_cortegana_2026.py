@@ -3,7 +3,7 @@
 Read-only evidence; does not infer crosswalk for territorial CUSEC 2102502002.
 """
 from __future__ import annotations
-import argparse, hashlib, json, re, subprocess, tempfile, urllib.request
+import argparse, hashlib, json, re, tempfile, urllib.request
 from pathlib import Path
 
 SOURCE="https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf"
@@ -15,8 +15,9 @@ def sha(b:bytes)->str:
     return hashlib.sha256(b).hexdigest()
 
 def extract(raw_pdf:Path)->str:
-    run=subprocess.run(["pdftotext","-layout","-enc","UTF-8",str(raw_pdf),"-"],text=True,capture_output=True,check=True)
-    return run.stdout
+    import fitz
+    with fitz.open(str(raw_pdf)) as doc:
+        return "\n".join(page.get_text("text",sort=False) for page in doc)
 
 def verify_document(text:str,original:bytes)->dict:
     if not original.startswith(b"%PDF-") or len(original)<20000:
