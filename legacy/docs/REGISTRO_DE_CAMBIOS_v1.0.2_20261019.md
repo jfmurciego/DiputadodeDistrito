@@ -502,7 +502,3 @@ error. C-01 emite `UNSUPPORTED` para esta estrategia, cuya semilla anidada no
 varía en el auditor. Los runs reproducibles de Madrid constituyen evidencia
 experimental, no certificación territorial. Este cambio no activa Madrid, no
 certifica el Motor Nacional y no habilita A3.
-
-## 2026-10-19 — Comunidad Valenciana — CRS métrico para M02
-
-La configuración candidata pasa de EPSG:3035 a EPSG:25830 y declara las ediciones de población y seccionado 2025 que M01 requiere. El umbral de solape continúa en 1 m²; no se editan geometrías ni se usan buffers, snapping o tolerancias nuevas. La prueba M01–M03 sobre el paquete protegido conserva los 3.515 CUSEC, 5.425.182 habitantes y la conectividad global, elimina tres solapes proyectados superiores a 1 m² y recupera dos contactos lineales de la fuente. La auditoría detallada y los hashes están en `docs/AUDITORIAS/F10_VALENCIA_M02_REPROYECCION_20261019/`. La configuración es candidata; no supone receipt ni cierre territorial.
