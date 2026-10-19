@@ -185,7 +185,7 @@ jobs:
 
   resumen:
     name: Resumen agregado de campaña
-    if: ${{ always() && github.event_name == 'workflow_dispatch' needs.preparar.result == 'success' }}
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && needs.preparar.result == 'success' }}
     needs: [preparar, territorios]
     runs-on: ubuntu-24.04
     steps:
