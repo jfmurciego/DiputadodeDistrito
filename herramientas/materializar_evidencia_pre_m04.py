@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+"""PROYECTO: Diputado de Distrito
+HERRAMIENTA: Materializador de evidencia pre-M04
+VERSIÓN: 1.0.1
+NOMBRE DE VERSIÓN: Acreditación fuente-vinculada con contadores verificables
+FECHA: 2026-10-19
+ESTADO: candidato de integración; pendiente de CI y revisión.
+QUÉ HACE: materializa evidencia durable para la puerta pre-M04.
+CAMBIOS: conserva contadores municipales y solo normaliza a cero los subcontadores ausentes cuando M03 acredita exactamente cero desconexiones.
+MOTIVO: transportar evidencia verificable para discontinuidades admitidas y rechazar tipos o sumas inválidos.
+ANTERIOR: legacy/herramientas/materializar_evidencia_pre_m04_pre_cat_pre_m04_20261019.py
+PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
+"""
 from __future__ import annotations
 
 import argparse
@@ -109,6 +121,15 @@ def build_evidence(
             raise ValueError(f"SOURCE_EVIDENCE_INCOMPLETE: {key}")
 
     report = _find_m03_report(m03_state_dir)
+    municipality_audit = report.get("municipality_component_audit") or {}
+    municipality_disconnected = municipality_audit.get("disconnected")
+    municipality_admitted = municipality_audit.get("admitted_disconnected")
+    municipality_unresolved = municipality_audit.get("unresolved")
+    if type(municipality_disconnected) is int and municipality_disconnected == 0:
+        if municipality_admitted is None:
+            municipality_admitted = 0
+        if municipality_unresolved is None:
+            municipality_unresolved = 0
     job = _json(partition_job)
     if job.get("status") not in {"NOOP", "PREPARED"}:
         raise ValueError(f"PARTITION_STATUS_INVALID: {job.get('status')!r}")
@@ -208,7 +229,16 @@ def build_evidence(
             "isolated": report.get("isolated"),
             "global_components": (report.get("global_component_audit") or {}).get("components"),
             "province_disconnected": (report.get("province_component_audit") or {}).get("disconnected"),
-            "municipality_disconnected": (report.get("municipality_component_audit") or {}).get("disconnected"),
+            "municipality_disconnected": municipality_disconnected,
+            "municipality_admitted_disconnected": municipality_admitted,
+            "municipality_unresolved": municipality_unresolved,
+            "topology_accreditation": {
+                "valid": (report.get("topology_accreditation") or {}).get("valid"),
+                "administrative_components": {
+                    "accepted": ((report.get("topology_accreditation") or {}).get("administrative_components") or {}).get("accepted"),
+                    "rejected": ((report.get("topology_accreditation") or {}).get("administrative_components") or {}).get("rejected"),
+                },
+            },
         },
         "partitioning": partitioning,
         "contract_binding": _contract_generation_binding(contract),

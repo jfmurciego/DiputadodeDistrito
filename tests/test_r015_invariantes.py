@@ -265,6 +265,8 @@ class GovernanceHeaders(unittest.TestCase):
         "modulos/07_agregar_resultados_electorales.py",
         "modulos/08_integrar_resultados.py",
         "ddd_core/config.py",
+        "herramientas/_resolver_ejecucion_completa_core.py",
+        "herramientas/materializar_evidencia_pre_m04.py",
         "herramientas/adquirir_fuentes_ine.py",
         "herramientas/calcular_clave_preparacion.py",
         "herramientas/generar_outputs_auditables.py",

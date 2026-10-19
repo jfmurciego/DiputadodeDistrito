@@ -1,0 +1,11 @@
+{
+  "schema": "ddd.pre-m04-persistence/1.0",
+  "status": "REGISTERED",
+  "territory_id": "cataluna",
+  "edition": "2025",
+  "run_id": 37453376100,
+  "source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+  "candidate_fingerprint": "6e1e10928d90e9d6432a22e579e14c5437a759e4bf2d3dedcf89d755938b5c3d",
+  "head_sha": "bea7aa9eb50a2140ea30c27eb966a7701e257cfc",
+  "attempt": 1
+}

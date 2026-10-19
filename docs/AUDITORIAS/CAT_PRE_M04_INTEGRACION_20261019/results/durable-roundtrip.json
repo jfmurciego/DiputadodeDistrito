@@ -1,0 +1,121 @@
+{
+  "schema": "ddd.cat-pre-m04-durable-roundtrip/1.0",
+  "mode": "isolated local filesystem + local bare Git origin; no GitHub write",
+  "source_worktree_head": "099b1441e70aecf0a3d37fdeec98ad617e77b08c",
+  "isolated_code_snapshot_head": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+  "isolated_code_snapshot_tree": "3901cd88f2d82da15d06d96b572b747a5052f91b",
+  "isolated_code_snapshot_changed_paths": [
+    "herramientas/_resolver_ejecucion_completa_core.py",
+    "herramientas/materializar_evidencia_pre_m04.py"
+  ],
+  "tested_local_code_sha256": {
+    "herramientas/_resolver_ejecucion_completa_core.py": "57da9d6f1077dd67df09ae615e5c2f98aa0386d0b1417c93467b726625140b0a",
+    "herramientas/materializar_evidencia_pre_m04.py": "a324f2d270545ab8f40f3422ad93e6d545dd3ee2a66a8edac8621ba83bdba87e",
+    "herramientas/persistir_evidencia_pre_m04_operacional.py": "530b5d8a989c5a014ab63f9cd89adfedcaea5ff4708cb84e17caac0cbfcd8021",
+    "herramientas/persistir_estado_operativo_compartido.py": "9d39758921408680a708a83f3083b3c51839372182684580897d9159e4f7388c",
+    "herramientas/handoff_evidencia_pre_m04.py": "d3fc53ef35cf7bc9f799a53f42901db052c88ad5fc10fac9abf304303d79f4b9"
+  },
+  "authentic_inputs": {
+    "run_id": 37453376100,
+    "m03_artifact_sha256": "1a60164eeba923794a69873ed7fc9238e04e9816e2ca1b1f4ea0b2feedc617f4",
+    "m03u_artifact_sha256": "27a4353d55c3464856ae2ed98e3064bc9a63c38284e6f13e7b83f18f425feaee",
+    "partition_job_artifact_sha256": "cbc9943db4bd256d57a2923c3f457aadbf12cd8d454f42dcc0b660d9543933e3",
+    "source_package_sha256": "e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0",
+    "compatibility_identity_sha256": "58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a",
+    "section_year": 2024,
+    "edition": "2025",
+    "municipality": "25234",
+    "municipality_sections": [
+      "2523401001",
+      "2523401002",
+      "2523402001",
+      "2523402002",
+      "2523403001"
+    ],
+    "component_sizes": [
+      4,
+      1
+    ]
+  },
+  "candidate_sha256": "50b9542615b8c5d9480caf1ec2604120c8488506f654fda8b4c661946ec01f9d",
+  "candidate_source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+  "candidate_gate": {
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
+  },
+  "handoff_sha256": "50b9542615b8c5d9480caf1ec2604120c8488506f654fda8b4c661946ec01f9d",
+  "handoff_metadata_sha256": "558e8c5f11044fef64209dfdc1aef7b015d16c7ab95c01b494af6e10ce3e4d30",
+  "persisted_json_sha256": "50b9542615b8c5d9480caf1ec2604120c8488506f654fda8b4c661946ec01f9d",
+  "persisted_equals_candidate_bytes": true,
+  "first_persistence": {
+    "schema": "ddd.pre-m04-persistence/1.0",
+    "status": "REGISTERED",
+    "territory_id": "cataluna",
+    "edition": "2025",
+    "run_id": 37453376100,
+    "source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+    "candidate_fingerprint": "6e1e10928d90e9d6432a22e579e14c5437a759e4bf2d3dedcf89d755938b5c3d",
+    "head_sha": "bea7aa9eb50a2140ea30c27eb966a7701e257cfc",
+    "attempt": 1
+  },
+  "second_persistence": {
+    "schema": "ddd.pre-m04-persistence/1.0",
+    "status": "NO_OP",
+    "territory_id": "cataluna",
+    "edition": "2025",
+    "run_id": 37453376100,
+    "source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+    "candidate_fingerprint": "6e1e10928d90e9d6432a22e579e14c5437a759e4bf2d3dedcf89d755938b5c3d",
+    "head_sha": "bea7aa9eb50a2140ea30c27eb966a7701e257cfc",
+    "attempt": 1
+  },
+  "first_push_head": "bea7aa9eb50a2140ea30c27eb966a7701e257cfc",
+  "second_push_head": "bea7aa9eb50a2140ea30c27eb966a7701e257cfc",
+  "idempotent_no_new_commit": true,
+  "interrupted_after_local_commit": true,
+  "interruption_error": "simulated interruption before push",
+  "interruption_remote_unchanged_before_retry": true,
+  "interruption_result": {
+    "schema": "ddd.pre-m04-persistence/1.0",
+    "status": "PUSH_RETRY_EXHAUSTED",
+    "territory_id": "cataluna",
+    "edition": "2025",
+    "run_id": 37453376100,
+    "source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+    "candidate_fingerprint": "6e1e10928d90e9d6432a22e579e14c5437a759e4bf2d3dedcf89d755938b5c3d",
+    "head_sha": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+    "attempt": 1,
+    "reason": "simulated interruption before push"
+  },
+  "retry_after_interruption_head": "a1fa0c66c29ec80772ab3985cd3494187310ee8e",
+  "interruption_remote_after_retry": "a1fa0c66c29ec80772ab3985cd3494187310ee8e",
+  "interruption_retry_persisted": true,
+  "independent_checkout_head": "bea7aa9eb50a2140ea30c27eb966a7701e257cfc",
+  "independent_checkout_readback": "PASS",
+  "handoff_recovery": "PASS",
+  "corrupt_candidate_rejected": true,
+  "remote_head_unchanged_after_rejection": true,
+  "corrupt_candidate_exit_code": 59,
+  "corrupt_candidate_persistence_result": {
+    "schema": "ddd.pre-m04-persistence/1.0",
+    "status": "INCOMPATIBLE_CURRENT_STATE",
+    "territory_id": "cataluna",
+    "edition": "2025",
+    "run_id": 37453376100,
+    "source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+    "candidate_fingerprint": "e18db27ab9be6f8bc2461fcafdaff361a92abee07c516f5341fcda2cc7b922a0",
+    "head_sha": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+    "attempt": 1,
+    "reason": "PRE_M04_CURRENT_STATE_REJECTED: GENERATION_EVALUATION_SOURCE_MISMATCH"
+  },
+  "reject_remote_head_before_after": {
+    "before": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+    "after": "dd8686c09c2a6810c8b3857610f95a9133ff01c0"
+  },
+  "m04_executed": false,
+  "territorial_generation_executed": false,
+  "limitations": [
+    "Local bare Git origin emulates the Git remote boundary; no GitHub Actions/Contents API, permissions or hosted runner were exercised.",
+    "The isolated integration code snapshot adds the current dirty core/materializer files to a local test commit derived from HEAD; original run artifacts remain authentic, while source_commit in the test candidate binds to that exact isolated code snapshot."
+  ]
+}
