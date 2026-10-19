@@ -1,0 +1,35 @@
+name: F10 — documento INE Cortegana 2026
+on:
+  push:
+    branches:
+      - chatgpt/fuentes-wfs-20261017
+    paths:
+      - .github/workflows/f10-cortegana-ine-bop-2026.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  autenticar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar entorno y script
+        run: |
+          command -v pdftotext
+          python -m py_compile herramientas/verificar_bop_huelva_cortegana_2026.py
+      - name: Preservar documento INE y verificar mesas Cortegana
+        run: |
+          python herramientas/verificar_bop_huelva_cortegana_2026.py \
+            --archive "$RUNNER_TEMP/INE_OCE_HUELVA_BOP_61_2026.pdf" \
+            --result "$RUNNER_TEMP/INE_OCE_HUELVA_CORTEGANA_F10_RECEIPT.json"
+      - name: Archivar original y receipt diagnóstico
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: f10-ine-oce-huelva-cortegana-bop61-2026
+          path: |
+            ${{ runner.temp }}/INE_OCE_HUELVA_BOP_61_2026.pdf
+            ${{ runner.temp }}/INE_OCE_HUELVA_CORTEGANA_F10_RECEIPT.json
+          if-no-files-found: warn
+          retention-days: 90
