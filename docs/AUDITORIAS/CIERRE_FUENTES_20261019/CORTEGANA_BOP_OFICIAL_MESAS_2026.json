@@ -16,8 +16,19 @@
       "16",
       "17"
     ],
-    "observed_document_stage": "OFFICIAL_ONLINE_PDF_TEXT_EXTRACTED_NOT_STORED_AS_RAW_PDF",
-    "source_sha256_accredited": false
+    "observed_document_stage": "OFFICIAL_SIGNED_PDF_BYTE_EXACT_ARCHIVED_AND_CONTENT_VERIFIED",
+    "source_sha256_accredited": true,
+    "raw_pdf_sha256": "cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa",
+    "raw_pdf_bytes": 335074,
+    "acquisition": {
+      "workflow_id": 39235809732,
+      "conclusion": "SUCCESS",
+      "artifact_id": 12179246201,
+      "artifact_name": "f10-bop-huelva-2026-signed-original",
+      "artifact_sha256": "c296f797f1929a4f0129f493ff5ca8502c669f585957ba729ed9dba338080fab",
+      "expires_at": "2027-01-17T10:12:45Z",
+      "verified_by": "PyMuPDF 1.26.4 official PDF content extraction"
+    }
   },
   "election": {
     "event_date": "2026-05-17",
