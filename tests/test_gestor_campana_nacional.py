@@ -376,6 +376,37 @@ class NationalCampaignTests(unittest.TestCase):
   with self.assertRaises(ValueError):
    validate_campaign_summary_for_promotion(corrupted)
 
+ def test_aggregate_cli_exit_status_tracks_integrity_not_completion(self):
+  for corrupt in (False,True):
+   with self.subTest(corrupt=corrupt), tempfile.TemporaryDirectory() as td:
+    root=Path(td); reports=root/"reports"; reports.mkdir()
+    m={"campaign_instance":"cli","source_sha":"a"*40,"optimization_algorithm":"Canónico",
+       "territories":[
+        {"territory_id":"pass","slot":"01","publication_mode":"electoral",
+         "preflight_status":"GENERATION_READY","preflight_blockers":[]},
+        {"territory_id":"blocked","slot":"02","publication_mode":"electoral",
+         "preflight_status":"BLOCKED","preflight_blockers":["SOURCE_BLOCK"]}]}
+    freeze(m)
+    manifest_path=root/"manifest.json"; manifest_path.write_text(json.dumps(m))
+    report={"territory_id":"pass","slot":"01","publication_mode":"electoral","status":"PASS",
+      "campaign_instance":"cli","source_sha":"b"*40 if corrupt else "a"*40,
+      "manifest_sha256":m["manifest_sha256"]}
+    (reports/"campaign_status.json").write_text(json.dumps(report))
+    output_json=root/"summary.json";output_md=root/"summary.md"
+    cmd=[sys.executable,str(ROOT/"herramientas/gestor_campana_nacional.py"),
+         "aggregate","--manifest",str(manifest_path),"--reports-root",str(reports),
+         "--output-json",str(output_json),"--output-md",str(output_md)]
+    result=subprocess.run(cmd,cwd=ROOT,capture_output=True,text=True)
+    self.assertEqual(result.returncode,2 if corrupt else 0,result.stderr)
+    summary=json.loads(output_json.read_text())
+    self.assertEqual(summary["integrity_status"],"INVALID" if corrupt else "VALID")
+    self.assertEqual(summary["completion_status"],"FAILED" if corrupt else "PARTIAL")
+    self.assertEqual([r["status"] for r in summary["territories"]],
+                     ["FAIL","BLOCKED"] if corrupt else ["PASS","BLOCKED"])
+    self.assertTrue(output_md.is_file())
+    with self.assertRaises(ValueError):
+     validate_campaign_summary_for_promotion(summary)
+
  def test_failed_campaign_cannot_replace_previous_certified_publication(self):
   summary={"status":"FAIL","territory_count_expected":2,"territories":[
     {"territory_id":"a","status":"PASS"},{"territory_id":"b","status":"FAIL"}]}
