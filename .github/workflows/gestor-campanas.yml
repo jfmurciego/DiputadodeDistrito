@@ -210,7 +210,7 @@ jobs:
         run: |
           set +e
           mkdir -p .ddd-campaign/summary
-          python herramientas/gestor_campana_nacional.py aggregate             --manifest "${{ needs.preparar.outputs.manifest_path }}"             --reports-root .ddd-campaign/reports             --output-json .ddd-campaign/summary/campaign-summary.json             --output-md .ddd-campaign/summary/campaign-summary.md
+          python -m herramientas.gestor_campana_nacional aggregate             --manifest "${{ needs.preparar.outputs.manifest_path }}"             --reports-root .ddd-campaign/reports             --output-json .ddd-campaign/summary/campaign-summary.json             --output-md .ddd-campaign/summary/campaign-summary.md
           rc=$?
           echo "aggregate_rc=$rc" >> "$GITHUB_OUTPUT"
           exit 0
