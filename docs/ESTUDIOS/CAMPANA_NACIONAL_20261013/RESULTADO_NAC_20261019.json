@@ -1,0 +1,48 @@
+{
+  "schema": "ddd.national-nac-execution-result/1.0",
+  "date": "2026-10-19",
+  "base_main": "4545491ca70066e2004b53b30ebe9994ed4d9df6",
+  "scope": "NAC-01..NAC-12",
+  "in_existing_campaign": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013",
+  "generation_authorized": false,
+  "districts_generated": 0,
+  "tasks": {
+    "NAC-01": "BLOCKED_EXTERNAL",
+    "NAC-02": "BLOCKED_EXTERNAL",
+    "NAC-03": "COMPLETE",
+    "NAC-04": "NOT_EXECUTABLE",
+    "NAC-05": "NOT_EXECUTABLE",
+    "NAC-06": "BLOCKED_EXTERNAL",
+    "NAC-07": "BLOCKED_EXTERNAL",
+    "NAC-08": "BLOCKED_EXTERNAL",
+    "NAC-09": "BLOCKED_EXTERNAL",
+    "NAC-10": "WAIT_OWNER",
+    "NAC-11": "NOT_EXECUTABLE",
+    "NAC-12": "WAIT_OWNER"
+  },
+  "verification": {
+    "targeted_tests": "30 passed, 17 subtests passed",
+    "contrast_tool_tests": "50 passed, 17 subtests passed",
+    "congress_regression": "151 passed, 59 subtests passed",
+    "py_compile_python_3_11": "PASS",
+    "independent_increment_reviews": ["REVIEW_PASS_WITH_SCOPE_LIMITS", "REVIEW_PASS"],
+    "national_software_final_review": "NOT_PERFORMED"
+  },
+  "artifacts": {
+    "ddd_core/congreso_ign_api_snapshot.py": "9d5fdc2ad8edf72dba4ef4a04c4c1495ee7374301cf663663c47a45a7229dc0b",
+    "tests/test_congreso_ign_api_snapshot.py": "0ce883c524bea1aac4ef085f578066593b96dd4fafbe71f3d5f8188b0b013349"
+  },
+  "source_inquiry": {
+    "submitted": "2026-10-18",
+    "official_reply_received": false,
+    "source_bytes_received": false,
+    "source_sha256": null,
+    "source_accredited": false
+  },
+  "limitations": [
+    "API page auditor does not download or authenticate page bytes",
+    "temporal field semantics not independently verified",
+    "no new official provincial comparisons generated",
+    "no partition feasibility or product certification asserted by this increment"
+  ]
+}
