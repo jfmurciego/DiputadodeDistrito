@@ -225,7 +225,23 @@ jobs:
         shell: bash
         run: |
           test "${{ steps.aggregate.outputs.aggregate_rc }}" = 0 || {
-            echo "::error::Resumen de campaña incompleto o inconsistente; consulte el artefacto agregado."
+            echo "::error::Integridad del resumen inválida; consulte el artefacto agregado."
             exit 2
+          }
+          test -f .ddd-campaign/summary/campaign-summary.json || {
+            echo "::error::No existe resumen JSON pese a ejecución de agregación."
+            exit 3
+          }
+          jq -e --argjson expected "$(jq '.territories | length' .ddd-campaign/campaign-manifest.json)" '.territory_count_expected == $expected' .ddd-campaign/summary/campaign-summary.json >/dev/null || {
+            echo "::error::El agregado no contiene la cardinalidad esperada de la campaña."
+            exit 4
+          }
+          test "${{ needs.preparar.outputs.ready_count }}" != 0 || {
+            echo "::error::CAMPAIGN_ZERO_EXECUTABLE: ningún territorio tiene GENERATION_READY; informe generado y preservado, campaña NO ejecutada."
+            exit 5
+          }
+          jq -e '.completion_status == "COMPLETE" and .status == "PASS"' .ddd-campaign/summary/campaign-summary.json >/dev/null || {
+            echo "::error::CAMPAIGN_INCOMPLETE: resumen preservado, pero existen territorios bloqueados, ausentes o fallidos."
+            exit 6
           }
 

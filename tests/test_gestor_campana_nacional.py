@@ -359,6 +359,18 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotIn("  promover_galerias:",text)
   self.assertNotIn("  publicar_galerias:",text)
 
+ def test_campaign_summary_upload_precedes_terminal_failure_gate(self):
+  text=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  summary=text[text.index("  resumen:"):]
+  upload=summary.index("name: ddd-campaign-summary-")
+  terminal=summary.index("CAMPAIGN_ZERO_EXECUTABLE")
+  self.assertLess(upload,terminal)
+  self.assertIn("CAMPAIGN_INCOMPLETE",summary)
+  self.assertIn(".completion_status == \"COMPLETE\" and .status == \"PASS\"",summary)
+  self.assertIn("needs.preparar.outputs.ready_count",summary)
+  self.assertIn("jq '.territories | length' .ddd-campaign/campaign-manifest.json",summary)
+  self.assertNotIn("  publicar_galerias:",text)
+
  def test_mixed_states_are_valid_summary_but_not_certified(self):
   m={"campaign_instance":"mixed","source_sha":"a"*40,"optimization_algorithm":"Canónico",
      "territories":[
