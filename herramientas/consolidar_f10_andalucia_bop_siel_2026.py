@@ -2,9 +2,10 @@
 No transfer of 2026 electoral votes to territorial CUSEC 2025.
 """
 from __future__ import annotations
-import argparse,csv,hashlib,json
+import argparse,csv,hashlib,json,sys
 from collections import defaultdict
 from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from herramientas.verificar_bop_huelva_cortegana_2026 import extract,verify_document
 
 BOP_SHA="cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa"
