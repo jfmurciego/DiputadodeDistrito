@@ -393,7 +393,7 @@ class NationalCampaignTests(unittest.TestCase):
       "manifest_sha256":m["manifest_sha256"]}
     (reports/"campaign_status.json").write_text(json.dumps(report))
     output_json=root/"summary.json";output_md=root/"summary.md"
-    cmd=[sys.executable,str(ROOT/"herramientas/gestor_campana_nacional.py"),
+    cmd=[sys.executable,"-m","herramientas.gestor_campana_nacional",
          "aggregate","--manifest",str(manifest_path),"--reports-root",str(reports),
          "--output-json",str(output_json),"--output-md",str(output_md)]
     result=subprocess.run(cmd,cwd=ROOT,capture_output=True,text=True)
