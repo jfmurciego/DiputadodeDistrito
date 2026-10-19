@@ -1,7 +1,7 @@
-"""Versión 1.1.0; nombre puerta Congreso Cáceres M01-M06; fecha 2026-10-13.
+"""Versión 1.2.0; preflight provincial Congreso M01-M06; fecha 2026-10-13.
 Alcance: inspección reproducible sin partición real ni ejecución productiva.
-Estado: candidato; cambios: política municipal M05/M06 derivada del contrato.
-Motivo: probar la configuración nacional efectiva manteniendo generación bloqueada.
+Estado: candidato; límites M04/M05 contractuales; resultado parcial por provincia.
+Motivo: admitir diagnósticos nacionales por CPRO y seguir fail-closed ante bloqueos.
 Anterior: legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py.
 """
 from __future__ import annotations
@@ -170,6 +170,28 @@ def _synthetic_m05_contract(contract, nodes, edges, *, province, floor=1, cap=No
             'districts': len(set(state.values())), 'municipality_policy': municipal_policy}
 
 
+def _approved_m05_bounds(contract, *, quota, population):
+    """Read the exact approved lower/upper limits from the shared contract helper."""
+    from ddd_core.config import hard_limits
+    pending, ratios = _approved_policies(contract)
+    if pending or ratios is None:
+        raise ValueError('APPROVED_POPULATION_LIMITS_REQUIRED')
+    numeric = {key: float(ratios[key]) for key in
+               ('population_floor_ratio', 'population_cap_ratio', 'target_tolerance_ratio')}
+    target, floor, cap, _tolerance = hard_limits(
+        {'validation': numeric}, k=quota, total_pop=population)
+    return floor, cap
+
+
+def _m04_component_diagnostic(component_populations, quota):
+    """Represent a failed necessary bound as a diagnostic gate, not an exception."""
+    from ddd_core.congreso_preflight_adapter import structural_component_bound
+    bound = structural_component_bound(component_populations, quota)
+    if bound['feasibility_proven']:
+        raise ValueError('M04_COMPONENT_BOUND_MUST_NOT_CLAIM_SUFFICIENCY')
+    return bound
+
+
 def _synthetic_m06_contract(contract, source_binding, *, province, quota, population):
     """Synthetic output contract fixture; never a real assignment."""
     from ddd_core.congreso_preflight_adapter import (
@@ -214,7 +236,44 @@ def _synthetic_m06_contract(contract, source_binding, *, province, quota, popula
             '_fixture_nodes': nodes, '_fixture_edges': edges}
 
 
-def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Path = PRODUCT):
+def _verify_historical_transition(transition_path: Path, product_dir: Path,
+                                topology_manifest: dict, current_contract_sha: str) -> dict:
+    """Permit source-bound artifact reuse only as diagnostic revalidation.
+
+    It does not rewrite the historical product binding or accredit its topology.
+    """
+    transition = read_json(transition_path)
+    if transition.get('schema') != 'ddd.congress-artifact-transition/1.0' or transition.get('status') != 'CANDIDATE_DIAGNOSTIC_ONLY':
+        raise ValueError('ARTIFACT_TRANSITION_NOT_DIAGNOSTIC_CANDIDATE')
+    source_product = transition.get('source_product', {})
+    manifest_path = product_dir / 'manifest.json'
+    if source_product.get('manifest_entries') != 74 or source_product.get('manifest_verified') != 74:
+        raise ValueError('ARTIFACT_TRANSITION_74_OF_74_REQUIRED')
+    if source_product.get('product_manifest_sha256') != sha(manifest_path.read_bytes()):
+        raise ValueError('ARTIFACT_TRANSITION_PRODUCT_MANIFEST_HASH')
+    delivery_path = ROOT / 'docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/MANIFEST_ENTREGA.json'
+    delivery = read_json(delivery_path)
+    if delivery.get('files_sha256', {}).get('producto/manifest.json') != sha(manifest_path.read_bytes()):
+        raise ValueError('ARTIFACT_TRANSITION_OUTER_MANIFEST_HASH')
+    if topology_manifest.get('evidence', {}).get('contract_sha256') == current_contract_sha:
+        raise ValueError('ARTIFACT_TRANSITION_NOT_NEEDED')
+    expected_source = topology_manifest.get('evidence', {}).get('source_binding', {})
+    if transition.get('invariants', {}).get('source_edition') != 2025 or topology_manifest.get('generation_authorized') is not False:
+        raise ValueError('ARTIFACT_TRANSITION_SOURCE_OR_AUTHORIZATION')
+    return {
+        'status': 'CANDIDATE_DIAGNOSTIC_ONLY',
+        'reuse': 'ARTIFACT_REUSE_WITH_STRUCTURAL_REVALIDATION',
+        'historical_contract_sha256': topology_manifest.get('evidence', {}).get('contract_sha256'),
+        'current_contract_sha256': current_contract_sha,
+        'source_binding': expected_source,
+        'product_manifest_sha256': sha(manifest_path.read_bytes()),
+        'product_certification': 'NOT_PERFORMED',
+        'generation_authorized': False,
+    }
+
+
+def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Path = PRODUCT,
+        transition_path: Path | None = None):
     code = str(province).zfill(2)
     if not code.isdigit() or len(code) != 2 or not 1 <= int(code) <= 52:
         raise ValueError('PROVINCE_CODE_INVALID')
@@ -231,8 +290,12 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
     binding = topology_manifest.get('evidence', {}).get('source_binding', {})
     if topology_manifest.get('evidence', {}).get('source_manifest_sha256') != sha((SOURCES / 'manifest.json').read_bytes()):
         raise ValueError('TOPOLOGY_SOURCE_MANIFEST_HASH')
-    if topology_manifest.get('evidence', {}).get('contract_sha256') != sha(CONTRACT.read_bytes()):
-        raise ValueError('TOPOLOGY_CONTRACT_HASH')
+    transition_evidence = None
+    if topology_manifest.get('evidence', {}).get('contract_sha256') != contract_identity:
+        if transition_path is None:
+            raise ValueError('TOPOLOGY_CONTRACT_HASH')
+        transition_evidence = _verify_historical_transition(
+            transition_path, product_dir, topology_manifest, contract_identity)
     for role in ('geometry', 'population'):
         expected = contract['sources'][role]
         if expected.get('edition') != 2025 or expected.get('sha256') != binding.get(role, {}).get('sha256'):
@@ -254,7 +317,11 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
         raise ValueError('TOPOLOGY_UNIT_HASH')
     decoded = gzip.decompress(raw)
     unit = json.loads(decoded)
-    if sha(decoded) != artifact_record['canonical_json_sha256'] or decoded != canonical(unit) + b'\n' or raw != gzip.compress(decoded, mtime=0):
+    # The manifest pins the exact compressed bytes, while canonical_json_sha256
+    # pins the decoded canonical JSON. Recompressing and comparing bytes is
+    # not portable across zlib/Python builds (the gzip OS header may differ)
+    # and adds no integrity beyond these two independent hashes.
+    if sha(decoded) != artifact_record['canonical_json_sha256'] or decoded != canonical(unit) + b'\n':
         raise ValueError('TOPOLOGY_UNIT_CANONICAL')
     if unit.get('run_binding') != topology_manifest.get('run_binding'):
         raise ValueError('TOPOLOGY_UNIT_RUN_BINDING')
@@ -286,7 +353,7 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
         if sha(source_row.geometry.wkb) != node['geometry_sha256']:
             raise ValueError('M01_M03_GEOMETRY_IDENTITY:' + source_id)
     m02 = _module(ROOT / 'modulos/02_construir_adyacencias.py', 'ddd_m02_caceres_preflight')
-    # Pure consumer call on the 411 source geometries, with no buffer, simplify,
+    # Pure consumer call on this province's source geometries, with no buffer, simplify,
     # bridges, or coordinate change. This does not rebuild the national product.
     # M02's contact predicate accepts pure points when its lower bound is zero.
     # A 1 nm positive-length floor is only a zero-vs-positive discriminator;
@@ -310,9 +377,9 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
     product_components = [set(c['sections']) for c in unit['physical_components']]
     if {frozenset(c) for c in graph_components} != {frozenset(c) for c in product_components}:
         raise ValueError('M03_COMPONENTS_DIFFER')
-    topo = structural_component_bound([int(c['population']) for c in unit['physical_components']], int(quota))
-    if not topo['necessary_condition'] or topo['feasibility_proven']:
-        raise ValueError('M04_STRUCTURAL_BOUND')
+    topo = _m04_component_diagnostic(
+        [int(c['population']) for c in unit['physical_components']], int(quota))
+    topology_blocker = None if topo['necessary_condition'] else topo['reason']
     input_map = engine_input_contract()
     pending, limit_values = _approved_policies(contract)
     from ddd_core.congreso_contract import production_blockers
@@ -335,15 +402,16 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
             weights = {str(row.CUSEC): int(row.POB_2025) for row in actual.itertuples()}
             m04_necessary = _atomic_population_necessary_conditions(
                 set(weights), weights, k=int(quota), floor=limits[1], cap=limits[2])
-            hard_limit_blocker = None if m04_necessary[0] else m04_necessary[1]
+            population_blocker = None if m04_necessary[0] else m04_necessary[1]
+            hard_limit_blocker = topology_blocker or population_blocker
         except (Exception, SystemExit) as exc:
-            hard_limit_blocker = str(exc)
+            hard_limit_blocker = topology_blocker or str(exc)
             m04_necessary = (False, hard_limit_blocker, {})
     else:
         try:
             from ddd_core.config import hard_limits
             hard_limits({}, k=int(quota), total_pop=int(summary['population']))
-            hard_limit_blocker = None
+            hard_limit_blocker = topology_blocker
         except (Exception, SystemExit) as exc:
             hard_limit_blocker = str(exc)
             m04_necessary = {'status': 'NOT_RUN_PENDING_APPROVED_LIMITS'}
@@ -351,8 +419,8 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
     fixture_nodes = synthetic_m06.pop('_fixture_nodes')
     fixture_edges = synthetic_m06.pop('_fixture_edges')
     if limit_values and not pending and hard_limit_blocker is None:
-        m05_floor, _, m05_cap, _ = hard_limits({'validation': numeric}, k=int(quota),
-                                                total_pop=int(summary['population']))
+        m05_floor, m05_cap = _approved_m05_bounds(
+            contract, quota=int(quota), population=int(summary['population']))
     else:
         m05_floor, m05_cap = 1, int(summary['population'])
     try:
@@ -365,7 +433,7 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
         'M01': {'status': 'PASS', 'evidence': f'actual INE2025 ZIP and population CSV; consumer loaders; exact join; {len(actual)}/{len(province_frame)}'},
         'M02': {'status': 'PASS', 'evidence': f'actual consumer iter_edges; exact {len(calculated)}/{len(accredited)} match; minimum positive shared line={m02_positive_length_floor_m:g} m (point filter only); buffer/simplify/bridges=0'},
         'M03': {'status': 'PASS', 'evidence': f'actual graph builder; {len(graph_nodes)}/{len(nodes)} identities and attributes; component reconstruction agrees'},
-        'M04': {'status': 'PASS_NECESSARY_ONLY' if hard_limit_blocker is None else 'BLOCKED', 'evidence': 'component bound passes; population atomic necessary check=' + json.dumps(m04_necessary, sort_keys=True) + '; feasibility is not proven; ' + str(hard_limit_blocker)},
+        'M04': {'status': 'PASS_NECESSARY_ONLY' if hard_limit_blocker is None else 'BLOCKED', 'evidence': 'component bound=' + json.dumps(topo, sort_keys=True) + '; population atomic necessary check=' + json.dumps(m04_necessary, sort_keys=True) + '; feasibility is not proven; ' + str(hard_limit_blocker)},
         'M05': {'status': synthetic_m05['status'], 'evidence': 'actual M05 invariant checker on synthetic fixture; no real M04 partition or optimizer call; ' + json.dumps(synthetic_m05, sort_keys=True)},
         'M06': {'status': 'SYNTHETIC_CONTRACT_PASS_ONLY', 'evidence': f'{quota}-unit synthetic fixture audited through adapter and actual M06 joined_unique; no real partition/output; ' + ','.join(input_map['M06']['required_input_fields'])},
     }
@@ -373,7 +441,7 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
     if len(actual) != expected_count or int(actual.POB_2025.sum()) != expected_population:
         raise ValueError('M01_PROVINCIAL_TOTAL')
     report = {
-        'version': '1.0.0', 'name': 'N08 Congreso M01-M06 diagnostic preflight',
+        'version': '1.2.0', 'name': 'N08 Congreso provincial M01-M06 diagnostic preflight',
         'date': '2026-10-12', 'base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
         'tool_sha256': sha(Path(__file__).read_bytes()),
         'scope': 'single province read-only gates; no real partition or production',
@@ -381,6 +449,7 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
         'source_binding': source_binding, 'source_evidence': source_evidence,
         'crosswalk_sha256': crosswalk_meta['sha256'], 'population_output_sha256': population_meta['sha256'],
         'topology_manifest_identity_sha256': ident, 'topology_unit_sha256': sha(raw),
+        'artifact_transition': transition_evidence or {'status': 'DIRECT_CURRENT_CONTRACT_BINDING'},
         'inputs': {'sections': len(actual), 'population': expected_population,
                    'physical_edges': len(calculated), 'section_graph_components': len(graph_components),
                    'physical_part_components': summary['physical_part_components'],
@@ -402,7 +471,7 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
     out_data = (json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2, allow_nan=False) + '\n').encode()
     output.mkdir(parents=True, exist_ok=True)
     (output / 'PREFLIGHT.json').write_bytes(out_data)
-    checkpoint = {'version': '1.0.0', 'province': code, 'status': report['preflight_status'],
+    checkpoint = {'version': '1.2.0', 'province': code, 'status': report['preflight_status'],
                   'source_binding': source_binding, 'topology_manifest_identity_sha256': ident,
                   'topology_unit_sha256': sha(raw), 'preflight_sha256': sha(out_data),
                   'tool_sha256': report['tool_sha256'],
@@ -416,9 +485,11 @@ def main():
     parser.add_argument('--province', default='10')
     parser.add_argument('--parts-dir', required=True, type=Path)
     parser.add_argument('--product-dir', type=Path, default=PRODUCT)
+    parser.add_argument('--transition-path', type=Path, default=None,
+                        help='candidato de transición; permite solo revalidación diagnóstica del producto histórico')
     parser.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
-    report = run(args.parts_dir, args.output, args.province, args.product_dir)
+    report = run(args.parts_dir, args.output, args.province, args.product_dir, args.transition_path)
     print(json.dumps({'province': report['province'], 'status': report['preflight_status'],
                       'modules': {k: v['status'] for k, v in report['modules'].items()},
                       'generation_authorized': report['generation_authorized']}, sort_keys=True))

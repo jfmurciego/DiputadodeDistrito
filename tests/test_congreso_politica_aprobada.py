@@ -158,6 +158,44 @@ class CongressOwnerPolicyApprovalTests(unittest.TestCase):
         self.assertEqual(validate_congress_identity(self.contract)["status"],
                          "STRUCTURAL_SCOPE_ADMITTED")
 
+    def test_n06_k_guard_rejects_changed_total_quotas_and_provenance(self):
+        cases = []
+        for field, value in (
+            ("total", 406), ("total", True), ("decision_id", "FAKE"),
+            ("status", "PROPOSED"), ("quota_method", "another method"),
+            ("source_scope", "autonomico"),
+        ):
+            bad = copy.deepcopy(self.contract)
+            bad["k_decision"][field] = value
+            cases.append((field, bad))
+        bad = copy.deepcopy(self.contract)
+        bad["quotas_by_origin_unit"][0]["k"] += 1
+        cases.append(("single_quota", bad))
+        bad = copy.deepcopy(self.contract)
+        bad["quotas_by_origin_unit"][0]["k"] -= 1
+        bad["quotas_by_origin_unit"][1]["k"] += 1
+        cases.append(("offsetting_quotas", bad))
+        bad = copy.deepcopy(self.contract)
+        bad["institutional_decision"]["decision_id"] = "FAKE"
+        cases.append(("institutional_decision", bad))
+        bad = copy.deepcopy(self.contract)
+        bad["k_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        bad["institutional_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        cases.append(("both_decision_ids_forged", bad))
+        bad = copy.deepcopy(self.contract)
+        bad["k_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        bad["institutional_decision"]["decision_id"] = "FORGED-OWNER-DECISION"
+        bad["k_decision"]["total"] = 406
+        bad["quotas_by_origin_unit"][0]["k"] -= 1
+        cases.append(("forged_provenance_k_and_quota", bad))
+        for label, bad in cases:
+            with self.subTest(label=label):
+                with self.assertRaisesRegex(ValueError, "CONGRESS_CONTRACT_INVALID"):
+                    validate_congress_identity(bad)
+                self.assertTrue(production_blockers(bad))
+        self.assertEqual(validate_congress_identity(self.contract)["electoral_district_count"], 407)
+        self.assertFalse(self.contract["accreditation"]["generation_authorized"])
+
     def test_published_n08_provenance_stays_historical(self):
         product = json.loads(SOURCE_MANIFEST.read_text())
         self.assertFalse(product["generation_authorized"])

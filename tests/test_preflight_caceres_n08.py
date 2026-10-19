@@ -17,6 +17,30 @@ SPEC.loader.exec_module(TOOL)
 
 
 class CaceresN08PreflightTests(unittest.TestCase):
+    def test_component_bound_failure_is_a_reportable_m04_block_not_abort(self):
+        result = TOOL._m04_component_diagnostic([500, 20, 30, 40], 3)
+        self.assertFalse(result['necessary_condition'])
+        self.assertEqual(result['reason'], 'PHYSICAL_COMPONENTS_EXCEED_K')
+        self.assertFalse(result['feasibility_proven'])
+
+    def test_m05_uses_exact_floor_not_target_for_non_divisible_province_mean(self):
+        contract = TOOL.read_json(TOOL.CONTRACT)
+        source_binding = {
+            role: {'edition': 2025, 'sha256': contract['sources'][role]['sha256']}
+            for role in ('geometry', 'population')
+        }
+        fixture = TOOL._synthetic_m06_contract(
+            contract, source_binding, province='39', quota=5, population=593623)
+        nodes = fixture.pop('_fixture_nodes')
+        edges = fixture.pop('_fixture_edges')
+        floor, cap = TOOL._approved_m05_bounds(contract, quota=5, population=593623)
+        self.assertEqual(floor, 100915.91)
+        self.assertEqual(cap, 136533.29)
+        result = TOOL._synthetic_m05_contract(
+            contract, nodes, edges, province='39', floor=floor, cap=cap)
+        self.assertEqual(result['status'], 'SYNTHETIC_CONTRACT_PASS_ONLY')
+        self.assertFalse(result['optimizer_executed'])
+
     def test_recorded_run_is_fail_closed_and_hashable(self):
         report = json.loads((DOSSIER / 'preflight/PREFLIGHT.json').read_text())
         checkpoint = json.loads((DOSSIER / 'preflight/CHECKPOINT.json').read_text())
@@ -109,6 +133,30 @@ class CaceresN08PreflightTests(unittest.TestCase):
         for rel, record in manifest['files'].items():
             data = (ROOT / original.get(rel, rel)).read_bytes()
             self.assertEqual((len(data), hashlib.sha256(data).hexdigest()), (record['bytes'], record['sha256']))
+
+    def test_historical_product_transition_is_diagnostic_and_hash_bound(self):
+        transition = ROOT / 'docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/TRANSICION.json'
+        product = ROOT / 'docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto'
+        topology = json.loads((product / 'manifest.json').read_text())
+        current_sha = hashlib.sha256((ROOT / 'territorios/congreso/contrato_congreso_2026.json').read_bytes()).hexdigest()
+        evidence = TOOL._verify_historical_transition(transition, product, topology, current_sha)
+        self.assertEqual(evidence['status'], 'CANDIDATE_DIAGNOSTIC_ONLY')
+        self.assertEqual(evidence['product_certification'], 'NOT_PERFORMED')
+        self.assertFalse(evidence['generation_authorized'])
+        self.assertEqual(evidence['current_contract_sha256'], current_sha)
+
+        altered = ROOT / 'docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/TRANSICION.json'
+        changed = json.loads(altered.read_text())
+        changed['source_product']['product_manifest_sha256'] = '0' * 64
+        # A modified transition is supplied from a temporary sibling tree so
+        # its paths still resolve to the checked-in product and outer manifest.
+        import tempfile
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / 'docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/TRANSICION.json'
+            target.parent.mkdir(parents=True)
+            target.write_text(json.dumps(changed))
+            with self.assertRaisesRegex(ValueError, 'ARTIFACT_TRANSITION_PRODUCT_MANIFEST_HASH'):
+                TOOL._verify_historical_transition(target, product, topology, current_sha)
 
 
 if __name__ == '__main__':

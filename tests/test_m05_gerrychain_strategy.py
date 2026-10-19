@@ -115,7 +115,10 @@ class ContractTests(unittest.TestCase):
             }
             params.write_text("meta: {}\n", encoding="utf-8")
             paths = resolve_paths(cfg, params, "r1")
-            self.assertEqual(paths["graph"], repo / "territorios/x/.cache/g.json")
+            # macOS may expose the same temporary path through both /var and
+            # /private/var; compare canonical paths rather than spellings.
+            self.assertEqual(paths["graph"].resolve(),
+                             (repo / "territorios/x/.cache/g.json").resolve())
 
     def test_invalid_strategy_config_is_rejected(self):
         with self.assertRaises(ValueError):

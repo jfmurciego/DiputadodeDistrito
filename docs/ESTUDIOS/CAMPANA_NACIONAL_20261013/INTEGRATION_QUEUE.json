@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
+      "local_head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
+      "merge_authorized": false,
+      "next_action": "Verify GitHub exact PR HEAD after this reconciliation, CI SUCCESS and independent review; no merge",
+      "remote_head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
+      "status": "REVIEW_REQUIRED",
+      "task_id": "NAT-J-003",
+      "evidence": "PR #268 OPEN/DRAFT, mergeable=true; CI 38895708383 SUCCESS on pre-reconciliation HEAD 115947fb548682d784e2e8350aca4c3c5446c8f7. Source metadata snapshot, not a claim that this will equal the final HEAD.",
+      "pr_number": 268,
+      "head_semantics": "PRE_RECONCILIATION_VERIFIED_SNAPSHOT"
+    }
+  ],
+  "policy": "serial integration; branch/PR only with explicit campaign authorization; never merge automatically",
+  "schema": "ddd.national-integration-queue/1.0"
+}

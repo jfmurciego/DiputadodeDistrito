@@ -1,0 +1,44 @@
+{
+  "schema": "ddd.congress-preflight-attempt/1.0",
+  "campaign_id": "ddd-national-campaign-20261013",
+  "base": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "province": "01",
+  "command": "TMPDIR=/private/tmp /usr/local/Caskroom/miniforge/base/envs/ddd/bin/python herramientas/preflight_caceres_n08.py --province 01 --parts-dir inputs/partes --transition-path docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/TRANSICION.json --output docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/PREFLIGHT_CPRO01",
+  "status": "DIAGNOSTIC_EXECUTED_BLOCKED_ON_NATIONAL_CONTRACT",
+  "failure": null,
+  "failure_location": null,
+  "diagnostic_transition": "CANDIDATE_DIAGNOSTIC_ONLY; product certification NOT_PERFORMED",
+  "districts_generated": 0,
+  "generation_authorized": false,
+  "output_report_written": true,
+  "retry_policy": "No retry until using an already available project environment with the geospatial dependencies; no package download was attempted.",
+  "attempts": [
+    {
+      "runtime": "base python3 (3.13)",
+      "status": "BLOCKED_ENVIRONMENT",
+      "failure": "ModuleNotFoundError: No module named geopandas",
+      "outputs_written": false
+    },
+    {
+      "runtime": "conda env ddd (geopandas 1.1.2; shapely 2.1.2)",
+      "status": "EXECUTED",
+      "exit_code": 0,
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "preflight_sha256": "9f1dd9bbc4c655d19190139e291824e87b0bc4869c58d85ec2fbd20ab5c784c2",
+      "checkpoint_sha256": "b17c93431e15194223a51e49c11a2e6533740a90366245b56be653a407104dae",
+      "tool_sha256": "7f21ef5c8ed99ca8e9a1f9d4de2d4cec1cef58faf1575d11321974c41a342313",
+      "modules": {
+        "M01": "PASS",
+        "M02": "PASS",
+        "M03": "PASS",
+        "M04": "PASS_NECESSARY_ONLY",
+        "M05": "SYNTHETIC_CONTRACT_PASS_ONLY",
+        "M06": "SYNTHETIC_CONTRACT_PASS_ONLY"
+      },
+      "generation_authorized": false,
+      "real_partition_created": false,
+      "districts_generated": 0,
+      "product_certification": "NOT_PERFORMED"
+    }
+  ]
+}

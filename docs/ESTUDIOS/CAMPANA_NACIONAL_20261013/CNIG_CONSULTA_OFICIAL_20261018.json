@@ -1,0 +1,22 @@
+{
+  "schema": "ddd.national-official-source-inquiry/1.0",
+  "campaign_id": "ddd-national-campaign-20261013",
+  "task_id": "NAT-C-056",
+  "date": "2026-10-18",
+  "channel": "Formulario oficial Centro de Descargas CNIG/IGN",
+  "submission_url": "https://centrodedescargas.cnig.es/CentroDescargas/contacto",
+  "subject": "Solicitud de límites administrativos oficiales vigentes a 01/01/2025 (BDLJE/RCC)",
+  "submission_status": "CONFIRMED_SUBMITTED",
+  "confirmation_visible": "Tu consulta ha sido enviada correctamente",
+  "reference_number": null,
+  "sender_contact_details_recorded": false,
+  "requested_valid_at": "2025-01-01",
+  "requested_data": "Límites municipales y provinciales BDLJE/RCC, SHP/GML/GPKG, linaje temporal, metadatos RCC, códigos CPRO/CUMUN, licencia",
+  "additional_costs_authorized": false,
+  "official_reply_received": false,
+  "source_bytes_received": false,
+  "source_accredited": false,
+  "source_sha256": null,
+  "evidence_scope": "Justificante de tramitación; NO constituye recibo geográfico ni acreditación temporal",
+  "generation_authorized": false
+}

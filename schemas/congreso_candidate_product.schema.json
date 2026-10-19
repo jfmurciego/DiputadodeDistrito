@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ddd.congreso-candidate-product/1.0",
+  "title": "Congress candidate product manifest",
+  "description": "Strict lineage manifest for a candidate. This schema does not authorize generation or certify a product.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "synthetic_fixture",
+    "generation_authorized",
+    "contract_sha256",
+    "source_binding",
+    "nodes_sha256",
+    "edges_sha256",
+    "assignments_sha256",
+    "topology_manifest_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "ddd.congreso-candidate-product/1.0"},
+    "synthetic_fixture": {"const": false},
+    "generation_authorized": {"const": false},
+    "contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["geometry", "population"],
+      "properties": {
+        "geometry": {"$ref": "#/$defs/source"},
+        "population": {"$ref": "#/$defs/source"}
+      }
+    },
+    "nodes_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "edges_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "assignments_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "topology_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["edition", "sha256"],
+      "properties": {
+        "edition": {"const": 2025},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

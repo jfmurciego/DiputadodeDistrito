@@ -13,6 +13,13 @@ from pathlib import Path
 from ddd_core.congreso_contract import CONGRESS_CODES, production_blockers, validate_congress_identity
 from ddd_core.congreso_preflight_adapter import structural_component_bound, validate_physical_product
 
+# Trusted hash of the exact versioned N08 manifest bytes. A manifest's
+# self-declared identity SHA and its per-file hashes are NOT a trust anchor:
+# an adversary able to edit local input files can recompute all of them.
+# A legitimate new N08 product requires its own reviewed source/manifest
+# decision and an explicit new pinned value, never automatic promotion.
+N08_TRUSTED_MANIFEST_SHA256 = "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f"
+
 OWNER_POLICIES = (
     "minimum_unit", "contiguity", "population_limits",
     "municipal_indivisibility", "islands", "enclaves",
@@ -48,7 +55,10 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
              "PRODUCTION_MUST_REMAIN_DISABLED")
 
     manifest_path = Path(product_root) / "manifest.json"
-    manifest = json.loads(manifest_path.read_bytes())
+    manifest_bytes = manifest_path.read_bytes()
+    _require(_sha(manifest_bytes) == N08_TRUSTED_MANIFEST_SHA256,
+             "N08_MANIFEST_TRUST_ANCHOR_MISMATCH")
+    manifest = json.loads(manifest_bytes)
     identity = manifest.get("identity_sha256")
     _require(identity == _sha(_canonical({k: v for k, v in manifest.items()
                                          if k != "identity_sha256"})), "TOPOLOGY_MANIFEST_IDENTITY")
@@ -99,8 +109,14 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
              and quota == max(1, (population + 60000) // 120000),
              "PROVINCIAL_K_MISMATCH")
 
+    # Exact integer N08 0.85/1.15 bounds, computed without float rounding.
+    # A budget failure means *no* strict connected partition exists on this
+    # section graph; it does not authorize a fictitious edge or exception.
+    floor = (17 * population + 20 * quota - 1) // (20 * quota)
+    cap = (23 * population) // (20 * quota)
     structural = structural_component_bound(
-        [int(component["population"]) for component in unit["physical_components"]], quota)
+        [int(component["population"]) for component in unit["physical_components"]],
+        quota, floor=floor, cap=cap)
     decisions = contract.get("decisions", {})
     pending = sorted(key for key in OWNER_POLICIES
                      if not isinstance(decisions.get(key), dict)
@@ -108,7 +124,7 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
                      or decisions[key].get("value") is None)
     blockers = []
     if not structural["necessary_condition"]:
-        blockers.append("PHYSICAL_COMPONENTS_EXCEED_K")
+        blockers.append(structural["reason"])
     if summary.get("discontinuous_municipalities"):
         blockers.append("MUNICIPAL_DISCONTINUITIES_REQUIRE_REVIEW")
     if summary.get("multipart_sections_spanning_physical_components"):
@@ -121,6 +137,11 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
         "pending_owner_decisions": pending,
         "structural_necessary_condition": structural["necessary_condition"],
         "structural_feasibility_proven": False,
+        "structural_necessary_reason": structural["reason"],
+        "structural_population_floor": floor,
+        "structural_population_cap": cap,
+        "structural_minimum_districts_total": structural["minimum_districts_total"],
+        "structural_maximum_districts_total": structural["maximum_districts_total"],
         "territorial_cautions": blockers,
         "evidence_scope": "ACCREDITED_N08_PRODUCT_NOT_REAL_M04_M06_PARTITION",
         "sections": graph["nodes"], "edges": graph["edges"],
