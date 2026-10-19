@@ -12,8 +12,14 @@
     "pdf_edition": "published electronic bulletin",
     "signature": "BOPxs26061jVldjgyeLoBlnuo=",
     "verification_url": "https://verifirma.diphuelva.es",
-    "raw_pdf_sha256": null,
-    "raw_pdf_preserved": false
+    "raw_pdf_sha256": "cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa",
+    "raw_pdf_preserved": true,
+    "raw_pdf_bytes": 335074,
+    "github_actions_run": 39240781750,
+    "github_artifact_id": 12180294919,
+    "github_artifact_name": "f10-ine-oce-huelva-cortegana-bop61-2026",
+    "github_artifact_sha256": "ba3c7ea44f6c800aeb8dd1189d42345adabc606e470e039bde2ddce7ac1fc0d4",
+    "artifact_retention_days": 90
   },
   "election": {
     "date": "2026-05-17",
@@ -80,7 +86,8 @@
     "correction_of_6045_vs_6044": "EXPLAINED_BY_ELECTION_SPECIFIC_SECTIONING",
     "mapping_votes_to_ine_2025": "BLOCKED_NO_AUTHORISED_CROSSWALK",
     "f10_electoral": "BLOCKED_CROSSWALK_NOT_PROVEN",
-    "generation_authorized": false
+    "generation_authorized": false,
+    "bop_original_evidence": "SOURCE_ACCREDITED_SHA256_MATCH"
   },
   "limits": [
     "Official BOP establishes the electoral polling section and tables, but it does not state a numerical split of the section's vote totals between territorial CUSEC 2102502001 and 2102502002.",
