@@ -1,0 +1,32 @@
+{
+  "schema": "ddd.national-nac-checkpoint/1.0",
+  "date": "2026-10-19",
+  "branch": "codex/nac-backlog-20261019",
+  "base_main": "4545491ca70066e2004b53b30ebe9994ed4d9df6",
+  "functional_commit": "36e3c6abe157ff481147c882fd395da7a9d1bbf3",
+  "current_head_at_checkpoint_creation": "36e3c6abe157ff481147c882fd395da7a9d1bbf3",
+  "implemented": ["NAC-03 captured-page API audit", "NAC-01..12 result reconciliation"],
+  "local_tests": {
+    "contrast_tools": "50 passed, 17 subtests passed",
+    "congress_regression": "151 passed, 59 subtests passed",
+    "python_compile": "PASS"
+  },
+  "review": {
+    "nac_api_reviewer": "REVIEW_PASS",
+    "nac_engine_gates": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+    "scope": "new API captured-page auditor only; not integrated national software"
+  },
+  "publication": {
+    "remote_branch_created": false,
+    "pull_request_created": false,
+    "ci_for_increment": "NOT_RUN",
+    "reason": "GitHub MCP create-blob call was denied because it requires approval and the active approval policy is never; no alternate write path was attempted"
+  },
+  "generation_authorized": false,
+  "next_actions": [
+    "Submit or receive the official CNIG/IGN historical boundary package and accredit it for 2025-01-01",
+    "Publish the local commit through an authorized GitHub write path and run CI on that exact remote HEAD",
+    "Obtain the designated independent full review of the integrated national software",
+    "Resume NAC-04 provincial comparisons once NAC-01 and the matching input format are accredited"
+  ]
+}
