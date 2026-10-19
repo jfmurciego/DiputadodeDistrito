@@ -14,6 +14,7 @@
   "review": {
     "nac_api_reviewer": "REVIEW_PASS",
     "nac_engine_gates": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+    "nac09_factibility": "GO_ACOTADO; two section-component>K units supported, nine part-component>K units are not equivalent, inherited five-case claim unresolved",
     "scope": "new API captured-page auditor only; not integrated national software"
   },
   "publication": {
