@@ -64,5 +64,11 @@
     "temporal field semantics not independently verified",
     "no new official provincial comparisons generated",
     "no partition feasibility or product certification asserted by this increment"
-  ]
+  ],
+  "github_state": {
+    "main": "4545491ca70066e2004b53b30ebe9994ed4d9df6",
+    "pr273": "CLOSED_MERGED",
+    "pr273_merge_commit": "fb2e4742985bac7ac96263ee5fed4e12ac454208",
+    "pr273_scope": "software integration CI; not territorial certification or independent review"
+  }
 }

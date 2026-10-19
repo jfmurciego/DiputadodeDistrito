@@ -4,6 +4,8 @@ Base verificada: `main@4545491ca70066e2004b53b30ebe9994ed4d9df6`.
 
 Este registro continúa la campaña existente en `CAMPANA_NACIONAL_20261013`; no crea un nuevo planificador ni modifica el DAG ni los estados autoritativos del registro de 82 tareas. La clasificación distingue el trabajo reutilizado del ejecutado en esta sesión. No se generaron distritos y `generation_authorized=false` permanece vigente.
 
+Comprobación GitHub de esta continuación: `main@4545491ca70066e2004b53b30ebe9994ed4d9df6`; PR #273 consta `CLOSED/MERGED` con merge commit `fb2e4742985bac7ac96263ee5fed4e12ac454208`. Su CI de integración no sustituye la revisión independiente ni certifica territorio.
+
 ## Resultado por trabajo
 
 | ID | Estado terminal | Resultado y evidencia | Siguiente dependencia concreta |
