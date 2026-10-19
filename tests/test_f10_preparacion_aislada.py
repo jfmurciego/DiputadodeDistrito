@@ -1,10 +1,10 @@
-"""F10 caller aislado v1.0.3; 2026-10-11; candidato local.
+"""F10 caller aislado v1.0.4; 2026-10-19; candidato local.
 
 Alcance: límites de ejecución y preservación de acreditaciones #179.
-Cambios: conservar el receipt auténtico de Extremadura sin promoverlo sobre el linaje M06.
-Motivo: mantener catorce acreditaciones históricas y fail-closed para la evidencia no promovida.
-Origen: main@579ab82e84aadba778b0fe7d138ea96b66457e1e.
-Predecesor: legacy/tests/test_f10_preparacion_aislada_v1.0.2.py.
+Cambios: verificar selección temporal aislada Valencia 2023/2023.
+Motivo: impedir combinaciones de años o territorios no aprobadas sin persistir ni generar.
+Origen: main@4545491ca70066e2004b53b30ebe9994ed4d9df6.
+Predecesor: legacy/tests/test_f10_preparacion_aislada_v1.0.3.py.
 """
 import json
 import os
@@ -32,9 +32,12 @@ class F10PreparacionAisladaTests(unittest.TestCase):
         cls.events = cls.workflow.get('on', cls.workflow.get(True))
         cls.guard = cls.workflow['jobs']['comprobar']['steps'][0]['run']
 
-    def run_guard(self, territory, reviewed, actual='a' * 40):
+    def run_guard(self, territory, reviewed, actual='a' * 40,
+                  population_year='2025', section_year='2025'):
         return subprocess.run(['bash', '-c', self.guard], env={
-            **os.environ, 'TERRITORY_ID': territory, 'REVIEWED_SHA': reviewed,
+            **os.environ, 'TERRITORY_ID': territory,
+            'POPULATION_YEAR': population_year, 'SECTION_YEAR': section_year,
+            'REVIEWED_SHA': reviewed,
             'ACTUAL_SHA': actual,
         }, capture_output=True, text=True).returncode
 
@@ -42,11 +45,29 @@ class F10PreparacionAisladaTests(unittest.TestCase):
         self.assertEqual({'workflow_dispatch'}, set(self.events))
         inputs = self.events['workflow_dispatch']['inputs']
         self.assertEqual(CHOICES, inputs['territory_id']['options'])
-        self.assertEqual({'territory_id', 'reviewed_sha'}, set(inputs))
+        self.assertEqual({'territory_id', 'population_year', 'section_year', 'reviewed_sha'}, set(inputs))
         self.assertTrue(inputs['reviewed_sha']['required'])
+        for year_input in ('population_year', 'section_year'):
+            self.assertEqual(['2025', '2023'], inputs[year_input]['options'])
+            self.assertEqual('2025', inputs[year_input]['default'])
         for territory in CHOICES:
             with self.subTest(territory=territory):
                 self.assertEqual(0, self.run_guard(territory, 'a' * 40))
+
+    def test_valencia_2023_pair_is_the_only_non_2025_combination(self):
+        self.assertEqual(0, self.run_guard('10 Comunidad Valenciana', 'a' * 40,
+                                           population_year='2023', section_year='2023'))
+        for territory, population, section in (
+            ('01 Andalucía', '2023', '2023'),
+            ('02 Aragón', '2023', '2023'),
+            ('07 Castilla y León', '2023', '2023'),
+            ('10 Comunidad Valenciana', '2023', '2025'),
+            ('10 Comunidad Valenciana', '2025', '2023'),
+            ('11 Extremadura', '2023', '2023'),
+        ):
+            with self.subTest(territory=territory, population=population, section=section):
+                self.assertEqual(43, self.run_guard(territory, 'a' * 40,
+                    population_year=population, section_year=section))
 
     def test_matrix_unknown_or_injected_territory_blocks_before_production(self):
         for territory in ('Todos', 'madrid', '', 'andalucia; exit 0', '$(echo andalucia)'):
@@ -71,8 +92,9 @@ class F10PreparacionAisladaTests(unittest.TestCase):
         params = call['with']
         self.assertEqual('${{ github.sha }}', params['source_ref'])
         self.assertEqual('${{ inputs.territory_id }}', params['territory_id'])
-        for key in ('data_edition', 'population_year', 'section_year'):
-            self.assertEqual('2025', params[key])
+        self.assertEqual('2025', params['data_edition'])
+        self.assertEqual('${{ inputs.population_year }}', params['population_year'])
+        self.assertEqual('${{ inputs.section_year }}', params['section_year'])
 
     def test_reuse_recovery_and_persistence_are_not_dispatch_overrides(self):
         params = self.workflow['jobs']['preparar']['with']

@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
 # NOMBRE: Preparación territorial aislada F10
-# FECHA: 2026-10-10
-# ALCANCE: cinco fuentes territoriales 2025; llamada exclusiva a 01
-# ESTADO: candidato; ejecución pendiente de autorización de Work
-# CAMBIOS: caller manual sin persistencia; nombres completos y orden CODAUTO
-# MOTIVO: obtener run/artefacto propios sin registrar ni generar distritos
-# ORIGEN: contrato #179; main@579ab82e84aadba778b0fe7d138ea96b66457e1e
-# PREDECESOR: legacy/.github/workflows/f10-preparacion-territorial-aislada_v1.0.0.yml
+# FECHA: 2026-10-19
+# ALCANCE: cinco fuentes F10, con Valencia 2023/2023; llamada exclusiva a 01
+# ESTADO: candidato; ejecución manual requiere SHA revisado y autorizado
+# CAMBIOS: selección de años verificada y no persistente para evidencia 2023/2023
+# MOTIVO: acreditar la pareja temporal vigente sin persistir ni generar distritos
+# ORIGEN: contrato #179; main@4545491ca70066e2004b53b30ebe9994ed4d9df6
+# PREDECESOR: legacy/.github/workflows/f10-preparacion-territorial-aislada_v1.0.1.yml
 name: F10 Preparación territorial aislada
 
 on:
@@ -23,6 +23,22 @@ on:
           - 07 Castilla y León
           - 10 Comunidad Valenciana
           - 11 Extremadura
+      population_year:
+        description: Año oficial de población
+        required: true
+        type: choice
+        options:
+          - '2025'
+          - '2023'
+        default: '2025'
+      section_year:
+        description: Año oficial del seccionado
+        required: true
+        type: choice
+        options:
+          - '2025'
+          - '2023'
+        default: '2025'
       reviewed_sha:
         description: SHA completo del caller y productor revisados y autorizados
         required: true
@@ -45,6 +61,8 @@ jobs:
         shell: bash
         env:
           TERRITORY_ID: ${{ inputs.territory_id }}
+          POPULATION_YEAR: ${{ inputs.population_year }}
+          SECTION_YEAR: ${{ inputs.section_year }}
           REVIEWED_SHA: ${{ inputs.reviewed_sha }}
           ACTUAL_SHA: ${{ github.sha }}
         run: |
@@ -52,6 +70,10 @@ jobs:
           case "$TERRITORY_ID" in
             '01 Andalucía'|'02 Aragón'|'07 Castilla y León'|'10 Comunidad Valenciana'|'11 Extremadura') ;;
             *) echo "::error::Territorio fuera del encargo F10."; exit 40 ;;
+          esac
+          case "$TERRITORY_ID:$POPULATION_YEAR:$SECTION_YEAR" in
+            '01 Andalucía:2025:2025'|'02 Aragón:2025:2025'|'07 Castilla y León:2025:2025'|'10 Comunidad Valenciana:2025:2025'|'10 Comunidad Valenciana:2023:2023'|'11 Extremadura:2025:2025') ;;
+            *) echo "::error::Combinación de territorio y años no autorizada por este caller aislado."; exit 43 ;;
           esac
           [[ "$REVIEWED_SHA" =~ ^[0-9a-f]{40}$ ]] || {
             echo "::error::Se requiere el SHA completo revisado."; exit 41;
@@ -61,14 +83,14 @@ jobs:
           }
 
   preparar:
-    name: 01 Preparar sólo evidencia territorial 2025
+    name: 01 Preparar sólo evidencia territorial autorizada
     needs: comprobar
     uses: ./.github/workflows/preparacion-fuentes.yml
     with:
       territory_id: ${{ inputs.territory_id }}
       data_edition: '2025'
-      population_year: '2025'
-      section_year: '2025'
+      population_year: ${{ inputs.population_year }}
+      section_year: ${{ inputs.section_year }}
       reutilizar_si_ya_preparada: false
       persist_state: false
       source_ref: ${{ github.sha }}
