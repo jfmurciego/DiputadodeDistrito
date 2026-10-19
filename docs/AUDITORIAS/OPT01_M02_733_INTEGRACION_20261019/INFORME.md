@@ -12,9 +12,9 @@ Anterior: no aplica; primera edición de esta evidencia
 
 ## Identidad
 
-- Base inicial de integración: `21a4a150eb14f1abecd5d798b159d84a71df1f4a`; candidato actualizado con el `main` de integración `51c797a89b15d324364ec578f0b76417f7de0b6b`. El merge posterior incorporó cambios Nacional ajenos; el diff final de OPT contra la base se limita a OPT-01.
+- Base inicial de integración: `21a4a150eb14f1abecd5d798b159d84a71df1f4a`; candidato integrado finalmente sobre `main` `0b46d0abf650bfd948c8d8a63e1803f0ba397a1c` (árbol `752d3014598bce02b9d608f8f36c6d06bf0707ac`), que incorpora AUTO-01 por PR #272. El diff final frente a esa base se limita a OPT-01.
 - Código ensayado `modulos/02_construir_adyacencias.py`: SHA-256 `7e588c5454620bbca18d27ed49c670f6740a20aa40031bae128716c40bc6a42f`; coincide con el código territorial revisado en el expediente fuente.
-- Pruebas M02, orquestación y consumidor Nacional: 62 passed, 12 subtests, 1 advertencia GeoJSON.
+- Pruebas M02, orquestación, consumidor Nacional y preflight integrado, repetidas sobre el main con AUTO-01 fusionado: 95 passed, 16 subtests, 1 advertencia GeoJSON.
 - Entorno del benchmark: Python 3.13.12; GeoPandas 1.1.2; Shapely 2.1.2; PyProj 3.7.2; Pyogrio 0.12.1.
 - La memoria `ru_maxrss` se registra como bytes en macOS aunque el script histórico nombre el campo `max_rss_kb`.
 
