@@ -1,0 +1,50 @@
+test_m05_exige_grafo_y_semillas_y_copia (tests.test_g10_materializacion.Materializacion.test_m05_exige_grafo_y_semillas_y_copia) ... ok
+test_two_concurrent_promotions_recalculate_after_push_collision_and_preserve_both_products (tests.test_estado_operativo_concurrencia.SharedOperationalStateConcurrencyTests.test_two_concurrent_promotions_recalculate_after_push_collision_and_preserve_both_products) ... ok
+test_synthetic_block_never_degrades_to_unknown_on_exit_2 (tests.test_m06_geometric_block_persistence.GeometricBlockPersistence.test_synthetic_block_never_degrades_to_unknown_on_exit_2) ... ok
+test_conforming_m06_artifacts_flow_through_same_wire_and_can_certify (tests.test_m06_status_certification_integration.ConsolidationStatusCertificationIntegration.test_conforming_m06_artifacts_flow_through_same_wire_and_can_certify) ... ok
+test_declared_missing_m06_diagnostic_blocks_without_falling_back_to_conforming_m05 (tests.test_m06_status_certification_integration.ConsolidationStatusCertificationIntegration.test_declared_missing_m06_diagnostic_blocks_without_falling_back_to_conforming_m05) ... ok
+test_legacy_contract_without_declared_m06_diagnostic_keeps_m05_evidence (tests.test_m06_status_certification_integration.ConsolidationStatusCertificationIntegration.test_legacy_contract_without_declared_m06_diagnostic_keeps_m05_evidence) ... ok
+test_nonconforming_m06_artifacts_flow_to_hard_block_and_blocked_certification (tests.test_m06_status_certification_integration.ConsolidationStatusCertificationIntegration.test_nonconforming_m06_artifacts_flow_to_hard_block_and_blocked_certification) ... ok
+test_workflow_pending_command_runs_from_checkout_root_without_pythonpath_or_push (tests.test_pre_m04_persistencia_concurrente.PreM04WorkflowEntrypointTests.test_workflow_pending_command_runs_from_checkout_root_without_pythonpath_or_push) ... ok
+test_00_executes_real_territorial_reuse_route_without_preparing_source (tests.test_prepared_source_pair_execution.OrchestrationModeTests.test_00_executes_real_territorial_reuse_route_without_preparing_source) ... ok
+test_m01_y_m02_encadenan_estado (tests.test_procedimiento_encadenado.ModularChainIntegrationTests.test_m01_y_m02_encadenan_estado) ... FAIL
+test_rechaza_checkpoint_de_otro_contrato (tests.test_procedimiento_encadenado.ModularChainIntegrationTests.test_rechaza_checkpoint_de_otro_contrato) ... FAIL
+test_checkpoint_partial_population_blocks_m07_m08_and_publication (tests.test_production_status_durable.DurableProductionStatusTests.test_checkpoint_partial_population_blocks_m07_m08_and_publication) ... ok
+test_explicit_run_id_resolves_population_evidence_even_if_environment_says_local (tests.test_production_status_durable.DurableProductionStatusTests.test_explicit_run_id_resolves_population_evidence_even_if_environment_says_local) ... ok
+test_missing_or_damaged_population_is_closed_block_not_unknown (tests.test_production_status_durable.DurableProductionStatusTests.test_missing_or_damaged_population_is_closed_block_not_unknown) ... ok
+test_partial_population_is_not_a_block_when_contract_does_not_require_target (tests.test_production_status_durable.DurableProductionStatusTests.test_partial_population_is_not_a_block_when_contract_does_not_require_target) ... ok
+
+======================================================================
+FAIL: test_m01_y_m02_encadenan_estado (tests.test_procedimiento_encadenado.ModularChainIntegrationTests.test_m01_y_m02_encadenan_estado)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/ddd-cat-prem04-after-m02/tests/test_procedimiento_encadenado.py", line 103, in test_m01_y_m02_encadenan_estado
+    self.assertEqual(first.returncode, 0, first.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : procedimiento.sh: line 46: bad substitution: no closing `)' in <(python - "$PARAMS" "$RUN_ID" <<'PY'
+import sys,yaml
+from pathlib import Path
+cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
+io=cfg.get("io") or {}
+cache=((io.get("cache") or {}).get("dir") or ".cache/ddd/preparacion/{run_name}")
+runs=((io.get("runs") or {}).get("dir") or "ejecuciones/{run_id}")
+values="run_name":(cfg.get("meta") or {}).get("run_name"
+print(str(cache).format(**values))
+print(str(runs).format(**values))
+PY
+)
+
+
+======================================================================
+FAIL: test_rechaza_checkpoint_de_otro_contrato (tests.test_procedimiento_encadenado.ModularChainIntegrationTests.test_rechaza_checkpoint_de_otro_contrato)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/ddd-cat-prem04-after-m02/tests/test_procedimiento_encadenado.py", line 117, in test_rechaza_checkpoint_de_otro_contrato
+    self.assertIn("pertenece a otro contrato", result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'pertenece a otro contrato' not found in 'procedimiento.sh: line 46: bad substitution: no closing `)\' in <(python - "$PARAMS" "$RUN_ID" <<\'PY\'\nimport sys,yaml\nfrom pathlib import Path\ncfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}\nio=cfg.get("io") or {}\ncache=((io.get("cache") or {}).get("dir") or ".cache/ddd/preparacion/{run_name}")\nruns=((io.get("runs") or {}).get("dir") or "ejecuciones/{run_id}")\nvalues="run_name":(cfg.get("meta") or {}).get("run_name"\nprint(str(cache).format(**values))\nprint(str(runs).format(**values))\nPY\n)\n'
+
+----------------------------------------------------------------------
+Ran 15 tests in 9.611s
+
+FAILED (failures=2)
