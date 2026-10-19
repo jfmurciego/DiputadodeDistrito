@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verificar entorno y script
         run: |
-          command -v pdftotext
+          python -m pip install --quiet PyMuPDF==1.26.7
           python -m py_compile herramientas/verificar_bop_huelva_cortegana_2026.py
       - name: Preservar documento INE y verificar mesas Cortegana
         run: |
