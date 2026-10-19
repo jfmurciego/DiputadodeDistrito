@@ -395,6 +395,9 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: ae420356e6afde7611c9a331944908f10280ebb46f20597bc09c99c5bfd58911
         compatibility_identity_sha256: be36c1cac8221fef7aef94cad54b16a584c8ac8748b1e64bc9bf6b730dd5c62c
+        geometry_assessment_path: territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/m02_contract_assessment_2023.json
+        geometry_assessment_sha256: 806d3c896a599383790e684322bcafc8f933bdd1c8b2d65a0a7137f8a0ddfaac
+        geometry_admissibility: BLOCKED
       territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true

@@ -4551,5 +4551,12 @@
     "No se ejecutó M04, M05, M06 ni generación."
   ],
   "inventory_summary_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/inventario_resumen.json",
-  "inventory_summary_sha256": "cfeb77a658c4f1eec609fdb06c0ee5d9821ef94d7744146fb74f4c5d2b1ea02d"
+  "inventory_summary_sha256": "cfeb77a658c4f1eec609fdb06c0ee5d9821ef94d7744146fb74f4c5d2b1ea02d",
+  "contract_applicability": {
+    "decision": "BLOCKED",
+    "contract_binding": "UNBOUND_TO_SOURCE_EDITION",
+    "report_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/m02_contract_assessment_2023.json",
+    "report_sha256": "806d3c896a599383790e684322bcafc8f933bdd1c8b2d65a0a7137f8a0ddfaac",
+    "reason": "M02_CONTRACT_NOT_BOUND_TO_2023; EPSG:25830 is configured for source years 2025 only, while the prior effective M02 baseline EPSG:3035 yields two overlaps above 1 m2."
+  }
 }

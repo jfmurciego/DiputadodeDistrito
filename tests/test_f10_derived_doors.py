@@ -37,6 +37,7 @@ class F10DerivedDoorsTests(unittest.TestCase):
 
     def test_real_receipts_rederive_four_independent_counts(self):
         self.assertEqual({"CLOSED": 19}, self.projection["counts"]["territorial_acquisition"])
+        self.assertEqual({"PASS": 18, "BLOCKED": 1}, self.projection["counts"]["territorial_admissibility"])
         self.assertEqual({"ADMISSIBLE": 15, "BLOCKED": 4}, self.projection["counts"]["electoral_admissibility"])
         self.assertEqual({"PASS": 14, "BLOCKED": 5}, self.projection["counts"]["joint_admissibility"])
         self.assertEqual({"NOT_AUTHORIZED_BY_F10": 19}, self.projection["counts"]["production"])
@@ -54,6 +55,7 @@ class F10DerivedDoorsTests(unittest.TestCase):
                 self.assertEqual(run_id, rows[territory_id]["territorial_run_id"])
         self.assertEqual("CLOSED", rows["comunidad_valenciana"]["territorial_acquisition"])
         self.assertEqual(39315133646, rows["comunidad_valenciana"]["territorial_run_id"])
+        self.assertEqual("BLOCKED", rows["comunidad_valenciana"]["territorial_admissibility"])
 
     def test_historical_receipt_arrivals_replay_A_through_D(self):
         stages = {

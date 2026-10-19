@@ -10,7 +10,7 @@ from pathlib import Path
 from unittest import mock
 
 from herramientas import consumir_par_fuentes_legislatura as consumer
-from herramientas.estado_derivado_f10 import derive_f10
+from herramientas.estado_derivado_f10 import _geometric_admissibility, derive_f10
 from herramientas.identidad_fuentes_legislatura import territorial_identity
 from herramientas.resolver_preparacion_legislatura import resolve
 
@@ -43,6 +43,27 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
         self.assertEqual("ADMISSIBLE", plan["territorial_admissibility"])
         self.assertEqual("ADMISSIBLE", plan["electoral_admissibility"])
         self.assertIs(plan["blocked"], False)
+
+    def test_f10_closes_acquisition_but_keeps_geometry_admissibility_blocked(self):
+        projection = derive_f10(ROOT)
+        cv = next(row for row in projection["territories"]
+                  if row["territory_id"] == "comunidad_valenciana")
+        self.assertEqual("CLOSED", cv["territorial_acquisition"])
+        self.assertEqual("BLOCKED", cv["territorial_admissibility"])
+        self.assertIn("M02_CONTRACT_NOT_BOUND_TO_2023", cv["territorial_admissibility_reason"][0])
+        self.assertEqual({"PASS": 18, "BLOCKED": 1},
+                         projection["counts"]["territorial_admissibility"])
+        self.assertEqual({"CLOSED": 19},
+                         projection["counts"]["territorial_acquisition"])
+        self.assertFalse(projection["production_authorized"])
+
+        state, receipt = consumer.validate_territorial_receipt(
+            root_dir=ROOT, territory="comunidad_valenciana", edition="2025"
+        )
+        state["independent_source_evidence"]["geometry_assessment_sha256"] = "0" * 64
+        status, reasons, _ = _geometric_admissibility(ROOT, state, receipt, "PASS")
+        self.assertEqual("BLOCKED", status)
+        self.assertEqual(["GEOMETRY_ASSESSMENT_HASH_MISMATCH"], reasons)
 
     def test_wrong_edition_package_hash_or_identity_is_rejected_by_receipt_consumer(self):
         row, receipt = consumer.validate_territorial_receipt(
@@ -80,6 +101,8 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
 
         evidence = json.loads((VERSION / "evidencia_geometrica.json").read_text(encoding="utf-8"))
         m02 = evidence["m02"]
+        # This result is reproducible under the 2025 operational configuration,
+        # but it cannot be transferred to source edition 2023 without binding.
         self.assertEqual("EPSG:25830", m02["working_crs"])
         self.assertEqual(1.0, m02["max_precision_overlap_area_m2"])
         self.assertEqual(0.0, m02["buffer_m"])
@@ -91,6 +114,16 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
         self.assertEqual(3503, evidence["m03"]["nodes"])
         self.assertEqual(5216195, evidence["m03"]["total_pop"])
         self.assertEqual(0, evidence["m03"]["isolated"])
+
+        assessment = json.loads((VERSION / "m02_contract_assessment_2023.json").read_text())
+        self.assertEqual("BLOCKED", assessment["decision"])
+        self.assertEqual("UNBOUND_TO_SOURCE_EDITION", assessment["contract_binding"])
+        self.assertEqual("EPSG:3035", assessment["execution"]["working_crs"])
+        self.assertEqual(2, assessment["execution"]["pairs_over_threshold"])
+        self.assertAlmostEqual(11.827709239674732,
+                               assessment["execution"]["target_pairs"]["4617201001/4619401008"]["overlap_area_m2"])
+        self.assertAlmostEqual(12.111237796381374,
+                               assessment["execution"]["target_pairs"]["4617201001/4619401013"]["overlap_area_m2"])
 
     def test_national_doors_update_only_territorial_cv_and_keep_other_gates_blocked(self):
         projection = derive_f10(ROOT)
