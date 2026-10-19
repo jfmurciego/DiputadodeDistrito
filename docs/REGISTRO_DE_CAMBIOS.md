@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.2
-Fecha: 2026-10-13
-Alcance: registro acumulativo del incremento F10 de Fuentes Oficiales
+Versión: 1.0.3
+Fecha: 2026-10-19
+Alcance: registro acumulativo de cambios autonómicos fail-closed
 Estado: candidato
-Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoción
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.1_20261013.md
+Cambios/motivo: registrar validación de identidad de unidades en preflight topológico
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.2_20261013.md
 -->
+
+## 2026-10-19 — AUTO-01 — identidad fail-closed de unidades topológicas
+
+El preflight topológico valida que cada identificador de unidad sea no nulo,
+no vacío y único después de normalizarlo como texto. Entradas inválidas quedan
+bloqueadas antes de evaluar contactos, evitando que filas distintas colapsen
+en el grafo. No cambia la construcción de M01–M03 ni los contratos territoriales.
 
 ## 2026-10-12 — F10 — receipts independientes sin promoción de producto
 

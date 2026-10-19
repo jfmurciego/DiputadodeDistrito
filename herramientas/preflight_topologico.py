@@ -3,10 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Preflight topológico territorial genérico
-VERSIÓN: 1.1.0
-FECHA: 2026-09-16
+VERSIÓN: 1.1.1
+NOMBRE: Preflight topológico fail-closed para identidad de unidades
+FECHA: 2026-10-13
 ESTADO: candidato
 QUÉ HACE: inspecciona el producto M01 existente y el contrato, mide contactos físicos, aplica la política declarada de pasarelas y emite un informe READY / NEEDS_POLICY / BLOCKED. No ejecuta M01-M03.
+CAMBIOS: bloquea identificadores de unidad vacíos o duplicados tras normalización textual antes de medir topología.
+MOTIVO: impedir que filas M01 distintas colapsen en una única clave y produzcan un READY engañoso.
+ANTERIOR: legacy/herramientas/preflight_topologico_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -36,6 +40,35 @@ def _load_m02_module(root: Path):
 
 def _multipart(geom) -> bool:
     return getattr(geom, "geom_type", "") == "MultiPolygon" and len(getattr(geom, "geoms", [])) > 1
+
+
+def _validate_unit_ids(values, missing=None):
+    """Normaliza IDs como hace el grafo y falla cerrado ante IDs ausentes o repetidos."""
+    values = list(values)
+    missing = list(missing) if missing is not None else [False] * len(values)
+    if len(missing) != len(values):
+        raise ValueError("missing debe tener la misma longitud que values")
+
+    normalized = []
+    errors = []
+    first_row = {}
+    for row_number, (value, is_missing) in enumerate(zip(values, missing), start=1):
+        if is_missing:
+            errors.append(f"row {row_number}: unit ID is null")
+            normalized.append("")
+            continue
+        uid = str(value)
+        normalized.append(uid)
+        if not uid.strip():
+            errors.append(f"row {row_number}: unit ID is empty")
+        elif uid in first_row:
+            errors.append(
+                f"row {row_number}: duplicate normalized unit ID {uid!r} "
+                f"(first seen at row {first_row[uid]})"
+            )
+        else:
+            first_row[uid] = row_number
+    return normalized, errors
 
 
 def _measure_contacts(gdf, id_field: str, working_crs: str):
@@ -89,7 +122,33 @@ def main():
     for field in (id_field, province_field, municipality_field):
         if field not in gdf.columns:
             raise SystemExit(f"Preflight: campo requerido ausente: {field}")
-    gdf[id_field] = gdf[id_field].astype(str)
+    normalized_ids, id_errors = _validate_unit_ids(
+        gdf[id_field].tolist(),
+        gdf[id_field].isna().tolist(),
+    )
+    if id_errors:
+        report = {
+            "schema_version": "1.0.1",
+            "decision": "BLOCKED",
+            "reasons": ["invalid unit identity: " + error for error in id_errors],
+            "unit_identity_validation": {
+                "input_rows": int(len(gdf)),
+                "unique_ids": len(set(uid for uid in normalized_ids if uid)),
+                "errors": id_errors,
+            },
+            "territory_id": (cfg.get("meta") or {}).get("territory_id"),
+            "source": {
+                "params": str(Path(args.params)),
+                "m01_geojson": str(in_geo),
+                "working_crs": working_crs,
+            },
+        }
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        print(f"[preflight topológico] BLOCKED -> {out}")
+        raise SystemExit(2)
+    gdf[id_field] = normalized_ids
 
     units = {}
     for _, row in gdf.iterrows():
