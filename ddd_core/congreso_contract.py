@@ -1,8 +1,9 @@
 """VERSIÓN: 1.2.1; NOMBRE: guardas de admisión del contrato Congreso.
-FECHA: 2026-10-12; ALCANCE: validación contractual, sin ejecutar M01–M08.
-ESTADO: candidato local; CAMBIOS: migración compatible de unidades administrativas de origen 01–52.
-MOTIVO: separar el Congreso del gestor autonómico de 19 ámbitos.
-ORIGEN: legacy/n06_contrato_20261012/congreso_contract_v1.0.0.py.
+FECHA: 2026-10-19; ALCANCE: validación contractual fail-closed, sin ejecutar M01–M08.
+ESTADO: candidato local; CAMBIOS: rechazar generation_authorized distinto de false.
+MOTIVO: mantener coherentes admisión nacional y autorización productiva.
+ANTERIOR: legacy/n08_nac_20261019/congreso_contract_v1.2.0.py.
+ORIGEN HISTÓRICO: legacy/n06_contrato_20261012/congreso_contract_v1.0.0.py.
 """
 from __future__ import annotations
 

@@ -14,7 +14,7 @@
     "contrast_tools": "50 passed, 17 subtests passed",
     "congress_regression": "151 passed, 59 subtests passed",
     "python_compile": "PASS",
-    "final_guard_fix_regression": "92 passed, targeted relevant suites",
+    "final_guard_fix_regression": "93 passed, targeted relevant suites",
     "preflight_adapter_suite": "BLOCKED_ENVIRONMENT: shapely unavailable; not executed"
   },
   "review": {
@@ -23,7 +23,7 @@
     "nac09_factibility": "GO_ACOTADO; two section-component>K units supported, nine part-component>K units are not equivalent, inherited five-case claim unresolved",
     "scope": "new API captured-page auditor only; not integrated national software",
     "nac08_final_software_review": "REVIEW_PASS; separate Codex review with explicit limits; not external owner review",
-    "generation_flag_guard_fix": "REVIEW_PASS; separate session; 30 passed, 22 subtests passed"
+    "generation_flag_guard_fix": "REVIEW_PASS; separate session; 31 passed, 22 subtests; predecessor hash preserved"
   },
   "publication": {
     "remote_branch_created": false,
