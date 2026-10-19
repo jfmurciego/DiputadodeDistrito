@@ -84,7 +84,7 @@ def build_dossier() -> dict:
                 "population_bounds_possible_in_isolation": min_seats <= max_seats,
                 "CUSEC_list": members if len(members) <= 30 else None,
                 "CUSEC_complete_list_sha256": hashlib.sha256(
-                    ("\\n".join(members) + "\\n").encode("ascii")
+                    ("\n".join(members) + "\n").encode("ascii")
                 ).hexdigest(),
                 "CUSEC_first": members[:5],
             })
