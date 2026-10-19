@@ -49,3 +49,20 @@ La necesidad técnica afecta especialmente a **Burgos (CPRO09)** y **Palencia (C
 ---
 
 **Criterio de aceptación:** no se promueve ninguna puerta basándose en estos borradores. Una respuesta debe conservarse íntegra y cotejarse contra la edición fuente, la identidad CUSEC, el contrato y el consumidor canónico; cualquier cambio contractual o excepción requiere decisión expresa de gobierno.
+
+
+## 5. Addenda 19/10/2026 — INE Oficina del Censo Electoral: 18 cambios seccionales que requieren acreditación expresa
+
+**Objeto concreto:** confirmar mediante expediente administrativo/callejero electoral/actos de modificación, fecha de eficacia y relación anterior→nueva de las **18 secciones oficiales SIEL 2026** siguientes. En el cotejo INE WFS 2025→2026 tienen cada una un predecesor geométrico dominante (>99,99% del área), pero no se ha hallado una relación directa `TRAM/CVAR=M` con ese predecesor en el extracto oficial ya auditado.
+
+**Secciones electorales que precisan la relación documental (18):**
+
+`1100602011`, `1101504017`, `1402110049`, `1814501010`, `2906702052`, `2906702053`, `2906707098`, `2906708077`, `2906708078`, `2906708079`, `2906708080`, `2906708081`, `2906711014`, `2906711015`, `4103804022`, `4103805032`, `4104701008`, `4108102019`.
+
+**Impacto electoral medido:** estos 18 códigos acumulan **11.081 votos a candidaturas** de SIEL 202605. La otra cohorte de 7 altas contiene **4.344 votos** y sí presenta enlaces de modificación de tramos `M` con su candidato geométrico en los ficheros del INE. Esa relación de tramos no basta para atribuir resultados completos de secciones a la edición 2025.
+
+Dos incidencias específicas requieren aclaración: `1102804011` figura en las variaciones con modificación y además un registro `B` fechado el 29/08/2025; y `2907001040` recibe variaciones de tramos tanto de `2907001018` (su candidato geométrico) como de `2907001010`. Solicitamos certificado de la identidad seccional en la elección 17/05/2026 y de su relación con la cartografía INE 2025 para evitar adjudicación arbitraria de electores o votos.
+
+**Evidencia preservada:** `ANDALUCIA_SIEL_25_NUEVAS_TRAM_CRUCE_20261019.json`, `ANDALUCIA_SIEL_VOTOS_25_NUEVAS_20261019.json`, `ANDALUCIA_SIEL_25_NUEVAS_2026_VOTOS_20261019.csv`, `ANDALUCIA_CANDIDATOS_GEOMETRICOS_34_20261019.csv`. Originales de variaciones INE: ZIP SHA-256 `f2f8299b...` y `154b8eac...`. Snapshot electoral SIEL: run `37150399030` y huellas verificadas.
+
+**Estado:** borrador sin enviar, `CROSSWALK_ACCREDITED=false`. Ningún voto trasladado a geografía 2025.
