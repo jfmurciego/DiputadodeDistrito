@@ -1,5 +1,7 @@
 # F10 / N08 — Cuatro consultas institucionales listas para autorización de envío
 
+> **Actualización prevalente (19/10/2026):** tras incorporar el fichero original de variaciones del INE **enero–julio 2025** (`sha256:852db9bcd0c6355e85020a07d229d31d00c4eab9e0493f83a8671bca789e776f`), se han identificado relaciones `TRAM/M` directas para **25/25 altas y 9/9 bajas**, además de 39/41 CUSEC con cambios geométricos y una modificación el 29/01/2026 desde Cortegana `2102502002` hacia `2102502001`. Por tanto, el apartado histórico que solicita investigar **18 altas sin vínculo documental** ha quedado **superado y NO DEBE ENVIARSE**. La única petición andaluza actualizada y acotada figura en `docs/AUDITORIAS/CIERRE_FUENTES_20261019/SOLICITUD_OCE_Y_JUNTAS_ANDALUCIA_CIERRE_20261019.md`. Las nuevas relaciones prueban cambios de tramos, **no autorizan redistribuir los 47.875 votos afectados a polígonos 2025**. El presente fichero conserva antecedentes de las otras comunidades y N08; no fue enviado.
+
 **Fecha:** 2026-10-18. **Estado:** `DRAFT_NOT_SENT`. Cada apartado es un texto independiente. No implica una respuesta institucional, aceptación de excepción ni cambio de las puertas F10/N08. Requiere destinatario/canal real y firma aprobados por el propietario. No adjuntar datos personales.
 
 ## 1. Junta de Andalucía / unidad de resultados electorales SIEL
