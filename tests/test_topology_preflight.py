@@ -20,6 +20,7 @@ from ddd_core.topology_preflight import (
 )
 from ddd_core.config import load_params_yaml
 from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding
+from herramientas.preflight_topologico import _validate_unit_ids, main as preflight_topologico_main
 
 
 _M02_SPEC = importlib.util.spec_from_file_location("ddd_m02", Path(__file__).resolve().parents[1] / "modulos" / "02_construir_adyacencias.py")
@@ -568,6 +569,59 @@ class ContactPredicateSyntheticCases(unittest.TestCase):
     def test_shared_border_below_one_metre_is_rejected(self):
         a=Polygon([(0,0),(10,0),(10,10),(0,10)]); b=Polygon([(10,9.5),(20,9.5),(20,10),(10,10)])
         self.assertFalse(_relation_ok(a,b,"contact",1.0,1.0))
+
+
+class PreflightUnitIdentityCases(unittest.TestCase):
+    def test_null_empty_and_duplicate_normalized_ids_are_rejected(self):
+        normalized, errors = _validate_unit_ids(["x", "x", "  ", None], [False, False, False, True])
+        self.assertEqual(["x", "x", "  ", ""], normalized)
+        self.assertEqual(3, len(errors))
+        self.assertIn("duplicate normalized unit ID 'x'", errors[0])
+        self.assertIn("ID is empty", errors[1])
+        self.assertIn("ID is null", errors[2])
+
+    def test_duplicate_rows_block_cli_even_when_municipality_metadata_differs(self):
+        for provinces, municipalities in ((["01", "01"], ["01001", "01001"]), (["01", "02"], ["01001", "02001"])):
+            with self.subTest(provinces=provinces, municipalities=municipalities), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                source = root / "m01.geojson"
+                report_path = root / "preflight.json"
+                params = root / "params.yaml"
+                gdf = gpd.GeoDataFrame(
+                    {
+                        "CUSEC_KEY": ["duplicate", "duplicate"],
+                        "CPRO": provinces,
+                        "CUMUN": municipalities,
+                    },
+                    geometry=[
+                        Polygon([(0, 0), (1, 0), (1, 1), (0, 1)]),
+                        Polygon([(1, 0), (2, 0), (2, 1), (1, 1)]),
+                    ],
+                    crs="EPSG:4326",
+                )
+                gdf.to_file(source, driver="GeoJSON")
+                cfg = {
+                    "io": {"project_root": {"path": str(ROOT)}},
+                    "modulos": {
+                        "modulo_02_construir_adyacencias": {
+                            "in_geojson": str(source), "id_field": "CUSEC_KEY",
+                            "min_shared_border_m": 1.0, "working_crs": "EPSG:3035",
+                        },
+                        "modulo_04_generar_semillas": {
+                            "province_field": "CPRO", "municipality_field": "CUMUN",
+                        },
+                    },
+                }
+                params.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
+                with patch.object(sys, "argv", ["preflight_topologico.py", "--params", str(params), "--out", str(report_path)]):
+                    with self.assertRaises(SystemExit) as raised:
+                        preflight_topologico_main()
+                self.assertEqual(2, raised.exception.code)
+                report = json.loads(report_path.read_text(encoding="utf-8"))
+                self.assertEqual("BLOCKED", report["decision"])
+                self.assertEqual(2, report["unit_identity_validation"]["input_rows"])
+                self.assertEqual(1, report["unit_identity_validation"]["unique_ids"])
+                self.assertTrue(any("duplicate normalized unit ID" in reason for reason in report["reasons"]))
 
 
 if __name__ == "__main__":
