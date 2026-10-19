@@ -30,6 +30,18 @@ class CongressContractTests(unittest.TestCase):
         self.assertEqual(result["autonomous_city_codes"], ["51", "52"])
         self.assertFalse(result["generation_authorized"])
 
+    def test_contract_cannot_claim_generation_authorized(self):
+        payload = {**self.payload, "accreditation": {"generation_authorized": True}}
+        with self.assertRaisesRegex(
+                ValueError, "GENERATION_AUTHORIZATION_MUST_REMAIN_FALSE"):
+            validate_congress_identity(payload)
+
+    def test_production_readiness_requires_explicit_false_generation_flag(self):
+        contract = json.loads((Path(__file__).parents[1]
+            / "territorios/congreso/contrato_congreso_2026.json").read_text(encoding="utf-8"))
+        contract["accreditation"]["generation_authorized"] = True
+        self.assertIn("GENERATION_AUTHORIZATION_MUST_REMAIN_FALSE", production_blockers(contract))
+
     def test_candidate_json_is_structural_only_and_fail_closed(self):
         path = Path(__file__).parents[1] / "legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json"
         contract = json.loads(path.read_text(encoding="utf-8"))

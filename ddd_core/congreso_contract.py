@@ -1,4 +1,4 @@
-"""VERSIÓN: 1.2.0; NOMBRE: guardas de admisión del contrato Congreso.
+"""VERSIÓN: 1.2.1; NOMBRE: guardas de admisión del contrato Congreso.
 FECHA: 2026-10-12; ALCANCE: validación contractual, sin ejecutar M01–M08.
 ESTADO: candidato local; CAMBIOS: migración compatible de unidades administrativas de origen 01–52.
 MOTIVO: separar el Congreso del gestor autonómico de 19 ámbitos.
@@ -10,7 +10,7 @@ import re
 from decimal import Decimal
 from typing import Any, Mapping
 
-VERSION = "1.2.0"
+VERSION = "1.2.1"
 CONGRESS_CODES = tuple(f"{number:02d}" for number in range(1, 53))
 PROVINCE_CODES = CONGRESS_CODES[:50]
 AUTONOMOUS_CITY_CODES = CONGRESS_CODES[50:]
@@ -260,6 +260,11 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
     errors.extend(_validate_closed_objects(payload))
     errors.extend(_approved_policy_errors(payload))
     errors.extend(_approved_k_errors(payload))
+    accreditation = payload.get("accreditation")
+    if ("accreditation" in payload
+            and (not isinstance(accreditation, Mapping)
+                 or accreditation.get("generation_authorized") is not False)):
+        errors.append("GENERATION_AUTHORIZATION_MUST_REMAIN_FALSE")
     def find_forbidden(value: Any, path: str = "$") -> list[str]:
         found: list[str] = []
         if isinstance(value, Mapping):
@@ -431,6 +436,11 @@ def production_blockers(contract: Mapping[str, Any]) -> list[str]:
             blockers.append(f"SOURCE_{role.upper()}_SHA256_INVALID")
         if not source.get("authority") or not source.get("acquisition_record"):
             blockers.append(f"SOURCE_{role.upper()}_PROVENANCE_MISSING")
+
+    accreditation = contract.get("accreditation")
+    if (not isinstance(accreditation, Mapping)
+            or accreditation.get("generation_authorized") is not False):
+        blockers.append("GENERATION_AUTHORIZATION_MUST_REMAIN_FALSE")
 
     decisions = contract.get("decisions")
     required_decisions = (

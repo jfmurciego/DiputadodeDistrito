@@ -5,23 +5,32 @@
   "base_main": "4545491ca70066e2004b53b30ebe9994ed4d9df6",
   "functional_commit": "36e3c6abe157ff481147c882fd395da7a9d1bbf3",
   "current_head_at_checkpoint_creation": "36e3c6abe157ff481147c882fd395da7a9d1bbf3",
-  "implemented": ["NAC-03 captured-page API audit", "NAC-01..12 result reconciliation"],
+  "implemented": [
+    "NAC-03 captured-page API audit",
+    "NAC-01..12 result reconciliation",
+    "Fail-closed generation flag validation in contract/readiness"
+  ],
   "local_tests": {
     "contrast_tools": "50 passed, 17 subtests passed",
     "congress_regression": "151 passed, 59 subtests passed",
-    "python_compile": "PASS"
+    "python_compile": "PASS",
+    "final_guard_fix_regression": "92 passed, targeted relevant suites",
+    "preflight_adapter_suite": "BLOCKED_ENVIRONMENT: shapely unavailable; not executed"
   },
   "review": {
     "nac_api_reviewer": "REVIEW_PASS",
     "nac_engine_gates": "REVIEW_PASS_WITH_SCOPE_LIMITS",
     "nac09_factibility": "GO_ACOTADO; two section-component>K units supported, nine part-component>K units are not equivalent, inherited five-case claim unresolved",
-    "scope": "new API captured-page auditor only; not integrated national software"
+    "scope": "new API captured-page auditor only; not integrated national software",
+    "nac08_final_software_review": "REVIEW_PASS; separate Codex review with explicit limits; not external owner review",
+    "generation_flag_guard_fix": "REVIEW_PASS; separate session; 30 passed, 22 subtests passed"
   },
   "publication": {
     "remote_branch_created": false,
     "pull_request_created": false,
     "ci_for_increment": "NOT_RUN",
-    "reason": "GitHub MCP create-blob call was denied because it requires approval and the active approval policy is never; no alternate write path was attempted"
+    "reason": "GitHub MCP create-blob call was denied because it requires approval and the active approval policy is never; no alternate write path was attempted",
+    "bundle": "entregas/DDD-NAC-20261019/NAC-backlog.bundle; verified, requires base 4545491ca70066e2004b53b30ebe9994ed4d9df6"
   },
   "generation_authorized": false,
   "next_actions": [

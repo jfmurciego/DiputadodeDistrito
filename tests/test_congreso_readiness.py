@@ -164,7 +164,7 @@ class CongressThreeGatesTests(unittest.TestCase):
     def test_generation_flag_cannot_be_pretended_approved(self):
         changed = copy.deepcopy(self.contract)
         changed["accreditation"]["generation_authorized"] = True
-        with self.assertRaisesRegex(ValueError, "PRODUCTION_MUST_REMAIN_DISABLED"):
+        with self.assertRaisesRegex(ValueError, "GENERATION_AUTHORIZATION_MUST_REMAIN_FALSE"):
             provincial_preflight(changed, PRODUCT, "10")
 
 

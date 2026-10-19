@@ -23,15 +23,30 @@
   "verification": {
     "targeted_tests": "30 passed, 17 subtests passed",
     "contrast_tool_tests": "50 passed, 17 subtests passed",
-    "congress_regression": "151 passed, 59 subtests passed",
     "py_compile_python_3_11": "PASS",
-    "independent_increment_reviews": ["REVIEW_PASS_WITH_SCOPE_LIMITS", "REVIEW_PASS"],
+    "independent_increment_reviews": [
+      "REVIEW_PASS_WITH_SCOPE_LIMITS",
+      "REVIEW_PASS"
+    ],
+    "national_software_review": "REVIEW_PASS; separate Codex session, static scope; not an externally accredited owner review",
+    "generation_flag_guard_fix_review": "REVIEW_PASS; separate session; 30 contract/readiness tests and 22 subtests passed",
     "nac09_independent_review": "GO_ACOTADO; internal evidence supports two section-component>K contradictions; a broader inherited five-case claim remains unreconciled",
-    "national_software_final_review": "NOT_PERFORMED"
+    "national_software_final_review": "NOT_OWNER_REVIEWED; session-separated technical review completed, no external reviewer accreditation",
+    "pre_guard_fix_congress_regression": "151 passed, 59 subtests passed",
+    "final_guard_fix_regression": "92 passed across targeted contract/readiness/certifier/composer/N06/N08/API/WMS suites",
+    "preflight_adapter_suite": "BLOCKED_ENVIRONMENT: ModuleNotFoundError shapely; suite not executed",
+    "independent_guard_fix_test": "REVIEW_PASS in separate session; pytest contract+readiness 30 passed, 22 subtests passed",
+    "ci_final_head": "NOT_RUN: no PR because GitHub write action was denied",
+    "artifact_sha256_ddd_core/congreso_contract.py": "d4f44eb246ddc731d23d1a75b6d45ae0cbcdb449d9ded13c8bbf56e73638c331",
+    "artifact_sha256_tests/test_congreso_contract.py": "419b340bf992f870308c5e06cf8c973596a152e2d13d004c680d3cff3b1892fe",
+    "artifact_sha256_tests/test_congreso_readiness.py": "afe51a84e627ef4451c4030133ee3a69f075b6b510e48d3adb51957a8925cce1"
   },
   "artifacts": {
     "ddd_core/congreso_ign_api_snapshot.py": "9d5fdc2ad8edf72dba4ef4a04c4c1495ee7374301cf663663c47a45a7229dc0b",
-    "tests/test_congreso_ign_api_snapshot.py": "0ce883c524bea1aac4ef085f578066593b96dd4fafbe71f3d5f8188b0b013349"
+    "tests/test_congreso_ign_api_snapshot.py": "0ce883c524bea1aac4ef085f578066593b96dd4fafbe71f3d5f8188b0b013349",
+    "ddd_core/congreso_contract.py": "UPDATED_IN_FINAL_LOCAL_COMMIT",
+    "tests/test_congreso_contract.py": "UPDATED_IN_FINAL_LOCAL_COMMIT",
+    "tests/test_congreso_readiness.py": "UPDATED_IN_FINAL_LOCAL_COMMIT"
   },
   "source_inquiry": {
     "submitted": "2026-10-18",
