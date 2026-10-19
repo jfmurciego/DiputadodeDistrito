@@ -370,6 +370,11 @@ class NationalCampaignTests(unittest.TestCase):
   partial=aggregate(m,[report("pass","PASS")])
   self.assertEqual(partial["completion_status"],"PARTIAL")
   self.assertEqual(partial["integrity_status"],"VALID")
+  corrupted=aggregate(m,[report("pass","PASS"),{**report("fail","FAIL"),"source_sha":"b"*40}])
+  self.assertEqual(corrupted["integrity_status"],"INVALID")
+  self.assertIn("CAMPAIGN_MANIFEST_MISMATCH:fail",corrupted["integrity_errors"])
+  with self.assertRaises(ValueError):
+   validate_campaign_summary_for_promotion(corrupted)
 
  def test_failed_campaign_cannot_replace_previous_certified_publication(self):
   summary={"status":"FAIL","territory_count_expected":2,"territories":[
