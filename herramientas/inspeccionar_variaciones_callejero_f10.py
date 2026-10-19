@@ -151,7 +151,7 @@ def main():
     grouped = Counter((x["source_section"],x["other_section"],x["date"],x["change_code"]) for x in report["change_records_involving_targets"])
     print("DDD_F10_INE_TRAM_CHANGES="+json.dumps(
         [{"source":a,"other":b,"date":d,"code":kind,"records":n}
-         for (a,b,d,kind),n in sorted(grouped.items())],
+         for (a,b,d,kind),n in sorted(grouped.items(), key=lambda kv:(kv[0][0] or "",kv[0][1] or "",kv[0][2] or "",kv[0][3] or ""))],
         ensure_ascii=False,sort_keys=True))
     print("DDD_F10_INE_VARIACIONES_FORMAT="+json.dumps({"members":report["members"],"examples":{k:v["examples"][:2] for k,v in report["cusec"].items() if v["examples"]}},ensure_ascii=False,sort_keys=True))
     print(json.dumps({"zip_sha256":report["zip_sha256"],
