@@ -8,15 +8,17 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 from datetime import date, datetime, timezone
 from pathlib import Path, PurePosixPath
 from urllib.parse import urlparse
 import zipfile
 
 TARGET_DATE = "2025-01-01"
-OFFICIAL_HOSTS = {"centrodedescargas.cnig.es", "www.ign.es", "ign.es", "www.cnig.es", "cnig.es"}
+OFFICIAL_HOSTS = {"centrodedescargas.cnig.es", "www.ign.es", "ign.es", "www.cnig.es", "cnig.es", "api-features.ign.es"}
+OFFICIAL_PRODUCTS = {"LILIM", "BDLJE"}
 FORMATS = {".shp", ".gml", ".gpkg"}
+SINGLE_FILE_FORMATS = {".gpkg", ".gml"}
+
 MAX_MEMBER_COUNT = 100000
 MAX_EXPANDED_BYTES = 8 * 1024**3
 BLOCKED_STATE = "PENDING_INDEPENDENT_HISTORICAL_ACREDITATION"
@@ -84,7 +86,7 @@ def prepare_candidate_receipt(archive_path: Path, metadata: dict) -> dict:
     for field in fields:
         if not isinstance(metadata.get(field), str) or not metadata[field].strip():
             raise ValueError("SOURCE_METADATA_REQUIRED:" + field)
-    if metadata["authority"] != "CNIG/IGN" or metadata["product"] != "LILIM":
+    if metadata["authority"] != "CNIG/IGN" or metadata["product"] not in OFFICIAL_PRODUCTS:
         raise ValueError("INDEPENDENT_BOUNDARY_AUTHORITY_REQUIRED")
     official_url = _official_url(metadata["source_url"])
     edition = _parse_date(metadata["edition_issued_on"], "edition_issued_on")
@@ -106,11 +108,31 @@ def prepare_candidate_receipt(archive_path: Path, metadata: dict) -> dict:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             size += len(block)
             digest.update(block)
-    try:
-        with zipfile.ZipFile(path, "r") as archive:
-            members = _safe_zip_members(archive)
-    except zipfile.BadZipFile as error:
-        raise ValueError("SOURCE_ZIP_INVALID") from error
+    extension = path.suffix.lower()
+    if extension == ".zip":
+        try:
+            with zipfile.ZipFile(path, "r") as archive:
+                members = _safe_zip_members(archive)
+        except zipfile.BadZipFile as error:
+            raise ValueError("SOURCE_ZIP_INVALID") from error
+        vector_layers = [row["name"] for row in members
+                         if PurePosixPath(row["name"]).suffix.lower() in FORMATS]
+        container_format = "ZIP"
+    elif extension in SINGLE_FILE_FORMATS:
+        # A file extension is merely a declared format. Check the minimum
+        # byte signature before issuing a *candidate* receipt, without
+        # treating the file contents or its claimed provenance as certified.
+        with path.open("rb") as stream:
+            signature = stream.read(4096)
+        if extension == ".gpkg" and not signature.startswith(b"SQLite format 3\\x00"):
+            raise ValueError("SOURCE_GPKG_MAGIC_INVALID")
+        if extension == ".gml" and not signature.lstrip(b"\\xef\\xbb\\xbf \\t\\r\\n").startswith(b"<"):
+            raise ValueError("SOURCE_GML_XML_SIGNATURE_INVALID")
+        members = []
+        vector_layers = [path.name]
+        container_format = extension[1:].upper()
+    else:
+        raise ValueError("SOURCE_CONTAINER_FORMAT_UNSUPPORTED")
     # User metadata and even a valid 2025 edition cannot demonstrate when all
     # administrative limits were legally effective. Manual official review
     # with dated segment evidence is a separate mandatory admission step.
@@ -118,7 +140,7 @@ def prepare_candidate_receipt(archive_path: Path, metadata: dict) -> dict:
         "schema": "ddd.cnig-candidate-source-receipt/1.0",
         "task_id": "NAT-C-056",
         "authority_claim": "CNIG/IGN",
-        "product_claim": "LILIM",
+        "product_claim": metadata["product"],
         "catalog_url": official_url,
         "source_filename": path.name,
         "edition_issued_on": edition,
@@ -127,8 +149,8 @@ def prepare_candidate_receipt(archive_path: Path, metadata: dict) -> dict:
         "requested_valid_at": TARGET_DATE,
         "file_sha256": digest.hexdigest(),
         "file_size_bytes": size,
-        "archive_vector_layers": [x["name"] for x in members if
-                                  PurePosixPath(x["name"]).suffix.lower() in FORMATS],
+        "container_format": container_format,
+        "archive_vector_layers": vector_layers,
         "zip_member_count": len(members),
         "zip_members": members,
         "official_temporal_evidence_verified": False,

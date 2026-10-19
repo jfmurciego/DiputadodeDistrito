@@ -29,6 +29,43 @@ class CNIGReceiptTests(unittest.TestCase):
         with zipfile.ZipFile(self.path, "w") as z:
             z.writestr("boundary/limits.gml", '<gml />')
 
+    def test_receipt_accepts_official_bdlje_without_approving_2025(self):
+        candidate = prepare_candidate_receipt(self.path, dict(SOURCE, product="BDLJE"))
+        self.assertEqual(candidate["product_claim"], "BDLJE")
+        self.assertEqual(candidate["container_format"], "ZIP")
+        self.assertFalse(candidate["official_2025_01_01_snapshot_accredited"])
+        self.assertFalse(candidate["eligible_for_52_province_audits"])
+
+    def test_standalone_official_geopackage_signature(self):
+        self.path = Path(self.temp.name) / "historic_boundaries.gpkg"
+        self.path.write_bytes(b"SQLite format 3\\x00" + b"synthetic example only")
+        receipt = prepare_candidate_receipt(self.path, dict(SOURCE, product="BDLJE"))
+        self.assertEqual(receipt["container_format"], "GPKG")
+        self.assertEqual(receipt["zip_member_count"], 0)
+        self.assertEqual(receipt["archive_vector_layers"], ["historic_boundaries.gpkg"])
+        self.assertFalse(receipt["crs_and_layer_schema_verified"])
+        self.assertFalse(receipt["eligible_for_52_province_audits"])
+
+    def test_standalone_gml_and_fake_signature(self):
+        self.path = Path(self.temp.name) / "municipal_2025.gml"
+        self.path.write_bytes(b'<?xml version="1.0"?><gml/>')
+        receipt = prepare_candidate_receipt(self.path, SOURCE)
+        self.assertEqual(receipt["container_format"], "GML")
+        self.assertFalse(receipt["official_temporal_evidence_verified"])
+        self.path.write_bytes(b"not XML")
+        with self.assertRaisesRegex(ValueError, "SOURCE_GML_XML_SIGNATURE_INVALID"):
+            prepare_candidate_receipt(self.path, SOURCE)
+
+    def test_rejects_standalone_fake_gpkg_or_unsupported_single_file(self):
+        self.path = Path(self.temp.name) / "historic_boundaries.gpkg"
+        self.path.write_bytes(b"fake GPKG content")
+        with self.assertRaisesRegex(ValueError, "SOURCE_GPKG_MAGIC_INVALID"):
+            prepare_candidate_receipt(self.path, SOURCE)
+        self.path = Path(self.temp.name) / "historic_boundaries.geojson"
+        self.path.write_bytes(b'{"type":"FeatureCollection","features":[]}')
+        with self.assertRaisesRegex(ValueError, "SOURCE_CONTAINER_FORMAT_UNSUPPORTED"):
+            prepare_candidate_receipt(self.path, SOURCE)
+
     def test_receipt_checks_bytes_without_approving_2025(self):
         result = prepare_candidate_receipt(self.path, SOURCE)
         self.assertEqual(result["source_status"], BLOCKED_STATE)

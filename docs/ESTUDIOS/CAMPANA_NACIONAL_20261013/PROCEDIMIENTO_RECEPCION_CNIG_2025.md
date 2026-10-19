@@ -41,3 +41,10 @@ Herramienta reproducible opcional (sin descarga automática desde CI):
 `python -m ddd_core.congreso_ign_historical_wms --bbox -4.05 42.4 -3.95 42.5 --raw-output /tmp/ign_view_2025.geojson --receipt-output /tmp/ign_view_2025.receipt.json`.
 
 **Límite crucial:** un WMS `GetMap` puede limitar elementos, generalizar para visualización, devolver datos recortados, o no acreditar exhaustividad administrativa. La consulta y sus atributos no sustituyen por sí solos un snapshot vectorial legal histórico, cotejo RCC ni receipt CNIG. No está autorizado pasar NAT-C-056 a VALIDATED, ni lanzar las 52 comparaciones por esta evidencia parcial. La prueba solo identifica una vía oficial a evaluar con la autoridad y extrae muestras verificables para investigación.
+
+
+## Recepción de archivos individuales GML o GeoPackage (sin ZIP)
+
+También se admiten candidatos de cartografía `BDLJE` además de `LILIM`, con cualquiera de estos contenedores: ZIP de Shapefiles/GML/GPKG; GML individual; GeoPackage individual. La comprobación de un GML o GeoPackage suelto verifica el SHA-256 de los bytes y una firma básica de formato, **no** su esquema interno, su CRS ni la vigencia de los límites.
+
+Se utiliza el mismo comando `python -m ddd_core.congreso_cnig_receipt`, pasando el archivo recibido en `--archive` aunque no sea ZIP. El recibo incluye `container_format` y mantiene a `False` todas las puertas de acreditación y producción. No se admite un Shapefile `.shp` aislado sin sus archivos asociados; debe entregarse completo en ZIP. Una respuesta GeoJSON parcial del WMS tampoco es un paquete nacional acreditado.
