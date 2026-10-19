@@ -31,3 +31,13 @@ La herramienta no accede a la red, no extrae los archivos y calcula hashes de lo
 El recibo candidato no demuestra que las fronteras municipales y provinciales coincidan con el estado efectivo al **01-01-2025**. Hará falta una comprobación independiente de vigencia temporal y títulos RCC, correspondencia con CPRO/CUMUN, capas, CRS, cobertura de 52 provincias y ciudades, y comparación con INE sin modificar las fuentes originales. Hasta entonces `NAT-C-003..054` y `NAT-C-002` continúan bloqueadas; `generation_authorized=false` y K=407.
 
 La respuesta de CNIG puede exigir un procedimiento de descarga diferente o indicar que ninguna versión publicada corresponde al estado solicitado. Documentar esa respuesta antes de cambiar el contrato.
+
+
+## Fuente complementaria oficial verificada el 19-10-2026: `LimitesTime`
+
+El IGN anuncia en su boletín de marzo de 2026 una capa de consulta histórica de límites con parámetro TIME desde 2009. En `https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&REQUEST=GetCapabilities` figura `LimitesTime`, y el WMS responde **GeoJSON de líneas**, no sólo imágenes, cuando se solicita `FORMAT=application/json;type=geojson`, `TIME=2025-01-01` y `CRS=CRS:84`. Una prueba acotada en rectángulo -4.05,42.4,-3.95,42.5 devolvió 13 líneas con identificador y atributos `date_boundary`, `endlifespanversion`, `nationalcode`. No corresponde al territorio nacional completo.
+
+Herramienta reproducible opcional (sin descarga automática desde CI):
+`python -m ddd_core.congreso_ign_historical_wms --bbox -4.05 42.4 -3.95 42.5 --raw-output /tmp/ign_view_2025.geojson --receipt-output /tmp/ign_view_2025.receipt.json`.
+
+**Límite crucial:** un WMS `GetMap` puede limitar elementos, generalizar para visualización, devolver datos recortados, o no acreditar exhaustividad administrativa. La consulta y sus atributos no sustituyen por sí solos un snapshot vectorial legal histórico, cotejo RCC ni receipt CNIG. No está autorizado pasar NAT-C-056 a VALIDATED, ni lanzar las 52 comparaciones por esta evidencia parcial. La prueba solo identifica una vía oficial a evaluar con la autoridad y extrae muestras verificables para investigación.
