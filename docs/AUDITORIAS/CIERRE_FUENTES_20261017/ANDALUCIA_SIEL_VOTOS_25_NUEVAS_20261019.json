@@ -1,0 +1,46 @@
+{
+  "schema": "ddd.f10-andalucia-siel2026-vote-scope/1.0",
+  "evidence_date": "2026-10-19",
+  "source": {
+    "authority": "Junta de Andalucía, Sistema de Información Electoral de Andalucía (SIEL)",
+    "election_id": "andalucia_parlamento_2026",
+    "siel_election_key": 202605,
+    "election_date": "2026-05-17",
+    "source_base": "https://ws040.juntadeandalucia.es/siel-api/v1",
+    "artifact_run": 37150399030,
+    "artifact_id": 11283424306,
+    "artifact_name": "ddd-electoral-official-snapshot-andalucia-37150399030",
+    "artifact_zip_sha256": "0d464c8b57e0239470b548a70abbd9d0d01c6d44a625a345c7ed00ef30fa77c1",
+    "official_siel_sections_sha256": "6ef7fd1efb04ea3623b401b6fd73c1ed3895005384306c75b5953a97ddafa70e",
+    "official_siel_cera_sha256": "1a8de1e3e43623f677f5142fc300d70692837b30ffc5aa65e57ece3f6e7e9e7c",
+    "section_locator_role": "SECTION_LOCATOR_ONLY",
+    "section_locator_class": "PROVISIONAL"
+  },
+  "verified": {
+    "section_identities": 6044,
+    "geographic_candidate_vote_rows": 95659,
+    "geographic_candidate_votes": 4136317,
+    "cera_candidate_votes": 21222,
+    "all_official_candidate_votes": 4157539,
+    "all_source_hashes_equal_manifest": true,
+    "added_2026_section_identifiers": 25,
+    "added_2026_candidate_votes": 15425,
+    "retired_2025_identities_absent_from_siel": 9,
+    "ine_2026_only_absent_siel": "2102502002",
+    "cortegana_siel_current_section": "2102502001",
+    "cortegana_2001_candidate_votes": 658
+  },
+  "geographic_evidence": "ANDALUCIA_CANDIDATOS_GEOMETRICOS_34_20261019.csv",
+  "affected_votes": "ANDALUCIA_SIEL_25_NUEVAS_2026_VOTOS_20261019.csv",
+  "constraints": [
+    "25 new-section candidate votes are actual SIEL candidate totals; not votes allocated to historical INE 2025 sections",
+    "INE source polygons and SIEL calendar require crosswalk proof before geocoding 15425 votes to 2025",
+    "The municipal 2025/2026 geographic correspondence is candidate-only, not an administrative decision",
+    "No electoral result exists as an independent SIEL section 2102502002; 658 votes in 2102502001 do not settle its geographic provenance",
+    "CERA remains unassigned geographically",
+    "No final F10 PASS, no promotion or generation authorization"
+  ],
+  "status": "SIEL_VOTE_SCOPE_VERIFIED_CROSSWALK_BLOCKED",
+  "crosswalk_accredited": false,
+  "generation_authorized": false
+}

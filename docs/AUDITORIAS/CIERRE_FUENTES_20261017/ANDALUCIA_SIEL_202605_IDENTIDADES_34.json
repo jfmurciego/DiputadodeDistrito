@@ -1,0 +1,301 @@
+{
+  "schema": "ddd.f10-andalucia-siel-code-identity-202605/1.0",
+  "date": "2026-10-17",
+  "authority": "Junta de Andalucía Sistema de Información Electoral (SIEL)",
+  "endpoint": "https://ws040.juntadeandalucia.es/siel-api/v1/opciones/seccion",
+  "election_key": 202605,
+  "source": "Official SIEL options/seccion live data; no votes fetched",
+  "query_parameters": "cautonoma=1&tconvocatoria=5&fconvocatoria=202605&provincia&municipio&distrito",
+  "scope": "Only 34 codes added/removed between annual INE WFS 2025 and 2026; not the full list of 6044 SIEL nor the complete election-day crosswalk",
+  "groups_queried": 26,
+  "groups_received": 26,
+  "errors": [],
+  "codes": [
+    {
+      "CUSEC": "1100602011",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "1100602",
+      "section_siel_value": "0011"
+    },
+    {
+      "CUSEC": "1101504017",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "1101504",
+      "section_siel_value": "0017"
+    },
+    {
+      "CUSEC": "1102804011",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "1102804",
+      "section_siel_value": "0011"
+    },
+    {
+      "CUSEC": "1101203005",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "1101203",
+      "section_siel_value": "0005"
+    },
+    {
+      "CUSEC": "1101204005",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "1101204",
+      "section_siel_value": "0005"
+    },
+    {
+      "CUSEC": "1101206006",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "1101206",
+      "section_siel_value": "0006"
+    },
+    {
+      "CUSEC": "1402110049",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "1402110",
+      "section_siel_value": "0049"
+    },
+    {
+      "CUSEC": "1403801007",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "1403801",
+      "section_siel_value": "0007"
+    },
+    {
+      "CUSEC": "1802101016",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "1802101",
+      "section_siel_value": "0016"
+    },
+    {
+      "CUSEC": "1814501010",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "1814501",
+      "section_siel_value": "0010"
+    },
+    {
+      "CUSEC": "2103502005",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2103502",
+      "section_siel_value": "0005"
+    },
+    {
+      "CUSEC": "2301803001",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "2301803",
+      "section_siel_value": "0001"
+    },
+    {
+      "CUSEC": "2306301004",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "2306301",
+      "section_siel_value": "0004"
+    },
+    {
+      "CUSEC": "2906702052",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906702",
+      "section_siel_value": "0052"
+    },
+    {
+      "CUSEC": "2906702053",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906702",
+      "section_siel_value": "0053"
+    },
+    {
+      "CUSEC": "2906707098",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906707",
+      "section_siel_value": "0098"
+    },
+    {
+      "CUSEC": "2906708077",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906708",
+      "section_siel_value": "0077"
+    },
+    {
+      "CUSEC": "2906708078",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906708",
+      "section_siel_value": "0078"
+    },
+    {
+      "CUSEC": "2906708079",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906708",
+      "section_siel_value": "0079"
+    },
+    {
+      "CUSEC": "2906708080",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906708",
+      "section_siel_value": "0080"
+    },
+    {
+      "CUSEC": "2906708081",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906708",
+      "section_siel_value": "0081"
+    },
+    {
+      "CUSEC": "2906711014",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906711",
+      "section_siel_value": "0014"
+    },
+    {
+      "CUSEC": "2906711015",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2906711",
+      "section_siel_value": "0015"
+    },
+    {
+      "CUSEC": "2907001040",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2907001",
+      "section_siel_value": "0040"
+    },
+    {
+      "CUSEC": "2907001041",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "2907001",
+      "section_siel_value": "0041"
+    },
+    {
+      "CUSEC": "2906703003",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "2906703",
+      "section_siel_value": "0003"
+    },
+    {
+      "CUSEC": "2906704013",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "2906704",
+      "section_siel_value": "0013"
+    },
+    {
+      "CUSEC": "2906707060",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "2906707",
+      "section_siel_value": "0060"
+    },
+    {
+      "CUSEC": "2906709057",
+      "kind": "INE_2025_RETIRED",
+      "siel_group_available": true,
+      "siel_202605_has_section": false,
+      "lookup_key": "2906709",
+      "section_siel_value": "0057"
+    },
+    {
+      "CUSEC": "4103804022",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "4103804",
+      "section_siel_value": "0022"
+    },
+    {
+      "CUSEC": "4103805032",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "4103805",
+      "section_siel_value": "0032"
+    },
+    {
+      "CUSEC": "4104701008",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "4104701",
+      "section_siel_value": "0008"
+    },
+    {
+      "CUSEC": "4108102019",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "4108102",
+      "section_siel_value": "0019"
+    },
+    {
+      "CUSEC": "4109110030",
+      "kind": "INE_2026_ADDED",
+      "siel_group_available": true,
+      "siel_202605_has_section": true,
+      "lookup_key": "4109110",
+      "section_siel_value": "0030"
+    }
+  ],
+  "checks": {
+    "total": 34,
+    "ine_2026_added": 25,
+    "ine_2025_retired": 9,
+    "added_present_siel": 25,
+    "added_absent_siel": 0,
+    "retired_present_siel": 0,
+    "retired_absent_siel": 9
+  },
+  "limits": [
+    "SIEL option presence alone does not confirm final votes per section",
+    "A mismatch with INE annual 2026 may reflect edition date, not source fault",
+    "No votes are assigned by geometry or section names; full crosswalk not accredited"
+  ]
+}
