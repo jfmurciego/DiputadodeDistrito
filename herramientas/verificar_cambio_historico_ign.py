@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 from datetime import datetime, timezone
+from urllib.error import URLError
 from pathlib import Path
 from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
@@ -109,6 +110,8 @@ def compare(before: bytes, after: bytes) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--output-directory", type=Path, required=True)
+    ap.add_argument("--record-network-unavailable", action="store_true",
+                    help="Record independent network failure; do not assert source verification")
     args = ap.parse_args()
     directory = args.output_directory
     directory.mkdir(parents=True, exist_ok=True)
@@ -117,7 +120,29 @@ def main() -> None:
                directory / "temporal_change_receipt.json"]
     if any(p.exists() for p in outputs):
         raise FileExistsError("NO_OVERWRITE_ORIGINAL_EVIDENCE")
-    original = [fetch(build_url(value)) for value in DATES]
+    try:
+        original = [fetch(build_url(value)) for value in DATES]
+    except (TimeoutError, URLError, ConnectionError, OSError) as error:
+        if not args.record_network_unavailable:
+            raise
+        # A network failure is evidence of no source, not a successful
+        # comparison. Keep raw evidence empty and do not assert provenance.
+        unavailable = {
+            "schema": "ddd.n08.ign-temporal-source-unavailable/1.0",
+            "status": "NETWORK_UNAVAILABLE_NO_TEMPORAL_EVIDENCE",
+            "dates_requested": list(DATES),
+            "source": BASE,
+            "error_type": type(error).__name__,
+            "complete_52_coverage_verified": False,
+            "temporal_transition_proven_in_this_run": False,
+            "generation_authorized": False,
+        }
+        with (directory / "network_unavailable.json").open("x", encoding="utf-8") as out:
+            json.dump(unavailable, out, indent=2, sort_keys=True)
+            out.write("\n")
+        print("::warning::IGN did not answer this run; NO historical data or accreditation was obtained")
+        print("IGN_SOURCE_UNAVAILABLE_NOT_A_SUCCESS")
+        return
     receipt = compare(*original)
     for path, raw in zip(outputs[:2], original):
         with path.open("xb") as stream:

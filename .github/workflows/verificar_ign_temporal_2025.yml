@@ -20,8 +20,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Regresiones puras de la prueba histórica
         run: python -m unittest tests.test_verificar_cambio_historico_ign -v
-      - name: Recuperar originales oficiales 2025 y 2026 y demostrar cambio
-        run: python -m herramientas.verificar_cambio_historico_ign --output-directory ign-prueba-historica
+      - name: Intentar descargar muestras oficiales y registrar indisponibilidad sin acreditar datos
+        run: python -m herramientas.verificar_cambio_historico_ign --output-directory ign-prueba-historica --record-network-unavailable
       - name: Conservar bytes originales y hashes para auditoría independiente
         if: always()
         uses: actions/upload-artifact@v4

@@ -44,6 +44,24 @@ class HistoricTransitionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "EXPECTED_BOUNDARY_START_DATE_CHANGED"):
             inspect(json.dumps(malicious).encode(), "2026-01-01")
 
+    def test_network_failure_must_never_be_recorded_as_temporal_proof(self):
+        from unittest.mock import patch
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        import sys
+        from herramientas.verificar_cambio_historico_ign import main
+        with TemporaryDirectory() as folder:
+            with patch("herramientas.verificar_cambio_historico_ign.fetch",
+                       side_effect=TimeoutError("remote IGN timed out")):
+                with patch.object(sys, "argv", ["verify", "--output-directory", folder,
+                                                 "--record-network-unavailable"]):
+                    main()
+            artifact = json.loads((Path(folder) / "network_unavailable.json").read_text())
+            self.assertEqual(artifact["status"], "NETWORK_UNAVAILABLE_NO_TEMPORAL_EVIDENCE")
+            self.assertFalse(artifact["temporal_transition_proven_in_this_run"])
+            self.assertFalse(artifact["generation_authorized"])
+            self.assertFalse((Path(folder) / "temporal_change_receipt.json").exists())
+
     def test_reject_non_geojson_and_duplicate_codes(self):
         with self.assertRaisesRegex(ValueError, "WMS_INVALID_JSON"):
             inspect(b"<html>Error</html>", "2025-01-01")
