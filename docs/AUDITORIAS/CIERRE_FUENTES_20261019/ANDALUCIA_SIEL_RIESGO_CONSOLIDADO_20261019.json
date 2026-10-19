@@ -1,0 +1,79 @@
+{
+  "schema": "ddd.f10-andalucia-siel-geography-risk-final-research/1.0",
+  "date": "2026-10-19",
+  "workflow": {
+    "run_id": 39236696347,
+    "conclusion": "SUCCESS",
+    "url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/39236696347",
+    "artifact_id": 12179607642,
+    "artifact_name": "f10-andalucia-riesgos-votos-2025-2026",
+    "artifact_retention_days": 90,
+    "script": "herramientas/cuantificar_riesgo_interanual_siel_andalucia.py",
+    "source_snapshot_run": 37150399030
+  },
+  "reference": {
+    "territorial_pop_year": 2025,
+    "territorial_geo_year": 2025,
+    "election_date": "2026-05-17",
+    "election_year": 2026,
+    "municipality_scope": 17,
+    "territorial_count_2025": 6029,
+    "ine_map_count_2026": 6045,
+    "electoral_siel_sections_2026": 6044
+  },
+  "data_sources": {
+    "ine_geom_versioned": "docs/AUDITORIAS/CIERRE_FUENTES_20261017/ANDALUCIA_EXTRACTED_{CUMUN}_{year}.geojson",
+    "representation": "WFS_TEXT_REENCODED_NOT_RAW_HTTP",
+    "siel_sections_sha256": "6ef7fd1efb04ea3623b401b6fd73c1ed3895005384306c75b5953a97ddafa70e",
+    "siel_cera_sha256": "1a8de1e3e43623f677f5142fc300d70692837b30ffc5aa65e57ece3f6e7e9e7c",
+    "bop_huelva_signed_pdf_sha256": "cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa",
+    "bop_huelva_source": "https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf",
+    "bop_huelva_archive_run": 39235809732,
+    "bop_huelva_archive_id": 12179246201
+  },
+  "electoral": {
+    "total_official_candidate_votes": 4157539,
+    "geographic_candidate_votes": 4136317,
+    "cera_candidate_votes_non_geographic": 21222,
+    "sample_section_2026_changes": 25,
+    "new_sections_candidate_votes": 15425,
+    "same_code_material_change_sections": 41,
+    "same_code_material_change_votes": 31792,
+    "cortegana_2026_section": "2102502001",
+    "cortegana_section_votes": 658,
+    "count_distinct_flagged_sections": 67,
+    "distinct_flagged_candidate_votes": 47875,
+    "retired_2025_sections": 9,
+    "siel_2026_successors_votes_subset_of_41": 6901,
+    "IMPORTANT_NO_DOUBLE_COUNT": "6,901 votes in successors of 9 retired CUSEC are included within the 31,792 for 41 modified same-code CUSEC; never add twice.",
+    "remaining_assimilation": "ELECTION_DAY_2026_TO_INE_2025_OFFICIAL_CROSSWALK_UNPROVEN"
+  },
+  "linked_versioned_rows": [
+    "docs/AUDITORIAS/CIERRE_FUENTES_20261017/ANDALUCIA_SIEL_25_NUEVAS_2026_VOTOS_20261019.csv",
+    "docs/AUDITORIAS/CIERRE_FUENTES_20261019/ANDALUCIA_41_CUSEC_MISMO_CODIGO_LIMITES_CAMBIADOS_VOTOS_2026.csv",
+    "docs/AUDITORIAS/CIERRE_FUENTES_20261019/ANDALUCIA_9_CUSEC_2025_RETIRADOS_VOTOS_SIEL_2026.csv"
+  ],
+  "validations": [
+    "INE 17 municipalities 2025 and 2026 geometry: all 34 changed CUSEC fully evaluated",
+    "41 materially changed persistent CUSEC + 25 new + Cortegana election precinct 2102502001 are distinct",
+    "Signed official Huelva BOP lists district 02 section 001 tables A, B, C, but not territorial 02 section 002 as separate election precinct",
+    "All official SIEL 2026 candidate totals and source CSV hashes reconciled",
+    "No historical precinct vote redistribution or percentage based imputation used"
+  ],
+  "status": {
+    "source_electoral_siel": "VERIFIED_OFFICIAL_FINAL",
+    "source_electoral_huelva_precinct": "SOURCE_ACCREDITED",
+    "reconciled_votes": "SIEL_2026_SOURCE_RECONCILED",
+    "crosswalk_2025_to_2026": "BLOCKED_OFFICIAL_DOCUMENTED_ELECTION_DAY_TO_2025_MAPPING_REQUIRED",
+    "electoral_F10": "BLOCKED_CROSSWALK_NOT_PROVEN",
+    "combined_F10": "BLOCKED",
+    "generation_authorized": false
+  },
+  "acceptance_requires": [
+    "Authority-backed relation for 25 new 2026 sections and nine retired 2025 sections and 41 changed same-code 2025/26 identities, including effects and applicable election-day dates",
+    "2026 Cortegana electoral section 02-001 three tables versus INE 2025 territorial polygon 02-002: authenticated mapping without allocating by unproved area",
+    "Complete protected original HTTP/source storage for INE map data under effective receipt contract or other admitted proof",
+    "Canonical electoral consumer PASS and independent review on exact HEAD and governing source SHA",
+    "Explicit owner decision if alternatives involve changes to territorial reference or distribution contracts"
+  ]
+}

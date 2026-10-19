@@ -1,0 +1,356 @@
+{
+  "schema": "ddd.f10.and_siel_2026_official_tram_direct_links/1.0",
+  "date": "2026-10-19",
+  "source_archives": {
+    "tram_ine_url": "https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip",
+    "tram_ine_sha256": "f2f8299bbcff7e79c69948b900d5c9e97c3b9c71f8cc430f8ffac0e9a475f319",
+    "tram_period_2": "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip",
+    "tram_period_2_sha256": "154b8eacdb886e5b6463283c597076b3b0dde256cfaf74cb34c4ffc5cb326635",
+    "tram_all_change_groups": 15,
+    "siel_official_artifact": 11283424306
+  },
+  "verified": {
+    "affected_new_sections": 25,
+    "affected_candidate_votes": 15425,
+    "with_direct_tram_M": 7,
+    "with_direct_tram_M_votes": 4344,
+    "without_direct_tram_M": 18,
+    "without_direct_tram_M_votes": 11081,
+    "match_scope": "INE TRAM subset for changed identities in 2025-07--2026-07; may not include full section lineage"
+  },
+  "records": [
+    {
+      "section_2026": "1100602011",
+      "section_2025_geo_candidate": "1100602008",
+      "votes_SIEL2026": 593,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "1101504017",
+      "section_2025_geo_candidate": "1101504015",
+      "votes_SIEL2026": 505,
+      "geo_match_pct": 99.999941,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "1102804011",
+      "section_2025_geo_candidate": "1102804001",
+      "votes_SIEL2026": 516,
+      "geo_match_pct": 100,
+      "tram_direct": [
+        {
+          "source": "1102804001",
+          "other": "1102804011",
+          "date": "20250829",
+          "code": "M",
+          "records": 715
+        }
+      ],
+      "tram_other_origins": [],
+      "tram_other_flags": [
+        {
+          "source": "1102804011",
+          "other": null,
+          "date": "20250829",
+          "code": "B",
+          "records": 1
+        }
+      ],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "1402110049",
+      "section_2025_geo_candidate": "1402110047",
+      "votes_SIEL2026": 1000,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "1403801007",
+      "section_2025_geo_candidate": "1403801004",
+      "votes_SIEL2026": 687,
+      "geo_match_pct": 100,
+      "tram_direct": [
+        {
+          "source": "1403801004",
+          "other": "1403801007",
+          "date": "20251225",
+          "code": "M",
+          "records": 353
+        }
+      ],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "1802101016",
+      "section_2025_geo_candidate": "1802101012",
+      "votes_SIEL2026": 616,
+      "geo_match_pct": 100,
+      "tram_direct": [
+        {
+          "source": "1802101012",
+          "other": "1802101016",
+          "date": "20251030",
+          "code": "M",
+          "records": 329
+        },
+        {
+          "source": "1802101016",
+          "other": "1802101012",
+          "date": "20251030",
+          "code": "M",
+          "records": 17
+        }
+      ],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "1814501010",
+      "section_2025_geo_candidate": "1814501001",
+      "votes_SIEL2026": 517,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2103502005",
+      "section_2025_geo_candidate": "2103502001",
+      "votes_SIEL2026": 446,
+      "geo_match_pct": 100,
+      "tram_direct": [
+        {
+          "source": "2103502001",
+          "other": "2103502005",
+          "date": "20250711",
+          "code": "M",
+          "records": 628
+        }
+      ],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906702052",
+      "section_2025_geo_candidate": "2906702041",
+      "votes_SIEL2026": 640,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906702053",
+      "section_2025_geo_candidate": "2906702027",
+      "votes_SIEL2026": 732,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906707098",
+      "section_2025_geo_candidate": "2906707094",
+      "votes_SIEL2026": 665,
+      "geo_match_pct": 99.999999,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906708077",
+      "section_2025_geo_candidate": "2906708057",
+      "votes_SIEL2026": 664,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906708078",
+      "section_2025_geo_candidate": "2906708010",
+      "votes_SIEL2026": 640,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906708079",
+      "section_2025_geo_candidate": "2906708035",
+      "votes_SIEL2026": 638,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906708080",
+      "section_2025_geo_candidate": "2906708054",
+      "votes_SIEL2026": 411,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906708081",
+      "section_2025_geo_candidate": "2906708043",
+      "votes_SIEL2026": 677,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906711014",
+      "section_2025_geo_candidate": "2906711002",
+      "votes_SIEL2026": 561,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2906711015",
+      "section_2025_geo_candidate": "2906711003",
+      "votes_SIEL2026": 434,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2907001040",
+      "section_2025_geo_candidate": "2907001018",
+      "votes_SIEL2026": 403,
+      "geo_match_pct": 100,
+      "tram_direct": [
+        {
+          "source": "2907001018",
+          "other": "2907001040",
+          "date": "20251022",
+          "code": "M",
+          "records": 200
+        }
+      ],
+      "tram_other_origins": [
+        {
+          "source": "2907001010",
+          "other": "2907001040",
+          "date": "20251022",
+          "code": "M",
+          "records": 5
+        }
+      ],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "2907001041",
+      "section_2025_geo_candidate": "2907001024",
+      "votes_SIEL2026": 624,
+      "geo_match_pct": 100,
+      "tram_direct": [
+        {
+          "source": "2907001024",
+          "other": "2907001041",
+          "date": "20251022",
+          "code": "M",
+          "records": 255
+        }
+      ],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "4103804022",
+      "section_2025_geo_candidate": "4103804018",
+      "votes_SIEL2026": 829,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "4103805032",
+      "section_2025_geo_candidate": "4103805026",
+      "votes_SIEL2026": 996,
+      "geo_match_pct": 99.999987,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "4104701008",
+      "section_2025_geo_candidate": "4104701002",
+      "votes_SIEL2026": 181,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "4108102019",
+      "section_2025_geo_candidate": "4108102012",
+      "votes_SIEL2026": 398,
+      "geo_match_pct": 100,
+      "tram_direct": [],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    },
+    {
+      "section_2026": "4109110030",
+      "section_2025_geo_candidate": "4109110009",
+      "votes_SIEL2026": 1052,
+      "geo_match_pct": 100,
+      "tram_direct": [
+        {
+          "source": "4109110009",
+          "other": "4109110030",
+          "date": "20251127",
+          "code": "M",
+          "records": 252
+        }
+      ],
+      "tram_other_origins": [],
+      "tram_other_flags": [],
+      "legal_crosswalk_accepted": false
+    }
+  ],
+  "interpretation": "TRAM M records attest individual street-segment changes with a section identity field, not entire electoral result transfers. Presence of B on 1102804011 and second source for 2907001040 are explicitly preserved.",
+  "crosswalk_accredited": false,
+  "vote_redistribution_allowed": false,
+  "generation_authorized": false
+}
