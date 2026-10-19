@@ -13,6 +13,13 @@ from pathlib import Path
 from ddd_core.congreso_contract import CONGRESS_CODES, production_blockers, validate_congress_identity
 from ddd_core.congreso_preflight_adapter import structural_component_bound, validate_physical_product
 
+# Trusted hash of the exact versioned N08 manifest bytes. A manifest's
+# self-declared identity SHA and its per-file hashes are NOT a trust anchor:
+# an adversary able to edit local input files can recompute all of them.
+# A legitimate new N08 product requires its own reviewed source/manifest
+# decision and an explicit new pinned value, never automatic promotion.
+N08_TRUSTED_MANIFEST_SHA256 = "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f"
+
 OWNER_POLICIES = (
     "minimum_unit", "contiguity", "population_limits",
     "municipal_indivisibility", "islands", "enclaves",
@@ -48,7 +55,10 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
              "PRODUCTION_MUST_REMAIN_DISABLED")
 
     manifest_path = Path(product_root) / "manifest.json"
-    manifest = json.loads(manifest_path.read_bytes())
+    manifest_bytes = manifest_path.read_bytes()
+    _require(_sha(manifest_bytes) == N08_TRUSTED_MANIFEST_SHA256,
+             "N08_MANIFEST_TRUST_ANCHOR_MISMATCH")
+    manifest = json.loads(manifest_bytes)
     identity = manifest.get("identity_sha256")
     _require(identity == _sha(_canonical({k: v for k, v in manifest.items()
                                          if k != "identity_sha256"})), "TOPOLOGY_MANIFEST_IDENTITY")

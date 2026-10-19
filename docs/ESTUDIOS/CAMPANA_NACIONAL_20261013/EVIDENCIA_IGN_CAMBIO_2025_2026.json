@@ -1,0 +1,49 @@
+{
+  "schema": "ddd.n08.ign-temporal-official-original-evidence/1.0",
+  "observed_utc_date": "2026-10-19",
+  "provider": "IGN/CNIG",
+  "service": "https://www.ign.es/wms-inspire/unidades-administrativas",
+  "layer": "LimitesTime",
+  "format": "application/json;type=geojson",
+  "bbox_CRS84": [
+    -0.45,
+    39.16,
+    -0.36,
+    39.24
+  ],
+  "test_case": "Algemesí–Polinyà de Xúquer",
+  "nationalcode": "M34104646029M34104646197T0246715",
+  "valid_at_2025_01_01": {
+    "feature_count": 13,
+    "target_found": false,
+    "raw_http_geojson_sha256": "51a1d118ef1fd957e40b59d74f657a1860bfdfbe25e3150cf30275e7dc9b85db",
+    "raw_byte_count": 13825
+  },
+  "valid_at_2026_01_01": {
+    "feature_count": 13,
+    "target_found": true,
+    "raw_http_geojson_sha256": "4d7b7b1d352c6fc31060e209f77e6e877108755285984657c23cda48f1b29302",
+    "raw_byte_count": 13897
+  },
+  "metadata_discrepancy": {
+    "WMS_utc_date_boundary": "2025-06-18Z",
+    "OGC_API_date_boundary": "2025-06-19",
+    "legal_equivalence_demonstrated": false
+  },
+  "github_actions": {
+    "run_id": 39241960121,
+    "run_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/39241960121",
+    "artifact_id": 12180803523,
+    "artifact_name": "evidencia-oficial-ign-algemesi",
+    "artifact_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/39241960121/artifacts/12180803523",
+    "artifact_retention_days": 90,
+    "artifact_archive_sha256": "64d1725f4e3b85854622ca112bed8b0387e2f3a62347bed3289fb6fffe71f31b"
+  },
+  "status": "PROVEN_BOUNDED_OFFICIAL_VECTOR_TEMPORAL_CHANGE",
+  "official_complete_snapshot_accredited": false,
+  "coverage_52_proven": false,
+  "legally_effective_boundary_dates_proven": false,
+  "n08_exception_authorized": false,
+  "generation_authorized": false,
+  "notes": "Original HTTP vector bytes preserved in time-limited GitHub Actions artifact; this JSON is a durable reference, not a substitute for the original bytes. No provincial/national cartographic accreditation granted."
+}
