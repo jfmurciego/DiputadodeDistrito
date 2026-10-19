@@ -1,0 +1,46 @@
+name: F10 estudio Jan-Jul 2025 y linaje 86 secciones
+on:
+  push:
+    branches:
+      - chatgpt/fuentes-wfs-20261017
+    paths:
+      - .github/workflows/f10-andalucia-tram-periodos-20261019.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  auditar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comprobar script y evidencias de identidad
+        run: |
+          python -m py_compile herramientas/inspeccionar_variaciones_callejero_f10.py
+          python - <<'PY'
+          import sys
+          sys.path.insert(0,".")
+          from herramientas.inspeccionar_variaciones_callejero_f10 import known_f10_targets
+          codes=known_f10_targets()
+          assert len(codes)==86 and "2102502002" in codes
+          print("86 identidades cotejables sin promover puerta electoral")
+          PY
+      - name: Conservar los 3 intervalos originales del INE y extraer cambios de tramos
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ddd-ine-tram"
+          for interval in 0125_0725 0725_0126 0126_0726; do
+            python herramientas/inspeccionar_variaciones_callejero_f10.py \
+              --source-url "https://ine.es/prodyser/callejero/Var_Callejero_${interval}.zip" \
+              --raw-out "$RUNNER_TEMP/ddd-ine-tram/Var_Callejero_${interval}.zip" \
+              --output "$RUNNER_TEMP/ddd-ine-tram/Var_Callejero_${interval}.audit.json"
+          done
+          sha256sum "$RUNNER_TEMP/ddd-ine-tram"/*.zip
+      - name: Preservar originales y auditorías aunque falle una adquisición
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: f10-ine-tram-2025-2026-86-cusec
+          path: ${{ runner.temp }}/ddd-ine-tram/
+          if-no-files-found: warn
+          retention-days: 90
