@@ -1,0 +1,56 @@
+name: F10 evidencia BOP Huelva electoral 2026
+on:
+  push:
+    branches: [chatgpt/fuentes-wfs-20261017]
+    paths: [.github/workflows/f10-huelva-boletin-20261019.yml]
+permissions:
+  contents: read
+jobs:
+  preservar-oficial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descargar documento oficial firmado y verificar Cortegana
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bop"
+          curl --fail --location --silent --show-error --connect-timeout 15 --max-time 90 \
+            'https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf' \
+            --output "$RUNNER_TEMP/bop/Anuncio_350957_BOP-61_2026.pdf"
+          test "$(head -c 4 "$RUNNER_TEMP/bop/Anuncio_350957_BOP-61_2026.pdf")" = "%PDF"
+          pdftotext -layout "$RUNNER_TEMP/bop/Anuncio_350957_BOP-61_2026.pdf" "$RUNNER_TEMP/bop/BOP_2026_61_Cortegana_extraccion.txt"
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,re
+          p=Path(os.environ["RUNNER_TEMP"])/"bop/Anuncio_350957_BOP-61_2026.pdf"
+          t=(Path(os.environ["RUNNER_TEMP"])/"bop/BOP_2026_61_Cortegana_extraccion.txt").read_text(errors="replace")
+          anchor=re.search(r"MUNICIPIO\s*:\s*025\s+CORTEGANA",t)
+          if not anchor: raise RuntimeError("MUNICIPAL_ENTRY_NOT_FOUND")
+          next_anchor=re.search(r"MUNICIPIO\s*:\s*026\s+CORTELAZOR",t[anchor.start():])
+          if not next_anchor: raise RuntimeError("NEXT_MUNICIPAL_ENTRY_MISSING")
+          excerpt=t[anchor.start():anchor.start()+next_anchor.start()]
+          wanted=[r"01\s+001\s+U",r"01\s+002\s+A",r"01\s+002\s+B",r"01\s+003\s+A",r"01\s+003\s+B",r"02\s+001\s+01\s+A",r"02\s+001\s+02\s+B",r"02\s+001\s+03\s+C"]
+          if not all(re.search(x,excerpt) for x in wanted):
+            raise RuntimeError("EXPECTED_8_CORTGEGANA_POLLS_MISSING")
+          if re.search(r"^\s*02\s+002\s+",excerpt,re.M):
+            raise RuntimeError("ELECTORAL_SECTION_002_PRESENT_UNEXPECTED")
+          manifest={"authority":"INE OCE Huelva","bulletin":"BOP Huelva 61/2026",
+            "announced":"2026-03-30","election":"2026-05-17",
+            "source_url":"https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf",
+            "pdf_sha256":hashlib.sha256(p.read_bytes()).hexdigest(),"pdf_bytes":p.stat().st_size,
+            "cortegana_district02_section001_tables":["A","B","C"],
+            "cortegana_district02_section002_present":False,
+            "verified_by":"pdftotext -layout regex anchored municipal records",
+            "vote_transfer_authorized":False}
+          (p.parent/"bop_receipt.json").write_text(json.dumps(manifest,indent=2)+"\n",encoding="utf-8")
+          print("DDD_BOP_HUELVA_CORTEGANA_VERIFIED="+json.dumps(manifest,sort_keys=True))
+          PY
+      - name: Archivar originales y manifiesto
+        uses: actions/upload-artifact@v4
+        with:
+          name: f10-bop-huelva-2026-signed-original
+          path: ${{ runner.temp }}/bop/
+          retention-days: 90
+          if-no-files-found: error
