@@ -12,7 +12,7 @@ Anterior: no aplica; primera edición de esta evidencia
 
 ## Identidad
 
-- Base del candidato: `48688c939a46d6be23078f2a1dfa1da286dd23c0` (AUTO-01 sobre `main` `21a4a150eb14f1abecd5d798b159d84a71df1f4a`).
+- Base inicial de integración: `21a4a150eb14f1abecd5d798b159d84a71df1f4a`; candidato actualizado con el `main` de integración `51c797a89b15d324364ec578f0b76417f7de0b6b`. El merge posterior incorporó cambios Nacional ajenos; el diff final de OPT contra la base se limita a OPT-01.
 - Código ensayado `modulos/02_construir_adyacencias.py`: SHA-256 `7e588c5454620bbca18d27ed49c670f6740a20aa40031bae128716c40bc6a42f`; coincide con el código territorial revisado en el expediente fuente.
 - Pruebas M02, orquestación y consumidor Nacional: 62 passed, 12 subtests, 1 advertencia GeoJSON.
 - Entorno del benchmark: Python 3.13.12; GeoPandas 1.1.2; Shapely 2.1.2; PyProj 3.7.2; Pyogrio 0.12.1.
@@ -24,8 +24,8 @@ Para Cataluña y Murcia se comparó el conjunto completo de pares geométricos h
 
 | Run / artifacts | Secciones y aristas | Resultado exacto | Tiempo observado |
 |---|---:|---|---:|
-| Cataluña `37453376100`, M01 `11408501059`, M02 `11407882609` | 5.117 / 14.315 | v7.3.3 (0, 50, repetición) coincide byte a byte con el histórico; 0 missing, extra o duplicados. SHA conjunto `0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576`. | 16,35–18,46 s por pasada |
-| Murcia `37344628042`, M01 `11359368761`, M02 `11360262231` | 1.223 / 3.416 | v7.3.3 (0, 50, repetición) coincide; v7.3.2 con límite 50 omite `3001902001—3002202001` (3.415 aristas); v7.3.3 no pierde aristas. SHA nuevo/histórico `8ae16664ba47d29a5d03d953a4cbb3d21b8cd549d071654a803b08b0113f8b9a`. | v7.3.3 4,16–4,59 s; v7.3.2 cap 50 4,24 s |
+| Cataluña `37453376100`, M01 `11408501059`, M02 `11407882609` | 5.117 / 14.315 | v7.3.3 (0, 50, repetición) coincide exactamente en el conjunto canónico de pares con el histórico; 0 missing, extra o duplicados. No se comparó igualdad byte a byte del JSONL serializado. SHA conjunto `0dc494dad59c9621d63db47a4fd36b03834840dcaf35a91e5d6ca537cdcb6576`. | 16,35–18,46 s por pasada |
+| Murcia `37344628042`, M01 `11359368761`, M02 `11360262231` | 1.223 / 3.416 | v7.3.3 (0, 50, repetición) coincide exactamente en el conjunto canónico de pares; v7.3.2 con límite 50 omite `3001902001—3002202001` (3.415 aristas); v7.3.3 no pierde aristas. SHA nuevo/histórico `8ae16664ba47d29a5d03d953a4cbb3d21b8cd549d071654a803b08b0113f8b9a`. | v7.3.3 4,16–4,59 s; v7.3.2 cap 50 4,24 s |
 | Aragón `34584775443`, M01/M02 artifacts `10193135816`/`10193136386` | 1.463 / 4.293 | Coincidencia exacta y determinista con el contrato histórico `touches`, EPSG:25830, min border 0 y cap 50. No acredita la configuración contractual actual de Aragón. | 4,15–5,04 s |
 
 La configuración actual de Aragón tiene SHA-256 `4462020f0e90f4044ee763422227caf5c5469866541660c3bf26f28fc2527499`, distinta de la configuración histórica identificada en la evidencia fuente (`c5ffe01f3e4762088a735c2e4157b61b41a3ddb7e8717fd028611a4d8995af74`). Por eso Aragón se declara solo PASS del contrato histórico comparable. Las configuraciones actuales de Cataluña y Murcia coinciden con los hashes del expediente fuente.
