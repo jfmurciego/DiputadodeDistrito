@@ -233,7 +233,8 @@ class CampaignManagerTests(unittest.TestCase):
     def test_pull_request_never_schedules_productive_campaign_or_pages(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
-        self.assertIn("inputs.operacion == 'Ejecutar campaña'", manager)
+        self.assertIn("github.event_name == 'workflow_dispatch'", manager)
+        self.assertNotIn("inputs.operacion", manager)
         self.assertIn("github.event_name == 'pull_request'", manager)
         self.assertIn("publish_result: false", manager)
         self.assertIn("E2E sintético del Gestor nacional", manager)
