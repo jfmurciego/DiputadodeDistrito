@@ -53,7 +53,11 @@
     "official_reply_received": false,
     "source_bytes_received": false,
     "source_sha256": null,
-    "source_accredited": false
+    "source_accredited": false,
+    "latest_access_attempt": {
+      "endpoint": "https://api-features.ign.es/collections/administrativeboundary/items?f=json&limit=2",
+      "result": "URL not accessible via configured web tool; no bytes acquired; no retry through same path"
+    }
   },
   "limitations": [
     "API page auditor does not download or authenticate page bytes",

@@ -52,6 +52,8 @@ La investigación oficial consultada indica que la colección API actual está l
 
 Referencias oficiales consultadas: [API-Features IGN — colección y objetos](https://api-features.ign.es/collections/administrativeboundary/items?f=html), [esquema](https://api-features.ign.es/collections/administrativeboundary/schema?f=html), [metadatos/licencia/CRS](https://api-features.ign.es/collections/administrativeboundary?f=html) y [boletín IGN-CNIG, marzo de 2026](https://www.ign.es/web/resources/acercaDe/Boletines/Boletin_IGN_mar_2026.pdf), páginas 12–13.
 
+En esta continuación se intentó una lectura acotada del endpoint oficial (`/items?f=json&limit=2`) con el conector de consulta disponible; el servicio devolvió `URL ... is not accessible via this tool`. No se recibieron bytes ni se repitió por una vía idéntica. La solicitud oficial del 18-10-2026 tampoco tiene respuesta/paquete en el recibo conservado.
+
 ## Bloqueos materiales y decisiones
 
 1. **Externo:** respuesta y cartografía histórica oficial CNIG/IGN, con edición, vigencia al 01-01-2025, esquema/códigos, CRS, licencia, bytes y SHA.
