@@ -1,0 +1,42 @@
+{
+  "schema": "ddd.f10-ine-callejero-originals-artifact/1.0",
+  "acquired_date": "2026-10-18",
+  "authoritative_provider": "Instituto Nacional de Estadística",
+  "official_archives": [
+    {
+      "period": "2025-07_to_2026-01",
+      "url": "https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip",
+      "filename": "Var_Callejero_0725_0126.zip",
+      "sha256": "f2f8299bbcff7e79c69948b900d5c9e97c3b9c71f8cc430f8ffac0e9a475f319"
+    },
+    {
+      "period": "2026-01_to_2026-07",
+      "url": "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip",
+      "filename": "Var_Callejero_0126_0726.zip",
+      "sha256": "154b8eacdb886e5b6463283c597076b3b0dde256cfaf74cb34c4ffc5cb326635"
+    }
+  ],
+  "acquisition": {
+    "github_workflow_run_id": 39136526093,
+    "conclusion": "SUCCESS",
+    "github_artifact_id": 12140375231,
+    "artifact_name": "f10-ine-callejero-originales-2025-2026",
+    "artifact_sha256": "413178938a7e1c51837776662645881e258471d44422655b8d21f7e3f01aced7",
+    "artifact_retention_days": 90,
+    "contains": [
+      "two byte-exact original ZIP archives",
+      "two JSON provenance and change audit files"
+    ],
+    "run_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/39136526093"
+  },
+  "validation": [
+    "Downloaded official ZIP bytes persisted without JSON reserialization",
+    "zipfile.testzip() CRC verified all members",
+    "SHA-256 checked after storage; hashes match 2026-10-17 findings"
+  ],
+  "gate": "RESEARCH_EVIDENCE_ONLY",
+  "crosswalk_accredited": false,
+  "receipt_formally_accepted": false,
+  "generation_authorized": false,
+  "caveat": "GitHub Actions artifact expires under retention policy; this manifest plus official URLs and hashes permits re-acquisition, but not indefinite protected storage. Use protected immutable source store before promoting an official F10 receipt."
+}

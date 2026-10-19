@@ -1,0 +1,31 @@
+name: DDD — prueba histórica IGN 2025 vs 2026
+
+on:
+  pull_request:
+    paths:
+      - 'herramientas/verificar_cambio_historico_ign.py'
+      - 'tests/test_verificar_cambio_historico_ign.py'
+      - '.github/workflows/verificar_ign_temporal_2025.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  historico-ign:
+    if: github.event.pull_request.number == 270
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regresiones puras de la prueba histórica
+        run: python -m unittest tests.test_verificar_cambio_historico_ign -v
+      - name: Intentar descargar muestras oficiales y registrar indisponibilidad sin acreditar datos
+        run: python -m herramientas.verificar_cambio_historico_ign --output-directory ign-prueba-historica --record-network-unavailable
+      - name: Conservar bytes originales y hashes para auditoría independiente
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-oficial-ign-algemesi
+          path: ign-prueba-historica/
+          retention-days: 90
+          if-no-files-found: warn

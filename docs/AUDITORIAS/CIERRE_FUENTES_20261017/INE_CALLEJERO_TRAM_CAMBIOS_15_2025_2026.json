@@ -1,0 +1,131 @@
+{
+  "schema": "ddd.f10-ine-tram-formal-records/1.0",
+  "research_date": "2026-10-17",
+  "authority": "INE / Oficina del Censo Electoral",
+  "documentation": "https://ine.es/prodyser/callejero/Variacionesencallejero.pdf",
+  "source": "https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip",
+  "source_sha256": "f2f8299bbcff7e79c69948b900d5c9e97c3b9c71f8cc430f8ffac0e9a475f319",
+  "source_2": "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip",
+  "source_2_sha256": "154b8eacdb886e5b6463283c597076b3b0dde256cfaf74cb34c4ffc5cb326635",
+  "workflow_run_id": 39026975773,
+  "validation": "official ZIP integrity checked via zipfile.testzip; raw member SHA and transformed fixed-width identity recorded in workflow artifacts",
+  "member": "Var_Callejero_0725_0126/TRAM.D250701.A251231",
+  "target_universe": "43 CUSEC: 9 Aragon/CyL discordants and 34 Andalusia INE 2025/2026 added/retired codes",
+  "field_decode": "CPRO[0:2]+CMUN[2:5]+DIST[5:7]+SECC[7:10]; FVAR[61:69]; NSEC[69:73]; CVAR[73:74]; changed section DIST[74:76]+SECC[76:79]",
+  "change_records": [
+    {
+      "code": "M",
+      "date": "20250829",
+      "other": "1102804011",
+      "records": 715,
+      "source": "1102804001"
+    },
+    {
+      "code": "B",
+      "date": "20250829",
+      "other": null,
+      "records": 1,
+      "source": "1102804011"
+    },
+    {
+      "code": "M",
+      "date": "20251225",
+      "other": "1403801007",
+      "records": 353,
+      "source": "1403801004"
+    },
+    {
+      "code": "M",
+      "date": "20251030",
+      "other": "1802101016",
+      "records": 329,
+      "source": "1802101012"
+    },
+    {
+      "code": "M",
+      "date": "20251030",
+      "other": "1802101012",
+      "records": 17,
+      "source": "1802101016"
+    },
+    {
+      "code": "M",
+      "date": "20250711",
+      "other": "2103502005",
+      "records": 628,
+      "source": "2103502001"
+    },
+    {
+      "code": "M",
+      "date": "20250928",
+      "other": "2221301002",
+      "records": 364,
+      "source": "2221301003"
+    },
+    {
+      "code": "M",
+      "date": "20250728",
+      "other": "2408906020",
+      "records": 61,
+      "source": "2408906009"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001040",
+      "records": 5,
+      "source": "2907001010"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001040",
+      "records": 200,
+      "source": "2907001018"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001041",
+      "records": 255,
+      "source": "2907001024"
+    },
+    {
+      "code": "M",
+      "date": "20251001",
+      "other": "3412004002",
+      "records": 37,
+      "source": "3412004006"
+    },
+    {
+      "code": "M",
+      "date": "20251127",
+      "other": "4109110030",
+      "records": 252,
+      "source": "4109110009"
+    },
+    {
+      "code": "M",
+      "date": "20251001",
+      "other": "4217302016",
+      "records": 60,
+      "source": "4217302014"
+    },
+    {
+      "code": "M",
+      "date": "20251001",
+      "other": "4217302014",
+      "records": 5,
+      "source": "4217302016"
+    }
+  ],
+  "next_period_matched_change_groups": [],
+  "limitations": [
+    "Affected records count refers to street segments, NOT distinct section changes, electors or votes",
+    "A reported pair identifies a variation record; it is not automatically a one-to-one whole-section or vote mapping",
+    "Changes outside included 43 code universe may exist",
+    "No crosswalk or F10 admission PASS is asserted",
+    "Source electoral dates and official legal correspondence still require per-election consumer checks"
+  ],
+  "generation_authorized": false
+}

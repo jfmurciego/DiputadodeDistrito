@@ -125,7 +125,10 @@ def _topological_municipal_minimum(
     except OverflowError:
         return {"proven": False, "search_exhausted": True,
                 "assignments_examined": visits, "node_budget": node_budget}
-    return {"proven": True, "minimum_districts_given_other_assignments_fixed": current_count,
+    return {"proven": True,
+            "proof_scope": "OTHER_CUSEC_ASSIGNMENTS_FIXED",
+            "global_minimality_proven": False,
+            "minimum_districts_given_other_assignments_fixed": current_count,
             "assignments_examined": visits,
             "certificate": "NO_FEASIBLE_LOWER_COUNT_PRESERVING_CONNECTIVITY_AND_POPULATION_BOUNDS"}
 
@@ -764,13 +767,33 @@ def repair(
                     trial,new_path,units,adjacency,target,tolerance,floor,cap,district_floors,
                     municipality_policy,
                 ); created+=1
+                # The ranking places necessary municipal fragmentation
+                # before soft population objectives. Preserve that policy
+                # even when a split reduction leaves soft metrics unchanged.
                 primary_improves=(
                     (baseline_hard[0] > 0 and rank[:-1] < baseline_rank[:-1])
+                    or rank[:3] < baseline_rank[:3]
                     or _primary_improves(obj,baseline_obj)
                 )
                 if primary_improves:
-                    candidate=(rank,trial,new_path,obj)
-                    if best_primary is None or rank < best_primary[0]: best_primary=candidate
+                    if best_primary is None or rank < best_primary[0]:
+                        final_check = _verify_final_constraints(
+                            trial, units, adjacency,
+                            expected_districts=set(baseline.values()),
+                            floor=floor, cap=cap,
+                            district_floors=district_floors,
+                            municipality_policy=municipality_policy,
+                        )
+                        if final_check.get("valid"):
+                            best_primary=(rank,trial,new_path,obj)
+                        else:
+                            reason=final_check.get("reason", "FINAL_CONSTRAINTS")
+                            rejection_counts[reason]=rejection_counts.get(reason,0)+1
+                            if len(rejected)<100:
+                                rejected.append({"units":sorted(moved,key=str),
+                                                 "districts":[donor,receiver],
+                                                 "reason":reason,
+                                                 "final_verification":final_check})
                 elif obj < baseline_obj: secondary_only += 1
                 if len(new_path)<limits.max_depth:
                     serial+=1; heapq.heappush(heap,(rank,serial,trial,new_path))
@@ -798,9 +821,18 @@ def repair(
             focal_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,
             cohesion=focal_tm["cut_boundary_edges"],district_floors=district_floors
         )
-        if focal_obj < best_obj or focal_obj[1]==0:
+        focal_verification = _verify_final_constraints(
+            focal_state, units, adjacency,
+            expected_districts=set(baseline.values()),
+            floor=floor, cap=cap, district_floors=district_floors,
+            municipality_policy=municipality_policy,
+        )
+        if focal_verification.get("valid") and (focal_obj < best_obj or best_obj[1]==0):
             best_state=focal_state; best_path=best_path+focal_steps; best_obj=focal_obj
             status=RESULT_REPAIRED if best_obj[1]==0 else RESULT_IMPROVED; baseline_restored=False
+        elif not focal_verification.get("valid"):
+            reason=focal_verification.get("reason", "FINAL_CONSTRAINTS")
+            rejection_counts[reason]=rejection_counts.get(reason,0)+1
 
     focal_attempts=int(focal_meta.get("candidate_attempts",0))
     total_candidates=examined+focal_attempts

@@ -1,0 +1,115 @@
+{
+  "schema": "ddd.f10.and.official-2026-polling-sections/1.0",
+  "evidence_date": "2026-10-19",
+  "territory_id": "andalucia",
+  "authority": "Instituto Nacional de Estadística, Delegación Provincial de la Oficina del Censo Electoral de Huelva",
+  "publication": {
+    "name": "Boletín Oficial de la Provincia de Huelva",
+    "issue": "61/2026",
+    "publication_date": "2026-03-30",
+    "announcement_id": "350957",
+    "official_pdf_url": "https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf",
+    "pdf_edition": "published electronic bulletin",
+    "signature": "BOPxs26061jVldjgyeLoBlnuo=",
+    "verification_url": "https://verifirma.diphuelva.es",
+    "raw_pdf_sha256": "cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa",
+    "raw_pdf_preserved": true,
+    "raw_pdf_bytes": 335074,
+    "github_actions_run": 39240781750,
+    "github_artifact_id": 12180294919,
+    "github_artifact_name": "f10-ine-oce-huelva-cortegana-bop61-2026",
+    "github_artifact_sha256": "ba3c7ea44f6c800aeb8dd1189d42345adabc606e470e039bde2ddce7ac1fc0d4",
+    "artifact_retention_days": 90
+  },
+  "election": {
+    "date": "2026-05-17",
+    "name": "Elecciones al Parlamento de Andalucía",
+    "siel_election_key": 202605
+  },
+  "locale": {
+    "CPRO": "21",
+    "CUMUN": "21025",
+    "municipality": "Cortegana",
+    "district": "02",
+    "effective_electoral_sections": [
+      "001"
+    ],
+    "polling_tables": [
+      {
+        "district": "02",
+        "section": "001",
+        "subsection": "01",
+        "table": "A",
+        "venue": "BIBLIOTECA MUNICIPAL",
+        "address": "CALLE DOCTOR ROMERO RABANA 16"
+      },
+      {
+        "district": "02",
+        "section": "001",
+        "subsection": "02",
+        "table": "B",
+        "venue": "AYUNTAMIENTO SAN TELMO",
+        "address": "GRUPO PIRITA S/N"
+      },
+      {
+        "district": "02",
+        "section": "001",
+        "subsection": "03",
+        "table": "C",
+        "venue": "AYUNTAMIENTO VALDELAMUSA",
+        "address": "GRUPO ESCUELA S/N"
+      }
+    ],
+    "not_listed_as_independent_section": "2102502002",
+    "notes": "Source election district 02 section 001 is subdivided into three polling tables/subsections for different settlements. There is no separate district 02 section 002 listed within municipality 025."
+  },
+  "siel": {
+    "snapshot_run": 37150399030,
+    "artifact_id": 11283424306,
+    "source_status": "VERIFIED_OFFICIAL_FINAL",
+    "source_zip_sha256": "0d464c8b57e0239470b548a70abbd9d0d01c6d44a625a345c7ed00ef30fa77c1",
+    "sections_csv_sha256": "6ef7fd1efb04ea3623b401b6fd73c1ed3895005384306c75b5953a97ddafa70e",
+    "cera_csv_sha256": "1a8de1e3e43623f677f5142fc300d70692837b30ffc5aa65e57ece3f6e7e9e7c",
+    "observed_electoral_section": "2102502001",
+    "observed_votes_to_candidacies": 658,
+    "observed_party_rows": 15,
+    "observed_electoral_section_2102502002": false,
+    "electoral_sections_national_autonomous": 6044,
+    "electoral_universe_verified_against_bop": true,
+    "electoral_universe_6044_sections_verified_against_original_snapshot": true,
+    "geographic_candidate_votes_official": 4136317,
+    "cera_candidate_votes_official": 21222,
+    "total_candidate_votes_official": 4157539,
+    "siel_published_source_pinned": true,
+    "combined_source_verification": {
+      "github_run_id": 39241450837,
+      "conclusion": "SUCCESS",
+      "head_at_run": "9f86dac322b8aff14938147f2a1bf7b331027e2f",
+      "artifact_id": 12180963733,
+      "artifact_name": "f10-andalucia-cortegana-oce-siel-2026",
+      "artifact_sha256": "5bed8203493bb33ecc0635e7936647ab073e2aa06406e893d0e3756d1e9c4377",
+      "originals": "Reused existing byte-exact PDF and SIEL artifacts; no external redownload",
+      "retention_days": 90
+    }
+  },
+  "cartography": {
+    "ine_2025_2102502002": true,
+    "ine_2026_2102502002": true,
+    "source": "INE WFS Secciones_2025 and SU.VectorStatisticalUnit previously audited; not proof of electoral standalone section"
+  },
+  "dictamen": {
+    "effective_electoral_section_identity": "SOURCE_ACCREDITED_WITH_OFFICIAL_BOP",
+    "correction_of_6045_vs_6044": "EXPLAINED_BY_ELECTION_SPECIFIC_SECTIONING",
+    "mapping_votes_to_ine_2025": "BLOCKED_NO_AUTHORISED_CROSSWALK",
+    "f10_electoral": "BLOCKED_CROSSWALK_NOT_PROVEN",
+    "generation_authorized": false,
+    "bop_original_evidence": "SOURCE_ACCREDITED_SHA256_MATCH",
+    "cortegana_source_evidence": "SOURCE_ACCREDITED_INE_OCE_AND_SIEL",
+    "crosswalk_to_territorial_2025": "BLOCKED_CROSSWALK_NOT_PROVEN"
+  },
+  "limits": [
+    "Official BOP establishes the electoral polling section and tables, but it does not state a numerical split of the section's vote totals between territorial CUSEC 2102502001 and 2102502002.",
+    "SIEL totals to candidacies of section 2102502001 are 658; these are not votes of territorial 2102502002.",
+    "No district construction, source promotion, contract relaxation, geographic vote imputation or formally closed gate is authorized."
+  ]
+}

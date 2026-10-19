@@ -1,0 +1,114 @@
+{
+  "schema": "ddd.national-blockers/1.0",
+  "updated_head": "115947fb548682d784e2e8350aca4c3c5446c8f7",
+  "blockers": [
+    {
+      "id": "NAT-BLK-CPRO-COMPARISONS",
+      "class": "BLOCKED_DEPENDENCY",
+      "cause": "All 52 comparisons require the same validated receipt plus their own CPRO-specific spatial/code comparison. Their dependency is not the 52/52 aggregate.",
+      "tasks": [
+        "NAT-C-003",
+        "NAT-C-004",
+        "NAT-C-005",
+        "NAT-C-006",
+        "NAT-C-007",
+        "NAT-C-008",
+        "NAT-C-009",
+        "NAT-C-010",
+        "NAT-C-011",
+        "NAT-C-012",
+        "NAT-C-013",
+        "NAT-C-014",
+        "NAT-C-015",
+        "NAT-C-016",
+        "NAT-C-017",
+        "NAT-C-018",
+        "NAT-C-019",
+        "NAT-C-020",
+        "NAT-C-021",
+        "NAT-C-022",
+        "NAT-C-023",
+        "NAT-C-024",
+        "NAT-C-025",
+        "NAT-C-026",
+        "NAT-C-027",
+        "NAT-C-028",
+        "NAT-C-029",
+        "NAT-C-030",
+        "NAT-C-031",
+        "NAT-C-032",
+        "NAT-C-033",
+        "NAT-C-034",
+        "NAT-C-035",
+        "NAT-C-036",
+        "NAT-C-037",
+        "NAT-C-038",
+        "NAT-C-039",
+        "NAT-C-040",
+        "NAT-C-041",
+        "NAT-C-042",
+        "NAT-C-043",
+        "NAT-C-044",
+        "NAT-C-045",
+        "NAT-C-046",
+        "NAT-C-047",
+        "NAT-C-048",
+        "NAT-C-049",
+        "NAT-C-050",
+        "NAT-C-051",
+        "NAT-C-052",
+        "NAT-C-053",
+        "NAT-C-054"
+      ],
+      "unblocks_when": "NAT-C-056 receipt valid; provincial reports then run independently."
+    },
+    {
+      "id": "NAT-BLK-CPRO-ROLLUP",
+      "class": "BLOCKED_DEPENDENCY",
+      "cause": "National 52/52 accreditation is downstream of the 52 distinct provincial outputs.",
+      "tasks": [
+        "NAT-C-002"
+      ],
+      "unblocks_when": "All NAT-C-003…NAT-C-054 reports available and individually hash-verified."
+    },
+    {
+      "id": "NAT-BLK-PRODUCTION",
+      "class": "WAIT_OWNER",
+      "cause": "Generación territorial real requiere autorización específica del propietario.",
+      "tasks": [
+        "NAT-F-003"
+      ],
+      "unblocks_when": "Autorización expresa por ejecución; no se presume en esta campaña."
+    }
+  ],
+  "resolved_blockers": [
+    {
+      "id": "NAT-BLK-CNIG-RECEIPT",
+      "class": "WAIT_OWNER",
+      "cause": "No source bytes/receipt in the bounded local search; acquisition is not authorized. The 2026 candidate does not establish effective geometry at 2025-01-01.",
+      "tasks": [
+        "NAT-C-056"
+      ],
+      "unblocks_when": "Explicit acquisition authorization or owner-provided official package; receipt proves independent authority, SHA, license, schema/codes and effective date.",
+      "resolved_on": "2026-10-17",
+      "resolution": "Owner authorized acquisition; receipt NOT yet verified; task NAT-C-056 now READY"
+    },
+    {
+      "id": "NAT-BLK-PUBLICATION",
+      "class": "BLOCKED_ENVIRONMENT",
+      "cause": "Remote candidate branch exists at ab40ac19294487b571c9c557bb77a5005a05ac21; no PR exists. GitHub connector denied PR creation for approval under policy never and gh authentication is invalid.",
+      "tasks": [
+        "NAT-J-003"
+      ],
+      "unblocks_when": "Ruta GitHub autorizada de escritura para PR; sin eludir control.",
+      "resolved_on": "2026-10-17",
+      "resolution": "PR #268 opened; CI 38895708383 SUCCESS on then-current SHA; post-reconciliation CI/review still required"
+    }
+  ],
+  "acquisition_evidence_pending": {
+    "task": "NAT-C-056",
+    "authorization": "GRANTED_2026-10-15",
+    "receipt": "NOT_ACQUIRED_OR_NOT_VALIDATED",
+    "effective_date": "2025-01-01"
+  }
+}

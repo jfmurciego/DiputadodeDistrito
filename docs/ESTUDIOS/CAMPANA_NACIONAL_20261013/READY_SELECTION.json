@@ -1,0 +1,11 @@
+{
+  "campaign_id": "ddd-national-campaign-20261013",
+  "deferred": [],
+  "execution_started": false,
+  "generation_authorized": false,
+  "ready_task_ids": [
+    "NAT-C-056"
+  ],
+  "registry_sha256": "4f43b88beb325b55f6c705b17fb4b903a0d2863d5e570178ba8040649b442d3c",
+  "schema": "ddd.national-ready-proposal/1.0"
+}

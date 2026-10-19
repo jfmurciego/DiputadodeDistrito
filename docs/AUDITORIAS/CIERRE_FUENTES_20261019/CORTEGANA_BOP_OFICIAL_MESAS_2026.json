@@ -1,0 +1,126 @@
+{
+  "schema": "ddd.f10-andalucia-cortegana-ine-electoral-boletin/1.0",
+  "collected_at": "2026-10-19",
+  "source": {
+    "provider": "Oficina del Censo Electoral, Delegación Provincial del INE en Huelva",
+    "publisher": "Boletín Oficial de la Provincia de Huelva, Diputación Provincial",
+    "date": "2026-03-30",
+    "number": 61,
+    "announcement_id": 350957,
+    "direct_official_pdf_url": "https://s2.diphuelva.es/portalweb/bope/anuncios/Anuncio_350957_BOP-61_2026.pdf",
+    "title": "Relación de secciones, mesas y locales electorales clasificados por municipio, distrito, sección y mesa. Elecciones al Parlamento de Andalucía 17 mayo 2026",
+    "document_electronic_signature_date": "2026-03-30T00:02:32",
+    "verification_code": "BOPxs26061jVldjgyeLoBlnuo=",
+    "verification_site": "https://verifirma.diphuelva.es",
+    "pdf_page_numbers": [
+      "16",
+      "17"
+    ],
+    "observed_document_stage": "OFFICIAL_SIGNED_PDF_BYTE_EXACT_ARCHIVED_AND_CONTENT_VERIFIED",
+    "source_sha256_accredited": true,
+    "raw_pdf_sha256": "cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa",
+    "raw_pdf_bytes": 335074,
+    "acquisition": {
+      "workflow_id": 39235809732,
+      "conclusion": "SUCCESS",
+      "artifact_id": 12179246201,
+      "artifact_name": "f10-bop-huelva-2026-signed-original",
+      "artifact_sha256": "c296f797f1929a4f0129f493ff5ca8502c669f585957ba729ed9dba338080fab",
+      "expires_at": "2027-01-17T10:12:45Z",
+      "verified_by": "PyMuPDF 1.26.4 official PDF content extraction"
+    }
+  },
+  "election": {
+    "event_date": "2026-05-17",
+    "province": "21",
+    "municipality": "025",
+    "name": "Cortegana",
+    "siel_election_key": 202605
+  },
+  "official_precincts": [
+    {
+      "district": "01",
+      "section": "001",
+      "tables": [
+        "U"
+      ],
+      "local": "AYUNTAMIENTO, SALÓN DE PLENOS"
+    },
+    {
+      "district": "01",
+      "section": "002",
+      "tables": [
+        "A",
+        "B"
+      ],
+      "local": "CENTRO DE FORMACIÓN Y ESTUDIO MIGUEL LOBO MORICHE"
+    },
+    {
+      "district": "01",
+      "section": "003",
+      "tables": [
+        "A",
+        "B"
+      ],
+      "local": "TEATRO CAPITOL"
+    },
+    {
+      "district": "02",
+      "section": "001",
+      "tables": [
+        "A",
+        "B",
+        "C"
+      ],
+      "subsection_identifiers": [
+        "01",
+        "02",
+        "03"
+      ],
+      "locations": [
+        {
+          "subsection": "01",
+          "table": "A",
+          "place": "BIBLIOTECA MUNICIPAL, CORTEGANA"
+        },
+        {
+          "subsection": "02",
+          "table": "B",
+          "place": "AYUNTAMIENTO SAN TELMO, SAN TELMO"
+        },
+        {
+          "subsection": "03",
+          "table": "C",
+          "place": "AYUNTAMIENTO VALDELAMUSA, VALDELAMUSA"
+        }
+      ]
+    }
+  ],
+  "absent_precincts": [
+    {
+      "district": "02",
+      "section": "002",
+      "cusec": "2102502002"
+    }
+  ],
+  "election_source_confirmation": {
+    "siel_url": "https://ws040.juntadeandalucia.es/siel-api/v1/opciones/seccion?cautonoma=1&tconvocatoria=5&fconvocatoria=202605&provincia=21&municipio=25&distrito=2",
+    "siel_response": [
+      {
+        "clave": 1,
+        "valor": "0001"
+      }
+    ],
+    "territorial_ine_2025_has_2102502002": true,
+    "territorial_ine_2026_has_2102502002": true
+  },
+  "findings": [
+    "Independent contemporaneous official polling-section list explains the 1-section 6045-vs-6044 difference",
+    "District 02 section 001 uses three distinct polling tables/subsections, not an independent district 02 section 002",
+    "Official BOP does not document which 2025 territorial section covers electors of each table; no votes assigned to 2102502002"
+  ],
+  "source_accredited_scope": "2026_ELECTION_PRECINCT_EXISTENCE_AND_ABSENCE_ONLY",
+  "legal_voter_transfer_accredited": false,
+  "crosswalk_accredited": false,
+  "generation_authorized": false
+}
