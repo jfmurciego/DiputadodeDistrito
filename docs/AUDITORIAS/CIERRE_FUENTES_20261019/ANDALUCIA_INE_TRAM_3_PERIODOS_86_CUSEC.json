@@ -1,0 +1,1622 @@
+{
+  "schema": "ddd.f10.and.ine-tram-official-three-intervals/1.0",
+  "date": "2026-10-19",
+  "identity": "INE_OFFICIAL_ELECTORAL_STREET_SEGMENT_VARIATIONS_ANDALUCIA_2025_TO_2026",
+  "authority": "INE / Oficina del Censo Electoral",
+  "source_2025_01_to_2025_07": {
+    "url": "https://ine.es/prodyser/callejero/Var_Callejero_0125_0725.zip",
+    "sha256": "852db9bcd0c6355e85020a07d229d31d00c4eab9e0493f83a8671bca789e776f"
+  },
+  "source_2025_07_to_2026_01": {
+    "url": "https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip",
+    "sha256": "f2f8299bbcff7e79c69948b900d5c9e97c3b9c71f8cc430f8ffac0e9a475f319"
+  },
+  "source_2026_01_to_2026_07": {
+    "url": "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip",
+    "sha256": "154b8eacdb886e5b6463283c597076b3b0dde256cfaf74cb34c4ffc5cb326635"
+  },
+  "provenance": {
+    "github_workflow_run": 39245930295,
+    "workflow_conclusion": "SUCCESS",
+    "artifact_id": 12183536797,
+    "artifact_name": "f10-ine-tram-2025-2026-86-cusec-completo",
+    "type": "authentic-original-ZIP,CRC_and_SHA_verified+parsed_TRAM_evidence",
+    "script": "herramientas/inspeccionar_variaciones_callejero_f10.py",
+    "format_reference": "https://ine.es/prodyser/callejero/Variacionesencallejero.pdf",
+    "official_snapshot_siel_run": 37150399030
+  },
+  "summary": {
+    "new_section_count": 25,
+    "new_with_direct_admin_link": 25,
+    "new_with_direct_admin_link_candidate_votes": 15425,
+    "retired_2025_count": 9,
+    "retired_with_direct_admin_link": 9,
+    "same_code_geometric_changes": 41,
+    "same_code_with_tram_changes": 39,
+    "same_code_votes": 31792,
+    "cortegana_tram_change": 1,
+    "cortegana_2026_section_2001_votes": 658,
+    "groups_by_period": [
+      {
+        "period": "2025-01_to_2025-07",
+        "groups": 58
+      },
+      {
+        "period": "2025-07_to_2026-01",
+        "groups": 22
+      },
+      {
+        "period": "2026-01_to_2026-07",
+        "groups": 2
+      }
+    ],
+    "total_record_groups": 82
+  },
+  "official_change_groups": [
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1100602011",
+      "records": 13,
+      "source": "1100602005",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1100602011",
+      "records": 277,
+      "source": "1100602008",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1101203004",
+      "records": 81,
+      "source": "1101203005",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1101204004",
+      "records": 76,
+      "source": "1101204005",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1101207005",
+      "records": 49,
+      "source": "1101206005",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1101206005",
+      "records": 91,
+      "source": "1101206006",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1101209020",
+      "records": 14,
+      "source": "1101208018",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250530",
+      "other": "1101504015",
+      "records": 1,
+      "source": "1101504009",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250530",
+      "other": "1101504017",
+      "records": 96,
+      "source": "1101504009",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250306",
+      "other": null,
+      "records": 1,
+      "source": "1101504015",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250530",
+      "other": "1101504009",
+      "records": 109,
+      "source": "1101504015",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250530",
+      "other": "1101504017",
+      "records": 281,
+      "source": "1101504015",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250601",
+      "other": "1402110049",
+      "records": 120,
+      "source": "1402110047",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250601",
+      "other": "1402110049",
+      "records": 3,
+      "source": "1402110048",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250306",
+      "other": null,
+      "records": 1,
+      "source": "1814501001",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1814501010",
+      "records": 163,
+      "source": "1814501001",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250529",
+      "other": "1814501001",
+      "records": 1,
+      "source": "1814501010",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250306",
+      "other": null,
+      "records": 21,
+      "source": "2102502002",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250306",
+      "other": null,
+      "records": 1,
+      "source": "2301801001",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250429",
+      "other": "2301801001",
+      "records": 714,
+      "source": "2301801001",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250318",
+      "other": null,
+      "records": 1,
+      "source": "2301803001",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250429",
+      "other": "2301801001",
+      "records": 445,
+      "source": "2301803001",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2306301003",
+      "records": 367,
+      "source": "2306301004",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250128",
+      "other": "2408904017",
+      "records": 100,
+      "source": "2408904015",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250501",
+      "other": "2906702053",
+      "records": 372,
+      "source": "2906702027",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906702052",
+      "records": 200,
+      "source": "2906702041",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906702041",
+      "records": 1,
+      "source": "2906702048",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906702041",
+      "records": 3,
+      "source": "2906702052",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250201",
+      "other": "2906703002",
+      "records": 282,
+      "source": "2906703003",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250201",
+      "other": "2906704012",
+      "records": 126,
+      "source": "2906704013",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250201",
+      "other": "2906707021",
+      "records": 34,
+      "source": "2906707060",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906707098",
+      "records": 76,
+      "source": "2906707094",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250101",
+      "other": null,
+      "records": 7,
+      "source": "2906708010",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906708078",
+      "records": 384,
+      "source": "2906708010",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906708079",
+      "records": 73,
+      "source": "2906708035",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906708081",
+      "records": 117,
+      "source": "2906708043",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906708080",
+      "records": 52,
+      "source": "2906708054",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250301",
+      "other": "2906708077",
+      "records": 102,
+      "source": "2906708057",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250401",
+      "other": "2906707094",
+      "records": 4,
+      "source": "2906708070",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250301",
+      "other": "2906708057",
+      "records": 21,
+      "source": "2906708077",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250201",
+      "other": "2906709013",
+      "records": 52,
+      "source": "2906709057",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250501",
+      "other": "2906711014",
+      "records": 395,
+      "source": "2906711002",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250101",
+      "other": null,
+      "records": 17,
+      "source": "2906711003",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250501",
+      "other": "2906711015",
+      "records": 258,
+      "source": "2906711003",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250306",
+      "other": null,
+      "records": 1,
+      "source": "2907001018",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250317",
+      "other": "3702301002",
+      "records": 484,
+      "source": "3702301001",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250218",
+      "other": "3710701001",
+      "records": 210,
+      "source": "3710701002",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250311",
+      "other": "4103804022",
+      "records": 380,
+      "source": "4103804018",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250306",
+      "other": null,
+      "records": 3,
+      "source": "4103805026",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250319",
+      "other": null,
+      "records": 3,
+      "source": "4103805026",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250603",
+      "other": "4103805032",
+      "records": 8,
+      "source": "4103805026",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250410",
+      "other": "4104701008",
+      "records": 10,
+      "source": "4104701002",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250306",
+      "other": null,
+      "records": 11,
+      "source": "4108102012",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250318",
+      "other": null,
+      "records": 11,
+      "source": "4108102012",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250311",
+      "other": "4108102019",
+      "records": 482,
+      "source": "4108102012",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "B",
+      "date": "20250318",
+      "other": null,
+      "records": 18,
+      "source": "4108102019",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250311",
+      "other": "4701001012",
+      "records": 69,
+      "source": "4701001010",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250311",
+      "other": "4701001010",
+      "records": 3,
+      "source": "4701001012",
+      "period": "2025-01_to_2025-07"
+    },
+    {
+      "code": "M",
+      "date": "20250829",
+      "other": "1102804011",
+      "records": 715,
+      "source": "1102804001",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "B",
+      "date": "20250829",
+      "other": null,
+      "records": 1,
+      "source": "1102804011",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251125",
+      "other": "1402106055",
+      "records": 54,
+      "source": "1402106054",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251125",
+      "other": "1402106054",
+      "records": 18,
+      "source": "1402106055",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251225",
+      "other": "1403801007",
+      "records": 353,
+      "source": "1403801004",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251030",
+      "other": "1802101016",
+      "records": 329,
+      "source": "1802101012",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251030",
+      "other": "1802101012",
+      "records": 17,
+      "source": "1802101016",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20250711",
+      "other": "2103502005",
+      "records": 628,
+      "source": "2103502001",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20250928",
+      "other": "2221301002",
+      "records": 364,
+      "source": "2221301003",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20250728",
+      "other": "2408906020",
+      "records": 61,
+      "source": "2408906009",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001040",
+      "records": 5,
+      "source": "2907001010",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001003",
+      "records": 19,
+      "source": "2907001018",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001040",
+      "records": 200,
+      "source": "2907001018",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251001",
+      "other": "2907001015",
+      "records": 2,
+      "source": "2907001024",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001015",
+      "records": 15,
+      "source": "2907001024",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251022",
+      "other": "2907001041",
+      "records": 255,
+      "source": "2907001024",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251001",
+      "other": "3412004002",
+      "records": 37,
+      "source": "3412004006",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "B",
+      "date": "20251106",
+      "other": null,
+      "records": 3,
+      "source": "4109110009",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251127",
+      "other": "4109110030",
+      "records": 252,
+      "source": "4109110009",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251127",
+      "other": "4109110009",
+      "records": 5,
+      "source": "4109110026",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251001",
+      "other": "4217302016",
+      "records": 60,
+      "source": "4217302014",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "M",
+      "date": "20251001",
+      "other": "4217302014",
+      "records": 5,
+      "source": "4217302016",
+      "period": "2025-07_to_2026-01"
+    },
+    {
+      "code": "B",
+      "date": "20260204",
+      "other": null,
+      "records": 3,
+      "source": "2102502001",
+      "period": "2026-01_to_2026-07"
+    },
+    {
+      "code": "M",
+      "date": "20260129",
+      "other": "2102502001",
+      "records": 15,
+      "source": "2102502002",
+      "period": "2026-01_to_2026-07"
+    }
+  ],
+  "new_2026_sections": [
+    {
+      "electoral_2026": "1100602011",
+      "geographic_2025_candidate": "1100602008",
+      "candidate_votes_2026": 593,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250529",
+          "other": "1100602011",
+          "records": 277,
+          "source": "1100602008",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "1101504017",
+      "geographic_2025_candidate": "1101504015",
+      "candidate_votes_2026": 505,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250530",
+          "other": "1101504017",
+          "records": 281,
+          "source": "1101504015",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "1102804011",
+      "geographic_2025_candidate": "1102804001",
+      "candidate_votes_2026": 516,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250829",
+          "other": "1102804011",
+          "records": 715,
+          "source": "1102804001",
+          "period": "2025-07_to_2026-01"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "1402110049",
+      "geographic_2025_candidate": "1402110047",
+      "candidate_votes_2026": 1000,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250601",
+          "other": "1402110049",
+          "records": 120,
+          "source": "1402110047",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "1403801007",
+      "geographic_2025_candidate": "1403801004",
+      "candidate_votes_2026": 687,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20251225",
+          "other": "1403801007",
+          "records": 353,
+          "source": "1403801004",
+          "period": "2025-07_to_2026-01"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "1802101016",
+      "geographic_2025_candidate": "1802101012",
+      "candidate_votes_2026": 616,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20251030",
+          "other": "1802101016",
+          "records": 329,
+          "source": "1802101012",
+          "period": "2025-07_to_2026-01"
+        },
+        {
+          "code": "M",
+          "date": "20251030",
+          "other": "1802101012",
+          "records": 17,
+          "source": "1802101016",
+          "period": "2025-07_to_2026-01"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "1814501010",
+      "geographic_2025_candidate": "1814501001",
+      "candidate_votes_2026": 517,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250529",
+          "other": "1814501010",
+          "records": 163,
+          "source": "1814501001",
+          "period": "2025-01_to_2025-07"
+        },
+        {
+          "code": "M",
+          "date": "20250529",
+          "other": "1814501001",
+          "records": 1,
+          "source": "1814501010",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2103502005",
+      "geographic_2025_candidate": "2103502001",
+      "candidate_votes_2026": 446,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250711",
+          "other": "2103502005",
+          "records": 628,
+          "source": "2103502001",
+          "period": "2025-07_to_2026-01"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906702052",
+      "geographic_2025_candidate": "2906702041",
+      "candidate_votes_2026": 640,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2906702052",
+          "records": 200,
+          "source": "2906702041",
+          "period": "2025-01_to_2025-07"
+        },
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2906702041",
+          "records": 3,
+          "source": "2906702052",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906702053",
+      "geographic_2025_candidate": "2906702027",
+      "candidate_votes_2026": 732,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250501",
+          "other": "2906702053",
+          "records": 372,
+          "source": "2906702027",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906707098",
+      "geographic_2025_candidate": "2906707094",
+      "candidate_votes_2026": 665,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2906707098",
+          "records": 76,
+          "source": "2906707094",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906708077",
+      "geographic_2025_candidate": "2906708057",
+      "candidate_votes_2026": 664,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250301",
+          "other": "2906708077",
+          "records": 102,
+          "source": "2906708057",
+          "period": "2025-01_to_2025-07"
+        },
+        {
+          "code": "M",
+          "date": "20250301",
+          "other": "2906708057",
+          "records": 21,
+          "source": "2906708077",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906708078",
+      "geographic_2025_candidate": "2906708010",
+      "candidate_votes_2026": 640,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2906708078",
+          "records": 384,
+          "source": "2906708010",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906708079",
+      "geographic_2025_candidate": "2906708035",
+      "candidate_votes_2026": 638,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2906708079",
+          "records": 73,
+          "source": "2906708035",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906708080",
+      "geographic_2025_candidate": "2906708054",
+      "candidate_votes_2026": 411,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2906708080",
+          "records": 52,
+          "source": "2906708054",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906708081",
+      "geographic_2025_candidate": "2906708043",
+      "candidate_votes_2026": 677,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2906708081",
+          "records": 117,
+          "source": "2906708043",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906711014",
+      "geographic_2025_candidate": "2906711002",
+      "candidate_votes_2026": 561,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250501",
+          "other": "2906711014",
+          "records": 395,
+          "source": "2906711002",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2906711015",
+      "geographic_2025_candidate": "2906711003",
+      "candidate_votes_2026": 434,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250501",
+          "other": "2906711015",
+          "records": 258,
+          "source": "2906711003",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2907001040",
+      "geographic_2025_candidate": "2907001018",
+      "candidate_votes_2026": 403,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20251022",
+          "other": "2907001040",
+          "records": 200,
+          "source": "2907001018",
+          "period": "2025-07_to_2026-01"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "2907001041",
+      "geographic_2025_candidate": "2907001024",
+      "candidate_votes_2026": 624,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20251022",
+          "other": "2907001041",
+          "records": 255,
+          "source": "2907001024",
+          "period": "2025-07_to_2026-01"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "4103804022",
+      "geographic_2025_candidate": "4103804018",
+      "candidate_votes_2026": 829,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250311",
+          "other": "4103804022",
+          "records": 380,
+          "source": "4103804018",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "4103805032",
+      "geographic_2025_candidate": "4103805026",
+      "candidate_votes_2026": 996,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250603",
+          "other": "4103805032",
+          "records": 8,
+          "source": "4103805026",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "4104701008",
+      "geographic_2025_candidate": "4104701002",
+      "candidate_votes_2026": 181,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250410",
+          "other": "4104701008",
+          "records": 10,
+          "source": "4104701002",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "4108102019",
+      "geographic_2025_candidate": "4108102012",
+      "candidate_votes_2026": 398,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250311",
+          "other": "4108102019",
+          "records": 482,
+          "source": "4108102012",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    },
+    {
+      "electoral_2026": "4109110030",
+      "geographic_2025_candidate": "4109110009",
+      "candidate_votes_2026": 1052,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20251127",
+          "other": "4109110030",
+          "records": 252,
+          "source": "4109110009",
+          "period": "2025-07_to_2026-01"
+        }
+      ],
+      "crosswalk_votes_accredited": false
+    }
+  ],
+  "retired_2025_sections": [
+    {
+      "territorial_2025_retired": "1101203005",
+      "electoral_2026_candidate": "1101203004",
+      "successor_votes_2026": 939,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250529",
+          "other": "1101203004",
+          "records": 81,
+          "source": "1101203005",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "1101204005",
+      "electoral_2026_candidate": "1101204004",
+      "successor_votes_2026": 886,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250529",
+          "other": "1101204004",
+          "records": 76,
+          "source": "1101204005",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "1101206006",
+      "electoral_2026_candidate": "1101206005",
+      "successor_votes_2026": 484,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250529",
+          "other": "1101206005",
+          "records": 91,
+          "source": "1101206006",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "2301803001",
+      "electoral_2026_candidate": "2301801001",
+      "successor_votes_2026": 896,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250429",
+          "other": "2301801001",
+          "records": 445,
+          "source": "2301803001",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "2306301004",
+      "electoral_2026_candidate": "2306301003",
+      "successor_votes_2026": 862,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250401",
+          "other": "2306301003",
+          "records": 367,
+          "source": "2306301004",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "2906703003",
+      "electoral_2026_candidate": "2906703002",
+      "successor_votes_2026": 804,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250201",
+          "other": "2906703002",
+          "records": 282,
+          "source": "2906703003",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "2906704013",
+      "electoral_2026_candidate": "2906704012",
+      "successor_votes_2026": 947,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250201",
+          "other": "2906704012",
+          "records": 126,
+          "source": "2906704013",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "2906707060",
+      "electoral_2026_candidate": "2906707021",
+      "successor_votes_2026": 321,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250201",
+          "other": "2906707021",
+          "records": 34,
+          "source": "2906707060",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    },
+    {
+      "territorial_2025_retired": "2906709057",
+      "electoral_2026_candidate": "2906709013",
+      "successor_votes_2026": 762,
+      "official_tram_section_change_records": [
+        {
+          "code": "M",
+          "date": "20250201",
+          "other": "2906709013",
+          "records": 52,
+          "source": "2906709057",
+          "period": "2025-01_to_2025-07"
+        }
+      ],
+      "successor_votes_separately_additive": false
+    }
+  ],
+  "persistent_same_code_changes": [
+    {
+      "same_code_2025_2026": "1100602008",
+      "votes_2026": 561,
+      "source_geometry_difference_m2": 1100370.1786,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1101203004",
+      "votes_2026": 939,
+      "source_geometry_difference_m2": 21651.2188,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1101204004",
+      "votes_2026": 886,
+      "source_geometry_difference_m2": 54282.3761,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1101206005",
+      "votes_2026": 484,
+      "source_geometry_difference_m2": 383733.0479,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1101208018",
+      "votes_2026": 398,
+      "source_geometry_difference_m2": 22490.2754,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1101209020",
+      "votes_2026": 354,
+      "source_geometry_difference_m2": 22490.2776,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1101504015",
+      "votes_2026": 637,
+      "source_geometry_difference_m2": 205082.5097,
+      "official_changed_tram_groups": 3,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1102804001",
+      "votes_2026": 616,
+      "source_geometry_difference_m2": 59752269.5139,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1402106054",
+      "votes_2026": 1280,
+      "source_geometry_difference_m2": 292206.5591,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1402106055",
+      "votes_2026": 1110,
+      "source_geometry_difference_m2": 292206.5623,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1402110047",
+      "votes_2026": 663,
+      "source_geometry_difference_m2": 100758.3309,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1403801004",
+      "votes_2026": 631,
+      "source_geometry_difference_m2": 88538.0629,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1802101012",
+      "votes_2026": 867,
+      "source_geometry_difference_m2": 448770.649,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "1814501001",
+      "votes_2026": 901,
+      "source_geometry_difference_m2": 122577.8739,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2103502001",
+      "votes_2026": 768,
+      "source_geometry_difference_m2": 74444894.5806,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2301801001",
+      "votes_2026": 896,
+      "source_geometry_difference_m2": 2255196.3042,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2306301003",
+      "votes_2026": 862,
+      "source_geometry_difference_m2": 158834.4094,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906702027",
+      "votes_2026": 596,
+      "source_geometry_difference_m2": 600080.2158,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906702041",
+      "votes_2026": 1034,
+      "source_geometry_difference_m2": 2493650.6536,
+      "official_changed_tram_groups": 3,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906703002",
+      "votes_2026": 804,
+      "source_geometry_difference_m2": 75536.3835,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906704012",
+      "votes_2026": 947,
+      "source_geometry_difference_m2": 31061.9791,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906707021",
+      "votes_2026": 321,
+      "source_geometry_difference_m2": 81276.2984,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906707094",
+      "votes_2026": 569,
+      "source_geometry_difference_m2": 150565.1591,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906708010",
+      "votes_2026": 572,
+      "source_geometry_difference_m2": 117626.0429,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906708035",
+      "votes_2026": 729,
+      "source_geometry_difference_m2": 60644.6118,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906708043",
+      "votes_2026": 671,
+      "source_geometry_difference_m2": 114867.7152,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906708054",
+      "votes_2026": 822,
+      "source_geometry_difference_m2": 72252.2609,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906708057",
+      "votes_2026": 869,
+      "source_geometry_difference_m2": 63410.2419,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906709013",
+      "votes_2026": 762,
+      "source_geometry_difference_m2": 19393.2716,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906711002",
+      "votes_2026": 630,
+      "source_geometry_difference_m2": 91976.0558,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2906711003",
+      "votes_2026": 835,
+      "source_geometry_difference_m2": 297319.4483,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2907001018",
+      "votes_2026": 657,
+      "source_geometry_difference_m2": 303540.9855,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "2907001024",
+      "votes_2026": 570,
+      "source_geometry_difference_m2": 48756.8447,
+      "official_changed_tram_groups": 3,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4103804018",
+      "votes_2026": 691,
+      "source_geometry_difference_m2": 85954.5435,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4103805026",
+      "votes_2026": 486,
+      "source_geometry_difference_m2": 1133585.7736,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4104701002",
+      "votes_2026": 1306,
+      "source_geometry_difference_m2": 47225.9273,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4108102012",
+      "votes_2026": 669,
+      "source_geometry_difference_m2": 40698561.1687,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4109110009",
+      "votes_2026": 1052,
+      "source_geometry_difference_m2": 6301973.6058,
+      "official_changed_tram_groups": 2,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4109110025",
+      "votes_2026": 1424,
+      "source_geometry_difference_m2": 3111.9561,
+      "official_changed_tram_groups": 0,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4109110026",
+      "votes_2026": 1034,
+      "source_geometry_difference_m2": 3544.7902,
+      "official_changed_tram_groups": 1,
+      "allocation_accredited": false
+    },
+    {
+      "same_code_2025_2026": "4109110027",
+      "votes_2026": 889,
+      "source_geometry_difference_m2": 6978.902,
+      "official_changed_tram_groups": 0,
+      "allocation_accredited": false
+    }
+  ],
+  "cortegana": {
+    "ine_section_2025_and_2026": "2102502002",
+    "electoral_section_2026": "2102502001",
+    "official_segment_events": [
+      {
+        "code": "B",
+        "date": "20250306",
+        "other": null,
+        "records": 21,
+        "source": "2102502002",
+        "period": "2025-01_to_2025-07"
+      },
+      {
+        "code": "B",
+        "date": "20260204",
+        "other": null,
+        "records": 3,
+        "source": "2102502001",
+        "period": "2026-01_to_2026-07"
+      },
+      {
+        "code": "M",
+        "date": "20260129",
+        "other": "2102502001",
+        "records": 15,
+        "source": "2102502002",
+        "period": "2026-01_to_2026-07"
+      }
+    ],
+    "huelva_OCE_BOP_sha256": "cdd97765f72121a31774d7c0c37f572399ba3c3dca767b44e42bdc4493497dfa",
+    "interpretation": "The INE registered a change of 15 street-segment records from 2102502002 to 2102502001 on 2026-01-29; 2026 election had district 02 precinct 001 and polling tables A/B/C; number of voters/votes per street segment is NOT provided."
+  },
+  "conclusions": {
+    "administrative_change_between_section_identifiers": "SOURCE_ACCREDITED_FOR_TRAM_SEGMENTS",
+    "votes_allocated_to_2025_geometry": 0,
+    "official_2025_2026_electoral_vote_crosswalk": "BLOCKED_PENDING_OFFICIAL_COMPLETE_POLLING_SECTION_CORRESPONDENCE",
+    "territorial_reference_2025_change_authorized": false,
+    "generation_authorized": false,
+    "not_equivalent_to": "A TRAM record linking street segments is not authority to assign a complete 2026 electoral section vote total to a 2025 polygon. One source may contribute to multiple destinations."
+  }
+}
