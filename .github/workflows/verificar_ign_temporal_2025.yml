@@ -6,14 +6,13 @@ on:
       - 'herramientas/verificar_cambio_historico_ign.py'
       - 'tests/test_verificar_cambio_historico_ign.py'
       - '.github/workflows/verificar_ign_temporal_2025.yml'
-  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   historico-ign:
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number == 270
+    if: github.event.pull_request.number == 270
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
