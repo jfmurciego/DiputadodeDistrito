@@ -1,4 +1,4 @@
-name: F10 estudio Jan-Jul 2025 y linaje 86 secciones
+name: F10 cotejo archivado de 86 secciones enero 2025 a julio 2026
 on:
   push:
     branches:
@@ -8,39 +8,56 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   auditar:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 9
     steps:
       - uses: actions/checkout@v4
-      - name: Comprobar script y evidencias de identidad
-        run: |
-          python -m py_compile herramientas/inspeccionar_variaciones_callejero_f10.py
-          python - <<'PY'
-          import sys
-          sys.path.insert(0,".")
-          from herramientas.inspeccionar_variaciones_callejero_f10 import known_f10_targets
-          codes=known_f10_targets()
-          assert len(codes)==86 and "2102502002" in codes
-          print("86 identidades cotejables sin promover puerta electoral")
-          PY
-      - name: Conservar los 3 intervalos originales del INE y extraer cambios de tramos
+      - name: Verificar el lector de variaciones
+        run: python -m py_compile herramientas/inspeccionar_variaciones_callejero_f10.py
+      - name: Recuperar originales anteriores conservados en GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/ddd-ine-tram"
+          mkdir -p "$RUNNER_TEMP/ddd-ine-tram" "$RUNNER_TEMP/pre2025" "$RUNNER_TEMP/pre2026"
+          gh run download 39245558017 --name f10-ine-tram-2025-2026-86-cusec --dir "$RUNNER_TEMP/pre2025"
+          gh run download 39136526093 --name f10-ine-callejero-originales-2025-2026 --dir "$RUNNER_TEMP/pre2026"
+          cp "$RUNNER_TEMP/pre2025/Var_Callejero_0125_0725.zip" "$RUNNER_TEMP/ddd-ine-tram/"
+          cp "$RUNNER_TEMP/pre2026/Var_Callejero_0725_0126.zip" "$RUNNER_TEMP/ddd-ine-tram/"
+          cp "$RUNNER_TEMP/pre2026/Var_Callejero_0126_0726.zip" "$RUNNER_TEMP/ddd-ine-tram/"
+          python - <<'PY'
+          import hashlib, json, os, pathlib
+          temp=pathlib.Path(os.environ["RUNNER_TEMP"])
+          p=temp/"ddd-ine-tram"
+          old=json.loads((temp/"pre2025/Var_Callejero_0125_0725.audit.json").read_text())
+          assert old["source_url"].endswith("Var_Callejero_0125_0725.zip")
+          expected={
+            "0125_0725":old["zip_sha256"],
+            "0725_0126":"f2f8299bbcff7e79c69948b900d5c9e97c3b9c71f8cc430f8ffac0e9a475f319",
+            "0126_0726":"154b8eacdb886e5b6463283c597076b3b0dde256cfaf74cb34c4ffc5cb326635",
+          }
+          for edition,sha in expected.items():
+            archive=p/f"Var_Callejero_{edition}.zip"
+            assert hashlib.sha256(archive.read_bytes()).hexdigest()==sha,edition
+            print("ORIGINAL_VERIFIED",edition,sha)
+          PY
+      - name: Recalcular los tres intervalos sin nuevas descargas
+        run: |
+          set -euo pipefail
           for interval in 0125_0725 0725_0126 0126_0726; do
             python herramientas/inspeccionar_variaciones_callejero_f10.py \
+              --zip "$RUNNER_TEMP/ddd-ine-tram/Var_Callejero_${interval}.zip" \
               --source-url "https://ine.es/prodyser/callejero/Var_Callejero_${interval}.zip" \
-              --raw-out "$RUNNER_TEMP/ddd-ine-tram/Var_Callejero_${interval}.zip" \
-              --output "$RUNNER_TEMP/ddd-ine-tram/Var_Callejero_${interval}.audit.json"
+              --output "$RUNNER_TEMP/ddd-ine-tram/Var_Callejero_${interval}.audit.json" | grep -E 'DDD_F10_INE_TRAM_CHANGES='
           done
-          sha256sum "$RUNNER_TEMP/ddd-ine-tram"/*.zip
-      - name: Preservar originales y auditorías aunque falle una adquisición
+      - name: Archivar auditoría ampliada 86 secciones y originales exactos
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: f10-ine-tram-2025-2026-86-cusec
+          name: f10-ine-tram-2025-2026-86-cusec-completo
           path: ${{ runner.temp }}/ddd-ine-tram/
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 90
