@@ -1,0 +1,49 @@
+name: F10 Andalucia riesgo electoral interanual
+on:
+  push:
+    branches: [chatgpt/fuentes-wfs-20261017]
+    paths: [.github/workflows/f10-andalucia-riesgo-votos-20261019.yml]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  auditar-votos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar código y preparar geometría
+        run: |
+          python -m pip install --quiet shapely==2.1.2
+          python -m py_compile herramientas/cuantificar_riesgo_interanual_siel_andalucia.py
+      - name: Recuperar snapshot SIEL 2026 original de GitHub Actions
+        run: |
+          mkdir -p "$RUNNER_TEMP/siel"
+          gh run download 37150399030 \
+            --name ddd-electoral-official-snapshot-andalucia-37150399030 \
+            --dir "$RUNNER_TEMP/siel"
+          python - <<'PY'
+          import os,zipfile
+          from pathlib import Path
+          d=Path(os.environ["RUNNER_TEMP"])/"siel"
+          print("SIEL_FILES="+str(sorted(p.name for p in d.glob("*"))))
+          expected={"andalucia_2026_siel_secciones.csv","andalucia_2026_siel_cera_provincias.csv","manifest.json"}
+          assert {p.name for p in d.glob("*") if p.is_file()}==expected
+          with zipfile.ZipFile(d.parent/"SIEL_official_snapshot.zip","w",compression=zipfile.ZIP_DEFLATED) as z:
+              for name in sorted(expected):z.write(d/name,arcname=name)
+          PY
+      - name: Calcular 2025 2026 identidad y cuantía de votos en riesgo
+        run: |
+          python herramientas/cuantificar_riesgo_interanual_siel_andalucia.py \
+            --siel-zip "$RUNNER_TEMP/SIEL_official_snapshot.zip" \
+            --out "$RUNNER_TEMP/resultado"
+      - name: Guardar matriz íntegra
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: f10-andalucia-riesgos-votos-2025-2026
+          path: ${{ runner.temp }}/resultado/
+          retention-days: 90
+          if-no-files-found: warn
