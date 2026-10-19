@@ -374,6 +374,8 @@ def main()->None:
         lines.append(f"| {row.get('slot','')} | {row.get('territory_name',row.get('territory_id',''))} | {row.get('status','')} |")
     a.output_md.write_text("\n".join(lines)+"\n",encoding="utf-8")
     print(json.dumps(summary,ensure_ascii=False))
-    # El estado de negocio no es un error de integridad del artefacto.\n    # Las violaciones de identidad/manifiesto siguen siendo no promocionables.\n    raise SystemExit(0 if summary["integrity_status"]=="VALID" else 2)
+    # El resultado territorial no altera la integridad del resumen.
+    # Las identidades incompatibles siguen bloqueadas.
+    raise SystemExit(0 if summary["integrity_status"] == "VALID" else 2)
 
 if __name__=="__main__": main()
