@@ -1,0 +1,10 @@
+{
+  "schema": "ddd.pre-m04-handoff/1.0",
+  "territory_id": "cataluna",
+  "edition": "2025",
+  "run_id": 37453376100,
+  "source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+  "evidence_sha256": "50b9542615b8c5d9480caf1ec2604120c8488506f654fda8b4c661946ec01f9d",
+  "persisted_evidence": "/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/ddd-cat-pre-m04-durable-qhkmglff/candidate.json",
+  "handoff": "/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/ddd-cat-pre-m04-durable-qhkmglff/handoff.json"
+}

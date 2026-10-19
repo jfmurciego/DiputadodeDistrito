@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.pre-m04-persistence/1.0",
+  "status": "INCOMPATIBLE_CURRENT_STATE",
+  "territory_id": "cataluna",
+  "edition": "2025",
+  "run_id": 37453376100,
+  "source_commit": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+  "candidate_fingerprint": "e18db27ab9be6f8bc2461fcafdaff361a92abee07c516f5341fcda2cc7b922a0",
+  "head_sha": "dd8686c09c2a6810c8b3857610f95a9133ff01c0",
+  "attempt": 1,
+  "reason": "PRE_M04_CURRENT_STATE_REJECTED: GENERATION_EVALUATION_SOURCE_MISMATCH"
+}

@@ -283,6 +283,26 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
                 "route": "validated_pre_m04_topology",
             })
 
+    def test_public_gate_rejects_boolean_zero_municipal_counter(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            _, evidence = self.build(root, partitioned=False)
+            self.assertEqual(evidence["graph"]["municipality_disconnected"], 0)
+            evidence["graph"]["municipality_disconnected"] = False
+            result = self.gate(root, evidence)
+            self.assertFalse(result["allowed"])
+
+    def test_zero_disconnections_accepts_legacy_omitted_subcounters(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            _, evidence = self.build(root, partitioned=False)
+            evidence["graph"].pop("municipality_admitted_disconnected")
+            evidence["graph"].pop("municipality_unresolved")
+            self.assertEqual(self.gate(root, evidence), {
+                "allowed": True,
+                "route": "validated_pre_m04_topology",
+            })
+
     def test_pre_m04_evaluation_run_can_reuse_older_prepared_source(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -1277,6 +1297,107 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         self.assertNotIn("continue-on-error", jobs["generation_pending"])
         self.assertIn("!inputs.preflight_only", reusable["jobs"]["m04"]["if"])
         self.assertIn("inputs.preflight_only", reusable["jobs"]["pre_m04_evidence"]["if"])
+
+
+class AccreditedMunicipalDiscontinuityGateTests(unittest.TestCase):
+    DECLARATION = {
+        "admin_scope": "municipality:01001",
+        "components": [["a", "b"], ["c", "d"]],
+    }
+
+    def _build(self, root: Path, *, stale=False, unresolved=0, accepted=True):
+        contract_path, m03, job = write_fixture(root, partitioned=False)
+        contract_file = root / contract_path
+        cfg = yaml.safe_load(contract_file.read_text(encoding="utf-8"))
+        cfg["validation"]["topology_accreditation"] = {
+            "schema": "ddd.topology-accreditation.v1",
+            "source_binding": {
+                "edition": "2025", "section_year": 2025,
+                "package_sha256": ("0" * 64) if stale else SHA_B,
+                "compatibility_identity_sha256": SHA_C,
+            },
+            "administrative_components": [self.DECLARATION],
+        }
+        contract_file.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
+        report_file = m03 / "report.json"
+        report = json.loads(report_file.read_text(encoding="utf-8"))
+        report["municipality_component_audit"] = {
+            "disconnected": 1, "admitted_disconnected": 0 if not accepted else 1,
+            "unresolved": unresolved,
+        }
+        report["topology_accreditation"] = {
+            "present": True, "valid": True,
+            "administrative_components": {
+                "accepted": [self.DECLARATION] if accepted else [], "rejected": [],
+            },
+        }
+        report_file.write_text(json.dumps(report), encoding="utf-8")
+        with patch("herramientas.materializar_evidencia_pre_m04._git_head", return_value=COMMIT):
+            return build_evidence(
+                root_dir=root, territory_id="demo", edition="2025", run_id=123,
+                contract_path=str(contract_path), m03_state_dir=m03, partition_job=job,
+                m03_artifact_sha256=SHA_C, m03u_artifact_sha256=SHA_D,
+                partition_artifact_sha256=SHA_A,
+            )
+
+    def test_source_bound_exact_admitted_municipal_components_pass(self):
+        with tempfile.TemporaryDirectory() as td:
+            evidence = self._build(Path(td))
+            self.assertEqual(evidence["graph"]["municipality_unresolved"], 0)
+            self.assertEqual(evidence["graph"]["municipality_admitted_disconnected"], 1)
+            self.assertEqual(evidence["effective_gate"]["route"], "validated_pre_m04_topology")
+
+    def test_unresolved_or_stale_or_unmatched_municipal_discontinuity_blocks(self):
+        for kwargs in ({"unresolved": 1}, {"stale": True}, {"accepted": False}):
+            with self.subTest(kwargs=kwargs), tempfile.TemporaryDirectory() as td:
+                with self.assertRaisesRegex(ValueError, "CAP_PRE_M04_EVIDENCE"):
+                    self._build(Path(td), **kwargs)
+
+    def test_catalonia_tremp_accreditation_is_source_bound_and_llivia_bridge_stays_separate(self):
+        from herramientas._resolver_ejecucion_completa_core import _accredited_municipal_disconnections_match
+
+        contract_path = ROOT / "territorios/cataluna/config/cataluna_2025.yaml"
+        cfg = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+        declarations = cfg["validation"]["topology_accreditation"]["administrative_components"]
+        self.assertEqual(["municipality:25234"], [row["admin_scope"] for row in declarations])
+        evidence = {
+            "edition": str(cfg["meta"]["year"]),
+            "source": {
+                "section_year": cfg["validation"]["source_baseline"]["section_year"],
+                "package_sha256": cfg["validation"]["source_baseline"]["package_sha256"],
+                "compatibility_identity_sha256": cfg["validation"]["source_baseline"]["compatibility_identity_sha256"],
+            },
+        }
+        graph = {
+            "municipality_disconnected": 1,
+            "municipality_admitted_disconnected": 1,
+            "municipality_unresolved": 0,
+            "topology_accreditation": {
+                "valid": True,
+                "administrative_components": {"accepted": declarations, "rejected": []},
+            },
+        }
+        self.assertTrue(_accredited_municipal_disconnections_match(cfg, evidence, graph))
+
+        # bool es subclase de int en Python: estos contadores JSON malformados
+        # no deben poder satisfacer las cifras esperadas 1 y 0.
+        for field, malformed in (("municipality_admitted_disconnected", True),
+                                 ("municipality_unresolved", False)):
+            with self.subTest(counter=field):
+                malformed_graph = json.loads(json.dumps(graph))
+                malformed_graph[field] = malformed
+                self.assertFalse(
+                    _accredited_municipal_disconnections_match(cfg, evidence, malformed_graph)
+                )
+
+        graph["topology_accreditation"]["administrative_components"]["accepted"] = [
+            {"admin_scope": "municipality:25234", "components": [["2523401001"], ["2523403001"]]}
+        ]
+        self.assertFalse(_accredited_municipal_disconnections_match(cfg, evidence, graph))
+
+        bridges = cfg["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"]
+        self.assertEqual(1, len(bridges))
+        self.assertEqual({"1709401001", "1714101003"}, {bridges[0]["u"], bridges[0]["v"]})
 
 
 if __name__ == "__main__":

@@ -1,3 +1,15 @@
+"""PROYECTO: Diputado de Distrito
+HERRAMIENTA: Core del resolver de ejecución completa
+VERSIÓN: 1.0.1
+NOMBRE DE VERSIÓN: Acreditación municipal pre-M04 ligada a fuente
+FECHA: 2026-10-19
+ESTADO: candidato de integración; pendiente de CI y revisión.
+QUÉ HACE: aplica las puertas de compatibilidad y generación territorial.
+CAMBIOS: valida discontinuidades municipales contra los componentes acreditados por M03 y la fuente/edición del contrato; exige contadores enteros coherentes y estado global/provincial conectado.
+MOTIVO: admitir solo discontinuidades municipales acreditadas sin relajar conectividad global o provincial ni aceptar contadores ambiguos.
+ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_pre_cat_pre_m04_20261019.py
+PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
+"""
 from __future__ import annotations
 
 import argparse
@@ -9,6 +21,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.catalogo_preparacion import lookup
+from ddd_core.topology_preflight import validate_topology_accreditation_binding
 
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 FIRST_GENERATION_EVIDENCE_SCHEMA = "ddd.catalog-evidence/1.0"
@@ -464,6 +477,72 @@ def _generation_capabilities(contract: dict, root_dir: Path | None = None) -> di
     return {"allowed": True}
 
 
+def _accredited_municipal_disconnections_match(contract: dict, evidence: dict, graph: dict) -> bool:
+    """Admit only M03 municipal components accredited against this exact source."""
+    validation = contract.get("validation") or {}
+    accreditation = validation.get("topology_accreditation") or {}
+    declarations = accreditation.get("administrative_components") or []
+    source = evidence.get("source") or {}
+    binding = validate_topology_accreditation_binding(contract)
+    if not binding.get("present") or not binding.get("valid"):
+        return False
+    current = binding.get("current") or {}
+    if (current.get("edition") != str(evidence.get("edition") or "")
+            or current.get("section_year") != source.get("section_year")
+            or current.get("package_sha256") != source.get("package_sha256")
+            or current.get("compatibility_identity_sha256") != source.get("compatibility_identity_sha256")):
+        return False
+
+    audit = graph.get("topology_accreditation") or {}
+    components_audit = audit.get("administrative_components") or {}
+    accepted = components_audit.get("accepted")
+    rejected = components_audit.get("rejected")
+    if audit.get("valid") is not True or not isinstance(accepted, list) or rejected != []:
+        return False
+
+    def signature(rows):
+        result = {}
+        for item in rows:
+            if not isinstance(item, dict):
+                return None
+            scope = str(item.get("admin_scope") or "")
+            groups = item.get("components")
+            if not scope.startswith("municipality:") or not isinstance(groups, list) or len(groups) < 2:
+                continue
+            canonical = tuple(sorted(tuple(sorted(str(x) for x in group)) for group in groups))
+            if scope in result:
+                return None
+            result[scope] = canonical
+        return result
+
+    declared_municipal = signature(declarations)
+    accepted_municipal = signature(accepted)
+    if not declared_municipal or accepted_municipal != declared_municipal:
+        return False
+    disconnected = graph.get("municipality_disconnected")
+    admitted = graph.get("municipality_admitted_disconnected")
+    unresolved = graph.get("municipality_unresolved")
+    if not _municipal_disconnection_counters_valid(graph):
+        return False
+    return (disconnected > 0 and admitted == disconnected
+            and set(declared_municipal) == set(accepted_municipal)
+            and unresolved == 0)
+
+
+def _municipal_disconnection_counters_valid(graph: dict) -> bool:
+    disconnected = graph.get("municipality_disconnected")
+    admitted = graph.get("municipality_admitted_disconnected")
+    unresolved = graph.get("municipality_unresolved")
+    if type(disconnected) is not int or disconnected < 0:
+        return False
+    if disconnected == 0:
+        return all(value is None or (type(value) is int and value == 0)
+                   for value in (admitted, unresolved))
+    return (type(admitted) is int and admitted >= 0
+            and type(unresolved) is int and unresolved >= 0
+            and admitted + unresolved == disconnected)
+
+
 def _validated_first_generation_preflight(*, contract: dict, evidence: dict, preparation_evidence: dict,
                                           territory_id: str, root_dir: Path) -> dict:
     def blocked(reason: str) -> dict:
@@ -531,6 +610,8 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
     if (evidence.get("adjacency") or {}) != expected_adjacency:
         return blocked("la política de adyacencia/grafo no coincide")
     graph = evidence.get("graph") or {}
+    if not _municipal_disconnection_counters_valid(graph):
+        return blocked("contadores de desconexión municipal ausentes, inválidos o incoherentes")
     if graph.get("artifact_name") != f"ddd-state-{run_id}-M03" or not _sha256_value(graph.get("artifact_sha256")):
         return blocked("artefacto M03 no es identificable")
     try:
@@ -578,8 +659,13 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         if graph.get("population") != baseline.get("population_total"):
             return blocked("población del grafo no coincide con el baseline de fuente")
         if (graph.get("isolated") != 0 or graph.get("global_components") != 1
-                or graph.get("province_disconnected") != 0 or graph.get("municipality_disconnected") != 0):
+                or graph.get("province_disconnected") != 0):
             return blocked("grafo territorial no supera conectividad administrativa")
+        municipality_disconnected = graph.get("municipality_disconnected")
+        if municipality_disconnected != 0 and not _accredited_municipal_disconnections_match(
+            contract, evidence, graph
+        ):
+            return blocked("grafo territorial contiene discontinuidades municipales no acreditadas para la fuente")
     partitioning = evidence.get("partitioning") or {}
     if evidence.get("artifact_name") != f"ddd-state-{run_id}-M03U" or not _sha256_value(evidence.get("artifact_sha256")):
         return blocked("artefacto M03U no es identificable")

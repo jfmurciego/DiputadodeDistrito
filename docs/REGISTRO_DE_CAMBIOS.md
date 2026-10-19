@@ -1,12 +1,23 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.5
+Versión: 1.0.6
 Fecha: 2026-10-19
-Alcance: registro acumulativo de cambios autonómicos fail-closed y exhaustividad M02
+Alcance: acreditaciones municipales pre-M04 fuente-vinculadas tras la actualización M02
 Estado: candidato
-Cambios/motivo: preservar snapshots históricos de M02 y forzar reacreditación de evidencias ligadas al blob anterior
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.4_20261019.md
+Cambios/motivo: admitir discontinuidades municipales acreditadas con fuente exacta y contadores coherentes
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.5_20261019.md
 -->
+
+
+## 2026-10-19 — Cataluña — acreditación municipal pre-M04 ligada a fuente
+
+La puerta pre-M04 admite discontinuidades municipales solo cuando los componentes
+M03 coinciden con la acreditación contractual vinculada a la misma edición, año,
+paquete e identidad de compatibilidad. Los contadores se validan con tipos enteros
+estrictos; las desconexiones globales o provinciales y los componentes no resueltos
+continúan bloqueados. La materialización conserva los datos requeridos para lectura
+y recuperación durable. Las evidencias M03 previas al nuevo blob M02 exigen
+reacreditación antes de su uso; este cambio no ejecuta M04 ni habilita generación.
 
 ## 2026-10-19 — OPT-01 — preservar evidencia histórica y reacreditar M02
 
