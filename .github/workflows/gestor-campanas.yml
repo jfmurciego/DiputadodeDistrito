@@ -240,4 +240,8 @@ jobs:
             echo "::error::CAMPAIGN_ZERO_EXECUTABLE: ningún territorio tiene GENERATION_READY; informe generado y preservado, campaña NO ejecutada."
             exit 5
           }
+          jq -e '.completion_status == "COMPLETE" and .status == "PASS"' .ddd-campaign/summary/campaign-summary.json >/dev/null || {
+            echo "::error::CAMPAIGN_INCOMPLETE: resumen preservado, pero existen territorios bloqueados, ausentes o fallidos."
+            exit 6
+          }
 
