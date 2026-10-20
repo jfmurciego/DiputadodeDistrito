@@ -7,7 +7,7 @@ import unittest
 from unittest import mock
 import yaml
 
-from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
+from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan, replan_after_rejected_geometric_reuse
 from herramientas.escribir_manifest_ejecucion_completa import optimization_lineage
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1069,6 +1069,97 @@ class TerritorialSourceVerificationShellTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(help_result.returncode, 0, help_result.stderr)
+
+
+class AsturiasStaleGeometricReuseAccreditationTests(unittest.TestCase):
+    """Regression for 00 run 39430413162, after M02 changed on 2026-10-19."""
+
+    @staticmethod
+    def _plan():
+        import copy
+        catalog = load(ROOT / "configuracion" / "catalogo_preparacion.yaml")
+        row = next(r for r in catalog["territories"]
+                   if r["territory_id"] == "principado_de_asturias")
+        state = row["editions"]["2025"]
+        prepared = copy.deepcopy(state["preparation_evidence"])
+        historic = json.loads(
+            (ROOT / state["evidence"]["generation_preflight"]).read_text(encoding="utf-8")
+        )
+        # A changed M02 implementation must invalidate the old preflight.
+        historic["implementation"]["m02_git_blob_sha1"] = "0" * 40
+        return {
+            "territory_id": "principado_de_asturias",
+            "edition": "2025",
+            "contract_path": state["contract_path"],
+            "execution_mode": "reuse",
+            "optimization_algorithm": "Canónico",
+            "publication_mode_effective": "electoral",
+            "electoral_activation": {"execution": "EXECUTE"},
+            "run_prepare_territorial": False,
+            "pre_m04_accreditation_planned": False,
+            "run_generate": False,
+            "run_incorporate": False,
+            "existing": {"territorial_source": copy.deepcopy(prepared)},
+            "catalog_state": {
+                "preparation_evidence": prepared,
+                "generation_preflight_evidence": historic,
+            },
+        }
+
+    def test_asturias_reaccredits_current_m02_without_reacquiring_verified_source(self):
+        plan = self._plan()
+        replan_after_rejected_geometric_reuse(plan, root_dir=ROOT)
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(
+            plan["generation_gate"],
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+        )
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["run_incorporate"])
+
+    def test_rejected_product_cannot_reuse_incompatible_selected_source(self):
+        plan = self._plan()
+        plan["existing"]["territorial_source"]["artifact_sha256"] = "f" * 64
+        with self.assertRaisesRegex(ValueError, "source identity mismatch: artifact_sha256"):
+            replan_after_rejected_geometric_reuse(plan, root_dir=ROOT)
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertFalse(plan["run_generate"])
+
+    def test_non_pre_m04_contract_failure_is_not_overridden(self):
+        plan = self._plan()
+        plan["contract_path"] = "territorios/principado_de_asturias/config/missing-contract.yaml"
+        with self.assertRaisesRegex(ValueError, "GEOMETRIC_REUSE_REPLAN_BLOCK"):
+            replan_after_rejected_geometric_reuse(plan, root_dir=ROOT)
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertFalse(plan["run_generate"])
+
+    def test_territorial_only_never_dispatches_electoral_incorporation(self):
+        plan = self._plan()
+        plan["publication_mode_effective"] = "territorial_only"
+        replan_after_rejected_geometric_reuse(plan, root_dir=ROOT)
+        self.assertTrue(plan["run_generate"])
+        self.assertFalse(plan["run_incorporate"])
+
+    def test_actual_00_script_reconciles_after_source_receipt_and_before_dispatch(self):
+        jobs = load(ORCH)["jobs"]
+        script = "\n".join(str(s.get("run", "")) for s in jobs["planificar"]["steps"])
+        self.assertIn("replan_after_rejected_geometric_reuse(p,root_dir=Path(\".\"))", script)
+        self.assertIn('reuse.get("compatible") is not True', script)
+        self.assertLess(
+            script.index('p["existing"]["territorial_source"]={'),
+            script.index('replan_after_rejected_geometric_reuse(p,root_dir=Path("."))'),
+        )
+        self.assertIn("needs.planificar.outputs.pre_m04_accreditation_planned == 'true'",
+                      jobs["acreditar_generacion"]["if"])
+        self.assertTrue(jobs["acreditar_generacion"]["with"]["preflight_only"])
+        self.assertEqual(
+            jobs["acreditar_generacion"]["with"]["source_package_run_id"],
+            "${{ needs.puerta_01.outputs.run_id }}",
+        )
+        self.assertIn("needs.acreditar_generacion.result == 'success'",
+                      jobs["generar"]["if"])
+
 
 
 if __name__ == "__main__":
