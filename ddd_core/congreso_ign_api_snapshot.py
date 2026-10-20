@@ -1,8 +1,8 @@
-# VERSIÓN: 1.0.0; NOMBRE: auditor de páginas OGC API Features IGN.
-# FECHA: 2026-10-19; ALCANCE: validar un conjunto capturado de páginas administrativas.
-# ESTADO: experimental; CAMBIOS: integridad de paginación, IDs y campos temporales.
-# MOTIVO: preparar NAC-03 sin promover la API vigente a fuente histórica acreditada.
-# ANTERIOR: ninguno; adaptador nuevo, reutiliza el contrato de recibo CNIG existente.
+# VERSIÓN: 1.0.1; NOMBRE: auditor de páginas OGC API Features IGN.
+# FECHA: 2026-10-20; ALCANCE: validar capturas de páginas administrativas.
+# ESTADO: experimental; CAMBIOS: rechaza claves JSON duplicadas.
+# MOTIVO: evitar interpretaciones ambiguas de páginas capturadas.
+# ANTERIOR: legacy/n08_nac_20261019/congreso_ign_api_snapshot_v1.0.0.py.
 """Audita páginas capturadas de la API IGN; no descarga ni acredita fuentes.
 
 El resultado sólo identifica candidatas temporales a partir de date_boundary y
@@ -25,6 +25,19 @@ MAX_PAGES = 1000
 MAX_FEATURES = 100_000
 MAX_PAGE_BYTES = 32 * 1024 * 1024
 PAGINATION_QUERY_KEYS = frozenset({"offset", "startindex", "cursor", "page", "continuationtoken", "nexttoken"})
+
+
+class _DuplicateJSONKey(ValueError):
+    pass
+
+
+def _unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    result: dict[str, object] = {}
+    for key, value in pairs:
+        if key in result:
+            raise _DuplicateJSONKey(key)
+        result[key] = value
+    return result
 
 
 def _fail(reason: str) -> None:
@@ -133,7 +146,9 @@ def audit_captured_pages(
         if not isinstance(raw, bytes) or not raw or len(raw) > MAX_PAGE_BYTES:
             _fail("API_PAGE_BYTES_INVALID")
         try:
-            document = json.loads(raw)
+            document = json.loads(raw, object_pairs_hook=_unique_object)
+        except _DuplicateJSONKey as error:
+            raise ValueError("API_PAGE_JSON_DUPLICATE_KEY") from error
         except (UnicodeError, ValueError) as error:
             raise ValueError("API_PAGE_JSON_INVALID") from error
         if not isinstance(document, dict) or document.get("type") != "FeatureCollection":

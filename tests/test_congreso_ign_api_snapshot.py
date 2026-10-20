@@ -58,6 +58,16 @@ class IGNApiSnapshotTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "API_FEATURE_ID_DUPLICATE"):
             audit_captured_pages([{"url": BASE, "raw": first}, {"url": NEXT, "raw": second}])
 
+    def test_duplicate_json_keys_rejected_at_top_level_and_nested(self):
+        payloads = (
+            b'{"type":"FeatureCollection","numberMatched":1,"numberMatched":1,"numberReturned":0,"features":[]}',
+            b'{"type":"FeatureCollection","numberMatched":1,"numberReturned":1,"features":[{"type":"Feature","id":1,"properties":{"nationalcode":"x","nationalcode":"y","date_boundary":"2020-01-01","endlifespanversion":null},"geometry":{"type":"LineString","coordinates":[[0,0],[1,1]]}}]}',
+        )
+        for raw in payloads:
+            with self.subTest(raw=raw[:60]):
+                with self.assertRaisesRegex(ValueError, "API_PAGE_JSON_DUPLICATE_KEY"):
+                    audit_captured_pages([{"url": BASE, "raw": raw}])
+
     def test_official_host_required_for_next(self):
         raw = page([feature(1, "x", "2020-01-01")], matched=2,
                    next_url="https://evil.example/collections/administrativeboundary/items?f=json")
