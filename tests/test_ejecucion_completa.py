@@ -1111,6 +1111,7 @@ class AsturiasGeometricReuseReaccreditationTests(unittest.TestCase):
         self.assertFalse(plan["run_prepare_territorial"])
         self.assertTrue(plan["run_generate"])
         self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(plan["generation_execution_mode"], "from_start")
         self.assertEqual(
             plan["generation_gate"],
             {"allowed": True, "route": "planned_pre_m04_accreditation"},
@@ -1127,6 +1128,10 @@ class AsturiasGeometricReuseReaccreditationTests(unittest.TestCase):
                       workflow["acreditar_generacion"]["if"])
         self.assertIn("pre_m04_accreditation_planned != 'true'",
                       workflow["generar"]["if"])
+        self.assertEqual(
+            workflow["generar"]["with"]["execution_mode"],
+            "${{ needs.planificar.outputs.generation_execution_mode }}",
+        )
 
     def test_asturias_rejected_reuse_fails_closed_on_source_drift(self):
         plan = self._real_asturias_plan()
@@ -1168,6 +1173,7 @@ class AsturiasGeometricReuseReaccreditationTests(unittest.TestCase):
         gate.assert_called_once()
         self.assertTrue(plan["run_generate"])
         self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(plan["generation_execution_mode"], "reuse")
         self.assertEqual(plan["generation_gate"]["route"], "validated_pre_m04_topology")
 
 
