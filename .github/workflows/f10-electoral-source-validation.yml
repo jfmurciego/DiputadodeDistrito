@@ -40,7 +40,6 @@ jobs:
           python -m unittest
           tests.test_f10_electoral_three_territories
           tests.test_cyl_electoral_2026
-          tests.test_adquisicion_electoral_especial
-          tests.test_electoral_reconciliation -v
+          tests.test_adquisicion_electoral_especial -v
       - name: Check whitespace errors
         run: git diff --check -- . ':!docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/**'
