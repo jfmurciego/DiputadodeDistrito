@@ -1157,11 +1157,12 @@ class AsturiasM02ReaccreditationTests(unittest.TestCase):
         self.assertFalse(plan["run_generate"])
 
     def test_actual_00_python_planner_reaccredits_asturias(self):
-        """Exercise the executable Python embedded in the actual 00 YAML."""
+        """Execute the real 00 Python planner for territorial and electoral scopes."""
         import os
         import subprocess
         import sys
         from herramientas.consumir_par_fuentes_legislatura import resolve_territorial_source
+        from herramientas.resolver_ejecucion_completa import resolve_publication_mode
 
         actual = load(ORCH)["jobs"]["planificar"]["steps"]
         script = next(step["run"] for step in actual if step.get("id") == "plan")
@@ -1171,39 +1172,49 @@ class AsturiasM02ReaccreditationTests(unittest.TestCase):
         end = next(i for i in range(begin + 1, len(lines)) if lines[i] == "PY")
         code = "\n".join(lines[begin + 1:end]) + "\n"
 
-        original = self._asturias()
         territorial = resolve_territorial_source(
             root_dir=ROOT, territory="Principado de Asturias", edition="2025")
         self.assertTrue(territorial["geometric_reuse"]["available"])
         self.assertFalse(territorial["geometric_reuse"]["compatible"])
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            for name in ("configuracion", "territorios", "modulos", "herramientas", "fuentes"):
-                (root / name).symlink_to(ROOT / name, target_is_directory=True)
-            (root / ".ddd-full-run").mkdir()
-            (root / ".ddd-full-run/plan.json").write_text(json.dumps(original), encoding="utf-8")
-            (root / ".ddd-full-run/publication_mode.json").write_text(
-                json.dumps({"requested": "territorial_only", "effective": "territorial_only"}),
-                encoding="utf-8",
-            )
-            (root / ".ddd-full-run/prepared_territorial.json").write_text(
-                json.dumps(territorial), encoding="utf-8",
-            )
-            result = subprocess.run(
-                [sys.executable, "-c", code, "territorial_only", *([""] * 15)],
-                cwd=root,
-                env={**os.environ, "PYTHONPATH": str(ROOT)},
-                capture_output=True,
-                text=True,
-            )
-            self.assertEqual(result.returncode, 0, result.stderr)
-            actual_plan = json.loads((root / ".ddd-full-run/plan.json").read_text())
-        self.assertTrue(actual_plan["run_prepare_territorial"])
-        self.assertTrue(actual_plan["pre_m04_accreditation_planned"])
-        self.assertTrue(actual_plan["run_generate"])
-        self.assertEqual(actual_plan["generation_execution_mode"], "from_start")
-        self.assertEqual(actual_plan["generation_gate"]["route"], "planned_pre_m04_accreditation")
-        self.assertEqual(actual_plan["territorial_reaccreditation_reason"], "PRODUCT_SOURCE_LINEAGE_MISSING")
+
+        for mode in ("territorial_only", "electoral"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                for name in ("configuracion", "territorios", "modulos", "herramientas", "fuentes"):
+                    (root / name).symlink_to(ROOT / name, target_is_directory=True)
+                (root / ".ddd-full-run").mkdir()
+                original = self._asturias()
+                effective = resolve_publication_mode(original, mode, root_dir=ROOT)
+                self.assertEqual(effective, mode)
+                (root / ".ddd-full-run/plan.json").write_text(
+                    json.dumps(original), encoding="utf-8")
+                (root / ".ddd-full-run/publication_mode.json").write_text(
+                    json.dumps({"requested": mode, "effective": effective}), encoding="utf-8")
+                (root / ".ddd-full-run/prepared_territorial.json").write_text(
+                    json.dumps(territorial), encoding="utf-8")
+                result = subprocess.run(
+                    [sys.executable, "-c", code, mode, *([""] * 15)],
+                    cwd=root,
+                    env={**os.environ, "PYTHONPATH": str(ROOT)},
+                    capture_output=True,
+                    text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                actual_plan = json.loads((root / ".ddd-full-run/plan.json").read_text())
+                self.assertTrue(actual_plan["run_prepare_territorial"])
+                self.assertTrue(actual_plan["pre_m04_accreditation_planned"])
+                self.assertTrue(actual_plan["run_generate"])
+                self.assertEqual(actual_plan["generation_execution_mode"], "from_start")
+                self.assertEqual(
+                    actual_plan["generation_gate"]["route"], "planned_pre_m04_accreditation")
+                self.assertEqual(
+                    actual_plan["territorial_reaccreditation_reason"], "PRODUCT_SOURCE_LINEAGE_MISSING")
+                if mode == "electoral":
+                    self.assertTrue(actual_plan["run_incorporate"])
+                    self.assertEqual(actual_plan["electoral_activation"]["execution"], "EXECUTE")
+                    self.assertTrue(actual_plan["prepared_source_pair"]["pair_sha256"])
+                else:
+                    self.assertFalse(actual_plan["run_incorporate"])
 
     def test_00_calls_reconciler_without_clearing_required_pre_m04(self):
         workflow = load(ORCH)
