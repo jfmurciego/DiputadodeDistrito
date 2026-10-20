@@ -990,5 +990,86 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertEqual(plan["existing"]["electoral_product"]["run_id"], current_run)
 
 
+class TerritorialSourceVerificationShellTests(unittest.TestCase):
+    def test_real_workflow_command_invokes_valid_territorial_cli(self):
+        """Execute the 00 YAML shell command, not a reconstructed command."""
+        import os
+        import subprocess
+        import sys
+
+        workflow = load(ORCH)
+        matching = [
+            step
+            for job in workflow["jobs"].values()
+            for step in job.get("steps", [])
+            if step.get("id") == "verify"
+            and step.get("name") == "Verificar bytes y contrato territorial efectivos"
+        ]
+        self.assertEqual(len(matching), 1)
+        script_lines = matching[0]["run"].splitlines()
+        start = next(
+            i for i, line in enumerate(script_lines)
+            if "python -m herramientas.consumir_par_fuentes_legislatura" in line
+        )
+        end = next(
+            i for i in range(start, len(script_lines))
+            if "--output .ddd-source-check/validation.json" in script_lines[i]
+        )
+        command = "\n".join(script_lines[start:end + 1]) + "\n"
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            bin_dir = root / "bin"
+            bin_dir.mkdir()
+            python_stub = bin_dir / "python"
+            python_stub.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json, pathlib, sys\n"
+                "pathlib.Path('captured-argv.json').write_text(json.dumps(sys.argv[1:]))\n",
+                encoding="utf-8",
+            )
+            python_stub.chmod(0o755)
+            env = {
+                **os.environ,
+                "PATH": str(bin_dir) + os.pathsep + os.environ.get("PATH", ""),
+            }
+            result = subprocess.run(
+                [
+                    "bash",
+                    "-c",
+                    "set -euo pipefail\nreceipt='fixture-receipt.json'\n" + command,
+                ],
+                cwd=root,
+                env=env,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertEqual(
+                json.loads((root / "captured-argv.json").read_text(encoding="utf-8")),
+                [
+                    "-m", "herramientas.consumir_par_fuentes_legislatura",
+                    "--root-dir", ".", "verify-territorial",
+                    "--territorial-receipt", "fixture-receipt.json",
+                    "--territorial-package", ".ddd-source-check/territorial",
+                    "--output", ".ddd-source-check/validation.json",
+                ],
+            )
+
+        # The genuine CLI must recognize the same subcommand and option layout.
+        help_result = subprocess.run(
+            [
+                sys.executable, "-m", "herramientas.consumir_par_fuentes_legislatura",
+                "--root-dir", ".", "verify-territorial", "--help",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(help_result.returncode, 0, help_result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()
