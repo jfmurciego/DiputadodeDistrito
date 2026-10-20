@@ -89,11 +89,15 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
     except (ValueError,OSError,yaml.YAMLError) as exc:
         raise ValueError(f"CAMPAIGN_GENERATION_CONTRACT_BLOCK: {exc}") from exc
     route=row["preflight_status"]
+    if row.get("execution_route")!=route:
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: frozen_route")
     if execution_route(effective)!=route:
         raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: el resolver común exige otra ruta")
+    if "execution_lineage" in row and _campaign_lineage_identity(effective)!=row["execution_lineage"]:
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: execution_lineage")
     if effective.get("contract_path")!=row["contract_path"] or plan.get("contract_path")!=row["contract_path"]:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: contract_path")
-    for key in ("run_prepare_territorial","run_generate","pre_m04_accreditation_planned"):
+    for key in ("run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate","pre_m04_accreditation_planned"):
         if bool(effective.get(key))!=bool(row["execution_plan"].get(key)):
             raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: execution_plan."+key)
         if key in plan and bool(plan.get(key))!=bool(effective.get(key)):
@@ -213,6 +217,15 @@ def execution_route(plan:dict[str,Any])->str:
     return "PRODUCT_REUSE_READY"
 
 
+def _campaign_lineage_identity(plan:dict[str,Any])->dict[str,Any]:
+    """Identidades inmutables de todos los activos usados al resolver la campaña."""
+    existing=plan.get("existing") or {}
+    fields=("run_id","artifact_name","artifact_sha256","package_sha256",
+            "source_commit","election_id","decision")
+    return {name:{key:value[key] for key in fields if key in value}
+            for name,value in sorted(existing.items()) if isinstance(value,dict) and value}
+
+
 def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,strategy:str,
                    campaign_instance:str,root:Path=Path("."),edition:str="2025")->dict[str,Any]:
     if publication_mode not in MODES: raise ValueError("Modo de publicación no permitido")
@@ -250,6 +263,7 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
           "evidence":evidence,
           "generation_contract":generation,
           "territorial_product":dict((plan.get("existing") or {}).get("territorial_product") or {}),
+          "execution_lineage":_campaign_lineage_identity(plan) if plan else {},
           "preflight_status":status,
           "execution_route":execution_route(plan) if plan else "BLOCKED",
           "execution_plan":{key:plan[key] for key in (
@@ -281,7 +295,13 @@ def build_matrix(manifest:dict[str,Any],confirmation:str)->dict[str,Any]:
     entrypoint,count,unique=STRATEGIES[manifest["optimization_algorithm"]]
     include=[]
     for row in manifest["territories"]:
-        if row["preflight_status"] not in {"GENERATION_READY","PRODUCT_REUSE_READY","SOURCE_PREPARATION_REQUIRED"}: continue
+        status=row["preflight_status"]
+        if status=="BLOCKED":
+            continue
+        if status not in {"GENERATION_READY","PRODUCT_REUSE_READY","SOURCE_PREPARATION_REQUIRED"} or row.get("execution_route")!=status:
+            raise ValueError("CAMPAIGN_ROUTE_UNSUPPORTED: "+str(row.get("slot")))
+        if row.get("preflight_blockers"):
+            raise ValueError("CAMPAIGN_ROUTE_BLOCKER_INCONSISTENT: "+str(row.get("slot")))
         # No route may run without a frozen, materialized source/pair receipt.
         evidence=row.get("evidence") or {}
         if not evidence.get("receipt_path") or not evidence.get("receipt_sha256"):
