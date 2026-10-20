@@ -48,6 +48,24 @@ jobs:
             --entrypoint python ddd-tests:${GITHUB_SHA} \
             -m herramientas.diagnosticar_desconexiones_congreso_n08 \
             2>&1 | tee ci-n08-nine-cases.log
+      - name: Exportar expedientes nominales N08 originales (rama de expedientes)
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'work/n08-nominal-exceptions-20261019' }}
+        shell: bash
+        run: |
+          mkdir -p n08-casos-certificados
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 \
+            -v "${GITHUB_WORKSPACE}/n08-casos-certificados:/app/n08-casos-certificados" \
+            --entrypoint python ddd-tests:${GITHUB_SHA} \
+            -m herramientas.expedientes_excepciones_congreso_n08 \
+            --output /app/n08-casos-certificados/expedientes-n08-cinco-provincias.json
+      - name: Conservar expedientes nominales N08 y sus CUSEC
+        if: ${{ always() && github.event_name == 'pull_request' && github.head_ref == 'work/n08-nominal-exceptions-20261019' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: n08-cinco-provincias-cusec-original
+          path: n08-casos-certificados/expedientes-n08-cinco-provincias.json
+          retention-days: 90
+          if-no-files-found: warn
       - name: Verificar descubrimiento completo de tests unittest
         shell: bash
         run: |

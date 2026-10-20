@@ -45,11 +45,19 @@ def request_url(bbox: tuple[float, float, float, float], time: str = HISTORIC_TI
 def inspect_historical_response(raw: bytes, source_url: str) -> dict:
     if not raw or len(raw) > MAX_RESPONSE_BYTES:
         raise ValueError("SOURCE_WMS_RESPONSE_SIZE_INVALID")
+    def reject_duplicate_json_keys(pairs):
+        obj = {}
+        for key, value in pairs:
+            if key in obj:
+                raise ValueError("SOURCE_WMS_DUPLICATE_JSON_KEY:" + key)
+            obj[key] = value
+        return obj
+
     try:
-        document = json.loads(raw)
+        document = json.loads(raw, object_pairs_hook=reject_duplicate_json_keys)
     except (UnicodeError, ValueError) as error:
         raise ValueError("SOURCE_WMS_GEOJSON_INVALID") from error
-    if document.get("type") != "FeatureCollection" or not isinstance(document.get("features"), list):
+    if not isinstance(document, dict) or document.get("type") != "FeatureCollection" or not isinstance(document.get("features"), list):
         raise ValueError("SOURCE_WMS_NOT_FEATURE_COLLECTION")
     if len(document["features"]) > 50000:
         raise ValueError("SOURCE_WMS_UNBOUNDED_FEATURE_COUNT")
@@ -68,7 +76,8 @@ def inspect_historical_response(raw: bytes, source_url: str) -> dict:
         if not isinstance(ident, str) or not ident or ident in identifiers:
             raise ValueError("SOURCE_WMS_DUPLICATE_OR_INVALID_FEATURE_ID")
         identifiers.add(ident)
-        if row.get("geometry", {}).get("type") not in ("LineString", "MultiLineString"):
+        geometry = row.get("geometry")
+        if not isinstance(geometry, dict) or geometry.get("type") not in ("LineString", "MultiLineString"):
             raise ValueError("SOURCE_WMS_BOUNDARY_GEOMETRY_REQUIRED")
         date_strings.add(properties["date_boundary"])
     return {
