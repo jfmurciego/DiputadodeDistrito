@@ -44,6 +44,18 @@ class HistoricalWMSProbeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"ONLY_APPROVED"):
             request_url((-4.05,42.4,-3.95,42.5),"2026-01-01")
 
+    def test_rejects_duplicate_json_keys_at_every_nesting_level(self):
+        url = request_url((-4.05, 42.4, -3.95, 42.5))
+        base = example().decode("utf-8")
+        payloads = (
+            base.replace('"type":"FeatureCollection"', '"type":"FeatureCollection","type":"FeatureCollection"', 1),
+            base.replace('"totalFeatures":"unknown"', '"totalFeatures":"unknown","totalFeatures":"500"', 1),
+            base.replace('"nationalcode":"M340100M340200T0123"', '"nationalcode":"M340100M340200T0123","nationalcode":"altered"', 1),
+        )
+        for raw in payloads:
+            with self.subTest(sample=raw[:95]), self.assertRaisesRegex(ValueError, "SOURCE_WMS_GEOJSON_INVALID"):
+                inspect_historical_response(raw.encode("utf-8"), url)
+
     def test_rejects_forged_view_or_missing_temporal_fields(self):
         url=request_url((-4.05,42.4,-3.95,42.5))
         bad=[b"<html>error</html>",json.dumps({"type":"FeatureCollection","features":[
