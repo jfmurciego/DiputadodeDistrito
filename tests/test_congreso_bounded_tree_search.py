@@ -11,7 +11,7 @@ class BoundedTreeSearchTests(unittest.TestCase):
                                        k=2, floor=80, cap=80)
         self.assertEqual("TREE_WITNESS_FOUND_CONDITIONAL", result.status)
         self.assertIsNotNone(result.witness_sha256)
-        self.assertNotIn("groups", result.__dict__)
+        self.assertEqual(result.groups, ())  # default never emits CUSEC assignments
         self.assertEqual(result, search_tree_partition(nodes, graph, {n: 40 for n in nodes},
                                                         k=2, floor=80, cap=80))
 
