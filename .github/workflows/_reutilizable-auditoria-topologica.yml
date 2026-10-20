@@ -56,7 +56,7 @@ jobs:
           (b/"RESUMEN_DIAGNOSTICO.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps({k:v for k,v in out.items() if k not in ("province_components","municipality_components")},ensure_ascii=False))
           PY
       - name: Publicar resumen
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: r023-${{ inputs.territory_id }}-summary-${{ github.run_id }}
           path: |
@@ -64,7 +64,7 @@ jobs:
             territorios/${{ inputs.territory_id }}/.cache/ddd/preparacion/${{ inputs.territory_id }}_2025/*_m01_informe.json
             territorios/${{ inputs.territory_id }}/.cache/ddd/preparacion/${{ inputs.territory_id }}_2025/*_m03_informe.json
       - name: Publicar geometría
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: r023-${{ inputs.territory_id }}-geometry-${{ github.run_id }}
           path: |
