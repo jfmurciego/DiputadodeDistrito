@@ -468,7 +468,19 @@ jobs:
                       "decision":"VALIDADO",
                   }
               elif p.get("execution_mode")=="reuse" and reuse.get("available") is True:
-                  p["run_generate"]=True
+                  if not p.get("run_generate"):
+                      from herramientas.resolver_ejecucion_completa import reconcile_incompatible_geometric_reuse
+                      if territorial_doc is None:
+                          raise SystemExit("GENERATION_CONTRACT_BLOCK: verified territorial source missing")
+                      try:
+                          reconcile_incompatible_geometric_reuse(
+                              p, selected_source=selected, root_dir=Path("."),
+                              publication_mode=effective_mode,
+                          )
+                      except ValueError as exc:
+                          raise SystemExit(str(exc)) from exc
+                  else:
+                      p["run_generate"]=True
 
           p["publication_mode_requested"]=publication_mode
           p["publication_mode_effective"]=effective_mode
