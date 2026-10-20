@@ -1178,7 +1178,7 @@ class AsturiasM02ReaccreditationTests(unittest.TestCase):
         self.assertFalse(territorial["geometric_reuse"]["compatible"])
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            for name in ("configuracion", "territorios", "modulos", "herramientas"):
+            for name in ("configuracion", "territorios", "modulos", "herramientas", "fuentes"):
                 (root / name).symlink_to(ROOT / name, target_is_directory=True)
             (root / ".ddd-full-run").mkdir()
             (root / ".ddd-full-run/plan.json").write_text(json.dumps(original), encoding="utf-8")
