@@ -557,6 +557,10 @@ def plan_reaccreditation_after_reuse_rejection(
         if not gate.get("allowed") or gate.get("route") != "planned_pre_m04_accreditation":
             raise ValueError("TERRITORIAL_REUSE_REPLAN_BLOCK: acreditación pre-M04 no habilitada")
         plan["pre_m04_accreditation_planned"] = True
+        # The product workflow's reuse selector can otherwise pick an old M04
+        # checkpoint: its source/M05 checks do not bind M02 implementation.
+        # Rebuild M01-M06 against the verified source after fresh pre-M04 proof.
+        plan["generation_execution_mode"] = "from_start"
     plan["generation_gate"] = gate
     plan["run_prepare_territorial"] = False  # selected, verified source is already durable
     plan["run_generate"] = True
