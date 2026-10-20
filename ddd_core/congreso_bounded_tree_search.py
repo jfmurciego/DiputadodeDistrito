@@ -24,6 +24,7 @@ class TreeSearchResult:
     explored_transitions: int
     spanning_forest_components: int
     proof: str
+    groups: tuple[tuple[str, ...], ...] = ()  # opt-in, analytical pilot only
 
 
 def _canonical_input(nodes, adjacency, weights, k, floor, cap):
@@ -40,6 +41,7 @@ def search_tree_partition(
     weights: Mapping[str, int], *, k: int, floor: int, cap: int,
     node_order: Sequence[str] | None = None,
     max_states: int = 50_000, max_transitions: int = 250_000,
+    return_groups: bool = False,
 ) -> TreeSearchResult:
     """Find a K-way bounded connected partition along a fixed BFS forest.
 
@@ -47,6 +49,8 @@ def search_tree_partition(
     input graph. A negative result only concerns this one spanning forest and
     is never promoted to mathematical infeasibility of the original graph.
     """
+    if type(return_groups) is not bool:
+        raise ValueError("RETURN_GROUPS_MUST_BE_BOOLEAN")
     universe = tuple(nodes)
     if not universe or any(not isinstance(n, str) or not n for n in universe):
         raise ValueError("NODES_INVALID")
@@ -76,8 +80,8 @@ def search_tree_partition(
         raise ValueError("ADJACENCY_NOT_SYMMETRIC")
     digest = hashlib.sha256(_canonical_input(universe, graph, weights, k, floor, cap)).hexdigest()
 
-    def outcome(status, *, witness=None, states=0, transitions=0, components=0, proof):
-        return TreeSearchResult(status, digest, witness, states, transitions, components, proof)
+    def outcome(status, *, witness=None, states=0, transitions=0, components=0, proof, groups=()):
+        return TreeSearchResult(status, digest, witness, states, transitions, components, proof, groups)
 
     total = sum(weights.values())
     if k > len(universe):
@@ -233,4 +237,5 @@ def search_tree_partition(
     canonical = json.dumps(sorted(groups), separators=(",", ":")).encode()
     witness = hashlib.sha256(canonical).hexdigest()
     return outcome("TREE_WITNESS_FOUND_CONDITIONAL", witness=witness, states=states_total,
-                   transitions=transitions, components=len(roots), proof="BOUNDED_TREE_CUT_WITNESS")
+                   transitions=transitions, components=len(roots), proof="BOUNDED_TREE_CUT_WITNESS",
+                   groups=tuple(sorted(groups)) if return_groups else ())
