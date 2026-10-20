@@ -1114,6 +1114,61 @@ class AsturiasIncompatibleGeometricReuseRegressionTests(unittest.TestCase):
         self.assertFalse(plan["run_generate"])
         self.assertFalse(plan["pre_m04_accreditation_planned"])
 
+    def test_asturias_stale_m02_requires_fresh_pre_m04_not_legacy_bypass(self):
+        from herramientas._resolver_ejecucion_completa_core import (
+            _pre_m04_implementation_binding,
+            _pre_m04_implementation_matches,
+        )
+        from herramientas.resolver_ejecucion_completa import build_plan as current_build_plan
+
+        contract_path = "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml"
+        contract = load(ROOT / contract_path)
+        evidence_path = (
+            ROOT / "territorios/principado_de_asturias/evidencia/catalogo/"
+            "generation_preflight_2025.json"
+        )
+        evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+        old = evidence["implementation"]
+        current = _pre_m04_implementation_binding(ROOT, contract)
+        self.assertNotEqual(old["m02_git_blob_sha1"], current["m02_git_blob_sha1"])
+        self.assertFalse(_pre_m04_implementation_matches(old, current, hard_partition=False))
+
+        # The common resolver already offers the correct reaccreditation route.
+        candidate = current_build_plan(
+            territory="Principado de Asturias",
+            edition="2025", execution_mode="catalog_source",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT, optimization_algorithm="Canónico",
+        )
+        self.assertEqual(
+            candidate["generation_gate"],
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+        )
+        self.assertTrue(candidate["run_prepare_territorial"])
+        self.assertTrue(candidate["pre_m04_accreditation_planned"])
+        self.assertTrue(candidate["run_generate"])
+        self.assertEqual(candidate["generation_execution_mode"], "from_start")
+        self.assertEqual((candidate["population_year"], candidate["section_year"]), (2023, 2023))
+
+    def test_asturias_00_pre_m04_chain_cannot_skip_validation_or_force_publication(self):
+        jobs = load(ORCH)["jobs"]
+        source = jobs["preparar_territorial"]
+        gate = jobs["puerta_01"]
+        accred = jobs["acreditar_generacion"]
+        generate = jobs["generar"]
+        self.assertIn("needs.planificar.outputs.run_prepare_territorial == 'true'", source["if"])
+        self.assertIn("needs.preparar_territorial.result == 'success'", gate["if"])
+        self.assertIn("needs.planificar.outputs.pre_m04_accreditation_planned == 'true'", accred["if"])
+        self.assertEqual(accred["with"]["preflight_only"], True)
+        self.assertIn("needs.puerta_01.outputs.run_id", accred["with"]["source_package_run_id"])
+        self.assertIn("needs.acreditar_generacion.result == 'success'", generate["if"])
+        self.assertIn("needs.acreditar_generacion.outputs.enabled_source_ref", generate["with"]["source_ref"])
+        self.assertIn("needs.planificar.outputs.pre_m04_accreditation_planned", generate["with"]["generation_preflight_artifact_name"])
+        self.assertEqual(generate["with"]["require_generation_gate"], True)
+        self.assertIn("inputs.publish_result", "\n".join(
+            step.get("run", "") for step in jobs["planificar"]["steps"]
+        ) + str(jobs["planificar"]["steps"]))
+
     def test_real_00_workflow_preserves_new_pre_m04_preparation(self):
         jobs = load(ORCH)["jobs"]
         commands = "\n".join(step.get("run", "") for step in jobs["planificar"]["steps"])
