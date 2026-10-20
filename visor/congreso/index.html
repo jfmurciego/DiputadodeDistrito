@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DDD · Congreso · Visor nacional (piloto)</title>
+<link href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css" rel="stylesheet">
+<link href="../styles.css" rel="stylesheet">
+<style>
+.tabnav{display:flex;gap:14px;font-weight:700}.tabnav a{color:#0b5cab}.pilot-badge{color:#b42318;font-weight:700}.pick{padding:8px;border:1px solid #d9e2ec;border-radius:6px;max-width:100%}
+.pilotinfo{font-size:13px;color:#52606d}.legend-item{display:flex;align-items:center;gap:9px;padding:5px 0}.swatch{width:18px;height:14px;border:1px solid #999}
+</style></head>
+<body>
+<header class="topbar"><div><p class="eyebrow">Diputado de Distrito · Congreso</p><h1>Visor nacional · León</h1><nav class="tabnav"><a href="../">Distritos autonómicos</a><a href="./" aria-current="page">Congreso</a></nav></div>
+<div><label class="selector">Cargar GeoJSON de la ejecución GitHub<input class="pick" id="geojson-file" type="file" accept=".json,.geojson,application/json"></label></div></header>
+<main><section id="map" aria-label="Mapa de distritos candidatos del Congreso en León"></section><aside class="panel">
+<p class="pilot-badge">PILOTO · NO CERTIFICADO · SIN PUBLICAR</p>
+<p class="status" id="status">Selecciona el archivo leon-4-candidatos.geojson del artefacto de GitHub.</p>
+<section class="card"><h2>Los cuatro distritos</h2><div id="district-list">Pendiente de cargar geometrías.</div></section>
+<section class="card"><h2>Ficha</h2><div id="detail">Pulsa sobre un distrito en el mapa.</div></section>
+<section class="card warning"><h2>Advertencia territorial</h2><p>Las asignaciones son candidatas del grafo CUSEC. Se conocen municipios divididos. No se han acreditado los límites administrativos CNIG 2025 ni se ha ejecutado certificación M06.</p></section>
+<section class="source-note"><h2>Fuente</h2><p class="pilotinfo">Geometría original INE 2025, reagrupada por secciones CUSEC y transformada a WGS84 exclusivamente para visualización. Este visor no calcula ni certifica distritos.</p></section>
+</aside></main>
+<script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+<script src="congreso.js"></script></body></html>
