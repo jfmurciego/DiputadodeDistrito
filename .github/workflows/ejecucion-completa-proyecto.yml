@@ -467,8 +467,6 @@ jobs:
                       "artifact_sha256":reuse.get("product_artifact_sha256"),
                       "decision":"VALIDADO",
                   }
-              elif p.get("execution_mode")=="reuse" and reuse.get("available") is True:
-                  p["run_generate"]=True
 
           p["publication_mode_requested"]=publication_mode
           p["publication_mode_effective"]=effective_mode
@@ -480,6 +478,16 @@ jobs:
           if effective_mode=="territorial_only":
               p["run_prepare_electoral"]=False
               p["run_incorporate"]=False
+          if (p.get("execution_mode")=="reuse" and reuse.get("available") is True
+                  and reuse.get("compatible") is not True):
+              # A source receipt can be valid while the historical M06 cannot be
+              # reused. Re-evaluate the generation gate against the current M02
+              # implementation; never dispatch M04 with stale pre-M04 evidence.
+              from herramientas.resolver_ejecucion_completa import replan_after_rejected_geometric_reuse
+              try:
+                  replan_after_rejected_geometric_reuse(p,root_dir=Path("."))
+              except ValueError as exc:
+                  raise SystemExit(str(exc)) from exc
           if p.get("run_prepare_territorial") is True:
               temporal_missing=[
                   key for key in ("population_year","section_year")
