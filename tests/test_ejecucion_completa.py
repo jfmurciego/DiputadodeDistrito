@@ -1209,6 +1209,7 @@ class AsturiasM02ReaccreditationTests(unittest.TestCase):
         workflow = load(ORCH)
         script = "\n".join(str(s.get("run", "")) for s in workflow["jobs"]["planificar"]["steps"])
         self.assertIn("reconcile_incompatible_geometric_reuse(", script)
+        self.assertIn('and (reuse.get("available") is True or not p.get("run_generate"))', script)
         self.assertIn('selected_territorial_source=p["existing"]["territorial_source"]', script)
         self.assertIn('and not p.get("pre_m04_accreditation_planned")', script)
         self.assertIn('p["run_prepare_territorial"]=False', script)
