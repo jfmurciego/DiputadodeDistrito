@@ -308,6 +308,33 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotEqual(_campaign_lineage_identity(plan),row["execution_lineage"])
   self.assertEqual(_campaign_lineage_identity({"existing":original}),original)
 
+ def test_galicia_child_consumed_electoral_source_sha_is_enforced(self):
+  from herramientas.gestor_campana_nacional import campaign_execution_plan
+  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="galicia-lineage",root=ROOT)
+  row=m["territories"][0]
+  self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
+  self.assertTrue(row["execution_plan"]["run_incorporate"])
+  self.assertTrue(row["execution_lineage"]["electoral_source"]["artifact_sha256"])
+  p=copy.deepcopy(campaign_execution_plan(root=ROOT,territory_id="galicia",
+                                         edition="2025",strategy="Canónico"))
+  p["publication_mode_effective"]="electoral"
+  p["prepared_source_pair"]={k:v for k,v in row["evidence"].items()
+                              if k not in ("kind","receipt_sha256")}
+  # 00 may normalize decision status and retain the old electoral product
+  # when M08 is scheduled to be rebuilt. Neither changes the consumed source.
+  p["existing"]["electoral_source"]["decision"]="VALIDADO"
+  p["existing"]["electoral_product"]={"run_id":0,"artifact_sha256":"f"*64}
+  args=dict(manifest=m,root=ROOT,expected_sha=m["manifest_sha256"],
+            source_sha=m["source_sha"],slot=row["slot"],
+            campaign_instance=m["campaign_instance"])
+  validate_campaign_child(plan=p,**args)
+  tampered=copy.deepcopy(p)
+  tampered["existing"]["electoral_source"]["artifact_sha256"]="f"*64
+  with self.assertRaisesRegex(ValueError,
+       r"CAMPAIGN_MANIFEST_MISMATCH: child_lineage.electoral_source.artifact_sha256"):
+   validate_campaign_child(plan=tampered,**args)
+
  def test_cardinalities_and_codauto_order(self):
   ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["andalucia"])] )]
   self.assertEqual(ids,["andalucia"])
