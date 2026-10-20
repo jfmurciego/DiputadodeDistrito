@@ -1,0 +1,2 @@
+# Optional deterministic parser for original .xls results used by the F10 close.
+xlrd==2.0.2
