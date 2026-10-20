@@ -1,2 +1,3 @@
-# Optional deterministic parser for original .xls results used by the F10 close.
+# Optional parser and the canonical package validator dependency used by F10 close.
 xlrd==2.0.2
+PyYAML==6.0.2
