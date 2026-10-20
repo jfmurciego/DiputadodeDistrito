@@ -967,7 +967,7 @@ class CampaignManagerTests(unittest.TestCase):
             self.assertNotIn(job, manager)
         self.assertNotIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
         self.assertIn("publish_result: false", manager)
-        self.assertIn("persist_state: false", manager)
+        self.assertIn("persist_state: ${{ matrix.persist_state }}", manager)
 
     def test_campaign_does_not_bypass_publisher_sha_contract(self):
         manager = WORKFLOW.read_text(encoding="utf-8")

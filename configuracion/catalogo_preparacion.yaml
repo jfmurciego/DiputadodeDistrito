@@ -467,7 +467,7 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: true
+      electoral_product_available: false
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
@@ -679,7 +679,7 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: true
+      territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: PASS

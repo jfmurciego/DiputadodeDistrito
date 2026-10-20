@@ -341,7 +341,10 @@ jobs:
                       raise ValueError(
                           "CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite reuse_* explícitos"
                       )
-              else:
+              elif not campaign_instance or any((reuse_run_id, reuse_artifact, reuse_digest, reuse_source_sha)):
+                  # El manifiesto de campaña ya congela la procedencia; la validación
+                  # de identidad del child sucede antes de iniciar fases productivas.
+                  # Un reuse_* parcial sigue entrando aquí y se rechaza.
                   apply_explicit_territorial_source(
                       p, reuse_run_id=reuse_run_id, reuse_artifact_name=reuse_artifact,
                       reuse_artifact_sha256=reuse_digest, reuse_source_sha=reuse_source_sha,
@@ -576,7 +579,9 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
             persist=false
             publish=false
-          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && -z "$CAMPAIGN_INSTANCE" ]]; then
+            # Una ejecución manual independiente conserva su contrato histórico.
+            # Un hijo de campaña respeta PERSIST_INPUT, ya validado contra su manifiesto.
             persist=true
           fi
           if [[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]; then
