@@ -40,6 +40,23 @@ jobs:
         run: python -m pip install --disable-pip-version-check geopandas shapely pyogrio pyproj pandas numpy
       - name: Crear polígonos cartográficos de los cuatro candidatos
         run: python -m herramientas.preparar_visor_congreso_leon --candidate candidato-leon/leon-4-candidatos.json --output candidato-leon/leon-4-candidatos.geojson
+      - name: Empaquetar visor nacional autónomo con geometría integrada
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          geo = json.loads(Path("candidato-leon/leon-4-candidatos.geojson").read_text(encoding="utf-8"))
+          html = Path("visor/congreso/index.html").read_text(encoding="utf-8")
+          payload = json.dumps(geo, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+          html = html.replace('href="../styles.css"', 'href="styles.css"')
+          html = html.replace('<script src="congreso.js"></script>', '<script>window.DDD_CONGRESO_GEOJSON=' + payload + ';</script>\n<script src="congreso.js"></script>')
+          Path("candidato-leon/index.html").write_text(html, encoding="utf-8")
+          Path("candidato-leon/congreso.js").write_bytes(Path("visor/congreso/congreso.js").read_bytes())
+          Path("candidato-leon/styles.css").write_bytes(Path("visor/styles.css").read_bytes())
+          assert "window.DDD_CONGRESO_GEOJSON=" in html
+          print("STANDALONE_VIEWER_READY 4 districts")
+          PY
       - name: Conservar artefacto del piloto
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
