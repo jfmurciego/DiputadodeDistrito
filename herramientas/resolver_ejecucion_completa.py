@@ -366,6 +366,65 @@ def _skip_electoral(plan: dict, *, activation_status: str, completion_status: st
     plan["run_incorporate"] = False
 
 
+
+def reconcile_incompatible_geometric_reuse(
+    plan: dict,
+    *,
+    geometric_reuse: dict,
+    selected_territorial_source: dict,
+    root_dir: Path,
+) -> dict:
+    """Reacredita pre-M04 antes de regenerar M06 cuando falla el linaje geométrico.
+
+    Una prueba de incompatibilidad de M06 no autoriza reutilizar su evidencia
+    topológica antigua ni a sustituir la fuente territorial seleccionada.
+    """
+    if (plan.get("execution_mode") != "reuse"
+            or plan.get("optimization_algorithm") != "Canónico"
+            or geometric_reuse.get("compatible") is True):
+        return plan
+
+    if geometric_reuse.get("available") is not True:
+        raise ValueError("GEOMETRIC_REUSE_BLOCK: falta identidad material de producto para evaluar continuidad")
+
+    regenerated = build_plan(
+        territory=plan["territory_name"],
+        edition=plan["edition"],
+        execution_mode="reuse",
+        catalog=root_dir / "configuracion/catalogo_preparacion.yaml",
+        root_dir=root_dir,
+        optimization_algorithm=plan["optimization_algorithm"],
+        force_territorial_regeneration=True,
+    )
+    # 00 selected the source independently from the electoral pair. A changed
+    # source cannot silently be selected when rebuilding the pre-M04 graph.
+    source = regenerated["existing"]["territorial_source"]
+    for field in ("run_id", "artifact_name", "artifact_sha256", "package_sha256", "source_commit"):
+        if str(source.get(field) or "") != str(selected_territorial_source.get(field) or ""):
+            raise ValueError("GEOMETRIC_REUSE_BLOCK: territorial_source." + field)
+
+    if not (regenerated["run_prepare_territorial"]
+            and regenerated["pre_m04_accreditation_planned"]
+            and regenerated["run_generate"]
+            and regenerated["generation_gate"] == {
+                "allowed": True, "route": "planned_pre_m04_accreditation"
+            }):
+        raise ValueError("GEOMETRIC_REUSE_BLOCK: nueva acreditación pre-M04 no habilitada")
+
+    for field in (
+        "run_prepare_territorial", "pre_m04_accreditation_planned", "run_generate",
+        "generation_gate", "generation_execution_mode", "population_year", "section_year",
+    ):
+        plan[field] = regenerated[field]
+    # Recreating territorial districts necessarily invalidates the previous
+    # electoral incorporation, but not an accredited electoral source.
+    plan["run_incorporate"] = True
+    plan["territorial_reaccreditation_reason"] = str(
+        geometric_reuse.get("reason") or "GEOMETRIC_REUSE_INCOMPATIBLE"
+    )
+    return plan
+
+
 def resolve_publication_mode(plan: dict, requested_mode: str, *, root_dir: Path) -> str:
     """Resuelve alcance sin convertir una carencia electoral en bloqueo territorial."""
     if requested_mode not in {"electoral", "territorial_only"}:
@@ -518,7 +577,8 @@ def classify_prepared_pair_failure(reason: str) -> dict:
 
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
-               explicit_territorial_source: dict | None = None) -> dict:
+               explicit_territorial_source: dict | None = None,
+               force_territorial_regeneration: bool = False) -> dict:
     row = _core.lookup(territory, edition, catalog)
     state = row
     evidence = state.get("evidence") or {}
@@ -662,7 +722,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     )
     generation_requested = bool(
         catalog_source_mode or from_start or selected_explicit_source is not None
-        or not territorial_product_ready or recompute_requested
+        or not territorial_product_ready or recompute_requested or force_territorial_regeneration
     )
     if catalog_source_mode:
         run_prepare_territorial = False
@@ -751,7 +811,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         "schema": "ddd.full-run-plan/1.1", "territory_id": row["territory_id"], "territory_name": row["name"],
         "edition": edition, "contract_path": row.get("contract_path"), "execution_mode": execution_mode,
         "population_year": population_year, "section_year": section_year,
-        "generation_execution_mode": "from_start" if catalog_source_mode else execution_mode,
+        "generation_execution_mode": "from_start" if (catalog_source_mode or force_territorial_regeneration) else execution_mode,
         "optimization_algorithm": optimization_algorithm, "run_prepare_territorial": run_prepare_territorial,
         "pre_m04_accreditation_planned": pre_m04_accreditation_planned,
         "run_generate": run_generate, "run_prepare_electoral": run_prepare_electoral, "run_incorporate": run_incorporate,
