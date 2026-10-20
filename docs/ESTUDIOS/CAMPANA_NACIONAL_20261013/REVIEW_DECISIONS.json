@@ -50,6 +50,15 @@
       "reviewer": "audit_topology_c, independent read-only",
       "scope": "NAT-E-002 bounded exact connected partition solver on small fixtures",
       "verdict": "REVIEW_PASS"
+    },
+    {
+      "evidence": "70 focused tests reported PASS; py_compile and diff-check PASS; report SHA-256 bd48322c3d12f6c5a457cc510c19ea037d09ee8711bb4545a008463aa9b0dde7; reviewer did not rerun tests under read-only mode",
+      "head": "WORKTREE@6d489af7069aa8888a92618a07204fec6da17cc1 + final local diff",
+      "integrated_main": "NOT_PUBLISHED",
+      "reviewer": "separate read-only session nac_continuation_review",
+      "scope": "NAC continuation: duplicate JSON keys, bounded K>1 tree DP and real-data report; no source accreditation or generation",
+      "scope_limit": "conditional witnesses apply to CUSEC section graph and chosen deterministic spanning forest only; 30 no-witness results are not infeasibility proofs; CNIG source and full territorial feasibility remain pending",
+      "verdict": "REVIEW_PASS_WITH_SCOPE_LIMITS"
     }
   ],
   "items": [
@@ -118,11 +127,11 @@
       "verdict": "REVIEW_PASS"
     },
     {
+      "evidence": "Two real findings: audit CSV dependency label was ambiguous and FINAL_REPORT incorrectly said the catalog was pending commit. The reviewer also compared READY_SELECTION.registry_sha256 to raw file SHA; planner contract hashes canonical sorted compact JSON. Direct planner CLI output equals READY_SELECTION.json and its canonical hash matches the registry, so that allegation is not a defect. Corrective changes follow in the next ledger revision.",
       "head": "edcc767c77fb1e0f552c3316d3d4042bd63680db",
       "reviewer": "audit_topology_c",
       "scope": "C boundary blocker DAG, task identities, acquisition dossier, report/manifest/checkpoint coherence",
-      "verdict": "REVIEW_NO_GO",
-      "evidence": "Two real findings: audit CSV dependency label was ambiguous and FINAL_REPORT incorrectly said the catalog was pending commit. The reviewer also compared READY_SELECTION.registry_sha256 to raw file SHA; planner contract hashes canonical sorted compact JSON. Direct planner CLI output equals READY_SELECTION.json and its canonical hash matches the registry, so that allegation is not a defect. Corrective changes follow in the next ledger revision."
+      "verdict": "REVIEW_NO_GO"
     },
     {
       "head": "WORKTREE@edcc767c77fb1e0f552c3316d3d4042bd63680db + audited ledger diff",

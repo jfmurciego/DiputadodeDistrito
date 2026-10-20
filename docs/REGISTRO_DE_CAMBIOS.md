@@ -543,6 +543,38 @@ certifica el Motor Nacional y no habilita A3.
 
 Trasladado el alcance técnico de #271 sobre el `main` posterior a #269/#270/#273: M02 usa EPSG:25830 y se declaran ediciones fuente de población y seccionado 2025, sin editar geometrías, tolerancias, población, puentes o contratos. Se conservan en `docs/AUDITORIAS/F10_VALENCIA_M02_REPROYECCION_20261019/` las pruebas M01–M03, hashes y límites de acreditación. Este cambio no constituye recibo territorial ni cierra F10; M04–M06 y la validación efectiva siguen pendientes.
 
+## 2026-10-20 — NAC-03 — rechazo de claves JSON duplicadas en capturas IGN
+
+El validador de páginas OGC API Features rechaza ahora claves duplicadas en
+cualquier objeto JSON, incluida la metadata de paginación y propiedades
+anidadas de los límites. Se preserva byte por byte la versión 1.0.0 en
+`legacy/n08_nac_20261019/`; el cambio no descarga fuentes, no acredita la
+captura ni habilita comparaciones históricas.
+
+## 2026-10-20 — Congreso NAC — auditor de capturas y búsqueda K>1 acotada
+
+El auditor OGC API IGN rechaza claves JSON duplicadas en cualquier nivel para
+evitar parseos ambiguos. Se añade una búsqueda determinista de cortes sobre un
+bosque generador del grafo seccional para investigar K>1 con presupuesto
+acotado. El diagnóstico solo devuelve hashes de testigos condicionales,
+distintos estados de búsqueda e inputs; no emite asignaciones, no ejecuta
+M04–M06, no acredita límites administrativos y no abre generación.
+
+## 2026-10-20 — Congreso NAC — búsqueda reproducible con órdenes de bosque
+
+Se incorpora la selección determinista de órdenes BFS y se ejecuta sobre las
+44 unidades K>1. Siete unidades adicionales encuentran testigos condicionales
+en órdenes alternativos; los casos restantes mantienen su clasificación de
+búsqueda agotada o bloqueo estructural condicional. Se añade artefacto de
+reproducción y se documenta que el catálogo CNIG consultado publica snapshots
+históricos 2023/2024, sin identificar uno efectivo a 01/01/2025.
+
+La ampliación conserva como predecesores exactos la búsqueda de un solo orden
+y la versión 1.0.0 del buscador en `legacy/nac_continuacion_20261020/`. La
+regresión compara dos órdenes explícitos y verifica que la identidad de entrada
+no depende del orden de recorrido. Las 73 pruebas focales pasan; el cambio no
+emite asignaciones ni habilita generación.
+
 
 ## 2026-10-20 — F10: reconstrucción nominal de variaciones INE 2025–2026
 

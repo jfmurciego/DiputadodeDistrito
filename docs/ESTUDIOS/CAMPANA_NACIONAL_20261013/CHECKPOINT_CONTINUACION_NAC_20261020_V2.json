@@ -1,0 +1,88 @@
+{
+  "ahead": 9,
+  "behind": 25,
+  "branch": "codex/nac-integracion-main-20261020",
+  "campaign": "ddd-national-campaign-20261013",
+  "date": "2026-10-20",
+  "districts_generated": 0,
+  "event_log_sha256": "9854244bbed38cf3696414d2fc500dd401a9390769a126f9ca365bd437f4f119",
+  "evidence_hashes": {
+    "NAC_CONTINUACION_ORDENES_20261020.json": "8a226dc26ea7c94df51cc87e7d1cd5175cec2fe3b4ebdfcd3dff94eb4d0e0b70",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_CONTINUACION_ORDENES_20261020.md": "7fb34b238843b7796ef01d2f551f8c56461fe0315c2c8700e8a0dd31fcf95d73",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_BUDGET_DIAGNOSTIC_20261020.json": "c3299f38a448b60e1ac5142c6d2608f6b50aeca7f8ef262410bcff8ff39ea88e",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_LOW_K_FOLLOWUP_20261020.json": "c3a4bb159e4547fde5ff9f7b656dfd63ef2555239ed4cf6c30a2fb1824b39a7c",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_REMAINING_FOLLOWUP_20261020.json": "cdb0f4d3c9353b956ca22e8126a21c3d086ae209b6b93c7e856d9682860dda91",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIFOREST_FOLLOWUP_20261020.json": "2dcc11868813ad952634adb3b3473a655e988b509fd2305b380aee39db146a8c",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIPLE_BOUNDED_20261020_final.json": "bd48322c3d12f6c5a457cc510c19ea037d09ee8711bb4545a008463aa9b0dde7",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIPLE_ORDERS_20261020.json": "e1dd017815854fc2012a87a41bd7f7a4d061b8ed02fb949c4bbe85868925311f",
+    "docs/REGISTRO_DE_CAMBIOS.md": "0819707aebfb000926cf2721d3a56ab2977d3bb11beefc0d444742cd74bbef09",
+    "legacy/nac_continuacion_20261020/ddd_core/congreso_bounded_tree_search.py": "e23a34dda8e545f87c1995f752667bd6927902a8da599d97f253ae0e402953b6",
+    "legacy/nac_continuacion_20261020/herramientas/diagnosticar_factibilidad_congreso_k_multiple.py": "e5314d139279ffac5356971a697e431b9acc62234567046f4ea2ad6e9a9b8272"
+  },
+  "exact_solver_followup": "23/23 original exact bounded searches exhausted connected-group enumeration before exact-cover states; no infeasibility proved",
+  "exact_solver_remaining_followup": {
+    "all_exhausted_before_exact_cover": true,
+    "artifact_sha256": "cdb0f4d3c9353b956ca22e8126a21c3d086ae209b6b93c7e856d9682860dda91",
+    "budget_extra_groups": 50000,
+    "budget_states": 5000,
+    "low_k_cases": 10,
+    "remaining_cases": 13
+  },
+  "generation_authorized": false,
+  "github_compare": {
+    "changed_path_overlap_observed": false,
+    "integrated_main": "cdcf56c1bfbe185c674857e0bd8b96146e57568f",
+    "merge_simulation": "PASS_AUTOMATIC_MERGE",
+    "remote_ahead": 9,
+    "remote_behind": 25
+  },
+  "integration_commit": "7e6e11a2a08fb8de2e3c31627630d279e61c2d40",
+  "main_head": "cdcf56c1bfbe185c674857e0bd8b96146e57568f",
+  "merge_base": "bcbad45ee4a285547682f087824430f11fd88876",
+  "next_actions": [
+    "use the verified external binary patch against main cdcf56c1bfbe185c674857e0bd8b96146e57568f when a permitted GitHub write path exists",
+    "obtain official historical 2025 vector source or formal response",
+    "provision Shapely/GeoPandas in an authorized environment before claiming the geospatial suites verified"
+  ],
+  "published_head": "1b0c48591c8516b451ba6faa8fb4443253783bd2",
+  "remote_branch_head": "1b0c48591c8516b451ba6faa8fb4443253783bd2",
+  "review": {
+    "latest_artifact_status": "REVIEW_PASS",
+    "multiforest_followup_status": "REVIEW_PASS",
+    "prior_functional_head": "5c485c4d800f3988e837d058de41638cea00f7b2",
+    "prior_functional_status": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+    "scope": [
+      "two geospatial suites NOT_VERIFIED",
+      "no PR/CI",
+      "CNIG 2025 unaccredited",
+      "no territorial feasibility certification"
+    ],
+    "status": "REVIEW_PASS_WITH_SCOPE_LIMITS"
+  },
+  "reviewed_functional_head": "5c485c4d800f3988e837d058de41638cea00f7b2",
+  "schema": "ddd.nac-continuation-checkpoint/2.0",
+  "sidecar_sha256": "8a226dc26ea7c94df51cc87e7d1cd5175cec2fe3b4ebdfcd3dff94eb4d0e0b70",
+  "source_candidate_head": "2ae21c9a64908dc458c8f1225c82baeb17d6c0a6",
+  "states": {
+    "A": "PARTIAL_PROGRESS",
+    "B": "BLOCKED_EXTERNAL",
+    "C": "PARTIAL_PROGRESS",
+    "D": "DONE",
+    "E": "PARTIAL_PROGRESS",
+    "PR": "BLOCKED_ENVIRONMENT",
+    "integrated_review": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+    "review_new_diff": "REVIEW_PASS_WITH_SCOPE_LIMITS"
+  },
+  "tests": {
+    "diff_check": "PASS",
+    "focused_exception_wms_api": 25,
+    "geospatial": "NOT_VERIFIED_MISSING_SHAPELY_AND_GEOPANDAS",
+    "integrated_diagnostic_reproduction": "PASS_BYTE_IDENTICAL",
+    "post_integration_congress": 150,
+    "pre_integration_directed": 73,
+    "py_compile": "PASS"
+  },
+  "tree_multiforest_followup": "115 selected-forest DP runs complete (five orders x 23 cases); no partition on selected forests, no graph-level infeasibility proven",
+  "working_tree_changes_pending_review": false,
+  "worktree_base": "1b0c48591c8516b451ba6faa8fb4443253783bd2"
+}

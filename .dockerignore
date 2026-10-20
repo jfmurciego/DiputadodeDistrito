@@ -49,3 +49,9 @@ legacy/n08_caceres_20261012/*
 !legacy/n08_caceres_20261012/m05_population_repair_v1_6.py
 !legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py
 !legacy/gitattributes_pre_n08_20261013
+
+# NAC: snapshot inmutable del contrato Congreso v1.2.0, necesario para
+# la regresión SHA en CI Docker; no incluir el resto de legacy.
+!legacy/n08_nac_20261019/
+legacy/n08_nac_20261019/*
+!legacy/n08_nac_20261019/congreso_contract_v1.2.0.py

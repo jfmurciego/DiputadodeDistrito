@@ -111,7 +111,19 @@ def test_checkpoint_queues_and_blockers_agree_with_task_states():
     assert ready == expected_ready
 
     event_ids = [event.get("event_id", event.get("id")) for event in events]
-    assert checkpoint["latest_event"] == event_ids[-1]
+    # CHECKPOINT.json documents the 2026-10-18 pre-reconciliation state
+    # (see head_semantics). NAC continuation events are append-only evidence,
+    # not retroactive mutations of that historical snapshot.
+    assert checkpoint["head_semantics"] == "PRE_RECONCILIATION_VERIFIED_SNAPSHOT_NOT_FINAL_PR_HEAD"
+    assert event_ids == [f"EV-{number:04d}" for number in range(1, len(events) + 1)]
+    snapshot_event_id = checkpoint["latest_event"]
+    assert snapshot_event_id in event_ids
+    snapshot_index = event_ids.index(snapshot_event_id)
+    assert checkpoint["created_at"] <= events[snapshot_index]["date"]
+    assert all(
+        event["date"] >= events[snapshot_index]["date"]
+        for event in events[snapshot_index + 1:]
+    )
     assert len(set(event_ids)) == len(events)
     review_pass = {item["task_id"] for item in review["items"]
                    if item["status"] == "REVIEW_PASS"}
