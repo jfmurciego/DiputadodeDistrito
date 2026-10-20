@@ -468,7 +468,8 @@ jobs:
                       "artifact_sha256":reuse.get("product_artifact_sha256"),
                       "decision":"VALIDADO",
                   }
-              elif p.get("execution_mode")=="reuse" and p.get("optimization_algorithm")=="Canónico":
+              elif (p.get("execution_mode")=="reuse" and p.get("optimization_algorithm")=="Canónico"
+                    and (reuse.get("available") is True or not p.get("run_generate"))):
                   try:
                       reconcile_incompatible_geometric_reuse(
                           p, geometric_reuse=reuse,
