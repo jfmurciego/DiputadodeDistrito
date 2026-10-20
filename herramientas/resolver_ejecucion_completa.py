@@ -801,6 +801,47 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     return plan
 
 
+def replan_generation_for_incompatible_product(
+    plan: dict, *, root_dir: Path, catalog: Path | None = None,
+) -> dict:
+    """Replanificar desde la fuente acreditada si el producto geométrico no es reutilizable.
+
+    El recibo territorial elegido por 00 es inmutable: una discrepancia frente al
+    catálogo no autoriza seleccionar otra fuente ni omitir la reacreditación M01-M03U.
+    """
+    if plan.get("execution_mode") != "reuse" or plan.get("run_prepare_territorial"):
+        raise ValueError("TERRITORIAL_REPLAN_BLOCK: ruta de reutilización incompatible")
+    candidate = build_plan(
+        territory=str(plan["territory_name"]),
+        edition=str(plan["edition"]),
+        execution_mode="catalog_source",
+        catalog=catalog or root_dir / "configuracion/catalogo_preparacion.yaml",
+        root_dir=root_dir,
+        optimization_algorithm=str(plan["optimization_algorithm"]),
+    )
+    chosen = (plan.get("existing") or {}).get("territorial_source") or {}
+    accredited = (candidate.get("existing") or {}).get("territorial_source") or {}
+    for field in ("run_id", "artifact_name", "artifact_sha256", "package_sha256", "source_commit"):
+        if str(chosen.get(field) or "") != str(accredited.get(field) or ""):
+            raise ValueError("TERRITORIAL_REPLAN_BLOCK: fuente elegida difiere del catálogo: " + field)
+    if candidate.get("run_generate") is not True or not (candidate.get("generation_gate") or {}).get("allowed"):
+        raise ValueError("TERRITORIAL_REPLAN_BLOCK: regeneración no autorizada")
+    if candidate.get("pre_m04_accreditation_planned") and candidate.get("run_prepare_territorial") is not True:
+        raise ValueError("TERRITORIAL_REPLAN_BLOCK: reacreditación pre-M04 sin preparación 01")
+    # Se conservan fuente, selección electoral y procedencia; sólo se replantea
+    # la generación territorial y su habilitación en el plan común.
+    for key in (
+        "run_prepare_territorial", "pre_m04_accreditation_planned", "run_generate",
+        "generation_gate", "generation_execution_mode", "population_year", "section_year",
+    ):
+        plan[key] = candidate[key]
+    if (
+        (plan.get("electoral_activation") or {}).get("execution") == "EXECUTE"
+    ):
+        plan["run_incorporate"] = True
+    return plan
+
+
 def apply_explicit_territorial_source(plan: dict, *, root_dir: Path = Path("."), reuse_run_id: str = "",
                                       reuse_artifact_name: str = "", reuse_artifact_sha256: str = "",
                                       reuse_source_sha: str = "", campaign_instance: str = "",

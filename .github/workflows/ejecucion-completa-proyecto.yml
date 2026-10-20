@@ -468,12 +468,19 @@ jobs:
                       "decision":"VALIDADO",
                   }
               elif p.get("execution_mode")=="reuse" and reuse.get("available") is True:
-                  p["run_generate"]=True
+                  from herramientas.resolver_ejecucion_completa import (
+                      replan_generation_for_incompatible_product,
+                  )
+                  try:
+                      replan_generation_for_incompatible_product(p, root_dir=Path("."))
+                  except ValueError as exc:
+                      raise SystemExit(str(exc)) from exc
 
           p["publication_mode_requested"]=publication_mode
           p["publication_mode_effective"]=effective_mode
           p["publication_mode"]=effective_mode
-          if p.get("execution_mode")!="from_start" and territorial_doc is not None:
+          if (p.get("execution_mode")!="from_start" and territorial_doc is not None
+                  and not p.get("pre_m04_accreditation_planned")):
               p["run_prepare_territorial"]=False
           if pair is not None:
               p["run_prepare_electoral"]=False

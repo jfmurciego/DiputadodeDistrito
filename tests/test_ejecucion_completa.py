@@ -1071,5 +1071,59 @@ class TerritorialSourceVerificationShellTests(unittest.TestCase):
         self.assertEqual(help_result.returncode, 0, help_result.stderr)
 
 
+class AsturiasIncompatibleGeometricReuseRegressionTests(unittest.TestCase):
+    def test_replan_reaccredits_pre_m04_without_switching_source_or_erasing_electoral(self):
+        from herramientas.resolver_ejecucion_completa import (
+            replan_generation_for_incompatible_product,
+        )
+        plan = build_plan(
+            territory="Principado de Asturias", edition="2025", execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
+            optimization_algorithm="Canónico",
+        )
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        old_source = dict(plan["existing"]["territorial_source"])
+        old_product = dict(plan["existing"]["territorial_product"])
+        # Planificar llama a este helper antes de asignar publication_mode_effective.
+        plan["electoral_activation"] = {"execution": "EXECUTE"}
+        amended = replan_generation_for_incompatible_product(plan, root_dir=ROOT)
+        self.assertIs(amended, plan)
+        self.assertEqual(plan["existing"]["territorial_source"], old_source)
+        self.assertEqual(plan["existing"]["territorial_product"], old_product)
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "planned_pre_m04_accreditation"})
+        self.assertEqual(plan["generation_execution_mode"], "from_start")
+        self.assertEqual((plan["population_year"], plan["section_year"]), (2023, 2023))
+        self.assertTrue(plan["run_incorporate"])
+
+    def test_replan_fails_closed_when_receipt_and_catalog_source_disagree(self):
+        from herramientas.resolver_ejecucion_completa import (
+            replan_generation_for_incompatible_product,
+        )
+        plan = build_plan(
+            territory="Principado de Asturias", edition="2025", execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
+            optimization_algorithm="Canónico",
+        )
+        plan["existing"]["territorial_source"]["artifact_sha256"] = "f" * 64
+        with self.assertRaisesRegex(ValueError, r"TERRITORIAL_REPLAN_BLOCK.*artifact_sha256"):
+            replan_generation_for_incompatible_product(plan, root_dir=ROOT)
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+
+    def test_real_00_workflow_preserves_new_pre_m04_preparation(self):
+        jobs = load(ORCH)["jobs"]
+        commands = "\n".join(step.get("run", "") for step in jobs["planificar"]["steps"])
+        self.assertIn('replan_generation_for_incompatible_product(p, root_dir=Path("."))', commands)
+        self.assertIn('and not p.get("pre_m04_accreditation_planned")', commands)
+        self.assertIn("pre_m04_accreditation_planned == 'true'", jobs["acreditar_generacion"]["if"])
+        self.assertIn("execution_mode_internal != 'from_start'",
+                      jobs["preparar_territorial"]["with"]["reutilizar_si_ya_preparada"])
+
+
+
 if __name__ == "__main__":
     unittest.main()
