@@ -561,6 +561,9 @@ def replan_after_rejected_geometric_reuse(plan: dict, *, root_dir: Path) -> None
             raise ValueError("GEOMETRIC_REUSE_REPLAN_BLOCK: pre-M04 reaccreditation not enabled")
         plan["pre_m04_accreditation_planned"] = True
     plan["generation_gate"] = gate
+    # M02 or its source lineage may have changed: never resume an old M04.
+    # 02 receives the verified source package explicitly and rebuilds M01-M06.
+    plan["generation_execution_mode"] = "from_start"
     plan["run_generate"] = True
     if (plan.get("publication_mode_effective") == "electoral"
             and (plan.get("electoral_activation") or {}).get("execution") == "EXECUTE"):
