@@ -264,6 +264,8 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
     unexpected=sorted(set(by_id)-selected)
     duplicates=sorted(tid for tid in by_id if sum(r.get("territory_id")==tid for r in reports)>1)
     rows=[]; failed=list(dict.fromkeys(unexpected+duplicates))
+    integrity_errors=[*(f"UNEXPECTED_TERRITORY:{t}" for t in unexpected),
+                      *(f"DUPLICATE_REPORT:{t}" for t in duplicates)]
     for expected in manifest["territories"]:
         tid=expected["territory_id"]
         if expected["preflight_status"]!="GENERATION_READY":
@@ -282,6 +284,7 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
                 if tid in duplicates or mismatch:
                     item["status"]="FAIL"
                     item["reason"]="CAMPAIGN_MANIFEST_MISMATCH: resultado duplicado o de otra identidad"
+                    integrity_errors.append(f"CAMPAIGN_MANIFEST_MISMATCH:{tid}")
                 elif terminal!="PASS":
                     item["status"]="FAIL" if terminal else "MISSING"
                     item["reason"]=item.get("reason") or "estado terminal PASS ausente"
@@ -301,7 +304,13 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
       "source_sha":manifest["source_sha"],"manifest_sha256":manifest["manifest_sha256"],
       "territory_count_expected":len(manifest["territories"]),
       "territory_count_reported":len(by_id),"failed_territories":failed,
-      "status":"PASS" if not failed else "FAIL","territories":rows,
+      "status":"PASS" if not failed else "FAIL",
+      "integrity_status":"INVALID" if integrity_errors else "VALID",
+      "integrity_errors":integrity_errors,
+      "completion_status":("COMPLETE" if not failed else
+                           "FAILED" if unexpected or duplicates or any(r["status"]=="FAIL" for r in rows)
+                           else "PARTIAL"),
+      "territories":rows,
     }
 
 def validate_campaign_summary_for_promotion(summary:dict[str,Any])->list[dict[str,Any]]:
@@ -365,6 +374,8 @@ def main()->None:
         lines.append(f"| {row.get('slot','')} | {row.get('territory_name',row.get('territory_id',''))} | {row.get('status','')} |")
     a.output_md.write_text("\n".join(lines)+"\n",encoding="utf-8")
     print(json.dumps(summary,ensure_ascii=False))
-    raise SystemExit(0 if summary["status"]=="PASS" else 2)
+    # El resultado territorial no altera la integridad del resumen.
+    # Las identidades incompatibles siguen bloqueadas.
+    raise SystemExit(0 if summary["integrity_status"] == "VALID" else 2)
 
 if __name__=="__main__": main()

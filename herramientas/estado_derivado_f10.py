@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Versión: 1.1.0; nombre: Puertas derivadas F10; fecha: 2026-10-13.
+# Versión: 1.1.2; nombre: Puertas derivadas F10; fecha: 2026-10-19.
 # Alcance: validar fichas READ_ONLY y evidencias de actividades F10.
-# Estado: candidato. Cambios/motivo: impedir selección de tareas con validadores
-# incompletos o informe estructurado que no supere la validación determinista.
-# Anterior: legacy/herramientas/estado_derivado_f10_v1.0.0_20261012.py.
+# Estado: candidato. Cambios/motivo: derivar admisibilidad geométrica desde evidencia
+# M02 vinculada al recibo, separada de la adquisición temporal de fuentes.
+# Anterior: legacy/herramientas/estado_derivado_f10_v1.1.1_20261019.py.
 """Read-only F10 door projection from current receipts and canonical consumers.
 
 The closure dossier is cross-checked as a tracking record; it never grants PASS.
@@ -48,6 +48,59 @@ def _receipt_reference(state: dict[str, Any]) -> str | None:
     historical = state.get("preparation_evidence") or {}
     # Independent receipts stay independent; never rewrite historical lineage.
     return independent.get("receipt_path") or historical.get("receipt_path")
+
+
+def _geometric_admissibility(
+    root: Path, state: dict[str, Any], receipt: dict[str, Any], fallback: str
+) -> tuple[str, list[str], str | None]:
+    """Validate optional F10 geometry evidence separately from source acquisition.
+
+    A valid #179 receipt closes acquisition. It does not, by itself, prove that
+    an M02 contract was applicable to the receipt's source edition.
+    """
+    independent = state.get("independent_source_evidence") or {}
+    path_value = independent.get("geometry_assessment_path")
+    digest_value = independent.get("geometry_assessment_sha256")
+    declared_status = independent.get("geometry_admissibility")
+    if path_value is None and digest_value is None and declared_status is None:
+        return fallback, [], None
+    rel = str(path_value or "")
+    if not rel or Path(rel).is_absolute():
+        return "BLOCKED", ["GEOMETRY_ASSESSMENT_PATH_INVALID"], rel or None
+    path = root / rel
+    if not path.is_file() or sha256(path) != str(digest_value or ""):
+        return "BLOCKED", ["GEOMETRY_ASSESSMENT_HASH_MISMATCH"], rel
+    try:
+        report = _json(path)
+    except Exception:
+        return "BLOCKED", ["GEOMETRY_ASSESSMENT_UNREADABLE"], rel
+    expected = {
+        "schema": "ddd.f10-valencia-2023-m02-contract-applicability/1.0",
+        "territory_id": "comunidad_valenciana",
+        "population_year": receipt.get("population_year"),
+        "section_year": receipt.get("section_year"),
+        "package_sha256": receipt.get("package_sha256"),
+    }
+    if any(report.get(key) != value for key, value in expected.items()):
+        return "BLOCKED", ["GEOMETRY_ASSESSMENT_IDENTITY_MISMATCH"], rel
+    if (
+        receipt.get("geometry_assessment_path") != rel
+        or receipt.get("geometry_assessment_sha256") != str(digest_value)
+        or receipt.get("geometry_admissibility") != declared_status
+    ):
+        return "BLOCKED", ["GEOMETRY_ASSESSMENT_RECEIPT_MISMATCH"], rel
+    decision = str(report.get("decision") or "")
+    reason = str(report.get("reason") or "")
+    if (
+        decision == "PASS"
+        and declared_status == "PASS"
+        and report.get("contract_binding") == "BOUND_TO_SOURCE_EDITION"
+        and (report.get("execution") or {}).get("pairs_over_threshold") == 0
+    ):
+        return "PASS", [], rel
+    if decision == "BLOCKED" and declared_status == "BLOCKED" and reason:
+        return "BLOCKED", [reason], rel
+    return "BLOCKED", ["GEOMETRY_ASSESSMENT_NOT_ADMISSIBLE"], rel
 
 
 def check_territorial_evidence(receipt: dict[str, Any], *, territory_id: str,
@@ -247,6 +300,9 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
         territorial_receipt: dict[str, Any] | None = None
         territorial_status = "BLOCKED"
         territorial_reason: list[str] = []
+        territorial_admissibility = str(dossier_row.get("territorial_admissibility") or "BLOCKED")
+        territorial_admissibility_reason: list[str] = []
+        territorial_geometry_evidence_path: str | None = None
         territorial_path = _receipt_reference(state)
         territorial_sha = None
         try:
@@ -263,6 +319,14 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
                 dossier_row=dossier_row,
             )
             territorial_status = "CLOSED"
+            (
+                territorial_admissibility,
+                territorial_admissibility_reason,
+                territorial_geometry_evidence_path,
+            ) = _geometric_admissibility(
+                root, state, territorial_receipt,
+                str(dossier_row.get("territorial_admissibility") or "BLOCKED"),
+            )
         except Exception as exc:
             territorial_reason.append(str(exc))
             if dossier_row.get("territorial_acquisition") == "CLOSED":
@@ -341,6 +405,9 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
             "territory": source_row.get("name"),
             "territorial_acquisition": territorial_status,
             "territorial_reason": territorial_reason,
+            "territorial_admissibility": territorial_admissibility,
+            "territorial_admissibility_reason": territorial_admissibility_reason,
+            "territorial_geometry_evidence_path": territorial_geometry_evidence_path,
             "territorial_receipt_path": territorial_path,
             "territorial_receipt_sha256": territorial_sha,
             "territorial_run_id": (territorial_receipt or {}).get("run_id"),
@@ -364,6 +431,7 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
 
     counts = {
         "territorial_acquisition": _status_counts(rows, "territorial_acquisition"),
+        "territorial_admissibility": _status_counts(rows, "territorial_admissibility"),
         "electoral_admissibility": _status_counts(rows, "electoral_admissibility"),
         "joint_admissibility": _status_counts(rows, "joint_admissibility"),
         "production": _status_counts(rows, "production"),
@@ -377,7 +445,13 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
         } | plan_inputs,
         "counts": counts,
         "f10_global": "PENDING",
-        "f10_global_reason": "Comunidad Valenciana territorial BLOCKED; el cierre de adquisición requiere decisión formal posterior.",
+        "f10_global_reason": (
+            "F10 permanece PENDING: "
+            f"adquisición territorial CLOSED {counts['territorial_acquisition'].get('CLOSED', 0)}/19; "
+            f"admisibilidad territorial PASS {counts['territorial_admissibility'].get('PASS', 0)}/19; "
+            f"admisibilidad electoral ADMISSIBLE {counts['electoral_admissibility'].get('ADMISSIBLE', 0)}/19; "
+            f"admisibilidad conjunta PASS {counts['joint_admissibility'].get('PASS', 0)}/19."
+        ),
         "production_authorized": False,
         "catalog_validation_errors": catalog_errors,
         "task_spec_validation_errors": [

@@ -233,7 +233,8 @@ class CampaignManagerTests(unittest.TestCase):
     def test_pull_request_never_schedules_productive_campaign_or_pages(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
-        self.assertIn("inputs.operacion == 'Ejecutar campaña'", manager)
+        self.assertIn("github.event_name == 'workflow_dispatch'", manager)
+        self.assertNotIn("inputs.operacion", manager)
         self.assertIn("github.event_name == 'pull_request'", manager)
         self.assertIn("publish_result: false", manager)
         self.assertIn("E2E sintético del Gestor nacional", manager)
@@ -940,45 +941,38 @@ class CampaignManagerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "SHA-256 del ZIP no coincide"):
                 validate_portfolio_bundle(bundle, expected_districts=1)
 
-    def test_existing_campaign_manager_recovers_portfolio_without_recalculation(self):
+    def test_campaign_manager_keeps_reuse_without_manual_portfolio_inputs(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
+        form = manager[manager.index("  workflow_dispatch:"):manager.index("  pull_request:")]
         self.assertIn("name: 0 Gestor de Campañas", manager)
-        self.assertIn("Recuperar portfolio existente", manager)
-        self.assertIn("portfolio_artifact_id:", manager)
-        self.assertIn("portfolio_artifact_sha256:", manager)
-        self.assertIn("validate_portfolio_artifact_identity", manager)
-        self.assertIn("validate_portfolio_bundle", manager)
-        self.assertIn("resolver_release_asset.py release", manager)
-        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
-        self.assertIn("ensemble_release_tag:", manager)
-        recovery = manager[manager.index("  recuperar_portfolio:"):manager.index("  resumen:")]
-        self.assertNotIn("ejecucion-completa-proyecto.yml", recovery)
-        self.assertNotIn("produccion-distritos.yml", recovery)
-        self.assertNotIn("actions/deploy-pages@", recovery)
+        self.assertIn("campana:", form)
+        self.assertIn("territorios:", form)
+        self.assertIn("estrategia:", form)
+        self.assertIn("publication_mode:", form)
+        self.assertNotIn("portfolio_artifact_id:", form)
+        self.assertNotIn("portfolio_artifact_sha256:", form)
+        self.assertNotIn("confirmacion:", form)
+        self.assertIn("execution_mode: ${{ matrix.execution_mode }}", manager)
 
-    def test_publication_jobs_are_after_five_pass_and_skipped_on_pull_request(self):
+    def test_campaign_aggregates_every_strategy_without_publication(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
-        summary_pos = manager.index("  resumen:")
-        promote_pos = manager.index("  promover_galerias:")
-        publish_pos = manager.index("  publicar_galerias:")
-        self.assertLess(summary_pos, promote_pos)
-        self.assertLess(promote_pos, publish_pos)
-        self.assertIn("needs: [preparar, resumen]", manager)
-        self.assertIn("needs.resumen.result == 'success'", manager)
-        self.assertIn("validate_campaign_summary_for_promotion", manager)
-        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
-        self.assertIn("group: ddd-pages-prod", (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8"))
-        self.assertNotIn("actions/deploy-pages@", manager)
-        self.assertIn("github.event_name == 'workflow_dispatch'", manager)
-        self.assertIn("test \"${{ needs.publicar_galerias.result }}\" = success", manager)
+        summary = manager[manager.index("  resumen:"):]
+        self.assertIn("always()", summary)
+        self.assertIn("needs: [preparar, territorios]", summary)
+        self.assertIn("ddd-campaign-summary-", summary)
+        self.assertNotIn("GerryChain 50", summary)
+        for job in ("  promover_galerias:", "  publicar_galerias:",
+                    "  recuperar_portfolio:", "  publicar_recuperacion:",
+                    "  resultado_publicacion:"):
+            self.assertNotIn(job, manager)
+        self.assertNotIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
+        self.assertIn("publish_result: false", manager)
+        self.assertIn("persist_state: false", manager)
 
-    def test_campaign_propagates_accredited_ensemble_sha_to_common_publisher(self):
+    def test_campaign_does_not_bypass_publisher_sha_contract(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
-        publisher = (
-            ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
-        ).read_text(encoding="utf-8")
-        self.assertIn('expected_sha="$(jq -r .sha256 "$descriptor")"', manager)
-        self.assertIn("ensemble_sha256: ${{ matrix.sha256 }}", manager)
+        publisher = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        self.assertNotIn("_reutilizable-publicar-sitio.yml", manager)
         self.assertIn("ensemble_sha256:", publisher)
         self.assertIn("ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}", publisher)
 

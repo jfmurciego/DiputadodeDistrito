@@ -538,3 +538,7 @@ error. C-01 emite `UNSUPPORTED` para esta estrategia, cuya semilla anidada no
 varía en el auditor. Los runs reproducibles de Madrid constituyen evidencia
 experimental, no certificación territorial. Este cambio no activa Madrid, no
 certifica el Motor Nacional y no habilita A3.
+
+## 2026-10-19 — Comunidad Valenciana: corrección de reproyección M02
+
+Trasladado el alcance técnico de #271 sobre el `main` posterior a #269/#270/#273: M02 usa EPSG:25830 y se declaran ediciones fuente de población y seccionado 2025, sin editar geometrías, tolerancias, población, puentes o contratos. Se conservan en `docs/AUDITORIAS/F10_VALENCIA_M02_REPROYECCION_20261019/` las pruebas M01–M03, hashes y límites de acreditación. Este cambio no constituye recibo territorial ni cierra F10; M04–M06 y la validación efectiva siguen pendientes.

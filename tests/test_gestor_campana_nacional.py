@@ -330,9 +330,105 @@ class NationalCampaignTests(unittest.TestCase):
                 "campaign_evidence_receipt_sha256","campaign_territorial_identity_sha256"):
    self.assertIn(token,text); self.assertIn(token,child)
   self.assertIn("CAMPAIGN_MANIFEST_MISMATCH",child)
-  recovery=text[text.index("  recuperar_portfolio:"):text.index("  resumen:")]
-  self.assertNotIn("generation_ready_contract",recovery)
-  self.assertNotIn("campaign_contract_sha256",recovery)
+  self.assertNotIn("  recuperar_portfolio:",text)
+  self.assertNotIn("  publicar_recuperacion:",text)
+
+ def test_minimal_campaign_form_aggregates_without_publication(self):
+  text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  form=text[text.index("  workflow_dispatch:"):text.index("  pull_request:")]
+  for required in ("campana:","estrategia:","publication_mode:","territorios:"):
+   self.assertIn(required,form)
+  for forbidden in ("confirmacion:","portfolio_run_id:","portfolio_artifact_id:","portfolio_source_sha:"):
+   self.assertNotIn(forbidden,form)
+  summary=text[text.index("  resumen:"):]
+  self.assertIn("always()",summary)
+  self.assertNotIn("strategy == 'GerryChain 50'",summary)
+  self.assertIn("ddd-campaign-summary-",summary)
+  self.assertNotIn("  promover_galerias:",text)
+  self.assertNotIn("  publicar_galerias:",text)
+  self.assertNotIn("_reutilizable-publicar-sitio.yml",text)
+
+ def test_workflow_aggregate_uses_import_safe_package_invocation(self):
+  text=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  summary=text[text.index("  resumen:"):]
+  self.assertIn("python -m herramientas.gestor_campana_nacional aggregate",summary)
+  self.assertNotIn("python herramientas/gestor_campana_nacional.py aggregate",summary)
+  self.assertIn("needs: [preparar, territorios]",summary)
+  self.assertIn("always()",summary)
+  self.assertIn("if-no-files-found: error",summary)
+  self.assertNotIn("  promover_galerias:",text)
+  self.assertNotIn("  publicar_galerias:",text)
+
+ def test_campaign_summary_upload_precedes_terminal_failure_gate(self):
+  text=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  summary=text[text.index("  resumen:"):]
+  upload=summary.index("name: ddd-campaign-summary-")
+  terminal=summary.index("CAMPAIGN_ZERO_EXECUTABLE")
+  self.assertLess(upload,terminal)
+  self.assertIn("CAMPAIGN_INCOMPLETE",summary)
+  self.assertIn(".completion_status == \"COMPLETE\" and .status == \"PASS\"",summary)
+  self.assertIn("needs.preparar.outputs.ready_count",summary)
+  self.assertIn("jq '.territories | length' .ddd-campaign/campaign-manifest.json",summary)
+  self.assertNotIn("  publicar_galerias:",text)
+
+ def test_mixed_states_are_valid_summary_but_not_certified(self):
+  m={"campaign_instance":"mixed","source_sha":"a"*40,"optimization_algorithm":"Canónico",
+     "territories":[
+       {"territory_id":t,"slot":str(i).zfill(2),"publication_mode":"electoral",
+        "preflight_status":"BLOCKED" if t=="blocked" else "GENERATION_READY",
+        "preflight_blockers":["SOURCE_BLOCK"] if t=="blocked" else []}
+       for i,t in enumerate(("pass","blocked","missing","fail"),1)]}
+  freeze(m)
+  def report(t,status):
+   return {"territory_id":t,"status":status,"slot":next(r["slot"] for r in m["territories"] if r["territory_id"]==t),
+           "publication_mode":"electoral","campaign_instance":"mixed",
+           "source_sha":"a"*40,"manifest_sha256":m["manifest_sha256"]}
+  result=aggregate(m,[report("pass","PASS"),report("fail","FAIL")])
+  self.assertEqual([r["status"] for r in result["territories"]],["PASS","BLOCKED","MISSING","FAIL"])
+  self.assertEqual(result["integrity_status"],"VALID")
+  self.assertEqual(result["completion_status"],"FAILED")
+  self.assertEqual(result["status"],"FAIL")
+  with self.assertRaises(ValueError):
+   validate_campaign_summary_for_promotion(result)
+  partial=aggregate(m,[report("pass","PASS")])
+  self.assertEqual(partial["completion_status"],"PARTIAL")
+  self.assertEqual(partial["integrity_status"],"VALID")
+  corrupted=aggregate(m,[report("pass","PASS"),{**report("fail","FAIL"),"source_sha":"b"*40}])
+  self.assertEqual(corrupted["integrity_status"],"INVALID")
+  self.assertIn("CAMPAIGN_MANIFEST_MISMATCH:fail",corrupted["integrity_errors"])
+  with self.assertRaises(ValueError):
+   validate_campaign_summary_for_promotion(corrupted)
+
+ def test_aggregate_cli_exit_status_tracks_integrity_not_completion(self):
+  for corrupt in (False,True):
+   with self.subTest(corrupt=corrupt), tempfile.TemporaryDirectory() as td:
+    root=Path(td); reports=root/"reports"; reports.mkdir()
+    m={"campaign_instance":"cli","source_sha":"a"*40,"optimization_algorithm":"Canónico",
+       "territories":[
+        {"territory_id":"pass","slot":"01","publication_mode":"electoral",
+         "preflight_status":"GENERATION_READY","preflight_blockers":[]},
+        {"territory_id":"blocked","slot":"02","publication_mode":"electoral",
+         "preflight_status":"BLOCKED","preflight_blockers":["SOURCE_BLOCK"]}]}
+    freeze(m)
+    manifest_path=root/"manifest.json"; manifest_path.write_text(json.dumps(m))
+    report={"territory_id":"pass","slot":"01","publication_mode":"electoral","status":"PASS",
+      "campaign_instance":"cli","source_sha":"b"*40 if corrupt else "a"*40,
+      "manifest_sha256":m["manifest_sha256"]}
+    (reports/"campaign_status.json").write_text(json.dumps(report))
+    output_json=root/"summary.json";output_md=root/"summary.md"
+    cmd=[sys.executable,"-m","herramientas.gestor_campana_nacional",
+         "aggregate","--manifest",str(manifest_path),"--reports-root",str(reports),
+         "--output-json",str(output_json),"--output-md",str(output_md)]
+    result=subprocess.run(cmd,cwd=ROOT,capture_output=True,text=True)
+    self.assertEqual(result.returncode,2 if corrupt else 0,result.stderr)
+    summary=json.loads(output_json.read_text())
+    self.assertEqual(summary["integrity_status"],"INVALID" if corrupt else "VALID")
+    self.assertEqual(summary["completion_status"],"FAILED" if corrupt else "PARTIAL")
+    self.assertEqual([r["status"] for r in summary["territories"]],
+                     ["FAIL","BLOCKED"] if corrupt else ["PASS","BLOCKED"])
+    self.assertTrue(output_md.is_file())
+    with self.assertRaises(ValueError):
+     validate_campaign_summary_for_promotion(summary)
 
  def test_failed_campaign_cannot_replace_previous_certified_publication(self):
   summary={"status":"FAIL","territory_count_expected":2,"territories":[
@@ -340,7 +436,9 @@ class NationalCampaignTests(unittest.TestCase):
   with self.assertRaises(ValueError):
    validate_campaign_summary_for_promotion(summary)
   text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
-  self.assertIn("needs.resumen.result == 'success'",text)
+  self.assertNotIn("  promover_galerias:",text)
+  self.assertNotIn("  publicar_galerias:",text)
+  self.assertNotIn("  resultado_publicacion:",text)
   self.assertIn("publish_result: false",text)
   self.assertIn("persist_state: false",text)
 
