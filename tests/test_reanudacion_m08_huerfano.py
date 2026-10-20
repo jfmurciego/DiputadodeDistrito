@@ -621,6 +621,7 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         failed_candidate_run: int,
         persisted_false_runs: tuple[int, ...],
         expected_plan_block: str | None = None,
+        expected_rebuild: bool = False,
     ) -> None:
         if expected_plan_block is None:
             plan = build_plan(
@@ -632,9 +633,14 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
                 optimization_algorithm="Canónico",
                 force_selected_algorithm=True,
             )
-            self.assertFalse(plan["run_prepare_territorial"])
-            self.assertFalse(plan["run_generate"])
-            self.assertFalse(plan["run_prepare_electoral"])
+            if expected_rebuild:
+                self.assertTrue(plan["run_prepare_territorial"])
+                self.assertFalse(plan["catalog_state"]["territorial_product_available"])
+                self.assertTrue(plan["run_generate"])
+            else:
+                self.assertFalse(plan["run_prepare_territorial"])
+                self.assertFalse(plan["run_generate"])
+                self.assertFalse(plan["run_prepare_electoral"])
             self.assertTrue(plan["run_incorporate"])
         else:
             with self.assertRaisesRegex(ValueError, expected_plan_block):
@@ -805,20 +811,16 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         )
         self.assertNotIn(36573474139, [row["run_id"] for row in candidates])
 
-    def test_ceuta_historical_candidates_survive_but_current_source_lineage_blocks_reuse(self):
-        # Los candidatos históricos siguen siendo auditables, pero la fuente
-        # territorial viva de Ceuta fue renovada después del producto M06
-        # vigente. Continuar ese producto con la fuente nueva debe bloquearse
-        # por linaje en vez de fingir que la ruta histórica sigue reutilizable.
+    def test_ceuta_historical_candidates_survive_but_stale_m06_requires_rebuild(self):
+        # El producto M06 de Ceuta continúa siendo auditable, pero la fuente
+        # vigente es posterior e incompatible. El catálogo lo deshabilita,
+        # obligando a regenerar M04–M06 sin reutilizar ese M06 histórico.
         self._assert_real_case(
             territory_name="Ceuta",
             territory_id="ceuta",
             failed_candidate_run=36482903970,
             persisted_false_runs=(36529371312,),
-            expected_plan_block=(
-                r"CONTINUE_DURABLE_BLOCK: Ceuta: DURABLE_LINEAGE_INCOMPATIBLE: "
-                r"territorial_source→territorial_product"
-            ),
+            expected_rebuild=True,
         )
 
 

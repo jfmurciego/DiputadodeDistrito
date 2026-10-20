@@ -101,6 +101,8 @@ class NationalCampaignTests(unittest.TestCase):
       resolved=matrix
       for key in match[1].split("."): resolved=resolved.get(key,{}) if isinstance(resolved,dict) else {}
       inputs[name]=resolved if resolved!={} else ""
+     elif name=="persist_state" and "matrix.persist_state" in str(value):
+      inputs[name]=str(matrix["persist_state"]).lower()
     env={**os.environ,"PYTHONPATH":str(ROOT),"PATH":str(bindir)}
     for name,value in step["env"].items():
      match=re.fullmatch(r"\$\{\{ inputs\.(\w+) \}\}",str(value))
@@ -113,6 +115,160 @@ class NationalCampaignTests(unittest.TestCase):
      result=subprocess.run([sys.executable,"-c",code],cwd=root,env={**env,name:"drift"},capture_output=True,text=True)
      self.assertNotEqual(result.returncode,0,name)
      self.assertIn("CAMPAIGN_MANIFEST_MISMATCH",result.stderr,name)
+
+ def test_campaign_continuity_routes_require_frozen_product_and_common_resolver(self):
+  from unittest.mock import patch
+  for route in ("PRODUCT_REUSE_READY","SOURCE_PREPARATION_REQUIRED"):
+   with self.subTest(route=route), tempfile.TemporaryDirectory() as td:
+    root=Path(td); manifest,child=generation_fixture(root,mode="territorial_only")
+    row=manifest["territories"][0]
+    product={"run_id":101,"artifact_name":"ddd-territorial-product-101","artifact_sha256":"7"*64}
+    preparing=route=="SOURCE_PREPARATION_REQUIRED"
+    effective={"contract_path":row["contract_path"],"generation_gate":{"allowed":True,"route":"planned_pre_m04_accreditation" if preparing else "certified_product_lineage"},"run_prepare_territorial":preparing,"run_generate":preparing,
+               "pre_m04_accreditation_planned":preparing,
+               "existing":{"territorial_product":product}}
+    row["preflight_status"]=route
+    row["execution_route"]=route
+    row["execution_plan"].update({k:effective[k] for k in
+      ("run_prepare_territorial","run_generate","pre_m04_accreditation_planned")})
+    row["generation_contract"]={"allowed":False}
+    row["territorial_product"]=product if not preparing else {}
+    if not preparing:
+     child["existing"]["territorial_product"]=dict(product)
+    freeze(manifest)
+    matrix=build_matrix(manifest,"EXECUTE_CAMPAIGN_CONFIRMED")
+    self.assertEqual(len(matrix["include"]),1)
+    self.assertEqual(matrix["include"][0]["execution_route"],route)
+    summary=aggregate(manifest,[])
+    self.assertEqual(summary["territories"][0]["status"],"MISSING")
+    with patch("herramientas.gestor_campana_nacional.campaign_execution_plan",return_value=effective):
+     validate_campaign_child(manifest=manifest,plan=child,root=root,
+         expected_sha=manifest["manifest_sha256"],source_sha=manifest["source_sha"],
+         slot=row["slot"],campaign_instance=manifest["campaign_instance"])
+     with self.assertRaisesRegex(ValueError,"persist_state"):
+      validate_campaign_child(manifest=manifest,plan=child,root=root,
+         expected_sha=manifest["manifest_sha256"],source_sha=manifest["source_sha"],
+         slot=row["slot"],campaign_instance=manifest["campaign_instance"],
+         frozen_inputs={"PERSIST_INPUT":"false" if any(row["execution_plan"].get(k) for k in ("pre_m04_accreditation_planned","run_prepare_electoral","run_incorporate")) else "true"})
+     if not preparing:
+      corrupted=copy.deepcopy(manifest)
+      corrupted["territories"][0]["territorial_product"]["artifact_sha256"]="8"*64
+      freeze(corrupted)
+      with self.assertRaisesRegex(ValueError,"territorial_product"):
+       validate_campaign_child(manifest=corrupted,plan=child,root=root,
+         expected_sha=corrupted["manifest_sha256"],source_sha=corrupted["source_sha"],
+         slot=row["slot"],campaign_instance=corrupted["campaign_instance"])
+     changed=dict(effective,run_prepare_territorial=not preparing)
+     with patch("herramientas.gestor_campana_nacional.campaign_execution_plan",return_value=changed):
+      with self.assertRaisesRegex(ValueError,"el resolver común exige otra ruta"):
+       validate_campaign_child(manifest=manifest,plan=child,root=root,
+         expected_sha=manifest["manifest_sha256"],source_sha=manifest["source_sha"],
+         slot=row["slot"],campaign_instance=manifest["campaign_instance"])
+
+ def test_dispatch_contract_path_and_electoral_persistence(self):
+  manager=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  self.assertIn("campaign_contract_path: ${{ matrix.contract_path }}",manager)
+  self.assertIn("persist_state: ${{ matrix.persist_state }}",manager)
+  m=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume",root=ROOT)
+  row=m["territories"][0]
+  self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
+  self.assertFalse(row["execution_plan"]["run_incorporate"])
+  matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
+  self.assertFalse(matrix[0]["persist_state"])
+  self.assertEqual(matrix[0]["contract_path"],row["contract_path"])
+  galicia=build_manifest(selected=["galicia"],publication_mode="electoral",
+                         source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-rebuild",root=ROOT)
+  row_g=galicia["territories"][0]
+  self.assertEqual(row_g["preflight_status"],"PRODUCT_REUSE_READY")
+  self.assertTrue(row_g["execution_plan"]["run_incorporate"])
+  self.assertTrue(build_matrix(galicia,"EXECUTE_CAMPAIGN_CONFIRMED")["include"][0]["persist_state"])
+
+ def test_workflow_persists_only_source_preparation(self):
+  manager=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  self.assertIn("persist_state: ${{ matrix.persist_state }}",manager)
+  self.assertIn("publish_result: false",manager)
+  self.assertIn("fail-fast: false",manager)
+
+ def test_effective_campaign_persistence_is_not_overridden_by_dispatch(self):
+  workflow=(ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+  self.assertIn('elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && -z "$CAMPAIGN_INSTANCE" ]]; then',workflow)
+  self.assertIn('persist="$PERSIST_INPUT"',workflow)
+  self.assertIn('if [[ "$pre_m04_planned" == "true" && "$persist" != "true"',workflow)
+  import subprocess
+  full=yaml.safe_load(workflow)
+  step=next(x for x in full["jobs"]["planificar"]["steps"] if x.get("id")=="plan")
+  run=step["run"]
+  start=run.index('persist="$PERSIST_INPUT"')
+  end=run.index('if [[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]; then',start)
+  script="set -euo pipefail\n"+run[start:end]+"\nprintf '%s' \"$persist\"\n"
+  for event,campaign,requested,expected in (
+      ("workflow_dispatch","campaign-123","false","false"),
+      ("workflow_dispatch","campaign-123","true","true"),
+      ("workflow_dispatch","","false","true"),
+      ("pull_request","campaign-123","true","false")):
+   with self.subTest(event=event,campaign=campaign,requested=requested):
+    env={**os.environ,"GITHUB_EVENT_NAME":event,"CAMPAIGN_INSTANCE":campaign,
+         "PERSIST_INPUT":requested,"PUBLISH_INPUT":"false"}
+    result=subprocess.run(["bash","-c",script],env=env,text=True,capture_output=True,check=True)
+    self.assertEqual(result.stdout,expected)
+
+ def test_child_uses_manifest_when_explicit_reuse_inputs_are_absent(self):
+  workflow=(ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+  self.assertIn("elif not campaign_instance or any((reuse_run_id, reuse_artifact, reuse_digest, reuse_source_sha)):",workflow)
+  self.assertIn("validate_campaign_child(",workflow)
+  self.assertIn("CAMPAIGN_MANIFEST_SHA256",workflow)
+  self.assertIn("CAMPAIGN_SOURCE_ARTIFACT_SHA256",workflow)
+  from herramientas.resolver_ejecucion_completa import apply_explicit_territorial_source
+  with self.assertRaisesRegex(ValueError,"Procedencia explícita incompleta"):
+   apply_explicit_territorial_source({},campaign_instance="campaign-test")
+  with self.assertRaisesRegex(ValueError,"Procedencia explícita incompleta"):
+   apply_explicit_territorial_source({},campaign_instance="campaign-test",reuse_run_id="123")
+
+ def test_2025_canonical_14_routes_rebuild_stale_lineage_without_reusing_obsolete_products(self):
+  from herramientas.catalogo_territorios import load_master
+  selected_codes={"03","04","05","06","08","09","12","13","14","15","16","17","18","19"}
+  selected=[r["territory_id"] for r in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
+            if str(r["autonomous_community_code_ine"]) in selected_codes]
+  m=build_manifest(selected=selected,publication_mode="electoral",source_sha="a"*40,
+                   strategy="Canónico",campaign_instance="regression14",root=ROOT)
+  self.assertEqual(len(m["territories"]),14)
+  matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
+  self.assertEqual(len(matrix),14)
+  self.assertEqual({r["slot"] for r in matrix},selected_codes)
+  self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),4)
+  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),10)
+  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),0)
+  by_slot={r["slot"]:r for r in matrix}
+  self.assertEqual(by_slot["12"]["execution_route"],"PRODUCT_REUSE_READY")
+  self.assertTrue(by_slot["12"]["execution_plan"]["run_incorporate"])
+  self.assertEqual(by_slot["18"]["execution_route"],"SOURCE_PREPARATION_REQUIRED")
+  self.assertTrue(by_slot["18"]["execution_plan"]["run_prepare_territorial"])
+  self.assertTrue(by_slot["18"]["execution_plan"]["run_generate"])
+  self.assertTrue(by_slot["18"]["execution_plan"]["pre_m04_accreditation_planned"])
+  self.assertFalse(by_slot["18"]["generation_contract"]["allowed"])
+  self.assertEqual(aggregate(m,[])["status"],"FAIL")
+
+ def test_obsolete_galicia_ceuta_products_are_deaccredited_from_producer_proof(self):
+  catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text())
+  by_id={r["territory_id"]:r["editions"]["2025"] for r in catalog["territories"]}
+  galicia=by_id["galicia"]
+  self.assertTrue(galicia["territorial_product_available"])
+  self.assertFalse(galicia["electoral_product_available"])
+  territorial=json.loads((ROOT/galicia["evidence"]["territorial_product"]).read_text())
+  electoral=json.loads((ROOT/galicia["evidence"]["electoral_product"]).read_text())
+  producer=json.loads((ROOT/f"territorios/galicia/evidencia/ejecuciones_completas/{electoral['run_id']}.json").read_text())
+  phase=next(p for p in producer["phases"] if p["name"].startswith("02 ·"))
+  self.assertNotEqual(phase["run_id"],territorial["run_id"])
+  self.assertNotEqual(phase["artifact_digest"].removeprefix("sha256:"),territorial["artifact_sha256"])
+  ceuta=by_id["ceuta"]
+  self.assertTrue(ceuta["territorial_sources_prepared"])
+  self.assertFalse(ceuta["territorial_product_available"])
+  obsolete=json.loads((ROOT/ceuta["evidence"]["territorial_product"]).read_text())
+  producer=json.loads((ROOT/f"territorios/ceuta/evidencia/ejecuciones_completas/{obsolete['run_id']}.json").read_text())
+  phase=next(p for p in producer["phases"] if p["name"].startswith("01 ·"))
+  self.assertNotEqual(phase["run_id"],ceuta["preparation_evidence"]["run_id"])
+  self.assertNotEqual(phase["artifact_digest"].removeprefix("sha256:"),ceuta["preparation_evidence"]["artifact_sha256"])
 
  def test_cardinalities_and_codauto_order(self):
   ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["andalucia"])] )]
@@ -136,18 +292,21 @@ class NationalCampaignTests(unittest.TestCase):
     expected_kind="prepared_source_pair" if mode=="electoral" else "territorial_source_receipt"
     self.assertEqual({r["evidence"]["kind"] for r in manifest["territories"]},{expected_kind})
 
- def test_ceuta_common_lineage_block_overrides_generation_evidence(self):
+ def test_ceuta_stale_m06_is_not_reused_and_new_generation_requires_accreditation(self):
   from herramientas.resolver_ejecucion_completa import build_plan
-  with self.assertRaisesRegex(ValueError,"CONTINUE_DURABLE_BLOCK.*DURABLE_LINEAGE_INCOMPATIBLE"):
-   build_plan(territory="ceuta",edition="2025",execution_mode="reuse",
-              catalog=ROOT/"configuracion/catalogo_preparacion.yaml",root_dir=ROOT,
-              explicit_territorial_source={})
+  p=build_plan(territory="ceuta",edition="2025",execution_mode="reuse",
+               catalog=ROOT/"configuracion/catalogo_preparacion.yaml",root_dir=ROOT,
+               explicit_territorial_source={})
+  self.assertFalse(p["catalog_state"]["territorial_product_available"])
+  self.assertTrue(p["run_generate"])
+  self.assertTrue(p["run_prepare_territorial"])
   m=build_manifest(selected=["ceuta"],publication_mode="territorial_only",source_sha="a"*40,
                    strategy="Canónico",campaign_instance="regression",root=ROOT)
   r=m["territories"][0]
-  self.assertEqual(r["preflight_status"],"BLOCKED")
-  self.assertIn("DURABLE_LINEAGE_INCOMPATIBLE"," ".join(r["preflight_blockers"]))
-  self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+  self.assertEqual(r["preflight_status"],"SOURCE_PREPARATION_REQUIRED")
+  self.assertTrue(r["execution_plan"]["pre_m04_accreditation_planned"])
+  self.assertFalse(r["generation_contract"]["allowed"])
+  self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
 
  def test_extremadura_reuse_does_not_authorize_generation(self):
   for mode in ("territorial_only","electoral"):
@@ -221,7 +380,7 @@ class NationalCampaignTests(unittest.TestCase):
   text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
   self.assertIn("name: 0 Gestor de Campañas",text)
   self.assertIn("fail-fast: false",text); self.assertIn("max-parallel: 5",text)
-  self.assertIn("publish_result: false",text); self.assertIn("persist_state: false",text)
+  self.assertIn("publish_result: false",text); self.assertIn("persist_state: ${{ matrix.persist_state }}",text)
   self.assertNotIn("retry_failed: true",text)
   self.assertNotIn("preparacion-fuentes.yml",text)
   self.assertNotIn("preparacion-resultados-electorales.yml",text)
@@ -440,6 +599,6 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotIn("  publicar_galerias:",text)
   self.assertNotIn("  resultado_publicacion:",text)
   self.assertIn("publish_result: false",text)
-  self.assertIn("persist_state: false",text)
+  self.assertIn("persist_state: ${{ matrix.persist_state }}",text)
 
 if __name__=="__main__": unittest.main()
