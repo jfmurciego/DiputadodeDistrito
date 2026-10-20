@@ -60,7 +60,7 @@ jobs:
             --output /app/n08-casos-certificados/expedientes-n08-cinco-provincias.json
       - name: Conservar expedientes nominales N08 y sus CUSEC
         if: ${{ always() && github.event_name == 'pull_request' && github.head_ref == 'work/n08-nominal-exceptions-20261019' }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: n08-cinco-provincias-cusec-original
           path: n08-casos-certificados/expedientes-n08-cinco-provincias.json
@@ -91,7 +91,7 @@ jobs:
             2>&1 | tee ci-gerrychain.log
       - name: Conservar diagnóstico de la suite
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
