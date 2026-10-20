@@ -45,3 +45,11 @@ document.querySelector("#geojson-file").addEventListener("change",async e=>{
   try{const data=JSON.parse(await file.text());if(map.isStyleLoaded())render(data);else map.once("load",()=>render(data))}
   catch(err){status.textContent="No se pudo cargar: "+err.message}
 });
+
+// A standalone GitHub Actions artifact injects the exact GeoJSON inline.
+if (globalThis.DDD_CONGRESO_GEOJSON) {
+  map.once("load",()=>{
+    try {render(globalThis.DDD_CONGRESO_GEOJSON)}
+    catch(err){status.textContent="Error de validación: "+err.message}
+  });
+}
