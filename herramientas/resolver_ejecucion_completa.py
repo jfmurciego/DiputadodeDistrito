@@ -516,6 +516,59 @@ def classify_prepared_pair_failure(reason: str) -> dict:
     raise ValueError(f"ELECTORAL_PAIR_TECHNICAL_BLOCK: {text}")
 
 
+def plan_reaccreditation_after_reuse_rejection(
+    plan: dict, *, geometric_reuse: dict, root_dir: Path,
+) -> None:
+    """Replan M04-M08 when the downloaded source invalidates certified M06 reuse.
+
+    The common resolver may initially omit generation because the catalog has a
+    certified M06. The materialized territorial receipt can later reject that
+    reuse. At that point M04 must not run against a stale pre-M04 attestation.
+    """
+    if (plan.get("execution_mode") != "reuse"
+            or plan.get("optimization_algorithm") != "Canónico"
+            or geometric_reuse.get("available") is not True
+            or geometric_reuse.get("compatible") is True):
+        raise ValueError("TERRITORIAL_REUSE_REPLAN_BLOCK: no hay rechazo de reutilización canónica")
+
+    selected = plan.get("prepared_territorial_source") or {}
+    source = (plan.get("existing") or {}).get("territorial_source") or {}
+    if not selected.get("receipt_path") or not selected.get("territorial_identity_sha256"):
+        raise ValueError("TERRITORIAL_REUSE_REPLAN_BLOCK: falta recibo territorial seleccionado")
+    if str(source.get("territorial_identity_sha256") or "") != str(selected["territorial_identity_sha256"]):
+        raise ValueError("TERRITORIAL_REUSE_REPLAN_BLOCK: identidad de fuente distinta del recibo")
+
+    args = dict(
+        root_dir=root_dir,
+        contract_path=plan.get("contract_path"),
+        territory_id=plan["territory_id"],
+        certified_product_ready=False,
+        preparation_evidence=source,
+        require_source=True,
+    )
+    previous = (plan.get("catalog_state") or {}).get("generation_preflight_evidence") or None
+    gate = generation_enablement(**args, first_generation_evidence=previous)
+    if not gate.get("allowed"):
+        if gate.get("capability") != "CAP_PRE_M04_EVIDENCE":
+            raise ValueError("TERRITORIAL_REUSE_REPLAN_BLOCK: " + str(gate.get("reason") or gate))
+        # Reconstruct and persist genuine M01-M03U evidence with the current
+        # implementation; never relabel or waive a historical SHA binding.
+        gate = generation_enablement(**args, pre_m04_accreditation_planned=True)
+        if not gate.get("allowed") or gate.get("route") != "planned_pre_m04_accreditation":
+            raise ValueError("TERRITORIAL_REUSE_REPLAN_BLOCK: acreditación pre-M04 no habilitada")
+        plan["pre_m04_accreditation_planned"] = True
+        # The product workflow's reuse selector can otherwise pick an old M04
+        # checkpoint: its source/M05 checks do not bind M02 implementation.
+        # Rebuild M01-M06 against the verified source after fresh pre-M04 proof.
+        plan["generation_execution_mode"] = "from_start"
+    plan["generation_gate"] = gate
+    plan["run_prepare_territorial"] = False  # selected, verified source is already durable
+    plan["run_generate"] = True
+    if (plan.get("publication_mode_effective") == "electoral"
+            and (plan.get("electoral_activation") or {}).get("execution") == "EXECUTE"):
+        plan["run_incorporate"] = True
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
