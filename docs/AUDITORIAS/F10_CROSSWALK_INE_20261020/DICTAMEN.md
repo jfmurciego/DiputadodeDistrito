@@ -18,6 +18,8 @@ Se procesaron byte a byte los originales INE con el formato fijo del documento o
 | Julio 2025–enero 2026 | `https://ine.es/prodyser/callejero/Var_Callejero_0725_0126.zip` | `f2f8299bbcff7e79c69948b900d5c9e97c3b9c71f8cc430f8ffac0e9a475f319` | 507.975 | CRC y SHA conformes |
 | Enero–julio 2026 | `https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip` | `154b8eacdb886e5b6463283c597076b3b0dde256cfaf74cb34c4ffc5cb326635` | 577.966 | CRC y SHA conformes |
 
+El documento de formato `originales/Variacionesencallejero.pdf` está preservado (34.243 bytes; SHA-256 `85c1e62b1fc9e9d362fce51d2a2398e17a7dd18a22fe5d86fd44c24a19ac4662`).
+
 El ZIP 0125_0725 contiene directorios internos rotulados `Variaciones_01-2024_07-2024`, aunque el nombre del archivo, los miembros `D250101.A250630` y sus fechas de variación corresponden a 2025. Se conserva este hecho como anomalía de rotulación; el intervalo no se infiere del nombre del directorio. Los valores de fechas y códigos se interpretan conforme al esquema oficial y al contenido íntegro fijado por el SHA del ZIP.
 
 Los códigos examinados son **13 identidades** (2 Aragón, 7 Castilla y León y 4 Andalucía), aunque el encargo los denomine “once” en el criterio final.
