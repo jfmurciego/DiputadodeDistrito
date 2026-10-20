@@ -1071,5 +1071,103 @@ class TerritorialSourceVerificationShellTests(unittest.TestCase):
         self.assertEqual(help_result.returncode, 0, help_result.stderr)
 
 
+class AsturiasM02ReaccreditationTests(unittest.TestCase):
+    """Regresion de Asturias run 39430413162: M02 cambia tras pre-M04."""
+
+    def _asturias(self):
+        return build_plan(
+            territory="Principado de Asturias",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+        )
+
+    def test_failed_geometric_reuse_schedules_genuine_pre_m04_reaccreditation(self):
+        from herramientas.resolver_ejecucion_completa import reconcile_incompatible_geometric_reuse
+
+        plan = self._asturias()
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        selected = dict(plan["existing"]["territorial_source"])
+        reconcile_incompatible_geometric_reuse(
+            plan,
+            geometric_reuse={
+                "available": True,
+                "compatible": False,
+                "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+            },
+            selected_territorial_source=selected,
+            root_dir=ROOT,
+        )
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(plan["generation_gate"], {
+            "allowed": True,
+            "route": "planned_pre_m04_accreditation",
+        })
+        self.assertEqual(plan["generation_execution_mode"], "from_start")
+        self.assertTrue(plan["run_incorporate"])
+        self.assertEqual((plan["population_year"], plan["section_year"]), (2023, 2023))
+        self.assertEqual(plan["existing"]["territorial_source"], selected)
+        self.assertEqual(plan["territorial_reaccreditation_reason"], "PRODUCT_SOURCE_LINEAGE_MISSING")
+
+    def test_reuse_compatible_does_not_reaccredit_or_recompute(self):
+        from herramientas.resolver_ejecucion_completa import reconcile_incompatible_geometric_reuse
+
+        plan = self._asturias()
+        original = json.dumps(plan, sort_keys=True)
+        reconcile_incompatible_geometric_reuse(
+            plan,
+            geometric_reuse={"available": True, "compatible": True},
+            selected_territorial_source=plan["existing"]["territorial_source"],
+            root_dir=ROOT,
+        )
+        self.assertEqual(json.dumps(plan, sort_keys=True), original)
+
+    def test_mismatched_selected_source_blocks_instead_of_substituting(self):
+        from herramientas.resolver_ejecucion_completa import reconcile_incompatible_geometric_reuse
+
+        plan = self._asturias()
+        selected = dict(plan["existing"]["territorial_source"])
+        selected["artifact_sha256"] = "f" * 64
+        with self.assertRaisesRegex(ValueError, r"GEOMETRIC_REUSE_BLOCK: territorial_source.artifact_sha256"):
+            reconcile_incompatible_geometric_reuse(
+                plan,
+                geometric_reuse={"available": True, "compatible": False},
+                selected_territorial_source=selected,
+                root_dir=ROOT,
+            )
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertFalse(plan["run_generate"])
+
+    def test_missing_product_blocks_instead_of_silent_reuse(self):
+        from herramientas.resolver_ejecucion_completa import reconcile_incompatible_geometric_reuse
+
+        plan = self._asturias()
+        with self.assertRaisesRegex(ValueError, "GEOMETRIC_REUSE_BLOCK"):
+            reconcile_incompatible_geometric_reuse(
+                plan,
+                geometric_reuse={"available": False, "compatible": False},
+                selected_territorial_source=plan["existing"]["territorial_source"],
+                root_dir=ROOT,
+            )
+        self.assertFalse(plan["run_generate"])
+
+    def test_00_calls_reconciler_without_clearing_required_pre_m04(self):
+        workflow = load(ORCH)
+        script = "\n".join(str(s.get("run", "")) for s in workflow["jobs"]["planificar"]["steps"])
+        self.assertIn("reconcile_incompatible_geometric_reuse(", script)
+        self.assertIn('selected_territorial_source=p["existing"]["territorial_source"]', script)
+        self.assertIn('and not p.get("pre_m04_accreditation_planned")', script)
+        self.assertIn('p["run_prepare_territorial"]=False', script)
+        jobs = workflow["jobs"]
+        self.assertIn("pre_m04_accreditation_planned == 'true'", jobs["acreditar_generacion"]["if"])
+        self.assertTrue(jobs["acreditar_generacion"]["with"]["preflight_only"])
+        self.assertIn("generation_execution_mode", jobs["generar"]["with"]["execution_mode"])
+
+
 if __name__ == "__main__":
     unittest.main()
