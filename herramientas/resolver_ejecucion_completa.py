@@ -516,6 +516,60 @@ def classify_prepared_pair_failure(reason: str) -> dict:
     raise ValueError(f"ELECTORAL_PAIR_TECHNICAL_BLOCK: {text}")
 
 
+
+def replan_after_rejected_geometric_reuse(plan: dict, *, root_dir: Path) -> None:
+    """Schedule pre-M04 re-accreditation after 00 rejects a nominal M06 reuse.
+
+    The preferred territorial source has already passed the official receipt
+    verification. It must not be silently replaced or acquired again.
+    """
+    if plan.get("execution_mode") != "reuse" or plan.get("optimization_algorithm") != "Canónico":
+        raise ValueError("GEOMETRIC_REUSE_REPLAN_BLOCK: incompatible execution route")
+    if plan.get("run_prepare_territorial"):
+        raise ValueError("GEOMETRIC_REUSE_REPLAN_BLOCK: unexpected source preparation")
+
+    catalog_state = plan.get("catalog_state") or {}
+    prep = catalog_state.get("preparation_evidence") or {}
+    selected = (plan.get("existing") or {}).get("territorial_source") or {}
+    for field in ("run_id", "artifact_name", "artifact_sha256", "package_sha256"):
+        if not prep.get(field) or str(selected.get(field) or "") != str(prep[field]):
+            raise ValueError("GEOMETRIC_REUSE_REPLAN_BLOCK: source identity mismatch: " + field)
+
+    gate = generation_enablement(
+        root_dir=root_dir,
+        contract_path=plan.get("contract_path"),
+        territory_id=str(plan.get("territory_id") or ""),
+        certified_product_ready=False,
+        first_generation_evidence=catalog_state.get("generation_preflight_evidence") or None,
+        preparation_evidence=prep,
+        require_source=True,
+    )
+    if not gate.get("allowed"):
+        if gate.get("capability") != "CAP_PRE_M04_EVIDENCE":
+            raise ValueError("GEOMETRIC_REUSE_REPLAN_BLOCK: " + str(gate.get("reason") or gate))
+        gate = generation_enablement(
+            root_dir=root_dir,
+            contract_path=plan.get("contract_path"),
+            territory_id=str(plan.get("territory_id") or ""),
+            certified_product_ready=False,
+            first_generation_evidence=None,
+            preparation_evidence=prep,
+            require_source=True,
+            pre_m04_accreditation_planned=True,
+        )
+        if not gate.get("allowed") or gate.get("route") != "planned_pre_m04_accreditation":
+            raise ValueError("GEOMETRIC_REUSE_REPLAN_BLOCK: pre-M04 reaccreditation not enabled")
+        plan["pre_m04_accreditation_planned"] = True
+    plan["generation_gate"] = gate
+    # M02 or its source lineage may have changed: never resume an old M04.
+    # 02 receives the verified source package explicitly and rebuilds M01-M06.
+    plan["generation_execution_mode"] = "from_start"
+    plan["run_generate"] = True
+    if (plan.get("publication_mode_effective") == "electoral"
+            and (plan.get("electoral_activation") or {}).get("execution") == "EXECUTE"):
+        plan["run_incorporate"] = True
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
