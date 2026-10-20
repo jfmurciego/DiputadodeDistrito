@@ -1,0 +1,75 @@
+{
+  "schema": "ddd.national-nac-execution-result/1.0",
+  "date": "2026-10-19",
+  "base_main": "4545491ca70066e2004b53b30ebe9994ed4d9df6",
+  "scope": "NAC-01..NAC-12",
+  "in_existing_campaign": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013",
+  "generation_authorized": false,
+  "districts_generated": 0,
+  "tasks": {
+    "NAC-01": "BLOCKED_EXTERNAL",
+    "NAC-02": "BLOCKED_EXTERNAL",
+    "NAC-03": "COMPLETE",
+    "NAC-04": "NOT_EXECUTABLE",
+    "NAC-05": "NOT_EXECUTABLE",
+    "NAC-06": "BLOCKED_EXTERNAL",
+    "NAC-07": "BLOCKED_EXTERNAL",
+    "NAC-08": "BLOCKED_EXTERNAL",
+    "NAC-09": "BLOCKED_EXTERNAL",
+    "NAC-10": "WAIT_OWNER",
+    "NAC-11": "NOT_EXECUTABLE",
+    "NAC-12": "WAIT_OWNER"
+  },
+  "verification": {
+    "targeted_tests": "30 passed, 17 subtests passed",
+    "contrast_tool_tests": "50 passed, 17 subtests passed",
+    "py_compile_python_3_11": "PASS",
+    "independent_increment_reviews": [
+      "REVIEW_PASS_WITH_SCOPE_LIMITS",
+      "REVIEW_PASS"
+    ],
+    "national_software_review": "REVIEW_PASS; separate Codex session, static scope; not an externally accredited owner review",
+    "generation_flag_guard_fix_review": "REVIEW_PASS; separate session; pytest contract+readiness 31 passed, 22 subtests passed; pre-change byte hash of legacy predecessor independently confirmed",
+    "nac09_independent_review": "GO_ACOTADO; internal evidence supports two section-component>K contradictions; a broader inherited five-case claim remains unreconciled",
+    "national_software_final_review": "NOT_OWNER_REVIEWED; session-separated technical review completed, no external reviewer accreditation",
+    "pre_guard_fix_congress_regression": "151 passed, 59 subtests passed",
+    "final_guard_fix_regression": "93 passed across targeted contract/readiness/certifier/composer/N06/N08/API/WMS suites",
+    "preflight_adapter_suite": "BLOCKED_ENVIRONMENT: ModuleNotFoundError shapely; suite not executed",
+    "independent_guard_fix_test": "REVIEW_PASS in separate session; pytest contract+readiness 30 passed, 22 subtests passed",
+    "ci_final_head": "NOT_RUN: no PR because GitHub write action was denied",
+    "artifact_sha256_ddd_core/congreso_contract.py": "e2878139e3ad7b1e884ce13a13faeee5f0e1f69e9efcfbf6aed93396b563d823",
+    "artifact_sha256_tests/test_congreso_contract.py": "e7bca0cb2fa719af2af3b738bcf2440b3fb4dcfa4e2154817bfd48c792c80b9e",
+    "artifact_sha256_tests/test_congreso_readiness.py": "afe51a84e627ef4451c4030133ee3a69f075b6b510e48d3adb51957a8925cce1",
+    "artifact_sha256_legacy/n08_nac_20261019/congreso_contract_v1.2.0.py": "5d77f2a69060b78976565cf9811244507eabb86265c6670a1fc807a1c0daa65f"
+  },
+  "artifacts": {
+    "ddd_core/congreso_ign_api_snapshot.py": "9d5fdc2ad8edf72dba4ef4a04c4c1495ee7374301cf663663c47a45a7229dc0b",
+    "tests/test_congreso_ign_api_snapshot.py": "0ce883c524bea1aac4ef085f578066593b96dd4fafbe71f3d5f8188b0b013349",
+    "ddd_core/congreso_contract.py": "UPDATED_IN_FINAL_LOCAL_COMMIT",
+    "tests/test_congreso_contract.py": "UPDATED_IN_FINAL_LOCAL_COMMIT",
+    "tests/test_congreso_readiness.py": "UPDATED_IN_FINAL_LOCAL_COMMIT"
+  },
+  "source_inquiry": {
+    "submitted": "2026-10-18",
+    "official_reply_received": false,
+    "source_bytes_received": false,
+    "source_sha256": null,
+    "source_accredited": false,
+    "latest_access_attempt": {
+      "endpoint": "https://api-features.ign.es/collections/administrativeboundary/items?f=json&limit=2",
+      "result": "URL not accessible via configured web tool; no bytes acquired; no retry through same path"
+    }
+  },
+  "limitations": [
+    "API page auditor does not download or authenticate page bytes",
+    "temporal field semantics not independently verified",
+    "no new official provincial comparisons generated",
+    "no partition feasibility or product certification asserted by this increment"
+  ],
+  "github_state": {
+    "main": "4545491ca70066e2004b53b30ebe9994ed4d9df6",
+    "pr273": "CLOSED_MERGED",
+    "pr273_merge_commit": "fb2e4742985bac7ac96263ee5fed4e12ac454208",
+    "pr273_scope": "software integration CI; not territorial certification or independent review"
+  }
+}

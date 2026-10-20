@@ -1,6 +1,7 @@
 # Versión 1.1.0; fecha 2026-10-12; regresión del contrato 0.1 inmutable.
 # Origen: legacy/n06_contrato_20261012/test_congreso_contract_v1.py; assertions intactas.
 import json
+import hashlib
 import unittest
 from pathlib import Path
 
@@ -29,6 +30,26 @@ class CongressContractTests(unittest.TestCase):
         self.assertEqual(result["province_codes"], list(CONGRESS_CODES[:50]))
         self.assertEqual(result["autonomous_city_codes"], ["51", "52"])
         self.assertFalse(result["generation_authorized"])
+
+    def test_v1_2_0_contract_predecessor_is_preserved_exactly(self):
+        predecessor = (Path(__file__).parents[1]
+            / "legacy/n08_nac_20261019/congreso_contract_v1.2.0.py")
+        self.assertEqual(
+            hashlib.sha256(predecessor.read_bytes()).hexdigest(),
+            "5d77f2a69060b78976565cf9811244507eabb86265c6670a1fc807a1c0daa65f",
+        )
+
+    def test_contract_cannot_claim_generation_authorized(self):
+        payload = {**self.payload, "accreditation": {"generation_authorized": True}}
+        with self.assertRaisesRegex(
+                ValueError, "GENERATION_AUTHORIZATION_MUST_REMAIN_FALSE"):
+            validate_congress_identity(payload)
+
+    def test_production_readiness_requires_explicit_false_generation_flag(self):
+        contract = json.loads((Path(__file__).parents[1]
+            / "territorios/congreso/contrato_congreso_2026.json").read_text(encoding="utf-8"))
+        contract["accreditation"]["generation_authorized"] = True
+        self.assertIn("GENERATION_AUTHORIZATION_MUST_REMAIN_FALSE", production_blockers(contract))
 
     def test_candidate_json_is_structural_only_and_fail_closed(self):
         path = Path(__file__).parents[1] / "legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json"

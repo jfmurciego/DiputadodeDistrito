@@ -1,0 +1,46 @@
+{
+  "base_head": "6d489af7069aa8888a92618a07204fec6da17cc1",
+  "branch": "codex/nac-continuacion-20261020",
+  "campaign": "ddd-national-campaign-20261013",
+  "completed_local": [
+    "duplicate JSON key rejection with legacy predecessor",
+    "bounded deterministic spanning-forest search diagnostic",
+    "real-data K>1 report with two-process byte-identical reproduction",
+    "official LimitesTime/OGC API status and CNIG request requirements documented"
+  ],
+  "date": "2026-10-20",
+  "districts_generated": 0,
+  "evidence": "NAC_CONTINUACION_20261020.md and .json",
+  "evidence_hashes": {
+    "ddd_core/congreso_bounded_tree_search.py": "e23a34dda8e545f87c1995f752667bd6927902a8da599d97f253ae0e402953b6",
+    "ddd_core/congreso_ign_api_snapshot.py": "c8af68614c9c4200fb0de32846426482267b8c8b8184c1ca7b2cf4ba98455e73",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_CONTINUACION_20261020.md": "99b627d5c6ef9e07c2120b649b68938cefc1ad8b634fa3883fb9784a19d5f10b",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIPLE_BOUNDED_20261020_final.json": "bd48322c3d12f6c5a457cc510c19ea037d09ee8711bb4545a008463aa9b0dde7",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/REVIEW_DECISIONS.json": "d0d48a2f2695cbae6406b4ab35c62e0967faebcf4a6eed809d77a4ca1efaaeab",
+    "docs/REGISTRO_DE_CAMBIOS.md": "b59d3add433d09ed1945aa59fd37744065a31d698fea929a54402e5c89e1e6b5",
+    "herramientas/diagnosticar_factibilidad_congreso_k_multiple.py": "e5314d139279ffac5356971a697e431b9acc62234567046f4ea2ad6e9a9b8272",
+    "tests/test_congreso_bounded_search.py": "e5ac5de641636c02722919a70fef134474d923cdf05041fcdff3c12279e805b5",
+    "tests/test_congreso_bounded_tree_search.py": "239590f1f6f5cd56b52e6144406675d2fed2640cfe36eb073045ce9a13447ad8",
+    "tests/test_congreso_ign_api_snapshot.py": "6e99f771f4e4d0e900ccf64bc8e852540b8bc7dce231703eac96e6bd9dfb4cf2"
+  },
+  "generation_authorized": false,
+  "next_actions": [
+    "publish only if authorized GitHub write path becomes operational",
+    "receive official historical CNIG/IGN snapshot effective 2025-01-01",
+    "continue wider K>1 constructive search without treating bounded non-witness as infeasibility"
+  ],
+  "remote_main": "2762b92db86b2207f11c5411392207fdd73056cf",
+  "reproduction_sha256": "bd48322c3d12f6c5a457cc510c19ea037d09ee8711bb4545a008463aa9b0dde7",
+  "review_status": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+  "schema": "ddd.national-nac-continuation-checkpoint/1.0",
+  "states": {
+    "NAC-01": "BLOCKED_EXTERNAL",
+    "NAC-02": "BLOCKED_EXTERNAL",
+    "NAC-04": "NOT_EXECUTABLE",
+    "NAC-05": "NOT_EXECUTABLE",
+    "NAC-08": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+    "NAC-09": "PARTIAL_PROGRESS",
+    "publication": "BLOCKED_ENVIRONMENT"
+  },
+  "tests_passed": 70
+}

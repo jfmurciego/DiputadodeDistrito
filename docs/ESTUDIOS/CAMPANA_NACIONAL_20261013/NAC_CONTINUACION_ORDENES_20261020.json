@@ -1,0 +1,182 @@
+{
+  "branch": "codex/nac-integracion-main-20261020",
+  "date": "2026-10-20",
+  "evidence_sha256": {
+    "ddd_core/congreso_bounded_tree_search.py": "c496cbcef43211a5f4eaf53ae694a8f2f22e0f3d4a6e1c171e7280411512c015",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_CONTINUACION_ORDENES_20261020.md": "7fb34b238843b7796ef01d2f551f8c56461fe0315c2c8700e8a0dd31fcf95d73",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_BUDGET_DIAGNOSTIC_20261020.json": "c3299f38a448b60e1ac5142c6d2608f6b50aeca7f8ef262410bcff8ff39ea88e",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_LOW_K_FOLLOWUP_20261020.json": "c3a4bb159e4547fde5ff9f7b656dfd63ef2555239ed4cf6c30a2fb1824b39a7c",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_REMAINING_FOLLOWUP_20261020.json": "cdb0f4d3c9353b956ca22e8126a21c3d086ae209b6b93c7e856d9682860dda91",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIFOREST_FOLLOWUP_20261020.json": "2dcc11868813ad952634adb3b3473a655e988b509fd2305b380aee39db146a8c",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIPLE_BOUNDED_20261020_final.json": "bd48322c3d12f6c5a457cc510c19ea037d09ee8711bb4545a008463aa9b0dde7",
+    "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIPLE_ORDERS_20261020.json": "e1dd017815854fc2012a87a41bd7f7a4d061b8ed02fb949c4bbe85868925311f",
+    "docs/REGISTRO_DE_CAMBIOS.md": "0819707aebfb000926cf2721d3a56ab2977d3bb11beefc0d444742cd74bbef09",
+    "herramientas/diagnosticar_factibilidad_congreso_k_multiple.py": "aba9d17c35c0a472d7a393832eb019b2d2fa64bc4a31f14a483684466b998d26",
+    "legacy/nac_continuacion_20261020/ddd_core/congreso_bounded_tree_search.py": "e23a34dda8e545f87c1995f752667bd6927902a8da599d97f253ae0e402953b6",
+    "legacy/nac_continuacion_20261020/herramientas/diagnosticar_factibilidad_congreso_k_multiple.py": "e5314d139279ffac5356971a697e431b9acc62234567046f4ea2ad6e9a9b8272",
+    "tests/test_congreso_bounded_search.py": "13a246a6c336abebfce27be30ec3fe9669439ec6a206af08cf9061b24f70fdf3",
+    "tests/test_congreso_bounded_tree_search.py": "43bb88e711f3081af080f1c190233f2b775f9d9c593eb213b84e3f842e11f930"
+  },
+  "exact_solver_followup": {
+    "artifact": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_BUDGET_DIAGNOSTIC_20261020.json",
+    "artifact_sha256": "c3299f38a448b60e1ac5142c6d2608f6b50aeca7f8ef262410bcff8ff39ea88e",
+    "cases": 23,
+    "classification": "budget exhaustion only; no infeasibility conclusion",
+    "connected_group_budget": 23,
+    "exact_cover_states_reached": 0,
+    "proven_infeasible": 0,
+    "search_exhausted": 23
+  },
+  "exact_solver_low_k_followup": {
+    "artifact": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_LOW_K_FOLLOWUP_20261020.json",
+    "artifact_sha256": "c3a4bb159e4547fde5ff9f7b656dfd63ef2555239ed4cf6c30a2fb1824b39a7c",
+    "budget": {
+      "max_groups": 50000,
+      "max_states": 5000
+    },
+    "cases": 10,
+    "exact_cover_states_reached": 0,
+    "k_max": 7,
+    "proven_infeasible": 0,
+    "search_exhausted": 10,
+    "witnesses": 0
+  },
+  "exact_solver_remaining_followup": {
+    "artifact": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_EXACT_REMAINING_FOLLOWUP_20261020.json",
+    "artifact_sha256": "cdb0f4d3c9353b956ca22e8126a21c3d086ae209b6b93c7e856d9682860dda91",
+    "budget": {
+      "max_groups_extra": 50000,
+      "max_states": 5000
+    },
+    "cases": 13,
+    "exact_cover_states_reached": 0,
+    "proven_infeasible": 0,
+    "search_exhausted": 13,
+    "witnesses": 0
+  },
+  "generation_authorized": false,
+  "github_compare": {
+    "github_write": "DENIED_APPROVAL_POLICY_NEVER",
+    "integration_merge_simulation": "PASS_AUTOMATIC_MERGE",
+    "merge_base": "bcbad45ee4a285547682f087824430f11fd88876",
+    "remote_original_branch_ahead": 9,
+    "remote_original_branch_behind": 25,
+    "remote_original_branch_head": "1b0c48591c8516b451ba6faa8fb4443253783bd2"
+  },
+  "github_main": "cdcf56c1bfbe185c674857e0bd8b96146e57568f",
+  "integration": {
+    "conflicts": 0,
+    "inherited_prs": [
+      276,
+      288
+    ],
+    "main_changes_preserved": true,
+    "main_sha": "cdcf56c1bfbe185c674857e0bd8b96146e57568f",
+    "merge_base": "bcbad45ee4a285547682f087824430f11fd88876",
+    "merge_commit": "7e6e11a2a08fb8de2e3c31627630d279e61c2d40",
+    "path_overlap_from_common_base": false
+  },
+  "local_diff_base": "1b0c48591c8516b451ba6faa8fb4443253783bd2",
+  "prior_search": {
+    "artifact": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIPLE_BOUNDED_20261020_final.json",
+    "artifact_sha256": "bd48322c3d12f6c5a457cc510c19ea037d09ee8711bb4545a008463aa9b0dde7",
+    "cases": 44,
+    "conditional_witnesses": 6,
+    "necessary_condition_failed_conditional": 8,
+    "search_exhausted": 30
+  },
+  "publication": {
+    "branch_pushed": false,
+    "ci": "NOT_AVAILABLE",
+    "delivery": "verified binary patch against exact main SHA; see external delivery manifest for path and SHA-256",
+    "pr_blocker": "GitHub write denied under approval policy never; no retry/bypass",
+    "pr_draft": false
+  },
+  "published_head": "1b0c48591c8516b451ba6faa8fb4443253783bd2",
+  "repository": "jfmurciego/DiputadodeDistrito",
+  "review": {
+    "integrated_diff_status": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+    "latest_artifact_review": "REVIEW_PASS",
+    "prior_functional_diff_status": "REVIEW_PASS_WITH_SCOPE_LIMITS",
+    "prior_reviewed_head": "5c485c4d800f3988e837d058de41638cea00f7b2",
+    "scope_limits": [
+      "two geospatial suites NOT_VERIFIED because Shapely/GeoPandas are absent",
+      "no PR or CI because GitHub write was denied",
+      "CNIG historical 2025 not accredited",
+      "no territorial product feasibility certification"
+    ]
+  },
+  "reviewed_functional_head": "5c485c4d800f3988e837d058de41638cea00f7b2",
+  "schema": "ddd.nac-continuation-followup/1.0",
+  "search": {
+    "artifact": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIPLE_ORDERS_20261020.json",
+    "artifact_sha256": "e1dd017815854fc2012a87a41bd7f7a4d061b8ed02fb949c4bbe85868925311f",
+    "cases": 44,
+    "conditional_witnesses": 13,
+    "districts_generated": 0,
+    "generation_authorized": false,
+    "necessary_condition_failed_conditional": 8,
+    "new_witnesses": [
+      "21",
+      "22",
+      "24",
+      "25",
+      "26",
+      "32",
+      "45"
+    ],
+    "reproduced_on_integrated_branch_byte_identically": true,
+    "search_exhausted": 23
+  },
+  "source_branch": "codex/nac-continuacion-20261020",
+  "source_candidate_head": "2ae21c9a64908dc458c8f1225c82baeb17d6c0a6",
+  "tasks": {
+    "A": {
+      "result": "main cdcf56c integrated locally; candidate reviewed PASS_WITH_SCOPE_LIMITS; patch verified; GitHub write denied, no PR/CI",
+      "state": "PARTIAL_PROGRESS"
+    },
+    "B": {
+      "result": "exact 2025 historic vector source and temporal/precision semantics remain unavailable",
+      "state": "BLOCKED_EXTERNAL"
+    },
+    "C": {
+      "result": "verified 6/30/8 to 13/23/8; exact bounded followups for all 23 SEARCH_EXHAUSTED cases exhausted group budgets; 115 deterministic tree-forest searches completed with no partition on those selected forests, not graph-level infeasibility",
+      "state": "PARTIAL_PROGRESS"
+    },
+    "D": {
+      "result": "strict API snapshot duplicate-key parser and #288 WMS parser coexist; regression tests pass",
+      "state": "DONE"
+    },
+    "E": {
+      "result": "13 conditional section-graph witnesses; 23 exact searches exhausted group enumeration; 115 selected-forest DPs found no partition on those forests; 8 component-count cases remain conditional; no territorial feasibility certification",
+      "state": "PARTIAL_PROGRESS"
+    }
+  },
+  "tests": {
+    "focused_exception_wms_api": 25,
+    "geospatial_unverified": [
+      "tests.test_congreso_preflight_adapter (Shapely absent)",
+      "tests.test_congreso_topology (GeoPandas absent)"
+    ],
+    "git_diff_check": "PASS",
+    "integrated_diagnostic_reproduction": "PASS_BYTE_IDENTICAL",
+    "post_integration_congress": 150,
+    "pre_integration_directed": 73,
+    "py_compile": "PASS"
+  },
+  "tree_multiforest_followup": {
+    "artifact": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAC_K_MULTIFOREST_FOLLOWUP_20261020.json",
+    "artifact_sha256": "2dcc11868813ad952634adb3b3473a655e988b509fd2305b380aee39db146a8c",
+    "budget": {
+      "states_per_forest": 10000,
+      "transitions_per_forest": 50000
+    },
+    "cases": 23,
+    "completed_tree_runs": 115,
+    "conditional_witnesses": 0,
+    "forests_per_case": 5,
+    "mathematical_infeasibility_proven": 0,
+    "no_partition_on_selected_forests": 23,
+    "tree_dp_budget_exhaustions": 0
+  }
+}

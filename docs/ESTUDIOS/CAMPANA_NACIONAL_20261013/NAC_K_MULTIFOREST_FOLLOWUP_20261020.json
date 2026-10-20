@@ -1,0 +1,1670 @@
+{
+  "base_main": "cdcf56c1bfbe185c674857e0bd8b96146e57568f",
+  "budget": {
+    "orderings": [
+      "cusec",
+      "degree_desc",
+      "population_desc",
+      "degree_asc",
+      "population_asc"
+    ],
+    "tree_dp_states_per_order": 10000,
+    "tree_dp_transitions_per_order": 50000
+  },
+  "cases": 23,
+  "date": "2026-10-20",
+  "districts_generated": 0,
+  "generation_authorized": false,
+  "method": "existing deterministic BFS-spanning-forest tree-cut DP; section graph only; five predeclared traversal orderings; assignments not emitted",
+  "results": [
+    {
+      "CPRO": "01",
+      "K": 3,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "c5f146b1725ec6ad5b366d7c5881f6ae9065b5eade82a65d6ce99a55aa567586",
+          "node_order_sha256": "b4d7e503c98ac53e3ab2f2ab38357bd0ec54893af56fbf2d598b5f945e2ee3c0",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 470,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 231,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "c5f146b1725ec6ad5b366d7c5881f6ae9065b5eade82a65d6ce99a55aa567586",
+          "node_order_sha256": "f13dae3f4319cf8b807823f5c2b363869c107e065732d87bafc99eec22dd9bcc",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 464,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 225,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "c5f146b1725ec6ad5b366d7c5881f6ae9065b5eade82a65d6ce99a55aa567586",
+          "node_order_sha256": "ff5c87680d709b5b92dd24c422281b2a2e84e821e648f17dcd4bcd631bf10f5a",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 472,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 233,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "c5f146b1725ec6ad5b366d7c5881f6ae9065b5eade82a65d6ce99a55aa567586",
+          "node_order_sha256": "ba28f0f2ef821f5e6e0bff3cc099c57cd6b4c8ecccbdf5d0c889bac431b08aea",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 474,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 235,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "c5f146b1725ec6ad5b366d7c5881f6ae9065b5eade82a65d6ce99a55aa567586",
+          "node_order_sha256": "6600fcd90dae02738b167b302422a6e0f3d29da17af8011675ee2dd827dbdc29",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 470,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 231,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 131085,
+      "floor": 96889,
+      "input_sha256": "c5f146b1725ec6ad5b366d7c5881f6ae9065b5eade82a65d6ce99a55aa567586",
+      "population": 341961,
+      "sections": 240,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "02",
+      "K": 3,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "4570b5682a113db416e16974cb908a6901d639c95d26506c21015c83dd8b16a5",
+          "node_order_sha256": "53b05a27fb9945e1836ea267503d32890db28c8a8484cf7d41064de5b948d6c8",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 559,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 264,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "4570b5682a113db416e16974cb908a6901d639c95d26506c21015c83dd8b16a5",
+          "node_order_sha256": "ff9c6323d5491e896f4a0585720cf544261044d2f3d6c305afca581033fc2531",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 560,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 265,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "4570b5682a113db416e16974cb908a6901d639c95d26506c21015c83dd8b16a5",
+          "node_order_sha256": "c6526df8ded356ddc4778c1c9a16a368917e660471e43e3648f0d4c5a16c0dfa",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 558,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 263,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "4570b5682a113db416e16974cb908a6901d639c95d26506c21015c83dd8b16a5",
+          "node_order_sha256": "1fb7c88619f4ce27afe9aeec8a7ea9f6fd4a135cfb857e706b10f4916d31c6bb",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 579,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 284,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "4570b5682a113db416e16974cb908a6901d639c95d26506c21015c83dd8b16a5",
+          "node_order_sha256": "c23adc3bec6c1258e9ccded6eeb01e8ac2e882b8ef45dce64afd16d8e2a9b76b",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 565,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 270,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 149787,
+      "floor": 110713,
+      "input_sha256": "4570b5682a113db416e16974cb908a6901d639c95d26506c21015c83dd8b16a5",
+      "population": 390751,
+      "sections": 296,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "03",
+      "K": 17,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "2825e4989ae539744bea78a3107fddfde791668a2dda9a780aa143dfd55e8039",
+          "node_order_sha256": "ff1a4e6d78c44f8dde78df9f90ff82f5e0326f194ca6fcc2df418ec9ee337392",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2369,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1134,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "2825e4989ae539744bea78a3107fddfde791668a2dda9a780aa143dfd55e8039",
+          "node_order_sha256": "821eb2434bb679f2a011a758a64e63abdae83d2d252626a68c0908d451b259bb",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2412,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1171,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "2825e4989ae539744bea78a3107fddfde791668a2dda9a780aa143dfd55e8039",
+          "node_order_sha256": "3b00d3479a6b487b7e6bd7530b217362665df3dd6274ee38d74f464a6ad0b546",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2458,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1220,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "2825e4989ae539744bea78a3107fddfde791668a2dda9a780aa143dfd55e8039",
+          "node_order_sha256": "7863f3b831c8aa59d8bba8c8bbc5fb10614f4d1d2fbf4d51e77657c61ccce22f",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2481,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1239,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "2825e4989ae539744bea78a3107fddfde791668a2dda9a780aa143dfd55e8039",
+          "node_order_sha256": "7a285bf367533a0d5a993762eea3dc7c33139578996aecd8c9f800a3a687415d",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2499,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1259,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 137564,
+      "floor": 101679,
+      "input_sha256": "2825e4989ae539744bea78a3107fddfde791668a2dda9a780aa143dfd55e8039",
+      "population": 2033566,
+      "sections": 1238,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "06",
+      "K": 6,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "185a759ef706f7394fab6b11b8ff05325fae7902027cecbeea23eb23e5a035c3",
+          "node_order_sha256": "f3e0770e4145325b4c171613681bf96e06b765f19aaf9561d19c55e2c31fd413",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1129,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 575,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "185a759ef706f7394fab6b11b8ff05325fae7902027cecbeea23eb23e5a035c3",
+          "node_order_sha256": "6d04e6022a6b3f8028b9c79576eff9b0259314124171c64e09b26cfd1c023117",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1066,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 514,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "185a759ef706f7394fab6b11b8ff05325fae7902027cecbeea23eb23e5a035c3",
+          "node_order_sha256": "eac7de531364e2ce1764870826a6e732628bb25d93593fcca8ccb41a0297034a",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1094,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 542,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "185a759ef706f7394fab6b11b8ff05325fae7902027cecbeea23eb23e5a035c3",
+          "node_order_sha256": "c9f3558837b2e0c0caac3e6409852efb15fc948f5bb302b614912874b1af017e",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1089,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 538,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "185a759ef706f7394fab6b11b8ff05325fae7902027cecbeea23eb23e5a035c3",
+          "node_order_sha256": "84ece0d972dafbecc3cd5949b6d6766104102e771892be4f79755ecea5cd06d7",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1085,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 534,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 127488,
+      "floor": 94231,
+      "input_sha256": "185a759ef706f7394fab6b11b8ff05325fae7902027cecbeea23eb23e5a035c3",
+      "population": 665155,
+      "sections": 553,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "08",
+      "K": 50,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "16f8f571639cbb433511e536a0fc0dd048ddd12c97d17346eb583d44c7c897e2",
+          "node_order_sha256": "1fc0f7c256460e32d0c4b13cdcd94ae5e4b172b1ea4308f0766b2c587b7e1c0c",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 7323,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 3668,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "16f8f571639cbb433511e536a0fc0dd048ddd12c97d17346eb583d44c7c897e2",
+          "node_order_sha256": "d582add8330795ecf047c238d76a05b9de6e89b99282351e96beee4ef1762c41",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 7299,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 3639,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "16f8f571639cbb433511e536a0fc0dd048ddd12c97d17346eb583d44c7c897e2",
+          "node_order_sha256": "47616f4ed80072d48ba0a580180544da7d39dcfc153e0e7d1fe10ff08411049d",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 7180,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 3530,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "16f8f571639cbb433511e536a0fc0dd048ddd12c97d17346eb583d44c7c897e2",
+          "node_order_sha256": "6f0d5636fa268096bfd11b0ee705266a2eadf6d07e8c2f3dbf15462514322ff0",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 7229,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 3583,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "16f8f571639cbb433511e536a0fc0dd048ddd12c97d17346eb583d44c7c897e2",
+          "node_order_sha256": "57528a4599bb819e36aca7e81e31f50d4fb1b488e8ca9a3de50788bd8c976469",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 7046,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 3399,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 137078,
+      "floor": 101319,
+      "input_sha256": "16f8f571639cbb433511e536a0fc0dd048ddd12c97d17346eb583d44c7c897e2",
+      "population": 5959941,
+      "sections": 3652,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "11",
+      "K": 11,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "b5402f05795410974fe6c6cf588c516378d1f7be326feaca03745677e9dee297",
+          "node_order_sha256": "e2014b7ec3222843fdb8c43ab4346018ffbd0b6d753505f19fd8020efa125d0b",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1841,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 920,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "b5402f05795410974fe6c6cf588c516378d1f7be326feaca03745677e9dee297",
+          "node_order_sha256": "0f3efa80ee49e23fc05989463738c64484bf0a1ff5b76e13c0e911f4391a3f81",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1794,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 871,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "b5402f05795410974fe6c6cf588c516378d1f7be326feaca03745677e9dee297",
+          "node_order_sha256": "55a7e3688c5b7ca5293329937891e060f2feb55a87117804f1b0b81d4fd635a3",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1801,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 881,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "b5402f05795410974fe6c6cf588c516378d1f7be326feaca03745677e9dee297",
+          "node_order_sha256": "d236ec089fe248b4a1e2055ca1497daa4e9e18a0667e331009b83d4458a45a82",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1832,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 910,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "b5402f05795410974fe6c6cf588c516378d1f7be326feaca03745677e9dee297",
+          "node_order_sha256": "2268f65bdcf3d75010a5c8eff3806cdb1f2858bb597d3e93110f3150c9cff00d",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1812,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 890,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 131875,
+      "floor": 97474,
+      "input_sha256": "b5402f05795410974fe6c6cf588c516378d1f7be326feaca03745677e9dee297",
+      "population": 1261420,
+      "sections": 923,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "13",
+      "K": 4,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "d91a555bfe2acd40e00ecfc3bd64738c3d438ac03313a51a60e340d193cc3de9",
+          "node_order_sha256": "216fd33852d0c0f42187ebf3ce62ac6d0b8a77e454a97a4155f37b50b74c718f",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 831,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 412,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "d91a555bfe2acd40e00ecfc3bd64738c3d438ac03313a51a60e340d193cc3de9",
+          "node_order_sha256": "62e1fc70ced919f3e513bd1356d38d5ff101e176b0ae9707f357707ac2635c41",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 790,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 373,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "d91a555bfe2acd40e00ecfc3bd64738c3d438ac03313a51a60e340d193cc3de9",
+          "node_order_sha256": "16dbb2fd4b2fc4d2e4fd5bc86c3bb3af5fe7e1a0677eeac146429230b08a1940",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 811,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 395,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "d91a555bfe2acd40e00ecfc3bd64738c3d438ac03313a51a60e340d193cc3de9",
+          "node_order_sha256": "904dc32102a6a36ac7de6786d7989d0a3dce375f61af9dcb3c893e6889012adc",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 880,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 461,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "d91a555bfe2acd40e00ecfc3bd64738c3d438ac03313a51a60e340d193cc3de9",
+          "node_order_sha256": "86cdb77a5c5fad277141f43a5cd9891cd8259731a580b2a48a0fab6b8960571f",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 840,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 422,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 142268,
+      "floor": 105156,
+      "input_sha256": "d91a555bfe2acd40e00ecfc3bd64738c3d438ac03313a51a60e340d193cc3de9",
+      "population": 494848,
+      "sections": 418,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "14",
+      "K": 6,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "77c87b5ff229df4834083096f12dbb3e62e1204cd8c16dc43392a83686a23d6e",
+          "node_order_sha256": "9c1a6fe24502a5217fcaeefb40ef675bc91b8198da1cd904c0b39d7bf9130fba",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1207,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 587,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "77c87b5ff229df4834083096f12dbb3e62e1204cd8c16dc43392a83686a23d6e",
+          "node_order_sha256": "c26cee9022d80cde6ce7fedcf4f2153e405c76c0671101f28354d554937b4bff",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1197,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 576,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "77c87b5ff229df4834083096f12dbb3e62e1204cd8c16dc43392a83686a23d6e",
+          "node_order_sha256": "0641dcc14e435ae437d32d107d220acb8061ba493cef57b2b51e4fa3fa1b8a40",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1210,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 591,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "77c87b5ff229df4834083096f12dbb3e62e1204cd8c16dc43392a83686a23d6e",
+          "node_order_sha256": "6210e9c8e8c8b79bae1dd2250f0b7063e9eb7b7502f8309a362af913ba829c36",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1217,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 597,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "77c87b5ff229df4834083096f12dbb3e62e1204cd8c16dc43392a83686a23d6e",
+          "node_order_sha256": "417cd6663edf5508b936e3b6ef4c7179d210400cadce2eeabd865cb8567b4b2a",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1204,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 584,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 148189,
+      "floor": 109532,
+      "input_sha256": "77c87b5ff229df4834083096f12dbb3e62e1204cd8c16dc43392a83686a23d6e",
+      "population": 773163,
+      "sections": 622,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "18",
+      "K": 8,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "780c3e11b0004710e1ea599728e1282f31bc99b2c5855edec19f327d82f391e3",
+          "node_order_sha256": "76d5c4e6b048ef7ba587dd99f2d4b417c1ba9c48826329efa6f7894cd9639222",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1315,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 643,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "780c3e11b0004710e1ea599728e1282f31bc99b2c5855edec19f327d82f391e3",
+          "node_order_sha256": "2ad1c540fff9791e9367a60e766c66a6a93bad9dc18d0e5cd17bd09b1804adbf",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1302,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 627,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "780c3e11b0004710e1ea599728e1282f31bc99b2c5855edec19f327d82f391e3",
+          "node_order_sha256": "852547dbe27a2cfb7ce90002cf87c0bb93017fa8d029ea9571da6769d26c29dc",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1310,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 639,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "780c3e11b0004710e1ea599728e1282f31bc99b2c5855edec19f327d82f391e3",
+          "node_order_sha256": "26c81c4e8ccfbd5cb8d550b0158b5b977b941e710d2468c1e70b8e162fa0741e",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1350,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 676,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "780c3e11b0004710e1ea599728e1282f31bc99b2c5855edec19f327d82f391e3",
+          "node_order_sha256": "f347dd829f0f64a5a95fa966ed974497987d0634c4b9989853f273a76ae638ad",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1331,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 657,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 135958,
+      "floor": 100491,
+      "input_sha256": "780c3e11b0004710e1ea599728e1282f31bc99b2c5855edec19f327d82f391e3",
+      "population": 945797,
+      "sections": 674,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "20",
+      "K": 6,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "21ceb2d82d6ce32189bda4baa6dc973d7294f1f2ff652ac2451db317434bf3e8",
+          "node_order_sha256": "747d2bb3f7d4095eafbd7e153f821a1bacec9f6207d9b80bad202e64f032c800",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1068,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 526,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "21ceb2d82d6ce32189bda4baa6dc973d7294f1f2ff652ac2451db317434bf3e8",
+          "node_order_sha256": "7e832b8b23bdafc255770b3e87bb73c73124a2d8e50cf744be4a5f66d9413960",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1055,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 513,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "21ceb2d82d6ce32189bda4baa6dc973d7294f1f2ff652ac2451db317434bf3e8",
+          "node_order_sha256": "0153f292c451473f9ccb7c7c12958fe4bfddf004d456cc3b90e0147651f39869",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1036,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 493,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "21ceb2d82d6ce32189bda4baa6dc973d7294f1f2ff652ac2451db317434bf3e8",
+          "node_order_sha256": "6b2e815ce12dc9ce6bc8ace9ca6d0ab8caf7a57a68afb4ce7ab708feb2267354",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1078,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 536,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "21ceb2d82d6ce32189bda4baa6dc973d7294f1f2ff652ac2451db317434bf3e8",
+          "node_order_sha256": "09bcea8ddd93d5c2aa85899f39606df55779f543664d126012a26d6de9480e79",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1058,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 516,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 140520,
+      "floor": 103863,
+      "input_sha256": "21ceb2d82d6ce32189bda4baa6dc973d7294f1f2ff652ac2451db317434bf3e8",
+      "population": 733149,
+      "sections": 544,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "23",
+      "K": 5,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "34a9211ce7363754c896cc7463f62c7168f8ba35202560da5789ae354e4cc1e3",
+          "node_order_sha256": "2b1920461b99b9522d7f17ad385a2ff019ee896ac09510f8cb93619b58fa9079",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 994,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 497,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "34a9211ce7363754c896cc7463f62c7168f8ba35202560da5789ae354e4cc1e3",
+          "node_order_sha256": "3a1c3c8845b6f97bc5727c5a69f2ee74146978861bac2d2a0191083fa1fbe38b",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 975,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 477,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "34a9211ce7363754c896cc7463f62c7168f8ba35202560da5789ae354e4cc1e3",
+          "node_order_sha256": "4318fd0b1e4941e4f7a3b899a1fdad725f8050a6a963fffe79b7d02ccf0a6d54",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 973,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 475,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "34a9211ce7363754c896cc7463f62c7168f8ba35202560da5789ae354e4cc1e3",
+          "node_order_sha256": "8b24ac3ea09bc08732a7c435823aa2c172f7c5db1c09bac70a494744dc0c6668",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1014,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 511,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "34a9211ce7363754c896cc7463f62c7168f8ba35202560da5789ae354e4cc1e3",
+          "node_order_sha256": "8d70281f88583f2e68007e4243cc00ed0878ccd2d8deefcdc669bfbb9714a893",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 969,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 473,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 142172,
+      "floor": 105085,
+      "input_sha256": "34a9211ce7363754c896cc7463f62c7168f8ba35202560da5789ae354e4cc1e3",
+      "population": 618143,
+      "sections": 498,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "28",
+      "K": 59,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "0c48489e5741a0c31b72536d607eba995788e328efb6dad95ebbbf3a7229bb92",
+          "node_order_sha256": "e94396aa55d619f00c9491ddc34094db0a9e31441178113430ec475b32dbfbae",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 8948,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 4437,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "0c48489e5741a0c31b72536d607eba995788e328efb6dad95ebbbf3a7229bb92",
+          "node_order_sha256": "2c83a3fe1bd828ded96ebb598ba43fa77a53e3082f00e7e4a7715867f424d89a",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 8513,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 4003,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "0c48489e5741a0c31b72536d607eba995788e328efb6dad95ebbbf3a7229bb92",
+          "node_order_sha256": "98ee859bbea190f163fad92b2a2bbd7105243acc6c85e15c9e5319092c43d8f4",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 8729,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 4220,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "0c48489e5741a0c31b72536d607eba995788e328efb6dad95ebbbf3a7229bb92",
+          "node_order_sha256": "c645c2355a19f27d608a99720da2c81e49ea71058dd78c10ff282086e4a3aae2",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 8950,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 4449,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "0c48489e5741a0c31b72536d607eba995788e328efb6dad95ebbbf3a7229bb92",
+          "node_order_sha256": "269e533c99be516abb400c18741c38fb57dfe6703ac65eb0267885c8f6cc61b3",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 8905,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 4393,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 138660,
+      "floor": 102489,
+      "input_sha256": "0c48489e5741a0c31b72536d607eba995788e328efb6dad95ebbbf3a7229bb92",
+      "population": 7113886,
+      "sections": 4518,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "29",
+      "K": 15,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "44231a7d7b60d0c2a57db24ca467e3cd5260da77bc845c368b5188e5dc049f24",
+          "node_order_sha256": "5cc5146a11d7d87f74e54b04bcbdabc34bf0d8da8dd6667af0ebb410cad0d5cf",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2155,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1063,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "44231a7d7b60d0c2a57db24ca467e3cd5260da77bc845c368b5188e5dc049f24",
+          "node_order_sha256": "526f540076c3e3ab5257603c58074648229e500cc42372083a50a6cd5533b948",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2075,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 987,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "44231a7d7b60d0c2a57db24ca467e3cd5260da77bc845c368b5188e5dc049f24",
+          "node_order_sha256": "04827bfdc5cac9aa2fecbb443d7efc2fdbbcc54d78e677b7d4036426a52f0359",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2214,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1119,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "44231a7d7b60d0c2a57db24ca467e3cd5260da77bc845c368b5188e5dc049f24",
+          "node_order_sha256": "efb7885d91aad82bbb219d5b3c21ec2e6d6d804b09998a4da3a99ee438fe4484",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2184,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1101,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "44231a7d7b60d0c2a57db24ca467e3cd5260da77bc845c368b5188e5dc049f24",
+          "node_order_sha256": "f0348b6e4030181093d50ff1b8f23d0f95a9a4dc9e79e9b7bfe894f0dabf3828",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2243,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1153,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 137324,
+      "floor": 101501,
+      "input_sha256": "44231a7d7b60d0c2a57db24ca467e3cd5260da77bc845c368b5188e5dc049f24",
+      "population": 1791183,
+      "sections": 1092,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "31",
+      "K": 6,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "bf606bd2e521908d50a9118fe0547dea9e504a3acc8e8f7b0624ca99531be9f9",
+          "node_order_sha256": "7b8aa5de6770e3601a32af0780395fc86b63e74a9047a3b5ef8df4149fa50a74",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1145,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 563,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "bf606bd2e521908d50a9118fe0547dea9e504a3acc8e8f7b0624ca99531be9f9",
+          "node_order_sha256": "744f050c03aedd52ce0934e67789ce48331c91c2f26fd6bbc3733b483c721ad3",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1251,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 670,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "bf606bd2e521908d50a9118fe0547dea9e504a3acc8e8f7b0624ca99531be9f9",
+          "node_order_sha256": "e0e61b8bd712248f56f8e9f4f149eb0ace304004529a802692f2b4e58e9a46e1",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1199,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 616,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "bf606bd2e521908d50a9118fe0547dea9e504a3acc8e8f7b0624ca99531be9f9",
+          "node_order_sha256": "6b7eaee612509c92e1956c46af5cdf82ae8e0768dae0622170982164785c1d74",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1169,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 589,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "bf606bd2e521908d50a9118fe0547dea9e504a3acc8e8f7b0624ca99531be9f9",
+          "node_order_sha256": "ad04a9c1769ad422af5e33693fd0229842115031846411624ee57a577ac88224",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1175,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 594,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 131072,
+      "floor": 96880,
+      "input_sha256": "bf606bd2e521908d50a9118fe0547dea9e504a3acc8e8f7b0624ca99531be9f9",
+      "population": 683854,
+      "sections": 582,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "33",
+      "K": 8,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "ce63b349916480eec84ea198664e8a7f85c2f0e6e8ce625063ae5414c05d1e8c",
+          "node_order_sha256": "a824d99f80abafa88a648ed1ab73587c35bdde9bfa26dbfa211da9e3db63a2b2",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1678,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 853,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "ce63b349916480eec84ea198664e8a7f85c2f0e6e8ce625063ae5414c05d1e8c",
+          "node_order_sha256": "c82bc715d5e37f86a6c98739be092335da126cbf08ab716355c75e8aab2c29c6",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1612,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 788,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "ce63b349916480eec84ea198664e8a7f85c2f0e6e8ce625063ae5414c05d1e8c",
+          "node_order_sha256": "3d8f341c798466bd8f48aa4fd63260a7433df5b268d22075fd756192e4664520",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1636,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 811,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "ce63b349916480eec84ea198664e8a7f85c2f0e6e8ce625063ae5414c05d1e8c",
+          "node_order_sha256": "6ddfb2fd516a0f603c6cb4cb1484a41cf024c09466170c9fee87f7135c90b58b",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1656,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 830,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "ce63b349916480eec84ea198664e8a7f85c2f0e6e8ce625063ae5414c05d1e8c",
+          "node_order_sha256": "8d71c42ba1c0f87188e73b6f2222dd5fee0a324b896cfdf98a63035edbd8ea2b",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1651,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 823,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 145924,
+      "floor": 107858,
+      "input_sha256": "ce63b349916480eec84ea198664e8a7f85c2f0e6e8ce625063ae5414c05d1e8c",
+      "population": 1015128,
+      "sections": 826,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "35",
+      "K": 10,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 4,
+          "input_sha256": "5e5b4fa957db6bfa951ed47f4370143007f72c33dfe2aff1791f6942b1db8082",
+          "node_order_sha256": "31f9bf59ef79b2b86ee51a37c71f1a62f0a6744b1d9c6bac79247dce6a691ba7",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1409,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 687,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "5e5b4fa957db6bfa951ed47f4370143007f72c33dfe2aff1791f6942b1db8082",
+          "node_order_sha256": "15c6a1bdb34989e603acd63d361490e3f9989792937fa6f3db5644a8f108b319",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1425,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 702,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "5e5b4fa957db6bfa951ed47f4370143007f72c33dfe2aff1791f6942b1db8082",
+          "node_order_sha256": "509e9504033694413badfd3e40ce0563b3617d8e301211dd5b08a066ff651499",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1456,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 734,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "5e5b4fa957db6bfa951ed47f4370143007f72c33dfe2aff1791f6942b1db8082",
+          "node_order_sha256": "a65da794af5bbf9fa3e4dc17add5e56fa5bc3c15b0b4acdae5fa0553c1cfae17",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1477,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 752,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "5e5b4fa957db6bfa951ed47f4370143007f72c33dfe2aff1791f6942b1db8082",
+          "node_order_sha256": "ebaef4b8284b24a443ada7f4fba5f5b445287b4e1904d9640191ac36a7cc7c22",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1480,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 768,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 134727,
+      "floor": 99582,
+      "input_sha256": "5e5b4fa957db6bfa951ed47f4370143007f72c33dfe2aff1791f6942b1db8082",
+      "population": 1171547,
+      "sections": 723,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "38",
+      "K": 9,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 4,
+          "input_sha256": "804ad45532df423c53bb3490382a069112575b686806468a5c98ef20a6d4a0f5",
+          "node_order_sha256": "8c13ca9ea64ceae369f44d19a84e473aba6187b65a07be5981471906ec5e6e53",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1331,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 648,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "804ad45532df423c53bb3490382a069112575b686806468a5c98ef20a6d4a0f5",
+          "node_order_sha256": "f14f13d2cfbe0d996116d52b05e07e624277885cf02315b23e1339479c668e43",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1312,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 630,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "804ad45532df423c53bb3490382a069112575b686806468a5c98ef20a6d4a0f5",
+          "node_order_sha256": "08b29f8714b5c3b23cb7a87340475ccc7ccf8d868286c43e94e0bc55f60e4b3d",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1367,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 684,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "804ad45532df423c53bb3490382a069112575b686806468a5c98ef20a6d4a0f5",
+          "node_order_sha256": "1206454debd100aca10f27d8f1ddc0c03772dbb9eac8b0c2f3d5060d97ecb555",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1331,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 649,
+          "witness_sha256": null
+        },
+        {
+          "components": 4,
+          "input_sha256": "804ad45532df423c53bb3490382a069112575b686806468a5c98ef20a6d4a0f5",
+          "node_order_sha256": "6726d2f6ee27359bf1084eabedf7983636f2b65ceed53048a05e7901afeeba93",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1296,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 614,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 138935,
+      "floor": 102692,
+      "input_sha256": "804ad45532df423c53bb3490382a069112575b686806468a5c98ef20a6d4a0f5",
+      "population": 1087319,
+      "sections": 684,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "39",
+      "K": 5,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "c7ff4860215418598b4a8c8a1d9afffa6efa0878aaea74c53c2379de64467bc4",
+          "node_order_sha256": "7923c6432b06d1163c68ff8df648f88930e907753f2a70d05bc5ec79f2140334",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1014,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 573,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "c7ff4860215418598b4a8c8a1d9afffa6efa0878aaea74c53c2379de64467bc4",
+          "node_order_sha256": "52024140bd65782af777e7d9c87fc299b5c99f15453c4700e22d7e6ea35ececb",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 865,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 409,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "c7ff4860215418598b4a8c8a1d9afffa6efa0878aaea74c53c2379de64467bc4",
+          "node_order_sha256": "b79c074e95c7d32e6e69549f47924175783058d7f9cbe21cd97cb5511c4515dd",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 924,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 467,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "c7ff4860215418598b4a8c8a1d9afffa6efa0878aaea74c53c2379de64467bc4",
+          "node_order_sha256": "4cbaebbc44cc05de87a4a3db74e9b32e9f1809d49ab45a416e82fa1001d298c6",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 906,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 448,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "c7ff4860215418598b4a8c8a1d9afffa6efa0878aaea74c53c2379de64467bc4",
+          "node_order_sha256": "72d1066ed09bb9aab89b83d4aa143fab30981d1b9a62ad940f57b00adf7a095a",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 976,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 515,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 136533,
+      "floor": 100916,
+      "input_sha256": "c7ff4860215418598b4a8c8a1d9afffa6efa0878aaea74c53c2379de64467bc4",
+      "population": 593623,
+      "sections": 458,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "41",
+      "K": 16,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 1,
+          "input_sha256": "e642a8c06834819c2038c2536e0ba91d8b05b0bc3d5cdd18ab4d985e1d8c82c1",
+          "node_order_sha256": "3140f157920ecdaf795dad6ec094085baf3f431444a66978eb9bbdd21a6d570e",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2672,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1297,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "e642a8c06834819c2038c2536e0ba91d8b05b0bc3d5cdd18ab4d985e1d8c82c1",
+          "node_order_sha256": "2cf0efcbdfec1f47f9cec2492a063f7bda5e03f70015f957f9b54ff68d87be95",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2529,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1156,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "e642a8c06834819c2038c2536e0ba91d8b05b0bc3d5cdd18ab4d985e1d8c82c1",
+          "node_order_sha256": "3d763a7a680d8bc62d4b86e66154113766c1636c72fd657abcb90954534b5c4a",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2650,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1276,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "e642a8c06834819c2038c2536e0ba91d8b05b0bc3d5cdd18ab4d985e1d8c82c1",
+          "node_order_sha256": "118b6b97cdf932e542867b5b4a3da0068057d792c816275f622ab299c8f124d6",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2748,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1372,
+          "witness_sha256": null
+        },
+        {
+          "components": 1,
+          "input_sha256": "e642a8c06834819c2038c2536e0ba91d8b05b0bc3d5cdd18ab4d985e1d8c82c1",
+          "node_order_sha256": "4865a47ec0e5756f6eeade9ae11415fcd29f0625a6a2650abcc4fcb054659f23",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 2655,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1282,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 142144,
+      "floor": 105064,
+      "input_sha256": "e642a8c06834819c2038c2536e0ba91d8b05b0bc3d5cdd18ab4d985e1d8c82c1",
+      "population": 1977664,
+      "sections": 1377,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "43",
+      "K": 7,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "107c33c17e3c181e2c5b6436a5b7b5baba73ffbe90e90293eb64a036ee5eb559",
+          "node_order_sha256": "be59054974ac543d23b0289c1c9a26a6ce392f6ababb722d298b8e502594da4f",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1132,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 561,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "107c33c17e3c181e2c5b6436a5b7b5baba73ffbe90e90293eb64a036ee5eb559",
+          "node_order_sha256": "d3823adbb8d61e9f39f39b029232dc0c03b1e89bdfefb773c9f3bc91c52b6ac8",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1186,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 622,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "107c33c17e3c181e2c5b6436a5b7b5baba73ffbe90e90293eb64a036ee5eb559",
+          "node_order_sha256": "27036010f7787ad7291491143aba2f7b8f26bce4805ea34bb0a6081d58136b1e",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1104,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 539,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "107c33c17e3c181e2c5b6436a5b7b5baba73ffbe90e90293eb64a036ee5eb559",
+          "node_order_sha256": "1652aec87b8764a62fc462728bfaff1184c116a2764d87f6e4057320c3611e94",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1108,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 541,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "107c33c17e3c181e2c5b6436a5b7b5baba73ffbe90e90293eb64a036ee5eb559",
+          "node_order_sha256": "e7711d1bca634c4c63eb18e8be655ee1bbdf12cf6ea7b4f6d4689b95f5ff7ee2",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1109,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 542,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 143837,
+      "floor": 106315,
+      "input_sha256": "107c33c17e3c181e2c5b6436a5b7b5baba73ffbe90e90293eb64a036ee5eb559",
+      "population": 875530,
+      "sections": 568,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "46",
+      "K": 23,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "835832ca493f79d79c7e3f985e7b52b28748465b9932ffce9f60eccaaceea254",
+          "node_order_sha256": "26fe0ea5bfb219a402839092621fdc08500e6d3f002ff254ba8f2cd4e3e8a093",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 3606,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1776,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "835832ca493f79d79c7e3f985e7b52b28748465b9932ffce9f60eccaaceea254",
+          "node_order_sha256": "ef19974f38d7f3fe98773176a32f98467aeb463bc4687190bf585e795c87b73d",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 3575,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1749,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "835832ca493f79d79c7e3f985e7b52b28748465b9932ffce9f60eccaaceea254",
+          "node_order_sha256": "9ace7edf30fb07d9b50ca2a43519b31d679eca1838b90f4e7148e2bdb060e870",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 3659,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1829,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "835832ca493f79d79c7e3f985e7b52b28748465b9932ffce9f60eccaaceea254",
+          "node_order_sha256": "1fa6cab93c92c77bff5945157f947286bfe306c829d662c8314223a4753e45d6",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 3710,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1878,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "835832ca493f79d79c7e3f985e7b52b28748465b9932ffce9f60eccaaceea254",
+          "node_order_sha256": "4065c1a40ab5d94768eba3bacc2444c94fb97cade7ca3c5585bae4cdc146151b",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 3639,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 1805,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 138199,
+      "floor": 102148,
+      "input_sha256": "835832ca493f79d79c7e3f985e7b52b28748465b9932ffce9f60eccaaceea254",
+      "population": 2763996,
+      "sections": 1830,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "47",
+      "K": 4,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "69de9dd9009749c96b92ba7565326c62b76bd60f41dceba19d10bdbf3bdc9681",
+          "node_order_sha256": "d673c34a7ce9806783a869db9eb736d0a4de3c23aaff19979edcb43645a1804b",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1112,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 548,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "69de9dd9009749c96b92ba7565326c62b76bd60f41dceba19d10bdbf3bdc9681",
+          "node_order_sha256": "6d81ad0b093a960729e651fd13673a05a313dba6b200f68100a4ce47f9123af0",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1117,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 552,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "69de9dd9009749c96b92ba7565326c62b76bd60f41dceba19d10bdbf3bdc9681",
+          "node_order_sha256": "e2d0b5d76c8aa12ed8d82aff1c3aa08a2c2c9d504fbc6faffecbc60251ca05d8",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1120,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 555,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "69de9dd9009749c96b92ba7565326c62b76bd60f41dceba19d10bdbf3bdc9681",
+          "node_order_sha256": "023e8379de15ab4385d7fcde342f027ffa4d2034b7bfae7bf79000c6f4f70f26",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1126,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 561,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "69de9dd9009749c96b92ba7565326c62b76bd60f41dceba19d10bdbf3bdc9681",
+          "node_order_sha256": "e308277cdd1a725b7ba85db3de69df96c0b33804249844170730917593c61717",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1128,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 560,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 151985,
+      "floor": 112337,
+      "input_sha256": "69de9dd9009749c96b92ba7565326c62b76bd60f41dceba19d10bdbf3bdc9681",
+      "population": 528644,
+      "sections": 565,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    },
+    {
+      "CPRO": "48",
+      "K": 10,
+      "assignment_emitted": false,
+      "attempts": [
+        {
+          "components": 2,
+          "input_sha256": "02e9afa88e960b7514c8d26ea21aef29a8a25916fb567a7e71adcc4868527343",
+          "node_order_sha256": "654bd2316f85dac41602102f759eec8bd8373da39155289f2a3372c7c92da394",
+          "ordering": "cusec",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1809,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 887,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "02e9afa88e960b7514c8d26ea21aef29a8a25916fb567a7e71adcc4868527343",
+          "node_order_sha256": "d9d032e9c1b9080de00b10f36588b72caf8ade4f81c685995c206083b1aec2ff",
+          "ordering": "degree_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1834,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 913,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "02e9afa88e960b7514c8d26ea21aef29a8a25916fb567a7e71adcc4868527343",
+          "node_order_sha256": "576a91a1e030f22ff2490a0d577aa15c1d0e40ae3c34efbde66e1b9fe43caa57",
+          "ordering": "population_desc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1849,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 921,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "02e9afa88e960b7514c8d26ea21aef29a8a25916fb567a7e71adcc4868527343",
+          "node_order_sha256": "bf58fa0f53e5bfad0ab60f503ff3ef569312b8b290ae48b3f44513d082d07145",
+          "ordering": "degree_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1853,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 929,
+          "witness_sha256": null
+        },
+        {
+          "components": 2,
+          "input_sha256": "02e9afa88e960b7514c8d26ea21aef29a8a25916fb567a7e71adcc4868527343",
+          "node_order_sha256": "374312e1273ef8d86fe30324cf967d695e64736f0918f4c72e619447bde72ede",
+          "ordering": "population_asc",
+          "proof": "NO_PARTITION_ON_SELECTED_SPANNING_FOREST",
+          "states": 1831,
+          "status": "TREE_WITNESS_NOT_FOUND",
+          "transitions": 908,
+          "witness_sha256": null
+        }
+      ],
+      "cap": 134231,
+      "floor": 99215,
+      "input_sha256": "02e9afa88e960b7514c8d26ea21aef29a8a25916fb567a7e71adcc4868527343",
+      "population": 1167233,
+      "sections": 923,
+      "status": "NO_PARTITION_ON_SELECTED_FORESTS",
+      "territorial_certification": "NOT_PERFORMED",
+      "witness_sha256": null
+    }
+  ],
+  "schema": "ddd.nac-k-multiforest-followup/1.0",
+  "selection": [
+    "01",
+    "02",
+    "03",
+    "06",
+    "08",
+    "11",
+    "13",
+    "14",
+    "18",
+    "20",
+    "23",
+    "28",
+    "29",
+    "31",
+    "33",
+    "35",
+    "38",
+    "39",
+    "41",
+    "43",
+    "46",
+    "47",
+    "48"
+  ],
+  "source_artifacts": [
+    "NAC_K_MULTIPLE_ORDERS_20261020.json",
+    "NAC_K_EXACT_LOW_K_FOLLOWUP_20261020.json",
+    "NAC_K_EXACT_REMAINING_FOLLOWUP_20261020.json"
+  ],
+  "summary": {
+    "conditional_witnesses": 0,
+    "individual_tree_runs": 115,
+    "mathematical_infeasibility_proven": 0,
+    "no_partition_on_selected_forests": 23,
+    "search_exhausted": 0,
+    "tree_dp_budget_exhaustions": 0
+  }
+}
