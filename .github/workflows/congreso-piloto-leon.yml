@@ -1,0 +1,35 @@
+# Congreso nacional: piloto de asignaciones CUSEC, sin autorizacion de produccion.
+name: 06 Congreso — Piloto León (4 distritos candidatos)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ddd-congreso-piloto-leon
+  cancel-in-progress: false
+
+jobs:
+  candidato_leon:
+    name: Construir candidato León (K=4, sin publicar)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Pruebas de la reconstrucción de grupos
+        run: python -m unittest tests.test_congreso_bounded_tree_search tests.test_congreso_piloto_leon -v
+      - name: Reconstruir cuatro candidatos CUSEC
+        run: |
+          mkdir -p candidato-leon
+          python -m herramientas.generar_piloto_congreso_leon --output candidato-leon/leon-4-candidatos.json
+      - name: Conservar artefacto del piloto
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: congreso-leon-candidato-${{ github.run_id }}
+          path: candidato-leon/
+          if-no-files-found: warn
+          retention-days: 30
