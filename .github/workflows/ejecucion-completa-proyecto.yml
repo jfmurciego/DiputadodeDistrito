@@ -676,10 +676,10 @@ jobs:
         run: |
           set -euo pipefail
           receipt="$(jq -r '.receipt_path' .ddd-source-check/resolved.json)"
-          python -m herramientas.consumir_par_fuentes_legislatura \\
-            --root-dir . verify-territorial \\
-            --territorial-receipt "$receipt" \\
-            --territorial-package .ddd-source-check/territorial \\
+          python -m herramientas.consumir_par_fuentes_legislatura \
+            --root-dir . verify-territorial \
+            --territorial-receipt "$receipt" \
+            --territorial-package .ddd-source-check/territorial \
             --output .ddd-source-check/validation.json
           jq -e '.decision == "READY"' .ddd-source-check/validation.json >/dev/null
           echo "pair_sha256=${{ needs.planificar.outputs.prepared_source_pair_sha256 }}" >> "$GITHUB_OUTPUT"
