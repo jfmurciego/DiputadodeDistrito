@@ -552,4 +552,4 @@ efectivos antes de la elección de cambios posteriores. Se preservan los tres
 originales y el esquema oficial. El dictamen registra las relaciones parciales
 para Aragón, Castilla y León y Andalucía sin elevarlas a equivalencia electoral.
 No cambia ninguna puerta F10, no se emite receipt electoral y no se redistribuyen
-votos. Suite focalizada: `tests/test_inspeccionar_variaciones_callejero_f10.py`.
+votos. Suite focalizada: `tests/test_inspeccionar_variaciones_callejero_f10.py` (11 pruebas).

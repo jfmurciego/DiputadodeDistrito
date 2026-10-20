@@ -69,7 +69,9 @@ def decode_tram_change(line: bytes):
     if len(line) < 79:
         return None
     change_code = line[73:74].decode("ascii", errors="ignore")
-    if change_code not in {"A", "B", "M", "R", "F", "S"}:
+    # The official TRAM family permits A/B/M/F/S. R is only defined for
+    # VIAS/PSEU and must not be accepted here.
+    if change_code not in {"A", "B", "M", "F", "S"}:
         return None
     old = line[0:10].decode("ascii", errors="ignore")
     source = old if len(old) == 10 and old.isdigit() else None

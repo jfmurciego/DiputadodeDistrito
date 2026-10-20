@@ -8,6 +8,7 @@ from pathlib import Path
 from herramientas.inspeccionar_variaciones_callejero_f10 import (
     ALLOWED_URLS,
     EXPECTED_SHA256,
+    decode_tram_change,
     inspect,
     validate_archive_hash,
 )
@@ -64,6 +65,19 @@ class INEVariationArchiveTests(unittest.TestCase):
         self.assertTrue(all(r["other_section"] is None for r in deleted))
         self.assertEqual(len(moved), 364)
         self.assertTrue(all(r["effective_on_or_before_election"] for r in moved))
+
+    def test_tram_accepts_only_the_variation_causes_defined_for_that_family(self):
+        def row_with_cause(cause: str) -> bytes:
+            row = bytearray(b" " * 79)
+            row[0:10] = b"2102502002"
+            row[61:69] = b"20260129"
+            row[73:74] = cause.encode("ascii")
+            row[74:79] = b"02001"
+            return bytes(row)
+
+        self.assertIsNone(decode_tram_change(row_with_cause("R")))
+        self.assertEqual(decode_tram_change(row_with_cause("F"))["change_code"], "F")
+        self.assertEqual(decode_tram_change(row_with_cause("S"))["change_code"], "S")
 
     def test_post_election_change_is_not_treated_as_election_day_evidence(self):
         events = self.reports["0126_0726"]["change_records_involving_targets"]
