@@ -95,6 +95,31 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
         raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: el resolver común exige otra ruta")
     if "execution_lineage" in row and _campaign_lineage_identity(effective)!=row["execution_lineage"]:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: execution_lineage")
+    # Only existing assets consumed by this child must retain their frozen identity.
+    # 00 can legitimately retain stale products in existing while rebuilding M06/M08,
+    # and can normalize a source's mutable decision status after selecting a pair.
+    consumed_phases={
+        "territorial_source":"run_prepare_territorial",
+        "territorial_product":"run_generate",
+        "electoral_source":"run_prepare_electoral",
+        "electoral_product":"run_incorporate",
+    }
+    immutable=("run_id","artifact_name","artifact_sha256","package_sha256",
+               "source_commit","election_id")
+    frozen_lineage=row.get("execution_lineage") or {}
+    child_existing=plan.get("existing") or {}
+    for asset, rebuild_phase in consumed_phases.items():
+        if asset.startswith("electoral_") and row["publication_mode"]!="electoral":
+            continue
+        if bool(plan.get(rebuild_phase,row["execution_plan"].get(rebuild_phase,False))):
+            continue
+        frozen_asset=frozen_lineage.get(asset) or {}
+        if not frozen_asset:
+            continue
+        child_asset=child_existing.get(asset) or {}
+        for field in immutable:
+            if field in frozen_asset and child_asset.get(field)!=frozen_asset[field]:
+                raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: child_lineage."+asset+"."+field)
     if effective.get("contract_path")!=row["contract_path"] or plan.get("contract_path")!=row["contract_path"]:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: contract_path")
     for key in ("run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate","pre_m04_accreditation_planned"):
