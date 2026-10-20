@@ -56,6 +56,14 @@ class HistoricalWMSProbeTests(unittest.TestCase):
             with self.subTest(sample=raw[:95]), self.assertRaisesRegex(ValueError, "SOURCE_WMS_GEOJSON_INVALID"):
                 inspect_historical_response(raw.encode("utf-8"), url)
 
+    def test_malformed_document_or_null_geometry_fails_closed(self):
+        url = request_url((-4.05, 42.4, -3.95, 42.5))
+        null_geometry = json.loads(example())
+        null_geometry["features"][0]["geometry"] = None
+        for raw in (b"[]", b"null", json.dumps(null_geometry).encode("utf-8")):
+            with self.subTest(raw=raw[:40]), self.assertRaises(ValueError):
+                inspect_historical_response(raw, url)
+
     def test_rejects_forged_view_or_missing_temporal_fields(self):
         url=request_url((-4.05,42.4,-3.95,42.5))
         bad=[b"<html>error</html>",json.dumps({"type":"FeatureCollection","features":[
