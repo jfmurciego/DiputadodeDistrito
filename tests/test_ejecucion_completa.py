@@ -1091,7 +1091,7 @@ class ReuseInvalidatedProductReaccreditationTests(unittest.TestCase):
             ROOT / "territorios/principado_de_asturias/evidencia/fuentes_territoriales/"
             "2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/"
             "37438440043/receipt.json"
-        ).read_text(encoding="utf-8"))["territorial_source"]
+        ).read_text(encoding="utf-8"))
         return plan, source
 
     def test_asturias_m02_drift_schedules_pre_m04_without_reacquiring_source(self):
@@ -1172,7 +1172,7 @@ class ReuseInvalidatedProductReaccreditationTests(unittest.TestCase):
         )
         self.assertIn("reconcile_incompatible_geometric_reuse(", script)
         self.assertIn("selected_source=selected", script)
-        self.assertIn('out("pre_m04_accreditation_planned"', script)
+        self.assertIn('"pre_m04_accreditation_planned","run_generate"', script)
         self.assertIn("run_prepare_territorial", script)
         preflight = jobs["acreditar_generacion"]
         self.assertIn("pre_m04_accreditation_planned == 'true'", preflight["if"])
