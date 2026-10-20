@@ -542,3 +542,14 @@ certifica el Motor Nacional y no habilita A3.
 ## 2026-10-19 — Comunidad Valenciana: corrección de reproyección M02
 
 Trasladado el alcance técnico de #271 sobre el `main` posterior a #269/#270/#273: M02 usa EPSG:25830 y se declaran ediciones fuente de población y seccionado 2025, sin editar geometrías, tolerancias, población, puentes o contratos. Se conservan en `docs/AUDITORIAS/F10_VALENCIA_M02_REPROYECCION_20261019/` las pruebas M01–M03, hashes y límites de acreditación. Este cambio no constituye recibo territorial ni cierra F10; M04–M06 y la validación efectiva siguen pendientes.
+
+
+## 2026-10-20 — F10: reconstrucción nominal de variaciones INE 2025–2026
+
+Se corrige el inspector de variaciones INE para verificar los SHA-256 de los tres ZIP
+allowlisted, conservar referencias de registros TRAM y fechas, y separar cambios
+efectivos antes de la elección de cambios posteriores. Se preservan los tres
+originales y el esquema oficial. El dictamen registra las relaciones parciales
+para Aragón, Castilla y León y Andalucía sin elevarlas a equivalencia electoral.
+No cambia ninguna puerta F10, no se emite receipt electoral y no se redistribuyen
+votos. Suite focalizada: `tests/test_inspeccionar_variaciones_callejero_f10.py`.
