@@ -3,6 +3,14 @@ name: 06 Congreso — Piloto León (4 distritos candidatos)
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/congreso-piloto-leon.yml'
+      - 'herramientas/generar_piloto_congreso_leon.py'
+      - 'ddd_core/congreso_bounded_tree_search.py'
+      - 'tests/test_congreso_piloto_leon.py'
+      - 'tests/test_congreso_bounded_tree_search.py'
 
 permissions:
   contents: read
