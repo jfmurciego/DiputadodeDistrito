@@ -427,6 +427,71 @@ def resolve_publication_mode(plan: dict, requested_mode: str, *, root_dir: Path)
     return "electoral"
 
 
+def reconcile_incompatible_geometric_reuse(
+    plan: dict,
+    *,
+    selected_source: dict,
+    root_dir: Path,
+    publication_mode: str,
+) -> dict:
+    """Replan generation when 00 discovers incompatible historic M06 lineage.
+
+    The initial reuse plan may have scheduled no generation because a catalog M06
+    exists. A later, independently verified territorial-source receipt can reveal
+    that M06 has incompatible/missing source lineage. Do not turn on generation
+    without re-evaluating the current pre-M04 gate for that exact source.
+    """
+    if plan.get("execution_mode") != "reuse" or plan.get("run_generate"):
+        raise ValueError("GENERATION_CONTRACT_BLOCK: reconciliation requires a previously reusable M06")
+    if plan.get("run_prepare_territorial"):
+        raise ValueError("GENERATION_CONTRACT_BLOCK: source preparation already scheduled")
+    if publication_mode not in {"electoral", "territorial_only"}:
+        raise ValueError("GENERATION_CONTRACT_BLOCK: invalid publication scope")
+    if not isinstance(selected_source, dict):
+        raise ValueError("GENERATION_CONTRACT_BLOCK: selected territorial source missing")
+
+    evidence = (plan.get("catalog_state") or {}).get("generation_preflight_evidence") or None
+    args = {
+        "root_dir": root_dir,
+        "contract_path": plan.get("contract_path"),
+        "territory_id": plan["territory_id"],
+        "certified_product_ready": False,
+        "preparation_evidence": selected_source,
+        "require_source": True,
+    }
+    gate = generation_enablement(**args, first_generation_evidence=evidence)
+    if gate.get("allowed"):
+        if gate.get("route") != "validated_pre_m04_topology":
+            raise ValueError("GENERATION_CONTRACT_BLOCK: unexpected pre-M04 validation route")
+        reaccredit = False
+    elif gate.get("capability") == "CAP_PRE_M04_EVIDENCE":
+        # The old M02/M03 fingerprints are no longer valid. This does NOT waive
+        # accreditation: the 00 must run its preflight-only M01-M03 producer
+        # against the already verified source before executing M04.
+        gate = generation_enablement(
+            **args, first_generation_evidence=None,
+            pre_m04_accreditation_planned=True,
+        )
+        if not gate.get("allowed") or gate.get("route") != "planned_pre_m04_accreditation":
+            raise ValueError(
+                "GENERATION_CONTRACT_BLOCK: pre-M04 reaccreditation not enabled: "
+                + str(gate.get("reason") or gate)
+            )
+        reaccredit = True
+    else:
+        raise ValueError("GENERATION_CONTRACT_BLOCK: " + str(gate.get("reason") or gate))
+
+    plan["generation_gate"] = gate
+    plan["run_generate"] = True
+    plan["pre_m04_accreditation_planned"] = reaccredit
+    # Keep 01 off: verified source bytes already exist and puerta_01 checks them.
+    # The preflight-only producer is independent of 01 and binds to puerta_01.
+    plan["run_prepare_territorial"] = False
+    if publication_mode == "electoral" and (plan.get("electoral_activation") or {}).get("execution") == "EXECUTE":
+        plan["run_incorporate"] = True
+    return plan
+
+
 def select_territorial_for_prepared_pair(
     plan: dict,
     *,

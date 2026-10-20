@@ -1071,5 +1071,115 @@ class TerritorialSourceVerificationShellTests(unittest.TestCase):
         self.assertEqual(help_result.returncode, 0, help_result.stderr)
 
 
+class ReuseInvalidatedProductReaccreditationTests(unittest.TestCase):
+    """Regression from Asturias 00 run 39430413162, no workflow dispatched."""
+
+    @staticmethod
+    def _asturias_plan_and_source():
+        from herramientas.resolver_ejecucion_completa import build_plan as live_build_plan
+
+        plan = live_build_plan(
+            territory="Principado de Asturias",
+            edition="2025",
+            execution_mode="reuse",
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=True,
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+        )
+        source = json.loads((
+            ROOT / "territorios/principado_de_asturias/evidencia/fuentes_territoriales/"
+            "2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/"
+            "37438440043/receipt.json"
+        ).read_text(encoding="utf-8"))
+        return plan, source
+
+    def test_asturias_m02_drift_schedules_pre_m04_without_reacquiring_source(self):
+        from herramientas.resolver_ejecucion_completa import (
+            reconcile_incompatible_geometric_reuse, generation_enablement
+        )
+        import copy
+
+        plan, source = self._asturias_plan_and_source()
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        initial = copy.deepcopy(plan["existing"]["territorial_source"])
+        evidence = plan["catalog_state"]["generation_preflight_evidence"]
+        self.assertNotEqual(evidence["implementation"]["m02_git_blob_sha1"],
+                            "a055259813c023394d9dd5c4877e6eb4d1ab99be")
+        stale = generation_enablement(
+            root_dir=ROOT,
+            contract_path=plan["contract_path"],
+            territory_id=plan["territory_id"],
+            preparation_evidence=source,
+            first_generation_evidence=evidence,
+            certified_product_ready=False,
+            require_source=True,
+        )
+        self.assertFalse(stale["allowed"])
+        self.assertEqual(stale["capability"], "CAP_PRE_M04_EVIDENCE")
+        plan["electoral_activation"] = {"execution": "EXECUTE"}
+        plan["run_incorporate"] = False
+        reconcile_incompatible_geometric_reuse(
+            plan, selected_source=source, root_dir=ROOT, publication_mode="electoral"
+        )
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(plan["generation_gate"],
+                         {"allowed": True, "route": "planned_pre_m04_accreditation"})
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertTrue(plan["run_incorporate"])
+        self.assertEqual(plan["existing"]["territorial_source"], initial)
+        self.assertIsNone(plan["population_year"])
+        self.assertIsNone(plan["section_year"])
+
+    def test_bad_source_still_fails_closed_without_mutating_plan(self):
+        from herramientas.resolver_ejecucion_completa import reconcile_incompatible_geometric_reuse
+        import copy
+
+        plan, _ = self._asturias_plan_and_source()
+        frozen = copy.deepcopy(plan)
+        with self.assertRaisesRegex(ValueError, "GENERATION_CONTRACT_BLOCK"):
+            reconcile_incompatible_geometric_reuse(
+                plan, selected_source={"run_id": 37438440043},
+                root_dir=ROOT, publication_mode="electoral",
+            )
+        self.assertEqual(plan, frozen)
+
+    def test_reaccreditation_only_when_needed_and_electoral_activation_respected(self):
+        from herramientas.resolver_ejecucion_completa import reconcile_incompatible_geometric_reuse
+        import copy
+        plan, source = self._asturias_plan_and_source()
+        plan["electoral_activation"] = {"execution": "SKIP"}
+        with mock.patch(
+            "herramientas.resolver_ejecucion_completa.generation_enablement",
+            return_value={"allowed": True, "route": "validated_pre_m04_topology"},
+        ) as gate:
+            reconcile_incompatible_geometric_reuse(
+                plan, selected_source=source, root_dir=ROOT,
+                publication_mode="territorial_only",
+            )
+        gate.assert_called_once()
+        self.assertTrue(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertFalse(plan["run_incorporate"])
+
+    def test_00_job_reaccredits_after_verified_source_before_m04(self):
+        jobs = load(ORCH)["jobs"]
+        script = next(
+            step["run"] for step in jobs["planificar"]["steps"] if step.get("id") == "plan"
+        )
+        self.assertIn("reconcile_incompatible_geometric_reuse(", script)
+        self.assertIn("selected_source=selected", script)
+        self.assertIn('"pre_m04_accreditation_planned","run_generate"', script)
+        self.assertIn("run_prepare_territorial", script)
+        preflight = jobs["acreditar_generacion"]
+        self.assertIn("pre_m04_accreditation_planned == 'true'", preflight["if"])
+        self.assertIn("needs.puerta_01.result == 'success'", preflight["if"])
+        self.assertTrue(preflight["with"]["preflight_only"])
+        self.assertIn("needs.acreditar_generacion.result == 'success'", jobs["generar"]["if"])
+
+
 if __name__ == "__main__":
     unittest.main()
