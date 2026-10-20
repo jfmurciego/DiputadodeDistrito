@@ -127,11 +127,15 @@ class NationalCampaignTests(unittest.TestCase):
     effective={"contract_path":row["contract_path"],"generation_gate":{"allowed":True,"route":"planned_pre_m04_accreditation" if preparing else "certified_product_lineage"},"run_prepare_territorial":preparing,"run_generate":preparing,
                "pre_m04_accreditation_planned":preparing,
                "existing":{"territorial_product":product}}
+    for k in ("run_prepare_electoral","run_incorporate"):
+     effective[k]=row["execution_plan"].get(k,False)
     row["preflight_status"]=route
     row["execution_route"]=route
     row["execution_plan"].update({k:effective[k] for k in
       ("run_prepare_territorial","run_generate","pre_m04_accreditation_planned")})
     row["generation_contract"]={"allowed":False}
+    from herramientas.gestor_campana_nacional import _campaign_lineage_identity
+    row["execution_lineage"]=_campaign_lineage_identity(effective)
     row["territorial_product"]=product if not preparing else {}
     if not preparing:
      child["existing"]["territorial_product"]=dict(product)
@@ -269,6 +273,67 @@ class NationalCampaignTests(unittest.TestCase):
   phase=next(p for p in producer["phases"] if p["name"].startswith("01 ·"))
   self.assertNotEqual(phase["run_id"],ceuta["preparation_evidence"]["run_id"])
   self.assertNotEqual(phase["artifact_digest"].removeprefix("sha256:"),ceuta["preparation_evidence"]["artifact_sha256"])
+
+ def test_matrix_rejects_unblocked_route_mismatch_and_inconsistent_blockers(self):
+  m=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=ROOT)
+  row=m["territories"][0]
+  self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
+  drift=copy.deepcopy(m)
+  drift["territories"][0]["execution_route"]="SOURCE_PREPARATION_REQUIRED"
+  freeze(drift)
+  with self.assertRaisesRegex(ValueError,"CAMPAIGN_ROUTE_UNSUPPORTED"):
+   build_matrix(drift,"EXECUTE_CAMPAIGN_CONFIRMED")
+  blocked=copy.deepcopy(m)
+  blocked["territories"][0]["preflight_blockers"]=["ACREDITACION_REVOCADA"]
+  freeze(blocked)
+  with self.assertRaisesRegex(ValueError,"CAMPAIGN_ROUTE_BLOCKER_INCONSISTENT"):
+   build_matrix(blocked,"EXECUTE_CAMPAIGN_CONFIRMED")
+
+ def test_manifest_freezes_all_lineage_and_rejects_electoral_source_drift(self):
+  from herramientas.gestor_campana_nacional import _campaign_lineage_identity
+  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="lineage-check",root=ROOT)
+  row=m["territories"][0]
+  self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
+  self.assertEqual(set(row["execution_lineage"]),{"territorial_source","territorial_product","electoral_source","electoral_product"})
+  original=copy.deepcopy(row["execution_lineage"])
+  self.assertTrue(original["territorial_product"].get("artifact_sha256"))
+  self.assertTrue(original["electoral_source"].get("artifact_sha256"))
+  plan={"existing":{
+   "territorial_source":original["territorial_source"],
+   "territorial_product":original["territorial_product"],
+   "electoral_source":dict(original["electoral_source"],artifact_sha256="f"*64),
+   "electoral_product":original["electoral_product"]}}
+  self.assertNotEqual(_campaign_lineage_identity(plan),row["execution_lineage"])
+  self.assertEqual(_campaign_lineage_identity({"existing":original}),original)
+
+ def test_galicia_child_consumed_electoral_source_sha_is_enforced(self):
+  from herramientas.gestor_campana_nacional import campaign_execution_plan
+  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="galicia-lineage",root=ROOT)
+  row=m["territories"][0]
+  self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
+  self.assertTrue(row["execution_plan"]["run_incorporate"])
+  self.assertTrue(row["execution_lineage"]["electoral_source"]["artifact_sha256"])
+  p=copy.deepcopy(campaign_execution_plan(root=ROOT,territory_id="galicia",
+                                         edition="2025",strategy="Canónico"))
+  p["publication_mode_effective"]="electoral"
+  p["prepared_source_pair"]={k:v for k,v in row["evidence"].items()
+                              if k not in ("kind","receipt_sha256")}
+  # 00 may normalize decision status and retain the old electoral product
+  # when M08 is scheduled to be rebuilt. Neither changes the consumed source.
+  p["existing"]["electoral_source"]["decision"]="VALIDADO"
+  p["existing"]["electoral_product"]={"run_id":0,"artifact_sha256":"f"*64}
+  args=dict(manifest=m,root=ROOT,expected_sha=m["manifest_sha256"],
+            source_sha=m["source_sha"],slot=row["slot"],
+            campaign_instance=m["campaign_instance"])
+  validate_campaign_child(plan=p,**args)
+  tampered=copy.deepcopy(p)
+  tampered["existing"]["electoral_source"]["artifact_sha256"]="f"*64
+  with self.assertRaisesRegex(ValueError,
+       r"CAMPAIGN_MANIFEST_MISMATCH: child_lineage.electoral_source.artifact_sha256"):
+   validate_campaign_child(plan=tampered,**args)
 
  def test_cardinalities_and_codauto_order(self):
   ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["andalucia"])] )]
