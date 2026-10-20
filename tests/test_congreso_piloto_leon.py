@@ -5,6 +5,15 @@ from ddd_core.congreso_bounded_tree_search import search_tree_partition
 
 
 class CongressLeonPilotTests(unittest.TestCase):
+    def test_congress_viewer_is_copied_to_pages_without_candidate_artifacts(self):
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        deploy = (root / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        self.assertIn("cp visor/congreso/index.html visor/congreso/congreso.js /tmp/site-candidate/congreso/", deploy)
+        self.assertIn("mkdir -p /tmp/site-candidate/congreso", deploy)
+        self.assertNotIn("cp candidato-leon/", deploy)
+
+
     def test_opt_in_assignments_are_valid_and_digest_unchanged(self):
         nodes = ["a", "b", "c", "d"]
         adjacency = {"a": {"b"}, "b": {"a", "c"}, "c": {"b", "d"}, "d": {"c"}}
