@@ -1110,6 +1110,7 @@ class AsturiasStaleGeometricReuseAccreditationTests(unittest.TestCase):
         plan = self._plan()
         replan_after_rejected_geometric_reuse(plan, root_dir=ROOT)
         self.assertFalse(plan["run_prepare_territorial"])
+        self.assertEqual(plan["generation_execution_mode"], "from_start")
         self.assertTrue(plan["pre_m04_accreditation_planned"])
         self.assertEqual(
             plan["generation_gate"],
@@ -1159,6 +1160,10 @@ class AsturiasStaleGeometricReuseAccreditationTests(unittest.TestCase):
         )
         self.assertIn("needs.acreditar_generacion.result == 'success'",
                       jobs["generar"]["if"])
+        self.assertEqual(
+            jobs["generar"]["with"]["execution_mode"],
+            "${{ needs.planificar.outputs.generation_execution_mode }}",
+        )
 
 
 
