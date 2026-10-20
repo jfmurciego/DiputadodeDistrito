@@ -1,0 +1,313 @@
+{
+  "schema": "ddd-f10-official-electoral-originals/1.0",
+  "acquired_on": "2026-10-20",
+  "originals": [
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/aragon/DatEscrut_Def_Auto_2026_Huesca.xls",
+      "bytes": 358912,
+      "sha256": "7e1983799078938aeb570837dcf7680c0ab718e605b344a27521d5eec327e1b6",
+      "source_url": "https://www.aragon.es/documents/d/guest/datescrut_def_auto_2026_huesca",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/aragon/DatEscrut_Def_Auto_2026_Teruel.xls",
+      "bytes": 350720,
+      "sha256": "6d186f4d21c5c5b54d4695fc13e2f0fcb162aa3cc2ce672ef1c0b96c80b030e2",
+      "source_url": "https://www.aragon.es/documents/d/guest/datescrut_def_auto_2026_teruel",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/aragon/DatEscrut_Def_Auto_2026_Zaragoza.xls",
+      "bytes": 740864,
+      "sha256": "5f92fbeb52285ab8d5ca358d8c801d6a79d722fc9bcf5e23fed84fcc065d8e46",
+      "source_url": "https://www.aragon.es/documents/d/guest/datescrut_def_auto_2026_zaragoza",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/aragon/GA_OD_resource381_CA2026.csv",
+      "bytes": 3958681,
+      "sha256": "f01cfb6c2292c93c1f442c72467a7b797eb51687041bb1aabf8ae7316908c7ae",
+      "source_url": "https://opendata.aragon.es/GA_OD_Core/download?resource_id=381&formato=csv&filters=%7B%22cod_elec%22%3A%22CA2026%22%7D",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/castilla_y_leon/BOCYL-D-08062026-108-27.pdf",
+      "bytes": 716985,
+      "sha256": "281e522b42db76c9fbc995c321ecd6f547bf392d9980bc7066cd625ee653193c",
+      "source_url": "https://bocyl.jcyl.es/boletines/2026/06/08/pdf/BOCYL-D-08062026-108-27.pdf",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/castilla_y_leon/BOCYL-D-11062026-111-18.pdf",
+      "bytes": 804718,
+      "sha256": "1fa4ce2440144a003f660afc3e30c5824fb8e20065f5e2ec5d6eeb7b26bc83d8",
+      "source_url": "https://bocyl.jcyl.es/boletines/2026/06/11/pdf/BOCYL-D-11062026-111-18.pdf",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/castilla_y_leon/BOCYL-D-29042026-80-13.pdf",
+      "bytes": 3384403,
+      "sha256": "2d1f1d581b0ca50643158897ddec2ebf0a7fe0d2123df1efffd68c298b0f5edb",
+      "source_url": "https://bocyl.jcyl.es/boletines/2026/04/29/pdf/BOCYL-D-29042026-80-13.pdf",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/castilla_y_leon/dataset-metadata.json",
+      "bytes": 6632,
+      "sha256": "d4a307b31b1674eb6249438b79e13d7b66289e781ee0670a9e709908a342a3f3",
+      "source_url": "https://analisis.datosabiertos.jcyl.es/api/explore/v2.1/catalog/datasets/resultados-electorales-1983-actualidad",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/castilla_y_leon/resultados_2026_por_mesa.csv",
+      "bytes": 5697000,
+      "sha256": "15ecb7ded1eea96bb464219aa7b7f5ffda827ab69508c4a2f5c8fb7c03ea66d6",
+      "source_url": "https://analisis.datosabiertos.jcyl.es/api/explore/v2.1/catalog/datasets/resultados-electorales-1983-actualidad/exports/csv?where=ano%20%3E%3D%20%272026-01-01%27%20AND%20ano%20%3C%20%272027-01-01%27",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/extremadura/2026AC0001.html",
+      "bytes": 27564,
+      "sha256": "a94184a44a325c4a5cd4e5523ba4f03d5e632b78c16a267a45c12f05d6273d99",
+      "source_url": "https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001",
+      "acquired_on": "2026-10-20"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/extremadura/26AC0001.pdf",
+      "bytes": 125897,
+      "sha256": "1ec9def160dc75056f06dc81051f4c1d4fe46422b074200d7ab43ba95bbc887e",
+      "source_url": "https://doe.juntaex.es/pdfs/doe/2026/80o/26AC0001.pdf",
+      "acquired_on": "2026-10-20"
+    }
+  ],
+  "processors": {
+    "aragon": "herramientas/procesar_f10_resultados_aragon_cyl.py",
+    "castilla_y_leon": "herramientas/procesar_f10_resultados_aragon_cyl.py"
+  },
+  "generated": {
+    "aragon": {
+      "territory": "Aragón",
+      "election_id": "aragon_cortes_2026-02-08",
+      "source_status": "official_provincial_definitive_XLS; Open Data agrees exactly at CUSEC/party but omits CERA",
+      "xls_mesa_rows_including_cera": 2221,
+      "cera_mesa_rows": 8,
+      "geographic_cusec_count": 1463,
+      "geographic_cusec_party_rows": 14872,
+      "candidate_votes_geographic": 656725,
+      "candidate_votes_cera": 4259,
+      "open_data_rows": 30326,
+      "open_data_cusec_party_mismatches": 0,
+      "temporal_crosswalk": {
+        "status": "BLOCKED_UNRESOLVED_OFFICIAL_IDENTITY",
+        "result_only": [
+          {
+            "cusec": "5002501003",
+            "candidate_votes": 608,
+            "status": "UNMATCHED_TEMPORAL_IDENTITY"
+          }
+        ],
+        "map_only": [
+          {
+            "cusec": "2221301003",
+            "status": "ABSENT_FROM_OFFICIAL_2026_RESULTS",
+            "source_note": "Se conserva el CUSEC del informe territorial 2025 vigente; su relación administrativa con el CUSEC electoral 2026 requiere evidencia oficial."
+          }
+        ],
+        "note": "La conciliación entre los dos formatos oficiales acredita resultados, no transferencia de votos ni identidad territorial temporal."
+      },
+      "provinces": {
+        "Huesca": {
+          "candidacy_votes_including_cera": 105806,
+          "blank_votes": 1430,
+          "null_votes": 1073,
+          "ballots": 108309
+        },
+        "Teruel": {
+          "candidacy_votes_including_cera": 66720,
+          "blank_votes": 673,
+          "null_votes": 872,
+          "ballots": 68265
+        },
+        "Zaragoza": {
+          "candidacy_votes_including_cera": 488458,
+          "blank_votes": 5212,
+          "null_votes": 4326,
+          "ballots": 497996
+        }
+      },
+      "normalized_source": {
+        "path": "territorios/aragon/inputs/aragon_2026_cortes_secciones_partidos.csv",
+        "bytes": 320977,
+        "sha256": "6427f4f24211386c6e464678706b143c287e4ce2476f000a7f9f8660f58b1174"
+      },
+      "cera_control": {
+        "path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/procesados/aragon_2026_cera_provincia_partido.csv",
+        "bytes": 784,
+        "sha256": "e1216195d15134339e01a60d167108157a49142bf0a80ed307e3aac27c3ff18c"
+      }
+    },
+    "castilla_y_leon": {
+      "territory": "Castilla y León",
+      "election_id": "castilla_y_leon_cortes_2026-03-15",
+      "dataset_records": 67006,
+      "polling_station_count": 4489,
+      "result_cusec_count": 3528,
+      "cera_cusec_count": 19,
+      "cera_cusec": [
+        "0599099001",
+        "0599099002",
+        "0999099001",
+        "0999099002",
+        "2499099001",
+        "2499099002",
+        "2499099003",
+        "3499099001",
+        "3799099001",
+        "3799099002",
+        "3799099003",
+        "4099099001",
+        "4099099002",
+        "4299099001",
+        "4799099001",
+        "4799099002",
+        "4999099001",
+        "4999099002",
+        "4999099003"
+      ],
+      "temporal_crosswalk": {
+        "status": "BLOCKED_UNRESOLVED_OFFICIAL_IDENTITY",
+        "electoral_only": [
+          "0599099001",
+          "0599099002",
+          "0999099001",
+          "0999099002",
+          "2408904017",
+          "2408906020",
+          "2499099001",
+          "2499099002",
+          "2499099003",
+          "3499099001",
+          "3702301002",
+          "3799099001",
+          "3799099002",
+          "3799099003",
+          "4099099001",
+          "4099099002",
+          "4217302016",
+          "4299099001",
+          "4701001012",
+          "4799099001",
+          "4799099002",
+          "4999099001",
+          "4999099002",
+          "4999099003"
+        ],
+        "map_only": [
+          "3412004006",
+          "3710701002"
+        ],
+        "geographic_electoral_only_votes": 3874,
+        "cera_codes_separate": [
+          "0599099001",
+          "0599099002",
+          "0999099001",
+          "0999099002",
+          "2499099001",
+          "2499099002",
+          "2499099003",
+          "3499099001",
+          "3799099001",
+          "3799099002",
+          "3799099003",
+          "4099099001",
+          "4099099002",
+          "4299099001",
+          "4799099001",
+          "4799099002",
+          "4999099001",
+          "4999099002",
+          "4999099003"
+        ],
+        "note": "La reconciliación geométrica existente identifica candidatos territoriales, pero no acredita transferencia de votos."
+      },
+      "candidate_votes_including_cera": 1236753,
+      "province_controls": {
+        "Ávila": {
+          "geographic_candidate_votes": 80228,
+          "cera_candidate_votes": 825,
+          "null_votes": 1137,
+          "blank_votes": 903,
+          "voters": 83093
+        },
+        "Burgos": {
+          "geographic_candidate_votes": 174859,
+          "cera_candidate_votes": 1619,
+          "null_votes": 2753,
+          "blank_votes": 3292,
+          "voters": 182523
+        },
+        "León": {
+          "geographic_candidate_votes": 230397,
+          "cera_candidate_votes": 2433,
+          "null_votes": 2363,
+          "blank_votes": 2432,
+          "voters": 237625
+        },
+        "Palencia": {
+          "geographic_candidate_votes": 84019,
+          "cera_candidate_votes": 570,
+          "null_votes": 1442,
+          "blank_votes": 1429,
+          "voters": 87460
+        },
+        "Salamanca": {
+          "geographic_candidate_votes": 168250,
+          "cera_candidate_votes": 2256,
+          "null_votes": 2332,
+          "blank_votes": 2632,
+          "voters": 175470
+        },
+        "Segovia": {
+          "geographic_candidate_votes": 74555,
+          "cera_candidate_votes": 369,
+          "null_votes": 1380,
+          "blank_votes": 1323,
+          "voters": 77627
+        },
+        "Soria": {
+          "geographic_candidate_votes": 44953,
+          "cera_candidate_votes": 554,
+          "null_votes": 354,
+          "blank_votes": 379,
+          "voters": 46240
+        },
+        "Valladolid": {
+          "geographic_candidate_votes": 282443,
+          "cera_candidate_votes": 1754,
+          "null_votes": 3571,
+          "blank_votes": 4763,
+          "voters": 292531
+        },
+        "Zamora": {
+          "geographic_candidate_votes": 85267,
+          "cera_candidate_votes": 1402,
+          "null_votes": 1241,
+          "blank_votes": 1417,
+          "voters": 89327
+        }
+      },
+      "mesa_ballot_equation_failures": 0,
+      "correction_check": {
+        "PANCAL_URCI_SALAMANCA": 0,
+        "PANCAL_URCI_ZAMORA": 0,
+        "PREPAL_SALAMANCA": 311,
+        "PREPAL_ZAMORA": 333
+      },
+      "normalized_source": {
+        "path": "territorios/castilla_y_leon/inputs/cyl_2026_secciones_partidos.csv",
+        "bytes": 650162,
+        "sha256": "e044881e3d6232b6c5d0ff82b3a0212be220958c5a2e9b2d1143dc5315105f16"
+      }
+    }
+  }
+}

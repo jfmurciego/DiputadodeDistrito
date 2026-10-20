@@ -1,0 +1,67 @@
+{
+  "$schema": "../../../../configuracion/esquemas/contrato_electoral.schema.json",
+  "schema_family": "ddd-election",
+  "schema_version": "1.0.0",
+  "election_id": "aragon_cortes_2026-02-08",
+  "territory_id": "aragon",
+  "title": "Elecciones a las Cortes de Aragón 2026",
+  "election_date": "2026-02-08",
+  "input_mode": "verifiable_file",
+  "boundary_independence": true,
+  "sources": [
+    {
+      "path": "inputs/aragon_2026_cortes_secciones_partidos.csv",
+      "sha256": "6427f4f24211386c6e464678706b143c287e4ce2476f000a7f9f8660f58b1174",
+      "publisher": "Gobierno de Aragón — Portal de elecciones y datos abiertos",
+      "source_url": "https://www.aragon.es/portal-de-elecciones/resultados-electorales",
+      "retrieved_at": "2026-10-20",
+      "adapter": {
+        "kind": "long_csv",
+        "separator": ";",
+        "section_field": "CUSEC_KEY",
+        "party_field": "party",
+        "votes_field": "votes"
+      }
+    }
+  ],
+  "party_dictionary": {
+    "path": "territorios/aragon/config/elecciones/diccionario_partidos_aragon_2026.json",
+    "sha256": "ca39b99f3adf347fb50c98c24aaa77aa0445260a126948047ab6bf834d28d997"
+  },
+  "reconciliation": {
+    "policy": "fail_unless_declared",
+    "allowed_result_only_sections": [
+      {
+        "section_id": "5002501003",
+        "expected_votes": 608,
+        "reason": "Presente en resultados RTVE 2026 y ausente del universo censal 2025; no existe asignación distrital defendible."
+      }
+    ],
+    "allowed_map_only_sections": [
+      {
+        "section_id": "2221301003",
+        "reason": "Sección de Sariñena presente en el universo censal 2025 y ausente de los resultados RTVE 2026."
+      }
+    ]
+  },
+  "artifact_metadata": {
+    "version": "1.0.1",
+    "name": "Official F10 source candidate aragon 2026",
+    "date": "2026-10-20",
+    "scope": "electoral source selection; crosswalk remains independently gated",
+    "status": "candidate",
+    "changes": [
+      "preserve and verify newly acquired official source bytes"
+    ],
+    "reason": "Exact source reconciliation is complete; the temporal crosswalk has unresolved identities.",
+    "predecessor": "territorios/aragon/config/elecciones/aragon_cortes_2026.json"
+  },
+  "source_verification": {
+    "status": "VERIFIED_OFFICIAL_FORMATS_MATCH",
+    "geographic_candidate_votes": 656725,
+    "cera_candidate_votes_separate": 4259,
+    "official_candidate_votes_including_cera": 660984,
+    "cera_control_path": "docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/procesados/aragon_2026_cera_provincia_partido.csv",
+    "cera_control_sha256": "e1216195d15134339e01a60d167108157a49142bf0a80ed307e3aac27c3ff18c"
+  }
+}

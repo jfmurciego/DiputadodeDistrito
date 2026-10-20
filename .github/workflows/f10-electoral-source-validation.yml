@@ -1,0 +1,45 @@
+# Versión: 1.0.0 — Fecha: 2026-10-20 — Estado: candidato.
+# Alcance: validar la adquisición y conciliación electoral F10 de Aragón y CYL.
+# Cambios: reproducir la normalización oficial, hashes y paquete canónico en PR.
+# Motivo: impedir que un informe o artefacto precomputado sustituya la prueba reproducible.
+# Predecesor: ninguno; workflow nuevo.
+name: F10 official electoral sources
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/f10-electoral-source-validation.yml'
+      - 'requirements-f10-electoral.lock'
+      - 'herramientas/procesar_f10_resultados_aragon_cyl.py'
+      - 'territorios/aragon/config/elecciones/aragon_cortes_2026.json'
+      - 'territorios/aragon/inputs/aragon_2026_cortes_secciones_partidos.csv'
+      - 'territorios/castilla_y_leon/config/elecciones/castilla_y_leon_cortes_2026.json'
+      - 'territorios/castilla_y_leon/inputs/cyl_2026_secciones_partidos.csv'
+      - 'docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/**'
+      - 'tests/test_f10_electoral_three_territories.py'
+      - 'tests/test_cyl_electoral_2026.py'
+
+permissions:
+  contents: read
+
+jobs:
+  reconcile-official-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install optional XLS parser
+        run: python -m pip install -r requirements-f10-electoral.lock
+      - name: Rebuild normalized sources and candidate packages
+        run: PYTHONPATH=. python herramientas/procesar_f10_resultados_aragon_cyl.py
+      - name: Run focused regressions
+        run: >-
+          python -m unittest
+          tests.test_f10_electoral_three_territories
+          tests.test_cyl_electoral_2026
+          tests.test_adquisicion_electoral_especial -v
+      - name: Check whitespace errors
+        run: git diff --check -- . ':!docs/AUDITORIAS/F10_ELECTORAL_TRES_TERRITORIOS_20261020/originales/**'
