@@ -7,7 +7,9 @@ import unittest
 from unittest import mock
 import yaml
 
-from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
+from herramientas.resolver_ejecucion_completa import (
+    _run_from_artifact, build_plan, plan_reaccreditation_after_reuse_rejection,
+)
 from herramientas.escribir_manifest_ejecucion_completa import optimization_lineage
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1069,6 +1071,101 @@ class TerritorialSourceVerificationShellTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(help_result.returncode, 0, help_result.stderr)
+
+
+class AsturiasGeometricReuseReaccreditationTests(unittest.TestCase):
+    @staticmethod
+    def _real_asturias_plan():
+        plan = build_plan(
+            territory="Principado de Asturias", edition="2025",
+            execution_mode="reuse", optimization_algorithm="Canónico",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
+        )
+        catalog = load(ROOT / "configuracion/catalogo_preparacion.yaml")
+        row = next(x for x in catalog["territories"]
+                   if x["territory_id"] == "principado_de_asturias")
+        receipt_path = row["editions"]["2025"]["preparation_evidence"]["receipt_path"]
+        receipt = json.loads((ROOT / receipt_path).read_text(encoding="utf-8"))
+        plan["existing"]["territorial_source"].update(receipt)
+        plan["prepared_territorial_source"] = {
+            "receipt_path": receipt_path,
+            "territorial_identity_sha256": receipt["territorial_identity_sha256"],
+        }
+        plan["publication_mode_effective"] = "electoral"
+        plan["electoral_activation"] = {"execution": "EXECUTE"}
+        return plan
+
+    def test_asturias_rejected_reuse_requires_real_pre_m04_then_m06_and_m08(self):
+        # Mirrors the real 39430413162 decision: downloaded source READY,
+        # historical geometric product available but not lineage-compatible.
+        plan = self._real_asturias_plan()
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertFalse(plan["run_incorporate"])
+        plan_reaccreditation_after_reuse_rejection(
+            plan, geometric_reuse={
+                "available": True, "compatible": False,
+                "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+            }, root_dir=ROOT,
+        )
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(
+            plan["generation_gate"],
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+        )
+        self.assertTrue(plan["run_incorporate"])
+        workflow = load(ORCH)["jobs"]
+        self.assertIn("plan_reaccreditation_after_reuse_rejection",
+                      workflow["planificar"]["steps"][-2]["run"]
+                      if "run" in workflow["planificar"]["steps"][-2] else ORCH.read_text(encoding="utf-8"))
+        self.assertIn("pre_m04_accreditation_planned == 'true'",
+                      workflow["acreditar_generacion"]["if"])
+        self.assertIn("pre_m04_accreditation_planned != 'true'",
+                      workflow["generar"]["if"])
+
+    def test_asturias_rejected_reuse_fails_closed_on_source_drift(self):
+        plan = self._real_asturias_plan()
+        plan["existing"]["territorial_source"]["artifact_sha256"] = "bad"
+        with self.assertRaisesRegex(
+            ValueError, "TERRITORIAL_REUSE_REPLAN_BLOCK",
+        ):
+            plan_reaccreditation_after_reuse_rejection(
+                plan, geometric_reuse={"available": True, "compatible": False},
+                root_dir=ROOT,
+            )
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+
+    def test_asturias_reaccreditation_requires_receipt_and_actual_reuse_rejection(self):
+        plan = self._real_asturias_plan()
+        with self.assertRaisesRegex(ValueError, "TERRITORIAL_REUSE_REPLAN_BLOCK"):
+            plan_reaccreditation_after_reuse_rejection(
+                plan, geometric_reuse={"available": True, "compatible": True},
+                root_dir=ROOT,
+            )
+        plan.pop("prepared_territorial_source")
+        with self.assertRaisesRegex(ValueError, "falta recibo territorial seleccionado"):
+            plan_reaccreditation_after_reuse_rejection(
+                plan, geometric_reuse={"available": True, "compatible": False},
+                root_dir=ROOT,
+            )
+
+    def test_no_pre_m04_rebuild_if_current_evidence_remains_valid(self):
+        plan = self._real_asturias_plan()
+        with mock.patch(
+            "herramientas.resolver_ejecucion_completa.generation_enablement",
+            return_value={"allowed": True, "route": "validated_pre_m04_topology"},
+        ) as gate:
+            plan_reaccreditation_after_reuse_rejection(
+                plan, geometric_reuse={"available": True, "compatible": False},
+                root_dir=ROOT,
+            )
+        gate.assert_called_once()
+        self.assertTrue(plan["run_generate"])
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertEqual(plan["generation_gate"]["route"], "validated_pre_m04_topology")
 
 
 if __name__ == "__main__":
