@@ -1117,9 +1117,12 @@ class AsturiasGeometricReuseReaccreditationTests(unittest.TestCase):
         )
         self.assertTrue(plan["run_incorporate"])
         workflow = load(ORCH)["jobs"]
-        self.assertIn("plan_reaccreditation_after_reuse_rejection",
-                      workflow["planificar"]["steps"][-2]["run"]
-                      if "run" in workflow["planificar"]["steps"][-2] else ORCH.read_text(encoding="utf-8"))
+        caller = [
+            step["run"] for step in workflow["planificar"]["steps"]
+            if "plan_reaccreditation_after_reuse_rejection" in step.get("run", "")
+        ]
+        self.assertEqual(len(caller), 1)
+        self.assertIn("root_dir=Path", caller[0])
         self.assertIn("pre_m04_accreditation_planned == 'true'",
                       workflow["acreditar_generacion"]["if"])
         self.assertIn("pre_m04_accreditation_planned != 'true'",
