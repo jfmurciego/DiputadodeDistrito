@@ -1,4 +1,12 @@
-"""Inspect INE electoral street-directory variation archive; evidence only, no crosswalk promotion."""
+"""Inspect INE electoral street-directory variation archives; evidence only."""
+# Version: 1.1.0
+# Name: INE F10 street-directory variation inspector
+# Date: 2026-10-20
+# Scope: parse official 2025-2026 TRAM and municipal variation records for F10.
+# Status: active; never promotes a crosswalk or changes a door.
+# Changes: decode A/B/M destination/source semantics and retain exact record references.
+# Reason: the previous parser discarded A records and could not classify election-date scope.
+# Predecessor: legacy/herramientas/inspeccionar_variaciones_callejero_f10_v1.0.py
 from __future__ import annotations
 import argparse, hashlib, io, json, urllib.request, zipfile
 from pathlib import Path
@@ -9,6 +17,13 @@ ALLOWED_URLS = {
     URL:"2025-07_to_2026-01",
     "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip":"2026-01_to_2026-07",
     "https://ine.es/prodyser/callejero/Var_Callejero_0125_0725.zip":"2025-01_to_2025-07",
+}
+EXPECTED_SHA256 = {
+    "https://ine.es/prodyser/callejero/Var_Callejero_0125_0725.zip":
+        "852db9bcd0c6355e85020a07d229d31d00c4eab9e0493f83a8671bca789e776f",
+    URL: "f2f8299bbcff7e79c69948b900d5c9e97c3b9c71f8cc430f8ffac0e9a475f319",
+    "https://ine.es/prodyser/callejero/Var_Callejero_0126_0726.zip":
+        "154b8eacdb886e5b6463283c597076b3b0dde256cfaf74cb34c4ffc5cb326635",
 }
 CUSEC = ("5002501003","2221301003","2408904017","2408906020",
          "3702301002","4217302016","4701001012","3412004006","3710701002")
@@ -53,20 +68,62 @@ def decode_tram_change(line: bytes):
     """
     if len(line) < 79:
         return None
-    old = line[0:10].decode("ascii", errors="ignore")
-    next_code = old[:5] + line[74:79].decode("ascii", errors="ignore")
-    if len(old)!=10 or not old.isascii() or not old.isdigit():
+    change_code = line[73:74].decode("ascii", errors="ignore")
+    # The official TRAM family permits A/B/M/F/S. R is only defined for
+    # VIAS/PSEU and must not be accepted here.
+    if change_code not in {"A", "B", "M", "F", "S"}:
         return None
-    if not next_code[5:].strip():
-        next_code = None
-    elif len(next_code)!=10 or not next_code.isascii() or not next_code.isdigit():
-        next_code = None
-    return {"source_section":old, "other_section":next_code,
-            "date":line[61:69].decode("ascii", errors="replace"),
-            "sequence":line[69:73].decode("ascii", errors="replace"),
-            "change_code":line[73:74].decode("ascii", errors="replace")}
+    old = line[0:10].decode("ascii", errors="ignore")
+    source = old if len(old) == 10 and old.isdigit() else None
+    target = line[0:5].decode("ascii", errors="ignore") + line[74:79].decode("ascii", errors="ignore")
+    destination = target if len(target) == 10 and target.isdigit() else None
+    # INE's fixed-width layout leaves source fields blank for A and destination
+    # fields blank for B. Some B rows contain zero padding in the first two
+    # destination columns; the remaining non-digit padding still rejects them.
+    if change_code == "A":
+        source = None
+    elif change_code == "B":
+        destination = None
+    date = line[61:69].decode("ascii", errors="ignore")
+    if len(date) != 8 or not date.isdigit():
+        return None
+    return {
+        "source_section": source,
+        "other_section": destination,
+        "date": date,
+        "sequence": line[69:73].decode("ascii", errors="ignore"),
+        "change_code": change_code,
+        "municipality": line[0:5].decode("ascii", errors="ignore"),
+        "population_unit": line[13:20].decode("ascii", errors="ignore").strip(),
+        "street_code": line[20:25].decode("ascii", errors="ignore").strip(),
+        "pseudo_street_code": line[25:30].decode("ascii", errors="ignore").strip(),
+        "postal_code": line[42:47].decode("ascii", errors="ignore").strip(),
+        "numbering_type": line[47:48].decode("ascii", errors="ignore"),
+        "number_from": line[48:52].decode("ascii", errors="ignore").strip(),
+        "number_from_qualifier": line[52:53].decode("ascii", errors="ignore"),
+        "number_to": line[53:57].decode("ascii", errors="ignore").strip(),
+        "number_to_qualifier": line[57:58].decode("ascii", errors="ignore"),
+    }
 
-def inspect(data: bytes) -> dict:
+
+ELECTION_DATES = {
+    "22": "2026-02-08", "50": "2026-02-08",
+    "24": "2026-03-15", "34": "2026-03-15", "37": "2026-03-15",
+    "42": "2026-03-15", "47": "2026-03-15",
+    **{p: "2026-05-17" for p in ("04", "11", "14", "18", "21", "23", "29", "41")},
+}
+
+
+def validate_archive_hash(data: bytes, source_url: str) -> str:
+    """Fail closed unless an allowlisted official period matches its manifest SHA."""
+    if source_url not in EXPECTED_SHA256:
+        raise ValueError("INE_VARIATION_SOURCE_NOT_ALLOWLISTED")
+    digest = hashlib.sha256(data).hexdigest()
+    if digest != EXPECTED_SHA256[source_url]:
+        raise ValueError("OFFICIAL_ARCHIVE_SHA256_MISMATCH")
+    return digest
+
+def inspect(data: bytes, target_codes: tuple[str, ...] | None = None) -> dict:
     if len(data) > 100_000_000 or not data.startswith(b"PK"):
         raise ValueError("ZIP_EXPECTED_UNDER_100MB")
     report = {
@@ -78,9 +135,13 @@ def inspect(data: bytes) -> dict:
         "members": [], "cusec": {},
         "crosswalk_accredited": False, "generation_authorized": False
     }
-    targets = known_f10_targets()
+    targets = tuple(sorted(set(target_codes if target_codes is not None else known_f10_targets())))
+    if any(len(code) != 10 or not code.isdigit() for code in targets):
+        raise ValueError("INVALID_CUSEC_TARGET")
+    municipalities = {code[:5] for code in targets}
     matches = {code: [] for code in targets}
     relevant_changes=[]
+    municipal_variations=[]
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         bad = z.testzip()
         if bad is not None:
@@ -103,14 +164,66 @@ def inspect(data: bytes) -> dict:
                 if family == "TRAM":
                     changed = decode_tram_change(line)
                     if changed and (changed["source_section"] in targets or changed["other_section"] in targets):
-                        relevant_changes.append({"member":member.filename,"line":line_number,**changed})
+                        cusecs = [c for c in (changed["source_section"], changed["other_section"]) if c]
+                        election_dates = {ELECTION_DATES.get(c[:2]) for c in cusecs}
+                        election_date = next(iter(election_dates)) if len(election_dates) == 1 else None
+                        relevant_changes.append({
+                            "member": member.filename, "line": line_number,
+                            "row_sha256": hashlib.sha256(line).hexdigest(),
+                            "election_date": election_date,
+                            "effective_on_or_before_election": bool(election_date and changed["date"] <= election_date.replace("-", "")),
+                            **changed
+                        })
+                elif family in {"VIAS", "PSEU", "UP"} and line[:5].decode("ascii", errors="ignore") in municipalities:
+                    if family == "UP":
+                        date_start, seq_start, code_pos = 15, 23, 27
+                    else:
+                        date_start, seq_start, code_pos = 13, 21, 25
+                    date = line[date_start:date_start+8].decode("ascii", errors="ignore")
+                    variation_code = line[code_pos:code_pos+1].decode("ascii", errors="ignore")
+                    municipal_variations.append({
+                        "family": family,
+                        "municipality": line[:5].decode("ascii", errors="ignore"),
+                        "member": member.filename,
+                        "line": line_number,
+                        "row_sha256": hashlib.sha256(line).hexdigest(),
+                        "date": date if len(date) == 8 and date.isdigit() else None,
+                        "election_date": ELECTION_DATES.get(line[:2].decode("ascii", errors="ignore")),
+                        "effective_on_or_before_election": bool(
+                            len(date) == 8 and date.isdigit()
+                            and ELECTION_DATES.get(line[:2].decode("ascii", errors="ignore"))
+                            and date <= ELECTION_DATES[line[:2].decode("ascii", errors="ignore")].replace("-", "")
+                        ),
+                        "sequence": line[seq_start:seq_start+4].decode("ascii", errors="ignore"),
+                        "change_code": variation_code,
+                        "section_link": "NOT_PROVIDED_BY_THIS_FAMILY"
+                    })
                 for code in targets:
                     if code.encode("ascii") in line:
                         matches[code].append({"member":member.filename,
                           "line":line_number,"prefix":line[:240].decode("latin-1")})
     report["target_count"]=len(targets)
     report["change_records_involving_targets"] = relevant_changes
-    report["change_record_scope"] = "TRAM fixed-width segment changes only; no official complete-section/vote crosswalk"
+    report["municipal_variations"] = municipal_variations
+    report["change_record_scope"] = "TRAM fixed-width segment changes only; each row is a street-segment event, not a whole-section or vote crosswalk"
+    report["crosswalk_accredited"] = False
+    report["families_present"] = sorted({m["family"] for m in report["members"]})
+    report["section_family_present"] = "SECC" in report["families_present"]
+    report["section_event_status"] = {}
+    for code in targets:
+        rows = [row for row in relevant_changes if code in (row["source_section"], row["other_section"])]
+        before = [row for row in rows if row["effective_on_or_before_election"]]
+        after = [row for row in rows if not row["effective_on_or_before_election"]]
+        report["section_event_status"][code] = {
+            "status": (
+                "TRAM_RECORDS_ON_OR_BEFORE_ELECTION" if before else
+                "ONLY_POST_ELECTION_TRAM_RECORDS" if after else
+                "NO_TRAM_RECORD_IN_PERIOD"
+            ),
+            "records_on_or_before_election": len(before),
+            "records_after_election": len(after),
+            "dates": sorted({row["date"] for row in rows}),
+        }
     report["cusec"] = {code: {
         "full_code_literal_occurrences":len(matches[code]),
         "examples":matches[code][:5],
@@ -123,6 +236,7 @@ def main():
     parser.add_argument("--zip",type=Path,help="Protected official ZIP for offline verification")
     parser.add_argument("--output",type=Path,required=True)
     parser.add_argument("--source-url",default=URL,choices=sorted(ALLOWED_URLS))
+    parser.add_argument("--target-code",action="append",help="Limit scan to a specific CUSEC; may be repeated")
     parser.add_argument("--raw-out",type=Path,help="Persist byte-exact downloaded ZIP; fail if existing differs")
     args=parser.parse_args()
     if args.zip:
@@ -132,7 +246,8 @@ def main():
         with urllib.request.urlopen(req,timeout=45) as response:
             if response.status!=200: raise RuntimeError("HTTP_"+str(response.status))
             raw=response.read(100_000_001)
-    report=inspect(raw)
+    report=inspect(raw, tuple(args.target_code) if args.target_code else None)
+    validate_archive_hash(raw, args.source_url)
     if args.raw_out:
         args.raw_out.parent.mkdir(parents=True,exist_ok=True)
         if args.raw_out.exists():
@@ -145,6 +260,8 @@ def main():
         report["raw_original_archive"]=str(args.raw_out)
     report["source_url"]=args.source_url
     report["interval"]=ALLOWED_URLS[args.source_url]
+    report["expected_sha256"]=EXPECTED_SHA256[args.source_url]
+    report["sha256_verified"]=True
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,sort_keys=True,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     from collections import Counter

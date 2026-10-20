@@ -574,3 +574,14 @@ y la versión 1.0.0 del buscador en `legacy/nac_continuacion_20261020/`. La
 regresión compara dos órdenes explícitos y verifica que la identidad de entrada
 no depende del orden de recorrido. Las 73 pruebas focales pasan; el cambio no
 emite asignaciones ni habilita generación.
+
+
+## 2026-10-20 — F10: reconstrucción nominal de variaciones INE 2025–2026
+
+Se corrige el inspector de variaciones INE para verificar los SHA-256 de los tres ZIP
+allowlisted, conservar referencias de registros TRAM y fechas, y separar cambios
+efectivos antes de la elección de cambios posteriores. Se preservan los tres
+originales y el esquema oficial. El dictamen registra las relaciones parciales
+para Aragón, Castilla y León y Andalucía sin elevarlas a equivalencia electoral.
+No cambia ninguna puerta F10, no se emite receipt electoral y no se redistribuyen
+votos. Suite focalizada: `tests/test_inspeccionar_variaciones_callejero_f10.py` (11 pruebas).
