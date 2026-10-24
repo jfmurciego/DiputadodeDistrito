@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-06T13:39:06.561723+00:00",
+  "generated_at": "2026-10-24T21:33:31.090430+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,24 +22,24 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 14,
-      "action_required": 4,
-      "blocked": 1,
+      "admissible": 15,
+      "action_required": 0,
+      "blocked": 4,
       "unavailable": 0,
-      "activated": 13,
-      "activable": 1,
-      "territorial_pending": 5,
-      "electoral_pending": 1,
-      "temporal_substitution": 0,
+      "activated": 9,
+      "activable": 6,
+      "territorial_pending": 0,
+      "electoral_pending": 4,
+      "temporal_substitution": 3,
       "recent_activity": 0
     },
     "activation_chain": {
       "total": 19,
       "legislature_resolved": 19,
       "years_resolved": 19,
-      "territorial_source": 14,
-      "electoral_source": 18,
-      "durable_pair": 13
+      "territorial_source": 19,
+      "electoral_source": 15,
+      "durable_pair": 9
     },
     "territories": [
       {
@@ -51,34 +51,34 @@
           "election_date": "2026-05-17"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+          "status": "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+          "action": "REUSE_TEMPORAL_SUBSTITUTION",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2026,
             "section_year": 2026
           },
           "selected": {
             "population_year": 2025,
-            "section_year": 2026
+            "section_year": 2025
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": 36020646219,
-            "receipt_path": null
+            "population_year": 2025,
+            "section_year": 2025,
+            "run_id": 38082966768,
+            "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/057a38a77a6e2163a962022d73387fe0588f3efda1b969b30c737538544ef1f2/38082966768/receipt.json"
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
+          "status": "BLOCKED",
           "action": "REUSE",
           "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
           "granularity": "section_party_with_cera_reconciliation"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "BLOCKED",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "BLOCKED",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -93,9 +93,9 @@
         },
         "next_steps": [
           {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING"
+            "domain": "electoral_section_crosswalk",
+            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
+            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
           }
         ]
       },
@@ -108,34 +108,34 @@
           "election_date": "2026-02-08"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING",
+          "status": "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+          "action": "REUSE_TEMPORAL_SUBSTITUTION",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2026,
             "section_year": 2026
           },
           "selected": {
             "population_year": 2025,
-            "section_year": 2026
+            "section_year": 2025
           },
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 35728613828,
-            "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/35728613828/receipt.json"
+            "run_id": 38093067883,
+            "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac/38093067883/receipt.json"
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
+          "status": "BLOCKED",
           "action": "REUSE",
           "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Corporación RTVE — resultados 2026",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "BLOCKED",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "BLOCKED",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -150,9 +150,9 @@
         },
         "next_steps": [
           {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING"
+            "domain": "electoral_section_crosswalk",
+            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
+            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
           }
         ]
       },
@@ -179,8 +179,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37438440043,
-            "receipt_path": "territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/37438440043/receipt.json"
+            "run_id": 40132061626,
+            "receipt_path": "territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/40132061626/receipt.json"
           }
         },
         "electoral": {
@@ -192,12 +192,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22.json",
             "pair_sha256": "dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -230,8 +230,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37336114775,
-            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61/37336114775/receipt.json"
+            "run_id": 40132081479,
+            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61/40132081479/receipt.json"
           }
         },
         "electoral": {
@@ -243,12 +243,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99.json",
             "pair_sha256": "d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -281,8 +281,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37449876557,
-            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f/37449876557/receipt.json"
+            "run_id": 37596900111,
+            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f/37596900111/receipt.json"
           }
         },
         "electoral": {
@@ -294,12 +294,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364.json",
             "pair_sha256": "0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -369,34 +369,34 @@
           "election_date": "2026-03-15"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING",
+          "status": "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+          "action": "REUSE_TEMPORAL_SUBSTITUTION",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2026,
             "section_year": 2026
           },
           "selected": {
             "population_year": 2025,
-            "section_year": 2026
+            "section_year": 2025
           },
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 35610439734,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json"
+            "run_id": 38091055890,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/155b35accd76c2f82cb21c298fda55b2df0fe122a7059df1c6068fbfb3e26b5e/38091055890/receipt.json"
           }
         },
         "electoral": {
-          "status": "ADMISSIBLE",
+          "status": "BLOCKED",
           "action": "REUSE",
           "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Junta de Castilla y León — Datos Abiertos",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "BLOCKED",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "BLOCKED",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -411,9 +411,9 @@
         },
         "next_steps": [
           {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING"
+            "domain": "electoral_section_crosswalk",
+            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
+            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
           }
         ]
       },
@@ -528,9 +528,9 @@
           "election_date": "2023-05-28"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -540,10 +540,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": 36273981926,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 39315133646,
+            "receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/receipt.json"
           }
         },
         "electoral": {
@@ -553,9 +553,9 @@
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -568,13 +568,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "extremadura",
@@ -585,9 +579,9 @@
           "election_date": "2025-12-21"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2025,
             "section_year": 2025
@@ -597,10 +591,10 @@
             "section_year": 2025
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": 35755043806,
-            "receipt_path": null
+            "population_year": 2025,
+            "section_year": 2025,
+            "run_id": 38091144559,
+            "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json"
           }
         },
         "electoral": {
@@ -626,11 +620,6 @@
           "source": "repository_durable_state"
         },
         "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING"
-          },
           {
             "domain": "electoral",
             "planner_action": "BLOCKED_PROVISIONAL",
@@ -661,8 +650,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 37155903096,
-            "receipt_path": "territorios/galicia/evidencia/fuentes_territoriales/2025/0038fdcf4151e229621b529cfb98df60c9dce9d15502dd5024c8b61c79f8a2d3/37155903096/receipt.json"
+            "run_id": 40132266803,
+            "receipt_path": "territorios/galicia/evidencia/fuentes_territoriales/2025/0038fdcf4151e229621b529cfb98df60c9dce9d15502dd5024c8b61c79f8a2d3/40132266803/receipt.json"
           }
         },
         "electoral": {
@@ -674,12 +663,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/galicia/evidencia/pares_fuentes/2025/6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff.json",
             "pair_sha256": "6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1169,9 +1158,9 @@
         "territorial_source": {
           "territory_id": "principado_de_asturias",
           "edition": "2025",
-          "run_id": 37438440043,
-          "artifact_name": "ddd-source-package-principado_de_asturias-2025-37438440043",
-          "artifact_sha256": "8717fab7efed599f57d0ce57cf57a6d71b1bd602e332be909c8d798a0e5fbd3d",
+          "run_id": 40132061626,
+          "artifact_name": "ddd-source-package-principado_de_asturias-2025-40132061626",
+          "artifact_sha256": "9dbaff46b33d2695c04fb520d840252dd9f15f4aa7036b15619e81f90f1d38c5",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1180,10 +1169,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 37438440043,
-          "artifact_name": "ddd-state-37438440043-M06",
-          "artifact_sha256": "7f32a5d6414f30855d9bc5e5226914433c8686b8f4e660f4315903142ecbde7c",
-          "source_commit": "e10d3e9fbffa6be85a600856c0b066d5754551bb",
+          "run_id": 40132061626,
+          "artifact_name": "ddd-state-40132061626-M06",
+          "artifact_sha256": "64275fcf814003e64232053bcdcf2e68b58ac0f1d4c222fdcb9e589177c01dd0",
+          "source_commit": "a790fa18a8dd320ac75f90301cc3fdfc738055d3",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -1232,9 +1221,9 @@
         "territorial_source": {
           "territory_id": "illes_balears",
           "edition": "2025",
-          "run_id": 37336114775,
-          "artifact_name": "ddd-source-package-illes_balears-2025-37336114775",
-          "artifact_sha256": "bd100f1fe96b81f89b128eafce7b4e9456095c06ed69770b780c32a91f90006a",
+          "run_id": 40132081479,
+          "artifact_name": "ddd-source-package-illes_balears-2025-40132081479",
+          "artifact_sha256": "333a98ad02ae67a4c4477bc4b069a3071df45251fe1ead88f299373f3676eeb6",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1274,9 +1263,9 @@
         "territorial_source": {
           "territory_id": "canarias",
           "edition": "2025",
-          "run_id": 37449876557,
-          "artifact_name": "ddd-source-package-canarias-2025-37449876557",
-          "artifact_sha256": "57dd38b223c60c177e847880abdee9413608e92f282e1cee2c9726d1d0c21a70",
+          "run_id": 37596900111,
+          "artifact_name": "ddd-source-package-canarias-2025-37596900111",
+          "artifact_sha256": "057c902d9516493589b161c0c1946bf5fdc309c940881aee56e27ae41c56237c",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1558,19 +1547,19 @@
       "ft": "green",
       "g": "green",
       "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "re": "yellow",
+      "status": "Listo para incorporar resultados electorales",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 36403519566,
-      "stage": "M08",
+      "run_id": 40132266803,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "galicia",
           "edition": "2025",
-          "run_id": 37155903096,
-          "artifact_name": "ddd-source-package-galicia-2025-37155903096",
-          "artifact_sha256": "fc4c4a387ad4f227c4db2ed03e3509a460ad78e8e6fc74e7a052bf1a19da0c7a",
+          "run_id": 40132266803,
+          "artifact_name": "ddd-source-package-galicia-2025-40132266803",
+          "artifact_sha256": "45b33afd498bdbff34b7397c60b799edc9aa7c9b9fc60364444fd43e15ddd4ee",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1579,10 +1568,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 37159898924,
-          "artifact_name": "ddd-state-37159898924-M06",
-          "artifact_sha256": "aeb0f5f58fd017bff3f23877dad381a94ef65d21f05a8f025d89b854923f0caa",
-          "source_commit": "8f0f517d4e8750f13c511ffa9b7b8bf2ff40ce51",
+          "run_id": 40132266803,
+          "artifact_name": "ddd-state-40132266803-M06",
+          "artifact_sha256": "dcff66e20c5c805593c44e27d8a9d42505e11b94b585250f1f323b8459936f42",
+          "source_commit": "71dcfc669fea425909411e3bc7eac52316144502",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -1801,10 +1790,10 @@
       "territory_id": "ceuta",
       "name": "Ceuta",
       "ft": "green",
-      "g": "green",
+      "g": "yellow",
       "fe": "green",
-      "re": "yellow",
-      "status": "Listo para incorporar resultados electorales",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
       "certification": "PASS",
       "run_id": 36482903970,
       "stage": "M06",
@@ -1881,15 +1870,14 @@
     }
   ],
   "kpis": {
-    "complete": 5,
+    "complete": 4,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
       "06 Cantabria",
-      "08 Castilla-La Mancha",
-      "12 Galicia"
+      "08 Castilla-La Mancha"
     ],
-    "territorial_validated": 8,
+    "territorial_validated": 7,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -1897,10 +1885,9 @@
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "11 Extremadura",
-      "12 Galicia",
-      "18 Ceuta"
+      "12 Galicia"
     ],
-    "validated": 8,
+    "validated": 7,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -1908,10 +1895,9 @@
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "11 Extremadura",
-      "12 Galicia",
-      "18 Ceuta"
+      "12 Galicia"
     ],
-    "ready": 11,
+    "ready": 12,
     "ready_names": [
       "01 Andalucía",
       "04 Islas Baleares",
@@ -1923,6 +1909,7 @@
       "15 Comunidad Foral de Navarra",
       "16 País Vasco",
       "17 La Rioja",
+      "18 Ceuta",
       "19 Melilla"
     ],
     "pending": 0,
@@ -1978,15 +1965,15 @@
       "action": "completar puerta de validación territorial"
     },
     {
+      "territory": "12 Galicia",
+      "territory_id": "galicia",
+      "autonomous_community_code_ine": "12",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "13 Comunidad de Madrid",
       "territory_id": "madrid",
       "autonomous_community_code_ine": "13",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "14 Región de Murcia",
-      "territory_id": "region_de_murcia",
-      "autonomous_community_code_ine": "14",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -2034,10 +2021,10 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "13 Comunidad de Madrid",
-      "territory_id": "madrid",
-      "autonomous_community_code_ine": "13",
-      "action": "generar y validar distritos"
+      "territory": "12 Galicia",
+      "territory_id": "galicia",
+      "autonomous_community_code_ine": "12",
+      "action": "incorporar resultados electorales"
     }
   ]
 }
