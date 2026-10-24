@@ -1,13 +1,3 @@
-# VERSIÓN: 1.1.3 — evidencias F10 independientes 2025/2025 para tres territorios
-# FECHA: 2026-10-12; ESTADO: candidato, no promovido
-# CAMBIOS: registrar receipts oficiales para Andalucía, Aragón y Castilla y León; preservar fuentes históricas.
-# MOTIVO: decisión territorial F10-20261012-PAIR-2025; hashes verificados contra ZIP auténticos.
-# ANTERIOR: legacy/configuracion/catalogo_preparacion_pre_f10_tres_recibos_20261012.yaml
-# VERSIÓN: 1.1.3 — Registro independiente del receipt F10 de Extremadura
-# FECHA: 2026-10-12; ESTADO: candidato
-# ALCANCE: catálogo de preparación; CAMBIOS: fuente independiente #179, no promovida
-# MOTIVO: consumir receipt auténtico sin reemplazar la evidencia que sustenta M06
-# ANTERIOR: legacy/configuracion/catalogo_preparacion_v1.1.2_pre_independent_extremadura_20261012.yaml
 schema: ddd-preparation-catalog/1.1
 default_edition: '2025'
 territories:
@@ -116,8 +106,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 37438440043
-        stage: M08
+        run_id: 40132061626
+        stage: M06
       preparation_evidence:
         run_id: 40132061626
         artifact_name: ddd-source-package-principado_de_asturias-2025-40132061626

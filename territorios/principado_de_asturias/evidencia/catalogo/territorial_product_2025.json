@@ -4,10 +4,10 @@
   "territory_id": "principado_de_asturias",
   "territory_name": "Principado de Asturias",
   "edition": "2025",
-  "run_id": 37438440043,
-  "artifact_name": "ddd-state-37438440043-M06",
-  "artifact_sha256": "7f32a5d6414f30855d9bc5e5226914433c8686b8f4e660f4315903142ecbde7c",
-  "source_commit": "e10d3e9fbffa6be85a600856c0b066d5754551bb",
+  "run_id": 40132061626,
+  "artifact_name": "ddd-state-40132061626-M06",
+  "artifact_sha256": "64275fcf814003e64232053bcdcf2e68b58ac0f1d4c222fdcb9e589177c01dd0",
+  "source_commit": "a790fa18a8dd320ac75f90301cc3fdfc738055d3",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06"
 }
