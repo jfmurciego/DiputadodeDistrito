@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-24T21:33:31.090430+00:00",
+  "generated_at": "2026-10-24T21:37:55.346136+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1151,7 +1151,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 37438440043,
+      "run_id": 40132061626,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -1195,10 +1195,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 37438440043,
-          "artifact_name": "ddd-state-37438440043-M08",
-          "artifact_sha256": "57acf4e08017f84ecc690bf67e9c599392a3a0daaa462fbadf98f747f1e291db",
-          "source_commit": "0a4779aa50b2ad7572cd7ad9aa1a51c2df618019",
+          "run_id": 40132061626,
+          "artifact_name": "ddd-state-40132061626-M08",
+          "artifact_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+          "source_commit": "f7d411d5244f5c4a3fa21cbf2dd1c53614488942",
           "stage": "M08"
         }
       },
@@ -1918,11 +1918,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "castilla_la_mancha",
-    "name": "Castilla-La Mancha",
-    "display_name": "08 Castilla-La Mancha",
-    "autonomous_community_code_ine": "08",
-    "run_id": 37444564173,
+    "territory_id": "principado_de_asturias",
+    "name": "Principado de Asturias",
+    "display_name": "03 Principado de Asturias",
+    "autonomous_community_code_ine": "03",
+    "run_id": 40132061626,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
