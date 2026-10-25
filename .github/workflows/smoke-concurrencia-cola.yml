@@ -79,6 +79,31 @@ jobs:
           if regressions:
               raise SystemExit("actionlint diferencial: nuevas infracciones detectadas")
           PY
+  validar_gerrychain_runtime:
+    name: Runtime GerryChain real (sin producción)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Construir runtime reproducible
+        run: docker build --pull -t ddd-p0-gerry:ci .
+      - name: Ejecutar regresiones ReCom no omitidas
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -e PYTHONHASHSEED=0 -e DDD_SKIP_LEGACY_CHECK=1 \
+            --entrypoint /opt/ddd-gerrychain/bin/python ddd-p0-gerry:ci \
+            -m unittest tests.test_m05_gerrychain_strategy.ContractTests \
+              tests.test_m05_gerrychain_strategy.GerryChainRuntimeTests -v \
+            2>&1 | tee p0-gerrychain-runtime.log
+      - name: Conservar log del runtime
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0 # v7.0.1
+        with:
+          name: p0-gerrychain-runtime
+          path: p0-gerrychain-runtime.log
+          if-no-files-found: warn
+          retention-days: 30
   smoke_cola:
     name: Comprobar cola ticket ${{ matrix.ticket }}
     runs-on: ubuntu-24.04
