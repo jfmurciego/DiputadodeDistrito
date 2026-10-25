@@ -714,20 +714,19 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 37315646335
-        artifact_name: ddd-source-package-melilla-2025-37315646335
-        artifact_sha256: 6fde2422b0e1956d4e31cf19763468f95a50653535ef9d1e3dff4ae4b5803baa
+        run_id: 40241784009
+        artifact_name: ddd-source-package-melilla-2025-40241784009
+        artifact_sha256: f1c96f9a7c3d6c4477b0ecfa313d0a826e2b800b287cb2047cff3a43f27c0b1b
         package_sha256: cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b
-        receipt_path: territorios/melilla/evidencia/fuentes_territoriales/2025/a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d/37315646335/receipt.json
+        receipt_path: territorios/melilla/evidencia/fuentes_territoriales/2025/a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d/40241784009/receipt.json
         territorial_identity_sha256: a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d
         compatibility_report_sha256: fa16e7be1bb0bc20150a59c8d3e15775b7100a9dd85baebc413a683a316ab8e2
         compatibility_identity_sha256: 12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 613838c0024a9fd644035444346ed968f9ca1c55
+        source_commit: ace588cce2b87943cf4b94e8533f0d761c712f29
       evidence:
         electoral_source: territorios/melilla/evidencia/fuentes_electorales/2025/5c3fceaf4341f2bfa52ed5639a927f71d28979601554dc4529c6b814c7d13c22/37009226866/receipt.json
         prepared_source_pair: territorios/melilla/evidencia/pares_fuentes/2025/de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4.json
-        generation_preflight: territorios/melilla/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
