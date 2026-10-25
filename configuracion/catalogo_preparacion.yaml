@@ -106,8 +106,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40132061626
-        stage: M08
+        run_id: 40241852045
+        stage: M06
       preparation_evidence:
         run_id: 40132061626
         artifact_name: ddd-source-package-principado_de_asturias-2025-40132061626
