@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-25T23:22:34.904793+00:00",
+  "generated_at": "2026-10-25T23:26:50.021430+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1407,10 +1407,10 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 37444564173,
-          "artifact_name": "ddd-state-37444564173-M06",
-          "artifact_sha256": "772a2a083c12317c16f9b7a0bf5cffff72a396d767d19722a4bac405af92ecb4",
-          "source_commit": "d9396ab63333dadcde01d5ad1262997b694fcd9d",
+          "run_id": 40241650464,
+          "artifact_name": "ddd-state-40241650464-M06",
+          "artifact_sha256": "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a",
+          "source_commit": "30b83efd809997942b2d8ac1352c7873f7d45ce1",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
