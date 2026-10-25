@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: smoke test temporal
-# VERSIÓN: 1.0.2
+# VERSIÓN: 1.0.3
 # NOMBRE DE VERSIÓN: Smoke GerryChain Galicia M05→M06
-# FECHA: 2026-09-20
-# ESTADO: temporal
+# FECHA: 2026-10-25
+# ESTADO: candidato
 # QUÉ HACE: recupera el checkpoint real de Galicia, fuerza gerrychain_recom sólo en una copia efímera del contrato y valida M05→M06 sin publicar ni registrar producto.
-# CAMBIOS: fija explícitamente el contrato efímero en la auditoría geométrica para evitar autodetección ambigua entre contrato productivo y contrato de smoke.
-# MOTIVO: demostrar el wiring real de producción sin recalcular M01–M04 ni alterar el contrato productivo de Galicia.
-# ANTERIOR: 1.0.1 en historial Git.
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/smoke-gerrychain-galicia.pre-p0.yml (versión 1.0.2 conservada)
 name: Smoke GerryChain Galicia M05→M06
 
 on:
@@ -20,7 +20,7 @@ permissions:
 concurrency:
   group: ddd-smoke-gerrychain-galicia
   cancel-in-progress: false
-
+  queue: max
 jobs:
   smoke:
     name: Galicia GerryChain 02.5 → certificación M06

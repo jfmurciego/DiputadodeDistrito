@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
 # NOMBRE DE VERSIÓN: Generación territorial desacoplada
-# FECHA: 2026-09-20
+# FECHA: 2026-10-25
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
-# CAMBIOS: propaga la estrategia funcional de optimización seleccionada por 02 hasta el lanzador común M05.
-# MOTIVO: aislar el proceso 02 y reducir superficie operacional.
-# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max; deriva el contrato GerryChain 50 de la selección manual.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/_reutilizable-generacion-territorial.pre-p0.yml (versión 1.1.0 conservada)
 name: Reutilizable — Generación Territorial
 
 on:
@@ -50,7 +50,7 @@ permissions:
 concurrency:
   group: ddd-territorial-engine-${{ inputs.params }}
   cancel-in-progress: false
-
+  queue: max
 jobs:
   resolve:
     name: Resolver contrato y tramo
@@ -415,9 +415,51 @@ jobs:
           -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE"
           -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"
           -e DDD_OPTIMIZATION_ALGORITHM="${{ inputs.optimization_algorithm }}"
-          -e DDD_GERRYCHAIN_ENTRYPOINT="${{ inputs.gerrychain_entrypoint }}"
-          -e DDD_REQUIRE_UNIQUE_HASHES="${{ inputs.require_unique_hashes }}"
+          -e DDD_GERRYCHAIN_ENTRYPOINT="${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint }}"
+          -e DDD_REQUIRE_UNIQUE_HASHES="${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes }}"
           --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
+      - name: Conservar fallo explícito de GerryChain 50
+        if: ${{ failure() && env.STAGE == 'M05' && inputs.optimization_algorithm == 'GerryChain 50' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-gerrychain50-diagnostic
+          python - "$RUN_DIR" .ddd-gerrychain50-diagnostic/optimization_execution.json <<'PY'
+          import datetime,hashlib,json,sys
+          from pathlib import Path
+          run_dir=Path(sys.argv[1]); output=Path(sys.argv[2])
+          metadata=run_dir/'OPTIMIZATION_EXECUTION.json'
+          if metadata.is_file():
+              report=json.loads(metadata.read_text(encoding='utf-8'))
+          else:
+              report={
+                  'schema':'ddd.optimization-execution/1.0',
+                  'requested_algorithm':'GerryChain 50',
+                  'effective_algorithm':None,
+                  'fallback':False,
+                  'candidate_count':50,
+                  'execution_status':'FAILED',
+                  'certification_status':'NOT_CERTIFIED',
+                  'created_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              }
+          report['certification_status']='NOT_CERTIFIED'
+          report['diagnostic_files']={}
+          for path in sorted(run_dir.glob('logs/modulo_5*')):
+              if path.is_file():
+                  target=output.parent/path.name
+                  target.write_bytes(path.read_bytes())
+                  report['diagnostic_files'][path.name]=hashlib.sha256(target.read_bytes()).hexdigest()
+          output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - name: Publicar diagnóstico GerryChain 50 fallido
+        if: ${{ failure() && env.STAGE == 'M05' && inputs.optimization_algorithm == 'GerryChain 50' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-gerrychain50-diagnostic-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: .ddd-gerrychain50-diagnostic
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
       - name: Conservar diagnóstico estructurado de bloqueo M03
         if: ${{ failure() && env.STAGE == 'M03' }}
         shell: bash
@@ -645,6 +687,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -759,6 +802,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -1053,7 +1097,15 @@ jobs:
           set -euo pipefail
           mkdir -p .ddd-audit
           audit='${{ steps.geometric.outputs.audit_path }}'
-          [[ -n "$audit" && -f "$audit" ]] || { echo '::error::No existe informe geométrico M06 para construir production_status.'; exit 33; }
+          audit_missing=false
+          if [[ -z "$audit" || ! -f "$audit" ]]; then
+            audit=.ddd-audit/geometric_audit_missing.json
+            printf '{"decision":"UNKNOWN","reason":"No se materializó el informe de auditoría geométrica M06."}\n' > "$audit"
+            GEOMETRIC_OUTCOME=failure
+            GEOMETRIC_DECISION=UNKNOWN
+            audit_missing=true
+            echo '::error::No existe informe geométrico M06; certificación bloqueada.'
+          fi
           python herramientas/estado_produccion.py \
             --params "$PARAMS" \
             --territory-id "$TERRITORY_ID" \
@@ -1066,6 +1118,34 @@ jobs:
             --geometric-audit "$audit" \
             --output .ddd-audit/production_status.json
           cp "$audit" .ddd-audit/
+          python - "$RUNS_DIR/OPTIMIZATION_EXECUTION.json" .ddd-audit/production_status.json "$audit" .ddd-audit/optimization_execution.json "${{ inputs.optimization_algorithm }}" <<'PY'
+          import hashlib,json,sys
+          from pathlib import Path
+          source,status_path,audit_path,output,requested=sys.argv[1:]
+          status=json.loads(Path(status_path).read_text(encoding="utf-8"))
+          decision=status.get("decision","UNKNOWN")
+          if Path(source).is_file():
+              report=json.loads(Path(source).read_text(encoding="utf-8"))
+          else:
+              counts={"Canónico":0,"GerryChain":1,"GerryChain 25":25,"GerryChain 50":50}
+              report={
+                  "schema":"ddd.optimization-execution/1.0",
+                  "requested_algorithm":requested,
+                  "effective_algorithm":None,
+                  "fallback":None,
+                  "fallback_reason":None,
+                  "candidate_count":counts.get(requested),
+                  "execution_status":"M05_METADATA_MISSING",
+              }
+          report["certification_status"]=decision
+          report["certification_stage"]="M06_INDEPENDENT_GEOMETRIC_AUDIT"
+          report["certification_evidence"]={
+              "production_status_sha256":hashlib.sha256(Path(status_path).read_bytes()).hexdigest(),
+              "geometric_audit_sha256":hashlib.sha256(Path(audit_path).read_bytes()).hexdigest(),
+          }
+          Path(output).write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+          [[ "$audit_missing" == false ]] || exit 33
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
@@ -1094,6 +1174,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
