@@ -250,6 +250,27 @@
       "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/2b691dcc9547e5ba61bffd729f86acbfa63327a2"
     },
     {
+      "id": "m06-galicia-40241719200",
+      "asset_type": "territorial_product",
+      "kind": "canonical_m06",
+      "territory_id": "galicia",
+      "territory_label": "Galicia",
+      "run_id": "40241719200",
+      "expected_districts": 75,
+      "technical_status": "PASS_WITH_EXCEPTIONS",
+      "certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "territorial_certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS_WITH_EXCEPTIONS",
+      "geometric_gate": "75 distritos evaluados / 63 PASS / 12 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M06 territorial · run 40241719200",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "d8372a064b3aea0ec82e4b0eefd288a400fe05f7",
+      "sha256": "93028055fcb72b3225b046c4829f2b30b623efa6d5843f8e3b4e41b2ee5c0452",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/d8372a064b3aea0ec82e4b0eefd288a400fe05f7"
+    },
+    {
       "id": "m08-galicia-36403519566",
       "asset_type": "electoral_product",
       "kind": "canonical_m08",
