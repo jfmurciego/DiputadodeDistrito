@@ -126,6 +126,27 @@
       "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/929d1ba13063d4113a75f327b68b83c15cdb934f"
     },
     {
+      "id": "m06-castilla_la_mancha-40241650464",
+      "asset_type": "territorial_product",
+      "kind": "canonical_m06",
+      "territory_id": "castilla_la_mancha",
+      "territory_label": "Castilla-La Mancha",
+      "run_id": "40241650464",
+      "expected_districts": 33,
+      "technical_status": "PASS_WITH_EXCEPTIONS",
+      "certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "territorial_certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS_WITH_EXCEPTIONS",
+      "geometric_gate": "33 distritos evaluados / 26 PASS / 7 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M06 territorial · run 40241650464",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "512925e81166ee50811c2cf9a55bf9cebacf54bf",
+      "sha256": "81fe3681aae094eaf7514c7512ed2af9732b24020ee1b91ebb0fd5677ac6d14d",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/512925e81166ee50811c2cf9a55bf9cebacf54bf"
+    },
+    {
       "id": "m08-castilla_la_mancha-37444564173",
       "asset_type": "electoral_product",
       "kind": "canonical_m08",
