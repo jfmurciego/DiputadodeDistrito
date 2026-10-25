@@ -50,7 +50,8 @@ def validate_portfolio(report_path: Path) -> dict[str, Any]:
     if len(set(hashes)) != 50 or portfolio.get("unique_candidate_count") != 50:
         raise PortfolioValidationError("GERRYCHAIN50_ASSIGNMENT_HASHES_NOT_UNIQUE")
     selected = [row for row in rows if row.get("selected") is True]
-    selected_hash = portfolio.get("selected_assignment_hash") or report.get("selected_assignment_hash")
+    selected_hash = (portfolio.get("selected_assignment_hash") or report.get("selected_assignment_hash")
+                     or (report.get("search") or {}).get("selected_assignment_hash"))
     if len(selected) != 1 or selected[0].get("assignment_hash") != selected_hash:
         raise PortfolioValidationError("GERRYCHAIN50_SELECTED_CANDIDATE_MISMATCH")
     for index, row in enumerate(rows, start=1):
