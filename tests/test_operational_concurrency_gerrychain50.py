@@ -52,20 +52,22 @@ class OperationalConcurrencyTests(unittest.TestCase):
         self.assertEqual(pending, ["register-24", "verify-24", "other-1", "other-2", "other-3"])
         self.assertNotIn("CANCELLED", pending)
 
-    def test_remote_smoke_is_manual_and_has_no_productive_side_effects(self):
-        path = WF / "smoke-concurrencia-cola.yml"
+    def test_remote_smoke_is_pr_only_and_has_no_productive_side_effects(self):
+        path = WF / "p0-verificacion-remota.yml"
         data = load_yaml(path)
-        self.assertIn("workflow_dispatch", data["on"])
-        job = data["jobs"]["esperar-en-cola"]
-        self.assertEqual(job["concurrency"]["group"], "ddd-p0-concurrency-smoke")
+        self.assertIn("pull_request", data["on"])
+        self.assertNotIn("workflow_dispatch", data["on"])
+        job = data["jobs"]["comprobar-cola"]
+        self.assertEqual(job["concurrency"]["group"], "ddd-p0-pr-queue-${{ github.run_id }}")
         self.assertEqual(job["concurrency"]["queue"], "max")
         self.assertEqual(job["concurrency"]["cancel-in-progress"], "false")
+        self.assertEqual(job["strategy"]["matrix"]["ticket"], ["1", "2", "3", "4", "5"])
         steps = job["steps"]
         self.assertEqual(len(steps), 1)
-        self.assertEqual(steps[0]["env"]["SMOKE_TICKET"], "${{ inputs.ticket }}")
-        self.assertNotIn("${{ inputs.ticket }}", steps[0]["run"])
+        self.assertEqual(steps[0]["env"]["SMOKE_TICKET"], "${{ matrix.ticket }}")
+        self.assertNotIn("${{ matrix.ticket }}", steps[0]["run"])
         self.assertIn('[[ "$SMOKE_TICKET" =~ ^[1-5]$ ]]', steps[0]["run"])
-        self.assertIn("sleep 45", steps[0]["run"])
+        self.assertIn("sleep 15", steps[0]["run"])
         self.assertNotIn("uses", steps[0])
 
     def test_reported_20261024_prepare_register_verify_pattern_is_preserved(self):
