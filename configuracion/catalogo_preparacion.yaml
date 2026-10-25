@@ -641,23 +641,22 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 37298033194
-        artifact_name: ddd-source-package-la_rioja-2025-37298033194
-        artifact_sha256: 653f2eb905982c193d19269c72c0132655a7b54fa7633813ca96611dd89ee615
+        run_id: 40198151865
+        artifact_name: ddd-source-package-la_rioja-2025-40198151865
+        artifact_sha256: ff28e2c35f8747e1144c986021f5d45bc6f9da311afc33ec13a339d5129a9c92
         package_sha256: 47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d
-        receipt_path: territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/37298033194/receipt.json
+        receipt_path: territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/40198151865/receipt.json
         territorial_identity_sha256: e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d
         compatibility_report_sha256: 272fe7f82f85d5f9ed107207256b869347d40e1cd390b52725f246ae12e50f10
         compatibility_identity_sha256: 6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 58bfbaf433fea7fbb36139f87cd5818a2eda80e5
+        source_commit: ac1e9f3fe50d317210f4772ed790d3d778003a4b
       evidence:
         electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json
-        generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: ceuta
   name: Ceuta
   editions:
