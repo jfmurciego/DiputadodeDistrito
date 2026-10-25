@@ -1,9 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.0.1
+# VERSIÓN: 3.0.2
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve a activos persistentes, preflight completo, registro atómico y despliegue único.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/_reutilizable-publicar-sitio.pre-p0.yml (versión 3.0.1 conservada)
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# FECHA: 2026-10-25
 name: _Publicador Interno del Sitio
 
 on:
@@ -35,7 +39,7 @@ permissions:
 concurrency:
   group: ddd-pages-prod
   cancel-in-progress: false
-
+  queue: max
 jobs:
   publicar:
     environment:

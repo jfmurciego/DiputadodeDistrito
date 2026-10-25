@@ -1,0 +1,201 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: verificación PR no productiva
+# VERSIÓN: 1.0.0
+# FECHA: 2026-10-25
+# ESTADO: candidato
+# QUÉ HACE: prueba cinco trabajos en una misma cola y ejecuta las regresiones ReCom con runtime real.
+# NO HACE: modificar fuentes, catálogo, artefactos productivos ni publicar.
+name: P0 Verificación remota no productiva
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'procedimiento.sh'
+      - 'herramientas/validar_portfolio_gerrychain50.py'
+      - 'tests/test_operational_concurrency_gerrychain50.py'
+      - 'tests/test_m05_gerrychain_strategy.py'
+      - 'tests/test_m05_gerrychain_engine.py'
+
+permissions:
+  contents: read
+
+jobs:
+  comprobar-cola:
+    name: Cola real — ticket ${{ matrix.ticket }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        ticket: [1, 2, 3, 4, 5]
+    concurrency:
+      group: ddd-p0-pr-queue-${{ github.run_id }}
+      cancel-in-progress: false
+      queue: max
+    steps:
+      - name: Demostrar entrada y salida sin cancelación
+        shell: bash
+        env:
+          SMOKE_TICKET: ${{ matrix.ticket }}
+        run: |
+          set -euo pipefail
+          [[ "$SMOKE_TICKET" =~ ^[1-5]$ ]] || exit 2
+          printf 'SMOKE_START ticket=%s run=%s\n' "$SMOKE_TICKET" "$GITHUB_RUN_ID"
+          sleep 15
+          printf 'SMOKE_END ticket=%s run=%s\n' "$SMOKE_TICKET" "$GITHUB_RUN_ID"
+
+  comprobar-gerrychain:
+    name: GerryChain ReCom — runtime real
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Instalar dependencias reales de ReCom
+        run: python -m pip install --disable-pip-version-check --requirement requirements-gerrychain-m05.lock
+      - name: Ejecutar y exigir tres regresiones ReCom sin SKIP
+        env:
+          PYTHONHASHSEED: '0'
+        run: |
+          python - <<'PY'
+          import sys
+          import unittest
+          modules = [
+              'tests.test_m05_gerrychain_strategy',
+              'tests.test_m05_gerrychain_engine',
+              'tests.test_operational_concurrency_gerrychain50',
+          ]
+          required = {
+              'test_declared_water_bridge_does_not_block_gerrychain_start',
+              'test_recoverable_recom_failure_becomes_self_loop',
+              'test_real_gerrychain_recom_smoke',
+          }
+          suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
+          def flatten(group):
+              for case in group:
+                  if isinstance(case, unittest.TestSuite):
+                      yield from flatten(case)
+                  else:
+                      yield case
+          available = {t.id().split('.')[-1] for t in flatten(suite)}
+          missing = required - available
+          if missing:
+              raise SystemExit('Faltan tests requeridos: ' + repr(sorted(missing)))
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          skipped = {case.id().split('.')[-1] for case, reason in result.skipped}
+          forbidden = skipped & required
+          if forbidden:
+              raise SystemExit('ReCom no validado: tests omitidos ' + repr(sorted(forbidden)))
+          if not result.wasSuccessful():
+              sys.exit(1)
+          print('RECOM_REAL_PASS; smoke y regresiones obligatorias ejecutadas')
+          PY
+
+  comprobar-actionlint:
+    name: actionlint sin el falso positivo queue
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Instalar actionlint 1.7.12
+        shell: bash
+        run: |
+          set -euo pipefail
+          go version
+          mkdir -p "$RUNNER_TEMP/bin"
+          GOBIN="$RUNNER_TEMP/bin" go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+          "$RUNNER_TEMP/bin/actionlint" -version
+      - name: Normalizar únicamente queue para el analizador desactualizado
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          src = Path('.github/workflows')
+          dst = Path(os.environ['RUNNER_TEMP']) / 'actionlint-workflows'
+          dst.mkdir(parents=True, exist_ok=True)
+          removed = 0
+          for file in sorted(src.glob('*.yml')):
+              lines = file.read_text(encoding='utf-8').splitlines(keepends=True)
+              clean = []
+              for line in lines:
+                  if line.strip() == 'queue: max':
+                      removed += 1
+                      continue
+                  clean.append(line)
+              (dst / file.name).write_text(''.join(clean), encoding='utf-8')
+          print(f'Normalizadas {removed} propiedades queue:max para actionlint antiguo')
+          if removed < 24:
+              raise SystemExit('Faltan colas productivas esperadas')
+          PY
+
+      - name: Comparar actionlint completo con la misma versión en main
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          python - <<'PY'
+          import os
+          import re
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          base_sha = os.environ['BASE_SHA']
+          if not re.fullmatch(r'[0-9a-f]{40}', base_sha):
+              raise SystemExit('SHA base inválida')
+          root = Path(os.environ['RUNNER_TEMP'])
+          head_dir = root / 'actionlint-workflows'
+          base_dir = root / 'actionlint-baseline'
+          base_dir.mkdir(parents=True, exist_ok=True)
+          paths = subprocess.check_output(
+              ['git', 'ls-tree', '-r', '--name-only', base_sha, '.github/workflows'],
+              text=True,
+          ).splitlines()
+          for name in paths:
+              if not name.endswith('.yml'):
+                  continue
+              raw = subprocess.check_output(['git', 'show', f'{base_sha}:{name}'], text=True)
+              clean = ''.join(line for line in raw.splitlines(keepends=True)
+                              if line.strip() != 'queue: max')
+              (base_dir / Path(name).name).write_text(clean, encoding='utf-8')
+
+          actionlint = str(root / 'bin/actionlint')
+          def execute(folder):
+              files = sorted(str(p) for p in folder.glob('*.yml'))
+              result = subprocess.run([actionlint, '-oneline', *files],
+                                      text=True, capture_output=True)
+              rows = (result.stdout + '\n' + result.stderr).splitlines()
+              parsed = set()
+              unparsed = []
+              for row in rows:
+                  match = re.match(r'^(.+?\.yml):(\d+):(\d+):\s*(.*)$', row)
+                  if match:
+                      # ShellCheck incluye coordenadas del script que cambian al añadir pasos.
+                      # Comparamos el código SC y el mensaje, no esas posiciones.
+                      message = re.sub(r'(SC\d+):(\w+):\d+:\d+:', r'\1:\2:', match.group(4))
+                      parsed.add((Path(match.group(1)).name, message))
+                  elif row.strip():
+                      unparsed.append(row)
+              if unparsed:
+                  raise SystemExit('Salida actionlint no interpretable: ' + repr(unparsed[:10]))
+              return result.returncode, parsed
+
+          base_rc, baseline = execute(base_dir)
+          head_rc, current = execute(head_dir)
+          new_issues = sorted(current - baseline)
+          print(f'ACTIONLINT_BASELINE: {len(baseline)} diagnósticos; exit={base_rc}')
+          print(f'ACTIONLINT_HEAD: {len(current)} diagnósticos; exit={head_rc}')
+          print(f'ACTIONLINT_NEW: {len(new_issues)}')
+          if new_issues:
+              for path, message in new_issues:
+                  print(f'NEW {path}: {message}')
+              sys.exit(1)
+          print('ACTIONLINT_DELTA_PASS: cero diagnósticos nuevos')
+          PY

@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.6
-Fecha: 2026-10-19
+Versión: 1.0.8
+Fecha: 2026-10-25
 Alcance: acreditaciones municipales pre-M04 fuente-vinculadas tras la actualización M02
 Estado: candidato
 Cambios/motivo: admitir discontinuidades municipales acreditadas con fuente exacta y contadores coherentes
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.5_20261019.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.7_20261025.md
 -->
 
 
@@ -542,6 +542,16 @@ certifica el Motor Nacional y no habilita A3.
 ## 2026-10-19 — Comunidad Valenciana: corrección de reproyección M02
 
 Trasladado el alcance técnico de #271 sobre el `main` posterior a #269/#270/#273: M02 usa EPSG:25830 y se declaran ediciones fuente de población y seccionado 2025, sin editar geometrías, tolerancias, población, puentes o contratos. Se conservan en `docs/AUDITORIAS/F10_VALENCIA_M02_REPROYECCION_20261019/` las pruebas M01–M03, hashes y límites de acreditación. Este cambio no constituye recibo territorial ni cierra F10; M04–M06 y la validación efectiva siguen pendientes.
+
+
+## 2026-10-25 — P0 — colas durables y contrato GerryChain 50
+
+Los grupos productivos con exclusión mutua conservan sus pendientes mediante `queue: max`; los grupos por territorio siguen aislados y los registros compartidos permanecen serializados. Las interfaces manuales derivan el contrato GerryChain 50 desde la estrategia; M05 falla explícitamente si ReCom falla o su portfolio no acredita 50 artefactos íntegros con 50 hashes de asignación distintos. La evidencia M05 distingue ejecución de certificación M06. El preflight documental local identifica 17 territorios candidatos y dos bloqueos, pero los artefactos de GitHub y los runs del 24-10 quedan sin verificar por falta de credenciales API. No se lanza producción ni se publica.
+
+
+## 2026-10-25 — Smoke de concurrencia: proteger input manual
+
+El workflow no productivo restringe `ticket` a opciones 1–5, lo valida y lo recibe por variable de entorno; el valor deja de interpolarse dentro del script Bash. La cola y su grupo permanecen iguales.
 
 ## 2026-10-20 — NAC-03 — rechazo de claves JSON duplicadas en capturas IGN
 

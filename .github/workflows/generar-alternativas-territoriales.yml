@@ -1,10 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 2.0.0
-# FECHA: 2026-09-15
+# VERSIÓN: 2.0.1
+# FECHA: 2026-10-25
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
-# CAMBIOS: añade republicación ligera de Aragón-10 desde un run fuente, reensambla con el código actual y valida las copias web EPSG:4326 antes de Pages.
-# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v1.2.1.yml
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/generar-alternativas-territoriales.pre-p0.yml (versión 2.0.0 conservada)
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: Ensemble Territorial GerryChain
 
 on:
@@ -26,7 +27,7 @@ permissions:
 concurrency:
   group: ddd-ensemble-${{ inputs.territory_id }}
   cancel-in-progress: false
-
+  queue: max
 jobs:
   synthetic:
     if: ${{ inputs.republish_source_run_id == '' }}

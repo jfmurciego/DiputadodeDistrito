@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.9.0
+# VERSIÓN: 2.9.1
 # NOMBRE DE VERSIÓN: Reutilización durable de fuentes preparadas
-# FECHA: 2026-09-17
+# FECHA: 2026-10-25
 # ESTADO: candidato
 # QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; conserva las fuentes preparadas dentro de cada checkpoint y las reutiliza sin red cuando siguen siendo válidas.
-# CAMBIOS: conserva fuentes territoriales durables y M07–M08 consumen exclusivamente el paquete electoral preparado y validado contra contrato.
-# MOTIVO: impedir descargas innecesarias y preservar procedencia, edición y checksum a través de reanudaciones.
-# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/producir-territorio-por-contrato.pre-p0.yml
 name: Producción Territorial Modular
 
 on:
@@ -34,7 +34,7 @@ permissions:
 concurrency:
   group: ddd-production-${{ inputs.params }}
   cancel-in-progress: false
-
+  queue: max
 jobs:
   resolve:
     name: Resolver contrato y tramo

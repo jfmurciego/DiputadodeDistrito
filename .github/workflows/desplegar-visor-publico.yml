@@ -1,9 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.0.0
+# VERSIÓN: 3.0.1
 # NOMBRE: Publicación manual desacoplada del cálculo territorial
-# ESTADO: activo
+# ESTADO: candidato
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/desplegar-visor-publico.pre-p0.yml (versión 3.0.0 conservada)
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# FECHA: 2026-10-25
 name: 05 Publicación del Visor
 
 on:
@@ -41,6 +45,7 @@ jobs:
     concurrency:
       group: ddd-shared-operational-state
       cancel-in-progress: false
+      queue: max
     outputs:
       source_ref: ${{ steps.resolve.outputs.source_ref }}
       production_run_id: ${{ steps.resolve.outputs.production_run_id }}

@@ -1,11 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.0
+# VERSIÓN: 1.4.1
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
-# FECHA: 2026-09-19
+# FECHA: 2026-10-25
 # ESTADO: candidato
-# CAMBIOS: la preparación territorial termina al acreditar y persistir su paquete; la habilitación pre-generación se evalúa fuera de 01.
-# MOTIVO: conservar fuentes válidas aunque una evaluación posterior bloquee la generación de distritos.
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/preparacion-fuentes.pre-p0.yml (versión 1.4.0 conservada)
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -61,7 +62,7 @@ on:
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}
   cancel-in-progress: false
-
+  queue: max
 permissions:
   contents: write
   actions: read
@@ -296,6 +297,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       TERRITORY: ${{ inputs.territory_id }}

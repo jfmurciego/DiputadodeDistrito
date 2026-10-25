@@ -241,8 +241,10 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertEqual(len(matrix),14)
   self.assertEqual({r["slot"] for r in matrix},selected_codes)
   self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),4)
-  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),10)
-  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),0)
+  # Tras las acreditaciones del 25-10 hay tres fuentes listas para generar;
+  # no deben degradarse artificialmente a SOURCE_PREPARATION_REQUIRED.
+  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),7)
+  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),3)
   by_slot={r["slot"]:r for r in matrix}
   self.assertEqual(by_slot["12"]["execution_route"],"PRODUCT_REUSE_READY")
   self.assertTrue(by_slot["12"]["execution_plan"]["run_incorporate"])

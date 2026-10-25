@@ -1,0 +1,234 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: router reutilizable interno
+# VERSIÓN: 3.4.0
+# NOMBRE DE VERSIÓN: Ruta productiva con nombres de negocio
+# FECHA: 2026-09-17
+# ESTADO: candidato
+# QUÉ HACE: recibe una operación institucional resuelta, delega la ruta seleccionada y genera siempre un informe de ejecución para la cadena territorial.
+# CAMBIOS: presenta la cadena productiva con nombres de negocio sin alterar la lógica M01–M08 ni las rutas auxiliares existentes.
+# MOTIVO: hacer comprensible la secuencia productiva desde GitHub Actions sin exponer controles técnicos al usuario.
+# ANTERIOR: versión 3.1.0 en historial Git.
+name: Reutilizable — Ruta Territorial Resuelta
+
+on:
+  workflow_call:
+    inputs:
+      params: {required: true, type: string}
+      territory_id: {required: true, type: string}
+      operation: {required: true, type: string}
+      from_stage: {required: true, type: string}
+      to_stage: {required: true, type: string}
+      checkpoint_run_id: {required: false, type: string, default: ''}
+      source_package_run_id: {required: false, type: string, default: ''}
+      source_package_artifact_name: {required: false, type: string, default: ''}
+      electoral_package_run_id: {required: false, type: string, default: ''}
+      electoral_package_artifact_name: {required: false, type: string, default: ''}
+      execution_confirmed: {required: false, type: boolean, default: false}
+      publish_result: {required: false, type: boolean, default: false}
+      ensemble_stage: {required: false, type: string, default: synthetic}
+      ensemble_promotion_confirmed: {required: false, type: boolean, default: false}
+      ensemble_republish_source_run_id: {required: false, type: string, default: ''}
+      orchestration_plan_path: {required: false, type: string, default: 'orchestracion/plan_lote_g10_smoke.json'}
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+  issues: write
+
+jobs:
+  produccion:
+    name: Procesamiento territorial modular
+    if: ${{ contains(fromJSON('["admitir_contrato","verificar_contrato","preparar_base_m01_m03","certificar_territorio_m01_m06","producir_resultado_m01_m08"]'), inputs.operation) }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: ${{ inputs.params }}
+      mode: ${{ inputs.operation == 'admitir_contrato' && 'admit_only' || inputs.operation == 'verificar_contrato' && 'verify_only' || 'execute' }}
+      from_stage: ${{ inputs.operation == 'producir_resultado_m01_m08' && inputs.from_stage || 'M01' }}
+      to_stage: ${{ inputs.operation == 'preparar_base_m01_m03' && 'M03' || inputs.operation == 'certificar_territorio_m01_m06' && 'M06' || inputs.operation == 'producir_resultado_m01_m08' && inputs.to_stage || 'M08' }}
+      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      source_package_run_id: ${{ inputs.source_package_run_id }}
+      source_package_artifact_name: ${{ inputs.source_package_artifact_name }}
+      electoral_package_run_id: ${{ inputs.electoral_package_run_id }}
+      electoral_package_artifact_name: ${{ inputs.electoral_package_artifact_name }}
+      execution_authorization: ${{ inputs.execution_confirmed && 'EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION' || '' }}
+      publish_result: ${{ inputs.publish_result }}
+
+  informe_ejecucion:
+    name: Informe de ejecución
+    needs: [produccion]
+    if: ${{ always() && contains(fromJSON('["admitir_contrato","verificar_contrato","preparar_base_m01_m03","certificar_territorio_m01_m06","producir_resultado_m01_m08"]'), inputs.operation) }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Registrar contexto automático de la ejecución
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          OPERATION: ${{ inputs.operation }}
+          FROM_STAGE: ${{ inputs.from_stage }}
+          TO_STAGE: ${{ inputs.to_stage }}
+          PRODUCTION_RESULT: ${{ needs.produccion.result }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-execution-evidence
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = {
+              "schema": "ddd-execution-context/1.0",
+              "territory_id": os.environ["TERRITORY_ID"],
+              "operation": os.environ["OPERATION"],
+              "requested_from": os.environ["FROM_STAGE"],
+              "requested_to": os.environ["TO_STAGE"],
+              "workflow_run_id": os.environ["GITHUB_RUN_ID"],
+              "workflow_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "production_job_result": os.environ["PRODUCTION_RESULT"],
+          }
+          Path(".ddd-execution-evidence/contexto_ejecucion.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+          )
+          PY
+      - name: Recuperar evidencias publicadas por la cadena
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: ddd-*
+          path: .ddd-execution-evidence/artifacts
+      - name: Generar inventario e informe legible
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/generar_informe_ejecucion.py \
+            --evidence-root .ddd-execution-evidence/artifacts \
+            --context .ddd-execution-evidence/contexto_ejecucion.json \
+            --out-dir .ddd-execution-report
+          test -s .ddd-execution-report/inventario_ejecucion.json
+          test -s .ddd-execution-report/informe_ejecucion.md
+      - name: Publicar informe de ejecución
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-execution-report-${{ github.run_id }}
+          path: .ddd-execution-report
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+
+  promover_catalogo_operacional:
+    name: Registrar estado operativo del territorio
+    needs: [produccion]
+    if: ${{ needs.produccion.result == 'success' && inputs.operation == 'producir_resultado_m01_m08' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.ref_name }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Promover producto generado
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PARAMS: ${{ inputs.params }}
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          TO_STAGE: ${{ inputs.to_stage }}
+        run: |
+          set -euo pipefail
+          edition="$(python - <<'PY'
+          import os,yaml
+          cfg=yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}
+          print((cfg.get("meta") or {}).get("year",""))
+          PY
+          )"
+          test -n "$edition" || { echo "::error::No se pudo resolver edición desde el contrato."; exit 48; }
+          if [[ "$TO_STAGE" == "M06" ]]; then
+            artifact_name="ddd-state-$GITHUB_RUN_ID-M06"
+            kind="territorial_product"
+            rm -rf .ddd-audit-promote && mkdir .ddd-audit-promote
+            gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$GITHUB_RUN_ID" --dir .ddd-audit-promote >/dev/null
+            status="$(find .ddd-audit-promote -name production_status.json -type f -print -quit)"
+            test -n "$status" || { echo "::error::Falta production_status.json del run."; exit 48; }
+            decision="$(jq -r '.decision // empty' "$status")"
+            case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) echo "::error::Producto territorial no certificable: $decision"; exit 48;; esac
+            extra=(--decision "$decision")
+          elif [[ "$TO_STAGE" == "M08" ]]; then
+            artifact_name="ddd-state-$GITHUB_RUN_ID-M08"
+            kind="electoral_product"
+            extra=()
+          else
+            exit 0
+          fi
+          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq ".artifacts[] | select(.name==\"$artifact_name\")")"
+          test -n "$artifact" || { echo "::error::No existe $artifact_name."; exit 48; }
+          digest="$(jq -r '.digest // empty' <<<"$artifact")"
+          test -n "$digest" || { echo "::error::Artefacto sin digest: $artifact_name"; exit 48; }
+          python herramientas/promover_catalogo_operacional.py \
+            --kind "$kind" --territory-id "$TERRITORY_ID" --edition "$edition" \
+            --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest" \
+            --source-commit "$GITHUB_SHA" "${extra[@]}"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml \
+            "territorios/$TERRITORY_ID/evidencia/catalogo/${kind}_$edition.json"
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: registrar $kind de $TERRITORY_ID"
+          target_branch="$GITHUB_REF_NAME"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((attempt * 2))
+          done
+          echo "::error::No se pudo promover el catálogo operativo tras tres intentos."; exit 48
+
+  diagnostico:
+    name: Diagnóstico topológico
+    if: ${{ inputs.operation == 'diagnosticar_topologia' }}
+    uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+
+  ensemble:
+    name: Generar alternativas territoriales
+    if: ${{ inputs.operation == 'generar_alternativas_gerrychain' }}
+    uses: ./.github/workflows/generar-alternativas-territoriales.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+      stage: ${{ inputs.ensemble_stage }}
+      execution_confirmed: ${{ inputs.execution_confirmed }}
+      promotion_confirmed: ${{ inputs.ensemble_promotion_confirmed }}
+      republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}
+
+  visor:
+    name: Publicar visor actual
+    if: ${{ inputs.operation == 'publicar_visor_actual' }}
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    with:
+      production_run_id: ''
+      ensemble_release_tag: ''
+      target_page: Visor territorial
+
+  orquestacion_control:
+    name: Controlar ejecución
+    if: ${{ inputs.operation == 'controlar_ejecucion' }}
+    uses: ./.github/workflows/orquestacion-control.yml
+    with:
+      plan_path: ${{ inputs.orchestration_plan_path }}
+
+  orquestacion_durable:
+    name: Resolver reutilización y estado durable
+    if: ${{ inputs.operation == 'resolver_reutilizacion' }}
+    uses: ./.github/workflows/orquestacion-durable.yml
+    with:
+      plan_path: ${{ inputs.orchestration_plan_path }}

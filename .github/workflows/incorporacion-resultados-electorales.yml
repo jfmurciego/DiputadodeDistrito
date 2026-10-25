@@ -1,10 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.0.0
+# VERSIÓN: 2.0.1
 # NOMBRE DE VERSIÓN: Incorporación electoral desacoplada
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/incorporacion-resultados-electorales.pre-p0.yml (versión 2.0.0 conservada)
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# FECHA: 2026-10-25
 name: 04 Incorporación de Resultados Electorales
 
 on:
@@ -62,7 +66,7 @@ permissions:
 concurrency:
   group: ddd-electoral-prod-${{ inputs.territory_id }}
   cancel-in-progress: false
-
+  queue: max
 jobs:
   preparar:
     name: Preparar incorporación electoral

@@ -145,9 +145,13 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         )
 
     def test_manual_generation_does_not_require_gerrychain_contract(self):
-        orchestration = ORCH.read_text(encoding="utf-8")
-        self.assertIn("gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint || '' }}", orchestration)
-        self.assertIn("require_unique_hashes: ${{ inputs.require_unique_hashes == true }}", orchestration)
+        data = load(ORCH)
+        outputs = data["jobs"]["planificar"]["outputs"]
+        self.assertIn("gerrychain_entrypoint", outputs)
+        self.assertIn("require_unique_hashes", outputs)
+        generation = data["jobs"]["generar"]["with"]
+        self.assertIn("needs.planificar.outputs.gerrychain_entrypoint", generation["gerrychain_entrypoint"])
+        self.assertIn("needs.planificar.outputs.require_unique_hashes", generation["require_unique_hashes"])
         dispatch_inputs = triggers(ORCH)["workflow_dispatch"]["inputs"]
         self.assertNotIn("gerrychain_entrypoint", dispatch_inputs)
         self.assertNotIn("require_unique_hashes", dispatch_inputs)

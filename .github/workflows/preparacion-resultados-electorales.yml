@@ -1,3 +1,13 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: preparacion-resultados-electorales.yml
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: Cola durable de operaciones
+# FECHA: 2026-10-25
+# ESTADO: candidato
+# QUÉ HACE: serializa el acceso al recurso compartido y conserva todos los trabajos en espera.
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/preparacion-resultados-electorales.pre-p0.yml (bytes pre-cambio conservados)
 name: 03 Preparación de Resultados Electorales
 
 on:
@@ -30,6 +40,7 @@ on:
 concurrency:
   group: ddd-electoral-prod-${{ inputs.territory_id }}
   cancel-in-progress: false
+  queue: max
 permissions: {contents: write, actions: read}
 
 env:
@@ -397,7 +408,10 @@ jobs:
     needs: [resolver, electorales]
     if: ${{ needs.electorales.result == 'success' && needs.electorales.outputs.electoral_outcome == 'READY' && needs.resolver.outputs.persist_state == 'true' && needs.electorales.outputs.production_eligible == 'true' }}
     runs-on: ubuntu-24.04
-    concurrency: {group: ddd-catalog-promotion, cancel-in-progress: false}
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+      queue: max
     env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ADAPTER: '${{ needs.electorales.outputs.adapter }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
