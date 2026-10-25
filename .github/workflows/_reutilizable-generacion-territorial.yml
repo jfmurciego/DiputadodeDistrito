@@ -50,6 +50,7 @@ permissions:
 concurrency:
   group: ddd-territorial-engine-${{ inputs.params }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   resolve:
@@ -645,6 +646,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -759,6 +761,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       PARAMS: ${{ needs.resolve.outputs.params }}
@@ -1094,6 +1097,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}

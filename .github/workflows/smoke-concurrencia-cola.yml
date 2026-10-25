@@ -1,0 +1,36 @@
+# Prueba aislada de 5 jobs en cola, sin escrituras productivas.
+name: P0 Smoke Cola GitHub Actions
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'procedimiento.sh'
+      - 'herramientas/validar_portfolio_gerrychain50.py'
+      - 'tests/test_operational_concurrency_gerrychain50.py'
+permissions:
+  contents: read
+jobs:
+  smoke_cola:
+    name: Comprobar cola ticket ${{ matrix.ticket }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        ticket: [1, 2, 3, 4, 5]
+    concurrency:
+      group: ddd-p0-smoke-${{ github.run_id }}
+      cancel-in-progress: false
+      queue: max
+    steps:
+      - name: Validar ticket fijo y esperar
+        shell: bash
+        env:
+          TICKET: ${{ matrix.ticket }}
+        run: |
+          set -euo pipefail
+          case "$TICKET" in 1|2|3|4|5) ;; *) exit 42 ;; esac
+          echo "P0 cola: ticket=$TICKET"
+          sleep 20
+          echo "P0 cola: ticket=$TICKET completado"

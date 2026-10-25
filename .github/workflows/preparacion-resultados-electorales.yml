@@ -30,6 +30,7 @@ on:
 concurrency:
   group: ddd-electoral-prod-${{ inputs.territory_id }}
   cancel-in-progress: false
+  queue: max
 permissions: {contents: write, actions: read}
 
 env:
@@ -397,7 +398,7 @@ jobs:
     needs: [resolver, electorales]
     if: ${{ needs.electorales.result == 'success' && needs.electorales.outputs.electoral_outcome == 'READY' && needs.resolver.outputs.persist_state == 'true' && needs.electorales.outputs.production_eligible == 'true' }}
     runs-on: ubuntu-24.04
-    concurrency: {group: ddd-catalog-promotion, cancel-in-progress: false}
+    concurrency: {group: ddd-catalog-promotion, cancel-in-progress: false, queue: max}
     env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ADAPTER: '${{ needs.electorales.outputs.adapter }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1

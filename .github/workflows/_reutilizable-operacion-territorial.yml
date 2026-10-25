@@ -128,6 +128,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     permissions:
       contents: write
       actions: read

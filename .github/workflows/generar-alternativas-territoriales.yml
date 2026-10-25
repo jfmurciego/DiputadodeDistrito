@@ -26,6 +26,7 @@ permissions:
 concurrency:
   group: ddd-ensemble-${{ inputs.territory_id }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   synthetic:

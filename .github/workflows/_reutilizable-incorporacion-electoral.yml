@@ -296,6 +296,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       TERRITORY_ID: ${{ inputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}

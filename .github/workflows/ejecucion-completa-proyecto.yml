@@ -147,6 +147,7 @@ permissions:
 concurrency:
   group: ddd-full-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   planificar:
@@ -899,8 +900,8 @@ jobs:
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       require_generation_gate: true
       artifact_namespace: ${{ inputs.artifact_namespace }}
-      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint || '' }}
-      require_unique_hashes: ${{ inputs.require_unique_hashes == true }}
+      gerrychain_entrypoint: ${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint || '' }}
+      require_unique_hashes: ${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes == true }}
 
   puerta_02:
     name: Puerta de validación 02 → 03
@@ -1082,6 +1083,7 @@ jobs:
     concurrency:
       group: ddd-shared-operational-state
       cancel-in-progress: false
+      queue: max
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -1263,6 +1265,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
       TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}

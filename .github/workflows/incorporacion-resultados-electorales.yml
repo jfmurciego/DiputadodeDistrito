@@ -62,6 +62,7 @@ permissions:
 concurrency:
   group: ddd-electoral-prod-${{ inputs.territory_id }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   preparar:

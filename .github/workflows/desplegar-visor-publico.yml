@@ -41,6 +41,7 @@ jobs:
     concurrency:
       group: ddd-shared-operational-state
       cancel-in-progress: false
+      queue: max
     outputs:
       source_ref: ${{ steps.resolve.outputs.source_ref }}
       production_run_id: ${{ steps.resolve.outputs.production_run_id }}

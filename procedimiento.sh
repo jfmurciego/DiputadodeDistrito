@@ -131,7 +131,9 @@ out,requested,effective,fallback,reason,gerry_rc=sys.argv[1:]
 payload={
     "schema":"ddd.optimization-execution/1.0",
     "requested_algorithm":requested,
-    "effective_algorithm":effective,
+    "effective_algorithm":None if effective == "FAILED" else effective,
+    "execution_status":"FAILED" if effective == "FAILED" else "SUCCESS",
+    "certification_status":"NOT_CERTIFIED" if effective == "FAILED" else "PENDING_M06",
     "fallback":fallback.lower()=="true",
     "fallback_reason":reason or None,
     "gerrychain_exit_code":int(gerry_rc) if gerry_rc else None,
@@ -183,6 +185,9 @@ ejecutar(){
         baseline_rc=${PIPESTATUS[0]}
         set -e
         if (( baseline_rc != 0 )); then
+          if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
+            registrar_optimizacion "GerryChain 50" "FAILED" false "gerrychain_baseline_invalid" "$baseline_rc"
+          fi
           echo "[FATAL] Contrato o Formación inicial inválidos; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
           exit 42
         fi
@@ -199,11 +204,19 @@ ejecutar(){
         fi
 
         if (( gerry_rc == 42 )); then
+          if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
+            registrar_optimizacion "GerryChain 50" "FAILED" false "gerrychain_input_invalid" "$gerry_rc"
+          fi
           echo "[FATAL] GerryChain detectó entrada inválida tras el preflight; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
           exit 42
         fi
 
         if (( gerry_rc != 0 )); then
+          if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
+            registrar_optimizacion "GerryChain 50" "FAILED" false "gerrychain_runtime_failure" "$gerry_rc"
+            echo "[FATAL] GerryChain 50 falló (rc=$gerry_rc); no se permite fallback Canónico." >&2
+            exit "$gerry_rc"
+          fi
           echo "[WARN] GerryChain falló después de validar la entrada (rc=$gerry_rc); se ejecuta Canónico como fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
           python - "$RUN_DIR/OPTIMIZATION_FALLBACK.json" "$gerry_rc" "$candidate_count" <<'PY'
 import datetime,json,sys
@@ -224,6 +237,18 @@ PY
           python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}_fallback_canonical.log"
           registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "Canónico" true "gerrychain_runtime_failure_after_valid_baseline" "$gerry_rc"
         else
+          if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
+            local portfolio_rc=0
+            set +e
+            python herramientas/validar_portfolio_gerrychain50.py --params "$PARAMS" --run-id "$RUN_ID" 2>&1 | tee -a "$LOG_DIR/modulo_${n}.log"
+            portfolio_rc=${PIPESTATUS[0]}
+            set -e
+            if (( portfolio_rc != 0 )); then
+              registrar_optimizacion "GerryChain 50" "FAILED" false "gerrychain_portfolio_invalid" "$portfolio_rc"
+              echo "[FATAL] Portfolio GerryChain 50 no certificado: rc=$portfolio_rc." >&2
+              exit "$portfolio_rc"
+            fi
+          fi
           registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" false
         fi
         ;;

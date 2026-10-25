@@ -23,6 +23,7 @@ permissions:
 concurrency:
   group: orquestacion-durable
   cancel-in-progress: false
+  queue: max
 env:
   PLAN_PATH: ${{ inputs.plan_path }}
   STATE_PATH: orchestracion/estado_tareas.json

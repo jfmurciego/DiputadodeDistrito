@@ -84,6 +84,7 @@ on:
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
   cancel-in-progress: false
+  queue: max
 
 permissions:
   contents: write
@@ -502,5 +503,5 @@ jobs:
       persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}
       optimization_algorithm: ${{ inputs.optimization_algorithm }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
-      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint }}
-      require_unique_hashes: ${{ inputs.require_unique_hashes }}
+      gerrychain_entrypoint: ${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint }}
+      require_unique_hashes: ${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes }}

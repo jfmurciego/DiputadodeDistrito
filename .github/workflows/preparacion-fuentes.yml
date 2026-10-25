@@ -61,6 +61,7 @@ on:
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}
   cancel-in-progress: false
+  queue: max
 
 permissions:
   contents: write
@@ -296,6 +297,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       TERRITORY: ${{ inputs.territory_id }}

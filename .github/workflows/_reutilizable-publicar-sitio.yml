@@ -35,6 +35,7 @@ permissions:
 concurrency:
   group: ddd-pages-prod
   cancel-in-progress: false
+  queue: max
 
 jobs:
   publicar:
