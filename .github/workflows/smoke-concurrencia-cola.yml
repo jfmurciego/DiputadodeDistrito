@@ -94,7 +94,8 @@ jobs:
           docker run --rm -e PYTHONHASHSEED=0 -e DDD_SKIP_LEGACY_CHECK=1 \
             --entrypoint /opt/ddd-gerrychain/bin/python ddd-p0-gerry:ci \
             -m unittest tests.test_m05_gerrychain_strategy.ContractTests \
-              tests.test_m05_gerrychain_strategy.GerryChainRuntimeTests -v \
+              tests.test_m05_gerrychain_strategy.GerryChainRuntimeTests \
+              tests.test_m05_gerrychain_engine.AdapterAndMetricsTests.test_real_gerrychain_recom_smoke -v \
             2>&1 | tee p0-gerrychain-runtime.log
       - name: Conservar log del runtime
         if: always()
