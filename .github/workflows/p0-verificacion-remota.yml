@@ -132,8 +132,67 @@ jobs:
           if removed < 24:
               raise SystemExit('Faltan colas productivas esperadas')
           PY
-      - name: Ejecutar actionlint sin ocultar otros diagnósticos
+
+      - name: Comparar actionlint completo con la misma versión en main
         shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           set -euo pipefail
-          "$RUNNER_TEMP/bin/actionlint" -oneline "$RUNNER_TEMP"/actionlint-workflows/*.yml
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          python - <<'PY'
+          import os
+          import re
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          base_sha = os.environ['BASE_SHA']
+          if not re.fullmatch(r'[0-9a-f]{40}', base_sha):
+              raise SystemExit('SHA base inválida')
+          root = Path(os.environ['RUNNER_TEMP'])
+          head_dir = root / 'actionlint-workflows'
+          base_dir = root / 'actionlint-baseline'
+          base_dir.mkdir(parents=True, exist_ok=True)
+          paths = subprocess.check_output(
+              ['git', 'ls-tree', '-r', '--name-only', base_sha, '.github/workflows'],
+              text=True,
+          ).splitlines()
+          for name in paths:
+              if not name.endswith('.yml'):
+                  continue
+              raw = subprocess.check_output(['git', 'show', f'{base_sha}:{name}'], text=True)
+              clean = ''.join(line for line in raw.splitlines(keepends=True)
+                              if line.strip() != 'queue: max')
+              (base_dir / Path(name).name).write_text(clean, encoding='utf-8')
+
+          actionlint = str(root / 'bin/actionlint')
+          def execute(folder):
+              files = sorted(str(p) for p in folder.glob('*.yml'))
+              result = subprocess.run([actionlint, '-oneline', *files],
+                                      text=True, capture_output=True)
+              rows = (result.stdout + '\n' + result.stderr).splitlines()
+              parsed = set()
+              unparsed = []
+              for row in rows:
+                  match = re.match(r'^(.+?\.yml):(\d+):(\d+):\s*(.*)$', row)
+                  if match:
+                      parsed.add((Path(match.group(1)).name, match.group(4)))
+                  elif row.strip():
+                      unparsed.append(row)
+              if unparsed:
+                  raise SystemExit('Salida actionlint no interpretable: ' + repr(unparsed[:10]))
+              return result.returncode, parsed
+
+          base_rc, baseline = execute(base_dir)
+          head_rc, current = execute(head_dir)
+          new_issues = sorted(current - baseline)
+          print(f'ACTIONLINT_BASELINE: {len(baseline)} diagnósticos; exit={base_rc}')
+          print(f'ACTIONLINT_HEAD: {len(current)} diagnósticos; exit={head_rc}')
+          print(f'ACTIONLINT_NEW: {len(new_issues)}')
+          if new_issues:
+              for path, message in new_issues:
+                  print(f'NEW {path}: {message}')
+              sys.exit(1)
+          print('ACTIONLINT_DELTA_PASS: cero diagnósticos nuevos')
+          PY
