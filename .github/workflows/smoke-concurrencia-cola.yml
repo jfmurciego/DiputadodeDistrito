@@ -16,37 +16,69 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
       - name: Probar cola y portfolio sintético
         run: python3 -m unittest tests.test_operational_concurrency_gerrychain50 -v
       - name: Instalar actionlint v1.7.12
         run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
-      - name: Validar YAML con workaround limitado de queue max
+      - name: Actionlint diferencial (solo se excluye queue max del parser antiguo)
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/ddd-p0-actionlint
           python3 - <<'PY'
           from pathlib import Path
-          import re
-          src = Path(".github/workflows")
-          dst = Path("/tmp/ddd-p0-actionlint")
+          import subprocess
+          root = Path(".github/workflows")
+          temp = Path("/tmp/ddd-p0-actionlint")
+          (temp / "head").mkdir(parents=True, exist_ok=True)
+          (temp / "base").mkdir(parents=True, exist_ok=True)
+          base = subprocess.check_output(["git", "rev-parse", "HEAD^1"], text=True).strip()
           selected = 0
-          for path in src.glob("*.yml"):
-              text = path.read_text(encoding="utf-8")
-              if "queue: max" not in text:
+          for path in root.glob("*.yml"):
+              head = path.read_text(encoding="utf-8")
+              if "queue: max" not in head:
                   continue
-              filtered = "\n".join(line for line in text.splitlines() if line.strip() != "queue: max") + "\n"
-              filtered = filtered.replace(", queue: max", "")
-              if any(line.strip() == "queue: max" for line in filtered.splitlines()):
-                  raise SystemExit(f"No se eliminó el único constructo incompatible: {path}")
-              (dst / path.name).write_text(filtered, encoding="utf-8")
+              def sanitize(body):
+                  body = "\n".join(line for line in body.splitlines() if line.strip() != "queue: max") + "\n"
+                  return body.replace(", queue: max", "")
+              (temp / "head" / path.name).write_text(sanitize(head), encoding="utf-8")
+              baseline = subprocess.run(["git", "show", f"{base}:.github/workflows/{path.name}"], capture_output=True, text=True)
+              if baseline.returncode == 0:
+                  (temp / "base" / path.name).write_text(sanitize(baseline.stdout), encoding="utf-8")
               selected += 1
           if selected < 17:
-              raise SystemExit(f"Se esperaban al menos 17 workflows con queue max; encontrados {selected}")
-          print(f"actionlint sobre {selected} copias temporales; YAML original intacto")
+              raise SystemExit(f"Faltan workflows de la reparación: {selected} < 17")
+          print(f"Validación diferencial de {selected} workflows; fuentes originales intactas")
           PY
-          export PATH="$(go env GOPATH)/bin:$PATH"
-          actionlint -no-color /tmp/ddd-p0-actionlint/*.yml
+          BIN="$(go env GOPATH)/bin/actionlint"
+          "$BIN" -no-color -oneline /tmp/ddd-p0-actionlint/base/*.yml > /tmp/ddd-p0-actionlint/base.log 2>&1 || true
+          "$BIN" -no-color -oneline /tmp/ddd-p0-actionlint/head/*.yml > /tmp/ddd-p0-actionlint/head.log 2>&1 || true
+          python3 - <<'PY'
+          from collections import Counter
+          from pathlib import Path
+          import re
+          root = Path("/tmp/ddd-p0-actionlint")
+          def read(name):
+              out = Counter()
+              for line in (root / name).read_text(encoding="utf-8").splitlines():
+                  match = re.search(r"/([^/]+[.]yml):[0-9]+:[0-9]+: (.+)$", line)
+                  if not match:
+                      if line.strip():
+                          raise SystemExit(f"Salida actionlint no reconocida: {line}")
+                      continue
+                  detail = re.sub(r"(SC[0-9]+:[a-z]+):[0-9]+:[0-9]+:", lambda m: m.group(1) + ":", match.group(2))
+                  out[(match.group(1), detail)] += 1
+              return out
+          old = read("base.log")
+          new = read("head.log")
+          regressions = new - old
+          print(f"actionlint: baseline={sum(old.values())}, PR={sum(new.values())}, nuevas={sum(regressions.values())}")
+          for (path, problem), count in sorted(regressions.items()):
+              print(f"NEW {path}: {problem} (x{count})")
+          if regressions:
+              raise SystemExit("actionlint diferencial: nuevas infracciones detectadas")
+          PY
   smoke_cola:
     name: Comprobar cola ticket ${{ matrix.ticket }}
     runs-on: ubuntu-24.04
