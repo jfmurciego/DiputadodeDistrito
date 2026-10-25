@@ -179,7 +179,7 @@ jobs:
                   if match:
                       # ShellCheck incluye coordenadas del script que cambian al añadir pasos.
                       # Comparamos el código SC y el mensaje, no esas posiciones.
-                      message = re.sub(r'(SC\\d+):(\\w+):\\d+:\\d+:', r'\\1:\\2:', match.group(4))
+                      message = re.sub(r'(SC\d+):(\w+):\d+:\d+:', r'\1:\2:', match.group(4))
                       parsed.add((Path(match.group(1)).name, message))
                   elif row.strip():
                       unparsed.append(row)
