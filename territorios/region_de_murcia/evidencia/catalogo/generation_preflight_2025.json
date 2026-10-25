@@ -5,10 +5,10 @@
   "territory_name": "Región de Murcia",
   "edition": "2025",
   "run_id": 40241734290,
-  "source_commit": "0ffe0f9ed2a3a59b7101a1b12cd099ffa7acae86",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "d65c4c50a54dc5854defb69c5d007dfcdc1128f8",
+  "decision": "BLOCKED",
+  "evaluation_status": "BLOCKED",
+  "stage": "TERRITORY_GRAPH",
   "source": {
     "run_id": 40241734290,
     "artifact_name": "ddd-source-package-region_de_murcia-2025-40241734290",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "status": "BLOCKED",
+    "capability": "CAP_GRAPH",
+    "reason": "M03 bloqueó conectividad administrativa: provincias=1, municipios=0"
   }
 }
