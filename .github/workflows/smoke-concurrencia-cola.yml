@@ -37,7 +37,7 @@ jobs:
                   continue
               filtered = "\n".join(line for line in text.splitlines() if line.strip() != "queue: max") + "\n"
               filtered = filtered.replace(", queue: max", "")
-              if "queue: max" in filtered:
+              if any(line.strip() == "queue: max" for line in filtered.splitlines()):
                   raise SystemExit(f"No se eliminó el único constructo incompatible: {path}")
               (dst / path.name).write_text(filtered, encoding="utf-8")
               selected += 1
