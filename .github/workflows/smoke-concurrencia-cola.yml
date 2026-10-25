@@ -10,6 +10,43 @@ on:
 permissions:
   contents: read
 jobs:
+  validar_estatico:
+    name: Regression P0 y actionlint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Probar cola y portfolio sintético
+        run: python3 -m unittest tests.test_operational_concurrency_gerrychain50 -v
+      - name: Instalar actionlint v1.7.12
+        run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+      - name: Validar YAML con workaround limitado de queue max
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ddd-p0-actionlint
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          src = Path(".github/workflows")
+          dst = Path("/tmp/ddd-p0-actionlint")
+          selected = 0
+          for path in src.glob("*.yml"):
+              text = path.read_text(encoding="utf-8")
+              if "queue: max" not in text:
+                  continue
+              filtered = "\n".join(line for line in text.splitlines() if line.strip() != "queue: max") + "\n"
+              filtered = filtered.replace(", queue: max", "")
+              if "queue: max" in filtered:
+                  raise SystemExit(f"No se eliminó el único constructo incompatible: {path}")
+              (dst / path.name).write_text(filtered, encoding="utf-8")
+              selected += 1
+          if selected < 17:
+              raise SystemExit(f"Se esperaban al menos 17 workflows con queue max; encontrados {selected}")
+          print(f"actionlint sobre {selected} copias temporales; YAML original intacto")
+          PY
+          export PATH="$(go env GOPATH)/bin:$PATH"
+          actionlint -no-color /tmp/ddd-p0-actionlint/*.yml
   smoke_cola:
     name: Comprobar cola ticket ${{ matrix.ticket }}
     runs-on: ubuntu-24.04
