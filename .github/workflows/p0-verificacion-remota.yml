@@ -1,0 +1,95 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: verificación PR no productiva
+# VERSIÓN: 1.0.0
+# FECHA: 2026-10-25
+# ESTADO: candidato
+# QUÉ HACE: prueba cinco trabajos en una misma cola y ejecuta las regresiones ReCom con runtime real.
+# NO HACE: modificar fuentes, catálogo, artefactos productivos ni publicar.
+name: P0 Verificación remota no productiva
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'procedimiento.sh'
+      - 'herramientas/validar_portfolio_gerrychain50.py'
+      - 'tests/test_operational_concurrency_gerrychain50.py'
+      - 'tests/test_m05_gerrychain_strategy.py'
+      - 'tests/test_m05_gerrychain_engine.py'
+
+permissions:
+  contents: read
+
+jobs:
+  comprobar-cola:
+    name: Cola real — ticket ${{ matrix.ticket }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        ticket: [1, 2, 3, 4, 5]
+    concurrency:
+      group: ddd-p0-pr-queue-${{ github.run_id }}
+      cancel-in-progress: false
+      queue: max
+    steps:
+      - name: Demostrar entrada y salida sin cancelación
+        shell: bash
+        env:
+          SMOKE_TICKET: ${{ matrix.ticket }}
+        run: |
+          set -euo pipefail
+          [[ "$SMOKE_TICKET" =~ ^[1-5]$ ]] || exit 2
+          printf 'SMOKE_START ticket=%s run=%s\n' "$SMOKE_TICKET" "$GITHUB_RUN_ID"
+          sleep 15
+          printf 'SMOKE_END ticket=%s run=%s\n' "$SMOKE_TICKET" "$GITHUB_RUN_ID"
+
+  comprobar-gerrychain:
+    name: GerryChain ReCom — runtime real
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Instalar dependencias reales de ReCom
+        run: python -m pip install --disable-pip-version-check --requirement requirements-gerrychain-m05.lock
+      - name: Ejecutar y exigir tres regresiones ReCom sin SKIP
+        env:
+          PYTHONHASHSEED: '0'
+        run: |
+          python - <<'PY'
+          import sys
+          import unittest
+          modules = [
+              'tests.test_m05_gerrychain_strategy',
+              'tests.test_m05_gerrychain_engine',
+              'tests.test_operational_concurrency_gerrychain50',
+          ]
+          required = {
+              'test_declared_water_bridge_does_not_block_gerrychain_start',
+              'test_recoverable_recom_failure_becomes_self_loop',
+              'test_real_gerrychain_recom_smoke',
+          }
+          suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
+          def flatten(group):
+              for case in group:
+                  if isinstance(case, unittest.TestSuite):
+                      yield from flatten(case)
+                  else:
+                      yield case
+          available = {t.id().split('.')[-1] for t in flatten(suite)}
+          missing = required - available
+          if missing:
+              raise SystemExit('Faltan tests requeridos: ' + repr(sorted(missing)))
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          skipped = {case.id().split('.')[-1] for case, reason in result.skipped}
+          forbidden = skipped & required
+          if forbidden:
+              raise SystemExit('ReCom no validado: tests omitidos ' + repr(sorted(forbidden)))
+          if not result.wasSuccessful():
+              sys.exit(1)
+          print('RECOM_REAL_PASS; smoke y regresiones obligatorias ejecutadas')
+          PY
