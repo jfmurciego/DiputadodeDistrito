@@ -4,15 +4,15 @@
   "territory_id": "cataluna",
   "territory_name": "Cataluña",
   "edition": "2025",
-  "run_id": 37453376100,
-  "source_commit": "1927926110915d8f8ded6695427e564554b5dd31",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 40200428904,
+  "source_commit": "1bf7346265cf63f5afe1935a13dd998a9b7e8261",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 37453376100,
-    "artifact_name": "ddd-source-package-cataluna-2025-37453376100",
-    "artifact_sha256": "555859d99821ec244d828c6fbebff94c779596bc48ed860be3613e416842780b",
+    "run_id": 40200428904,
+    "artifact_name": "ddd-source-package-cataluna-2025-40200428904",
+    "artifact_sha256": "7ebc8dc153a2738c6e6baf1df68495f2711344085f2fc3b7d70f1fff7aa4eb76",
     "package_sha256": "e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0",
     "compatibility_identity_sha256": "58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a",
     "territorial_identity_sha256": "7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
