@@ -144,7 +144,7 @@ class GerryChain50PortfolioTests(unittest.TestCase):
                     "selected": i == 0,
                 })
             report = {
-                "selected_assignment_hash": rows[0]["assignment_hash"],
+                "search": {"selected_assignment_hash": rows[0]["assignment_hash"]},
                 "portfolio": {
                     "candidate_count": 50,
                     "unique_candidate_count": 50,
