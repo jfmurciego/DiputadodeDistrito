@@ -93,3 +93,47 @@ jobs:
               sys.exit(1)
           print('RECOM_REAL_PASS; smoke y regresiones obligatorias ejecutadas')
           PY
+
+  comprobar-actionlint:
+    name: actionlint sin el falso positivo queue
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Instalar actionlint 1.7.12
+        shell: bash
+        run: |
+          set -euo pipefail
+          go version
+          mkdir -p "$RUNNER_TEMP/bin"
+          GOBIN="$RUNNER_TEMP/bin" go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+          "$RUNNER_TEMP/bin/actionlint" -version
+      - name: Normalizar únicamente queue para el analizador desactualizado
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          src = Path('.github/workflows')
+          dst = Path(os.environ['RUNNER_TEMP']) / 'actionlint-workflows'
+          dst.mkdir(parents=True, exist_ok=True)
+          removed = 0
+          for file in sorted(src.glob('*.yml')):
+              lines = file.read_text(encoding='utf-8').splitlines(keepends=True)
+              clean = []
+              for line in lines:
+                  if line.strip() == 'queue: max':
+                      removed += 1
+                      continue
+                  clean.append(line)
+              (dst / file.name).write_text(''.join(clean), encoding='utf-8')
+          print(f'Normalizadas {removed} propiedades queue:max para actionlint antiguo')
+          if removed < 24:
+              raise SystemExit('Faltan colas productivas esperadas')
+          PY
+      - name: Ejecutar actionlint sin ocultar otros diagnósticos
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/bin/actionlint" -oneline "$RUNNER_TEMP"/actionlint-workflows/*.yml
