@@ -201,7 +201,7 @@ jobs:
           css=Path("visor/congreso/styles.css").read_text(encoding="utf-8")
           js=Path("visor/congreso/congreso.js").read_text(encoding="utf-8")
           payload=json.dumps(geo,ensure_ascii=False,separators=(",",":")).replace("<","\\u003c")
-          html=html.replace('<link href="../styles.css" rel="stylesheet">',"<style>"+css+"</style>")
+          html=html.replace('<link href="styles.css" rel="stylesheet">',"<style>"+css+"</style>")
           html=html.replace('<script src="congreso.js"></script>',
               "<script>window.DDD_CONGRESO_GEOJSON="+payload+";</script><script>"+js+"</script>")
           if "window.DDD_CONGRESO_GEOJSON=" not in html: raise SystemExit("EMBEDDED_VIEWER_MISSING")
