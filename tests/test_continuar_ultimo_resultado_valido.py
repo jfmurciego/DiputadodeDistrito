@@ -1,3 +1,6 @@
+"""Version 1.0.1, 2026-10-26: current CLM M06/M08 lineage is fail-closed.
+Previous bytes: tests/legacy/ci_followup_20261026/test_continuar_ultimo_resultado_valido_cff5d3c.py.
+"""
 from __future__ import annotations
 
 import json
@@ -380,26 +383,22 @@ class ContinueFromLastValidTests(unittest.TestCase):
                     force_selected_algorithm=False,
                 )
 
-    def test_castilla_la_mancha_current_complete_product_is_reused_without_work(self):
-        plan = build_plan(
-            territory="Castilla-La Mancha",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-            optimization_algorithm="Canónico",
-            force_selected_algorithm=True,
-        )
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertFalse(plan["run_generate"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertFalse(plan["run_incorporate"])
-        self.assertTrue(plan["catalog_state"]["territorial_product_available"])
-        self.assertTrue(plan["catalog_state"]["electoral_product_available"])
-        territorial_run = plan["existing"]["territorial_product"]["run_id"]
-        electoral_run = plan["existing"]["electoral_product"]["run_id"]
-        self.assertIsInstance(territorial_run, int)
-        self.assertEqual(electoral_run, territorial_run)
+    def test_castilla_la_mancha_current_m06_and_historical_m08_lineage_blocks_reuse(self):
+        state = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text())
+        state = next(r for r in state["territories"] if r["territory_id"] == "castilla_la_mancha")["editions"]["2025"]
+        territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
+        electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
+        self.assertNotEqual(territorial["run_id"], electoral["run_id"])
+        with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*DURABLE_LINEAGE_INCOMPATIBLE"):
+            build_plan(
+                territory="Castilla-La Mancha",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                root_dir=ROOT,
+                optimization_algorithm="Canónico",
+                force_selected_algorithm=True,
+            )
 
     def test_workflow_accepts_future_label_without_exposing_interface_yet(self):
         workflow = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")

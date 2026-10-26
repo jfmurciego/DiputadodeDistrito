@@ -1,7 +1,7 @@
-"""Regresiones del gestor nacional, versión 0.0.1, 2026-10-10.
+"""Regresiones del gestor nacional, versión 0.0.2, 2026-10-26.
 Alcance: planificación pura y cierre de acreditación; estado: candidato.
-Cambio/motivo: coherencia con el resolver común, Ceuta y Extremadura.
-Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.0.py (sin versión declarada).
+Cambio/motivo: reflejar linajes durables y preflights vigentes del catálogo.
+Anterior: tests/legacy/ci_followup_20261026/test_gestor_campana_nacional_cff5d3c.py.
 """
 import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
@@ -176,10 +176,16 @@ class NationalCampaignTests(unittest.TestCase):
   m=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume",root=ROOT)
   row=m["territories"][0]
+  self.assertEqual(row["preflight_status"],"BLOCKED")
+  self.assertTrue(any("DURABLE_LINEAGE_UNPROVEN" in item and "40241852045" in item for item in row["preflight_blockers"]))
+  self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+  m=build_manifest(selected=["galicia"],publication_mode="electoral",
+                   source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume-valid",root=ROOT)
+  row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
-  self.assertFalse(row["execution_plan"]["run_incorporate"])
   matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
-  self.assertFalse(matrix[0]["persist_state"])
+  self.assertTrue(row["execution_plan"]["run_incorporate"])
+  self.assertTrue(matrix[0]["persist_state"])
   self.assertEqual(matrix[0]["contract_path"],row["contract_path"])
   galicia=build_manifest(selected=["galicia"],publication_mode="electoral",
                          source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-rebuild",root=ROOT)
@@ -238,21 +244,22 @@ class NationalCampaignTests(unittest.TestCase):
                    strategy="Canónico",campaign_instance="regression14",root=ROOT)
   self.assertEqual(len(m["territories"]),14)
   matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
-  self.assertEqual(len(matrix),14)
-  self.assertEqual({r["slot"] for r in matrix},selected_codes)
-  self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),4)
-  # Tras las acreditaciones del 25-10 hay tres fuentes listas para generar;
-  # no deben degradarse artificialmente a SOURCE_PREPARATION_REQUIRED.
-  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),7)
-  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),3)
+  self.assertEqual(len(matrix),11)
+  self.assertEqual({r["slot"] for r in matrix},selected_codes-{"03","06","08"})
+  all_by_slot={r["slot"]:r for r in m["territories"]}
+  self.assertEqual({code for code,row in all_by_slot.items() if row["preflight_status"]=="BLOCKED"},{"03","06","08"})
+  self.assertTrue(all("DURABLE_LINEAGE_" in " ".join(all_by_slot[code]["preflight_blockers"]) for code in {"03","06","08"}))
+  self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),1)
+  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),1)
+  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),9)
   by_slot={r["slot"]:r for r in matrix}
   self.assertEqual(by_slot["12"]["execution_route"],"PRODUCT_REUSE_READY")
   self.assertTrue(by_slot["12"]["execution_plan"]["run_incorporate"])
-  self.assertEqual(by_slot["18"]["execution_route"],"SOURCE_PREPARATION_REQUIRED")
-  self.assertTrue(by_slot["18"]["execution_plan"]["run_prepare_territorial"])
+  self.assertEqual(by_slot["18"]["execution_route"],"GENERATION_READY")
+  self.assertFalse(by_slot["18"]["execution_plan"]["run_prepare_territorial"])
   self.assertTrue(by_slot["18"]["execution_plan"]["run_generate"])
-  self.assertTrue(by_slot["18"]["execution_plan"]["pre_m04_accreditation_planned"])
-  self.assertFalse(by_slot["18"]["generation_contract"]["allowed"])
+  self.assertFalse(by_slot["18"]["execution_plan"]["pre_m04_accreditation_planned"])
+  self.assertTrue(by_slot["18"]["generation_contract"]["allowed"])
   self.assertEqual(aggregate(m,[])["status"],"FAIL")
 
  def test_obsolete_galicia_ceuta_products_are_deaccredited_from_producer_proof(self):
@@ -277,7 +284,7 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertNotEqual(phase["artifact_digest"].removeprefix("sha256:"),ceuta["preparation_evidence"]["artifact_sha256"])
 
  def test_matrix_rejects_unblocked_route_mismatch_and_inconsistent_blockers(self):
-  m=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
+  m=build_manifest(selected=["galicia"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="route-negative",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
@@ -366,13 +373,15 @@ class NationalCampaignTests(unittest.TestCase):
                explicit_territorial_source={})
   self.assertFalse(p["catalog_state"]["territorial_product_available"])
   self.assertTrue(p["run_generate"])
-  self.assertTrue(p["run_prepare_territorial"])
+  self.assertFalse(p["run_prepare_territorial"])
+  self.assertFalse(p["pre_m04_accreditation_planned"])
+  self.assertEqual(p["generation_gate"],{"allowed":True,"route":"validated_pre_m04_topology"})
   m=build_manifest(selected=["ceuta"],publication_mode="territorial_only",source_sha="a"*40,
                    strategy="Canónico",campaign_instance="regression",root=ROOT)
   r=m["territories"][0]
-  self.assertEqual(r["preflight_status"],"SOURCE_PREPARATION_REQUIRED")
-  self.assertTrue(r["execution_plan"]["pre_m04_accreditation_planned"])
-  self.assertFalse(r["generation_contract"]["allowed"])
+  self.assertEqual(r["preflight_status"],"GENERATION_READY")
+  self.assertFalse(r["execution_plan"]["pre_m04_accreditation_planned"])
+  self.assertTrue(r["generation_contract"]["allowed"])
   self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
 
  def test_extremadura_reuse_does_not_authorize_generation(self):

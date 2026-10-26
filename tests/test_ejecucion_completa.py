@@ -1,3 +1,8 @@
+"""Version: 1.0.2; name: full execution planning tests; date: 2026-10-26.
+Scope: 00 planning, durable evidence gates, and incompatible product replanning.
+Status: candidate. Change/reason: isolate helper tests from mutable territorial artifacts.
+Previous: tests/legacy/ci_followup_20261026/test_ejecucion_completa_cff5d3c.py.
+"""
 from __future__ import annotations
 
 import json
@@ -975,23 +980,21 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertTrue(state["electoral_source_prepared"])
         self.assertTrue(state["electoral_product_available"])
         checkpoint = state["last_valid_checkpoint"]
-        self.assertEqual(checkpoint["stage"], "M08")
+        self.assertEqual(checkpoint["stage"], "M06")
         current_run = checkpoint["run_id"]
         self.assertIsInstance(current_run, int)
-
-        plan = build_plan(
-            territory="Castilla-La Mancha",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-        )
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertFalse(plan["run_generate"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertFalse(plan["run_incorporate"])
-        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
-        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], current_run)
+        territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
+        electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
+        self.assertEqual(territorial["run_id"], current_run)
+        self.assertNotEqual(electoral["run_id"], current_run)
+        with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*DURABLE_LINEAGE_INCOMPATIBLE"):
+            build_plan(
+                territory="Castilla-La Mancha",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                root_dir=ROOT,
+            )
 
 
 class TerritorialSourceVerificationShellTests(unittest.TestCase):
@@ -1076,22 +1079,54 @@ class TerritorialSourceVerificationShellTests(unittest.TestCase):
 
 
 class AsturiasIncompatibleGeometricReuseRegressionTests(unittest.TestCase):
+    @staticmethod
+    def _replan_fixture():
+        source = {
+            "run_id": 41,
+            "artifact_name": "ddd-source-package-asturias-41",
+            "artifact_sha256": "a" * 64,
+            "package_sha256": "b" * 64,
+            "source_commit": "c" * 40,
+        }
+        plan = {
+            "territory_id": "principado_de_asturias",
+            "territory_name": "Principado de Asturias",
+            "edition": "2025",
+            "execution_mode": "reuse",
+            "optimization_algorithm": "Canónico",
+            "run_prepare_territorial": False,
+            "pre_m04_accreditation_planned": False,
+            "run_generate": False,
+            "run_incorporate": False,
+            "existing": {
+                "territorial_source": dict(source),
+                "territorial_product": {"run_id": 40, "decision": "INCOMPATIBLE"},
+            },
+            "electoral_activation": {"execution": "EXECUTE"},
+        }
+        candidate = {
+            "existing": {"territorial_source": dict(source)},
+            "run_generate": True,
+            "run_prepare_territorial": True,
+            "pre_m04_accreditation_planned": True,
+            "generation_gate": {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            "generation_execution_mode": "from_start",
+            "population_year": 2023,
+            "section_year": 2023,
+        }
+        return plan, candidate
+
     def test_replan_reaccredits_pre_m04_without_switching_source_or_erasing_electoral(self):
         from herramientas.resolver_ejecucion_completa import (
             replan_generation_for_incompatible_product,
         )
-        plan = build_plan(
-            territory="Principado de Asturias", edition="2025", execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
-            optimization_algorithm="Canónico",
-        )
-        self.assertFalse(plan["run_generate"])
-        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        plan, candidate = self._replan_fixture()
         old_source = dict(plan["existing"]["territorial_source"])
         old_product = dict(plan["existing"]["territorial_product"])
-        # Planificar llama a este helper antes de asignar publication_mode_effective.
-        plan["electoral_activation"] = {"execution": "EXECUTE"}
-        amended = replan_generation_for_incompatible_product(plan, root_dir=ROOT)
+        with mock.patch(
+            "herramientas.resolver_ejecucion_completa.build_plan", return_value=candidate
+        ):
+            amended = replan_generation_for_incompatible_product(plan, root_dir=ROOT)
         self.assertIs(amended, plan)
         self.assertEqual(plan["existing"]["territorial_source"], old_source)
         self.assertEqual(plan["existing"]["territorial_product"], old_product)
@@ -1107,13 +1142,11 @@ class AsturiasIncompatibleGeometricReuseRegressionTests(unittest.TestCase):
         from herramientas.resolver_ejecucion_completa import (
             replan_generation_for_incompatible_product,
         )
-        plan = build_plan(
-            territory="Principado de Asturias", edition="2025", execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
-            optimization_algorithm="Canónico",
-        )
-        plan["existing"]["territorial_source"]["artifact_sha256"] = "f" * 64
-        with self.assertRaisesRegex(ValueError, r"TERRITORIAL_REPLAN_BLOCK.*artifact_sha256"):
+        plan, candidate = self._replan_fixture()
+        candidate["existing"]["territorial_source"]["artifact_sha256"] = "f" * 64
+        with mock.patch(
+            "herramientas.resolver_ejecucion_completa.build_plan", return_value=candidate
+        ), self.assertRaisesRegex(ValueError, r"TERRITORIAL_REPLAN_BLOCK.*artifact_sha256"):
             replan_generation_for_incompatible_product(plan, root_dir=ROOT)
         self.assertFalse(plan["run_generate"])
         self.assertFalse(plan["pre_m04_accreditation_planned"])
