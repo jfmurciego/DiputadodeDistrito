@@ -6,7 +6,7 @@
   },
   "base_main": "9efc672972c6d9f16f24de633bdf0e9f04aaf0c2",
   "branch": "codex/congreso-piloto-leon-m04-20261020",
-  "next_safe_command": "Create a local two-parent integration commit preserving PR #298 and current main ancestry; obtain independent review of its exact SHA. CI and remote publication remain pending until an authorized GitHub write path is available.",
+  "next_safe_command": "En un clone completo de jfmurciego/DiputadodeDistrito, verificar main 9efc672972c6d9f16f24de633bdf0e9f04aaf0c2, aplicar el patch de entrega, recrear merge commit con padres PR298 80dd2fd1256b49439dd11b017cff2d56f776e49a y main, publicar sin force, ejecutar CI y revisar ese SHA. No mergear ni producir.",
   "pr298_head": "80dd2fd1256b49439dd11b017cff2d56f776e49a",
   "schema": "ddd.n08-provincial-pilot-checkpoint/1.0",
   "tasks": [
@@ -66,9 +66,9 @@
         "MANIFEST.json"
       ],
       "id": "PR298-READY-01",
-      "next_action": "Create a local candidate commit if complete main tree objects can be materialized; then obtain independent review on exact HEAD. Physical tests and CI require full GitHub checkout; no production.",
+      "next_action": "Trasladar el patch a un clone completo, actualizar la rama de #298 por una vía autorizada, ejecutar CI del nuevo SHA y solicitar la revisión final sobre esa combinación. La API GitHub de escritura está denegada en este entorno y el Git remoto falló por DNS.",
       "owner": "Work / independent reviewer",
-      "status": "BLOCKED_DEPENDENCY"
+      "status": "BLOCKED_ENVIRONMENT"
     }
   ],
   "tests": {

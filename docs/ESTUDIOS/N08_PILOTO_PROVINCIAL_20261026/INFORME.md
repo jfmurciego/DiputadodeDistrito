@@ -80,5 +80,7 @@ una estructura arbitraria como acreditación topológica física (esa evidencia
 permanece separada y pendiente de revisión), y el consumidor del visor rechaza
 claves JSON duplicadas y valores no finitos. Se amplió el filtro de rutas de CI
 para incluir el visor y sus dependencias directas. Se añadieron regresiones
-negativas. La revisión previa fue `GO_ACOTADO` sobre el snapshot sin commit; el
-HEAD final aún requiere nueva revisión y CI. No se atribuye aprobación final.
+negativas. La revisión independiente posterior examinó el merge commit
+`023d41d98a6a630991d1bd08f02e45cc230ec246` y emitió `GO_ACOTADO`, sin P0/P1.
+Sus tres P2 se corrigieron en ese árbol. Esta revisión no acredita CI ni
+conectividad física: ambas siguen pendientes antes de considerar integración.
