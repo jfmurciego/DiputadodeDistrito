@@ -1,13 +1,27 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.8
-Fecha: 2026-10-25
-Alcance: acreditaciones municipales pre-M04 fuente-vinculadas tras la actualización M02
+Versión: 1.0.9
+Fecha: 2026-10-26
+Alcance: regresiones de evidencias F10 y preflight pre-M04 vigentes
 Estado: candidato
 Cambios/motivo: admitir discontinuidades municipales acreditadas con fuente exacta y contadores coherentes
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.7_20261025.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.8_20261025.md
 -->
 
+
+
+## 2026-10-26 — CI — actualizar expectativas obsoletas de evidencia y preflight
+
+Las pruebas F10 vuelven a esperar el resultado fail-closed del consumidor frente
+a los recibos actuales que no coinciden con la matriz histórica: 5 adquisiciones
+territoriales CLOSED y 14 BLOCKED, sin elevar la puerta conjunta ni producción.
+Los tests pre-M04 reconocen los preflights vigentes de Cataluña y Baleares y no
+planifican una reacreditación redundante; los casos sin evidencia suficiente
+siguen exigiéndola. El test unitario de replanificación usa una fixture pequeña
+para no depender del manifiesto territorial mutable de Asturias, cuya ausencia
+sigue bloqueando correctamente el plan durable. Se archivan las versiones
+previas de los tests y de este registro. No se cambian recibos, catálogo,
+contratos ni productos.
 
 ## 2026-10-19 — Cataluña — acreditación municipal pre-M04 ligada a fuente
 

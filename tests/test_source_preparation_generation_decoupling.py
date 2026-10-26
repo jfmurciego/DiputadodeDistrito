@@ -1,3 +1,8 @@
+"""Version: 1.0.1; name: prepared source generation decoupling tests; date: 2026-10-26.
+Scope: source preparation and generation enablement remain independently evidenced.
+Status: candidate. Change/reason: reflect Cataluña's current validated generation preflight.
+Previous: legacy/tests/test_source_preparation_generation_decoupling_v1.0.0_20261012.py.
+"""
 from __future__ import annotations
 
 import inspect
@@ -331,7 +336,7 @@ class WorkflowDecouplingTests(unittest.TestCase):
         rows = {row["territory_id"]: row for row in catalog["territories"]}
         expected_generation_enabled = {
             "canarias": True,
-            "cataluna": False,
+            "cataluna": True,
         }
         for territory_id, expected_enabled in expected_generation_enabled.items():
             with self.subTest(territory=territory_id):

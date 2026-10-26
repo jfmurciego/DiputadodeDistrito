@@ -1,3 +1,8 @@
+"""Version: 1.0.1; name: pre-M04 evidence pipeline tests; date: 2026-10-26.
+Scope: reaccredit only sources whose current evidence fails the topology gate.
+Status: candidate. Change/reason: distinguish refreshed valid preflights from stale M02 evidence.
+Previous: legacy/tests/test_pre_m04_evidence_pipeline_v1.0.0_20261012.py.
+"""
 from __future__ import annotations
 
 import json
@@ -26,10 +31,9 @@ SHA_C = "c" * 64
 SHA_D = "d" * 64
 COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
-# Madrid y Ceuta dejaron de ser especímenes históricos tras la renovación
-# de fuente/preflight ya presente en main. Este conjunto conserva sólo casos
-# que aún deben atravesar reacreditación pre-M04 en el catálogo vivo.
-REAL_TARGETS = ("cataluna", "comunidad_valenciana", "region_de_murcia")
+# Madrid, Ceuta y Cataluña cuentan con preflight vigente en el catálogo; sólo
+# estos dos territorios aún necesitan reacreditación para el caso cubierto.
+REAL_TARGETS = ("comunidad_valenciana", "region_de_murcia")
 FROM_START_PRE_M04_TARGETS = {
     "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
     "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
@@ -1080,7 +1084,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     root_dir=root,
                 )
 
-    def test_old_m02_identity_requires_pre_m04_reaccreditation(self):
+    def test_current_m02_preflight_avoids_redundant_pre_m04_reaccreditation(self):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
 
         reuse = build_plan(
@@ -1090,14 +1094,13 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        # Las evidencias se produjeron con el blob M02 anterior. Al cambiar
-        # la identidad del generador de adyacencias, el plan debe fail-closed
-        # y volver a preparar/acreditar antes de permitir la generación.
-        self.assertTrue(reuse["run_prepare_territorial"])
-        self.assertTrue(reuse["pre_m04_accreditation_planned"])
+        # El preflight vigente ya vincula la fuente de Baleares al blob M02
+        # actual; reuse y catalog_source no deben programar una reacreditación redundante.
+        self.assertFalse(reuse["run_prepare_territorial"])
+        self.assertFalse(reuse["pre_m04_accreditation_planned"])
         self.assertTrue(reuse["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            {"allowed": True, "route": "validated_pre_m04_topology"},
             reuse["generation_gate"],
         )
 
@@ -1108,11 +1111,11 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertTrue(catalog_source["run_prepare_territorial"])
-        self.assertTrue(catalog_source["pre_m04_accreditation_planned"])
+        self.assertFalse(catalog_source["run_prepare_territorial"])
+        self.assertFalse(catalog_source["pre_m04_accreditation_planned"])
         self.assertTrue(catalog_source["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            {"allowed": True, "route": "validated_pre_m04_topology"},
             catalog_source["generation_gate"],
         )
         self.assertEqual(
