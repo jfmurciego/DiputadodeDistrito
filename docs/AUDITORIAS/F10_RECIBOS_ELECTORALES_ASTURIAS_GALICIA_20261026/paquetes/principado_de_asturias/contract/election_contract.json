@@ -1,0 +1,136 @@
+{
+  "schema_family": "ddd-election",
+  "schema_version": "1.0.0",
+  "election_id": "asturias_jgpa_2023",
+  "territory_id": "principado_de_asturias",
+  "title": "Elecciones a la Junta General del Principado de Asturias 2023",
+  "election_date": "2023-05-28",
+  "input_mode": "verifiable_file",
+  "boundary_independence": true,
+  "sources": [
+    {
+      "path": "data/resultados_electorales_normalizados.csv",
+      "sha256": "f82dc1299c97da1d6857ddc7e05cefe34e0b931d8e131608f5c2c998a533cce9",
+      "publisher": "GIPEYOP / Spain Electoral Project (mirror auditable)",
+      "source_url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx",
+      "retrieved_at": "2026-10-26",
+      "adapter": {
+        "kind": "long_csv",
+        "separator": ";",
+        "section_field": "CUSEC_KEY",
+        "party_field": "party",
+        "votes_field": "votes"
+      }
+    }
+  ],
+  "party_dictionary": {
+    "path": "contract/party_dictionary.json",
+    "sha256": "030af432fffed61cf0a84ab320fb7442af90518de932520c3dc9818713faa891"
+  },
+  "reconciliation": {
+    "policy": "fail_unless_declared",
+    "allowed_result_only_sections": [],
+    "allowed_map_only_sections": []
+  },
+  "section_reconciliation": {
+    "method_version": "1.0",
+    "sources": [
+      "INE seccionado 2023 y 2025, geometría OGC oficial",
+      "inventario de mesas municipales 2023 usado sólo como evidencia de identidad para las 81 filas especiales de Oviedo"
+    ],
+    "aliases": [
+      {
+        "from": "3300401020",
+        "to": "3300401019",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      },
+      {
+        "from": "3301601015",
+        "to": "3301601006",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      },
+      {
+        "from": "3302406008",
+        "to": "3302406007",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      },
+      {
+        "from": "3302408014",
+        "to": "3302408012",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      },
+      {
+        "from": "3303402002",
+        "to": "3303402001",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      },
+      {
+        "from": "3303701042",
+        "to": "3303701010",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      },
+      {
+        "from": "3304501005",
+        "to": "3304501003",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      },
+      {
+        "from": "3307201003",
+        "to": "3307201001",
+        "method": "ine_geometry_exact_overlap_1_to_1"
+      }
+    ],
+    "splits": [
+      {
+        "source_section": "3302405021",
+        "target_sections": [
+          "3302405021",
+          "3302405023"
+        ],
+        "weighting": "current_population",
+        "population_field": "POP_2025",
+        "spatial_evidence": "3302405023 overlaps 99.9999998758% with 3302405021 (INE 2023→2025)"
+      },
+      {
+        "source_section": "3302409001",
+        "target_sections": [
+          "3302409001",
+          "3302409020"
+        ],
+        "weighting": "current_population",
+        "population_field": "POP_2025",
+        "spatial_evidence": "3302409020 overlaps 99.9999997968% with 3302409001 (INE 2023→2025)"
+      }
+    ]
+  },
+  "source_verification": {
+    "status": "VERIFIED_EXACT",
+    "official_candidate_votes": 527500,
+    "observed_candidate_votes": 527500,
+    "party_totals_match": true
+  },
+  "non_geocodable_votes": {
+    "policy": "exclude_from_geographic_district_allocation",
+    "kind": "CERA",
+    "candidate_votes": 7034,
+    "official_candidate_votes": 527500,
+    "percentage_of_candidate_votes": 1.3334597156398105,
+    "party_totals": {
+      "ANDECHA": 28,
+      "Cs": 137,
+      "FORO.ASTURIAS": 160,
+      "IU.MÁS.PAÍS.IAS": 339,
+      "PACMA": 177,
+      "PCTE": 62,
+      "PODEMOS": 397,
+      "PP": 2131,
+      "PSOE": 2431,
+      "PUEDE": 2,
+      "PUM+J": 66,
+      "SMP": 30,
+      "SOS.ASTURIAS": 70,
+      "VERDES.EQUO": 119,
+      "VOX": 885
+    }
+  }
+}

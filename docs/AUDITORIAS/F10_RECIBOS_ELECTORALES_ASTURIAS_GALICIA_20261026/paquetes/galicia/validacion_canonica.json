@@ -1,0 +1,20 @@
+{
+  "schema": "ddd-electoral-package-validation/1.1",
+  "decision": "READY_PACKAGE",
+  "territory_id": "galicia",
+  "edition": "2025",
+  "election_id": "galicia_parlamento_2024",
+  "package_sha256": "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96",
+  "provenance_hash_matches_contract": true,
+  "package_source_path": "data/resultados_electorales_vigentes.csv",
+  "materialized": false,
+  "mode": "static_contract",
+  "runtime_contract_path": "territorios/galicia/config/elecciones/galicia_parlamento_2024.json",
+  "contract_sha256": "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96",
+  "contract_source_path": "inputs/galicia_parlamento_2024_mesas.csv",
+  "party_dictionary_sha256": null,
+  "structural_provenance_sha256": "9839cd45ed28404d31010bcb4ff0a79cb40efc640540dfdee6f13ceedf53ca68",
+  "election_identity_mode": "exact",
+  "contract_election_id": "galicia_parlamento_2024",
+  "package_election_id": "galicia_parlamento_2024"
+}

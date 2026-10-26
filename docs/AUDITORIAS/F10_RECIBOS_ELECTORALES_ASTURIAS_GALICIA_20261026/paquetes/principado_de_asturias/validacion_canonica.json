@@ -1,0 +1,19 @@
+{
+  "schema": "ddd-electoral-package-validation/1.1",
+  "decision": "READY_PACKAGE",
+  "territory_id": "principado_de_asturias",
+  "edition": "2025",
+  "election_id": "asturias_jgpa_2023",
+  "package_sha256": "f82dc1299c97da1d6857ddc7e05cefe34e0b931d8e131608f5c2c998a533cce9",
+  "provenance_hash_matches_contract": true,
+  "package_source_path": "data/resultados_electorales_normalizados.csv",
+  "materialized": false,
+  "mode": "embedded_runtime_contract",
+  "runtime_contract_path": ".ddd-electoral-runtime/principado_de_asturias/2025/election_contract.json",
+  "contract_sha256": "675bc415786404987b338d1da9c63a4db56a5ebb1348837e165ef889186c1a95",
+  "party_dictionary_sha256": "030af432fffed61cf0a84ab320fb7442af90518de932520c3dc9818713faa891",
+  "structural_provenance_sha256": null,
+  "election_identity_mode": "exact",
+  "contract_election_id": "asturias_jgpa_2023",
+  "package_election_id": "asturias_jgpa_2023"
+}
