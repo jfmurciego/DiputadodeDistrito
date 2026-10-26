@@ -169,6 +169,28 @@ class DurableM06ManifestTests(unittest.TestCase):
         self.assertEqual(receipt["producer_manifest_path"], "territorios/demo/evidencia/generaciones_m06/100.json")
         self.assertEqual(receipt["source_commit"], payload["identity"]["checkout_sha"])
 
+    def test_promotion_rejects_missing_and_mismatching_commit(self):
+        payload = self.build()
+        manifest_rel = "territorios/demo/evidencia/generaciones_m06/100.json"
+        write_idempotent(self.root / manifest_rel, payload)
+        catalog = self.root / "configuracion/catalogo_preparacion.yaml"
+        catalog.parent.mkdir(parents=True, exist_ok=True)
+        catalog.write_text(yaml.safe_dump({"territories": [{"territory_id": "demo", "name": "Demo",
+            "editions": {"2025": {"contract_path": "contratos/demo.yaml", "evidence": {}}}}]}),
+            encoding="utf-8")
+        artifact = payload["artifacts"]["m06"]
+        params = dict(root_dir=self.root, kind="territorial_product", territory_id="demo",
+                      edition="2025", run_id=100, artifact_name=artifact["artifact_name"],
+                      artifact_sha256=artifact["artifact_sha256"], decision="PASS",
+                      producer_manifest_path=manifest_rel)
+        with self.assertRaisesRegex(ValueError, "source_commit.*checkout_sha"):
+            promote(**params)
+        with self.assertRaisesRegex(ValueError, "source_commit.*checkout_sha"):
+            promote(**params, source_commit="c" * 40)
+        self.assertFalse(
+            (self.root / "territorios/demo/evidencia/catalogo/territorial_product_2025.json").exists()
+        )
+
     def test_valid_receipt_source_commit_matches_checkout(self):
         from herramientas.resolver_activos_durables import _validate_m06_manifest
         payload = self.build()
