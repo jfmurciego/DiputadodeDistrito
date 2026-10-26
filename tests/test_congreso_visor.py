@@ -23,7 +23,7 @@ class CongressViewerContractTests(unittest.TestCase):
         home = (ROOT / "visor/index.html").read_text(encoding="utf-8")
         self.assertIn('href="congreso/"', home)
         self.assertIn("mkdir -p /tmp/site-candidate/congreso/data", workflow)
-        self.assertIn("cp visor/congreso/index.html visor/congreso/congreso.js /tmp/site-candidate/congreso/", workflow)
+        self.assertIn("cp visor/congreso/index.html visor/congreso/congreso.js visor/congreso/styles.css /tmp/site-candidate/congreso/", workflow)
         self.assertIn("congreso/data/24.geojson", workflow)
         self.assertIn("congreso/data/10.geojson", workflow)
         self.assertIn("congreso/data/10-municipios-divididos.geojson", workflow)
