@@ -1,0 +1,97 @@
+{
+  "schema_family": "ddd-party-dictionary",
+  "schema_version": "1.0.0",
+  "unknown_party_policy": "reject",
+  "parties": [
+    {
+      "canonical_id": "ANDECHA",
+      "display_name": "ANDECHA",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "Cs",
+      "display_name": "Cs",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "FORO.ASTURIAS",
+      "display_name": "FORO.ASTURIAS",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "IU.MÁS.PAÍS.IAS",
+      "display_name": "IU.MÁS.PAÍS.IAS",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "PACMA",
+      "display_name": "PACMA",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "PCTE",
+      "display_name": "PCTE",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "PODEMOS",
+      "display_name": "PODEMOS",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "PP",
+      "display_name": "PP",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "PSOE",
+      "display_name": "PSOE",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "PUEDE",
+      "display_name": "PUEDE",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "PUM+J",
+      "display_name": "PUM+J",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "SMP",
+      "display_name": "SMP",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "SOS.ASTURIAS",
+      "display_name": "SOS.ASTURIAS",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "VERDES.EQUO",
+      "display_name": "VERDES.EQUO",
+      "aliases": [],
+      "classification": ""
+    },
+    {
+      "canonical_id": "VOX",
+      "display_name": "VOX",
+      "aliases": [],
+      "classification": ""
+    }
+  ]
+}

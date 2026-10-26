@@ -1,3 +1,8 @@
+"""Version: 1.0.2; name: orphan M08 recovery tests; date: 2026-10-26.
+Scope: fail-closed recovery and exact durable M06/M08 lineage.
+Status: candidate. Change/reason: align live-territory regressions with current product runs.
+Previous: legacy/tests/m06-durable-manifest_20261026/test_reanudacion_m08_huerfano_pre_m06_manifest.py.
+"""
 from __future__ import annotations
 
 import json
@@ -634,9 +639,14 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
                 force_selected_algorithm=True,
             )
             if expected_rebuild:
-                self.assertTrue(plan["run_prepare_territorial"])
+                self.assertFalse(plan["run_prepare_territorial"])
                 self.assertFalse(plan["catalog_state"]["territorial_product_available"])
                 self.assertTrue(plan["run_generate"])
+                self.assertFalse(plan["pre_m04_accreditation_planned"])
+                self.assertEqual(
+                    {"allowed": True, "route": "validated_pre_m04_topology"},
+                    plan["generation_gate"],
+                )
             else:
                 self.assertFalse(plan["run_prepare_territorial"])
                 self.assertFalse(plan["run_generate"])
@@ -713,11 +723,10 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             incorporate_if,
         )
 
-    def test_castilla_la_mancha_current_complete_product_supersedes_historical_candidates(self):
-        # El catálogo vivo ya acredita un producto territorial y electoral
-        # completo del mismo run. Los fallos históricos siguen auditables en
-        # sus manifiestos, pero ya no son candidatos M08 para el producto M06
-        # vigente y tampoco deben fabricar una barrera de ausencia.
+    def test_castilla_la_mancha_keeps_current_m06_separate_from_historical_m08(self):
+        # El M06 más reciente procede de 02 territorial_only. El M08 vigente
+        # sigue ligado por su manifiesto a otro M06; no se debe fabricar una
+        # pareja completa ni convertir los productos en runs del mismo linaje.
         evidence_root = (
             ROOT
             / "territorios"
@@ -734,12 +743,13 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         )
         current_run = territorial["run_id"]
         self.assertIsInstance(current_run, int)
-        self.assertEqual(electoral["run_id"], current_run)
+        self.assertEqual(electoral["run_id"], 37444564173)
+        self.assertNotEqual(electoral["run_id"], current_run)
         self.assertEqual(territorial["stage"], "M06")
         self.assertEqual(electoral["stage"], "M08")
 
         manifest = json.loads(
-            (evidence_root / "ejecuciones_completas" / f"{current_run}.json")
+            (evidence_root / "ejecuciones_completas" / f"{electoral['run_id']}.json")
             .read_text(encoding="utf-8")
         )
         self.assertEqual(manifest["status"], "SUCCESS")
@@ -750,12 +760,20 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         phase04 = next(
             row for row in manifest["phases"] if row["name"].startswith("04 ·")
         )
-        self.assertEqual(phase02["run_id"], current_run)
-        self.assertEqual(phase02["artifact"], territorial["artifact_name"])
+        self.assertEqual(phase02["run_id"], electoral["run_id"])
+        self.assertNotEqual(phase02["artifact"], territorial["artifact_name"])
         self.assertEqual(phase02["result"], "success")
-        self.assertEqual(phase04["run_id"], current_run)
+        self.assertEqual(phase04["run_id"], electoral["run_id"])
         self.assertEqual(phase04["artifact"], electoral["artifact_name"])
         self.assertEqual(phase04["result"], "success")
+
+        plan = build_plan(
+            territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
+        )
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
+        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
         result = scan(
             root_dir=ROOT,

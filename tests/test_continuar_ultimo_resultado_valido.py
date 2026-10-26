@@ -1,3 +1,6 @@
+"""Version 1.0.2, 2026-10-26: reject stale M08 without invalidating territorial M06 reuse.
+Previous bytes: legacy/tests/m06-durable-manifest_20261026/test_continuar_ultimo_resultado_valido_pre_m06_manifest.py.
+"""
 from __future__ import annotations
 
 import json
@@ -335,9 +338,12 @@ class ContinueFromLastValidTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*DIGEST"):
             self.case(m06=True, invalid=True)
 
-    def test_incompatible_lineage_blocks(self):
-        with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*LINEAGE_INCOMPATIBLE"):
-            self.case(source=True, m06=True, electoral_source=True, m08=True, incompatible=True)
+    def test_incompatible_m08_does_not_block_valid_m06_reuse(self):
+        plan = self.case(source=True, m06=True, electoral_source=True, m08=True, incompatible=True)
+        self.assert_phases(plan, (False, False, False, True))
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], 201)
+        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
     def test_failed_m06_producer_phase_blocks_reuse(self):
         with tempfile.TemporaryDirectory() as td:
@@ -380,7 +386,12 @@ class ContinueFromLastValidTests(unittest.TestCase):
                     force_selected_algorithm=False,
                 )
 
-    def test_castilla_la_mancha_current_complete_product_is_reused_without_work(self):
+    def test_castilla_la_mancha_current_m06_survives_historical_m08_mismatch(self):
+        state = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text())
+        state = next(r for r in state["territories"] if r["territory_id"] == "castilla_la_mancha")["editions"]["2025"]
+        territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
+        electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
+        self.assertNotEqual(territorial["run_id"], electoral["run_id"])
         plan = build_plan(
             territory="Castilla-La Mancha",
             edition="2025",
@@ -390,16 +401,9 @@ class ContinueFromLastValidTests(unittest.TestCase):
             optimization_algorithm="Canónico",
             force_selected_algorithm=True,
         )
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertFalse(plan["run_generate"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertFalse(plan["run_incorporate"])
-        self.assertTrue(plan["catalog_state"]["territorial_product_available"])
-        self.assertTrue(plan["catalog_state"]["electoral_product_available"])
-        territorial_run = plan["existing"]["territorial_product"]["run_id"]
-        electoral_run = plan["existing"]["electoral_product"]["run_id"]
-        self.assertIsInstance(territorial_run, int)
-        self.assertEqual(electoral_run, territorial_run)
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
+        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
     def test_workflow_accepts_future_label_without_exposing_interface_yet(self):
         workflow = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")

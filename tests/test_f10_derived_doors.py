@@ -1,7 +1,7 @@
-"""Version: 1.1.1; name: F10 derived doors regressions; date: 2026-10-13.
-Scope: deterministic failure-closed validation of executable local task cards.
-Status: candidate. Change/reason: reject cards with incomplete coverage or stale gates.
-Previous: legacy/tests/test_f10_derived_doors_v1.1.0_20261013.py.
+"""Version: 1.1.3; name: F10 derived doors regressions; date: 2026-10-26.
+Scope: deterministic failure-closed validation of F10 receipts and task cards.
+Status: candidate. Change/reason: reconcile expected counts after canonical territorial receipt references were repaired.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.2_20261026.py.
 """
 from __future__ import annotations
 
@@ -39,7 +39,7 @@ class F10DerivedDoorsTests(unittest.TestCase):
         self.assertEqual({"CLOSED": 19}, self.projection["counts"]["territorial_acquisition"])
         self.assertEqual({"PASS": 18, "BLOCKED": 1}, self.projection["counts"]["territorial_admissibility"])
         self.assertEqual({"ADMISSIBLE": 15, "BLOCKED": 4}, self.projection["counts"]["electoral_admissibility"])
-        self.assertEqual({"PASS": 14, "BLOCKED": 5}, self.projection["counts"]["joint_admissibility"])
+        self.assertEqual({"BLOCKED": 5, "PASS": 14}, self.projection["counts"]["joint_admissibility"])
         self.assertEqual({"NOT_AUTHORIZED_BY_F10": 19}, self.projection["counts"]["production"])
         self.assertEqual("PENDING", self.projection["f10_global"])
         self.assertIn("adquisición territorial CLOSED 19/19", self.projection["f10_global_reason"])
@@ -69,11 +69,11 @@ class F10DerivedDoorsTests(unittest.TestCase):
         self.assertEqual({"BLOCKED": 4, "CLOSED": 15}, replay["B"]["counts"]["territorial_acquisition"])
         self.assertEqual({"BLOCKED": 1, "CLOSED": 18}, replay["C"]["counts"]["territorial_acquisition"])
         self.assertEqual(replay["C"]["counts"], replay["D"]["counts"])
-        self.assertEqual({"PASS": 14, "BLOCKED": 5}, replay["D"]["counts"]["joint_admissibility"])
+        self.assertEqual({"BLOCKED": 5, "PASS": 14}, replay["D"]["counts"]["joint_admissibility"])
         ready_a = {x["territory_id"] for x in replay["A"]["work_items"] if x["state"] == "READY_LOCAL"}
         ready_b = {x["territory_id"] for x in replay["B"]["work_items"] if x["state"] == "READY_LOCAL"}
         ready_c = {x["territory_id"] for x in replay["C"]["work_items"] if x["state"] == "READY_LOCAL"}
-        self.assertNotIn("extremadura", ready_a)
+        self.assertEqual(set(), ready_a)
         self.assertIn("extremadura", ready_b)
         self.assertTrue({"andalucia", "aragon", "castilla_y_leon"} <= ready_c)
         cv = next(x for x in replay["C"]["work_items"] if x["territory_id"] == "comunidad_valenciana")

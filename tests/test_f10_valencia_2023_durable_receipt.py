@@ -1,4 +1,8 @@
-"""F10 receipt and 2023/2023 source regression for the Valencian territory."""
+"""Version: 1.0.2; name: F10 Valencian receipt regression; date: 2026-10-26.
+Scope: Valencian independent-source receipt and fail-closed F10 projection.
+Status: candidate. Change/reason: assert current 19-territory receipt reconciliation.
+Previous: legacy/tests/test_f10_valencia_2023_durable_receipt_v1.0.1_20261026.py.
+"""
 from __future__ import annotations
 
 import copy
@@ -129,7 +133,7 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
         projection = derive_f10(ROOT)
         self.assertEqual({"CLOSED": 19}, projection["counts"]["territorial_acquisition"])
         self.assertEqual({"ADMISSIBLE": 15, "BLOCKED": 4}, projection["counts"]["electoral_admissibility"])
-        self.assertEqual({"PASS": 14, "BLOCKED": 5}, projection["counts"]["joint_admissibility"])
+        self.assertEqual({"BLOCKED": 5, "PASS": 14}, projection["counts"]["joint_admissibility"])
         self.assertFalse(projection["production_authorized"])
         cv = next(row for row in projection["territories"] if row["territory_id"] == "comunidad_valenciana")
         self.assertEqual("CLOSED", cv["territorial_acquisition"])

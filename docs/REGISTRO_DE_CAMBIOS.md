@@ -1,13 +1,56 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.9
+Versión: 1.0.12
 Fecha: 2026-10-26
-Alcance: piloto analítico provincial Congreso N08
+Alcance: manifiesto durable M06 y verificación de fuente para workflow 02
 Estado: candidato
-Cambios/motivo: auditar León y Cáceres, cerrar entradas ambiguas y mantener bloqueadas las puertas físicas y productivas
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.8_20261026.md
+Cambios/motivo: contrastar el paquete de fuente M06 independiente con inputs del run y conservar la separación M06/M08
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.11_20261026.md
 -->
 
+## 2026-10-26 — M06 — contrastar la fuente del manifiesto 02
+
+El resolver contrasta la referencia de `source_package_artifact` del manifiesto
+M06 standalone con el run, nombre y SHA-256 de la fuente territorial durable.
+Los manifiestos 00 conservan su validación por fase `01 ·`; los de 02 validan
+sus `inputs` y bloquean si falta o difiere el paquete. Se añade cobertura para
+fuente coincidente y paquete cruzado con `territorial_sources_prepared=true`.
+
+## 2026-10-26 — M06 — manifiesto durable para workflow 02
+
+El workflow 02 descarga el estado M06 ya empaquetado, verifica los recibos de
+M05 y auditoría y escribe después un manifiesto independiente con identidad del
+run, contrato, entradas, estrategia, portfolio cuando GerryChain 50 aplica,
+decisión certificadora y referencias de artefactos con digest y tamaño. El
+recibo territorial apunta al manifiesto sin alterar el ZIP ni introducir una
+referencia circular. El resolver comprueba su integridad y linaje. Un M08 cuyo
+M06 productor no coincide se conserva históricamente y deja de ser reutilizable,
+pero ya no invalida por ello el M06 territorial. Las pruebas cubren bytes
+alterados, identidad cruzada, evidencia incompleta, mismatch M06/M08 y escritura
+idempotente. No se regeneran productos ni se ejecuta incorporación electoral.
+
+## 2026-10-26 — CI — actualizar expectativas obsoletas de evidencia y preflight
+
+Las pruebas F10 vuelven a esperar el resultado fail-closed del consumidor frente
+a los recibos actuales que no coinciden con la matriz histórica: 5 adquisiciones
+territoriales CLOSED y 14 BLOCKED, sin elevar la puerta conjunta ni producción.
+Los tests pre-M04 reconocen los preflights vigentes de Cataluña y Baleares y no
+planifican una reacreditación redundante; los casos sin evidencia suficiente
+siguen exigiéndola. El test unitario de replanificación usa una fixture pequeña
+para no depender del manifiesto territorial mutable de Asturias, cuya ausencia
+sigue bloqueando correctamente el plan durable. Se archivan las versiones
+previas de los tests y de este registro. No se cambian recibos, catálogo,
+contratos ni productos.
+
+La regresión M08 de Castilla-La Mancha distingue el M06 territorial_only del
+run 40241650464 del par histórico M06/M08 del run 37444564173; la reutilización
+cruzada permanece bloqueada. Asturias, Cantabria y Castilla-La Mancha quedan
+bloqueadas para reutilización cuando falta el manifiesto o el linaje M06/M08 no
+coincide. Ceuta, Baleares y Canarias conservan sus preflights pre-M04 vigentes y
+no repiten preparación. En la matriz dirigida de 14 territorios, los 3 bloqueos
+de linaje se mantienen fuera de la matriz de 11 rutas ejecutables. No se cambia
+lógica de producto ni evidencias. Las versiones previas de los cuatro tests
+actualizados se archivan en `tests/legacy/ci_followup_20261026/`.
 
 ## 2026-10-19 — Cataluña — acreditación municipal pre-M04 ligada a fuente
 
@@ -595,20 +638,3 @@ originales y el esquema oficial. El dictamen registra las relaciones parciales
 para Aragón, Castilla y León y Andalucía sin elevarlas a equivalencia electoral.
 No cambia ninguna puerta F10, no se emite receipt electoral y no se redistribuyen
 votos. Suite focalizada: `tests/test_inspeccionar_variaciones_callejero_f10.py` (11 pruebas).
-
-## 2026-10-26 — Congreso N08 — candidatos analíticos León y Cáceres
-
-Se audita el candidato histórico de León contra el contrato N08 y sus entradas
-INE 2025 enlazadas por SHA. El candidato original tenía seis municipios
-divididos; cinco consolidaciones locales eran factibles y la división de León
-no tenía necesidad demostrada. Un reparador finito obtiene un candidato
-seccional conectado, dentro de las cotas y sin dividir municipios, conservando
-el original y ambos digests de asignación.
-
-El adaptador genérico reproduce el testigo condicional existente de Cáceres
-(CPRO10, K=3), con las asignaciones siempre opt-in y la autorización cerrada.
-Se fija el entorno analítico y se añade una auditoría de partes poligonales
-originales que excluye contactos puntuales y solapamientos como aristas. Su
-ejecución local queda pendiente por falta de runtime geoespacial nativo; CI
-debe producir esa evidencia. Los artefactos permanecen analíticos: no se
-certifica producto, no se ejecuta M04–M06 y no se publica visor.
