@@ -8,7 +8,7 @@ import yaml
 from pathlib import Path
 from herramientas.gestor_campana_nacional import (
  canonical_selection, aggregate, publication_matrix, validate_campaign_summary_for_promotion, build_manifest, build_matrix,
- validate_campaign_child, validate_manifest_digest, _sha_payload
+ validate_campaign_child, validate_manifest_digest, _sha_payload, campaign_execution_plan
 )
 
 ROOT=Path(__file__).resolve().parents[1]
