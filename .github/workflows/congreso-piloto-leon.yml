@@ -198,7 +198,7 @@ jobs:
           assert len(geo["10"]["features"]) == 3
           assert geo["10-split"]["features"]
           html=Path("visor/congreso/index.html").read_text(encoding="utf-8")
-          css=Path("visor/styles.css").read_text(encoding="utf-8")
+          css=Path("visor/congreso/styles.css").read_text(encoding="utf-8")
           js=Path("visor/congreso/congreso.js").read_text(encoding="utf-8")
           payload=json.dumps(geo,ensure_ascii=False,separators=(",",":")).replace("<","\\u003c")
           html=html.replace('<link href="../styles.css" rel="stylesheet">',"<style>"+css+"</style>")
