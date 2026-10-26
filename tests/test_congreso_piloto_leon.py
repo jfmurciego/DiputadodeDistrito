@@ -22,6 +22,9 @@ class CongressLeonPilotTests(unittest.TestCase):
         self.assertIn("actions/upload-artifact", workflow)
         self.assertNotIn("visor/index.html", workflow)
         self.assertNotIn("visor/styles.css", workflow)
+        self.assertIn('if cpro == "24":', workflow)
+        self.assertIn("CACERES: diagnostic only", workflow)
+        self.assertIn('report.get("product_certification") != "NOT_PERFORMED"', workflow)
 
 
     def test_opt_in_assignments_are_valid_and_digest_unchanged(self):

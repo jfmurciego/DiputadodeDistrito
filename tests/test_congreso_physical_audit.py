@@ -3,7 +3,9 @@ import unittest
 
 try:
     from shapely.geometry import box
-    from herramientas.auditar_contiguedad_piloto_congreso import classify_contact, _polygon_parts
+    from herramientas.auditar_contiguedad_piloto_congreso import (
+        classify_contact, _polygon_parts, _topology_polygon_part_ids,
+    )
     HAS_SHAPELY = True
 except ImportError:
     HAS_SHAPELY = False
@@ -30,6 +32,27 @@ class PhysicalAuditTests(unittest.TestCase):
     def test_multipolygon_parts_remain_independent(self):
         from shapely.geometry import MultiPolygon
         self.assertEqual(len(_polygon_parts(MultiPolygon([box(0, 0, 1, 1), box(3, 0, 4, 1)]))), 2)
+
+    def test_polygon_part_inventory_is_not_component_representative_count(self):
+        topology = {
+            "nodes": [{"CUSEC": "2405001001", "physical_part_components": ["2400101001:p0000"]}],
+            "polygon_part_components": [{
+                "id": "2400101001:p0000",
+                "parts": ["2405001001:p0000", "2405001001:p0001"],
+            }],
+        }
+        self.assertEqual(
+            _topology_polygon_part_ids(topology)["2405001001"],
+            ["2405001001:p0000", "2405001001:p0001"],
+        )
+
+    def test_duplicate_polygon_part_identity_is_rejected(self):
+        topology = {"polygon_part_components": [
+            {"parts": ["2405001001:p0000"]},
+            {"parts": ["2405001001:p0000"]},
+        ]}
+        with self.assertRaisesRegex(ValueError, "TOPOLOGY_POLYGON_PART_ID_INVALID"):
+            _topology_polygon_part_ids(topology)
 
 
 if __name__ == "__main__":

@@ -97,6 +97,33 @@ def _polygon_parts(geometry):
     raise ValueError("INE_GEOMETRY_TYPE_UNSUPPORTED:" + geometry.geom_type)
 
 
+def _topology_polygon_part_ids(topology):
+    """Return source polygon-part IDs without confusing them with component IDs.
+
+    ``nodes[*].physical_part_components`` contains component representatives,
+    not one entry per polygon. A section can have multiple original polygons
+    that reconnect through other sections in the province-wide part graph.
+    The canonical polygon-part inventory is ``polygon_part_components[*].parts``.
+    """
+    records = topology.get("polygon_part_components")
+    if not isinstance(records, list):
+        raise ValueError("TOPOLOGY_POLYGON_PART_INVENTORY_MISSING")
+    by_cusec = defaultdict(list)
+    seen = set()
+    for record in records:
+        if not isinstance(record, dict) or not isinstance(record.get("parts"), list):
+            raise ValueError("TOPOLOGY_POLYGON_PART_INVENTORY_INVALID")
+        for part_id in record["parts"]:
+            if not isinstance(part_id, str) or ":p" not in part_id or part_id in seen:
+                raise ValueError("TOPOLOGY_POLYGON_PART_ID_INVALID")
+            cusec, marker, suffix = part_id.rpartition(":p")
+            if not marker or not suffix.isdigit():
+                raise ValueError("TOPOLOGY_POLYGON_PART_ID_INVALID")
+            seen.add(part_id)
+            by_cusec[cusec].append(part_id)
+    return {cusec: sorted(part_ids) for cusec, part_ids in by_cusec.items()}
+
+
 def classify_contact(first, second):
     """Classify original-geometry contact; point/overlap never become edges."""
     intersection_area = first.intersection(second).area
@@ -149,7 +176,7 @@ def audit(candidate_path: Path, root: Path, output: Path):
         topology = json.load(stream)
     analytical_audit = audit_candidate(candidate, topology, contract,
                                        expected_binding=bound["input_sha256"])
-    part_counts = {node["CUSEC"]: len(node["physical_part_components"]) for node in topology["nodes"]}
+    topology_part_ids = _topology_polygon_part_ids(topology)
     frame, source = _components(root, expected_zip_sha)
     frame = frame[frame["CUSEC"].str[:2] == cpro].copy()
     assigned_rows = candidate["districts"]
@@ -168,11 +195,13 @@ def audit(candidate_path: Path, root: Path, output: Path):
         except ValueError as exc:
             invalid_rows.append({"CUSEC": cusec, "reason": str(exc)})
             continue
+        geom_parts.sort(key=lambda part: part.wkb)
+        observed_ids = [f"{cusec}:p{index:04d}" for index in range(len(geom_parts))]
+        if topology_part_ids.get(cusec) != observed_ids:
+            raise ValueError("INE_POLYGON_PART_IDENTITY_MISMATCH:" + cusec)
         for index, geom in enumerate(geom_parts):
             pid = f"{cusec}:p{index:04d}"
             parts.append(geom); owner.append((pid, cusec, assignment[cusec])); geom_by_id[pid] = geom
-        if len(geom_parts) != part_counts.get(cusec):
-            raise ValueError("INE_POLYGON_PART_COUNT_MISMATCH:" + cusec)
     if invalid_rows:
         raise ValueError("INE_INVALID_GEOMETRIES:" + json.dumps(invalid_rows, ensure_ascii=False))
     tree = STRtree(parts)

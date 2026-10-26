@@ -1,0 +1,124 @@
+{
+  "artifacts": {
+    "10": {
+      "candidate_canonical_sha256": "7f1976f955e1518c0c38ebe5f318d038de1b584fcb1d9b1a8799fdd5e257f78e",
+      "candidate_sha256": "0e176071730bd2b8b5a0293d52fd1c10d2bc2b9c0835a41a2fca946238caad9a",
+      "districts": {
+        "CPRO10-01": {
+          "components": 1,
+          "connected": true,
+          "positive_line_edges": 433
+        },
+        "CPRO10-02": {
+          "components": 1,
+          "connected": true,
+          "positive_line_edges": 347
+        },
+        "CPRO10-03": {
+          "components": 2,
+          "connected": false,
+          "positive_line_edges": 259
+        }
+      },
+      "overlap_pair_records": 0,
+      "path": "CACERES/physical-audit-20261026.json",
+      "physical_connected": false,
+      "point_only_contact_records": 34,
+      "polygon_parts": 429,
+      "runtime": {
+        "geopandas": "1.1.2",
+        "geos": "3.14.1",
+        "shapely": "2.1.2"
+      },
+      "sections": 411,
+      "sha256": "63d466a1628e89b315fd54159897439def5fa5aeda677a5d0c03d87d410f14c2",
+      "source_geometry_sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "topology_unit_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5"
+    },
+    "24": {
+      "candidate_canonical_sha256": "8747935ccecb08eeb8cca0f043125a029bc4daa3efd621e9af6d1587b79833a4",
+      "candidate_sha256": "bbc7c8b638d02b9c7100c83d7faa449f77161d1c1b49b5a3999dd93ff606bdc3",
+      "districts": {
+        "LEON-01": {
+          "components": 1,
+          "connected": true,
+          "positive_line_edges": 416
+        },
+        "LEON-02": {
+          "components": 1,
+          "connected": true,
+          "positive_line_edges": 274
+        },
+        "LEON-03": {
+          "components": 1,
+          "connected": true,
+          "positive_line_edges": 256
+        },
+        "LEON-04": {
+          "components": 1,
+          "connected": true,
+          "positive_line_edges": 189
+        }
+      },
+      "overlap_pair_records": 2,
+      "path": "LEON/physical-audit-20261026.json",
+      "physical_connected": true,
+      "point_only_contact_records": 27,
+      "polygon_parts": 452,
+      "runtime": {
+        "geopandas": "1.1.2",
+        "geos": "3.14.1",
+        "shapely": "2.1.2"
+      },
+      "sections": 444,
+      "sha256": "a2f5ee9bf62de3e9bd77846a06b67f49e5487f8bd1fdf85d7fc3a2a235d77fc7",
+      "source_geometry_sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "topology_unit_sha256": "a2b5845b49ebac4e24aca8f923983cd9ee717f9cb7b7ee345fdbec70e932d06b"
+    }
+  },
+  "baseline_head": "5f9aa3e9037ab9cdd791f10082b7e62c48783998",
+  "code_provenance": {
+    ".github/workflows/congreso-piloto-leon.yml": "e9655a9e2f5928acbe47b320fe8f191f99174c1746ca4b857298c52b29cee4d6",
+    "herramientas/auditar_contiguedad_piloto_congreso.py": "66a90ab9de829f026262e424ad0ce720ba86364945a5f0d04bc15a04f841a0c1",
+    "tests/test_congreso_physical_audit.py": "eca4643f27f926f616be24e3964b31d4b9cff371f3959488a8e25177f3bff46c",
+    "tests/test_congreso_piloto_leon.py": "26d0a63056c3ee2d19e5c0fd4bf8f317d504cf12edfacd34eaa6ccbdf158e43a"
+  },
+  "date": "2026-10-26",
+  "documentation": {
+    "path": "AUDITORIA_GEOMETRICA_20261026.md",
+    "sha256": "f17fc01bc37f1c872a7cf4b2caafb2cdcb799fd2fbd7bf19a7b025134815053c"
+  },
+  "evidence": {
+    "contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+    "geometry_parts_manifest_sha256": "b903595c859a91e2f1755ff022b66bb705e90fabbc4980d0e6dfcf4ebe28f80f",
+    "sectioning_zip_sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+  },
+  "generation_authorized": false,
+  "institutional_invariants": {
+    "generation_authorized": false,
+    "national_k": 407,
+    "product_certification": "NOT_PERFORMED"
+  },
+  "product_certification": "NOT_PERFORMED",
+  "runtime": {
+    "gdal": "3.12.2",
+    "geopandas": "1.1.2",
+    "geos": "3.14.1",
+    "numpy": "2.4.2",
+    "pandas": "3.0.0",
+    "proj": "9.7.1",
+    "pyogrio": "0.12.1",
+    "pyproj": "3.7.2",
+    "python": "3.13.12",
+    "shapely": "2.1.2"
+  },
+  "schema": "ddd.n08-pilot-physical-audit-manifest/1.0",
+  "status": "DIAGNOSTIC_ONLY_NO_PRODUCT_CERTIFICATION",
+  "tests": {
+    "contract_and_certifier_suite": "31/31 PASS",
+    "focused_suite": "42/42 PASS (physical audit 6; pilot 5; contract 20; candidate certifier 11)",
+    "local_runtime": "see runtime field; differs from workflow lock versions",
+    "new_part_identity_regressions": "2/2 PASS",
+    "originally_omitted_geometry_tests": "4/4 PASS"
+  }
+}
