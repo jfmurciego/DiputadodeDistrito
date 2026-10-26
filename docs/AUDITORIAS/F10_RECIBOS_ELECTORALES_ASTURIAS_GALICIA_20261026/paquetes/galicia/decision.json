@@ -1,0 +1,78 @@
+{
+  "decision": "ACQUIRE",
+  "territory_id": "galicia",
+  "edition": "2025",
+  "selected_source": {
+    "path": "data/resultados_electorales_vigentes.csv",
+    "sha256": "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96",
+    "bytes": 331227,
+    "records": 3996,
+    "record_count_method": "delimited_rows_excluding_header",
+    "publisher": "Xunta de Galicia",
+    "acquired_at": "2026-10-26T16:43:28.306457+00:00",
+    "source_mode": "official_acquisition_multisource",
+    "source_count": 4,
+    "sources": [
+      {
+        "id": "a_coruna_mesas",
+        "url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/003/descarga-directa-del-fichero.csv",
+        "publisher": "Xunta de Galicia",
+        "sha256": "b763e5648136b80d805378532bd03dfe49025b063c9c17a1b6b1f365148735d1",
+        "bytes": 126382
+      },
+      {
+        "id": "lugo_mesas",
+        "url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/007/descarga-directa-del-fichero.csv",
+        "publisher": "Xunta de Galicia",
+        "sha256": "89afa88e7e9e7c7fee09402e98c4abddbfec635c80ea2dc56d37f63e515931b0",
+        "bytes": 42842
+      },
+      {
+        "id": "ourense_mesas",
+        "url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/011/descarga-directa-del-fichero.csv",
+        "publisher": "Xunta de Galicia",
+        "sha256": "9e7992fc0665cf485aff13f621470b6cfe73ed814dfcd0627622c197fc1a050d",
+        "bytes": 45226
+      },
+      {
+        "id": "pontevedra_mesas",
+        "url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/015/descarga-directa-del-fichero.csv",
+        "publisher": "Xunta de Galicia",
+        "sha256": "aa5be16cb0702ca2315dc0c08c437e296b8dcbf35efe45610818daf01eb8233d",
+        "bytes": 109012
+      }
+    ],
+    "merge": {
+      "records": 3996,
+      "columns": [
+        "Cód Cir",
+        "Cód Con",
+        "Concello",
+        "Mesa",
+        "Censo",
+        "Certif Alta",
+        "Censo Total",
+        "Votos Totais",
+        "Votos nulos",
+        "Votos brancos",
+        "Abstención",
+        "Votos Válidos",
+        "Votos Candidaturas",
+        "BNG",
+        "ECG",
+        "ESCANOS EN BRANCO",
+        "PACMA",
+        "PODEMOS-ALIANZA VERDE",
+        "PP",
+        "PSdeG-PSOE",
+        "PUM+J",
+        "SUMAR GALICIA",
+        "VOX",
+        "DO"
+      ],
+      "structural_provenance_sha256": "9839cd45ed28404d31010bcb4ff0a79cb40efc640540dfdee6f13ceedf53ca68",
+      "structural_provenance_schema": "ddd-electoral-structural-provenance/1.0"
+    },
+    "declaration": "territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml"
+  }
+}

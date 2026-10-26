@@ -1,0 +1,113 @@
+{
+  "schema": "ddd-electoral-package/1.0",
+  "decision": "ACQUIRE",
+  "territory_id": "principado_de_asturias",
+  "edition": "2025",
+  "frozen_at": "2026-10-26T16:44:39.810889+00:00",
+  "selected_source": {
+    "path": "data/resultados_electorales_normalizados.csv",
+    "sha256": "f82dc1299c97da1d6857ddc7e05cefe34e0b931d8e131608f5c2c998a533cce9",
+    "bytes": 516241,
+    "records": 23385,
+    "record_count_method": "delimited_rows_excluding_header",
+    "origin_url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx",
+    "publisher": "GIPEYOP / Spain Electoral Project (mirror auditable)",
+    "acquired_at": "2026-10-26T16:44:39.739500+00:00",
+    "source_mode": "verified_mirror_transformed",
+    "declaration": "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml",
+    "source_class": "verified_mirror",
+    "transform": {
+      "kind": "gipeyop_polling_xlsx",
+      "records": 23385,
+      "sections": 824,
+      "parties": 15,
+      "source_verification_status": "VERIFIED_EXACT",
+      "official_candidate_votes": 527500,
+      "cera_candidate_votes": 7034,
+      "cera_percentage": 1.3334597156398105,
+      "special_rows_reconciled": 81
+    }
+  },
+  "checker_decision": {
+    "schema": "ddd-election-source-decision/1.1",
+    "territory_id": "principado_de_asturias",
+    "election_id": "asturias_jgpa_2023",
+    "minimum_resolution": "polling_station",
+    "rtve_allowed_as_substitute": false,
+    "official_reference_urls": [
+      "https://actualidad.asturias.es/-/el-gobierno-de-asturias-pone-en-marcha-un-amplio-dispositivo-de-seguimiento-para-facilitar-la-difusi%C3%B3n-de-los-resultados-electorales-del-28m",
+      "https://resultadosasturias2023.infoelecciones.com/"
+    ],
+    "selection_mode": "first_ready",
+    "decision": "READY",
+    "selected_source": {
+      "id": "asturias_2023_mesas_verified_mirror",
+      "publisher": "GIPEYOP / Spain Electoral Project (mirror auditable)",
+      "url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx",
+      "declared_resolution": "polling_station",
+      "access": "public",
+      "required": true,
+      "source_class": "verified_mirror",
+      "promotion_allowed": true,
+      "http_status": 200,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "bytes_received": 461027,
+      "status": "READY",
+      "downloaded_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261026-acreditacion/recuperacion-electoral-asturias-openpyxl-acquire/downloads/asturias_2023_mesas_verified_mirror.xlsx",
+      "artifact_path": "downloads/asturias_2023_mesas_verified_mirror.xlsx",
+      "checksum_path": "downloads/asturias_2023_mesas_verified_mirror.xlsx.sha256",
+      "sha256": "4799a86b0689d1de91a5b81778df2e8a1e5093afd6b8da6bd7f8656fbc65f950",
+      "bytes": 461027
+    },
+    "selected_sources": [
+      {
+        "id": "asturias_2023_mesas_verified_mirror",
+        "publisher": "GIPEYOP / Spain Electoral Project (mirror auditable)",
+        "url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx",
+        "declared_resolution": "polling_station",
+        "access": "public",
+        "required": true,
+        "source_class": "verified_mirror",
+        "promotion_allowed": true,
+        "http_status": 200,
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "bytes_received": 461027,
+        "status": "READY",
+        "downloaded_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261026-acreditacion/recuperacion-electoral-asturias-openpyxl-acquire/downloads/asturias_2023_mesas_verified_mirror.xlsx",
+        "artifact_path": "downloads/asturias_2023_mesas_verified_mirror.xlsx",
+        "checksum_path": "downloads/asturias_2023_mesas_verified_mirror.xlsx.sha256",
+        "sha256": "4799a86b0689d1de91a5b81778df2e8a1e5093afd6b8da6bd7f8656fbc65f950",
+        "bytes": 461027
+      }
+    ],
+    "checks": [
+      {
+        "id": "asturias_2023_mesas_verified_mirror",
+        "publisher": "GIPEYOP / Spain Electoral Project (mirror auditable)",
+        "url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx",
+        "declared_resolution": "polling_station",
+        "access": "public",
+        "required": true,
+        "source_class": "verified_mirror",
+        "promotion_allowed": true,
+        "http_status": 200,
+        "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "bytes_received": 461027,
+        "status": "READY",
+        "downloaded_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261026-acreditacion/recuperacion-electoral-asturias-openpyxl-acquire/downloads/asturias_2023_mesas_verified_mirror.xlsx",
+        "artifact_path": "downloads/asturias_2023_mesas_verified_mirror.xlsx",
+        "checksum_path": "downloads/asturias_2023_mesas_verified_mirror.xlsx.sha256",
+        "sha256": "4799a86b0689d1de91a5b81778df2e8a1e5093afd6b8da6bd7f8656fbc65f950",
+        "bytes": 461027
+      }
+    ]
+  },
+  "election_id": "asturias_jgpa_2023",
+  "election_date": "2023-05-28",
+  "embedded_contract": {
+    "election_contract": "contract/election_contract.json",
+    "party_dictionary": "contract/party_dictionary.json",
+    "contract_sha256": "675bc415786404987b338d1da9c63a4db56a5ebb1348837e165ef889186c1a95",
+    "party_dictionary_sha256": "030af432fffed61cf0a84ab320fb7442af90518de932520c3dc9818713faa891"
+  }
+}

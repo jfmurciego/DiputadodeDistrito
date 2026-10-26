@@ -1,0 +1,101 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: f10-electoral-receipts-asturias-galicia.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Paquetes electorales F10 Asturias y Galicia
+# FECHA: 2026-10-26
+# ESTADO: candidato
+# QUÉ HACE: valida los paquetes electorales preservados y publica artefactos CI verificables para sus recibos canónicos.
+# CAMBIOS: añade validación positiva del paquete completo y conservación del artefacto con identidad de run.
+# MOTIVO: enlazar los recibos electorales F10 a artefactos reales, con run_id y digest emitidos por GitHub Actions.
+# ANTERIOR: ninguno; workflow nuevo.
+name: F10 electoral receipts — Asturias and Galicia
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/f10-electoral-receipts-asturias-galicia.yml'
+      - 'docs/AUDITORIAS/F10_RECIBOS_ELECTORALES_ASTURIAS_GALICIA_20261026/**'
+      - 'territorios/principado_de_asturias/config/**'
+      - 'territorios/galicia/config/**'
+      - 'configuracion/catalogo_preparacion.yaml'
+      - 'herramientas/validar_paquete_electoral.py'
+      - 'herramientas/promover_catalogo_operacional.py'
+      - 'herramientas/estado_derivado_f10.py'
+      - 'tests/test_f10_asturias_galicia_receipt_candidates.py'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-preserve:
+    name: Validate and preserve ${{ matrix.territory_id }} package
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - territory_id: principado_de_asturias
+            params: territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml
+          - territory_id: galicia
+            params: territorios/galicia/config/galicia_2025.yaml
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install source validator dependency
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Validate the preserved source package
+        env:
+          TERRITORY_ID: ${{ matrix.territory_id }}
+          PARAMS: ${{ matrix.params }}
+        run: |
+          set -euo pipefail
+          package="docs/AUDITORIAS/F10_RECIBOS_ELECTORALES_ASTURIAS_GALICIA_20261026/paquetes/$TERRITORY_ID"
+          python herramientas/validar_paquete_electoral.py \
+            --package "$package" --params "$PARAMS" \
+            --territory-id "$TERRITORY_ID" --edition 2025 --root-dir . \
+            --output "$RUNNER_TEMP/$TERRITORY_ID-validation.json"
+          python - "$RUNNER_TEMP/$TERRITORY_ID-validation.json" <<'PY'
+          import json, sys
+          result = json.load(open(sys.argv[1], encoding="utf-8"))
+          if result.get("decision") != "READY_PACKAGE" or not result.get("provenance_hash_matches_contract"):
+              raise SystemExit(f"Paquete no elegible: {result}")
+          print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+          PY
+      - name: Upload the exact validated package
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ddd-electoral-package-${{ matrix.territory_id }}-2025-${{ github.run_id }}
+          path: docs/AUDITORIAS/F10_RECIBOS_ELECTORALES_ASTURIAS_GALICIA_20261026/paquetes/${{ matrix.territory_id }}/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+      - name: Record canonical receipt inputs
+        env:
+          TERRITORY_ID: ${{ matrix.territory_id }}
+          ARTIFACT_NAME: ddd-electoral-package-${{ matrix.territory_id }}-2025-${{ github.run_id }}
+          ARTIFACT_DIGEST: ${{ steps.upload.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          printf 'run_id=%s territory_id=%s artifact_name=%s artifact_digest=%s\n' \
+            "$GITHUB_RUN_ID" "$TERRITORY_ID" "$ARTIFACT_NAME" "$ARTIFACT_DIGEST"
+      - name: Run receipt and F10 regressions
+        run: |
+          set -euo pipefail
+          python -m unittest tests.test_f10_asturias_galicia_receipt_candidates -v
+          python -m unittest tests.test_catalogo_promocion_operacional tests.test_f10_derived_doors -v
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          python herramientas/estado_derivado_f10.py --root . > "$RUNNER_TEMP/f10-derived.json"
+          python - "$RUNNER_TEMP/f10-derived.json" <<'PY'
+          import json, sys
+          result = json.load(open(sys.argv[1], encoding="utf-8"))
+          assert result["counts"]["territorial_acquisition"] == {"CLOSED": 19}
+          assert result["counts"]["territorial_admissibility"] == {"BLOCKED": 1, "PASS": 18}
+          assert result["counts"]["electoral_admissibility"] == {"ADMISSIBLE": 15, "BLOCKED": 4}
+          assert result["counts"]["joint_admissibility"] == {"BLOCKED": 5, "PASS": 14}
+          assert result["production_authorized"] is False
+          print(json.dumps(result["counts"], ensure_ascii=False, sort_keys=True))
+          PY

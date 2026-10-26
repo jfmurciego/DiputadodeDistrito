@@ -1,0 +1,29 @@
+{
+  "decision": "ACQUIRE",
+  "territory_id": "principado_de_asturias",
+  "edition": "2025",
+  "selected_source": {
+    "path": "data/resultados_electorales_normalizados.csv",
+    "sha256": "f82dc1299c97da1d6857ddc7e05cefe34e0b931d8e131608f5c2c998a533cce9",
+    "bytes": 516241,
+    "records": 23385,
+    "record_count_method": "delimited_rows_excluding_header",
+    "origin_url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx",
+    "publisher": "GIPEYOP / Spain Electoral Project (mirror auditable)",
+    "acquired_at": "2026-10-26T16:44:39.739500+00:00",
+    "source_mode": "verified_mirror_transformed",
+    "declaration": "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml",
+    "source_class": "verified_mirror",
+    "transform": {
+      "kind": "gipeyop_polling_xlsx",
+      "records": 23385,
+      "sections": 824,
+      "parties": 15,
+      "source_verification_status": "VERIFIED_EXACT",
+      "official_candidate_votes": 527500,
+      "cera_candidate_votes": 7034,
+      "cera_percentage": 1.3334597156398105,
+      "special_rows_reconciled": 81
+    }
+  }
+}
