@@ -78,6 +78,7 @@ jobs:
       SOURCE_EVIDENCE_ARTIFACT_NAME: ${{ inputs.source_evidence_artifact_name }}
       SOURCE_EVIDENCE_ARTIFACT_SHA256: ${{ inputs.source_evidence_artifact_sha256 }}
       DDD_RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
+      SOURCE_REF: ${{ inputs.source_ref }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -120,6 +121,7 @@ jobs:
           (( from_num <= to_num )) || { echo '::error::FROM_STAGE no puede ser posterior a TO_STAGE'; exit 20; }
           case "$MODE" in admit_only|verify_only|execute) ;; *) echo "::error::Modo no admitido: $MODE"; exit 20;; esac
           if [[ "$MODE" == execute ]]; then
+            [[ -z "$SOURCE_REF" || "$SOURCE_REF" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::Producción exige source_ref inmutable (SHA de commit), no rama móvil.'; exit 21; }
             test "$AUTHORIZATION" = EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION || { echo '::error::execute exige autorización explícita.'; exit 21; }
             test "$PRODUCTION_AUTHORIZATION" = AUTHORIZED || { echo "::error::Contrato válido pero no autorizado para producción: $PRODUCTION_AUTHORIZATION"; exit 21; }
             if (( from_num > 1 )); then
@@ -1309,7 +1311,8 @@ jobs:
           [[ -n "$territory_name" ]] || { echo '::error::Nombre territorial no resuelto.'; exit 48; }
           manifest="territorios/$TERRITORY_ID/evidencia/generaciones_m06/$GITHUB_RUN_ID.json"
           checkout_sha="$(git rev-parse HEAD)"
-          [[ "$checkout_sha" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::El SHA del checkout no es válido.'; exit 48; }
+          expected_checkout="${{ inputs.source_ref || github.sha }}"
+          [[ "$checkout_sha" =~ ^[0-9a-f]{40}$ && "$checkout_sha" == "$expected_checkout" ]] || { echo '::error::SHA de checkout distinto del commit inmóvil autorizado.'; exit 48; }
           if [[ "$FROM_STAGE" == M01 ]]; then CHECKPOINT_RUN_ID=""; fi
           checkpoint_args=(); [[ -n "$CHECKPOINT_RUN_ID" ]] && checkpoint_args=(--checkpoint-run-id "$CHECKPOINT_RUN_ID")
           unique_args=(); [[ "$REQUIRE_UNIQUE_HASHES" == true ]] && unique_args=(--require-unique-hashes)
@@ -1353,7 +1356,8 @@ jobs:
           [[ -n "$digest" ]] || { echo "::error::Artefacto M06 sin digest: $artifact_name"; exit 48; }
           manifest="territorios/$TERRITORY_ID/evidencia/generaciones_m06/$GITHUB_RUN_ID.json"
           checkout_sha="$(git rev-parse HEAD)"
-          [[ "$checkout_sha" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::El SHA del checkout no es válido.'; exit 48; }
+          expected_checkout="${{ inputs.source_ref || github.sha }}"
+          [[ "$checkout_sha" =~ ^[0-9a-f]{40}$ && "$checkout_sha" == "$expected_checkout" ]] || { echo '::error::SHA de checkout distinto del commit inmóvil autorizado.'; exit 48; }
           python herramientas/promover_catalogo_operacional.py \
             --kind territorial_product --territory-id "$TERRITORY_ID" --edition "$edition" \
             --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest" \
