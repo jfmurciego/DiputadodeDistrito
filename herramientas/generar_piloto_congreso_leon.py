@@ -108,9 +108,11 @@ def _candidate_from_state(*, cpro, k, population, floor, cap, state, units,
 
 
 def produce(root: Path, output: Path, *, cpro="24", input_candidate: Path | None = None,
-            repair=False):
+            repair=False, order: str | None = None):
     if cpro not in ("24", "10"):
         raise ValueError("ANALYTICAL_SCOPE_LIMITED_TO_LEON_AND_CACERES")
+    if order is not None and order not in ORDERS:
+        raise ValueError("SEARCH_ORDER_UNSUPPORTED")
     if input_candidate is not None and output.resolve() == input_candidate.resolve():
         raise ValueError("OUTPUT_MUST_PRESERVE_ORIGINAL_CANDIDATE")
     unit, contract, bound, units, graph, k, population, floor, cap = _load_bound_inputs(root, cpro)
@@ -144,20 +146,21 @@ def produce(root: Path, output: Path, *, cpro="24", input_candidate: Path | None
         repair_record = None
         attempts = []
         result = None
-        for order in ORDERS:
+        selected_orders = (order,) if order is not None else ORDERS
+        for order_name in selected_orders:
             result = search_tree_partition(ids, graph, weights, k=k, floor=floor, cap=cap,
-                                           node_order=_node_ordering(order, ids, graph, weights),
+                                           node_order=_node_ordering(order_name, ids, graph, weights),
                                            max_states=MAX_STATES,
                                            max_transitions=MAX_TRANSITIONS,
                                            return_groups=True)
-            attempts.append({"order": order, "status": result.status,
+            attempts.append({"order": order_name, "status": result.status,
                              "input_sha256": result.input_sha256,
                              "witness_sha256": result.witness_sha256,
                              "explored_states": result.explored_states,
                              "explored_transitions": result.explored_transitions})
             if result.status == "TREE_WITNESS_FOUND_CONDITIONAL":
                 state = {u: f"CPRO{cpro}-{i:02d}" for i, group in enumerate(result.groups, 1) for u in group}
-                input_digest, witness_digest, selected_order = result.input_sha256, result.witness_sha256, order
+                input_digest, witness_digest, selected_order = result.input_sha256, result.witness_sha256, order_name
                 break
         else:
             raise RuntimeError("NO_CONDITIONAL_WITNESS_IN_DECLARED_BUDGET:" + repr(attempts))
@@ -187,9 +190,12 @@ def main():
     parser.add_argument("--cpro", choices=("24", "10"), default="24")
     parser.add_argument("--input-candidate", type=Path)
     parser.add_argument("--repair", action="store_true")
+    parser.add_argument("--order", choices=ORDERS,
+                        help="Use one deterministic tree ordering; default tries the declared sequence")
     args = parser.parse_args()
     result = produce(args.root, args.output, cpro=args.cpro,
-                     input_candidate=args.input_candidate, repair=args.repair)
+                     input_candidate=args.input_candidate, repair=args.repair,
+                     order=args.order)
     candidate, audit = result["candidate"], result["audit"]
     print(json.dumps({"cpro": candidate["cpro"], "k": candidate["k"],
                       "population": audit["district_populations"],

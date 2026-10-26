@@ -34,6 +34,76 @@
     "p0_run_id": 40338770650,
     "p0_concurrency_failure": "OperationalConcurrencyTests.test_every_non_cancelling_group_queues_pending_jobs failed because this workflow lacked queue: max; corrected in the next commit."
   },
+  "caceres_alternative": {
+    "source_binding_unit_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+    "search_orders": 10,
+    "per_order_max_states": 5000,
+    "per_order_max_transitions": 30000,
+    "conditional_witnesses": 3,
+    "orders_without_witness_within_budget": 7,
+    "total_states": 8149,
+    "total_transitions": 4043,
+    "post_repair_split_counts_for_witnesses": [
+      1,
+      2,
+      1
+    ],
+    "zero_split_witness_found": false,
+    "global_minimality_proven": false,
+    "selected_order_for_physical_review": "degree_asc",
+    "candidate_sha256": "435030ecb1379f79da4cf95067714263c4e6b636667be7967abd9849c50057a3",
+    "district_populations": [
+      122527,
+      120085,
+      145578
+    ],
+    "split_municipality": {
+      "CUMUN": "10037",
+      "fragments": [
+        51453,
+        45145
+      ],
+      "M05_topology_assignments_examined": 119,
+      "proof_scope": "OTHER_CUSEC_ASSIGNMENTS_FIXED",
+      "global_minimality_proven": false
+    },
+    "physical_audit_sha256": "e81aadc69b3f41685428a88288a65d4625553fb7de2dfee6aa12b30d58f47b2c",
+    "physical_connected": true,
+    "district_polygon_parts": [
+      146,
+      122,
+      161
+    ],
+    "positive_line_edges": [
+      345,
+      289,
+      387
+    ],
+    "point_only_contacts_not_edges": 34,
+    "overlap_pairs": 0,
+    "product_certification": "NOT_PERFORMED",
+    "municipal_policy_certified": false
+  },
+  "latest_local_validation": {
+    "base_head": "b0bd93cb89d141c29230cb65a8ad5dc2150114cd",
+    "tests": "58/58 PASS",
+    "scope": "pilot adapter, bounded tree search, pilot generation, physical audit, Congress contract and candidate certifier",
+    "pinned_workflow_ci": "PENDING_FOR_NEW_INCREMENT",
+    "workflow_declared_suite_attempt": {
+      "modules": [
+        "tests.test_congreso_pilot_adapter",
+        "tests.test_congreso_physical_audit",
+        "tests.test_congreso_contract",
+        "tests.test_congreso_candidate_certifier",
+        "tests.test_congreso_bounded_tree_search",
+        "tests.test_congreso_piloto_leon",
+        "tests.test_codauto_preparation_contract",
+        "tests.test_design_a_matriz_sintetica"
+      ],
+      "result": "Ran 73 tests; 13 errors from FileNotFoundError on workflow YAMLs omitted in this partial worktree; 60 tests passed; the declared remote CI remains required to validate the complete checkout.",
+      "scope": "environment limitation in sparse local checkout; no missing file was synthesized and no test was changed"
+    }
+  },
   "authorization": {
     "generation_authorized": false,
     "product_certification": "NOT_PERFORMED",

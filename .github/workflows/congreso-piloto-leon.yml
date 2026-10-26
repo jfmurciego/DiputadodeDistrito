@@ -22,6 +22,7 @@ on:
       - 'ddd_core/congreso_contract.py'
       - 'ddd_core/m05_population_repair.py'
       - 'herramientas/generar_piloto_congreso_leon.py'
+      - 'herramientas/diagnosticar_alternativas_piloto_caceres.py'
       - 'herramientas/auditar_contiguedad_piloto_congreso.py'
       - 'herramientas/preparar_visor_congreso_leon.py'
       - 'herramientas/materializar_fuentes_nacionales_ine.py'
@@ -107,6 +108,16 @@ jobs:
           cmp "$RUNNER_TEMP/nac-pilots/CACERES/caceres-3-analitico.json" \
             docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-analitico.json
 
+      - name: Reproducir alternativa acotada de Cáceres (orden degree_asc)
+        run: |
+          python -m herramientas.diagnosticar_alternativas_piloto_caceres \
+            --candidate-output "$RUNNER_TEMP/nac-pilots/CACERES/caceres-3-alternativa-degree-asc.json" \
+            --report-output "$RUNNER_TEMP/nac-pilots/CACERES/search-alternatives.json"
+          cmp "$RUNNER_TEMP/nac-pilots/CACERES/caceres-3-alternativa-degree-asc.json" \
+            docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json
+          cmp "$RUNNER_TEMP/nac-pilots/CACERES/search-alternatives.json" \
+            docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/SEARCH_ALTERNATIVES_20261026.json
+
       - name: Auditar partes geométricas originales de León y Cáceres
         run: |
           python -m herramientas.auditar_contiguedad_piloto_congreso \
@@ -115,6 +126,9 @@ jobs:
           python -m herramientas.auditar_contiguedad_piloto_congreso \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-analitico.json \
             --output "$RUNNER_TEMP/nac-pilots/CACERES/physical-audit.json"
+          python -m herramientas.auditar_contiguedad_piloto_congreso \
+            --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json \
+            --output "$RUNNER_TEMP/nac-pilots/CACERES/physical-audit-degree-asc.json"
           python - <<'PY'
           import json, os
           from pathlib import Path
@@ -136,6 +150,18 @@ jobs:
                   # incluye una parte física desconectada. No se declara producto
                   # válido ni se bloquea la prueba geométrica focal de León.
                   print(f"CACERES: diagnostic only, physically_connected={connected}; product certification NOT_PERFORMED")
+          alternative=json.loads((root/"CACERES/physical-audit-degree-asc.json").read_text())
+          candidate=json.loads(Path("docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json").read_text())
+          if (alternative.get("cpro") != "10"
+                  or alternative.get("generation_authorized") is not False
+                  or alternative.get("product_certification") != "NOT_PERFORMED"
+                  or alternative.get("within_district_part_graph_connected") is not True
+                  or any(row.get("connected") is not True
+                         for row in alternative.get("districts",{}).values())
+                  or candidate.get("municipal_policy_certified") is not False
+                  or candidate.get("municipalities_split") != ["10037"]):
+              raise SystemExit("CACERES degree_asc: candidate is not physically connected or gates changed")
+          print("CACERES degree_asc: physical connectivity PASS; municipal split remains conditional; product certification NOT_PERFORMED")
           PY
 
       - name: Crear GeoJSON exclusivamente como artefacto analítico aislado
@@ -146,6 +172,9 @@ jobs:
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-analitico.json \
             --output "$RUNNER_TEMP/nac-pilots/CACERES/analytical-preview.geojson"
+          python -m herramientas.preparar_visor_congreso_leon \
+            --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json \
+            --output "$RUNNER_TEMP/nac-pilots/CACERES/analytical-preview-degree-asc.geojson"
 
       - name: Conservar resultado analítico de CI
         if: always()

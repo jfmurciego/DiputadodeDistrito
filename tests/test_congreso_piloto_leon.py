@@ -55,6 +55,48 @@ class CongressLeonPilotTests(unittest.TestCase):
             search_tree_partition(["a"], {"a": set()}, {"a": 1},
                                   k=1, floor=1, cap=1, return_groups="yes")
 
+    def test_caceres_bounded_alternate_order_reproduces_physical_candidate(self):
+        import tempfile
+        import json
+        from pathlib import Path
+        from herramientas.diagnosticar_alternativas_piloto_caceres import diagnose
+        root = Path(__file__).resolve().parents[1]
+        evidence = root / "docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES"
+        expected = (evidence / "caceres-3-alternativa-degree-asc.json").read_bytes()
+        expected_report = (evidence / "SEARCH_ALTERNATIVES_20261026.json").read_bytes()
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "candidate.json"
+            report = Path(tmp) / "search.json"
+            diagnose(root, output, report)
+            self.assertEqual(output.read_bytes(), expected)
+            self.assertEqual(report.read_bytes(), expected_report)
+        candidate = json.loads(expected)
+        audit = json.loads((evidence / "caceres-3-alternativa-degree-asc.json.audit.json").read_text())
+        search = json.loads(expected_report)
+        self.assertEqual((candidate["cpro"], candidate["k"], audit["sections"],
+                          audit["population"]), ("10", 3, 411, 388190))
+        self.assertEqual(audit["district_populations"], {
+            "CPRO10-01": 122527, "CPRO10-02": 120085, "CPRO10-03": 145578})
+        self.assertEqual([row["CUMUN"] for row in audit["municipalities_split"]], ["10037"])
+        self.assertIs(candidate["generation_authorized"], False)
+        self.assertIs(candidate["municipal_policy_certified"], False)
+        self.assertEqual(candidate["product_certification"], "NOT_PERFORMED")
+        self.assertEqual(audit["checks"]["section_graph_contiguity"], "DEMOSTRADO")
+        self.assertEqual(audit["checks"]["population_bounds"], "DEMOSTRADO")
+        self.assertFalse(search["search"]["zero_split_witness_found"])
+        self.assertFalse(search["global_minimality_proven"])
+        physical = json.loads((evidence / "caceres-3-alternativa-degree-asc.physical-audit.json").read_text())
+        self.assertIs(physical["within_district_part_graph_connected"], True)
+
+    def test_caceres_rejects_undeclared_search_order(self):
+        import tempfile
+        from pathlib import Path
+        from herramientas.generar_piloto_congreso_leon import produce
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "SEARCH_ORDER_UNSUPPORTED"):
+                produce(Path(__file__).resolve().parents[1], Path(tmp) / "bad.json",
+                        cpro="10", order="unseeded")
+
 
 if __name__ == "__main__":
     unittest.main()

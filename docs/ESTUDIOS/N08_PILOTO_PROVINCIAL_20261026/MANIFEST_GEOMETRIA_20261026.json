@@ -78,18 +78,20 @@
   },
   "baseline_head": "5f9aa3e9037ab9cdd791f10082b7e62c48783998",
   "code_provenance": {
-    ".github/workflows/congreso-piloto-leon.yml": "78155dc56f41796ce4d403405052df02daf537e3d7388e6fca2d76cf6d1b60c0",
+    ".github/workflows/congreso-piloto-leon.yml": "e97d7da3f1281cd02e90d863eccd35a1ff9eeecf1c8502f3f8fc28eadbd006be",
     "herramientas/auditar_contiguedad_piloto_congreso.py": "66a90ab9de829f026262e424ad0ce720ba86364945a5f0d04bc15a04f841a0c1",
+    "herramientas/diagnosticar_alternativas_piloto_caceres.py": "51d6fb7f81687af6f3f5c87108ba9ce1d27e784774aa703be94bd766c80f1a59",
+    "herramientas/generar_piloto_congreso_leon.py": "c77efb41f49c2110e0a150bed78012018e433cea7e378c681742482acaab4842",
     "tests/test_congreso_physical_audit.py": "eca4643f27f926f616be24e3964b31d4b9cff371f3959488a8e25177f3bff46c",
-    "tests/test_congreso_piloto_leon.py": "26d0a63056c3ee2d19e5c0fd4bf8f317d504cf12edfacd34eaa6ccbdf158e43a",
+    "tests/test_congreso_piloto_leon.py": "51479dc15076d8c45480c3b7c923a23e7176f66e79ac122a732352df45235bc0",
     "tests/test_design_a_matriz_sintetica.py": "ac592695235af19756d4b54e111155319ea850215e604e735b77cc68730fac7b"
   },
   "date": "2026-10-26",
   "documentation": {
     "path": "AUDITORIA_GEOMETRICA_20261026.md",
-    "sha256": "8806036cbbd4344933261b5a679fd95a0ba36460c79e2ffa93507a308e5db257",
+    "sha256": "267ffdcce09fb6029405dbd0d7bb95a188a1ae2d6698740087987d3122d3f7c4",
     "reproducibility_path": "REPRODUCIBILITY_GEOMETRIA_20261026.json",
-    "reproducibility_sha256": "697594a16ca8d1c8da1c14af545078cc7c848bd8d08d40eb621bb65a462a558a"
+    "reproducibility_sha256": "47dad895b9d483c3a6f4e1ea2ed1e9f95ed0ada854f66cb8ade2b2def6867984"
   },
   "evidence": {
     "contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
@@ -119,10 +121,67 @@
   "status": "DIAGNOSTIC_ONLY_NO_PRODUCT_CERTIFICATION",
   "tests": {
     "contract_and_certifier_suite": "31/31 PASS",
-    "focused_suite": "42/42 PASS (physical audit 6; pilot 5; contract 20; candidate certifier 11)",
+    "focused_suite": "58/58 PASS (pilot adapter 7; bounded tree search 7; pilot tests 7; physical audit 6; contract 20; candidate certifier 11)",
     "local_runtime": "see runtime field; differs from workflow lock versions",
     "new_part_identity_regressions": "2/2 PASS",
     "originally_omitted_geometry_tests": "4/4 PASS",
-    "workflow_name_regression": "EXPECTED_NAME_UPDATED; workflow concurrency queue=max added; awaiting remote rerun"
+    "workflow_name_regression": "Declared local workflow suite attempted: 60 PASS, 13 ERROR from absent workflow files in partial checkout; exact full checkout/lock validation pending remote CI",
+    "caceres_alternative_search": "10 deterministic orders; 3 conditional witnesses; 7 no witness within per-order budget; no zero-split witness; no global minimality claim",
+    "caceres_alternative_physical_audit": "3/3 districts connected; source geometry original INE 2025; report hash bound in candidate_variants"
+  },
+  "candidate_variants": {
+    "caceres_degree_asc": {
+      "candidate_path": "CACERES/caceres-3-alternativa-degree-asc.json",
+      "candidate_sha256": "435030ecb1379f79da4cf95067714263c4e6b636667be7967abd9849c50057a3",
+      "candidate_canonical_sha256": "65c6f3802b88c9fdf399b2c3d26f35357186b8401a7ea9e523e964ebfa293241",
+      "section_audit_path": "CACERES/caceres-3-alternativa-degree-asc.json.audit.json",
+      "section_audit_sha256": "b1ac2a8bfa0a3ff9f06cbba1aabcf898a5edec6853189e1c9b2c017a58a1794d",
+      "physical_audit_path": "CACERES/caceres-3-alternativa-degree-asc.physical-audit.json",
+      "physical_audit_sha256": "e81aadc69b3f41685428a88288a65d4625553fb7de2dfee6aa12b30d58f47b2c",
+      "search_report_path": "CACERES/SEARCH_ALTERNATIVES_20261026.json",
+      "search_report_sha256": "1ac56c0f09128b1bcd14aff974ba9212de6bcc6d0925d4aa737a15882d25c03b",
+      "cpro": "10",
+      "sections": 411,
+      "population": 388190,
+      "k": 3,
+      "district_populations": [
+        122527,
+        120085,
+        145578
+      ],
+      "district_physical_components": [
+        1,
+        1,
+        1
+      ],
+      "district_polygon_parts": [
+        146,
+        122,
+        161
+      ],
+      "positive_line_edges": [
+        345,
+        289,
+        387
+      ],
+      "point_only_contacts": 34,
+      "overlap_pairs": 0,
+      "municipal_split": {
+        "CUMUN": "10037",
+        "fragments_population": [
+          51453,
+          45145
+        ],
+        "m05_assignments_examined": 119,
+        "proof_scope": "OTHER_CUSEC_ASSIGNMENTS_FIXED",
+        "global_minimality_proven": false,
+        "municipal_policy_certified": false
+      },
+      "source_geometry_sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "source_unit_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+      "physical_connected": true,
+      "generation_authorized": false,
+      "product_certification": "NOT_PERFORMED"
+    }
   }
 }
