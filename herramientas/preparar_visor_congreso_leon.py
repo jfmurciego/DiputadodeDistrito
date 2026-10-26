@@ -38,7 +38,7 @@ def file_sha(path):
             h.update(block)
     return h.hexdigest()
 
-def make_geojson(candidate, root, output):
+def make_geojson(candidate, root, output, *, split_output=None):
     import geopandas as gpd
     import shapely
     from shapely.geometry import mapping
@@ -113,6 +113,28 @@ def make_geojson(candidate, root, output):
             "witness_sha256":candidate["witness_sha256"],
             "cpro":cpro,"generation_authorized":False
         },"geometry":mapping(geom)})
+    # Separately preserve the actual polygon boundary of split municipalities:
+    # no synthetic connection or buffer and never part of the certified registry.
+    if split_output is not None:
+        split_features=[]
+        splits=candidate.get("municipalities_split") or []
+        if not isinstance(splits,list) or any(not isinstance(x,str) or len(x)!=5 for x in splits):
+            raise ValueError("MUNICIPAL_SPLIT_LIST_INVALID")
+        for municipality in sorted(set(splits)):
+            fragments=projected.loc[projected["CUMUN"].astype(str)==municipality]
+            if fragments.empty:
+                raise ValueError("MUNICIPAL_SPLIT_CUMUN_NOT_FOUND:"+municipality)
+            for district_id, partition in fragments.groupby("district_id",sort=True):
+                geom=shapely.union_all(partition.geometry.to_numpy())
+                if geom.is_empty or not geom.is_valid:
+                    raise ValueError("MUNICIPAL_SPLIT_GEOMETRY_INVALID")
+                split_features.append({"type":"Feature","geometry":mapping(geom),"properties":{
+                    "CUMUN":municipality,"district_id":district_id,
+                    "pilot_only":True,"certification_status":"NOT_CERTIFIED"
+                }})
+        split_output.parent.mkdir(parents=True,exist_ok=True)
+        split_output.write_text(json.dumps({"type":"FeatureCollection","features":split_features},
+                ensure_ascii=False,separators=(",",":"))+"\\n",encoding="utf-8")
     result={"type":"FeatureCollection","features":features}
     output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text(json.dumps(result,ensure_ascii=False,separators=(",",":"))+"\n",encoding="utf-8")
@@ -123,7 +145,8 @@ def main():
     p.add_argument("--candidate",type=Path,required=True)
     p.add_argument("--root",type=Path,default=Path(__file__).resolve().parents[1])
     p.add_argument("--output",type=Path,required=True)
+    p.add_argument("--split-output",type=Path)
     a=p.parse_args()
-    result=make_geojson(strict_json_loads(a.candidate.read_text(encoding="utf-8")),a.root,a.output)
+    result=make_geojson(strict_json_loads(a.candidate.read_text(encoding="utf-8")),a.root,a.output,split_output=a.split_output)
     print("ANALYTICAL_GEOJSON_READY cpro="+str(result["features"][0]["properties"]["cpro"])+" districts="+str(len(result["features"]))+" sha256="+file_sha(a.output))
 if __name__=="__main__":main()
