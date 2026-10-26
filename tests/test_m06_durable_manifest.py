@@ -167,6 +167,7 @@ class DurableM06ManifestTests(unittest.TestCase):
                 producer_manifest_path="territorios/demo/evidencia/generaciones_m06/100.json")
         receipt = json.loads((self.root / "territorios/demo/evidencia/catalogo/territorial_product_2025.json").read_text())
         self.assertEqual(receipt["producer_manifest_path"], "territorios/demo/evidencia/generaciones_m06/100.json")
+        self.assertEqual(receipt["source_commit"], payload["identity"]["checkout_sha"])
 
     def test_valid_receipt_source_commit_matches_checkout(self):
         from herramientas.resolver_activos_durables import _validate_m06_manifest
