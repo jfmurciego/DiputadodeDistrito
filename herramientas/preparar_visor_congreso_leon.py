@@ -134,7 +134,7 @@ def make_geojson(candidate, root, output, *, split_output=None):
                 }})
         split_output.parent.mkdir(parents=True,exist_ok=True)
         split_output.write_text(json.dumps({"type":"FeatureCollection","features":split_features},
-                ensure_ascii=False,separators=(",",":"))+"\\n",encoding="utf-8")
+                ensure_ascii=False,separators=(",",":"))+"\n",encoding="utf-8")
     result={"type":"FeatureCollection","features":features}
     output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text(json.dumps(result,ensure_ascii=False,separators=(",",":"))+"\n",encoding="utf-8")
