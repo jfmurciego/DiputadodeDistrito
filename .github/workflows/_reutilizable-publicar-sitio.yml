@@ -266,6 +266,18 @@ jobs:
           rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard
           cp visor/index.html visor/app.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
+          # Espacio cartográfico exclusivamente analítico. No entra al
+          # registro de productos certificados ni modifica sus puertas.
+          mkdir -p /tmp/site-candidate/congreso/data
+          cp visor/congreso/index.html visor/congreso/congreso.js /tmp/site-candidate/congreso/
+          python -m pip install --disable-pip-version-check -r requirements-congreso-piloto.lock
+          python -m herramientas.preparar_visor_congreso_leon \
+            --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/LEON/leon-corrected.json \
+            --output /tmp/site-candidate/congreso/data/24.geojson
+          python -m herramientas.preparar_visor_congreso_leon \
+            --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json \
+            --output /tmp/site-candidate/congreso/data/10.geojson \
+            --split-output /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
           python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
 
       - name: Validar sitio candidato completo
@@ -273,6 +285,10 @@ jobs:
         run: |
           set -euo pipefail
           test -s /tmp/site-candidate/data/viewer-results.json
+          test -s /tmp/site-candidate/congreso/data/24.geojson
+          test -s /tmp/site-candidate/congreso/data/10.geojson
+          test -s /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
+          node --check /tmp/site-candidate/congreso/congreso.js
           python - <<'PY'
           import json
           from pathlib import Path
