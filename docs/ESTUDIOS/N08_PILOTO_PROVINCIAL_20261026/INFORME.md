@@ -67,7 +67,7 @@ El entorno local informa CPython 3.11.4 macOS 11.7.11, sin Shapely/GeoPandas; py
 
 ## Pruebas y verificación de integración
 
-- Local: 21 pruebas del piloto/topología acotada; 17 PASS y 4 SKIP por ausencia de Shapely. Incluye re-reproducción byte a byte de León y Cáceres, rechazo de duplicados, población/K/gates inválidos, y las regresiones existentes del buscador.
+- Local: ejecución inicial, 21 pruebas (17 PASS, 4 SKIP por ausencia de Shapely); ejecución final tras corregir los P2, 23 pruebas (19 PASS, 4 SKIP). Incluye re-reproducción byte a byte de León y Cáceres, rechazo de duplicados/no finitos, de evidencia física falsificada, población/K/gates inválidos y regresiones del buscador.
 - Local: `py_compile` de los cuatro módulos, `git diff --check` y parseo YAML: PASS.
 - Las suites `test_congreso_contract` y `test_congreso_candidate_certifier` se intentaron en este checkout sparse: 28 PASS, 3 errores de entorno porque faltan los artefactos históricos `legacy/n06_contrato...`, `legacy/n08_nac...` y el manifiesto de entrega completo de 74 ficheros. No son cambios de esta rama; la CI de checkout completo las ejecutará.
 - CI del HEAD candidato aún no existe: esta rama no se ha publicado. Por tanto, contigüidad de partes originales permanece PENDIENTE, y el expediente no queda `READY_FOR_INTEGRATION`.

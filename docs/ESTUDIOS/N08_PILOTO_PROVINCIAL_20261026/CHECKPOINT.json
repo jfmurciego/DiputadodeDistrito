@@ -6,7 +6,7 @@
   },
   "base_main": "9efc672972c6d9f16f24de633bdf0e9f04aaf0c2",
   "branch": "codex/congreso-piloto-leon-m04-20261020",
-  "next_safe_command": "En un clone completo de jfmurciego/DiputadodeDistrito, verificar main 9efc672972c6d9f16f24de633bdf0e9f04aaf0c2, aplicar el patch de entrega, recrear merge commit con padres PR298 80dd2fd1256b49439dd11b017cff2d56f776e49a y main, publicar sin force, ejecutar CI y revisar ese SHA. No mergear ni producir.",
+  "next_safe_command": "Usar entregas/N08_PILOTO_LEON_CACERES_20261026/incremento.patch y DELIVERY_MANIFEST.json; verificar el SHA del patch indicado allí. En un clone completo, comprobar la base main 9efc672972c6d9f16f24de633bdf0e9f04aaf0c2, aplicar el patch y construir una actualización no forzada de la rama de #298 conservando los padres PR298 80dd2fd1256b49439dd11b017cff2d56f776e49a y main. Ejecutar CI y revisión sobre el nuevo SHA; no mergear ni producir.",
   "pr298_head": "80dd2fd1256b49439dd11b017cff2d56f776e49a",
   "schema": "ddd.n08-provincial-pilot-checkpoint/1.0",
   "tasks": [
@@ -74,9 +74,9 @@
   "tests": {
     "diff_check": "PASS",
     "full_contract_certifier_suite": "NOT_VERIFIED in sparse worktree; 3 missing historical-evidence errors; 28 tests otherwise passed",
-    "pilot_suite": "23 PASS; 4 SKIP (Shapely unavailable)",
+    "pilot_suite": "19 PASS; 4 SKIP; 23 total (Shapely unavailable for 4 physical tests)",
     "py_compile": "PASS",
-    "remote_CI": "NOT_RUN; candidate not published",
+    "remote_CI": "NOT_RUN; local publication blocked by GitHub DNS and missing base blobs",
     "yaml": "PASS"
   },
   "updated_at": "2026-10-26",

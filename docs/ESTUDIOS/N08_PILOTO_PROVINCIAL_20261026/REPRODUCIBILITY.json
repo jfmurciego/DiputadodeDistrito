@@ -39,10 +39,11 @@
   "local_tests": {
     "command": "python3 -m unittest tests.test_congreso_pilot_adapter tests.test_congreso_bounded_tree_search tests.test_congreso_piloto_leon tests.test_congreso_physical_audit -v",
     "fail": 0,
-    "pass": 23,
+    "pass": 19,
     "skip": 4,
     "skip_reason": "Shapely unavailable in isolated macOS environment",
-    "total": 27
+    "summary": "19 PASS, 4 SKIP, 0 FAIL",
+    "total": 23
   },
   "original_pr298_head": "80dd2fd1256b49439dd11b017cff2d56f776e49a",
   "review_findings": {
