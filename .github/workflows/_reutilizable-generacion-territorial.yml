@@ -1214,6 +1214,7 @@ jobs:
           python - <<'PY'
           import json, os, subprocess
           from pathlib import Path
+          from herramientas.manifest_generacion_territorial import resolve_checkpoint_source_package
           def artifacts(run_id):
               raw=subprocess.check_output(["gh","api",f"repos/{os.environ['GH_REPO']}/actions/runs/{run_id}/artifacts?per_page=100"],text=True)
               return json.loads(raw)["artifacts"]
@@ -1237,8 +1238,30 @@ jobs:
               previous={"M02":"M01","M03":"M02","M04":"M03U","M05":"M04","M06":"M05"}.get(stage)
               if not previous: raise SystemExit(f"No se resuelve stage previo del checkpoint: {stage}")
               role_specs["checkpoint"]=(checkpoint,f"ddd-state-{checkpoint}-{previous}")
-          if os.environ.get("SOURCE_PACKAGE_RUN_ID") and os.environ.get("SOURCE_PACKAGE_ARTIFACT_NAME"):
-              role_specs["source_package"]=(int(os.environ["SOURCE_PACKAGE_RUN_ID"]),os.environ["SOURCE_PACKAGE_ARTIFACT_NAME"])
+          supplied_run=os.environ.get("SOURCE_PACKAGE_RUN_ID","")
+          supplied_name=os.environ.get("SOURCE_PACKAGE_ARTIFACT_NAME","")
+          if bool(supplied_run) != bool(supplied_name):
+              raise SystemExit("SOURCE_PACKAGE_INCOMPLETE: la identidad explícita debe ser completa")
+          expected_source_sha=None
+          if checkpoint:
+              # Los recorridos reanudados no vuelven a descargar fuentes. Se
+              # acredita la identidad original contra el ZIP congelado que
+              # viaja dentro del checkpoint y el receipt durable del catálogo.
+              origin=resolve_checkpoint_source_package(
+                  root_dir=Path("."), state_dir=Path(".ddd-m06-state"),
+                  territory_id=os.environ["TERRITORY_ID"],
+                  edition=str(__import__("yaml").safe_load(Path(os.environ["PARAMS"]).read_text(encoding="utf-8"))["meta"]["year"]),
+              )
+              if supplied_run and (int(supplied_run)!=origin["run_id"] or supplied_name!=origin["artifact_name"]):
+                  raise SystemExit("CHECKPOINT_SOURCE_UNPROVEN: fuente explícita distinta de los bytes del checkpoint")
+              source_run,source_name=origin["run_id"],origin["artifact_name"]
+              expected_source_sha=origin["artifact_sha256"]
+          elif supplied_run:
+              source_run,source_name=int(supplied_run),supplied_name
+          else:
+              # M01 prepara y publica el paquete de fuentes en el run actual.
+              source_run,source_name=current,f"ddd-source-package-{current}{suffix}"
+          role_specs["source_package"]=(source_run,source_name)
           if os.environ.get("SOURCE_EVIDENCE_RUN_ID") and os.environ.get("SOURCE_EVIDENCE_ARTIFACT_NAME"):
               role_specs["source_evidence"]=(int(os.environ["SOURCE_EVIDENCE_RUN_ID"]),os.environ["SOURCE_EVIDENCE_ARTIFACT_NAME"])
           index={"artifacts":[]}; roles={}
@@ -1246,6 +1269,10 @@ jobs:
               matches=[a for a in artifacts(run_id) if a.get("name")==name and not a.get("expired")]
               if len(matches)!=1: raise SystemExit(f"{role}: esperado un artefacto {name} en run {run_id}, hay {len(matches)}")
               item=matches[0]
+              if role=="source_package" and expected_source_sha:
+                  observed=str(item.get("digest") or "").removeprefix("sha256:").lower()
+                  if observed!=expected_source_sha:
+                      raise SystemExit("CHECKPOINT_SOURCE_UNPROVEN: SHA del artefacto registrado difiere de GitHub")
               index["artifacts"].append({**item,"workflow_run_id":run_id})
               roles[role]={"run_id":run_id,"name":name}
               if role=="checkpoint": roles[role]["stage"]=os.environ.get("FROM_STAGE","")
@@ -1281,6 +1308,8 @@ jobs:
           fi
           [[ -n "$territory_name" ]] || { echo '::error::Nombre territorial no resuelto.'; exit 48; }
           manifest="territorios/$TERRITORY_ID/evidencia/generaciones_m06/$GITHUB_RUN_ID.json"
+          checkout_sha="$(git rev-parse HEAD)"
+          [[ "$checkout_sha" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::El SHA del checkout no es válido.'; exit 48; }
           if [[ "$FROM_STAGE" == M01 ]]; then CHECKPOINT_RUN_ID=""; fi
           checkpoint_args=(); [[ -n "$CHECKPOINT_RUN_ID" ]] && checkpoint_args=(--checkpoint-run-id "$CHECKPOINT_RUN_ID")
           unique_args=(); [[ "$REQUIRE_UNIQUE_HASHES" == true ]] && unique_args=(--require-unique-hashes)
@@ -1291,7 +1320,7 @@ jobs:
             --edition "$(python -c 'import os,yaml; print((yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}).get("meta",{}).get("year",""))')" \
             --contract-path "$PARAMS" --workflow-run-id "$GITHUB_RUN_ID" \
             --workflow-run-attempt "$GITHUB_RUN_ATTEMPT" --workflow-sha "$WORKFLOW_SHA" \
-            --checkout-sha "$GITHUB_SHA" --workflow-name "$WORKFLOW_NAME" \
+            --checkout-sha "$checkout_sha" --workflow-name "$WORKFLOW_NAME" \
             --execution-mode "$EXECUTION_MODE" --from-stage "$FROM_STAGE" --to-stage "$TO_STAGE" \
             "${checkpoint_args[@]}" \
             --optimization-algorithm "$OPTIMIZATION_ALGORITHM" \
@@ -1323,10 +1352,12 @@ jobs:
           digest="$(jq -r '.digest // empty' <<<"$artifact")"
           [[ -n "$digest" ]] || { echo "::error::Artefacto M06 sin digest: $artifact_name"; exit 48; }
           manifest="territorios/$TERRITORY_ID/evidencia/generaciones_m06/$GITHUB_RUN_ID.json"
+          checkout_sha="$(git rev-parse HEAD)"
+          [[ "$checkout_sha" =~ ^[0-9a-f]{40}$ ]] || { echo '::error::El SHA del checkout no es válido.'; exit 48; }
           python herramientas/promover_catalogo_operacional.py \
             --kind territorial_product --territory-id "$TERRITORY_ID" --edition "$edition" \
             --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest" \
-            --source-commit "$GITHUB_SHA" --decision "$decision" --producer-manifest-path "$manifest"
+            --source-commit "$checkout_sha" --decision "$decision" --producer-manifest-path "$manifest"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions; git config user.email github-actions@github.com
           git add configuracion/catalogo_preparacion.yaml \
