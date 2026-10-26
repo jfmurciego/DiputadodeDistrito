@@ -269,7 +269,7 @@ jobs:
           # Espacio cartográfico exclusivamente analítico. No entra al
           # registro de productos certificados ni modifica sus puertas.
           mkdir -p /tmp/site-candidate/congreso/data
-          cp visor/congreso/index.html visor/congreso/congreso.js /tmp/site-candidate/congreso/
+          cp visor/congreso/index.html visor/congreso/congreso.js visor/congreso/styles.css /tmp/site-candidate/congreso/
           python -m pip install --disable-pip-version-check -r requirements-congreso-piloto.lock
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/LEON/leon-corrected.json \
