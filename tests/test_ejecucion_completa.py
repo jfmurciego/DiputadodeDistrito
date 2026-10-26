@@ -1,7 +1,7 @@
-"""Version: 1.0.2; name: full execution planning tests; date: 2026-10-26.
+"""Version: 1.0.3; name: full execution planning tests; date: 2026-10-26.
 Scope: 00 planning, durable evidence gates, and incompatible product replanning.
 Status: candidate. Change/reason: isolate helper tests from mutable territorial artifacts.
-Previous: tests/legacy/ci_followup_20261026/test_ejecucion_completa_cff5d3c.py.
+Previous: legacy/tests/m06-durable-manifest_20261026/test_ejecucion_completa_pre_m06_manifest.py.
 """
 from __future__ import annotations
 
@@ -987,14 +987,16 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
         self.assertEqual(territorial["run_id"], current_run)
         self.assertNotEqual(electoral["run_id"], current_run)
-        with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*DURABLE_LINEAGE_INCOMPATIBLE"):
-            build_plan(
-                territory="Castilla-La Mancha",
-                edition="2025",
-                execution_mode="reuse",
-                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-                root_dir=ROOT,
-            )
+        plan = build_plan(
+            territory="Castilla-La Mancha",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+        )
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
+        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
 
 class TerritorialSourceVerificationShellTests(unittest.TestCase):

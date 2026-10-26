@@ -8,7 +8,7 @@ import yaml
 from pathlib import Path
 from herramientas.gestor_campana_nacional import (
  canonical_selection, aggregate, publication_matrix, validate_campaign_summary_for_promotion, build_manifest, build_matrix,
- validate_campaign_child, validate_manifest_digest, _sha_payload
+ validate_campaign_child, validate_manifest_digest, _sha_payload, campaign_execution_plan
 )
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -176,9 +176,11 @@ class NationalCampaignTests(unittest.TestCase):
   m=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume",root=ROOT)
   row=m["territories"][0]
-  self.assertEqual(row["preflight_status"],"BLOCKED")
-  self.assertTrue(any("DURABLE_LINEAGE_UNPROVEN" in item and "40241852045" in item for item in row["preflight_blockers"]))
-  self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+  self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
+  self.assertEqual(row["territorial_product"]["run_id"],40241852045)
+  self.assertFalse(row["execution_plan"]["run_generate"])
+  self.assertTrue(row["execution_plan"]["run_incorporate"])
+  self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
   m=build_manifest(selected=["galicia"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume-valid",root=ROOT)
   row=m["territories"][0]
@@ -244,15 +246,30 @@ class NationalCampaignTests(unittest.TestCase):
                    strategy="Canónico",campaign_instance="regression14",root=ROOT)
   self.assertEqual(len(m["territories"]),14)
   matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
-  self.assertEqual(len(matrix),11)
-  self.assertEqual({r["slot"] for r in matrix},selected_codes-{"03","06","08"})
+  # El M08 antiguo no invalida M06: Cantabria y Castilla-La Mancha
+  # recuperan ruta de producto, pero deben incorporar M08 nuevo.
+  # Asturias recupera la ruta M06 al incluirse su manifiesto post-run probado.
+  self.assertEqual(len(matrix),14)
+  self.assertEqual({r["slot"] for r in matrix},selected_codes)
   all_by_slot={r["slot"]:r for r in m["territories"]}
-  self.assertEqual({code for code,row in all_by_slot.items() if row["preflight_status"]=="BLOCKED"},{"03","06","08"})
-  self.assertTrue(all("DURABLE_LINEAGE_" in " ".join(all_by_slot[code]["preflight_blockers"]) for code in {"03","06","08"}))
-  self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),1)
+  self.assertEqual({code for code,row in all_by_slot.items() if row["preflight_status"]=="BLOCKED"},set())
+  self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),4)
   self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),1)
   self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),9)
   by_slot={r["slot"]:r for r in matrix}
+  for code in ("06", "08"):
+   row=by_slot[code]
+   self.assertEqual(row["execution_route"],"PRODUCT_REUSE_READY")
+   self.assertFalse(row["execution_plan"]["run_generate"])
+   self.assertTrue(row["execution_plan"]["run_incorporate"])
+   self.assertTrue(row["persist_state"])
+   plan=campaign_execution_plan(root=ROOT,territory_id=row["territory_id"],edition="2025",strategy="Canónico")
+   self.assertTrue(plan["catalog_state"]["territorial_product_available"])
+   self.assertFalse(plan["catalog_state"]["electoral_product_available"])
+   self.assertFalse((plan["existing"].get("electoral_product") or {}).get("run_id"))
+   rejected=plan["catalog_state"]["rejected_electoral_product"]
+   self.assertFalse(rejected["reusable"])
+   self.assertIn("DURABLE_LINEAGE_INCOMPATIBLE", rejected["reason"])
   self.assertEqual(by_slot["12"]["execution_route"],"PRODUCT_REUSE_READY")
   self.assertTrue(by_slot["12"]["execution_plan"]["run_incorporate"])
   self.assertEqual(by_slot["18"]["execution_route"],"GENERATION_READY")

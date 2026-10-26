@@ -1,8 +1,21 @@
 #!/usr/bin/env python3
+"""Promueve evidencia operacional sin perder el enlace productor M06.
+
+PROYECTO: Diputado de Distrito
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Promoción operacional con referencia al manifiesto M06
+FECHA: 2026-10-26
+ESTADO: candidato
+QUÉ HACE: registra recibos operativos y rederiva su persistencia desde el HEAD destino.
+CAMBIOS: enlaza el receipt M06 a su manifiesto durable independiente cuando lo aporta 02.
+MOTIVO: conservar el productor real del producto sin atribuirlo a un manifiesto 00.
+ANTERIOR: legacy/herramientas/promover_catalogo_operacional_pre_m06_manifest_20261026.py
+"""
 from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 import yaml
@@ -66,6 +79,7 @@ def promote(
     *, root_dir: Path, kind: str, territory_id: str, edition: str, run_id: int,
     artifact_name: str, artifact_sha256: str, declaration: str | None = None,
     decision: str | None = None, election_id: str | None = None, source_commit: str | None = None,
+    producer_manifest_path: str | None = None,
 ) -> dict:
     root = root_dir.resolve(); catalog_path = root / CATALOG; catalog = _load_yaml(catalog_path)
     state, territory_name = _state(catalog, territory_id, edition); evidence = state.setdefault("evidence", {})
@@ -75,7 +89,40 @@ def promote(
 
     if kind == "territorial_product":
         if decision not in {"PASS", "PASS_WITH_EXCEPTIONS"}: raise ValueError(f"Producto territorial no promovible: decision={decision!r}")
-        receipt = _receipt_path(root, territory_id, kind, edition); rel = _write_receipt(receipt, {**common, "decision": decision, "stage": "M06"})
+        producer_ref = None
+        if producer_manifest_path:
+            from herramientas.manifest_generacion_territorial import manifest_sha256
+            manifest_file = (root / producer_manifest_path).resolve()
+            if not manifest_file.is_relative_to(root):
+                raise ValueError("Manifiesto M06 fuera del repositorio")
+            if not manifest_file.is_file():
+                raise ValueError("Manifiesto M06 independiente ausente")
+            manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
+            identity = manifest.get("identity") or {}
+            product = (manifest.get("artifacts") or {}).get("m06") or {}
+            if (
+                manifest.get("schema") != "ddd.territorial-generation-manifest/1.0"
+                or manifest_sha256(manifest) != manifest.get("manifest_sha256")
+                or str(identity.get("territory_id") or "") != territory_id
+                or str(identity.get("edition") or "") != str(edition)
+                or int(identity.get("workflow_run_id") or 0) != int(run_id)
+                or str(product.get("artifact_name") or "") != artifact_name
+                or str(product.get("artifact_sha256") or "").removeprefix("sha256:") != digest
+                or str((manifest.get("certification") or {}).get("decision") or "") != decision
+            ):
+                raise ValueError("El manifiesto M06 no identifica el producto que se promueve")
+            checkout_sha = str(identity.get("checkout_sha") or "")
+            if (
+                re.fullmatch(r"[0-9a-f]{40}", str(source_commit or "")) is None
+                or source_commit != checkout_sha
+            ):
+                raise ValueError("El source_commit del recibo M06 no coincide con identity.checkout_sha")
+            producer_ref = str(Path(producer_manifest_path).as_posix())
+        receipt = _receipt_path(root, territory_id, kind, edition)
+        product_receipt = {**common, "decision": decision, "stage": "M06"}
+        if producer_ref:
+            product_receipt["producer_manifest_path"] = producer_ref
+        rel = _write_receipt(receipt, product_receipt)
         state["territorial_product_available"] = True; state["territorial_certification"] = "PASS" if decision == "PASS" else "PASS_WITH_GOVERNED_EXCEPTIONS"; state["last_valid_checkpoint"] = {"run_id": int(run_id), "stage": "M06"}; evidence["territorial_product"] = str(Path(rel).relative_to(root))
 
     elif kind == "electoral_source":
@@ -188,6 +235,7 @@ def persist_promotion(
     decision: str | None = None,
     election_id: str | None = None,
     source_commit: str | None = None,
+    producer_manifest_path: str | None = None,
     target_branch: str,
     max_attempts: int = 4,
 ) -> dict:
@@ -208,6 +256,7 @@ def persist_promotion(
             decision=decision,
             election_id=election_id,
             source_commit=source_commit,
+            producer_manifest_path=producer_manifest_path,
         )
 
     def validate(current_root: Path) -> None:
@@ -243,9 +292,9 @@ def persist_promotion(
     return result
 
 def main() -> int:
-    ap=argparse.ArgumentParser(); ap.add_argument("--root-dir",type=Path,default=Path(".")); ap.add_argument("--kind",required=True,choices=["territorial_product","electoral_source","electoral_product"]); ap.add_argument("--territory-id",required=True); ap.add_argument("--edition",required=True); ap.add_argument("--run-id",required=True,type=int); ap.add_argument("--artifact-name",required=True); ap.add_argument("--artifact-sha256",required=True); ap.add_argument("--declaration"); ap.add_argument("--decision"); ap.add_argument("--election-id"); ap.add_argument("--source-commit"); ap.add_argument("--persist",action="store_true"); ap.add_argument("--target-branch",default="main"); ap.add_argument("--max-attempts",type=int,default=4)
+    ap=argparse.ArgumentParser(); ap.add_argument("--root-dir",type=Path,default=Path(".")); ap.add_argument("--kind",required=True,choices=["territorial_product","electoral_source","electoral_product"]); ap.add_argument("--territory-id",required=True); ap.add_argument("--edition",required=True); ap.add_argument("--run-id",required=True,type=int); ap.add_argument("--artifact-name",required=True); ap.add_argument("--artifact-sha256",required=True); ap.add_argument("--declaration"); ap.add_argument("--decision"); ap.add_argument("--election-id"); ap.add_argument("--source-commit"); ap.add_argument("--producer-manifest-path"); ap.add_argument("--persist",action="store_true"); ap.add_argument("--target-branch",default="main"); ap.add_argument("--max-attempts",type=int,default=4)
     args=ap.parse_args()
-    common=dict(root_dir=args.root_dir,kind=args.kind,territory_id=args.territory_id,edition=args.edition,run_id=args.run_id,artifact_name=args.artifact_name,artifact_sha256=args.artifact_sha256,declaration=args.declaration,decision=args.decision,election_id=args.election_id,source_commit=args.source_commit)
+    common=dict(root_dir=args.root_dir,kind=args.kind,territory_id=args.territory_id,edition=args.edition,run_id=args.run_id,artifact_name=args.artifact_name,artifact_sha256=args.artifact_sha256,declaration=args.declaration,decision=args.decision,election_id=args.election_id,source_commit=args.source_commit,producer_manifest_path=args.producer_manifest_path)
     result=(persist_promotion(**common,target_branch=args.target_branch,max_attempts=args.max_attempts) if args.persist else promote(**common))
     print(json.dumps(result,ensure_ascii=False,indent=2)); return 0
 if __name__ == "__main__": raise SystemExit(main())

@@ -1,12 +1,33 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.10
+Versión: 1.0.12
 Fecha: 2026-10-26
-Alcance: regresiones de evidencias F10 y preflight pre-M04 vigentes
+Alcance: manifiesto durable M06 y verificación de fuente para workflow 02
 Estado: candidato
-Cambios/motivo: admitir discontinuidades municipales acreditadas con fuente exacta y contadores coherentes
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.9_20261026.md
+Cambios/motivo: contrastar el paquete de fuente M06 independiente con inputs del run y conservar la separación M06/M08
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.11_20261026.md
 -->
+
+## 2026-10-26 — M06 — contrastar la fuente del manifiesto 02
+
+El resolver contrasta la referencia de `source_package_artifact` del manifiesto
+M06 standalone con el run, nombre y SHA-256 de la fuente territorial durable.
+Los manifiestos 00 conservan su validación por fase `01 ·`; los de 02 validan
+sus `inputs` y bloquean si falta o difiere el paquete. Se añade cobertura para
+fuente coincidente y paquete cruzado con `territorial_sources_prepared=true`.
+
+## 2026-10-26 — M06 — manifiesto durable para workflow 02
+
+El workflow 02 descarga el estado M06 ya empaquetado, verifica los recibos de
+M05 y auditoría y escribe después un manifiesto independiente con identidad del
+run, contrato, entradas, estrategia, portfolio cuando GerryChain 50 aplica,
+decisión certificadora y referencias de artefactos con digest y tamaño. El
+recibo territorial apunta al manifiesto sin alterar el ZIP ni introducir una
+referencia circular. El resolver comprueba su integridad y linaje. Un M08 cuyo
+M06 productor no coincide se conserva históricamente y deja de ser reutilizable,
+pero ya no invalida por ello el M06 territorial. Las pruebas cubren bytes
+alterados, identidad cruzada, evidencia incompleta, mismatch M06/M08 y escritura
+idempotente. No se regeneran productos ni se ejecuta incorporación electoral.
 
 ## 2026-10-26 — CI — actualizar expectativas obsoletas de evidencia y preflight
 

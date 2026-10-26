@@ -1,7 +1,7 @@
-"""Version: 1.0.1; name: orphan M08 recovery tests; date: 2026-10-26.
+"""Version: 1.0.2; name: orphan M08 recovery tests; date: 2026-10-26.
 Scope: fail-closed recovery and exact durable M06/M08 lineage.
 Status: candidate. Change/reason: align live-territory regressions with current product runs.
-Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.0_20261026.py.
+Previous: legacy/tests/m06-durable-manifest_20261026/test_reanudacion_m08_huerfano_pre_m06_manifest.py.
 """
 from __future__ import annotations
 
@@ -767,11 +767,13 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         self.assertEqual(phase04["artifact"], electoral["artifact_name"])
         self.assertEqual(phase04["result"], "success")
 
-        with self.assertRaisesRegex(ValueError, "territorial_product→electoral_product"):
-            build_plan(
-                territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
-                catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
-            )
+        plan = build_plan(
+            territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
+        )
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
+        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
         result = scan(
             root_dir=ROOT,
