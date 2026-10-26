@@ -30,6 +30,8 @@ on:
       - 'inputs/partes/**'
       - 'territorios/congreso/contrato_congreso_2026.json'
       - 'visor/congreso/**'
+      - 'visor/index.html'
+      - '.github/workflows/_reutilizable-publicar-sitio.yml'
       - 'tests/test_congreso_pilot_adapter.py'
       - 'tests/test_congreso_bounded_tree_search.py'
       - 'tests/test_congreso_piloto_leon.py'
@@ -174,7 +176,38 @@ jobs:
             --output "$RUNNER_TEMP/nac-pilots/CACERES/analytical-preview.geojson"
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json \
-            --output "$RUNNER_TEMP/nac-pilots/CACERES/analytical-preview-degree-asc.geojson"
+            --output "$RUNNER_TEMP/nac-pilots/CACERES/analytical-preview-degree-asc.geojson" \
+            --split-output "$RUNNER_TEMP/nac-pilots/CACERES/municipios-divididos.geojson"
+
+      - name: Construir visor autónomo con ambos pilotos y controles de identidad
+        shell: bash
+        run: |
+          node --check visor/congreso/congreso.js
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"nac-pilots"
+          geo={}
+          for key,relative in [
+              ("24","LEON/analytical-preview.geojson"),
+              ("10","CACERES/analytical-preview-degree-asc.geojson"),
+              ("10-split","CACERES/municipios-divididos.geojson"),
+          ]:
+              geo[key]=json.loads((root/relative).read_text(encoding="utf-8"))
+          assert len(geo["24"]["features"]) == 4
+          assert len(geo["10"]["features"]) == 3
+          assert geo["10-split"]["features"]
+          html=Path("visor/congreso/index.html").read_text(encoding="utf-8")
+          css=Path("visor/styles.css").read_text(encoding="utf-8")
+          js=Path("visor/congreso/congreso.js").read_text(encoding="utf-8")
+          payload=json.dumps(geo,ensure_ascii=False,separators=(",",":")).replace("<","\\u003c")
+          html=html.replace('<link href="../styles.css" rel="stylesheet">',"<style>"+css+"</style>")
+          html=html.replace('<script src="congreso.js"></script>',
+              "<script>window.DDD_CONGRESO_GEOJSON="+payload+";</script><script>"+js+"</script>")
+          if "window.DDD_CONGRESO_GEOJSON=" not in html: raise SystemExit("EMBEDDED_VIEWER_MISSING")
+          (root/"piloto-autonomo.html").write_text(html,encoding="utf-8")
+          print("N08_STANDALONE_VIEWER_READY: Leon=4 Caceres=3")
+          PY
 
       - name: Conservar resultado analítico de CI
         if: always()
