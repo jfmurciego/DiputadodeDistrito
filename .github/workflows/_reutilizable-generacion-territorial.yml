@@ -1208,6 +1208,7 @@ jobs:
         env:
           M04_RESULT: ${{ needs.m04.result }}
           M05_RESULT: ${{ needs.m05.result }}
+          FROM_STAGE: ${{ needs.resolve.outputs.from_stage }}
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -1252,13 +1253,11 @@ jobs:
           Path(".ddd-artifact-index.json").write_text(json.dumps(index,sort_keys=True),encoding="utf-8")
           Path(".ddd-artifact-roles.json").write_text(json.dumps(roles,sort_keys=True),encoding="utf-8")
           PY
-        env:
-          FROM_STAGE: ${{ needs.resolve.outputs.from_stage }}
       - name: Construir y materializar manifiesto M06 durable
         shell: bash
         env:
           TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
-          TERRITORY_NAME: ${{ needs.resolve.outputs.territory_name }}
+          TERRITORY_NAME: '' # Se resuelve de forma fiable desde el catálogo por territory_id
           FROM_STAGE: ${{ needs.resolve.outputs.from_stage }}
           TO_STAGE: ${{ needs.resolve.outputs.to_stage }}
           CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
