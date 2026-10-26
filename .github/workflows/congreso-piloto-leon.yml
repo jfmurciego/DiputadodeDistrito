@@ -30,7 +30,6 @@ on:
       - 'inputs/partes/**'
       - 'territorios/congreso/contrato_congreso_2026.json'
       - 'visor/congreso/**'
-      - 'visor/index.html'
       - 'tests/test_congreso_pilot_adapter.py'
       - 'tests/test_congreso_bounded_tree_search.py'
       - 'tests/test_congreso_piloto_leon.py'
