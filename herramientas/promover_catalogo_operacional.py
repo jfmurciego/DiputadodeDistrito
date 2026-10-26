@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 import yaml
@@ -110,6 +111,12 @@ def promote(
                 or str((manifest.get("certification") or {}).get("decision") or "") != decision
             ):
                 raise ValueError("El manifiesto M06 no identifica el producto que se promueve")
+            checkout_sha = str(identity.get("checkout_sha") or "")
+            if (
+                re.fullmatch(r"[0-9a-f]{40}", str(source_commit or "")) is None
+                or source_commit != checkout_sha
+            ):
+                raise ValueError("El source_commit del recibo M06 no coincide con identity.checkout_sha")
             producer_ref = str(Path(producer_manifest_path).as_posix())
         receipt = _receipt_path(root, territory_id, kind, edition)
         product_receipt = {**common, "decision": decision, "stage": "M06"}
