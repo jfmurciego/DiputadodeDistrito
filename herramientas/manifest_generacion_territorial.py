@@ -96,6 +96,51 @@ def _find_one(root: Path, pattern: str, *, label: str) -> Path:
     return matches[0]
 
 
+def resolve_checkpoint_source_package(
+    *, root_dir: Path, state_dir: Path, territory_id: str, edition: str,
+) -> dict[str, Any]:
+    """Recupera el paquete fuente del catálogo sólo si coincide con los bytes del checkpoint.
+
+    La identidad del artefacto no puede deducirse del nombre del checkpoint.
+    El manifiesto de fuentes conserva el SHA del ZIP congelado; éste debe ser
+    idéntico al package_sha256 de la evidencia de preparación acreditada.
+    """
+    root = root_dir.resolve()
+    state = state_dir.resolve()
+    source_manifest_path = state / "sources" / "manifest.json"
+    if not source_manifest_path.is_file():
+        raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: falta sources/manifest.json")
+    try:
+        source_manifest = json.loads(source_manifest_path.read_text(encoding="utf-8"))
+        catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: manifiesto/catálogo ilegible") from exc
+    if not isinstance(source_manifest, dict) or not isinstance(catalog, dict):
+        raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: manifiesto/catálogo inválido")
+    rows = [row for row in (catalog.get("territories") or []) if row.get("territory_id") == territory_id]
+    if len(rows) != 1:
+        raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: territorio no único en catálogo")
+    registered = ((rows[0].get("editions") or {}).get(str(edition)) or {}).get("preparation_evidence") or {}
+    if not isinstance(registered, dict):
+        raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: evidencia fuente no válida")
+    try:
+        run_id = int(registered.get("run_id") or 0)
+        name = str(registered.get("artifact_name") or "")
+        artifact_sha = _require_sha(registered.get("artifact_sha256"), "fuente catalogada")
+        package_sha = _require_sha(registered.get("package_sha256"), "paquete fuente catalogado")
+        observed_package_sha = _require_sha(source_manifest.get("sha256"), "fuente congelada checkpoint")
+    except (TypeError, ValueError) as exc:
+        raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: evidencia fuente incompleta") from exc
+    if (
+        run_id <= 0 or not name or
+        str(source_manifest.get("territory_id") or "") != territory_id or
+        str(source_manifest.get("edition") or "") != str(edition) or
+        observed_package_sha != package_sha
+    ):
+        raise GenerationManifestError("CHECKPOINT_SOURCE_UNPROVEN: la fuente del checkpoint no coincide con el catálogo")
+    return {"run_id": run_id, "artifact_name": name, "artifact_sha256": artifact_sha}
+
+
 def _candidate_proof(state_dir: Path, report_path: Path) -> dict[str, Any]:
     try:
         report = json.loads(report_path.read_text(encoding="utf-8"))
