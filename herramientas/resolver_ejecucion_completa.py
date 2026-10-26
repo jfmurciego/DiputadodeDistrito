@@ -1,3 +1,15 @@
+"""Planificador de ejecución 00 con separación entre M06 y M08.
+
+PROYECTO: Diputado de Distrito
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Reutilización territorial con linaje M06 independiente
+FECHA: 2026-10-26
+ESTADO: candidato
+QUÉ HACE: resuelve continuidad con evidencia durable de productos.
+CAMBIOS: descarta M08 con linaje territorial incompatible y conserva reutilización M06.
+MOTIVO: evitar que un producto electoral histórico bloquee un M06 territorial certificado.
+ANTERIOR: legacy/herramientas/resolver_ejecucion_completa_pre_m06_manifest_20261026.py
+"""
 from __future__ import annotations
 
 import argparse
@@ -569,6 +581,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
     expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
     electoral_source_gap = None
+    rejected_electoral_product = None
     if automatic_continue:
         territorial_state = dict(state)
         territorial_state["electoral_source_prepared"] = False
@@ -605,6 +618,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         else:
             electoral_source_evidence = durable["electoral_source"] or {}
             electoral_product_evidence = durable["electoral_product"] or {}
+            rejected_electoral_product = durable.get("rejected_electoral_product")
 
     source_run_id = _core._run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
     territorial_product_run_id = _core._run_from_artifact(
@@ -619,7 +633,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     )
     electoral_product_run_id = _core._run_from_artifact(
         electoral_product_evidence.get("artifact_name"),
-        electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None),
+        electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 and not rejected_electoral_product else None),
     )
     electoral_product_artifact = electoral_product_evidence.get("artifact_name") or (
         f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
@@ -773,6 +787,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             "territorial_product_available": territorial_product_ready,
             "electoral_source_prepared": electoral_source_ready,
             "electoral_product_available": electoral_product_ready,
+            "rejected_electoral_product": rejected_electoral_product,
             "territorial_certification": state.get("territorial_certification"),
             "preparation_evidence": prep,
             "catalog_preparation_evidence": catalog_prep,

@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.1.1
-# NOMBRE DE VERSIÓN: Generación territorial desacoplada
-# FECHA: 2026-10-25
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Manifiesto durable M06 posterior al empaquetado
+# FECHA: 2026-10-26
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
-# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max; deriva el contrato GerryChain 50 de la selección manual.
-# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/_reutilizable-generacion-territorial.pre-p0.yml (versión 1.1.0 conservada)
+# CAMBIOS: empaqueta M06, resuelve referencias por digest, emite manifiesto independiente y registra su ruta en el recibo territorial.
+# MOTIVO: hacer reutilizable el producto emitido por 02 sin referencias circulares ni atribución a 00.
+# ANTERIOR: legacy/workflows/m06_manifest_20261026/_reutilizable-generacion-territorial_v1.1.1_20261025.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -74,6 +74,9 @@ jobs:
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
       SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
       SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+      SOURCE_EVIDENCE_RUN_ID: ${{ inputs.source_evidence_run_id }}
+      SOURCE_EVIDENCE_ARTIFACT_NAME: ${{ inputs.source_evidence_artifact_name }}
+      SOURCE_EVIDENCE_ARTIFACT_SHA256: ${{ inputs.source_evidence_artifact_sha256 }}
       DDD_RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -1168,7 +1171,7 @@ jobs:
 
   registrar:
     name: Registrar producto territorial
-    needs: [resolve, auditoria]
+    needs: [resolve, m04, m05, m06, auditoria]
     if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && inputs.persist_state }}
     runs-on: ubuntu-24.04
     concurrency:
@@ -1179,15 +1182,129 @@ jobs:
       PARAMS: ${{ needs.resolve.outputs.params }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
       ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
+      SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+      SOURCE_EVIDENCE_RUN_ID: ${{ inputs.source_evidence_run_id }}
+      SOURCE_EVIDENCE_ARTIFACT_NAME: ${{ inputs.source_evidence_artifact_name }}
+      SOURCE_EVIDENCE_ARTIFACT_SHA256: ${{ inputs.source_evidence_artifact_sha256 }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ inputs.source_ref || github.ref_name }}
+          ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Recuperar los bytes M06 y auditoría ya empaquetados
+        shell: bash
+        run: |
+          set -euo pipefail
+          suffix=''
+          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          gh run download "$GITHUB_RUN_ID" --repo "$GH_REPO" --name "ddd-state-$GITHUB_RUN_ID-M06$suffix" --dir .ddd-m06-state
+          gh run download "$GITHUB_RUN_ID" --repo "$GH_REPO" --name "ddd-audit-$GITHUB_RUN_ID$suffix" --dir .ddd-m06-audit
+      - name: Resolver referencias de artefactos inmutables
+        shell: bash
+        env:
+          M04_RESULT: ${{ needs.m04.result }}
+          M05_RESULT: ${{ needs.m05.result }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          def artifacts(run_id):
+              raw=subprocess.check_output(["gh","api",f"repos/{os.environ['GH_REPO']}/actions/runs/{run_id}/artifacts?per_page=100"],text=True)
+              return json.loads(raw)["artifacts"]
+          current=int(os.environ["GITHUB_RUN_ID"]); checkpoint=int(os.environ.get("CHECKPOINT_RUN_ID") or 0)
+          ns=os.environ.get("ARTIFACT_NAMESPACE","")
+          suffix=f"-{ns}" if ns else ""
+          if os.environ.get("FROM_STAGE")=="M01": checkpoint=0
+          role_specs={
+              "m06":(current,f"ddd-state-{current}-M06{suffix}"),
+              "audit":(current,f"ddd-audit-{current}{suffix}"),
+          }
+          m04_run=current if os.environ["M04_RESULT"]=="success" else checkpoint
+          m05_run=current if os.environ["M05_RESULT"]=="success" else checkpoint
+          if not m04_run or not m05_run: raise SystemExit("M04/M05 sin run productor acreditado")
+          m04_suffix=suffix if m04_run==current else ""
+          m05_suffix=suffix if m05_run==current else ""
+          role_specs["m04"]=(m04_run,f"ddd-state-{m04_run}-M04{m04_suffix}")
+          role_specs["m05"]=(m05_run,f"ddd-state-{m05_run}-M05{m05_suffix}")
+          if checkpoint:
+              stage=os.environ.get("FROM_STAGE","")
+              previous={"M02":"M01","M03":"M02","M04":"M03U","M05":"M04","M06":"M05"}.get(stage)
+              if not previous: raise SystemExit(f"No se resuelve stage previo del checkpoint: {stage}")
+              role_specs["checkpoint"]=(checkpoint,f"ddd-state-{checkpoint}-{previous}")
+          if os.environ.get("SOURCE_PACKAGE_RUN_ID") and os.environ.get("SOURCE_PACKAGE_ARTIFACT_NAME"):
+              role_specs["source_package"]=(int(os.environ["SOURCE_PACKAGE_RUN_ID"]),os.environ["SOURCE_PACKAGE_ARTIFACT_NAME"])
+          if os.environ.get("SOURCE_EVIDENCE_RUN_ID") and os.environ.get("SOURCE_EVIDENCE_ARTIFACT_NAME"):
+              role_specs["source_evidence"]=(int(os.environ["SOURCE_EVIDENCE_RUN_ID"]),os.environ["SOURCE_EVIDENCE_ARTIFACT_NAME"])
+          index={"artifacts":[]}; roles={}
+          for role,(run_id,name) in role_specs.items():
+              matches=[a for a in artifacts(run_id) if a.get("name")==name and not a.get("expired")]
+              if len(matches)!=1: raise SystemExit(f"{role}: esperado un artefacto {name} en run {run_id}, hay {len(matches)}")
+              item=matches[0]
+              index["artifacts"].append({**item,"workflow_run_id":run_id})
+              roles[role]={"run_id":run_id,"name":name}
+              if role=="checkpoint": roles[role]["stage"]=os.environ.get("FROM_STAGE","")
+              if role=="source_evidence": roles[role]["expected_sha256"]=os.environ.get("SOURCE_EVIDENCE_ARTIFACT_SHA256","")
+          Path(".ddd-artifact-index.json").write_text(json.dumps(index,sort_keys=True),encoding="utf-8")
+          Path(".ddd-artifact-roles.json").write_text(json.dumps(roles,sort_keys=True),encoding="utf-8")
+          PY
+        env:
+          FROM_STAGE: ${{ needs.resolve.outputs.from_stage }}
+      - name: Construir y materializar manifiesto M06 durable
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+          TERRITORY_NAME: ${{ needs.resolve.outputs.territory_name }}
+          FROM_STAGE: ${{ needs.resolve.outputs.from_stage }}
+          TO_STAGE: ${{ needs.resolve.outputs.to_stage }}
+          CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+          EXECUTION_MODE: ${{ inputs.mode }}
+          OPTIMIZATION_ALGORITHM: ${{ inputs.optimization_algorithm }}
+          WORKFLOW_SHA: ${{ github.workflow_sha }}
+          WORKFLOW_NAME: ${{ github.workflow }}
+          GERRYCHAIN_ENTRYPOINT: ${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint }}
+          REQUIRE_UNIQUE_HASHES: ${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes }}
+        run: |
+          set -euo pipefail
+          territory_name="$TERRITORY_NAME"
+          if [[ -z "$territory_name" ]]; then
+            territory_name="$(python - "$TERRITORY_ID" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          rows=(yaml.safe_load(Path("configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}).get("territories",[])
+          print(next((r.get("name","") for r in rows if r.get("territory_id")==sys.argv[1]),""))
+          PY
+          )"
+          fi
+          [[ -n "$territory_name" ]] || { echo '::error::Nombre territorial no resuelto.'; exit 48; }
+          manifest="territorios/$TERRITORY_ID/evidencia/generaciones_m06/$GITHUB_RUN_ID.json"
+          if [[ "$FROM_STAGE" == M01 ]]; then CHECKPOINT_RUN_ID=""; fi
+          checkpoint_args=(); [[ -n "$CHECKPOINT_RUN_ID" ]] && checkpoint_args=(--checkpoint-run-id "$CHECKPOINT_RUN_ID")
+          unique_args=(); [[ "$REQUIRE_UNIQUE_HASHES" == true ]] && unique_args=(--require-unique-hashes)
+          python herramientas/manifest_generacion_territorial.py \
+            --root-dir . --state-dir .ddd-m06-state --audit-dir .ddd-m06-audit \
+            --artifact-index .ddd-artifact-index.json --artifact-roles .ddd-artifact-roles.json \
+            --territory-id "$TERRITORY_ID" --territory-name "$territory_name" \
+            --edition "$(python -c 'import os,yaml; print((yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}).get("meta",{}).get("year",""))')" \
+            --contract-path "$PARAMS" --workflow-run-id "$GITHUB_RUN_ID" \
+            --workflow-run-attempt "$GITHUB_RUN_ATTEMPT" --workflow-sha "$WORKFLOW_SHA" \
+            --checkout-sha "$GITHUB_SHA" --workflow-name "$WORKFLOW_NAME" \
+            --execution-mode "$EXECUTION_MODE" --from-stage "$FROM_STAGE" --to-stage "$TO_STAGE" \
+            "${checkpoint_args[@]}" \
+            --optimization-algorithm "$OPTIMIZATION_ALGORITHM" \
+            --gerrychain-entrypoint "$GERRYCHAIN_ENTRYPOINT" \
+            "${unique_args[@]}" \
+            --output "$manifest"
       - name: Registrar producto territorial certificado
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          FROM_STAGE: ${{ needs.resolve.outputs.from_stage }}
+          M04_RESULT: ${{ needs.m04.result }}
+          M05_RESULT: ${{ needs.m05.result }}
         run: |
           set -euo pipefail
           edition="$(python - <<'PY'
@@ -1196,31 +1313,30 @@ jobs:
           print((cfg.get("meta") or {}).get("year",""))
           PY
           )"
-          test -n "$edition" || { echo "::error::No se pudo resolver edición desde el contrato."; exit 48; }
-          suffix=''
-          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          [[ -n "$edition" ]] || { echo '::error::No se pudo resolver edición desde el contrato.'; exit 48; }
+          suffix=''; [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M06$suffix"
-          rm -rf .ddd-audit-promote && mkdir .ddd-audit-promote
-          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$GITHUB_RUN_ID$suffix" --dir .ddd-audit-promote >/dev/null
-          status="$(find .ddd-audit-promote -name production_status.json -type f -print -quit)"
-          test -n "$status" || { echo "::error::Falta production_status.json del run."; exit 48; }
+          status="$(find .ddd-m06-audit -name production_status.json -type f -print -quit)"
+          [[ -n "$status" ]] || { echo '::error::Falta production_status.json.'; exit 48; }
           decision="$(jq -r '.decision // empty' "$status")"
-          case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) echo "::error::Producto territorial no certificable: $decision"; exit 48;; esac
-          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq ".artifacts[] | select(.name==\"$artifact_name\")")"
-          test -n "$artifact" || { echo "::error::No existe $artifact_name."; exit 48; }
+          case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) echo "::error::M06 no certificable: $decision"; exit 48;; esac
+          artifact="$(gh api "repos/$GH_REPO/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq ".artifacts[] | select(.name==\"$artifact_name\")")"
           digest="$(jq -r '.digest // empty' <<<"$artifact")"
-          test -n "$digest" || { echo "::error::Artefacto sin digest: $artifact_name"; exit 48; }
-          python herramientas/promover_catalogo_operacional.py             --kind territorial_product --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest"             --source-commit "$GITHUB_SHA" --decision "$decision"
+          [[ -n "$digest" ]] || { echo "::error::Artefacto M06 sin digest: $artifact_name"; exit 48; }
+          manifest="territorios/$TERRITORY_ID/evidencia/generaciones_m06/$GITHUB_RUN_ID.json"
+          python herramientas/promover_catalogo_operacional.py \
+            --kind territorial_product --territory-id "$TERRITORY_ID" --edition "$edition" \
+            --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest" \
+            --source-commit "$GITHUB_SHA" --decision "$decision" --producer-manifest-path "$manifest"
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml             "territorios/$TERRITORY_ID/evidencia/catalogo/territorial_product_$edition.json"
+          git config user.name github-actions; git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml \
+            "territorios/$TERRITORY_ID/evidencia/catalogo/territorial_product_$edition.json" "$manifest"
           git diff --cached --quiet && exit 0
           git commit -m "chore: registrar producto territorial de $TERRITORY_ID"
           target_branch="$GITHUB_REF_NAME"
           for attempt in 1 2 3; do
             git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
-            git rebase --abort >/dev/null 2>&1 || true
-            sleep $((attempt * 2))
+            git rebase --abort >/dev/null 2>&1 || true; sleep $((attempt * 2))
           done
-          echo "::error::No se pudo registrar el producto territorial tras tres intentos."; exit 48
+          echo '::error::No se pudo registrar el producto territorial tras tres intentos.'; exit 48
