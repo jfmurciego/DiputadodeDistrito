@@ -1,7 +1,7 @@
-"""Version: 1.1.2; name: F10 derived doors regressions; date: 2026-10-26.
+"""Version: 1.1.3; name: F10 derived doors regressions; date: 2026-10-26.
 Scope: deterministic failure-closed validation of F10 receipts and task cards.
-Status: candidate. Change/reason: pin status checks to historical dossier conflicts.
-Previous: legacy/tests/test_f10_derived_doors_v1.1.1_20261013.py.
+Status: candidate. Change/reason: reconcile expected counts after canonical territorial receipt references were repaired.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.2_20261026.py.
 """
 from __future__ import annotations
 
@@ -36,13 +36,13 @@ class F10DerivedDoorsTests(unittest.TestCase):
         cls.projection = derive_f10(ROOT, activity_authorizations=AUTHORIZATIONS)
 
     def test_real_receipts_rederive_four_independent_counts(self):
-        self.assertEqual({"BLOCKED": 14, "CLOSED": 5}, self.projection["counts"]["territorial_acquisition"])
+        self.assertEqual({"CLOSED": 19}, self.projection["counts"]["territorial_acquisition"])
         self.assertEqual({"PASS": 18, "BLOCKED": 1}, self.projection["counts"]["territorial_admissibility"])
         self.assertEqual({"ADMISSIBLE": 15, "BLOCKED": 4}, self.projection["counts"]["electoral_admissibility"])
-        self.assertEqual({"BLOCKED": 19}, self.projection["counts"]["joint_admissibility"])
+        self.assertEqual({"BLOCKED": 5, "PASS": 14}, self.projection["counts"]["joint_admissibility"])
         self.assertEqual({"NOT_AUTHORIZED_BY_F10": 19}, self.projection["counts"]["production"])
         self.assertEqual("PENDING", self.projection["f10_global"])
-        self.assertIn("adquisición territorial CLOSED 5/19", self.projection["f10_global_reason"])
+        self.assertIn("adquisición territorial CLOSED 19/19", self.projection["f10_global_reason"])
         self.assertIn("admisibilidad electoral ADMISSIBLE 15/19", self.projection["f10_global_reason"])
         self.assertEqual([], self.projection["catalog_validation_errors"])
 
@@ -65,11 +65,11 @@ class F10DerivedDoorsTests(unittest.TestCase):
             "D": SNAPSHOTS["A"] + SNAPSHOTS["B_add"] + SNAPSHOTS["C_add"] + SNAPSHOTS["D_add"],
         }
         replay = replay_snapshots(self.projection["territories"], stages, AUTHORIZATIONS, PLAN_OVERLAY["activities"])
-        self.assertEqual({"BLOCKED": 19}, replay["A"]["counts"]["territorial_acquisition"])
-        self.assertEqual({"BLOCKED": 18, "CLOSED": 1}, replay["B"]["counts"]["territorial_acquisition"])
-        self.assertEqual({"BLOCKED": 15, "CLOSED": 4}, replay["C"]["counts"]["territorial_acquisition"])
+        self.assertEqual({"BLOCKED": 5, "CLOSED": 14}, replay["A"]["counts"]["territorial_acquisition"])
+        self.assertEqual({"BLOCKED": 4, "CLOSED": 15}, replay["B"]["counts"]["territorial_acquisition"])
+        self.assertEqual({"BLOCKED": 1, "CLOSED": 18}, replay["C"]["counts"]["territorial_acquisition"])
         self.assertEqual(replay["C"]["counts"], replay["D"]["counts"])
-        self.assertEqual({"BLOCKED": 19}, replay["D"]["counts"]["joint_admissibility"])
+        self.assertEqual({"BLOCKED": 5, "PASS": 14}, replay["D"]["counts"]["joint_admissibility"])
         ready_a = {x["territory_id"] for x in replay["A"]["work_items"] if x["state"] == "READY_LOCAL"}
         ready_b = {x["territory_id"] for x in replay["B"]["work_items"] if x["state"] == "READY_LOCAL"}
         ready_c = {x["territory_id"] for x in replay["C"]["work_items"] if x["state"] == "READY_LOCAL"}
