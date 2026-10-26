@@ -147,6 +147,8 @@ class DurableM06ManifestTests(unittest.TestCase):
         self.assertNotIn('--checkout-sha "$GITHUB_SHA"', workflow)
         self.assertIn('resolve_checkpoint_source_package(', workflow)
         self.assertIn('CHECKPOINT_SOURCE_UNPROVEN', workflow)
+        self.assertIn('source_ref inmutable', workflow)
+        self.assertIn('"$checkout_sha" == "$expected_checkout"', workflow)
 
     def test_promotion_links_the_exact_verified_manifest(self):
         payload = self.build()
