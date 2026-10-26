@@ -104,6 +104,50 @@ class DurableM06ManifestTests(unittest.TestCase):
         self.assertTrue(write_idempotent(path, payload))
         self.assertFalse(write_idempotent(path, payload))
 
+    def test_checkpoint_source_is_recovered_only_with_matching_durable_package(self):
+        from herramientas.manifest_generacion_territorial import resolve_checkpoint_source_package
+
+        source = self.source()
+        package_sha = "e" * 64
+        (self.state / "sources/manifest.json").write_text(
+            json.dumps({"territory_id": "demo", "edition": "2025", "sha256": package_sha}),
+            encoding="utf-8",
+        )
+        catalog = self.root / "configuracion/catalogo_preparacion.yaml"
+        catalog.parent.mkdir(parents=True, exist_ok=True)
+        catalog.write_text(yaml.safe_dump({"territories": [
+            {"territory_id": "demo", "editions": {"2025": {
+                "preparation_evidence": {**source, "package_sha256": package_sha},
+            }}},
+        ]}), encoding="utf-8")
+        args = {"root_dir": self.root, "state_dir": self.state,
+                "territory_id": "demo", "edition": "2025"}
+        recovered = resolve_checkpoint_source_package(**args)
+        self.assertEqual(recovered, {
+            "run_id": 90,
+            "artifact_name": source["artifact_name"],
+            "artifact_sha256": source["artifact_sha256"],
+        })
+
+        # El nombre del checkpoint no acredita el contenido; nunca reutilizar
+        # por semejanza de nombre ni forzar una referencia del catálogo.
+        (self.state / "sources/manifest.json").write_text(
+            json.dumps({"territory_id": "demo", "edition": "2025", "sha256": "f" * 64}),
+            encoding="utf-8",
+        )
+        with self.assertRaisesRegex(GenerationManifestError, "CHECKPOINT_SOURCE_UNPROVEN"):
+            resolve_checkpoint_source_package(**args)
+
+    def test_workflow_records_real_checkout_sha_and_requires_source_lineage(self):
+        root = Path(__file__).resolve().parents[1]
+        workflow = (root / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        self.assertIn('checkout_sha="$(git rev-parse HEAD)"', workflow)
+        self.assertIn('--checkout-sha "$checkout_sha"', workflow)
+        self.assertIn('--source-commit "$checkout_sha"', workflow)
+        self.assertNotIn('--checkout-sha "$GITHUB_SHA"', workflow)
+        self.assertIn('resolve_checkpoint_source_package(', workflow)
+        self.assertIn('CHECKPOINT_SOURCE_UNPROVEN', workflow)
+
     def test_promotion_links_the_exact_verified_manifest(self):
         payload = self.build()
         manifest_path = self.root / "territorios/demo/evidencia/generaciones_m06/100.json"
