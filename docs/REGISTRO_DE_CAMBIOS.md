@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.11
+Versión: 1.0.12
 Fecha: 2026-10-26
-Alcance: manifiesto durable de productos M06 emitidos por workflow 02
+Alcance: manifiesto durable M06 y verificación de fuente para workflow 02
 Estado: candidato
-Cambios/motivo: enlazar la certificación M06 con su run, entradas, artefactos y contrato; aislar M08 incompatible
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.10_20261026.md
+Cambios/motivo: contrastar el paquete de fuente M06 independiente con inputs del run y conservar la separación M06/M08
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.11_20261026.md
 -->
+
+## 2026-10-26 — M06 — contrastar la fuente del manifiesto 02
+
+El resolver contrasta la referencia de `source_package_artifact` del manifiesto
+M06 standalone con el run, nombre y SHA-256 de la fuente territorial durable.
+Los manifiestos 00 conservan su validación por fase `01 ·`; los de 02 validan
+sus `inputs` y bloquean si falta o difiere el paquete. Se añade cobertura para
+fuente coincidente y paquete cruzado con `territorial_sources_prepared=true`.
 
 ## 2026-10-26 — M06 — manifiesto durable para workflow 02
 

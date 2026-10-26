@@ -1,14 +1,14 @@
 """Resolver de activos durables M06/M08.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Resolver de manifiestos M06 00/02
+VERSIÓN: 1.1.1
+NOMBRE DE VERSIÓN: Contrastar fuentes del manifiesto M06 02
 FECHA: 2026-10-26
 ESTADO: candidato
 QUÉ HACE: valida activos territoriales/electorales y sus manifiestos de productor.
-CAMBIOS: consume manifiestos M06 independientes de 02 con integridad y contrato ligados.
-MOTIVO: permitir reutilizar M06 de 02 sin fingir que 00 emitió el manifiesto.
-ANTERIOR: legacy/herramientas/resolver_activos_durables_pre_m06_manifest_20261026.py
+CAMBIOS: compara la fuente M06 standalone con el artefacto territorial declarado en sus inputs.
+MOTIVO: evitar buscar fases 00 inexistentes y bloquear fuentes cruzadas.
+ANTERIOR: legacy/herramientas/resolver_activos_durables_pre_source_m06_inputs_20261026.py
 """
 from __future__ import annotations
 
@@ -428,31 +428,48 @@ def validate_durable_assets(
                 territorial_product["producer_lineage_scope"] = "M06_ONLY"
 
         if source and manifest is not None:
-            source_phase = _phase(manifest, "01 ·")
-            phase_artifact = str(source_phase.get("artifact") or "")
-            phase_digest = str(source_phase.get("artifact_digest") or "").removeprefix("sha256:").lower()
-            if (
-                phase_artifact != str(source["artifact_name"])
-                or phase_digest != str(source["artifact_sha256"])
-            ):
-                _block(
-                    "DURABLE_LINEAGE_INCOMPATIBLE",
-                    "territorial_source→territorial_product: artefacto o SHA contradice el manifiesto productor",
+            if manifest.get("schema") == _M06_SCHEMA:
+                source_ref = (manifest.get("inputs") or {}).get("source_package_artifact") or {}
+                try:
+                    source_ref_run = _run_id(source_ref.get("run_id"), label="m06_manifest.inputs.source_package")
+                    source_ref_digest = _digest(source_ref.get("artifact_sha256"), label="m06_manifest.inputs.source_package")
+                except DurableAssetBlock as exc:
+                    _block("DURABLE_LINEAGE_UNPROVEN", f"run {territorial_product['run_id']}: {exc}")
+                if (
+                    source_ref_run != int(source["run_id"])
+                    or str(source_ref.get("artifact_name") or "") != str(source["artifact_name"])
+                    or source_ref_digest != str(source["artifact_sha256"])
+                ):
+                    _block(
+                        "DURABLE_LINEAGE_INCOMPATIBLE",
+                        "territorial_source→territorial_product: artefacto, SHA o run contradice las entradas M06",
+                    )
+            else:
+                source_phase = _phase(manifest, "01 ·")
+                phase_artifact = str(source_phase.get("artifact") or "")
+                phase_digest = str(source_phase.get("artifact_digest") or "").removeprefix("sha256:").lower()
+                if (
+                    phase_artifact != str(source["artifact_name"])
+                    or phase_digest != str(source["artifact_sha256"])
+                ):
+                    _block(
+                        "DURABLE_LINEAGE_INCOMPATIBLE",
+                        "territorial_source→territorial_product: artefacto o SHA contradice el manifiesto productor",
+                    )
+                if str(source_phase.get("validation_decision") or "") != "VALIDADO":
+                    _block(
+                        "DURABLE_LINEAGE_INCOMPATIBLE",
+                        "territorial_source→territorial_product: la fuente del manifiesto no quedó validada",
+                    )
+                phase_run = _run_id(source_phase.get("run_id"), label="territorial_source→territorial_product")
+                if int(source["run_id"]) != phase_run:
+                    source["catalog_run_id"] = source["run_id"]
+                    source["run_id"] = phase_run
+                _same_phase_asset(
+                    source_phase,
+                    source,
+                    label="territorial_source→territorial_product",
                 )
-            if str(source_phase.get("validation_decision") or "") != "VALIDADO":
-                _block(
-                    "DURABLE_LINEAGE_INCOMPATIBLE",
-                    "territorial_source→territorial_product: la fuente del manifiesto no quedó validada",
-                )
-            phase_run = _run_id(source_phase.get("run_id"), label="territorial_source→territorial_product")
-            if int(source["run_id"]) != phase_run:
-                source["catalog_run_id"] = source["run_id"]
-                source["run_id"] = phase_run
-            _same_phase_asset(
-                source_phase,
-                source,
-                label="territorial_source→territorial_product",
-            )
 
     electoral_source = None
     if state.get("electoral_source_prepared"):

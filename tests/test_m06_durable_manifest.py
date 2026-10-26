@@ -1,4 +1,6 @@
-"""Version: 1.0.0; candidate durable M06 manifest, verification, and M08 isolation."""
+"""Version: 1.0.1; candidate durable M06 manifest, source lineage, and M08 isolation.
+Previous: legacy/tests/m06-durable-manifest_20261026/test_m06_durable_manifest_pre_source_inputs.py.
+"""
 from __future__ import annotations
 
 import hashlib
@@ -52,6 +54,7 @@ class DurableM06ManifestTests(unittest.TestCase):
             (100, 1002, "ddd-state-100-M05"),
             (100, 1003, "ddd-audit-100"),
             (100, 1004, "ddd-state-100-M04"),
+            (90, 1090, "ddd-source-package-demo-2025-90"),
         ):
             entries.append({"workflow_run_id": run_id, "id": artifact_id, "name": name,
                             "digest": "sha256:" + hashlib.sha256(name.encode()).hexdigest(),
@@ -62,6 +65,7 @@ class DurableM06ManifestTests(unittest.TestCase):
             "m05": {"run_id": 100, "name": "ddd-state-100-M05"},
             "m06": {"run_id": 100, "name": "ddd-state-100-M06"},
             "audit": {"run_id": 100, "name": "ddd-audit-100"},
+            "source_package": {"run_id": 90, "name": "ddd-source-package-demo-2025-90"},
         })
 
     def tearDown(self):
@@ -86,6 +90,11 @@ class DurableM06ManifestTests(unittest.TestCase):
                 "territory_id": "demo", "edition": "2025", "run_id": 100,
                 "artifact_name": ref["artifact_name"], "artifact_sha256": ref["artifact_sha256"],
                 "decision": "PASS", "stage": "M06", "producer_manifest_path": "territorios/demo/evidencia/generaciones_m06/100.json"}
+
+    def source(self):
+        return {"run_id": 90, "artifact_name": "ddd-source-package-demo-2025-90",
+                "artifact_sha256": hashlib.sha256(b"ddd-source-package-demo-2025-90").hexdigest(),
+                "package_sha256": "e" * 64}
 
     def test_valid_02_manifest_and_recovery_are_idempotent(self):
         payload = self.build()
@@ -192,6 +201,9 @@ class DurableM06ManifestTests(unittest.TestCase):
                    "phase_decision": "PASS"}
         m08 = {"schema": "ddd.full-run-manifest/2.1", "territory_id": "demo", "edition": "2025",
                "workflow_run_id": 200, "phases": [
+                   {"name": "01 · Fuente", "run_id": 90, "artifact": "ddd-source-package-demo-2025-90",
+                    "artifact_digest": self.source()["artifact_sha256"], "executed": False,
+                    "result": "skipped", "validation_decision": "VALIDADO"},
                    {"name": "02 · M06", **old_m06},
                    {"name": "04 · M08", "run_id": 200, "artifact": "ddd-state-200-M08",
                     "artifact_digest": "c" * 64, "executed": True, "result": "success",
@@ -203,13 +215,33 @@ class DurableM06ManifestTests(unittest.TestCase):
             state={"contract_path": "contratos/demo.yaml", "evidence": {
                 "territorial_product": m06_receipt_path.relative_to(self.root).as_posix(),
                 "electoral_product": m08_receipt_path.relative_to(self.root).as_posix()},
+                "territorial_sources_prepared": True, "preparation_evidence": self.source(),
                 "territorial_product_available": True, "territorial_certification": "PASS",
                 "electoral_product_available": True},
-            territory_id="demo", edition="2025", territorial_source=None, expected_election_id=None,
+            territory_id="demo", edition="2025", territorial_source=self.source(), expected_election_id=None,
         )
         self.assertIsNotNone(result["territorial_product"])
         self.assertIsNone(result["electoral_product"])
         self.assertFalse(result["rejected_electoral_product"]["reusable"])
+
+    def test_standalone_m06_rejects_source_package_from_another_run(self):
+        payload = self.build()
+        manifest_path = self.root / "territorios/demo/evidencia/generaciones_m06/100.json"
+        write_idempotent(manifest_path, payload)
+        receipt_path = self.root / "territorios/demo/evidencia/catalogo/territorial_product_2025.json"
+        write_json(receipt_path, self.receipt(payload))
+        common = {"contract_path": "contratos/demo.yaml", "evidence": {
+            "territorial_product": receipt_path.relative_to(self.root).as_posix()},
+            "territorial_sources_prepared": True, "territorial_product_available": True,
+            "territorial_certification": "PASS"}
+        validate_durable_assets(root_dir=self.root, state=common, territory_id="demo", edition="2025",
+                                territorial_source=self.source(), expected_election_id=None)
+        payload["inputs"]["source_package_artifact"]["run_id"] = 91
+        payload["manifest_sha256"] = manifest_sha256(payload)
+        write_json(manifest_path, payload)
+        with self.assertRaisesRegex(DurableAssetBlock, "contradice las entradas M06"):
+            validate_durable_assets(root_dir=self.root, state=common, territory_id="demo", edition="2025",
+                                    territorial_source=self.source(), expected_election_id=None)
 
 
 if __name__ == "__main__":
