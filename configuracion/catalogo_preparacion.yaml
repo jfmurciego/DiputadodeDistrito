@@ -123,7 +123,7 @@ territories:
         source_commit: a790fa18a8dd320ac75f90301cc3fdfc738055d3
       evidence:
         territorial_product: territorios/principado_de_asturias/evidencia/catalogo/territorial_product_2025.json
-        electoral_source: territorios/principado_de_asturias/evidencia/catalogo/electoral_source_2025.json
+        electoral_source: territorios/principado_de_asturias/evidencia/fuentes_electorales/2025/29fb6a23b9c2e9fa3f3c393c34b90c868983302ea5d8767f7be5d472fbd6536c/40389705458/receipt.json
         electoral_product: territorios/principado_de_asturias/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/principado_de_asturias/evidencia/pares_fuentes/2025/dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22.json
         generation_preflight: territorios/principado_de_asturias/evidencia/catalogo/generation_preflight_2025.json
@@ -477,7 +477,7 @@ territories:
         section_year: 2024
         source_commit: 71dcfc669fea425909411e3bc7eac52316144502
       evidence:
-        electoral_source: territorios/galicia/evidencia/catalogo/electoral_source_2025.json
+        electoral_source: territorios/galicia/evidencia/fuentes_electorales/2025/af07c8d3bce5a45f63afd1c5d5eca0423a7713f71b4fbbb6c812f2509f51f230/40389705458/receipt.json
         territorial_product: territorios/galicia/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/galicia/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/galicia/evidencia/pares_fuentes/2025/6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff.json
