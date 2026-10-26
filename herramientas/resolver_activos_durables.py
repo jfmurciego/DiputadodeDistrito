@@ -487,35 +487,45 @@ def validate_durable_assets(
     electoral_product = None
     rejected_electoral_product = None
     if state.get("electoral_product_available"):
-        try:
-            electoral_product = _receipt(
-                root,
-                evidence.get("electoral_product"),
-                kind="electoral_product",
-                territory_id=territory_id,
-                edition=edition,
-                stage="M08",
-            )
-            manifest = _manifest(
-                root, territory_id, edition, electoral_product["run_id"],
-                receipt=electoral_product, contract_path=state.get("contract_path"),
-            )
-            _producer_phase_asset(
-                _phase(manifest, "04 ·"),
-                electoral_product,
-                label="electoral_product",
-            )
-            if territorial_product:
-                _same_phase_asset(_phase(manifest, "02 ·"), territorial_product, label="territorial_product→electoral_product")
-            if electoral_source:
-                _same_phase_asset(_phase(manifest, "03 ·"), electoral_source, label="electoral_source→electoral_product")
-        except DurableAssetBlock as exc:
-            rejected_electoral_product = {
-                "asset": electoral_product,
-                "reason": str(exc),
-                "reusable": False,
-            }
-            electoral_product = None
+        # El M08 debe ser auténtico y válido ANTES de evaluar si pertenece al
+        # M06 territorial vigente. Sólo esa discrepancia permite descartarlo
+        # para una reincorporación nueva; cualquier otro defecto bloquea.
+        electoral_product = _receipt(
+            root,
+            evidence.get("electoral_product"),
+            kind="electoral_product",
+            territory_id=territory_id,
+            edition=edition,
+            stage="M08",
+        )
+        manifest = _manifest(
+            root, territory_id, edition, electoral_product["run_id"],
+            receipt=electoral_product, contract_path=state.get("contract_path"),
+        )
+        _producer_phase_asset(
+            _phase(manifest, "04 ·"),
+            electoral_product,
+            label="electoral_product",
+        )
+        if electoral_source:
+            _same_phase_asset(_phase(manifest, "03 ·"), electoral_source, label="electoral_source→electoral_product")
+        if territorial_product:
+            try:
+                _same_phase_asset(
+                    _phase(manifest, "02 ·"), territorial_product,
+                    label="territorial_product→electoral_product",
+                )
+            except DurableAssetBlock as exc:
+                if not str(exc).startswith(
+                    "DURABLE_LINEAGE_INCOMPATIBLE: territorial_product→electoral_product:"
+                ):
+                    raise
+                rejected_electoral_product = {
+                    "asset": electoral_product,
+                    "reason": str(exc),
+                    "reusable": False,
+                }
+                electoral_product = None
 
     return {
         "territorial_source": source,
