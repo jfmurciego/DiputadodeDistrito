@@ -89,7 +89,9 @@ class DurableM06ManifestTests(unittest.TestCase):
         return {"schema": "ddd.catalog-evidence/1.0", "kind": "territorial_product",
                 "territory_id": "demo", "edition": "2025", "run_id": 100,
                 "artifact_name": ref["artifact_name"], "artifact_sha256": ref["artifact_sha256"],
-                "decision": "PASS", "stage": "M06", "producer_manifest_path": "territorios/demo/evidencia/generaciones_m06/100.json"}
+                "decision": "PASS", "stage": "M06",
+                "source_commit": payload["identity"]["checkout_sha"],
+                "producer_manifest_path": "territorios/demo/evidencia/generaciones_m06/100.json"}
 
     def source(self):
         return {"run_id": 90, "artifact_name": "ddd-source-package-demo-2025-90",
@@ -164,6 +166,40 @@ class DurableM06ManifestTests(unittest.TestCase):
                 decision="PASS", producer_manifest_path="territorios/demo/evidencia/generaciones_m06/100.json")
         receipt = json.loads((self.root / "territorios/demo/evidencia/catalogo/territorial_product_2025.json").read_text())
         self.assertEqual(receipt["producer_manifest_path"], "territorios/demo/evidencia/generaciones_m06/100.json")
+
+    def test_valid_receipt_source_commit_matches_checkout(self):
+        from herramientas.resolver_activos_durables import _validate_m06_manifest
+        payload = self.build()
+        result = _validate_m06_manifest(
+            root=self.root, payload=payload, territory_id="demo", edition="2025",
+            run_id=100, receipt=self.receipt(payload), contract_path="contratos/demo.yaml",
+        )
+        self.assertEqual(
+            self.receipt(payload)["source_commit"], result["identity"]["checkout_sha"]
+        )
+
+    def test_receipt_without_source_commit_is_rejected(self):
+        from herramientas.resolver_activos_durables import _validate_m06_manifest
+        payload = self.build()
+        receipt = self.receipt(payload)
+        receipt.pop("source_commit")
+        with self.assertRaisesRegex(DurableAssetBlock, "DURABLE_LINEAGE_UNPROVEN.*source_commit"):
+            _validate_m06_manifest(
+                root=self.root, payload=payload, territory_id="demo", edition="2025",
+                run_id=100, receipt=receipt, contract_path="contratos/demo.yaml",
+            )
+
+    def test_receipt_with_different_valid_source_commit_is_rejected(self):
+        from herramientas.resolver_activos_durables import _validate_m06_manifest
+        payload = self.build()
+        receipt = self.receipt(payload)
+        receipt["source_commit"] = "c" * 40
+        self.assertNotEqual(receipt["source_commit"], payload["identity"]["checkout_sha"])
+        with self.assertRaisesRegex(DurableAssetBlock, "DURABLE_LINEAGE_INCOMPATIBLE.*checkout_sha"):
+            _validate_m06_manifest(
+                root=self.root, payload=payload, territory_id="demo", edition="2025",
+                run_id=100, receipt=receipt, contract_path="contratos/demo.yaml",
+            )
 
     def test_changed_artifact_receipt_is_rejected(self):
         from herramientas.resolver_activos_durables import _validate_m06_manifest
