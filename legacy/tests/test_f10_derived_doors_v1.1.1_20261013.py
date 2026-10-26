@@ -1,7 +1,7 @@
-"""Version: 1.1.2; name: F10 derived doors regressions; date: 2026-10-26.
-Scope: deterministic failure-closed validation of F10 receipts and task cards.
-Status: candidate. Change/reason: pin status checks to historical dossier conflicts.
-Previous: legacy/tests/test_f10_derived_doors_v1.1.1_20261013.py.
+"""Version: 1.1.1; name: F10 derived doors regressions; date: 2026-10-13.
+Scope: deterministic failure-closed validation of executable local task cards.
+Status: candidate. Change/reason: reject cards with incomplete coverage or stale gates.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.0_20261013.py.
 """
 from __future__ import annotations
 
@@ -36,13 +36,13 @@ class F10DerivedDoorsTests(unittest.TestCase):
         cls.projection = derive_f10(ROOT, activity_authorizations=AUTHORIZATIONS)
 
     def test_real_receipts_rederive_four_independent_counts(self):
-        self.assertEqual({"BLOCKED": 14, "CLOSED": 5}, self.projection["counts"]["territorial_acquisition"])
+        self.assertEqual({"CLOSED": 19}, self.projection["counts"]["territorial_acquisition"])
         self.assertEqual({"PASS": 18, "BLOCKED": 1}, self.projection["counts"]["territorial_admissibility"])
         self.assertEqual({"ADMISSIBLE": 15, "BLOCKED": 4}, self.projection["counts"]["electoral_admissibility"])
-        self.assertEqual({"BLOCKED": 19}, self.projection["counts"]["joint_admissibility"])
+        self.assertEqual({"PASS": 14, "BLOCKED": 5}, self.projection["counts"]["joint_admissibility"])
         self.assertEqual({"NOT_AUTHORIZED_BY_F10": 19}, self.projection["counts"]["production"])
         self.assertEqual("PENDING", self.projection["f10_global"])
-        self.assertIn("adquisición territorial CLOSED 5/19", self.projection["f10_global_reason"])
+        self.assertIn("adquisición territorial CLOSED 19/19", self.projection["f10_global_reason"])
         self.assertIn("admisibilidad electoral ADMISSIBLE 15/19", self.projection["f10_global_reason"])
         self.assertEqual([], self.projection["catalog_validation_errors"])
 
@@ -51,11 +51,9 @@ class F10DerivedDoorsTests(unittest.TestCase):
         for territory_id, run_id in (("andalucia", 38082966768), ("aragon", 38093067883),
                                      ("castilla_y_leon", 38091055890), ("extremadura", 38091144559)):
             with self.subTest(territory=territory_id):
-                self.assertEqual("BLOCKED", rows[territory_id]["territorial_acquisition"])
-                self.assertIn("matriz de seguimiento contradice receipt_path", rows[territory_id]["territorial_reason"])
+                self.assertEqual("CLOSED", rows[territory_id]["territorial_acquisition"])
                 self.assertEqual(run_id, rows[territory_id]["territorial_run_id"])
-        self.assertEqual("BLOCKED", rows["comunidad_valenciana"]["territorial_acquisition"])
-        self.assertIn("matriz de seguimiento contradice receipt_path", rows["comunidad_valenciana"]["territorial_reason"])
+        self.assertEqual("CLOSED", rows["comunidad_valenciana"]["territorial_acquisition"])
         self.assertEqual(39315133646, rows["comunidad_valenciana"]["territorial_run_id"])
         self.assertEqual("BLOCKED", rows["comunidad_valenciana"]["territorial_admissibility"])
 
@@ -67,20 +65,20 @@ class F10DerivedDoorsTests(unittest.TestCase):
             "D": SNAPSHOTS["A"] + SNAPSHOTS["B_add"] + SNAPSHOTS["C_add"] + SNAPSHOTS["D_add"],
         }
         replay = replay_snapshots(self.projection["territories"], stages, AUTHORIZATIONS, PLAN_OVERLAY["activities"])
-        self.assertEqual({"BLOCKED": 19}, replay["A"]["counts"]["territorial_acquisition"])
-        self.assertEqual({"BLOCKED": 18, "CLOSED": 1}, replay["B"]["counts"]["territorial_acquisition"])
-        self.assertEqual({"BLOCKED": 15, "CLOSED": 4}, replay["C"]["counts"]["territorial_acquisition"])
+        self.assertEqual({"BLOCKED": 5, "CLOSED": 14}, replay["A"]["counts"]["territorial_acquisition"])
+        self.assertEqual({"BLOCKED": 4, "CLOSED": 15}, replay["B"]["counts"]["territorial_acquisition"])
+        self.assertEqual({"BLOCKED": 1, "CLOSED": 18}, replay["C"]["counts"]["territorial_acquisition"])
         self.assertEqual(replay["C"]["counts"], replay["D"]["counts"])
-        self.assertEqual({"BLOCKED": 19}, replay["D"]["counts"]["joint_admissibility"])
+        self.assertEqual({"PASS": 14, "BLOCKED": 5}, replay["D"]["counts"]["joint_admissibility"])
         ready_a = {x["territory_id"] for x in replay["A"]["work_items"] if x["state"] == "READY_LOCAL"}
         ready_b = {x["territory_id"] for x in replay["B"]["work_items"] if x["state"] == "READY_LOCAL"}
         ready_c = {x["territory_id"] for x in replay["C"]["work_items"] if x["state"] == "READY_LOCAL"}
-        self.assertEqual(set(), ready_a)
+        self.assertNotIn("extremadura", ready_a)
         self.assertIn("extremadura", ready_b)
         self.assertTrue({"andalucia", "aragon", "castilla_y_leon"} <= ready_c)
         cv = next(x for x in replay["C"]["work_items"] if x["territory_id"] == "comunidad_valenciana")
         self.assertFalse(cv["selectable"])
-        self.assertEqual("BLOCKED", next(x for x in self.projection["territories"] if x["territory_id"] == "comunidad_valenciana")["territorial_acquisition"])
+        self.assertEqual("CLOSED", next(x for x in self.projection["territories"] if x["territory_id"] == "comunidad_valenciana")["territorial_acquisition"])
 
     def test_valencia_2023_receipt_is_temporally_selected_and_not_promoted(self):
         from herramientas.consumir_par_fuentes_legislatura import validate_territorial_receipt
