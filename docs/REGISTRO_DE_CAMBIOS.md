@@ -23,6 +23,11 @@ sigue bloqueando correctamente el plan durable. Se archivan las versiones
 previas de los tests y de este registro. No se cambian recibos, catálogo,
 contratos ni productos.
 
+La regresión M08 de Castilla-La Mancha distingue el M06 territorial_only del
+run 40241650464 del par histórico M06/M08 del run 37444564173; la reutilización
+cruzada permanece bloqueada. Ceuta conserva su preflight M03U vigente y planifica
+M04–M06 sin repetir la preparación de la fuente.
+
 ## 2026-10-19 — Cataluña — acreditación municipal pre-M04 ligada a fuente
 
 La puerta pre-M04 admite discontinuidades municipales solo cuando los componentes
