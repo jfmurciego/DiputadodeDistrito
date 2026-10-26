@@ -78,7 +78,7 @@
   },
   "baseline_head": "5f9aa3e9037ab9cdd791f10082b7e62c48783998",
   "code_provenance": {
-    ".github/workflows/congreso-piloto-leon.yml": "e9655a9e2f5928acbe47b320fe8f191f99174c1746ca4b857298c52b29cee4d6",
+    ".github/workflows/congreso-piloto-leon.yml": "78155dc56f41796ce4d403405052df02daf537e3d7388e6fca2d76cf6d1b60c0",
     "herramientas/auditar_contiguedad_piloto_congreso.py": "66a90ab9de829f026262e424ad0ce720ba86364945a5f0d04bc15a04f841a0c1",
     "tests/test_congreso_physical_audit.py": "eca4643f27f926f616be24e3964b31d4b9cff371f3959488a8e25177f3bff46c",
     "tests/test_congreso_piloto_leon.py": "26d0a63056c3ee2d19e5c0fd4bf8f317d504cf12edfacd34eaa6ccbdf158e43a",
@@ -87,9 +87,9 @@
   "date": "2026-10-26",
   "documentation": {
     "path": "AUDITORIA_GEOMETRICA_20261026.md",
-    "sha256": "e1390acce83addb177bdf51aef92d5b682b0bd92b179bf229b80f6416469a7a0",
+    "sha256": "8806036cbbd4344933261b5a679fd95a0ba36460c79e2ffa93507a308e5db257",
     "reproducibility_path": "REPRODUCIBILITY_GEOMETRIA_20261026.json",
-    "reproducibility_sha256": "d7953d141b991045f60ab92e45c1d74c938f5a07611faff4a1efd0761fa4d661"
+    "reproducibility_sha256": "697594a16ca8d1c8da1c14af545078cc7c848bd8d08d40eb621bb65a462a558a"
   },
   "evidence": {
     "contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
@@ -123,6 +123,6 @@
     "local_runtime": "see runtime field; differs from workflow lock versions",
     "new_part_identity_regressions": "2/2 PASS",
     "originally_omitted_geometry_tests": "4/4 PASS",
-    "workflow_name_regression": "UPDATED_EXPECTED_NAME; local run blocked by sparse checkout; remote rerun required"
+    "workflow_name_regression": "EXPECTED_NAME_UPDATED; workflow concurrency queue=max added; awaiting remote rerun"
   }
 }

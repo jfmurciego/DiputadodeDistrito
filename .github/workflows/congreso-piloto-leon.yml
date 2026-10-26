@@ -41,6 +41,7 @@ permissions:
 concurrency:
   group: ddd-congreso-piloto-analitico
   cancel-in-progress: false
+  queue: max
 
 jobs:
   reproducir-y-auditar:

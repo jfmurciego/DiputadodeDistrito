@@ -16,6 +16,8 @@ La auditoría encontró un defecto en su propio control de cardinalidad: interpr
 
 `REPRODUCIBILITY.json` es la instantánea histórica de la primera ejecución en el entorno macOS aislado; sus cuatro `SKIP` reflejan que Shapely no estaba instalado en ese entorno en ese momento. Después, las cuatro pruebas geométricas originales se ejecutaron con el runtime Miniforge indicado arriba y pasaron (4/4); las dos regresiones nuevas también pasaron. El detalle y la distinción de entornos constan en `REPRODUCIBILITY_GEOMETRIA_20261026.json`. La validación de la versión exacta fijada por el workflow corresponde a la CI remota del HEAD publicado.
 
+La CI posterior detectó que el grupo de concurrencia del workflow no declaraba `queue: max`, aunque no cancela ejecuciones activas. Se añadió esa política para que ejecuciones analíticas pendientes se encolen en vez de ser reemplazadas. La corrección queda pendiente de confirmar por CI en el HEAD siguiente. La suite general también mostró fallos de fixtures/run IDs de Castilla-La Mancha y Ceuta; no pertenecen a este diff y no se alteraron.
+
 Runtime local disponible: Python 3.13.12, GeoPandas 1.1.2, Shapely 2.1.2, GEOS 3.14.1, NumPy 2.4.2, pandas 3.0.0, pyogrio 0.12.1/GDAL 3.12.2, pyproj 3.7.2/PROJ 9.7.1. Las cuatro pruebas geométricas omitidas, las dos regresiones nuevas y las suites focales se ejecutaron con este entorno. El workflow conserva su runtime reproducible fijado por lock; la CI del nuevo HEAD debe confirmarlo allí.
 
 ## Resultados

@@ -21,8 +21,18 @@
     "run_id": 40338007607,
     "head": "32d4b3e29de6dde29abfa238d52714728d1807b2",
     "failure": "tests.test_design_a_matriz_sintetica.MandatorySyntheticDesignATests.test_visible_workflows expected the old workflow display name.",
-    "correction": "Update only the expected display name to '06 Congreso — Preflight analítico León y Cáceres'; the workflow path and dispatch checks remain unchanged.",
-    "local_test": "NOT_RUN: sparse worktree lacks the remaining current workflow blobs; GitHub DNS prevented retrieval from the local partial clone."
+    "correction": "Updated the matrix test's expected workflow display name and declared queue: max in the analytical workflow concurrency group. Both changes directly address failures from remote run 40338770849 / P0 run 40338770650.",
+    "local_test": "NOT_RUN: sparse worktree lacks the remaining current workflow blobs; GitHub DNS prevented retrieval from the local partial clone.",
+    "additional_remote_failures": {
+      "platform_run_id": 40338770346,
+      "failures": [
+        "CLM regression expected stale run ID 37444564173 but found 40241650464",
+        "Ceuta regression expected run_prepare_territorial=true but observed false"
+      ],
+      "scope": "Existing platform regression fixtures; no files from that area were modified"
+    },
+    "p0_run_id": 40338770650,
+    "p0_concurrency_failure": "OperationalConcurrencyTests.test_every_non_cancelling_group_queues_pending_jobs failed because this workflow lacked queue: max; corrected in the next commit."
   },
   "authorization": {
     "generation_authorized": false,
