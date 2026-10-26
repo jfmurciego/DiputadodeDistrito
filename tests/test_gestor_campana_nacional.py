@@ -176,9 +176,11 @@ class NationalCampaignTests(unittest.TestCase):
   m=build_manifest(selected=["principado_de_asturias"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume",root=ROOT)
   row=m["territories"][0]
-  self.assertEqual(row["preflight_status"],"BLOCKED")
-  self.assertTrue(any("DURABLE_LINEAGE_UNPROVEN" in item and "40241852045" in item for item in row["preflight_blockers"]))
-  self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+  self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
+  self.assertEqual(row["territorial_product"]["run_id"],40241852045)
+  self.assertFalse(row["execution_plan"]["run_generate"])
+  self.assertTrue(row["execution_plan"]["run_incorporate"])
+  self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
   m=build_manifest(selected=["galicia"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume-valid",root=ROOT)
   row=m["territories"][0]
@@ -246,13 +248,12 @@ class NationalCampaignTests(unittest.TestCase):
   matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
   # El M08 antiguo no invalida M06: Cantabria y Castilla-La Mancha
   # recuperan ruta de producto, pero deben incorporar M08 nuevo.
-  # Asturias conserva su bloqueo propio por falta de manifiesto M06 durable.
-  self.assertEqual(len(matrix),13)
-  self.assertEqual({r["slot"] for r in matrix},selected_codes-{"03"})
+  # Asturias recupera la ruta M06 al incluirse su manifiesto post-run probado.
+  self.assertEqual(len(matrix),14)
+  self.assertEqual({r["slot"] for r in matrix},selected_codes)
   all_by_slot={r["slot"]:r for r in m["territories"]}
-  self.assertEqual({code for code,row in all_by_slot.items() if row["preflight_status"]=="BLOCKED"},{"03"})
-  self.assertIn("DURABLE_LINEAGE_", " ".join(all_by_slot["03"]["preflight_blockers"]))
-  self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),3)
+  self.assertEqual({code for code,row in all_by_slot.items() if row["preflight_status"]=="BLOCKED"},set())
+  self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),4)
   self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),1)
   self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),9)
   by_slot={r["slot"]:r for r in matrix}
