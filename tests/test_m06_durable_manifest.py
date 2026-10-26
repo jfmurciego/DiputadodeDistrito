@@ -224,6 +224,24 @@ class DurableM06ManifestTests(unittest.TestCase):
         self.assertIsNone(result["electoral_product"])
         self.assertFalse(result["rejected_electoral_product"]["reusable"])
 
+        # Sólo se descarta un M08 válido ligado a otro M06. Un recibo M08
+        # corrupto debe seguir bloqueando, aunque M06 territorial sea válido.
+        bad_receipt = json.loads(m08_receipt_path.read_text(encoding="utf-8"))
+        bad_receipt["artifact_sha256"] = "INVALID_DIGEST"
+        write_json(m08_receipt_path, bad_receipt)
+        with self.assertRaisesRegex(DurableAssetBlock, "DURABLE_ASSET_DIGEST_INVALID"):
+            validate_durable_assets(
+                root_dir=self.root,
+                state={"contract_path": "contratos/demo.yaml", "evidence": {
+                    "territorial_product": m06_receipt_path.relative_to(self.root).as_posix(),
+                    "electoral_product": m08_receipt_path.relative_to(self.root).as_posix()},
+                    "territorial_sources_prepared": True, "preparation_evidence": self.source(),
+                    "territorial_product_available": True, "territorial_certification": "PASS",
+                    "electoral_product_available": True},
+                territory_id="demo", edition="2025", territorial_source=self.source(),
+                expected_election_id=None,
+            )
+
     def test_standalone_m06_rejects_source_package_from_another_run(self):
         payload = self.build()
         manifest_path = self.root / "territorios/demo/evidencia/generaciones_m06/100.json"
