@@ -137,6 +137,20 @@ def _validate_m06_manifest(
         or not _SHA1.fullmatch(str(identity.get("checkout_sha") or ""))
     ):
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: identidad M06 incompleta o cruzada")
+    # El recibo acredita el mismo commit de código que ejecutó la generación.
+    # Comparar sólo el formato de cada SHA aceptaría productores contradictorios.
+    checkout_sha = str(identity.get("checkout_sha") or "")
+    receipt_source_commit = str(receipt.get("source_commit") or "")
+    if not _SHA1.fullmatch(receipt_source_commit):
+        _block(
+            "DURABLE_LINEAGE_UNPROVEN",
+            f"run {run_id}: source_commit ausente o inválido en el recibo M06",
+        )
+    if receipt_source_commit != checkout_sha:
+        _block(
+            "DURABLE_LINEAGE_INCOMPATIBLE",
+            f"run {run_id}: source_commit del recibo M06 no coincide con identity.checkout_sha",
+        )
     if not contract_path or str(contract.get("path") or "") != str(contract_path):
         _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: ruta del contrato no coincide")
     params = root / str(contract_path)
