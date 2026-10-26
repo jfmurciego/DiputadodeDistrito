@@ -2,16 +2,26 @@
 import unittest
 
 from ddd_core.congreso_bounded_tree_search import search_tree_partition
+from herramientas.preparar_visor_congreso_leon import strict_json_loads
 
 
 class CongressLeonPilotTests(unittest.TestCase):
-    def test_congress_viewer_is_copied_to_pages_without_candidate_artifacts(self):
+    def test_viewer_input_rejects_duplicate_json_keys_and_nonfinite_values(self):
+        with self.assertRaisesRegex(ValueError, "JSON_DUPLICATE_KEY"):
+            strict_json_loads('{"cpro":"24","cpro":"10"}')
+        with self.assertRaisesRegex(ValueError, "JSON_NONFINITE_VALUE"):
+            strict_json_loads('{"population":NaN}')
+
+    def test_pilot_workflow_isolated_from_publication_and_pages(self):
         from pathlib import Path
         root = Path(__file__).resolve().parents[1]
-        deploy = (root / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
-        self.assertIn("cp visor/congreso/index.html visor/congreso/congreso.js /tmp/site-candidate/congreso/", deploy)
-        self.assertIn("mkdir -p /tmp/site-candidate/congreso", deploy)
-        self.assertNotIn("cp candidato-leon/", deploy)
+        workflow = (root / ".github/workflows/congreso-piloto-leon.yml").read_text(encoding="utf-8")
+        self.assertNotIn("pages: write", workflow)
+        self.assertNotIn("deploy-pages", workflow)
+        self.assertNotIn("_reutilizable-publicar-sitio", workflow)
+        self.assertIn("actions/upload-artifact", workflow)
+        self.assertNotIn("visor/index.html", workflow)
+        self.assertNotIn("visor/styles.css", workflow)
 
 
     def test_opt_in_assignments_are_valid_and_digest_unchanged(self):

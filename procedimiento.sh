@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.9.1
+# VERSIÓN: 2.9.2
 # NOMBRE DE VERSIÓN: Estrategia de optimización seleccionable en M05
-# FECHA: 2026-09-20
+# FECHA: 2026-10-25
 # ESTADO: candidato
-# CAMBIOS: mantiene la selección Canónico/GerryChain y añade fallback operativo de GerryChain a Canónico cuando la estrategia alternativa no puede producir salida.
-# MOTIVO: una optimización opcional no debe dejar sin producto una formación inicial válida; el fallo GerryChain queda trazado y el flujo continúa con la estrategia canónica.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.7.0.sh
+# CAMBIOS: falla cerrado GerryChain 50 sin fallback; valida 50 candidatos y 50 hashes; registra algoritmo solicitado/efectivo, fallback, conteo y certificación pendiente M06.
+# MOTIVO: GerryChain 50 solo puede declarar éxito si se ejecutó realmente y produjo su portfolio completo; M05 no certifica el producto territorial.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.9.1.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -43,7 +43,7 @@ print((data.get("meta") or {}).get("run_name") or Path(sys.argv[1]).stem)
 PY
 )"
 [[ -n "$RUN_NAME" ]] || { echo "[FATAL] run_name vacío" >&2; exit 20; }
-readarray -t CONTRACT_DIRS < <(python - "$PARAMS" "$RUN_ID" <<'PY'
+CONTRACT_DIRS_TEXT="$(python - "$PARAMS" "$RUN_ID" <<'PY'
 import sys,yaml
 from pathlib import Path
 cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
@@ -54,9 +54,11 @@ values={"run_name":(cfg.get("meta") or {}).get("run_name", Path(sys.argv[1]).ste
 print(str(cache).format(**values))
 print(str(runs).format(**values))
 PY
-)
-CACHE_DIR="${DDD_CHECKPOINT_CACHE_DIR:-${CONTRACT_DIRS[0]}}"
-RUN_DIR="${CONTRACT_DIRS[1]}"; LOG_DIR="$RUN_DIR/logs"
+)"
+CACHE_DIR_FROM_CONTRACT="${CONTRACT_DIRS_TEXT%%$'\n'*}"
+RUN_DIR="${CONTRACT_DIRS_TEXT#*$'\n'}"
+CACHE_DIR="${DDD_CHECKPOINT_CACHE_DIR:-$CACHE_DIR_FROM_CONTRACT}"
+LOG_DIR="$RUN_DIR/logs"
 mkdir -p "$RUN_DIR" "$LOG_DIR" "$CACHE_DIR"
 declare -a SCRIPTS=("" "modulos/01_preparar_base_territorial.py" "modulos/02_construir_adyacencias.py" "modulos/03_construir_grafo.py" "modulos/04_generar_semillas.py" "modulos/05_optimizar_distritos.py" "modulos/06_consolidar_distritos.py" "modulos/07_agregar_resultados_electorales.py" "modulos/08_integrar_resultados.py")
 for n in $(seq "$FROM" "$TO"); do test -f "${SCRIPTS[$n]}" || { echo "[FATAL] Falta ${SCRIPTS[$n]}" >&2; exit 20; }; done
@@ -123,18 +125,21 @@ PY
   esac
 }
 registrar_optimizacion(){
-  local requested="$1" effective="$2" fallback="$3" reason="${4:-}" gerry_rc="${5:-}"
-  python - "$RUN_DIR/OPTIMIZATION_EXECUTION.json" "$requested" "$effective" "$fallback" "$reason" "$gerry_rc" <<'PY'
+  local requested="$1" effective="$2" fallback="$3" reason="${4:-}" gerry_rc="${5:-}" candidates="${6:-0}" status="${7:-M05_SUCCESS}" certification="${8:-PENDING_M06}"
+  python - "$RUN_DIR/OPTIMIZATION_EXECUTION.json" "$requested" "$effective" "$fallback" "$reason" "$gerry_rc" "$candidates" "$status" "$certification" <<'PY'
 import datetime,json,sys
 from pathlib import Path
-out,requested,effective,fallback,reason,gerry_rc=sys.argv[1:]
+out,requested,effective,fallback,reason,gerry_rc,candidate_count,status,certification=sys.argv[1:]
 payload={
     "schema":"ddd.optimization-execution/1.0",
     "requested_algorithm":requested,
-    "effective_algorithm":effective,
+    "effective_algorithm":effective or None,
     "fallback":fallback.lower()=="true",
     "fallback_reason":reason or None,
     "gerrychain_exit_code":int(gerry_rc) if gerry_rc else None,
+    "candidate_count":int(candidate_count),
+    "execution_status":status,
+    "certification_status":certification,
     "created_at_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
 }
 Path(out).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -150,14 +155,17 @@ ejecutar(){
     if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
       [[ "${DDD_GERRYCHAIN_ENTRYPOINT:-}" == "gerrychain_50" ]] || {
         echo "[FATAL] GerryChain 50 exige DDD_GERRYCHAIN_ENTRYPOINT=gerrychain_50." >&2
+        registrar_optimizacion "GerryChain 50" "" false "gerrychain_50_entrypoint_missing" "43" "$candidate_count" FAILED NOT_CERTIFIED
         exit 43
       }
       [[ "${DDD_REQUIRE_UNIQUE_HASHES:-}" == "true" ]] || {
         echo "[FATAL] GerryChain 50 exige DDD_REQUIRE_UNIQUE_HASHES=true." >&2
+        registrar_optimizacion "GerryChain 50" "" false "unique_assignment_hashes_required" "43" "$candidate_count" FAILED NOT_CERTIFIED
         exit 43
       }
       [[ "$candidate_count" == "50" ]] || {
         echo "[FATAL] GerryChain 50 exige exactamente 50 candidatos." >&2
+        registrar_optimizacion "GerryChain 50" "" false "candidate_count_not_50" "43" "$candidate_count" FAILED NOT_CERTIFIED
         exit 43
       }
     fi
@@ -165,10 +173,10 @@ ejecutar(){
     case "$strategy" in
       canonical)
         python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
-        registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-Canónico}" "Canónico" false
+        registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-Canónico}" "Canónico" false "" "" 0 M05_SUCCESS PENDING_M06
         ;;
       gerrychain_recom)
-        local gerry_rc=0 baseline_rc=0
+        local gerry_rc=0 baseline_rc=0 portfolio_rc=0
         seed_args=()
         if [[ "$candidate_count" =~ ^[0-9]+$ ]] && (( candidate_count > 0 )); then
           seed_args=(--seed-count "$candidate_count")
@@ -184,6 +192,7 @@ ejecutar(){
         set -e
         if (( baseline_rc != 0 )); then
           echo "[FATAL] Contrato o Formación inicial inválidos; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "" false "m04_baseline_validation_failed" "$baseline_rc" "$candidate_count" FAILED NOT_CERTIFIED
           exit 42
         fi
 
@@ -200,10 +209,16 @@ ejecutar(){
 
         if (( gerry_rc == 42 )); then
           echo "[FATAL] GerryChain detectó entrada inválida tras el preflight; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "" false "gerrychain_input_invalid_after_baseline" "$gerry_rc" "$candidate_count" FAILED NOT_CERTIFIED
           exit 42
         fi
 
         if (( gerry_rc != 0 )); then
+          if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
+            echo "[FATAL] GerryChain 50 no admite fallback; ejecución real fallida (rc=$gerry_rc)." | tee -a "$LOG_DIR/modulo_${n}.log"
+            registrar_optimizacion "GerryChain 50" "" false "gerrychain50_runtime_failure" "$gerry_rc" "$candidate_count" FAILED NOT_CERTIFIED
+            exit 44
+          fi
           echo "[WARN] GerryChain falló después de validar la entrada (rc=$gerry_rc); se ejecuta Canónico como fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
           python - "$RUN_DIR/OPTIMIZATION_FALLBACK.json" "$gerry_rc" "$candidate_count" <<'PY'
 import datetime,json,sys
@@ -222,9 +237,20 @@ payload={
 Path(out).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 PY
           python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}_fallback_canonical.log"
-          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "Canónico" true "gerrychain_runtime_failure_after_valid_baseline" "$gerry_rc"
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "Canónico" true "gerrychain_runtime_failure_after_valid_baseline" "$gerry_rc" "$candidate_count" M05_SUCCESS PENDING_M06
         else
-          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" false
+          if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
+            set +e
+            python -m herramientas.validar_portfolio_gerrychain50 --params "$PARAMS" --run-id "$RUN_ID" 2>&1 | tee "$LOG_DIR/modulo_${n}_portfolio_validation.log"
+            portfolio_rc=${PIPESTATUS[0]}
+            set -e
+            if (( portfolio_rc != 0 )); then
+              registrar_optimizacion "GerryChain 50" "" false "gerrychain50_portfolio_invalid" "$portfolio_rc" "$candidate_count" FAILED NOT_CERTIFIED
+              echo "[FATAL] GerryChain 50 no produjo 50 candidatos íntegros y con hashes únicos." >&2
+              exit 45
+            fi
+          fi
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" false "" "" "$candidate_count" M05_SUCCESS PENDING_M06
         fi
         ;;
       *)

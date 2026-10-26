@@ -1,10 +1,11 @@
 """Bounded connected-partition witness search on one deterministic spanning forest.
 
-Version: 1.1.0 (explicit deterministic traversal order; 2026-10-20)
+Version: 1.2.0 (opt-in analytical assignments; 2026-10-26)
+Predecessor: legacy/nac_piloto_20261026/ddd_core/congreso_bounded_tree_search.py
 A found witness proves only the supplied section graph and population bounds.
 It does not apply municipal policy, accredit multipart physical connectivity,
-certify a territorial product or authorize generation. Assignments are not
-returned; only a canonical witness digest is exposed.
+certify a territorial product or authorize generation. Assignments are returned only with an explicit analytical opt-in; the default
+still exposes only a canonical witness digest. Production stays unauthorized.
 """
 from __future__ import annotations
 

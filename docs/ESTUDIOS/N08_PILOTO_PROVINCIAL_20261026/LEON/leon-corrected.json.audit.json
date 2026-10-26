@@ -1,0 +1,50 @@
+{
+  "candidate_sha256": "8747935ccecb08eeb8cca0f043125a029bc4daa3efd621e9af6d1587b79833a4",
+  "cap": 128808,
+  "checks": {
+    "CUSEC_coverage_and_atomicity": "DEMOSTRADO",
+    "administrative_accreditation": "PENDIENTE",
+    "artifact_geometry_traceability": "PENDIENTE",
+    "municipal_discipline": "DEMOSTRADO",
+    "named_exceptions": "PENDIENTE",
+    "original_polygon_part_contiguity": "PENDIENTE",
+    "population_bounds": "DEMOSTRADO",
+    "population_conservation": "DEMOSTRADO",
+    "province_and_K": "DEMOSTRADO",
+    "section_graph_contiguity": "DEMOSTRADO"
+  },
+  "cpro": "24",
+  "district_populations": {
+    "LEON-01": 113841,
+    "LEON-02": 124091,
+    "LEON-03": 113346,
+    "LEON-04": 96752
+  },
+  "existing_M05_validation": {
+    "hard_limits_met": true,
+    "hard_population_violations": 0,
+    "hard_violation_magnitude": 0,
+    "municipality_policy": "preserve_when_feasible_split_by_whole_CUSEC_when_necessary",
+    "municipality_splits": [],
+    "populations": {
+      "LEON-01": 113841,
+      "LEON-02": 124091,
+      "LEON-03": 113346,
+      "LEON-04": 96752
+    },
+    "valid": true
+  },
+  "floor": 95207,
+  "generation_authorized": false,
+  "k": 4,
+  "municipalities_split": [],
+  "no_named_exceptions_applied": true,
+  "physical_evidence": {
+    "reason": "GEOMETRY_RUNTIME_UNAVAILABLE",
+    "status": "PENDIENTE"
+  },
+  "population": 448030,
+  "product_certification": "NOT_PERFORMED",
+  "schema": "ddd.congress-provincial-analytical-audit/1.0",
+  "sections": 444
+}

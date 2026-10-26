@@ -4,17 +4,17 @@
   "territory_id": "la_rioja",
   "territory_name": "La Rioja",
   "edition": "2025",
-  "run_id": 37298033194,
-  "source_commit": "ed8b7cdbc947423f4f04ef2915763e8e9828fc43",
-  "artifact_name": "ddd-state-37298033194-M03U",
-  "artifact_sha256": "315d08118670eacece8a48b20494da8506097076d91e0d19fe061cb78f1d0575",
+  "run_id": 40198151865,
+  "source_commit": "c8d73ba6886c33fa1c8e109043d57a04065d75ee",
+  "artifact_name": "ddd-state-40198151865-M03U",
+  "artifact_sha256": "e99c7ceaeede75df680ec8881062e87651ec655a4b7f95801a1e8462deac9472",
   "decision": "READY_FOR_FIRST_GENERATION",
   "evaluation_status": "ENABLED",
   "stage": "M03U",
   "source": {
-    "run_id": 37298033194,
-    "artifact_name": "ddd-source-package-la_rioja-2025-37298033194",
-    "artifact_sha256": "653f2eb905982c193d19269c72c0132655a7b54fa7633813ca96611dd89ee615",
+    "run_id": 40198151865,
+    "artifact_name": "ddd-source-package-la_rioja-2025-40198151865",
+    "artifact_sha256": "ff28e2c35f8747e1144c986021f5d45bc6f9da311afc33ec13a339d5129a9c92",
     "package_sha256": "47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d",
     "compatibility_identity_sha256": "6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804",
     "territorial_identity_sha256": "e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d",
@@ -23,7 +23,7 @@
   },
   "implementation": {
     "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
-    "m02_git_blob_sha1": "254ab944f8e76dd51d76917d69deb7fe7e035ba6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
     "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
     "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
     "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
@@ -38,8 +38,8 @@
     "topology_bridges": []
   },
   "graph": {
-    "artifact_name": "ddd-state-37298033194-M03",
-    "artifact_sha256": "29f4dabc72251878b562ee7aa361360855515edef563f717af6b2e5bc05a2032",
+    "artifact_name": "ddd-state-40198151865-M03",
+    "artifact_sha256": "27d5577a4732b95e73f9c37b0bc77f1d5d7b9b61c2fecb11e7de6a283b1e1716",
     "module_version": "7.5.0",
     "nodes": 343,
     "edges": 928,
@@ -47,11 +47,20 @@
     "isolated": 0,
     "global_components": 1,
     "province_disconnected": 0,
-    "municipality_disconnected": 0
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-37298033194",
-    "job_artifact_sha256": "cffbb08ddd664c862488300a100b755e0eaed8fe47b78023917e8b56d9106a96",
+    "job_artifact_name": "ddd-internal-units-40198151865",
+    "job_artifact_sha256": "0739de49d4b8068278d41d233c52814dcda7bf065697953eed430bb9513f5cb3",
     "status": "NOOP",
     "strategy": null,
     "contract_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",

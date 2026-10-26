@@ -1,0 +1,37 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: smoke operativo no productivo
+# VERSIÓN: 1.0.0
+# FECHA: 2026-10-25
+# ESTADO: candidato
+# QUÉ HACE: permite observar una ejecución activa y varias pendientes en el mismo grupo de concurrencia.
+# NO HACE: checkout, escritura de catálogo, generación territorial, publicación ni llamadas externas.
+name: Smoke no productivo — cola de concurrencia
+
+on:
+  workflow_dispatch:
+    inputs:
+      ticket:
+        description: Identificador de esta invocación (1 a 5)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  esperar-en-cola:
+    name: Espera inocua ${{ inputs.ticket }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    concurrency:
+      group: ddd-p0-concurrency-smoke
+      cancel-in-progress: false
+      queue: max
+    steps:
+      - name: Registrar entrada y mantener el grupo ocupado
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "SMOKE_START ticket=${{ inputs.ticket }} run_id=${GITHUB_RUN_ID}"
+          sleep 45
+          echo "SMOKE_END ticket=${{ inputs.ticket }} run_id=${GITHUB_RUN_ID}"

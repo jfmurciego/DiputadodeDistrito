@@ -1,10 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — incorporación electoral
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y un paquete electoral preparado,
 # agrega los resultados, genera el producto electoral y registra su disponibilidad.
 # NO HACE: preparación territorial, generación de distritos, auditoría geométrica ni publicación web. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/_reutilizable-incorporacion-electoral.pre-p0.yml (versión 1.1.0 conservada)
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# FECHA: 2026-10-25
 name: Reutilizable — Incorporación Electoral
 
 on:
@@ -296,6 +300,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       TERRITORY_ID: ${{ inputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}

@@ -1,11 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.3.1
 # NOMBRE DE VERSIÓN: Oleada B completa con puertas y estrategia 02.5
-# ESTADO: candidato — smoke pre-merge obligatorio
+# ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
 # conserva un manifiesto único y permite publicar el producto territorial certificado aunque no exista producto electoral.
 # NO HACE: expone módulos internos, checkpoints ni nombres técnicos al usuario.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/ejecucion-completa-proyecto.pre-p0.yml (versión 1.3.0 conservada)
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max; deriva el contrato GerryChain 50 de la selección manual.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# FECHA: 2026-10-25
 name: 00 Ejecución Completa del Proyecto
 
 on:
@@ -147,7 +151,7 @@ permissions:
 concurrency:
   group: ddd-full-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
   cancel-in-progress: false
-
+  queue: max
 jobs:
   planificar:
     name: Planificar ejecución completa
@@ -159,6 +163,8 @@ jobs:
       execution_mode_internal: ${{ steps.plan.outputs.execution_mode_internal }}
       generation_execution_mode: ${{ steps.plan.outputs.generation_execution_mode }}
       optimization_algorithm: ${{ steps.plan.outputs.optimization_algorithm }}
+      gerrychain_entrypoint: ${{ steps.plan.outputs.gerrychain_entrypoint }}
+      require_unique_hashes: ${{ steps.plan.outputs.require_unique_hashes }}
       edition: ${{ steps.plan.outputs.edition }}
       population_year: ${{ steps.plan.outputs.population_year }}
       section_year: ${{ steps.plan.outputs.section_year }}
@@ -468,12 +474,19 @@ jobs:
                       "decision":"VALIDADO",
                   }
               elif p.get("execution_mode")=="reuse" and reuse.get("available") is True:
-                  p["run_generate"]=True
+                  from herramientas.resolver_ejecucion_completa import (
+                      replan_generation_for_incompatible_product,
+                  )
+                  try:
+                      replan_generation_for_incompatible_product(p, root_dir=Path("."))
+                  except ValueError as exc:
+                      raise SystemExit(str(exc)) from exc
 
           p["publication_mode_requested"]=publication_mode
           p["publication_mode_effective"]=effective_mode
           p["publication_mode"]=effective_mode
-          if p.get("execution_mode")!="from_start" and territorial_doc is not None:
+          if (p.get("execution_mode")!="from_start" and territorial_doc is not None
+                  and not p.get("pre_m04_accreditation_planned")):
               p["run_prepare_territorial"]=False
           if pair is not None:
               p["run_prepare_electoral"]=False
@@ -519,6 +532,15 @@ jobs:
           out("execution_mode_internal",p["execution_mode"])
           out("generation_execution_mode",p.get("generation_execution_mode",p["execution_mode"]))
           out("optimization_algorithm",p["optimization_algorithm"])
+          campaign=p.get("campaign") or {}
+          if campaign.get("campaign_instance"):
+              entrypoint=campaign.get("entrypoint") or ""
+              require_unique=bool(campaign.get("require_unique_hashes"))
+          else:
+              entrypoint="gerrychain_50" if p["optimization_algorithm"] == "GerryChain 50" else ""
+              require_unique=p["optimization_algorithm"] == "GerryChain 50"
+          out("gerrychain_entrypoint",entrypoint)
+          out("require_unique_hashes",require_unique)
           out("edition",p["edition"])
           out("population_year",p.get("population_year"))
           out("section_year",p.get("section_year"))
@@ -892,8 +914,8 @@ jobs:
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       require_generation_gate: true
       artifact_namespace: ${{ inputs.artifact_namespace }}
-      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint || '' }}
-      require_unique_hashes: ${{ inputs.require_unique_hashes == true }}
+      gerrychain_entrypoint: ${{ needs.planificar.outputs.gerrychain_entrypoint }}
+      require_unique_hashes: ${{ needs.planificar.outputs.require_unique_hashes == 'true' }}
 
   puerta_02:
     name: Puerta de validación 02 → 03
@@ -1075,6 +1097,7 @@ jobs:
     concurrency:
       group: ddd-shared-operational-state
       cancel-in-progress: false
+      queue: max
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -1256,6 +1279,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     env:
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
       TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}

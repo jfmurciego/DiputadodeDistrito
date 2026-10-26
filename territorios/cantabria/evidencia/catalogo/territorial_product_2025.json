@@ -4,10 +4,10 @@
   "territory_id": "cantabria",
   "territory_name": "Cantabria",
   "edition": "2025",
-  "run_id": 37318299003,
-  "artifact_name": "ddd-state-37318299003-M06",
-  "artifact_sha256": "ad72c3856b45a639fd9eb4223d6f3af8fef4e7450568311e1c213b1990e55121",
-  "source_commit": "3938c97a8b46590a54016173416acf34c165d5a1",
+  "run_id": 40241638106,
+  "artifact_name": "ddd-state-40241638106-M06",
+  "artifact_sha256": "4cba58ed39ac13c106d35df230fade2af65a7a87210bef25dea524cd5138f8d4",
+  "source_commit": "30b83efd809997942b2d8ac1352c7873f7d45ce1",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06"
 }

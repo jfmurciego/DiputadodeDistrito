@@ -4,17 +4,17 @@
   "territory_id": "cantabria",
   "territory_name": "Cantabria",
   "edition": "2025",
-  "run_id": 37318299003,
-  "source_commit": "0c8be9cea0bbc7d94205e9724c2b6c9e3cdd0b14",
-  "artifact_name": "ddd-state-37318299003-M03U",
-  "artifact_sha256": "139bed2f627ef1de71b32ca9182d484ee7825ac8290ed2078f1cc2e53604cbf2",
+  "run_id": 40241638106,
+  "source_commit": "15f0b13df67a8aca3c95bee71e476b3a02d49410",
+  "artifact_name": "ddd-state-40241638106-M03U",
+  "artifact_sha256": "c6b4683fafa0a9f232f36c006ce670993364420789d8c85d5adf953c9152d635",
   "decision": "READY_FOR_FIRST_GENERATION",
   "evaluation_status": "ENABLED",
   "stage": "M03U",
   "source": {
-    "run_id": 37318299003,
-    "artifact_name": "ddd-source-package-cantabria-2025-37318299003",
-    "artifact_sha256": "c7441921b73a9f36a1e4597f2a9808235cb727ec03cdd755d2ac089ce4247552",
+    "run_id": 40241638106,
+    "artifact_name": "ddd-source-package-cantabria-2025-40241638106",
+    "artifact_sha256": "b496db543f7baedf4d6d56fdb1f11aa00ea0b6c55ae3768fa22db295ebe56ed9",
     "package_sha256": "df44be0aeaaaf2bf16ff91abf2cbe6b8972be15868472e6a3f3ee56372964acb",
     "compatibility_identity_sha256": "9a52657927866ca04c0fe2e3b7e0f31a2bde65115de7c80ba4b8b7ab93e9d572",
     "territorial_identity_sha256": "1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2",
@@ -23,7 +23,7 @@
   },
   "implementation": {
     "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
-    "m02_git_blob_sha1": "254ab944f8e76dd51d76917d69deb7fe7e035ba6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
     "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
     "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
     "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
@@ -45,8 +45,8 @@
     ]
   },
   "graph": {
-    "artifact_name": "ddd-state-37318299003-M03",
-    "artifact_sha256": "45678b97e44c5f87e77aeaf202257c65f0c8fdebe2e7856f40f19a885a93d1a0",
+    "artifact_name": "ddd-state-40241638106-M03",
+    "artifact_sha256": "5e4afbd734ba8b05d356435641b027874ba44c892e95037088199185b9e77258",
     "module_version": "7.5.0",
     "nodes": 460,
     "edges": 1241,
@@ -54,11 +54,20 @@
     "isolated": 0,
     "global_components": 1,
     "province_disconnected": 0,
-    "municipality_disconnected": 0
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-37318299003",
-    "job_artifact_sha256": "82157e4d881684dab6e3b1235ddd3ebb733c9c4318954bb52d2cefe04575d047",
+    "job_artifact_name": "ddd-internal-units-40241638106",
+    "job_artifact_sha256": "68f35070f3aadc96676f6eb857fe87eac454dfab564300e5ed12f8ffd7f1468e",
     "status": "NOOP",
     "strategy": null,
     "contract_output_geojson": "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",

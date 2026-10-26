@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 3.4.0
+# VERSIÓN: 3.4.1
 # NOMBRE DE VERSIÓN: Ruta productiva con nombres de negocio
-# FECHA: 2026-09-17
+# FECHA: 2026-10-25
 # ESTADO: candidato
 # QUÉ HACE: recibe una operación institucional resuelta, delega la ruta seleccionada y genera siempre un informe de ejecución para la cadena territorial.
-# CAMBIOS: presenta la cadena productiva con nombres de negocio sin alterar la lógica M01–M08 ni las rutas auxiliares existentes.
-# MOTIVO: hacer comprensible la secuencia productiva desde GitHub Actions sin exponer controles técnicos al usuario.
-# ANTERIOR: versión 3.1.0 en historial Git.
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/_reutilizable-operacion-territorial.pre-p0.yml (versión 3.4.0 conservada)
 name: Reutilizable — Ruta Territorial Resuelta
 
 on:
@@ -128,6 +128,7 @@ jobs:
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
+      queue: max
     permissions:
       contents: write
       actions: read

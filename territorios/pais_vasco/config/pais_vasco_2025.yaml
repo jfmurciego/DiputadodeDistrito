@@ -337,6 +337,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 37458584767
-  pre_m04_source_commit: caba41a1160a7da6839da56ed2c5fb43b44b695e
-  pre_m04_artifact_sha256: 180fe53c984ec23ea8e912957e4b88304b520d3a3df976bd8eefeab4695e27f6
+  pre_m04_run_id: 40241757334
+  pre_m04_source_commit: 6a901b3ab02870eff05593153b46b6c9a82535f3
+  pre_m04_artifact_sha256: 4d4d9c55850d45e975a21d56ce3125ae9d44a0f7e29e25901ac2c3b738354098

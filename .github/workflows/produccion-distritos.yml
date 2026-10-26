@@ -1,13 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.0
+# VERSIÓN: 8.1.1
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
-# FECHA: 2026-09-20
+# FECHA: 2026-10-25
 # ESTADO: candidato
 # QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
-# CAMBIOS: incorpora selección funcional de estrategia 02.5: Canónico, GerryChain, GerryChain 25 o GerryChain 50; la elección viaja hasta M05 y obliga a ejecutar M05 para alternativas GerryChain.
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max; deriva el contrato GerryChain 50 de la selección manual.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
-# ANTERIOR: versión 6.1.0 en historial Git.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/produccion-distritos.pre-p0.yml (versión 8.1.0 conservada)
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: 02 Generación de Distritos Autonómicos
 
 on:
@@ -84,7 +85,7 @@ on:
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
   cancel-in-progress: false
-
+  queue: max
 permissions:
   contents: write
   actions: read
@@ -502,5 +503,5 @@ jobs:
       persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}
       optimization_algorithm: ${{ inputs.optimization_algorithm }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
-      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint }}
-      require_unique_hashes: ${{ inputs.require_unique_hashes }}
+      gerrychain_entrypoint: ${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint }}
+      require_unique_hashes: ${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes }}

@@ -216,9 +216,9 @@ generation_state:
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract: null
-  pre_m04_run_id: 37438440043
-  pre_m04_source_commit: d34ab50ec6bd0b727c98395b8490134b8c5e03b8
-  pre_m04_artifact_sha256: 7a03d3b0ddcff47cfb36d8e86fcd06934ccae2dc5b381edc82cc49439176909d
+  pre_m04_run_id: 40132061626
+  pre_m04_source_commit: ae5622e2811bb82e0f01e9f06d455d7eae7d51df
+  pre_m04_artifact_sha256: c2daec58f4f0114ca8340174a80c3d3093c69171aeee2e08119ac477af36cba8
 resolved_source_contract:
   schema: ddd.resolved-source-contract/legacy-bridge
   temporal:

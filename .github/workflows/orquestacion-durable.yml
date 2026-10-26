@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
 # NOMBRE: O02 resolución de reutilización y estado durable
-# FECHA: 2026-09-16
-# ESTADO: vigente — consolidación de interfaz
+# FECHA: 2026-10-25
+# ESTADO: candidato
 # QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado durable.
-# CAMBIO: renombra el componente G10 como O02 y conserva workflow_call sin botón manual.
-# ANTERIOR: legacy/workflows/g10/g10-operar-lote_v1.0.3.yml
-# MOTIVO: expresar la función real de orquestación y retirar nomenclatura histórica G10 de los workflows activos.
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/orquestacion-durable.pre-p0.yml (versión 1.1.0 conservada)
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: Resolver Reutilización y Estado Durable
 on:
   workflow_call:
@@ -23,6 +23,7 @@ permissions:
 concurrency:
   group: orquestacion-durable
   cancel-in-progress: false
+  queue: max
 env:
   PLAN_PATH: ${{ inputs.plan_path }}
   STATE_PATH: orchestracion/estado_tareas.json
