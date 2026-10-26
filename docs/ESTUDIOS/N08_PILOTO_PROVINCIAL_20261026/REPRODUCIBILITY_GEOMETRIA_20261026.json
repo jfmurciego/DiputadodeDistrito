@@ -1,0 +1,32 @@
+{
+  "schema": "ddd.n08-pilot-geometry-reproduction/1.0",
+  "date": "2026-10-26",
+  "scope": "Local geometry tests and workflow-name CI correction for PR 298",
+  "candidate_before_followup": "32d4b3e29de6dde29abfa238d52714728d1807b2",
+  "historical_snapshot": {
+    "path": "REPRODUCIBILITY.json",
+    "meaning": "Initial isolated macOS run before the Miniforge geospatial runtime was used; four geometry tests were skipped because Shapely was unavailable. This record is retained unchanged."
+  },
+  "local_geospatial_execution": {
+    "python": "3.13.12",
+    "geopandas": "1.1.2",
+    "shapely": "2.1.2",
+    "geos": "3.14.1",
+    "originally_omitted_geometry_tests": "4/4 PASS",
+    "new_polygon_part_identity_regressions": "2/2 PASS",
+    "focused_suite": "42/42 PASS",
+    "note": "The runtime differs from the workflow lock; the pinned runtime is validated by remote CI."
+  },
+  "followup_ci_finding": {
+    "run_id": 40338007607,
+    "head": "32d4b3e29de6dde29abfa238d52714728d1807b2",
+    "failure": "tests.test_design_a_matriz_sintetica.MandatorySyntheticDesignATests.test_visible_workflows expected the old workflow display name.",
+    "correction": "Update only the expected display name to '06 Congreso — Preflight analítico León y Cáceres'; the workflow path and dispatch checks remain unchanged.",
+    "local_test": "NOT_RUN: sparse worktree lacks the remaining current workflow blobs; GitHub DNS prevented retrieval from the local partial clone."
+  },
+  "authorization": {
+    "generation_authorized": false,
+    "product_certification": "NOT_PERFORMED",
+    "public_publication": false
+  }
+}

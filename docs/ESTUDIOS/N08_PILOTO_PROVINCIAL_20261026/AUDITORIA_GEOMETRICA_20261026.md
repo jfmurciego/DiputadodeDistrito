@@ -12,6 +12,10 @@ La auditoría reconstruyó `seccionado_2025.zip` desde las tres partes protegida
 
 La auditoría encontró un defecto en su propio control de cardinalidad: interpretaba `physical_part_components` del nodo (representantes de componentes conexos) como si fuera el número de polígonos originales de la CUSEC. La regresión mostró, por ejemplo, que `2405001001` tiene dos partes originales que pertenecen al mismo componente provincial. Se corrigió la comparación para contrastar las identidades `CUSEC:pNNNN` de `polygon_part_components` con las partes originales ordenadas por WKB. Se añadieron pruebas de inventario y rechazo de identidades duplicadas.
 
+### Actualización de reproducibilidad
+
+`REPRODUCIBILITY.json` es la instantánea histórica de la primera ejecución en el entorno macOS aislado; sus cuatro `SKIP` reflejan que Shapely no estaba instalado en ese entorno en ese momento. Después, las cuatro pruebas geométricas originales se ejecutaron con el runtime Miniforge indicado arriba y pasaron (4/4); las dos regresiones nuevas también pasaron. El detalle y la distinción de entornos constan en `REPRODUCIBILITY_GEOMETRIA_20261026.json`. La validación de la versión exacta fijada por el workflow corresponde a la CI remota del HEAD publicado.
+
 Runtime local disponible: Python 3.13.12, GeoPandas 1.1.2, Shapely 2.1.2, GEOS 3.14.1, NumPy 2.4.2, pandas 3.0.0, pyogrio 0.12.1/GDAL 3.12.2, pyproj 3.7.2/PROJ 9.7.1. Las cuatro pruebas geométricas omitidas, las dos regresiones nuevas y las suites focales se ejecutaron con este entorno. El workflow conserva su runtime reproducible fijado por lock; la CI del nuevo HEAD debe confirmarlo allí.
 
 ## Resultados

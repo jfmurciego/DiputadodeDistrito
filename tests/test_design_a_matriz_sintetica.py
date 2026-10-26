@@ -35,7 +35,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "04 Incorporación de Resultados Electorales":ELECTORAL_APPLY,
             "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
             "05 Publicación del Visor":WF/"desplegar-visor-publico.yml",
-            "06 Congreso — Piloto León (4 distritos candidatos)":WF/"congreso-piloto-leon.yml",
+            "06 Congreso — Preflight analítico León y Cáceres":WF/"congreso-piloto-leon.yml",
             "0 Gestor de Campañas":WF/"gestor-campanas.yml",
             "F10 Preparación territorial aislada":WF/"f10-preparacion-territorial-aislada.yml",
         }
