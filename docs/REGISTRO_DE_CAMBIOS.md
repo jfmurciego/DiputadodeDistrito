@@ -1,14 +1,12 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.9
+Versión: 1.0.10
 Fecha: 2026-10-26
 Alcance: regresiones de evidencias F10 y preflight pre-M04 vigentes
 Estado: candidato
 Cambios/motivo: admitir discontinuidades municipales acreditadas con fuente exacta y contadores coherentes
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.8_20261025.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.9_20261026.md
 -->
-
-
 
 ## 2026-10-26 — CI — actualizar expectativas obsoletas de evidencia y preflight
 
@@ -25,8 +23,13 @@ contratos ni productos.
 
 La regresión M08 de Castilla-La Mancha distingue el M06 territorial_only del
 run 40241650464 del par histórico M06/M08 del run 37444564173; la reutilización
-cruzada permanece bloqueada. Ceuta conserva su preflight M03U vigente y planifica
-M04–M06 sin repetir la preparación de la fuente.
+cruzada permanece bloqueada. Asturias, Cantabria y Castilla-La Mancha quedan
+bloqueadas para reutilización cuando falta el manifiesto o el linaje M06/M08 no
+coincide. Ceuta, Baleares y Canarias conservan sus preflights pre-M04 vigentes y
+no repiten preparación. En la matriz dirigida de 14 territorios, los 3 bloqueos
+de linaje se mantienen fuera de la matriz de 11 rutas ejecutables. No se cambia
+lógica de producto ni evidencias. Las versiones previas de los cuatro tests
+actualizados se archivan en `tests/legacy/ci_followup_20261026/`.
 
 ## 2026-10-19 — Cataluña — acreditación municipal pre-M04 ligada a fuente
 

@@ -1,3 +1,6 @@
+"""Version 1.0.1, 2026-10-26: use existing island pre-M04 accreditation.
+Previous bytes: tests/legacy/ci_followup_20261026/test_materializacion_contratos_nacionales_cff5d3c.py.
+"""
 from __future__ import annotations
 
 import ast
@@ -887,19 +890,18 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-            # El preflight durable se produjo con el blob anterior de M02.
-            # El cambio de completitud de adyacencias invalida esa ligadura y
-            # obliga a reacreditar pre-M04 antes de una futura generación.
-            self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
-            self.assertTrue(plan["run_prepare_territorial"], territory_id)
+            # El recibo pre-M04 vigente ya acredita el contrato y el blob M02;
+            # no se planifica una reacreditación redundante.
+            self.assertFalse(plan["pre_m04_accreditation_planned"], territory_id)
+            self.assertFalse(plan["run_prepare_territorial"], territory_id)
             self.assertEqual(
-                {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                {"allowed": True, "route": "validated_pre_m04_topology"},
                 plan["generation_gate"],
                 territory_id,
             )
             self.assertTrue(plan["run_generate"], territory_id)
             self.assertTrue(plan["generation_gate"]["allowed"], territory_id)
-            self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"], territory_id)
+            self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"], territory_id)
             self.assertFalse(plan["catalog_state"]["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
 

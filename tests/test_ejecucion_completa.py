@@ -1,7 +1,7 @@
-"""Version: 1.0.1; name: full execution planning tests; date: 2026-10-26.
+"""Version: 1.0.2; name: full execution planning tests; date: 2026-10-26.
 Scope: 00 planning, durable evidence gates, and incompatible product replanning.
 Status: candidate. Change/reason: isolate helper tests from mutable territorial artifacts.
-Previous: legacy/tests/test_ejecucion_completa_v1.0.0_20261012.py.
+Previous: tests/legacy/ci_followup_20261026/test_ejecucion_completa_cff5d3c.py.
 """
 from __future__ import annotations
 
@@ -980,23 +980,21 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertTrue(state["electoral_source_prepared"])
         self.assertTrue(state["electoral_product_available"])
         checkpoint = state["last_valid_checkpoint"]
-        self.assertEqual(checkpoint["stage"], "M08")
+        self.assertEqual(checkpoint["stage"], "M06")
         current_run = checkpoint["run_id"]
         self.assertIsInstance(current_run, int)
-
-        plan = build_plan(
-            territory="Castilla-La Mancha",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-        )
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertFalse(plan["run_generate"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertFalse(plan["run_incorporate"])
-        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
-        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], current_run)
+        territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
+        electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
+        self.assertEqual(territorial["run_id"], current_run)
+        self.assertNotEqual(electoral["run_id"], current_run)
+        with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*DURABLE_LINEAGE_INCOMPATIBLE"):
+            build_plan(
+                territory="Castilla-La Mancha",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                root_dir=ROOT,
+            )
 
 
 class TerritorialSourceVerificationShellTests(unittest.TestCase):
