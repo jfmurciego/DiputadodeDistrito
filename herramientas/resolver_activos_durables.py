@@ -222,6 +222,10 @@ def _validate_m06_manifest(
     if requested == "GerryChain 50":
         proof = execution.get("portfolio_proof") or {}
         hashes = proof.get("assignment_hashes")
+        selected_archive_sha = str(proof.get("selected_artifact_sha256") or "")
+        output_archive_sha = str(proof.get("selected_output_sha256") or "")
+        selected_content_sha = proof.get("selected_artifact_content_sha256")
+        output_content_sha = proof.get("selected_output_content_sha256")
         if (
             effective != "GerryChain 50"
             or execution.get("fallback") is not False
@@ -236,8 +240,22 @@ def _validate_m06_manifest(
             or proof.get("unique_assignment_hash_count") != 50
             or not _SHA256.fullmatch(str(proof.get("selected_assignment_hash") or ""))
             or proof.get("selected_assignment_hash") not in hashes
-            or not _SHA256.fullmatch(str(proof.get("selected_artifact_sha256") or ""))
-            or proof.get("selected_output_sha256") != proof.get("selected_artifact_sha256")
+            or not _SHA256.fullmatch(selected_archive_sha)
+            or not _SHA256.fullmatch(output_archive_sha)
+            or (selected_content_sha is None) != (output_content_sha is None)
+            or (
+                selected_content_sha is None
+                and output_content_sha is None
+                and selected_archive_sha != output_archive_sha
+            )
+            or (
+                selected_content_sha is not None
+                and (
+                    not _SHA256.fullmatch(str(selected_content_sha))
+                    or not _SHA256.fullmatch(str(output_content_sha))
+                    or selected_content_sha != output_content_sha
+                )
+            )
         ):
             _block("DURABLE_LINEAGE_UNPROVEN", f"run {run_id}: portfolio GerryChain 50 incompleto")
     for role in ("m05", "audit"):
@@ -522,8 +540,23 @@ def validate_durable_assets(
             label="electoral_product",
         )
         if electoral_source:
-            _same_phase_asset(_phase(manifest, "03 ·"), electoral_source, label="electoral_source→electoral_product")
-        if territorial_product:
+            try:
+                _same_phase_asset(
+                    _phase(manifest, "03 ·"), electoral_source,
+                    label="electoral_source→electoral_product",
+                )
+            except DurableAssetBlock as exc:
+                if not str(exc).startswith(
+                    "DURABLE_LINEAGE_INCOMPATIBLE: electoral_source→electoral_product:"
+                ):
+                    raise
+                rejected_electoral_product = {
+                    "asset": electoral_product,
+                    "reason": str(exc),
+                    "reusable": False,
+                }
+                electoral_product = None
+        if territorial_product and electoral_product:
             try:
                 _same_phase_asset(
                     _phase(manifest, "02 ·"), territorial_product,

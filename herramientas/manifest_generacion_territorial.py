@@ -51,6 +51,22 @@ def _sha(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _single_geojson_member_sha256(path: Path, *, label: str) -> str:
+    """Hash the exact GeoJSON payload inside a one-member M05 ZIP archive."""
+    try:
+        with zipfile.ZipFile(path) as archive:
+            members = [name for name in archive.namelist() if not name.endswith("/")]
+            if len(members) != 1 or not members[0].lower().endswith(".geojson"):
+                raise GenerationManifestError(f"{label}: se esperaba un único miembro GeoJSON")
+            bad_member = archive.testzip()
+            if bad_member is not None:
+                raise GenerationManifestError(f"{label}: ZIP dañado en {bad_member}")
+            payload = archive.read(members[0])
+    except zipfile.BadZipFile as exc:
+        raise GenerationManifestError(f"{label}: ZIP ilegible") from exc
+    return hashlib.sha256(payload).hexdigest()
+
+
 def _require_sha(value: Any, label: str) -> str:
     result = str(value or "").removeprefix("sha256:").lower()
     if not SHA256.fullmatch(result):
@@ -183,7 +199,10 @@ def _candidate_proof(state_dir: Path, report_path: Path) -> dict[str, Any]:
     if (
         len(selected) != 1
         or selected[0].get("assignment_hash") != selected_hash
-        or str(portfolio.get("selected_assignment_hash") or "") != selected_hash
+        or (
+            portfolio.get("selected_assignment_hash") is not None
+            and str(portfolio.get("selected_assignment_hash") or "") != selected_hash
+        )
     ):
         raise GenerationManifestError("GERRYCHAIN50_SELECTED_ASSIGNMENT_MISMATCH")
     selected_file_sha = str(selected[0].get("sha256") or "").lower()
@@ -192,9 +211,19 @@ def _candidate_proof(state_dir: Path, report_path: Path) -> dict[str, Any]:
     output_path_text = str(output.get("geojson") or "")
     if not output_path_text:
         raise GenerationManifestError("La salida M05 seleccionada no declara su ruta")
+    selected_path_text = str(selected[0].get("geojson") or "")
+    selected_matches = [path for path in state_dir.rglob(Path(selected_path_text).name) if path.is_file()]
     output_matches = [path for path in state_dir.rglob(Path(output_path_text).name) if path.is_file()]
-    if len(output_matches) != 1 or _sha(output_matches[0]) != output_sha or output_sha != selected_file_sha:
+    if len(selected_matches) != 1 or len(output_matches) != 1 or _sha(output_matches[0]) != output_sha:
         raise GenerationManifestError("La salida M05 no coincide con el candidato seleccionado del portfolio")
+    selected_content_sha = _single_geojson_member_sha256(
+        selected_matches[0], label="artefacto M05 seleccionado"
+    )
+    output_content_sha = _single_geojson_member_sha256(
+        output_matches[0], label="salida M05 seleccionada"
+    )
+    if selected_content_sha != output_content_sha:
+        raise GenerationManifestError("El contenido GeoJSON de la salida M05 difiere del candidato seleccionado")
     return {
         "report_sha256": _sha(report_path),
         "report_relative_path": report_path.relative_to(state_dir).as_posix(),
@@ -204,6 +233,8 @@ def _candidate_proof(state_dir: Path, report_path: Path) -> dict[str, Any]:
         "selected_assignment_hash": selected_hash,
         "selected_artifact_sha256": selected_file_sha,
         "selected_output_sha256": output_sha,
+        "selected_artifact_content_sha256": selected_content_sha,
+        "selected_output_content_sha256": output_content_sha,
     }
 
 

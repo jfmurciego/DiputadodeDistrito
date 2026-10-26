@@ -252,20 +252,22 @@ class DurableM06ManifestTests(unittest.TestCase):
         portfolio_dir = self.state / "run/portfolio"
         portfolio_dir.mkdir(parents=True)
         rows = []
+        payload = json.dumps({"type": "FeatureCollection", "features": []}, sort_keys=True).encode()
         for index in range(1, 51):
             candidate = portfolio_dir / f"candidate_{index:03}.zip"
             with zipfile.ZipFile(candidate, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-                archive.writestr("assignment.json", f'{{"candidate":{index}}}')
+                archive.writestr("candidate.geojson", payload if index == 1 else f'{{"candidate":{index}}}')
             assignment_hash = f"{index:064x}"
             rows.append({"index": index, "assignment_hash": assignment_hash,
                          "sha256": hashlib.sha256(candidate.read_bytes()).hexdigest(),
                          "geojson": str(candidate), "selected": index == 1})
         selected_output = self.state / "run/selected_m05.zip"
-        selected_output.write_bytes((portfolio_dir / "candidate_001.zip").read_bytes())
+        with zipfile.ZipFile(selected_output, "w", compression=zipfile.ZIP_STORED) as archive:
+            archive.writestr("selected.geojson", payload)
         report = {"schema": "ddd.m05-gerrychain-strategy/2.0",
                   "search": {"selected_assignment_hash": rows[0]["assignment_hash"]},
                   "portfolio": {"candidate_count": 50, "unique_candidate_count": 50,
-                                "selected_assignment_hash": rows[0]["assignment_hash"], "candidates": rows},
+                                "candidates": rows},
                   "output": {"geojson": str(selected_output), "sha256": hashlib.sha256(selected_output.read_bytes()).hexdigest()}}
         report_path = self.state / "run/portfolio_report.json"
         write_json(report_path, report)
@@ -286,7 +288,58 @@ class DurableM06ManifestTests(unittest.TestCase):
         proof = payload["execution"]["portfolio_proof"]
         self.assertEqual(proof["candidate_count"], 50)
         self.assertEqual(proof["unique_assignment_hash_count"], 50)
-        self.assertEqual(proof["selected_artifact_sha256"], proof["selected_output_sha256"])
+        self.assertNotEqual(proof["selected_artifact_sha256"], proof["selected_output_sha256"])
+        self.assertEqual(proof["selected_artifact_content_sha256"], proof["selected_output_content_sha256"])
+        from herramientas.resolver_activos_durables import _validate_m06_manifest
+        _validate_m06_manifest(
+            root=self.root, payload=payload, territory_id="demo", edition="2025",
+            run_id=100, receipt=self.receipt(payload), contract_path="contratos/demo.yaml",
+        )
+        proof["selected_output_content_sha256"] = "f" * 64
+        payload["manifest_sha256"] = manifest_sha256(payload)
+        with self.assertRaisesRegex(DurableAssetBlock, "portfolio GerryChain 50 incompleto"):
+            _validate_m06_manifest(
+                root=self.root, payload=payload, territory_id="demo", edition="2025",
+                run_id=100, receipt=self.receipt(payload), contract_path="contratos/demo.yaml",
+            )
+
+    def test_gerrychain50_rejects_different_selected_geojson_payload(self):
+        portfolio_dir = self.state / "run/portfolio"
+        portfolio_dir.mkdir(parents=True)
+        rows = []
+        for index in range(1, 51):
+            candidate = portfolio_dir / f"candidate_{index:03}.zip"
+            candidate_payload = json.dumps({"candidate": index}, sort_keys=True).encode()
+            with zipfile.ZipFile(candidate, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                archive.writestr("candidate.geojson", candidate_payload)
+            rows.append({"index": index, "assignment_hash": f"{index:064x}",
+                         "sha256": hashlib.sha256(candidate.read_bytes()).hexdigest(),
+                         "geojson": str(candidate), "selected": index == 1})
+        selected_output = self.state / "run/selected_m05.zip"
+        with zipfile.ZipFile(selected_output, "w", compression=zipfile.ZIP_STORED) as archive:
+            archive.writestr("selected.geojson", b'{"candidate":"different"}')
+        report = {"schema": "ddd.m05-gerrychain-strategy/2.0",
+                  "search": {"selected_assignment_hash": rows[0]["assignment_hash"]},
+                  "portfolio": {"candidate_count": 50, "unique_candidate_count": 50, "candidates": rows},
+                  "output": {"geojson": str(selected_output),
+                             "sha256": hashlib.sha256(selected_output.read_bytes()).hexdigest()}}
+        report_path = self.state / "run/portfolio_report.json"
+        write_json(report_path, report)
+        write_json(self.state / "run/OPTIMIZATION_EXECUTION.json", {
+            "requested_algorithm": "GerryChain 50", "effective_algorithm": "GerryChain 50",
+            "fallback": False, "candidate_count": 50, "execution_status": "M05_SUCCESS",
+        })
+        with self.assertRaisesRegex(GenerationManifestError, "El contenido GeoJSON"):
+            build_manifest(
+                root_dir=self.root, state_dir=self.state, audit_dir=self.audit,
+                artifact_index_path=self.index_path, artifact_roles_path=self.roles_path,
+                territory_id="demo", territory_name="Demo", edition="2025",
+                contract_path="contratos/demo.yaml", workflow_run_id=100, workflow_run_attempt=1,
+                workflow_sha="a" * 40, checkout_sha="b" * 40, workflow_name="02 Generación",
+                execution_mode="execute", from_stage="M01", to_stage="M06", checkpoint_run_id=None,
+                optimization_algorithm="GerryChain 50", gerrychain_entrypoint="gerrychain_50",
+                require_unique_hashes=True,
+            )
 
     def test_old_m08_lineage_is_rejected_without_blocking_valid_m06(self):
         payload = self.build()
@@ -316,19 +369,35 @@ class DurableM06ManifestTests(unittest.TestCase):
                     "validation_decision": "VALIDADO"},
                ]}
         write_json(self.root / "territorios/demo/evidencia/ejecuciones_completas/200.json", m08)
+        electoral_source_path = self.root / "territorios/demo/evidencia/catalogo/electoral_source_2025.json"
+        write_json(electoral_source_path, {
+            "schema": "ddd.catalog-evidence/1.0", "kind": "electoral_source",
+            "territory_id": "demo", "edition": "2025", "run_id": 91,
+            "artifact_name": "ddd-electoral-package-demo-91", "artifact_sha256": "e" * 64,
+            "election_id": "demo_election", "decision": "VALIDADO",
+        })
+        m08["phases"].append({
+            "name": "03 · Fuente electoral", "run_id": 92,
+            "artifact": "ddd-electoral-package-demo-92", "artifact_digest": "f" * 64,
+            "executed": True, "result": "success", "validation_decision": "VALIDADO",
+        })
+        write_json(self.root / "territorios/demo/evidencia/ejecuciones_completas/200.json", m08)
         result = validate_durable_assets(
             root_dir=self.root,
             state={"contract_path": "contratos/demo.yaml", "evidence": {
                 "territorial_product": m06_receipt_path.relative_to(self.root).as_posix(),
-                "electoral_product": m08_receipt_path.relative_to(self.root).as_posix()},
+                "electoral_product": m08_receipt_path.relative_to(self.root).as_posix(),
+                "electoral_source": electoral_source_path.relative_to(self.root).as_posix()},
                 "territorial_sources_prepared": True, "preparation_evidence": self.source(),
                 "territorial_product_available": True, "territorial_certification": "PASS",
+                "electoral_source_prepared": True,
                 "electoral_product_available": True},
             territory_id="demo", edition="2025", territorial_source=self.source(), expected_election_id=None,
         )
         self.assertIsNotNone(result["territorial_product"])
         self.assertIsNone(result["electoral_product"])
         self.assertFalse(result["rejected_electoral_product"]["reusable"])
+        self.assertIn("electoral_source→electoral_product", result["rejected_electoral_product"]["reason"])
 
         # Sólo se descarta un M08 válido ligado a otro M06. Un recibo M08
         # corrupto debe seguir bloqueando, aunque M06 territorial sea válido.
