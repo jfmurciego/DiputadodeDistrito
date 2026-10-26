@@ -36,6 +36,7 @@ on:
       - 'tests/test_congreso_bounded_tree_search.py'
       - 'tests/test_congreso_piloto_leon.py'
       - 'tests/test_congreso_physical_audit.py'
+      - 'tests/test_congreso_visor.py'
   workflow_dispatch:
 
 permissions:
@@ -74,6 +75,7 @@ jobs:
           tests.test_congreso_candidate_certifier
           tests.test_congreso_bounded_tree_search
           tests.test_congreso_piloto_leon
+          tests.test_congreso_visor
           tests.test_codauto_preparation_contract
           tests.test_design_a_matriz_sintetica -v
 
