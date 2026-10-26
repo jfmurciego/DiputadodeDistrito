@@ -1,0 +1,67 @@
+# Congreso nacional: piloto de asignaciones CUSEC, sin autorizacion de produccion.
+name: 06 Congreso — Piloto León (4 distritos candidatos)
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/congreso-piloto-leon.yml'
+      - 'herramientas/generar_piloto_congreso_leon.py'
+      - 'ddd_core/congreso_bounded_tree_search.py'
+      - 'tests/test_congreso_piloto_leon.py'
+      - 'tests/test_congreso_bounded_tree_search.py'
+      - 'herramientas/preparar_visor_congreso_leon.py'
+      - 'visor/congreso/**'
+      - 'visor/index.html'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ddd-congreso-piloto-leon
+  cancel-in-progress: false
+
+jobs:
+  candidato_leon:
+    name: Construir candidato León (K=4, sin publicar)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Pruebas de la reconstrucción de grupos
+        run: python -m unittest tests.test_congreso_bounded_tree_search tests.test_congreso_piloto_leon -v
+      - name: Reconstruir cuatro candidatos CUSEC
+        run: |
+          mkdir -p candidato-leon
+          python -m herramientas.generar_piloto_congreso_leon --output candidato-leon/leon-4-candidatos.json
+      - name: Instalar dependencias geométricas para GeoJSON nacional
+        run: python -m pip install --disable-pip-version-check geopandas shapely pyogrio pyproj pandas numpy
+      - name: Crear polígonos cartográficos de los cuatro candidatos
+        run: python -m herramientas.preparar_visor_congreso_leon --candidate candidato-leon/leon-4-candidatos.json --output candidato-leon/leon-4-candidatos.geojson
+      - name: Empaquetar visor nacional autónomo con geometría integrada
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          geo = json.loads(Path("candidato-leon/leon-4-candidatos.geojson").read_text(encoding="utf-8"))
+          html = Path("visor/congreso/index.html").read_text(encoding="utf-8")
+          payload = json.dumps(geo, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+          html = html.replace('href="../styles.css"', 'href="styles.css"')
+          html = html.replace('<script src="congreso.js"></script>', '<script>window.DDD_CONGRESO_GEOJSON=' + payload + ';</script>\n<script src="congreso.js"></script>')
+          Path("candidato-leon/index.html").write_text(html, encoding="utf-8")
+          Path("candidato-leon/congreso.js").write_bytes(Path("visor/congreso/congreso.js").read_bytes())
+          Path("candidato-leon/styles.css").write_bytes(Path("visor/styles.css").read_bytes())
+          assert "window.DDD_CONGRESO_GEOJSON=" in html
+          print("STANDALONE_VIEWER_READY 4 districts")
+          PY
+      - name: Conservar artefacto del piloto
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: congreso-leon-candidato-${{ github.run_id }}
+          path: candidato-leon/
+          if-no-files-found: warn
+          retention-days: 30

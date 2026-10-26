@@ -1,0 +1,58 @@
+{
+  "additional_regressions": {
+    "cause": "Missing historical source files/74-item N08 delivery manifest in sparse checkout; these paths are present in repository tree and will be executed by full-checkout CI.",
+    "contract_and_certifier_suite": "NOT_VERIFIED_IN_SPARSE_WORKTREE",
+    "observed": {
+      "errors": 3,
+      "pass": 28,
+      "tests": 31
+    }
+  },
+  "authorization": {
+    "generation_authorized": false,
+    "product_certification": "NOT_PERFORMED",
+    "public_publication": false
+  },
+  "candidate_reproductions": {
+    "caceres": {
+      "bytewise_test": "PASS",
+      "candidate_sha256": "0e176071730bd2b8b5a0293d52fd1c10d2bc2b9c0835a41a2fca946238caad9a",
+      "existing_input_sha256": "38c4ae7c5720645698e0fe90cf3ea95f8ba90e18bd761d1693c5c4b658a18910",
+      "existing_witness_sha256": "f387c48696abbedf7dc1cc6084fef863a8e8eea9251ad084c4f566db94063ce2"
+    },
+    "leon": {
+      "bytewise_test": "PASS",
+      "candidate_sha256": "bbc7c8b638d02b9c7100c83d7faa449f77161d1c1b49b5a3999dd93ff606bdc3",
+      "source_sha256": "237f7a73218347aab56964fe2b1ae918d5b2516f8bb33f842be15459637ed8c9"
+    }
+  },
+  "checks": {
+    "git_diff_check": "PASS",
+    "py_compile": "PASS",
+    "yaml_parse": "PASS"
+  },
+  "geospatial_runtime": {
+    "ci": "NOT_RUN",
+    "local": "BLOCKED_ENVIRONMENT",
+    "pinned_workflow": "requirements-congreso-piloto.lock"
+  },
+  "local_tests": {
+    "command": "python3 -m unittest tests.test_congreso_pilot_adapter tests.test_congreso_bounded_tree_search tests.test_congreso_piloto_leon tests.test_congreso_physical_audit -v",
+    "fail": 0,
+    "pass": 19,
+    "skip": 4,
+    "skip_reason": "Shapely unavailable in isolated macOS environment",
+    "summary": "19 PASS, 4 SKIP, 0 FAIL",
+    "total": 23
+  },
+  "original_pr298_head": "80dd2fd1256b49439dd11b017cff2d56f776e49a",
+  "review_findings": {
+    "P0_P1": "NONE_IN_PRELIMINARY_REVIEW",
+    "P2_1_physical_boolean_promotion": "FIXED_BY_REMOVING_CALLER_SUPPLIED_GEOMETRY_EVIDENCE",
+    "P2_2_duplicate_json_viewer_inputs": "FIXED_WITH_NEGATIVE_TEST",
+    "P2_3_ci_path_coverage": "FIXED_FOR_VIEWER_AND_DIRECT_INPUTS",
+    "final_review": "GO_ACOTADO on 023d41d98a6a630991d1bd08f02e45cc230ec246; no P0/P1, P2 corrected; CI/geospatial artifact pending"
+  },
+  "schema": "ddd.n08-provincial-pilot-reproduction/1.0",
+  "tested_base": "9efc672972c6d9f16f24de633bdf0e9f04aaf0c2"
+}

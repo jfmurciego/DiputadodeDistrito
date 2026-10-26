@@ -1,0 +1,57 @@
+{
+  "cnig_evidence_exp": "FUENTES/FUENTES_MANIFEST.json",
+  "input_bindings": {
+    "caceres": {
+      "checkpoint": "7d36cf7a5dfc5069ceaef31edc4c44099c38f4dfd5fe60e3d93a094657c58a25",
+      "contract": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+      "preflight": "e95d8fcfa816c524a8427e7b9abb0b2e02d752b6befde696b54d2e9ebcc20088",
+      "product_manifest": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+      "unit_product": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5"
+    },
+    "leon": {
+      "checkpoint": "44242cb7981478183bbc11b411b7ebe36aabde1f38a7ef47bcb89758b2dafe59",
+      "contract": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+      "preflight": "a8f5550a4ddcec02d3cd64dc0af3d5de38738776c82d5f07fe44d5495600a0de",
+      "product_manifest": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+      "unit_product": "a2b5845b49ebac4e24aca8f923983cd9ee717f9cb7b7ee345fdbec70e932d06b"
+    }
+  },
+  "leon_original_artifact": {
+    "archive": "LEON/leon-original-artifact.zip",
+    "archive_sha256": "9bc7edf8f6a76b1f706c692c6f71972c1f6eff01c3a1c18758ff5a1324aa9c15",
+    "artifact_id": 12275919036,
+    "candidate": "LEON/leon-original.json",
+    "candidate_sha256": "237f7a73218347aab56964fe2b1ae918d5b2516f8bb33f842be15459637ed8c9",
+    "candidate_source_sha256": "237f7a73218347aab56964fe2b1ae918d5b2516f8bb33f842be15459637ed8c9",
+    "producing_head": "9f96bed70cfa8fed1f520b745274e2e852da60db",
+    "provenance_note": "The 39454218489 artifact bytes were not recovered; its workflow log records the same candidate SHA. This audit is anchored to the fully recovered run 39448134186 artifact.",
+    "run_id": 39448134186
+  },
+  "main_base": "9efc672972c6d9f16f24de633bdf0e9f04aaf0c2",
+  "official_sources": {
+    "external_historical_administrative_boundary": {
+      "accredited": false,
+      "authority": "CNIG/IGN",
+      "bytes_received": false,
+      "dependency": "administrative and external-boundary final accreditation",
+      "effective_date": "2025-01-01",
+      "receipt_received": false
+    },
+    "section_geometry": {
+      "accreditation": "INE_2025_SOURCE_ACCREDITED",
+      "authority": "INE",
+      "edition": 2025,
+      "parts_manifest_path": "inputs/partes/MANIFEST_PARTES.sha256",
+      "reconstruction": "ordered concatenation of protected ZIP parts; separately hash-checked",
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+    },
+    "section_population": {
+      "accreditation": "INE_2025_SOURCE_ACCREDITED",
+      "authority": "INE",
+      "edition": 2025,
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+    }
+  },
+  "pr298_head": "80dd2fd1256b49439dd11b017cff2d56f776e49a",
+  "schema": "ddd.n08-provincial-pilot-sources/1.0"
+}

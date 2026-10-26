@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- DDD Congreso: visor de candidatos provinciales analíticos, nunca certificados. -->
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DDD · Visor Congreso · Pilotos León y Cáceres</title>
+<link href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+<style>
+.tabnav{display:flex;gap:14px;font-weight:700}.tabnav a{color:#0b5cab}
+.pilot-badge{color:#b42318;font-weight:750}.pick{padding:8px;border:1px solid #d9e2ec;border-radius:6px;background:white}
+.legend-item{display:flex;align-items:center;gap:9px;padding:5px 0}.swatch{width:18px;height:14px;border:1px solid #999;flex-shrink:0}
+.pilotinfo{font-size:13px;color:#52606d}.source-details{font-size:12px;overflow-wrap:anywhere}
+</style></head>
+<body><header class="topbar"><div>
+<p class="eyebrow">Diputado de Distrito · Congreso</p><h1>Visor nacional — Pilotos provinciales</h1>
+<nav class="tabnav"><a href="../">Distritos autonómicos</a><a href="./" aria-current="page">Congreso</a></nav>
+</div><div class="selectors">
+<label class="selector">Provincia<select id="province-select" class="pick" aria-label="Provincia del Congreso">
+<option value="24">León — 4 distritos</option>
+<option value="10">Cáceres — 3 distritos</option>
+</select></label>
+<label class="selector">GeoJSON alternativo<input id="geojson-file" class="pick" type="file" accept=".json,.geojson,application/json"></label>
+</div></header><main>
+<section id="map" aria-label="Mapa de distritos candidatos del Congreso"></section>
+<aside class="panel">
+<p class="pilot-badge">PILOTO ANALÍTICO · NO CERTIFICADO · NO AUTORIZADO PARA PRODUCCIÓN</p>
+<p class="status" id="status" aria-live="polite">Cargando cartografía provincial…</p>
+<section class="card"><h2>Distritos</h2><div id="district-list">Pendiente de cargar.</div></section>
+<section class="card"><h2>Ficha</h2><div id="detail">Selecciona un distrito en el mapa.</div></section>
+<section class="card warning"><h2>Limitaciones N08</h2><p id="limitations">Cargando limitaciones provinciales…</p></section>
+<section class="source-note"><h2>Fuente y trazabilidad</h2><p id="source-details" class="source-details">INE 2025 / N08. Producto analítico no certificado.</p></section>
+</aside></main>
+<script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+<script src="congreso.js"></script>
+</body></html>

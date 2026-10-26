@@ -1,0 +1,13 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0 — Entorno analítico provincial reproducible
+# FECHA: 2026-10-26
+# ESTADO: candidato
+# ORIGEN: nuevo; versiones observadas en la ejecución de geometría Ubuntu 24.04 de PR #298
+# ALCANCE: solo auditoría cartográfica analítica León/Cáceres; no entorno productivo
+geopandas==1.2.0
+numpy==2.5.4
+pandas==3.0.6
+pyogrio==0.13.0
+pyproj==3.8.0
+PyYAML==6.0.2
+shapely==2.2.0

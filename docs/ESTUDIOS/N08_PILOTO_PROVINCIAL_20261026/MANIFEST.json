@@ -1,0 +1,25 @@
+{
+  "base_main": "9efc672972c6d9f16f24de633bdf0e9f04aaf0c2",
+  "ci": "NOT_RUN",
+  "files": {
+    "CACERES/caceres-3-analitico.json": "0e176071730bd2b8b5a0293d52fd1c10d2bc2b9c0835a41a2fca946238caad9a",
+    "CACERES/caceres-3-analitico.json.audit.json": "0928493ce016b05284edf0321096b3bed70dff75fcdf14d6a4cc5caaaa45e438",
+    "CHECKPOINT.json": "7ff39381016b8c781e96b60b8caef0ef30012ddf2d1600d2df8c6a1a58e392bc",
+    "EVENT_LOG.jsonl": "e5b2cb645bdaa9b91d4fb3e05859e3ebf702daa8ebc9fd371a48999d9296fae5",
+    "FUENTES.json": "9bf8947ff5b3530022d5811c234ed796a694418e7de79812bf303eb42f058109",
+    "INFORME.md": "85d07cb7057f0e0bf3bc3ddee80f955eb48b6bc17fc455fe9d4c5f2e96f9998a",
+    "LEON/leon-corrected.json": "bbc7c8b638d02b9c7100c83d7faa449f77161d1c1b49b5a3999dd93ff606bdc3",
+    "LEON/leon-corrected.json.audit.json": "c787b76fec160037511163ac6e585d18a2840f02b58799388ad27a04d6dd0fb9",
+    "LEON/leon-corrected.json.pre-repair-audit.json": "9bc83eaa8d6f600d7d4d62f0fa3992229a630f3423cb643cd455353da0710370",
+    "LEON/leon-original-artifact.zip": "9bc7edf8f6a76b1f706c692c6f71972c1f6eff01c3a1c18758ff5a1324aa9c15",
+    "LEON/leon-original-audit.json": "9bc83eaa8d6f600d7d4d62f0fa3992229a630f3423cb643cd455353da0710370",
+    "LEON/leon-original.json": "237f7a73218347aab56964fe2b1ae918d5b2516f8bb33f842be15459637ed8c9",
+    "LEON/municipios-divididos-original.csv": "dd4ab196e6913a32138c4feddbc142c3424169b78ff6f0ef9006d609d63c5072",
+    "REPRODUCIBILITY.json": "e7cf4813d4bf43ef4de1dba0107f2cd95e8ef4597bb71ef227074b1cc444fa66",
+    "TASK_QUEUE.json": "3e882c054974bfa7cdb110bb4d97ec3821a2deb04b0e2fadaa975b1118ff4dc8"
+  },
+  "generation_authorized": false,
+  "pr298_head": "80dd2fd1256b49439dd11b017cff2d56f776e49a",
+  "product_certification": "NOT_PERFORMED",
+  "schema": "ddd.n08-provincial-pilot-manifest/1.0"
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "ddd.n08-provincial-pilot-queue/1.0",
+  "tasks": [
+    {
+      "evidence": [
+        "LEON/leon-original.json",
+        "LEON/leon-original-audit.json"
+      ],
+      "id": "PILOT-LEON-01",
+      "next_action": null,
+      "owner": "Executor",
+      "status": "DONE"
+    },
+    {
+      "evidence": [
+        "LEON/leon-corrected.json",
+        "LEON/leon-corrected.json.audit.json"
+      ],
+      "id": "PILOT-LEON-02",
+      "next_action": null,
+      "owner": "Executor",
+      "status": "DONE"
+    },
+    {
+      "evidence": [
+        "CACERES/caceres-3-analitico.json",
+        "CACERES/caceres-3-analitico.json.audit.json"
+      ],
+      "id": "PILOT-CACERES-01",
+      "next_action": null,
+      "owner": "Executor",
+      "status": "DONE"
+    },
+    {
+      "evidence": [
+        "../ENVIRONMENT.json",
+        "../nac-geo-install-20261026.log",
+        "../nac-geo-pyogrio-install-20261026.log"
+      ],
+      "id": "PILOT-GEOMETRY-01",
+      "next_action": "Run tests/test_congreso_physical_audit.py and audit both stored candidates in pinned Ubuntu 24.04 CI; inspect artifact for connectedness, point-only contacts and overlaps.",
+      "owner": "Executor",
+      "status": "BLOCKED_ENVIRONMENT"
+    },
+    {
+      "evidence": [
+        "../FUENTES/FUENTES_MANIFEST.json"
+      ],
+      "id": "PILOT-CNIG-01",
+      "next_action": "Receive/accredit official boundary dataset effective 2025-01-01; no request sent in this work.",
+      "owner": "Fuentes Oficiales",
+      "status": "BLOCKED_EXTERNAL"
+    },
+    {
+      "evidence": [
+        "INFORME.md",
+        "MANIFEST.json"
+      ],
+      "id": "PR298-READY-01",
+      "next_action": "Publish existing PR #298 branch via authorized write path, run pinned CI and receive independent final review; no merge.",
+      "owner": "Work / independent reviewer",
+      "status": "READY_FOR_REVIEW"
+    }
+  ]
+}

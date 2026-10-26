@@ -1,0 +1,84 @@
+{
+  "authorization": {
+    "generation_authorized": false,
+    "merge_authorized": false,
+    "publication_authorized": false
+  },
+  "base_main": "9efc672972c6d9f16f24de633bdf0e9f04aaf0c2",
+  "branch": "codex/congreso-piloto-leon-m04-20261020",
+  "next_safe_command": "Usar entregas/N08_PILOTO_LEON_CACERES_20261026/incremento.patch y DELIVERY_MANIFEST.json; verificar el SHA del patch indicado allí. En un clone completo, comprobar la base main 9efc672972c6d9f16f24de633bdf0e9f04aaf0c2, aplicar el patch y construir una actualización no forzada de la rama de #298 conservando los padres PR298 80dd2fd1256b49439dd11b017cff2d56f776e49a y main. Ejecutar CI y revisión sobre el nuevo SHA; no mergear ni producir.",
+  "pr298_head": "80dd2fd1256b49439dd11b017cff2d56f776e49a",
+  "schema": "ddd.n08-provincial-pilot-checkpoint/1.0",
+  "tasks": [
+    {
+      "evidence": [
+        "LEON/leon-original.json",
+        "LEON/leon-original-audit.json"
+      ],
+      "id": "PILOT-LEON-01",
+      "next_action": null,
+      "owner": "Executor",
+      "status": "DONE"
+    },
+    {
+      "evidence": [
+        "LEON/leon-corrected.json",
+        "LEON/leon-corrected.json.audit.json"
+      ],
+      "id": "PILOT-LEON-02",
+      "next_action": null,
+      "owner": "Executor",
+      "status": "DONE"
+    },
+    {
+      "evidence": [
+        "CACERES/caceres-3-analitico.json",
+        "CACERES/caceres-3-analitico.json.audit.json"
+      ],
+      "id": "PILOT-CACERES-01",
+      "next_action": null,
+      "owner": "Executor",
+      "status": "DONE"
+    },
+    {
+      "evidence": [
+        "../ENVIRONMENT.json",
+        "../nac-geo-install-20261026.log",
+        "../nac-geo-pyogrio-install-20261026.log"
+      ],
+      "id": "PILOT-GEOMETRY-01",
+      "next_action": "Run tests/test_congreso_physical_audit.py and audit both stored candidates in pinned Ubuntu 24.04 CI; inspect artifact for connectedness, point-only contacts and overlaps.",
+      "owner": "Executor",
+      "status": "BLOCKED_ENVIRONMENT"
+    },
+    {
+      "evidence": [
+        "../FUENTES/FUENTES_MANIFEST.json"
+      ],
+      "id": "PILOT-CNIG-01",
+      "next_action": "Receive/accredit official boundary dataset effective 2025-01-01; no request sent in this work.",
+      "owner": "Fuentes Oficiales",
+      "status": "BLOCKED_EXTERNAL"
+    },
+    {
+      "evidence": [
+        "INFORME.md",
+        "MANIFEST.json"
+      ],
+      "id": "PR298-READY-01",
+      "next_action": "Trasladar el patch a un clone completo, actualizar la rama de #298 por una vía autorizada, ejecutar CI del nuevo SHA y solicitar la revisión final sobre esa combinación. La API GitHub de escritura está denegada en este entorno y el Git remoto falló por DNS.",
+      "owner": "Work / independent reviewer",
+      "status": "BLOCKED_ENVIRONMENT"
+    }
+  ],
+  "tests": {
+    "diff_check": "PASS",
+    "full_contract_certifier_suite": "NOT_VERIFIED in sparse worktree; 3 missing historical-evidence errors; 28 tests otherwise passed",
+    "pilot_suite": "19 PASS; 4 SKIP; 23 total (Shapely unavailable for 4 physical tests)",
+    "py_compile": "PASS",
+    "remote_CI": "NOT_RUN; local publication blocked by GitHub DNS and missing base blobs",
+    "yaml": "PASS"
+  },
+  "updated_at": "2026-10-26",
+  "worktree": "/private/tmp/ddd-nac-leon-caceres-20261026"
+}
