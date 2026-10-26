@@ -163,7 +163,8 @@ class DurableM06ManifestTests(unittest.TestCase):
         ref = payload["artifacts"]["m06"]
         promote(root_dir=self.root, kind="territorial_product", territory_id="demo", edition="2025",
                 run_id=100, artifact_name=ref["artifact_name"], artifact_sha256=ref["artifact_sha256"],
-                decision="PASS", producer_manifest_path="territorios/demo/evidencia/generaciones_m06/100.json")
+                decision="PASS", source_commit=payload["identity"]["checkout_sha"],
+                producer_manifest_path="territorios/demo/evidencia/generaciones_m06/100.json")
         receipt = json.loads((self.root / "territorios/demo/evidencia/catalogo/territorial_product_2025.json").read_text())
         self.assertEqual(receipt["producer_manifest_path"], "territorios/demo/evidencia/generaciones_m06/100.json")
 
