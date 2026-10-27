@@ -313,7 +313,7 @@ jobs:
             node --check /tmp/site-candidate/congreso/congreso.js
           else
             test ! -e /tmp/site-candidate/congreso
-            ! grep -q 'href="congreso/"' /tmp/site-candidate/index.html
+            if grep -q 'href="congreso/"' /tmp/site-candidate/index.html; then echo "::error::Enlace Congreso presente sin opt-in"; exit 1; fi
           fi
           python - <<'PY'
           import json
