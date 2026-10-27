@@ -2,14 +2,14 @@
 """Promueve evidencia operacional sin perder el enlace productor M06.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Promoción operacional con referencia al manifiesto M06
-FECHA: 2026-10-26
+FECHA: 2026-10-27
 ESTADO: candidato
 QUÉ HACE: registra recibos operativos y rederiva su persistencia desde el HEAD destino.
-CAMBIOS: enlaza el receipt M06 a su manifiesto durable independiente cuando lo aporta 02.
-MOTIVO: conservar el productor real del producto sin atribuirlo a un manifiesto 00.
-ANTERIOR: legacy/herramientas/promover_catalogo_operacional_pre_m06_manifest_20261026.py
+CAMBIOS: importa manifest_sha256 con el mismo respaldo de ejecución directa que el resto de dependencias.
+MOTIVO: la invocación `python herramientas/promover_catalogo_operacional.py` del workflow 02 fallaba con ModuleNotFoundError al registrar un M06.
+ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.0_20261027.py
 """
 from __future__ import annotations
 
@@ -24,10 +24,12 @@ try:
     from herramientas.catalogo_preparacion import validate_repository
     from herramientas.persistir_estado_operativo_compartido import persist_rederived_tree
     from herramientas.identidad_fuentes_legislatura import electoral_identity
+    from herramientas.manifest_generacion_territorial import manifest_sha256
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
     from catalogo_preparacion import validate_repository
     from persistir_estado_operativo_compartido import persist_rederived_tree
     from identidad_fuentes_legislatura import electoral_identity
+    from manifest_generacion_territorial import manifest_sha256
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 ELECTION_REGISTRY = Path("configuracion/registro_electoral.yaml")
@@ -91,7 +93,6 @@ def promote(
         if decision not in {"PASS", "PASS_WITH_EXCEPTIONS"}: raise ValueError(f"Producto territorial no promovible: decision={decision!r}")
         producer_ref = None
         if producer_manifest_path:
-            from herramientas.manifest_generacion_territorial import manifest_sha256
             manifest_file = (root / producer_manifest_path).resolve()
             if not manifest_file.is_relative_to(root):
                 raise ValueError("Manifiesto M06 fuera del repositorio")

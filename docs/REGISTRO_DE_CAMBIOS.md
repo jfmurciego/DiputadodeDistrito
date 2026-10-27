@@ -1,12 +1,25 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.13
+Versión: 1.0.14
 Fecha: 2026-10-27
-Alcance: exclusión por defecto de pilotos Congreso en Pages y trazabilidad de vistas analíticas
+Alcance: registro del producto territorial M06 desde el workflow 02
 Estado: candidato
-Cambios/motivo: cerrar el guard de publicación analítica Congreso y completar su linaje por artefacto
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.11_20261026.md
+Cambios/motivo: corregir el import que impedía promover cualquier M06 nuevo al catálogo
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.13_20261027.md
 -->
+
+## 2026-10-27 — 02 — registro del producto territorial M06
+
+`promover_catalogo_operacional.py` 1.1.1 importa `manifest_sha256` en el mismo
+bloque con respaldo de ejecución directa que sus demás dependencias. La versión
+1.1.0 lo importaba como `herramientas.manifest_generacion_territorial` dentro de
+`promote()`; el workflow 02 invoca la herramienta por ruta y sin `PYTHONPATH`,
+así que el paso "Registrar producto territorial certificado" fallaba con
+`ModuleNotFoundError` tras generar y certificar M06. Así ocurrió en los runs
+40544326534 (Cantabria), 40544333932 (Castilla-La Mancha) y 40544340229 (Galicia).
+`tests/test_promocion_ejecucion_directa.py` ejecuta la herramienta en modo directo
+y rechaza imports de paquete sin respaldo. No cambia la lógica de promoción ni
+los productos; la versión anterior se conserva en `legacy/herramientas/`.
 
 ## 2026-10-27 — N08 — puerta de publicación y trazabilidad de pilotos
 
