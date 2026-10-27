@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-27",
+  "scope": "existing versioned evidence; no new source acquisition",
+  "items": [
+    {
+      "path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/receipt.json",
+      "bytes": 1475,
+      "sha256": "71c3f8ccfd643e80d063de20347479a3150bc596d6b5a83e4cc69a5757478094"
+    },
+    {
+      "path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/m02_contract_assessment_2023.json",
+      "bytes": 2977,
+      "sha256": "806d3c896a599383790e684322bcafc8f933bdd1c8b2d65a0a7137f8a0ddfaac"
+    },
+    {
+      "path": "territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/81b385e7be11975f01870a1dbc41ab6c947774a0c6f611a5c3940e289523959e/36875387632/receipt.json",
+      "bytes": 710,
+      "sha256": "82bb3f4d2dd598721fe2567e97792b2fe31ce408fa6cfb4b005c485cda56b700"
+    },
+    {
+      "path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/evidencia_geometrica.json",
+      "bytes": 102413,
+      "sha256": "34fd63ce6379fd0b8b6bbf1573f8b2378144c6f1b928a2c04396fc399c4f1703"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-27",
+  "origin": "new read-only derivation on base 75fe65b6",
+  "command": "python3 -m herramientas.estado_derivado_f10 --root .",
+  "validation_scope": "receipt metadata, identity and referenced evidence; no package re-extraction",
+  "counts": {
+    "territorial_acquisition": {
+      "CLOSED": 19
+    },
+    "territorial_admissibility": {
+      "BLOCKED": 1,
+      "PASS": 18
+    },
+    "electoral_admissibility": {
+      "ADMISSIBLE": 15,
+      "BLOCKED": 4
+    },
+    "joint_admissibility": {
+      "BLOCKED": 5,
+      "PASS": 14
+    },
+    "production": {
+      "NOT_AUTHORIZED_BY_F10": 19
+    }
+  },
+  "territory": {
+    "territory_id": "comunidad_valenciana",
+    "territory": "Comunidad Valenciana",
+    "territorial_acquisition": "CLOSED",
+    "territorial_reason": [],
+    "territorial_admissibility": "BLOCKED",
+    "territorial_admissibility_reason": [
+      "M02_CONTRACT_NOT_BOUND_TO_2023; EPSG:25830 is configured for source years 2025 only, while the prior effective M02 baseline EPSG:3035 yields two overlaps above 1 m2."
+    ],
+    "territorial_geometry_evidence_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/m02_contract_assessment_2023.json",
+    "territorial_receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/receipt.json",
+    "territorial_receipt_sha256": "71c3f8ccfd643e80d063de20347479a3150bc596d6b5a83e4cc69a5757478094",
+    "territorial_run_id": 39315133646,
+    "territorial_validation_scope": "canonical #179 receipt schema, identity, edition and receipt-file SHA; package bytes are not re-extracted by this read-only projection",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62",
+    "electoral_admissibility": "ADMISSIBLE",
+    "electoral_reason": [],
+    "electoral_receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/81b385e7be11975f01870a1dbc41ab6c947774a0c6f611a5c3940e289523959e/36875387632/receipt.json",
+    "electoral_identity_sha256": "81b385e7be11975f01870a1dbc41ab6c947774a0c6f611a5c3940e289523959e",
+    "electoral_validation_scope": "canonical catalog contract and election identity metadata; source artifact bytes are not revalidated by this projection",
+    "joint_admissibility": "BLOCKED",
+    "joint_validation_scope": "canonical prepared-pair receipt consumer; never inferred from PR state",
+    "joint_reason": [
+      "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Comunidad Valenciana edición 2025; complete la preparación conjunta antes de ejecutar"
+    ],
+    "production": "NOT_AUTHORIZED_BY_F10"
+  },
+  "production_authorized": false
+}
