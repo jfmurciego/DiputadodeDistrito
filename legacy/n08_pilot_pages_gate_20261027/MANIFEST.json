@@ -1,0 +1,15 @@
+{
+  "schema": "ddd.legacy-snapshot/1.0",
+  "purpose": "Preimage preservation before N08 pilot publication-gate and provenance correction",
+  "snapshot_date": "2026-10-27",
+  "base_commit": "913b563f57d77985420d6647e7feb675a6220906",
+  "files": {
+    ".github/workflows/_reutilizable-publicar-sitio.yml": "b0c78bec20a0c8c3189656d20225bd7e373e49d8eeb6c19cd55b7d82158f248f",
+    ".github/workflows/congreso-piloto-leon.yml": "25f26cef36fc6f915bf5e54f0f0ae6d2db2acf9740f4b8f9ecc23bb3be80eaaf",
+    "docs/REGISTRO_DE_CAMBIOS.md": "edced118f430c74bd14ee92944728469e7e76f8b852d8580b61528e9a0cf8e6a",
+    "herramientas/preparar_visor_congreso_leon.py": "60bf6df681f466976d164869162e9e18899e1b4432aaa5739b4f968354a786bb",
+    "tests/test_congreso_visor.py": "b9a745c1d0f9e6bc6582718aa68721b91132b8714179a10642b5c719531fd8e3",
+    "visor/congreso/congreso.js": "bdd173008ea3ece96a0c600a607aca21e1ff98ddaad1e2f841d5dc7051ddb1f8",
+    "visor/index.html": "e03cf726c5ba40fc62fff2b898ab69dab107dd3ec7c71c9ca3d1da56dd04dcf0"
+  }
+}

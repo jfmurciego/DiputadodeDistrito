@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.2.0 — Filtros de CI cubren consumidores y entradas directas
+# VERSIÓN: 1.3.0 — Trazabilidad de ejecución en vistas y auditorías N08
 # NOMBRE: Congreso — Preflight de candidatos León y Cáceres
-# FECHA: 2026-10-26
+# FECHA: 2026-10-27
 # ESTADO: candidato; no productivo
 # ALCANCE: pruebas, reproducción acotada y auditoría física; artefactos aislados
-# CAMBIOS: dependencias fijadas; filtros cubren grafo, contrato y visor; sin Pages ni M04–M06
+# CAMBIOS: el GeoJSON registra run ID y SHA del candidato; sin Pages ni M04–M06
 # MOTIVO: auditar el candidato existente y reproducir el testigo de Cáceres bajo CI
-# ANTERIOR: legacy/nac_piloto_20261026/.github/workflows/congreso-piloto-leon.yml
+# ANTERIOR: legacy/n08_pilot_pages_gate_20261027/current/.github/workflows/congreso-piloto-leon.yml (versión 1.2.0)
 name: 06 Congreso — Preflight analítico León y Cáceres
 
 on:
@@ -170,12 +170,15 @@ jobs:
         run: |
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/LEON/leon-corrected.json \
+            --execution-id "$GITHUB_RUN_ID" \
             --output "$RUNNER_TEMP/nac-pilots/LEON/analytical-preview.geojson"
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-analitico.json \
+            --execution-id "$GITHUB_RUN_ID" \
             --output "$RUNNER_TEMP/nac-pilots/CACERES/analytical-preview.geojson"
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json \
+            --execution-id "$GITHUB_RUN_ID" \
             --output "$RUNNER_TEMP/nac-pilots/CACERES/analytical-preview-degree-asc.geojson" \
             --split-output "$RUNNER_TEMP/nac-pilots/CACERES/municipios-divididos.geojson"
 

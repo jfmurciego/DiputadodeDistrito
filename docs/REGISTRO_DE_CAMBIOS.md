@@ -1,12 +1,16 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.12
-Fecha: 2026-10-26
-Alcance: manifiesto durable M06 y verificación de fuente para workflow 02
+Versión: 1.0.13
+Fecha: 2026-10-27
+Alcance: exclusión por defecto de pilotos Congreso en Pages y trazabilidad de vistas analíticas
 Estado: candidato
-Cambios/motivo: contrastar el paquete de fuente M06 independiente con inputs del run y conservar la separación M06/M08
+Cambios/motivo: cerrar el guard de publicación analítica Congreso y completar su linaje por artefacto
 Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.11_20261026.md
 -->
+
+## 2026-10-27 — N08 — puerta de publicación y trazabilidad de pilotos
+
+Los candidatos analíticos de León y Cáceres quedan excluidos del sitio Pages por defecto. El publicador solo los empaqueta si su caller selecciona explícitamente `include_congreso_analytical_preview`; el enlace de navegación se añade únicamente en esa ruta. El flujo de preflight no despliega y registra en cada GeoJSON el SHA-256 del archivo candidato y el run ID que creó la vista. El visor valida y presenta esos valores junto con el SHA del testigo. Los candidatos siguen con `generation_authorized=false` y `NOT_CERTIFIED`; no se cambia la autorización ni se publica nada en este cambio.
 
 ## 2026-10-26 — M06 — contrastar la fuente del manifiesto 02
 

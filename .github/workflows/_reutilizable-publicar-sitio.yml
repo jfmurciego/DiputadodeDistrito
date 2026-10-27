@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.0.2
+# VERSIÓN: 3.0.3
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
-# QUÉ HACE: promueve a activos persistentes, preflight completo, registro atómico y despliegue único.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/_reutilizable-publicar-sitio.pre-p0.yml (versión 3.0.1 conservada)
-# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# FECHA: 2026-10-25
+# QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
+# ANTERIOR: legacy/n08_pilot_pages_gate_20261027/current/.github/workflows/_reutilizable-publicar-sitio.yml (versión 3.0.2)
+# CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
+# MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
+# FECHA: 2026-10-27
 name: _Publicador Interno del Sitio
 
 on:
@@ -29,6 +29,10 @@ on:
         required: false
         type: string
         default: Visor territorial
+      include_congreso_analytical_preview:
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -266,29 +270,51 @@ jobs:
           rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard
           cp visor/index.html visor/app.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
-          # Espacio cartográfico exclusivamente analítico. No entra al
-          # registro de productos certificados ni modifica sus puertas.
+          python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
+
+      - name: Preparar visor analítico Congreso opt-in
+        if: ${{ inputs.include_congreso_analytical_preview }}
+        shell: bash
+        run: |
+          set -euo pipefail
           mkdir -p /tmp/site-candidate/congreso/data
           cp visor/congreso/index.html visor/congreso/congreso.js visor/congreso/styles.css /tmp/site-candidate/congreso/
           python -m pip install --disable-pip-version-check -r requirements-congreso-piloto.lock
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/LEON/leon-corrected.json \
+            --execution-id "$GITHUB_RUN_ID" \
             --output /tmp/site-candidate/congreso/data/24.geojson
           python -m herramientas.preparar_visor_congreso_leon \
             --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json \
+            --execution-id "$GITHUB_RUN_ID" \
             --output /tmp/site-candidate/congreso/data/10.geojson \
             --split-output /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
-          python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("/tmp/site-candidate/index.html")
+          page = path.read_text(encoding="utf-8")
+          marker = '<a class="dashboard-link" href="dashboard/">Dashboard operativo</a>'
+          link = '<a class="dashboard-link" href="congreso/">Congreso — pilotos analíticos no certificados</a>'
+          if marker not in page or 'href="congreso/"' in page:
+              raise SystemExit("CONGRESS_NAV_INJECTION_PRECONDITION_FAILED")
+          path.write_text(page.replace(marker, marker + " " + link, 1), encoding="utf-8")
+          PY
 
       - name: Validar sitio candidato completo
         shell: bash
         run: |
           set -euo pipefail
           test -s /tmp/site-candidate/data/viewer-results.json
-          test -s /tmp/site-candidate/congreso/data/24.geojson
-          test -s /tmp/site-candidate/congreso/data/10.geojson
-          test -s /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
-          node --check /tmp/site-candidate/congreso/congreso.js
+          if [[ "${{ inputs.include_congreso_analytical_preview }}" == "true" ]]; then
+            test -s /tmp/site-candidate/congreso/data/24.geojson
+            test -s /tmp/site-candidate/congreso/data/10.geojson
+            test -s /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
+            grep -q 'href="congreso/"' /tmp/site-candidate/index.html
+            node --check /tmp/site-candidate/congreso/congreso.js
+          else
+            test ! -e /tmp/site-candidate/congreso
+            if grep -q 'href="congreso/"' /tmp/site-candidate/index.html; then echo "::error::Enlace Congreso presente sin opt-in"; exit 1; fi
+          fi
           python - <<'PY'
           import json
           from pathlib import Path
