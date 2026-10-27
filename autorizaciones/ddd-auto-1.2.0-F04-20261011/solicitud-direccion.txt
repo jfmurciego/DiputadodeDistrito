@@ -1,0 +1,10 @@
+DDD — Decisión de Dirección sobre `ddd auto 1.2.0`
+El controlador está instalado y su dry-run ha funcionado sobre las 32 tareas. Commit local `fff6b0b5`.
+Solicito:
+1. Reconciliar F04 con las evidencias y decisiones ya existentes de F05–F09, sin repetir tareas cerradas ni inferir PASS.
+2. Confirmar y aprobar las correcciones pendientes de dependencias del Plan Maestro.
+3. Autorizar un primer piloto local acotado de `ddd auto`, preferentemente la validación de evidencias existentes de F04, si todavía aporta valor.
+4. Preparar la referencia de autorización verificable que exige el controlador, sin modificar sus protecciones.
+5. Determinar qué tareas independientes pueden habilitarse después sin otra intervención del propietario.
+Prohibidas generación territorial, adquisición externa, push, PR, merge y publicación.
+Quiero una decisión ejecutiva y el siguiente comando exacto, no otra auditoría ni un nuevo planificador.

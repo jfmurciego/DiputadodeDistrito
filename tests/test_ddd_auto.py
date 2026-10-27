@@ -1,6 +1,6 @@
-"""DDD auto 1.2.0; 2026-10-10; directed offline simulation regression.
-Predecessor: infraestructura/ordenes-manuales/legacy/1.1.0/test_ddd_auto.py.
-Changes/reason: pilot interface, authorization, atomicity, repair, resource limits.
+"""DDD auto 1.3.0; 2026-10-11; directed offline simulation regression.
+Predecessor: infraestructura/ordenes-manuales/legacy/1.2.0/test_ddd_auto.py.
+Changes/reason: empty preflight consumes nothing; dynamic catalogue compatibility.
 """
 import copy
 import fcntl
@@ -39,7 +39,7 @@ class AutoPilot(unittest.TestCase):
         self.git('init','-b','codex/fuentes-oficiales');self.git('config','user.email','simulation@local.invalid');self.git('config','user.name','DDD Simulation')
         (self.repo/'baseline.txt').write_text('Local infrastructure simulation only\n')
         self.git('add','baseline.txt');self.git('commit','-m','Simulation baseline')
-        catalog=json.loads((self.data/'catalogo.json').read_text())
+        catalog=json.loads((BUNDLE/'legacy/1.2.0/catalogo.json').read_text())
         catalog['worktrees']['fuentes-oficiales']['expected_head_prefix']=self.git('rev-parse','HEAD').strip()
         jsonwrite(self.data/'catalogo.json',catalog)
         self.catalog=catalog
@@ -62,6 +62,13 @@ class AutoPilot(unittest.TestCase):
         self.auto_root=self.data/'auto'/hashlib.sha256(str(self.plan).encode()).hexdigest()[:16]
         self.journal=self.auto_root/'eventos.jsonl'
         self.originals={str(p):auto.digest(p) for p in (self.plan/'estado.json', self.data/'historial.jsonl')}
+
+    def tearDown(self):
+        # Only fixtures created by this test; previous evidence is never removed.
+        for p in self.root.rglob('*'):
+            if not p.is_symlink():
+                p.chmod(0o755 if p.is_dir() else 0o644)
+        shutil.rmtree(self.root)
 
     def git(self,*args):
         return subprocess.check_output(['git','-C',str(self.repo),*args],stderr=subprocess.DEVNULL,text=True)
@@ -260,7 +267,9 @@ class AutoPilot(unittest.TestCase):
     def test_orphan_started_and_corrupt_journal(self):
         self.journal.parent.mkdir(parents=True)
         auto.append(self.journal,{'task':'F03','state':'STARTED','attempt':'historical-orphan'})
-        self.run_auto('F03');self.assertEqual(self.states()['F03'],'BLOCKED');self.assertEqual(self.calls(),[])
+        before=auto.digest(self.journal)
+        p=self.run_auto('F03');self.assertIn('BLOCKED',p.stdout)
+        self.assertEqual(auto.digest(self.journal),before);self.assertEqual(self.calls(),[])
         with self.journal.open('a') as f:f.write('truncated record')
         p=subprocess.run(self.command('F03'),env=self.env,capture_output=True,text=True)
         self.assertEqual(p.returncode,2);self.assertFalse(self.trace.exists())
@@ -336,12 +345,11 @@ class AutoPilot(unittest.TestCase):
 
     def test_resume_rejects_changed_authoritative_revision(self):
         self.run_auto('F03',extra=('--dry-run',))
-        # A blocked, unattempted campaign suffices to test identity without Codex.
-        self.policy['authorized_local_tasks']=[];jsonwrite(self.data/'policy.json',self.policy)
+        # A real simulated checkpoint is required: zero-ready preflight creates none.
         self.run_auto('F03');folder=self.campaign_path()
         plan=json.loads((self.plan/'estado.json').read_text());plan['plan_revision']='CHANGED';jsonwrite(self.plan/'estado.json',plan)
         p=subprocess.run(self.command('F03',extra=('--resume',folder.name)),env=self.env,capture_output=True,text=True)
-        self.assertEqual(p.returncode,2);self.assertIn('misma revisión',p.stderr);self.assertEqual(self.calls(),[])
+        self.assertEqual(p.returncode,2);self.assertIn('misma revisión',p.stderr);self.assertEqual(len(self.calls()),2)
 
 
 class ControllerContracts(unittest.TestCase):
@@ -391,8 +399,14 @@ class ControllerContracts(unittest.TestCase):
             self.assertEqual(p.returncode,0,p.stderr)
             self.assertEqual(original,{str(p.relative_to(target)):auto.digest(p) for p in target.rglob('*') if p.is_file()})
             p=subprocess.run(command+['--apply'],capture_output=True,text=True)
-            self.assertEqual(p.returncode,0,p.stderr)
-            backup=next((target/'respaldos-instalacion').iterdir())
+            self.assertEqual(p.returncode,2,p.stderr)
+            self.assertIn('REAL',p.stderr)
+            loader=importlib.util.spec_from_file_location('ddd_installer_contract',BUNDLE/'instalar_actualizacion.py')
+            installer=importlib.util.module_from_spec(loader);loader.loader.exec_module(installer)
+            with patch.object(installer,'validate_gates',return_value={'mode':'SIMULATED_UNIT_TEST'}),patch.object(installer,'lock_paths',return_value=[]):
+                installed=installer.install(target,None)
+            backup=Path(installed['backup'])
+            self.assertFalse(backup.is_relative_to(target))
             for name,sha in original.items():
                 self.assertEqual(auto.digest(backup/name if name=='ddd.py' else target/name),sha)
             self.assertEqual(auto.digest(target/'ddd.py'),auto.digest(BUNDLE/'ddd.py'))

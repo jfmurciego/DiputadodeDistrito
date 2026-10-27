@@ -1,6 +1,6 @@
 {
-  "schema": "ddd.manual-launcher/1.0",
-  "source": "DDD-planificador-nocturno-v2-32-tareas-20261008.zip / plan/estado.json",
+  "schema": "ddd.manual-launcher/1.1",
+  "source": "BACKLOG_ADITIVO.json histórico contrastado con estado vivo; no implica cierre",
   "source_date": "2026-10-08",
   "explanation": "Los 32 estados originales no se elevan a PASS por informes Codex; leer plan local para estado vigente.",
   "worktrees": {
@@ -15,6 +15,10 @@
     "distritos-nacionales": {
       "path": "~/Desarrollo/DDD-distritos-nacionales",
       "expected_head_prefix": "7307536a"
+    },
+    "plataforma": {
+      "path": "~/Desarrollo/DDD-orquestador-auto",
+      "expected_branch": "codex/ddd-auto-control"
     }
   },
   "tasks": [
@@ -27,7 +31,26 @@
       "acceptance": [
         "Copia fuera del Mac y hashes verificados"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F01.md",
+      "prompt_sha256": "625f54229e73a7c6a8baf715fec74fe4f43eb60743cead246aefd970b02105b0",
+      "spec_sha256": "ecc57c409c0c5b7727d5bc78f3f9c5fdaad42a435c63f211ffdcc5b24548ea1a",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F02",
@@ -40,7 +63,30 @@
       "acceptance": [
         "14/14 resoluciones con identidad y hash"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F01"
+      ],
+      "acceptance_dependencies": [
+        "F01"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F02.md",
+      "prompt_sha256": "17ebceac721cda054a97c5714b600c4d34a5bac41e6681c2dc2127a72998868b",
+      "spec_sha256": "cf9e9285908f9b0c1be6440c226f354192974664c46a9023e1137411c56ddaab",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F03",
@@ -53,7 +99,30 @@
       "acceptance": [
         "Dos handoffs pre-M04 verificados sin generación"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F02"
+      ],
+      "acceptance_dependencies": [
+        "F02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F03.md",
+      "prompt_sha256": "83193e527e4a2126ed442ddf3f39b5c84d70e377f4292ef4de7a7e2d393bdc73",
+      "spec_sha256": "5c0eb95d6e871e019c1eb34395a1c0035f4f88c67240b5e32b6a7c13c38a2d72",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F04",
@@ -66,7 +135,30 @@
       "acceptance": [
         "Matriz de 19 con gaps y pruebas"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F02"
+      ],
+      "acceptance_dependencies": [
+        "F02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F04.md",
+      "prompt_sha256": "07edd49bf7e3e9c3dade82946df181b26a9afd2a1bf3760390b974501490f1af",
+      "spec_sha256": "20ac60d0fd5acac64e8123e30820c0367e36d2d0790e3f40f1238bdeb0ed946f",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F05",
@@ -80,7 +172,32 @@
       "acceptance": [
         "Contrato y pruebas sin red"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F03",
+        "F04"
+      ],
+      "acceptance_dependencies": [
+        "F03",
+        "F04"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F05.md",
+      "prompt_sha256": "68f898516610f8786cba77928769e609c4d6365ecaacf548a1bd5e710ba544bb",
+      "spec_sha256": "dac723e39b2a8801d10e0ac841461d2651e0eeef24ef68cc0c5505ac45607ac6",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F06",
@@ -93,7 +210,30 @@
       "acceptance": [
         "Evidencia y corrección mínima sin promoción indebida"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F02"
+      ],
+      "acceptance_dependencies": [
+        "F04"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F06.md",
+      "prompt_sha256": "85b2d677bb8940b15a3f80a50e04bfb94dc3819fb80434ab2206ab1bb14d455b",
+      "spec_sha256": "082b722aa60d4606690fcd5738e14d1d93e34b0fae7dfbc128d06dff4f6108a7",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F07",
@@ -107,7 +247,32 @@
       "acceptance": [
         "19 resultados PASS o BLOCKED acreditado"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F05",
+        "F06"
+      ],
+      "acceptance_dependencies": [
+        "F05",
+        "F06"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F07.md",
+      "prompt_sha256": "311626eee7704ad529d4a1d6acc1e92ac328a40ae2e60e77168ab7d3e6787dff",
+      "spec_sha256": "5f0fb2b9f9fd8dbb982a196aa7c97ce0ef295429cd33fc76b4509ab09bff09b1",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F08",
@@ -120,7 +285,30 @@
       "acceptance": [
         "Matriz de procedencia, edición y elegibilidad"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F07"
+      ],
+      "acceptance_dependencies": [
+        "F07"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/F08.md",
+      "prompt_sha256": "0d41b0dcb743c767c5b5410646c8d2f48350198e405cfcaad6c8e8d93e9c13fb",
+      "spec_sha256": "5eb49eb9e1f9e56dee23f970f2b73bb327942de5d0a76f6bbca3fc250a471ac6",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F09",
@@ -133,7 +321,32 @@
       "acceptance": [
         "Dictamen SHA final y CI satisfactoria; aprobación requerida"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F08"
+      ],
+      "acceptance_dependencies": [
+        "F08"
+      ],
+      "integration_dependencies": [
+        "F08"
+      ],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/F09.md",
+      "prompt_sha256": "2f4fda82d8357f4a678a921dda19002e8f28f8e601b759396452055b4bd90336",
+      "spec_sha256": "2812433a69768af58ee0f25030c5bf45311ec2fcd493d0db83640ddc471aedcf",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "F10",
@@ -146,7 +359,39 @@
       "acceptance": [
         "Readiness por territorio sin confundir con producción"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "F09"
+      ],
+      "acceptance_dependencies": [
+        "F09"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [
+        {
+          "gate": "acceptance",
+          "identity": "territorial-source-receipt",
+          "edition": "2025",
+          "sha256": null,
+          "path": null,
+          "cause": "Receipts canónicos válidos y bytes congelados por cada paquete; ningún derived receipt los sustituye."
+        }
+      ],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/F10.md",
+      "prompt_sha256": "98b75018d1edc4680244a8a15861bd772b0420b36692f5c904d1c8964da5d5ab",
+      "spec_sha256": "3f2b4a8da5f22c9e720f19125aa3426c2ff08681b55cf7f6a8fb1421921ac91c",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A01",
@@ -157,7 +402,26 @@
       "acceptance": [
         "Fixture existente y commit 42163cd8 preservados"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A01.md",
+      "prompt_sha256": "590bade3dc3d501806079140029c84bd6294b88adf9228d9f09efc32b859c494",
+      "spec_sha256": "7408e928d95c3b2f42f8aecb738ba41a431b410337718011200bd1d55dbc8b72",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A02",
@@ -170,7 +434,30 @@
       "acceptance": [
         "Conclusión acreditada sin recalcular M05"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "A01"
+      ],
+      "acceptance_dependencies": [
+        "A01"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A02.md",
+      "prompt_sha256": "4c10908d5cbdeb1408684426ac1433adff58da570525d50e9099be28e902bcaf",
+      "spec_sha256": "4597402b06d33d2e8879581581e039846a6b27197707e4e564e943f3b5763bf1",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A03",
@@ -183,7 +470,30 @@
       "acceptance": [
         "Propuestas compatibles con restricciones"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "A02"
+      ],
+      "acceptance_dependencies": [
+        "A02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A03.md",
+      "prompt_sha256": "c2c69274e22196052c996ec10dab268c1d19d6ea19ee9154c90f0b8ace98929b",
+      "spec_sha256": "fd2e21c6adb946387992f6f7de6235aac511df29ced714282ec5a084c3b82429",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A04",
@@ -196,7 +506,30 @@
       "acceptance": [
         "Métricas hard/outside y coste documentadas"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "A03"
+      ],
+      "acceptance_dependencies": [
+        "A03"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A04.md",
+      "prompt_sha256": "4c1baf9ac76fe54ce7ca46e8b42ddac5e0b275d80e88f1d78f44246dfb9174cd",
+      "spec_sha256": "d767e4b5b3284f00f1c6de1b65176785515236019e2b146ac4c313c87b5d6468",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A05",
@@ -209,7 +542,28 @@
       "acceptance": [
         "Regresión y acreditación Llívia y Tremp"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [
+        "A03"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A05.md",
+      "prompt_sha256": "6f8f86df55bed7b5525760137c92d5e6612667ca6ed8c75fa395f2c345b4847b",
+      "spec_sha256": "7177a9c406bd6ec55cc6f2a67f877feecdd76f98723a455e9dbf51020b66e39d",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A06",
@@ -222,7 +576,28 @@
       "acceptance": [
         "Diagnóstico sin reutilizar resultado histórico como cálculo nuevo"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [
+        "A04"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A06.md",
+      "prompt_sha256": "6215b26075b4304b0b507239d1d925d5bf8b9b62a934bae25c09bcf8ba281b61",
+      "spec_sha256": "d288b7e2580688e9f410f9e053e59decff1cbd906abac261c388ba00845b571c",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A07",
@@ -236,7 +611,32 @@
       "acceptance": [
         "Ensayos deterministas y medidos"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "A04",
+        "A06"
+      ],
+      "acceptance_dependencies": [
+        "A04",
+        "A06"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A07.md",
+      "prompt_sha256": "ba4c80cf55a96bc3688d49810bfa2a00566e02884df68f522adaf3cf5a715bfb",
+      "spec_sha256": "ce35daadcb30c1e7452cfe9b1402fb44592b7679d22a2929e2a6fdc4bb5bd64e",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A08",
@@ -249,7 +649,28 @@
       "acceptance": [
         "Comparación con main y pruebas legítimas"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [
+        "A06"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A08.md",
+      "prompt_sha256": "916921521bfc92e6899720c822e93aef40bdaaebcf29db52c77852549e4766cd",
+      "spec_sha256": "0b1c78ab9298ccc2d65b9d9de2b3d8061b79ce9f51c7414599db8dbd18c394c5",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A09",
@@ -264,7 +685,38 @@
       "acceptance": [
         "GO SHA final + CI y autorización expresa"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "A05",
+        "A07",
+        "A08"
+      ],
+      "acceptance_dependencies": [
+        "A05",
+        "A07",
+        "A08"
+      ],
+      "integration_dependencies": [
+        "A05",
+        "A07",
+        "A08"
+      ],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/A09.md",
+      "prompt_sha256": "182d8865dff02bc1071d9b57fbccd3c8ba24f3141aec220bcaff11d58d7a4786",
+      "spec_sha256": "8cb3259043a9fa11513f3e65b3b060c1db6b144a2c010e1052b4602d5363901c",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A10",
@@ -277,7 +729,30 @@
       "acceptance": [
         "Territorios ordenados por readiness; cero ejecuciones"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "A09"
+      ],
+      "acceptance_dependencies": [
+        "A09"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/A10.md",
+      "prompt_sha256": "a3eaa4ea62c50019e7aa5f2199161e287c3a679b0c0d82c5b56671dbb08e6e7b",
+      "spec_sha256": "5202873e6050389c7134eb8e0ff1427ef9d89751db33f0c8e77a4c86f689095d",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N01",
@@ -288,7 +763,26 @@
       "acceptance": [
         "Bundle verificado incluye 7307536a"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/N01.md",
+      "prompt_sha256": "adc02b0369b3bd2b1001956862cf74ddaf719e52887a90191f9b9d5465d69930",
+      "spec_sha256": "176eb00e9290922bad86c4c9a82f860492368cf72f9717d346a6da1380313084",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N02",
@@ -301,7 +795,30 @@
       "acceptance": [
         "Dictamen comprobable sobre 23 archivos y 27 pruebas"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "N01"
+      ],
+      "acceptance_dependencies": [
+        "N01"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/N02.md",
+      "prompt_sha256": "0c6f248dee304a8ed4fa63fb0571843984cbb01bc30bc2194dd20ad09e1d35d1",
+      "spec_sha256": "f6e8edec87b707431398dfa6bc6c8afe4eed98c35acc23c99a4df72d6dec0f69",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N03",
@@ -314,7 +831,28 @@
       "acceptance": [
         "Fuente y edición acreditadas o bloqueo explícito"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [
+        "N02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/N03.md",
+      "prompt_sha256": "11b475f56f6fae8eca175e70bdd14e943f51bfc0f8ff9bb2d83cc094c9138fa5",
+      "spec_sha256": "6fde37dd0556575e66ab0d2d2fe1a7f303441ac8241d43b1001e5ca82551bffe",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N04",
@@ -327,7 +865,28 @@
       "acceptance": [
         "Causa y tratamiento acreditado conservando original"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [
+        "N02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/N04.md",
+      "prompt_sha256": "53b1d16cb513f7fc883d73590ca781a5523497ad48942e50a4de3637fac0eadd",
+      "spec_sha256": "a4d3b1ee6798454c90b070a3795a3fd64179ba8492216bebcdd5c85c3a5ce10d",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N05",
@@ -340,7 +899,28 @@
       "acceptance": [
         "Tabla verificable de métricas y restricciones"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [
+        "N02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/N05.md",
+      "prompt_sha256": "1d85f28b1910e73484401eb6eefb72eff0b53e1aacb3575e3dbe7a8afc393c48",
+      "spec_sha256": "0c136a6332e3f3e320ce9b66ff99aec149d93c741f3d1f96da082b39185cc927",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N06",
@@ -353,7 +933,30 @@
       "acceptance": [
         "Decisión expresa Director, sin inferir del Congreso"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "N05"
+      ],
+      "acceptance_dependencies": [
+        "N05"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/N06.md",
+      "prompt_sha256": "7a5d215ab38fa1db33cea81de38ebcab4ec8e410d1e354fb8bd45b3eaa067f1d",
+      "spec_sha256": "ab47adc9aea1b7034e6b398c3ba17f01c3dbfcb86d2bd2719a9d7496aa2598b4",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N07",
@@ -366,7 +969,28 @@
       "acceptance": [
         "Identidades, topología y ediciones verificadas"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [
+        "N06"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/N07.md",
+      "prompt_sha256": "892aa7624e5d08545d1bf8598c0d258b9b4311338b705cb4e196cda94ffa7729",
+      "spec_sha256": "0e857ffde71bd568ee671f752844a7837faccd4b90c1dbd772eba8ab25ed5d50",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N08",
@@ -379,7 +1003,46 @@
       "acceptance": [
         "K aprobado y topología válida; sin publicación"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "N07"
+      ],
+      "acceptance_dependencies": [
+        "N06",
+        "N07"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [
+        {
+          "gate": "acceptance",
+          "identity": "national-sources",
+          "edition": "2025",
+          "sha256": null,
+          "path": null
+        },
+        {
+          "gate": "acceptance",
+          "identity": "topology-preflight",
+          "edition": "2025",
+          "sha256": null,
+          "path": null
+        }
+      ],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/N08.md",
+      "prompt_sha256": "9ac90229e5821d61d85c18a73a6095498e4397d318fe05ee87055e3e3ba975b7",
+      "spec_sha256": "0274355229845dabab409b908bf23dfdb865acdeeafea44abe567cd5d47c5484",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N09",
@@ -392,7 +1055,30 @@
       "acceptance": [
         "Regresión multi provincia y tiempos reproducibles"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "N08"
+      ],
+      "acceptance_dependencies": [
+        "N08"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/N09.md",
+      "prompt_sha256": "61602049c66f94f377b5167d8de587870138f862a4c7770cb18ed841a41992d7",
+      "spec_sha256": "263ee8728043b11a10570ab594fb8cfa2759d6b80fc511a33b6f01c9c60dee17",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "N10",
@@ -407,7 +1093,38 @@
       "acceptance": [
         "Revisión, CI y decisión específica de publicación"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "N03",
+        "N04",
+        "N09"
+      ],
+      "acceptance_dependencies": [
+        "N03",
+        "N04",
+        "N09"
+      ],
+      "integration_dependencies": [
+        "N03",
+        "N04",
+        "N09"
+      ],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "owner_reserved",
+      "reserved": true,
+      "prompt_file": "PROMPTS_TAREAS/N10.md",
+      "prompt_sha256": "2fc65368db36ca0ea98b5c7352a3dad4998d6582576d05f1001761ca59ee6c3d",
+      "spec_sha256": "8ebf80a125b9c00bc610d8c0da568793faa446718dc93ba5f8eeb008629b4edf",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A-OPT-01",
@@ -422,7 +1139,26 @@
         "Prototipo aislado vectorizado/STRtree vs oráculo: conjunto exacto de aristas y pasarelas, determinismo y mismo contrato topológico",
         "Benchmark repetido con tiempos, pico de memoria y speedup; salida GO/NO_GO de integración, sin integración automática"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A-OPT-01.md",
+      "prompt_sha256": "c252a261a81eece62879e37bd1f08d3e73fc01e8343f4745852af5884ffdfa02",
+      "spec_sha256": "b7ed244ff969650f6c2e3ca3a01c64ca0b6a68f215800b28517bbf9e0675bf07",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
     },
     {
       "id": "A-OPT-02",
@@ -437,7 +1173,1093 @@
         "No distribuir habitantes por área ni por prefijo ante SPLIT/FUSION; reportar únicamente emparejamientos acreditados",
         "Benchmark repetido con memoria y speedup; dictamen GO/NO_GO para propuesta futura, sin cambiar puerta productiva"
       ],
-      "initial_status": "PENDING"
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin": "original_20261008",
+      "origin_date": "2026-10-08",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "authority_class": "local_scoped",
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/A-OPT-02.md",
+      "prompt_sha256": "c64abd30374cf996187f5f48a9598c2111908fc65ed4099dc35a1f9b63e81bf5",
+      "spec_sha256": "7b3d87f9171996a0c2e1171256ca1e8dd11e46b4932e6c202aca51eaa414ec99",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local",
+      "evidence_pointers": []
+    },
+    {
+      "id": "H-F-01",
+      "title": "Reconciliar estado administrativo F02 y F04",
+      "front": "fuentes-oficiales",
+      "execution": "reconcile",
+      "summary": "Reconstruir F02/F04 desde evidencias y decisiones, explicar F04=PENDING mientras F05–F09=PASS; no repetir F09.",
+      "evidence_pointers": [
+        "Plan estado.json/eventos.jsonl; auditoría F04; PR #231"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Informe de divergencias por evento y SHA",
+        "Decisión F04 fundada sin auto-PASS",
+        "Prueba de reconstrucción del estado"
+      ],
+      "risk": "low",
+      "context": "F09 es PASS desde 10-10-2026. Evento F02 ausente del diario según auditoría. F04 PENDING. No reescribir eventos históricos.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "F02",
+        "F04"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-F-01.md",
+      "prompt_sha256": "08628378005e7665293ad67d7f0e0b12815991383bcc0280b5b9b8d5bcf5a28a",
+      "spec_sha256": "0ad7f538e44eeaccc40fc9c14a9a338844fd7bec9e65b17ec8f6f1f6f21ca3d9",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-F-02",
+      "title": "F10 trazabilidad de cinco adquisiciones autorizadas",
+      "front": "fuentes-oficiales",
+      "execution": "reconcile",
+      "summary": "Inventariar cinco ejecuciones reales y decisiones acreditadas con sus identidades, evitando confundir adquirir con certificar.",
+      "evidence_pointers": [
+        "Runs F10 en DDD-control; PR #233; expedientes de cinco territorios"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Cinco identidades con run_id y hashes verdaderos o UNKNOWN explícito",
+        "Autorizaciones documentadas individualmente",
+        "Sin promoción por derivación de receipts"
+      ],
+      "risk": "low",
+      "context": "Andalucía, Aragón, Castilla y León, Comunidad Valenciana y Extremadura; el usuario reporta 5/5 nuevos READY técnicos, 0/5 promoción canónica. No reutilizar IDs históricos.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "F10"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-F-02.md",
+      "prompt_sha256": "19882dcfd674892471e165a8a1379df53eff510f10ed3cdc0844297f5895e7c7",
+      "spec_sha256": "6fd42f7cf15b42aa9cd7a4f742b900ff77d76a2e87bdfbf62b3b6be4406b51e3",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-F-03",
+      "title": "F10 completar receipts canónicos y verificación 19 consumidores",
+      "front": "fuentes-oficiales",
+      "execution": "research",
+      "summary": "Definir ruta de acreditación canónica por paquete y consumidor sin adquirir ni reejecutar workflow.",
+      "evidence_pointers": [
+        "PR #232/#233; #179; reportes congelados y manifiestos"
+      ],
+      "depends_on": [
+        "H-F-02"
+      ],
+      "acceptance": [
+        "Matriz canónica por territorio y tipo de receipt",
+        "Ausencias exactas de bytes congelados y opciones no engañosas",
+        "19 consumidores documentados como PASS o BLOCKED por evidencia"
+      ],
+      "risk": "medium",
+      "context": "Cinco expedientes históricos carecen del informe congelado de compatibilidad; derived-source-receipt NO equivale a territorial-source-receipt.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "F10"
+      ],
+      "preparation_dependencies": [
+        "H-F-02"
+      ],
+      "acceptance_dependencies": [
+        "H-F-02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-F-03.md",
+      "prompt_sha256": "edee390751fb4edd579cb3143929a07327496c13afaeaa5da6f19f463d0196c1",
+      "spec_sha256": "30a8ff1df66a85dc710928483a9c7411f3ebc7db5b34c94b8569de31cf37aa37",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-F-04",
+      "title": "PR #236 Aragón contrato de precisión geométrica",
+      "front": "fuentes-oficiales",
+      "execution": "reconcile",
+      "summary": "Registrar incorporación de corrección geométrica, CI, revisión y excepción de gobierno.",
+      "evidence_pointers": [
+        "PR #236; main vigente; auditoría de Aragón"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "SHA merge y pruebas reproducibles identificadas",
+        "Excepción de revisión independiente consignada, sin inventarla",
+        "Relación con F10 y límites productivos"
+      ],
+      "risk": "low",
+      "context": "PR #236 fusionada 10-10 con revisión técnica propia y autorización explícita; no presentar como revisión independiente.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-F-04.md",
+      "prompt_sha256": "0a13b7323c59bd6ae30319818650843362322aefb7ead9fa08773cb424459f46",
+      "spec_sha256": "2edb32889e865f7d930828f3b1ae2faf90dddbda7bb7cb7c0fb3f83063e614d7",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-01",
+      "title": "Madrid A1 base autonómica validada",
+      "front": "distritos-autonomicos",
+      "execution": "reconcile",
+      "summary": "Registrar A1 de Madrid como hito separado de A01 del Plan Maestro, con evidencia de REVIEW_PASS.",
+      "evidence_pointers": [
+        "Experimentos A1; checkpoint Madrid; revisiones"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Identidad de A1 y SHA verificados",
+        "Criterios y límites de REVIEW_PASS consignados",
+        "No confundir con aceptación A2"
+      ],
+      "risk": "low",
+      "context": "A1 ha recibido REVIEW_PASS reportado; no significa que toda Madrid esté certificada.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [
+        "A1",
+        "Madrid-A1"
+      ],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-01.md",
+      "prompt_sha256": "905f1f7cec160416eed4195077116743451b2b93eb93381bd726cd28861c8835",
+      "spec_sha256": "64b8465ac49c8a32ccded7461eff37f87e0cae946022b9fded96acc5df160d93",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-02",
+      "title": "Madrid A2 testigo manual de 82 movimientos",
+      "front": "distritos-autonomicos",
+      "execution": "research",
+      "summary": "Conservar testigo manual de factibilidad, inputs y diferencias frente al motor.",
+      "evidence_pointers": [
+        "Auditorías Madrid M05; testigo manual; checkpoint real"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Testigo, identidad y métricas verificados",
+        "Uso no autorizado como entrada distinguido de prototipo autónomo",
+        "Limitaciones respecto a M06 y validar_ejecucion explicadas"
+      ],
+      "risk": "low",
+      "context": "82 movimientos manuales son referencia histórica, no solución automática productiva.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-02.md",
+      "prompt_sha256": "ca0c0c47b4ebc0d0ab179b1f7fa4e29f5860236509d44a8fdee52351b86e5d0a",
+      "spec_sha256": "a810d33bc415449daac4d64f1075d361de612c81b5155ea10e0d4fafe6473717",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-03",
+      "title": "Madrid A2 prototipo autónomo hard=0",
+      "front": "distritos-autonomicos",
+      "execution": "research",
+      "summary": "Acreditar experimento autónomo, secuencia de movimientos y comportamiento intermedio, sin formalizar A2.",
+      "evidence_pointers": [
+        "Reportes experimento 74 unidades, 135 distritos, 4479 secciones"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Resultado hard=0 y 135/135 conectado reproducible por identidad",
+        "Desviaciones blandas 18 a 23 y hasta 14 duras intermedias documentadas",
+        "Diferencia con M06 oficial y validador de ejecución"
+      ],
+      "risk": "medium",
+      "context": "El usuario reporta hard=0 autónomo, 74 unidades finalmente reasignadas y contigüidad 135/135. A2 formal NO_GO; evita nuevo optimizador costoso.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [
+        "A2",
+        "Madrid-A2"
+      ],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-03.md",
+      "prompt_sha256": "f277c18511975523d949160e6426af60aeafe4f00a73a0fcfa02864a36742adb",
+      "spec_sha256": "9c26be2b868691d50086d6569e375e494bbfb4a91d906cb63ec0e7a65cd4719f",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-04",
+      "title": "Madrid A2 ReCom transitorio resultados NO_GO",
+      "front": "distritos-autonomicos",
+      "execution": "reconcile",
+      "summary": "Congelar investigación ReCom sin quemar otros 3000 estados.",
+      "evidence_pointers": [
+        "ReCom informes/telemetría; experimentos seed"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Presupuesto y 0/3000 documentado",
+        "739 únicos y 2246 self-loops si hashes lo confirman",
+        "Decisión NO_GO para adopción y siguiente hipótesis concreta"
+      ],
+      "risk": "low",
+      "context": "No repetir 3000 estados ni conceder A2 PASS; separar investigación negativa de aprobación del motor.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-04.md",
+      "prompt_sha256": "ff0fe586f6e0389e8e7df46b103405011f7072a25af0b700335aab4d383443f1",
+      "spec_sha256": "84e0ded9367a1eba4deb696e9d467dc6f7b939f162d96d2be8f7f92af32824b6",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-05",
+      "title": "Madrid A2 prueba oficial de integración y M06",
+      "front": "distritos-autonomicos",
+      "execution": "design",
+      "summary": "Preparar validación oficial reproducible y acotada M06 + validar_ejecucion.py + geometría y regresiones. No ejecutar generación.",
+      "evidence_pointers": [
+        "Checkpoint Madrid, M06, PR #235"
+      ],
+      "depends_on": [
+        "H-A-03"
+      ],
+      "acceptance": [
+        "Plan de reproducción con entradas SHA",
+        "Reglas duras y transitorios definidos",
+        "Pruebas dirigidas y puerta REVIEW_PASS enumeradas"
+      ],
+      "risk": "medium",
+      "context": "No ejecutar M06 costoso ni producción en campaña nocturna; si requiere esa ejecución pasar WAIT_OWNER.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "H-A-03"
+      ],
+      "acceptance_dependencies": [
+        "H-A-03"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-05.md",
+      "prompt_sha256": "7c4747dd59b0128636ff071d44075b3e3d283c18de9d10065f6239a9f6ca69ab",
+      "spec_sha256": "199d5959abaa97b4bcbed7dda266f1fed8e14dc0aa56dd83c96c77324a485c3e",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-06",
+      "title": "Madrid A3 integración autonómica, condicionada a A2",
+      "front": "distritos-autonomicos",
+      "execution": "design",
+      "summary": "Preparar A3 sin alterar su puerta de integración mientras A2 carece de validación oficial.",
+      "evidence_pointers": [
+        "A1/A2; pruebas M06; contratos actuales"
+      ],
+      "depends_on": [
+        "H-A-05"
+      ],
+      "acceptance": [
+        "Inventario de consumidores, PRs y regresiones",
+        "Distinción preparación A3 de integración",
+        "Puerta A2 y autorización expresas"
+      ],
+      "risk": "low",
+      "context": "A3 no puede quedar aprobado por factibilidad experimental de A2.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [
+        "A3",
+        "Madrid-A3"
+      ],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "H-A-05"
+      ],
+      "acceptance_dependencies": [
+        "H-A-05"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-06.md",
+      "prompt_sha256": "1293349145dfe3f64d650c385b8b40dc42040c1f116d470812418878fc76048b",
+      "spec_sha256": "a6a4d5aadbf10c4c44b6c9d5b47a0b9f2303ae911a0541a4eb9cdc01bf1c50b4",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-07",
+      "title": "Nacho contracción municipal, ReCom y grafo",
+      "front": "distritos-autonomicos",
+      "execution": "reconcile",
+      "summary": "Conservar investigación comparativa y sus experimentos acotados sin inventar superioridad algorítmica.",
+      "evidence_pointers": [
+        "docs/AUDITORIAS/NACHO_2026-10-10; informe, revisión, experimentos"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Metodologías y semillas documentadas",
+        "Resultados y negativos vinculados a evidencia real",
+        "Decisión de adopción separada de hechos de investigación"
+      ],
+      "risk": "low",
+      "context": "Investigar contracción y ReCom frente a motor existente; preservar identidad de grafo y criterio de contigüidad.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-07.md",
+      "prompt_sha256": "9f54de602e77ba1227aea7f57f7ebdc271a010c9f40dc6d76425d0af6e464fcc",
+      "spec_sha256": "7e54371a6e36a279def859cd4d8776e836343507abb0843e8cd6fd6c56241d65",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-08",
+      "title": "Nacho visualización y navegadores",
+      "front": "distritos-autonomicos",
+      "execution": "reconcile",
+      "summary": "Revalidación de visualizador Nacho sin confundir bloqueo de navegador con defecto de geometría.",
+      "evidence_pointers": [
+        "DDD-control/docs/AUDITORIAS/NACHO_VISUAL_REVALIDACION_2026-10-10"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Manifiesto, versión y resultados de navegadores",
+        "Clasificación de errores ambientales y funcionales",
+        "Revisor y pruebas vinculadas a entrega concreta"
+      ],
+      "risk": "low",
+      "context": "Firefox/Safari pueden fallar por entorno; no declarar PASS o FAIL geométrico por error de navegador.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-08.md",
+      "prompt_sha256": "48de95c207a7e9f4e54d14bf95e27387d16d3f6fef9bf30581407dc476eea632",
+      "spec_sha256": "f8a4e89555166a07ac625979608d6977b1b97d15eb9d518363cfd1d14c9ac6ec",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-09",
+      "title": "La Rioja Rincón de Soto, Calahorra y reparador",
+      "front": "distritos-autonomicos",
+      "execution": "research",
+      "summary": "Conservar evidencia de obstrucción Rioja y evaluar reparador existente aislado sin repetir M04/M05.",
+      "evidence_pointers": [
+        "Run 37473252569; ddd_core/m05_population_repair.py; A01–A04"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Identidad de asignaciones, grafo, tolerancia, floor/cap",
+        "Diferencia entre hard=0 outside=1 y objetivo outside=0",
+        "Resultado del reparador acreditado o NOT_EXECUTED"
+      ],
+      "risk": "low",
+      "context": "No equiparar testigo Calahorra con factibilidad de Rioja; solo diagnosticar con checkpoints auténticos.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "A01",
+        "A02",
+        "A03",
+        "A04"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-09.md",
+      "prompt_sha256": "66ce7697a6f24bbf6cb70ea45d2e6c460210ac8d3466cc4f9d2b199c040124cf",
+      "spec_sha256": "a258b199a8f8527c084f8d9d51e24365fc83c0feaa7105c60750b89e4a1c80fe",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-10",
+      "title": "Municipios discontinuos Tremp y Llívia",
+      "front": "distritos-autonomicos",
+      "execution": "research",
+      "summary": "Registrar discontinuidades acreditadas y regresión sin relajar contigüidad de distrito.",
+      "evidence_pointers": [
+        "Cataluña run 37215025861; Tremp 25234; Llívia y contratos"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "CRS y criterio de adyacencia lineal verificados",
+        "Fuente administrativa vinculada a componentes exactos",
+        "Regresión separa unidad municipal e islas"
+      ],
+      "risk": "low",
+      "context": "Sección 2523403001 y 2523401002: contacto puntual no necesariamente adyacencia válida.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "A05"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-10.md",
+      "prompt_sha256": "d43bb53b6e16225c5c69feef4cb54cf8f7b09cfb98a6494d62f471e5244dd513",
+      "spec_sha256": "7e8eeba4152f5c74c5acab39b15c5a122d5b38d8ab644c09af7a214ea16cb56f",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-11",
+      "title": "M06 precisión GeoJSON 17 cifras y regresión",
+      "front": "distritos-autonomicos",
+      "execution": "reconcile",
+      "summary": "Registrar corrección geométrica y sus límites de certificación.",
+      "evidence_pointers": [
+        "PR #235; CI 38086159846; main@5216a1b"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "HEAD merge efectivo y pruebas asociadas",
+        "Alcance de regresión y dependientes",
+        "No inferir certificación territorial"
+      ],
+      "risk": "low",
+      "context": "PR #235 fusionada 10-10. 1329 pruebas/39 omitidas reportadas en revisión; verificar dato.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-11.md",
+      "prompt_sha256": "cd983f274a74b95d777c6b089bf1b5e992b31d77a6618c2df93fe2987a141585",
+      "spec_sha256": "74f514a05fef6a4bbef56dad7584c6f9e1c1bfe9822186acd9cb4c735c782b3c",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-A-12",
+      "title": "A-OPT benchmarking y equivalencia local",
+      "front": "distritos-autonomicos",
+      "execution": "research",
+      "summary": "Preservar benchmark M02 STRtree y matching población-seccionado; no ejecutar GIS intensivo sin autorización.",
+      "evidence_pointers": [
+        "A-OPT-01, A-OPT-02, economia_nocturna_v2.md"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Oráculos y entradas versionadas",
+        "Candidatos con diferencias demostradas o no verificados",
+        "Separación rendimiento de corrección funcional"
+      ],
+      "risk": "low",
+      "context": "No adoptar optimizaciones ni cambiar motor por mejor tiempo sin equivalencia exacta.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "A-OPT-01",
+        "A-OPT-02"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-A-12.md",
+      "prompt_sha256": "586163074c2cb2cc4a18592477afcd994b5a4e584ba26f43ef64eb0415ae6404",
+      "spec_sha256": "52a643db714e0df5fb58e49c5d7ba28eae221df04d3eda240c1a9a7600635501",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-N-01",
+      "title": "N1 Código del Motor Nacional y revisión",
+      "front": "distritos-nacionales",
+      "execution": "reconcile",
+      "summary": "Registrar código nacional certificado y cadena de integración; NO confundir con N01.",
+      "evidence_pointers": [
+        "PR #237; N1-CANDIDATO.md; SUBSANACION_N1.md; commit 681118839470ba8fc5e6ba994772b38e4aeda5c3"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "SHA de código y padres de merge confirmados",
+        "39/39 pruebas N1 y Linux pendiente distinguidos",
+        "Dictamen final sobre PR/HEAD sin inferir GO de integración"
+      ],
+      "risk": "medium",
+      "context": "PR #237 draft al 11-10 consultado; GO_ACOTADO solo unión local. 56 tests nacionales, 62 compat, 12 Aragón/M06 reportados; verificar hashes.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [
+        "N1"
+      ],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-N-01.md",
+      "prompt_sha256": "53066fbdeab399e32db72fccc6f760a221ef91efc1f01ffb1d714c91a4737503",
+      "spec_sha256": "bdc90e6bf7288843e1a93ac017c7555c22c8f7f7563457319697327f5f15e310",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-N-02",
+      "title": "N2 cartografía nacional histórica e identidad",
+      "front": "distritos-nacionales",
+      "execution": "research",
+      "summary": "Separar N2 trabajo histórico de N02 revisión original.",
+      "evidence_pointers": [
+        "PR #237 docs/ESTUDIOS/cartografia_nacional_20261008; inputs comprimidos"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Inventario por ediciones y hashes",
+        "Diferencias 391/392 sin forzar equivalencia",
+        "Atribución histórica comprobada o BLOCKED por pieza"
+      ],
+      "risk": "low",
+      "context": "Una geometría 44 no válida; no corregir retrospectivamente sin preservar original.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [
+        "N2"
+      ],
+      "dedup_targets": [
+        "N03",
+        "N04"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-N-02.md",
+      "prompt_sha256": "e2fb2092d98bd5f1ec57cf8c2799cd75d54fca101a3256b37cb5a715caecbe05",
+      "spec_sha256": "730d79e688c0e94cdd2fe24fdf040173f0a14ffa6171052b7ec87739cbec07dd",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-N-03",
+      "title": "Crosswalk nacional 2025 sin dependencia K",
+      "front": "distritos-nacionales",
+      "execution": "design",
+      "summary": "Diseñar seccionado-provincia con claves, ediciones, topología y cobertura, separado de K institucional.",
+      "evidence_pointers": [
+        "N07; PR #237 referencia_seccionado_2025.json"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Contrato sección/provincia documentado",
+        "Casos bordes y claves faltantes",
+        "No ejecutar seccionado nacional productivo"
+      ],
+      "risk": "low",
+      "context": "N07 puede diseñarse antes de N06; adoptar para piloto exige K y fuentes acreditados.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "N07"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-N-03.md",
+      "prompt_sha256": "10b6a8622af60afbd9d191bec1c474cf896f011ee9c2730eb89c822014acb26e",
+      "spec_sha256": "e8ae006246e97dcb1e05377a10ed110c2ec3757aa050783eb9496bbe617e3d9f",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-N-04",
+      "title": "Portabilidad N1 Linux y pruebas pendientes",
+      "front": "distritos-nacionales",
+      "execution": "research",
+      "summary": "Clasificar 39/39 locales, las 27 pruebas N02 antiguas y pruebas Linux no ejecutadas; no confundir suites.",
+      "evidence_pointers": [
+        "PR #237; N1-CANDIDATO; N02 auditorías"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Matriz de suites por commit y plataforma",
+        "Pendientes Linux con receta reproducible",
+        "Sin inferir CI por compatibilidad de Mac"
+      ],
+      "risk": "low",
+      "context": "N02 antiguo 11/27 respaldadas en auditoría; N1 posterior reporta 39/39 PASS. No son la misma puerta.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "N02"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-N-04.md",
+      "prompt_sha256": "95d5a0bd9bee55505262b2f08aa5d2ba10fad1c0f80d9de5481d0c19b9fc61b3",
+      "spec_sha256": "306320188e017732966c69fb059b561e578eadf45a203a6d449c6bb148277ca4",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-N-05",
+      "title": "Contrato K nacional y alcance Congreso",
+      "front": "distritos-nacionales",
+      "execution": "research",
+      "summary": "Preparar expediente de decisión institucional K con opciones comparables, sin decidir por el usuario.",
+      "evidence_pointers": [
+        "N05/N06; modelo nacional 120000; PR #237"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Universo 50 provincias + Ceuta y Melilla",
+        "Alternativas K y efectos reproducibles",
+        "Documento de decisión reservado sin auto-autorizar"
+      ],
+      "risk": "low",
+      "context": "Gestor campañas 19 territorios autonómicos ≠ Congreso 52 circunscripciones.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [
+        "N05",
+        "N06"
+      ],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-N-05.md",
+      "prompt_sha256": "a90d7d553ba1c5cc89090e01e37ea32d8f8a87a56101871577bacf19ceee24ab",
+      "spec_sha256": "8c68095c49941f4e853f4da45c1a73836c46858b39fa0e718e5863663b517408",
+      "priority": 50,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-P-01",
+      "title": "Gestor campañas 19 territorios autonómicos",
+      "front": "plataforma",
+      "execution": "reconcile",
+      "summary": "Integrar histórico gestor 19 territorios sin mezclar con Congreso ni lanzar campañas.",
+      "evidence_pointers": [
+        "PR #234; PROPUESTA_WORK_GESTOR_CAMPANAS_19_TERRITORIOS.md"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Matriz de readiness por territorio y operación",
+        "Rutas aprobadas/NO-GO por identidad",
+        "Preflight no ejecución separado"
+      ],
+      "risk": "low",
+      "context": "PR #234 fusionada, preparar NO equivale a producir.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-P-01.md",
+      "prompt_sha256": "d0f946c03dfc84704a6110916cba78654b3d389ec3714776d425523a2e326a78",
+      "spec_sha256": "513c5bd988ec68a72e4291382998a7487307dcdd3220ea0fcb7905868ace08b5",
+      "priority": 40,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-P-02",
+      "title": "Lanzador DDD 1.2.0 e instalación",
+      "front": "plataforma",
+      "execution": "reconcile",
+      "summary": "Conservar instalación y los 28 tests simulados; documentar por qué dry-run dejó cola sin trabajo.",
+      "evidence_pointers": [
+        "ddd auto 1.2.0; commit local fff6b0b5; AUTO.md"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Hashes del lanzador instalado vs candidato",
+        "PASS 28 simulados y ausencia piloto real reconocidos",
+        "Política de cero tareas autorizadas registrada"
+      ],
+      "risk": "low",
+      "context": "Instalación local PASS; 32 tareas, cero habilitadas por la política y controlador secuencial.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-P-02.md",
+      "prompt_sha256": "30f786a96c87ef38769f437324fa619b979fd59a0c5e6c58d4c59bc37dd1928e",
+      "spec_sha256": "71fa424634418f48127d275862dbacdf09b7b97a54aabc03452989d5775efe59",
+      "priority": 40,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-P-03",
+      "title": "Motor cola nocturna de trabajo continuo",
+      "front": "plataforma",
+      "execution": "design",
+      "summary": "Implementar scheduler que continúa ante WAIT_OWNER/NO_GO y deja bandeja matinal con evidencia.",
+      "evidence_pointers": [
+        "ddd_auto.py 1.2.0; tests/test_ddd_auto.py; Plan Maestro"
+      ],
+      "depends_on": [
+        "H-P-02"
+      ],
+      "acceptance": [
+        "DAG ampliable y tasks dinámicas",
+        "Dos tareas A/N independientemente ejecutables en piloto real",
+        "Revisión técnica independiente, checkpoint, informe matinal, stop limpio"
+      ],
+      "risk": "medium",
+      "context": "No equiparar READY de simulación con piloto real; autorizar solo clases locales no productivas.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "H-P-02"
+      ],
+      "acceptance_dependencies": [
+        "H-P-02"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-P-03.md",
+      "prompt_sha256": "71d135aa88c046c535ca6041c2459aaf7cc1fda4161424c2ab2428c2c8e268a4",
+      "spec_sha256": "365d413c00dbfd0c14633fbf27000991a91d1641550689ab356a928ab2a2cfa8",
+      "priority": 40,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-P-04",
+      "title": "Historial completo, taxonomía de tareas e identidades",
+      "front": "plataforma",
+      "execution": "design",
+      "summary": "Registrar PR, runs, experimentos, decisiones y tareas como entidades distintas, sin cambiar IDs antiguos.",
+      "evidence_pointers": [
+        "Plan Maestro 32, eventos, PRs, auditorías locales"
+      ],
+      "depends_on": [],
+      "acceptance": [
+        "Eventos append-only y migración idempotente",
+        "Colisión N1/N01 resuelta con aliases",
+        "Cobertura de fuentes y pendientes explícitos"
+      ],
+      "risk": "low",
+      "context": "Actualizar historial sin forzar PASS; preservar reproducibilidad de eventos anteriores.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [],
+      "acceptance_dependencies": [],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-P-04.md",
+      "prompt_sha256": "5d7c84086227c6296df486334f311e956669f702dfed7f3cfaa1376c55229a52",
+      "spec_sha256": "20d7f59ec24f8c5be799065a268a80378af43e404a85109724e30ec75b9fed60",
+      "priority": 40,
+      "estimated_seconds": 600,
+      "resource_class": "local"
+    },
+    {
+      "id": "H-P-05",
+      "title": "Bandeja de revisión matinal y autorizaciones por clase",
+      "front": "plataforma",
+      "execution": "design",
+      "summary": "Agrupar decisiones de usuario sin inmovilizar tareas ajenas; licencia local por categorías limitada.",
+      "evidence_pointers": [
+        "auto-policy.json; ddd auto --status"
+      ],
+      "depends_on": [
+        "H-P-03"
+      ],
+      "acceptance": [
+        "Bandeja decisiones deduplicada y vínculo evidencia",
+        "Acciones propietario explícitas y no heredables",
+        "Pruebas bloqueo trabajo privilegiado y continuación independiente"
+      ],
+      "risk": "low",
+      "context": "Prohibidos push, PR, merge, descarga, workflows y producción sin orden individual.",
+      "authority_class": "local_read_only",
+      "origin": "proposed_extension_20261011",
+      "requires_live_reconciliation": true,
+      "initial_status": "PENDING",
+      "technical_status": "UNRECONCILED",
+      "origin_date": "2026-10-11",
+      "aliases": [],
+      "dedup_targets": [],
+      "preparation_dependencies": [
+        "H-P-03"
+      ],
+      "acceptance_dependencies": [
+        "H-P-03"
+      ],
+      "integration_dependencies": [],
+      "production_dependencies": [],
+      "artifact_requirements": [],
+      "reserved": false,
+      "prompt_file": "PROMPTS_TAREAS/H-P-05.md",
+      "prompt_sha256": "fd5e474d1d578e6ccf0a16d88018a18de64ecf098e4a1e2d59ffbf520764c816",
+      "spec_sha256": "f3689ef691342b2c39a1b92d44ce61306df3bda1b1d34ac77856f1ebb749267a",
+      "priority": 40,
+      "estimated_seconds": 600,
+      "resource_class": "local"
     }
-  ]
+  ],
+  "version": "1.3.0",
+  "name": "Catálogo expandible del Plan Maestro DDD",
+  "date": "2026-10-11",
+  "scope": "orquestación local de los tres frentes y plataforma",
+  "status": "candidate",
+  "changes": "32 originales conservados; 26 candidatas deduplicadas por relación; puertas separadas y prompts íntegros",
+  "reason": "Orden única de Dirección 2026-10-11",
+  "previous": "legacy/1.2.0/catalogo.json",
+  "source_sha256": "2080a09efd008796bbcaedf242635d1fe49edde337dd530e50114cbe54157e5f"
 }

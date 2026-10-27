@@ -1,0 +1,56 @@
+{
+  "version": "1.2.0",
+  "name": "DDD local auto pilot",
+  "date": "2026-10-11",
+  "scope": "Único piloto local F04: validación de entrega existente y revisor separado; no cierre formal",
+  "status": "LOCAL_PILOT_AUTHORIZED",
+  "changes": "Autorizaciones externas fijadas por hash, piloto cerrado por defecto",
+  "reason": "orden explícita de Work",
+  "origin": "/Users/macbookpro/Desarrollo/DDD-control/ordenes-manuales/auto-policy.json",
+  "predecessor": "/Users/macbookpro/Desarrollo/DDD-control/ordenes-manuales/auto-policy.json",
+  "authorized_local_tasks": [
+    "F04"
+  ],
+  "formal_pending": [],
+  "revalidate": [],
+  "technical_seeds": {
+    "F02": {
+      "kind": "F02_14_OFFLINE",
+      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+      "sha256": "08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6",
+      "repo": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales"
+    }
+  },
+  "tasks": {
+    "F04": {
+      "validate_existing": true,
+      "allowed_change_prefixes": [
+        "docs/AUDITORIAS/",
+        "herramientas/",
+        "tests/"
+      ],
+      "validators": [
+        {
+          "covers": [
+            0
+          ],
+          "local_only": true,
+          "argv": [
+            "{python}",
+            "{base}/validar_piloto.py",
+            "F04",
+            "--repo",
+            "{repo}",
+            "--output",
+            "{output}"
+          ]
+        }
+      ],
+      "inputs": {},
+      "authorization": {
+        "path": "/Users/macbookpro/Desarrollo/DDD-orquestador-auto/autorizaciones/ddd-auto-1.2.0-F04-20261011/F04-authorization.json",
+        "sha256": "cb1431b7dc3b94ca7a6799dbd8e70a430a9090dbb7580d3724c42957d7f5c7f7"
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""DDD 1.2.0 — 2026-10-10, controlador local candidato.
-Cambio: auto con pruebas, revisión separada y diario; motivo: campaña local autónoma.
-Origen/predecesor: legacy/1.1.0/ddd.py. Interfaz pilot y controles acreditados.
+"""DDD 1.3.0 — 2026-10-11, controlador local candidato.
+Cambio: catálogo expandible, fichas largas y night fail-closed; orden de Dirección.
+Origen/predecesor: legacy/1.2.0/ddd.py. Sin autoridad productiva.
 """
 import argparse
 import datetime
@@ -23,7 +23,7 @@ CAT = json.loads((BASE / 'catalogo.json').read_text())
 EXTRA = json.loads((BASE / 'encargos.json').read_text())
 CFG = json.loads((BASE / 'parametros.json').read_text())
 TASKS = {t['id']: t for t in CAT['tasks']}
-FRONTS = {'fuentes-oficiales': 'FUENTES', 'distritos-autonomicos': 'AUTONÓMICOS', 'distritos-nacionales': 'NACIONALES'}
+FRONTS = {'fuentes-oficiales': 'FUENTES', 'distritos-autonomicos': 'AUTONÓMICOS', 'distritos-nacionales': 'NACIONALES', 'plataforma': 'PLATAFORMA'}
 PLAN_ROOT = Path(os.environ.get('DDD_PLAN_DIR', str(Path.home() / 'Desarrollo/DDD-control/planes/ddd-maestro-20261008')))
 WORK_ROOT = Path(os.environ.get('DDD_WORK_ROOT', str(Path.home() / 'Desarrollo')))
 
@@ -31,6 +31,22 @@ WORK_ROOT = Path(os.environ.get('DDD_WORK_ROOT', str(Path.home() / 'Desarrollo')
 def real_repo(front):
     name = Path(CAT['worktrees'][front]['path'].replace('~/', '')).name
     return WORK_ROOT / name
+
+
+def load_catalog(path):
+    global CAT, TASKS, CATALOG_ROOT
+    CATALOG_ROOT = path.parent
+    CAT = json.loads(path.read_text())
+    TASKS = {t['id']: t for t in CAT['tasks']}
+    if len(TASKS) != len(CAT['tasks']):
+        raise ValueError('IDs duplicados en catálogo')
+    aliases = {}
+    for tid, task in TASKS.items():
+        for alias in task.get('aliases', []):
+            if alias in TASKS or alias in aliases:
+                raise ValueError('Alias ambiguo: '+alias)
+            aliases[alias] = tid
+    return aliases
 
 
 def local_plan_status():
@@ -60,11 +76,11 @@ def shown_status(task_id, hist):
 
 def print_catalog():
     sts = local_plan_status(); hist=history()
-    print('TABLA MAESTRA DDD — 32 tareas formales (estado tomado de estado.json local)')
+    print(f'TABLA MAESTRA DDD — {len(TASKS)} fichas (estado tomado de estado.json local)')
     print(f'{"ID":10} {"FRENTE":12} {"FORMAL":15} {"ULTIMO INTENTO":18} {"DEPENDE":16} TAREA')
     for t in CAT['tasks']:
         print(f"{t['id']:10} {FRONTS[t['front']]:12} {sts.get(t['id'], '?'):15} {shown_status(t['id'], hist):18} {','.join(t['depends_on']) or '—':16} {t['title']}")
-    print('\nÓRDENES DE CONTINUACIÓN (independientes del cierre formal de las 32 tareas):')
+    print('\nÓRDENES DE CONTINUACIÓN (histórico separado del cierre formal):')
     for k,v in EXTRA.items():
         print(f"{k:21} {FRONTS[v['front']]:12} {v['role']:9} último={shown_status(k,hist)} — {v['title']}")
     print('\nUsa: ddd run F04 | ddd run A03 | ddd run N03. Nunca se encadenan; no repiten ID ya intentados.')
@@ -98,13 +114,14 @@ def git(repo, *args):
 def verify_repo(front):
     p=real_repo(front)
     if not p.is_dir():raise RuntimeError(f'Worktree no encontrado: {p}')
-    expected={'fuentes-oficiales':'codex/fuentes-oficiales', 'distritos-autonomicos':'codex/distritos-autonomicos','distritos-nacionales':'codex/distritos-nacionales'}[front]
+    expected={'fuentes-oficiales':'codex/fuentes-oficiales', 'distritos-autonomicos':'codex/distritos-autonomicos','distritos-nacionales':'codex/distritos-nacionales','plataforma':'codex/ddd-auto-control'}[front]
     current=git(p,'branch','--show-current')
     if current!=expected:raise RuntimeError(f'RAMA INCORRECTA: {current}, se esperaba {expected}')
     head=git(p,'rev-parse','HEAD')
-    first=CAT['worktrees'][front]['expected_head_prefix']
-    check=subprocess.run(['git','-C',str(p),'merge-base','--is-ancestor',first,'HEAD'], capture_output=True)
-    if check.returncode!=0:raise RuntimeError(f'El HEAD {head[:12]} no contiene el punto de partida esperado {first}; revisar manualmente')
+    first=CAT['worktrees'][front].get('expected_head_prefix')
+    if first:
+        check=subprocess.run(['git','-C',str(p),'merge-base','--is-ancestor',first,'HEAD'], capture_output=True)
+        if check.returncode!=0:raise RuntimeError(f'El HEAD {head[:12]} no contiene el punto de partida esperado {first}; revisar manualmente')
     dirty=git(p,'status','--porcelain')
     return p,head,dirty
 
@@ -113,7 +130,14 @@ def prompt_master(t, missing=None, formal_status='UNKNOWN'):
     missing = missing or []
     deps = ', '.join(t['depends_on']) or 'ninguna'
     missing_text = ', '.join(missing) or 'ninguna registrada'
-    return (f"Actúa en DDD bajo la dirección de Work. Frente: {FRONTS[t['front']]}.\n"
+    long_prompt = ''
+    if t.get('prompt_file'):
+        from ddd_auto import digest
+        path = (CATALOG_ROOT/t['prompt_file']).resolve()
+        if not path.is_relative_to(CATALOG_ROOT.resolve()) or digest(path) != t['prompt_sha256']:
+            raise ValueError('Ficha larga cambió o está fuera del catálogo: '+t['id'])
+        long_prompt = path.read_text() + '\n\n'
+    return long_prompt + (f"Actúa en DDD bajo la dirección de Work. Frente: {FRONTS[t['front']]}.\n"
         f"ORDEN EXACTA {t['id']}: {t['title']}.\n"
         f"Criterios de aceptación: {'; '.join(t['acceptance'])}.\n"
         f"Dependencias declaradas: {deps}.\n"
@@ -259,7 +283,7 @@ def main():
     show=sub.add_parser('show');show.add_argument('name')
     go=sub.add_parser('run');go.add_argument('name');go.add_argument('--rerun',action='store_true',help='Repetir explícitamente una tarea que ya se ejecutó con este lanzador')
     auto=sub.add_parser('auto',help='Campaña local con dependencias técnicas y revisión por entrega')
-    auto.add_argument('tasks',nargs='*',help='IDs; por defecto los 32 del catálogo')
+    auto.add_argument('tasks',nargs='*',help='IDs o aliases inequívocos del catálogo versionado')
     mode=auto.add_mutually_exclusive_group()
     mode.add_argument('--dry-run',action='store_true',help='Solo lectura, cero Codex')
     mode.add_argument('--run',action='store_true',help='Ejecutar piloto local autorizado')
@@ -267,26 +291,32 @@ def main():
     auto.add_argument('--plan',type=Path,default=PLAN_ROOT)
     auto.add_argument('--front',choices=['all',*FRONTS],default='all')
     auto.add_argument('--pilot',action='store_true',help='Solo actividades locales acreditadas')
+    auto.add_argument('--night',action='store_true',help='Cola local con manifiesto del propietario y ventana limitada')
     auto.add_argument('--repair',help='ID de reparación local explícita, con autorización y presupuesto')
     auto.add_argument('--policy',type=Path,default=BASE/'auto-policy.json')
     auto.add_argument('--resume',help='Identidad de campaña; nunca repite intentos')
+    auto.add_argument('--catalog',type=Path,help='Catálogo versionado; por defecto el del plan o del controlador')
     a=parser.parse_args()
     try:
         if a.cmd=='auto':
-            if a.run and not a.pilot:
-                raise ValueError('--run requiere --pilot; producción nunca está habilitada')
+            if a.run and not (a.pilot or a.night):
+                raise ValueError('--run requiere --pilot o --night; producción nunca está habilitada')
             if not (a.run or a.dry_run or a.status):
                 raise ValueError('Selecciona --dry-run, --status o --pilot --run')
             PLAN_ROOT=a.plan.expanduser().resolve()
+            catalog_path = a.catalog or (PLAN_ROOT/'catalogo.json' if (PLAN_ROOT/'catalogo.json').exists() else BASE/'catalogo.json')
+            aliases = load_catalog(catalog_path.expanduser().resolve())
+            a.tasks = [aliases.get(t, t) for t in a.tasks]
             from ddd_auto import campaign
             return campaign(sys.modules[__name__],a)
+        aliases = load_catalog(PLAN_ROOT/'catalogo.json' if (PLAN_ROOT/'catalogo.json').exists() else BASE/'catalogo.json')
         if a.cmd=='list':print_catalog()
-        elif a.cmd=='show':print_info(a.name)
+        elif a.cmd=='show':print_info(aliases.get(a.name,a.name))
         elif a.cmd=='history':
             h=history()
             if not h:print('Sin ejecuciones con este lanzador (no borra ni importa los registros de v3/v4).')
             for x in h:print(f'{x["date_utc"]} {x["task"]} {x["result"]} {x["seconds"]}s {x["usage"]["total_tokens"]} tokens')
-        else:return run(a.name,a.rerun)
+        else:return run(aliases.get(a.name,a.name),a.rerun)
         return 0
     except (RuntimeError,OSError,ValueError,EOFError,KeyboardInterrupt) as ex:
         print('\nNO EJECUTADO / DETENIDO:',ex,file=sys.stderr)

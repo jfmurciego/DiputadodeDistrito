@@ -1,59 +1,29 @@
-DDD auto 1.2.0 — 2026-10-10. Alcance: infraestructura local transversal candidata; cierre BLOCKED por permisos de Git compartido.
-Predecesor: legacy/1.1.0/AUTO.md; cambios: interfaz pilot, autorizaciones, puertas, recursos y reparación. Motivo: orden de Work.
+DDD auto 1.3.0 — 2026-10-11. Infraestructura local candidata; NO_READY para campaña.
+Anterior: legacy/1.2.0/AUTO.md. Motivo: orden única de Dirección; catálogo expandible, ventanas acotadas y supervisión segura. No altera contratos productivos ni autoriza trabajos.
 
-Se amplía el ddd existente. No se introduce planificador ni catálogo alternativo: las 32 fichas del catálogo manual se contrastan con estado.json del Plan autoritativo antes de operar. IDs, dependencias, frente, ejecución y aceptación deben coincidir; ciclos, estados desconocidos y discrepancias bloquean. La revisión del Plan se fija por SHA-256 de sus bytes. Los PASS administrativos existentes se conservan y las incoherencias de ascendencia formal se muestran. TECH_PASS requiere validadores y revisión; no constituye cierre administrativo.
+El ddd existente carga un catálogo versionado y sus fichas largas por SHA. Mantiene list/show/history, IDs originales y aliases sin colisiones. Las 26 candidatas se concilian con iniciativas existentes; sus enlaces no convierten revisiones parciales en cierres. migrar_plan.py opera exclusivamente sobre una copia: conserva el prefijo exacto del diario, los PASS y genera índice de ocho entidades y relaciones con evidencia. Una segunda ejecución es idempotente. La transacción instalada exige quietud, revisión y puertas del instalador.
 
-```sh
-ddd auto --plan RUTA --front all --pilot --dry-run
-ddd auto --plan RUTA --front all --pilot --run
-ddd auto --plan RUTA --status
-```
-
-Para probar esta entrega sin instalar, sustituir ddd por `python3 infraestructura/ordenes-manuales/ddd.py`. --status y --dry-run no escriben ni invocan Codex. --run exige --pilot. --front acepta all y los nombres canónicos de los tres frentes; se permiten IDs explícitos para acotar el lote.
-
-La política distribuida mantiene **cero tareas autorizadas para ejecutar**. F03/F04 tienen validadores offline disponibles para reutilizar evidencias; añadir un ID a una lista no acredita autorización. Cada ficha requiere una referencia authorization con path y sha256 a una decisión de Work. La decisión debe contener:
-
-```json
-{
-  "authority": "Work", "decision": "Referencia literal a la decisión acreditada",
-  "task": "F04", "scope": "local_prepare",
-  "plan_sha256": "SHA256 de estado.json",
-  "spec_sha256": "object_hash de la ficha, sin authorization ni repair_authorization",
-  "production": false, "network": false,
-  "budget": {"seconds": 600, "max_attempts": 1}
-}
-```
-
-Los hashes vinculan los bytes de una decisión suministrada por la dirección; no autentican criptográficamente la identidad de Work. No se deben fabricar decisiones para habilitar tareas. La referencia se vuelve a comprobar antes y después del intento. El presupuesto temporal comprende Ejecutor, validadores y Revisor; nunca excede segundos_maximos del lanzador. No se presenta como límite duro de tokens o euros.
-
-Las dependencias se resuelven sobre todo el DAG, incluida su ascendencia y las tareas externas al lote. Para preparación se exige ascendencia técnica satisfecha, salvo prepare_dependencies expresamente incluida en el alcance acreditado de la ficha. Aceptación exige prueba técnica o PASS previo y ascendencia formal completa. Integración necesita autorización separada, revisión del SHA final y CI del mismo SHA; producción necesita otra autorización y readiness. Ambas puertas permanecen cerradas en el piloto. Las fases approval y respaldos manuales no invocan Ejecutor. No se modifica el Plan ni el historial manual.
-
-Cada incremento completo se captura con HEAD, diff, índice Git, permisos, bytes (también ignorados), entradas y evidencia. Una captura superior a 256 MiB bloquea antes de Ejecutor y requiere preparación acotada. Un worktree sucio solo admite ejecución con checkpoint propio exacto. Cambios de HEAD, índice, rutas fuera del alcance o modificaciones durante validación/revisión bloquean y conservan entrega parcial. No hay reset ni limpieza.
-
-Codex Ejecutor se invoca en el worktree verificado, workspace-write/never y sin red. El Revisor usa otra sesión efímera read-only/never sobre copia sellada. Se exige JSON estructurado, evidencias existentes, HEAD y hash del manifiesto exactos, sesión distinta y todos los criterios; NO_GO no habilita dependientes. La revisión es técnica local y no equivale a aprobación externa. Los permisos y hashes detectan alteraciones; no constituyen almacenamiento WORM.
-
-Estados e intentos viven en DDD_LAUNCHER_HOME/auto/IDENTIDAD_PLAN. Cada evento contiene el estado y se publica mediante reemplazo atómico y fsync; el diario es la fuente del checkpoint, sin un segundo estado que pueda divergir. Se preservan los bytes de eventos anteriores. STARTED se publica antes de invocar procesos. Un diario corrupto falla cerrado. Cada reanudación produce un resumen consolidado nuevo para Work; conserva PASS, NO_GO, fallos y ejecuciones interrumpidas sin repetir intentos. La configuración y revisión del Plan deben coincidir:
+Comprobaciones sin escritura ni consumo Codex:
 
 ```sh
-ddd auto --plan RUTA --front all --pilot --run --resume CAMPAÑA
+python3 infraestructura/ordenes-manuales/ddd.py auto --plan RUTA --catalog CATÁLOGO --front all --night --dry-run
+python3 infraestructura/ordenes-manuales/ddd.py auto --plan RUTA --catalog CATÁLOGO --status
 ```
 
-Se usan locks exclusivos por ruta canónica de worktree, interoperables con manual/auto, y locks heredados manual/batch. Dos slots globales limitan las sesiones Codex; un lock global limita GIS intensivo a una tarea. Auto ejecuta secuencialmente; manual y auto pueden ocupar como máximo dos slots. Los hijos heredan locks, incluso ante SIGKILL del controlador. SIGTERM termina el grupo de procesos. Un bloqueo de un frente permite continuar otro frente libre. El batch existente invoca ddd run y hereda los nuevos controles del lanzador manual tras instalar esta entrega.
+Se admiten IDs concretos y aliases. El dry-run informa ENABLED, WAIT_OWNER, BLOCKED y ALREADY_EVIDENCED por frente y tarea. Cero ENABLED devuelve NO_READY y código 1. --status devuelve el estado y bandeja acumulada sin escribir. No se incluye un comando de campaña aprobado: falta piloto real. --run requiere --pilot o --night; --resume ID se combina con ese modo y --run. Una reanudación no repite intentos ya consumidos.
 
-Las reparaciones no se reintentan automáticamente. `--repair ID` exige otra referencia repair_authorization, scope local_repair, causa, prior_attempt_sha256 del result.json anterior y presupuesto de uno o dos intentos. Solo repara fallos locales consumidos con dependencias satisfechas; nunca producción o decisiones reservadas. Cada reparación exige una nueva orden y credencial del último intento.
+--night exige schema ddd.owner-window/1.0 con authority Owner, status APPROVED, aprobación original path/SHA, ventana máxima 12h, fingerprints exactos plan/catálogo/alcance y presupuesto por tarea y campaña. El manifiesto DRAFT nunca concede autoridad. PILOT comprende exactamente dos READ_ONLY de frentes A y N; NIGHT requiere receipt verificable de ese piloto REAL_CODEX, validadores y sesiones separadas con evidencia intacta. No se deduce autorización de este documento, del inventario ni de la orden de diseño. La compatibilidad --pilot con decisiones históricas Work no habilita --night.
 
-Instalador solicitado, sin instalar todavía:
+La política instalada se conserva y no se amplía automáticamente. Cada tarea requiere contrato local suficiente: rutas explícitas, entradas por SHA y validadores offline que cubran todos los criterios. READ_ONLY usa copia acotada de entradas (máximo 16MiB), sin escritura en los tres frentes; LOCAL_IMPLEMENTATION requiere permiso de clase y rutas expresas. El prompt incorpora la ficha larga exacta, objetivos, normas, fingerprints, validadores, tiempo y salida estructurada. No ejecuta motores históricos, adquisiciones ni GIS por una autorización de contraste probatorio.
 
-```sh
-bash scripts/instalar-ddd-auto.sh --dry-run
-# Solo tras orden posterior de instalación:
-bash scripts/instalar-ddd-auto.sh --apply
-```
+Preparación y aceptación resuelven dependencias separadas; ALREADY_EVIDENCED histórico evita repetición sin satisfacer TECH_PASS ni producción. TECH_PASS requiere pruebas y revisión de bytes finales. Integración y producción permanecen cerradas. La identidad/edición/SHA de artefactos se verifica antes de preparar. Un SHA de receipt o entrega alterado bloquea nuevamente la tarea y sus consumidores sin retry automático.
 
-Comprueba predecesor exacto y hace copia de seguridad con fecha. Conserva catálogo, parámetros personalizados, encargos, historial, logs y evidencias; no ejecuta piloto ni cambia ~/.local/bin/ddd. Las copias incluidas del catálogo y parámetros son las referencias existentes para pruebas; no se instalan.
+Un escritor por worktree, locks manual/batch heredados, dos slots Codex globales y un GIS intenso como máximo. La cola secuencial vuelve a evaluar después de cada entrega, continúa tareas independientes tras NO_GO y aparca worktrees ocupados o sucios sin checkpoint propio. No usa reset/clean ni cambia HEAD. El Revisor trabaja en sesión distinta read-only/never sobre copia sellada; comprueba manifest, HEAD, criterios y evidencia. Una sesión separada no equivale a acreditación externa. Los hashes detectan alteraciones; no autentican por sí solos identidad humana.
 
-Pruebas: `python3 -m unittest tests.test_ddd_auto -v`. Los worktrees se crean en /private/tmp. Codex simulado; validadores F03/F04 reales offline, dependientes de Python GIS y expedientes locales existentes. Se distinguen de un piloto real, que no se ha ejecutado. Evidencias históricas 1.1.0 y su dictamen siguen conservados; no aprueban 1.2.0.
+Terminales técnicos: TECH_PASS y REVIEW_NO_GO. Estacionarios: WAIT_OWNER, BLOCKED, INTERRUPTED, QUOTA_STOP. Un STARTED huérfano conserva su evidencia y no repite Ejecutor. El diario falla cerrado ante truncado/corrupción; los locks heredados protegen procesos tras SIGKILL. Cuota detiene nuevas tareas y solo una reanudación explícita abre continuación de otras tareas, sin repetir la agotada. Reparación requiere una orden local concreta, causa e intento por SHA; máximo dos ciclos por causa con revisión posterior. La ventana nocturna no concede reparación implícita.
 
-Política de versiones: predecesores conservados, mejora MINOR compatible, metadatos y registro en este expediente. CI no ejecutada por prohibición expresa de workflows. No afecta comportamiento territorial. Prohibiciones mantenidas: push, PR, merge, workflows, generación, descargas oficiales y publicación. La consulta remota de main no se pudo completar por DNS; se registra la referencia local sin atribuirle actualidad remota. El patch histórico ddd-1.1.0.patch se conserva sin modificar; tiene tres líneas con whitespace histórico que no se normalizan. La comprobación de whitespace de código actual excluye ese artefacto histórico y se distingue del chequeo global.
+Cada ejecución o reanudación produce summary-UUID.json y BANDEJA_MATINAL-UUID.md nuevos, con entregas, pruebas, decisiones y bloqueos acumulados. --dry-run no crea diario, locks, carpetas ni resúmenes. El límite de segundos cubre Ejecutor, validadores y Revisor; tokens reportados son una guardia suave, sin inventar coste en euros.
 
-Cierre de esta sesión: 28 pruebas PASS y Revisor separado GO sobre bytes finales. Git add y git commit rechazados con Operation not permitted en index.lock compartido; HEAD sigue en la base y no hay commit de entrega. Diff exacto exportado en /private/tmp/ddd-auto-1.2.0-review.patch. Cambios staged/unstaged y evidencias nuevas se conservan.
+El instalador público --apply exige --gate-file: revisión separada sobre todos los bytes del bundle, piloto real de dos READ_ONLY independientes, autorización acotada y targets exactos. Compara predecessor, locks y bytes protegidos, crea backup externo con hashes/permisos y verifica rollback. --rollback requiere backup y fingerprints actuales sin cambios ajenos; un rollback del plan conserva el diario por eventos compensatorios. Parámetros, encargos, política, historial, logs y legacy se protegen. Un controlador concurrente o bytes distintos abortan; no hay bypass de producción en la CLI. Los mocks viven exclusivamente en unit tests con destinos desechables.
+
+Pruebas: python3 -m unittest tests.test_ddd_auto tests.test_ddd_night tests.test_ddd_plan_migration tests.test_ddd_installer -v. Codex simulado en fixtures; validadores offline reales del controlador y de F03/F04 históricos. No equivale a piloto REAL_CODEX. CI/workflows no ejecutados por prohibición expresa. Expediente completo en DDD-control/entregas/plan-vivo-supervisor-20261011; inventario remoto UNVERIFIED_OFFLINE.

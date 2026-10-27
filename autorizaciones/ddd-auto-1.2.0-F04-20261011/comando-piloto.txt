@@ -1,0 +1,1 @@
+/Users/macbookpro/.local/bin/ddd auto F04 --plan /Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-20261008 --front fuentes-oficiales --pilot --run --policy /Users/macbookpro/Desarrollo/DDD-orquestador-auto/autorizaciones/ddd-auto-1.2.0-F04-20261011/F04-policy.json

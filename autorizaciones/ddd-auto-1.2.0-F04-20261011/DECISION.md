@@ -1,0 +1,20 @@
+Decisión ejecutiva — ddd auto 1.2.0 — 2026-10-11
+
+Versión documental 1.0.0. Origen: solicitud explícita de Dirección del 2026-10-11, conservada en solicitud-direccion.txt. Alcance: autorización de un piloto local de F04 y reconciliación de antecedentes; sin predecesor. Controlador instalado y comprobado contra el commit local fff6b0b5522192ca8a4867ce152958ca374d100b. No se modifica código ni protecciones.
+
+1. Se conservan los cierres administrativos F05–F09 y los dictámenes e integración históricos que ya constan en el Plan. Sus evidencias F05/F06/F07/F08 coinciden con los hashes registrados. La matriz final tiene 19 filas; los cinco BLOCKED canónicos no se sustituyen por candidatos READY locales. No se repite ninguna tarea cerrada.
+2. Se confirman dos incoherencias administrativas: F05 y F06 están PASS con F04 PENDING. Las aristas F05→F03/F04 y F06→F04 expresan dependencias reales y se conservan. Se aprueba regularizar la trazabilidad de F04 vinculando los antecedentes ya existentes, sin eliminar dependencias, reescribir historia, bajar cierres posteriores ni inferir F04 PASS. Un cierre formal de F04 requiere dictamen específico y decisión administrativa explícita; este permiso de preparación no lo concede. No hay propuesta concreta de otras aristas acreditada en el expediente consultado, por lo que no se aprueban cambios de DAG indeterminados. El Plan autoritativo permanece intacto; no se crea una copia alternativa del Plan.
+3. Se autoriza un único piloto F04 de validación de entrega existente y Revisor separado read-only, sin Ejecutor. Aporta valor como primer ejercicio real del controlador y dictamen trazable de F04, aunque ya exista trabajo material. Presupuesto total 600 segundos, máximo un intento, sin reparación ni repetición automática. Se mantiene el sandbox y toda la separación de puertas. No hay generación territorial, adquisición externa, workflows, push, PR, merge, promoción o publicación.
+4. F04-authorization.json registra la decisión por delegación explícita de esta solicitud, su origen, la revisión exacta del Plan, hash de ficha y presupuesto. F04-policy.json referencia ese recibo por SHA256 y autoriza exclusivamente F04; se pasa por --policy y no sustituye la política instalada. El dry-run de la versión instalada confirma ENABLED / validate_existing, sin dependencias de preparación pendientes y con accept/integrate/produce cerradas. verificacion.json conserva el resultado y la comprobación de que no cambiaron los archivos protegidos. No se ha ejecutado el piloto real.
+5. Para continuidad local, A01 y N02 son candidatas de verificación de evidencia existente; A-OPT-01 y A-OPT-02 son benchmarks funcionalmente independientes. A01 y los dos A-OPT no tienen dependencias, y N02 depende de N01, ya PASS. Los intentos manuales previos de A01/N02 se conservarán, sin repetirlos automáticamente. Estas tareas no requieren nuevos permisos del propietario para preparación local ya delegada a Dirección, pero Work deberá definir criterios ejecutables suficientes, alcance y presupuesto, y fijar cada autorización a su ficha y revisión del Plan. Actualmente no tienen ficha suficiente ni recibo válido y ninguna queda habilitada por la autorización F04. No se lanzan benchmarks ni se fabrican validadores aquí. Las tareas autonómicas posteriores esperan sus antecedentes; N03–N05 esperan N02. F10 sigue reservada a una decisión específica de readiness. Cualquier ejecución territorial, integración o publicación exige su autorización separada.
+
+Siguiente comando, con el Plan y la ficha sin cambios desde el dry-run:
+
+```sh
+$HOME/.local/bin/ddd auto F04 \
+  --plan "$HOME/Desarrollo/DDD-control/planes/ddd-maestro-20261008" \
+  --front fuentes-oficiales --pilot --run \
+  --policy "$HOME/Desarrollo/DDD-orquestador-auto/autorizaciones/ddd-auto-1.2.0-F04-20261011/F04-policy.json"
+```
+
+Si cambia el Plan o la ficha, el controlador rechazará esta referencia. Se deberá registrar la nueva decisión correspondiente y sus hashes; no se anulan ni relajan esos controles.

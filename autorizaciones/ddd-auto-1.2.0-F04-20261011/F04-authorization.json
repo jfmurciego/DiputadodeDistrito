@@ -1,0 +1,68 @@
+{
+  "version": "1.2.0",
+  "date": "2026-10-11",
+  "authority": "Work",
+  "decision": "En ejecución de la delegación explícita de Dirección del 2026-10-11, autorizo un único piloto F04 de ddd auto 1.2.0: validar su entrega existente con los validadores offline ya definidos y obtener un dictamen de Revisor separado read-only. Sin Ejecutor, sin repetir F05–F09, sin inferir cierre formal de F04, sin modificar el Plan, sin reparación ni reintento automático. El piloto acredita el funcionamiento del controlador y la trazabilidad actual de F04; no una nueva ejecución material de Fuentes.",
+  "task": "F04",
+  "scope": "local_prepare",
+  "plan_sha256": "eb510fc24843270c351362fa760af7426a10c07cc52866ee073f329d47f85a85",
+  "spec_sha256": "5ba2135ccfe2c21e1ecf91e9288166f2bb660a5189c19c2c0f39496819d59a34",
+  "production": false,
+  "network": false,
+  "budget": {
+    "seconds": 600,
+    "max_attempts": 1
+  },
+  "provenance": {
+    "kind": "explicit_user_delegation_to_prepare_direction_decision",
+    "request_path": "/Users/macbookpro/Desarrollo/DDD-orquestador-auto/autorizaciones/ddd-auto-1.2.0-F04-20261011/solicitud-direccion.txt",
+    "request_sha256": "2e487cd0697b1f49e35c0346237103b25bc748bf896e2880677cf90086d9bade"
+  },
+  "controller_commit": "fff6b0b5522192ca8a4867ce152958ca374d100b",
+  "controller_sha256": {
+    "ddd.py": "112e56d2c2abd66e03d221f83ca31ee79f67b6b1c8ab71d13d07f9861389d55a",
+    "ddd_auto.py": "a2c67bd11208ddbb3cfa3b6304de258d4f59753af3dca3d8a3c66fb9c0fd3376",
+    "validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
+    "review.schema.json": "f5f565b7802f01dff60f69b18b0b306e97b77728cbc0131cf0f435c6f2c66e38"
+  },
+  "existing_evidence_refs": {
+    "F05": {
+      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/continuacion/CONTRATO_F05.md",
+      "sha256": "7e5f6ae14164c912b953aa958d73fb32751a5dc16705f9d41572a6d71809338b"
+    },
+    "F06": {
+      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/continuacion/identity-alignment.json",
+      "sha256": "2374982929c9c18cf4a53cae616c01e9af8fedcbb5bf5ba3c5ac491962967289"
+    },
+    "F07": {
+      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/continuacion/offline-results.json",
+      "sha256": "85b4f25d21741de6b5bf1bb94e25a606b56e45b7806adab07eadd5d6e0f45171"
+    },
+    "F08": {
+      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/continuacion/matriz-19-final.json",
+      "sha256": "ccf432b3502f07b678943a28c23ffeeb081c52e8f5a611a4974a67ba4ca2b016"
+    }
+  },
+  "closed_tasks_preserved": [
+    "F01",
+    "F02",
+    "F03",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "N01"
+  ],
+  "forbidden": [
+    "territorial_execution",
+    "external_acquisition",
+    "workflows",
+    "push",
+    "pull_request",
+    "merge",
+    "publication",
+    "formal_status_inference",
+    "automatic_retry"
+  ]
+}
