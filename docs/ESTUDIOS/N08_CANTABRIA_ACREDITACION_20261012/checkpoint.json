@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "base": "29502ea86325102b00737023232f5020cfea3061",
+  "branch": "codex/n08-cantabria-acreditacion",
+  "phase": "FINAL_REVIEW",
+  "coverage": {
+    "cases": 4,
+    "voids": 28,
+    "overlaps": 30
+  },
+  "generation_authorized": false,
+  "next_action": "Deslinde Laredo y certificación población2025 de partes/Campoo; decisiones expresas y validadores nacionales antes de ensayo",
+  "national_products_rebuilt": false,
+  "tests": {
+    "status": "PASS",
+    "count": 144
+  },
+  "independent_reproduction": {
+    "status": "PASS",
+    "outputs": 4,
+    "final_tool_sha256": "36a0ea5164611cb15d630bffdfd508a37575801c4acfe9037c198b12798ee92b"
+  },
+  "protected_files": {
+    "status": "IDENTICAL",
+    "national": 55,
+    "contract_and_sources": 5
+  },
+  "remaining_gates": [
+    "Laredo precise classification/domain2025",
+    "Population per polygon part and Campoo domain",
+    "Explicit exceptions/municipal policy/population limits/precision",
+    "M04-M06 national guards and separate execution authorization"
+  ]
+}

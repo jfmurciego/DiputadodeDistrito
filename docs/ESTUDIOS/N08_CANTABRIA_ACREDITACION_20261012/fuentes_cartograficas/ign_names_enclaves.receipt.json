@@ -1,0 +1,15 @@
+{
+  "url": "https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-4.20,42.78,-4.07,42.85&limit=100",
+  "retrieved_utc": "2026-10-12T13:35:39.152691+00:00",
+  "sha256": "74ba6634283c72309175b73a60705313d4b6168ad41cf35995a664acb027d963",
+  "bytes": 59358,
+  "status": 200,
+  "organism": "IGN/CNIG",
+  "edition": "Metadata/snapshot; not presumed 2025",
+  "file": "ign_names_enclaves.json",
+  "command": [
+    "requests.get",
+    "https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-4.20,42.78,-4.07,42.85&limit=100",
+    "timeout=45"
+  ]
+}

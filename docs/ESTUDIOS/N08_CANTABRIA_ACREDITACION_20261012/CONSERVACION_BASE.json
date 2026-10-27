@@ -1,0 +1,309 @@
+{
+  "version": "1.0.0",
+  "base": "29502ea86325102b00737023232f5020cfea3061",
+  "status": "PASS",
+  "national_product_files": 55,
+  "congress_contract_and_sources_unchanged": true,
+  "files": [
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/checkpoint.json",
+      "sha256": "73d663d5d086c9e4dc1d54a2dad244ee720f8905d9fb26ca6b7b59eaeeb1acf9",
+      "bytes": 393
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/contactos_interprovinciales.json.gz",
+      "sha256": "820fe12639678250dbf029ef32dbe95c1be8449d54d40ecc5f8922606a0fa315",
+      "bytes": 161121
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/manifest.json",
+      "sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+      "bytes": 53428
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/01.json.gz",
+      "sha256": "44faccf2d180b886e1b2188e795d0c2249b13ff2be5bfee09381c8f277080785",
+      "bytes": 58526
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/02.json.gz",
+      "sha256": "644f399c0d36c86e7baf374f749f08a868b895bf32198f46f4291333abf8044e",
+      "bytes": 72721
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/03.json.gz",
+      "sha256": "f38a7e21318335f792cc24064e5ec8f1617c6adc34d44794acb2455cf9899dd0",
+      "bytes": 295271
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/04.json.gz",
+      "sha256": "e73cb90994ffadfa3ee25decfc94a3fb9022051540174a57a6621ce0d1a48cd0",
+      "bytes": 113969
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/05.json.gz",
+      "sha256": "51878e880627d1765c99649197e727b56812aba47cc359abbfcf42f2327eb7d3",
+      "bytes": 79421
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/06.json.gz",
+      "sha256": "10d08378aaf435230c22f36ad52000b53236e0b2bc80bead33b9bd24c43957c4",
+      "bytes": 131191
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/07.json.gz",
+      "sha256": "93f57e05543df927cf808d438cd216f1fb572119e1da3e2e3b6123a191e2232c",
+      "bytes": 158762
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/08.json.gz",
+      "sha256": "9c25390c56b809cb290d14a95fcb9ac6177458ac8128bcb67ae159488204f6f6",
+      "bytes": 882720
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/09.json.gz",
+      "sha256": "b2cf207045f9f785c5e747276d7dbefa961fb6d347d4f6d8577f81b1a5a9a532",
+      "bytes": 147563
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/10.json.gz",
+      "sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+      "bytes": 102971
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/11.json.gz",
+      "sha256": "508025fc93321c392ca8db8424e8ad68c6ba6867d1b855fbe38b841bd2aedd94",
+      "bytes": 215307
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/12.json.gz",
+      "sha256": "1513eeccfbf1a3f6045a89b8c5568abb6a34d8ebb552d2042552907d55061ca3",
+      "bytes": 108401
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/13.json.gz",
+      "sha256": "5ccdd59ac5bd4f47aaa6ba7150cc03ea17f9201b29898cf97984b0010a1cd444",
+      "bytes": 102920
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/14.json.gz",
+      "sha256": "aa0bfd8ca4349407ba42f5eaa2f86d6a89fcc3d330315cf52c56e20ea2dc2f22",
+      "bytes": 147264
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/15.json.gz",
+      "sha256": "10d7e6faf9167fb7b51124d93a122ed093113dcc7f236600058be14d21e35c56",
+      "bytes": 204012
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/16.json.gz",
+      "sha256": "5956b5e82051d56153002ae0345f883dca7d7f8342a7a1aabe903debe15d673e",
+      "bytes": 80301
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/17.json.gz",
+      "sha256": "2596b69c6e6587a7afac8fcdf799ecf6308c3c605dfd680dcc28cb1b655c2d0f",
+      "bytes": 130729
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/18.json.gz",
+      "sha256": "823da7f0a4ad8fb9d6c45d47300549a9aa1f6f2c52b6807da0d5810e6531b7ab",
+      "bytes": 164851
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/19.json.gz",
+      "sha256": "64c784ad428f570b426a1a3151d775d0664a6463dcb822d1f89ffa52a25b5225",
+      "bytes": 103667
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/20.json.gz",
+      "sha256": "4abaa7aa395e45640428d2de6a708384a8b8359e56ef0d914f2008c43d72ffc8",
+      "bytes": 128798
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/21.json.gz",
+      "sha256": "e0b9e23d9e85393cafb306249c9bebb9398c3b4f6e7d55f4c86c18e228ca7dc9",
+      "bytes": 90697
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/22.json.gz",
+      "sha256": "eadcbb2ff1a7e9db94bf8658b204881f4625c4d28933b00e552082594ff98aa8",
+      "bytes": 74097
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/23.json.gz",
+      "sha256": "3841b5e96291e8f769d30d210d8a4b6d17a183b2f695bf8685abdf33729132d0",
+      "bytes": 115715
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/24.json.gz",
+      "sha256": "a2b5845b49ebac4e24aca8f923983cd9ee717f9cb7b7ee345fdbec70e932d06b",
+      "bytes": 112348
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/25.json.gz",
+      "sha256": "c1141a4dd8b95953662709ac3ac6bc38d82631ff02ac11dd3e65928f401bc7e1",
+      "bytes": 98260
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/26.json.gz",
+      "sha256": "55751b64bd875bb67d8a70ce8a8c356bdaa4956ea5ddf5d4211ba0bb1f160ed7",
+      "bytes": 86354
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/27.json.gz",
+      "sha256": "a6caa593f0188db7c55e87973d8c4d6e8cdf145782fa9cf3dbea8a8825953a16",
+      "bytes": 65886
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/28.json.gz",
+      "sha256": "025cec058f2803f3be5e69fcd4d5a4420a2907292222ba8938b69d657a37bd0f",
+      "bytes": 1092452
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/29.json.gz",
+      "sha256": "394c137070e96569c7ae38d400dfc43b92ce01d21dbf8080ca305316a29b2a40",
+      "bytes": 259458
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/30.json.gz",
+      "sha256": "75734db6618056f99406bae2e5ff6a0a519c814c946cc5cc2be7b94f22bdfbb3",
+      "bytes": 291910
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/31.json.gz",
+      "sha256": "b46aa7ce15b45c3971eda4e4c74e065192b96b8a268457c008162fc426e717f6",
+      "bytes": 145930
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/32.json.gz",
+      "sha256": "7a595148c7bf6109ee62cff08d1ed4b2ff8252d90893c8737ea6c2ab42456f5a",
+      "bytes": 63323
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/33.json.gz",
+      "sha256": "61dae685772830aade16a9c3f2691c842bf72797d671b83b1d4a43fe9aed0dfe",
+      "bytes": 198290
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/34.json.gz",
+      "sha256": "3d3f4f480455644f118227fd7731fb30c2a2bacd7b7978b961bc979fb165b6ad",
+      "bytes": 69997
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/35.json.gz",
+      "sha256": "54047358f868edfabf1681d61fc54a3e6aff1acbe4dd6ae99a3b4ce93d92fa4d",
+      "bytes": 168139
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/36.json.gz",
+      "sha256": "1a1693f81904df8fa738d6eb715432ba5980a0357089da33a414da04627f743b",
+      "bytes": 170502
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/37.json.gz",
+      "sha256": "ddca7c90e6af19a226862d7f3fd137630fa0dc75fb9a075f6de93aa199739175",
+      "bytes": 136449
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/38.json.gz",
+      "sha256": "48426f77944dc46a753f3344831c1d3b778e0659b30d8a23101b0b1a9f322cbe",
+      "bytes": 160319
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/39.json.gz",
+      "sha256": "7e46e8ef52e8a0a734ccb2dedf92311a4a29588510fd164b99046764146b68d3",
+      "bytes": 111797
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/40.json.gz",
+      "sha256": "f27d7e9f0d7062509ea580541f27ea39ea957d4dc303f849b02576c8bfa32ea8",
+      "bytes": 70984
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/41.json.gz",
+      "sha256": "e50e286aac03f2be0fd3ec7ccaa7261b324b1f7721d3b9719f2fb1cd5ce6843b",
+      "bytes": 328923
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/42.json.gz",
+      "sha256": "212dfd2f7b0c0b552c923f4b925f8a10aafe78e211c0477b125a6f531e165fca",
+      "bytes": 55939
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/43.json.gz",
+      "sha256": "459bc2bb8c050534d67c368ce69519c3827ad6af0ac8a623028ef5b275ad6972",
+      "bytes": 142494
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/44.json.gz",
+      "sha256": "d002c0a4048a5c2d28ca2523d7e24c93f709446f9bfdf933990a70c2e895342c",
+      "bytes": 70062
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/45.json.gz",
+      "sha256": "d923fdb38134617e06e488092b4bc342c5ce98397b54546df2abaceb53accb23",
+      "bytes": 131295
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/46.json.gz",
+      "sha256": "5523dbad5736f5326d7b8ffcbebe39314b6f09dd2f0a7215c9835f2cb9974233",
+      "bytes": 448471
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/47.json.gz",
+      "sha256": "8f1149f2507f7c757f76321c64c90ccafb90e120f3a474a9299a110d3cd6e62f",
+      "bytes": 142478
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/48.json.gz",
+      "sha256": "91deac2db5c77a26babc4638ba1bdaa4131bc2337771fe5b4762b0bd0234a6f4",
+      "bytes": 222765
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/49.json.gz",
+      "sha256": "fe91175c1b8c48f02e7f50538bbf32cabac3071206adca707242ab5edc791693",
+      "bytes": 80449
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/50.json.gz",
+      "sha256": "9e88a9a1ce405898066f29bc054c5b93fbd5b5d6fc149d4e92183a019f6faa66",
+      "bytes": 221337
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/51.json.gz",
+      "sha256": "16fb951cf5bb3553e2ce38bfda95212006cd4e4daabfcd46e983beb880495120",
+      "bytes": 13050
+    },
+    {
+      "path": "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/52.json.gz",
+      "sha256": "00940668086499d50c1ddc716cf9571bdb5dcb1dc0630e65f352bf6ce9e72178",
+      "bytes": 10499
+    },
+    {
+      "path": "territorios/congreso/CONTRATO_CANDIDATO.md",
+      "sha256": "f4e0e2c4e7e71222b793d63f8444a769c50c838dfdfc72ef0fe20ec19b19a54b",
+      "bytes": 8753
+    },
+    {
+      "path": "territorios/congreso/contrato_congreso_2026.json",
+      "sha256": "bc2ebcac4e89a3aadecccc72ce3ff91a9314ae64ae2f5b3dff9086b2251f0b5e",
+      "bytes": 11427
+    },
+    {
+      "path": "territorios/congreso/fuentes/ine_2025_2025/crosswalk_n07_2025.csv",
+      "sha256": "0ceb2cab2b7843a9ab042e5130a66762ffa958983ced91220e18d2bb38f14d54",
+      "bytes": 1133206
+    },
+    {
+      "path": "territorios/congreso/fuentes/ine_2025_2025/manifest.json",
+      "sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37",
+      "bytes": 10029
+    },
+    {
+      "path": "territorios/congreso/fuentes/ine_2025_2025/poblacion_por_seccion_2025.csv",
+      "sha256": "c4a22fc47f7542da0b3e1cef65ea59dc555442eda23f7f74ba4f4db7d6c4a988",
+      "bytes": 1303881
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nameunit=Cantabria&limit=10",
+  "retrieved_utc": "2026-10-12T12:16:35.577265+00:00",
+  "status": 200,
+  "sha256": "5cbdc49c9bc66b17427163e87a8b63da940a254a09c474bd75afb7eb32926c71",
+  "bytes": 5834812,
+  "content_type": "application/json",
+  "date": "Mon, 12 Oct 2026 12:16:27 GMT",
+  "etag": null,
+  "last_modified": null,
+  "organism": "IGN/CNIG",
+  "licence": "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+  "command": "requests.get(url, timeout=50)"
+}

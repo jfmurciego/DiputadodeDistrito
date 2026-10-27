@@ -1,0 +1,15 @@
+test_duplicate_missing_foreign_population_sections_rejected (tests.test_acreditar_cantabria_n08.AccreditationTests.test_duplicate_missing_foreign_population_sections_rejected) ... ok
+test_each_void_contrasted_and_precision_is_not_policy (tests.test_acreditar_cantabria_n08.AccreditationTests.test_each_void_contrasted_and_precision_is_not_policy) ... ok
+test_exact_original_void_identities_and_areas (tests.test_acreditar_cantabria_n08.AccreditationTests.test_exact_original_void_identities_and_areas) ... ok
+test_foreign_void_not_classified_by_fallback (tests.test_acreditar_cantabria_n08.AccreditationTests.test_foreign_void_not_classified_by_fallback) ... ok
+test_hash_rejects_foreign_source (tests.test_acreditar_cantabria_n08.AccreditationTests.test_hash_rejects_foreign_source) ... ok
+test_invariants_and_no_generation (tests.test_acreditar_cantabria_n08.AccreditationTests.test_invariants_and_no_generation) ... ok
+test_no_fictitious_contact_islands_enclave_laredo (tests.test_acreditar_cantabria_n08.AccreditationTests.test_no_fictitious_contact_islands_enclave_laredo) ... ok
+test_overlap_inventory_not_cause_of_large_voids (tests.test_acreditar_cantabria_n08.AccreditationTests.test_overlap_inventory_not_cause_of_large_voids) ... ok
+test_torre_name_is_external_correspondence_not_original_point (tests.test_acreditar_cantabria_n08.AccreditationTests.test_torre_name_is_external_correspondence_not_original_point) ... ok
+test_unknown_part_population_not_zero (tests.test_acreditar_cantabria_n08.AccreditationTests.test_unknown_part_population_not_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.064s
+
+OK

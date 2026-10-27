@@ -1,0 +1,129 @@
+{
+    "type":"FeatureCollection",
+    "features":[
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"El Balc\u00f3n",
+                "tipo":"Paraje",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-20",
+                "codigo_ngbe":"4.2.2",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"12448",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.72869434099994,
+                    43.4750958280001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"La Canaleta",
+                "tipo":"Entrante costero y estrecho mar\u00edtimo",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-24",
+                "codigo_ngbe":"6.1.2",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"12456",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.72729046199993,
+                    43.4705181050001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"Jorganes",
+                "tipo":"Paraje",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-11",
+                "codigo_ngbe":"4.2.2",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"12519",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.72979296999995,
+                    43.4721050580001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"Isla de Santa Marina",
+                "tipo":"Isla",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2018-10-03",
+                "codigo_ngbe":"6.2.3",
+                "fuente":"MFOMENTO.IGN.NGCE"
+            },
+            "id":"1670110",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.72991505599992,
+                    43.473508892
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"El Canto del Fraile",
+                "tipo":"Elemento puntual del paisaje",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-20",
+                "codigo_ngbe":"4.2.3",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"1670127",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.72552040899996,
+                    43.470884314
+                ]
+            }
+        }
+    ],
+    "numberMatched":5,
+    "numberReturned":5,
+    "links":[
+        {
+            "type":"application/geo+json",
+            "rel":"self",
+            "title":"This document as GeoJSON",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-3.739,43.469,-3.721,43.482&limit=100"
+        },
+        {
+            "rel":"alternate",
+            "type":"application/ld+json",
+            "title":"This document as RDF (JSON-LD)",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=jsonld&bbox=-3.739,43.469,-3.721,43.482&limit=100"
+        },
+        {
+            "type":"text/html",
+            "rel":"alternate",
+            "title":"This document as HTML",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=html&bbox=-3.739,43.469,-3.721,43.482&limit=100"
+        },
+        {
+            "type":"application/json",
+            "title":"GN Lugar nombrado",
+            "rel":"collection",
+            "href":"https://api-features.ign.es/collections/namedplace"
+        }
+    ],
+    "timeStamp":"2026-10-12T12:20:47.425180Z"
+}

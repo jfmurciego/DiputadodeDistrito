@@ -1,0 +1,1647 @@
+{
+    "collections":[
+        {
+            "id":"administrativeboundary",
+            "title":"AU L\u00edmites administrativos",
+            "description":"L\u00ednea de demarcaci\u00f3n entre unidades administrativas.",
+            "keywords":[
+                "l\u00edmite",
+                "administrativo"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-codsi-idee/srv/spa/catalog.search#/metadata/spaignLLM",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignLLM",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"tag",
+                    "rel":"describedby",
+                    "title":"Definici\u00f3n en el registro INSPIRE de l\u00edmite administrativo",
+                    "href":"https://inspire.ec.europa.eu/featureconcept/AdministrativeBoundary",
+                    "hreflang":"en"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeboundary/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        },
+        {
+            "id":"administrativeunit",
+            "title":"AU Unidades administrativas",
+            "description":"Unidad de administraci\u00f3n sobre la que un Estado miembro tiene y/o ejerce derechos jurisdiccionales para el gobierno local, regional y nacional.",
+            "keywords":[
+                "unidad",
+                "administrativa"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-codsi-idee/srv/spa/catalog.search#/metadata/spaignLLM",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignLLM",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"tag",
+                    "rel":"describedby",
+                    "title":"Definici\u00f3n en el registro INSPIRE de unidad administrativa",
+                    "href":"https://inspire.ec.europa.eu/featureconcept/AdministrativeUnit",
+                    "hreflang":"en"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/administrativeunit?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/administrativeunit?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeunit?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/administrativeunit/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeunit/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/administrativeunit/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeunit/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/administrativeunit/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/administrativeunit/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/administrativeunit/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        },
+        {
+            "id":"namedplace",
+            "title":"GN Lugar nombrado",
+            "description":"Representaci\u00f3n de nombres geogr\u00e1ficos como los nombres de zonas, regiones, localidades, ciudades, periferias, poblaciones o asentamientos, o cualquier rasgo geogr\u00e1fico o topogr\u00e1fico de inter\u00e9s p\u00fablico o hist\u00f3rico procedentes del Nomencl\u00e1tor Geogr\u00e1fico B\u00e1sico de Espa\u00f1a (NGBE).",
+            "keywords":[
+                "top\u00f3nimo",
+                "nombre"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-codsi-idee/srv/spa/catalog.search#/metadata/spaignNGBE",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignNGBE",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"tag",
+                    "rel":"describedby",
+                    "title":"Definici\u00f3n en el registro INSPIRE de lugar nombrado",
+                    "href":"https://inspire.ec.europa.eu/featureconcept/NamedPlace",
+                    "hreflang":"en"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/namedplace?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/namedplace?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/namedplace?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/namedplace/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/namedplace/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/namedplace/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/namedplace/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/namedplace/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/namedplace/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/namedplace/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        },
+        {
+            "id":"nuc",
+            "title":"N\u00facleos de poblaci\u00f3n",
+            "description":"Poblaciones identificadas como n\u00facleo de poblaci\u00f3n por el Instituto Nacional de Estad\u00edstica.",
+            "keywords":[
+                "n\u00facleos",
+                "poblaci\u00f3n"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaign_IGR_Poblaciones",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaign_IGR_Poblaciones",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/nuc?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/nuc?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/nuc?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/nuc/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/nuc/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/nuc/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/nuc/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/nuc/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/nuc/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/nuc/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/EPSG/0/3857"
+        },
+        {
+            "id":"opob",
+            "title":"Otras poblaciones",
+            "description":"Poblaciones no identificadas como n\u00facleo de poblaci\u00f3n por el Instituto Nacional de Estad\u00edstica.",
+            "keywords":[
+                "otros",
+                "n\u00facleos",
+                "poblaci\u00f3n"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaign_IGR_Poblaciones",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaign_IGR_Poblaciones",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/opob?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/opob?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/opob?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/opob/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/opob/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/opob/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/opob/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/opob/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/opob/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/opob/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/EPSG/0/3857"
+        },
+        {
+            "id":"sin_toponimo",
+            "title":"Lugar sin top\u00f3nimo conocido",
+            "description":"Lugares poblados sin top\u00f3nimo conocido.",
+            "keywords":[
+                "poblaci\u00f3n",
+                "sin top\u00f3nimo"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaign_IGR_Poblaciones",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaign_IGR_Poblaciones",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/sin_toponimo/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/EPSG/0/3857"
+        },
+        {
+            "id":"red_ergnss",
+            "title":"Red de Estaciones de Referencia GNSS (ERGNSS)",
+            "description":"Contiene la informaci\u00f3n relativa a la Red de Estaciones de Referencia GNSS (ERGNSS). Incluye estaciones en Azores.",
+            "keywords":[
+                "ERGNSS",
+                "GNSS"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaignredergnss",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignredergnss",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/red_ergnss?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_ergnss?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/red_ergnss?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/red_ergnss/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/red_ergnss/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/red_ergnss/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/red_ergnss/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/red_ergnss/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_ergnss/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/red_ergnss/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -26,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        },
+        {
+            "id":"red_nap",
+            "title":"Red de Nivelaci\u00f3n de Alta Precisi\u00f3n (REDNAP)",
+            "description":"Contiene la informaci\u00f3n relativa a la Red Espa\u00f1ola de Nivelaci\u00f3n de Alta Precisi\u00f3n.",
+            "keywords":[
+                "clavo",
+                "topograf\u00eda",
+                "red geod\u00e9sica",
+                "triangulaci\u00f3n",
+                "v\u00e9rtices geod\u00e9sicos"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaignrednap",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignrednap",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/red_nap?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_nap?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/red_nap?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/red_nap/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/red_nap/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/red_nap/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/red_nap/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/red_nap/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_nap/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/red_nap/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        },
+        {
+            "id":"red_regente",
+            "title":"Red REGENTE",
+            "description":"Contiene la informaci\u00f3n relativa a la Red Geod\u00e9sica Nacional por T\u00e9cnicas Espaciales.",
+            "keywords":[
+                "red geod\u00e9sica",
+                "triangulaci\u00f3n",
+                "v\u00e9rtices geod\u00e9sicos",
+                "REGENTE"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaignredregente",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignredregente",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/red_regente?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_regente?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/red_regente?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/red_regente/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/red_regente/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/red_regente/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/red_regente/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/red_regente/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_regente/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/red_regente/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        },
+        {
+            "id":"red_roi",
+            "title":"Red de Orden Inferior (ROI)",
+            "description":"Contiene la informaci\u00f3n relativa a la Red de Orden Inferior.",
+            "keywords":[
+                "red geod\u00e9sica",
+                "triangulaci\u00f3n",
+                "v\u00e9rtices geod\u00e9sicos",
+                "ROI"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaignredroi",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignredroi",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/red_roi?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_roi?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/red_roi?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/red_roi/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/red_roi/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/red_roi/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/red_roi/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/red_roi/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_roi/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/red_roi/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        },
+        {
+            "id":"red_mareografos",
+            "title":"Red de Mare\u00f3grafos",
+            "description":"Contiene la informaci\u00f3n relativa a la Red de Mare\u00f3grafos.",
+            "keywords":[
+                "red mare\u00f3grafos"
+            ],
+            "links":[
+                {
+                    "type":"text/html",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en HTML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/catalog.search#/metadata/spaignredmareografos",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/xml",
+                    "rel":"describedby",
+                    "title":"Metadato del conjunto de datos en XML",
+                    "href":"https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignredmareografos",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/pdf",
+                    "rel":"license",
+                    "title":"Licencia de uso",
+                    "href":"https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"about",
+                    "title":"Documentaci\u00f3n Swagger UI",
+                    "href":"https://api-features.ign.es/openapi?f=html",
+                    "hreflang":"es"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"root",
+                    "title":"The landing page of this server as JSON",
+                    "href":"https://api-features.ign.es?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"root",
+                    "title":"The landing page of this server as HTML",
+                    "href":"https://api-features.ign.es?f=html"
+                },
+                {
+                    "type":"application/json",
+                    "rel":"self",
+                    "title":"This document as JSON",
+                    "href":"https://api-features.ign.es/collections/red_mareografos?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"alternate",
+                    "title":"This document as RDF (JSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_mareografos?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"alternate",
+                    "title":"This document as HTML",
+                    "href":"https://api-features.ign.es/collections/red_mareografos?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in JSON",
+                    "href":"https://api-features.ign.es/collections/red_mareografos/schema?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/schema",
+                    "title":"Schema of collection in HTML",
+                    "href":"https://api-features.ign.es/collections/red_mareografos/schema?f=html"
+                },
+                {
+                    "type":"application/schema+json",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as JSON",
+                    "href":"https://api-features.ign.es/collections/red_mareografos/queryables?f=json"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"http://www.opengis.net/def/rel/ogc/1.0/queryables",
+                    "title":"Queryables for this collection as HTML",
+                    "href":"https://api-features.ign.es/collections/red_mareografos/queryables?f=html"
+                },
+                {
+                    "type":"application/geo+json",
+                    "rel":"items",
+                    "title":"Items as GeoJSON",
+                    "href":"https://api-features.ign.es/collections/red_mareografos/items?f=json"
+                },
+                {
+                    "type":"application/ld+json",
+                    "rel":"items",
+                    "title":"Items as RDF (GeoJSON-LD)",
+                    "href":"https://api-features.ign.es/collections/red_mareografos/items?f=jsonld"
+                },
+                {
+                    "type":"text/html",
+                    "rel":"items",
+                    "title":"Items as HTML",
+                    "href":"https://api-features.ign.es/collections/red_mareografos/items?f=html"
+                }
+            ],
+            "extent":{
+                "spatial":{
+                    "bbox":[
+                        [
+                            -19,
+                            27,
+                            5,
+                            44
+                        ]
+                    ],
+                    "crs":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+                }
+            },
+            "itemType":"feature",
+            "crs":[
+                "http://www.opengis.net/def/crs/EPSG/0/4258",
+                "http://www.opengis.net/def/crs/EPSG/0/4326",
+                "http://www.opengis.net/def/crs/EPSG/0/3857",
+                "http://www.opengis.net/def/crs/EPSG/0/3035",
+                "http://www.opengis.net/def/crs/EPSG/0/25828",
+                "http://www.opengis.net/def/crs/EPSG/0/25829",
+                "http://www.opengis.net/def/crs/EPSG/0/25830",
+                "http://www.opengis.net/def/crs/EPSG/0/25831",
+                "http://www.opengis.net/def/crs/EPSG/0/32628",
+                "http://www.opengis.net/def/crs/EPSG/0/32629",
+                "http://www.opengis.net/def/crs/EPSG/0/32630",
+                "http://www.opengis.net/def/crs/EPSG/0/32631",
+                "http://www.opengis.net/def/crs/EPSG/0/4080",
+                "http://www.opengis.net/def/crs/EPSG/0/4081",
+                "http://www.opengis.net/def/crs/EPSG/0/4082",
+                "http://www.opengis.net/def/crs/EPSG/0/4083",
+                "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+            ],
+            "storageCRS":"http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        }
+    ],
+    "links":[
+        {
+            "type":"application/json",
+            "rel":"self",
+            "title":"This document as JSON",
+            "href":"https://api-features.ign.es/collections?f=json"
+        },
+        {
+            "type":"application/ld+json",
+            "rel":"alternate",
+            "title":"This document as RDF (JSON-LD)",
+            "href":"https://api-features.ign.es/collections?f=jsonld"
+        },
+        {
+            "type":"text/html",
+            "rel":"alternate",
+            "title":"This document as HTML",
+            "href":"https://api-features.ign.es/collections?f=html"
+        }
+    ]
+}

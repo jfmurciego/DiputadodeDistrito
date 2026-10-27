@@ -1,0 +1,42 @@
+{
+    "type":"object",
+    "title":"GN Lugar nombrado",
+    "properties":{
+        "geometry":{
+            "format":"geometry-any",
+            "x-ogc-role":"primary-geometry"
+        },
+        "identidad":{
+            "title":"identidad",
+            "type":"string",
+            "x-ogc-role":"id"
+        },
+        "etiqueta":{
+            "title":"etiqueta",
+            "type":"string"
+        },
+        "tipo":{
+            "title":"tipo",
+            "type":"string"
+        },
+        "codigo_ngbe":{
+            "title":"codigo_ngbe",
+            "type":"string"
+        },
+        "tiponombre":{
+            "title":"tiponombre",
+            "type":"string"
+        },
+        "fuente":{
+            "title":"fuente",
+            "type":"string"
+        },
+        "fecha":{
+            "title":"fecha",
+            "type":"string",
+            "format":"date"
+        }
+    },
+    "$schema":"http://json-schema.org/draft/2019-09/schema",
+    "$id":"https://api-features.ign.es/collections/namedplace/queryables"
+}

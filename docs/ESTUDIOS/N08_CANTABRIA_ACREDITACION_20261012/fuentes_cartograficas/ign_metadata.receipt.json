@@ -1,0 +1,15 @@
+{
+  "url": "https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignLLM",
+  "retrieved_utc": "2026-10-12T13:35:37.236545+00:00",
+  "sha256": "a9918bcc1085f15017b2c01740c0760232247d5aabccacb9c501a191d3aef05a",
+  "bytes": 61106,
+  "status": 200,
+  "organism": "IGN/CNIG",
+  "edition": "Metadata/snapshot; not presumed 2025",
+  "file": "ign_metadata.xml",
+  "command": [
+    "requests.get",
+    "https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignLLM",
+    "timeout=45"
+  ]
+}

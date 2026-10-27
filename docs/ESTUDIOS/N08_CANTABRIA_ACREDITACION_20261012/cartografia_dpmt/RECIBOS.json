@@ -1,0 +1,118 @@
+{
+  "version": "1.0.0",
+  "nombre": "Extracción puntual ZIP MITECO Regatón",
+  "fecha": "2026-10-12",
+  "estado": "DIAGNOSTIC",
+  "alcance": "Tres miembros PDF, no ZIP completo",
+  "origen": "Expediente MITECO DES01/14/39/0001",
+  "central_dir_sha256": "92421169ba7333f5d0faba914bfb17551739161c13be7e0a214e975c62643674",
+  "sources": [
+    {
+      "file": "1.1 Planos-2000-Hoja-1_Firmado.pdf",
+      "url": "https://www.miteco.gob.es/content/dam/miteco/es/costas/participacion-publica/anexos/39-cantabria/2026/20260921-des01-14-39-0001/des01-14-39-0001-documentacion.zip",
+      "organismo": "MITECO Demarcación de Costas en Cantabria",
+      "archive_edition": "Expediente DES01/14/39/0001, documentación consulta2026; Estudio2023 no deslinde definitivo2025",
+      "acquired_at_utc": "2026-10-12T13:54:24.195402+00:00",
+      "method": "GET",
+      "Range": "bytes=2546059-3472950",
+      "Content-Range": "bytes 2546059-3472950/68713995",
+      "HTTP_status": 206,
+      "member_localoffset": 2546059,
+      "compressed_bytes": 926572,
+      "uncompressed_bytes": 1037885,
+      "zip_method": 8,
+      "crc32_central_hex": "aab721c8",
+      "crc32_verified": true,
+      "sha256_range_response": "186b2f46ceb3939c3bade259e297817909f463e10a32d4caf2b50a3bb9172fd7",
+      "sha256": "496633cdcb76f8bd23923281a3c1a432cd54d9eae2bca66b5e013063408d0ae3",
+      "licencia": "Documento oficial consulta pública; licencia cartográfica adicional no indicada",
+      "command": "python extraer_miembros_zip.py: requests GET Range, ZIP localheader, deflate raw, comprobar CRC central"
+    },
+    {
+      "file": "3.1 Estudio justificativo (2023).pdf",
+      "url": "https://www.miteco.gob.es/content/dam/miteco/es/costas/participacion-publica/anexos/39-cantabria/2026/20260921-des01-14-39-0001/des01-14-39-0001-documentacion.zip",
+      "organismo": "MITECO Demarcación de Costas en Cantabria",
+      "archive_edition": "Expediente DES01/14/39/0001, documentación consulta2026; Estudio2023 no deslinde definitivo2025",
+      "acquired_at_utc": "2026-10-12T13:54:35.680273+00:00",
+      "method": "GET",
+      "Range": "bytes=9623423-16439506",
+      "Content-Range": "bytes 9623423-16439506/68713995",
+      "HTTP_status": 206,
+      "member_localoffset": 9623423,
+      "compressed_bytes": 6815762,
+      "uncompressed_bytes": 7080005,
+      "zip_method": 8,
+      "crc32_central_hex": "de4d81e4",
+      "crc32_verified": true,
+      "sha256_range_response": "6ef985c1c09bf059d5f98f2b724961d3a5ac5126f47c4ce127c6ec8b1e68470c",
+      "sha256": "d0786666a4899cd565081e77386543ab41c0b9f4cb1a4d8801debce325d57d37",
+      "licencia": "Documento oficial consulta pública; licencia cartográfica adicional no indicada",
+      "command": "python extraer_miembros_zip.py: requests GET Range, ZIP localheader, deflate raw, comprobar CRC central"
+    },
+    {
+      "file": "3.2 Anejo 1 - Unidades geomorfológicas.pdf",
+      "url": "https://www.miteco.gob.es/content/dam/miteco/es/costas/participacion-publica/anexos/39-cantabria/2026/20260921-des01-14-39-0001/des01-14-39-0001-documentacion.zip",
+      "organismo": "MITECO Demarcación de Costas en Cantabria",
+      "archive_edition": "Expediente DES01/14/39/0001, documentación consulta2026; Estudio2023 no deslinde definitivo2025",
+      "acquired_at_utc": "2026-10-12T13:54:39.060537+00:00",
+      "method": "GET",
+      "Range": "bytes=16439299-18608113",
+      "Content-Range": "bytes 16439299-18608113/68713995",
+      "HTTP_status": 206,
+      "member_localoffset": 16439299,
+      "compressed_bytes": 2168486,
+      "uncompressed_bytes": 2660296,
+      "zip_method": 8,
+      "crc32_central_hex": "a4184f1a",
+      "crc32_verified": true,
+      "sha256_range_response": "350a79859b02c36ca98b21fbb68d66852112b6374a107cc2a22f2126fa3f1f2a",
+      "sha256": "762bff958c303d059d2d0b24f5b3e954a7127b9b1e5327544e926509d14f3697",
+      "licencia": "Documento oficial consulta pública; licencia cartográfica adicional no indicada",
+      "command": "python extraer_miembros_zip.py: requests GET Range, ZIP localheader, deflate raw, comprobar CRC central"
+    }
+  ],
+  "derived_artifacts": [
+    {
+      "file": "extraer_texto_pdf.swift",
+      "sha256": "e0369cc038f15233ff619e30a4cb6860b443b25e47a3bebcd2053838aff559d6",
+      "bytes": 271,
+      "method": "Texto: Swift PDFKit PDFPage.string; central: rango ZIP conservado por ejecutor; scripts reproducción sin modificar PDFs"
+    },
+    {
+      "file": "extraer_miembros_zip.py",
+      "sha256": "bd8edaf3abfe2b76b3218a94c79abea1d943653fafa7a38ec11605f32725ec66",
+      "bytes": 2634,
+      "method": "Texto: Swift PDFKit PDFPage.string; central: rango ZIP conservado por ejecutor; scripts reproducción sin modificar PDFs"
+    },
+    {
+      "file": "ESTUDIO2023_TEXTO_PDFKIT.txt",
+      "sha256": "04274d6eb05a69a9e9ee1b1403883ee13de29beb3b4b516ecfd228d6dd378e2f",
+      "bytes": 157018,
+      "method": "Texto: Swift PDFKit PDFPage.string; central: rango ZIP conservado por ejecutor; scripts reproducción sin modificar PDFs"
+    },
+    {
+      "file": "renderizar_pdf.swift",
+      "sha256": "7303f570353ca16983b2862c1585de27fa9b4718360f3caca3f8887e727480e3",
+      "bytes": 478,
+      "method": "Texto: Swift PDFKit PDFPage.string; central: rango ZIP conservado por ejecutor; scripts reproducción sin modificar PDFs"
+    },
+    {
+      "file": "ZIP_CENTRAL_RANGE.bin",
+      "sha256": "92421169ba7333f5d0faba914bfb17551739161c13be7e0a214e975c62643674",
+      "bytes": 65536,
+      "method": "Texto: Swift PDFKit PDFPage.string; central: rango ZIP conservado por ejecutor; scripts reproducción sin modificar PDFs"
+    },
+    {
+      "file": "PLANO1_TEXTO_PDFKIT.txt",
+      "sha256": "734cabad0d6009d95e3e63e86e2e387f8a020643a6183a05268f1b701efee039",
+      "bytes": 3467,
+      "method": "Texto: Swift PDFKit PDFPage.string; central: rango ZIP conservado por ejecutor; scripts reproducción sin modificar PDFs"
+    },
+    {
+      "file": "ANEJO1_TEXTO_PDFKIT.txt",
+      "sha256": "d823956a910e143907fe2df9d729baaead86e1ff7071faefd137e5227ba068ba",
+      "bytes": 834,
+      "method": "Texto: Swift PDFKit PDFPage.string; central: rango ZIP conservado por ejecutor; scripts reproducción sin modificar PDFs"
+    }
+  ]
+}

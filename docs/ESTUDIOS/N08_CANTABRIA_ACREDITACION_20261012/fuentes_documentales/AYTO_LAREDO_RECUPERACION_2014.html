@@ -1,0 +1,1129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<meta name="Author" content="Ayuntamiento de Laredo" />
+
+<meta name="Description" content="Portal oficial del Ayuntamiento de Laredo" />
+
+<meta name="Keywords" content="Laredo, Cantabria, Ayuntamiento " />
+
+<link href="favicon.ico" rel="Shortcut Icon" type="image/x-icon" />
+
+<link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon" />
+
+<!--[if lte IE 6]><script src="ie6/warning.js"></script><script>window.onload=function(){e("/ie6/")}</script><![endif]-->
+
+
+
+<script src="/09/Scripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+
+<script src="/09/Scripts/jquery.qtip-1.0.0-rc3.min.js" type="text/javascript"></script>
+
+<script src="/09/Scripts/jquery.validate.pack.js" type="text/javascript"></script>
+
+<script src="/09/Scripts/jFav_v1.0.js" type="text/javascript"></script>
+
+<script src="/09/Scripts/botonera.js" type="text/javascript"></script>
+
+<script src="/09/Scripts/jqFancyTransitions.1.8.min.js" type="text/javascript"></script>
+
+<!--
+
+  jCarousel library
+
+-->
+
+<script type="text/javascript" src="/09/Scripts/jcarousel/lib/jquery.jcarousel.pack.js"></script>
+
+
+
+<!--
+
+  jCarousel core stylesheet
+
+-->
+
+<link rel="stylesheet" type="text/css" href="/09/Scripts/jcarousel/lib/jquery.jcarousel.css" />
+
+
+
+<!--
+
+  jCarousel skin stylesheet
+
+-->
+
+<link rel="stylesheet" type="text/css" href="/09/Scripts/jcarousel/skins/tango/skin.css" />
+
+<link rel="stylesheet" type="text/css" href="/09/Scripts/jcarousel/skins/ciudadanos/skin.css" />
+
+<link rel="stylesheet" type="text/css" href="/09/Scripts/jcarousel/skins/ie7/skin.css" />
+
+<link rel="stylesheet" type="text/css" href="/09/Scripts/jcarousel/skins/turismo/skin.css" />
+
+<base href="https://www.laredo.es/09/" />
+
+<script type="text/javascript">
+
+// Create the tooltips only on document load
+
+$(document).ready(function() 
+
+{
+
+
+
+   $('#botonera_principal a[title]').each(function()
+
+   {
+
+      $(this).qtip({
+
+         content: $(this).attr('title'), // Use the tooltip attribute of the element for the content
+
+         style: { 
+
+      border: {
+
+         width: 1,
+
+         radius: 3
+
+      },
+
+      width: 150,
+
+	  name: 'dark',
+
+   	  tip: 'bottomLeft',
+
+	  'font-family': 'Tahoma',
+
+	  'font-size': '11px'
+
+
+
+
+
+} ,
+
+		 position: {
+
+      				corner: {
+
+         			target: 'topMiddle',
+
+         			tooltip: 'bottomLeft'
+
+      						}
+
+   					}	
+
+
+
+      });
+
+	  
+
+   });
+
+   
+
+});
+
+</script><link rel="image_src" href="http://laredo.es/09/archivos/reunion-ministerio-medio-ambiente1403106980.JPG" /><link href="styles.css" rel="stylesheet" type="text/css" />
+<!--[if lt IE 7]>
+<link href="styles_i6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<title>::  LAREDO Y MEDIO AMBIENTE ENCAUZAN LA RECUPERACIÓN DEL PUNTAL // Ayuntamiento de Laredo</title>
+<script src="Scripts/swfobject_modified.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="backoffice/fancybox/jquery.fancybox-1.2.6.css" media="screen" />
+	<script type="text/javascript" src="backoffice/fancybox/jquery.fancybox-1.2.6.pack.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a.zoom").fancybox();
+			$("a.zoom1").fancybox({
+				'overlayOpacity'	:	0.7,
+				'overlayColor'		:	'#FFF'
+			});
+			$("a.zoom2").fancybox({
+				'zoomSpeedIn'		:	500,
+				'zoomSpeedOut'		:	500
+			});
+		});
+	</script>
+    
+<script type="text/javascript">
+$().ready(function() {
+
+$("a#enviar").click(function () {
+        if ($("div#Enviar:first").is(":hidden")) {
+        $("div#Enviar").slideDown("slow");
+      } else {
+        $("div#Enviar").slideUp("slow");
+      }
+	  return false;
+
+});	
+  
+
+});	
+</script>
+</head>
+<body class="oneColFixCtr">
+   <div id="container" >
+  		<div id="mainContent">
+           
+
+
+
+<script type="text/javascript" >
+
+  $(document).ready(function(){
+
+	$('#Favoritos').jFav();
+
+	
+
+	 $("a#traductor").click(function () {
+
+        if ($("div#google:first").is(":hidden")) {
+
+        $("div#google").slideDown("slow");
+
+      } else {
+
+        $("div#google").slideUp("slow");
+
+      }
+
+	  return false;
+
+	});
+
+
+
+	  
+
+	  $("#EnvioHome").qtip({
+
+      content: {
+
+         title: {
+
+            text: 'Enviar por mail',
+
+            button: 'Cerrar'
+
+			},
+
+			url: 'envio.php'
+
+      },
+
+      position: {
+
+         target: $(document.body), // Position it via the document body...
+
+         corner: 'center' // ...at the center of the viewport
+
+      },
+
+      show: {
+
+         when: 'click' //, // Show it on click
+
+        //solo: true // And hide all other tooltips
+
+      },
+
+      hide: false,
+
+      style: {
+
+         width: { max: 350, min: 350 },
+
+         padding: '14px',
+
+         border: {
+
+            width: 9,
+
+            radius: 9,
+
+            color: '#666666'
+
+         },
+
+         name: 'light',
+
+		 title: { 'font-size': 12, 'font-family': 'Tahoma, Geneva, sans-serif' },
+
+		 button: { 'font-size': 12, 'font-family': 'Tahoma, Geneva, sans-serif' }
+
+      },
+
+	   api: {
+
+         beforeShow: function()
+
+         {		
+
+			$('#qtip-blanket').fadeIn(this.options.show.effect.length);
+
+         },
+
+		 beforeHide: function()
+
+         {
+
+            // Fade out the modal "blanket" using the defined hide speed
+
+            $('#qtip-blanket').fadeOut(this.options.hide.effect.length);
+
+         }		
+
+
+
+	   }
+
+	   
+
+	   	
+
+   });
+
+});	 
+
+</script>
+
+    <div style="width:990px; height:95px; float:left;"> 
+
+         <div style="width:267px; height:95px; float:left;"><a href="index.php" title="Haga click aqui para ir al inicio"><img src="imagenes/logo_ayto.png" alt="Ayto. de Laredo" width="267" height="91" border="0" /></a></div>
+
+          <div class="top">
+
+          <div style="width:120px; margin-right:20px;" class="contenedor_botones_rapidos"><a href="https://www.laredo.es/09/ayto_cita_previa_solicitar.php" title="Haga click aqui para acceder a la renovacion del DNI" class="bt_alertas">RENOVACION <br />DNI</a></div>   
+
+          <iframe src="https://www.facebook.com/plugins/like.php?href=https://www.facebook.com/ayuntamientolaredo&amp;layout=button_count&amp;show_faces=false&amp;width=140&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px; float:left; margin-top:52px;" allowTransparency="true"></iframe>
+
+          <div style="width:80px; margin-top:53px;" class="contenedor_botones_rapidos"><a href="https://twitter.com/aytolaredo" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false">Segui @aytolaredo</a></div>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> 
+
+
+          <div style="width:30px;" class="contenedor_botones_rapidos"><a href="#" onclick="return false;" id="Compartir" title="Compartir"><img src="imagenes/ico_compartir.png" alt="compartir en redes sociales" title="compartir en redes sociales" width="26" height="26" border="0" /></a></div>
+
+          <div style="width:30px;" class="contenedor_botones_rapidos"><a href="#" id="Favoritos" title="haga click para agregar esta pagina a favoritos"><img src="imagenes/ico_favorito.png" alt="agregar esta web a favoritos" title="agregar esta web a favoritos" width="26" height="26" border="0" /></a></div>
+
+              <div style="width:30px;" class="contenedor_botones_rapidos"><a href="javascript:print(document);"><img src="imagenes/ico_print.png" alt="imprimir pantalla" title="imprimir pantalla" width="26" height="26" border="0" /></a></div>
+
+              <div style="width:30px;" class="contenedor_botones_rapidos"><a href="directorio.php" title="ver directorio"><img src="imagenes/ico_directorio.png" alt="directorio" title="directorio" width="26" height="26" border="0" /></a></div>
+
+              <div style="width:30px;" class="contenedor_botones_rapidos"><a href="mapa_callejero.php" title="Ver callejero"><img src="imagenes/ico_callejero.png" alt="callejero" title="callejero" width="26" height="26" border="0" /></a></div>
+
+              <div style="width:30px;" class="contenedor_botones_rapidos"><a href="rss.php" id="Btn_Rss" title="RSS LAREDO"><img src="imagenes/ico_rss.png" alt="RSS" title="RSS" width="26" height="26" border="0" /></a></div>
+
+              <div style="width:30px;" class="contenedor_botones_rapidos"><a href="conoce.php" title="Haga click aqui para acceder a la informacion turistica del Ayuntamiento de Laredo"><img src="imagenes/ico_turismo_top.png" alt="CONOCE LAREDO / PORTAL DE TURISMO" title="CONOCE LAREDO / PORTAL DE TURISMO" width="26" height="26" border="0" /></a></div>
+
+           </div>
+
+     </div>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+	$('<div id="qtip-blanket">')
+      .css({
+         position: 'absolute',
+         top: $(document).scrollTop(), // Use document scrollTop so it's on-screen even if the window is scrolled
+         left: 0,
+         height: $(document).height(), // Span the full document height...
+         width: '100%', // ...and full width
+
+         opacity: 0.7, // Make it slightly transparent
+         backgroundColor: 'black',
+         zIndex: 5000  // Make sure the zIndex is below 6000 to keep it below tooltips!
+      })
+      .appendTo(document.body) // Append to the document body
+      .hide(); // Hide it initially
+	$("#Compartir").qtip({
+   //content: '',
+   content:'<a href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fwww.laredo.es%3A443%2F09%2Fnoticia_ampliada.php%3Fid_Noticia%3D1772&amp;t=Ayuntamiento+de+Laredo" title="Compartir en Facebook Ayuntamiento de Laredo" target="_blank"><img src="imagenes/Facebook_16.png" width="16px" height="16px" alt="Compartir en Facebook Ayuntamiento de Laredo" border="0" /></a><a href="http://twitter.com/home?status=Leyendo https%3A%2F%2Fwww.laredo.es%3A443%2F09%2Fnoticia_ampliada.php%3Fid_Noticia%3D1772" title="Compartir en Twitter Ayuntamiento de Laredo" target="_blank" style="margin-left:10px;"><img src="imagenes/Twitter_16.png" width="16px" height="16px" alt="Compartir en Twitter Ayuntamiento de Laredo" border="0" /></a><a href="https://favorites.live.com/quickadd.aspx?urlhttps%3A%2F%2Fwww.laredo.es%3A443%2F09%2Fnoticia_ampliada.php%3Fid_Noticia%3D1772" title="Compartir en Windows Live Ayuntamiento de Laredo" target="_blank" style="margin-left:10px;"><img src="imagenes/Live_16.png" width="16px" height="16px" alt="Compartir en Windows Live Ayuntamiento de Laredo" border="0" /></a><a href="http://www.myspace.com/index.cfm?fuseaction=postto&amp;t=Ayuntamiento+de+Laredo&amp;u=https%3A%2F%2Fwww.laredo.es%3A443%2F09%2Fnoticia_ampliada.php%3Fid_Noticia%3D1772" title="Compartir en Myspace Ayuntamiento de Laredo" target="_blank" style="margin-left:10px;"><img src="imagenes/Myspace_16.png" width="16px" height="16px" alt="Compartir en Myspace Ayuntamiento de Laredo" border="0" /></a><a href="http://www.blogger.com/blog-this.g?u=https%3A%2F%2Fwww.laredo.es%3A443%2F09%2Fnoticia_ampliada.php%3Fid_Noticia%3D1772&amp;n=&amp;t=Ayuntamiento+de+Laredo" title="Compartir en Blogger Ayuntamiento de Laredo" target="_blank" style="margin-left:10px;"><img src="imagenes/Blogger_16.png" width="16px" height="16px" alt="Compartir en Blogger Ayuntamiento de Laredo" border="0" /></a><a href="http://www.meneame.net/submit.php?url=https%3A%2F%2Fwww.laredo.es%3A443%2F09%2Fnoticia_ampliada.php%3Fid_Noticia%3D1772" title="Compartir en Meneame Ayuntamiento de Laredo" target="_blank" style="margin-left:10px;"><img src="imagenes/Meneame_16.png" width="16px" height="16px" alt="Compartir en Meneame Ayuntamiento de Laredo" border="0" /></a><a href="http://www.tuenti.com/share?url=https%3A%2F%2Fwww.laredo.es%3A443%2F09%2Fnoticia_ampliada.php%3Fid_Noticia%3D1772" title="Compartir en Tuenti Ayuntamiento de Laredo" target="_blank" style="margin-left:10px;"><img src="imagenes/tuenti_16.png" width="16px" height="16px" alt="Compartir en Tuenti Ayuntamiento de Laredo" border="0" /></a>',
+   show: 'mouseover',
+   hide: 'mouseout',
+   style: { 
+   tip: 'bottomMiddle',
+   border: {
+         width: 2,
+         radius: 8,
+         color: '#e31818'
+      },
+   width: 210
+   },
+   position: {
+      				corner: {
+         			target: 'topMiddle',
+         			tooltip: 'bottomMiddle'
+      						}
+   			},
+	hide: {
+            fixed: true 
+         }
+});
+	
+		 
+	});
+</script>
+     
+
+     <div style="width:995px; min-height:50px; height:auto !important; height:50px; float:left;"> 
+
+           <div style="width:267px; height:50px; float:left;">
+
+           	<div id="fecha" style="width:50%; height:50px; float:left; text-align:left;" class="texto_gris10">
+
+                12 de Octubre de 2026<br />
+
+                14:19 hs 
+
+            </div>
+
+             <div id="clima" style="width:48%; height:50px; float:left; text-align:center;" class="texto_gris12">
+
+<!-- editado no va   -->
+
+<!--
+
+                 <div style="width:35px; float:left; height:50px;"><a href="el_tiempo_laredo.php" title="Ver pronostico extendido"></a></div>
+
+                 <div style="float:left; height:50px;"><a href="el_tiempo_laredo.php" title="Ver pronostico extendido" class="texto_pronostico"><strong>Max</strong>  - <strong>Min</strong> </a></div>
+
+-->	
+
+				<div style="width:150px; float:left; height:15px;"><a href="el_tiempo_laredo.php" class="texto_pronostico" title="Ver pronostico extendido">Ver pronostico extendido</a><br />
+
+					<div style="margin-left: 13px;">
+
+						<div id="TT_Nk11EkEaVcQRjfqDjzzDzvnXc6o"></div>
+
+						<!--<script type="text/javascript" src="https://www.tutiempo.net/TTapiV2/Nk11EkEaVcQRjfqDjzzDzvnXc6o"></script>-->
+						<script type="text/javascript" src="tutiempo.js"></script>
+
+
+					</div>
+
+				</div>
+
+				
+
+			<!--	<div id="TT_Nk11EkEaVcQRjfqDjzzDzvnXc6o"></div>   -->
+
+
+
+             </div>
+
+          </div>
+
+           <div style="width:723px; height:50px; float:left; text-align:right;" class="fondo_barra_degrade">
+
+                <div style="float:right; width:250px; text-align:right;">
+
+                <form action="resultados_busqueda_api.php" method="get">
+
+           		  <table width="100%" border="0" cellpadding="2" cellspacing="0">
+
+           		    <tr>
+
+           		      <td align="right"><input name="Texto" type="text" class="formulario_buscador" id="Texto" /></td>
+
+           		      <td align="left"><input type="image" src="imagenes/ico_lupa.png" alt="Buscar!" /></td>
+
+       		        </tr>
+
+       		      </table>
+
+                  </form>
+
+           		</div>
+         
+
+                <div style="width:333px; height:50px; float:right;">
+
+                <div style="width:57px; float:left; padding-top:7px;"><a href="contacta.php" title="CONTACTO" class="link_celeste9"><strong>CONTACTO</strong></a></div>
+
+               	  <div style="width:52px; float:left; padding-top:7px; "><a href="mapa_del_sitio.php" title="mapa del sitio" class="link_celeste9"><strong>MAPA</strong></a></div>
+
+              	  <div style="width:92px; float:left; padding-top:7px;"><a href="accesibilidad.php" title="que es la accesibilidad" class="link_celeste9"><strong>ACCESIBILIDAD</strong></a></div>
+
+                  <div style="width:57px; float:left; padding-top:7px;"><a href="enlaces.php" title="enlaces" class="link_celeste9"><strong>ENLACES</strong></a></div>
+
+                  <div style="width:75px; float:left; padding-top:7px;"><a href="#" id="traductor" title="Haga clic aqui para traducir esta pagina usando el traductor de Google" class="link_celeste9"><strong>TRANSLATE</strong></a></div>
+
+               </div>
+
+           </div>
+
+                
+
+                <div id="google" style="display:none; background-color:#dfded9; width:300px; float:left; text-align:right; position:relative; margin-top:-15px; margin-left:420px; padding:3px; ">
+
+					<script type="text/javascript">
+
+							function googleTranslateElementInit() {
+
+							  new google.translate.TranslateElement({
+
+								pageLanguage: 'es'
+
+							  }, 'google');
+
+							}
+
+                    </script>
+
+					<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    			</div>
+
+        </div>
+          
+          <div id="botonera_principal">
+		  <div class="botonera"><a href="noticias.php" class="link_azul_botonera" title="Haga click aqui para acceder a la seccion noticias"><strong>NOTICIAS</strong></a></div>
+          <div class="botonera"><a href="agenda.html" title="Haga click aqui para acceder a la agenda de eventos" class="link_azul_botonera"><strong>AGENDA</strong></a></div>
+          <div class="botonera"><a href="mi_ayuntamiento.php" title="Saludo del Alcalde - Organizacion - Acuerdos - Normativa Municipal - Secretaria - Urbanismo - Servicios Municipales - Modelos de Solicitud" class="link_azul_botonera"><strong>MI AYUNTAMIENTO</strong></a></div>
+          <div class="botonera"><a href="conoce.php" title="Haga click aqui para acceder a la informacion turistica de Laredo" class="link_azul_botonera"><strong>CONOCE LAREDO</strong></a></div>
+          <div class="botonera"><a href="ciudadanos.php" title="Casa de Cultura - ASSCCII - Empleo Comercio y Empresas - Medio Ambiente - Juventud - Prensa y Comunicacion - Deportes - Educacion" class="link_azul_botonera"><strong>CIUDADANOS</strong></a></div>
+          <div class="botonera"><a href="https://sede.laredo.es" title="Haga click aqui para acceder a la oficina virtual" target="_blank" class="link_azul_botonera"><strong>SEDE ELECTRONICA</strong></a></div>
+          <div class="botonera"><a href="https://www.caixabank.es/particular/pagos/impuestosrecibosmatriculas_es.html" title="Haga click aqui para acceder a la pasarela de pago online" target="_blank" class="link_azul_botonera" target="_blank"><strong>PAGOS ONLINE</strong></a></div>
+          <div class="botonera"><a href="ayto_cita_previa.php" class="link_azul_botonera" title="Haga click aqui para solicitar o cancelar cita previa"><strong>CITA PREVIA</strong></a></div>
+          
+</div>
+          <!--<div class="botonera"><a href="https://plus.google.com/b/101776645420038799371/photos/101776645420038799371/albums" title="Haga click aqui para acceder a las fotos" target="_blank" class="link_azul_botonera" target="_blank"><strong>GALERIA DE FOTOS</strong></a></div>
+</div>        -->  
+<div class="qtip qtip-stylename">
+   <div class="qtip-tip"></div>
+   <div class="qtip-wrapper">
+      <div class="qtip-borderTop"></div> 
+      <div class="qtip-contentWrapper">
+         <div class="qtip-title"> 
+            <div class="qtip-button"></div> 
+         </div>
+         <div class="qtip-content"></div> 
+      </div>
+      <div class="qtip-borderBottom"></div> 
+   </div>
+</div> 
+          <div style="width:990px; height:140px; float:left; font-family:Tahoma, Geneva, sans-serif;"> 
+<div id="ftHolder">
+	<div id="ft">
+    </div>    
+</div>      
+    <div id="slideshowHolder" style="display:none">
+     <img src="imagenes/top_1.jpg" alt="_Esculturas" />
+     <img src="imagenes/top_2.jpg" alt="_Puerto viejo" />
+     <img src="imagenes/top_3.jpg" alt="_Casa de las Cuatro Temporas" />
+     <img src="imagenes/top_4.jpg" alt="_Ferias y Eventos" />
+     <img src="imagenes/top_5.jpg" alt="_Conferencias" />
+    </div>
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#slideshowHolder').fadeIn();
+});
+$('#slideshowHolder').jqFancyTransitions({ 
+	width: 990, 
+	height: 138, 
+	strips:30,
+	stripDelay: 20,
+	navigation: false,
+	position: 'top', // top, bottom, alternate, curtain
+	direction: 'fountain' // left, right, alternate, random, fountain
+});
+</script>
+
+  		  <div class="central"> 
+          		<div class="contenedor_izquierda">
+                <div class="contenedor_100_noticia" style="height:25px; margin-top:10px; text-align:left; float:left; width:100%;">
+	                <div class="estrellita"></div><strong><span class="titulo_azul15">NOTICIAS</span></strong>
+                      <div style="float:right; text-align:right; margin-right:20px; width:50%">
+                      <!-- 	BUTTON FACEBOOK -->
+                          <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.laredo.es%2F09%2Fnoticia_ampliada.php?id_Noticia=1772&amp;layout=button_count&amp;show_faces=false&amp;width=110&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px; margin-top:10px;" allowTransparency="true"></iframe>
+                          
+                          <!-- 	BUTTON TWITTER -->
+<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="queponen" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
+								  <!-- 	BUTTON TUENTI -->
+<a href="http://www.tuenti.com/share?url=http%3A%2F%2Fwww.laredo.es%2F09%2Fnoticia_ampliada.php?id_Noticia=1772" target="_blank"><img src="imagenes/tuentishare.png" title="Tuenti" alt="Tuenti" border="0" /></a>
+				</div>                          
+                         
+                </div>
+           <!--inicio encabezado-->
+                <!--inicio ejemplo evento gris sin foto-->
+                <div class="contenedor_evento_reducido">
+                  <div class="contenedor_vineta_evento"></div>
+                  <div class="foto_miniatura"><a class="zoom1" href="archivos/reunion-ministerio-medio-ambiente1403106980.JPG" title=""><img src="phpThumb/phpThumb.php?src=../archivos/reunion-ministerio-medio-ambiente1403106980.JPG&amp;w=137&amp;h=100&amp;zc=1" border="0" alt="" /></a></div>                  <div class="noticia_foto_horizontal"><br /><strong class="texto_azul12">LAREDO Y MEDIO AMBIENTE ENCAUZAN LA RECUPERACIÓN DEL PUNTAL</strong><br />                    <span style="width:100%; float:left; margin-bottom:10px; margin-top:10px; text-align:left; background-color:#F5F5EB;" class="texto_celeste12"><strong class="texto_gris10">18 de Junio de 2014</strong><br />
+                    </span><br />
+                    <br />
+                    &nbsp;<br />
+					    </div>
+                  
+                </div>
+                <!--fin ejemplo evento-->
+                <!--fin encabezado-->
+                <!--inicio texto-->
+                <div class="contenedor_100_noticia">
+                	<div class="texto_negro11" style="text-align:justify; margin-right:20px;">						
+                        <!--esto aparece si hay fotos-->
+                        <div style="float:left; margin-left:33px; margin-right:7px; text-align:center; height:auto; width:165px;">
+						               	  		               	  		                                                
+                        </div>
+                        <!--si hay fotos-->
+                       <strong><div style="text-align: justify;">&nbsp;El Ayuntamiento de Laredo y el Ministerio de Medio Ambiente han consensuado las actuaciones que, de manera inmediata, permitir&aacute;n consolidar la recuperaci&oacute;n de la zona del Puntal. Las operaciones, financiadas con casi dos millones de euros, implicar&aacute;n el vertido de 250.000 metros c&uacute;bicos de arena en dos fases, as&iacute; como la posterior siembra de plantas espec&iacute;ficas para la consolidaci&oacute;n de las dunas. Las medidas incluir&aacute;n, asimismo, la retirada de la escollera de emergencia que se despleg&oacute; para frenar los embates de la mar. Tambi&eacute;n se acometer&aacute; el refuerzo del cord&oacute;n dunar de la playa Salv&eacute; que se vio seriamente afectado por los temporales de febrero y marzo.</div></strong><br />
+                       <div style="text-align: center;"><img src="http://www.laredo.es/09/archivos/reunion-ministerio-medio-ambiente1403106980.JPG" width="540" height="360" alt="" /></div>
+<div style="text-align: justify;">As&iacute; se ha acordado en el encuentro que ayer mantuvieron en el Ministerio de Agricultura, Alimentaci&oacute;n y Medio Ambiente, el alcalde de Laredo, &Aacute;ngel Vega, y el Director General de la Sostenibilidad de la Costa y del Mar, Pablo Saavedra. En la reuni&oacute;n tambi&eacute;n participaron el Subdirector para la Protecci&oacute;n de la Costa, &Aacute;ngel Mu&ntilde;oz, el concejal de Organizaci&oacute;n y Relaciones con el Mundo de la Mar, Ram&oacute;n Arenas, y el responsable de Praxis Ingenieros, Sergio Abad, empresa que ha desarrollado el proyecto de recuperaci&oacute;n del cord&oacute;n dunar de toda la playa. <br />
+<br />
+Los trabajos, que se han iniciado esta misma semana, se prev&eacute; que puedan estar concluidos en la primera quincena de julio. A su t&eacute;rmino quedar&aacute; reconstruido un primer frente de dunas del sistema con una longitud de 1.000 metros y con las siguientes dimensiones m&iacute;nimas: base de 45 metros, coronaci&oacute;n de 31 metros y altura de 7 metros. A partir de septiembre, se proceder&aacute; a la siembra de las plantas procedentes del vivero especializado de Loredo, que servir&aacute;n para estabilizar el nuevo sistema dunar. <br />
+<br />
+Tal y como explicaron los responsables del Ministerio,las actuaciones, que se est&aacute;n desarrollando con un gran despliegue de medios t&eacute;cnicos y humanos, contemplan una primera fase en la que se est&aacute; procediendo al dragado de la canal de 75.000 metros c&uacute;bicos de arena. En una segunda fase, el dragado se realizar&aacute; frente al Cabo de Ajo, y se har&aacute; acopio de los 175.0000 metros c&uacute;bicos de arena necesarios para culminar la actuaci&oacute;n. De manera paralela, se proceder&aacute; a la retirada de la escollera de emergencia dispuesta para proteger la zona, que siempre fue considerada como una medida provisional y reversible.<br />
+<br />
+En la reuni&oacute;n tambi&eacute;n se acord&oacute; proceder a un refuerzo del cord&oacute;n dunar del resto de la playa Salv&eacute;, al estimar que su fortalecimiento resulta vital para la protecci&oacute;n de la costa ante futuros temporales. Ello implicar&aacute; un cambio en la forma de acceder al arenal, reduci&eacute;ndose a 17 los accesos a lo largo de toda la playa. Desde el Ayuntamiento de Laredo han anunciado que pr&oacute;ximamente explicar&aacute;n a los ciudadanos los detalles y la oportunidad de unas medidas que persiguen preservar al m&aacute;ximo la estabilidad del sistema dunar. <br />
+<br />
+<strong>Carril bici</strong><br />
+La reuni&oacute;n tambi&eacute;n fue aprovechada por la delegaci&oacute;n laredana para presentar el proyecto de carril bici que discurre en gran parte de su trazado por el Paseo Mar&iacute;timo, zona de servidumbre de protecci&oacute;n del Dominio P&uacute;blicoMar&iacute;timo Terrestre. De esta manera, en el Ministerio ya conocen de primera mano un proyecto que deber&aacute; recabar la autorizaci&oacute;n de este organismo para poderse hacer realidad. Pr&oacute;ximamente, el Ayuntamiento de Laredo acoger&aacute; una <br />
+&nbsp;</div>                       <br />
+                       
+                       </div>
+                </div>
+                <!--fin texto-->
+                <div class="fondo_bottom" style="width:98%; text-align:left;">
+                  	 <strong> </strong><br />  
+                     <strong></strong> 
+                 </div>                 
+       		</div>
+            <div class="contenedor_derecha">
+            <div id="calendario_home">
+<table class="tabla_calendario_home">
+  <tr>
+    <td style="width:190px; height:25px; float:left; font-family:Tahoma; font-size:15px; color:#999;"><strong>OCTUBRE 2026</strong></td>
+  </tr>  
+  <tr>
+    <td align="center" valign="middle">
+<table border="0" bgcolor="#FFFFFF">
+<tr>
+<th class="tabla_dias_calendarios">L</th>
+<th class="tabla_dias_calendarios">M</th>
+<th class="tabla_dias_calendarios">M</th>
+<th class="tabla_dias_calendarios">J</th>
+<th class="tabla_dias_calendarios">V</th>
+<th class="tabla_dias_calendarios">S</th>
+<th class="tabla_dias_calendarios">D</th>
+</tr>
+<tr>
+<td bgcolor="#FFFFFF" colspan="3"></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">1</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">2</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">3</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">4</td>
+</tr>
+<tr>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">5</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">6</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">7</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">8</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=9" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 9">9</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=10" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 10">10</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=11" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 11">11</a></td>
+</tr>
+<tr>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=12" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 12">12</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">13</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">14</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">15</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=16" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 16">16</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=17" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 17">17</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=18" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 18">18</a></td>
+</tr>
+<tr>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=19" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 19">19</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">20</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">21</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">22</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">23</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=24" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 24">24</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=25" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 25">25</a></td>
+</tr>
+<tr>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=26" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 26">26</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#cc0000"><a href="agenda.html?mes=10&amp;ano=2026&amp;dia=27" class="link_fechas_on" title="Haga click aqui para ver los eventos del dia 27">27</a></td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">28</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">29</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">30</td>
+<td class="tabla_contenedor_fechas"  bgcolor="#FFFFFF">31</td>
+<td bgcolor="#FFFFFF" colspan="1"></td></tr>
+</table>
+ 
+</td>
+  </tr>
+  <tr>
+    <td height="20" align="center"><a href="agenda.php?mes=9&amp;ano=2026" title="Haga click aqui para visualizar el mes anterior" class="link_gris10">&laquo; Septiembre</a> <a href="agenda.php?mes=11&amp;ano=2026" title="Haga click aqui para visualizar el mes siguiente" class="link_gris10">Noviembre&raquo;</a> </td>
+  </tr>
+</table>
+</div>
+<script type="text/javascript">
+$().ready(function() {
+  
+ // Notice the use of the each() method to acquire access to each elements attributes
+   $('#calendario_home a[title]').each(function()
+   {
+      $(this).qtip({
+         content: $(this).attr('title'), // Use the tooltip attribute of the element for the content
+         style: { 
+      border: {
+         width: 1,
+         radius: 3
+      },
+      width: 200,
+	  name: 'red',
+   	  tip: 'bottomLeft',
+      'font-family': 'Georgia',
+	  'font-size': '12px'
+
+} ,
+		 position: {
+      				corner: {
+         			target: 'topLeft',
+         			tooltip: 'bottomLeft'
+      						}
+   					}	
+
+      });
+	  
+   });
+   
+
+});	
+</script>            <div class="contenedor_100" style="height:6px;"></div>
+<div style="width:207px; height:30px; float:left; margin-top:3px; background-color:#e1e1e1;"><a href="tablon.php" title="ver todos los anuncios"><img src="imagenes/banner_tablon.png" alt="tabl&oacute;n de anuncios" width="200" height="30" border="0" title="perfil del contratante" /></a></div><div style="width:207px; height:30px; float:left; margin-top:3px; background-color:#7aa4bb;"><a href="ayto_contratos_todos.php"><img src="imagenes/banner_contratante.png" alt="perfil del contratante" width="200" height="30" border="0" title="perfil del contratante" /></a></div>
+<div style="width:207px; height:30px; float:left; margin-top:3px; background-color:#aacde0;"><a href="ayto_personal.php"><img src="imagenes/banner_ofertas_personal.png" alt="Ofertas personal Ayuntamiento" width="200" height="30" border="0" title="perfil del contratante" /></a></div><div class="contenedor_banners_derecha"><a href="ciudadanos.php"><img src="imagenes/banner_ciudadanos.png" alt="ciudadanos" border="0" /></a><br />
+Cultura &bull; ASSCI &bull; Juventud &bull; Educaci&oacute;n &bull; Deportes &bull; Prensa &bull; Empleo &bull; Medio Ambiente</div><div class="contenedor_banners_derecha">
+<div style="height:190px;">
+<ul id="mycarousel2" class="jcarousel-skin-ie7">
+     <li><a href="http://www.laredo.es/09/archivos/revista-programa-laredo-oton771o-cultural-20261791.pdf" title="OTOÑO CULTURAL LAREDO 2026" target="_blank"><img src="phpThumb/phpThumb.php?src=../archivos/otono-cultural-laredo-20261791374256.jpg&amp;w=175&amp;h=190&amp;zc=1" border="0" alt="OTOÑO CULTURAL LAREDO 2026" /></a></li>   
+     <li><a href="http://https://www.laredo.es/09/noticias.php" title="VOTA LOS PRESUPUESTOS PARTICIPATIVOS 2021" target="_blank"><img src="phpThumb/phpThumb.php?src=../archivos/banner-presupuestos1614876672.png&amp;w=175&amp;h=190&amp;zc=1" border="0" alt="VOTA LOS PRESUPUESTOS PARTICIPATIVOS 2021" /></a></li>   
+     <li><a href="http://www.laredo.es/09/assccii.php" title="PAGINA ASCCII" target="_blank"><img src="phpThumb/phpThumb.php?src=../archivos/logo-assccii1300450048.jpg&amp;w=175&amp;h=190&amp;zc=1" border="0" alt="PAGINA ASCCII" /></a></li>   
+     <li><a href="http://https://paif.serviciossocialescantabria.org/" title="PROGRAMA DE APOYO INTEGRAL A LAS FAMILIAS" target="_blank"><img src="phpThumb/phpThumb.php?src=../archivos/logo-paif1663755169.jpg&amp;w=175&amp;h=190&amp;zc=1" border="0" alt="PROGRAMA DE APOYO INTEGRAL A LAS FAMILIAS" /></a></li>   
+     <li><a href="http://musicadecamaradecantabria.com/22-primaveras-musicales-pejinas-2017" title="22 PRIMAVERAS MUSICALES PEJINAS- 2017 PROGRAMA" target="_blank"><img src="phpThumb/phpThumb.php?src=../archivos/cartel-definitivo-xxii-primaveras-musicales.jpg&amp;w=175&amp;h=190&amp;zc=1" border="0" alt="22 PRIMAVERAS MUSICALES PEJINAS- 2017 PROGRAMA" /></a></li>   
+     <li><a href="http://www.laredo.es/09/noticia_ampliada.php?id_Noticia=2631" title="CICLO DE OCIO JUVENIL DE FIN DE SEMANA" target="_blank"><img src="phpThumb/phpThumb.php?src=../archivos/flyers-funny-owl-20161477909110.jpg&amp;w=175&amp;h=190&amp;zc=1" border="0" alt="CICLO DE OCIO JUVENIL DE FIN DE SEMANA" /></a></li>   
+    </ul>
+
+</div></div>
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+    jQuery('#mycarousel2').jcarousel({ scroll: 1 });
+});
+</script><div class="contenedor_banners_derecha"><a href="directorio.php"><img src="imagenes/banner_directorio_global.jpg" alt="directorio global" width="202" height="60" border="0" /></a></div>
+<div class="contenedor_banners_derecha">
+<ul id="mycarousel" class="jcarousel-skin-tango">
+	<!--<li><a href="tablon_ampliado.php?id_Tablon=90" title="Plan General de Ordenacion Urbana"><img src="imagenes/banner_plan_ordenacion.png" alt="Plan General de Ordenacion Urbana" width="157" height="60" border="0" /></a></li>   --> 
+    <!--<li><li><a href="http://www.lineaverdelaredo.com/ " target="_blank" title="Linea Verde"><img src="imagenes/linea-verde-peq-01.png" alt="Linea Verde" width="157" height="60" border="0" /></a></li>   --> 
+    <!--<li><a href="https://fundacionlacaixa.org/es/cultura/exposiciones-itinerantes/tierra-de-suenos" target="_blank" title="Caixaforum"><img src="imagenes/banner_caixaforum2.jpg" alt="edu Caixa" width="157" height="60" border="0" /></a></li>-->
+    <!--<li><a href="http://www.laredo.es/09/ayto_ari.php" target="_self" title="Ari"><img src="imagenes/banner_ari_grande.png" alt="Ari Puebla vieja" width="157" height="60" border="0" /></a></li>-->
+    <li><a href="http://www.laredo.es/09/encuesta_sicted.php" title="encuesta laredo"><img src="imagenes/banner_encuesta_sicted.png" alt="Encuesta Laredo" width="157" height="60" border="0" /></a></li>
+    <li><a href="http://www.laredo.es/09/encuesta.php" title="opina sobre la web"><img src="imagenes/banner_opina_home_chico.png" alt="Opina sobre la web" width="157" height="60" border="0" /></a></li>    
+   <!-- <li><a href="http://www.livecamlaredo.com/" target="_blank" title="Live Cam Laredo"><img src="imagenes/banner_livecam.jpg" alt="Live Cam Laredo" width="157" height="60" border="0" /></a></li>-->
+    <li><a href="http://vuelos.cantabria.es/vvirtual/laredo.htm" target="_blank" title="Sobrevolando Laredo"><img src="imagenes/banner_sobrevolando.jpg" alt="Sobrevolando Laredo" width="157" height="60" border="0" /></a></li>
+    
+    <!--<li><a href="fiesta_flores.php" title="batalla de flores"><img src="imagenes/banner_batalla.png" alt="batalla de flores" width="157" height="60" border="0" /></a></li>
+    <li><a href="http://www.elultimodesembarcodecarlosv.com/" target="_blank" title="Ultimo desembarco de Carlos V"><img src="imagenes/banner_carlos.png" alt="Ultimo desembarco de Carlos V" width="157" height="60" border="0" /></a></li>
+    <li><a href="http://www.radiolaredo.com" target="_blank"><img src="imagenes/banner_radio.jpg" alt="Radio Laredo" width="157" height="60" border="0" /></a></li>-->
+     
+     
+  </ul>
+</div>
+<script type="text/javascript">
+
+jQuery(document).ready(function() {
+	jQuery('#mycarousel').jcarousel({ scroll: 1 });
+});
+
+
+</script>
+
+
+            </div>                    		           
+          </div>          
+	    </div>  
+  		<!--<div id="banners" class="fondo_banners_ppales"></div>-->
+        <!--<div class="contenedor_banners_fijos">
+        	<div class="fondo_banners_fijos">
+                <div style="width:163px; height:60px; float:left; margin-top:3px;"><a href="http://www.radiolaredo.com/" target="_blank"><img src="imagenes/banner_radio.jpg" title="Radio Laredo" alt="Radio Laredo" width="157" height="60" border="0" /></a></div>
+                <div style="width:163px; height:60px; float:left; margin-top:3px;"><a href="http://www.laredo.es/ayuntamiento/registro_demandantes.php" target="_blank"><img src="imagenes/banner_viviendas.jpg" alt="Registro de demandantes de viviendas" title="Registro de demandantes de viviendas" width="157" height="60" border="0" /></a></div>
+                <div style="width:163px; height:60px; float:left; margin-top:3px;"><a href="http://vuelos.cantabria.es/vvirtual/laredo.htm"><img src="imagenes/banner_sobrevolando.jpg" alt="sobrevolando Laredo" title="sobrevolando Laredo" width="157" height="60" border="0" /></a></div>
+                <div style="width:163px; height:60px; float:left; margin-top:3px;"><a href="http://www.livecamlaredo.com/" target="_blank"><img src="imagenes/banner_livecam.jpg" alt="Live Cam Laredo" title="Live Cam Laredo" width="161" height="60" border="0" /></a></div>
+                <div style="width:163px; height:60px; float:left; margin-top:3px;"><a href="http://www.elultimodesembarcodecarlosv.com/" target="_blank"><img src="imagenes/banner_carlos.png" alt="el ultimo desembarco de Carlos V" title="el ultimo desembarco de Carlos V" width="157" height="60" border="0" /></a></div>
+                <div style="width:163px; height:60px; float:left; margin-top:3px;"><a href="http://www.batalladefloreslaredo.es/" target="_blank"><img src="imagenes/banner_batalla.png" alt="Batalla de Flores de Laredo" title="Batalla de Flores de Laredo" width="157" height="60" border="0" /></a></div>
+            </div>
+        
+</div>-->  		<div class="contenedor_bottom">
+   	    <div class="fondo_bottom">
+            	<div style="width:200px; height:45px; border:solid 1px #7aa4bb; margin-top:5px; float:left;">
+                  <div style="width:50px; height:20px; float: left; margin-top:5px;"><a href="aviso_legal.php" title="abrir el aviso legal" class="link_gris10">Legal</a></div>
+				
+					<div style="width:50px; height:20px; float: left; margin-top:5px;"><a href="politica_privacidad.php" title="abrir la polÃƒÂ­tica de privacidad" class="link_gris10">Privacidad</a></div>
+					
+                  <div style="width:50px; height:20px; float: left; margin-top:5px;"><a href="acceso_personal.php" title="acceso personal" class="link_gris10">Personal</a></div>
+                  <div style="width:50px; height:20px; float: left; margin-top:5px;"><a href="contacta.php" title="contacto" class="link_gris10">Contacto</a></div>           		  
+                  <div style="height:1px; background-color: #7aa4bb; width:100%; float:left;">&nbsp;</div>
+                  <div style="width:50px; height:15px; float: left; margin-top:5px;"><a href="enlaces.php" title="enlaces" class="link_gris10">Enlaces</a></div>
+                  <div style="width:50px; height:15px; float: left; margin-top:5px;"><a href="mapa_del_sitio.php" title="mapa del sitio" class="link_gris10">Mapa </a></div>
+                  <div style="width:50px; height:15px; float: left; margin-top:5px;"><a href="directorio.php" title="directorio" class="link_gris10">Directorio</a></div>
+				 <div style="width:50px; height:15px; float: left; margin-top:5px;"><a href="politica_cookies.php" title="cookies" class="link_gris10">Cookies</a></div>
+                  </div>
+                  <div style="width:155px; height:45px; border:solid 1px #7aa4bb; margin-top:5px; float:left; margin-left:5px;">
+                  <div style="width:51px; height:20px; float: left; margin-top:10px;"><a href="accesibilidad.php" target="_blank" title="HTML Valido"><img src="imagenes/logo_w3c_html.png" alt="HTML Valido" width="50" height="18" border="0" /></a></div>
+                  <div style="width:51px; height:20px; float: left; margin-top:10px;"><a href="http://jigsaw.w3.org/css-validator/check/referer" title="Css Valido" target="_blank"><img src="imagenes/logo_w3c_css.png" alt="Css Valido" width="50" height="18" border="0" /></a></div>
+                  <div style="width:51px; height:20px; float: left; margin-top:10px;"><a href="accesibilidad.php" target="_blank" title="WAII AA"><img src="imagenes/logo_w3c_AA.png" alt="WAII AA" width="50" height="18" border="0" /></a></div>               
+    </div>                
+                <!--<div style="width:45px; height:45px; margin-top:5px; float:right;"><a href="sicted.php" target="_self"><img src="imagenes/logo_sicted.png" alt="SICTED" width="38" height="38" border="0" title="SICTED" /></a></div>               -->
+                <div style="width:45px; height:45px; margin-top:5px; float:right;"><a href="http://www.villasmarineras.es/" target="_blank"><img src="imagenes/ico_villas.png" alt="VILLAS MARINERAS" width="39" height="39" border="0" title="VILLAS MARINERAS" /></a></div>
+                <div style="width:45px; height:45px; margin-top:5px; float:right;"><a href="http://www.rutacarlosv.es" target="_blank"><img src="imagenes/logo_ruta_carlos.png" alt="Ruta de Carlos V" width="38" height="38" border="0" title="RUTA CARLOS V" /></a></div> 
+                <div style="width:45px; height:45px; margin-top:5px; float:right;"><a href="conoce.php" target="_self"><img src="imagenes/ico_turismo.png" alt="CONOCE LAREDO / PORTAL DE TURISMO" width="39" height="39" border="0" title="CONOCE LAREDO / PORTAL DE TURISMO" /></a></div>
+  </div>
+  <div class="fondo_subvencion"><a href="http://www.planavanza.es" target="_blank" title="visitar la web de Plan Avanza"><img src="imagenes/logo_avanza.png" alt="Plan Avanza" height="20" border="0" /></a> <a href="http://www.administracionlocaldecantabria.es" target="_blank" title="visitar la web de Administraci&oacute;n Local de Cantabria"><img src="imagenes/logo_dgal.png" alt="Administraci&oacute;n Local de Cantabria" height="20" border="0" /></a></div> 
+        <div class="fondo_optimizacion">        
+  &copy; 2010 Laredo | Este sitio ha sido optimizado para <a href="http://www.mozilla-europe.org/es/firefox/" title="descargar la ultima version de Firefox" target="_blank" class="link_gris10">Firefox</a> e <a href="http://www.microsoft.com/spain/windows/internet-explorer/" title="descargar ultima version de Explorer" target="_blank" class="link_gris10">Internet Explorer 7</a> o superior<br />
+  
+                  <div style="width:18px; height:15px; float:right; padding-top:5px;"><a href="http://www.soydeimago.com" target="_blank" class="link_gris10"> <img src="imagenes/logo_imago.png" alt="desarrollado por Imago" title="desarrollado por Imago" width="15" height="15" border="0" /></a></div>
+                  <div style="width:80px; height:15px; float:right; padding-top:5px;"><a href="http://www.soydeimago.com" target="_blank" class="link_gris10">Desarrollado por</a></div>
+  </div>
+                  
+  </div>
+
+<div id="cookies"></div>
+<script src="/09/js/cookies.js"></script>
+<link href="/09/js/bootstrap.min.css" rel="stylesheet">
+ 
+<style type="text/css">
+	.section--cookies *{
+		box-sizing: border-box;
+	}
+ .section--cookies .container {
+  max-width: 1190px;
+  max-width: 1442px;
+  min-width: 1040px;
+  margin: 0 auto;
+  text-align: left;
+  width: 100%;
+}
+.section--cookies .btn-outline-primary {
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 16px 33px;
+    min-width: 195px;
+    text-transform: unset;
+}
+
+.custom-control-input {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  width: 1rem;
+  height: 1.25rem;
+  opacity: 0;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #6d86b7;
+  background-color: #6d86b7;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 0.2rem #8ac9ff;
+}
+
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+  border-color: #8ac9ff;
+}
+
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label,
+.custom-control-input:disabled ~ .custom-control-label {
+  color: #6c757d;
+}
+
+.custom-control-input[disabled] ~ .custom-control-label::before,
+.custom-control-input:disabled ~ .custom-control-label::before {
+  background-color: #e9ecef;
+}
+
+.custom-control-label {
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: top;
+}
+
+.custom-control-label::before {
+  position: absolute;
+  top: 0.25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  content: "";
+  background-color: #fff;
+  border: #adb5bd solid 1px;
+}
+
+.custom-control-label::after {
+  position: absolute;
+  top: 0.25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  content: "";
+  background: no-repeat 50%/50% 50%;
+}
+
+.custom-checkbox .custom-control-label::before {
+  border-radius: 0.25rem;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+  border-color: #85786f;
+  background-color: #85786f;
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3e%3cpath stroke='%23fff' d='M0 2h4'/%3e%3c/svg%3e");
+}
+
+.custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
+  background-color: rgba(100, 123, 255, 0.2);
+}
+
+.custom-checkbox .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
+  background-color: rgba(100, 123, 255, 0.2);
+}
+
+.custom-radio .custom-control-label::before {
+  border-radius: 50%;
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.custom-radio .custom-control-input:disabled:checked ~ .custom-control-label::before {
+  background-color: #8ac9ff;
+}
+
+.custom-switch {
+  padding-left: 2.25rem;
+}
+
+.custom-switch .custom-control-label::before {
+  left: -2.25rem;
+  width: 1.75rem;
+  pointer-events: all;
+  border-radius: 0.5rem;
+}
+
+.custom-switch .custom-control-label::after {
+  top: calc(0.25rem + 2px);
+  left: calc(-2.25rem + 2px);
+  width: calc(1rem - 4px);
+  height: calc(1rem - 4px);
+  background-color: #adb5bd;
+  border-radius: 0.5rem;
+  transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-switch .custom-control-label::after {
+    transition: none;
+  }
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+  background-color: #fff;
+  transform: translateX(0.75rem);
+}
+
+.custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
+  background-color: #8ac9ff;
+}
+
+.custom-select {
+  display: inline-block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  vertical-align: middle;
+  background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.75rem center/8px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.section--cookies {
+  transition: all 0.55s ease-in-out;
+  position: fixed;
+  bottom:-50%;
+  width: 100%;
+  height: auto;
+  z-index: 10;
+  background-color: white;
+  padding:2rem 0;
+  box-shadow: 0 -10px 22px rgba(20,20,20,.3);
+}
+
+.section--cookies.active {
+  bottom:0;
+}
+
+.section--cookies .custom-switch label,
+.section--cookies .custom-switch input { cursor: pointer; }
+</style>
+
+<script>
+    var opciones = {
+        language: 'es',
+        expiryDays: 30,
+        log: false,
+        popupContent: '<section class="section--cookies active" id="bloquecookies-popup">\n' +
+                '<article class="container">\n' +
+                '<div class="row align-items-center">\n' +
+                '<div class="col-12 col-md-8 col-lg-9 small">\n' +
+                '    <div class="cookies--text">\n' +
+                '    <p>Este sitio web utiliza cookies para mejorar su experiencia mientras navega por el sitio web. De estas cookies, las cookies que se clasifican seg&uacute;n sea necesario se almacenan en su navegador, ya que son esenciales para el funcionamiento de las funcionalidades b&aacute;sicas del sitio web.</p><p>Tambi&eacute;n utilizamos cookies de terceros que nos ayudan a analizar y comprender c&oacute;mo utiliza este sitio web. Estas cookies se almacenar&aacute;n en su navegador solo con su consentimiento.</p><p>Tambi&eacute;n tiene la opci&oacute;n de darse de baja de estas cookies. Pero la exclusi&oacute;n voluntaria de algunas de estas cookies puede afectar su experiencia de navegaci&oacute;n.</p>\n' +
+                '    </div>\n' +
+                '    <div class="container">\n' +
+                '    <div class="row row-cols-2 row-cols-lg-4 py-3">' +
+                '[SWITCHES]' +
+                '    </div>\n' +
+                '</div>' +
+                '<p><a class="d-block mb-3 mb-lg-0" href="/09/politica_cookies.php">Puede consultar nuestra pol&iacute;tica de cookies aqu&iacute;.</a></p>\n' +
+                '</div>\n' +
+                '\n' +
+                '<div class="col-12 col-md-4 col-lg-3">\n' +
+                '    <button class="btn btn-primary btn-block" id="bloquecookies-boton-aceptar">Aceptar todas</button>\n' +
+                '    <button class="btn btn-outline-primary btn-block rechazar-cookies" id="bloquecookies-boton-aceptar-seleccionadas">Aceptar seleccionadas</button>\n' +
+                '    <button class="btn btn-outline-primary btn-block rechazar-cookies" id="bloquecookies-boton-rechazar">Rechazar cookies</button>\n' +
+                '</div>\n' +
+                '</div>\n' +
+                '</article>\n' +
+                '</section>',
+                useCustomCss: true,
+                cookies: {
+                    essential: {
+                        display: true,
+                        title: {
+                            es: 'Necesarias',
+                        }
+                    },
+                    marketing: {
+                        display: true,
+                        title: {
+                            es: 'Marketing'
+                        }
+                    },
+                    personalization: {
+                        display: true,
+                        title: {
+                            es: 'Personalizaci&oacute;n',
+                        },
+                    },
+                    analytics: {
+                        display: true,
+                        title: {
+                            es: 'Anal&iacute;tica',
+                        },
+                        list: [
+                            'googlepersonalization',
+                            '_fbp',
+                            '_ga',
+                            '_gcl_au',
+                            '_gid',
+                            '_hjid',
+                            '_hjIncludedInSample',
+							'auth_multi',
+							'auth_token',
+							'ct0',
+							'd_prefs',
+							'dnt',
+							'external_referer',
+							'guest_id_ads',
+							'guest_id_marketing',
+							'guest_id',
+							'kdt',
+							'personalization_id',
+							'twid',
+
+                            'qcconsent',
+                            'qcpubconsent',
+                            '_cmpQcif3pcsupported'
+                        ],
+                        callbacks: [
+                            cargarGoogleTagManager
+                        ]
+                    }
+                }
+            };
+
+    window.bloquecookiesCookies.setup(opciones)
+    window.bloquecookiesCookies.lanzarCallbacks()
+
+    function cargarGoogleTagManager() {
+        window.dataLayer = window.dataLayer || [];
+
+        dataLayer.push({
+            'cf_functional_enabled': 'true',
+            'cf_advertising_enabled': 'true',
+            'cf_necessary_enabled':true,
+            'cf_performance_enabled':true,
+            'cf_analytics_enabled':true,
+            'event': 'optInCookies'});
+    }
+
+</script>
+  <script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-10425279-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script></div>
+<script type="text/javascript">
+<!--
+swfobject.registerObject("FlashID");
+//-->
+   </script>
+</body>
+</html>

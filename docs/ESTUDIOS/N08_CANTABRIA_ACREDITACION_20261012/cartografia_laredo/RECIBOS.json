@@ -1,0 +1,262 @@
+{
+  "version": "0.1.0",
+  "nombre": "Cartografía y contraste puntual Laredo y enclavesPalencia",
+  "fecha": "2026-10-12",
+  "alcance": "Diagnóstico no productivo",
+  "estado": "DIAGNOSTIC",
+  "cambios": "Fuentes nuevas puntuales",
+  "motivo": "Acreditación parteLaredo sin conexiones ficticias",
+  "origen": "Fuentes oficiales independientes",
+  "sources": [
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_CAPABILITIES.xml",
+      "url": "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&REQUEST=GetCapabilities",
+      "organismo": "IGN/CNIG PNOA",
+      "edicion": "Servicio dinámico consultado2026-10-12",
+      "acquired_at_utc": "2026-10-12T13:35:11.813976+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&REQUEST=GetCapabilities",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_CAPABILITIES.xml"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "907f75b17d07c1ddc6f2dfcf2a04efa7c66de4b1ea7e46e0c2524a9dfdebad52",
+      "bytes": 27902,
+      "licencia": "PNOA compatible CC-BY4.0 políticaIGN; documentos oficiales como evidencia atribuida."
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_FEATUREINFO.json",
+      "url": "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=OI.OrthoimageCoverage&QUERY_LAYERS=OI.OrthoimageCoverage&STYLES=&SRS=EPSG:4326&BBOX=-3.461,43.412,-3.452,43.424&WIDTH=1024&HEIGHT=1365&X=352&Y=794&FORMAT=image/jpeg&INFO_FORMAT=application/json",
+      "organismo": "IGN/CNIG PNOA",
+      "edicion": "Fecha captura por confirmar",
+      "acquired_at_utc": "2026-10-12T13:35:12.257102+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=OI.OrthoimageCoverage&QUERY_LAYERS=OI.OrthoimageCoverage&STYLES=&SRS=EPSG:4326&BBOX=-3.461,43.412,-3.452,43.424&WIDTH=1024&HEIGHT=1365&X=352&Y=794&FORMAT=image/jpeg&INFO_FORMAT=application/json",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_FEATUREINFO.json"
+      ],
+      "status": "ACQUIRED_SERVICE_EXCEPTION_LAYER_NOT_QUERYABLE",
+      "sha256": "0dc3484dada94ad0e6b6a20b0ea63484d6c511a7b74060fc05660415bd4711a9",
+      "bytes": 408,
+      "licencia": "PNOA compatible CC-BY4.0 políticaIGN; documentos oficiales como evidencia atribuida."
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/AYTO_LAREDO_RUTAS.pdf",
+      "url": "https://www.laredo.es/09/archivos_personal/resumen-rutas-naturales-laredo1421671479.pdf",
+      "organismo": "Ayuntamiento de Laredo Turismo",
+      "edicion": "Sin fecha explícita; archivo servidor2015 segúnruta no certificado",
+      "acquired_at_utc": "2026-10-12T13:35:13.695689+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://www.laredo.es/09/archivos_personal/resumen-rutas-naturales-laredo1421671479.pdf",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/AYTO_LAREDO_RUTAS.pdf"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "152c426dcec96a834d1cb9384084d777523fadf2de80c88939cae3e0dc479a81",
+      "bytes": 816820,
+      "licencia": "PNOA compatible CC-BY4.0 políticaIGN; documentos oficiales como evidencia atribuida."
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/BOE_REGATON_2024.html",
+      "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-5697",
+      "organismo": "BOE/MITECO",
+      "edicion": "2024-03-14",
+      "acquired_at_utc": "2026-10-12T13:35:13.999238+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-5697",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/BOE_REGATON_2024.html"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "252922702e4b6dfa5da35006ccef1c8e78c93acf2ba4d2e30f7e83b3efa561a4",
+      "bytes": 104856,
+      "licencia": "PNOA compatible CC-BY4.0 políticaIGN; documentos oficiales como evidencia atribuida."
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/AYTO_POMAR_CEZURA.html",
+      "url": "https://pomardevaldivia.es/municipio/historia/cezura/",
+      "organismo": "Ayuntamiento de Pomar de Valdivia",
+      "edicion": "Consulta2026-10-12 sin edición declarada",
+      "acquired_at_utc": "2026-10-12T13:35:22.500417+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://pomardevaldivia.es/municipio/historia/cezura/",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/AYTO_POMAR_CEZURA.html"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "827b3859430a65be9fea72138771a5b946a508ef5781e8dfb2bf5bad2ef3fed5",
+      "bytes": 134985,
+      "licencia": "PNOA compatible CC-BY4.0 políticaIGN; documentos oficiales como evidencia atribuida."
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/AYTO_POMAR_LASTRILLA.html",
+      "url": "https://pomardevaldivia.es/municipio/historia/lastrilla/",
+      "organismo": "Ayuntamiento de Pomar de Valdivia",
+      "edicion": "Consulta2026-10-12 sin edición declarada",
+      "acquired_at_utc": "2026-10-12T13:35:23.573776+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://pomardevaldivia.es/municipio/historia/lastrilla/",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/AYTO_POMAR_LASTRILLA.html"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "354da364c7fa98a4732f2bd246efdf51cea8d108fe7de639f3856bbaa7a79194",
+      "bytes": 133327,
+      "licencia": "PNOA compatible CC-BY4.0 políticaIGN; documentos oficiales como evidencia atribuida."
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_LAREDO_P0000.jpg",
+      "url": "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=OI.OrthoimageCoverage&STYLES=&SRS=EPSG:4326&BBOX=-3.461,43.412,-3.452,43.424&WIDTH=1024&HEIGHT=1365&FORMAT=image/jpeg",
+      "organismo": "IGN/CNIG PNOA",
+      "edicion": "PNOA GetFeatureInfo OI.MosaicElement fecha2023-08 resolución0.15m; no demuestra estado2025",
+      "acquired_at_utc": "2026-10-12T13:35:23.574421+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "40",
+        "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=OI.OrthoimageCoverage&STYLES=&SRS=EPSG:4326&BBOX=-3.461,43.412,-3.452,43.424&WIDTH=1024&HEIGHT=1365&FORMAT=image/jpeg",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_LAREDO_P0000.jpg"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "84c762c9f50fa9beab5355d17ea414abafdb465c2f3c46fb45c34f34792b77b9",
+      "bytes": 167091,
+      "CRS": "EPSG:4326",
+      "BBOX": [
+        -3.461,
+        43.412,
+        -3.452,
+        43.424
+      ],
+      "size_px": [
+        1024,
+        1365
+      ],
+      "layer": "OI.OrthoimageCoverage",
+      "licencia": "CC-BY4.0 compatible políticaIGN; atribuciónPNOA©IGN"
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_MOSAIC_FEATUREINFO.json",
+      "url": "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=OI.MosaicElement&QUERY_LAYERS=OI.MosaicElement&STYLES=&SRS=EPSG:4326&BBOX=-3.461,43.412,-3.452,43.424&WIDTH=1024&HEIGHT=1365&X=352&Y=794&FORMAT=image/jpeg&INFO_FORMAT=application/json",
+      "organismo": "IGN/CNIG",
+      "edicion": "PNOA fecha2023-08 resolución0.15m; MTNraster dinámico ediciónlocal no declarada",
+      "acquired_at_utc": "2026-10-12T13:36:09.936529+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://www.ign.es/wms-inspire/pnoa-ma?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=OI.MosaicElement&QUERY_LAYERS=OI.MosaicElement&STYLES=&SRS=EPSG:4326&BBOX=-3.461,43.412,-3.452,43.424&WIDTH=1024&HEIGHT=1365&X=352&Y=794&FORMAT=image/jpeg&INFO_FORMAT=application/json",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/PNOA_MOSAIC_FEATUREINFO.json"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "02e5edf925fbf589a6fddcb33cd109bd5fb2dd778d1375fc090b0b48b9110f30",
+      "bytes": 218,
+      "licencia": "CC BY4.0 scne.es",
+      "CRS": "EPSG:4326"
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/IGN_LASTRILLA_MAPA.jpg",
+      "url": "https://www.ign.es/wms-inspire/mapa-raster?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=mtn_rasterizado&STYLES=&SRS=EPSG:4326&BBOX=-4.113,42.798,-4.083,42.824&WIDTH=1024&HEIGHT=887&FORMAT=image/jpeg",
+      "organismo": "IGN/CNIG",
+      "edicion": "PNOA fecha2023-08 resolución0.15m; MTNraster dinámico ediciónlocal no declarada",
+      "acquired_at_utc": "2026-10-12T13:36:11.977903+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://www.ign.es/wms-inspire/mapa-raster?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=mtn_rasterizado&STYLES=&SRS=EPSG:4326&BBOX=-4.113,42.798,-4.083,42.824&WIDTH=1024&HEIGHT=887&FORMAT=image/jpeg",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/IGN_LASTRILLA_MAPA.jpg"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "363c1414b68f985be0f7de92d3ce394171ee9599758bb7596e9786e2865d37e6",
+      "bytes": 194881,
+      "licencia": "CC BY4.0 scne.es",
+      "CRS": "EPSG:4326"
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/IGN_CEZURA_MAPA.jpg",
+      "url": "https://www.ign.es/wms-inspire/mapa-raster?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=mtn_rasterizado&STYLES=&SRS=EPSG:4326&BBOX=-4.185,42.804,-4.155,42.830&WIDTH=1024&HEIGHT=887&FORMAT=image/jpeg",
+      "organismo": "IGN/CNIG",
+      "edicion": "PNOA fecha2023-08 resolución0.15m; MTNraster dinámico ediciónlocal no declarada",
+      "acquired_at_utc": "2026-10-12T13:36:13.613859+00:00",
+      "command": [
+        "curl",
+        "-sS",
+        "-L",
+        "--fail",
+        "--max-time",
+        "30",
+        "https://www.ign.es/wms-inspire/mapa-raster?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=mtn_rasterizado&STYLES=&SRS=EPSG:4326&BBOX=-4.185,42.804,-4.155,42.830&WIDTH=1024&HEIGHT=887&FORMAT=image/jpeg",
+        "-o",
+        "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/IGN_CEZURA_MAPA.jpg"
+      ],
+      "status": "ACQUIRED",
+      "sha256": "8feac3940237dcbdfaefe16a64b6cb615fb9193a126d83343a1bb32bcaa071ed",
+      "bytes": 206850,
+      "licencia": "CC BY4.0 scne.es",
+      "CRS": "EPSG:4326"
+    },
+    {
+      "file": "docs/ESTUDIOS/N08_CANTABRIA_ACREDITACION_20261012/cartografia_laredo/MITECO_REGATON_DES01_14_39_0001.html",
+      "url": "https://www.miteco.gob.es/gl/costas/participacion-publica/39-des01-14-39-0001.html",
+      "organismo": "MITECO/Demarcación de Costas Cantabria",
+      "edicion": "ExpedienteDES01/14/39/0001; incoación publicación2026; no sustituyeINE2025",
+      "sha256": "2ce4da035949933ec220677a0ec72696f7507793dd8f694132d54911f5ebf578",
+      "bytes": 65161,
+      "acquired_at_utc": "2026-10-12T13:48:50.522363+00:00",
+      "command": [
+        "requests.get",
+        "https://www.miteco.gob.es/gl/costas/participacion-publica/39-des01-14-39-0001.html",
+        "timeout40"
+      ],
+      "status": "ACQUIRED"
+    }
+  ]
+}

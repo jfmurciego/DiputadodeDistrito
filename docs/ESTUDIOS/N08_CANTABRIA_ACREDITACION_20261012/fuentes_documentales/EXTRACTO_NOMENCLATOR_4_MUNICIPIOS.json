@@ -1,0 +1,542 @@
+{
+  "source_sha256": "b2769b88359062e3160055ff690a6863b026625512f7742128d13a37a2ece06c",
+  "derivation": "OOXML sharedStrings + sheet1 XML sin librerías externas; filtrar CMUN035061075101",
+  "rows": [
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000000 LAREDO",
+      "total2025": "10675",
+      "hombres2025": "5081",
+      "mujeres2025": "5594"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000100 ARENOSA (LA)",
+      "total2025": "65",
+      "hombres2025": "37",
+      "mujeres2025": "28"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000101 ARENOSA (LA)",
+      "total2025": "65",
+      "hombres2025": "37",
+      "mujeres2025": "28"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000200 CALLEJO (EL)",
+      "total2025": "78",
+      "hombres2025": "39",
+      "mujeres2025": "39"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000201 CALLEJO (EL)",
+      "total2025": "78",
+      "hombres2025": "39",
+      "mujeres2025": "39"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000300 CÁRCOBAS (LAS)",
+      "total2025": "17",
+      "hombres2025": "8",
+      "mujeres2025": "9"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000301 CÁRCOBAS (LAS)",
+      "total2025": "17",
+      "hombres2025": "8",
+      "mujeres2025": "9"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000400 CASILLAS (LAS)",
+      "total2025": "120",
+      "hombres2025": "52",
+      "mujeres2025": "68"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000401 CASILLAS (LAS)",
+      "total2025": "120",
+      "hombres2025": "52",
+      "mujeres2025": "68"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000500 LAREDO",
+      "total2025": "10052",
+      "hombres2025": "4775",
+      "mujeres2025": "5277"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000501 LAREDO",
+      "total2025": "10052",
+      "hombres2025": "4775",
+      "mujeres2025": "5277"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000600 PESQUERA (LA)",
+      "total2025": "239",
+      "hombres2025": "118",
+      "mujeres2025": "121"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000601 PESQUERA (LA)",
+      "total2025": "239",
+      "hombres2025": "118",
+      "mujeres2025": "121"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000700 TARRUEZA",
+      "total2025": "92",
+      "hombres2025": "47",
+      "mujeres2025": "45"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000701 TARRUEZA",
+      "total2025": "92",
+      "hombres2025": "47",
+      "mujeres2025": "45"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000800 VILLANTE",
+      "total2025": "12",
+      "hombres2025": "5",
+      "mujeres2025": "7"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "035",
+      "unidad_poblacional": "000801 VILLANTE",
+      "total2025": "12",
+      "hombres2025": "5",
+      "mujeres2025": "7"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000000 RIBAMONTÁN AL MAR",
+      "total2025": "4611",
+      "hombres2025": "2334",
+      "mujeres2025": "2277"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000100 CARRIAZO",
+      "total2025": "196",
+      "hombres2025": "100",
+      "mujeres2025": "96"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000101 CARRIAZO",
+      "total2025": "196",
+      "hombres2025": "100",
+      "mujeres2025": "96"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000200 CASTANEDO",
+      "total2025": "234",
+      "hombres2025": "115",
+      "mujeres2025": "119"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000201 CASTANEDO",
+      "total2025": "234",
+      "hombres2025": "115",
+      "mujeres2025": "119"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000300 GALIZANO",
+      "total2025": "917",
+      "hombres2025": "465",
+      "mujeres2025": "452"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000301 GALIZANO",
+      "total2025": "917",
+      "hombres2025": "465",
+      "mujeres2025": "452"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000400 LANGRE",
+      "total2025": "152",
+      "hombres2025": "73",
+      "mujeres2025": "79"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000401 LANGRE",
+      "total2025": "152",
+      "hombres2025": "73",
+      "mujeres2025": "79"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000500 LOREDO",
+      "total2025": "799",
+      "hombres2025": "412",
+      "mujeres2025": "387"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000501 LOREDO",
+      "total2025": "799",
+      "hombres2025": "412",
+      "mujeres2025": "387"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000600 SOMO",
+      "total2025": "1733",
+      "hombres2025": "867",
+      "mujeres2025": "866"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000601 SOMO",
+      "total2025": "1733",
+      "hombres2025": "867",
+      "mujeres2025": "866"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000700 SUESA",
+      "total2025": "580",
+      "hombres2025": "302",
+      "mujeres2025": "278"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "061",
+      "unidad_poblacional": "000701 SUESA",
+      "total2025": "580",
+      "hombres2025": "302",
+      "mujeres2025": "278"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000000 SANTANDER",
+      "total2025": "175082",
+      "hombres2025": "80731",
+      "mujeres2025": "94351"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000100 CUETO",
+      "total2025": "9746",
+      "hombres2025": "4678",
+      "mujeres2025": "5068"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000101 CUETO",
+      "total2025": "9746",
+      "hombres2025": "4678",
+      "mujeres2025": "5068"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000200 MONTE",
+      "total2025": "2654",
+      "hombres2025": "1273",
+      "mujeres2025": "1381"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000201 MONTE",
+      "total2025": "2654",
+      "hombres2025": "1273",
+      "mujeres2025": "1381"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000300 PEÑACASTILLO",
+      "total2025": "20436",
+      "hombres2025": "9822",
+      "mujeres2025": "10614"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000301 PEÑACASTILLO",
+      "total2025": "20436",
+      "hombres2025": "9822",
+      "mujeres2025": "10614"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000400 SAN ROMÁN",
+      "total2025": "14854",
+      "hombres2025": "7004",
+      "mujeres2025": "7850"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000401 SAN ROMÁN",
+      "total2025": "14854",
+      "hombres2025": "7004",
+      "mujeres2025": "7850"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000500 SANTANDER",
+      "total2025": "127392",
+      "hombres2025": "57954",
+      "mujeres2025": "69438"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "075",
+      "unidad_poblacional": "000501 SANTANDER",
+      "total2025": "127392",
+      "hombres2025": "57954",
+      "mujeres2025": "69438"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000000 VALLE DE VILLAVERDE",
+      "total2025": "249",
+      "hombres2025": "138",
+      "mujeres2025": "111"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000100 ALTURA (LA)",
+      "total2025": "17",
+      "hombres2025": "10",
+      "mujeres2025": "7"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000199 *DISEMINADO* ALTURA (LA)",
+      "total2025": "17",
+      "hombres2025": "10",
+      "mujeres2025": "7"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000200 CAMPO (EL)",
+      "total2025": "3",
+      "hombres2025": "2",
+      "mujeres2025": "1"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000299 *DISEMINADO* CAMPO (EL)",
+      "total2025": "3",
+      "hombres2025": "2",
+      "mujeres2025": "1"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000300 CAPITANA (LA)",
+      "total2025": "7",
+      "hombres2025": "5",
+      "mujeres2025": "2"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000399 *DISEMINADO* CAPITANA (LA)",
+      "total2025": "7",
+      "hombres2025": "5",
+      "mujeres2025": "2"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000400 HOYOS (LOS)",
+      "total2025": "7",
+      "hombres2025": "3",
+      "mujeres2025": "4"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000499 *DISEMINADO* HOYOS (LOS)",
+      "total2025": "7",
+      "hombres2025": "3",
+      "mujeres2025": "4"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000500 IGLESIA (LA)",
+      "total2025": "5",
+      "hombres2025": "2",
+      "mujeres2025": "3"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000599 *DISEMINADO* IGLESIA (LA)",
+      "total2025": "5",
+      "hombres2025": "2",
+      "mujeres2025": "3"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000600 LAISECA",
+      "total2025": "28",
+      "hombres2025": "17",
+      "mujeres2025": "11"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000699 *DISEMINADO* LAISECA",
+      "total2025": "28",
+      "hombres2025": "17",
+      "mujeres2025": "11"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000700 MATANZA (LA)",
+      "total2025": "123",
+      "hombres2025": "67",
+      "mujeres2025": "56"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000701 MATANZA (LA)",
+      "total2025": "33",
+      "hombres2025": "17",
+      "mujeres2025": "16"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000799 *DISEMINADO* MATANZA (LA)",
+      "total2025": "90",
+      "hombres2025": "50",
+      "mujeres2025": "40"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000800 MOLLINEDO",
+      "total2025": "1",
+      "hombres2025": "0",
+      "mujeres2025": "1"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000899 *DISEMINADO* MOLLINEDO",
+      "total2025": "1",
+      "hombres2025": "0",
+      "mujeres2025": "1"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000900 PALACIO",
+      "total2025": "37",
+      "hombres2025": "19",
+      "mujeres2025": "18"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000901 PALACIO",
+      "total2025": "10",
+      "hombres2025": "4",
+      "mujeres2025": "6"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "000999 *DISEMINADO* PALACIO",
+      "total2025": "27",
+      "hombres2025": "15",
+      "mujeres2025": "12"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "001000 VILLANUEVA",
+      "total2025": "21",
+      "hombres2025": "13",
+      "mujeres2025": "8"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "001001 VILLANUEVA",
+      "total2025": "17",
+      "hombres2025": "10",
+      "mujeres2025": "7"
+    },
+    {
+      "CPRO": "39",
+      "CMUN": "101",
+      "unidad_poblacional": "001099 *DISEMINADO* VILLANUEVA",
+      "total2025": "4",
+      "hombres2025": "3",
+      "mujeres2025": "1"
+    }
+  ]
+}

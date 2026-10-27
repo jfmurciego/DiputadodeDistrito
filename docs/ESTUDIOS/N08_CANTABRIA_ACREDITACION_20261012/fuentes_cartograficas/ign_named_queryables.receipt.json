@@ -1,0 +1,14 @@
+{
+  "url": "https://api-features.ign.es/collections/namedplace/queryables?f=json",
+  "retrieved_utc": "2026-10-12T12:16:27.012004+00:00",
+  "status": 200,
+  "sha256": "83db6e85381a633a524a1c54e1e6a0c7bf95a3d9142b0c255b0e10a416e36ce3",
+  "bytes": 1028,
+  "content_type": "application/schema+json",
+  "date": "Mon, 12 Oct 2026 12:16:27 GMT",
+  "etag": null,
+  "last_modified": null,
+  "organism": "IGN/CNIG",
+  "licence": "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+  "command": "requests.get(url, timeout=50)"
+}

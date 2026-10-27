@@ -1,0 +1,12 @@
+{
+  "url": "https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-3.47%2C43.41%2C-3.45%2C43.433&limit=100",
+  "retrieved_utc": "2026-10-12T12:20:47.077141+00:00",
+  "status": 200,
+  "sha256": "45ae2f2fe67afdb9a5539c7de545d831fc62bbe470341f56eeead79d7b7f96e6",
+  "bytes": 4076,
+  "organism": "IGN/CNIG",
+  "edition": "live API snapshot; feature dates retained",
+  "licence": "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+  "content_crs": "<http://www.opengis.net/def/crs/OGC/1.3/CRS84>",
+  "command": "requests.get(namedplace/items, params={'f': 'json', 'bbox': '-3.47,43.41,-3.45,43.433', 'limit': 100}, timeout=60)"
+}

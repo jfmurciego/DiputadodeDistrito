@@ -1,0 +1,10 @@
+# Valle de Villaverde
+Versión 1.0.0; fecha 2026-10-12; alcance acreditación diagnóstica Cantabria; estado candidato BLOCKED. Cambio: evidencia externa puntual. Motivo: cierre de incertidumbres N08; origen: #251 y fuentes oficiales independientes; sin predecesor.
+
+BOE-A-2005-14404 acredita denominación y pertenencia a Cantabria. BOC 1999 plan de emergencias y fondo de cooperación municipal reconocen condición de enclave dentro de Vizcaya. Nomenclátor INE 2025, referencia 2025-01-01, publicación 2026-01-28, municipio 39/101: 249 habitantes, 138 hombres y 111 mujeres; entidades singulares suman249. El producto seccional protegido contiene una sola sección del municipio39101: `3910101001`, misma población y geometría original. No se deduce CUSEC del nomenclátor: se concilia con la identidad protegida.
+
+Original INE:19.461.217,37m²; distancia mínima al resto del territorio seccional cántabro2.693,65m; ningún contacto lineal, puntual ni solapamiento con otra sección cántabra. IGN/RCC independiente confirma el recinto39101 como componente de Cantabria dentro de Bizkaia: los recintos IGN propios de Villaverde y Bizkaia no solapan. El original está cubierto99,1466% por el recinto IGN; diferencia simétrica486.545,13m². Esta diferencia no cambia ninguna frontera: el snapshotIGN revisado2026 y precisión general1:25.000/~40 m no certifica igualdad con edición INE 2025.
+
+Conclusión PASS: identidad administrativa, enclave legítimo, separación física y población249. NOT_EVIDENCED: identidad exacta del deslinde de ambas ediciones. BLOCKED: regla electoral de contigüidad/excepción aún no aprobada. Valle no puede incorporarse a un distrito de Vizcaya.
+
+Es posible representar al elector de Valle dentro de un distrito uninominal cántabro territorialmente discontinuo, mediante una excepción declarativa explícita. Eso preservaría provincia, sección atómica,249 residentes y K=5; el grafo físico permanecería desconectado sin pasarela artificial. Es una opción institucional, no una partición viable demostrada ni una aprobación. Texto propuesto en DECISIONES_PENDIENTES.md.

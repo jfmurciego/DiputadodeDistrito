@@ -1,0 +1,14 @@
+{
+  "url": "https://api-features.ign.es/collections/administrativeunit?f=json",
+  "retrieved_utc": "2026-10-12T12:16:26.668258+00:00",
+  "status": 200,
+  "sha256": "8ae89b34391bc561dd9a1a9dcb067d831b415054213a4b69f6633f6a2012080f",
+  "bytes": 5932,
+  "content_type": "application/json",
+  "date": "Mon, 12 Oct 2026 12:16:26 GMT",
+  "etag": null,
+  "last_modified": null,
+  "organism": "IGN/CNIG",
+  "licence": "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+  "command": "requests.get(url, timeout=50)"
+}

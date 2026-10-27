@@ -1,0 +1,154 @@
+{
+  "version": "0.1.0",
+  "nombre": "Evidencia administrativa y poblacional independiente Cantabria",
+  "fecha": "2026-10-12",
+  "alcance": "Valle de Villaverde y tres secciones multipartes N08",
+  "estado": "DIAGNOSTIC",
+  "cambios": "Evidencia nueva; ninguna modificación de fuentesbase",
+  "motivo": "Mandato acreditación territorial",
+  "origen": "BOE, BOC, INE Nomenclátor2025 y administraciones locales",
+  "receipt_file": "fuentes_documentales/RECIBOS.json",
+  "valle_de_villaverde": {
+    "CPRO": "39",
+    "CMUN": "101",
+    "CUMUN": "39101",
+    "CUSEC": "3910101001",
+    "administrative_identity_status": "PASS",
+    "name_authority": "BOE-A-2005-14404 Decreto79/2005 Comunidad Autónoma de Cantabria",
+    "enclave_authority": [
+      "BOC1999-12-28 planemergencias idAnuBlob964",
+      "BOC fondo cooperación municipal idAnuBlob106427 art5 condiciónenclave"
+    ],
+    "enclave_location": "Territorio separado de Cantabria situado dentro de Vizcaya; declaración administrativa independiente, geometría verificada por herramienta separada",
+    "population2025": 249,
+    "population_source": "INE_NOMENCLATOR_39_2025.xls fila Provincia39 Municipio101 Unidad000000 VALLE DE VILLAVERDE",
+    "population_status": "PASS",
+    "population_scope": "Municipio entero; asociación a única sección mediante evidencia baseINE y geometría, no nomenclátorCUSec",
+    "population_males": 138,
+    "population_females": 111,
+    "source_reference_date": "2025-01-01",
+    "source_publication_date": "2026-01-28",
+    "entities_singular_population_sum": 249,
+    "unknown_part_population_is_zero": false
+  },
+  "multipartes": [
+    {
+      "CUSEC": "3903503001",
+      "municipio": "Laredo",
+      "section_population2025": 1052,
+      "part_population_status": "NOT_EVIDENCED",
+      "reason": "Nomenclátor2025 sólo CP, municipio y unidadpoblacional; no CUSEC, identificación de partes, coordenadas ni relación certificada con parte original. Ninguna fila nominal isla en municipio. Ausencia nominal no demuestra poblacióncero.",
+      "source_entity_count": 8
+    },
+    {
+      "CUSEC": "3906101003",
+      "municipio": "Ribamontán al Mar",
+      "section_population2025": 1381,
+      "part_population_status": "NOT_EVIDENCED",
+      "reason": "Nomenclátor2025 sólo CP, municipio y unidadpoblacional; no CUSEC, identificación de partes, coordenadas ni relación certificada con parte original. Ninguna fila nominal isla en municipio. Ausencia nominal no demuestra poblacióncero.",
+      "source_entity_count": 7
+    },
+    {
+      "CUSEC": "3907504011",
+      "municipio": "Santander",
+      "section_population2025": 949,
+      "part_population_status": "NOT_EVIDENCED",
+      "reason": "Nomenclátor2025 sólo CP, municipio y unidadpoblacional; no CUSEC, identificación de partes, coordenadas ni relación certificada con parte original. Ninguna fila nominal isla en municipio. Ausencia nominal no demuestra poblacióncero.",
+      "source_entity_count": 5
+    }
+  ],
+  "independent_local_evidence": {
+    "Laredo": {
+      "authority": "Ayuntamiento de Laredo2014",
+      "files": [
+        "AYTO_LAREDO_PUNTAL_2014.html",
+        "AYTO_LAREDO_RECUPERACION_2014.html"
+      ],
+      "claim": "El Puntal finalplayaSalvé cordóndunar, daños temporales y recuperación; no certifica identidadgeométrica2025 ni poblaciónparte"
+    },
+    "Ribamontan": {
+      "authority": "BOE-B-2008-79095 / Ayuntamiento Ribamontán al Mar",
+      "files": [
+        "BOE_SANTA_MARINA_2008.html",
+        "AYTO_RIBAMONTAN_ENTORNO.html"
+      ],
+      "claim": "Isla Santa Marina en término municipal Ribamontán al Mar; estrecho frente Loredo. No certifica residentes2025 ni polígonoINE"
+    },
+    "Santander": {
+      "authority": "Ayuntamiento Santander Turismo2023/2024",
+      "files": [
+        "AYTO_SANTANDER_PLANO_2023.pdf",
+        "AYTO_SANTANDER_RUTA_2024.html"
+      ],
+      "claim": "Isla de la Torre frente playasBikinis/Magdalena, distinta Mouro/Horadada. Correspondenciaparte necesita contraste geométrico independiente."
+    }
+  },
+  "consultation_scope": [
+    {
+      "url": "https://www.icane.es/documents/32482389/33133878/METODOLOG%C3%8DA%2BNOMENCL%C3%81TOR.pdf/76a4e60f-497a-8454-f093-9633121f3fa8?t=1744798459055",
+      "finding": "Nomenclátor entidades/núcleos/diseminados; poblaciones2024+ Censo Anual; no poblaciónporpartepoligonal"
+    },
+    {
+      "url": "https://www.ine.es/dynt3/inebase/?capsel=11398&padre=10607",
+      "finding": "Censo anual2021-2025 tablasmunicipales y sección; sección no desagrega partes"
+    },
+    {
+      "url": "https://datos.gob.es/es/catalogo/a06004074-censo-anual-de-poblacion2",
+      "finding": "ICANE censo anual municipal porsexoyedad; no evidencia de partes"
+    },
+    {
+      "query": "site.icane.es Mouro población / site.santander.es isla de la Torre población / site.ribamontanalmar.es Santa Marina habitantes",
+      "finding": "Consultas oficiales no aportan recuento2025 porparte; no se presume inexistencia universal."
+    }
+  ],
+  "invariants": {
+    "generation_authorized": false,
+    "K_Cantabria": 5,
+    "K_national": 407,
+    "population_redistributed": false,
+    "physical_edges_created": false,
+    "official_geometry_modified": false
+  },
+  "limitations": "No se afirma inexistencia de información en registros internos; sólo insuficiencia de productos oficiales públicos efectivamente examinados. Acreditación porparte requeriría certificación agregada de organismo competente y correspondencia con polígonosoriginales y edición2025.",
+  "comunidad_campoo_cabuerniga": {
+    "administrative_nature_status": "PASS",
+    "authority": "BOC CVE-2017-1585 Ordenanza de Aprovechamientos 2017-02-27",
+    "nature": "Entidad local Asociación y Comunidad Campoo-Cabuérniga; administración conjunta de montes y pastos públicos/comunales, condominio de cuatro ayuntamientos, monte CUP16 SajaParteAlta",
+    "condominium_municipalities": [
+      {
+        "CUMUN": "39032",
+        "name": "Hermandad de Campoo de Suso"
+      },
+      {
+        "CUMUN": "39014",
+        "name": "Cabuérniga"
+      },
+      {
+        "CUMUN": "39068",
+        "name": "Ruente"
+      },
+      {
+        "CUMUN": "39086",
+        "name": "Los Tojos"
+      }
+    ],
+    "territorial_belonging": "Cantabria; normativa BOC y BOE2013 reconoce divisoria administrativa con Polaciones y Mancomunidad",
+    "geometry_identity": "Correspondencia con vacío pendiente herramienta separada; no presume identidad por nombre",
+    "not_belonging_to_any_municipality_status": "NOT_EVIDENCED_BY_DOCUMENTS_EXAMINED",
+    "population2025": null,
+    "population2025_status": "NOT_EVIDENCED",
+    "reason": "Ausencia de municipio o unidad nominal Campoo-Cabuérniga en Nomenclátor2025 no demuestra población0; BOC2017 acredita montes/pastos/condominio, no censo de residentes2025 ni ausencia jurídica de empadronamiento",
+    "no_population_imputed": true,
+    "sources": [
+      "fuentes_documentales/BOC_CAMPOO_ORDENANZA_2017.pdf",
+      "fuentes_documentales/BOE_CAMPOO_BIC_2013.html",
+      "fuentes_documentales/AYTO_CABUERNIGA_BANDO_2025.html"
+    ],
+    "institutional_support": {
+      "source": "fuentes_documentales/FEMP_CAMPOO_REGISTRO.html",
+      "registry_number_shown": "0539001",
+      "population_shown": 4061,
+      "population_scope": "Suma de entidades municipales miembros, 998+1616+1072+375; sin fecha referencia. No residentes recinto físico y no se utiliza para población2025."
+    }
+  }
+}

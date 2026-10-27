@@ -1,0 +1,6 @@
+test_real_diagnosis_preserves_source (tests.test_evidencia_continuidad_nacional.ContinuityTests.test_real_diagnosis_preserves_source) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.346s
+
+OK

@@ -1,0 +1,15 @@
+{
+  "file": "ign_torrelavega.json",
+  "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34063939087&limit=1",
+  "sha256": "5604274228a009c99abd6f49ee69bd92c025fcf639d848ee4e8f36d60dc9b230",
+  "bytes": 27132,
+  "status": 200,
+  "retrieved_utc": "2026-10-12T13:41:35.355927+00:00",
+  "edition": "RCCsnapshot2026 metadatarevision2026-02-12",
+  "organism": "IGN/CNIG",
+  "command": [
+    "requests.get",
+    "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34063939087&limit=1",
+    "timeout45"
+  ]
+}

@@ -1,0 +1,129 @@
+{
+    "type":"FeatureCollection",
+    "features":[
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"El Puntal",
+                "tipo":"Paraje",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-21",
+                "codigo_ngbe":"4.2.2",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"13435",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.45208282699991,
+                    43.4238886220001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"El Sable",
+                "tipo":"Paraje",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-11",
+                "codigo_ngbe":"4.2.2",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"13527",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.45159480499996,
+                    43.417479938
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"R\u00eda de Treto",
+                "tipo":"Entrante costero y estrecho mar\u00edtimo",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-24",
+                "codigo_ngbe":"6.1.2",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"1671340",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.46020092799995,
+                    43.4105218780001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"Canal de San Jorge",
+                "tipo":"Curso natural de agua",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-19",
+                "codigo_ngbe":"5.1",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"1671356",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.46947779999994,
+                    43.4208977770001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "etiqueta":"Playa del Regat\u00f3n",
+                "tipo":"Playa",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-20",
+                "codigo_ngbe":"6.2.2",
+                "fuente":"MITMA.IGN.BTN25"
+            },
+            "id":"1671361",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.45470738299991,
+                    43.4218744450001
+                ]
+            }
+        }
+    ],
+    "numberMatched":5,
+    "numberReturned":5,
+    "links":[
+        {
+            "type":"application/geo+json",
+            "rel":"self",
+            "title":"This document as GeoJSON",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-3.47,43.41,-3.45,43.433&limit=100"
+        },
+        {
+            "rel":"alternate",
+            "type":"application/ld+json",
+            "title":"This document as RDF (JSON-LD)",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=jsonld&bbox=-3.47,43.41,-3.45,43.433&limit=100"
+        },
+        {
+            "type":"text/html",
+            "rel":"alternate",
+            "title":"This document as HTML",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=html&bbox=-3.47,43.41,-3.45,43.433&limit=100"
+        },
+        {
+            "type":"application/json",
+            "title":"GN Lugar nombrado",
+            "rel":"collection",
+            "href":"https://api-features.ign.es/collections/namedplace"
+        }
+    ],
+    "timeStamp":"2026-10-12T12:20:47.254691Z"
+}

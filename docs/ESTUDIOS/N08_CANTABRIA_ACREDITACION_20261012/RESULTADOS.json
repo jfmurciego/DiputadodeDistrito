@@ -1,0 +1,2402 @@
+{
+  "districts_created": 0,
+  "external_accuracy": "RCC heterogeneous; general uncertainty about40m, scale1:25000; not an electoral tolerance",
+  "external_crs": "CRS84 longitude/latitude -> EPSG:25830, always_xy",
+  "external_edition": "IGN/RCC metadata revision2026-02-12, metadata2026-02-23; snapshot not identity2025",
+  "external_sources": [
+    {
+      "file": "ign_admin_collection.json",
+      "sha256": "8ae89b34391bc561dd9a1a9dcb067d831b415054213a4b69f6633f6a2012080f",
+      "url": "https://api-features.ign.es/collections/administrativeunit?f=json"
+    },
+    {
+      "file": "ign_admin_queryables.json",
+      "sha256": "f9bf50be263819b12fa7011396742b6f6dc7823415ac3e4caa14e89fc6e03160",
+      "url": "https://api-features.ign.es/collections/administrativeunit/queryables?f=json"
+    },
+    {
+      "file": "ign_bizkaia.json",
+      "sha256": "3b06752d321fc169a5f5048b34426d28d2240d4fb0452560d495f78c56e0d35f",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34164800000&limit=1"
+    },
+    {
+      "file": "ign_cantabria_probe.json",
+      "sha256": "5cbdc49c9bc66b17427163e87a8b63da940a254a09c474bd75afb7eb32926c71",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nameunit=Cantabria&limit=10"
+    },
+    {
+      "file": "ign_collections.json",
+      "sha256": "3344f50484382e3ce90c9704f2e8a6f06c10ea32e3c91cba2a3ca09674abaaa3",
+      "url": "https://api-features.ign.es/collections?f=json"
+    },
+    {
+      "file": "ign_hole_large_municipalities.json",
+      "sha256": "8b2316fe717ace5626afba27a5c14fb3f9237993f99c96ac4eea573d3bb72a0d",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&bbox=-4.32%2C43.06%2C-4.24%2C43.14&nationallevelname=Municipio&limit=100"
+    },
+    {
+      "file": "ign_hole_south_municipalities.json",
+      "sha256": "ae83ecf46f67dd640bef4187c0a47249daf94a24060fab5571428ca0f7ecfe81",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&bbox=-4.2%2C42.79%2C-4.08%2C42.84&nationallevelname=Municipio&limit=100"
+    },
+    {
+      "file": "ign_laredo.json",
+      "sha256": "af0aaf158fdbbc71951906c5a2435178ca7c2fd702bda269c2571a0257fa873d",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34063939035&limit=1"
+    },
+    {
+      "file": "ign_licencia.pdf",
+      "sha256": "48b745c62276e4d5ae8870922b9db89d276e9b339f66e3d1f9eea6379f2957d9",
+      "url": "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf"
+    },
+    {
+      "file": "ign_metadata.xml",
+      "sha256": "a9918bcc1085f15017b2c01740c0760232247d5aabccacb9c501a191d3aef05a",
+      "url": "https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&VERSION=2.0.2&REQUEST=GetRecordById&outputSchema=http://www.isotc211.org/2005/gmd&ElementSetName=full&ID=spaignLLM"
+    },
+    {
+      "file": "ign_named_queryables.json",
+      "sha256": "83db6e85381a633a524a1c54e1e6a0c7bf95a3d9142b0c255b0e10a416e36ce3",
+      "url": "https://api-features.ign.es/collections/namedplace/queryables?f=json"
+    },
+    {
+      "file": "ign_names_enclaves.json",
+      "sha256": "74ba6634283c72309175b73a60705313d4b6168ad41cf35995a664acb027d963",
+      "url": "https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-4.20,42.78,-4.07,42.85&limit=100"
+    },
+    {
+      "file": "ign_names_laredo.json",
+      "sha256": "45ae2f2fe67afdb9a5539c7de545d831fc62bbe470341f56eeead79d7b7f96e6",
+      "url": "https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-3.47%2C43.41%2C-3.45%2C43.433&limit=100"
+    },
+    {
+      "file": "ign_names_santa_marina.json",
+      "sha256": "3425eb695a6d0e03dfc0d8d147058beafb06e8d3ee457392d868fb0245f993f4",
+      "url": "https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-3.739%2C43.469%2C-3.721%2C43.482&limit=100"
+    },
+    {
+      "file": "ign_names_santander.json",
+      "sha256": "908b5f75e90c4f346e4ea22bbb4e937ec47080a90dfbcf60176081e9d69d774a",
+      "url": "https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-3.775%2C43.463%2C-3.765%2C43.47&limit=100"
+    },
+    {
+      "file": "ign_ribamontan.json",
+      "sha256": "093c7c6162e6a46b2dda8b1e4de5056c56cc3389582febe83cef8905a11e5df3",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34063939061&limit=1"
+    },
+    {
+      "file": "ign_santander.json",
+      "sha256": "7f5b02cc6ba41ce7e3d805021deb685e668b21c3ec7733654875a1313cd58165",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34063939075&limit=1"
+    },
+    {
+      "file": "ign_torrelavega.json",
+      "sha256": "5604274228a009c99abd6f49ee69bd92c025fcf639d848ee4e8f36d60dc9b230",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34063939087&limit=1"
+    },
+    {
+      "file": "ign_villaverde_probe.json",
+      "sha256": "4a42d7bdfa3ee9f807772eb5d4f36ed496dc785317aefca75e4cf373c904f880",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34063939101&limit=10"
+    },
+    {
+      "file": "ign_villaverde_surroundings.json",
+      "sha256": "ecd1eb68df925d07b3d0eac223e5ef38f7a781a6794a513ac3ed6918216120da",
+      "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&bbox=-3.30%2C43.23%2C-3.26%2C43.25&nationallevelname=Municipio&limit=100"
+    }
+  ],
+  "factibility": "BLOCKED_NO_PARTITION_EXECUTED",
+  "invariants": {
+    "K": 5,
+    "K_national": 407,
+    "edges": 1208,
+    "generation_authorized": false,
+    "municipalities": 102,
+    "part_components": 5,
+    "physical_edges_created": 0,
+    "population": 593623,
+    "sections": 458
+  },
+  "mode": "DIAGNOSTIC_ONLY",
+  "overlaps": [
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "3677141970f0ba580d68f25eeabe845d606a94bbc21b2a84c7d33d8c5ad0be5e",
+      "distance_to_nearest_void_m": 177.80841216461363,
+      "geometry_sha256": "6eac4df842ce48a627379512114a2832e82172dfdede052e20fc8cb68cf1c501",
+      "kind": "overlap",
+      "nearest_void": "V39-7bfbeb5c92750d5d",
+      "overlap_m2": 0.0003607017169320263,
+      "shared_border_m": 243.8487347172523,
+      "u": "3907502014",
+      "v": "3907508002"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "bdce78747f74fb714cfa2c5cc20658003c986c19ac8a650b1d041dd4e8a36cab",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "608be784a390c0ef443b22f0938d39f967f23f40945c5e541226f8d350cc0bdc",
+      "kind": "overlap",
+      "nearest_void": "V39-5c17bec6f6673200",
+      "overlap_m2": 0.0007244410071646665,
+      "shared_border_m": 544.9470850475202,
+      "u": "3907502017",
+      "v": "3907508002"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "6e48babd7ed2d7fdac43a003094b29b8182b6681817762b9826049bfdaf8d3e6",
+      "distance_to_nearest_void_m": 137.55235331307847,
+      "geometry_sha256": "29143473479d72a415b2c390f0e442b4251feb082f0e6ee8aebe1124e11e9ba8",
+      "kind": "overlap",
+      "nearest_void": "V39-23ce8f822bc5197f",
+      "overlap_m2": 9.409803236559125e-07,
+      "shared_border_m": 257.33621850222596,
+      "u": "3907502017",
+      "v": "3907508023"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "8f34e1307fe4682cb2ebb9b44763dd9c7a2b0d8f1e0eabc9bd531c5435fb99d6",
+      "distance_to_nearest_void_m": 24.6709911215574,
+      "geometry_sha256": "1f7d66c449709256d2f5812fda27d0c4d6556a7aed71a809bcdf569e866bb40a",
+      "kind": "overlap",
+      "nearest_void": "V39-dc26ac24105fcc69",
+      "overlap_m2": 0.001760307628694514,
+      "shared_border_m": 110.39025965908822,
+      "u": "3907502023",
+      "v": "3907508006"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "1c566892dd2e82339c9a0d020e77209d523d4224565bc03c49246952b7c950eb",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "3ea8beea921869d6b51ac07832f895893683e84355edf02762128c825a00673d",
+      "kind": "overlap",
+      "nearest_void": "V39-dc26ac24105fcc69",
+      "overlap_m2": 0.000387197681732232,
+      "shared_border_m": 0.0,
+      "u": "3907502023",
+      "v": "3907508013"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "945d7be07d4f6ef2b88b5e02c41dfa4a3105d762468da2fee3478570d8bf2dc8",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "fbed6fc85ce2608517ef360e759a0da467fc847abb3364d72e2292102a21d2ce",
+      "kind": "overlap",
+      "nearest_void": "V39-dc26ac24105fcc69",
+      "overlap_m2": 0.000398309177635247,
+      "shared_border_m": 89.68838821837517,
+      "u": "3907502023",
+      "v": "3907508014"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "cc5beba96512d8d4bf3f8c87595fc41de81c00529d76adb4d7ce62970386d4a5",
+      "distance_to_nearest_void_m": 134.05121491756046,
+      "geometry_sha256": "4a8afef2c9e987fd4e8d5559a760f0a7a3a02b602a471acd966443f3d62e98c3",
+      "kind": "overlap",
+      "nearest_void": "V39-3ae3594e4c6f86ee",
+      "overlap_m2": 0.0004663306258692046,
+      "shared_border_m": 70.48521576886493,
+      "u": "3907502023",
+      "v": "3907508015"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.004003499957229373,
+        "0.01": 0.0,
+        "0.1": 0.39999999990686774,
+        "1.0": 0.0
+      },
+      "contact_sha256": "b3bce10a773df22e528999102e5915ae78ef8a8a68d04d7d22e3da60db03db8b",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "019149f483ab0aa87f7224890a8feee4a35d2503934e7bfbd8386de55e3dbe77",
+      "kind": "overlap",
+      "nearest_void": "V39-9c1b84b4198d1608",
+      "overlap_m2": 0.00016873125966698765,
+      "shared_border_m": 68.75493731140881,
+      "u": "3907502024",
+      "v": "3907508018"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.1084969988379483,
+        "0.01": 0.0,
+        "0.1": 10.849999997473788,
+        "1.0": 0.0
+      },
+      "contact_sha256": "61ad090ce3d0d1db3341a1f77c8c1cf0b4fa56d5b8721f7f7dc7ce60c266bc62",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "b7d34b26bf7d503b928815ee1d087d9249ca2a4c7e30dbb47dc1f0fcb7b3decf",
+      "kind": "overlap",
+      "nearest_void": "V39-9c1b84b4198d1608",
+      "overlap_m2": 0.004572581296424353,
+      "shared_border_m": 0.0,
+      "u": "3907502024",
+      "v": "3907508023"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 6.564988848231732e-06,
+        "0.001": 0.0,
+        "0.01": 0.005200000005029142,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "d4b1062563ecb2502a3dded7f0acafed047970b983475536f15970b1920670c6",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "7f7a0987beb4de2df9eeb6526271ac06954d71fb8b73e4111284e823e2796a12",
+      "kind": "overlap",
+      "nearest_void": "V39-d61d216301240e20",
+      "overlap_m2": 2.4843161429964427e-05,
+      "shared_border_m": 1478.7276155778845,
+      "u": "3907507021",
+      "v": "3907508008"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0508099987406716,
+        "0.01": 0.017550000015226885,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "e262e371f210eb4d41a64a14f6ffb0f965305d85c6cfaabac9410278153d8042",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "af52569f2e651c3d8dc66b537b4ad6f8f504cef50900a1858586d65e550e5e73",
+      "kind": "overlap",
+      "nearest_void": "V39-9c1b84b4198d1608",
+      "overlap_m2": 0.001738308807723854,
+      "shared_border_m": 584.6797523240007,
+      "u": "3907508004",
+      "v": "3907508018"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "a0d961281f6796466c1c7961252989fc3021874dddcb3180d0c3cff1dc3d0de8",
+      "distance_to_nearest_void_m": 286.6888674066041,
+      "geometry_sha256": "724a2084a792e53bc9fce6257eafc524bf2d0b520b315d64d774f5c04f5a2d93",
+      "kind": "overlap",
+      "nearest_void": "V39-5c17bec6f6673200",
+      "overlap_m2": 3.071529734318518e-05,
+      "shared_border_m": 232.34653111697608,
+      "u": "3907508004",
+      "v": "3907508028"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "7440036f7d13d4f7e44a1bf00a59546404bdc94490261bd30593d64680e54d6f",
+      "distance_to_nearest_void_m": 257.8492835075206,
+      "geometry_sha256": "0ef73fc003bb55a93bdad15da439838e33a0dae827ea07564a166581eb9abdab",
+      "kind": "overlap",
+      "nearest_void": "V39-54f899a5d504d36c",
+      "overlap_m2": 0.000186296964147618,
+      "shared_border_m": 570.4974938928253,
+      "u": "3907508008",
+      "v": "3907508010"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "b5cd18cc69c2076cf1056a6fdc50cb5a370835e88e015b4074a763e0a8997b7e",
+      "distance_to_nearest_void_m": 182.57829943055438,
+      "geometry_sha256": "a642b6176c4f28fa46ff22685652af4de365d159e98eb27d3ce4b8724294671c",
+      "kind": "overlap",
+      "nearest_void": "V39-5c17bec6f6673200",
+      "overlap_m2": 0.0018722535557307018,
+      "shared_border_m": 86.46531768695715,
+      "u": "3907508023",
+      "v": "3907508028"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.03134999984448077,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "18f2db52668436b494489a4dedc5079d6b28c1e40e63062e6b29c4707be9c4c4",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "35ebefe0c3f94a42b3900d565de138efed865c51346b2e2e668beb400202b90c",
+      "kind": "overlap",
+      "nearest_void": "V39-86fe9c90298c9ea0",
+      "overlap_m2": 2.1255482270008622e-06,
+      "shared_border_m": 193.3227520752159,
+      "u": "3908701001",
+      "v": "3908702009"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "055f169665aaa48a3ee93a1f17ee8f44e8d5e6974a6966c70dee2f837543d777",
+      "distance_to_nearest_void_m": 47.809675528607585,
+      "geometry_sha256": "aef27edd4f01daf459e28906fc3e9de7611a9cbd35b53b79e15cfe3673a48247",
+      "kind": "overlap",
+      "nearest_void": "V39-8701164fa42b58ee",
+      "overlap_m2": 7.346188830449792e-06,
+      "shared_border_m": 0.0,
+      "u": "3908701005",
+      "v": "3908701010"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0816401571877109,
+        "0.001": 0.05895000280016102,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 16.5
+      },
+      "contact_sha256": "4caacbb46b69cf2d4225138b87e25f045ad421b637a9ff0a77bc1dae24c28d21",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "c6a2d804fdae9055d044b68739534dd8e006e3af1e8ac92d3dc83d108d0b1f28",
+      "kind": "overlap",
+      "nearest_void": "V39-84713a66966c5b4c",
+      "overlap_m2": 0.08164014666741529,
+      "shared_border_m": 109.00539035072842,
+      "u": "3908701005",
+      "v": "3908701012"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "d13458c947f22fba2f0f3584bad90d04a9c5e49719492bd8fc4dae203c13408e",
+      "distance_to_nearest_void_m": 47.91399269612092,
+      "geometry_sha256": "63b7678c8e380a91a7cd597c10d3ced02257c47f96f518ac5606b0f1cf587d4d",
+      "kind": "overlap",
+      "nearest_void": "V39-8701164fa42b58ee",
+      "overlap_m2": 0.00017577405188230478,
+      "shared_border_m": 154.19759530005976,
+      "u": "3908701006",
+      "v": "3908701010"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "59d6a5c9313cbe3b66797441f47b87408461d7df7787cd0a69ce900ff1afd25f",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "4f3268bca147e6a20c257d2ef833eddaf0795fe89bfa710c63ccca6b2b563594",
+      "kind": "overlap",
+      "nearest_void": "V39-86fe9c90298c9ea0",
+      "overlap_m2": 5.0317410014207725e-08,
+      "shared_border_m": 332.4503018592545,
+      "u": "3908701006",
+      "v": "3908702009"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "24efa2cb13d953fd1da7e4c7fb1ab4e1c2577e396ae81ee940001b8de0075fa2",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "e47c3864b82d50254ec3308004a1ced38821a7deab1e67d8e6f0590018e06c6c",
+      "kind": "overlap",
+      "nearest_void": "V39-cc40bfd56d5ce201",
+      "overlap_m2": 0.00020852823889296496,
+      "shared_border_m": 702.3146318520276,
+      "u": "3908701014",
+      "v": "3908703007"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.035000000001164155,
+        "1.0": 0.0
+      },
+      "contact_sha256": "7a21efef7b857e39e0339e7bdf7b1d8452cab91cf921f49eaa2f511a441cbcf6",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "7589bce53e6ab6b397edd33795607e7163504e2290db07ebad5c94b0d406a22a",
+      "kind": "overlap",
+      "nearest_void": "V39-0a5772dcdf199540",
+      "overlap_m2": 9.429059457642349e-06,
+      "shared_border_m": 63.97601955261614,
+      "u": "3908702002",
+      "v": "3908702003"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "1dd3975bf593f31bf7cd4977f5a1558436d5f6ff72f92d6b092077b60d91c6a5",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "71b7a77b6becbd04feaf7a26f8b2f3e5016e956e54fb59ca4efcdae45db33ddd",
+      "kind": "overlap",
+      "nearest_void": "V39-814e3887216024ed",
+      "overlap_m2": 0.0005780372618460206,
+      "shared_border_m": 214.94593196672358,
+      "u": "3908702002",
+      "v": "3908702004"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "05fb4ca578e403efda37f047c7696c13459d6544152467527d92eabc475f4ab6",
+      "distance_to_nearest_void_m": 154.437827188138,
+      "geometry_sha256": "4e060c91411d15bed923e5f390bad943c7f3874549c8e0461f865b6f627f3034",
+      "kind": "overlap",
+      "nearest_void": "V39-0a5772dcdf199540",
+      "overlap_m2": 6.244448287426156e-05,
+      "shared_border_m": 68.62927533768513,
+      "u": "3908702002",
+      "v": "3908705001"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "6cb7a0bf7abd73501d8743ab93c6582cebb35f5d273085974b5222080d206049",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "26a6e98f373b17c436dd8c7566091d66f4220c609d87cb7607d249419a7df5e8",
+      "kind": "overlap",
+      "nearest_void": "V39-2df578c419c09716",
+      "overlap_m2": 3.601286819771205e-05,
+      "shared_border_m": 99.591942250551,
+      "u": "3908702003",
+      "v": "3908702008"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "d4776ef9b6a9b24e7c92805034304d7108090683656086a7beee2f075886ef62",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "bc8bb5fe527e0c9308bf3a7ad5674b692775028654e25a0276847cd5d7f43259",
+      "kind": "overlap",
+      "nearest_void": "V39-1f088aed62d4e40c",
+      "overlap_m2": 1.345485916736972e-05,
+      "shared_border_m": 241.71111458557357,
+      "u": "3908702004",
+      "v": "3908702008"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "b4d5c04675ef3b251260012565875f81c559f1ac9fd7dee40045ba4d9ed584f6",
+      "distance_to_nearest_void_m": 52.68545237189519,
+      "geometry_sha256": "19dbbd6e73632f4db3d62b419da0375a27b32229bb613e8a088cf57d20c4f56c",
+      "kind": "overlap",
+      "nearest_void": "V39-1f088aed62d4e40c",
+      "overlap_m2": 0.00013653275643922688,
+      "shared_border_m": 154.05300892389266,
+      "u": "3908702004",
+      "v": "3908705001"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "19bf66ac101dc4d8b6a51b091102afca7b362e1958a2bb9a42b0298e2fff2164",
+      "distance_to_nearest_void_m": 367.4811309615925,
+      "geometry_sha256": "76abe1d9fd56e5b69d7f2fef82db07466595f872b1f0ba0a501d4c27bbfd8e8d",
+      "kind": "overlap",
+      "nearest_void": "V39-b1c4e17dd08a41b0",
+      "overlap_m2": 1.005242840974971e-06,
+      "shared_border_m": 266.3358760414153,
+      "u": "3908702005",
+      "v": "3908702008"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "4ef7f6fd4d216a000b44108a522d59190f02067205f39ec84b5ac8c934a5caad",
+      "distance_to_nearest_void_m": 45.90433764010512,
+      "geometry_sha256": "c827771e207d5e99b29a5cf5ce4ab8b5c4d6dcd6839c53d48416bc677f35d222",
+      "kind": "overlap",
+      "nearest_void": "V39-84713a66966c5b4c",
+      "overlap_m2": 1.43512262607004e-05,
+      "shared_border_m": 398.2334699293607,
+      "u": "3908702005",
+      "v": "3908702009"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "f3a478a78ecf14af3d7e806071ce2f819b879e083fad490f83186b0937093389",
+      "distance_to_nearest_void_m": 156.29702848492485,
+      "geometry_sha256": "4ace65478216ad51a3234ee23eed02fdf09dd8d6f875a6b1ec62bcc942a9d35f",
+      "kind": "overlap",
+      "nearest_void": "V39-0a5772dcdf199540",
+      "overlap_m2": 0.00022598564430609258,
+      "shared_border_m": 89.22293806612781,
+      "u": "3908702006",
+      "v": "3908705001"
+    },
+    {
+      "area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "contact_sha256": "3c001a32b4668a41b8623a0974133184ee0a518149cfd6afff023bb08350acfd",
+      "distance_to_nearest_void_m": 0.0,
+      "geometry_sha256": "120712f3990bb45458d0c8a957cf6443af2703f6dde6aae65c9ee51423182638",
+      "kind": "overlap",
+      "nearest_void": "V39-d8b3db452ee188ad",
+      "overlap_m2": 0.0004891908634476749,
+      "shared_border_m": 105.71784087347561,
+      "u": "3908703007",
+      "v": "3908703011"
+    }
+  ],
+  "parts": [
+    {
+      "CUMUN": "39035",
+      "CUSEC": "3903503001",
+      "area_m2": 106122.53711525997,
+      "bounds": [
+        462822.15299999993,
+        4806598.891799999,
+        463025.1579999998,
+        4807843.906199999
+      ],
+      "contacts": [],
+      "distance_to_other_same_section_parts_m": 78.30121510620053,
+      "external_part_matches": [],
+      "ign_municipal_coverage_ratio_raw": 0.0,
+      "lat": 43.41701755756512,
+      "lon": -3.457908361263351,
+      "municipality": "Laredo",
+      "official_named_points_inside": [],
+      "part_id": "3903503001:p0000",
+      "population_part": null,
+      "population_part_status": "NOT_EVIDENCED",
+      "population_section": 1052,
+      "wkb_sha256": "c4072ef6a59c4710b385b045d6984f88b1c13a9a606d01cd87e90882a6483624"
+    },
+    {
+      "CUMUN": "39035",
+      "CUSEC": "3903503001",
+      "area_m2": 4503559.397651148,
+      "bounds": [
+        462736.1517000003,
+        4804928.311899999,
+        465935.14360000007,
+        4808475.802300001
+      ],
+      "contacts": [
+        {
+          "CUSEC": "3902301001",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 513.0631831047356
+        },
+        {
+          "CUSEC": "3902301002",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 340.59811070952395
+        },
+        {
+          "CUSEC": "3902301004",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 246.5688223413305
+        },
+        {
+          "CUSEC": "3902301005",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 608.8607513061667
+        },
+        {
+          "CUSEC": "3903501003",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 1777.7149519207476
+        },
+        {
+          "CUSEC": "3903502003",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 1026.969707413486
+        },
+        {
+          "CUSEC": "3903502004",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 956.0092428322162
+        },
+        {
+          "CUSEC": "3903503002",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 3403.6496419673795
+        }
+      ],
+      "distance_to_other_same_section_parts_m": 78.30121510620053,
+      "external_part_matches": [
+        {
+          "coverage_ratio_raw": 0.9886342452177979,
+          "external_part_wkb_sha256": "401d73de7c4e7c360e7d043c44021845b80c76e18225fbe8af7e9aaa775a8cf7",
+          "names_inside_external_part": [
+            "El Puntal",
+            "El Sable",
+            "Playa del Regatón"
+          ]
+        }
+      ],
+      "ign_municipal_coverage_ratio_raw": 0.9886342452177979,
+      "lat": 43.41215922325276,
+      "lon": -3.447774654530269,
+      "municipality": "Laredo",
+      "official_named_points_inside": [
+        {
+          "name": "El Puntal",
+          "properties": {
+            "codigo_ngbe": "4.2.2",
+            "etiqueta": "El Puntal",
+            "fecha": "2023-07-21",
+            "fuente": "MITMA.IGN.BTN25",
+            "tipo": "Paraje",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_laredo.json",
+          "type": "Paraje"
+        },
+        {
+          "name": "El Sable",
+          "properties": {
+            "codigo_ngbe": "4.2.2",
+            "etiqueta": "El Sable",
+            "fecha": "2023-07-11",
+            "fuente": "MITMA.IGN.BTN25",
+            "tipo": "Paraje",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_laredo.json",
+          "type": "Paraje"
+        },
+        {
+          "name": "Playa del Regatón",
+          "properties": {
+            "codigo_ngbe": "6.2.2",
+            "etiqueta": "Playa del Regatón",
+            "fecha": "2023-07-20",
+            "fuente": "MITMA.IGN.BTN25",
+            "tipo": "Playa",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_laredo.json",
+          "type": "Playa"
+        }
+      ],
+      "part_id": "3903503001:p0001",
+      "population_part": null,
+      "population_part_status": "NOT_EVIDENCED",
+      "population_section": 1052,
+      "wkb_sha256": "bc8e671101d1409e9e448e35bbdb30a98b0bcf38abcead4a87e22bdf740c3682"
+    },
+    {
+      "CUMUN": "39061",
+      "CUSEC": "3906101003",
+      "area_m2": 217858.26849351847,
+      "bounds": [
+        440811.9428000003,
+        4813161.191,
+        441200.9500000002,
+        4814039.2103
+      ],
+      "contacts": [],
+      "distance_to_other_same_section_parts_m": 134.7706043771134,
+      "external_part_matches": [
+        {
+          "coverage_ratio_raw": 0.7445175639771291,
+          "external_part_wkb_sha256": "002dc4da70405e4ff508a8afb70ba39ad45cdaa90e06f4e256c3f386a02119d6",
+          "names_inside_external_part": [
+            "El Balcón",
+            "Jorganes",
+            "Isla de Santa Marina"
+          ]
+        }
+      ],
+      "ign_municipal_coverage_ratio_raw": 0.7445175639771291,
+      "lat": 43.47303753449043,
+      "lon": -3.7298811760543695,
+      "municipality": "Ribamontán al Mar",
+      "official_named_points_inside": [
+        {
+          "name": "El Balcón",
+          "properties": {
+            "codigo_ngbe": "4.2.2",
+            "etiqueta": "El Balcón",
+            "fecha": "2023-07-20",
+            "fuente": "MITMA.IGN.BTN25",
+            "tipo": "Paraje",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_santa_marina.json",
+          "type": "Paraje"
+        },
+        {
+          "name": "Jorganes",
+          "properties": {
+            "codigo_ngbe": "4.2.2",
+            "etiqueta": "Jorganes",
+            "fecha": "2023-07-11",
+            "fuente": "MITMA.IGN.BTN25",
+            "tipo": "Paraje",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_santa_marina.json",
+          "type": "Paraje"
+        },
+        {
+          "name": "Isla de Santa Marina",
+          "properties": {
+            "codigo_ngbe": "6.2.3",
+            "etiqueta": "Isla de Santa Marina",
+            "fecha": "2018-10-03",
+            "fuente": "MFOMENTO.IGN.NGCE",
+            "tipo": "Isla",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_santa_marina.json",
+          "type": "Isla"
+        }
+      ],
+      "part_id": "3906101003:p0000",
+      "population_part": null,
+      "population_part_status": "NOT_EVIDENCED",
+      "population_section": 1381,
+      "wkb_sha256": "363e37fbee3689b5f32ee1db65ae0f36313d4aaa702eca62957795aca8f54799"
+    },
+    {
+      "CUMUN": "39061",
+      "CUSEC": "3906101003",
+      "area_m2": 9552704.812304305,
+      "bounds": [
+        440626.6486999998,
+        4808745.0131,
+        444923.69070000015,
+        4814020.150800001
+      ],
+      "contacts": [
+        {
+          "CUSEC": "3904001003",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 2493.184112847988
+        },
+        {
+          "CUSEC": "3906101001",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 3231.4496274089393
+        },
+        {
+          "CUSEC": "3906101002",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 7080.015217962562
+        },
+        {
+          "CUSEC": "3906201002",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 3381.146360302544
+        }
+      ],
+      "distance_to_other_same_section_parts_m": 134.7706043771134,
+      "external_part_matches": [
+        {
+          "coverage_ratio_raw": 0.9782008913871375,
+          "external_part_wkb_sha256": "d9900af709a71a83a6eff030b1be95b87fe36475a66f8f3c19387e0597990d29",
+          "names_inside_external_part": [
+            "El Canto del Fraile"
+          ]
+        }
+      ],
+      "ign_municipal_coverage_ratio_raw": 0.9782008913871375,
+      "lat": 43.45289897010339,
+      "lon": -3.715073520100636,
+      "municipality": "Ribamontán al Mar",
+      "official_named_points_inside": [
+        {
+          "name": "El Canto del Fraile",
+          "properties": {
+            "codigo_ngbe": "4.2.3",
+            "etiqueta": "El Canto del Fraile",
+            "fecha": "2023-07-20",
+            "fuente": "MITMA.IGN.BTN25",
+            "tipo": "Elemento puntual del paisaje",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_santa_marina.json",
+          "type": "Elemento puntual del paisaje"
+        }
+      ],
+      "part_id": "3906101003:p0001",
+      "population_part": null,
+      "population_part_status": "NOT_EVIDENCED",
+      "population_section": 1381,
+      "wkb_sha256": "73c37fc72f6574121435985d002c8bbad88d8a209d04b6a536bf76bc8efe2103"
+    },
+    {
+      "CUMUN": "39075",
+      "CUSEC": "3907504011",
+      "area_m2": 5082.56903555964,
+      "bounds": [
+        437568.2237,
+        4812733.1669,
+        437704.55370000005,
+        4812843.054099999
+      ],
+      "contacts": [],
+      "distance_to_other_same_section_parts_m": 223.02995736165056,
+      "external_part_matches": [
+        {
+          "coverage_ratio_raw": 0.9959242483664139,
+          "external_part_wkb_sha256": "fc49a4b5d9208906a1702ead6c23965631344ba99896524f99e2bc05a650e253",
+          "names_inside_external_part": [
+            "Isla de la Torre"
+          ]
+        }
+      ],
+      "ign_municipal_coverage_ratio_raw": 0.9959242483664139,
+      "lat": 43.46540546210373,
+      "lon": -3.771124256024056,
+      "municipality": "Santander",
+      "official_named_points_inside": [],
+      "part_id": "3907504011:p0000",
+      "population_part": null,
+      "population_part_status": "NOT_EVIDENCED",
+      "population_section": 949,
+      "wkb_sha256": "3e3cfa0725a5d325ab85af7c3bd252dd731c1a6cf33f6a539fdf7ab24c658b22"
+    },
+    {
+      "CUMUN": "39075",
+      "CUSEC": "3907504011",
+      "area_m2": 580471.9940463378,
+      "bounds": [
+        436283.9031999996,
+        4812793.544299999,
+        438266.0817,
+        4813441.302100001
+      ],
+      "contacts": [
+        {
+          "CUSEC": "3907503011",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 2.2274569953617416
+        },
+        {
+          "CUSEC": "3907503015",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 95.21587404156602
+        },
+        {
+          "CUSEC": "3907504009",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 1007.7688780062631
+        },
+        {
+          "CUSEC": "3907504013",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 871.831950215501
+        },
+        {
+          "CUSEC": "3907507017",
+          "kind": "linear",
+          "overlap_m2": 0.0,
+          "shared_border_m": 4.563330630988971
+        }
+      ],
+      "distance_to_other_same_section_parts_m": 223.02995736165056,
+      "external_part_matches": [
+        {
+          "coverage_ratio_raw": 0.9868379611725479,
+          "external_part_wkb_sha256": "ec96d6ab833b70a63a555a6c576cdf930b262f7ab83cff2e80346847d0572bdf",
+          "names_inside_external_part": [
+            "Península de Magdalena",
+            "Playa de Biquinis",
+            "Palacio de la Magdalena",
+            "Caballerizas Reales"
+          ]
+        }
+      ],
+      "ign_municipal_coverage_ratio_raw": 0.9868379611725479,
+      "lat": 43.468348419785585,
+      "lon": -3.774326792129295,
+      "municipality": "Santander",
+      "official_named_points_inside": [
+        {
+          "name": "Península de Magdalena",
+          "properties": {
+            "codigo_ngbe": "6.2.1",
+            "etiqueta": "Península de Magdalena",
+            "fecha": "2018-10-03",
+            "fuente": "MFOMENTO.IGN.NGCE",
+            "tipo": "Saliente costero",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_santander.json",
+          "type": "Saliente costero"
+        },
+        {
+          "name": "Palacio de la Magdalena",
+          "properties": {
+            "codigo_ngbe": "2.2.2",
+            "etiqueta": "Palacio de la Magdalena",
+            "fecha": "2023-07-07",
+            "fuente": "MITMA.IGN.BTN25",
+            "tipo": "Edificación",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_santander.json",
+          "type": "Edificación"
+        },
+        {
+          "name": "Caballerizas Reales",
+          "properties": {
+            "codigo_ngbe": "2.2.2",
+            "etiqueta": "Caballerizas Reales",
+            "fecha": "2025-01-23",
+            "fuente": "C.A. Cantabria",
+            "tipo": "Edificación",
+            "tiponombre": "identificador_geografico"
+          },
+          "source": "ign_names_santander.json",
+          "type": "Edificación"
+        }
+      ],
+      "part_id": "3907504011:p0001",
+      "population_part": null,
+      "population_part_status": "NOT_EVIDENCED",
+      "population_section": 949,
+      "wkb_sha256": "8f91c211b3c28f7e971fc1d7e202434567353ab6f8024d518dc4327778c380fa"
+    },
+    {
+      "CUMUN": "39101",
+      "CUSEC": "3910101001",
+      "area_m2": 19461217.372601107,
+      "bounds": [
+        475174.27610000037,
+        4782827.557700001,
+        479773.76609999966,
+        4790483.3981
+      ],
+      "contacts": [],
+      "distance_to_other_same_section_parts_m": null,
+      "external_part_matches": [
+        {
+          "coverage_ratio_raw": 0.9914660251207502,
+          "external_part_wkb_sha256": "91bec7fc6d4338ef49a5b710d0d8cae7c2ac5c44bdc9ec9d714dca93c3579384",
+          "names_inside_external_part": []
+        }
+      ],
+      "ign_municipal_coverage_ratio_raw": 0.9914660251207502,
+      "lat": 43.23250118797008,
+      "lon": -3.282546219714401,
+      "municipality": "Valle de Villaverde",
+      "official_named_points_inside": [],
+      "part_id": "3910101001:p0000",
+      "population_part": 249,
+      "population_part_status": "PASS",
+      "population_section": 249,
+      "wkb_sha256": "412059f58623ae9fef6d096a5690cffe617702c4ba378cebc91579f34599aa15"
+    }
+  ],
+  "precision_policy": "NOT_APPROVED; analytic grids span original4decimal coordinates to1m; never used for physical graph",
+  "product_39_sha256": "7e46e8ef52e8a0a734ccb2dedf92311a4a29588510fd164b99046764146b68d3",
+  "sensitivity": [
+    {
+      "grid_m": 0.0001,
+      "hole_area_m2": 75426757.86372481,
+      "holes": 5
+    },
+    {
+      "grid_m": 0.001,
+      "hole_area_m2": 75426758.53883007,
+      "holes": 5
+    },
+    {
+      "grid_m": 0.01,
+      "hole_area_m2": 75426745.91884965,
+      "holes": 6
+    },
+    {
+      "grid_m": 0.1,
+      "hole_area_m2": 75426988.65999854,
+      "holes": 7
+    },
+    {
+      "grid_m": 1.0,
+      "hole_area_m2": 75427794.0,
+      "holes": 19
+    }
+  ],
+  "source_evidence": {
+    "contract_sha256": "bc2ebcac4e89a3aadecccc72ce3ff91a9314ae64ae2f5b3dff9086b2251f0b5e",
+    "geometry_identity_sha256": "6eccbc0c7f4867656c235462ae0b6d381dcdaeb5c912e5295976ca8f120860ff",
+    "geometry_operations": "none; no CRS transform, buffer, simplify, repair or precision rounding in physical graph",
+    "original_member_sha256": {
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.CPG": "788181d3e6c41241e68b21d3b3826e3d2c4800ba621dff4e8b0f1bae3be798a9",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.dbf": "6e1d4cb364b0a01e129b4ea221758d4ee36cc9e9bcfd4a301e99d9f45827c8bd",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.prj": "03329a8b83248ce6963187291d05a46dfd70b28854fccb01c3fcabd2a28fdcce",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.sbn": "ccb291640d8f9e46dd765a086c2bbbf85916488fd1f8a738e1076ed6a254ede4",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.sbx": "f0d6965342fad8f92009c3b37424c639fa459254f113201aeb242d3a01048cd7",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.shp": "2a8cc44a0a857f7c260699db770aa28177a79cd0a0d7c59368803927ba666a5b",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.shx": "4b56dc607cbde0c916cb21a97661e9dde151ed5f774c6249157eb02704630918"
+    },
+    "reader_operation": "names_only_flattened_in_memory; bytes_unchanged",
+    "source_binding": {
+      "geometry": {
+        "edition": 2025,
+        "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+      },
+      "population": {
+        "edition": 2025,
+        "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+      }
+    },
+    "source_manifest_sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37"
+  },
+  "valley": {
+    "ign_own_valley_bizkaia_overlap_m2": 0.0,
+    "original_distance_to_main_cantabria_m": 2693.6498715708176,
+    "original_ign_symmetric_difference_m2": 486545.12724061037
+  },
+  "version": "1.0.0",
+  "voids": [
+    {
+      "area_m2": 0.0010244818316884619,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908702002",
+        "3908702003",
+        "3908702006"
+      ],
+      "bounds": [
+        415212.3086000001,
+        4800589.4286,
+        415315.16559999995,
+        4800611.015799999
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-0a5772dcdf199540",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999998786264,
+      "lat": 43.3534804971603,
+      "lon": -4.045614123372531,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999998786264,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "0a5772dcdf199540f6fa43839b60d352a4c0482ae5473e706229cd70d0ac0204"
+    },
+    {
+      "area_m2": 0.00014595906172854,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907508005",
+        "3907508013",
+        "3907508014"
+      ],
+      "bounds": [
+        431784.3985000001,
+        4812483.026000001,
+        431794.3060999997,
+        4812488.3728
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-177790ba9f31f179",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999817446,
+      "lat": 43.46216772827589,
+      "lon": -3.843214136456972,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999817446,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "177790ba9f31f179dfaa87e444a8b98226409888a2392cc55e7d4518a6b41a65"
+    },
+    {
+      "area_m2": 68700278.18543337,
+      "bordering_CUMUN": [
+        "39014",
+        "39032",
+        "39053",
+        "39086",
+        "39089"
+      ],
+      "bordering_CUSEC": [
+        "3901401001",
+        "3903201001",
+        "3905301001",
+        "3908601001",
+        "3908901001"
+      ],
+      "bounds": [
+        389747.6710000001,
+        4766788.2202,
+        400059.7390999999,
+        4777878.310799999
+      ],
+      "classification": "TERRITORIO_COMUNAL_CAMPOO_CABUERNIGA",
+      "id": "V39-1ea675806a11cc3a",
+      "ign_cantabria_coverage_ratio_raw": 1.0000000000000002,
+      "lat": 43.0972621146354,
+      "lon": -4.284761278660001,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 7.356552526164907e-06,
+          "name": "Cabuérniga",
+          "nationalcode": "34063939014",
+          "source": "ign_hole_large_municipalities.json"
+        },
+        {
+          "coverage_ratio_raw": 0.0019487583007125175,
+          "name": "Hermandad de Campoo de Suso",
+          "nationalcode": "34063939032",
+          "source": "ign_hole_large_municipalities.json"
+        },
+        {
+          "coverage_ratio_raw": 8.252663554831472e-06,
+          "name": "Los Tojos",
+          "nationalcode": "34063939086",
+          "source": "ign_hole_large_municipalities.json"
+        },
+        {
+          "coverage_ratio_raw": 0.9936532713770879,
+          "name": "Comunidad de Campoo y Cabuérniga",
+          "nationalcode": "34063953072",
+          "source": "ign_hole_large_municipalities.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "PASS_NATURALEZA_NO_IDENTIDAD_EXACTA_2025",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 68700278.18543339,
+        "0.001": 68700274.84448399,
+        "0.01": 68700231.5137526,
+        "0.1": 68699784.97650501,
+        "1.0": 68694776.3773546
+      },
+      "wkb_sha256": "1ea675806a11cc3a5a5bf78b9c3587f66c8034ae10e252bf27cefd1035e33504"
+    },
+    {
+      "area_m2": 0.0021580890856967017,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908702004",
+        "3908702008",
+        "3908705002"
+      ],
+      "bounds": [
+        415186.0549999997,
+        4800835.943,
+        415299.8552000001,
+        4800955.3378
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-1f088aed62d4e40c",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999997892824,
+      "lat": 43.35602520563538,
+      "lon": -4.0457641774957125,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999997892824,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "1f088aed62d4e40c10b2b2200951579cd0cbeeb3d7c105e6edc53d91410c9bac"
+    },
+    {
+      "area_m2": 0.0007212835541849927,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907502017",
+        "3907502018",
+        "3907502024"
+      ],
+      "bounds": [
+        431458.2078999998,
+        4811962.4835,
+        431502.9620000003,
+        4811979.8100000005
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-23ce8f822bc5197f",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999802979,
+      "lat": 43.457507579286535,
+      "lon": -3.8469685949310732,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999802979,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "23ce8f822bc5197f077108af887927c946c77dbae67929c9c0ae6489251efc8f"
+    },
+    {
+      "area_m2": 2.268691901008424e-10,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908702003",
+        "3908702004",
+        "3908702008"
+      ],
+      "bounds": [
+        415145.20050991635,
+        4800689.361300001,
+        415160.4012000002,
+        4800697.1564949155
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-2df578c419c09716",
+      "ign_cantabria_coverage_ratio_raw": 1.000003707289804,
+      "lat": 43.354305372493485,
+      "lon": -4.046995719594244,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.000003707289804,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "2df578c419c0971668c30a41c3cbd75a72deef9d01a49e3db69cadd75be46b3f"
+    },
+    {
+      "area_m2": 0.0009883183211128466,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907508013",
+        "3907508014"
+      ],
+      "bounds": [
+        431770.61560000014,
+        4812295.977600001,
+        431790.3820000002,
+        4812298.4136
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-3ae3594e4c6f86ee",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999999948,
+      "lat": 43.4604730323765,
+      "lon": -3.843288509104902,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999999948,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0009697140391897595,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "3ae3594e4c6f86eee53b5178d92b7b047c73a72096841031ee25b2b34c37d73e"
+    },
+    {
+      "area_m2": 0.00030574845040298726,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907508005",
+        "3907508014",
+        "3907508015"
+      ],
+      "bounds": [
+        431880.8696999997,
+        4812591.5725,
+        431892.5114000002,
+        4812610.0934
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-437a379e8413e711",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999941901,
+      "lat": 43.46323098886796,
+      "lon": -3.842022471737481,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999941901,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0002843019615141884,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "437a379e8413e711de64585911b9b19e6c860b8793fc5af0ba313c4741cb90c8"
+    },
+    {
+      "area_m2": 5036682.542030586,
+      "bordering_CUMUN": [
+        "39094"
+      ],
+      "bordering_CUSEC": [
+        "3909401001"
+      ],
+      "bounds": [
+        409005.20889999997,
+        4738523.520099999,
+        411063.2193999998,
+        4742282.6172
+      ],
+      "classification": "ENCLAVE_PALENTINO_POMAR_DE_VALDIVIA",
+      "id": "V39-473a25113f91abea",
+      "ign_cantabria_coverage_ratio_raw": 0.021734900527241745,
+      "lat": 42.8109273333234,
+      "lon": -4.09801062760341,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.021734900527241738,
+          "name": "Valderredible",
+          "nationalcode": "34063939094",
+          "source": "ign_hole_south_municipalities.json"
+        },
+        {
+          "coverage_ratio_raw": 0.9782650994727532,
+          "name": "Pomar de Valdivia",
+          "nationalcode": "34073434135",
+          "source": "ign_hole_south_municipalities.json"
+        }
+      ],
+      "official_named_points_inside": [
+        "Iglesia de Santiago",
+        "Arroyo de la Bárcena",
+        "Lastrilla",
+        "Lastrilla"
+      ],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "PASS_NATURALEZA_NO_IDENTIDAD_EXACTA_2025",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 5036682.542029375,
+        "0.001": 5036681.578904759,
+        "0.01": 5036672.0097893085,
+        "0.1": 5036596.386236539,
+        "1.0": 5035381.811646164
+      },
+      "wkb_sha256": "473a25113f91abeacbb0e08c1d2c769abedc6e113fa2dfbeea2e21e207afb13f"
+    },
+    {
+      "area_m2": 5.99887459884485e-05,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907504014",
+        "3907507021",
+        "3907508010"
+      ],
+      "bounds": [
+        434440.49629999977,
+        4813751.615800001,
+        434475.42140000034,
+        4813767.490900001
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-54f899a5d504d36c",
+      "ign_cantabria_coverage_ratio_raw": 1.000000000414561,
+      "lat": 43.47388542149516,
+      "lon": -3.8103548435118086,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.000000000414561,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "54f899a5d504d36cfc2bfb2e7f6dc09837b102aa2bc772bc2426f9614a9d0242"
+    },
+    {
+      "area_m2": 0.0008315101237030831,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907502017",
+        "3907508002",
+        "3907508028"
+      ],
+      "bounds": [
+        431104.16559999995,
+        4811607.2358,
+        431172.93929999974,
+        4811625.479800001
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-5c17bec6f6673200",
+      "ign_cantabria_coverage_ratio_raw": 1.0,
+      "lat": 43.454272021143396,
+      "lon": -3.851207433182874,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.0,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "5c17bec6f667320095d3781a755481d21c56cb1c68e98f8e7f098e07bc62bcc5"
+    },
+    {
+      "area_m2": 0.0024864128201613767,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907508020",
+        "3907508021",
+        "3907508025"
+      ],
+      "bounds": [
+        430532.7410000004,
+        4810256.884500001,
+        430666.33440000005,
+        4810460.4058
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-6ce429618f7b55b1",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999995541985,
+      "lat": 43.44290877471962,
+      "lon": -3.8576401705862806,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999995541985,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 1.3510018408137425e-05
+      },
+      "wkb_sha256": "6ce429618f7b55b11c38085bb3ffb9800cd725726eb72c6a843af85b3d8ac405"
+    },
+    {
+      "area_m2": 0.00035475165487897087,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907502014",
+        "3907502017",
+        "3907502018"
+      ],
+      "bounds": [
+        431701.9885,
+        4811879.9355,
+        431727.0647999998,
+        4811907.1018
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-7bfbeb5c92750d5d",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999687043,
+      "lat": 43.45683612386187,
+      "lon": -3.844049459600245,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999687043,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "7bfbeb5c92750d5d9667bacbdad88f101a058e10f7730661d18f37a8439c457d"
+    },
+    {
+      "area_m2": 4.3701714621223464e-10,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908702003",
+        "3908702004"
+      ],
+      "bounds": [
+        415160.4012000002,
+        4800674.345505195,
+        415225.97057731653,
+        4800689.361300001
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-814e3887216024ed",
+      "ign_cantabria_coverage_ratio_raw": 0.9999886914955501,
+      "lat": 43.35420724912426,
+      "lon": -4.046495694192988,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999886914955501,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "814e3887216024edbac5ec3392ac93247898246ebac04dcdf454a14d418f7ca0"
+    },
+    {
+      "area_m2": 0.00019211307962763158,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908701005",
+        "3908701006",
+        "3908701012"
+      ],
+      "bounds": [
+        414511.31259999983,
+        4800216.718800001,
+        414524.8827999998,
+        4800224.1821
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-84713a66966c5b4c",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999815071,
+      "lat": 43.34998906957729,
+      "lon": -4.054784517606586,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999815071,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "84713a66966c5b4cb94e46cbaef0bee6f067e6445253d3cd0154164fd206a40d"
+    },
+    {
+      "area_m2": 1.7541879060445353e-09,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908701001",
+        "3908701006",
+        "3908702009"
+      ],
+      "bounds": [
+        414783.5607013411,
+        4800308.816400001,
+        414800.59449999966,
+        4800328.907498419
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-86fe9c90298c9ea0",
+      "ign_cantabria_coverage_ratio_raw": 0.9999976400114543,
+      "lat": 43.35089383926821,
+      "lon": -4.05138803502911,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999976400114543,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "86fe9c90298c9ea06f2d6435e91420745fd45ba606fdb0508724245d5a479640"
+    },
+    {
+      "area_m2": 0.0001291101074798462,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908701005",
+        "3908701006",
+        "3908701012"
+      ],
+      "bounds": [
+        414554.2753999997,
+        4800040.3993999995,
+        414562.8850999996,
+        4800053.478
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-8701164fa42b58ee",
+      "ign_cantabria_coverage_ratio_raw": 1.0000000000085991,
+      "lat": 43.34842019715852,
+      "lon": -4.054225441822057,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.0000000000085991,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "8701164fa42b58ee5a1f4df73c70bd76e6f6d586d68fc14d6bb8e62e1401d40a"
+    },
+    {
+      "area_m2": 0.0010959142052797688,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907508003",
+        "3907508021",
+        "3907508025"
+      ],
+      "bounds": [
+        430115.98620000016,
+        4810599.579600001,
+        430195.0987999998,
+        4810742.3684
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-899b4bc77d297b37",
+      "ign_cantabria_coverage_ratio_raw": 1.000000000207474,
+      "lat": 43.44555587861555,
+      "lon": -3.863257449819289,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.000000000207474,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "899b4bc77d297b37a943febc7de12f1141d6e21fd4aa4889475671a4ba694abc"
+    },
+    {
+      "area_m2": 0.008659589584567584,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907508004",
+        "3907508018",
+        "3907508023"
+      ],
+      "bounds": [
+        430787.1007455673,
+        4811998.054475845,
+        431312.55345874047,
+        4812125.312590007
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-9c1b84b4198d1608",
+      "ign_cantabria_coverage_ratio_raw": 1.0000000008402197,
+      "lat": 43.458357294369414,
+      "lon": -3.8519112087511167,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.0000000008402197,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "9c1b84b4198d1608d94c5a5dbdde37dafea96b3140af93df32647a29137de0c6"
+    },
+    {
+      "area_m2": 4.595129125489761e-05,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908702003",
+        "3908702006",
+        "3908702007"
+      ],
+      "bounds": [
+        415294.1782999998,
+        4800492.696599999,
+        415299.0278000003,
+        4800493.485099999
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-a16f4c35c6a5e441",
+      "ign_cantabria_coverage_ratio_raw": 1.0000000000012081,
+      "lat": 43.35252052847233,
+      "lon": -4.0451824251959705,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.0000000000012081,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "a16f4c35c6a5e441dfa424b15855ad06e6a4809cc8f4cab9c9ef77dd3faabdea"
+    },
+    {
+      "area_m2": 0.0012348594302693527,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907508004",
+        "3907508007",
+        "3907508018"
+      ],
+      "bounds": [
+        430267.4808,
+        4812261.6982,
+        430301.34750000015,
+        4812325.1983
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-aa8a91a544751996",
+      "ign_cantabria_coverage_ratio_raw": 1.0000000000345242,
+      "lat": 43.460319396515324,
+      "lon": -3.861789177088363,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.0000000000345242,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "aa8a91a544751996e0cd311d1247f9b564845091f82b828b80a1ab0602ba7d2b"
+    },
+    {
+      "area_m2": 0.00015885729136817794,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908701001",
+        "3908702008",
+        "3908702009"
+      ],
+      "bounds": [
+        414904.99260000046,
+        4800479.199100001,
+        414908.8849999998,
+        4800485.5327
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-b1c4e17dd08a41b0",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999960688,
+      "lat": 43.35237861044264,
+      "lon": -4.049996592722038,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999960688,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.00015696685853150427,
+        "1.0": 1.5785395317515633e-05
+      },
+      "wkb_sha256": "b1c4e17dd08a41b04a93c52f19ba25dd3db813e3b4c55f0f15c666d898b8c3c6"
+    },
+    {
+      "area_m2": 0.0009197084376069142,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908701014",
+        "3908703007"
+      ],
+      "bounds": [
+        413987.21910000034,
+        4799957.866900001,
+        413996.41619999986,
+        4800015.832
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-cc40bfd56d5ce201",
+      "ign_cantabria_coverage_ratio_raw": 1.0000000000047815,
+      "lat": 43.34778960374092,
+      "lon": -4.06121121328409,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.0000000000047815,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "cc40bfd56d5ce20147b13972f5b18bd3ba1e7d66dea671ba92218c7c96ca428a"
+    },
+    {
+      "area_m2": 5.2063824305559336e-05,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907507021",
+        "3907508008"
+      ],
+      "bounds": [
+        433765.4265999999,
+        4813559.9495,
+        433766.4678999996,
+        4813565.3642
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-d61d216301240e20",
+      "ign_cantabria_coverage_ratio_raw": 1.000000000003212,
+      "lat": 43.47204712967603,
+      "lon": -3.8188996835221913,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.000000000003212,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "d61d216301240e202354ea7a77f1754aaf34f98d742d15dea066af77f5c28975"
+    },
+    {
+      "area_m2": 1.497217022941328e-10,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908701014",
+        "3908703007",
+        "3908703011"
+      ],
+      "bounds": [
+        413965.1993115272,
+        4799789.327,
+        414005.2109000003,
+        4799794.471398518
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-d8b3db452ee188ad",
+      "ign_cantabria_coverage_ratio_raw": 0.9999308859749714,
+      "lat": 43.34605764772157,
+      "lon": -4.0612597681189575,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999308859749714,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "d8b3db452ee188ad3d3cf625fc5f0946d76af89780e9e3cc35cb64ac457029de"
+    },
+    {
+      "area_m2": 0.0022581952409161943,
+      "bordering_CUMUN": [
+        "39075"
+      ],
+      "bordering_CUSEC": [
+        "3907502023",
+        "3907508013",
+        "3907508014"
+      ],
+      "bounds": [
+        431624.3616000004,
+        4812212.4759,
+        431736.83660000004,
+        4812215.513800001
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-dc26ac24105fcc69",
+      "ign_cantabria_coverage_ratio_raw": 1.0000000000015732,
+      "lat": 43.45971324759971,
+      "lon": -3.8446521734119816,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 1.0000000000015732,
+          "name": "Santander",
+          "nationalcode": "34063939075",
+          "source": "ign_santander.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.0,
+        "0.001": 0.0,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "dc26ac24105fcc698be4c7aefd08c808b28d5415102354998c5931968738cacb"
+    },
+    {
+      "area_m2": 1689797.1286148496,
+      "bordering_CUMUN": [
+        "39094"
+      ],
+      "bordering_CUSEC": [
+        "3909401001"
+      ],
+      "bounds": [
+        403348.2017999999,
+        4740548.6417,
+        405176.1963999998,
+        4741873.6852
+      ],
+      "classification": "ENCLAVE_PALENTINO_POMAR_DE_VALDIVIA",
+      "id": "V39-e8e4bbf4269d759e",
+      "ign_cantabria_coverage_ratio_raw": 0.022104374439820856,
+      "lat": 42.8172741326239,
+      "lon": -4.17012245197164,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.022104374439820846,
+          "name": "Valderredible",
+          "nationalcode": "34063939094",
+          "source": "ign_hole_south_municipalities.json"
+        },
+        {
+          "coverage_ratio_raw": 0.9778956255602057,
+          "name": "Pomar de Valdivia",
+          "nationalcode": "34073434135",
+          "source": "ign_hole_south_municipalities.json"
+        }
+      ],
+      "official_named_points_inside": [
+        "Iglesia de Santiago Apóstol",
+        "Arroyo Zalcegatas",
+        "Fuente el Piro",
+        "Cezura",
+        "Cezura"
+      ],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "PASS_NATURALEZA_NO_IDENTIDAD_EXACTA_2025",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 1689797.128614238,
+        "0.001": 1689796.565379038,
+        "0.01": 1689794.3220932353,
+        "0.1": 1689768.3737727257,
+        "1.0": 1689235.4429332563
+      },
+      "wkb_sha256": "e8e4bbf4269d759e8729f4ef3ceb8c5c7ee1f67867b9cc6db14f5d212c1deaba"
+    },
+    {
+      "area_m2": 0.006677504953362699,
+      "bordering_CUMUN": [
+        "39087"
+      ],
+      "bordering_CUSEC": [
+        "3908701005",
+        "3908701012"
+      ],
+      "bounds": [
+        414458.44299999997,
+        4800091.481799999,
+        414463.7923999997,
+        4800101.627778043
+      ],
+      "classification": "MICROVACIO_ANALISIS_PRECISION",
+      "id": "V39-fe0d85e63f1177e5",
+      "ign_cantabria_coverage_ratio_raw": 0.9999999999999704,
+      "lat": 43.34885479278986,
+      "lon": -4.0554364188821515,
+      "official_municipal_matches": [
+        {
+          "coverage_ratio_raw": 0.9999999999999704,
+          "name": "Torrelavega",
+          "nationalcode": "34063939087",
+          "source": "ign_torrelavega.json"
+        }
+      ],
+      "official_named_points_inside": [],
+      "population": null,
+      "population_status": "NOT_EVIDENCED",
+      "status": "DIAGNOSTIC_ORIGEN_NO_ACREDITADO",
+      "uncovered_original_area_by_grid_m2": {
+        "0.0001": 0.006677501189154043,
+        "0.001": 0.004698224306665737,
+        "0.01": 0.0,
+        "0.1": 0.0,
+        "1.0": 0.0
+      },
+      "wkb_sha256": "fe0d85e63f1177e5a5357437709f03326ccb6b4f2d2af36664784d28cc82837c"
+    }
+  ]
+}

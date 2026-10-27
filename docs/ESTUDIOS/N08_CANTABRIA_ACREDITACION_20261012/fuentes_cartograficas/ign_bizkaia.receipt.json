@@ -1,0 +1,15 @@
+{
+  "url": "https://api-features.ign.es/collections/administrativeunit/items?f=json&nationalcode=34164800000&limit=1",
+  "retrieved_utc": "2026-10-12T12:20:42.674277+00:00",
+  "status": 200,
+  "sha256": "3b06752d321fc169a5f5048b34426d28d2240d4fb0452560d495f78c56e0d35f",
+  "bytes": 1682948,
+  "organism": "IGN/CNIG",
+  "content_type": "application/json",
+  "content_crs": "<http://www.opengis.net/def/crs/OGC/1.3/CRS84>",
+  "date": "Mon, 12 Oct 2026 12:20:39 GMT",
+  "last_modified": null,
+  "edition": "live API snapshot; data edition not assumed 2025",
+  "licence": "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+  "command": "requests.get(endpoint, params={'f': 'json', 'nationalcode': '34164800000', 'limit': 1}, timeout=60)"
+}

@@ -1,0 +1,148 @@
+{
+    "type":"FeatureCollection",
+    "features":[
+        {
+            "type":"Feature",
+            "properties":{
+                "codigo_ngbe":"6.2.1",
+                "fuente":"MFOMENTO.IGN.NGCE",
+                "etiqueta":"Pen\u00ednsula de Magdalena",
+                "tipo":"Saliente costero",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2018-10-03"
+            },
+            "id":"12492",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.76849103599994,
+                    43.4692979370001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "codigo_ngbe":"6.2.2",
+                "fuente":"MITMA.IGN.BTN25",
+                "etiqueta":"Playa de Biquinis",
+                "tipo":"Playa",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-20"
+            },
+            "id":"1669955",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.77050528599995,
+                    43.467894131
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "codigo_ngbe":"2.2.2",
+                "fuente":"MITMA.IGN.BTN25",
+                "etiqueta":"Palacio de la Magdalena",
+                "tipo":"Edificaci\u00f3n",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-07"
+            },
+            "id":"1670005",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.76629364899992,
+                    43.469481009
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "codigo_ngbe":"6.2.3",
+                "fuente":"MITMA.IGN.BTN25",
+                "etiqueta":"Isla de la Torre",
+                "tipo":"Isla",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-20"
+            },
+            "id":"1670113",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.77099355599995,
+                    43.4655137130001
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "codigo_ngbe":"6.2.3",
+                "fuente":"MITMA.IGN.BTN25",
+                "etiqueta":"Isla Horadada",
+                "tipo":"Isla",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2023-07-24"
+            },
+            "id":"1670114",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.7684057090620806,
+                    43.464387647943894
+                ]
+            }
+        },
+        {
+            "type":"Feature",
+            "properties":{
+                "codigo_ngbe":"2.2.2",
+                "fuente":"C.A. Cantabria",
+                "etiqueta":"Caballerizas Reales",
+                "tipo":"Edificaci\u00f3n",
+                "tiponombre":"identificador_geografico",
+                "fecha":"2025-01-23"
+            },
+            "id":"4039507",
+            "geometry":{
+                "type":"Point",
+                "coordinates":[
+                    -3.768584106708453,
+                    43.46825498293483
+                ]
+            }
+        }
+    ],
+    "numberMatched":6,
+    "numberReturned":6,
+    "links":[
+        {
+            "type":"application/geo+json",
+            "rel":"self",
+            "title":"This document as GeoJSON",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=json&bbox=-3.775,43.463,-3.765,43.47&limit=100"
+        },
+        {
+            "rel":"alternate",
+            "type":"application/ld+json",
+            "title":"This document as RDF (JSON-LD)",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=jsonld&bbox=-3.775,43.463,-3.765,43.47&limit=100"
+        },
+        {
+            "type":"text/html",
+            "rel":"alternate",
+            "title":"This document as HTML",
+            "href":"https://api-features.ign.es/collections/namedplace/items?f=html&bbox=-3.775,43.463,-3.765,43.47&limit=100"
+        },
+        {
+            "type":"application/json",
+            "title":"GN Lugar nombrado",
+            "rel":"collection",
+            "href":"https://api-features.ign.es/collections/namedplace"
+        }
+    ],
+    "timeStamp":"2026-10-12T12:20:47.605169Z"
+}

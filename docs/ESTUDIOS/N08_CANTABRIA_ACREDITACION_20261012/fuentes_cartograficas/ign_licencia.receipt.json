@@ -1,0 +1,15 @@
+{
+  "url": "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+  "retrieved_utc": "2026-10-12T13:35:38.824951+00:00",
+  "sha256": "48b745c62276e4d5ae8870922b9db89d276e9b339f66e3d1f9eea6379f2957d9",
+  "bytes": 145381,
+  "status": 200,
+  "organism": "IGN/CNIG",
+  "edition": "Metadata/snapshot; not presumed 2025",
+  "file": "ign_licencia.pdf",
+  "command": [
+    "requests.get",
+    "https://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf",
+    "timeout=45"
+  ]
+}
