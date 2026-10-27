@@ -1,0 +1,7 @@
+run_id	territorio	estado	resultado	job_fallido	paso_fallido	url
+40544326534	cantabria	completed	failure	02 Generar distritos autonómicos / Generar y certificar distritos / Registrar producto territorial	Registrar producto territorial certificado	https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/40544326534
+40544333932	castilla_la_mancha	completed	failure	02 Generar distritos autonómicos / Generar y certificar distritos / Registrar producto territorial	Registrar producto territorial certificado	https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/40544333932
+40544340229	galicia	completed	failure	02 Generar distritos autonómicos / Generar y certificar distritos / Registrar producto territorial	Registrar producto territorial certificado	https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/40544340229
+40544347303	canarias	completed	failure	02 Generar distritos autonómicos / Generar y certificar distritos / Formación inicial de distritos	Ejecutar módulo	https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/40544347303
+40544355733	cataluna	completed	failure	02 Generar distritos autonómicos / Generar y certificar distritos / Formación inicial de distritos	Ejecutar módulo	https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/40544355733
+40544361963	ceuta	completed	failure	02 Generar distritos autonómicos / Generar y certificar distritos / Formación inicial de distritos	Ejecutar módulo	https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/40544361963
