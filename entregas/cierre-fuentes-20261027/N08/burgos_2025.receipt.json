@@ -1,0 +1,23 @@
+{
+  "schema": "ddd.ign-2025-temporal-wms-probe/1.0",
+  "official_url": "https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=LimitesTime&STYLES=&CRS=CRS%3A84&BBOX=-3.750000000%2C42.300000000%2C-3.650000000%2C42.400000000&WIDTH=600&HEIGHT=600&FORMAT=application%2Fjson%3Btype%3Dgeojson&TIME=2025-01-01",
+  "authority": "IGN/CNIG",
+  "layer": "LimitesTime",
+  "time_requested": "2025-01-01",
+  "downloaded_at": "2026-10-27T16:43:00.785782+00:00",
+  "raw_sha256": "671f4dc44066985d1775794b6c1ef7a334b7a36dac3f368961fc9e367c63b469",
+  "raw_bytes": 9957,
+  "features_in_view": 9,
+  "date_boundary_distinct_values": [
+    "2009-07-05Z"
+  ],
+  "total_features_claim": "unknown",
+  "crs_query": "CRS:84",
+  "zip_of_official_boundary_source": false,
+  "complete_52_province_coverage_verified": false,
+  "temporal_legal_coverage_verified": false,
+  "municipality_code_crosswalk_verified": false,
+  "eligible_for_NAT_C_056_accreditation": false,
+  "generation_authorized": false,
+  "status": "BOUNDED_OFFICIAL_VIEW_ONLY_NOT_ACREDITATION"
+}

@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "name": "N08 bounded WMS resolution comparison",
+  "date": "2026-10-27",
+  "scope": "same BBOX, TIME and format; WIDTH/HEIGHT 600 vs 1200",
+  "status": "VIEW_DEPENDENT_GEOMETRY_PROVEN",
+  "origin": "new evidence; no predecessor",
+  "same_ids": true,
+  "same_properties": true,
+  "geometries_changed": 9,
+  "features": 9,
+  "requests": {
+    "600": "https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=LimitesTime&STYLES=&CRS=CRS%3A84&BBOX=-3.750000000%2C42.300000000%2C-3.650000000%2C42.400000000&WIDTH=600&HEIGHT=600&FORMAT=application%2Fjson%3Btype%3Dgeojson&TIME=2025-01-01",
+    "1200": "https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=LimitesTime&STYLES=&CRS=CRS%3A84&BBOX=-3.750000000%2C42.300000000%2C-3.650000000%2C42.400000000&WIDTH=1200&HEIGHT=1200&FORMAT=application%2Fjson%3Btype%3Dgeojson&TIME=2025-01-01"
+  },
+  "national_coverage_accredited": false,
+  "legal_effectiveness_accredited": false,
+  "generation_authorized": false
+}

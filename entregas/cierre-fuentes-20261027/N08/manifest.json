@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-27",
+  "origin": "new evidence",
+  "items": [
+    {
+      "path": "burgos_2025.geojson",
+      "bytes": 9957,
+      "sha256": "671f4dc44066985d1775794b6c1ef7a334b7a36dac3f368961fc9e367c63b469"
+    },
+    {
+      "path": "burgos_2025.receipt.json",
+      "bytes": 1080,
+      "sha256": "44f2290626971bf6f0e0152e93e64a85391d05358537065bdcb3b3a9cc40874d"
+    },
+    {
+      "path": "burgos_2025_1200.geojson",
+      "bytes": 10057,
+      "sha256": "32fce8912fef27c51ef1a6d6843577732996f39cc44a52deebe2508ebb5bd8b4"
+    },
+    {
+      "path": "capabilities_reused.xml",
+      "bytes": 40165,
+      "sha256": "b18b102f1ea29262ffe3ec24779a57ecade6eca79cde4da7d4af05afa34b16a0"
+    },
+    {
+      "path": "directed_tests.log",
+      "bytes": 247,
+      "sha256": "f21f161a78e9b103594bd16b2e6719787a7cabaad9ab6f959b9f1ec65366ac03"
+    },
+    {
+      "path": "existing_wfs_inventory.json",
+      "bytes": 2772,
+      "sha256": "1b0c369a1c96e6876bbae33962fb55a82ed1e74b7376c75eee4e73f193c5ba6a"
+    },
+    {
+      "path": "resolution_comparison.json",
+      "bytes": 1077,
+      "sha256": "94187b2c166a0144d945ff63202eb29d4c2f78ef7d2903f4b5c5937208599e9d"
+    }
+  ]
+}

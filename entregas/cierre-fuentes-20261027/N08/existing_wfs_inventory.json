@@ -1,0 +1,62 @@
+[
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/04_almeria.geojson",
+    "bytes": 11224016,
+    "sha256": "8f11486c3c14f6253d230c0d1790a766f82dcb13f40bdc45ea6dc7b9d64ec7e7",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/07_baleares.geojson",
+    "bytes": 29660256,
+    "sha256": "49edf5c960c6e67395e9d1dd572406b97ce45835435e8d3ca762c0644dadb1be",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/09_burgos_bbox_cover_ine2025.geojson",
+    "bytes": 11028833,
+    "sha256": "c9fce021308a05c9e904f0c968954e9752bce2d1e74bdc11936fddca110934d7",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/15_a_coruna.geojson",
+    "bytes": 46710485,
+    "sha256": "c8628dbd4ed1e6f77c86bfb09ce16befafe8ac8dd011639802f5211668343d00",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/17_girona.geojson",
+    "bytes": 43809549,
+    "sha256": "2b92f6cb7062e472fe1a0a6cdfb93cf82beb67105d1c7341ddaf7859f0c54162",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/27_lugo.geojson",
+    "bytes": 34451524,
+    "sha256": "5e72e7f916b10f3fa076d7e7385160f6577607794f3ddc8e65fdb8bace6dd66c",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/30_murcia.geojson",
+    "bytes": 18300550,
+    "sha256": "d220f48ca67ccb661131f6c100efe3fb037503e400ff41fee02cf94ff7b57b2d",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/34_palencia.geojson",
+    "bytes": 4559216,
+    "sha256": "7f4f1429a6d9c8ed502ac4cfbe65a64861ff5e793d65a88eea134687aa449b43",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/36_pontevedra.geojson",
+    "bytes": 30089912,
+    "sha256": "c794bbe5d118bfc05d413829dc0a69eec13b7cca676a03e2d52a082cabf69827",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  },
+  {
+    "path": "/private/tmp/ign-wfs-boundaries-asof-2025-01-01/manifest.json",
+    "bytes": 3928,
+    "sha256": "a07902ffda690b7f24f77909d7678bca73baaf909146bce51149f309b5328c37",
+    "scope": "local reuse inventory only; temporal rule not legally accredited"
+  }
+]

@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WMS_Capabilities xmlns:srv="http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd" xmlns:gmd="http://schemas.opengis.net/iso/19139/20060504/gmd/gmd.xsd" xmlns:gco="http://schemas.opengis.net/iso/19139/20060504/gco/gco.xsd" xmlns:inspire_vs="http://inspire.ec.europa.eu/schemas/inspire_vs/1.0" xmlns:gml="http://schemas.opengis.net/gml" xmlns:inspire_common="http://inspire.ec.europa.eu/schemas/common/1.0" version="1.3.0" updateSequence="2619" xmlns="http://www.opengis.net/wms" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wms http://inspire.ec.europa.eu/schemas/inspire_vs/1.0 http://inspire.ec.europa.eu/schemas/inspire_vs/1.0/inspire_vs.xsd">
+	<Service>
+		<Name>WMS</Name>
+		<Title>Unidades administrativas de España</Title>
+		<Abstract>Unidades administrativas y límites administrativos con tres niveles de administración (comunidad autónoma, provincia y municipio). Cada capa posee el nombre, título y estilo que establece Inspire y otros estilos definidos por el IGN. Esta información forma parte del Equipamiento Geográfico de Referencia Nacional, según se recoge en el Anexo I, parte 1 de LISIGE: Unidades administrativas en que se dividan las áreas en las que los Estados miembros tienen y/o ejercen derechos jurisdiccionales, a efectos de administración local, regional y nacional, separadas por límites administrativos. Servicio de visualización WMS 1.3.0 conforme al perfil Inspire de ISO 19128:2005.</Abstract>
+		<KeywordList>
+			<Keyword>Instituto Geográfico Nacional</Keyword>
+			<Keyword>Centro Nacional de Información Geográfica</Keyword>
+			<Keyword>Registro Central de Cartografía</Keyword>
+			<Keyword>Líneas límite</Keyword>
+			<Keyword>Delimitaciones Territoriales</Keyword>
+			<Keyword vocabulary="ISO 19119 geographic services taxonomy, version 2.3">infoMapAccessService</Keyword>
+			<Keyword vocabulary="ISO 19119 geographic services taxonomy, version 2.3">infoManagementService</Keyword>
+			<Keyword vocabulary="GEMET - INSPIRE themes, version 1.0">Unidades Administrativas</Keyword>
+		</KeywordList>
+		<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+		<ContactInformation>
+			<ContactPersonPrimary>
+				<ContactPerson/>
+				<ContactOrganization>Instituto Geográfico Nacional</ContactOrganization>
+			</ContactPersonPrimary>
+			<ContactPosition>Punto de contacto</ContactPosition>
+			<ContactAddress>
+				<AddressType>Postal</AddressType>
+				<Address>C/ General Ibáñez de Ibero, 3</Address>
+				<City>Madrid</City>
+				<StateOrProvince/>
+				<PostCode>28003</PostCode>
+				<Country>España</Country>
+			</ContactAddress>
+			<ContactVoiceTelephone>+34 91 597 96 46</ContactVoiceTelephone>
+			<ContactFacsimileTelephone>+34 91 597 97 64</ContactFacsimileTelephone>
+			<ContactElectronicMailAddress>ign@transportes.gob.es</ContactElectronicMailAddress>
+		</ContactInformation>
+		<Fees>No se aplican condiciones</Fees>
+		<AccessConstraints>CC BY 4.0 ign.es</AccessConstraints>
+	</Service>
+	<Capability>
+		<Request>
+			<GetCapabilities>
+				<Format>text/xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&amp;"/>
+						</Get>
+						<Post>
+							<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&amp;"/>
+						</Post>
+					</HTTP>
+				</DCPType>
+			</GetCapabilities>
+			<GetMap>
+				<Format>image/png</Format>
+				<Format>application/atom+xml</Format>
+				<Format>application/json;type=geojson</Format>
+				<Format>application/json;type=topojson</Format>
+				<Format>application/json;type=utfgrid</Format>
+				<Format>application/pdf</Format>
+				<Format>application/rss+xml</Format>
+				<Format>application/vnd.google-earth.kml+xml</Format>
+				<Format>application/vnd.google-earth.kml+xml;mode=networklink</Format>
+				<Format>application/vnd.google-earth.kmz</Format>
+				<Format>application/vnd.mapbox-vector-tile</Format>
+				<Format>image/geotiff</Format>
+				<Format>image/geotiff8</Format>
+				<Format>image/gif</Format>
+				<Format>image/jpeg</Format>
+				<Format>image/png; mode=8bit</Format>
+				<Format>image/svg+xml</Format>
+				<Format>image/tiff</Format>
+				<Format>image/tiff8</Format>
+				<Format>image/vnd.jpeg-png</Format>
+				<Format>image/vnd.jpeg-png8</Format>
+				<Format>text/html; subtype=openlayers</Format>
+				<Format>text/html; subtype=openlayers2</Format>
+				<Format>text/html; subtype=openlayers3</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&amp;"/>
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetMap>
+			<GetFeatureInfo>
+				<Format>text/plain</Format>
+				<Format>application/vnd.ogc.gml</Format>
+				<Format>text/xml</Format>
+				<Format>application/vnd.ogc.gml/3.1.1</Format>
+				<Format>text/xml; subtype=gml/3.1.1</Format>
+				<Format>text/html</Format>
+				<Format>application/json</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas?SERVICE=WMS&amp;"/>
+						</Get>
+					</HTTP>
+				</DCPType>
+			</GetFeatureInfo>
+		</Request>
+		<Exception>
+			<Format>XML</Format>
+		</Exception>
+		<inspire_vs:ExtendedCapabilities>
+			<inspire_common:MetadataUrl xsi:type="inspire_common:resourceLocatorType">
+				<inspire_common:URL>https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;ElementSetName=full&amp;ID=spaignwms_unidades_administrativas</inspire_common:URL>
+				<inspire_common:MediaType>application/vnd.iso.19139+xml</inspire_common:MediaType>
+			</inspire_common:MetadataUrl>
+			<inspire_common:SupportedLanguages xsi:type="inspire_common:supportedLanguagesType">
+				<inspire_common:DefaultLanguage>
+					<inspire_common:Language>spa</inspire_common:Language>
+				</inspire_common:DefaultLanguage>
+				<inspire_common:SupportedLanguage>
+					<inspire_common:Language>eng</inspire_common:Language>
+				</inspire_common:SupportedLanguage>
+			</inspire_common:SupportedLanguages>
+			<inspire_common:ResponseLanguage>
+				<inspire_common:Language>spa</inspire_common:Language>
+			</inspire_common:ResponseLanguage>
+		</inspire_vs:ExtendedCapabilities>
+		<Layer>
+			<Title>Unidades administrativas</Title>
+			<Abstract>Unidades Administrativas y Límites Administrativos de España con tres niveles de administración (comunidad autónoma, provincia y municipio). Cada capa posee el nombre, título y estilo que establece Inspire y otros estilos definidos por el IGN.</Abstract>
+			<CRS>EPSG:4258</CRS>
+			<CRS>EPSG:4326</CRS>
+			<CRS>EPSG:3857</CRS>
+			<CRS>EPSG:3035</CRS>
+			<CRS>EPSG:25828</CRS>
+			<CRS>EPSG:25829</CRS>
+			<CRS>EPSG:25830</CRS>
+			<CRS>EPSG:25831</CRS>
+			<CRS>EPSG:32628</CRS>
+			<CRS>EPSG:32629</CRS>
+			<CRS>EPSG:32630</CRS>
+			<CRS>EPSG:32631</CRS>
+			<CRS>EPSG:4080</CRS>
+			<CRS>EPSG:4081</CRS>
+			<CRS>EPSG:4082</CRS>
+			<CRS>EPSG:4083</CRS>
+			<CRS>CRS:84</CRS>
+			<EX_GeographicBoundingBox>
+				<westBoundLongitude>-19.0</westBoundLongitude>
+				<eastBoundLongitude>5.0</eastBoundLongitude>
+				<southBoundLatitude>27.0</southBoundLatitude>
+				<northBoundLatitude>44.0</northBoundLatitude>
+			</EX_GeographicBoundingBox>
+			<BoundingBox CRS="CRS:84" minx="-19.0" miny="27.0" maxx="5.0" maxy="44.0"/>
+			<BoundingBox CRS="EPSG:4258" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+			<BoundingBox CRS="EPSG:4326" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+			<BoundingBox CRS="EPSG:3857" minx="-2115070.325072198" miny="3123471.749104576" maxx="556597.4539663679" maxy="5465442.183322753"/>
+			<BoundingBox CRS="EPSG:3035" minx="471468.5017937361" miny="1445891.6963879904" maxx="2768821.4534321986" maxy="3919390.1873301356"/>
+			<BoundingBox CRS="EPSG:25828" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+			<BoundingBox CRS="EPSG:25829" minx="-495135.75545797264" miny="2988008.1382796224" maxx="1897204.2192799984" maxy="4968139.496861154"/>
+			<BoundingBox CRS="EPSG:25830" minx="-1099673.713805158" miny="2986435.2424698113" maxx="1295248.9457888722" maxy="4998012.35979611"/>
+			<BoundingBox CRS="EPSG:25831" minx="-1714549.1480732663" miny="2988008.1382796224" maxx="698454.2342175536" maxy="5113259.329733409"/>
+			<BoundingBox CRS="EPSG:32628" minx="102948.37120796047" miny="2986435.2425578996" maxx="2508202.7078655367" maxy="5070480.910951035"/>
+			<BoundingBox CRS="EPSG:32629" minx="-495135.75545450323" miny="2988008.1383677055" maxx="1897204.2192749865" maxy="4968139.496979078"/>
+			<BoundingBox CRS="EPSG:32630" minx="-1099673.7137993197" miny="2986435.2425578996" maxx="1295248.9457861297" maxy="4998012.359913771"/>
+			<BoundingBox CRS="EPSG:32631" minx="-1714549.148064664" miny="2988008.1383677055" maxx="698454.2342168819" maxy="5113259.329849991"/>
+			<BoundingBox CRS="EPSG:4080" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+			<BoundingBox CRS="EPSG:4081" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+			<BoundingBox CRS="EPSG:4082" minx="660349.4105800533" miny="2988008.1382796224" maxx="3132117.470118926" maxy="5212437.859985052"/>
+			<BoundingBox CRS="EPSG:4083" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+			<Layer queryable="1">
+				<Name>AU.AdministrativeBoundary</Name>
+				<Title>Límite administrativo</Title>
+				<Abstract>Representación de líneas límite de comunidades autónomas, provincias y municipios de España.</Abstract>
+				<KeywordList>
+					<Keyword>Líneas Límite</Keyword>
+				</KeywordList>
+				<CRS>EPSG:4258</CRS>
+				<CRS>CRS:84</CRS>
+				<EX_GeographicBoundingBox>
+					<westBoundLongitude>-19.0</westBoundLongitude>
+					<eastBoundLongitude>5.0</eastBoundLongitude>
+					<southBoundLatitude>27.0</southBoundLatitude>
+					<northBoundLatitude>44.0</northBoundLatitude>
+				</EX_GeographicBoundingBox>
+				<BoundingBox CRS="CRS:84" minx="-19.0" miny="27.0" maxx="5.0" maxy="44.0"/>
+				<BoundingBox CRS="EPSG:4258" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4326" minx="27.000000021351063" miny="-19.000000000000007" maxx="44.000000040852704" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:3857" minx="-2115070.3250721986" miny="3123471.7517721104" maxx="556597.4539663679" maxy="5465442.189644802"/>
+				<BoundingBox CRS="EPSG:3035" minx="471468.50179373566" miny="1445891.6963879904" maxx="2768821.453432198" maxy="3919390.1873301356"/>
+				<BoundingBox CRS="EPSG:25828" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<BoundingBox CRS="EPSG:25829" minx="-495135.75545797264" miny="2988008.1382796224" maxx="1897204.2192799984" maxy="4968139.496861154"/>
+				<BoundingBox CRS="EPSG:25830" minx="-1099673.713805158" miny="2986435.2424698113" maxx="1295248.9457888722" maxy="4998012.35979611"/>
+				<BoundingBox CRS="EPSG:25831" minx="-1714549.1480732663" miny="2988008.1382796224" maxx="698454.2342175536" maxy="5113259.329733409"/>
+				<BoundingBox CRS="EPSG:32628" minx="102948.37128314428" miny="2986435.244922726" maxx="2508202.7074604286" maxy="5070480.915489917"/>
+				<BoundingBox CRS="EPSG:32629" minx="-495135.75526346336" miny="2988008.140733385" maxx="1897204.2190024962" maxy="4968139.50151943"/>
+				<BoundingBox CRS="EPSG:32630" minx="-1099673.713484239" miny="2986435.244922726" maxx="1295248.94563436" maxy="4998012.364454182"/>
+				<BoundingBox CRS="EPSG:32631" minx="-1714549.1476116255" miny="2988008.140733385" maxx="698454.2341793771" maxy="5113259.334386855"/>
+				<BoundingBox CRS="EPSG:4080" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4081" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4082" minx="660349.4105800533" miny="2988008.1382796224" maxx="3132117.470118926" maxy="5212437.859985052"/>
+				<BoundingBox CRS="EPSG:4083" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<Attribution>
+					<Title>Instituto Geográfico Nacional</Title>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</Attribution>
+				<AuthorityURL name="IGN">
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</AuthorityURL>
+				<Identifier authority="IGN">bdlje_limites_adm</Identifier>
+				<MetadataURL type="ISO19115:2003">
+					<Format>text/plain</Format>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;ElementSetName=full&amp;ID=spaignLLM"/>
+				</MetadataURL>
+				<Style>
+					<Name>LimitesAdministrativos</Name>
+					<Title>Estilo de límites administrativos (amarillo)</Title>
+					<Abstract>Las comunidades autónomas se representan en amarillo a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesAdministrativos.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>LimitesRojo</Name>
+					<Title>Estilo de límites administrativos (rojo)</Title>
+					<Abstract>Las comunidades autónomas se representan en rojo a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesRojo.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>LimitesGris</Name>
+					<Title>Estilo de límites administrativos (gris)</Title>
+					<Abstract>Las comunidades autónomas se visualizan en gris a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesGris.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>LimitesCruz</Name>
+					<Title>Estilo de límites administrativos</Title>
+					<Abstract>A partir de la escala 1:50.000, los límites administrativos se representan con un patrón discontinuo en función de su tipología (país, comunidad autónoma, provincia y municipio), también se representa la línea de costa con una línea continua azul. A escalas pequeñas, las comunidades autónomas, provincias y municipios se representan con una línea continua gris.</Abstract>
+					<LegendURL width="205" height="110">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesCruz.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>EstadoJuridico</Name>
+					<Title>Estilo de estado jurídico y obtención de la geometría de las líneas límite</Title>
+					<Abstract>El estado jurídico se representa por tipo de geometría (continua o discontinua) y el método de obtención de la geometría se representa con colores (negro, amarillo, verde y gris). La línea de costa se representa en azul. Información sobre el estado jurídico: ESTADO 1: Existe título jurídico que avala la línea: sentencia judicial, resolución administrativa o acta de deslinde donde los ayuntamientos manifestaron su conformidad expresa o bien alguno de ellos no asistió al acto de firma, pero consta de manera fehaciente que fue citado a dicho acto. ESTADO 2: Consta expresamente en el acta de deslinde el desacuerdo entre los ayuntamientos sobre la línea completa, o bien la geometría no está avalada por ningún título jurídico. En el RCC se considera la geometría como provisional y sin valor jurídico. ESTADO 3: Consta expresamente en el acta de deslinde el desacuerdo entre los ayuntamientos sobre algún tramo de la línea, o bien la geometría en alguno de sus tramos no está avalada por ningún título jurídico. La geometría inscrita correspondiente a ese tramo o tramos se considera provisional y sin valor jurídico. Información sobre la obtención de la geometría: MÉTODO 1: Línea digitalizada sobre hojas publicadas del Mapa Topográfico Nacional o sobre los documentos cartográficos previos utilizados para su formación. Su precisión está limitada por la del proceso de digitalización manual y por los procesos cartográficos aplicados al mapa del que proceden (generalización, simbolización, etc.). La incertidumbre estimada es del orden de 40 metros, aunque en algunos casos puede ser mayor. MÉTODO 2: Geometría ajustada por métodos distintos de la digitalización descritos en el método 1. En su mayor parte se han calculado a partir de las observaciones angulares y de distancias anotadas en los cuadernos de campo asociados a las actas originales, con ajuste posterior utilizando elementos identificables en ortofotografías aéreas, modelos digitales del terreno u otras fuentes cartográficas. La incertidumbre estimada está en el entorno de 20 metros. MÉTODO 3: Geometría precisa avalada por título jurídico. En las líneas recuperadas, es decir donde consta deslinde antiguo, las coordenadas están calculadas generalmente mediante la combinación de las técnicas del método 2, con el levantamiento topográfico en campo de los mojones existentes en la actualidad. La precisión es mejor que un metro. MÉTODO 4: Línea digitalizada a partir de diferentes fuentes gráficas o literales, o bien no está clara su procedencia.</Abstract>
+					<LegendURL width="241" height="299">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/EstadoJuridico.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>AU.AdministrativeBoundary.Default</Name>
+					<Title>Estilo Inspire de Límites Administrativos</Title>
+					<Abstract>Los límites administrativos se representan utilizando una línea roja (#FF0033).</Abstract>
+					<LegendURL width="20" height="20">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/AU.AdministrativeBoundary.Default.png"/>
+					</LegendURL>
+				</Style>
+			</Layer>
+			<Layer queryable="1">
+				<Name>AU.AdministrativeUnit</Name>
+				<Title>Unidad administrativa</Title>
+				<Abstract>Representación de unidades administrativas de España. Se clasifican en 3 niveles. El segundo nivel corresponde a las comunidades autónomas; el tercer nivel, a las provincias; el cuarto nivel, a los municipios.</Abstract>
+				<KeywordList>
+					<Keyword>Comunidad Autónoma</Keyword>
+					<Keyword>Municipio</Keyword>
+					<Keyword>Provincia</Keyword>
+				</KeywordList>
+				<CRS>EPSG:4258</CRS>
+				<CRS>CRS:84</CRS>
+				<EX_GeographicBoundingBox>
+					<westBoundLongitude>-19.0</westBoundLongitude>
+					<eastBoundLongitude>5.0</eastBoundLongitude>
+					<southBoundLatitude>27.0</southBoundLatitude>
+					<northBoundLatitude>44.0</northBoundLatitude>
+				</EX_GeographicBoundingBox>
+				<BoundingBox CRS="CRS:84" minx="-19.0" miny="27.0" maxx="5.0" maxy="44.0"/>
+				<BoundingBox CRS="EPSG:4258" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4326" minx="27.000000021351063" miny="-19.000000000000007" maxx="44.000000040852704" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:3857" minx="-2115070.3250721986" miny="3123471.7517721104" maxx="556597.4539663679" maxy="5465442.189644802"/>
+				<BoundingBox CRS="EPSG:3035" minx="471468.50179373566" miny="1445891.6963879904" maxx="2768821.453432198" maxy="3919390.1873301356"/>
+				<BoundingBox CRS="EPSG:25828" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<BoundingBox CRS="EPSG:25829" minx="-495135.75545797264" miny="2988008.1382796224" maxx="1897204.2192799984" maxy="4968139.496861154"/>
+				<BoundingBox CRS="EPSG:25830" minx="-1099673.713805158" miny="2986435.2424698113" maxx="1295248.9457888722" maxy="4998012.35979611"/>
+				<BoundingBox CRS="EPSG:25831" minx="-1714549.1480732663" miny="2988008.1382796224" maxx="698454.2342175536" maxy="5113259.329733409"/>
+				<BoundingBox CRS="EPSG:32628" minx="102948.37128314428" miny="2986435.244922726" maxx="2508202.7074604286" maxy="5070480.915489917"/>
+				<BoundingBox CRS="EPSG:32629" minx="-495135.75526346336" miny="2988008.140733385" maxx="1897204.2190024962" maxy="4968139.50151943"/>
+				<BoundingBox CRS="EPSG:32630" minx="-1099673.713484239" miny="2986435.244922726" maxx="1295248.94563436" maxy="4998012.364454182"/>
+				<BoundingBox CRS="EPSG:32631" minx="-1714549.1476116255" miny="2988008.140733385" maxx="698454.2341793771" maxy="5113259.334386855"/>
+				<BoundingBox CRS="EPSG:4080" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4081" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4082" minx="660349.4105800533" miny="2988008.1382796224" maxx="3132117.470118926" maxy="5212437.859985052"/>
+				<BoundingBox CRS="EPSG:4083" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<Attribution>
+					<Title>Instituto Geográfico Nacional</Title>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</Attribution>
+				<AuthorityURL name="IGN">
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</AuthorityURL>
+				<Identifier authority="IGN">bdlje_unidades_adm</Identifier>
+				<MetadataURL type="ISO19115:2003">
+					<Format>text/plain</Format>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;ElementSetName=full&amp;ID=spaignLLM"/>
+				</MetadataURL>
+				<Style>
+					<Name>UnidadesAdministrativas</Name>
+					<Title>Estilo de unidades administrativas (amarillo)</Title>
+					<Abstract>Las comunidades autónomas se representan en amarillo a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000. Se etiquetan los nombres de comunidades autónomas, provincias y municipios.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/UnidadesAdministrativas.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>ua-comparador</Name>
+					<Title>Estilo de unidades administrativas (rojo)</Title>
+					<Abstract>Las comunidades autónomas y provincias se representan en rojo a todas las escalas y los municipios a escalas mayores de 1:600.000. Se etiquetan los nombres de comunidades autónomas, provincias y municipios.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/ua-comparador.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>ua-EscalaGris</Name>
+					<Title>Estilo de unidades administrativas (gris)</Title>
+					<Abstract>Las comunidades autónomas se representan en gris a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000. Se etiquetan los nombres de los municipios a escalas mayores de 1:50.000.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/ua-EscalaGris.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>ccaa-gris</Name>
+					<Title>Estilo de comunidades autónomas (gris)</Title>
+					<Abstract>Las comunidades autónomas se representan a todas las escalas utilizando un relleno gris y línea discontinua. Se etiquetan los nombres.</Abstract>
+					<LegendURL width="160" height="28">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/ccaa-gris.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>provincias-gris</Name>
+					<Title>Estilo de provincias (gris)</Title>
+					<Abstract>Las provincias se representan a todas las escalas utilizando un relleno gris y línea discontinua. Se etiquetan los nombres.</Abstract>
+					<LegendURL width="90" height="28">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/provincias-gris.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>municipios-gris</Name>
+					<Title>Estilo de municipios (gris)</Title>
+					<Abstract>Las provincias se representan a todas las escalas utilizando un relleno gris y línea continua, los municipios se representan a escalas mayores de 1:2.500.000 utilizando un relleno gris y línea discontinua. Se etiquetan los nombres de los municipios.</Abstract>
+					<LegendURL width="95" height="50">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/municipios-gris.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>AU.AdministrativeUnit.Default</Name>
+					<Title>Estilo Inspire de Unidades Administrativas</Title>
+					<Abstract>Las unidades administrativas se representan utilizando un relleno amarillo (#FFFF66).</Abstract>
+					<LegendURL width="20" height="20">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/AU.AdministrativeUnit.Default.png"/>
+					</LegendURL>
+				</Style>
+			</Layer>
+			<Layer queryable="1">
+				<Name>LimitesHistoricos</Name>
+				<Title>Límites históricos</Title>
+				<Abstract>Representación de líneas límite históricas de municipios de España desde 2009 hasta la actualidad.</Abstract>
+				<KeywordList>
+					<Keyword>Líneas Límite</Keyword>
+					<Keyword>Históricos</Keyword>
+				</KeywordList>
+				<CRS>EPSG:4258</CRS>
+				<CRS>CRS:84</CRS>
+				<EX_GeographicBoundingBox>
+					<westBoundLongitude>-19.0</westBoundLongitude>
+					<eastBoundLongitude>5.0</eastBoundLongitude>
+					<southBoundLatitude>27.0</southBoundLatitude>
+					<northBoundLatitude>44.0</northBoundLatitude>
+				</EX_GeographicBoundingBox>
+				<BoundingBox CRS="CRS:84" minx="-19.0" miny="27.0" maxx="5.0" maxy="44.0"/>
+				<BoundingBox CRS="EPSG:4258" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4326" minx="27.000000021351063" miny="-19.000000000000007" maxx="44.000000040852704" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:3857" minx="-2115070.3250721986" miny="3123471.7517721104" maxx="556597.4539663679" maxy="5465442.189644802"/>
+				<BoundingBox CRS="EPSG:3035" minx="471468.50179373566" miny="1445891.6963879904" maxx="2768821.453432198" maxy="3919390.1873301356"/>
+				<BoundingBox CRS="EPSG:25828" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<BoundingBox CRS="EPSG:25829" minx="-495135.75545797264" miny="2988008.1382796224" maxx="1897204.2192799984" maxy="4968139.496861154"/>
+				<BoundingBox CRS="EPSG:25830" minx="-1099673.713805158" miny="2986435.2424698113" maxx="1295248.9457888722" maxy="4998012.35979611"/>
+				<BoundingBox CRS="EPSG:25831" minx="-1714549.1480732663" miny="2988008.1382796224" maxx="698454.2342175536" maxy="5113259.329733409"/>
+				<BoundingBox CRS="EPSG:32628" minx="102948.37128314428" miny="2986435.244922726" maxx="2508202.7074604286" maxy="5070480.915489917"/>
+				<BoundingBox CRS="EPSG:32629" minx="-495135.75526346336" miny="2988008.140733385" maxx="1897204.2190024962" maxy="4968139.50151943"/>
+				<BoundingBox CRS="EPSG:32630" minx="-1099673.713484239" miny="2986435.244922726" maxx="1295248.94563436" maxy="4998012.364454182"/>
+				<BoundingBox CRS="EPSG:32631" minx="-1714549.1476116255" miny="2988008.140733385" maxx="698454.2341793771" maxy="5113259.334386855"/>
+				<BoundingBox CRS="EPSG:4080" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4081" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4082" minx="660349.4105800533" miny="2988008.1382796224" maxx="3132117.470118926" maxy="5212437.859985052"/>
+				<BoundingBox CRS="EPSG:4083" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<Attribution>
+					<Title>Instituto Geográfico Nacional</Title>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</Attribution>
+				<AuthorityURL name="IGN">
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</AuthorityURL>
+				<Identifier authority="IGN">bdlje_limites_hist</Identifier>
+				<MetadataURL type="ISO19115:2003">
+					<Format>text/plain</Format>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;ElementSetName=full&amp;ID=spaignLLM"/>
+				</MetadataURL>
+				<Style>
+					<Name>Historicos</Name>
+					<Title>Estilo de límites por años</Title>
+					<Abstract>Los límites históricos se representan agrupados por años.</Abstract>
+					<LegendURL width="116" height="139">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/Historicos.png"/>
+					</LegendURL>
+				</Style>
+			</Layer>
+			<Layer queryable="1">
+				<Name>LimitesTime</Name>
+				<Title>Límites históricos y vigentes consultables por fecha</Title>
+				<Abstract>Representación de líneas límite de comunidades autónomas, provincias y municipios de España. Contiene los límites administrativos históricos (desde 2009) y vigentes. Por defecto se muestran los límites actuales y utilizando el parámetro TIME se pueden visualizar los límites en la fecha solicitada.</Abstract>
+				<KeywordList>
+					<Keyword>Líneas Límite</Keyword>
+					<Keyword>Históricos</Keyword>
+				</KeywordList>
+				<CRS>EPSG:4258</CRS>
+				<CRS>CRS:84</CRS>
+				<EX_GeographicBoundingBox>
+					<westBoundLongitude>-19.0</westBoundLongitude>
+					<eastBoundLongitude>5.0</eastBoundLongitude>
+					<southBoundLatitude>27.0</southBoundLatitude>
+					<northBoundLatitude>44.0</northBoundLatitude>
+				</EX_GeographicBoundingBox>
+				<BoundingBox CRS="CRS:84" minx="-19.0" miny="27.0" maxx="5.0" maxy="44.0"/>
+				<BoundingBox CRS="EPSG:4258" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4326" minx="27.000000021351063" miny="-19.000000000000007" maxx="44.000000040852704" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:3857" minx="-2115070.3250721986" miny="3123471.7517721104" maxx="556597.4539663679" maxy="5465442.189644802"/>
+				<BoundingBox CRS="EPSG:3035" minx="471468.50179373566" miny="1445891.6963879904" maxx="2768821.453432198" maxy="3919390.1873301356"/>
+				<BoundingBox CRS="EPSG:25828" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<BoundingBox CRS="EPSG:25829" minx="-495135.75545797264" miny="2988008.1382796224" maxx="1897204.2192799984" maxy="4968139.496861154"/>
+				<BoundingBox CRS="EPSG:25830" minx="-1099673.713805158" miny="2986435.2424698113" maxx="1295248.9457888722" maxy="4998012.35979611"/>
+				<BoundingBox CRS="EPSG:25831" minx="-1714549.1480732663" miny="2988008.1382796224" maxx="698454.2342175536" maxy="5113259.329733409"/>
+				<BoundingBox CRS="EPSG:32628" minx="102948.37128314428" miny="2986435.244922726" maxx="2508202.7074604286" maxy="5070480.915489917"/>
+				<BoundingBox CRS="EPSG:32629" minx="-495135.75526346336" miny="2988008.140733385" maxx="1897204.2190024962" maxy="4968139.50151943"/>
+				<BoundingBox CRS="EPSG:32630" minx="-1099673.713484239" miny="2986435.244922726" maxx="1295248.94563436" maxy="4998012.364454182"/>
+				<BoundingBox CRS="EPSG:32631" minx="-1714549.1476116255" miny="2988008.140733385" maxx="698454.2341793771" maxy="5113259.334386855"/>
+				<BoundingBox CRS="EPSG:4080" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4081" minx="27.0" miny="-19.0" maxx="44.0" maxy="5.0"/>
+				<BoundingBox CRS="EPSG:4082" minx="660349.4105800533" miny="2988008.1382796224" maxx="3132117.470118926" maxy="5212437.859985052"/>
+				<BoundingBox CRS="EPSG:4083" minx="102948.3712066114" miny="2986435.2424698113" maxx="2508202.7078731647" maxy="5070480.910834041"/>
+				<Dimension name="time" default="2026-07-28T23:00:00Z" units="ISO8601">
+					2009-07-05T22:00:00.000Z/2026-07-28T23:00:00.000Z/P1D
+				</Dimension>
+				<Attribution>
+					<Title>Instituto Geográfico Nacional</Title>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</Attribution>
+				<AuthorityURL name="IGN">
+					<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es"/>
+				</AuthorityURL>
+				<Identifier authority="IGN">bdlje_limites_time</Identifier>
+				<MetadataURL type="ISO19115:2003">
+					<Format>text/plain</Format>
+					<OnlineResource xlink:type="simple" xlink:href="https://www.idee.es/csw-inspire-idee/srv/spa/csw?SERVICE=CSW&amp;VERSION=2.0.2&amp;REQUEST=GetRecordById&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;ElementSetName=full&amp;ID=spaignLLM"/>
+				</MetadataURL>
+				<Style>
+					<Name>Historicos</Name>
+					<Title>Estilo de límites por años</Title>
+					<Abstract>Los límites históricos se representan agrupados por años.</Abstract>
+					<LegendURL width="116" height="139">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/Historicos.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>EstadoJuridico</Name>
+					<Title>Estilo de estado jurídico y obtención de la geometría de las líneas límite</Title>
+					<Abstract>El estado jurídico se representa por tipo de geometría (continua o discontinua) y el método de obtención de la geometría se representa con colores (negro, amarillo, verde y gris). La línea de costa se representa en azul. Información sobre el estado jurídico: ESTADO 1: Existe título jurídico que avala la línea: sentencia judicial, resolución administrativa o acta de deslinde donde los ayuntamientos manifestaron su conformidad expresa o bien alguno de ellos no asistió al acto de firma, pero consta de manera fehaciente que fue citado a dicho acto. ESTADO 2: Consta expresamente en el acta de deslinde el desacuerdo entre los ayuntamientos sobre la línea completa, o bien la geometría no está avalada por ningún título jurídico. En el RCC se considera la geometría como provisional y sin valor jurídico. ESTADO 3: Consta expresamente en el acta de deslinde el desacuerdo entre los ayuntamientos sobre algún tramo de la línea, o bien la geometría en alguno de sus tramos no está avalada por ningún título jurídico. La geometría inscrita correspondiente a ese tramo o tramos se considera provisional y sin valor jurídico. Información sobre la obtención de la geometría: MÉTODO 1: Línea digitalizada sobre hojas publicadas del Mapa Topográfico Nacional o sobre los documentos cartográficos previos utilizados para su formación. Su precisión está limitada por la del proceso de digitalización manual y por los procesos cartográficos aplicados al mapa del que proceden (generalización, simbolización, etc.). La incertidumbre estimada es del orden de 40 metros, aunque en algunos casos puede ser mayor. MÉTODO 2: Geometría ajustada por métodos distintos de la digitalización descritos en el método 1. En su mayor parte se han calculado a partir de las observaciones angulares y de distancias anotadas en los cuadernos de campo asociados a las actas originales, con ajuste posterior utilizando elementos identificables en ortofotografías aéreas, modelos digitales del terreno u otras fuentes cartográficas. La incertidumbre estimada está en el entorno de 20 metros. MÉTODO 3: Geometría precisa avalada por título jurídico. En las líneas recuperadas, es decir donde consta deslinde antiguo, las coordenadas están calculadas generalmente mediante la combinación de las técnicas del método 2, con el levantamiento topográfico en campo de los mojones existentes en la actualidad. La precisión es mejor que un metro. MÉTODO 4: Línea digitalizada a partir de diferentes fuentes gráficas o literales, o bien no está clara su procedencia.</Abstract>
+					<LegendURL width="241" height="299">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/EstadoJuridico.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>LimitesAdministrativos</Name>
+					<Title>Estilo de límites administrativos (amarillo)</Title>
+					<Abstract>Las comunidades autónomas se representan en amarillo a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesAdministrativos.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>LimitesRojo</Name>
+					<Title>Estilo de límites administrativos (rojo)</Title>
+					<Abstract>Las comunidades autónomas se representan en rojo a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesRojo.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>LimitesGris</Name>
+					<Title>Estilo de límites administrativos (gris)</Title>
+					<Abstract>Las comunidades autónomas se visualizan en gris a todas las escalas, las provincias a escalas mayores de 1:5.000.000 y los municipios a escalas mayores de 1:600.000.</Abstract>
+					<LegendURL width="160" height="70">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesGris.png"/>
+					</LegendURL>
+				</Style>
+				<Style>
+					<Name>LimitesCruz</Name>
+					<Title>Estilo de límites administrativos</Title>
+					<Abstract>A partir de la escala 1:50.000, los límites administrativos se representan con un patrón discontinuo en función de su tipología (país, comunidad autónoma, provincia y municipio), también se representa la línea de costa con una línea continua azul. A escalas pequeñas, las comunidades autónomas, provincias y municipios se representan con una línea continua gris.</Abstract>
+					<LegendURL width="205" height="110">
+						<Format>image/png</Format>
+						<OnlineResource xlink:type="simple" xlink:href="https://www.ign.es/wms-inspire/unidades-administrativas/leyendas/LimitesCruz.png"/>
+					</LegendURL>
+				</Style>
+			</Layer>
+		</Layer>
+	</Capability>
+</WMS_Capabilities>
