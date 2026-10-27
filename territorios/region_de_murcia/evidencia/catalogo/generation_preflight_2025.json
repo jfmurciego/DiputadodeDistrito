@@ -4,15 +4,15 @@
   "territory_id": "region_de_murcia",
   "territory_name": "Región de Murcia",
   "edition": "2025",
-  "run_id": 40241734290,
-  "source_commit": "d65c4c50a54dc5854defb69c5d007dfcdc1128f8",
-  "decision": "BLOCKED",
-  "evaluation_status": "BLOCKED",
-  "stage": "TERRITORY_GRAPH",
+  "run_id": 40604944550,
+  "source_commit": "6f2271b490752e8063cd2e278dd9d4eac25879a0",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 40241734290,
-    "artifact_name": "ddd-source-package-region_de_murcia-2025-40241734290",
-    "artifact_sha256": "636ed8b19a7fe30e746b2d592fa26a8078f540a81baedd12c1f3242b4195f325",
+    "run_id": 40604944550,
+    "artifact_name": "ddd-source-package-region_de_murcia-2025-40604944550",
+    "artifact_sha256": "0d23aac59422a784fc6b22c5ec37e7e9161a81ba7dddf266014b69557f6188cd",
     "package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534",
     "compatibility_identity_sha256": "234860acfd0a8e71e089f18156dd4d76e0b010a35e5edf6510eb49aba9d309f7",
     "territorial_identity_sha256": "14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "BLOCKED",
-    "capability": "CAP_GRAPH",
-    "reason": "M03 bloqueó conectividad administrativa: provincias=1, municipios=0"
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
