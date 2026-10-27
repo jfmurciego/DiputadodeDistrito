@@ -1,4 +1,11 @@
-/* DDD Congreso: mapas exploratorios de León y Cáceres, sin certificación. */
+/*
+ * Proyecto: Diputado de Distrito
+ * Versión: 1.1.0 | Nombre: visor analítico Congreso
+ * Fecha: 2026-10-27 | Alcance: pilotos no certificados de León y Cáceres
+ * Estado: candidato no productivo
+ * Cambios/motivo: validar y mostrar SHA del candidato y run de materialización.
+ * Anterior: legacy/n08_pilot_pages_gate_20261027/current/visor/congreso/congreso.js
+ */
 "use strict";
 const palette=["#2a6fbd","#e88c40","#209779","#aa69bd"];
 const provinces={
@@ -36,6 +43,8 @@ function validate(data,cpro){
    const p=f.properties||{};
    if(typeof p.district_id!=="string"||ids.has(p.district_id)||p.cpro!==cpro||
      p.pilot_only!==true||p.certification_status!=="NOT_CERTIFIED"||p.generation_authorized!==false||
+     typeof p.candidate_file_sha256!=="string"||!/^[0-9a-f]{64}$/.test(p.candidate_file_sha256)||
+     typeof p.execution_id!=="string"||!/^[0-9]+$/.test(p.execution_id)||
      !Number.isInteger(p.population)||p.population<0||!Number.isInteger(p.cusec_count)||p.cusec_count<1)
      throw Error("Identidad o puerta de candidato inválida");
    if(!["Polygon","MultiPolygon"].includes(f.geometry?.type))throw Error("Geometría no poligonal");
@@ -47,6 +56,9 @@ function validate(data,cpro){
 }
 function render(data,cpro){
  const {rows,bound}=validate(data,cpro);
+ const provenance=rows[0];
+ if(rows.some(p=>p.candidate_file_sha256!==provenance.candidate_file_sha256||p.execution_id!==provenance.execution_id||p.witness_sha256!==provenance.witness_sha256))
+   throw Error("Trazabilidad inconsistente entre distritos");
  removeLayers();
  map.addSource("nacional",{type:"geojson",data});
  const match=["match",["get","district_id"]];rows.forEach((p,i)=>match.push(p.district_id,palette[i]));match.push("#888");
@@ -65,8 +77,11 @@ function render(data,cpro){
  }
  status.textContent=provinces[cpro].name+": "+rows.length+" distritos analíticos · "+fmt(provinces[cpro].population)+" habitantes";
  limitations.textContent=provinces[cpro].limitations;
- const sha=rows[0]?.witness_sha256||"—";
- sourceDetails.textContent=provinces[cpro].source+"; witness SHA-256 "+sha+"; certificación: NOT_PERFORMED";
+ sourceDetails.textContent=provinces[cpro].source+
+   "; candidato SHA-256 "+provenance.candidate_file_sha256+
+   "; ejecución GitHub Actions #"+provenance.execution_id+
+   "; testigo SHA-256 "+provenance.witness_sha256+
+   "; certificación: NOT_PERFORMED";
  detail.textContent="Pulsa un distrito para ver su ficha.";
 }
 async function show(cpro){

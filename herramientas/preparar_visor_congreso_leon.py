@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Versión 1.2.0 — Rechaza JSON ambiguo de entradas analíticas.
+"""Versión 1.3.0 — GeoJSON analítico con procedencia inmutable.
 
+Fecha: 2026-10-27. Alcance: materializar previsualización de candidatos N08.
+Estado: no productivo. Cambios/motivo: añadir SHA del archivo fuente y run ID.
+Predecesor: legacy/n08_pilot_pages_gate_20261027/current/herramientas/preparar_visor_congreso_leon.py.
 No certifica ni publica producto territorial. No altera geometrías originales;
 la unión disuelve secciones exclusivamente para representación cartográfica.
-Predecesor: legacy/nac_piloto_20261026/herramientas/preparar_visor_congreso_leon_v1.1.0.py.
 """
 from __future__ import annotations
 import argparse
@@ -38,7 +40,15 @@ def file_sha(path):
             h.update(block)
     return h.hexdigest()
 
-def make_geojson(candidate, root, output, *, split_output=None):
+def artifact_provenance(execution_id, candidate_file_sha256):
+    if not isinstance(execution_id, str) or not execution_id.isdecimal():
+        raise ValueError("EXECUTION_ID_INVALID")
+    if not isinstance(candidate_file_sha256, str) or len(candidate_file_sha256) != 64 or any(c not in "0123456789abcdef" for c in candidate_file_sha256):
+        raise ValueError("CANDIDATE_FILE_SHA256_INVALID")
+    return {"execution_id": execution_id, "candidate_file_sha256": candidate_file_sha256}
+
+
+def make_geojson(candidate, root, output, *, execution_id, candidate_file_sha256, split_output=None):
     import geopandas as gpd
     import shapely
     from shapely.geometry import mapping
@@ -47,6 +57,7 @@ def make_geojson(candidate, root, output, *, split_output=None):
         or candidate.get("generation_authorized") is not False
         or candidate.get("product_certification")!="NOT_PERFORMED"):
         raise ValueError("CANDIDATE_CONTRACT_INVALID")
+    provenance=artifact_provenance(execution_id,candidate_file_sha256)
     groups=candidate["districts"]
     cpro=candidate["cpro"]
     preflight=root/"docs/ESTUDIOS/CAMPANA_NACIONAL_20261013"/f"PREFLIGHT_CPRO{cpro}"
@@ -110,6 +121,7 @@ def make_geojson(candidate, root, output, *, split_output=None):
             "cusec_count":len(d["cusecs"]),
             "pilot_only":True,"certification_status":"NOT_CERTIFIED",
             "candidate_sha256":hashlib.sha256(json.dumps(candidate,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()).hexdigest(),
+            **provenance,
             "witness_sha256":candidate["witness_sha256"],
             "cpro":cpro,"generation_authorized":False
         },"geometry":mapping(geom)})
@@ -130,7 +142,8 @@ def make_geojson(candidate, root, output, *, split_output=None):
                     raise ValueError("MUNICIPAL_SPLIT_GEOMETRY_INVALID")
                 split_features.append({"type":"Feature","geometry":mapping(geom),"properties":{
                     "CUMUN":municipality,"district_id":district_id,
-                    "pilot_only":True,"certification_status":"NOT_CERTIFIED"
+                    "pilot_only":True,"certification_status":"NOT_CERTIFIED",
+                    **provenance
                 }})
         split_output.parent.mkdir(parents=True,exist_ok=True)
         split_output.write_text(json.dumps({"type":"FeatureCollection","features":split_features},
@@ -145,8 +158,11 @@ def main():
     p.add_argument("--candidate",type=Path,required=True)
     p.add_argument("--root",type=Path,default=Path(__file__).resolve().parents[1])
     p.add_argument("--output",type=Path,required=True)
+    p.add_argument("--execution-id",required=True,help="GitHub Actions run ID that produced this preview")
     p.add_argument("--split-output",type=Path)
     a=p.parse_args()
-    result=make_geojson(strict_json_loads(a.candidate.read_text(encoding="utf-8")),a.root,a.output,split_output=a.split_output)
+    result=make_geojson(strict_json_loads(a.candidate.read_text(encoding="utf-8")),a.root,a.output,
+                        execution_id=a.execution_id,candidate_file_sha256=file_sha(a.candidate),
+                        split_output=a.split_output)
     print("ANALYTICAL_GEOJSON_READY cpro="+str(result["features"][0]["properties"]["cpro"])+" districts="+str(len(result["features"]))+" sha256="+file_sha(a.output))
 if __name__=="__main__":main()
