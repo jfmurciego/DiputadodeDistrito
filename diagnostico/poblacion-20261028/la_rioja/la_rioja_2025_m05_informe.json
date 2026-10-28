@@ -1,0 +1,284 @@
+{
+  "module": "05",
+  "version": "7.4.1",
+  "K": 33,
+  "total_pop": 322282,
+  "target": 9766.121212121212,
+  "population_floor": 7812.89696969697,
+  "population_cap": 17090.71212121212,
+  "tolerance_absolute": 1171.9345454545453,
+  "objective_start": [
+    0,
+    0.0,
+    1,
+    0.41775836069,
+    0.311544869623
+  ],
+  "objective_after_greedy": [
+    0,
+    0.0,
+    1,
+    0.41775836069,
+    0.311544869623
+  ],
+  "objective_final": [
+    0,
+    0.0,
+    1,
+    0.41775836069,
+    0.311209002921
+  ],
+  "population_baseline_status": "PASS",
+  "population_status_by_district": {
+    "0": {
+      "population": 9764,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "1": {
+      "population": 9018,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "10": {
+      "population": 9638,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "11": {
+      "population": 8750,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "12": {
+      "population": 9907,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "13": {
+      "population": 9578,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "14": {
+      "population": 10780,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "15": {
+      "population": 9405,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "16": {
+      "population": 10714,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "17": {
+      "population": 9714,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "18": {
+      "population": 10905,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "19": {
+      "population": 9209,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "2": {
+      "population": 8797,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "20": {
+      "population": 9269,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "21": {
+      "population": 9070,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "22": {
+      "population": 13846,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "23": {
+      "population": 8942,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "24": {
+      "population": 9207,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "25": {
+      "population": 10509,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "26": {
+      "population": 8998,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "27": {
+      "population": 9424,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "28": {
+      "population": 9954,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "29": {
+      "population": 10753,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "3": {
+      "population": 8856,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "30": {
+      "population": 9195,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "31": {
+      "population": 9307,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "32": {
+      "population": 9241,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "4": {
+      "population": 9226,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "5": {
+      "population": 10010,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "6": {
+      "population": 10018,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "7": {
+      "population": 9730,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "8": {
+      "population": 9956,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    },
+    "9": {
+      "population": 10592,
+      "floor": 7812.89696969697,
+      "cap": 17090.71212121212,
+      "population_status": "PASS"
+    }
+  },
+  "districts_below_floor": 0,
+  "population_floor_exempt_partitions": [],
+  "districts_above_cap": 0,
+  "districts_outside_tolerance": 1,
+  "best_max_rel_dev": 0.41775836069,
+  "accepted_unit_moves": 1702,
+  "accepted_greedy_moves": 0,
+  "accepted_annealing_moves": 1702,
+  "final_changed_units": 47,
+  "atomic_units": 193,
+  "initial_candidate_relations": 187,
+  "active_provinces": [
+    "26"
+  ],
+  "anneal_iterations_executed": 20000,
+  "first_feasible_iteration": null,
+  "objective_first_feasible": null,
+  "post_feasible_iterations": 0,
+  "anneal_start_objective": [
+    0,
+    0.0,
+    1,
+    0.41775836069,
+    0.311544869623
+  ],
+  "anneal_start_energy": 0.342432787657826,
+  "anneal_best_energy": 0.342432787657826,
+  "anneal_parameters": {
+    "outside_penalty": 0.01,
+    "maxdev_weight": 0.05,
+    "churn_weight": 0.0016,
+    "temp_start": 0.02,
+    "temp_end": 0.0005,
+    "seed": 12345,
+    "iters": 20000
+  },
+  "province_violations": [],
+  "seed": 12345,
+  "wrapper_version": "7.8.4",
+  "swap_polish": {
+    "enabled": false,
+    "max_swaps": 0,
+    "accepted_swaps": 0
+  },
+  "population_repair": {
+    "enabled": false,
+    "activation": "NOT_NEEDED",
+    "result": "DISABLED",
+    "hard_population_violations_before": 0,
+    "population_floor_exempt_partitions": [],
+    "district_floor_overrides": {}
+  }
+}

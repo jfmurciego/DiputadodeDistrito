@@ -1,0 +1,9 @@
+{
+  "schema": "ddd.module-chain-state/1.0",
+  "params": "territorios/comunidad_foral_de_navarra/config/comunidad_foral_de_navarra_2025.yaml",
+  "run_id": "production-40241742181-1",
+  "completed_stage": 5,
+  "completed_stage_label": "M05",
+  "cache_dir": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/comunidad_foral_de_navarra_2025",
+  "updated_at_utc": "2026-10-25T23:23:06.256917+00:00"
+}

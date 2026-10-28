@@ -1,0 +1,2643 @@
+{
+  "schema": "ddd.geometric-components-audit/2.0",
+  "tool_version": "2.0.1",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "gate_statement": "75 distritos evaluados / 60 PASS / 15 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+  "source": "/app/territorios/pais_vasco/.cache/ddd/preparacion/pais_vasco_2025/pais_vasco_2025_m06_secciones.geojson.zip",
+  "contract_path": "territorios/pais_vasco/config/pais_vasco_2025.yaml",
+  "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+  "working_crs": "EPSG:3035",
+  "section_field": "CUSEC_KEY",
+  "district_field": "district_id",
+  "section_count": 1713,
+  "district_count": 75,
+  "expected_districts": 75,
+  "expected_districts_ok": true,
+  "connected_districts": 60,
+  "governed_exceptions": 15,
+  "blocked_districts": 0,
+  "policy_mismatches": 0,
+  "contract_blockers": [],
+  "districts": [
+    {
+      "district_id": "0",
+      "decision": "PASS",
+      "section_count": 14,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "04d5ac9932e096848c26d540d58cd3c2aa7ab0fd684d0088c47a96bae767521c",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 73079457.53959334,
+          "area_share": 1.0,
+          "geometry_sha256": "04d5ac9932e096848c26d540d58cd3c2aa7ab0fd684d0088c47a96bae767521c",
+          "bounds": [
+            3277350.8786140694,
+            2271222.2255887697,
+            3289672.502812705,
+            2283386.144830295
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "1",
+      "decision": "PASS",
+      "section_count": 21,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "c7a0031c9225ccdfa2588552e58798d5b34c130101f5c219dffe4af5fc8b8cf4",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2057495.6830814444,
+          "area_share": 1.0,
+          "geometry_sha256": "c7a0031c9225ccdfa2588552e58798d5b34c130101f5c219dffe4af5fc8b8cf4",
+          "bounds": [
+            3286560.1859637834,
+            2279239.035565429,
+            3288497.0232024766,
+            2281191.685843288
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "2",
+      "decision": "PASS",
+      "section_count": 17,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "510b53a08b9fefb1230450e9afde64ff8c3e3c08abb22fb3fea41337be579b8e",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 102997371.037048,
+          "area_share": 1.0,
+          "geometry_sha256": "510b53a08b9fefb1230450e9afde64ff8c3e3c08abb22fb3fea41337be579b8e",
+          "bounds": [
+            3273266.7991496352,
+            2282030.5150600895,
+            3293341.7255245424,
+            2290894.94651887
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "3",
+      "decision": "PASS",
+      "section_count": 23,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "585cd9929ca7dd03386f2fb3a49d59f29a32f76332650e95420ed33a4736c877",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 1933584.242462569,
+          "area_share": 1.0,
+          "geometry_sha256": "585cd9929ca7dd03386f2fb3a49d59f29a32f76332650e95420ed33a4736c877",
+          "bounds": [
+            3287698.655147746,
+            2280000.4788941187,
+            3290062.5147747463,
+            2281951.395180298
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "4",
+      "decision": "PASS",
+      "section_count": 24,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "517a5faa1c114d458783fa72d446b5746b09676895cdf098953e9c85075adb5a",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2345381.941130195,
+          "area_share": 1.0,
+          "geometry_sha256": "517a5faa1c114d458783fa72d446b5746b09676895cdf098953e9c85075adb5a",
+          "bounds": [
+            3284890.583791818,
+            2281190.325492056,
+            3288471.201931405,
+            2282888.6311137574
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "5",
+      "decision": "PASS",
+      "section_count": 19,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "db30a13c377b5ba083c73d06b9d3a9a27f0605c2f18da159427e020695a579f6",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 4297968.142219711,
+          "area_share": 1.0,
+          "geometry_sha256": "db30a13c377b5ba083c73d06b9d3a9a27f0605c2f18da159427e020695a579f6",
+          "bounds": [
+            3286468.5171510964,
+            2277624.089902249,
+            3290864.7388132503,
+            2280654.864284576
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "6",
+      "decision": "PASS",
+      "section_count": 19,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "1d26b3dbd1e1e3607ad8c40fe71135607d04e43b89532f2667b079020e13c984",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3771921.24402657,
+          "area_share": 1.0,
+          "geometry_sha256": "1d26b3dbd1e1e3607ad8c40fe71135607d04e43b89532f2667b079020e13c984",
+          "bounds": [
+            3284252.805481596,
+            2278664.5650662407,
+            3287256.7891147053,
+            2281733.111948239
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "7",
+      "decision": "PASS",
+      "section_count": 18,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "4fa14bf88d18180ac39d52df6c5fadce0fe88b5c13d1a3350763a786cb34ba90",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 905065.8929166456,
+          "area_share": 1.0,
+          "geometry_sha256": "4fa14bf88d18180ac39d52df6c5fadce0fe88b5c13d1a3350763a786cb34ba90",
+          "bounds": [
+            3286636.29516052,
+            2280887.2528534057,
+            3288194.8864768036,
+            2282073.530593285
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "8",
+      "decision": "PASS",
+      "section_count": 24,
+      "component_count": 1,
+      "interior_ring_count": 1,
+      "geometry_sha256": "1761da349b2653b6ee5f9737d991d64d4ebe7945a4de84e47a160e5fa0ba6f95",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 643075446.0978116,
+          "area_share": 1.0,
+          "geometry_sha256": "1761da349b2653b6ee5f9737d991d64d4ebe7945a4de84e47a160e5fa0ba6f95",
+          "bounds": [
+            3286368.6254564803,
+            2258657.9756368184,
+            3322933.653126614,
+            2293085.3278295724
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "9",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 24,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "63d17bf1a995e6dd845dc4cd36a8433993cc8073b18319293ee6dbd036b974af",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 309051359.0997201,
+          "area_share": 0.9298149923559811,
+          "geometry_sha256": "3fcde4695762b4acb23d46e378a1d6850f0bdf00a57ac4e81210cf67952a2d1b",
+          "bounds": [
+            3249991.211292503,
+            2301033.1307761264,
+            3273823.873802301,
+            2326280.9149286407
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 23328051.471667375,
+          "area_share": 0.07018500764401905,
+          "geometry_sha256": "5ff12bd93e8d0cf7bf6ac0a7f305458e4d0a69ce5b849355c861b95b1d345c08",
+          "bounds": [
+            3259796.240653933,
+            2294793.810471369,
+            3267370.207610347,
+            2300924.094267424
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "0100201001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "63d17bf1a995e6dd845dc4cd36a8433993cc8073b18319293ee6dbd036b974af",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "10",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 37,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "2d5df32e5ed7d3e4aa0a6e8a882c87bc8d75379498ba61b0de129f15b8b33c0f",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 1795885193.9520957,
+          "area_share": 0.9997628836738187,
+          "geometry_sha256": "45d4ed02e3c38a0cde774be5f15232e6d2e50d6d15c05ecc2ea9ed2c2986730e",
+          "bounds": [
+            3238737.7432036093,
+            2238077.1214946313,
+            3315449.739164351,
+            2306464.4376471825
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 425934.69550346374,
+          "area_share": 0.00023711632618127798,
+          "geometry_sha256": "8d979777657128fae03894874ced403508d6522d97c3b50fab67ce2d695fb696",
+          "bounds": [
+            3295114.7877346207,
+            2281653.1370403506,
+            3295850.529632574,
+            2282543.728408895
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "0100801001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "2d5df32e5ed7d3e4aa0a6e8a882c87bc8d75379498ba61b0de129f15b8b33c0f",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "11",
+      "decision": "PASS",
+      "section_count": 22,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "6f2cd10439e0305ce92ee164ca863c0b49bddedd51520a9bc5b5cfb898fc4002",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 37124788.45768115,
+          "area_share": 1.0,
+          "geometry_sha256": "6f2cd10439e0305ce92ee164ca863c0b49bddedd51520a9bc5b5cfb898fc4002",
+          "bounds": [
+            3361623.820521853,
+            2316844.5942494352,
+            3371010.27412139,
+            2324024.216483932
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "12",
+      "decision": "PASS",
+      "section_count": 25,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "e1ab17187bd083b3dfe061d99c17014d53fcc8a76341eebaaa426cae1e5e6c81",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3062397.004835712,
+          "area_share": 1.0,
+          "geometry_sha256": "e1ab17187bd083b3dfe061d99c17014d53fcc8a76341eebaaa426cae1e5e6c81",
+          "bounds": [
+            3349231.636220307,
+            2320834.3494109223,
+            3351858.623715284,
+            2323701.8959662784
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "13",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 28,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "6929b3e8cec4323a586f1834a90cc777e4348d17601eda3f30c883b03e17fdf5",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2345354.056257503,
+          "area_share": 0.9815727752736162,
+          "geometry_sha256": "ad507b6ab7900ef704f86d5a421b23096fd486b9b8e5719a94567b41a9da1730",
+          "bounds": [
+            3350214.4123706715,
+            2321855.7716004318,
+            3352826.159681757,
+            2325003.9455910106
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 44029.71164878288,
+          "area_share": 0.018427224726383834,
+          "geometry_sha256": "32a9f6c52679650112fac305d6edbf253189a000714652cc1a2b3a79d04de1e3",
+          "bounds": [
+            3349570.808857202,
+            2323659.1804658445,
+            3349948.8608369026,
+            2323906.405607532
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2006901003"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "6929b3e8cec4323a586f1834a90cc777e4348d17601eda3f30c883b03e17fdf5",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "14",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "7bb352ec2319eeb851018174356e152c70212993ea78b60b5ca78c15e508e6c1",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 20225748.685095616,
+          "area_share": 1.0,
+          "geometry_sha256": "7bb352ec2319eeb851018174356e152c70212993ea78b60b5ca78c15e508e6c1",
+          "bounds": [
+            3342406.2349083833,
+            2319067.846528654,
+            3351045.8813887546,
+            2324211.377151123
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "15",
+      "decision": "PASS",
+      "section_count": 25,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "28cc97445765121141a097b5a52d370a8918daa6ab64744ec54c21dae00f1ae5",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 5620950.8589422805,
+          "area_share": 1.0,
+          "geometry_sha256": "28cc97445765121141a097b5a52d370a8918daa6ab64744ec54c21dae00f1ae5",
+          "bounds": [
+            3351741.0849994966,
+            2322167.920589078,
+            3355472.224491236,
+            2325134.557323798
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "16",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "a6bb299119a54c68f1f4d265d10d80e2af2d5d7f7f6369a322a68dc541222b28",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2976630.8625735543,
+          "area_share": 1.0,
+          "geometry_sha256": "a6bb299119a54c68f1f4d265d10d80e2af2d5d7f7f6369a322a68dc541222b28",
+          "bounds": [
+            3351555.358523716,
+            2321123.5150666498,
+            3356132.623749196,
+            2323091.7365446333
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "17",
+      "decision": "PASS",
+      "section_count": 16,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "7e76ad954da2c8e146bc4a4a309574571b087b57b66d12dcb1e9072ce2fd057a",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 215485038.4968807,
+          "area_share": 1.0,
+          "geometry_sha256": "7e76ad954da2c8e146bc4a4a309574571b087b57b66d12dcb1e9072ce2fd057a",
+          "bounds": [
+            3295625.19965452,
+            2287515.0484133726,
+            3319111.7829675553,
+            2307525.6996716135
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "18",
+      "decision": "PASS",
+      "section_count": 32,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "a65b68a3f8cd6703105d630083f9c7b83d2e0a8676dfe562deeb4b04690c1de7",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 34441155.17735537,
+          "area_share": 1.0,
+          "geometry_sha256": "a65b68a3f8cd6703105d630083f9c7b83d2e0a8676dfe562deeb4b04690c1de7",
+          "bounds": [
+            3360801.082495388,
+            2321943.6810163353,
+            3368024.1085200505,
+            2329258.394894978
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "19",
+      "decision": "PASS",
+      "section_count": 24,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "c54121b883f13a45def730510f6f7c368c2369a9fd9631522a71a5c2c4503f0c",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 135039968.8415004,
+          "area_share": 1.0,
+          "geometry_sha256": "c54121b883f13a45def730510f6f7c368c2369a9fd9631522a71a5c2c4503f0c",
+          "bounds": [
+            3327818.5108434334,
+            2288440.83875526,
+            3348256.41616531,
+            2305996.0918897614
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "20",
+      "decision": "PASS",
+      "section_count": 21,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "76355f5fb75c391b8397fad8697177566734530fa6b691acf099dce0e5320403",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 156483024.49624974,
+          "area_share": 1.0,
+          "geometry_sha256": "76355f5fb75c391b8397fad8697177566734530fa6b691acf099dce0e5320403",
+          "bounds": [
+            3310953.2731273104,
+            2311494.0266196732,
+            3327763.638076433,
+            2329342.4861513153
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "21",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "2c1511c6e3a0e606cfa7895163731e433050968d5d6d8c9eca4f8c4348ca3595",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 51949166.62219142,
+          "area_share": 1.0,
+          "geometry_sha256": "2c1511c6e3a0e606cfa7895163731e433050968d5d6d8c9eca4f8c4348ca3595",
+          "bounds": [
+            3348387.2617706778,
+            2306472.3395927968,
+            3357119.8832139377,
+            2320953.2764372905
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "22",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 17,
+      "component_count": 3,
+      "interior_ring_count": 0,
+      "geometry_sha256": "fe74dd990be15d0b8427e3ccbec1ea6bb8e8b986af42bc2ffa84d0adfaba68b8",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 25007030.356054123,
+          "area_share": 0.9767255003790575,
+          "geometry_sha256": "4ffd158f6622dff0a990b3aa3e349f0c6e859d675f790ce7667881504b834193",
+          "bounds": [
+            3329581.330139118,
+            2317578.9324663365,
+            3337876.8766968623,
+            2325603.359292873
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 429533.71198249405,
+          "area_share": 0.016776743331469064,
+          "geometry_sha256": "a6c46d4b63cf30a5e8d25cf9c18f9a4dac22141ac9fb06d50a03a6f5ccbe76a4",
+          "bounds": [
+            3332117.436999094,
+            2319346.532267571,
+            3332784.4193515256,
+            2320305.838210434
+          ]
+        },
+        {
+          "component": 3,
+          "area_m2": 166361.5711006255,
+          "area_share": 0.006497756289473467,
+          "geometry_sha256": "367bb153958c2e78875f344670ef3d337e6e61fae875022a0a880c6d419ffbd7",
+          "bounds": [
+            3332948.664170759,
+            2320537.4222595626,
+            3333753.3700592886,
+            2320895.015740743
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2007902007"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "fe74dd990be15d0b8427e3ccbec1ea6bb8e8b986af42bc2ffa84d0adfaba68b8",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2007902007"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            3
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "fe74dd990be15d0b8427e3ccbec1ea6bb8e8b986af42bc2ffa84d0adfaba68b8",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2007902007"
+          ],
+          "endpoints": null,
+          "components": [
+            2,
+            3
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "fe74dd990be15d0b8427e3ccbec1ea6bb8e8b986af42bc2ffa84d0adfaba68b8",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "23",
+      "decision": "PASS",
+      "section_count": 22,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "94c17c4022ea7cf8e79723336b08c14d8786207e2cbf9f29173dd35e05541476",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 103593349.46479611,
+          "area_share": 1.0,
+          "geometry_sha256": "94c17c4022ea7cf8e79723336b08c14d8786207e2cbf9f29173dd35e05541476",
+          "bounds": [
+            3314141.6816956783,
+            2284574.631386031,
+            3323604.5018953383,
+            2307205.7440093346
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "24",
+      "decision": "PASS",
+      "section_count": 23,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "eefa9b16410a840b49a80f89137a9f7cc449172ab8e8118be2e254a5f1c02152",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 24770893.8222756,
+          "area_share": 1.0,
+          "geometry_sha256": "eefa9b16410a840b49a80f89137a9f7cc449172ab8e8118be2e254a5f1c02152",
+          "bounds": [
+            3307759.222671626,
+            2312602.049245657,
+            3312980.2863388318,
+            2319845.320141967
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "25",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "b2a535165f74ad68c97a3164105798ad2f818b04488acb5f404695625a4e6262",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 237610483.82231462,
+          "area_share": 1.0,
+          "geometry_sha256": "b2a535165f74ad68c97a3164105798ad2f818b04488acb5f404695625a4e6262",
+          "bounds": [
+            3319036.6763453595,
+            2283512.9038873273,
+            3337775.491499741,
+            2309461.746358983
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "26",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 24,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "a19e5e11d7d83e0ff9aa9d850017a69f5cddf600dde271089e30d72a41711fcf",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 77250409.37221527,
+          "area_share": 0.9807252210939796,
+          "geometry_sha256": "709e77fc36f3a1e801eb1c1d2d0f883d45b3697e1f183fdd74685700673155cb",
+          "bounds": [
+            3355713.3322158083,
+            2309979.0228823703,
+            3366648.3790142327,
+            2327223.624528175
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 1518248.4645271818,
+          "area_share": 0.0192747789060204,
+          "geometry_sha256": "816f5009c5a6e2cf1db348604cae2a00118639882bbb29d2ea653a9e2b1f6d27",
+          "bounds": [
+            3354563.984867381,
+            2321763.8554484397,
+            3357243.2368910783,
+            2324254.8254759815
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "GOVERNED_BRIDGE",
+          "sections": null,
+          "endpoints": [
+            "2006401001",
+            "2006402001"
+          ],
+          "components": [
+            1,
+            2
+          ],
+          "edge_type": "municipal_discontinuity",
+          "admin_scope": "municipality:20064",
+          "reason": "Pasaia: componentes municipales separadas por la bahía; enlace intramunicipal mínimo auditado (~103 m).",
+          "source": "territorios/pais_vasco/config/pais_vasco_2025.yaml:modulos.modulo_02_construir_adyacencias.topology_bridges[1]",
+          "geometry_sha256": "a19e5e11d7d83e0ff9aa9d850017a69f5cddf600dde271089e30d72a41711fcf",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "27",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "8412398dd67a0e97458bff30f93915fa1550e97d89ca7ffed9158fb19333117b",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 125994687.54257506,
+          "area_share": 1.0,
+          "geometry_sha256": "8412398dd67a0e97458bff30f93915fa1550e97d89ca7ffed9158fb19333117b",
+          "bounds": [
+            3340853.1042390745,
+            2298130.63597413,
+            3354546.923167268,
+            2317122.8084741714
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "28",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 23,
+      "component_count": 4,
+      "interior_ring_count": 2,
+      "geometry_sha256": "2f2a10a1f944cbd1bab72251a801c605245c893524b376d66271e6adfcb26af7",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 15468692.563983753,
+          "area_share": 0.5773288476332512,
+          "geometry_sha256": "5e85f268a23f77c1acb587f197dcbc51d2aec6b6766daff3e251fa94d734374e",
+          "bounds": [
+            3348424.5353676304,
+            2318145.860594318,
+            3356495.5498477956,
+            2322563.0755299055
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 6915364.903673785,
+          "area_share": 0.2580980670659354,
+          "geometry_sha256": "370ffc631dc024b3672496cd6d31b0a3d3c58b81902ba3649fa947ac9b82fd44",
+          "bounds": [
+            3343556.4911443056,
+            2315386.4304735167,
+            3347129.79780027,
+            2319065.0095232595
+          ]
+        },
+        {
+          "component": 3,
+          "area_m2": 2304879.1377105503,
+          "area_share": 0.08602363845581897,
+          "geometry_sha256": "1a9424fb0652dbfcdb54852d15df89850419a73d352cdcb9af10002f6f67aa57",
+          "bounds": [
+            3355118.9353186944,
+            2314636.9195224685,
+            3357196.936626586,
+            2316477.274231497
+          ]
+        },
+        {
+          "component": 4,
+          "area_m2": 2104618.969409393,
+          "area_share": 0.07854944684499464,
+          "geometry_sha256": "209b1d52be50be8be98b2c63edd0c502b3234159d463c84c70385fd1b35b003f",
+          "bounds": [
+            3355213.533528395,
+            2311032.2193139303,
+            3357001.2137233387,
+            2313255.4597782153
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2006903020"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            3
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "2f2a10a1f944cbd1bab72251a801c605245c893524b376d66271e6adfcb26af7",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2006903020"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            4
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "2f2a10a1f944cbd1bab72251a801c605245c893524b376d66271e6adfcb26af7",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2006903020"
+          ],
+          "endpoints": null,
+          "components": [
+            3,
+            4
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "2f2a10a1f944cbd1bab72251a801c605245c893524b376d66271e6adfcb26af7",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2006906012"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "2f2a10a1f944cbd1bab72251a801c605245c893524b376d66271e6adfcb26af7",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "29",
+      "decision": "PASS",
+      "section_count": 31,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "deddbd3b7b20d939f201469c6f0d862bfc785fe25dc31bda9f4c5fe7028b73dc",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 31873712.85291823,
+          "area_share": 1.0,
+          "geometry_sha256": "deddbd3b7b20d939f201469c6f0d862bfc785fe25dc31bda9f4c5fe7028b73dc",
+          "bounds": [
+            3354751.607293551,
+            2309673.750099873,
+            3360841.423472682,
+            2322596.0974763874
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "30",
+      "decision": "PASS",
+      "section_count": 18,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "33bcceb7e4b934905b5d3d7de8d06c27e8097ad745261d3442b77b34eb9c10b0",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 33397307.518929224,
+          "area_share": 1.0,
+          "geometry_sha256": "33bcceb7e4b934905b5d3d7de8d06c27e8097ad745261d3442b77b34eb9c10b0",
+          "bounds": [
+            3301543.048767747,
+            2298887.0327207977,
+            3309795.8944170964,
+            2305994.678875706
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "31",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "ffb9652be4adb97ef52803c98a78bc8f2e9de9fd9e61e66bd5c858e099f33ca6",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 147710654.8497043,
+          "area_share": 1.0,
+          "geometry_sha256": "ffb9652be4adb97ef52803c98a78bc8f2e9de9fd9e61e66bd5c858e099f33ca6",
+          "bounds": [
+            3305404.682625912,
+            2302052.653666128,
+            3324268.2287035957,
+            2318105.125963585
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "32",
+      "decision": "PASS",
+      "section_count": 16,
+      "component_count": 1,
+      "interior_ring_count": 2,
+      "geometry_sha256": "dd24b809f07061ac25bb2a40240b333902233888d45158313cec51e9bbeea04e",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 140613728.6373746,
+          "area_share": 1.0,
+          "geometry_sha256": "dd24b809f07061ac25bb2a40240b333902233888d45158313cec51e9bbeea04e",
+          "bounds": [
+            3324723.587248582,
+            2309306.1476552347,
+            3344297.3521129256,
+            2325293.876376905
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "33",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 17,
+      "component_count": 3,
+      "interior_ring_count": 0,
+      "geometry_sha256": "9da2c5de9c6e24ac3b2812e3e2c35605c9f20be5b37129e4c63d18f0f54bbeae",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 31505176.294930432,
+          "area_share": 0.9987099537642161,
+          "geometry_sha256": "4313d5695263cbd7518e78f1d3e3bdbc89d56386d33a9ba2fb81e6f186cf18c8",
+          "bounds": [
+            3341214.2546968204,
+            2315025.0871906243,
+            3348933.3157719257,
+            2322053.6684245104
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 30982.726563157445,
+          "area_share": 0.0009821483658340737,
+          "geometry_sha256": "eca1f33083c399814dc4b0269f86d03848a85da9dd2913a10f06fc5ecaedcfd2",
+          "bounds": [
+            3346158.644331352,
+            2318290.7905465825,
+            3346455.181047109,
+            2318598.268209155
+          ]
+        },
+        {
+          "component": 3,
+          "area_m2": 9712.906772423634,
+          "area_share": 0.0003078978699498424,
+          "geometry_sha256": "3878168f11541bfb8305301e515934794f70518cd3cc64bee188ac7331539c9f",
+          "bounds": [
+            3346216.471004817,
+            2318614.0367486635,
+            3346384.9733969327,
+            2318719.5180816436
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2007301003"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "9da2c5de9c6e24ac3b2812e3e2c35605c9f20be5b37129e4c63d18f0f54bbeae",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2007301003"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            3
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "9da2c5de9c6e24ac3b2812e3e2c35605c9f20be5b37129e4c63d18f0f54bbeae",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2007301003"
+          ],
+          "endpoints": null,
+          "components": [
+            2,
+            3
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "9da2c5de9c6e24ac3b2812e3e2c35605c9f20be5b37129e4c63d18f0f54bbeae",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "34",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 22,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "cd0bd9678be88e5cc4f69dc5c852b444396ee3c4c70f523869ec58884d1c5dd8",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 147331486.73595804,
+          "area_share": 0.8566674227619329,
+          "geometry_sha256": "6c38eeb19a1fe131eb0d8ac4a3a784ff4a8488c49c65eccec0e5e32a834f815e",
+          "bounds": [
+            3321910.0842733895,
+            2303390.2671404593,
+            3343798.1240903577,
+            2316803.8400210207
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 24650641.70888809,
+          "area_share": 0.14333257723806714,
+          "geometry_sha256": "a8be4981baac2297be9f886fe88be2b7cd43b4796addd648f94f42cc42f99eb7",
+          "bounds": [
+            3329122.8443300016,
+            2296203.4002977647,
+            3335920.587809669,
+            2302626.2626993535
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2006601001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "cd0bd9678be88e5cc4f69dc5c852b444396ee3c4c70f523869ec58884d1c5dd8",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "35",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 18,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "2606a51d258e9b5fdf60a6e886352583f9fa71cf40df358e9133ba9419fe4bcf",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 49829721.314617395,
+          "area_share": 0.8045330886715378,
+          "geometry_sha256": "19b84c36dd97088101eb5b57c37a5eb269f30e00633a41a7684e0f83351c65a6",
+          "bounds": [
+            3333188.2551619727,
+            2300447.8989042374,
+            3347826.777622174,
+            2314532.605900917
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 12106477.477277277,
+          "area_share": 0.19546691132846208,
+          "geometry_sha256": "5cb34bb1339f7f69e283ed4f2b52e790ba4fc3c9feb2ca9b24118cfb9da42538",
+          "bounds": [
+            3339358.859698303,
+            2292306.389236524,
+            3343812.1813512854,
+            2299120.4741356224
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "2007102003"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "2606a51d258e9b5fdf60a6e886352583f9fa71cf40df358e9133ba9419fe4bcf",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "36",
+      "decision": "PASS",
+      "section_count": 27,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "88003832c5fc8dd8218087fa5f6a1d93974a97d4e8f06929c837ab116d2d4b3e",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 1775768.948069799,
+          "area_share": 1.0,
+          "geometry_sha256": "88003832c5fc8dd8218087fa5f6a1d93974a97d4e8f06929c837ab116d2d4b3e",
+          "bounds": [
+            3269675.2268608054,
+            2333370.928607007,
+            3271374.43820682,
+            2335342.292797839
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "37",
+      "decision": "PASS",
+      "section_count": 29,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "df766a4ed6e6ddf15f3890150057ae08b07483d6be5dbb456d0ec3373ade03c1",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 1456856.217441399,
+          "area_share": 1.0,
+          "geometry_sha256": "df766a4ed6e6ddf15f3890150057ae08b07483d6be5dbb456d0ec3373ade03c1",
+          "bounds": [
+            3268408.84465149,
+            2333691.212358236,
+            3270561.175279796,
+            2335237.3392981235
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "38",
+      "decision": "PASS",
+      "section_count": 24,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "8179614d7d2475fa1daa1af6eb6472004ca04a7a2391290f7ea9a40914c697ac",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2941648.0003551324,
+          "area_share": 1.0,
+          "geometry_sha256": "8179614d7d2475fa1daa1af6eb6472004ca04a7a2391290f7ea9a40914c697ac",
+          "bounds": [
+            3271733.260702754,
+            2329830.3307321738,
+            3275150.339518164,
+            2331939.312821868
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "39",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "94b8677940e2a691477a53a15b459cf13d5b59889d896068964df8245d00dfbb",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 863278.3146045267,
+          "area_share": 1.0,
+          "geometry_sha256": "94b8677940e2a691477a53a15b459cf13d5b59889d896068964df8245d00dfbb",
+          "bounds": [
+            3272411.381943564,
+            2327966.8876784546,
+            3274143.57925703,
+            2329311.7679760684
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "40",
+      "decision": "PASS",
+      "section_count": 23,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "3a12e1b3f95d68e0ca6105e487284462625997e12c7c590540c287b01c224059",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 822684.9809412226,
+          "area_share": 1.0,
+          "geometry_sha256": "3a12e1b3f95d68e0ca6105e487284462625997e12c7c590540c287b01c224059",
+          "bounds": [
+            3274595.0452961847,
+            2327841.715495674,
+            3276316.1318184994,
+            2329193.4818336815
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "41",
+      "decision": "PASS",
+      "section_count": 26,
+      "component_count": 1,
+      "interior_ring_count": 1,
+      "geometry_sha256": "3efb0c85c92f3323e6d238f73920e10b835dc811a3f400e9fd8991fe6efdf411",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3491854.6583741624,
+          "area_share": 1.0,
+          "geometry_sha256": "3efb0c85c92f3323e6d238f73920e10b835dc811a3f400e9fd8991fe6efdf411",
+          "bounds": [
+            3274389.627150655,
+            2329008.4167540437,
+            3276964.835438379,
+            2332270.251800582
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "42",
+      "decision": "PASS",
+      "section_count": 25,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "2a9c5182868d21cd065afafc56cf355e5a2a3b3733d47b398bea168017ceea9d",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 927586.6420568576,
+          "area_share": 1.0,
+          "geometry_sha256": "2a9c5182868d21cd065afafc56cf355e5a2a3b3733d47b398bea168017ceea9d",
+          "bounds": [
+            3272350.496759915,
+            2329407.65703445,
+            3273800.116496902,
+            2330441.821111829
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "43",
+      "decision": "PASS",
+      "section_count": 24,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "233f435dc6ce11eff412d6c3a831b1c04c587a2425a821f176b574e04d3c01be",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3970176.248140587,
+          "area_share": 1.0,
+          "geometry_sha256": "233f435dc6ce11eff412d6c3a831b1c04c587a2425a821f176b574e04d3c01be",
+          "bounds": [
+            3275353.0791819016,
+            2327993.9807711863,
+            3278475.0025816797,
+            2330357.18339961
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "44",
+      "decision": "PASS",
+      "section_count": 22,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "7b803025e4f89002b4d298418d37c1f7784b97af290c49afffd74cb85ff1be7b",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 644321.7307751875,
+          "area_share": 1.0,
+          "geometry_sha256": "7b803025e4f89002b4d298418d37c1f7784b97af290c49afffd74cb85ff1be7b",
+          "bounds": [
+            3274090.716869321,
+            2328455.413109594,
+            3275761.1706848815,
+            2329400.5762607753
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "45",
+      "decision": "PASS",
+      "section_count": 19,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "3e4b1ee68a2743edae16606002eb88636075198ee91356dd39b150e85439e71c",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2217021.319982411,
+          "area_share": 1.0,
+          "geometry_sha256": "3e4b1ee68a2743edae16606002eb88636075198ee91356dd39b150e85439e71c",
+          "bounds": [
+            3270985.909023636,
+            2328682.050720712,
+            3274170.9085641215,
+            2331656.401712108
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "46",
+      "decision": "PASS",
+      "section_count": 17,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "23064fa8cb6d8f1f5c3d23e6d2c7076ca29d4aa0aeacc228c254b86c52e714f2",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 1991597.7013389342,
+          "area_share": 1.0,
+          "geometry_sha256": "23064fa8cb6d8f1f5c3d23e6d2c7076ca29d4aa0aeacc228c254b86c52e714f2",
+          "bounds": [
+            3273657.0049695894,
+            2327426.325461712,
+            3277253.341263804,
+            2329133.9556939076
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "47",
+      "decision": "PASS",
+      "section_count": 27,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "178c9cfe9fb858ae14d4cea40724cfd1bd7a4cc5fd94f6e67b97c2c5000a813e",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3037934.4749197215,
+          "area_share": 1.0,
+          "geometry_sha256": "178c9cfe9fb858ae14d4cea40724cfd1bd7a4cc5fd94f6e67b97c2c5000a813e",
+          "bounds": [
+            3270784.6892254176,
+            2330500.457080721,
+            3273387.834544982,
+            2333433.3305847407
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "48",
+      "decision": "PASS",
+      "section_count": 22,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "bd90fb9c089040b769ee5537b867a82addb6380e3d3c8c179ab8164065e53eae",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 1007332.4765270625,
+          "area_share": 1.0,
+          "geometry_sha256": "bd90fb9c089040b769ee5537b867a82addb6380e3d3c8c179ab8164065e53eae",
+          "bounds": [
+            3272813.440509237,
+            2328968.0681427033,
+            3274703.6985062156,
+            2330301.705207779
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "49",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "9b4caaa810d363fce4308a59478fd8980ebbe213cb513c182d69f80307a37ccb",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 6557160.814330369,
+          "area_share": 1.0,
+          "geometry_sha256": "9b4caaa810d363fce4308a59478fd8980ebbe213cb513c182d69f80307a37ccb",
+          "bounds": [
+            3267412.4920762535,
+            2340391.3945288956,
+            3270597.3240517615,
+            2344190.611691922
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "50",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "113e46112db1d740b4ebb5d478d58ae27fa9695d6f26a21d4f140ec6c8d648ac",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3748375.941691869,
+          "area_share": 1.0,
+          "geometry_sha256": "113e46112db1d740b4ebb5d478d58ae27fa9695d6f26a21d4f140ec6c8d648ac",
+          "bounds": [
+            3267794.202970554,
+            2338583.2228543293,
+            3272725.262294431,
+            2341425.4856933746
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "51",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 30,
+      "component_count": 5,
+      "interior_ring_count": 1,
+      "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 329107824.95741403,
+          "area_share": 0.9998591843462472,
+          "geometry_sha256": "af84bde849e4728336148cdb370da93bf24b594f3f3bc92889e1ade1ae2a6c56",
+          "bounds": [
+            3288255.8322157073,
+            2305185.610025417,
+            3312858.2680987595,
+            2344167.683706116
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 26270.804094302865,
+          "area_share": 7.981306660590227e-05,
+          "geometry_sha256": "fce84ed96e324ba0beac6b5851f0f683734f91800357f06058ef098fc1c5f01c",
+          "bounds": [
+            3295356.9805158204,
+            2340839.587986158,
+            3295582.076425037,
+            2341082.2852246477
+          ]
+        },
+        {
+          "component": 3,
+          "area_m2": 12178.810674608474,
+          "area_share": 3.700032264197028e-05,
+          "geometry_sha256": "5f5d170f6f2af2f763516aba7a96ba15b224c842cb65d3ac5c0ea3298c40bfed",
+          "bounds": [
+            3295713.274490619,
+            2340397.307043145,
+            3295877.032903052,
+            2340567.9536888488
+          ]
+        },
+        {
+          "component": 4,
+          "area_m2": 7250.938900975055,
+          "area_share": 2.2029004798690273e-05,
+          "geometry_sha256": "4b5650b005dbbeeb62c209a1fbe762f80ea9d1829b2eefb5614c3e484b8dc25d",
+          "bounds": [
+            3295710.6623314656,
+            2340203.3602983793,
+            3295824.6216101623,
+            2340322.632997285
+          ]
+        },
+        {
+          "component": 5,
+          "area_m2": 649.5066707123358,
+          "area_share": 1.9732597062677433e-06,
+          "geometry_sha256": "f30c6ac7ef5f4dedd1b8d5cecf742fc6e7d734b9d68fca3bca0f4d84cd08f842",
+          "bounds": [
+            3295649.9649784015,
+            2340244.336783833,
+            3295683.453199978,
+            2340291.4665607004
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4802101001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            3
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4802101001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            4
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4802101001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            5
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4802101001"
+          ],
+          "endpoints": null,
+          "components": [
+            3,
+            4
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4802101001"
+          ],
+          "endpoints": null,
+          "components": [
+            3,
+            5
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4802101001"
+          ],
+          "endpoints": null,
+          "components": [
+            4,
+            5
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4807601001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "b6bb3c0528909fb7d797129030fad30a4ca329dc8b1dd4bf0272612690fe6292",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "52",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 18,
+      "component_count": 2,
+      "interior_ring_count": 1,
+      "geometry_sha256": "2bdaca69d35eee8043d2e6facf5856d11b004a16c62ae10ff4fc029ffa1ffc8e",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 69272143.52659068,
+          "area_share": 0.9842110728694797,
+          "geometry_sha256": "85e8f1913ec7eba208968bdefa639ce7713be279a10eabfd1db0a65bcedef55c",
+          "bounds": [
+            3277439.511986073,
+            2331701.6492807614,
+            3289446.6669535628,
+            2348187.3170325086
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 1111278.7251290407,
+          "area_share": 0.01578892713052026,
+          "geometry_sha256": "c5fe0a1cc65bf474b3879421fbae6b2a8ee6b46431cda24260d2db3466653358",
+          "bounds": [
+            3276578.2938862336,
+            2330098.1085330406,
+            3278132.310655927,
+            2331629.349453516
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4890101004"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "2bdaca69d35eee8043d2e6facf5856d11b004a16c62ae10ff4fc029ffa1ffc8e",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "53",
+      "decision": "PASS",
+      "section_count": 22,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "be42c841f64f383e9e9e45464bbd4ef141a3b34fcb259d2f02ad10b6997d1089",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 129347528.13755043,
+          "area_share": 1.0,
+          "geometry_sha256": "be42c841f64f383e9e9e45464bbd4ef141a3b34fcb259d2f02ad10b6997d1089",
+          "bounds": [
+            3266490.6688877717,
+            2311661.092352991,
+            3283845.4697239418,
+            2330066.1334501496
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "54",
+      "decision": "PASS",
+      "section_count": 20,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "ae435889c711b4be69b9b32bbcd2c6697691a59b6a83923b54e3cbbb8bd586b7",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 10534776.289349908,
+          "area_share": 1.0,
+          "geometry_sha256": "ae435889c711b4be69b9b32bbcd2c6697691a59b6a83923b54e3cbbb8bd586b7",
+          "bounds": [
+            3291034.3368812143,
+            2313021.934974389,
+            3297598.1676968522,
+            2316293.275732716
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "55",
+      "decision": "PASS",
+      "section_count": 14,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "efcc0b27934b92b96bc809c3a0df73c427d2df5b6a74a535e615884197ccc851",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 24366524.867322896,
+          "area_share": 1.0,
+          "geometry_sha256": "efcc0b27934b92b96bc809c3a0df73c427d2df5b6a74a535e615884197ccc851",
+          "bounds": [
+            3269807.700937569,
+            2339362.6340095955,
+            3275649.7681960072,
+            2347016.5808561104
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "56",
+      "decision": "PASS",
+      "section_count": 24,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "f2ae8572c07281ec06a71638a7bcaf617e4a480470a34e0e8020bcde8f46a8bf",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 18812501.151518513,
+          "area_share": 1.0,
+          "geometry_sha256": "f2ae8572c07281ec06a71638a7bcaf617e4a480470a34e0e8020bcde8f46a8bf",
+          "bounds": [
+            3269427.157549333,
+            2324467.957974538,
+            3275431.012914682,
+            2333425.2568644173
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "57",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 27,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "71dc3e99785a8867d34d1d834f08c00f052b240754161727cf6a6c6541a46423",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 106992369.55893074,
+          "area_share": 0.9994720697154751,
+          "geometry_sha256": "466fce9b0de0e5ce721cdc1e21720c6a6b7ef78d0e839eeef2c748b595b8a3d7",
+          "bounds": [
+            3291998.3931387356,
+            2329459.406239343,
+            3310688.02915493,
+            2342755.0975883035
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 56514.34773892651,
+          "area_share": 0.0005279302845249505,
+          "geometry_sha256": "d07aac011baadf65a7052468d46654a49f22f77bfbd298f46012797d91306b2e",
+          "bounds": [
+            3310654.748056959,
+            2335129.771261111,
+            3310969.881604945,
+            2335473.545084765
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4805702001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "71dc3e99785a8867d34d1d834f08c00f052b240754161727cf6a6c6541a46423",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "58",
+      "decision": "PASS",
+      "section_count": 26,
+      "component_count": 1,
+      "interior_ring_count": 1,
+      "geometry_sha256": "797e8d4c69f9a11612548e05856c38a58b20f8cf80c77ddca2c7b393b94be36a",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 291236369.34026617,
+          "area_share": 1.0,
+          "geometry_sha256": "797e8d4c69f9a11612548e05856c38a58b20f8cf80c77ddca2c7b393b94be36a",
+          "bounds": [
+            3232062.836289116,
+            2322644.551794479,
+            3267191.3920507566,
+            2342924.991669581
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "59",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 21,
+      "component_count": 4,
+      "interior_ring_count": 0,
+      "geometry_sha256": "67f32e35e512a12c104665df21b8046454009e365cb9ebc29cf6ed330a3a43c5",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 130308984.7473922,
+          "area_share": 0.9958206514594478,
+          "geometry_sha256": "2528d229d1e649e4aedbc4c4ef7f63c87f9e342acc6b8e28db5c50a1bfbd7cf8",
+          "bounds": [
+            3276167.760159453,
+            2327109.741215199,
+            3294548.597914497,
+            2348671.7205577604
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 347814.11191982205,
+          "area_share": 0.0026579938151633704,
+          "geometry_sha256": "b73e03aeabe81134b7a9ed20f7d34fc4ad53026da4d82d29f6da95d3e3929aa0",
+          "bounds": [
+            3282854.7211689716,
+            2326877.041525922,
+            3283683.607486031,
+            2327647.1342288293
+          ]
+        },
+        {
+          "component": 3,
+          "area_m2": 195647.86812655866,
+          "area_share": 0.0014951400923898363,
+          "geometry_sha256": "75168479f5328874c3cfb7467b24406e5587441469f98b3f53c6aa2ffd23b9c2",
+          "bounds": [
+            3279231.5097841187,
+            2334577.5704227528,
+            3279836.873095731,
+            2335469.3734411485
+          ]
+        },
+        {
+          "component": 4,
+          "area_m2": 3430.3387930630793,
+          "area_share": 2.6214632999073026e-05,
+          "geometry_sha256": "01e22700fe05fe3def97667150ffdb2e5005eceaf0810049cdbf980b528705ae",
+          "bounds": [
+            3276184.877871485,
+            2331656.19200363,
+            3276296.0772319976,
+            2331728.245313423
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4808101001"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "67f32e35e512a12c104665df21b8046454009e365cb9ebc29cf6ed330a3a43c5",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4890501002"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            3
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "67f32e35e512a12c104665df21b8046454009e365cb9ebc29cf6ed330a3a43c5",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4890501002"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            4
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "67f32e35e512a12c104665df21b8046454009e365cb9ebc29cf6ed330a3a43c5",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        },
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4890501002"
+          ],
+          "endpoints": null,
+          "components": [
+            3,
+            4
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "67f32e35e512a12c104665df21b8046454009e365cb9ebc29cf6ed330a3a43c5",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "60",
+      "decision": "PASS",
+      "section_count": 26,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "5604098a49e92eb0456299a096d8ee2a378d6ed8faf52e04353ed0c93ec2d6f1",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 1393214.3140941584,
+          "area_share": 1.0,
+          "geometry_sha256": "5604098a49e92eb0456299a096d8ee2a378d6ed8faf52e04353ed0c93ec2d6f1",
+          "bounds": [
+            3268115.9697803804,
+            2337261.724104808,
+            3269745.928599557,
+            2339317.0186604117
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "61",
+      "decision": "PASS",
+      "section_count": 22,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "2b8494b9f6cf6a3fa7605d43fc828956b72c69f61cd95cd2818e3d15be4f66a5",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 8258115.82285689,
+          "area_share": 1.0,
+          "geometry_sha256": "2b8494b9f6cf6a3fa7605d43fc828956b72c69f61cd95cd2818e3d15be4f66a5",
+          "bounds": [
+            3268734.76298058,
+            2336322.864458206,
+            3273037.195705372,
+            2339586.5143084936
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "62",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 24,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "778c96598d4c471f4b01fd8aac0832af984156fe0438aff05d9dab70ca0be0ce",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 116014831.27182956,
+          "area_share": 0.9999442196774044,
+          "geometry_sha256": "9e8ceabd1d4003574144d0b9c78f59fcd4db8ab8cb50646d4f34f3833bd849f5",
+          "bounds": [
+            3301626.636366695,
+            2314441.146563914,
+            3316703.2572550536,
+            2331804.371494242
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 6471.705708045124,
+          "area_share": 5.5780322595567505e-05,
+          "geometry_sha256": "815bd05b2112272e9e45be6518ce283dbb5bc7efe78c729b0b43ad3adf0dfad9",
+          "bounds": [
+            3303055.890589115,
+            2324494.8538280055,
+            3303156.0106622213,
+            2324608.2802638076
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "ATOMIC_MULTIPART",
+          "sections": [
+            "4806001003"
+          ],
+          "endpoints": null,
+          "components": [
+            1,
+            2
+          ],
+          "source": "official_census_section_geometry",
+          "geometry_sha256": "778c96598d4c471f4b01fd8aac0832af984156fe0438aff05d9dab70ca0be0ce",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "63",
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "section_count": 24,
+      "component_count": 2,
+      "interior_ring_count": 0,
+      "geometry_sha256": "1c426b6f5c88b5c3cd8cf20684a0dd16f6a8e7d6d24dc2e4371ebe41b1bd26ce",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 373809158.6831901,
+          "area_share": 0.9179514768233199,
+          "geometry_sha256": "1ec224dd70c81c9a49ff962c4d212133a87782f5dc57d97d328fc365800d2906",
+          "bounds": [
+            3267663.9495728407,
+            2299178.534622333,
+            3301828.211630913,
+            2320317.287853839
+          ]
+        },
+        {
+          "component": 2,
+          "area_m2": 33411885.26218391,
+          "area_share": 0.08204852317668015,
+          "geometry_sha256": "b74c5f1af80cab085614b7825bdad3924872fe0e59a6d78560a6944d321c2744",
+          "bounds": [
+            3256726.536834856,
+            2300171.2073401003,
+            3267437.3098129826,
+            2307854.360913733
+          ]
+        }
+      ],
+      "causal_exceptions": [
+        {
+          "type": "GOVERNED_BRIDGE",
+          "sections": null,
+          "endpoints": [
+            "4807401002",
+            "4807501001"
+          ],
+          "components": [
+            2,
+            1
+          ],
+          "edge_type": "administrative_exclave",
+          "admin_scope": "province:48",
+          "reason": "Orduña: exclave vizcaíno; enlace mínimo auditado a Orozko (~6918 m).",
+          "source": "territorios/pais_vasco/config/pais_vasco_2025.yaml:modulos.modulo_02_construir_adyacencias.topology_bridges[0]",
+          "geometry_sha256": "1c426b6f5c88b5c3cd8cf20684a0dd16f6a8e7d6d24dc2e4371ebe41b1bd26ce",
+          "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1"
+        }
+      ],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "64",
+      "decision": "PASS",
+      "section_count": 37,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "5c82f9a9156daf6ed46a469115d77859e3982d3ab50853692332d49541563aca",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 6815694.731003146,
+          "area_share": 1.0,
+          "geometry_sha256": "5c82f9a9156daf6ed46a469115d77859e3982d3ab50853692332d49541563aca",
+          "bounds": [
+            3275268.5257735085,
+            2324126.8228771933,
+            3278704.225593512,
+            2327767.0031912406
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "65",
+      "decision": "PASS",
+      "section_count": 40,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "16870fe172eb43af5182aadb8d41012195c90e8fdf38450b55bda4fdfba0b035",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 16155521.939310424,
+          "area_share": 1.0,
+          "geometry_sha256": "16870fe172eb43af5182aadb8d41012195c90e8fdf38450b55bda4fdfba0b035",
+          "bounds": [
+            3260896.057269957,
+            2337162.628106395,
+            3267899.3646028927,
+            2344405.755399542
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "66",
+      "decision": "PASS",
+      "section_count": 7,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "752e3d454d5e8293429ef19b949abab67f1517cfd0ba33db0af2c9d5d3604508",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3278513.8405033527,
+          "area_share": 1.0,
+          "geometry_sha256": "752e3d454d5e8293429ef19b949abab67f1517cfd0ba33db0af2c9d5d3604508",
+          "bounds": [
+            3275819.228976928,
+            2326882.3452457907,
+            3279333.3339292407,
+            2329304.871044063
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "67",
+      "decision": "PASS",
+      "section_count": 15,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "20a94e1cabba1ae8ae789a873c0b5436c5b25df2adcb31a09dccd317a4c25ae2",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 98211800.13952531,
+          "area_share": 1.0,
+          "geometry_sha256": "20a94e1cabba1ae8ae789a873c0b5436c5b25df2adcb31a09dccd317a4c25ae2",
+          "bounds": [
+            3273045.3915661713,
+            2330905.802818562,
+            3284125.9936449826,
+            2349072.697435228
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "68",
+      "decision": "PASS",
+      "section_count": 29,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "f8d2bf0ff8b049551e574d50c16f5344aef63b223f7497493a19a9ce979a4369",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 193010249.4385821,
+          "area_share": 1.0,
+          "geometry_sha256": "f8d2bf0ff8b049551e574d50c16f5344aef63b223f7497493a19a9ce979a4369",
+          "bounds": [
+            3247169.85858544,
+            2319153.269359857,
+            3269016.521289333,
+            2337754.511045534
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "69",
+      "decision": "PASS",
+      "section_count": 26,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "9e283355c6f6751700332f8f604607389d30cf6341ae9b73311b85c14761b09f",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 3675477.603186024,
+          "area_share": 1.0,
+          "geometry_sha256": "9e283355c6f6751700332f8f604607389d30cf6341ae9b73311b85c14761b09f",
+          "bounds": [
+            3268204.7445112457,
+            2334693.440366931,
+            3271066.4782994185,
+            2337050.1720755445
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "70",
+      "decision": "PASS",
+      "section_count": 30,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "2ac25d3988453422f4ad31f1ceb43aa7641febf418beeec6f81935a8f4e64ba6",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 22121735.253866583,
+          "area_share": 1.0,
+          "geometry_sha256": "2ac25d3988453422f4ad31f1ceb43aa7641febf418beeec6f81935a8f4e64ba6",
+          "bounds": [
+            3264602.226879921,
+            2328414.0720674912,
+            3271378.6645215256,
+            2334696.216045744
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "71",
+      "decision": "PASS",
+      "section_count": 18,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "4078b704724991bea2c375eccb29b7d345ce94be5d28abee25352dd353c7cb19",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 93352313.25719295,
+          "area_share": 1.0,
+          "geometry_sha256": "4078b704724991bea2c375eccb29b7d345ce94be5d28abee25352dd353c7cb19",
+          "bounds": [
+            3283353.098253494,
+            2314895.4080619356,
+            3297915.88675752,
+            2328594.7957250206
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "72",
+      "decision": "PASS",
+      "section_count": 22,
+      "component_count": 1,
+      "interior_ring_count": 1,
+      "geometry_sha256": "cbfcd44252edc878f570872a6a8701668638d61864bfa69c00368ba7e234178b",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 61267736.91072337,
+          "area_share": 1.0,
+          "geometry_sha256": "cbfcd44252edc878f570872a6a8701668638d61864bfa69c00368ba7e234178b",
+          "bounds": [
+            3277531.397923099,
+            2318351.4286696874,
+            3289583.7410265906,
+            2331000.917139005
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "73",
+      "decision": "PASS",
+      "section_count": 21,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "b06ea3bef78401d4293a5d6e4971b9f54ac96f7ae9afe6d89154a7062a89b9f2",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 26825623.063668754,
+          "area_share": 1.0,
+          "geometry_sha256": "b06ea3bef78401d4293a5d6e4971b9f54ac96f7ae9afe6d89154a7062a89b9f2",
+          "bounds": [
+            3270090.808064745,
+            2332771.4533618637,
+            3278826.2891574367,
+            2340929.175943906
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    },
+    {
+      "district_id": "74",
+      "decision": "PASS",
+      "section_count": 41,
+      "component_count": 1,
+      "interior_ring_count": 0,
+      "geometry_sha256": "90b9a5762353afdb7c3af1af5a9f1b3f41bcd41b2f3b050b4e4672c43bc563dc",
+      "contract_sha256": "8ea5b3534833ed76210430fe23d0aedf07156debcf40dc0cb06b712a4076bde1",
+      "components": [
+        {
+          "component": 1,
+          "area_m2": 2867373.8074811357,
+          "area_share": 1.0,
+          "geometry_sha256": "90b9a5762353afdb7c3af1af5a9f1b3f41bcd41b2f3b050b4e4672c43bc563dc",
+          "bounds": [
+            3266485.865505846,
+            2335646.0864318497,
+            3268738.87404506,
+            2338362.0497844703
+          ]
+        }
+      ],
+      "causal_exceptions": [],
+      "unexplained_components": []
+    }
+  ]
+}

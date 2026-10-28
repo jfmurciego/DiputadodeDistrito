@@ -1,0 +1,580 @@
+{
+  "module": "05",
+  "version": "7.4.1",
+  "K": 82,
+  "total_pop": 2401221,
+  "target": 29283.182926829268,
+  "population_floor": 23426.546341463414,
+  "population_cap": 51245.57012195122,
+  "tolerance_absolute": 3513.981951219512,
+  "objective_start": [
+    0,
+    0.0,
+    3,
+    0.255430466417,
+    0.383607197725
+  ],
+  "objective_after_greedy": [
+    0,
+    0.0,
+    3,
+    0.255430466417,
+    0.363407581405
+  ],
+  "objective_final": [
+    0,
+    0.0,
+    2,
+    0.15374636487,
+    0.314397971329
+  ],
+  "population_baseline_status": "PASS",
+  "population_status_by_district": {
+    "0": {
+      "population": 29958,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "1": {
+      "population": 26041,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "10": {
+      "population": 29997,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "11": {
+      "population": 29345,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "12": {
+      "population": 29274,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "13": {
+      "population": 31178,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "14": {
+      "population": 31463,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "15": {
+      "population": 31151,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "16": {
+      "population": 31166,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "17": {
+      "population": 31154,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "18": {
+      "population": 31097,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "19": {
+      "population": 30646,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "2": {
+      "population": 27866,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "20": {
+      "population": 31056,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "21": {
+      "population": 31391,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "22": {
+      "population": 28311,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "23": {
+      "population": 28540,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "24": {
+      "population": 28927,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "25": {
+      "population": 29517,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "26": {
+      "population": 28373,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "27": {
+      "population": 31292,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "28": {
+      "population": 28275,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "29": {
+      "population": 31721,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "3": {
+      "population": 25852,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "30": {
+      "population": 29996,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "31": {
+      "population": 29290,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "32": {
+      "population": 29598,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "33": {
+      "population": 25991,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "34": {
+      "population": 25972,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "35": {
+      "population": 26671,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "36": {
+      "population": 26688,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "37": {
+      "population": 26679,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "38": {
+      "population": 26701,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "39": {
+      "population": 29300,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "4": {
+      "population": 24781,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "40": {
+      "population": 29306,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "41": {
+      "population": 28733,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "42": {
+      "population": 29266,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "43": {
+      "population": 29946,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "44": {
+      "population": 29373,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "45": {
+      "population": 30334,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "46": {
+      "population": 28978,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "47": {
+      "population": 31100,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "48": {
+      "population": 30792,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "49": {
+      "population": 31318,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "5": {
+      "population": 26240,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "50": {
+      "population": 27120,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "51": {
+      "population": 32602,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "52": {
+      "population": 32317,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "53": {
+      "population": 32788,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "54": {
+      "population": 33424,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "55": {
+      "population": 29364,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "56": {
+      "population": 30409,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "57": {
+      "population": 30410,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "58": {
+      "population": 29973,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "59": {
+      "population": 29936,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "6": {
+      "population": 28924,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "60": {
+      "population": 30094,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "61": {
+      "population": 30262,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "62": {
+      "population": 30298,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "63": {
+      "population": 30663,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "64": {
+      "population": 30157,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "65": {
+      "population": 29673,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "66": {
+      "population": 30460,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "67": {
+      "population": 28482,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "68": {
+      "population": 28712,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "69": {
+      "population": 27444,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "7": {
+      "population": 29734,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "70": {
+      "population": 29162,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "71": {
+      "population": 28187,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "72": {
+      "population": 30282,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "73": {
+      "population": 28156,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "74": {
+      "population": 28245,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "75": {
+      "population": 28458,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "76": {
+      "population": 30093,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "77": {
+      "population": 26419,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "78": {
+      "population": 29764,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "79": {
+      "population": 26375,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "8": {
+      "population": 29265,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "80": {
+      "population": 26478,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "81": {
+      "population": 26435,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    },
+    "9": {
+      "population": 30012,
+      "floor": 23426.546341463414,
+      "cap": 51245.57012195122,
+      "population_status": "PASS"
+    }
+  },
+  "districts_below_floor": 0,
+  "population_floor_exempt_partitions": [],
+  "districts_above_cap": 0,
+  "districts_outside_tolerance": 2,
+  "best_max_rel_dev": 0.15374636487,
+  "accepted_unit_moves": 1967,
+  "accepted_greedy_moves": 10,
+  "accepted_annealing_moves": 1957,
+  "final_changed_units": 177,
+  "atomic_units": 2279,
+  "initial_candidate_relations": 1389,
+  "active_provinces": [
+    "05",
+    "37",
+    "40"
+  ],
+  "anneal_iterations_executed": 20000,
+  "first_feasible_iteration": null,
+  "objective_first_feasible": null,
+  "post_feasible_iterations": 0,
+  "anneal_start_objective": [
+    0,
+    0.0,
+    3,
+    0.255430466417,
+    0.363407581405
+  ],
+  "anneal_start_energy": 0.24804111489806907,
+  "anneal_best_energy": 0.24804111489806907,
+  "anneal_parameters": {
+    "outside_penalty": 0.01,
+    "maxdev_weight": 0.05,
+    "churn_weight": 0.0016,
+    "temp_start": 0.02,
+    "temp_end": 0.0005,
+    "seed": 12345,
+    "iters": 20000
+  },
+  "province_violations": [],
+  "seed": 12345,
+  "wrapper_version": "7.8.4",
+  "swap_polish": {
+    "enabled": false,
+    "max_swaps": 0,
+    "accepted_swaps": 0
+  },
+  "population_repair": {
+    "enabled": false,
+    "activation": "NOT_NEEDED",
+    "result": "DISABLED",
+    "hard_population_violations_before": 0,
+    "population_floor_exempt_partitions": [],
+    "district_floor_overrides": {}
+  }
+}

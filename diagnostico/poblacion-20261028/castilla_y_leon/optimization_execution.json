@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.optimization-execution/1.0",
+  "requested_algorithm": "Canónico",
+  "effective_algorithm": "Canónico",
+  "fallback": false,
+  "fallback_reason": null,
+  "gerrychain_exit_code": null,
+  "candidate_count": 0,
+  "execution_status": "M05_SUCCESS",
+  "certification_status": "PENDING_M06",
+  "created_at_utc": "2026-10-28T09:31:50.885178+00:00"
+}

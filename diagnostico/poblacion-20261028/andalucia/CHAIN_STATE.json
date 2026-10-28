@@ -1,0 +1,9 @@
+{
+  "schema": "ddd.module-chain-state/1.0",
+  "params": "territorios/andalucia/config/andalucia_2025.yaml",
+  "run_id": "production-40655989924-1",
+  "completed_stage": 5,
+  "completed_stage_label": "M05",
+  "cache_dir": "territorios/andalucia/.cache/ddd/preparacion/andalucia_2025",
+  "updated_at_utc": "2026-10-28T09:31:33.081947+00:00"
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "ddd.optimization-execution/1.0",
+  "requested_algorithm": "Canónico",
+  "effective_algorithm": "Canónico",
+  "fallback": false,
+  "fallback_reason": null,
+  "gerrychain_exit_code": null,
+  "created_at_utc": "2026-10-25T13:59:29.481125+00:00"
+}

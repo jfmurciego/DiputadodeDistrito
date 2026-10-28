@@ -1,0 +1,10 @@
+{
+  "schema": "ddd.production-block-causes/1.0",
+  "decision": "BLOCK",
+  "block_cause": "POPULATION_HARD_BLOCK",
+  "population_evidence_status": "VALID",
+  "population_evidence_path": "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/comunidad_foral_de_navarra_2025/comunidad_foral_de_navarra_2025_m05_informe.json",
+  "population_evidence_error": null,
+  "population_decision": "HARD_BLOCK",
+  "geometric_decision": "PASS_WITH_EXCEPTIONS"
+}

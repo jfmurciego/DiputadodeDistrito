@@ -1,0 +1,10 @@
+{
+  "schema": "ddd.production-block-causes/1.0",
+  "decision": "BLOCK",
+  "block_cause": "POPULATION_TARGET_NOT_MET",
+  "population_evidence_status": "VALID",
+  "population_evidence_path": "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/territorios/la_rioja/.cache/ddd/preparacion/la_rioja_2025/la_rioja_2025_m05_informe.json",
+  "population_evidence_error": null,
+  "population_decision": "TARGET_NOT_MET",
+  "geometric_decision": "PASS_WITH_EXCEPTIONS"
+}
