@@ -1,8 +1,10 @@
-schema: ddd-territory-sources/1.1
+schema: ddd-territory-sources/1.2
 territory:
   id: aragon
   business_name: Aragón
   edition: 2025
+  population_year: 2025
+  section_year: 2025
   territorial_codes:
   - code: '22'
     business_name: '22'
@@ -10,6 +12,7 @@ territory:
     business_name: '44'
   - code: '50'
     business_name: '50'
+  source_year: 2025
 required_sources:
 - poblacion_por_sexo_y_edad
 - secciones_censales

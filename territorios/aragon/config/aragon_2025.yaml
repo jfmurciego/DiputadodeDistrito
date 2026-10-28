@@ -1,12 +1,3 @@
-# PROYECTO: Diputado de Distrito
-# TERRITORIO: Aragón
-# VERSIÓN: 7.15.0
-# NOMBRE DE VERSIÓN: Contacto de precisión explícito en Aragón 2025
-# FECHA: 2026-10-11
-# ESTADO: candidato, sujeto a revisión y CI
-# CAMBIOS: M02 contact con solape máximo 0.025 m², 1 m de frontera, sin suavizado ni buffer.
-# MOTIVO: los raw INE 2025 del run 38086465532 contienen nueve intersecciones positivas de precisión (< 0.025 m²) y dos candidatos de área cero; el contrato touches no admite nueve y su grafo omite siete contactos lineales reproducibles. Ver docs/AUDITORIAS/F10_ARAGON_GEOMETRIA_20261011/INFORME.md.
-# ANTERIOR: legacy/configuracion/aragon_2025_v7.14.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   run_name: aragon_2025
@@ -19,7 +10,9 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: m08_validated_with_governed_geometric_exceptions
+  status: source_prepared_pending_pre_m04
+  source_population_year: 2025
+  source_section_year: 2025
 io:
   project_root:
     path: ../../..
@@ -28,10 +21,13 @@ io:
       path: inputs/seccionado_2025.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -42,6 +38,11 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
+        year_value: 2025
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
     comarcas:
       enabled: true
       path: inputs/COMARCAS.csv
@@ -91,6 +92,7 @@ territory_contract:
     bloqueado porque solo 60 de 67 distritos pasan la auditoría geométrica independiente.
     Este valor se conserva como referencia reproducible, no como trinquete canónico
     de publicación.
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -106,8 +108,6 @@ modulos:
     out_edges_jsonl: .cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     predicate: contact
     min_shared_border_m: 1.0
-    # Umbral explícito y acotado a M02: no es tolerancia de normalización.
-    # Evidencia 2025: máximo 0.0245334351 m² (run 38086465532).
     max_precision_overlap_area_m2: 0.025
     buffer_m: 0.0
     simplify_m: 0.0
@@ -117,14 +117,14 @@ modulos:
     in_geojson: .cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: .cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2025
     out_graph_json: .cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     out_report: .cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: .cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: .cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2025
     province_field: CPRO
     municipality_field: CUMUN
     municipality_name_field: NMUN
@@ -143,7 +143,7 @@ modulos:
     in_graph_json: .cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: ejecuciones/{run_id}/{run_name}_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2025
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -162,7 +162,7 @@ modulos:
     in_geojson: ejecuciones/{run_id}/{run_name}_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{year}
+    pop_field: POP_2025
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -210,3 +210,138 @@ validation:
   max_mixed_districts_per_split_municipality: 1
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2025
+    section_year: 2025
+    population_total: 1364621
+    target_section_count: 1463
+    package_sha256: 63d4163a7c91ecbb16d562b754013bb6989f23709c215d17c1bcfe3426703652
+    compatibility_report_sha256: f74fd12a19ae9272f6ed0e43cba2bb37df291114de0315b8c58cce968d2d71b4
+    compatibility_identity_sha256: b68bf1a7f4cd2a355126ba9dbef0847aff479c7245a949e30e8a9240df7ae836
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: aragon
+    territory_name: Aragón
+    project_edition: '2025'
+  temporal:
+    population_year: 2025
+    section_year: 2025
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2025
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2025
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 951ac81e485da6bf0834794ff53d977d68c3fab73e1e42574876d8801a96e5da
+        bytes: 21261
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2025.zip
+      effective_year: 2025
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2025.zip
+        sha256: a21ae0472e13ff86e786844977aacc8510bfbb06603171c35a4602f8ed65b67c
+        bytes: 3341563
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2025
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: d951851b13a12cfc118a579b79bcbebb485d18223067957dcd29319c35e9961b
+generation_state:
+  source_prepared: true
+  generation_enabled: false
+  package_sha256: 63d4163a7c91ecbb16d562b754013bb6989f23709c215d17c1bcfe3426703652
+  compatibility_identity_sha256: b68bf1a7f4cd2a355126ba9dbef0847aff479c7245a949e30e8a9240df7ae836
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: 951ac81e485da6bf0834794ff53d977d68c3fab73e1e42574876d8801a96e5da
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2025
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2025
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2025.zip
+    sha256: a21ae0472e13ff86e786844977aacc8510bfbb06603171c35a4602f8ed65b67c
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2025.zip
+      effective_year: 2025
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
