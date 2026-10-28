@@ -1,12 +1,25 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.21
+Versión: 1.0.22
 Fecha: 2026-10-28
-Alcance: límites de población excepcionales de Melilla y puerta 02→03 con M06 durables
+Alcance: rescate M04 de Canarias, Cataluña y Ceuta y CRS nativo de Murcia en M02
 Estado: candidato
-Cambios/motivo: Melilla no admite 25 distritos con el suelo nacional; #311 entró sin entrada propia
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.20_20261028.md
+Cambios/motivo: las ejecuciones 00 del 26-10 fallaban en M04 (Canarias, Cataluña, Ceuta) y en M03 (Murcia)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.21_20261028.md
 -->
+
+## 2026-10-28 — M04/M02 — rescate autonómico del 26-10
+
+Se trae de `rescate/autonomico-20261026` (dab2299e) sólo el código y las regresiones del rescate:
+
+- `ddd_core/m04_administrative_atomic_groups.py` (nuevo): Tremp y Talarn forman un grupo atómico
+  administrativo en Cataluña.
+- `ddd_core/m04_seed_engine.py`: partición exacta en Ceuta. `m04_seed_engine_v7410.py`: Canarias
+  pasa de 2 a 3 núcleos residuales. `configuracion/m04_engine.json` 7.6.5.
+- `territorios/region_de_murcia/config/region_de_murcia_2025.yaml`: M02 trabaja en EPSG:25830, lo
+  que recupera la adyacencia Yecla–Jumilla perdida en M03.
+- Predecesores en `legacy/`; regresiones `test_m04_administrative_atomic_groups`,
+  `test_m04_residual_cardinality` y `test_murcia_m02_native_crs` con sus fixtures.
 
 ## 2026-10-28 — Melilla — límites de población excepcionales
 
