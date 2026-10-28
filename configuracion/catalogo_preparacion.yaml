@@ -239,6 +239,7 @@ territories:
         prepared_source_pair: territorios/cantabria/evidencia/pares_fuentes/2025/ed3f68dc4a753b9568f1e22a7a0923abfa79bbe5a42de01f4ebdd41425e7cb5b.json
         territorial_product: territorios/cantabria/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/cantabria/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: castilla_la_mancha
   name: Castilla-La Mancha
