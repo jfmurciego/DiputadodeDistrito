@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   full_process_readiness: territorios/extremadura/config/preparacion_proceso_completo.yaml
   electoral_sources_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
   source_population_year: 2025
@@ -85,7 +85,7 @@ territory_contract:
     común connected_internal_units.
   - La producción sigue bloqueada: este paquete prepara configuración y capacidades
       sin ejecutar ni certificar una solución territorial.
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 partitioning:
   enabled: true
   strategy: connected_internal_units
@@ -300,7 +300,7 @@ resolved_source_contract:
   contract_sha256: 031421c6a777eb5c1581d29db39584d7b02dfd7b2924544526e4afd8323ac5c3
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 02e52e3ecde5f9d8d59b07cf7152742786f4766941f7003ee9541ac5f0ef6c52
   compatibility_identity_sha256: d32cb2818b33f5cd627161d3a2fe3e0664a8e8af53b24d1f8e731b5077946e89
   source_inputs:
@@ -352,3 +352,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40691774876
+  pre_m04_source_commit: f3758b67658dc6d96769be5e72aa341caffd874c
+  pre_m04_artifact_sha256: 194ff494af01952abc27365bed8f3edf0d88ec5a93a999b64023ad80c408ee31

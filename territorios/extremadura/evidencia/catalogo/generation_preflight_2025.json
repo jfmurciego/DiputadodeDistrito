@@ -5,10 +5,12 @@
   "territory_name": "Extremadura",
   "edition": "2025",
   "run_id": 40691774876,
-  "source_commit": "40c9662ecb16696461319e07b3315baf802911b7",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "f3758b67658dc6d96769be5e72aa341caffd874c",
+  "artifact_name": "ddd-state-40691774876-M03U",
+  "artifact_sha256": "194ff494af01952abc27365bed8f3edf0d88ec5a93a999b64023ad80c408ee31",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 40691774876,
     "artifact_name": "ddd-source-package-extremadura-2025-40691774876",
@@ -19,10 +21,107 @@
     "population_year": 2025,
     "section_year": 2025
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "0604405005",
+        "v": "0604405003",
+        "admin_scope": "municipality:06044",
+        "edge_type": "same_municipality_exclave"
+      },
+      {
+        "u": "0604405006",
+        "v": "0604405004",
+        "admin_scope": "municipality:06044",
+        "edge_type": "same_municipality_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-40691774876-M03",
+    "artifact_sha256": "2428a9877645f419e772a70fcb917c1d0c3eba85073369c4aa26af86fe0c90b4",
+    "module_version": "7.5.0",
+    "nodes": 964,
+    "edges": 2607,
+    "population": 1053345,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-40691774876",
+    "job_artifact_sha256": "44127510f085b4c4ed079eaaaa554c9d7815e4640e54a035bb441af8954d59e2",
+    "status": "PREPARED",
+    "strategy": "connected_internal_units",
+    "contract_output_geojson": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson",
+    "resolved_output_geojson": "territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_unidades_internas.geojson",
+    "partition_unit_field": "M04_PARTITION_UNIT"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2025,
+    "section_year": 2025,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "population_total": 1053345,
+      "target_section_count": 964,
+      "package_sha256": "02e52e3ecde5f9d8d59b07cf7152742786f4766941f7003ee9541ac5f0ef6c52",
+      "compatibility_report_sha256": "9fdd2d68d733ed66b3789f2c996e11321f75bbcce7851ef6586b6f59cc4cbdd9",
+      "compatibility_identity_sha256": "d32cb2818b33f5cd627161d3a2fe3e0664a8e8af53b24d1f8e731b5077946e89"
+    },
+    "topology_accreditation": null,
+    "k_districts": 65,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "connected_internal_units",
+    "municipality_atomicity_limit_ratio": 1.1,
+    "m01_output_geojson": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson",
+    "m04_output_geojson": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "M04_PARTITION_UNIT",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 65,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
