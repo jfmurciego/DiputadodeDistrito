@@ -4,10 +4,11 @@
   "territory_id": "ceuta",
   "territory_name": "Ceuta",
   "edition": "2025",
-  "run_id": 36482903970,
-  "artifact_name": "ddd-state-36482903970-M06",
-  "artifact_sha256": "b4fb76e66c6267c157e07f3231adbfc96e39e437ca12ac4dcda1511f796a1c01",
-  "source_commit": "f07f5c8c7d5a9fcda98e625692c85e5122fc8a91",
+  "run_id": 40773443591,
+  "artifact_name": "ddd-state-40773443591-M06",
+  "artifact_sha256": "bf84f9e8928e6048326fadd0d57dbcc141c0e4e9ecf70fe794508d96ec9a1c70",
+  "source_commit": "614484d44cd6e4b90a19ff47395c6d075e469291",
   "decision": "PASS",
-  "stage": "M06"
+  "stage": "M06",
+  "producer_manifest_path": "territorios/ceuta/evidencia/generaciones_m06/40773443591.json"
 }
