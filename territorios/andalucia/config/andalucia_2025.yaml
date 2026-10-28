@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 0.3.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -70,7 +70,7 @@ territory_contract:
     '23': 8
     '29': 22
     '41': 25
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   notes:
   - AND-01 certificó 6.029 secciones y 8.676.713 habitantes sin faltantes de población.
   - Población observada: Almería 770.554; Cádiz 1.261.420; Córdoba 773.163; Granada
@@ -316,7 +316,7 @@ resolved_source_contract:
   contract_sha256: cd1c865bef7b7eda9ebe24028972a66ce103ca0a3928c2b4aa28c781274d5057
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 4dc8f7ef2ce0ad5cedde504eec045f16cde54b45de7f4c1fa558514b6d8c5630
   compatibility_identity_sha256: f43df874ba4910995e07a3bb89f20d0fe454eed8d4cdbea7eb7141467802c5bb
   source_inputs:
@@ -368,3 +368,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40655989924
+  pre_m04_source_commit: 10f9453c070c12253a706190b25ae202268ee99e
+  pre_m04_artifact_sha256: d09d2e1d4fd229d0e41608eb0bfad34ad80bf105b6872f8dbc2ca5da3f6af6c7
