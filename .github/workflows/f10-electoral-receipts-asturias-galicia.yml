@@ -1,13 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: f10-electoral-receipts-asturias-galicia.yml
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: Paquetes electorales F10 Asturias y Galicia
-# FECHA: 2026-10-26
+# FECHA: 2026-10-28
 # ESTADO: candidato
 # QUÉ HACE: valida los paquetes electorales preservados y publica artefactos CI verificables para sus recibos canónicos.
-# CAMBIOS: añade validación positiva del paquete completo y conservación del artefacto con identidad de run.
-# MOTIVO: enlazar los recibos electorales F10 a artefactos reales, con run_id y digest emitidos por GitHub Actions.
-# ANTERIOR: ninguno; workflow nuevo.
+# CAMBIOS: la proyección F10 viva se comprueba por coherencia y no por recuentos fijos.
+# MOTIVO: las ejecuciones completas del 28-10 cambian el estado vivo; los recuentos exactos se prueban
+#   sobre la raíz congelada aee8215e.
+# ANTERIOR: legacy/workflows/f10-electoral-receipts-asturias-galicia_v1.0.0.yml
 name: F10 electoral receipts — Asturias and Galicia
 
 on:
@@ -92,10 +93,10 @@ jobs:
           python - "$RUNNER_TEMP/f10-derived.json" <<'PY'
           import json, sys
           result = json.load(open(sys.argv[1], encoding="utf-8"))
-          assert result["counts"]["territorial_acquisition"] == {"CLOSED": 19}
-          assert result["counts"]["territorial_admissibility"] == {"BLOCKED": 1, "PASS": 18}
-          assert result["counts"]["electoral_admissibility"] == {"ADMISSIBLE": 15, "BLOCKED": 4}
-          assert result["counts"]["joint_admissibility"] == {"BLOCKED": 5, "PASS": 14}
+          # Los recuentos exactos se prueban sobre la raíz congelada (tests/_raiz_congelada.py);
+          # sobre el repositorio vivo sólo se exige coherencia: cada ejecución completa cambia el estado.
+          assert result["catalog_validation_errors"] == []
+          assert all(sum(c.values()) == 19 for c in result["counts"].values())
           assert result["production_authorized"] is False
           print(json.dumps(result["counts"], ensure_ascii=False, sort_keys=True))
           PY

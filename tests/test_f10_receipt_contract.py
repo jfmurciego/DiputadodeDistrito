@@ -21,7 +21,11 @@ from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, valida
 from herramientas.resolver_ejecucion_completa import build_plan
 from tests.test_prepared_source_pair_execution import build_source_fixture
 
-ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
+
+# Estado congelado en aee8215e: los recuentos y receipts exactos no dependen de las ejecuciones
+# completas posteriores, que reescriben catálogo y productos en main.
+ROOT = frozen_root()
 EVIDENCE = ROOT / 'docs/AUDITORIAS/F04_F10_20261009'
 TERRITORIES = ('andalucia', 'comunidad_valenciana', 'extremadura', 'aragon', 'castilla_y_leon')
 

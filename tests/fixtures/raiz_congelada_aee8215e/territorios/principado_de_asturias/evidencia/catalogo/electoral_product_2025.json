@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "run_id": 40132061626,
+  "artifact_name": "ddd-state-40132061626-M08",
+  "artifact_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+  "source_commit": "f7d411d5244f5c4a3fa21cbf2dd1c53614488942",
+  "stage": "M08"
+}
