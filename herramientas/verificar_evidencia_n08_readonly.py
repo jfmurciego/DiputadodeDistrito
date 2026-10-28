@@ -1,4 +1,4 @@
-"""Versión 1.1.0; 2026-10-19; reproducción aislada y read-only de evidencias N08.
+"""Versión 1.1.1; 2026-10-28; reproducción aislada y read-only de evidencias N08.
 
 Nombre: verificador read-only de la evidencia nacional y Cáceres.
 Alcance: verificar 74/74 y 26/26, y reproducir la matriz de cierre sin escribir
@@ -7,8 +7,10 @@ Estado: candidato diagnóstico.
 Cambios/motivo: ejecuta el verificador histórico en un root temporal aislado,
                 conserva su hash y compara sus salidas byte a byte. Usa el
                 snapshot M02 archivado que el manifiesto histórico acredita.
+                1.1.1: monta también el motor M04 v7.6.4 archivado, que acredita el
+                expediente de Cáceres, porque el rescate M04 del 26-10 cambia el activo.
 Origen: nuevo; no sustituye ni modifica el verificador histórico.
-Anterior: legacy/herramientas/verificar_evidencia_n08_readonly_v1.0.0_20261019.py
+Anterior: legacy/herramientas/verificar_evidencia_n08_readonly_v1.1.0_20261028.py
 """
 from __future__ import annotations
 
@@ -79,13 +81,22 @@ def verify(root: Path | str) -> dict[str, Any]:
         for rel in (
             Path("docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012"),
             Path("docs/ESTUDIOS/N08_CACERES_20261012"),
-            Path("ddd_core"),
             Path("herramientas"),
             Path("tests"),
             Path("territorios/congreso"),
             Path("legacy/n08_caceres_20261012"),
         ):
             _link_source(root, temp_root, rel)
+
+        # Igual que el M02: el expediente de Cáceres acredita el motor M04 v7.6.4.
+        historical_m04 = root / "legacy/ddd_core/m04_seed_engine_v7.6.4.py"
+        if not historical_m04.is_file():
+            raise EvidenceMismatch("MISSING_HISTORICAL_M04_SNAPSHOT")
+        temp_core = temp_root / "ddd_core"
+        temp_core.mkdir(parents=True, exist_ok=True)
+        for item in (root / "ddd_core").iterdir():
+            target = historical_m04 if item.name == "m04_seed_engine.py" else item
+            (temp_core / item.name).symlink_to(target, target_is_directory=target.is_dir())
 
         # El verificador histórico compara su manifiesto con el M02 que
         # existía al crear el expediente. El código activo puede evolucionar;
