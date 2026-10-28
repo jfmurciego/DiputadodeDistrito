@@ -1,7 +1,8 @@
-"""Regresiones del gestor nacional, versión 0.0.3, 2026-10-28.
+"""Regresiones del gestor nacional, versión 0.0.4, 2026-10-28.
 Alcance: planificación pura y cierre de acreditación; estado: candidato.
-Cambio/motivo: Extremadura adopta el M06 40656175842 con fuente preparada y preflight de generación.
-Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.2_20261028.py.
+Cambio/motivo: Asturias, Cantabria y Castilla-La Mancha se comprueban por regla de linaje M06/M08
+y no por run_id fijo, para que una ejecución completa nueva no ponga main en rojo.
+Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.3_20261028.py.
 """
 import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
@@ -177,9 +178,10 @@ class NationalCampaignTests(unittest.TestCase):
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume",root=ROOT)
   row=m["territories"][0]
   self.assertEqual(row["preflight_status"],"PRODUCT_REUSE_READY")
-  self.assertEqual(row["territorial_product"]["run_id"],40241852045)
+  plan=campaign_execution_plan(root=ROOT,territory_id="principado_de_asturias",edition="2025",strategy="Canónico")
+  self.assertEqual(row["territorial_product"]["run_id"],plan["existing"]["territorial_product"]["run_id"])
   self.assertFalse(row["execution_plan"]["run_generate"])
-  self.assertTrue(row["execution_plan"]["run_incorporate"])
+  self.assertEqual(row["execution_plan"]["run_incorporate"],not plan["catalog_state"]["electoral_product_available"])
   self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
   m=build_manifest(selected=["galicia"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="electoral-resume-valid",root=ROOT)
@@ -261,15 +263,19 @@ class NationalCampaignTests(unittest.TestCase):
    row=by_slot[code]
    self.assertEqual(row["execution_route"],"PRODUCT_REUSE_READY")
    self.assertFalse(row["execution_plan"]["run_generate"])
-   self.assertTrue(row["execution_plan"]["run_incorporate"])
-   self.assertTrue(row["persist_state"])
    plan=campaign_execution_plan(root=ROOT,territory_id=row["territory_id"],edition="2025",strategy="Canónico")
    self.assertTrue(plan["catalog_state"]["territorial_product_available"])
-   self.assertFalse(plan["catalog_state"]["electoral_product_available"])
-   self.assertFalse((plan["existing"].get("electoral_product") or {}).get("run_id"))
-   rejected=plan["catalog_state"]["rejected_electoral_product"]
-   self.assertFalse(rejected["reusable"])
-   self.assertIn("DURABLE_LINEAGE_INCOMPATIBLE", rejected["reason"])
+   # Regla de linaje: se incorpora M08 nuevo sólo si no hay uno ligado al M06 vigente.
+   if plan["catalog_state"]["electoral_product_available"]:
+    self.assertFalse(row["execution_plan"]["run_incorporate"])
+    self.assertEqual(plan["existing"]["electoral_product"]["run_id"],plan["existing"]["territorial_product"]["run_id"])
+   else:
+    self.assertTrue(row["execution_plan"]["run_incorporate"])
+    self.assertTrue(row["persist_state"])
+    self.assertFalse((plan["existing"].get("electoral_product") or {}).get("run_id"))
+    rejected=plan["catalog_state"]["rejected_electoral_product"]
+    self.assertFalse(rejected["reusable"])
+    self.assertIn("DURABLE_LINEAGE_INCOMPATIBLE", rejected["reason"])
   self.assertEqual(by_slot["12"]["execution_route"],"PRODUCT_REUSE_READY")
   self.assertTrue(by_slot["12"]["execution_plan"]["run_incorporate"])
   self.assertEqual(by_slot["18"]["execution_route"],"GENERATION_READY")

@@ -1,12 +1,25 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.18
+Versión: 1.0.19
 Fecha: 2026-10-28
-Alcance: adopción de los M06 del 28-10 de Aragón y Extremadura
+Alcance: regresiones de linaje M06/M08 independientes de los run_id vivos
 Estado: candidato
-Cambios/motivo: los M06 anteriores ya no tienen artefacto; se adoptan los únicos con bytes vivos
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.17_20261028.md
+Cambios/motivo: las ejecuciones completas de Asturias y Castilla-La Mancha ponían main en rojo
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.18_20261028.md
 -->
+
+## 2026-10-28 — Tests — linaje M06/M08 por regla y no por run_id fijo
+
+Asturias (40706742818), Cantabria (40701656466) y Castilla-La Mancha (40706698510) completaron
+01→04 tras activar su par de fuentes y registraron M06 y M08 del mismo run. Tres regresiones
+fijaban los run_id anteriores (CLM 37444564173, Asturias 40241852045) y exigían incorporar un M08
+nuevo, por lo que `main` quedó en rojo sin cambio de código.
+
+- `test_reanudacion_m08_huerfano.py` 1.0.3: la regresión de CLM comprueba la regla: el M08 se
+  reutiliza sólo si su manifiesto productor lo liga al M06 vigente; si no, se rechaza.
+- `test_gestor_campana_nacional.py` 0.0.4: Asturias, Cantabria y CLM incorporan M08 sólo cuando
+  no hay uno con el linaje del M06 vigente; el run_id se toma del catálogo.
+
 
 ## 2026-10-28 — M06 — Aragón y Extremadura adoptan sus productos del 28-10
 
