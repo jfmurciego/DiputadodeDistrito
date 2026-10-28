@@ -5,10 +5,10 @@
   "territory_name": "Comunidad Valenciana",
   "edition": "2025",
   "run_id": 40656129840,
-  "source_commit": "ba7a4c3c9e4d2061df8b496991a7f6dc60ba2332",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "f28f64f5b160b971e624c99fc69c89a360594f2e",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "SOURCE_MATERIALIZATION",
   "source": {
     "run_id": 40656129840,
     "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40656129840",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
   }
 }
