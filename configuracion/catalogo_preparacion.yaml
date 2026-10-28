@@ -279,7 +279,7 @@ territories:
         prepared_source_pair: territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f.json
         electoral_product: territorios/castilla_la_mancha/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/castilla_la_mancha/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: castilla_y_leon
   name: Castilla y León
   editions:
