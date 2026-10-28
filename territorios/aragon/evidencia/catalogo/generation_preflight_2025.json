@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "aragon",
+  "territory_name": "Aragón",
+  "edition": "2025",
+  "run_id": 40656036271,
+  "source_commit": "654681572da405fd6f978a838c973eb54d03f411",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 40656036271,
+    "artifact_name": "ddd-source-package-aragon-2025-40656036271",
+    "artifact_sha256": "5ae11fd043912cbbb5de15fe42c0616d81dc9d31fafc37ff616b2833ee4f24e7",
+    "package_sha256": "63d4163a7c91ecbb16d562b754013bb6989f23709c215d17c1bcfe3426703652",
+    "compatibility_identity_sha256": "b68bf1a7f4cd2a355126ba9dbef0847aff479c7245a949e30e8a9240df7ae836",
+    "territorial_identity_sha256": "569d8eca777bb1dd3ca5004ca4778121116575eba7e28e014009b78adf307c19",
+    "population_year": 2025,
+    "section_year": 2025
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
