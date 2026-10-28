@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -53,7 +53,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '52'
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   notes:
   - R022 congeló 44 secciones y 87067 habitantes sin faltantes.
   - R023 justificó 0 pasarelas; no se añade ninguna excepción no auditada.
@@ -203,14 +203,14 @@ validation:
     section_year: 2023
     population_total: 85493
     target_section_count: 44
-    package_sha256: f59fd6b2ab7b52ce0a98dcdf331a99d1a950db07c191d35099a0fc9fc128973e
-    compatibility_report_sha256: d624c082016fecd5b578b7c519d74cf8c1489db39ab9b1bc2c0c6078a101ea08
-    compatibility_identity_sha256: 5c8c766f548185e84567cde4e7a10c851d6feda80ad2fa3c56ec70a8131d2c40
+    package_sha256: 2d30772150c70c01fc914fb065eecf6a164575176b261bfd436bc7a3a2157e4a
+    compatibility_report_sha256: 7df7d1607d12f799c313d3570d21d4b1009e97d21b1afbb5b56c4376140c9667
+    compatibility_identity_sha256: 9bbe1dcebc96b17bbdb99bda5345ffc2b90c29a25730d41778b321b4ead668ad
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: f59fd6b2ab7b52ce0a98dcdf331a99d1a950db07c191d35099a0fc9fc128973e
-  compatibility_identity_sha256: 5c8c766f548185e84567cde4e7a10c851d6feda80ad2fa3c56ec70a8131d2c40
+  generation_enabled: false
+  package_sha256: 2d30772150c70c01fc914fb065eecf6a164575176b261bfd436bc7a3a2157e4a
+  compatibility_identity_sha256: 9bbe1dcebc96b17bbdb99bda5345ffc2b90c29a25730d41778b321b4ead668ad
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 892d722de3ccd76619bf0180e5f0349a5736afd9b0f5a143b7a0e6af79c2e92f
@@ -260,9 +260,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40761431907
-  pre_m04_source_commit: a9c692d8e0941858b1d4bc73a836a4223b2613e4
-  pre_m04_artifact_sha256: 219e70500e9656601ee771f405d38aebce024235a60dd5583b8c58d843714c8a
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
