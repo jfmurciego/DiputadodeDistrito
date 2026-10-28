@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "ceuta",
+  "territory_name": "Ceuta",
+  "edition": "2025",
+  "election": {
+    "election_id": "ceuta_asamblea_local_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40773443591,
+    "artifact_name": "ddd-source-package-ceuta-2025-40773443591",
+    "artifact_sha256": "9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374",
+    "package_sha256": "21511daa229d9497f142ad9032d317595cf1cef0b56d1f2ae125a8f0eff107fe",
+    "source_commit": "e6778a88325a7c787e4279783fd0e19d7d1d2975",
+    "source_declaration": "territorios/ceuta/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4/40773443591/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "2889da059eea31f950e2dbcf25148ae04cf565f7a523771b858afc975c987e13",
+    "compatibility_identity_sha256": "a0c31b1cd1edc34b90ef8516ee4197aa5b326434c041a2d85a068bda20b74d5d",
+    "remote_verification": {
+      "run_id": 40773443591,
+      "artifact_id": 12856830095,
+      "artifact_name": "ddd-source-package-ceuta-2025-40773443591",
+      "artifact_sha256": "9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 40773443591,
+    "artifact_name": "ddd-electoral-package-ceuta-2025-40773443591",
+    "artifact_sha256": "b99c10d058a3362761be97400df9ad136f0e6d6dc006b0653319b107e9df2be1",
+    "source_commit": "e6778a88325a7c787e4279783fd0e19d7d1d2975",
+    "receipt_path": "territorios/ceuta/evidencia/fuentes_electorales/2025/a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e/40773443591/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "ceuta_asamblea_local_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e",
+    "remote_verification": {
+      "run_id": 40773443591,
+      "artifact_id": 12857169299,
+      "artifact_name": "ddd-electoral-package-ceuta-2025-40773443591",
+      "artifact_sha256": "b99c10d058a3362761be97400df9ad136f0e6d6dc006b0653319b107e9df2be1",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "e9e8b94fe130a1e001321089fb567c4288b3c240868e8f85d096d45ec094b1e4",
+  "electoral_compatibility_key": "a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/ceuta/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8"
+}
