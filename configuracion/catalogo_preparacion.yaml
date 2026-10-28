@@ -315,6 +315,19 @@ territories:
       last_valid_checkpoint:
         run_id: 35889595424
         stage: M06
+      preparation_evidence:
+        run_id: 40656083930
+        artifact_name: ddd-source-package-castilla_y_leon-2025-40656083930
+        artifact_sha256: 2125685bc2f620e72c4d43b00511d538730e170799229d10d8bc768b37982a0a
+        package_sha256: 7afd33515a3c3341db85bae8e1dcc8a4b03dab1fc0db996e142268d32a3c3704
+        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/a48895fdab269c15ee38b839e51b65046cf8d96a34570f4192482f62bffeed7c/40656083930/receipt.json
+        territorial_identity_sha256: a48895fdab269c15ee38b839e51b65046cf8d96a34570f4192482f62bffeed7c
+        compatibility_report_sha256: b3d5e0145d711623dd1a32261efe0d480651738443034b5ecf421f1ae7f5a9e3
+        compatibility_identity_sha256: d986a8dba0bf0fcd3a9ea1d00c593dacac5cd2300fe7c29af549a72ded8de205
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2025
+        section_year: 2025
+        source_commit: d497bf39739dbcb9ff49403ad62f33b840bffa2f
       independent_source_evidence:
         status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
         promoted: false
@@ -330,16 +343,7 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: b60ea3d02fc860a95b6029ed8fad89abe84e53555ef88036dd74299d047f66ce
         compatibility_identity_sha256: 63a2b0e0636cf45020df78733c33ba73414805258f4a16fc88f8aff6731f3646
-      preparation_evidence:
-        run_id: 35610439734
-        artifact_name: ddd-source-package-castilla_y_leon-2025-35610439734
-        artifact_sha256: c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d
-        package_sha256: 37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752
-        source_commit: 0c516d79e2eaa36966deb016bcf57aafff9c4409
-        population_year: 2025
-        section_year: 2025
-        territorial_identity_sha256: 380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c
-        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json
+      generation_enabled: false
 - territory_id: cataluna
   name: Cataluña
   editions:
