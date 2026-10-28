@@ -1,0 +1,2010 @@
+{
+  "schema": "ddd-estado-operativo/2.2",
+  "edition": "2025",
+  "country_code": "ES",
+  "country_name": "España",
+  "country_display_name": "ES · España",
+  "generated_at": "2026-10-28T12:27:00.635792+00:00",
+  "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
+  "source_readiness": {
+    "schema": "ddd-source-readiness/1.0",
+    "status": "READY",
+    "as_of": "2026-09-30",
+    "project_edition": "2025",
+    "temporal_evidence": {
+      "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+      "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+      "provider": "Instituto Nacional de Estadística",
+      "checked_at": "2026-09-30T10:51:00+02:00"
+    },
+    "activity_observation": {
+      "mode": "repository_durable_state_only",
+      "live_workflow_activity": false
+    },
+    "summary": {
+      "admissible": 15,
+      "action_required": 0,
+      "blocked": 4,
+      "unavailable": 0,
+      "activated": 0,
+      "activable": 15,
+      "territorial_pending": 0,
+      "electoral_pending": 4,
+      "temporal_substitution": 3,
+      "recent_activity": 0
+    },
+    "activation_chain": {
+      "total": 19,
+      "legislature_resolved": 19,
+      "years_resolved": 19,
+      "territorial_source": 19,
+      "electoral_source": 15,
+      "durable_pair": 0
+    },
+    "territories": [
+      {
+        "territory_id": "andalucia",
+        "name": "Andalucía",
+        "display_name": "01 Andalucía",
+        "election": {
+          "election_id": "andalucia_parlamento_2026",
+          "election_date": "2026-05-17"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+          "action": "REUSE_TEMPORAL_SUBSTITUTION",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2026,
+            "section_year": 2026
+          },
+          "selected": {
+            "population_year": 2025,
+            "section_year": 2025
+          },
+          "accredited": {
+            "population_year": 2025,
+            "section_year": 2025,
+            "run_id": 38082966768,
+            "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/057a38a77a6e2163a962022d73387fe0588f3efda1b969b30c737538544ef1f2/38082966768/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "BLOCKED",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
+          "granularity": "section_party_with_cera_reconciliation"
+        },
+        "status": "BLOCKED",
+        "activation": {
+          "state": "BLOCKED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "electoral_section_crosswalk",
+            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
+            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
+          }
+        ]
+      },
+      {
+        "territory_id": "aragon",
+        "name": "Aragón",
+        "display_name": "02 Aragón",
+        "election": {
+          "election_id": "aragon_cortes_2026-02-08",
+          "election_date": "2026-02-08"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+          "action": "REUSE_TEMPORAL_SUBSTITUTION",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2026,
+            "section_year": 2026
+          },
+          "selected": {
+            "population_year": 2025,
+            "section_year": 2025
+          },
+          "accredited": {
+            "population_year": 2025,
+            "section_year": 2025,
+            "run_id": 38093067883,
+            "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac/38093067883/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "BLOCKED",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "Corporación RTVE — resultados 2026",
+          "granularity": "section_party"
+        },
+        "status": "BLOCKED",
+        "activation": {
+          "state": "BLOCKED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "electoral_section_crosswalk",
+            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
+            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
+          }
+        ]
+      },
+      {
+        "territory_id": "principado_de_asturias",
+        "name": "Principado de Asturias",
+        "display_name": "03 Principado de Asturias",
+        "election": {
+          "election_id": "asturias_jgpa_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40132061626,
+            "receipt_path": "territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/40132061626/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "GIPEYOP / Spain Electoral Project mirror verificado",
+          "granularity": "polling_station_to_section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22.json",
+            "pair_sha256": "dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "illes_balears",
+        "name": "Islas Baleares",
+        "display_name": "04 Islas Baleares",
+        "election": {
+          "election_id": "illes_balears_parlament_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40132081479,
+            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61/40132081479/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99.json",
+            "pair_sha256": "d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "canarias",
+        "name": "Canarias",
+        "display_name": "05 Canarias",
+        "election": {
+          "election_id": "canarias_parlamento_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40241596981,
+            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f/40241596981/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364.json",
+            "pair_sha256": "0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "cantabria",
+        "name": "Cantabria",
+        "display_name": "06 Cantabria",
+        "election": {
+          "election_id": "cantabria_parlamento_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40241638106,
+            "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2/40241638106/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/ed3f68dc4a753b9568f1e22a7a0923abfa79bbe5a42de01f4ebdd41425e7cb5b.json",
+            "pair_sha256": "ed3f68dc4a753b9568f1e22a7a0923abfa79bbe5a42de01f4ebdd41425e7cb5b",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "castilla_y_leon",
+        "name": "Castilla y León",
+        "display_name": "07 Castilla y León",
+        "election": {
+          "election_id": "castilla_y_leon_cortes_2026-03-15",
+          "election_date": "2026-03-15"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+          "action": "REUSE_TEMPORAL_SUBSTITUTION",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2026,
+            "section_year": 2026
+          },
+          "selected": {
+            "population_year": 2025,
+            "section_year": 2025
+          },
+          "accredited": {
+            "population_year": 2025,
+            "section_year": 2025,
+            "run_id": 38091055890,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/155b35accd76c2f82cb21c298fda55b2df0fe122a7059df1c6068fbfb3e26b5e/38091055890/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "BLOCKED",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "Junta de Castilla y León — Datos Abiertos",
+          "granularity": "section_party"
+        },
+        "status": "BLOCKED",
+        "activation": {
+          "state": "BLOCKED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "electoral_section_crosswalk",
+            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
+            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
+          }
+        ]
+      },
+      {
+        "territory_id": "castilla_la_mancha",
+        "name": "Castilla-La Mancha",
+        "display_name": "08 Castilla-La Mancha",
+        "election": {
+          "election_id": "castilla_la_mancha_cortes_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40241650464,
+            "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/aa8b623c4040edff3b9f876c5200824b9628e279edbe64ea687eb61e025b8b03/40241650464/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f.json",
+            "pair_sha256": "711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "cataluna",
+        "name": "Cataluña",
+        "display_name": "09 Cataluña",
+        "election": {
+          "election_id": "cataluna_parlament_2024",
+          "election_date": "2024-05-12"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2024,
+            "section_year": 2024
+          },
+          "selected": {
+            "population_year": 2024,
+            "section_year": 2024
+          },
+          "accredited": {
+            "population_year": 2024,
+            "section_year": 2024,
+            "run_id": 40200428904,
+            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/40200428904/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "Generalitat de Catalunya / mirror auditable verificado",
+          "granularity": "polling_station_to_section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/cataluna/evidencia/pares_fuentes/2025/9457fa2c3379e273f5238f8de79885e62b120e591fbbb1f85a53bcb3d3641597.json",
+            "pair_sha256": "9457fa2c3379e273f5238f8de79885e62b120e591fbbb1f85a53bcb3d3641597",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "comunidad_valenciana",
+        "name": "Comunidad Valenciana",
+        "display_name": "10 Comunidad Valenciana",
+        "election": {
+          "election_id": "comunidad_valenciana_corts_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 39315133646,
+            "receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "extremadura",
+        "name": "Extremadura",
+        "display_name": "11 Extremadura",
+        "election": {
+          "election_id": "extremadura_asamblea_2025-12-21",
+          "election_date": "2025-12-21"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2025,
+            "section_year": 2025
+          },
+          "selected": {
+            "population_year": 2025,
+            "section_year": 2025
+          },
+          "accredited": {
+            "population_year": 2025,
+            "section_year": 2025,
+            "run_id": 38091144559,
+            "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "BLOCKED",
+          "action": "BLOCKED_PROVISIONAL",
+          "reason": "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE",
+          "source": "Minsait / EleccionesDB mirror provisional",
+          "granularity": "section_party_after_polling_station_aggregation"
+        },
+        "status": "BLOCKED",
+        "activation": {
+          "state": "BLOCKED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "BLOCKED_PROVISIONAL",
+            "reason": "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE"
+          }
+        ]
+      },
+      {
+        "territory_id": "galicia",
+        "name": "Galicia",
+        "display_name": "12 Galicia",
+        "election": {
+          "election_id": "galicia_parlamento_2024",
+          "election_date": "2024-02-18"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2024,
+            "section_year": 2024
+          },
+          "selected": {
+            "population_year": 2024,
+            "section_year": 2024
+          },
+          "accredited": {
+            "population_year": 2024,
+            "section_year": 2024,
+            "run_id": 40132266803,
+            "receipt_path": "territorios/galicia/evidencia/fuentes_territoriales/2025/0038fdcf4151e229621b529cfb98df60c9dce9d15502dd5024c8b61c79f8a2d3/40132266803/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "Xunta de Galicia — Datos Abiertos",
+          "granularity": "polling_station_to_section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/galicia/evidencia/pares_fuentes/2025/6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff.json",
+            "pair_sha256": "6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "madrid",
+        "name": "Comunidad de Madrid",
+        "display_name": "13 Comunidad de Madrid",
+        "election": {
+          "election_id": "comunidad_madrid_asamblea_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40241725760,
+            "receipt_path": "territorios/madrid/evidencia/fuentes_territoriales/2025/8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520/40241725760/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/madrid/evidencia/pares_fuentes/2025/a73ba65bf9ecbd03b291ea77df2243cc6bd6342eb2127b63ea1875880cd9b63b.json",
+            "pair_sha256": "a73ba65bf9ecbd03b291ea77df2243cc6bd6342eb2127b63ea1875880cd9b63b",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "region_de_murcia",
+        "name": "Región de Murcia",
+        "display_name": "14 Región de Murcia",
+        "election": {
+          "election_id": "region_murcia_asamblea_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40604944550,
+            "receipt_path": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443/40604944550/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/region_de_murcia/evidencia/pares_fuentes/2025/f995638ef9c435a40b7d188df0bbb3877048d778c366442b354e54017ac81ba1.json",
+            "pair_sha256": "f995638ef9c435a40b7d188df0bbb3877048d778c366442b354e54017ac81ba1",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "comunidad_foral_de_navarra",
+        "name": "Comunidad Foral de Navarra",
+        "display_name": "15 Comunidad Foral de Navarra",
+        "election": {
+          "election_id": "navarra_parlamento_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40241742181,
+            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/40241742181/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc.json",
+            "pair_sha256": "a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "pais_vasco",
+        "name": "País Vasco",
+        "display_name": "16 País Vasco",
+        "election": {
+          "election_id": "pais_vasco_parlamento_2024",
+          "election_date": "2024-04-21"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2024,
+            "section_year": 2024
+          },
+          "selected": {
+            "population_year": 2024,
+            "section_year": 2024
+          },
+          "accredited": {
+            "population_year": 2024,
+            "section_year": 2024,
+            "run_id": 40241757334,
+            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a/40241757334/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json",
+            "pair_sha256": "fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "la_rioja",
+        "name": "La Rioja",
+        "display_name": "17 La Rioja",
+        "election": {
+          "election_id": "la_rioja_parlamento_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40198151865,
+            "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/40198151865/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json",
+            "pair_sha256": "0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "ceuta",
+        "name": "Ceuta",
+        "display_name": "18 Ceuta",
+        "election": {
+          "election_id": "ceuta_asamblea_local_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40241776365,
+            "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853/40241776365/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/ceuta/evidencia/pares_fuentes/2025/52d85edaf79987e268b1c703e7fc9a4a1c5baaf500fb6964f2b10028bd313f34.json",
+            "pair_sha256": "52d85edaf79987e268b1c703e7fc9a4a1c5baaf500fb6964f2b10028bd313f34",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      },
+      {
+        "territory_id": "melilla",
+        "name": "Melilla",
+        "display_name": "19 Melilla",
+        "election": {
+          "election_id": "melilla_asamblea_local_2023",
+          "election_date": "2023-05-28"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 40241784009,
+            "receipt_path": "territorios/melilla/evidencia/fuentes_territoriales/2025/a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d/40241784009/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
+          "source": "EleccionesDB",
+          "granularity": "section_party"
+        },
+        "status": "ADMISSIBLE",
+        "activation": {
+          "state": "ACTIVABLE",
+          "pair": {
+            "current": false,
+            "receipt_path": "territorios/melilla/evidencia/pares_fuentes/2025/de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4.json",
+            "pair_sha256": "de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4",
+            "reason": "PAIR_NOT_CURRENT"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": []
+      }
+    ]
+  },
+  "pipeline": [
+    "01 · Preparación de Datos Territoriales",
+    "Puerta de validación · 01 → 02",
+    "02 · Generación de Distritos Autonómicos",
+    "Puerta de validación · 02 → 03",
+    "03 · Preparación de Resultados Electorales",
+    "Puerta de validación · 03 → 04",
+    "04 · Incorporación de Resultados Electorales",
+    "Puerta de validación · 04 → estado operativo",
+    "05 · Publicación opcional"
+  ],
+  "territories": [
+    {
+      "territory_id": "andalucia",
+      "name": "Andalucía",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "andalucia",
+          "edition": "2025",
+          "run_id": 36020646219,
+          "artifact_name": "ddd-source-package-andalucia-2025-36020646219",
+          "artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "01",
+      "display_name": "01 Andalucía"
+    },
+    {
+      "territory_id": "aragon",
+      "name": "Aragón",
+      "ft": "green",
+      "g": "green",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 35710908574,
+      "stage": "M08",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "aragon",
+          "edition": "2025",
+          "run_id": 40656036271,
+          "artifact_name": "ddd-source-package-aragon-2025-40656036271",
+          "artifact_sha256": "5ae11fd043912cbbb5de15fe42c0616d81dc9d31fafc37ff616b2833ee4f24e7",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "aragon",
+          "territory_name": "Aragón",
+          "edition": "2025",
+          "run_id": 40656036271,
+          "artifact_name": "ddd-state-40656036271-M06",
+          "artifact_sha256": "77ec092206d9ca47db9814d64310cd8d728075851179584933a42ca94953d34b",
+          "source_commit": "e6b7afccde4a014ce2c54b3d6c9869896fc983cb",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40656036271.json"
+        },
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "aragon",
+          "territory_name": "Aragón",
+          "edition": "2025",
+          "run_id": 36136639133,
+          "artifact_name": "ddd-electoral-package-aragon-2025-36136639133",
+          "artifact_sha256": "46200575a77d4751a82a760f6f1215584e2386b7fd0eabfcc6f653dad9d2dcb2",
+          "source_commit": "8bbab11a4cadf66568fe6eed3118c01ea6628fd8",
+          "election_id": "aragon_cortes_2026-02-08",
+          "declaration": null,
+          "election_contract": "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+          "election_contract_sha256": "2a9c7bfb9005311989f3e5634d62479a4d7b81a0cabad456e4887a85eeaa406a"
+        },
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "aragon",
+          "territory_name": "Aragón",
+          "edition": "2025",
+          "run_id": 35710908574,
+          "artifact_name": "ddd-state-35710908574-M08",
+          "artifact_sha256": "1f31bed4df68020542abaf3ed07e71fd83612745dc9ce77b2321fb72602c0ba5",
+          "source_commit": "7a9bcac22d4171e5ca298602935339f6d427d557",
+          "stage": "M08"
+        }
+      },
+      "autonomous_community_code_ine": "02",
+      "display_name": "02 Aragón"
+    },
+    {
+      "territory_id": "principado_de_asturias",
+      "name": "Principado de Asturias",
+      "ft": "green",
+      "g": "green",
+      "fe": "yellow",
+      "re": "green",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 40132061626,
+      "stage": "M08",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "principado_de_asturias",
+          "edition": "2025",
+          "run_id": 40132061626,
+          "artifact_name": "ddd-source-package-principado_de_asturias-2025-40132061626",
+          "artifact_sha256": "9dbaff46b33d2695c04fb520d840252dd9f15f4aa7036b15619e81f90f1d38c5",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "principado_de_asturias",
+          "territory_name": "Principado de Asturias",
+          "edition": "2025",
+          "run_id": 40241852045,
+          "artifact_name": "ddd-state-40241852045-M06",
+          "artifact_sha256": "9e8a8aa21962dea749fd4db1b0c357216a4ac901dab8351cc6be294e74676cdd",
+          "source_commit": "c9f9dcae74c4796bcdc3c9f827b0db5b1278b831",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06"
+        },
+        "electoral_source": null,
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "principado_de_asturias",
+          "territory_name": "Principado de Asturias",
+          "edition": "2025",
+          "run_id": 40132061626,
+          "artifact_name": "ddd-state-40132061626-M08",
+          "artifact_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
+          "source_commit": "f7d411d5244f5c4a3fa21cbf2dd1c53614488942",
+          "stage": "M08"
+        }
+      },
+      "autonomous_community_code_ine": "03",
+      "display_name": "03 Principado de Asturias"
+    },
+    {
+      "territory_id": "illes_balears",
+      "name": "Islas Baleares",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "green",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "illes_balears",
+          "edition": "2025",
+          "run_id": 40132081479,
+          "artifact_name": "ddd-source-package-illes_balears-2025-40132081479",
+          "artifact_sha256": "333a98ad02ae67a4c4477bc4b069a3071df45251fe1ead88f299373f3676eeb6",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "illes_balears",
+          "territory_name": "Islas Baleares",
+          "edition": "2025",
+          "run_id": 36629201729,
+          "artifact_name": "ddd-electoral-package-illes_balears-2025-36629201729",
+          "artifact_sha256": "d3fcaf9059e1d36b26cb0416965d0db46a8140db6a82b4979dee72dfdb9c200e",
+          "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+          "election_id": "illes_balears_parlament_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "04",
+      "display_name": "04 Islas Baleares"
+    },
+    {
+      "territory_id": "canarias",
+      "name": "Canarias",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "canarias",
+          "edition": "2025",
+          "run_id": 40241596981,
+          "artifact_name": "ddd-source-package-canarias-2025-40241596981",
+          "artifact_sha256": "e9370491abb4cb96e31b74ffa9d83e6ccb4a24ed7a2e46b0ee5346c9e497e340",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "05",
+      "display_name": "05 Canarias"
+    },
+    {
+      "territory_id": "cantabria",
+      "name": "Cantabria",
+      "ft": "green",
+      "g": "green",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 37318299003,
+      "stage": "M08",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "cantabria",
+          "edition": "2025",
+          "run_id": 40241638106,
+          "artifact_name": "ddd-source-package-cantabria-2025-40241638106",
+          "artifact_sha256": "b496db543f7baedf4d6d56fdb1f11aa00ea0b6c55ae3768fa22db295ebe56ed9",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "cantabria",
+          "territory_name": "Cantabria",
+          "edition": "2025",
+          "run_id": 40604431189,
+          "artifact_name": "ddd-state-40604431189-M06",
+          "artifact_sha256": "232a101d11467d89c3be9e3a359c64f1e78305e57b4def7cfcd0de82b60891fa",
+          "source_commit": "2ef7afae8cb129128479549ea45dbccfd7bc858f",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/40604431189.json"
+        },
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "cantabria",
+          "territory_name": "Cantabria",
+          "edition": "2025",
+          "run_id": 36629227614,
+          "artifact_name": "ddd-electoral-package-cantabria-2025-36629227614",
+          "artifact_sha256": "9b6c6f52ff76481ca6ff5f697558222e8ffbb9740ca2d7c77b0b5fd2b9ef92b4",
+          "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+          "election_id": "cantabria_parlamento_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "cantabria",
+          "territory_name": "Cantabria",
+          "edition": "2025",
+          "run_id": 37318299003,
+          "artifact_name": "ddd-state-37318299003-M08",
+          "artifact_sha256": "c13f34a4ab4b8e9d83934e8f86447f2ca81542f2285b2324cd2f4e18d01f3177",
+          "source_commit": "7c2ba6f9fc66649939c515289b5e8eea3cc4e5c1",
+          "stage": "M08"
+        }
+      },
+      "autonomous_community_code_ine": "06",
+      "display_name": "06 Cantabria"
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "name": "Castilla y León",
+      "ft": "green",
+      "g": "green",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 35889595424,
+      "stage": "M06",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "castilla_y_leon",
+          "edition": "2025",
+          "run_id": 35610439734,
+          "artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+          "artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "castilla_y_leon",
+          "territory_name": "Castilla y León",
+          "edition": "2025",
+          "run_id": 35889595424,
+          "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
+          "artifact_sha256": "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b",
+          "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06"
+        },
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "07",
+      "display_name": "07 Castilla y León"
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "name": "Castilla-La Mancha",
+      "ft": "green",
+      "g": "green",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 37444564173,
+      "stage": "M08",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "castilla_la_mancha",
+          "edition": "2025",
+          "run_id": 40241650464,
+          "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40241650464",
+          "artifact_sha256": "a8e5085e5050aafbe7ce02564f0337c7fccfb0a57d4e13dd46526959a4a5d5a1",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "castilla_la_mancha",
+          "territory_name": "Castilla-La Mancha",
+          "edition": "2025",
+          "run_id": 40604483629,
+          "artifact_name": "ddd-state-40604483629-M06",
+          "artifact_sha256": "ea98d1cef0153f1f5201756a8dca0e8943637e843b37702d64ca6f851b7a8a8d",
+          "source_commit": "2ef7afae8cb129128479549ea45dbccfd7bc858f",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/40604483629.json"
+        },
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "castilla_la_mancha",
+          "territory_name": "Castilla-La Mancha",
+          "edition": "2025",
+          "run_id": 36402139263,
+          "artifact_name": "ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+          "artifact_sha256": "24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a",
+          "source_commit": "f8fe4df2c82972a9b9d177c24c5cafde2adf6f57",
+          "election_id": "castilla_la_mancha_cortes_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "castilla_la_mancha",
+          "territory_name": "Castilla-La Mancha",
+          "edition": "2025",
+          "run_id": 37444564173,
+          "artifact_name": "ddd-state-37444564173-M08",
+          "artifact_sha256": "59abc88a2e283045b4fb563c80c4eb8fa01ef106733b50331b74ceb1ad89995d",
+          "source_commit": "6362dbb947f4df72d2796026b0cf256de1263011",
+          "stage": "M08"
+        }
+      },
+      "autonomous_community_code_ine": "08",
+      "display_name": "08 Castilla-La Mancha"
+    },
+    {
+      "territory_id": "cataluna",
+      "name": "Cataluña",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "cataluna",
+          "edition": "2025",
+          "run_id": 40200428904,
+          "artifact_name": "ddd-source-package-cataluna-2025-40200428904",
+          "artifact_sha256": "7ebc8dc153a2738c6e6baf1df68495f2711344085f2fc3b7d70f1fff7aa4eb76",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "09",
+      "display_name": "09 Cataluña"
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "name": "Comunidad Valenciana",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "comunidad_valenciana",
+          "edition": "2025",
+          "run_id": 36273981926,
+          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-36273981926",
+          "artifact_sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "10",
+      "display_name": "10 Comunidad Valenciana"
+    },
+    {
+      "territory_id": "extremadura",
+      "name": "Extremadura",
+      "ft": "green",
+      "g": "green",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 40656175842,
+      "stage": "M06",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "extremadura",
+          "edition": "2025",
+          "run_id": 40656175842,
+          "artifact_name": "ddd-source-package-extremadura-2025-40656175842",
+          "artifact_sha256": "e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "extremadura",
+          "territory_name": "Extremadura",
+          "edition": "2025",
+          "run_id": 40656175842,
+          "artifact_name": "ddd-state-40656175842-M06",
+          "artifact_sha256": "ab3dcff900e876241dc25dbfa1ae24c83acfe9ac89d3f59a2c8c67cec5eb7faa",
+          "source_commit": "a102dfe050cdcc9b368a3b4d8cefa9a51d897dec",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/40656175842.json"
+        },
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "11",
+      "display_name": "11 Extremadura"
+    },
+    {
+      "territory_id": "galicia",
+      "name": "Galicia",
+      "ft": "green",
+      "g": "green",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 40604535110,
+      "stage": "M06",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "galicia",
+          "edition": "2025",
+          "run_id": 40132266803,
+          "artifact_name": "ddd-source-package-galicia-2025-40132266803",
+          "artifact_sha256": "45b33afd498bdbff34b7397c60b799edc9aa7c9b9fc60364444fd43e15ddd4ee",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "galicia",
+          "territory_name": "Galicia",
+          "edition": "2025",
+          "run_id": 40604535110,
+          "artifact_name": "ddd-state-40604535110-M06",
+          "artifact_sha256": "b734e29e58f7a2f4af3161058971508c356f783832d5212535d9ab7bd5b0fe4d",
+          "source_commit": "2ef7afae8cb129128479549ea45dbccfd7bc858f",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40604535110.json"
+        },
+        "electoral_source": null,
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "galicia",
+          "territory_name": "Galicia",
+          "edition": "2025",
+          "run_id": 36403519566,
+          "artifact_name": "ddd-state-36403519566-M08",
+          "artifact_sha256": "c0fd18457e228aaf1d63f4e832f1601a02ae30e31512e90971b6812562b5c513",
+          "source_commit": "61763602fc0cdbd0bea4f6b615c4e1dd422bc9af",
+          "stage": "M08"
+        }
+      },
+      "autonomous_community_code_ine": "12",
+      "display_name": "12 Galicia"
+    },
+    {
+      "territory_id": "madrid",
+      "name": "Comunidad de Madrid",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "green",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "madrid",
+          "edition": "2025",
+          "run_id": 40241725760,
+          "artifact_name": "ddd-source-package-madrid-2025-40241725760",
+          "artifact_sha256": "ccd3936f8dafd3a02af1ad9a0294e0e945aee5a64a36a74b9524d8e86914dd74",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "madrid",
+          "territory_name": "Comunidad de Madrid",
+          "edition": "2025",
+          "run_id": 36629279414,
+          "artifact_name": "ddd-electoral-package-madrid-2025-36629279414",
+          "artifact_sha256": "9c42884ffe6fe8e0ebb2a6dfbf6d6a4dd494a49e39b2fc1f4eea5d694468feb7",
+          "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+          "election_id": "comunidad_madrid_asamblea_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "13",
+      "display_name": "13 Comunidad de Madrid"
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "name": "Región de Murcia",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "green",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "region_de_murcia",
+          "edition": "2025",
+          "run_id": 40604944550,
+          "artifact_name": "ddd-source-package-region_de_murcia-2025-40604944550",
+          "artifact_sha256": "0d23aac59422a784fc6b22c5ec37e7e9161a81ba7dddf266014b69557f6188cd",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "region_de_murcia",
+          "territory_name": "Región de Murcia",
+          "edition": "2025",
+          "run_id": 36629290688,
+          "artifact_name": "ddd-electoral-package-region_de_murcia-2025-36629290688",
+          "artifact_sha256": "2f15478dafafe1dd5e8df964a56eadc13eb811db55dc3d242ade849b92d22a8b",
+          "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+          "election_id": "region_murcia_asamblea_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "14",
+      "display_name": "14 Región de Murcia"
+    },
+    {
+      "territory_id": "comunidad_foral_de_navarra",
+      "name": "Comunidad Foral de Navarra",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "comunidad_foral_de_navarra",
+          "edition": "2025",
+          "run_id": 40241742181,
+          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-40241742181",
+          "artifact_sha256": "78927770be61365ef0eec5c42eb84328ff79a9daa3484b05ee58ed4c647f530e",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "15",
+      "display_name": "15 Comunidad Foral de Navarra"
+    },
+    {
+      "territory_id": "pais_vasco",
+      "name": "País Vasco",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "pais_vasco",
+          "edition": "2025",
+          "run_id": 40241757334,
+          "artifact_name": "ddd-source-package-pais_vasco-2025-40241757334",
+          "artifact_sha256": "e843103feb9f0dad12e8a4dcf3ab7bc277010daefde6a932feb3eae2cc0bb083",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "16",
+      "display_name": "16 País Vasco"
+    },
+    {
+      "territory_id": "la_rioja",
+      "name": "La Rioja",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "green",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "la_rioja",
+          "edition": "2025",
+          "run_id": 40198151865,
+          "artifact_name": "ddd-source-package-la_rioja-2025-40198151865",
+          "artifact_sha256": "ff28e2c35f8747e1144c986021f5d45bc6f9da311afc33ec13a339d5129a9c92",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "la_rioja",
+          "territory_name": "La Rioja",
+          "edition": "2025",
+          "run_id": 36629352271,
+          "artifact_name": "ddd-electoral-package-la_rioja-2025-36629352271",
+          "artifact_sha256": "8ee7a245ea2ea601dcd6da7799bc2aa4b84e6c5324ebe169ded9db52cc08c2fc",
+          "source_commit": "ea782dc5833f6092a8532ef1f5bab213b38553d9",
+          "election_id": "la_rioja_parlamento_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "17",
+      "display_name": "17 La Rioja"
+    },
+    {
+      "territory_id": "ceuta",
+      "name": "Ceuta",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "green",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "PASS",
+      "run_id": 36482903970,
+      "stage": "M06",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "ceuta",
+          "edition": "2025",
+          "run_id": 40241776365,
+          "artifact_name": "ddd-source-package-ceuta-2025-40241776365",
+          "artifact_sha256": "48783868ffa08360704d08d446c426c92cb64188bea897de0f245eff74ad5e6d",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "ceuta",
+          "territory_name": "Ceuta",
+          "edition": "2025",
+          "run_id": 36482903970,
+          "artifact_name": "ddd-state-36482903970-M06",
+          "artifact_sha256": "b4fb76e66c6267c157e07f3231adbfc96e39e437ca12ac4dcda1511f796a1c01",
+          "source_commit": "f07f5c8c7d5a9fcda98e625692c85e5122fc8a91",
+          "decision": "PASS",
+          "stage": "M06"
+        },
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "ceuta",
+          "territory_name": "Ceuta",
+          "edition": "2025",
+          "run_id": 36349042030,
+          "artifact_name": "ddd-electoral-package-ceuta-2025-36349042030",
+          "artifact_sha256": "aec5705a7fc342bc752e1f05ca3fe4f6c169b2bf71dca01bdac8e7a33274b6d9",
+          "source_commit": "7678375ed1a81ae8083711974c624767cc9b50e8",
+          "election_id": "ceuta_asamblea_local_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "18",
+      "display_name": "18 Ceuta"
+    },
+    {
+      "territory_id": "melilla",
+      "name": "Melilla",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "melilla",
+          "edition": "2025",
+          "run_id": 40241784009,
+          "artifact_name": "ddd-source-package-melilla-2025-40241784009",
+          "artifact_sha256": "f1c96f9a7c3d6c4477b0ecfa313d0a826e2b800b287cb2047cff3a43f27c0b1b",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "19",
+      "display_name": "19 Melilla"
+    }
+  ],
+  "kpis": {
+    "complete": 3,
+    "complete_names": [
+      "02 Aragón",
+      "06 Cantabria",
+      "08 Castilla-La Mancha"
+    ],
+    "territorial_validated": 7,
+    "territorial_validated_names": [
+      "02 Aragón",
+      "03 Principado de Asturias",
+      "06 Cantabria",
+      "07 Castilla y León",
+      "08 Castilla-La Mancha",
+      "11 Extremadura",
+      "12 Galicia"
+    ],
+    "validated": 7,
+    "validated_names": [
+      "02 Aragón",
+      "03 Principado de Asturias",
+      "06 Cantabria",
+      "07 Castilla y León",
+      "08 Castilla-La Mancha",
+      "11 Extremadura",
+      "12 Galicia"
+    ],
+    "ready": 12,
+    "ready_names": [
+      "01 Andalucía",
+      "04 Islas Baleares",
+      "05 Canarias",
+      "09 Cataluña",
+      "10 Comunidad Valenciana",
+      "13 Comunidad de Madrid",
+      "14 Región de Murcia",
+      "15 Comunidad Foral de Navarra",
+      "16 País Vasco",
+      "17 La Rioja",
+      "18 Ceuta",
+      "19 Melilla"
+    ],
+    "pending": 0,
+    "pending_names": [],
+    "blocked": 0,
+    "blocked_names": []
+  },
+  "latest_validated": {
+    "territory_id": "castilla_la_mancha",
+    "name": "Castilla-La Mancha",
+    "display_name": "08 Castilla-La Mancha",
+    "autonomous_community_code_ine": "08",
+    "run_id": 37444564173,
+    "stage": "M08",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "edition": "2025"
+  },
+  "alerts": [
+    {
+      "territory": "01 Andalucía",
+      "territory_id": "andalucia",
+      "autonomous_community_code_ine": "01",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "04 Islas Baleares",
+      "territory_id": "illes_balears",
+      "autonomous_community_code_ine": "04",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "05 Canarias",
+      "territory_id": "canarias",
+      "autonomous_community_code_ine": "05",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "07 Castilla y León",
+      "territory_id": "castilla_y_leon",
+      "autonomous_community_code_ine": "07",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "10 Comunidad Valenciana",
+      "territory_id": "comunidad_valenciana",
+      "autonomous_community_code_ine": "10",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "12 Galicia",
+      "territory_id": "galicia",
+      "autonomous_community_code_ine": "12",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "13 Comunidad de Madrid",
+      "territory_id": "madrid",
+      "autonomous_community_code_ine": "13",
+      "action": "completar puerta de validación territorial"
+    }
+  ],
+  "next_actions": [
+    {
+      "territory": "01 Andalucía",
+      "territory_id": "andalucia",
+      "autonomous_community_code_ine": "01",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "principado_de_asturias",
+      "autonomous_community_code_ine": "03",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "04 Islas Baleares",
+      "territory_id": "illes_balears",
+      "autonomous_community_code_ine": "04",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "05 Canarias",
+      "territory_id": "canarias",
+      "autonomous_community_code_ine": "05",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "07 Castilla y León",
+      "territory_id": "castilla_y_leon",
+      "autonomous_community_code_ine": "07",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "10 Comunidad Valenciana",
+      "territory_id": "comunidad_valenciana",
+      "autonomous_community_code_ine": "10",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "11 Extremadura",
+      "territory_id": "extremadura",
+      "autonomous_community_code_ine": "11",
+      "action": "preparar fuentes electorales"
+    }
+  ]
+}
