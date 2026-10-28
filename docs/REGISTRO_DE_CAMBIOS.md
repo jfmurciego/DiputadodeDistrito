@@ -1,12 +1,36 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.16
+Versión: 1.0.17
 Fecha: 2026-10-28
-Alcance: estado registrado por las ejecuciones 00 del 27-10 y puerta F10 territorial
+Alcance: estado registrado por las ejecuciones 00 "desde el principio" del 28-10
 Estado: candidato
-Cambios/motivo: aceptar en F10 el re-registro del mismo paquete y fijar los M06 nuevos en las pruebas
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.15_20261028.md
+Cambios/motivo: devolver main al estado acreditado anterior y corregir la declaración de fuentes de 02 y la cabecera de los contratos materializados
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.16_20261028.md
 -->
+
+## 2026-10-28 — 00/01/02 — estado registrado por las ejecuciones del 28-10
+
+Las seis ejecuciones 00 "Ejecutar desde el principio" del 28-10 (Andalucía 40655989924,
+Aragón 40656036271, Castilla y León 40656083930, Comunidad Valenciana 40656129840,
+Extremadura 40656175842 y Madrid con GerryChain 40658423303) registraron en `main`, sin CI,
+fuentes, contratos y catálogo nuevos. Cuatro terminaron en FAILED (Andalucía
+`POPULATION_HARD_BLOCK`; Castilla y León `POPULATION_TARGET_NOT_MET`; Valencia sin años en la
+declaración; Madrid `BASELINE_INVALID` en el M05 de GerryChain) y dejaron el catálogo
+contradiciendo sus productos: Castilla y León perdía el linaje de su M06, Madrid acreditaba un
+paquete nuevo que F10 bloquea y el contrato de Aragón perdía su cabecera de gobernanza.
+
+Se devuelven la configuración, el preflight, el producto territorial y el catálogo de los seis
+territorios al estado anterior. Aragón y Extremadura siguen cerrados con sus productos
+acreditados (36321736287 con acreditación histórica sellada, y 36472516474); sus M06 del 28-10
+quedan como evidencia en `generaciones_m06/` para adoptarlos en un cambio propio. Se conservan
+también los receipts y manifiestos de ejecución de los seis runs.
+
+- `_reutilizable-generacion-territorial.yml` 1.2.1: "Verificar datos territoriales preparados"
+  usa la declaración que acredita el catálogo (`territorial_source_declaration`) y solo recurre a
+  `config/fuentes_oficiales.yaml` si no hay ninguna; la ruta fija leía en Valencia una
+  declaración sin `population_year` ni `section_year`.
+- `materializar_contrato_generacion.py`: al reescribir un contrato conserva sus comentarios
+  iniciales; `yaml.safe_dump` borraba la cabecera VERSIÓN/ANTERIOR que exige R015.
 
 ## 2026-10-28 — F10/M06 — estado registrado por las ejecuciones 00 del 27-10
 

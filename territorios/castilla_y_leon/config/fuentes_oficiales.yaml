@@ -1,10 +1,8 @@
-schema: ddd-territory-sources/1.2
+schema: ddd-territory-sources/1.1
 territory:
   id: castilla_y_leon
   business_name: Castilla y León
   edition: 2025
-  population_year: 2025
-  section_year: 2025
   territorial_codes:
   - code: '05'
     business_name: '05'
@@ -24,7 +22,6 @@ territory:
     business_name: '47'
   - code: '49'
     business_name: '49'
-  source_year: 2025
 required_sources:
 - poblacion_por_sexo_y_edad
 - secciones_censales

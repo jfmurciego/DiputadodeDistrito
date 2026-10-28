@@ -35,9 +35,22 @@ def yload(path: Path) -> dict[str, Any]:
     return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
 
 
+def _leading_comment_block(path: Path) -> str:
+    """Cabecera de gobernanza (comentarios iniciales) que safe_dump no conserva."""
+    if not path.is_file():
+        return ""
+    header = []
+    for line in path.read_text(encoding="utf-8").splitlines(keepends=True):
+        if not line.startswith("#"):
+            break
+        header.append(line)
+    return "".join(header)
+
+
 def ywrite(path: Path, data: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    header = _leading_comment_block(path)
+    path.write_text(header + yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
 
 
 
