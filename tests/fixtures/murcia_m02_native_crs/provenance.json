@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.regression-fixture/1.0",
+  "origin": "exact M01 geometry, no coordinate changes",
+  "run_id": 40241734290,
+  "artifact_id": 12617740707,
+  "artifact_name": "ddd-state-40241734290-M02",
+  "artifact_zip_sha256": "e11b95e8a6687fa874d9254924c6af66259e19e07504fa1a2db384cb1221a1f8",
+  "fixture_sha256": "d9991e4ea5f1f7b723e8aac8b7b55a0f87cbee5d1538f89c2cda840e19e37b8c",
+  "population_year": 2023,
+  "section_year": 2023,
+  "source_package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534"
+}
