@@ -92,7 +92,7 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: 44695b29da3cc7b14d1f3859b1b8aebac0bfdef5c61cb804c36f17f33a733727
         compatibility_identity_sha256: 592dea65f7b934015afa42c2d13efc66ddaf9f4d7e89b8e868d02c00d68045ee
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: principado_de_asturias
   name: Principado de Asturias
   editions:
