@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-28T14:09:00.817335+00:00",
+  "generated_at": "2026-10-28T14:14:50.485827+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1104,13 +1104,13 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 40656036271,
-          "artifact_name": "ddd-state-40656036271-M06",
-          "artifact_sha256": "77ec092206d9ca47db9814d64310cd8d728075851179584933a42ca94953d34b",
-          "source_commit": "e6b7afccde4a014ce2c54b3d6c9869896fc983cb",
+          "run_id": 40691712762,
+          "artifact_name": "ddd-state-40691712762-M06",
+          "artifact_sha256": "e47faf0a742dc6ed6c20fcee85a16e04af30cd76ffa96e869bf84a77f05520d8",
+          "source_commit": "479c5a17c18754fbd4cb1bffbc3c221cfe2a56e2",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40656036271.json"
+          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40691712762.json"
         },
         "electoral_source": {
           "schema": "ddd.catalog-evidence/1.0",
