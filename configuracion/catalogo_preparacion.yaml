@@ -18,6 +18,19 @@ territories:
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 40655989924
+        artifact_name: ddd-source-package-andalucia-2025-40655989924
+        artifact_sha256: 2422054a1515761b97c1174902b0f854d82e7aa36dcf7fa39446d2eb358f3eb5
+        package_sha256: 4dc8f7ef2ce0ad5cedde504eec045f16cde54b45de7f4c1fa558514b6d8c5630
+        receipt_path: territorios/andalucia/evidencia/fuentes_territoriales/2025/f8ae9f01b8e6016c2d5ad92a93b43e3017ff249d0b5dd5b1d6e3aebf71f8bc56/40655989924/receipt.json
+        territorial_identity_sha256: f8ae9f01b8e6016c2d5ad92a93b43e3017ff249d0b5dd5b1d6e3aebf71f8bc56
+        compatibility_report_sha256: 9f563819c95d7dd31e9bd6d0550d3a32c01a2500e815fbe55771d8ba37d6d55e
+        compatibility_identity_sha256: f43df874ba4910995e07a3bb89f20d0fe454eed8d4cdbea7eb7141467802c5bb
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2025
+        section_year: 2025
+        source_commit: d497bf39739dbcb9ff49403ad62f33b840bffa2f
       independent_source_evidence:
         status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
         promoted: false
@@ -33,13 +46,9 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: 19214dff89176b040ce75ba62fbf008d40ef02205cf96a6f053a60e5275cdab9
         compatibility_identity_sha256: 5cca7fab7281f1175568e433247d113e953c30990fbe22468eae4569d25a0824
-      preparation_evidence:
-        run_id: 36020646219
-        artifact_name: ddd-source-package-andalucia-2025-36020646219
-        artifact_sha256: cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316
-        package_sha256: 16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07
       evidence:
         electoral_source: territorios/andalucia/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json
+      generation_enabled: false
 - territory_id: aragon
   name: Aragón
   editions:
