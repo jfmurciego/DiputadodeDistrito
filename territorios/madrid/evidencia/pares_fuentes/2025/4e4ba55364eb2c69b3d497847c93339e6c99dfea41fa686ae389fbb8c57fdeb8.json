@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "madrid",
+  "territory_name": "Comunidad de Madrid",
+  "edition": "2025",
+  "election": {
+    "election_id": "comunidad_madrid_asamblea_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40773465956,
+    "artifact_name": "ddd-source-package-madrid-2025-40773465956",
+    "artifact_sha256": "b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f",
+    "package_sha256": "45171fc1fd60d4ffa731f3bf41f3fa2f889e6f6c167227afc154262310c2940a",
+    "source_commit": "e6778a88325a7c787e4279783fd0e19d7d1d2975",
+    "source_declaration": "territorios/madrid/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/madrid/evidencia/fuentes_territoriales/2025/940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895/40773465956/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "c49509ea59cf6579ac3436d4a8ac5b4b4fee30adcd086576582d904d3b1c7c9e",
+    "compatibility_identity_sha256": "0c128b32a9d048f3344fcdf70230421f9f0a844c083c4d8c0e0c90e290119366",
+    "remote_verification": {
+      "run_id": 40773465956,
+      "artifact_id": 12855666769,
+      "artifact_name": "ddd-source-package-madrid-2025-40773465956",
+      "artifact_sha256": "b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 40773465956,
+    "artifact_name": "ddd-electoral-package-madrid-2025-40773465956",
+    "artifact_sha256": "4a622b5b20482eb35df5b81a710c8bd69540fc9bda214bc24779fd976fdf0222",
+    "source_commit": "e6778a88325a7c787e4279783fd0e19d7d1d2975",
+    "receipt_path": "territorios/madrid/evidencia/fuentes_electorales/2025/66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba/40773465956/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "comunidad_madrid_asamblea_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba",
+    "remote_verification": {
+      "run_id": 40773465956,
+      "artifact_id": 12857663649,
+      "artifact_name": "ddd-electoral-package-madrid-2025-40773465956",
+      "artifact_sha256": "4a622b5b20482eb35df5b81a710c8bd69540fc9bda214bc24779fd976fdf0222",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "940bca48df854c294916fee6a812778c262b117340aab0a36d972a26a29da895",
+  "electoral_compatibility_key": "66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/madrid/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8"
+}
