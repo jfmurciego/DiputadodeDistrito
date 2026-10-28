@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-28T14:26:51.566830+00:00",
+  "generated_at": "2026-10-28T15:01:30.086404+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 4,
       "unavailable": 0,
-      "activated": 1,
-      "activable": 14,
+      "activated": 4,
+      "activable": 11,
       "territorial_pending": 0,
       "electoral_pending": 4,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 15,
-      "durable_pair": 1
+      "durable_pair": 4
     },
     "territories": [
       {
@@ -192,12 +192,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22.json",
-            "pair_sha256": "dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb.json",
+            "pair_sha256": "96f6b6b1fa3e548dabea41b1aee41731cc974a4a97c07935aca74f7096e502fb",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -453,12 +453,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f.json",
-            "pair_sha256": "711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c.json",
+            "pair_sha256": "c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -663,12 +663,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/galicia/evidencia/pares_fuentes/2025/6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff.json",
-            "pair_sha256": "6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/galicia/evidencia/pares_fuentes/2025/fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914.json",
+            "pair_sha256": "fe42fdfcdd620e55448d873059c973d77afcd31f7f7d28ab396088458d612914",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1152,7 +1152,7 @@
       "re": "green",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40132061626,
+      "run_id": 40706742818,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -1170,13 +1170,13 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 40693720831,
-          "artifact_name": "ddd-state-40693720831-M06",
-          "artifact_sha256": "35e02af0efced43bab12324f4041765c2088fba394a4de0a9df58a59ecaaaa92",
-          "source_commit": "722f0665259275d3171a21ff0c0c77af758401a8",
+          "run_id": 40706742818,
+          "artifact_name": "ddd-state-40706742818-M06",
+          "artifact_sha256": "a27a36f3b35de61350d1126a6558877609713cc96c7fe5f15c2b7782c20be88c",
+          "source_commit": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/40693720831.json"
+          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/40706742818.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1185,10 +1185,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 40132061626,
-          "artifact_name": "ddd-state-40132061626-M08",
-          "artifact_sha256": "8bed11105d1e64e289b2867d3acc21261b6eb715d25668ed8d9030c7b76220f1",
-          "source_commit": "f7d411d5244f5c4a3fa21cbf2dd1c53614488942",
+          "run_id": 40706742818,
+          "artifact_name": "ddd-state-40706742818-M08",
+          "artifact_sha256": "605c1588855763ee4f9fed9014b12ea8c3f36e6ef75c177ae80f6fd8d56d5e89",
+          "source_commit": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
           "stage": "M08"
         }
       },
@@ -1366,7 +1366,7 @@
       "re": "green",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 37444564173,
+      "run_id": 40706698510,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -1384,13 +1384,13 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 40690624792,
-          "artifact_name": "ddd-state-40690624792-M06",
-          "artifact_sha256": "132f71fcc29001df1f7b96163bf34e238dd823f654c5c93061f049c311111f49",
-          "source_commit": "031d508bbb9857c7fca93fec555a4c6db58829bc",
+          "run_id": 40706698510,
+          "artifact_name": "ddd-state-40706698510-M06",
+          "artifact_sha256": "999f02b7346b65b723e4bdbcab69e697a3366531e625a685b5bb6c8d3dab27b4",
+          "source_commit": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/40690624792.json"
+          "producer_manifest_path": "territorios/castilla_la_mancha/evidencia/generaciones_m06/40706698510.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1399,10 +1399,10 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 37444564173,
-          "artifact_name": "ddd-state-37444564173-M08",
-          "artifact_sha256": "59abc88a2e283045b4fb563c80c4eb8fa01ef106733b50331b74ceb1ad89995d",
-          "source_commit": "6362dbb947f4df72d2796026b0cf256de1263011",
+          "run_id": 40706698510,
+          "artifact_name": "ddd-state-40706698510-M08",
+          "artifact_sha256": "d47f40def23b9867a18c97a1355c78c0d94a4c71ae97379741f5688b879d3075",
+          "source_commit": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
           "stage": "M08"
         }
       },
@@ -1515,7 +1515,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40690688352,
+      "run_id": 40706722115,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -1533,13 +1533,13 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 40690688352,
-          "artifact_name": "ddd-state-40690688352-M06",
-          "artifact_sha256": "44d08c007207f7caa0c7f89d6a8074e08d9d5f6c2568a1b80b51a5a7d5a3f50a",
-          "source_commit": "8f5d157fb14544804d006f2554cc4009945b9424",
+          "run_id": 40706722115,
+          "artifact_name": "ddd-state-40706722115-M06",
+          "artifact_sha256": "b3367203b50821ce3d8f6a14171ca65407239fffce303c153652d01490a4f78e",
+          "source_commit": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40690688352.json"
+          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40706722115.json"
         },
         "electoral_source": null,
         "electoral_product": {
