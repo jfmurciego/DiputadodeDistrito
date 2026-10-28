@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "castilla_y_leon",
+  "territory_name": "Castilla y León",
+  "edition": "2025",
+  "run_id": 40784651090,
+  "source_commit": "4bafa9fd1409b77659fc816b3b7702db3974f8c8",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 40784651090,
+    "artifact_name": "ddd-source-package-castilla_y_leon-2025-40784651090",
+    "artifact_sha256": "1729becb95fa033cfd89af58383c93b85ccafdc1537f84ea136d33b493596170",
+    "package_sha256": "f8c210881dbceabfce9f439530502b3e1e57f00666006b32917f6d01ff745084",
+    "compatibility_identity_sha256": "cdd03ef6b840883a62bf007ab6b06287ea194325a6d2ab14b2b8c228d83150ed",
+    "territorial_identity_sha256": "131eee1f6bc0d61cc2d9260514a5d5ccc51fc9a94d792a33dd4c2ffa88729712",
+    "population_year": 2025,
+    "section_year": 2025
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
