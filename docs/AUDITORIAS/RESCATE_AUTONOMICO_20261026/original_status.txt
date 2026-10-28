@@ -1,0 +1,46 @@
+M  configuracion/catalogo_preparacion.yaml
+ M configuracion/m04_engine.json
+ M ddd_core/m04_seed_engine.py
+ M ddd_core/m04_seed_engine_v7410.py
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/RESULTADO.md
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/andalucia-M01.log
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/andalucia-M02.log
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/andalucia-M03.log
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/canonical-path-mapping.json
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/comunidad_valenciana-M01.log
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/comunidad_valenciana-M02.log
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/comunidad_valenciana-M03.log
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/replay.json
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/resultados_m01_m03.json
+A  docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/vinculacion_fuentes.json
+A  legacy/configuracion/catalogo_preparacion_pre_ejecutor_c_20261026.yaml
+A  legacy/territorios/andalucia/andalucia_2025_pre_fuente_2025_20261026.yaml
+A  legacy/territorios/comunidad_valenciana/comunidad_valenciana_2025_pre_fuente_2023_20261026.yaml
+A  legacy/territorios/region_de_murcia/region_de_murcia_2025_pre_native_crs_20261026.yaml
+A  legacy/tests/test_f10_2025_independent_territorial_receipts_pre_ejecutor_c_20261026.py
+A  legacy/tests/test_f10_derived_doors_pre_ejecutor_c_20261026.py
+A  legacy/tests/test_f10_preparacion_aislada_pre_ejecutor_c_20261026.py
+A  legacy/tests/test_f10_valencia_2023_durable_receipt_pre_ejecutor_c_20261026.py
+A  legacy/tests/test_valencia_m02_native_crs_pre_fuente_2023_20261026.py
+M  territorios/andalucia/config/andalucia_2025.yaml
+M  territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml
+M  territorios/region_de_murcia/config/region_de_murcia_2025.yaml
+A  tests/fixtures/murcia_m02_native_crs/provenance.json
+A  tests/fixtures/murcia_m02_native_crs/source_touch_pairs_2023.geojson
+A  tests/test_ejecutor_c_source_contracts.py
+M  tests/test_f10_2025_independent_territorial_receipts.py
+M  tests/test_f10_derived_doors.py
+M  tests/test_f10_preparacion_aislada.py
+M  tests/test_f10_valencia_2023_durable_receipt.py
+A  tests/test_murcia_m02_native_crs.py
+M  tests/test_valencia_m02_native_crs.py
+?? ddd_core/m04_administrative_atomic_groups.py
+?? docs/AUDITORIAS/EJECUTOR_C_TERRITORIAL_20261026/
+?? docs/AUDITORIAS/EJECUTOR_C_TOPOLOGIA_20261026/
+?? legacy/ddd_core/m04_engine_pre_7.6.5.json
+?? legacy/ddd_core/m04_seed_engine_v7.4.10_pre_residual_cardinality.py
+?? legacy/ddd_core/m04_seed_engine_v7.6.4.py
+?? tests/fixtures/m04_administrative_components/
+?? tests/fixtures/m04_residual_cardinality/
+?? tests/test_m04_administrative_atomic_groups.py
+?? tests/test_m04_residual_cardinality.py

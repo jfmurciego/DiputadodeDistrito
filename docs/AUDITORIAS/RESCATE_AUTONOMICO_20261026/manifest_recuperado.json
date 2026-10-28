@@ -1,0 +1,256 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-28",
+  "status": "RESCUED_UNMODIFIED",
+  "origin_worktree": "/private/tmp/DDD_ejecutor_C_20261026",
+  "origin_branch": "codex/ejecutor-c-territorial-20261026",
+  "base": "43e0bc48f04b2ecf45af3b4981f43978fea415b8",
+  "files": [
+    {
+      "path": "configuracion/catalogo_preparacion.yaml",
+      "bytes": 47299,
+      "sha256": "8517460952e7fb1782508f8e881dd8ca1313124ffe9bd10e3776988f952b172b"
+    },
+    {
+      "path": "configuracion/m04_engine.json",
+      "bytes": 878,
+      "sha256": "3767feb070b4eeb53539f6e15c2b05124bc8f70405272156306f428fea83be1a"
+    },
+    {
+      "path": "ddd_core/m04_administrative_atomic_groups.py",
+      "bytes": 6141,
+      "sha256": "14a04df932156890417506ea44ba13b6045e9862546b5c67556aa992e3cd2069"
+    },
+    {
+      "path": "ddd_core/m04_seed_engine.py",
+      "bytes": 23582,
+      "sha256": "8ef6a22a4864b738781741b889f17cb66cf10f8fef714846781315a4aa65244d"
+    },
+    {
+      "path": "ddd_core/m04_seed_engine_v7410.py",
+      "bytes": 26506,
+      "sha256": "dfe15b34bebbefa938ccb5d3416da511280b00bfd7812be8202b718654c053e6"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/RESULTADO.md",
+      "bytes": 4768,
+      "sha256": "19e75ac2200750b4a98dbbba117bee3f162527439808bf78296275d8cc1e38b8"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/andalucia-M01.log",
+      "bytes": 214,
+      "sha256": "8a7da3e424188b82c44627055cf27792e32f7b7529155a5a66ae71a8176fb14f"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/andalucia-M02.log",
+      "bytes": 294,
+      "sha256": "5cc364ee02a3dec90e7c46bf55b7cf7446f05478902894f0007b7201ef71ad98"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/andalucia-M03.log",
+      "bytes": 291,
+      "sha256": "e0a9f800e5579d4dd5173ff10a93d9a397c05649f0a6f4100c82ac922b6e386b"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/canonical-path-mapping.json",
+      "bytes": 940,
+      "sha256": "cb9e2bec9882930d1c8560afa26ffd303241d6707b12253fe19600cc225eaa8d"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/comunidad_valenciana-M01.log",
+      "bytes": 258,
+      "sha256": "186a748b7f77a66443b76322477e24778600457ea4ede9e061fbe2bd4982ed81"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/comunidad_valenciana-M02.log",
+      "bytes": 313,
+      "sha256": "ec415454caac855acc15b48118fb07e43f45d66dcb5307a165adb673a107ba65"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/comunidad_valenciana-M03.log",
+      "bytes": 334,
+      "sha256": "98dd95901d6d020ff977c349bbfd270dc432e095ad34620fcf226d36f4b917bf"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/replay.json",
+      "bytes": 2250,
+      "sha256": "2be8c977650bad90a35d3f1aaddb6e7248e6eac8fcee456b7c175950fbb26fb2"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/resultados_m01_m03.json",
+      "bytes": 2678,
+      "sha256": "6dbaba947a505d9b096a463eb1d6b84f53a89c575e265a432cf6147bde2d22fc"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_FUENTES_20261026/vinculacion_fuentes.json",
+      "bytes": 2574,
+      "sha256": "3b8dac2d40ba555aae31cb536d750d0754944b8d6ea52663e17bd9e0f866c685"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_TERRITORIAL_20261026/HANDOFF_B_ISLAS_BALEARES.json",
+      "bytes": 1846,
+      "sha256": "a63e1e3146e142d4251c7e237ed6c07eed3be96f6362900b01b9922570087b1f"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_TERRITORIAL_20261026/MELILLA_CERTIFICADO_RESTRICCION.json",
+      "bytes": 1133,
+      "sha256": "421d7d004c48aea16e93594affa0f2b2aa95d70d55650433785f63bc0e7b318b"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_TOPOLOGIA_20261026/README.md",
+      "bytes": 3025,
+      "sha256": "d142c6480de840e22ee6264e779a11ab156c1ea2f6e6da73a39495a01aaca6a2"
+    },
+    {
+      "path": "docs/AUDITORIAS/EJECUTOR_C_TOPOLOGIA_20261026/reproduccion_local.json",
+      "bytes": 2641,
+      "sha256": "3bac4c0dd9213f58f3a2126b5d0e26653f44855fd785a90ad9d692c5ecb12095"
+    },
+    {
+      "path": "legacy/configuracion/catalogo_preparacion_pre_ejecutor_c_20261026.yaml",
+      "bytes": 44361,
+      "sha256": "cef047d9565438e10cf6a44608fc512df6982c6241c77b9db58f336356d1460c"
+    },
+    {
+      "path": "legacy/ddd_core/m04_engine_pre_7.6.5.json",
+      "bytes": 709,
+      "sha256": "1ec3bde39a0a46e8cac26c5b0cb2aa9cf3dddf01a0cf098a830ea69f175bcbf8"
+    },
+    {
+      "path": "legacy/ddd_core/m04_seed_engine_v7.4.10_pre_residual_cardinality.py",
+      "bytes": 23291,
+      "sha256": "5c13f99d74854e48c071a1580e3d5e52cb746cb06f606061f445f6e257c30c45"
+    },
+    {
+      "path": "legacy/ddd_core/m04_seed_engine_v7.6.4.py",
+      "bytes": 21684,
+      "sha256": "a4835ef8197d4be65a9311a78c882870abd844e8938d4a32b9e3213792a4a627"
+    },
+    {
+      "path": "legacy/territorios/andalucia/andalucia_2025_pre_fuente_2025_20261026.yaml",
+      "bytes": 8626,
+      "sha256": "155d7fcac340121cde09031c02891569a2467f03d0e109d2f24d7ffed0104866"
+    },
+    {
+      "path": "legacy/territorios/comunidad_valenciana/comunidad_valenciana_2025_pre_fuente_2023_20261026.yaml",
+      "bytes": 8665,
+      "sha256": "59e52cfad9920071282b18dbdb9d92cd9c729f0b9499099ae459ff4550681292"
+    },
+    {
+      "path": "legacy/territorios/region_de_murcia/region_de_murcia_2025_pre_native_crs_20261026.yaml",
+      "bytes": 12612,
+      "sha256": "54078462a2d28c100f4c2debb72e4897b777a6cbb0885b06233377ae238881d8"
+    },
+    {
+      "path": "legacy/tests/test_f10_2025_independent_territorial_receipts_pre_ejecutor_c_20261026.py",
+      "bytes": 4866,
+      "sha256": "59abe955d986bc2bd6538a85e031adacca4ac9634f1827871475ce4cffefc4b8"
+    },
+    {
+      "path": "legacy/tests/test_f10_derived_doors_pre_ejecutor_c_20261026.py",
+      "bytes": 13563,
+      "sha256": "dd367735e50ea61d0321cccc708dba3a416ffaf4a62fa4b8d86344d2fa1785ab"
+    },
+    {
+      "path": "legacy/tests/test_f10_preparacion_aislada_pre_ejecutor_c_20261026.py",
+      "bytes": 10109,
+      "sha256": "7174808ea2f9dd81d0dd0268d7501b1325adc1603b8bd2b6be464aa9c0578938"
+    },
+    {
+      "path": "legacy/tests/test_f10_valencia_2023_durable_receipt_pre_ejecutor_c_20261026.py",
+      "bytes": 8149,
+      "sha256": "db5a376ba322ff975c4094a6868937cac0086c6114361b337057b8a96fae43d0"
+    },
+    {
+      "path": "legacy/tests/test_valencia_m02_native_crs_pre_fuente_2023_20261026.py",
+      "bytes": 3242,
+      "sha256": "981c96df9339bed7934851e1276943da7f5992167a35846923d06a07b3637c11"
+    },
+    {
+      "path": "territorios/andalucia/config/andalucia_2025.yaml",
+      "bytes": 13720,
+      "sha256": "fb9baada72bd8e54e4c8b0fc200fbece11d482567a7fd69f1016c59871f6b55b"
+    },
+    {
+      "path": "territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml",
+      "bytes": 13337,
+      "sha256": "e3740ba376863e4fa62484f0c620f95e8e82c2dca3522d70874fdeb2dad7ecd9"
+    },
+    {
+      "path": "territorios/region_de_murcia/config/region_de_murcia_2025.yaml",
+      "bytes": 13096,
+      "sha256": "cb8c036aef18687793dd396ebab5ebc9cd6c0823b9e63142bfff28046f5810f3"
+    },
+    {
+      "path": "tests/fixtures/m04_administrative_components/tremp_run_40200428904.json",
+      "bytes": 2889,
+      "sha256": "389fe9ba854eb04740b1322bb56f73b6d331ae865b37fad2a025a7ea06efb104"
+    },
+    {
+      "path": "tests/fixtures/m04_residual_cardinality/canarias_lalaguna_run_40241596981.json",
+      "bytes": 20688,
+      "sha256": "678f36d69738de9185ea512f75a48820da29795edf5fc122d767cd3f620cdee6"
+    },
+    {
+      "path": "tests/fixtures/m04_residual_cardinality/ceuta_run_40241776365.json",
+      "bytes": 16319,
+      "sha256": "bb464b0b3094a3abe8ed8306d17109084ecb82d21562e876256e804bc90f3119"
+    },
+    {
+      "path": "tests/fixtures/murcia_m02_native_crs/provenance.json",
+      "bytes": 532,
+      "sha256": "bba08ef5d5f1fe073ed2a417c88dc43622960855897a29d8faa58627d43129f3"
+    },
+    {
+      "path": "tests/fixtures/murcia_m02_native_crs/source_touch_pairs_2023.geojson",
+      "bytes": 72172,
+      "sha256": "d9991e4ea5f1f7b723e8aac8b7b55a0f87cbee5d1538f89c2cda840e19e37b8c"
+    },
+    {
+      "path": "tests/test_ejecutor_c_source_contracts.py",
+      "bytes": 3933,
+      "sha256": "1bdb91153957c1848817354292c4e5fd71c95f437243ef28e9609a33af09bf19"
+    },
+    {
+      "path": "tests/test_f10_2025_independent_territorial_receipts.py",
+      "bytes": 4965,
+      "sha256": "546f08198e2cc49aebf2c85048bad6c8073b3415c05ce24e53c05890080662be"
+    },
+    {
+      "path": "tests/test_f10_derived_doors.py",
+      "bytes": 13528,
+      "sha256": "0f09d73ef8f880157ae8c730790458841b3466d5b020fdd086f9e07b5ed79825"
+    },
+    {
+      "path": "tests/test_f10_preparacion_aislada.py",
+      "bytes": 10056,
+      "sha256": "1aef0e42de2f9dc84960a71c7ec53d1f134aa4519d9f1725eaf3af2ed96d6f70"
+    },
+    {
+      "path": "tests/test_f10_valencia_2023_durable_receipt.py",
+      "bytes": 8150,
+      "sha256": "512bd4fa0943ea6c4bbee02cfb6a984bfc0c86ec91f8f2b6fdb02e9f7e239a8e"
+    },
+    {
+      "path": "tests/test_m04_administrative_atomic_groups.py",
+      "bytes": 4455,
+      "sha256": "8818568af8743638a47def2d771502d93848706dd53572fb548bb8a75c5842c5"
+    },
+    {
+      "path": "tests/test_m04_residual_cardinality.py",
+      "bytes": 4033,
+      "sha256": "8b9dea18b809a4ac79f8f950e4a0928fc4014e256a3c477c199f4c09c1099357"
+    },
+    {
+      "path": "tests/test_murcia_m02_native_crs.py",
+      "bytes": 2304,
+      "sha256": "8810000e65225a3de5f84471dc47862a2e0f4966d71985e25561eb62b97cf227"
+    },
+    {
+      "path": "tests/test_valencia_m02_native_crs.py",
+      "bytes": 3268,
+      "sha256": "b92b0052d0120a64cc75a216f128a186cf3679fe88cd863408758aa8bd63fb93"
+    }
+  ],
+  "excluded": []
+}

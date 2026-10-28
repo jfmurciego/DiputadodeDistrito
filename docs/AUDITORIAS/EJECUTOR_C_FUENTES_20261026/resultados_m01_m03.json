@@ -1,0 +1,76 @@
+[
+  {
+    "territory_id": "andalucia",
+    "source_edition": 2025,
+    "module_exit_codes": {
+      "M01": 0,
+      "M02": 0,
+      "M03": 0
+    },
+    "nodes": 6029,
+    "edges": 16671,
+    "population": 8676713,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "present": false,
+      "valid": true,
+      "declared": null,
+      "current": {
+        "edition": "2025",
+        "section_year": 2025,
+        "package_sha256": "e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228",
+        "compatibility_identity_sha256": "5cca7fab7281f1175568e433247d113e953c30990fbe22468eae4569d25a0824"
+      },
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    },
+    "m01_geometry_sha256": "929a94b895b093f2b49f3e4647f27a7e92941e7b1570e0ba79d77de14429acfa",
+    "m02_edges_sha256": "4e837f7d10a34f6bd4e8f9cff79e679cc1742edb9fa5873ac2c2920d46f86342",
+    "m03_graph_sha256": "d6b33f102ea3881c5acbc269a4dd7cce45a2697752168b64ec4633bd82d8d3ad",
+    "m03_report_sha256": "785f988c450f4acd0b27875c94f6c4b853c873c58d486545c657de0f53bfb4ad",
+    "pre_m04": "LOCAL_CHAIN_M01_M03_PASS_DURABLE_M03U_PENDING",
+    "output_root": "/private/tmp/ddd-c-evidence/fuentes/replay/andalucia"
+  },
+  {
+    "territory_id": "comunidad_valenciana",
+    "source_edition": 2023,
+    "module_exit_codes": {
+      "M01": 0,
+      "M02": 0,
+      "M03": 0
+    },
+    "nodes": 3503,
+    "edges": 9677,
+    "population": 5216195,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "present": false,
+      "valid": true,
+      "declared": null,
+      "current": {
+        "edition": "2025",
+        "section_year": 2023,
+        "package_sha256": "2a58c757c816b1ca834d93777aeee992e7a224e75d002fb7fbbeaa3a5e21934d",
+        "compatibility_identity_sha256": "be36c1cac8221fef7aef94cad54b16a584c8ac8748b1e64bc9bf6b730dd5c62c"
+      },
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    },
+    "m01_geometry_sha256": "d3c7992c3dc195c5e3e5725e57b150a0ea56c79282bf9789b61355dfc380034e",
+    "m02_edges_sha256": "80dd596b9f79f4a045bc55471f9735eefeeb5816081f21952302121e09624b12",
+    "m03_graph_sha256": "2a4d533cbadd22a2f431a1624c00bd5dda5a32baef51458808631123ac6fa900",
+    "m03_report_sha256": "0e59c9734e3783bb05b86952c081854218a69690455e30226eca2495326489db",
+    "pre_m04": "LOCAL_CHAIN_M01_M03_PASS_DURABLE_M03U_PENDING",
+    "output_root": "/private/tmp/ddd-c-evidence/fuentes/replay/comunidad_valenciana"
+  }
+]

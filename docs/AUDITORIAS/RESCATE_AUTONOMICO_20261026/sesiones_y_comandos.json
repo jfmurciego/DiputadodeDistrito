@@ -1,0 +1,128 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-28",
+  "status": "EXTRACTED_LOCAL_SESSION_EVIDENCE",
+  "origin": "new rescue; selected exact commands only",
+  "sessions": [
+    {
+      "path": "/Users/macbookpro/.codex/sessions/2026/10/26/rollout-2026-10-26T21-20-09-01a179de-d696-7051-a1d7-4d1ea2c43c9a.jsonl",
+      "sha256_at_rescue": "d9b40dc475b5da9b8cfa06ddc059c403d8df64b89b2b54da67414a2b42ae14bb",
+      "commands": [
+        {
+          "line": 58,
+          "timestamp": "2026-10-26T20:21:29.490Z",
+          "cwd": "file:///Users/macbookpro/Desarrollo/DDD-distritos-nacionales",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "git worktree add -b codex/ejecutor-c-territorial-20261026 /private/tmp/DDD_ejecutor_C_20261026 origin/main"
+          ],
+          "exit_code": 0
+        },
+        {
+          "line": 280,
+          "timestamp": "2026-10-26T22:08:58.742Z",
+          "cwd": "file:///private/tmp/DDD_ejecutor_C_20261026",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m unittest discover -s tests -p test_m04_residual_cardinality.py > /private/tmp/ddd-c-evidence/residual-before.log 2>&1; tail -18 /private/tmp/ddd-c-evidence/residual-before.log"
+          ],
+          "exit_code": 0
+        },
+        {
+          "line": 289,
+          "timestamp": "2026-10-26T22:09:08.822Z",
+          "cwd": "file:///private/tmp/DDD_ejecutor_C_20261026",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m unittest discover -s tests -p test_m04_residual_cardinality.py"
+          ],
+          "exit_code": 0
+        },
+        {
+          "line": 383,
+          "timestamp": "2026-10-26T22:11:17.634Z",
+          "cwd": "file:///private/tmp/DDD_ejecutor_C_20261026",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m unittest discover -s tests -p test_m04_residual_cardinality.py"
+          ],
+          "exit_code": 0
+        },
+        {
+          "line": 483,
+          "timestamp": "2026-10-26T22:13:23.744Z",
+          "cwd": "file:///private/tmp/DDD_ejecutor_C_20261026",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m unittest discover -s tests -p test_m04_residual_cardinality.py > /private/tmp/ddd-c-evidence/residual-after.log 2>&1"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "interruptions": [
+        {
+          "line": 676,
+          "timestamp": "2026-10-26T22:26:50.381Z",
+          "error": "usage_limit_exceeded"
+        }
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/.codex/sessions/2026/10/26/rollout-2026-10-26T21-23-13-01a179e1-a682-7522-a69e-e83eda5d27b4.jsonl",
+      "sha256_at_rescue": "571fb9e48f543e7bdb676d59f124be9e1e621c8b9034b2bef6d93fad01606d5a",
+      "commands": [
+        {
+          "line": 292,
+          "timestamp": "2026-10-26T22:10:29.648Z",
+          "cwd": "file:///private/tmp/DDD_ejecutor_C_20261026",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "cat > tests/test_murcia_m02_native_crs.py <<'PY'\n\"\"\"Regresión M02 Murcia, versión 1.0.0, 2026-10-26.\n\nAlcance: frontera oficial Yecla–Jumilla de run 40241734290.\nEstado: candidato. Origen: fixture exacto M01, sin predecesor.\nMotivo: conservar fronteras lineales sin falsos solapes de reproyección.\n\"\"\"\nimport importlib.util\nimport json\nfrom pathlib import Path\nimport unittest\n\nimport geopandas as gpd\nimport yaml\n\nROOT = Path(__file__).resolve().parents[1]\nCONFIG = ROOT / \"territorios/region_de_murcia/config/region_de_murcia_2025.yaml\"\nFIXTURE = ROOT / \"tests/fixtures/murcia_m02_native_crs/source_touch_pairs_2023.geojson\"\nSPEC = importlib.util.spec_from_file_location(\"m02_murcia\", ROOT / \"modulos/02_construir_adyacencias.py\")\nM02 = importlib.util.module_from_spec(SPEC)\nSPEC.loader.exec_module(M02)\nPAIRS = {(\"3002202001\", \"3004301008\"), (\"3002202001\", \"3004301031\")}\n\n\nclass MurciaM02NativeCrsTests(unittest.TestCase):\n    def test_source_frontier_survives_metric_projection_without_relaxation(self):\n        config = yaml.safe_load(CONFIG.read_text())\n        m02 = config[\"modulos\"][\"modulo_02_construir_adyacencias\"]\n        self.assertEqual(config[\"meta\"][\"source_section_year\"], 2023)\n        self.assertEqual(m02[\"working_crs\"], \"EPSG:25830\")\n        self.assertEqual(m02[\"min_shared_border_m\"], 1.0)\n        self.assertEqual(m02[\"max_precision_overlap_area_m2\"], 1.0)\n        self.assertEqual(m02[\"buffer_m\"], 0.0)\n        self.assertEqual(m02[\"simplify_m\"], 0.0)\n        gdf = gpd.read_file(FIXTURE)\n        original = gdf.set_index(\"CUSEC_KEY\")\n        for left, right in PAIRS:\n            self.assertTrue(original.loc[left].geometry.touches(original.loc[right].geometry))\n        def edges(crs):\n            return set(M02.iter_edges(gdf, \"CUSEC_KEY\", \"contact\", 1.0, 1.0, 0.0, 0.0, 0, 0, crs))\n        self.assertTrue(PAIRS.isdisjoint(edges(\"EPSG:3035\")))\n        self.assertTrue(PAIRS <= edges(m02[\"working_crs\"]))\n        metric = gdf.to_crs(m02[\"working_crs\"]).set_index(\"CUSEC_KEY\")\n        for left, right in PAIRS:\n            a, b = metric.loc[left].geometry, metric.loc[right].geometry\n            self.assertTrue(a.touches(b))\n            self.assertEqual(a.intersection(b).area, 0.0)\n            self.assertGreaterEqual(a.boundary.intersection(b.boundary).length, 1.0)\n\n\nif __name__ == \"__main__\":\n    unittest.main()\nPY\n/private/tmp/ddd-c-geo-venv/bin/python - <<'PY'\nfrom pathlib import Path\nimport yaml,json,hashlib\nr=Path('.').resolve(); p=Path('/private/tmp/ddd-c-evidence/topologia');out=p/'murcia-replay';out.mkdir(exist_ok=True);cfg=yaml.safe_load((r/'territorios/region_de_murcia/config/region_de_murcia_2025.yaml').read_text());cfg['io']['project_root']['path']=str(r)\nfor key,m in cfg['modulos'].items():\n for k,v in list(m.items()):\n  if isinstance(v,str) and '/.cache/' in v:\n   f=Path(v.replace('{run_name}','region_de_murcia_2025')).name\n   m[k]=str((p/'murcia-m02-state/cache'/f) if 'm01_' in f else out/f)\nf=out/'params.yaml';f.write_text(yaml.safe_dump(cfg,allow_unicode=True,sort_keys=False));print(f)\nPY\n/private/tmp/ddd-c-geo-venv/bin/python -m unittest discover -s tests -p test_murcia_m02_native_crs.py -v > /private/tmp/ddd-c-evidence/topologia/murcia-regression.log 2>&1\n/private/tmp/ddd-c-geo-venv/bin/python modulos/02_construir_adyacencias.py --params /private/tmp/ddd-c-evidence/topologia/murcia-replay/params.yaml > /private/tmp/ddd-c-evidence/topologia/murcia-replay/m02.log 2>&1\n/private/tmp/ddd-c-geo-venv/bin/python modulos/03_construir_grafo.py --params /private/tmp/ddd-c-evidence/topologia/murcia-replay/params.yaml > /private/tmp/ddd-c-evidence/topologia/murcia-replay/m03.log 2>&1"
+          ],
+          "exit_code": 1
+        },
+        {
+          "line": 315,
+          "timestamp": "2026-10-26T22:11:03.566Z",
+          "cwd": "file:///private/tmp/DDD_ejecutor_C_20261026",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m unittest discover -s tests -p test_murcia_m02_native_crs.py -v > /private/tmp/ddd-c-evidence/topologia/murcia-regression-preserved.log 2>&1\n/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python modulos/02_construir_adyacencias.py --params /private/tmp/ddd-c-evidence/topologia/murcia-replay/params.yaml > /private/tmp/ddd-c-evidence/topologia/murcia-replay/m02-preserved.log 2>&1\n/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python modulos/03_construir_grafo.py --params /private/tmp/ddd-c-evidence/topologia/murcia-replay/params.yaml > /private/tmp/ddd-c-evidence/topologia/murcia-replay/m03-preserved.log 2>&1"
+          ],
+          "exit_code": 0
+        },
+        {
+          "line": 343,
+          "timestamp": "2026-10-26T22:11:56.480Z",
+          "cwd": "file:///private/tmp/DDD_ejecutor_C_20261026",
+          "argv": [
+            "/bin/zsh",
+            "-lc",
+            "python3 -m unittest discover -s tests -p test_m04_administrative_atomic_groups.py -v > /private/tmp/ddd-c-evidence/topologia/tremp-helper-tests.log 2>&1; cat /private/tmp/ddd-c-evidence/topologia/tremp-helper-tests.log; git diff --check; git status --short"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "interruptions": []
+    },
+    {
+      "path": "/Users/macbookpro/.codex/sessions/2026/10/26/rollout-2026-10-26T23-23-40-01a17a4f-e989-7121-9ced-d8f96e740cd2.jsonl",
+      "sha256_at_rescue": "7b9a21528c4b853f67c88b1b04501bfedd95fae9a61c47c95b4c6e54cfce4947",
+      "commands": [],
+      "interruptions": [
+        {
+          "line": 346,
+          "timestamp": "2026-10-26T22:26:49.810Z",
+          "error": "usage_limit_exceeded"
+        }
+      ]
+    }
+  ]
+}

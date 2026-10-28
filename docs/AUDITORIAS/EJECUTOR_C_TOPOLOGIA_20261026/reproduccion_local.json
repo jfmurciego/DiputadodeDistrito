@@ -1,0 +1,75 @@
+{
+  "schema": "ddd.local-topology-reproduction/1.0",
+  "base_sha": "43e0bc48f04b2ecf45af3b4981f43978fea415b8",
+  "scope": [
+    "region_de_murcia",
+    "cataluna"
+  ],
+  "murcia": {
+    "origin_run_id": 40241734290,
+    "origin_checkpoint_artifact_id": 12617740707,
+    "original_graph": {
+      "nodes": 1223,
+      "edges": 3418,
+      "components": [
+        1192,
+        31
+      ],
+      "isolated": 0
+    },
+    "correction": "M02 working_crs EPSG:25830; same geometries and thresholds",
+    "corrected_graph": {
+      "nodes": 1223,
+      "edges": 3420,
+      "components": 1,
+      "isolated": 0,
+      "province_unresolved": 0,
+      "municipality_unresolved": 0
+    },
+    "source_years": [
+      2023,
+      2023
+    ],
+    "source_package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534",
+    "certification": "NOT_RUN",
+    "pre_m04": "M03_LOCAL_PASS; durable pre-M04 update and Formation pending",
+    "edge_delta": {
+      "added": [
+        [
+          "3002202001",
+          "3004301008"
+        ],
+        [
+          "3002202001",
+          "3004301031"
+        ]
+      ],
+      "removed": []
+    }
+  },
+  "cataluna": {
+    "origin_run_id": 40200428904,
+    "original_failure": "M04: municipio 25/25234 no conexo en M03",
+    "accredited_administrative_municipality": "25234",
+    "physical_connector_municipalities": [
+      "25215",
+      "25234"
+    ],
+    "section_count": 6,
+    "population": 6597,
+    "added_edges": 0,
+    "formation": "INTEGRATION_PENDING"
+  },
+  "evidence_sha256": {
+    "murcia-m02-state.zip": "e11b95e8a6687fa874d9254924c6af66259e19e07504fa1a2db384cb1221a1f8",
+    "murcia-yecla-jumilla-metrics.json": "80dfc31493038944bde25efd0550a534e79464b10dd86f1d511b57a3ff0f7401",
+    "murcia-replay/region_de_murcia_2025_m02_adyacencias.jsonl": "4a4081ced6a97f955a533a45a898b8abdf8eb8ea35ace03a5308dc8b88a41ba6",
+    "murcia-replay/region_de_murcia_2025_m03_grafo.json": "f7f1794ef9652313804c1c24d36c27a368877d66ac7a041c05b261f0c92e5833",
+    "murcia-replay/region_de_murcia_2025_m03_informe.json": "27980dee18f6f03797368c49ad691254202b9528971c1bd176e9d58aa075e712",
+    "cataluna-m03u-state.zip": "b37c48a74f42a6f3e0b276fa0441865f7c8f8155c43df481fe4abd1d61091b4d",
+    "tremp-atomic-connector-result.json": "106d16fe6411a8a42658bc0eea60fa2b13c5bebef29d04b094dc95ee64cb1b5c",
+    "tremp-helper-tests.log": "71f2fb8c7a87730b5b013cf6a337c4498514d17ffe24ed0f8ee21f4f5f632253",
+    "murcia-edge-delta.json": "f11f2756b4bf467cc189c3a8c881fc5c243665675af8410c827df6f90c88a6d6",
+    "murcia-source-crs.json": "55afaca9c9b9d8ec23dbe1ab94182f4e2b0ddf018987614999c82faf8ced5f92"
+  }
+}

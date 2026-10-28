@@ -1,0 +1,348 @@
+diff --git a/configuracion/m04_engine.json b/configuracion/m04_engine.json
+index 4da07f64..efd01bf0 100644
+--- a/configuracion/m04_engine.json
++++ b/configuracion/m04_engine.json
+@@ -2,7 +2,7 @@
+   "schema_version": "1.0.0",
+   "status": "ACTIVE",
+   "engine_id": "ddd_core.m04_seed_engine",
+-  "engine_version": "7.6.0",
++  "engine_version": "7.6.5",
+   "active_entrypoint": "ddd_core/m04_seed_engine.py",
+   "cli_entrypoint": "modulos/04_generar_semillas.py",
+   "dynamic_loading_allowed": false,
+@@ -18,5 +18,8 @@
+     "ddd_core/m04_seed_engine_v752.py",
+     "ddd_core/m04_seed_engine_v753.py",
+     "ddd_core/m04_seed_engine_v754.py"
+-  ]
++  ],
++  "previous": "legacy/ddd_core/m04_engine_pre_7.6.5.json",
++  "date": "2026-10-26",
++  "changes": "Residual cardinality and executable exact connected initial partition"
+ }
+diff --git a/ddd_core/m04_seed_engine.py b/ddd_core/m04_seed_engine.py
+index 3918ad35..b31b8de9 100644
+--- a/ddd_core/m04_seed_engine.py
++++ b/ddd_core/m04_seed_engine.py
+@@ -4,13 +4,14 @@
+ 
+ PROYECTO: Diputado de Distrito
+ Módulo 04 — Motor canónico de semillas
+-VERSIÓN: 7.6.4
++VERSIÓN: 7.6.5
+ NOMBRE DE VERSIÓN: Closed target cores conformes antes de congelar
+-FECHA: 2026-10-06
++FECHA: 2026-10-26
+ FUNCIÓN: ejecutar el núcleo 7.4.13 con preflight atómico fail-closed, puertas de componentes y reparación genérica de closed target cores.
+ CAMBIOS: para closed_target_cores_plus_open_residual exige que todo core inmutable quede dentro de la tolerancia objetivo; permite residual provisional bajo floor, conserva cap/gateways y bloquea explícitamente si no encuentra una partición conforme.
+ MOTIVO: evitar que M04 congele outliers que M05 no puede reparar, sin relajar K, provincia, contigüidad, disciplina municipal, tolerancia ni límites duros.
+-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.2.py
++ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.4.py
++CAMBIO 7.6.5: reutiliza la solución conexa hard demostrada en preflight para Formación inicial monomunicipal y preserva cardinalidad residual.
+ """
+ from __future__ import annotations
+ 
+@@ -25,7 +26,7 @@ from ddd_core.config import hard_limits, load_params_yaml, module_cfg, require
+ from ddd_core.m04_closed_target_cores import repair_closed_target_cores
+ 
+ ENGINE_ID = "ddd_core.m04_seed_engine"
+-ENGINE_VERSION = "7.6.4"
++ENGINE_VERSION = "7.6.5"
+ partition_oversized_municipality = core.partition_oversized_municipality
+ _BASE_PARTITION_OVERSIZED_MUNICIPALITY = partition_oversized_municipality
+ 
+@@ -225,6 +226,7 @@ def _exact_connected_hard_partition(
+     floor,
+     cap,
+     max_states=200000,
++    return_partition=False,
+ ):
+     """Exact cover acotado: True/False si concluye, None si agota estados."""
+     nodes = frozenset(nodes)
+@@ -238,6 +240,7 @@ def _exact_connected_hard_partition(
+         )
+ 
+     memo = {}
++    chosen = {}
+     states = 0
+ 
+     class SearchLimit(RuntimeError):
+@@ -268,12 +271,22 @@ def _exact_connected_hard_partition(
+         for group in by_node[pivot]:
+             if group <= remaining and solve(remaining - group, left - 1):
+                 memo[key] = True
++                chosen[key] = group
+                 return True
+         memo[key] = False
+         return False
+ 
+     try:
+-        return solve(nodes, int(k)), states
++        feasible = solve(nodes, int(k))
++        if feasible and return_partition:
++            remaining, left, parts = nodes, int(k), []
++            while remaining:
++                group = chosen[(remaining, left)]
++                parts.append(set(group))
++                remaining -= group
++                left -= 1
++            return parts, states
++        return feasible, states
+     except SearchLimit:
+         return None, states
+ 
+@@ -404,6 +417,7 @@ def _preflight_atomic_population_connectivity(cfg, step):
+             k=province_k,
+             floor=province_floor,
+             cap=cap,
++            return_partition=True,
+         )
+         if feasible is None:
+             diagnostics.append({
+@@ -423,6 +437,7 @@ def _preflight_atomic_population_connectivity(cfg, step):
+             "population": sum(weights[node] for node in nodes),
+             "hard_valid_connected_groups": len(groups),
+             "exact_states": exact_states,
++            "connected_partition": [sorted(part) for part in feasible] if feasible else None,
+         })
+         if not feasible:
+             detail = diagnostics[-1]
+@@ -501,7 +516,29 @@ def main():
+         if strict_closed_target
+         else _BASE_PARTITION_OVERSIZED_MUNICIPALITY
+     )
+-    _preflight_atomic_population_connectivity(cfg, step)
++    preflight = _preflight_atomic_population_connectivity(cfg, step)
++    exact_partitions = [
++        [set(part) for part in diagnostic["connected_partition"]]
++        for diagnostic in preflight
++        if diagnostic.get("connected_partition")
++    ]
++    heuristic_partitioner = selected_partitioner
++
++    def selected_partitioner(nodes, target, floor, cap, tolerance, adjacency, weights,
++                             label="", protected=None):
++        # A proved solution is an executable formation, not merely a boolean gate.
++        # Closed-target contracts keep their stricter immutable-core constructor.
++        if not strict_closed_target:
++            for parts in exact_partitions:
++                if set(nodes) != set().union(*parts):
++                    continue
++                eligible = [part for part in parts if set(protected or ()) <= part]
++                if eligible:
++                    residual = eligible[-1]
++                    return ([set(part) for part in parts if part is not residual],
++                            set(residual), "exact_connected_hard_partition", set())
++        return heuristic_partitioner(nodes, target, floor, cap, tolerance,
++                                     adjacency, weights, label=label, protected=protected)
+     original = core.partition_oversized_municipality
+     protected_component_nodes = set()
+ 
+diff --git a/ddd_core/m04_seed_engine_v7410.py b/ddd_core/m04_seed_engine_v7410.py
+index d452ce00..fa669302 100644
+--- a/ddd_core/m04_seed_engine_v7410.py
++++ b/ddd_core/m04_seed_engine_v7410.py
+@@ -3,16 +3,17 @@
+ """
+ PROYECTO: Diputado de Distrito
+ Módulo 04 — Generar distritos iniciales
+-VERSIÓN: 7.4.10
+-NOMBRE DE VERSIÓN: Búsqueda residual primero
+-FECHA: 2026-09-11
++VERSIÓN: 7.4.14
++NOMBRE DE VERSIÓN: Cardinalidad residual de unidades indivisibles
++FECHA: 2026-10-26
+ FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos mientras sean compatibles con el contrato territorial y dividiendo municipios sobredimensionados sin aislar el residuo municipal abierto.
+ ENTRADAS: grafo M03, geometría M01, configuración territorial y topology_bridges declarados en M02.
+ SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M04.
+ ESTADO: candidato CYL-03.
+ CAMBIOS: mantiene la búsqueda de núcleo cerrado y el fallback residual-first, pero separa las cotas duras de población (suelo/techo contractuales) de la banda ±tolerancia, que queda exclusivamente como objetivo de calidad.
+ MOTIVO: CYL-03 v7.4.4 identificó correctamente dos puertas reales de Aranda de Duero, pero el BFS orientado al núcleo no encontró una solución aunque el problema natural es pequeño: reservar un residuo de borde y cerrar el complemento urbano.
+-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.4.py
++ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.4.10_pre_residual_cardinality.py
++CAMBIO 7.4.14: reserva una unidad por distrito pendiente antes de aceptar una extracción y rechaza cardinalidades imposibles explícitamente; conserva K y el grafo.
+ """
+ from __future__ import annotations
+ import argparse, collections, io, json, math, sys, zipfile
+@@ -22,6 +23,8 @@ ROOT=Path(__file__).resolve().parents[1]
+ if str(ROOT) not in sys.path:sys.path.insert(0,str(ROOT))
+ from ddd_core.config import load_params_yaml,module_cfg,require, hard_limits
+ from ddd_core.m04_partition_contract import validate_and_annotate_partition
++from ddd_core.m04_administrative_atomic_groups import connected_atomic_municipality_groups
++from ddd_core.topology_preflight import validate_topology_accreditation_binding, validate_administrative_components
+ 
+ def load_geo(path):
+     p=Path(path)
+@@ -58,7 +61,7 @@ def components(nodes,adj):
+         out.append(seen)
+     return sorted(out,key=len,reverse=True)
+ 
+-def find_peel(rem,desired,adj,w,max_starts=120):
++def find_peel(rem,desired,adj,w,max_starts=120,min_remaining=1):
+     rem=set(rem);starts=sorted(rem,key=lambda n:(sum(v in rem for v in adj[n]),w[n],str(n)))[:max_starts];best=None
+     for s in starts:
+         order=[];seen={s};q=collections.deque([s]);cum=0
+@@ -66,7 +69,7 @@ def find_peel(rem,desired,adj,w,max_starts=120):
+             u=q.popleft();order.append(u);cum+=w[u]
+             if cum>=desired*.65:
+                 ch=set(order);rest=rem-ch
+-                if rest and cum<=desired*1.45 and connected(ch,adj) and connected(rest,adj):
++                if len(rest)>=min_remaining and rest and cum<=desired*1.45 and connected(ch,adj) and connected(rest,adj):
+                     score=(abs(cum-desired),cum,len(ch),str(s))
+                     if best is None or score<best[0]:best=(score,ch)
+                 if cum>desired*1.45:break
+@@ -74,8 +77,15 @@ def find_peel(rem,desired,adj,w,max_starts=120):
+                 if v in rem and v not in seen:seen.add(v);q.append(v)
+     return best[1] if best else None
+ 
++def _validate_partition_cardinality(nodes,k,label=''):
++    if not isinstance(k,int) or isinstance(k,bool) or k<=0 or not nodes:
++        raise SystemExit(f'M04: INVALID_PARTITION_CARDINALITY {label}: nodes={len(nodes)} k={k}')
++    if k>len(nodes):
++        raise SystemExit(f'M04: INSUFFICIENT_ATOMIC_UNITS {label}: nodes={len(nodes)} k={k}')
++
+ def grow_partition(nodes,k,adj,w):
+     nodes=set(nodes)
++    _validate_partition_cardinality(nodes,k)
+     if k==1:return [nodes]
+     first=max(nodes,key=lambda n:(w[n],str(n)));seeds=[first];dist={n:10**9 for n in nodes}
+     def update(seed):
+@@ -101,14 +111,15 @@ def grow_partition(nodes,k,adj,w):
+ 
+ def hybrid_partition(nodes,k,adj,w,label=''):
+     nodes=set(nodes)
+-    if k<=1:return [nodes]
++    _validate_partition_cardinality(nodes,k,label)
++    if k==1:return [nodes]
+     if not connected(nodes,adj):
+         cs=components(nodes,adj);raise SystemExit(f'M04: conjunto a particionar no conexo {label}; componentes={[len(c) for c in cs]}')
+     rem=set(nodes);parts=[]
+     for i in range(k-1):
+         left=k-i;desired=sum(w[n] for n in rem)/left
+         if left<=4:parts.extend(grow_partition(rem,left,adj,w));return parts
+-        ch=find_peel(rem,desired,adj,w)
++        ch=find_peel(rem,desired,adj,w,min_remaining=left-1)
+         if ch is None:parts.extend(grow_partition(rem,left,adj,w));return parts
+         parts.append(ch);rem-=ch
+     parts.append(rem);return parts
+@@ -143,7 +154,7 @@ def find_closed_core(rem,desired,lo,hi,adj,w,left_after,protected=None,residual_
+                 ch=set(order);rest=rem-ch;rest_pop=rp-cum
+                 rest_connected=(not rest) or connected(rest,adj);future_ok=(rest_pop>=left_after*lo and rest_pop<=left_after*hi+hi) if left_after else (rest_pop==0 or rest_pop<=hi)
+                 gateway_ok=(not residual_gateways) or bool(rest&residual_gateways)
+-                if not(ch&protected) and cum<=hi and connected(ch,adj) and rest_connected and future_ok and gateway_ok:
++                if not(ch&protected) and cum<=hi and len(rest)>=left_after+1 and connected(ch,adj) and rest_connected and future_ok and gateway_ok:
+                     score=(abs(cum-desired),-len(rest&residual_gateways),cum,len(ch),str(s))
+                     if best is None or score<best[0]:best=(score,ch)
+                 if cum>hi:break
+@@ -166,23 +177,46 @@ def find_residual_complement(rem,desired,lo,hi,adj,w,protected=None,residual_gat
+             for v in nbrs:seen.add(v);q.append(v)
+     return (best[1],best[2]) if best else (None,None)
+ 
+-def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,residual_gateways=None):
+-    rem=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ());mp=sum(w[n] for n in rem);lo=floor;hi=cap;n_closed=max(1,int(math.ceil(max(0.0,mp-hi)/hi)));closed=[];mode='sequential_core_residual'
++def _sequential_count(nodes,n_closed,target,floor,cap,adj,w,protected,residual_gateways):
++    rem=set(nodes);closed=[];mode='sequential_core_residual'
+     for idx in range(n_closed):
+-        left_after=n_closed-idx-1;rp=sum(w[n] for n in rem);need_remove=max(0.0,rp-hi);core_min=max(lo,need_remove-left_after*hi);core_max=min(hi,rp-left_after*lo)
+-        if core_min>core_max+1e-9:raise SystemExit(f'M04: rango municipal imposible {label}: rem={rp} core_min={core_min:.2f} core_max={core_max:.2f}')
+-        desired=min(max(target,core_min),core_max);core=find_closed_core(rem,desired,core_min,core_max,adj,w,left_after,protected,residual_gateways)
++        left_after=n_closed-idx-1;rp=sum(w[n] for n in rem)
++        core_min=max(floor,rp-cap-left_after*cap)
++        core_max=min(cap,rp-left_after*floor)
++        if core_min>core_max+1e-9:
++            return None, f'range=[{core_min:.2f},{core_max:.2f}] pop_rem={rp}'
++        desired=min(max(target,core_min),core_max)
++        core=find_closed_core(rem,desired,core_min,core_max,adj,w,left_after,protected,residual_gateways)
+         if core is None and left_after==0:
+             core,residual=find_residual_complement(rem,desired,core_min,core_max,adj,w,protected,residual_gateways)
+             if core is not None:
+                 closed.append(core);rem=residual;mode='residual_first_complement';break
+-        if core is None:raise SystemExit(f'M04: no se puede extraer núcleo municipal factible {label}; pop_rem={rp} protected={sorted(protected)} gateways={sorted(residual_gateways)} rango=[{core_min:.2f},{core_max:.2f}]')
++        if core is None:
++            return None, f'no connected core pop_rem={rp} range=[{core_min:.2f},{core_max:.2f}]'
+         closed.append(core);rem-=core
+-        if rem and not connected(rem,adj):raise SystemExit(f'M04: residuo municipal desconectado {label}')
+-    if not protected.issubset(rem):raise SystemExit(f'M04: pasarela topológica cerrada indebidamente {label}')
+-    if residual_gateways and not(rem&residual_gateways):raise SystemExit(f'M04: residuo municipal sin salida territorial {label}')
+-    if sum(w[n] for n in rem)>hi+1e-9:raise SystemExit(f'M04: residuo municipal excede tolerancia superior {label}')
+-    return closed,rem,mode
++        if not rem or len(rem)<left_after+1 or not connected(rem,adj):
++            return None, 'residual cardinality or connectivity'
++    if not protected.issubset(rem) or (residual_gateways and not(rem&residual_gateways)):
++        return None, 'residual gateways'
++    if sum(w[n] for n in rem)>cap+1e-9:
++        return None, 'residual cap'
++    return (closed,rem,mode), None
++
++
++def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,residual_gateways=None):
++    nodes=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ())
++    mp=sum(w[n] for n in nodes)
++    minimum=max(1,int(math.ceil(max(0.0,mp-cap)/cap)))
++    maximum=min(len(nodes)-1,int(math.floor(mp/floor))) if floor>0 else len(nodes)-1
++    attempts=[]
++    for count in range(minimum,maximum+1):
++        result,reason=_sequential_count(nodes,count,target,floor,cap,adj,w,protected,residual_gateways)
++        if result is not None:
++            closed,residual,mode=result
++            if count!=minimum:mode+=f'+reconsidered_core_count:{minimum}->{count}'
++            return closed,residual,mode
++        attempts.append({'closed_cores':count,'reason':reason})
++    raise SystemExit(f'M04: SEQUENTIAL_PARTITION_SEARCH_EXHAUSTED {label}; attempts={attempts} protected={sorted(protected)}; no structural impossibility inferred')
+ 
+ def partition_oversized_municipality(nodes,target,floor,cap,tol,adj,w,label='',protected=None):
+     nodes=set(nodes);protected=set(protected or ());residual_gateways={n for n in nodes if any(nb not in nodes for nb in adj.get(n,set()))};mp=sum(w[n] for n in nodes);lo=floor;hi=cap;q=max(2,int(round(mp/target)));avg=mp/q
+@@ -225,7 +259,32 @@ def main():
+         prov_floor=0.0 if prov in floor_exempt else floor
+         prov_nodes=[n for n in pop if n in meta and str(meta[n][provf]).zfill(2)==prov];mun_nodes=collections.defaultdict(set)
+         for n in prov_nodes:mun_nodes[str(meta[n][munf])].add(n)
+-        units=[];oversized_report=[]
++        units=[];oversized_report=[];administrative_group_audit=[]
++        if any(not connected(ns,adj) for ns in mun_nodes.values()):
++            binding=validate_topology_accreditation_binding(cfg)
++            if not binding.get('present') or not binding.get('valid'):
++                raise SystemExit(f'M04: invalid administrative component source binding: {binding}')
++            declarations=(val.get('topology_accreditation') or {}).get('administrative_components') or []
++            scoped=[item for item in declarations if item.get('admin_scope') in
++                    {f'municipality:{mun}' for mun in mun_nodes}]
++            accredited,rejected=validate_administrative_components(
++                units={n:{'province':prov,'municipality':meta[n][munf]} for n in prov_nodes},
++                declarations=scoped,
++                operational_edges=[(edge['u'],edge['v']) for edge in G['edges']])
++            if rejected:
++                raise SystemExit(f'M04: invalid administrative component evidence: {rejected}')
++            physical_adj={n:set() for n in pop}
++            for edge in G['edges']:
++                if edge.get('edge_type','geometric')!='geometric':continue
++                u,v=str(edge['u']),str(edge['v'])
++                if u in physical_adj and v in physical_adj:
++                    physical_adj[u].add(v);physical_adj[v].add(u)
++            try:
++                groups,administrative_group_audit=connected_atomic_municipality_groups(
++                    mun_nodes,physical_adj,pop,accredited,atomic_limit=min(atomic_limit,cap))
++            except ValueError as exc:
++                raise SystemExit(f'M04: {exc}') from exc
++            mun_nodes={'|'.join(members):ns for members,ns in groups}
+         for mun,nodes in sorted(mun_nodes.items()):
+             if not connected(nodes,adj):raise SystemExit(f'M04: municipio {prov}/{mun} no conexo en M03')
+             mp=sum(pop[n] for n in nodes);mname=str(meta[next(iter(nodes))].get(munname,'')) if munname in g.columns else ''
+@@ -303,7 +362,7 @@ def main():
+             if not connected(dist_nodes[d],adj):raise SystemExit(f'M04: distrito {d} desconectado antes de exportar')
+             ps={str(meta[n][provf]).zfill(2) for n in dist_nodes[d]}
+             if ps!={prov}:raise SystemExit(f'M04: distrito {d} cruza provincia: {sorted(ps)}')
+-        prov_report[prov]={'quota':quota[prov],'district_ids':local_ids,'closed_urban_districts':len(locked),'units':len(units),'population':sum(pop[n] for n in prov_nodes),'oversized_municipalities':oversized_report,'open_partition_objective':list(open_obj) if open_obj else []}
++        prov_report[prov]={'quota':quota[prov],'district_ids':local_ids,'closed_urban_districts':len(locked),'units':len(units),'population':sum(pop[n] for n in prov_nodes),'oversized_municipalities':oversized_report,'administrative_atomic_groups':administrative_group_audit,'open_partition_objective':list(open_obj) if open_obj else []}
+     if district_counter!=K:raise SystemExit(f'M04: generados {district_counter} distritos, esperado {K}')
+     if len(assign)!=len(pop):raise SystemExit(f'M04: asignadas {len(assign)} secciones de {len(pop)}')
+     g['district_id']=g[idf].map(assign).astype('int64');g['ddd_unit_id']=g[idf].map(unit_id);g['ddd_closed_urban']=g[idf].map(closed).fillna(False).astype(bool);g['district_pop_section']=g[idf].map(pop).fillna(0).astype('int64')
+@@ -321,7 +380,7 @@ def main():
+         floor_exempt_partitions=floor_exempt,
+     )
+     hard=diagnostics['hard_population_violations'];prov_counts=diagnostics['province_counts']
+-    write_geo(g,out);rep={'module':'04','version':'7.4.10','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'tolerance':tol,'municipality_atomicity_limit_ratio':atomic_ratio,'municipality_atomicity_limit':atomic_limit,'topology_gateway_nodes':sorted(bridge_nodes),'min_pop':int(pops.min()),'max_pop':int(pops.max()),'outside_target_tolerance':outside,'hard_population_violations':hard,'districts_below_floor':diagnostics['districts_below_floor'],'districts_above_ceiling':diagnostics['districts_above_ceiling'],'population_districts':diagnostics['population_districts'],'population_floor_exempt_partitions':sorted(floor_exempt),'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'population_baseline_status':'PASS' if hard==0 else 'PASS_WITH_EXCEPTIONS','rules':{'single_province':True,'municipality_atomic_until_configured_limit':True,'topology_bridge_gateways_preserved_in_open_residual':True,'municipal_boundary_gateway_preserved_in_open_residual':True,'residual_first_complement_fallback':True,'oversized_municipality_global_partition_when_feasible':True,'oversized_municipality_core_residual_fallback':True,'district_contiguity_preexport':True,'population_limits_are_diagnostic_at_m04':True}}
++    write_geo(g,out);rep={'module':'04','version':'7.4.14','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'tolerance':tol,'municipality_atomicity_limit_ratio':atomic_ratio,'municipality_atomicity_limit':atomic_limit,'topology_gateway_nodes':sorted(bridge_nodes),'min_pop':int(pops.min()),'max_pop':int(pops.max()),'outside_target_tolerance':outside,'hard_population_violations':hard,'districts_below_floor':diagnostics['districts_below_floor'],'districts_above_ceiling':diagnostics['districts_above_ceiling'],'population_districts':diagnostics['population_districts'],'population_floor_exempt_partitions':sorted(floor_exempt),'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'population_baseline_status':'PASS' if hard==0 else 'PASS_WITH_EXCEPTIONS','rules':{'single_province':True,'municipality_atomic_until_configured_limit':True,'topology_bridge_gateways_preserved_in_open_residual':True,'municipal_boundary_gateway_preserved_in_open_residual':True,'residual_first_complement_fallback':True,'oversized_municipality_global_partition_when_feasible':True,'oversized_municipality_core_residual_fallback':True,'district_contiguity_preexport':True,'population_limits_are_diagnostic_at_m04':True}}
+     if report_path:Path(report_path).write_text(json.dumps(rep,ensure_ascii=False,indent=2),encoding='utf-8')
+-    print(f'[Módulo 4] OK v7.4.10 K={K} provincias={prov_counts} hard={hard} outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}')
++    print(f'[Módulo 4] OK v7.4.14 K={K} provincias={prov_counts} hard={hard} outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}')
+ if __name__=='__main__':main()

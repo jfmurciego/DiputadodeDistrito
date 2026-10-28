@@ -1,0 +1,38 @@
+{
+  "schema": "ddd.executor-handoff/1.0",
+  "sender": "Ejecutor C",
+  "receiver": "Ejecutor B",
+  "territory_id": "illes_balears",
+  "run_id": 40132081479,
+  "source_commit": "8fd780e0c1847fb24cedee79039800b7fa6616e5",
+  "checkpoint_stage": "M04",
+  "checkpoint_artifact_id": 12576087537,
+  "checkpoint_artifact_name": "ddd-state-40132081479-M04",
+  "checkpoint_sha256": "f6e8417b9c8a42dfa5d0d99e7bb669bc8258e3faff64d27eef754183024bfe1f",
+  "checkpoint_local_path": "/private/tmp/ddd-c-evidence/balears-M04.zip",
+  "source": {
+    "run_id": 40132081479,
+    "artifact_name": "ddd-source-package-illes_balears-2025-40132081479",
+    "artifact_sha256": "333a98ad02ae67a4c4477bc4b069a3071df45251fe1ead88f299373f3676eeb6",
+    "package_sha256": "aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a",
+    "compatibility_identity_sha256": "9cef825582b7883baf353d6bc810a336bd2d2340ea999df43b0917efe43efd3c",
+    "territorial_identity_sha256": "dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "pre_m04": {
+    "decision": "READY_FOR_FIRST_GENERATION",
+    "artifact_name": "ddd-state-40132081479-M03U",
+    "artifact_sha256": "68433721fa971c42f312a6113c98b01706e94b68bad8cbd6968fd188490580e5"
+  },
+  "K": 59,
+  "physical_components": 4,
+  "formation": "PASS_K_CONTIGUITY_MUNICIPALITY_PARTITIONS",
+  "population_hard_violations": 3,
+  "population_outside_target": 16,
+  "residual_block": "POPULATION_HARD_BLOCK",
+  "certification": "BLOCK",
+  "geometric_decision": "PASS_WITH_EXCEPTIONS",
+  "authorization": "M05 belongs to B; no C changes to optimizer or repair",
+  "restore": "unzip checkpoint to isolated state root; sources/prepared_sources.zip contains source-bound consumer contract; use source commit and canonical contract before selecting resume M05"
+}

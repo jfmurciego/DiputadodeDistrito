@@ -1,0 +1,2 @@
+[Módulo 2] edges=10000
+[Módulo 2] OK v7.3.3 edges=16671 geometric=16669 bridges=2 predicate=contact min_shared_border_m=1.0 crs=EPSG:3035 out=/private/tmp/ddd-c-evidence/fuentes/replay/andalucia/territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/andalucia_2025_m02_adyacencias.jsonl

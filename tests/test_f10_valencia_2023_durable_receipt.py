@@ -1,8 +1,8 @@
-"""Version: 1.0.2; name: F10 Valencian receipt regression; date: 2026-10-26.
-Scope: Valencian independent-source receipt and fail-closed F10 projection.
-Status: candidate. Change/reason: assert current 19-territory receipt reconciliation.
-Previous: legacy/tests/test_f10_valencia_2023_durable_receipt_v1.0.1_20261026.py.
-"""
+# VERSIÓN: 1.1.0; FECHA: 2026-10-26.
+# CAMBIO: comprueba linaje previo conservado en historical_preparation_evidence.
+# MOTIVO: preparación territorial actual ligada al receipt auténtico 2023; F10 independiente intacto.
+# ANTERIOR: legacy/tests/test_f10_valencia_2023_durable_receipt_pre_ejecutor_c_20261026.py
+
 from __future__ import annotations
 
 import copy
@@ -34,7 +34,7 @@ class Valencia2023DurableReceiptTests(unittest.TestCase):
         self.assertEqual((2025, 2023, 2023),
                          (int(receipt["edition"]), receipt["population_year"], receipt["section_year"]))
         self.assertEqual(39315133646, receipt["run_id"])
-        self.assertEqual(36273981926, row["preparation_evidence"]["run_id"])
+        self.assertEqual(36273981926, row["historical_preparation_evidence"]["run_id"])
         self.assertIs(row["independent_source_evidence"]["promoted"], False)
         self.assertEqual("AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED",
                          row["independent_source_evidence"]["status"])

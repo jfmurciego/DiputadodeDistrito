@@ -1,11 +1,8 @@
-"""F10 caller aislado v1.0.4; 2026-10-19; candidato local.
+# VERSIÓN: 1.1.0; FECHA: 2026-10-26.
+# CAMBIO: comprueba linaje previo conservado en historical_preparation_evidence.
+# MOTIVO: preparación territorial actual ligada al receipt auténtico 2023; F10 independiente intacto.
+# ANTERIOR: legacy/tests/test_f10_preparacion_aislada_pre_ejecutor_c_20261026.py
 
-Alcance: límites de ejecución y preservación de acreditaciones #179.
-Cambios: verificar selección temporal aislada Valencia 2023/2023.
-Motivo: impedir combinaciones de años o territorios no aprobadas sin persistir ni generar.
-Origen: main@4545491ca70066e2004b53b30ebe9994ed4d9df6.
-Predecesor: legacy/tests/test_f10_preparacion_aislada_v1.0.3.py.
-"""
 import json
 import os
 import subprocess
@@ -131,7 +128,7 @@ class F10PreparacionAisladaTests(unittest.TestCase):
             root_dir=ROOT, territory='comunidad_valenciana', edition='2025')
         self.assertEqual((2023, 2023), (valenciana_receipt['population_year'], valenciana_receipt['section_year']))
         self.assertEqual(39315133646, valenciana_receipt['run_id'])
-        self.assertEqual(36273981926, valenciana['preparation_evidence']['run_id'])
+        self.assertEqual(36273981926, valenciana['historical_preparation_evidence']['run_id'])
         self.assertFalse(valenciana['independent_source_evidence']['promoted'])
         self.assertFalse(valenciana['territorial_product_available'])
         self.assertIsNone(valenciana['last_valid_checkpoint'])
@@ -141,7 +138,7 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                     root_dir=ROOT, territory=territory, edition='2025')
                 self.assertEqual((2025, 2025), (receipt['population_year'], receipt['section_year']))
                 self.assertFalse(state['independent_source_evidence']['promoted'])
-                self.assertNotEqual(state['preparation_evidence']['run_id'], receipt['run_id'])
+                self.assertNotEqual(state.get('historical_preparation_evidence', state['preparation_evidence'])['run_id'], receipt['run_id'])
 
         _, independent_receipt = validate_territorial_receipt(
             root_dir=ROOT, territory='extremadura', edition='2025')

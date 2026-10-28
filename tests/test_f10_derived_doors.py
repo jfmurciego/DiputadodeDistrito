@@ -1,8 +1,8 @@
-"""Version: 1.1.3; name: F10 derived doors regressions; date: 2026-10-26.
-Scope: deterministic failure-closed validation of F10 receipts and task cards.
-Status: candidate. Change/reason: reconcile expected counts after canonical territorial receipt references were repaired.
-Previous: legacy/tests/test_f10_derived_doors_v1.1.2_20261026.py.
-"""
+# VERSIÓN: 1.1.4; FECHA: 2026-10-26.
+# CAMBIO: comprueba linaje previo conservado en historical_preparation_evidence.
+# MOTIVO: preparación territorial actual ligada al receipt auténtico 2023; F10 independiente intacto.
+# ANTERIOR: legacy/tests/test_f10_derived_doors_pre_ejecutor_c_20261026.py
+
 from __future__ import annotations
 
 import copy
@@ -91,7 +91,7 @@ class F10DerivedDoorsTests(unittest.TestCase):
         self.assertEqual("AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED",
                          state["independent_source_evidence"]["status"])
         self.assertIs(state["independent_source_evidence"]["promoted"], False)
-        self.assertEqual(36273981926, state["preparation_evidence"]["run_id"])
+        self.assertEqual(36273981926, state["historical_preparation_evidence"]["run_id"])
         self.assertIs(state["territorial_product_available"], False)
 
         plan = resolve(ROOT, "Comunidad Valenciana")["plans"][0]

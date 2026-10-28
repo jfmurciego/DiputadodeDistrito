@@ -1,0 +1,16 @@
+[
+  {
+    "territory_id": "andalucia",
+    "replay_source_contract_sha256": "a465fa78ee3996931d2ebf7b3130b5295767f1bc4b1bb6c0ad395f1e89b77d28",
+    "canonical_contract_path": "territorios/andalucia/config/andalucia_2025.yaml",
+    "canonical_contract_sha256": "fb9baada72bd8e54e4c8b0fc200fbece11d482567a7fd69f1016c59871f6b55b",
+    "semantic_difference_from_replay": "meta.schema_version only; input, M01-M06 behavior and source baseline identical"
+  },
+  {
+    "territory_id": "comunidad_valenciana",
+    "replay_source_contract_sha256": "21c15313b45511d8900bb1bf78adae12673fb745e34ef3de006545033196fc01",
+    "canonical_contract_path": "territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml",
+    "canonical_contract_sha256": "e3740ba376863e4fa62484f0c620f95e8e82c2dca3522d70874fdeb2dad7ecd9",
+    "semantic_difference_from_replay": "meta.schema_version only; input, M01-M06 behavior and source baseline identical"
+  }
+]

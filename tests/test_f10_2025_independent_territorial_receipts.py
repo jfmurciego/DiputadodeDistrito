@@ -1,7 +1,8 @@
-"""F10 v1.0.0 — receipts auténticos INE 2025/2025; 2026 electoral sigue bloqueada.
-Fecha: 2026-10-12. Alcance: evidencia territorial independiente; sin promoción ni producción.
-Origen: ZIP protegido DDD_F10_5_ARTEFACTOS_AUTENTICOS_20261011 y receipts #179 ya versionados.
-"""
+# VERSIÓN: 1.1.0; FECHA: 2026-10-26.
+# CAMBIO: comprueba linaje previo conservado en historical_preparation_evidence.
+# MOTIVO: preparación territorial actual ligada al receipt auténtico 2023; F10 independiente intacto.
+# ANTERIOR: legacy/tests/test_f10_2025_independent_territorial_receipts_pre_ejecutor_c_20261026.py
+
 import json
 import unittest
 from pathlib import Path
@@ -28,7 +29,7 @@ class F10Receipts2025Tests(unittest.TestCase):
                 self.assertEqual(item["compatibility_report_sha256"], receipt["compatibility_report_sha256"])
                 self.assertEqual(item["compatibility_identity_sha256"], receipt["compatibility_identity_sha256"])
                 self.assertEqual((2025, 2025), (receipt["population_year"], receipt["section_year"]))
-                self.assertEqual(item["historic_preparation_run"], state["preparation_evidence"]["run_id"])
+                self.assertEqual(item["historic_preparation_run"], state.get("historical_preparation_evidence", state["preparation_evidence"])["run_id"])
                 self.assertIs(state["independent_source_evidence"]["promoted"], False)
                 self.assertEqual("AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED", state["independent_source_evidence"]["status"])
 
@@ -68,5 +69,5 @@ class F10Receipts2025Tests(unittest.TestCase):
         self.assertEqual(indexed["castilla_y_leon"]["last_valid_checkpoint"]["run_id"], 35889595424)
         self.assertIsNone(indexed["andalucia"]["last_valid_checkpoint"])
         self.assertEqual(39315133646, indexed["comunidad_valenciana"]["independent_source_evidence"]["run_id"])
-        self.assertEqual(36273981926, indexed["comunidad_valenciana"]["preparation_evidence"]["run_id"])
+        self.assertEqual(36273981926, indexed["comunidad_valenciana"]["historical_preparation_evidence"]["run_id"])
         self.assertIs(indexed["comunidad_valenciana"]["independent_source_evidence"]["promoted"], False)

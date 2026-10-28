@@ -1,11 +1,11 @@
 """
 Nombre: Regresión M02 de reproyección valenciana
-Versión: 1.0.0
-Fecha: 2026-10-19
-Alcance: prueba de dos pares de contacto del original INE 2025
+Versión: 1.1.0
+Fecha: 2026-10-26
+Alcance: contrato operativo fuente2023 y regresión de contactos originales INE2025
 Estado: candidato
 Cambios/motivo: impedir que EPSG:3035 oculte contactos fuente bajo el umbral de solape
-Anterior: no existe; nueva regresión con geometrías oficiales protegidas
+Anterior: legacy/tests/test_valencia_m02_native_crs_pre_fuente_2023_20261026.py
 """
 import importlib.util
 from pathlib import Path
@@ -35,8 +35,8 @@ class ValenciaM02NativeCrsTests(unittest.TestCase):
         self.assertEqual(m02["min_shared_border_m"], 1.0)
         self.assertEqual(m02["buffer_m"], 0.0)
         self.assertEqual(m02["simplify_m"], 0.0)
-        self.assertEqual(config["meta"]["source_section_year"], 2025)
-        self.assertEqual(config["meta"]["source_population_year"], 2025)
+        self.assertEqual(config["meta"]["source_section_year"], 2023)
+        self.assertEqual(config["meta"]["source_population_year"], 2023)
 
     def test_source_contacts_are_admitted_without_projected_overlap(self):
         gdf = gpd.read_file(FIXTURE)

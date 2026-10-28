@@ -4,13 +4,14 @@
 
 PROYECTO: Diputado de Distrito
 Módulo 04 — Motor canónico de semillas
-VERSIÓN: 7.6.4
+VERSIÓN: 7.6.5
 NOMBRE DE VERSIÓN: Closed target cores conformes antes de congelar
-FECHA: 2026-10-06
+FECHA: 2026-10-26
 FUNCIÓN: ejecutar el núcleo 7.4.13 con preflight atómico fail-closed, puertas de componentes y reparación genérica de closed target cores.
 CAMBIOS: para closed_target_cores_plus_open_residual exige que todo core inmutable quede dentro de la tolerancia objetivo; permite residual provisional bajo floor, conserva cap/gateways y bloquea explícitamente si no encuentra una partición conforme.
 MOTIVO: evitar que M04 congele outliers que M05 no puede reparar, sin relajar K, provincia, contigüidad, disciplina municipal, tolerancia ni límites duros.
-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.2.py
+ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.4.py
+CAMBIO 7.6.5: reutiliza la solución conexa hard demostrada en preflight para Formación inicial monomunicipal y preserva cardinalidad residual.
 """
 from __future__ import annotations
 
@@ -25,7 +26,7 @@ from ddd_core.config import hard_limits, load_params_yaml, module_cfg, require
 from ddd_core.m04_closed_target_cores import repair_closed_target_cores
 
 ENGINE_ID = "ddd_core.m04_seed_engine"
-ENGINE_VERSION = "7.6.4"
+ENGINE_VERSION = "7.6.5"
 partition_oversized_municipality = core.partition_oversized_municipality
 _BASE_PARTITION_OVERSIZED_MUNICIPALITY = partition_oversized_municipality
 
@@ -225,6 +226,7 @@ def _exact_connected_hard_partition(
     floor,
     cap,
     max_states=200000,
+    return_partition=False,
 ):
     """Exact cover acotado: True/False si concluye, None si agota estados."""
     nodes = frozenset(nodes)
@@ -238,6 +240,7 @@ def _exact_connected_hard_partition(
         )
 
     memo = {}
+    chosen = {}
     states = 0
 
     class SearchLimit(RuntimeError):
@@ -268,12 +271,22 @@ def _exact_connected_hard_partition(
         for group in by_node[pivot]:
             if group <= remaining and solve(remaining - group, left - 1):
                 memo[key] = True
+                chosen[key] = group
                 return True
         memo[key] = False
         return False
 
     try:
-        return solve(nodes, int(k)), states
+        feasible = solve(nodes, int(k))
+        if feasible and return_partition:
+            remaining, left, parts = nodes, int(k), []
+            while remaining:
+                group = chosen[(remaining, left)]
+                parts.append(set(group))
+                remaining -= group
+                left -= 1
+            return parts, states
+        return feasible, states
     except SearchLimit:
         return None, states
 
@@ -404,6 +417,7 @@ def _preflight_atomic_population_connectivity(cfg, step):
             k=province_k,
             floor=province_floor,
             cap=cap,
+            return_partition=True,
         )
         if feasible is None:
             diagnostics.append({
@@ -423,6 +437,7 @@ def _preflight_atomic_population_connectivity(cfg, step):
             "population": sum(weights[node] for node in nodes),
             "hard_valid_connected_groups": len(groups),
             "exact_states": exact_states,
+            "connected_partition": [sorted(part) for part in feasible] if feasible else None,
         })
         if not feasible:
             detail = diagnostics[-1]
@@ -501,7 +516,29 @@ def main():
         if strict_closed_target
         else _BASE_PARTITION_OVERSIZED_MUNICIPALITY
     )
-    _preflight_atomic_population_connectivity(cfg, step)
+    preflight = _preflight_atomic_population_connectivity(cfg, step)
+    exact_partitions = [
+        [set(part) for part in diagnostic["connected_partition"]]
+        for diagnostic in preflight
+        if diagnostic.get("connected_partition")
+    ]
+    heuristic_partitioner = selected_partitioner
+
+    def selected_partitioner(nodes, target, floor, cap, tolerance, adjacency, weights,
+                             label="", protected=None):
+        # A proved solution is an executable formation, not merely a boolean gate.
+        # Closed-target contracts keep their stricter immutable-core constructor.
+        if not strict_closed_target:
+            for parts in exact_partitions:
+                if set(nodes) != set().union(*parts):
+                    continue
+                eligible = [part for part in parts if set(protected or ()) <= part]
+                if eligible:
+                    residual = eligible[-1]
+                    return ([set(part) for part in parts if part is not residual],
+                            set(residual), "exact_connected_hard_partition", set())
+        return heuristic_partitioner(nodes, target, floor, cap, tolerance,
+                                     adjacency, weights, label=label, protected=protected)
     original = core.partition_oversized_municipality
     protected_component_nodes = set()
 

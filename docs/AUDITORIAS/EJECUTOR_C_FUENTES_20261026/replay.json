@@ -1,0 +1,60 @@
+[
+  {
+    "territory_id": "andalucia",
+    "source_contract": "/private/tmp/DDD_ejecutor_C_20261026/territorios/andalucia/config/andalucia_2025_fuente_2025.yaml",
+    "source_contract_sha256": "a465fa78ee3996931d2ebf7b3130b5295767f1bc4b1bb6c0ad395f1e89b77d28",
+    "derived_params": "/private/tmp/ddd-c-evidence/fuentes/replay/andalucia/params.yaml",
+    "derived_params_only_change": "io.project_root.path for isolated output/input paths",
+    "package_sha256": "e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228",
+    "stages": [
+      {
+        "stage": "M01",
+        "exit_code": 0,
+        "seconds": 8.437,
+        "log": "/private/tmp/ddd-c-evidence/fuentes/replay/andalucia/M01.log"
+      },
+      {
+        "stage": "M02",
+        "exit_code": 0,
+        "seconds": 31.038,
+        "log": "/private/tmp/ddd-c-evidence/fuentes/replay/andalucia/M02.log"
+      },
+      {
+        "stage": "M03",
+        "exit_code": 0,
+        "seconds": 4.449,
+        "log": "/private/tmp/ddd-c-evidence/fuentes/replay/andalucia/M03.log"
+      }
+    ],
+    "status": "PASS"
+  },
+  {
+    "territory_id": "comunidad_valenciana",
+    "source_contract": "/private/tmp/DDD_ejecutor_C_20261026/territorios/comunidad_valenciana/config/comunidad_valenciana_2025_fuente_2023.yaml",
+    "source_contract_sha256": "21c15313b45511d8900bb1bf78adae12673fb745e34ef3de006545033196fc01",
+    "derived_params": "/private/tmp/ddd-c-evidence/fuentes/replay/comunidad_valenciana/params.yaml",
+    "derived_params_only_change": "io.project_root.path for isolated output/input paths",
+    "package_sha256": "2a58c757c816b1ca834d93777aeee992e7a224e75d002fb7fbbeaa3a5e21934d",
+    "stages": [
+      {
+        "stage": "M01",
+        "exit_code": 0,
+        "seconds": 3.447,
+        "log": "/private/tmp/ddd-c-evidence/fuentes/replay/comunidad_valenciana/M01.log"
+      },
+      {
+        "stage": "M02",
+        "exit_code": 0,
+        "seconds": 14.934,
+        "log": "/private/tmp/ddd-c-evidence/fuentes/replay/comunidad_valenciana/M02.log"
+      },
+      {
+        "stage": "M03",
+        "exit_code": 0,
+        "seconds": 2.334,
+        "log": "/private/tmp/ddd-c-evidence/fuentes/replay/comunidad_valenciana/M03.log"
+      }
+    ],
+    "status": "PASS"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "territory_id": "andalucia",
+    "baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "population_total": 8676713,
+      "target_section_count": 6029,
+      "package_sha256": "e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228",
+      "compatibility_report_sha256": "19214dff89176b040ce75ba62fbf008d40ef02205cf96a6f053a60e5275cdab9",
+      "compatibility_identity_sha256": "5cca7fab7281f1175568e433247d113e953c30990fbe22468eae4569d25a0824"
+    },
+    "receipt": "territorios/andalucia/evidencia/fuentes_territoriales/2025/057a38a77a6e2163a962022d73387fe0588f3efda1b969b30c737538544ef1f2/38082966768/receipt.json",
+    "contract": "territorios/andalucia/config/andalucia_2025.yaml",
+    "contract_sha256": "fb9baada72bd8e54e4c8b0fc200fbece11d482567a7fd69f1016c59871f6b55b",
+    "historical_source": {
+      "run_id": 36020646219,
+      "artifact_name": "ddd-source-package-andalucia-2025-36020646219",
+      "artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+      "package_sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07"
+    },
+    "pre_m04": "PENDING_NEW_SOURCE_IDENTITY"
+  },
+  {
+    "territory_id": "comunidad_valenciana",
+    "baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 5216195,
+      "target_section_count": 3503,
+      "package_sha256": "2a58c757c816b1ca834d93777aeee992e7a224e75d002fb7fbbeaa3a5e21934d",
+      "compatibility_report_sha256": "ae420356e6afde7611c9a331944908f10280ebb46f20597bc09c99c5bfd58911",
+      "compatibility_identity_sha256": "be36c1cac8221fef7aef94cad54b16a584c8ac8748b1e64bc9bf6b730dd5c62c"
+    },
+    "receipt": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/receipt.json",
+    "contract": "territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml",
+    "contract_sha256": "e3740ba376863e4fa62484f0c620f95e8e82c2dca3522d70874fdeb2dad7ecd9",
+    "historical_source": {
+      "run_id": 36273981926,
+      "artifact_name": "ddd-source-package-comunidad_valenciana-2025-36273981926",
+      "artifact_sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
+      "package_sha256": "201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97"
+    },
+    "pre_m04": "PENDING_NEW_SOURCE_IDENTITY"
+  }
+]

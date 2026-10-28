@@ -1,0 +1,69 @@
+EEEFFF
+======================================================================
+ERROR: test_impossible_cardinality_has_explicit_structural_decision (test_m04_residual_cardinality.ResidualCardinalityTests.test_impossible_cardinality_has_explicit_structural_decision) (partition='hybrid_partition')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/DDD_ejecutor_C_20261026/tests/test_m04_residual_cardinality.py", line 25, in test_impossible_cardinality_has_explicit_structural_decision
+    partition({0, 1}, 3, {0: {1}, 1: {0}}, {0: 4, 1: 7})
+  File "/private/tmp/DDD_ejecutor_C_20261026/ddd_core/m04_seed_engine_v7410.py", line 110, in hybrid_partition
+    if left<=4:parts.extend(grow_partition(rem,left,adj,w));return parts
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/DDD_ejecutor_C_20261026/ddd_core/m04_seed_engine_v7410.py", line 90, in grow_partition
+    s=max(nodes-set(seeds),key=lambda n:(dist[n],w[n],str(n)));seeds.append(s);update(s)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: max() arg is an empty sequence
+
+======================================================================
+ERROR: test_impossible_cardinality_has_explicit_structural_decision (test_m04_residual_cardinality.ResidualCardinalityTests.test_impossible_cardinality_has_explicit_structural_decision) (partition='grow_partition')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/DDD_ejecutor_C_20261026/tests/test_m04_residual_cardinality.py", line 25, in test_impossible_cardinality_has_explicit_structural_decision
+    partition({0, 1}, 3, {0: {1}, 1: {0}}, {0: 4, 1: 7})
+  File "/private/tmp/DDD_ejecutor_C_20261026/ddd_core/m04_seed_engine_v7410.py", line 90, in grow_partition
+    s=max(nodes-set(seeds),key=lambda n:(dist[n],w[n],str(n)));seeds.append(s);update(s)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: max() arg is an empty sequence
+
+======================================================================
+ERROR: test_peel_reconsiders_extraction_that_consumes_pending_districts (test_m04_residual_cardinality.ResidualCardinalityTests.test_peel_reconsiders_extraction_that_consumes_pending_districts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/DDD_ejecutor_C_20261026/tests/test_m04_residual_cardinality.py", line 15, in test_peel_reconsiders_extraction_that_consumes_pending_districts
+    parts = engine.hybrid_partition(nodes, 6, adjacency, weights)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/DDD_ejecutor_C_20261026/ddd_core/m04_seed_engine_v7410.py", line 110, in hybrid_partition
+    if left<=4:parts.extend(grow_partition(rem,left,adj,w));return parts
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/DDD_ejecutor_C_20261026/ddd_core/m04_seed_engine_v7410.py", line 90, in grow_partition
+    s=max(nodes-set(seeds),key=lambda n:(dist[n],w[n],str(n)));seeds.append(s);update(s)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: max() arg is an empty sequence
+
+======================================================================
+FAIL: test_zero_and_empty_cardinalities_are_rejected_explicitly (test_m04_residual_cardinality.ResidualCardinalityTests.test_zero_and_empty_cardinalities_are_rejected_explicitly) (nodes=set(), k=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/DDD_ejecutor_C_20261026/tests/test_m04_residual_cardinality.py", line 30, in test_zero_and_empty_cardinalities_are_rejected_explicitly
+    with self.assertRaisesRegex(SystemExit, "INVALID_PARTITION_CARDINALITY"):
+AssertionError: SystemExit not raised
+
+======================================================================
+FAIL: test_zero_and_empty_cardinalities_are_rejected_explicitly (test_m04_residual_cardinality.ResidualCardinalityTests.test_zero_and_empty_cardinalities_are_rejected_explicitly) (nodes={0}, k=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/DDD_ejecutor_C_20261026/tests/test_m04_residual_cardinality.py", line 30, in test_zero_and_empty_cardinalities_are_rejected_explicitly
+    with self.assertRaisesRegex(SystemExit, "INVALID_PARTITION_CARDINALITY"):
+AssertionError: SystemExit not raised
+
+======================================================================
+FAIL: test_zero_and_empty_cardinalities_are_rejected_explicitly (test_m04_residual_cardinality.ResidualCardinalityTests.test_zero_and_empty_cardinalities_are_rejected_explicitly) (nodes={0}, k=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/DDD_ejecutor_C_20261026/tests/test_m04_residual_cardinality.py", line 30, in test_zero_and_empty_cardinalities_are_rejected_explicitly
+    with self.assertRaisesRegex(SystemExit, "INVALID_PARTITION_CARDINALITY"):
+AssertionError: SystemExit not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+FAILED (failures=3, errors=3)

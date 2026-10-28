@@ -1,0 +1,23 @@
+{
+  "schema": "ddd.structural-incompatibility-certificate/1.0",
+  "territory_id": "melilla",
+  "original_run_id": 40241784009,
+  "checkpoint_artifact": "ddd-state-40241784009-M03U",
+  "checkpoint_sha256": "14f9e6806be156660c8e6ecb3d819b9700c012463f752af7574e5e3ab0860f3f",
+  "graph_sha256": "da893767fc6961b73f56c0b92b4f27f8bb65c883e3c32f3dece1a3607cfdfcd1",
+  "sections": 44,
+  "population": 85493,
+  "K": 25,
+  "floor": 2735.776,
+  "cap": 5984.509999999999,
+  "minimum_singleton_districts": 6,
+  "hard_valid_singletons": [
+    "5200105003",
+    "5200108001"
+  ],
+  "proof": "Each non-singleton district consumes at least two sections. Hence at least 2*K-N districts must be singletons. Only two of the six required singletons can satisfy population hard bounds. No partition exists even in the relaxation that ignores adjacency and municipality.",
+  "first_blocking_phase": "DISTRICT_FORMATION",
+  "pre_m04": "READY_FOR_FIRST_GENERATION",
+  "decision": "INCOMPATIBLE_ATOMIC_POPULATION",
+  "correction": "No arbitrary exception. Existing general necessary-condition gate is already integrated; no duplicate fix or identical run."
+}
