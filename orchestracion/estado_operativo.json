@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-28T14:14:50.485827+00:00",
+  "generated_at": "2026-10-28T14:22:03.889607+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1170,12 +1170,13 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 40241852045,
-          "artifact_name": "ddd-state-40241852045-M06",
-          "artifact_sha256": "9e8a8aa21962dea749fd4db1b0c357216a4ac901dab8351cc6be294e74676cdd",
-          "source_commit": "c9f9dcae74c4796bcdc3c9f827b0db5b1278b831",
+          "run_id": 40693720831,
+          "artifact_name": "ddd-state-40693720831-M06",
+          "artifact_sha256": "35e02af0efced43bab12324f4041765c2088fba394a4de0a9df58a59ecaaaa92",
+          "source_commit": "722f0665259275d3171a21ff0c0c77af758401a8",
           "decision": "PASS_WITH_EXCEPTIONS",
-          "stage": "M06"
+          "stage": "M06",
+          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/40693720831.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1291,13 +1292,13 @@
           "territory_id": "cantabria",
           "territory_name": "Cantabria",
           "edition": "2025",
-          "run_id": 40689735716,
-          "artifact_name": "ddd-state-40689735716-M06",
-          "artifact_sha256": "05138794eca82e9eaf824a8d85840b144d71a480bd66062850c4b89b0818613f",
-          "source_commit": "f8896903f295cafa9d9367c9d84ee609771b256e",
+          "run_id": 40701656466,
+          "artifact_name": "ddd-state-40701656466-M06",
+          "artifact_sha256": "4c6317ff62efb9179e8ff530d5fedcc300c5f31b0ce4fd9420c3c6b6390ba661",
+          "source_commit": "38ca79e5d5e70fe2984a303fe0e0cbcbff6fd09f",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/40689735716.json"
+          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/40701656466.json"
         },
         "electoral_source": null,
         "electoral_product": {
