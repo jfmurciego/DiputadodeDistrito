@@ -3,15 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 07 — Agregar resultados electorales
-VERSIÓN: 7.3.1
+VERSIÓN: 7.3.2
 NOMBRE DE VERSIÓN: Contrato electoral universal
-FECHA: 2026-09-14
+FECHA: 2026-10-28
 QUÉ HACE: verifica convocatoria, fuentes y partidos antes de agregar votos a distritos.
 POR QUÉ ES SEPARADO: la elección nunca condiciona fronteras; M07 solo proyecta sobre M06.
 ESTADO: vigente — R039
 CAMBIOS: endurece la frontera electoral: votos enteros decimales exactos y rechazo fail-closed de filas/zonas con localizador, sección o partido inválidos, sin descartes silenciosos.
 MOTIVO: permitir nuevas elecciones sin tablas ni lógica territorial en M07.
-ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.1.0.py
+ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.3.1.py
+CAMBIOS 7.3.2: aplica la excepción de pérdida DDD declarada por elección en
+  configuracion/excepciones_reconciliacion_electoral_2025.yaml, fuera del contrato electoral sellado.
 """
 from __future__ import annotations
 
@@ -27,6 +29,7 @@ from pathlib import Path
 
 import geopandas as gpd
 import pandas as pd
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -1453,7 +1456,13 @@ def main():
     )
     result_section_ids = set(section_party[section_field].astype(str))
     source_verification = contract.get("source_verification") or {}
-    reconciliation_policy = contract.get("reconciliation") or {}
+    reconciliation_policy = dict(contract.get("reconciliation") or {})
+    exceptions_path = Path(project_root) / "configuracion/excepciones_reconciliacion_electoral_2025.yaml"
+    if exceptions_path.is_file():
+        exceptions = (yaml.safe_load(exceptions_path.read_text(encoding="utf-8")) or {}).get("elections") or {}
+        exception = exceptions.get(str(contract.get("election_id") or ""))
+        if exception is not None:
+            reconciliation_policy["loss_exception"] = exception
     definitive_candidate_votes = source_verification.get("official_candidate_votes")
     if definitive_candidate_votes is None:
         definitive_candidate_votes = reconciliation_policy.get("definitive_candidate_votes")
