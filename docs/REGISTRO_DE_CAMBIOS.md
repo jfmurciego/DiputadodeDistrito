@@ -26,7 +26,12 @@ nuevo, por lo que `main` quedó en rojo sin cambio de código.
 - `test_preparacion_legislatura_vigente.py`: la preparación, el checkpoint y el M06 de Aragón
   proceden del mismo run. `test_promocion_automatica_catalogo.py`: la evidencia de Extremadura
   nombra el paquete de su propio run y fija digests completos.
-- Los recibos F10 (`test_f10_*`) siguen el mismo criterio en el frente de Fuentes.
+- Los seis módulos `test_f10_*` que fijan recuentos y receipts exactos se evalúan sobre la raíz
+  congelada en aee8215e (`tests/_raiz_congelada.py`, `tests/fixtures/raiz_congelada_aee8215e`):
+  el árbol vivo se enlaza y se superponen los 25 ficheros que reescriben las ejecuciones.
+- `F10LiveRepositoryRuleTests`: sobre el repositorio vivo sólo se exige coherencia. Asturias,
+  Cantabria, Castilla-La Mancha y Galicia re-descargaron hoy del INE paquetes con bytes nuevos
+  (mismos años) y F10 los deja en BLOCKED hasta una auditoría nueva; es fail-closed por diseño.
 
 
 ## 2026-10-28 — M06 — Aragón y Extremadura adoptan sus productos del 28-10

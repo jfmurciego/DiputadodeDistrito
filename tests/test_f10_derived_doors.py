@@ -1,7 +1,8 @@
-"""Version: 1.1.4; name: F10 derived doors regressions; date: 2026-10-28.
+"""Version: 1.1.5; name: F10 derived doors regressions; date: 2026-10-28.
 Scope: deterministic failure-closed validation of F10 receipts and task cards.
-Status: candidate. Change/reason: cover the newer re-registration of an identical territorial package.
-Previous: legacy/tests/test_f10_derived_doors_v1.1.3_20261028.py.
+Status: candidate. Change/reason: exact counts and receipts run on the frozen aee8215e root
+(tests/_raiz_congelada.py), so new full runs do not change the historical case.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.4_20261028.py.
 """
 from __future__ import annotations
 
@@ -22,7 +23,11 @@ from herramientas.estado_derivado_f10 import (
 )
 
 
-ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
+
+# Estado congelado en aee8215e: los recuentos y receipts exactos no dependen de las ejecuciones
+# completas posteriores, que reescriben catálogo y productos en main.
+ROOT = frozen_root()
 SNAPSHOTS = json.loads((ROOT / "tests/fixtures/f10_auto/snapshots.json").read_text())
 PLAN_OVERLAY = json.loads((ROOT / "configuracion/puertas_f10.v1.json").read_text())
 AUTHORIZATIONS = {
@@ -230,6 +235,23 @@ class F10DerivedDoorsTests(unittest.TestCase):
     def test_without_local_investigation_grant_no_work_is_unlocked(self):
         work = work_items_for(self.projection["territories"], {"local_read_only": ["local_tests"]}, PLAN_OVERLAY["activities"])
         self.assertTrue(all(row["state"] == "WAIT_OWNER" for row in work))
+
+
+class F10LiveRepositoryRuleTests(unittest.TestCase):
+    """Sobre el repositorio vivo sólo se exige la regla, no un recuento."""
+
+    def test_live_projection_is_consistent_and_new_packages_await_f10_audit(self):
+        live = derive_f10(Path(__file__).resolve().parents[1], activity_authorizations=AUTHORIZATIONS)
+        self.assertEqual([], live["catalog_validation_errors"])
+        self.assertEqual(19, len(live["territories"]))
+        for row in live["territories"]:
+            if row["territorial_acquisition"] == "CLOSED":
+                continue
+            with self.subTest(territory=row["territory_id"]):
+                # Un paquete re-descargado con bytes nuevos no hereda el cierre F10: queda
+                # bloqueado hasta una auditoría nueva, nunca aceptado en silencio.
+                self.assertTrue(any("matriz de seguimiento contradice" in reason
+                                    for reason in row["territorial_reason"]), row["territorial_reason"])
 
 
 if __name__ == "__main__":

@@ -1,8 +1,9 @@
-"""F10 v1.0.1 — receipts auténticos INE 2025/2025; 2026 electoral sigue bloqueada.
+"""F10 v1.0.2 — receipts auténticos INE 2025/2025; 2026 electoral sigue bloqueada.
 Fecha: 2026-10-28. Alcance: evidencia territorial independiente; sin promoción ni producción.
 Origen: ZIP protegido DDD_F10_5_ARTEFACTOS_AUTENTICOS_20261011 y receipts #179 ya versionados.
-Cambios: Aragón adopta la preparación y el M06 del run de producción 40656036271; el receipt F10
-sigue sin promoverse. Anterior: legacy/tests/test_f10_2025_independent_territorial_receipts_v1.0.0.py.
+Cambios: se evalúa sobre la raíz congelada aee8215e (tests/_raiz_congelada.py) para que las
+ejecuciones completas posteriores no cambien el caso. Anterior:
+legacy/tests/test_f10_2025_independent_territorial_receipts_v1.0.1.py.
 """
 import json
 import unittest
@@ -12,7 +13,11 @@ import yaml
 from herramientas.consumir_par_fuentes_legislatura import validate_territorial_receipt
 from herramientas.resolver_preparacion_legislatura import resolve
 
-ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
+
+# Estado congelado en aee8215e: los recuentos y receipts exactos no dependen de las ejecuciones
+# completas posteriores, que reescriben catálogo y productos en main.
+ROOT = frozen_root()
 MANIFEST = ROOT / "docs/AUDITORIAS/F10_RECIBOS_2025_20261012/VERIFICACION.json"
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 
