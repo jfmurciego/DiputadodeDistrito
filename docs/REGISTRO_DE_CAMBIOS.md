@@ -32,6 +32,8 @@ nuevo, por lo que `main` quedó en rojo sin cambio de código.
 - `F10LiveRepositoryRuleTests`: sobre el repositorio vivo sólo se exige coherencia. Asturias,
   Cantabria, Castilla-La Mancha y Galicia re-descargaron hoy del INE paquetes con bytes nuevos
   (mismos años) y F10 los deja en BLOCKED hasta una auditoría nueva; es fail-closed por diseño.
+- `f10-electoral-receipts-asturias-galicia.yml` 1.0.1: la proyección F10 viva se comprueba por
+  coherencia (sin errores de catálogo, 19 territorios por puerta) y no por recuentos fijos.
 
 
 ## 2026-10-28 — M06 — Aragón y Extremadura adoptan sus productos del 28-10
