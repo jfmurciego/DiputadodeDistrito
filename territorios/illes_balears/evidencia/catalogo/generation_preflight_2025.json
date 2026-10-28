@@ -5,10 +5,10 @@
   "territory_name": "Islas Baleares",
   "edition": "2025",
   "run_id": 40784622560,
-  "source_commit": "9732a46314a908ddde12370acd7b7bf7c02536f8",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "9b1285ff83c0697e0920d1464b99f1a5a64ffd6c",
+  "decision": "BLOCKED",
+  "evaluation_status": "BLOCKED",
+  "stage": "DISTRICT_FORMATION_INPUT",
   "source": {
     "run_id": 40784622560,
     "artifact_name": "ddd-source-package-illes_balears-2025-40784622560",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "status": "BLOCKED",
+    "capability": "CAP_M04_INPUT",
+    "reason": "ValueError: SOURCE_IDENTITY_MISMATCH: no existe inventario físico acreditado para section_year=2023 sectioning_sha256=b3c739575c175caea30e3dc327570ff1792eac4e4a592f00a1ace8c8fcf836cd territorial_identity_sha256=b8944c11a9e1ce6617c7fcaf80fef3686e640824f5785d216342183ffa0390e5"
   }
 }
