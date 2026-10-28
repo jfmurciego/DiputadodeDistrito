@@ -24,6 +24,11 @@ Se trae de `rescate/autonomico-20261026` (dab2299e) sólo el código y las regre
   lee de `legacy/ddd_core/m04_seed_engine_v7.6.4.py` y `verificar_evidencia_n08_readonly.py`
   1.1.1 lo monta en su copia aislada, como ya hacía con el M02 v7.3.2. `.dockerignore` 1.4.2
   incluye ese snapshot en la imagen de pruebas.
+- La raíz congelada F10 superpone ahora todos los ficheros que reescriben las ejecuciones
+  (catálogo, contratos `*_2025.yaml` y `evidencia/catalogo/*.json` de los 19 territorios y estado
+  operativo, 62 ficheros de aee8215e); la de Melilla en curso rompía la versión parcial.
+- `test_gestor_campana_nacional.py` 0.0.6: la campaña de 14 rutas comprueba que cada ruta
+  corresponde a su plan, sin recuentos fijos.
 
 ## 2026-10-28 — Melilla — límites de población excepcionales
 
