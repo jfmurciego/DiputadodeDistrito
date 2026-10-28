@@ -135,7 +135,8 @@ class WorkflowGateTests(unittest.TestCase):
     def test_aragon_contract_is_authorized_with_governed_exceptions(self):
         config = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))
         self.assertEqual(config["meta"]["contract_level"], "production_m01_m06")
-        self.assertEqual(config["meta"]["status"], "m08_validated_with_governed_geometric_exceptions")
+        # 01 materializa el contrato del M06 40656036271; el estado manual m08_validated_* no se conserva.
+        self.assertEqual(config["meta"]["status"], "generation_ready")
         self.assertEqual(config["meta"]["production_authorization"], "AUTHORIZED")
 
     def test_modular_execution_requires_contract_authorization(self):

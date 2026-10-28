@@ -1,7 +1,7 @@
-"""Versión: 1.0.1; nombre: reutilización de los M06 registrados; fecha: 2026-10-28.
-Cambios/motivo: Cantabria, Castilla-La Mancha y Galicia registraron M06 nuevos (runs 40604431189,
-40604483629 y 40604535110) con su manifiesto durable; se fijan esos productos.
-Anterior: legacy/tests/test_m06_product_reuse_integration_v1.0.0_20261028.py.
+"""Versión: 1.0.2; nombre: reutilización de los M06 registrados; fecha: 2026-10-28.
+Cambios/motivo: se adoptan los M06 de Aragón (40656036271) y Extremadura (40656175842) del 28-10, los
+únicos con bytes vivos (conservados en los releases draft almacen-m06-*).
+Anterior: legacy/tests/test_m06_product_reuse_integration_v1.0.1_20261028.py.
 """
 from __future__ import annotations
 
@@ -16,12 +16,12 @@ from herramientas.resolver_ejecucion_completa import build_plan
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 PRODUCTS = {
-    "aragon": (36321736287, "ddd-state-36321736287-M06", "1aa6889ae4e49e49ce2a6b469b6cfbc325d040b30639d5adb8326afde9c89394"),
+    "aragon": (40656036271, "ddd-state-40656036271-M06", "77ec092206d9ca47db9814d64310cd8d728075851179584933a42ca94953d34b"),
     "principado_de_asturias": (40241852045, "ddd-state-40241852045-M06", "9e8a8aa21962dea749fd4db1b0c357216a4ac901dab8351cc6be294e74676cdd"),
     "cantabria": (40604431189, "ddd-state-40604431189-M06", "232a101d11467d89c3be9e3a359c64f1e78305e57b4def7cfcd0de82b60891fa"),
     "castilla_y_leon": (35889595424, "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon", "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b"),
     "castilla_la_mancha": (40604483629, "ddd-state-40604483629-M06", "ea98d1cef0153f1f5201756a8dca0e8943637e843b37702d64ca6f851b7a8a8d"),
-    "extremadura": (36472516474, "ddd-state-36472516474-M06", "1a491b8ae90a1051989cca29ffa712ade781adb81d622ac0607cc6fac15d26dd"),
+    "extremadura": (40656175842, "ddd-state-40656175842-M06", "ab3dcff900e876241dc25dbfa1ae24c83acfe9ac89d3f59a2c8c67cec5eb7faa"),
     "galicia": (40604535110, "ddd-state-40604535110-M06", "b734e29e58f7a2f4af3161058971508c356f783832d5212535d9ab7bd5b0fe4d"),
 }
 

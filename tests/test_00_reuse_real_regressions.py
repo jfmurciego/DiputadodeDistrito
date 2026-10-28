@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import tempfile
 from pathlib import Path
 import unittest
 
 from herramientas.resolver_ejecucion_completa import build_plan
+from tests._linaje_historico import historical_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -25,11 +27,13 @@ class ReuseRealRegressionsTests(unittest.TestCase):
         self.assertEqual(producer["validation_decision"], "VALIDADO")
         self.assertEqual(producer["phase_decision"], "PASS_WITH_EXCEPTIONS")
 
+        # Extremadura adoptó el M06 40656175842; el caso histórico se ejercita con su linaje previo.
+        catalog = historical_catalog(Path(tempfile.mkdtemp()) / "catalogo.yaml", "extremadura")
         plan = build_plan(
             territory="Extremadura",
             edition="2025",
             execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            catalog=catalog,
             root_dir=ROOT,
             optimization_algorithm="Canónico",
             force_selected_algorithm=True,

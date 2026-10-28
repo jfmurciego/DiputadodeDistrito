@@ -149,8 +149,8 @@ class F10PreparacionAisladaTests(unittest.TestCase):
         extremadura = next(item for item in
                            yaml.safe_load((ROOT / 'configuracion/catalogo_preparacion.yaml').read_text())['territories']
                            if item['territory_id'] == 'extremadura')['editions']['2025']
-        self.assertEqual(35755043806, extremadura['preparation_evidence']['run_id'])
-        self.assertEqual(36472516474, extremadura['last_valid_checkpoint']['run_id'])
+        self.assertEqual(40656175842, extremadura['preparation_evidence']['run_id'])
+        self.assertEqual(40656175842, extremadura['last_valid_checkpoint']['run_id'])
         self.assertFalse(extremadura['independent_source_evidence']['promoted'])
 
         receipt_rel = (

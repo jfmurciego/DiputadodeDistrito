@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-28T00:08:05.064451+00:00",
+  "generated_at": "2026-10-28T12:27:00.635792+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1093,9 +1093,9 @@
         "territorial_source": {
           "territory_id": "aragon",
           "edition": "2025",
-          "run_id": 35728613828,
-          "artifact_name": "ddd-source-package-aragon-2025-35728613828",
-          "artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+          "run_id": 40656036271,
+          "artifact_name": "ddd-source-package-aragon-2025-40656036271",
+          "artifact_sha256": "5ae11fd043912cbbb5de15fe42c0616d81dc9d31fafc37ff616b2833ee4f24e7",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1104,12 +1104,13 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 36321736287,
-          "artifact_name": "ddd-state-36321736287-M06",
-          "artifact_sha256": "1aa6889ae4e49e49ce2a6b469b6cfbc325d040b30639d5adb8326afde9c89394",
-          "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
+          "run_id": 40656036271,
+          "artifact_name": "ddd-state-40656036271-M06",
+          "artifact_sha256": "77ec092206d9ca47db9814d64310cd8d728075851179584933a42ca94953d34b",
+          "source_commit": "e6b7afccde4a014ce2c54b3d6c9869896fc983cb",
           "decision": "PASS_WITH_EXCEPTIONS",
-          "stage": "M06"
+          "stage": "M06",
+          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40656036271.json"
         },
         "electoral_source": {
           "schema": "ddd.catalog-evidence/1.0",
@@ -1500,16 +1501,16 @@
       "re": "gray",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 36472516474,
+      "run_id": 40656175842,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "extremadura",
           "edition": "2025",
-          "run_id": 35755043806,
-          "artifact_name": "ddd-source-package-extremadura-2025-35755043806",
-          "artifact_sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+          "run_id": 40656175842,
+          "artifact_name": "ddd-source-package-extremadura-2025-40656175842",
+          "artifact_sha256": "e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1518,12 +1519,13 @@
           "territory_id": "extremadura",
           "territory_name": "Extremadura",
           "edition": "2025",
-          "run_id": 36472516474,
-          "artifact_name": "ddd-state-36472516474-M06",
-          "artifact_sha256": "1a491b8ae90a1051989cca29ffa712ade781adb81d622ac0607cc6fac15d26dd",
-          "source_commit": "a281b1f3ce198093fe5cdd6bbd54e6228f9a1521",
+          "run_id": 40656175842,
+          "artifact_name": "ddd-state-40656175842-M06",
+          "artifact_sha256": "ab3dcff900e876241dc25dbfa1ae24c83acfe9ac89d3f59a2c8c67cec5eb7faa",
+          "source_commit": "a102dfe050cdcc9b368a3b4d8cefa9a51d897dec",
           "decision": "PASS_WITH_EXCEPTIONS",
-          "stage": "M06"
+          "stage": "M06",
+          "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/40656175842.json"
         },
         "electoral_source": null,
         "electoral_product": null

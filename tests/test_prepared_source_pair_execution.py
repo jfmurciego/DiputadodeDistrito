@@ -371,14 +371,23 @@ class EffectiveModeSourceTests(unittest.TestCase):
 
 
 class GeometricReuseTests(unittest.TestCase):
-    def test_historical_aragon_and_castilla_y_leon_reuse_only_matching_identity(self):
+    def test_adopted_m06_does_not_inherit_historical_source_lineage(self):
+        # Aragón adoptó el M06 40656036271; el linaje de 36321736287 no puede acreditarlo.
+        old_receipt = json.loads((ROOT / (
+            "territorios/aragon/evidencia/fuentes_territoriales/2025/"
+            "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/"
+            "35728613828/receipt.json")).read_text(encoding="utf-8"))
+        reuse = resolve_geometric_reuse(
+            root_dir=ROOT,
+            territory_id="aragon",
+            edition="2025",
+            current_identity=old_receipt["territorial_identity_sha256"],
+        )
+        self.assertFalse(reuse["compatible"])
+        self.assertEqual(reuse["reason"], "PRODUCT_SOURCE_LINEAGE_MISSING")
+
+    def test_historical_castilla_y_leon_reuses_only_matching_identity(self):
         cases = {
-            "aragon": (
-                "territorios/aragon/evidencia/fuentes_territoriales/2025/"
-                "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/"
-                "35728613828/receipt.json",
-                36321736287,
-            ),
             "castilla_y_leon": (
                 "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/"
                 "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/"

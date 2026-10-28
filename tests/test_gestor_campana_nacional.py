@@ -1,7 +1,7 @@
-"""Regresiones del gestor nacional, versión 0.0.2, 2026-10-26.
+"""Regresiones del gestor nacional, versión 0.0.3, 2026-10-28.
 Alcance: planificación pura y cierre de acreditación; estado: candidato.
-Cambio/motivo: reflejar linajes durables y preflights vigentes del catálogo.
-Anterior: tests/legacy/ci_followup_20261026/test_gestor_campana_nacional_cff5d3c.py.
+Cambio/motivo: Extremadura adopta el M06 40656175842 con fuente preparada y preflight de generación.
+Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.2_20261028.py.
 """
 import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
@@ -402,18 +402,24 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),1)
 
  def test_extremadura_reuse_does_not_authorize_generation(self):
-  for mode in ("territorial_only","electoral"):
-   for strategy,status in (("Canónico","PRODUCT_REUSE_READY"),
-                           ("GerryChain 50","SOURCE_PREPARATION_REQUIRED")):
+  # M06 40656175842 adoptado: Canónico reutiliza sin generar; GerryChain genera sobre la fuente
+  # ya preparada (sin volver a adquirirla) y en modo electoral queda bloqueado sin evidencia M08.
+  cases={("territorial_only","Canónico"):("PRODUCT_REUSE_READY",False,1),
+         ("territorial_only","GerryChain 50"):("GENERATION_READY",True,1),
+         ("electoral","Canónico"):("PRODUCT_REUSE_READY",False,0),
+         ("electoral","GerryChain 50"):("BLOCKED",True,0)}
+  for (mode,strategy),(status,allowed,included) in cases.items():
     with self.subTest(mode=mode,strategy=strategy):
      m=build_manifest(selected=["extremadura"],publication_mode=mode,source_sha="a"*40,
                       strategy=strategy,campaign_instance="regression",root=ROOT)
      r=m["territories"][0]
      self.assertEqual(r["preflight_status"],status)
-     self.assertFalse(r["generation_contract"]["allowed"])
+     self.assertEqual(r["generation_contract"]["allowed"],allowed)
      self.assertEqual(r["execution_plan"]["run_generate"],strategy!="Canónico")
-     self.assertEqual(r["execution_plan"]["run_prepare_territorial"],strategy!="Canónico")
-     self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+     self.assertFalse(r["execution_plan"]["run_prepare_territorial"])
+     self.assertEqual(len(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]),included)
+     if status=="BLOCKED":
+      self.assertEqual(r["preflight_blockers"],["ACCREDITED_EVIDENCE_MISSING"])
      self.assertEqual(aggregate(m,[])["status"],"FAIL")
 
  def test_common_resolver_decision_is_authoritative_for_every_territory(self):

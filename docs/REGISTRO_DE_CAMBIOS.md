@@ -1,12 +1,30 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.17
+Versión: 1.0.18
 Fecha: 2026-10-28
-Alcance: estado registrado por las ejecuciones 00 "desde el principio" del 28-10
+Alcance: adopción de los M06 del 28-10 de Aragón y Extremadura
 Estado: candidato
-Cambios/motivo: devolver main al estado acreditado anterior y corregir la declaración de fuentes de 02 y la cabecera de los contratos materializados
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.16_20261028.md
+Cambios/motivo: los M06 anteriores ya no tienen artefacto; se adoptan los únicos con bytes vivos
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.17_20261028.md
 -->
+
+## 2026-10-28 — M06 — Aragón y Extremadura adoptan sus productos del 28-10
+
+Los M06 acreditados de Aragón (36321736287) y Extremadura (36472516474) ya no tienen artefacto
+en Actions; la acreditación histórica de Aragón solo sella puerta y auditoría. Se adoptan los M06
+de las ejecuciones 00 del 28-10 (40656036271 y 40656175842), cerradas en SUCCESS y conservados en
+los releases draft `almacen-m06-*`: catálogo, contrato, preflight y producto territorial vuelven al
+estado que registraron esas ejecuciones.
+
+- El contrato de Aragón conserva los bytes que fija su manifiesto M06, sin cabecera; sale de
+  `GovernanceHeaders` (`test_r015_invariantes.py` 1.2.2) y lo gobiernan su manifiesto y
+  `test_m06_product_reuse_integration.py` 1.0.2.
+- `promover_catalogo_operacional.py` 1.1.2: al registrar un M06 retira el
+  `territorial_product_source_lineage` del producto anterior. Aragón conservaba el de 36321736287
+  y la reutilización geométrica atribuía el M06 nuevo a la fuente antigua; se retira del catálogo.
+- Las regresiones del producto histórico siguen ejercitándose con fixtures del commit d497bf39
+  (`tests/fixtures/acreditacion_historica`, `tests/fixtures/linaje_historico`); los demás tests
+  fijan los valores adoptados.
 
 ## 2026-10-28 — 00/01/02 — estado registrado por las ejecuciones del 28-10
 
