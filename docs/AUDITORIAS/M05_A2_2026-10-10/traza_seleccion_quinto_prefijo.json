@@ -1,0 +1,297 @@
+{
+  "outcome": "NOT_GENERATED",
+  "elapsed_seconds": 56.080261381110176,
+  "witness_sha256": "6e832b1c6f35891d104f04ffdeedcb1fd7c7481a3598015b42aaf43f61d6091a",
+  "trace": [
+    {
+      "call": 1,
+      "frontier_count": 1,
+      "candidate_count": 49,
+      "ceiling": 128,
+      "selected_target": null
+    },
+    {
+      "call": 2,
+      "frontier_count": 49,
+      "candidate_count": 1195,
+      "ceiling": 128,
+      "selected_target": null
+    },
+    {
+      "call": 3,
+      "frontier_count": 128,
+      "candidate_count": 4738,
+      "ceiling": 128,
+      "selected_target": null
+    },
+    {
+      "call": 4,
+      "frontier_count": 128,
+      "candidate_count": 5430,
+      "ceiling": 128,
+      "selected_target": null
+    },
+    {
+      "call": 5,
+      "frontier_count": 128,
+      "candidate_count": 4902,
+      "ceiling": 128,
+      "selected_target": true,
+      "target_moved": [
+        "28:28003:M"
+      ],
+      "target_route": [
+        91,
+        125
+      ],
+      "parent_siblings_top15": [
+        {
+          "local_rank": 1,
+          "unit": "28:28175:M",
+          "donor": 100,
+          "receiver": 118,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2537318.324444445,
+            21,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 2,
+          "unit": "28:28175:M",
+          "donor": 100,
+          "receiver": 128,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2537318.324444445,
+            21,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 3,
+          "unit": "28:28147:M",
+          "donor": 114,
+          "receiver": 126,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2537100.324444445,
+            20,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 4,
+          "unit": "28:28136:M",
+          "donor": 90,
+          "receiver": 105,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536679.324444445,
+            20,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 5,
+          "unit": "28:28029:M",
+          "donor": 93,
+          "receiver": 91,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536671.324444445,
+            19,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 6,
+          "unit": "28:28122:M",
+          "donor": 93,
+          "receiver": 121,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536653.324444445,
+            20,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 7,
+          "unit": "28:28122:M",
+          "donor": 93,
+          "receiver": 90,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536653.324444445,
+            20,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 8,
+          "unit": "28:28076:M",
+          "donor": 93,
+          "receiver": 91,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536355.324444445,
+            19,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 9,
+          "unit": "28:28062:M",
+          "donor": 93,
+          "receiver": 91,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536153.324444445,
+            19,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 10,
+          "unit": "28:28063:M",
+          "donor": 93,
+          "receiver": 91,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536122.324444445,
+            19,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 11,
+          "unit": "28:28003:M",
+          "donor": 91,
+          "receiver": 125,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2536009.324444445,
+            20,
+            0.738679955174,
+            10.306614048539
+          ]
+        },
+        {
+          "local_rank": 12,
+          "unit": "28:28156:M",
+          "donor": 90,
+          "receiver": 121,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2535734.324444445,
+            20,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 13,
+          "unit": "28:28057:M",
+          "donor": 121,
+          "receiver": 90,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2535734.324444445,
+            20,
+            0.738679955174,
+            10.295809181241
+          ]
+        },
+        {
+          "local_rank": 14,
+          "unit": "28:28147:M",
+          "donor": 114,
+          "receiver": 112,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2535734.324444445,
+            20,
+            0.738679955174,
+            10.349479903893
+          ]
+        },
+        {
+          "local_rank": 15,
+          "unit": "28:28018:M",
+          "donor": 125,
+          "receiver": 123,
+          "rank_prefix": [
+            [
+              1,
+              23321
+            ],
+            -2535734.324444445,
+            20,
+            0.738679955174,
+            10.389909752801
+          ]
+        }
+      ],
+      "target_alternative_rank_1based": 1066,
+      "target_selected_in_half_beams": false,
+      "alternative_selected_count": 127,
+      "hard_signature_candidate_counts": {
+        "(1, 23321)": 4902
+      }
+    }
+  ]
+}

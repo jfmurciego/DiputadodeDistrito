@@ -1,0 +1,33 @@
+{
+  "fixture": "B_lower_max",
+  "source_file_sha256": "3ef8b107c33fa923301fd56df1be83a82d0e8a726069fd54efa678d2a152e684",
+  "prior_assignment_hash": "06bd071b587ce8bea12912663ad6392c76d22b87c9aa5d4d73adbca29c67979e",
+  "K": 4,
+  "P": 4000,
+  "crs": "EPSG:3035",
+  "contract": {
+    "expected_districts": 4,
+    "target_tolerance_ratio": 0.12,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "province_districts": {
+      "01": 4
+    },
+    "require_graph_contiguity": true
+  },
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "budget": {
+    "engine_wall_seconds": 10,
+    "parent_process_timeout_seconds": 20,
+    "rss_post_run_limit_mib": 640,
+    "canonical_greedy_moves_limit": 100,
+    "canonical_anneal_iters": 1000,
+    "recom_states": 1001,
+    "recom_max_bipartition_attempts": 50
+  },
+  "scope": "Synthetic16, no closed urban or multipart examples; cannot generalize to A2"
+}

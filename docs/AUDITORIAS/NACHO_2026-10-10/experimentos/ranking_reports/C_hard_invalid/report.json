@@ -1,0 +1,22 @@
+{
+  "candidate_id": "C_hard_invalid",
+  "hard_constraints": {
+    "all_pass": false
+  },
+  "assignment_hash": "2b212d9089dbb303e0f5c343e3508122d35126665b3f26faaf83283b21ab8987",
+  "metrics": {
+    "population": {
+      "max_deviation": 1.0
+    },
+    "shape": {
+      "polsby_popper_median": 0.5131268000863329,
+      "corridor_alerts": []
+    },
+    "comarca": {
+      "retention_ratio": 1.0
+    },
+    "stability": {
+      "assignment_delta": 0.0
+    }
+  }
+}

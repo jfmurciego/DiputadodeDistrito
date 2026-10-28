@@ -92,7 +92,7 @@ class ModularChainIntegrationTests(unittest.TestCase):
             "DDD_CHAIN_STATE": str(chain),
         })
         return subprocess.run(
-            ["bash", "procedimiento.sh"], cwd=root, env=env,
+            ["/bin/bash", "procedimiento.sh"], cwd=root, env=env,
             text=True, capture_output=True, check=False,
         )
 

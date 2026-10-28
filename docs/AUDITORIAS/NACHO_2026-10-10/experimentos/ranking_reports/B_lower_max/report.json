@@ -1,0 +1,22 @@
+{
+  "candidate_id": "B_lower_max",
+  "hard_constraints": {
+    "all_pass": true
+  },
+  "assignment_hash": "06bd071b587ce8bea12912663ad6392c76d22b87c9aa5d4d73adbca29c67979e",
+  "metrics": {
+    "population": {
+      "max_deviation": 0.1
+    },
+    "shape": {
+      "polsby_popper_median": 0.5026548245743669,
+      "corridor_alerts": []
+    },
+    "comarca": {
+      "retention_ratio": 1.0
+    },
+    "stability": {
+      "assignment_delta": 0.0
+    }
+  }
+}

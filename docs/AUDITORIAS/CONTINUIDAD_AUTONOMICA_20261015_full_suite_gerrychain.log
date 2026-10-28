@@ -1,0 +1,79 @@
+...................................................... [  4%]
+..................................................... [  8%]
+...................................................................s............................................................... [ 17%]
+.................................................................. [ 22%]
+........................................................................................................................................................................... [ 35%]
+............................................................ [ 40%]
+.......................................................................................... [ 47%]
+...................................................................... [ 52%]
+..........sss........................................................... [ 57%]
+................................................................. [ 62%]
+................................................................................................................................................................ [ 74%]
+.......................................................F.............. [ 80%]
+....................................................F [ 84%]
+.F................................................................................................... [ 91%]
+................................................. [ 95%]
+.............................................................                      [100%]
+=================================== FAILURES ===================================
+_ GovernanceHeaders.test_contrato_m05_distingue_version_activa_y_logica_validada _
+
+self = <tests.test_r015_invariantes.GovernanceHeaders testMethod=test_contrato_m05_distingue_version_activa_y_logica_validada>
+
+    def test_contrato_m05_distingue_version_activa_y_logica_validada(self):
+        contract = (ROOT / "docs/MODULOS/M05_OPTIMIZACION.md").read_text(encoding="utf-8")
+        executable = (ROOT / "modulos/05_optimizar_distritos.py").read_text(encoding="utf-8")[:3000]
+        m = re.search(r"(?m)^VERSIÓN:\s*(\d+\.\d+\.\d+)\s*$", executable)
+        self.assertIsNotNone(m, "M05 activo no declara VERSIÓN SemVer")
+>       self.assertIn(f"**Código activo:** M05 v{m.group(1)}", contract)
+E       AssertionError: '**Código activo:** M05 v7.8.0' not found in '# M05 — Optimizar distritos\n\n**Versión documental:** 1.4.2\n**Nombre de versión:** Reparación poblacional automática con contrato durable\n**Fecha:** 2026-10-05\n**Código activo:** M05 v7.7.2\n**Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`\n**Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`\n**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.1.md`\n**Cambio:** mantiene la fase C opt-in y consolida en v7.7.2 la fase D automática ante violaciones duras, con presupuesto focal reservado, evidencia durable compatible y respeto de excepciones de suelo gobernadas; `version` sigue identificando el motor base y `wrapper_version` la interfaz/orquestador activo.\n**Motivo:** incorporar una reparación poblacional reusable y acotada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.\n\n## Propósito\nM05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.\n\n## Separación wrapper / motor\n- `modulos/05_optimizar_distritos.py` v7.7.2 es la interfaz activa.\n- `ddd_core/m05_opt_engine_v741.py` es el motor activo de cálculo; conserva las guardas estructurales de v7.4.0 y deja de abortar únicamente por incumplimientos poblacionales remanentes.\n- `ddd_core/m05_swap_polish.py` v1.0.1 añade exclusivamente la fase C determinista y está desacoplado del motor base.\n- `ddd_core/m05_population_repair.py` añade la reparación poblacional genérica posterior al motor base y al pulido. Se activa automáticamente si el baseline estructural conserva violaciones duras, salvo `population_repair.enabled: false` explícito.\n- Si OGR puede leer `ddd_unit_id`, el wrapper delega primero al motor v7.4.1 sin transformar la entrada.\n- Si OGR pierde el campo, lee las propiedades GeoJSON crudas, asigna códigos enteros estables a las unidades y ejecuta el motor v7.4.1.\n- La configuración se resuelve siempre con `ddd_core.config.load_params_yaml`.\n\n## Semántica del informe\n- `version`: versión del **motor optimizador** que genera el cuerpo del informe. En el wrapper actual es `7.4.1`.\n- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.7.2`.\n- `swap_polish.version`: versión del componente de fase C cuando se ejecuta; actualmente `1.0.1`.\n- `population_repair`: evidencia estructurada de la reparación cuando está habilitada, o de su desactivación cuando no lo está.\n- `unit_id_normalization`: se registra cuando el fallback de identidad es necesario.\n\nEsta separación evita presentar una evolución de orquestación como si fuera una nueva versión de la lógica base validada y mantiene estable el contrato consumido por R016.\n\n## Restricciones duras\n1. K y cuotas definidos por el territorio;\n2. provincia infranqueable;\n3. contigüidad estricta por M03;\n4. suelo/techo poblacional configurado, aplicando suelo efectivo 0 sólo a las particiones incluidas en `population_floor_exempt_partitions`, sin eximir el techo;\n5. movimientos de `ddd_unit_id` completas;\n6. distritos `ddd_closed_urban` no reciben ni ceden unidades;\n7. disciplina municipal final auditada contra `municipality_field` real.\n\n## Objetivo canónico\nComparación lexicográfica: violaciones duras → magnitud dura → número fuera de tolerancia → máximo desvío → error cuadrático global.\n\nNo debe interpretarse el número de outliers de manera aislada. Un estado con cuatro distritos apenas fuera de tolerancia puede ser estructuralmente mejor que otro con dos outliers si uno de ellos tiene una desviación extrema. La comparación canónica completa es la referencia.\n\n## Estrategia\n**Fase A — greedy determinista:** acepta únicamente movimientos individuales que mantienen restricciones duras y mejoran estrictamente el objetivo.\n\n**Fase B — recocido reproducible + refinamiento:** el ámbito se fija a las provincias que tenían distritos fuera de tolerancia al inicio de M05. Puede atravesar estados peores en el objetivo fino, nunca restricciones duras, conserva la mejor solución canónica y agota el presupuesto configurado.\n\n**Fase C — swap-polish determinista, opt-in:** si `swap_polish_max > 0`, enumera swaps 1×1 entre unidades frontera de distritos vecinos, descarta los que violan provincia, suelo/techo, cierre urbano o contigüidad, elige el mejor que reduzca lexicográficamente el objetivo y repite hasta mínimo local o hasta el límite configurado. No acepta pasos neutrales ni peores.\n\n**Fase D — reparación poblacional genérica:** si la salida de Optimización es estructuralmente válida y conserva violaciones duras de suelo/techo, la reparación se activa automáticamente con límites acotados por defecto. Un `population_repair.enabled: false` explícito la desactiva. Cuando no se ejecuta publica `DISABLED`; `NO_FEASIBLE_REPAIR_FOUND` queda reservado a una búsqueda realmente ejecutada y agotada.\n\n## Evidencia validada previa — Aragón Run #9\nPrimera factibilidad, iteración 9.038: `[0, 0.0, 0, 0.119431695687, 0.182704485064]`.\n\nResultado final: `[0, 0.0, 0, 0.099299365905, 0.161271162560]`.\n\nMáximo desvío: 11,943 % → **9,930 %**; `fuera_12=0`; restricciones duras PASS.\n\n## Evidencia experimental — Extremadura\nEXT-04 estableció `chunk_ratio=0.20` como primer tamaño de macro-unidad interna probado que permite a M04 construir K=65 con cuotas 41/24 y `hard=0`. Después de M05 sin fase C, el máximo desvío baja de 36,79 % del enfoque por sección a aproximadamente 13,30 %, con cuatro outliers leves y menor churn.\n\nEXT-05 Run `34641298906` encontró 8 swaps 1×1 estrictamente mejores sobre ese estado.\n\nEXT-06 Run `34642098588` validó operativamente la fase C sobre c020: acepta 2 swaps, reduce los outliers de 4 a 2 y el error cuadrático de `0.137478882166` a `0.131455334058`, sin modificar el máximo desvío de 13,30 %, sin violaciones duras y sin aumentar splits municipales. Por tanto, la fase C es útil pero todavía no resuelve por sí sola el contrato ±10 % de Extremadura.\n\n## Estado de validación\n- La lógica base v7.4.0 permanece validada/promocionada por Run #9 y el motor activo v7.4.1 conserva esa línea estructural.\n- El wrapper v7.7.2 mantiene la fase C como opt-in y hace la fase D automática únicamente ante violaciones duras sobre un baseline estructuralmente válido.\n- La fase C está validada operativamente en EXT-06 pero sigue siendo opt-in; esa evidencia histórica no se presenta como validación territorial de la fase D.\n- La fase D está cubierta por regresiones sintéticas y por regresiones del camino canónico M04/M05. Las ejecuciones territoriales históricas no se reinterpretan ni se promueven por el mero cambio de código.\n\n## Productos auditables\n- GeoJSON ZIP de asignación completa optimizada.\n- Informe M05 con objetivos, movimientos, primera factibilidad, parámetros, versión del motor, versión del wrapper, mapeo de normalización, metadatos de swaps y evidencia de reparación cuando proceda.\n\n## Baseline vigente\n**Aragón Run #9 `34599224954` / `gh-34599224954-1`.** Toda evolución debe mantener sus PASS. Las regresiones territoriales solo se ejecutarán cuando se autoricen expresamente. M05 v7.3.0 y Run #8 permanecen registrados como baseline histórico previo.\n'
+
+tests/test_r015_invariantes.py:323: AssertionError
+_ RiojaRepairReproductionTests.test_existing_focal_search_preserves_real_partition _
+
+self = <tests.test_repro_reparador_rioja_cantabria.RiojaRepairReproductionTests testMethod=test_existing_focal_search_preserves_real_partition>
+
+    def test_existing_focal_search_preserves_real_partition(self):
+>       result = h.replay(self.case, h.core.SearchLimits(max_depth=0))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_repro_reparador_rioja_cantabria.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+case = {'kwargs': {'assignments': {'26:26001:M': 27, '26:26002:M': 32, '26:26003:M': 31, '26:26004:M': 31, ...}, 'units': {'2...D', 'hard_population_violations_before': 0, ...}, 'K': 33, 'total_pop': 322282, 'target': 9766.121212121212, ...}, ...}
+limits = SearchLimits(max_depth=0, max_transfer_set=2, max_candidates=20000, max_seconds=5.0, seed=0, expanded_max_states=40000...ax_memory_mib=640, expanded_max_depth=96, expanded_beam_per_district=4, expanded_beam_width=128, expanded_max_radius=8)
+
+    def replay(case, limits=None):
+        historical = case["report"]["population_repair"]
+        if historical.get("enabled") is not False or historical.get("activation") != "NOT_NEEDED":
+            raise ValueError("PRE_REPAIR_STATE_NOT_PROVEN")
+        expected = case["compatibility"]["engine_files"]["ddd_core/m05_population_repair.py"]
+        observed = digest((ROOT / "ddd_core/m05_population_repair.py").read_bytes())
+        if observed != expected:
+>           raise ValueError("REPAIR_CODE_DIFFERS_FROM_RUN")
+E           ValueError: REPAIR_CODE_DIFFERS_FROM_RUN
+
+herramientas/repro_reparador_rioja_cantabria.py:210: ValueError
+__________ RiojaRepairReproductionTests.test_large_search_is_rejected __________
+ValueError: REPAIR_CODE_DIFFERS_FROM_RUN
+
+During handling of the above exception, another exception occurred:
+
+self = <tests.test_repro_reparador_rioja_cantabria.RiojaRepairReproductionTests testMethod=test_large_search_is_rejected>
+
+    def test_large_search_is_rejected(self):
+>       with self.assertRaisesRegex(ValueError, "OPERATIONAL_LIMIT_EXCEEDED"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: "OPERATIONAL_LIMIT_EXCEEDED" does not match "REPAIR_CODE_DIFFERS_FROM_RUN"
+
+tests/test_repro_reparador_rioja_cantabria.py:87: AssertionError
+=============================== warnings summary ===============================
+tests/test_materializacion_contratos_nacionales.py::NationalGenerationMaterializationTests::test_physical_preparer_materializes_verifiable_m04_input_without_running_seed_engine
+  /usr/local/Caskroom/miniforge/base/lib/python3.13/site-packages/pyogrio/geopandas.py:917: UserWarning: 'crs' was not provided.  The output dataset will not have projection information defined and may not be usable in other systems.
+    write(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_r015_invariantes.py::GovernanceHeaders::test_contrato_m05_distingue_version_activa_y_logica_validada
+FAILED tests/test_repro_reparador_rioja_cantabria.py::RiojaRepairReproductionTests::test_existing_focal_search_preserves_real_partition
+FAILED tests/test_repro_reparador_rioja_cantabria.py::RiojaRepairReproductionTests::test_large_search_is_rejected
+3 failed, 1319 passed, 4 skipped, 1 warning, 1029 subtests passed in 287.65s (0:04:47)

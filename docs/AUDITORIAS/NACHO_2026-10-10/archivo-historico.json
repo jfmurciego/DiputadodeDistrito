@@ -1,0 +1,52 @@
+{
+  "origin": "d80000b:data.zip",
+  "sha256": "05641754a39e6c9d0a1778ad14d1f57b8cb73404c0d0ab175370e33744867c95",
+  "bytes": 3327122,
+  "crc_test": "BLOCKED_ENCRYPTED_MEMBER_NO_PASSWORD",
+  "members": [
+    {
+      "path": "data/",
+      "bytes": 0,
+      "compressed_bytes": 0,
+      "crc": 0,
+      "encrypted": false
+    },
+    {
+      "path": "data/census_section.parquet",
+      "bytes": 2632619,
+      "compressed_bytes": 2088233,
+      "crc": 1514001986,
+      "encrypted": true
+    },
+    {
+      "path": "data/district.parquet",
+      "bytes": 760167,
+      "compressed_bytes": 572941,
+      "crc": 2955556987,
+      "encrypted": true
+    },
+    {
+      "path": "data/zip_code.parquet",
+      "bytes": 563485,
+      "compressed_bytes": 477098,
+      "crc": 2219719427,
+      "encrypted": true
+    },
+    {
+      "path": "data/municipality.parquet",
+      "bytes": 214290,
+      "compressed_bytes": 172222,
+      "crc": 452286855,
+      "encrypted": true
+    },
+    {
+      "path": "data/province.parquet",
+      "bytes": 20008,
+      "compressed_bytes": 15518,
+      "crc": 2711137457,
+      "encrypted": true
+    }
+  ],
+  "current_official_source": false,
+  "execution": false
+}

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DDD · Revisión territorial</title><link href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css" rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+<body><header><h1>Revisión de alternativas territoriales</h1><p id="meta"></p></header>
+<main><section class="toolbar"><label>Perfil <select id="profile"><option value="">Todos</option></select></label>
+<label><input id="pareto" type="checkbox"> Solo frente de Pareto</label><button id="download">Descargar selection.json</button></section>
+<section class="compare"><div><label>Mapa A <select id="compareA"></select></label><div id="mapA" class="map"></div></div>
+<div><label>Mapa B <select id="compareB"></select></label><div id="mapB" class="map"></div></div></section>
+<section id="cards" class="cards"></section><section class="decision"><h2>Decisión de campo</h2>
+<label>Candidato <select id="selected"><option value="">Sin seleccionar</option></select></label>
+<label>Responsable <input id="reviewer"></label><label>Justificación <textarea id="reason"></textarea></label></section></main>
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script><script src="app.js"></script></body></html>

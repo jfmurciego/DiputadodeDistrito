@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 82, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 78, in main
+    if run.returncode:raise RuntimeError(f'{mode} exit={run.returncode}: {run.stderr[-1200:]}')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: ddd_current exit=1: /private/tmp/madrid-gerrychain-venv/lib/python3.11/site-packages/pyogrio/__init__.py:5: DeprecationWarning: The 'shapely.geos' module is deprecated, and will be removed in a future version. All attributes of 'shapely.geos' are available directly from the top-level 'shapely' namespace (since shapely 2.0.0).
+  import shapely.geos  # noqa
+Traceback (most recent call last):
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 82, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 71, in main
+    if a.worker:worker(a.fixture,a.worker);return
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 44, in worker
+    geometries=problem.unit_geometries;unitpop={u:int(v['population']) for u,v in problem.units.items()};edges={tuple(sorted(e)) for e in problem.edges};allnodes=set(problem.units)
+               ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PreparedProblem' object has no attribute 'unit_geometries'
+

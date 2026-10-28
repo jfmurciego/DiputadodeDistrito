@@ -1,0 +1,64 @@
+{
+  "runtime": "local JavaScriptCore",
+  "DOM": "simulated",
+  "MapLibre": "simulated; no map rendered",
+  "initialCards": 2,
+  "initialIDs": [
+    "A_lower_L1",
+    "B_lower_max"
+  ],
+  "invalidOptionsAbsent": true,
+  "initialComparison": [
+    "A_lower_L1",
+    "B_lower_max"
+  ],
+  "paretoIDs": [
+    "B_lower_max"
+  ],
+  "selected": "B_lower_max",
+  "downloaded": [
+    {
+      "schema": "ddd.selection/1.0",
+      "territory_id": "SYNTHETIC",
+      "prepared_bundle_id": "synthetic-grid",
+      "candidate_id": "B_lower_max",
+      "reviewer": "DIAGNOSTIC_ONLY",
+      "justification": "No authorized promotion",
+      "status": "SELECTED_FOR_PROMOTION"
+    }
+  ],
+  "visibleLabels": [
+    "Desviación población",
+    "PP mediana",
+    "Elongación máx.",
+    "Retención comarca",
+    "Comarcas divididas",
+    "Alertas corredor",
+    "Desviación población",
+    "PP mediana",
+    "Elongación máx.",
+    "Retención comarca",
+    "Comarcas divididas",
+    "Alertas corredor"
+  ],
+  "visibleText": " A_lower_L1  controlled · semilla 0   Desviación población  0.150    PP mediana  0.503    Elongación máx.  4.000    Retención comarca  1.000    Comarcas divididas  0    Alertas corredor  0    Abrir GeoJSON   Seleccionar   B_lower_max  controlled · semilla 0   Desviación población  0.100    PP mediana  0.503    Elongación máx.  4.000    Retención comarca  1.000    Comarcas divididas  0    Alertas corredor  0    Abrir GeoJSON   Seleccionar ",
+  "maps": [
+    {
+      "container": "mapA",
+      "featureCount": 16
+    },
+    {
+      "container": "mapB",
+      "featureCount": 16
+    }
+  ],
+  "objectiveExplanationVisible": false,
+  "floorCapVisible": false,
+  "invalidCausesVisible": false,
+  "perDistrictPopulationVisible": false,
+  "offline_diagnostic_toggle_checks": {
+    "DOM": "simulated",
+    "section_boundary_toggle": true,
+    "rejected_candidate_show_hide": true
+  }
+}

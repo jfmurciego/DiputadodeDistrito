@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "base_commit": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "artifact_commit": null,
+  "reason": "Prototipo presente en carpeta untracked; HEAD es base, no commit del artefacto",
+  "gallery_generator_last_commit": "cb9b314350401fcc2f7003c65d4b4c0c18eaada5",
+  "files": {
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/diagnostico.html": "bc358fb31d51465417e00c2820e0db7db46ba1dd7a9c3e932cecedeb2180d4e7",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/gallery/index.html": "bdb698cfbc3d116bcf50a137b4c7eb12c0d3e036982579708169e9c1fce2f94d",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/gallery/app.js": "78850c345c48b487fa23fd8d5d2b89d220afa19d83ea1f04e564bb5d1f6e8ca9",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/gallery/style.css": "b6884ecd43270f55fbde6549d38c5f4dcc7459e673e0f17aaf07e2f98b2e91b6",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/gallery/data/summary.json": "35abdaf03d9bad98060fdafa39bc6a5c5e96e02e9167e96c78411504d661a2a6",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/gallery/assets/A_lower_L1.geojson": "7244eba97f086c6024a22da315d869e712e0237d1b443b122b73641a35cac858",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/gallery/assets/B_lower_max.geojson": "f77126e19d0c71968ef63015acc18977a0be3f94f0bc997af01d85baba2058de",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/frozen_results.json": "3ef8b107c33fa923301fd56df1be83a82d0e8a726069fd54efa678d2a152e684",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/provenance.json": "2d12b2edf9d97bdf790135334dee5e1a3894f13720484f64782e67e44944e78d",
+    "docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/comparison.csv": "e4f896a71dcfb2344af7764bbceb5d61f9eaebffb7ceed680ef0b92aec2aa88b"
+  },
+  "browser_versions": {
+    "Firefox": "157.0.1",
+    "Safari": "16.6.1"
+  }
+}

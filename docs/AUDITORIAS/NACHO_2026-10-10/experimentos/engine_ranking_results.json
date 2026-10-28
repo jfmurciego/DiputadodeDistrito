@@ -1,0 +1,148 @@
+{
+  "A_lower_L1": {
+    "violations": [],
+    "metrics": {
+      "population_total": 4000,
+      "population_target": 1000.0,
+      "population_max_abs_deviation": 0.15,
+      "district_populations": {
+        "0": 1150.0,
+        "1": 950.0,
+        "2": 950.0,
+        "3": 950.0
+      },
+      "cut_edges": 12,
+      "assignment_churn": 0.0,
+      "assignment_sha256": "26b853a634b88894768962279ac82ed76b386155518ea5f0b35ae013b83eb07e",
+      "comarca": {
+        "coverage_population_ratio": 1.0,
+        "split_communities": 0,
+        "communities_per_district": {
+          "0": 4,
+          "1": 4,
+          "2": 4,
+          "3": 4
+        },
+        "population_retention": 1.0,
+        "population_outside_dominant_comarca": 800.0,
+        "district_comarca_entropy": 0.7000955924933475,
+        "aligned_comarca_boundary_edges": 12,
+        "intra_comarca_cut_edges": 0
+      },
+      "shape": {
+        "available": true,
+        "polsby_popper_min": 0.5026548245743669,
+        "polsby_popper_median": 0.5026548245743669,
+        "polsby_popper_mean": 0.5026548245743669,
+        "districts_below_0_15": 0,
+        "district_values": {
+          "0": 0.5026548245743669,
+          "1": 0.5026548245743669,
+          "2": 0.5026548245743669,
+          "3": 0.5026548245743669
+        },
+        "penalty": 0.49734517542563306
+      }
+    },
+    "score": 0.5235398464840981
+  },
+  "B_lower_max": {
+    "violations": [],
+    "metrics": {
+      "population_total": 4000,
+      "population_target": 1000.0,
+      "population_max_abs_deviation": 0.1,
+      "district_populations": {
+        "0": 1100.0,
+        "1": 1100.0,
+        "2": 900.0,
+        "3": 900.0
+      },
+      "cut_edges": 12,
+      "assignment_churn": 0.75,
+      "assignment_sha256": "58245b9eac22b8e4181da844de6e3b1d25f98e56c1d8686e61bc18b17ff96563",
+      "comarca": {
+        "coverage_population_ratio": 1.0,
+        "split_communities": 0,
+        "communities_per_district": {
+          "0": 4,
+          "1": 4,
+          "2": 4,
+          "3": 4
+        },
+        "population_retention": 1.0,
+        "population_outside_dominant_comarca": 800.0,
+        "district_comarca_entropy": 0.7014688731579759,
+        "aligned_comarca_boundary_edges": 12,
+        "intra_comarca_cut_edges": 0
+      },
+      "shape": {
+        "available": true,
+        "polsby_popper_min": 0.5026548245743669,
+        "polsby_popper_median": 0.5026548245743669,
+        "polsby_popper_mean": 0.5026548245743669,
+        "districts_below_0_15": 0,
+        "district_values": {
+          "0": 0.5026548245743669,
+          "1": 0.5026548245743669,
+          "2": 0.5026548245743669,
+          "3": 0.5026548245743669
+        },
+        "penalty": 0.49734517542563306
+      }
+    },
+    "score": 0.5110398464840982
+  },
+  "C_hard_invalid": {
+    "violations": [
+      "population_cap:0",
+      "population_floor:1",
+      "population_tolerance:0",
+      "population_tolerance:1"
+    ],
+    "metrics": {
+      "population_total": 4000,
+      "population_target": 1000.0,
+      "population_max_abs_deviation": 1.0,
+      "district_populations": {
+        "0": 2000.0,
+        "1": 100.0,
+        "2": 950.0,
+        "3": 950.0
+      },
+      "cut_edges": 11,
+      "assignment_churn": 0.125,
+      "assignment_sha256": "8fdef96c0f61d3e7018725979b0d3f5fe1928b6fee460c5ac977892f3fe1cc42",
+      "comarca": {
+        "coverage_population_ratio": 1.0,
+        "split_communities": 0,
+        "communities_per_district": {
+          "0": 6,
+          "1": 2,
+          "2": 4,
+          "3": 4
+        },
+        "population_retention": 1.0,
+        "population_outside_dominant_comarca": 1550.0,
+        "district_comarca_entropy": 0.9611051544326542,
+        "aligned_comarca_boundary_edges": 11,
+        "intra_comarca_cut_edges": 0
+      },
+      "shape": {
+        "available": true,
+        "polsby_popper_min": 0.5026548245743669,
+        "polsby_popper_median": 0.5131268000863329,
+        "polsby_popper_mean": 0.5567600313861911,
+        "districts_below_0_15": 0,
+        "district_values": {
+          "0": 0.5235987755982988,
+          "1": 0.6981317007977318,
+          "2": 0.5026548245743669,
+          "3": 0.5026548245743669
+        },
+        "penalty": 0.48687319991366707
+      }
+    },
+    "score": 1.3656969266191838
+  }
+}

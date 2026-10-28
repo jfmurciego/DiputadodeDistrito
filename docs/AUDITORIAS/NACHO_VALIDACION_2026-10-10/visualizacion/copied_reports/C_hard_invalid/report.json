@@ -1,0 +1,54 @@
+{
+  "candidate_id": "C_hard_invalid",
+  "hard_constraints": {
+    "all_pass": false
+  },
+  "assignment_hash": "2b212d9089dbb303e0f5c343e3508122d35126665b3f26faaf83283b21ab8987",
+  "metrics": {
+    "population": {
+      "max_deviation": 1.0
+    },
+    "shape": {
+      "polsby_popper_median": 0.5131268000863329,
+      "corridor_alerts": [],
+      "elongation_max": 4.0
+    },
+    "comarca": {
+      "retention_ratio": 1.0,
+      "split_count": 0
+    },
+    "stability": {
+      "assignment_delta": 0.0
+    }
+  },
+  "geojson": "/private/tmp/ddd-nacho-validacion3-20261010/assets_web/C_hard_invalid.geojson",
+  "fields": {
+    "district": "district_id"
+  },
+  "diagnostic": {
+    "district_population": [
+      2000,
+      100,
+      950,
+      950
+    ],
+    "population_floor": 800,
+    "population_cap": 1750,
+    "target": 1000,
+    "tolerance_min": 800,
+    "tolerance_max": 1200,
+    "municipality_splits": 0,
+    "violations": [
+      "population_cap:0",
+      "population_floor:1",
+      "population_tolerance:0",
+      "population_tolerance:1"
+    ],
+    "provenance": {
+      "assignment_sha256": "2b212d9089dbb303e0f5c343e3508122d35126665b3f26faaf83283b21ab8987",
+      "source_report_sha256": "fc3263a052b6c53331728babd6024da640f1f137c0e6c0df1b618ed8aaba1afd",
+      "metric_geometry_sha256": "b759b8146804f6bd813ccaadead43ab2444119a0414c06e127fed50699d00e59",
+      "web_geometry_sha256": "69529c6051923f4e1a16f9f0179ef1c88a07bcfaea69e0ee24102baede7cd807"
+    }
+  }
+}

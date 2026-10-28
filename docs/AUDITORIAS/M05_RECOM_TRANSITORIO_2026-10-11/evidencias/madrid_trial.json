@@ -1,0 +1,46 @@
+{
+  "status": "NO_VALID_CANDIDATE_WITHIN_BUDGET",
+  "diagnostics": {
+    "budget": {
+      "max_seconds": 180,
+      "max_total_steps": 3000,
+      "seconds": 134.956124,
+      "states_observed": 3000
+    },
+    "runs": [
+      {
+        "assignment_hash": null,
+        "proposal_failures": 1436,
+        "rank": null,
+        "seconds": 134.94955374812707,
+        "seed": 4629,
+        "self_loops": 2246,
+        "states_observed": 3000,
+        "termination": "STEP_BUDGET_REACHED",
+        "transient_population_states": 3000,
+        "unique_states": 739,
+        "valid_candidate_found": false
+      }
+    ]
+  },
+  "head_base": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "strategy_version": "2.2.0",
+  "strategy_sha256": "8f8034b5c7af7a64cd6cb65c2410a2e34b73eab20765d807129dbab3fb55a05b",
+  "checkpoint_sha256": "6a5181ddeca846dae3afde8e560ac51077d30ca82a09c85277d57406fe289d9c",
+  "graph_sha256": "34ac24c2be4ec810caff0d8170f54dfdf00b79fd575b1e80f8f362143c8152ec",
+  "initial_m05_sha256": "519ba8ab03c6089ee2a269bbeddcd40081645bcaf802e0922350c4fcf37f38c6",
+  "initial_report_sha256": "74f97b5e771cc5e54c797d48e212a0adabd3642e3630a09a60173002b3faa437",
+  "run_config": {
+    "seed": 4629,
+    "steps_per_seed": 3000,
+    "max_total_steps": 3000,
+    "max_seconds": 180,
+    "proposal_epsilon": 0.12,
+    "max_bipartition_attempts": 500,
+    "pythonhashseed": "0"
+  },
+  "elapsed_seconds": 141.515,
+  "candidate_file_exists": false,
+  "report_file_exists": false,
+  "manual_witness_loaded": false
+}

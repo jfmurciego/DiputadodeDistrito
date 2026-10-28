@@ -1,0 +1,1299 @@
+{
+  "schema": "ddd.nacho-validation-e2/1.0",
+  "runs": [
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "A_lower_L1",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d",
+        "frozen.json": "009d8a8a861cf8bf71da6fc9311ebce63b1235f4fc46c05badf1b37a9d74028f"
+      },
+      "mode": "canonical",
+      "seed": 17,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 0.606944324914366,
+      "memory": {
+        "python_peak_bytes": 1618020,
+        "rss_peak_process_bytes": 113586176,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "read-only sys.settrace existing main, no code patch",
+        "source": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_opt_engine_v741.py",
+        "watched_lines": {
+          "greedy": 243,
+          "anneal": 295,
+          "last": 361
+        },
+        "timing_includes_trace": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 1,
+          "6": 2,
+          "7": 2,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 3,
+          "12": 3,
+          "13": 3,
+          "14": 3,
+          "15": 3
+        },
+        "assignment_hash": "6228a401565d81e39840141a6bc2e6dc04e9cc24b9c38eb929ad6cb56ffecaaa",
+        "unlabeled_partition_hash": "cf22933b6038db1e50d9438447f74af9780da7823aa9627f674fb6f0d07eef2a",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.46949356878647464,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "greedy_accepted": 3,
+        "anneal_accepted": 56,
+        "anneal_attempts": 1000,
+        "unique_labeled_states": 47,
+        "unique_unlabeled_partitions": 47,
+        "anneal_hold_transitions": 944,
+        "anneal_transition_count": 1000,
+        "population_repair": {
+          "enabled": false,
+          "activation": "NOT_NEEDED",
+          "result": "DISABLED",
+          "hard_population_violations_before": 0,
+          "population_floor_exempt_partitions": [],
+          "district_floor_overrides": {}
+        },
+        "note": "SA holds are not a MarkovChain quality gate; greedy selection not counted as failed proposals"
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "A_lower_L1",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d",
+        "frozen.json": "009d8a8a861cf8bf71da6fc9311ebce63b1235f4fc46c05badf1b37a9d74028f"
+      },
+      "mode": "recom",
+      "seed": 17,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 7.556244870880619,
+      "memory": {
+        "python_peak_bytes": 2090312,
+        "rss_peak_process_bytes": 108343296,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "observe existing candidate_rank calls in _run_seed, no modified rank",
+        "timing_includes_observer": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 3,
+          "1": 1,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          "5": 1,
+          "6": 1,
+          "7": 2,
+          "8": 0,
+          "9": 0,
+          "10": 0,
+          "11": 2,
+          "12": 0,
+          "13": 0,
+          "14": 2,
+          "15": 2
+        },
+        "assignment_hash": "3f456a13cf050bc4190020cb83307b93e3e6a299c60a4cc3a1de9aa3ed83de72",
+        "unlabeled_partition_hash": "7e5a6d767b452394aef59ce1b794cece7f3d4a6301bbbba819759f4552b59541",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.6632251157578453,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "seed": 17,
+        "states_observed": 1001,
+        "unique_states": 711,
+        "self_loops": 207,
+        "proposal_failures": 0,
+        "seconds": 7.413575964979827,
+        "rank": [
+          0,
+          0,
+          0.33677488424215474,
+          0.0,
+          0.0,
+          10,
+          0.8125
+        ],
+        "assignment_hash": "b0a18f277681d84dbc76f1cfcb6793be84990f267853cc7f26b595f2eccf030b",
+        "observed_unique_unlabeled_partitions": 314,
+        "observed_unique_labeled_states": 711,
+        "observed_states_from_harness": 1001
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "A_lower_L1",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d",
+        "frozen.json": "009d8a8a861cf8bf71da6fc9311ebce63b1235f4fc46c05badf1b37a9d74028f"
+      },
+      "mode": "canonical",
+      "seed": 29,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 0.6136640019249171,
+      "memory": {
+        "python_peak_bytes": 1618020,
+        "rss_peak_process_bytes": 113500160,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "read-only sys.settrace existing main, no code patch",
+        "source": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_opt_engine_v741.py",
+        "watched_lines": {
+          "greedy": 243,
+          "anneal": 295,
+          "last": 361
+        },
+        "timing_includes_trace": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 1,
+          "6": 2,
+          "7": 3,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 3,
+          "12": 2,
+          "13": 3,
+          "14": 3,
+          "15": 3
+        },
+        "assignment_hash": "e98c5fe721266bdd627bb80f05347afacfe6e0267dadec06a4b80a0f473de245",
+        "unlabeled_partition_hash": "9774e5aaa81b9c35cb0785f915719e263b3e1c5556df8145465b3c185f7e5659",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.46949356878647464,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "greedy_accepted": 3,
+        "anneal_accepted": 65,
+        "anneal_attempts": 1000,
+        "unique_labeled_states": 45,
+        "unique_unlabeled_partitions": 45,
+        "anneal_hold_transitions": 935,
+        "anneal_transition_count": 1000,
+        "population_repair": {
+          "enabled": false,
+          "activation": "NOT_NEEDED",
+          "result": "DISABLED",
+          "hard_population_violations_before": 0,
+          "population_floor_exempt_partitions": [],
+          "district_floor_overrides": {}
+        },
+        "note": "SA holds are not a MarkovChain quality gate; greedy selection not counted as failed proposals"
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "A_lower_L1",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d",
+        "frozen.json": "009d8a8a861cf8bf71da6fc9311ebce63b1235f4fc46c05badf1b37a9d74028f"
+      },
+      "mode": "recom",
+      "seed": 29,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 7.73135670600459,
+      "memory": {
+        "python_peak_bytes": 2089307,
+        "rss_peak_process_bytes": 108261376,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "observe existing candidate_rank calls in _run_seed, no modified rank",
+        "timing_includes_observer": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 3,
+          "2": 3,
+          "3": 1,
+          "4": 0,
+          "5": 3,
+          "6": 3,
+          "7": 1,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 1,
+          "12": 2,
+          "13": 2,
+          "14": 1,
+          "15": 1
+        },
+        "assignment_hash": "6409872fad9b588b42d0a4f10d9eaa35307baa8bdf245ec4a819586ebbeadac4",
+        "unlabeled_partition_hash": "7e5a6d767b452394aef59ce1b794cece7f3d4a6301bbbba819759f4552b59541",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.6632251157578453,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "seed": 29,
+        "states_observed": 1001,
+        "unique_states": 674,
+        "self_loops": 222,
+        "proposal_failures": 0,
+        "seconds": 7.592818433884531,
+        "rank": [
+          0,
+          0,
+          0.33677488424215474,
+          0.0,
+          0.0,
+          10,
+          0.6875
+        ],
+        "assignment_hash": "c1212e168d84e18b0a85b6748c4d6a831a9911258510918f672a0e13516df5a8",
+        "observed_unique_unlabeled_partitions": 311,
+        "observed_unique_labeled_states": 674,
+        "observed_states_from_harness": 1001
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "A_lower_L1",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d",
+        "frozen.json": "009d8a8a861cf8bf71da6fc9311ebce63b1235f4fc46c05badf1b37a9d74028f"
+      },
+      "mode": "canonical",
+      "seed": 43,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 0.6072222520597279,
+      "memory": {
+        "python_peak_bytes": 1617825,
+        "rss_peak_process_bytes": 113414144,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "read-only sys.settrace existing main, no code patch",
+        "source": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_opt_engine_v741.py",
+        "watched_lines": {
+          "greedy": 243,
+          "anneal": 295,
+          "last": 361
+        },
+        "timing_includes_trace": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 0,
+          "5": 1,
+          "6": 3,
+          "7": 3,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 3,
+          "12": 2,
+          "13": 2,
+          "14": 3,
+          "15": 3
+        },
+        "assignment_hash": "15e7f307bd8690c67f42d028f434b454f1890e5f3cb20638c5cb6f8a01716ee4",
+        "unlabeled_partition_hash": "a36caa307d7d1fe2421582bf946a2e07808a4c083ac29de556802531b97c6fe2",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.5654866776461627,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "greedy_accepted": 3,
+        "anneal_accepted": 68,
+        "anneal_attempts": 1000,
+        "unique_labeled_states": 54,
+        "unique_unlabeled_partitions": 54,
+        "anneal_hold_transitions": 932,
+        "anneal_transition_count": 1000,
+        "population_repair": {
+          "enabled": false,
+          "activation": "NOT_NEEDED",
+          "result": "DISABLED",
+          "hard_population_violations_before": 0,
+          "population_floor_exempt_partitions": [],
+          "district_floor_overrides": {}
+        },
+        "note": "SA holds are not a MarkovChain quality gate; greedy selection not counted as failed proposals"
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "A_lower_L1",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d",
+        "frozen.json": "009d8a8a861cf8bf71da6fc9311ebce63b1235f4fc46c05badf1b37a9d74028f"
+      },
+      "mode": "recom",
+      "seed": 43,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 7.543765041977167,
+      "memory": {
+        "python_peak_bytes": 2081622,
+        "rss_peak_process_bytes": 108314624,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "observe existing candidate_rank calls in _run_seed, no modified rank",
+        "timing_includes_observer": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 3,
+          "4": 0,
+          "5": 1,
+          "6": 1,
+          "7": 3,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 3,
+          "12": 2,
+          "13": 2,
+          "14": 3,
+          "15": 3
+        },
+        "assignment_hash": "a6369082479c223db0c834a358db2a76304459cf17189c7cea8cbb4ce5cf18eb",
+        "unlabeled_partition_hash": "7e5a6d767b452394aef59ce1b794cece7f3d4a6301bbbba819759f4552b59541",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.6632251157578453,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "seed": 43,
+        "states_observed": 1001,
+        "unique_states": 658,
+        "self_loops": 218,
+        "proposal_failures": 0,
+        "seconds": 7.411808492150158,
+        "rank": [
+          0,
+          0,
+          0.33677488424215474,
+          0.0,
+          0.0,
+          10,
+          0.5
+        ],
+        "assignment_hash": "cb95dd6e388584ef6e0c9cf2ada68b237dbbe9f4f1261411713292a08892a3df",
+        "observed_unique_unlabeled_partitions": 279,
+        "observed_unique_labeled_states": 658,
+        "observed_states_from_harness": 1001
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "B_lower_max",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "e642ea246895d44afe6b771a33f93260573313837312b34b0cc977d570b6ae37",
+        "frozen.json": "4e9bdb7be6b1e5c69e5a3263aa87a158c7b53f345a5cc96fb3f7056bb7e79cf8"
+      },
+      "mode": "canonical",
+      "seed": 17,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 0.300210639834404,
+      "memory": {
+        "python_peak_bytes": 1617971,
+        "rss_peak_process_bytes": 113778688,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "read-only sys.settrace existing main, no code patch",
+        "source": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_opt_engine_v741.py",
+        "watched_lines": {
+          "greedy": 243,
+          "anneal": 295,
+          "last": 361
+        },
+        "timing_includes_trace": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 2,
+          "2": 2,
+          "3": 3,
+          "4": 0,
+          "5": 1,
+          "6": 2,
+          "7": 3,
+          "8": 0,
+          "9": 1,
+          "10": 2,
+          "11": 3,
+          "12": 1,
+          "13": 1,
+          "14": 2,
+          "15": 3
+        },
+        "assignment_hash": "74dd3a55d491c9456928cbb0a3712bbd2205b62397b82d0850ab490d4f25c61f",
+        "unlabeled_partition_hash": "2fdf0a5d33d4d0064cfb5c4e414459af696c46128a45eecbb19921fb7449661d",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1050,
+          "1": 1050,
+          "2": 1000,
+          "3": 900
+        },
+        "population_max_relative": 0.1,
+        "population_l1": 200,
+        "population_rms_relative": 0.06123724356957946,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.5026548245743668,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "greedy_accepted": 2,
+        "anneal_accepted": 0,
+        "anneal_attempts": 0,
+        "unique_labeled_states": 3,
+        "unique_unlabeled_partitions": 3,
+        "anneal_hold_transitions": 0,
+        "anneal_transition_count": 0,
+        "population_repair": {
+          "enabled": false,
+          "activation": "NOT_NEEDED",
+          "result": "DISABLED",
+          "hard_population_violations_before": 0,
+          "population_floor_exempt_partitions": [],
+          "district_floor_overrides": {}
+        },
+        "note": "SA holds are not a MarkovChain quality gate; greedy selection not counted as failed proposals"
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "B_lower_max",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "e642ea246895d44afe6b771a33f93260573313837312b34b0cc977d570b6ae37",
+        "frozen.json": "4e9bdb7be6b1e5c69e5a3263aa87a158c7b53f345a5cc96fb3f7056bb7e79cf8"
+      },
+      "mode": "recom",
+      "seed": 17,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 7.397687976947054,
+      "memory": {
+        "python_peak_bytes": 2088457,
+        "rss_peak_process_bytes": 108298240,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "observe existing candidate_rank calls in _run_seed, no modified rank",
+        "timing_includes_observer": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 3,
+          "4": 0,
+          "5": 1,
+          "6": 1,
+          "7": 3,
+          "8": 2,
+          "9": 2,
+          "10": 2,
+          "11": 3,
+          "12": 2,
+          "13": 2,
+          "14": 3,
+          "15": 3
+        },
+        "assignment_hash": "a6369082479c223db0c834a358db2a76304459cf17189c7cea8cbb4ce5cf18eb",
+        "unlabeled_partition_hash": "7e5a6d767b452394aef59ce1b794cece7f3d4a6301bbbba819759f4552b59541",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.6632251157578453,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "seed": 17,
+        "states_observed": 1001,
+        "unique_states": 695,
+        "self_loops": 204,
+        "proposal_failures": 0,
+        "seconds": 7.254873889964074,
+        "rank": [
+          0,
+          0,
+          0.33677488424215474,
+          0.0,
+          0.0,
+          10,
+          0.4375
+        ],
+        "assignment_hash": "cb95dd6e388584ef6e0c9cf2ada68b237dbbe9f4f1261411713292a08892a3df",
+        "observed_unique_unlabeled_partitions": 293,
+        "observed_unique_labeled_states": 695,
+        "observed_states_from_harness": 1001
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "B_lower_max",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "e642ea246895d44afe6b771a33f93260573313837312b34b0cc977d570b6ae37",
+        "frozen.json": "4e9bdb7be6b1e5c69e5a3263aa87a158c7b53f345a5cc96fb3f7056bb7e79cf8"
+      },
+      "mode": "canonical",
+      "seed": 29,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 0.2964877048507333,
+      "memory": {
+        "python_peak_bytes": 1617913,
+        "rss_peak_process_bytes": 113577984,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "read-only sys.settrace existing main, no code patch",
+        "source": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_opt_engine_v741.py",
+        "watched_lines": {
+          "greedy": 243,
+          "anneal": 295,
+          "last": 361
+        },
+        "timing_includes_trace": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 2,
+          "2": 2,
+          "3": 3,
+          "4": 0,
+          "5": 1,
+          "6": 2,
+          "7": 3,
+          "8": 0,
+          "9": 1,
+          "10": 2,
+          "11": 3,
+          "12": 1,
+          "13": 1,
+          "14": 2,
+          "15": 3
+        },
+        "assignment_hash": "74dd3a55d491c9456928cbb0a3712bbd2205b62397b82d0850ab490d4f25c61f",
+        "unlabeled_partition_hash": "2fdf0a5d33d4d0064cfb5c4e414459af696c46128a45eecbb19921fb7449661d",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1050,
+          "1": 1050,
+          "2": 1000,
+          "3": 900
+        },
+        "population_max_relative": 0.1,
+        "population_l1": 200,
+        "population_rms_relative": 0.06123724356957946,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.5026548245743668,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "greedy_accepted": 2,
+        "anneal_accepted": 0,
+        "anneal_attempts": 0,
+        "unique_labeled_states": 3,
+        "unique_unlabeled_partitions": 3,
+        "anneal_hold_transitions": 0,
+        "anneal_transition_count": 0,
+        "population_repair": {
+          "enabled": false,
+          "activation": "NOT_NEEDED",
+          "result": "DISABLED",
+          "hard_population_violations_before": 0,
+          "population_floor_exempt_partitions": [],
+          "district_floor_overrides": {}
+        },
+        "note": "SA holds are not a MarkovChain quality gate; greedy selection not counted as failed proposals"
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "B_lower_max",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "e642ea246895d44afe6b771a33f93260573313837312b34b0cc977d570b6ae37",
+        "frozen.json": "4e9bdb7be6b1e5c69e5a3263aa87a158c7b53f345a5cc96fb3f7056bb7e79cf8"
+      },
+      "mode": "recom",
+      "seed": 29,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 7.572410931112245,
+      "memory": {
+        "python_peak_bytes": 2091712,
+        "rss_peak_process_bytes": 108343296,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "observe existing candidate_rank calls in _run_seed, no modified rank",
+        "timing_includes_observer": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 3,
+          "4": 1,
+          "5": 1,
+          "6": 3,
+          "7": 3,
+          "8": 1,
+          "9": 1,
+          "10": 3,
+          "11": 3,
+          "12": 2,
+          "13": 2,
+          "14": 2,
+          "15": 2
+        },
+        "assignment_hash": "5210b5dc95d5618c790c13aefbce45b07e95cfb504cd1e5a5c7833ab50a93414",
+        "unlabeled_partition_hash": "6bc72cd3e855f242bcab2c17a08d4d58e088280b0cc804974b8f0d6083719c91",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1050,
+          "1": 1050,
+          "2": 950,
+          "3": 950
+        },
+        "population_max_relative": 0.05,
+        "population_l1": 200,
+        "population_rms_relative": 0.05,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.5026548245743668,
+        "polsby_popper_median": 0.7260569688296411,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "seed": 29,
+        "states_observed": 1001,
+        "unique_states": 670,
+        "self_loops": 231,
+        "proposal_failures": 0,
+        "seconds": 7.431939733913168,
+        "rank": [
+          0,
+          10,
+          0.2739430311703589,
+          0.05,
+          0.05,
+          9,
+          0.5625
+        ],
+        "assignment_hash": "3fc909ce69154b92ee2c1403231382674b5ef434d80b46d017ed1ef7a1c0466b",
+        "observed_unique_unlabeled_partitions": 280,
+        "observed_unique_labeled_states": 670,
+        "observed_states_from_harness": 1001
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "B_lower_max",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "e642ea246895d44afe6b771a33f93260573313837312b34b0cc977d570b6ae37",
+        "frozen.json": "4e9bdb7be6b1e5c69e5a3263aa87a158c7b53f345a5cc96fb3f7056bb7e79cf8"
+      },
+      "mode": "canonical",
+      "seed": 43,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 0.2987146438099444,
+      "memory": {
+        "python_peak_bytes": 1617958,
+        "rss_peak_process_bytes": 113909760,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "read-only sys.settrace existing main, no code patch",
+        "source": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_opt_engine_v741.py",
+        "watched_lines": {
+          "greedy": 243,
+          "anneal": 295,
+          "last": 361
+        },
+        "timing_includes_trace": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 0,
+          "1": 2,
+          "2": 2,
+          "3": 3,
+          "4": 0,
+          "5": 1,
+          "6": 2,
+          "7": 3,
+          "8": 0,
+          "9": 1,
+          "10": 2,
+          "11": 3,
+          "12": 1,
+          "13": 1,
+          "14": 2,
+          "15": 3
+        },
+        "assignment_hash": "74dd3a55d491c9456928cbb0a3712bbd2205b62397b82d0850ab490d4f25c61f",
+        "unlabeled_partition_hash": "2fdf0a5d33d4d0064cfb5c4e414459af696c46128a45eecbb19921fb7449661d",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1050,
+          "1": 1050,
+          "2": 1000,
+          "3": 900
+        },
+        "population_max_relative": 0.1,
+        "population_l1": 200,
+        "population_rms_relative": 0.06123724356957946,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.5026548245743668,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "greedy_accepted": 2,
+        "anneal_accepted": 0,
+        "anneal_attempts": 0,
+        "unique_labeled_states": 3,
+        "unique_unlabeled_partitions": 3,
+        "anneal_hold_transitions": 0,
+        "anneal_transition_count": 0,
+        "population_repair": {
+          "enabled": false,
+          "activation": "NOT_NEEDED",
+          "result": "DISABLED",
+          "hard_population_violations_before": 0,
+          "population_floor_exempt_partitions": [],
+          "district_floor_overrides": {}
+        },
+        "note": "SA holds are not a MarkovChain quality gate; greedy selection not counted as failed proposals"
+      },
+      "observed_states_with_hard_violations": 0
+    },
+    {
+      "schema": "ddd.nacho-validation-e2-run/1.0",
+      "fixture": "B_lower_max",
+      "fixture_sha256": {
+        "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+        "initial.geojson": "e642ea246895d44afe6b771a33f93260573313837312b34b0cc977d570b6ae37",
+        "frozen.json": "4e9bdb7be6b1e5c69e5a3263aa87a158c7b53f345a5cc96fb3f7056bb7e79cf8"
+      },
+      "mode": "recom",
+      "seed": 43,
+      "status": "PASS",
+      "error": null,
+      "seconds_engine_including_io_instrumentation": 7.461407326860353,
+      "memory": {
+        "python_peak_bytes": 2090273,
+        "rss_peak_process_bytes": 108347392,
+        "rss_includes": "imports and common preparedbaseline, native libs"
+      },
+      "instrumentation": {
+        "type": "observe existing candidate_rank calls in _run_seed, no modified rank",
+        "timing_includes_observer": true
+      },
+      "source_sha256": {
+        "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+        "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+        "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+        "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+      },
+      "metrics": {
+        "assignment": {
+          "0": 1,
+          "1": 2,
+          "2": 2,
+          "3": 0,
+          "4": 1,
+          "5": 2,
+          "6": 2,
+          "7": 0,
+          "8": 3,
+          "9": 3,
+          "10": 3,
+          "11": 0,
+          "12": 3,
+          "13": 3,
+          "14": 0,
+          "15": 0
+        },
+        "assignment_hash": "b5be1705f45477e693da8af27b27b7ee177ec407aeb8bf1c65b10d58000b3185",
+        "unlabeled_partition_hash": "7e5a6d767b452394aef59ce1b794cece7f3d4a6301bbbba819759f4552b59541",
+        "hard_violations": [],
+        "independent_fixture_violations": [],
+        "K": 4,
+        "population": 4000,
+        "district_populations": {
+          "0": 1000,
+          "1": 1000,
+          "2": 1000,
+          "3": 1000
+        },
+        "population_max_relative": 0.0,
+        "population_l1": 0,
+        "population_rms_relative": 0.0,
+        "outside_target_tolerance": 0,
+        "graph_connected_districts": 4,
+        "physical_connected_districts": 4,
+        "municipalities_split": 0,
+        "municipality_count": 16,
+        "atomic_units": 16,
+        "closed_urban_districts": 0,
+        "geometry_preserved_exact": true,
+        "polsby_popper_min": 0.4363323129985824,
+        "polsby_popper_median": 0.6632251157578453,
+        "comarca_retention": 1.0,
+        "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+      },
+      "search": {
+        "seed": 43,
+        "states_observed": 1001,
+        "unique_states": 677,
+        "self_loops": 202,
+        "proposal_failures": 0,
+        "seconds": 7.321367040043697,
+        "rank": [
+          0,
+          0,
+          0.33677488424215474,
+          0.0,
+          0.0,
+          10,
+          0.875
+        ],
+        "assignment_hash": "0eac3371aa1ac2b8cd199ea9b0f3327aef23d35d48e36a32eab2ad9642ec6d0e",
+        "observed_unique_unlabeled_partitions": 273,
+        "observed_unique_labeled_states": 677,
+        "observed_states_from_harness": 1001
+      },
+      "observed_states_with_hard_violations": 0
+    }
+  ],
+  "runtime": "existing /private/tmp/madrid-gerrychain-venv; no installation",
+  "budget_comparability": "Same10s engine wall/20s process/640MiB measuredpeak,1000SAattempts vs1000chaintransitions plus up to100greedy moves. Not equivalent work and neither forced to exhaust wall budget.",
+  "fixture_scope": "two16section synthetic initial assignments already frozen, no territorial generalization",
+  "decision": "MEJORA_DEMOSTRADA",
+  "decision_scope": "Comparaci\u00f3n a mismos topes m\u00e1ximos, sin equivalencia de tiempo gastado ni ley de propuestas; no evidencia de reparaci\u00f3n duraA2",
+  "a2_decision": "SIN_VENTAJA_DEMOSTRADA",
+  "summary": {
+    "A_lower_L1": {
+      "canonical": {
+        "median_engine_seconds": 0.6072222520597279,
+        "median_python_peak_bytes": 1618020,
+        "max_rss_peak_bytes": 113586176,
+        "max_relative_deviation_by_seed": {
+          "17": 0.0,
+          "29": 0.0,
+          "43": 0.0
+        },
+        "median_polsby_popper": 0.46949356878647464
+      },
+      "recom": {
+        "median_engine_seconds": 7.556244870880619,
+        "median_python_peak_bytes": 2089307,
+        "max_rss_peak_bytes": 108343296,
+        "max_relative_deviation_by_seed": {
+          "17": 0.0,
+          "29": 0.0,
+          "43": 0.0
+        },
+        "median_polsby_popper": 0.6632251157578453
+      }
+    },
+    "B_lower_max": {
+      "canonical": {
+        "median_engine_seconds": 0.2987146438099444,
+        "median_python_peak_bytes": 1617958,
+        "max_rss_peak_bytes": 113909760,
+        "max_relative_deviation_by_seed": {
+          "17": 0.1,
+          "29": 0.1,
+          "43": 0.1
+        },
+        "median_polsby_popper": 0.5026548245743668
+      },
+      "recom": {
+        "median_engine_seconds": 7.461407326860353,
+        "median_python_peak_bytes": 2090273,
+        "max_rss_peak_bytes": 108347392,
+        "max_relative_deviation_by_seed": {
+          "17": 0.0,
+          "29": 0.05,
+          "43": 0.0
+        },
+        "median_polsby_popper": 0.6632251157578453
+      }
+    }
+  },
+  "pairs": [
+    {
+      "fixture": "A_lower_L1",
+      "seed": 17,
+      "population_max_improves": false,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 12.449650751651285
+    },
+    {
+      "fixture": "A_lower_L1",
+      "seed": 29,
+      "population_max_improves": false,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 12.598680518578854
+    },
+    {
+      "fixture": "A_lower_L1",
+      "seed": 43,
+      "population_max_improves": false,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 12.423400190602935
+    },
+    {
+      "fixture": "B_lower_max",
+      "seed": 17,
+      "population_max_improves": true,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 24.64165820714287
+    },
+    {
+      "fixture": "B_lower_max",
+      "seed": 29,
+      "population_max_improves": true,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 25.540387703174993
+    },
+    {
+      "fixture": "B_lower_max",
+      "seed": 43,
+      "population_max_improves": true,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 24.978378132702574
+    }
+  ]
+}

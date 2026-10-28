@@ -1,0 +1,263 @@
+{
+  "candidate_sha256": "064a32bce09aeafa4ecfd4e0d88e358f9e0cdf820e2dd805caee15180e58a602",
+  "witness_sha256": "6e832b1c6f35891d104f04ffdeedcb1fd7c7481a3598015b42aaf43f61d6091a",
+  "checkpoint_sha256": "6a5181ddeca846dae3afde8e560ac51077d30ca82a09c85277d57406fe289d9c",
+  "termination": "FIRST_WITNESS_PREFIX_NOT_SELECTED",
+  "elapsed_to_capture_seconds": 35.44724897714332,
+  "events": [
+    {
+      "validator_attempt": 1,
+      "validator_result": true,
+      "reason": "VALID",
+      "checks": {
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          1,
+          23321
+        ],
+        "hard_signature_after": [
+          1,
+          23321
+        ]
+      }
+    },
+    {
+      "wave": 1,
+      "witness_step": 1,
+      "expected_parent_in_frontier": true,
+      "candidate_count": 49,
+      "frontier_count": 1,
+      "ceiling": 128,
+      "candidate_attempts_cumulative": 297,
+      "unique_generated_cumulative": 49,
+      "states_discovered_cumulative": 50,
+      "states_expanded_cumulative": 1,
+      "deduplicated_cumulative": 0,
+      "target_in_candidates": true,
+      "target_in_selected": true,
+      "target_parent_matches_expected": true,
+      "target_parent_existing_record": "80857e150a00012f113a09455016821e087d101d14800e1e128080281e801221807e8080167d087e080e167f801f1a031203251e13081b0e03121a0312041a0c5b66718212248080800f7c020d197e7f8080801c190b182329088080052a3435363738393b3c3d3e2b3f4041424344464748492c4a4b4c4d4e4f515253542d55565758595a5c5d5e5f2e6061626364656768696a306b6c6d6e6f70313233277e7d227e807f80141c12817273741e7e041580030808081a847576807e1612087e078017088080217e8080867780038006781682227f1f162079037d7d800e16807e800812857a7b1919801c8008127d128003042682808008081d808012167d1216030424210812218003808083",
+      "expected_move": [
+        [
+          "28:28162:M"
+        ],
+        95,
+        93
+      ],
+      "expected_hard_after": [
+        1,
+        23321
+      ]
+    },
+    {
+      "validator_attempt": 2,
+      "validator_result": true,
+      "reason": "VALID",
+      "checks": {
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          1,
+          23321
+        ],
+        "hard_signature_after": [
+          1,
+          23321
+        ]
+      }
+    },
+    {
+      "wave": 2,
+      "witness_step": 2,
+      "expected_parent_in_frontier": true,
+      "candidate_count": 1195,
+      "frontier_count": 49,
+      "ceiling": 128,
+      "candidate_attempts_cumulative": 14882,
+      "unique_generated_cumulative": 1244,
+      "states_discovered_cumulative": 1245,
+      "states_expanded_cumulative": 50,
+      "deduplicated_cumulative": 1201,
+      "target_in_candidates": true,
+      "target_in_selected": true,
+      "target_parent_matches_expected": true,
+      "target_parent_existing_record": "80857e150a00012f113a09455016821e087d101d14800e1e128080281e801221807e8080167d087e080e167f801f1a031203251e13081b0e03121a0312041a0c5b66718212248080800f7c020d197e7f8080801c190b182329088080052a3435363738393b3c3d3e2b3f4041424344464748492c4a4b4c4d4e4f515253542d55565758595a5c5d5e5f2e6061626364656768696a306b6c6d6e6f70313233277e7d227e807f80141c12817273741e7e041580030808081a847576807e1612087e078017088080217e8080867780038006781682227f1f162079037d7d800e16807e800812857a7b1919801c8008127d128003042680808008081d808012167d1216030424210812218003808083",
+      "expected_move": [
+        [
+          "28:28086:M"
+        ],
+        93,
+        91
+      ],
+      "expected_hard_after": [
+        1,
+        23321
+      ]
+    },
+    {
+      "validator_attempt": 3,
+      "validator_result": true,
+      "reason": "VALID",
+      "checks": {
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          1,
+          23321
+        ],
+        "hard_signature_after": [
+          1,
+          23321
+        ]
+      }
+    },
+    {
+      "wave": 3,
+      "witness_step": 3,
+      "expected_parent_in_frontier": true,
+      "candidate_count": 4874,
+      "frontier_count": 128,
+      "ceiling": 128,
+      "candidate_attempts_cumulative": 53058,
+      "unique_generated_cumulative": 6118,
+      "states_discovered_cumulative": 6119,
+      "states_expanded_cumulative": 178,
+      "deduplicated_cumulative": 2554,
+      "target_in_candidates": true,
+      "target_in_selected": true,
+      "target_parent_matches_expected": true,
+      "target_parent_existing_record": "80857e150a00012f113a09455016821e087d101d14800e1e128080281e801221807e8080167d087e080e167f801f1a031203251e13081b0e03121a0312041a0c5b66718212248080800f7c020d197e7f8080801c190b182329088080052a3435363738393b3c3d3e2b3f4041424344464748492c4a4b4c4d4e4f515253542d55565758595a5c5d5e5f2e6061626364656768696a306b6c6d6e6f70313233277e7d227e7e7f80141c12817273741e7e041580030808081a847576807e1612087e078017088080217e8080867780038006781682227f1f162079037d7d800e16807e800812857a7b1919801c8008127d128003042680808008081d808012167d1216030424210812218003808083",
+      "expected_move": [
+        [
+          "28:28082:M"
+        ],
+        91,
+        125
+      ],
+      "expected_hard_after": [
+        1,
+        23321
+      ]
+    },
+    {
+      "validator_attempt": 4,
+      "validator_result": true,
+      "reason": "VALID",
+      "checks": {
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          1,
+          23321
+        ],
+        "hard_signature_after": [
+          1,
+          23321
+        ]
+      }
+    },
+    {
+      "wave": 4,
+      "witness_step": 4,
+      "expected_parent_in_frontier": true,
+      "candidate_count": 5264,
+      "frontier_count": 128,
+      "ceiling": 128,
+      "candidate_attempts_cumulative": 91414,
+      "unique_generated_cumulative": 11382,
+      "states_discovered_cumulative": 11383,
+      "states_expanded_cumulative": 306,
+      "deduplicated_cumulative": 3459,
+      "target_in_candidates": true,
+      "target_in_selected": true,
+      "target_parent_matches_expected": true,
+      "target_parent_existing_record": "80857e150a00012f113a09455016821e087d101d14800e1e128080281e801221807e8080167d087e080e167f801f1a031203251e13081b0e03121a0312041a0c5b66718212248080800f7c020d197e7f8080801c190b182329088080052a3435363738393b3c3d3e2b3f4041424344464748492c4a4b4c4d4e4f515253542d55565758595a5c5d5e5f2e6061626364656768696a306b6c6d6e6f70313233271e7d227e7e7f80141c12817273741e7e041580030808081a847576807e1612087e078017088080217e8080867780038006781682227f1f162079037d7d800e16807e800812857a7b1919801c8008127d128003042680808008081d808012167d1216030424210812218003808083",
+      "expected_move": [
+        [
+          "28:28120:M"
+        ],
+        91,
+        125
+      ],
+      "expected_hard_after": [
+        1,
+        23321
+      ]
+    },
+    {
+      "validator_attempt": 5,
+      "validator_result": true,
+      "reason": "VALID",
+      "checks": {
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          1,
+          23321
+        ],
+        "hard_signature_after": [
+          1,
+          23321
+        ]
+      }
+    },
+    {
+      "wave": 5,
+      "witness_step": 5,
+      "expected_parent_in_frontier": true,
+      "candidate_count": 4685,
+      "frontier_count": 128,
+      "ceiling": 128,
+      "candidate_attempts_cumulative": 129777,
+      "unique_generated_cumulative": 16067,
+      "states_discovered_cumulative": 16068,
+      "states_expanded_cumulative": 434,
+      "deduplicated_cumulative": 4673,
+      "target_in_candidates": true,
+      "target_in_selected": false,
+      "target_parent_matches_expected": true,
+      "target_parent_existing_record": "80857e150a00012f113a09455016821e087d101d14800e1e128080281e801221807e8080167d087e080e167f801f1a031203251e13081b0e03121a0312041a0c5b66718212248080800f7c020d197e7f8080801c190b182329088080052a3435363738393b3c3d3e2b3f4041424344464748492c4a4b4c4d4e4f515253542d55565758595a5c5d5e5f2e6061626364656768696a306b6c6d6e6f70313233271e7d227e7e7f80141c12817273741e7e041580030808081a847576807e1612087e078017088080211e8080867780038006781682227f1f162079037d7d800e16807e800812857a7b1919801c8008127d128003042680808008081d808012167d1216030424210812218003808083",
+      "expected_move": [
+        [
+          "28:28003:M"
+        ],
+        91,
+        125
+      ],
+      "expected_hard_after": [
+        1,
+        23321
+      ]
+    }
+  ],
+  "witness_move_validation": {
+    "count": 82,
+    "all_valid": true,
+    "final_hard": [
+      0,
+      0
+    ],
+    "final_assignment_matches": true
+  }
+}

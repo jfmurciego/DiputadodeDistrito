@@ -1,0 +1,10 @@
+{
+  "expected_districts": 4,
+  "target_tolerance_ratio": 0.12,
+  "population_floor_ratio": 0.8,
+  "population_cap_ratio": 1.75,
+  "province_districts": {
+    "01": 4
+  },
+  "require_graph_contiguity": true
+}

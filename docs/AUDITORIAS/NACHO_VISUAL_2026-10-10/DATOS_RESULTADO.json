@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "status": "PASS_STATIC_ONLY",
+  "prior_manifest_files": 201,
+  "candidates": {
+    "A_lower_L1": {
+      "population": [
+        1150,
+        950,
+        950,
+        950
+      ],
+      "assignment_sha256": "b2589fa8b94eb36ba57f00fdcdb5cab38248f11b760f4848e191fe7a5ec87f83",
+      "violations": [],
+      "municipality_splits": 0
+    },
+    "B_lower_max": {
+      "population": [
+        1100,
+        1100,
+        900,
+        900
+      ],
+      "assignment_sha256": "06bd071b587ce8bea12912663ad6392c76d22b87c9aa5d4d73adbca29c67979e",
+      "violations": [],
+      "municipality_splits": 0
+    },
+    "C_hard_invalid": {
+      "population": [
+        2000,
+        100,
+        950,
+        950
+      ],
+      "assignment_sha256": "2b212d9089dbb303e0f5c343e3508122d35126665b3f26faaf83283b21ab8987",
+      "violations": [
+        "population_cap:0",
+        "population_tolerance:0",
+        "population_floor:1",
+        "population_tolerance:1"
+      ],
+      "municipality_splits": 0
+    }
+  },
+  "html_csv_rows": 12,
+  "svg_sections": 32,
+  "links_exist": [
+    "comparison.csv",
+    "provenance.json",
+    "gallery/index.html"
+  ],
+  "render_browser": false,
+  "console_checked": false,
+  "exceptions_exercised": false,
+  "scope": "Frozen input/HTML/CSV/GeoJSON consistency; no engines, no browser simulation"
+}

@@ -1,0 +1,108 @@
+{
+  "budget": {
+    "max_candidates_under_test": 50,
+    "max_wall_seconds": 60,
+    "runs_per_variant": 5
+  },
+  "code": {
+    "legacy_v732_sha256": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c",
+    "m02_sha256": "7e588c5454620bbca18d27ed49c670f6740a20aa40031bae128716c40bc6a42f"
+  },
+  "comparisons": {
+    "current_max50_extra_edges": [],
+    "current_max50_missing_edges": [],
+    "legacy_v732_max50_missing_edges": [
+      [
+        "LBIG",
+        "RBIG"
+      ]
+    ],
+    "prototype_deterministic": true,
+    "prototype_equals_exhaustive": true
+  },
+  "fixture": {
+    "crs": "EPSG:3035",
+    "features": 114,
+    "hole_fill_sections": 112,
+    "large_adjacent_sections": 2,
+    "purpose": "adversarial candidate-cap completeness fixture; synthetic and not a territorial input"
+  },
+  "limitations": [
+    "Synthetic adversarial fixture only; authentic M01 geometry is unavailable locally.",
+    "Peak Python allocations exclude GEOS/native allocations and are not a process RSS measurement.",
+    "No authentic territorial runtime, RSS, serialization or topology result is claimed."
+  ],
+  "runtime": {
+    "geopandas": "1.1.2",
+    "python": "3.13.12",
+    "shapely": "2.1.2"
+  },
+  "schema": "ddd.a-opt-01.synthetic-benchmark.v1",
+  "variants": {
+    "legacy_v7_3_2_max_candidates_50": {
+      "edges": [],
+      "median_s": 0.1392326610002783,
+      "peak_python_bytes": 97475,
+      "times_s": [
+        0.1392326610002783,
+        0.1436551459992188,
+        0.1442427330002829,
+        0.1373797550004383,
+        0.13693756999782636
+      ]
+    },
+    "m02_exhaustive": {
+      "edges": [
+        [
+          "LBIG",
+          "RBIG"
+        ]
+      ],
+      "median_s": 0.127159390001907,
+      "peak_python_bytes": 219830,
+      "times_s": [
+        0.1277573309998843,
+        0.12883988600151497,
+        0.12374647999968147,
+        0.127159390001907,
+        0.12185291100104223
+      ]
+    },
+    "m02_max_candidates_50": {
+      "edges": [
+        [
+          "LBIG",
+          "RBIG"
+        ]
+      ],
+      "median_s": 0.11883971100178314,
+      "peak_python_bytes": 90508,
+      "times_s": [
+        0.11695150400191778,
+        0.11950038400027552,
+        0.11883971100178314,
+        0.12129823600116652,
+        0.11750575500263949
+      ]
+    },
+    "strtree_exact_prototype": {
+      "candidate_pairs": 1,
+      "edges": [
+        [
+          "LBIG",
+          "RBIG"
+        ]
+      ],
+      "exact_predicate_checks": 1,
+      "median_s": 0.005625235997285927,
+      "peak_python_bytes": 16669,
+      "times_s": [
+        0.005496907000633655,
+        0.005625235997285927,
+        0.006664865002676379,
+        0.005740897999203298,
+        0.005363636999391019
+      ]
+    }
+  }
+}

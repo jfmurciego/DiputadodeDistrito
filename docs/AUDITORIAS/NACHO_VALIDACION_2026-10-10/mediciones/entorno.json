@@ -1,0 +1,22 @@
+{
+  "python": "3.11.4 (v3.11.4:d2340ef257, Jun  6 2023, 19:15:51) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "executable": "/private/tmp/madrid-gerrychain-venv/bin/python",
+  "platform": "macOS-11.7.11-x86_64-i386-64bit",
+  "versions": {
+    "gerrychain": "1.0.0",
+    "geopandas": "1.1.4",
+    "shapely": "2.1.2",
+    "networkx": "3.6.1",
+    "pandas": "3.0.5",
+    "pyogrio": "0.8.0",
+    "rustworkx": "0.18.1",
+    "pyproj": "3.7.2",
+    "PyYAML": "6.0.2"
+  },
+  "packages_installed_this_task": false,
+  "runtime_check": "require_runtime PASS, no altered requirement files",
+  "env_for_runs": {
+    "PYTHONHASHSEED": "0",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  }
+}

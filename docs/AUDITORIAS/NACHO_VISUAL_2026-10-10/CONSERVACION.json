@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "status": "PASS",
+  "head_unchanged": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "files_checked": 2098,
+  "files_changed": [],
+  "prior_git_status_preserved": true,
+  "prior_investigation_manifest_files": 201,
+  "new_files_only": "docs/AUDITORIAS/NACHO_VISUAL_2026-10-10",
+  "script_ast": "PASS",
+  "git_diff_check": "PASS",
+  "commit_created": false,
+  "engines_executed": false,
+  "browser_screenshots": 0
+}

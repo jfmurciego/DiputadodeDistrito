@@ -1,0 +1,116 @@
+{
+  "module": "05",
+  "version": "7.4.1",
+  "K": 4,
+  "total_pop": 4000,
+  "target": 1000.0,
+  "population_floor": 800.0,
+  "population_cap": 1750.0,
+  "tolerance_absolute": 120.0,
+  "objective_start": [
+    0,
+    0.0,
+    1,
+    0.15,
+    0.03
+  ],
+  "objective_after_greedy": [
+    0,
+    0.0,
+    0,
+    0.05,
+    0.005
+  ],
+  "objective_final": [
+    0,
+    0.0,
+    0,
+    0.0,
+    0.0
+  ],
+  "population_baseline_status": "PASS",
+  "population_status_by_district": {
+    "0": {
+      "population": 1000,
+      "floor": 800.0,
+      "cap": 1750.0,
+      "population_status": "PASS"
+    },
+    "1": {
+      "population": 1000,
+      "floor": 800.0,
+      "cap": 1750.0,
+      "population_status": "PASS"
+    },
+    "2": {
+      "population": 1000,
+      "floor": 800.0,
+      "cap": 1750.0,
+      "population_status": "PASS"
+    },
+    "3": {
+      "population": 1000,
+      "floor": 800.0,
+      "cap": 1750.0,
+      "population_status": "PASS"
+    }
+  },
+  "districts_below_floor": 0,
+  "population_floor_exempt_partitions": [],
+  "districts_above_cap": 0,
+  "districts_outside_tolerance": 0,
+  "best_max_rel_dev": 0.0,
+  "accepted_unit_moves": 59,
+  "accepted_greedy_moves": 3,
+  "accepted_annealing_moves": 56,
+  "final_changed_units": 7,
+  "atomic_units": 16,
+  "initial_candidate_relations": 24,
+  "active_provinces": [
+    "01"
+  ],
+  "anneal_iterations_executed": 1000,
+  "first_feasible_iteration": 0,
+  "objective_first_feasible": [
+    0,
+    0.0,
+    0,
+    0.05,
+    0.005
+  ],
+  "post_feasible_iterations": 1000,
+  "anneal_start_objective": [
+    0,
+    0.0,
+    0,
+    0.05,
+    0.005
+  ],
+  "anneal_start_energy": 0.012300000000000002,
+  "anneal_best_energy": 0.0112,
+  "anneal_parameters": {
+    "outside_penalty": 0.01,
+    "maxdev_weight": 0.05,
+    "churn_weight": 0.0016,
+    "temp_start": 0.02,
+    "temp_end": 0.0005,
+    "seed": 17,
+    "iters": 1000
+  },
+  "province_violations": [],
+  "seed": 17,
+  "wrapper_version": "7.7.2",
+  "swap_polish": {
+    "enabled": false,
+    "max_swaps": 0,
+    "accepted_swaps": 0
+  },
+  "population_repair": {
+    "enabled": false,
+    "activation": "NOT_NEEDED",
+    "result": "DISABLED",
+    "hard_population_violations_before": 0,
+    "population_floor_exempt_partitions": [],
+    "district_floor_overrides": {}
+  }
+}

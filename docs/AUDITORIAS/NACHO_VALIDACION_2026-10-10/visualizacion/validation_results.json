@@ -1,0 +1,125 @@
+{
+  "schema": "ddd.nacho-visual-validation/1.0",
+  "scope": "existing frozen candidates only; diagnostic function, not generation or production visor",
+  "assembler_seconds": 0.001142609165981412,
+  "gallery_build_seconds": 0.002677394775673747,
+  "browser_gallery": {
+    "status": "BLOCKED_SANDBOX",
+    "reason": "Chrome crashpad bootstrap EPERM; ps EPERM. Prior attempt preserved in gallery_dom.stderr.log. No browser DOM/render."
+  },
+  "real_app_js_with_MapLibre_stub_DOM": null,
+  "browser_diagnostic": {
+    "status": "NOT_EXECUTED",
+    "reason": "Same documented sandbox block; no second browser attempted."
+  },
+  "diagnostic_offline_checks": {
+    "two_svg_maps": true,
+    "has_floor_cap_tolerance": true,
+    "has_rejected_C": true,
+    "has_population_2000_100": true,
+    "has_explanation_Pareto": true,
+    "has_split_municipalities": true
+  },
+  "source_and_production_files_unchanged": true,
+  "original_ranking_unchanged": true,
+  "C_excluded_from_selection": true,
+  "baseline_missing_diagnostic_features": [
+    "district population table",
+    "floor/cap/tolerance shown",
+    "municipal splits shown",
+    "invalid causes shown",
+    "selection objective explanation",
+    "config/assignment hashes visible"
+  ],
+  "classification": "MEJORA_DEMOSTRADA",
+  "classification_scope": "additional diagnostic information on frozen fixture, never algorithm benefit or approval to implement",
+  "offline_checks_are": "Static HTML checks, not rendered browser DOM",
+  "process_peak_RSS_bytes": 43626496,
+  "python": "3.11.4 (v3.11.4:d2340ef257, Jun  6 2023, 19:15:51) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "platform": "macOS-11.7.11-x86_64-i386-64bit",
+  "seconds_total": 0.07311954000033438,
+  "javascript_runtime_simulation": {
+    "runtime": "local JavaScriptCore",
+    "DOM": "simulated",
+    "MapLibre": "simulated; no map rendered",
+    "initialCards": 2,
+    "initialIDs": [
+      "A_lower_L1",
+      "B_lower_max"
+    ],
+    "invalidOptionsAbsent": true,
+    "initialComparison": [
+      "A_lower_L1",
+      "B_lower_max"
+    ],
+    "paretoIDs": [
+      "B_lower_max"
+    ],
+    "selected": "B_lower_max",
+    "downloaded": [
+      {
+        "schema": "ddd.selection/1.0",
+        "territory_id": "SYNTHETIC",
+        "prepared_bundle_id": "synthetic-grid",
+        "candidate_id": "B_lower_max",
+        "reviewer": "DIAGNOSTIC_ONLY",
+        "justification": "No authorized promotion",
+        "status": "SELECTED_FOR_PROMOTION"
+      }
+    ],
+    "visibleLabels": [
+      "Desviación población",
+      "PP mediana",
+      "Elongación máx.",
+      "Retención comarca",
+      "Comarcas divididas",
+      "Alertas corredor",
+      "Desviación población",
+      "PP mediana",
+      "Elongación máx.",
+      "Retención comarca",
+      "Comarcas divididas",
+      "Alertas corredor"
+    ],
+    "visibleText": " A_lower_L1  controlled · semilla 0   Desviación población  0.150    PP mediana  0.503    Elongación máx.  4.000    Retención comarca  1.000    Comarcas divididas  0    Alertas corredor  0    Abrir GeoJSON   Seleccionar   B_lower_max  controlled · semilla 0   Desviación población  0.100    PP mediana  0.503    Elongación máx.  4.000    Retención comarca  1.000    Comarcas divididas  0    Alertas corredor  0    Abrir GeoJSON   Seleccionar ",
+    "maps": [
+      {
+        "container": "mapA",
+        "featureCount": 16
+      },
+      {
+        "container": "mapB",
+        "featureCount": 16
+      }
+    ],
+    "objectiveExplanationVisible": false,
+    "floorCapVisible": false,
+    "invalidCausesVisible": false,
+    "perDistrictPopulationVisible": false,
+    "offline_diagnostic_toggle_checks": {
+      "DOM": "simulated",
+      "section_boundary_toggle": true,
+      "rejected_candidate_show_hide": true
+    }
+  },
+  "javascript_execution": {
+    "command": [
+      "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc",
+      "/private/tmp/ddd-nacho-validacion3-20261010/dom_simulation.js"
+    ],
+    "seconds": 0.017930399859324098,
+    "exit_code": 0,
+    "peak_child_RSS_bytes": 4599808,
+    "memory_limit_DATA_bytes": 671088640,
+    "timeout_seconds": 60,
+    "DOM_simulated": true,
+    "MapLibre_simulated": true,
+    "render_browser": false
+  },
+  "classifications": {
+    "diagnostic_information": "MEJORA_DEMOSTRADA",
+    "existing_selection_ranking": "SIN_VENTAJA_DEMOSTRADA",
+    "algorithm": "NO_EVALUABLE",
+    "browser_render_usability": "NO_EVALUABLE"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc",
+    "/private/tmp/ddd-nacho-validacion3-20261010/visor_check.js"
+  ],
+  "seconds": 0.03892389009706676,
+  "exit_code": 0,
+  "peak_child_RSS_bytes": 5197824,
+  "timeout_seconds": 60,
+  "memory_DATA_limit_bytes": 671088640,
+  "source_sha256": {
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/visor/app.js": "d8451aea3eee94e14693308e8761c4ce727870d2b01c20894ae0aed8fae3619a",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/visor/index.html": "7e7b4247109efadfe78dbc5d0426ff5ef27a03e3655c992e6b4ccb16db561f9a"
+  },
+  "extraction_source_lines": {
+    "helpers": [
+      11,
+      13
+    ],
+    "districtHtml": [
+      69,
+      77
+    ]
+  },
+  "extraction_sha256": "88df5cc52088544315fc52d24d660b529f4a2bf375cd3a69979b119ffdf2e7c5",
+  "source_unchanged": true,
+  "render_browser": false,
+  "new_territorial_candidates": false,
+  "cases": 12
+}

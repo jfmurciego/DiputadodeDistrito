@@ -1,0 +1,630 @@
+{
+  "type": "FeatureCollection",
+  "synthetic_crs": "LOCAL:CARTESIAN_FIXTURE",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "0",
+        "district_id": 0,
+        "population": 950,
+        "municipality": "0",
+        "ddd_unit_id": "0",
+        "comarca": "0",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              1.0,
+              1.0
+            ],
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              1.0,
+              0.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "1",
+        "district_id": 1,
+        "population": 100,
+        "municipality": "1",
+        "ddd_unit_id": "1",
+        "comarca": "1",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.0,
+              0.0
+            ],
+            [
+              2.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0
+            ],
+            [
+              2.0,
+              0.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "2",
+        "district_id": 2,
+        "population": 50,
+        "municipality": "2",
+        "ddd_unit_id": "2",
+        "comarca": "2",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              3.0,
+              0.0
+            ],
+            [
+              3.0,
+              1.0
+            ],
+            [
+              2.0,
+              1.0
+            ],
+            [
+              2.0,
+              0.0
+            ],
+            [
+              3.0,
+              0.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "3",
+        "district_id": 3,
+        "population": 50,
+        "municipality": "3",
+        "ddd_unit_id": "3",
+        "comarca": "3",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4.0,
+              0.0
+            ],
+            [
+              4.0,
+              1.0
+            ],
+            [
+              3.0,
+              1.0
+            ],
+            [
+              3.0,
+              0.0
+            ],
+            [
+              4.0,
+              0.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "4",
+        "district_id": 0,
+        "population": 50,
+        "municipality": "4",
+        "ddd_unit_id": "4",
+        "comarca": "4",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              2.0
+            ],
+            [
+              0.0,
+              2.0
+            ],
+            [
+              0.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "5",
+        "district_id": 1,
+        "population": 800,
+        "municipality": "5",
+        "ddd_unit_id": "5",
+        "comarca": "5",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.0,
+              1.0
+            ],
+            [
+              2.0,
+              2.0
+            ],
+            [
+              1.0,
+              2.0
+            ],
+            [
+              1.0,
+              1.0
+            ],
+            [
+              2.0,
+              1.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "6",
+        "district_id": 2,
+        "population": 50,
+        "municipality": "6",
+        "ddd_unit_id": "6",
+        "comarca": "6",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              3.0,
+              1.0
+            ],
+            [
+              3.0,
+              2.0
+            ],
+            [
+              2.0,
+              2.0
+            ],
+            [
+              2.0,
+              1.0
+            ],
+            [
+              3.0,
+              1.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "7",
+        "district_id": 3,
+        "population": 50,
+        "municipality": "7",
+        "ddd_unit_id": "7",
+        "comarca": "7",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4.0,
+              1.0
+            ],
+            [
+              4.0,
+              2.0
+            ],
+            [
+              3.0,
+              2.0
+            ],
+            [
+              3.0,
+              1.0
+            ],
+            [
+              4.0,
+              1.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "8",
+        "district_id": 0,
+        "population": 50,
+        "municipality": "8",
+        "ddd_unit_id": "8",
+        "comarca": "8",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1.0,
+              2.0
+            ],
+            [
+              1.0,
+              3.0
+            ],
+            [
+              0.0,
+              3.0
+            ],
+            [
+              0.0,
+              2.0
+            ],
+            [
+              1.0,
+              2.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "9",
+        "district_id": 1,
+        "population": 150,
+        "municipality": "9",
+        "ddd_unit_id": "9",
+        "comarca": "9",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.0,
+              2.0
+            ],
+            [
+              2.0,
+              3.0
+            ],
+            [
+              1.0,
+              3.0
+            ],
+            [
+              1.0,
+              2.0
+            ],
+            [
+              2.0,
+              2.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "10",
+        "district_id": 2,
+        "population": 700,
+        "municipality": "10",
+        "ddd_unit_id": "10",
+        "comarca": "10",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              3.0,
+              2.0
+            ],
+            [
+              3.0,
+              3.0
+            ],
+            [
+              2.0,
+              3.0
+            ],
+            [
+              2.0,
+              2.0
+            ],
+            [
+              3.0,
+              2.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "11",
+        "district_id": 3,
+        "population": 50,
+        "municipality": "11",
+        "ddd_unit_id": "11",
+        "comarca": "11",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4.0,
+              2.0
+            ],
+            [
+              4.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              2.0
+            ],
+            [
+              4.0,
+              2.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "12",
+        "district_id": 0,
+        "population": 50,
+        "municipality": "12",
+        "ddd_unit_id": "12",
+        "comarca": "12",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1.0,
+              3.0
+            ],
+            [
+              1.0,
+              4.0
+            ],
+            [
+              0.0,
+              4.0
+            ],
+            [
+              0.0,
+              3.0
+            ],
+            [
+              1.0,
+              3.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "13",
+        "district_id": 1,
+        "population": 50,
+        "municipality": "13",
+        "ddd_unit_id": "13",
+        "comarca": "13",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              2.0,
+              3.0
+            ],
+            [
+              2.0,
+              4.0
+            ],
+            [
+              1.0,
+              4.0
+            ],
+            [
+              1.0,
+              3.0
+            ],
+            [
+              2.0,
+              3.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "14",
+        "district_id": 2,
+        "population": 100,
+        "municipality": "14",
+        "ddd_unit_id": "14",
+        "comarca": "14",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              3.0,
+              3.0
+            ],
+            [
+              3.0,
+              4.0
+            ],
+            [
+              2.0,
+              4.0
+            ],
+            [
+              2.0,
+              3.0
+            ],
+            [
+              3.0,
+              3.0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "section_id": "15",
+        "district_id": 3,
+        "population": 750,
+        "municipality": "15",
+        "ddd_unit_id": "15",
+        "comarca": "15",
+        "province": "SYNTHETIC"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4.0,
+              3.0
+            ],
+            [
+              4.0,
+              4.0
+            ],
+            [
+              3.0,
+              4.0
+            ],
+            [
+              3.0,
+              3.0
+            ],
+            [
+              4.0,
+              3.0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

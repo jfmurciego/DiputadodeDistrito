@@ -1,0 +1,26 @@
+meta:
+  territory_id: SYNTHETIC
+  run_name: A_lower_L1
+validation:
+  expected_districts: 4
+  target_tolerance_ratio: 0.12
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  province_districts:
+    '01': 4
+  require_graph_contiguity: true
+modulos:
+  modulo_05_optimizar_distritos:
+    in_graph_json: /private/tmp/ddd-nacho-validacion-20261010/fixture-e2/A_lower_L1/graph.json
+    in_geojson: /private/tmp/ddd-nacho-validacion-20261010/fixture-e2/A_lower_L1/initial.geojson
+    out_geojson: /private/tmp/ddd-nacho-validacion-20261010/e2-runs/A_lower_L1/canonical/43/selected.zip
+    out_report: /private/tmp/ddd-nacho-validacion-20261010/e2-runs/A_lower_L1/canonical/43/engine-report.json
+    id_field: CUSEC_KEY
+    pop_field: POP_2025
+    district_field: district_id
+    province_field: CPRO
+    greedy_moves_limit: 100
+    anneal_iters: 1000
+    seed: 43
+    anneal_seed_offset: 0
+    swap_polish_max: 0

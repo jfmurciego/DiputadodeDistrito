@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.9.1
-# NOMBRE DE VERSIÓN: Estrategia de optimización seleccionable en M05
-# FECHA: 2026-09-20
+# VERSIÓN: 2.9.2
+# NOMBRE DE VERSIÓN: Captura de rutas compatible con Bash 3
+# FECHA: 2026-10-15
 # ESTADO: candidato
-# CAMBIOS: mantiene la selección Canónico/GerryChain y añade fallback operativo de GerryChain a Canónico cuando la estrategia alternativa no puede producir salida.
-# MOTIVO: una optimización opcional no debe dejar sin producto una formación inicial válida; el fallo GerryChain queda trazado y el flujo continúa con la estrategia canónica.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.7.0.sh
+# CAMBIOS: sustituye readarray por captura de líneas compatible con Bash 3; mantiene la selección Canónico/GerryChain y el fallback operativo.
+# MOTIVO: el Bash del sistema en macOS es 3.2 y no implementa readarray, lo que impedía iniciar el procedimiento antes de ejecutar módulos.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.9.1.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -43,7 +43,7 @@ print((data.get("meta") or {}).get("run_name") or Path(sys.argv[1]).stem)
 PY
 )"
 [[ -n "$RUN_NAME" ]] || { echo "[FATAL] run_name vacío" >&2; exit 20; }
-readarray -t CONTRACT_DIRS < <(python - "$PARAMS" "$RUN_ID" <<'PY'
+CONTRACT_PATHS="$(python - "$PARAMS" "$RUN_ID" <<'PY'
 import sys,yaml
 from pathlib import Path
 cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
@@ -54,9 +54,16 @@ values={"run_name":(cfg.get("meta") or {}).get("run_name", Path(sys.argv[1]).ste
 print(str(cache).format(**values))
 print(str(runs).format(**values))
 PY
-)
-CACHE_DIR="${DDD_CHECKPOINT_CACHE_DIR:-${CONTRACT_DIRS[0]}}"
-RUN_DIR="${CONTRACT_DIRS[1]}"; LOG_DIR="$RUN_DIR/logs"
+)"
+CONTRACT_SEPARATOR=$'\n'
+CONTRACT_CACHE_DIR="${CONTRACT_PATHS%%"$CONTRACT_SEPARATOR"*}"
+CONTRACT_RUN_DIR="${CONTRACT_PATHS#*"$CONTRACT_SEPARATOR"}"
+[[ "$CONTRACT_PATHS" == *"$CONTRACT_SEPARATOR"* && -n "$CONTRACT_CACHE_DIR" && -n "$CONTRACT_RUN_DIR" && "$CONTRACT_RUN_DIR" != *"$CONTRACT_SEPARATOR"* ]] || {
+  echo "[FATAL] No se pudieron resolver las rutas del contrato." >&2
+  exit 20
+}
+CACHE_DIR="${DDD_CHECKPOINT_CACHE_DIR:-$CONTRACT_CACHE_DIR}"
+RUN_DIR="$CONTRACT_RUN_DIR"; LOG_DIR="$RUN_DIR/logs"
 mkdir -p "$RUN_DIR" "$LOG_DIR" "$CACHE_DIR"
 declare -a SCRIPTS=("" "modulos/01_preparar_base_territorial.py" "modulos/02_construir_adyacencias.py" "modulos/03_construir_grafo.py" "modulos/04_generar_semillas.py" "modulos/05_optimizar_distritos.py" "modulos/06_consolidar_distritos.py" "modulos/07_agregar_resultados_electorales.py" "modulos/08_integrar_resultados.py")
 for n in $(seq "$FROM" "$TO"); do test -f "${SCRIPTS[$n]}" || { echo "[FATAL] Falta ${SCRIPTS[$n]}" >&2; exit 20; }; done

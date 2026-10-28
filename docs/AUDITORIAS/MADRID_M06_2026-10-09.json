@@ -1,0 +1,353 @@
+{
+  "schema": "ddd.local-diagnostic-evidence/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-09",
+  "scope": "diagnóstico local Madrid M06",
+  "status": "BLOCKED",
+  "origin": "encargo Work; archivo nuevo sin predecesor",
+  "base": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "sources": {
+    "jobs_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/runs/37325328346/jobs?per_page=100",
+    "logs": "GitHub connector GET workflow_job_logs"
+  },
+  "total_jobs": 46,
+  "jobs": [
+    {
+      "id": 111823399994,
+      "name": "02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos",
+      "conclusion": "success",
+      "workflow_sha": "ebe49a735091363944cb5ded0f272e6c0f37b707",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Preparar entorno reproducible con caché compartida",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Resolver estado anterior",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Recuperar estado acumulado anterior",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Restaurar estado contractual",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Recuperar fuentes aprobadas para M01",
+          "conclusion": "skipped",
+          "number": 8
+        },
+        {
+          "name": "Recuperar paquete durable para M01",
+          "conclusion": "skipped",
+          "number": 9
+        },
+        {
+          "name": "Instalar fuentes en sus rutas contractuales",
+          "conclusion": "skipped",
+          "number": 10
+        },
+        {
+          "name": "Ejecutar módulo",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Conservar diagnóstico estructurado de bloqueo M03",
+          "conclusion": "skipped",
+          "number": 12
+        },
+        {
+          "name": "Publicar diagnóstico M03 bloqueado",
+          "conclusion": "skipped",
+          "number": 13
+        },
+        {
+          "name": "Empaquetar checkpoint acumulado del módulo",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Run actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Preparar entorno reproducible con caché compartida",
+          "conclusion": "success",
+          "number": 28
+        },
+        {
+          "name": "Post Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 111823873523,
+      "name": "02 Generar distritos autonómicos / Generar y certificar distritos / Consolidación territorial",
+      "conclusion": "success",
+      "workflow_sha": "ebe49a735091363944cb5ded0f272e6c0f37b707",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Preparar entorno reproducible con caché compartida",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Resolver estado anterior",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Recuperar estado acumulado anterior",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Restaurar estado contractual",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Recuperar fuentes aprobadas para M01",
+          "conclusion": "skipped",
+          "number": 8
+        },
+        {
+          "name": "Recuperar paquete durable para M01",
+          "conclusion": "skipped",
+          "number": 9
+        },
+        {
+          "name": "Instalar fuentes en sus rutas contractuales",
+          "conclusion": "skipped",
+          "number": 10
+        },
+        {
+          "name": "Ejecutar módulo",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Conservar diagnóstico estructurado de bloqueo M03",
+          "conclusion": "skipped",
+          "number": 12
+        },
+        {
+          "name": "Publicar diagnóstico M03 bloqueado",
+          "conclusion": "skipped",
+          "number": 13
+        },
+        {
+          "name": "Empaquetar checkpoint acumulado del módulo",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Run actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Preparar entorno reproducible con caché compartida",
+          "conclusion": "success",
+          "number": 28
+        },
+        {
+          "name": "Post Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success",
+          "number": 31
+        }
+      ]
+    },
+    {
+      "id": 111824422848,
+      "name": "02 Generar distritos autonómicos / Generar y certificar distritos / Auditoría geométrica de la consolidación territorial",
+      "conclusion": "failure",
+      "workflow_sha": "ebe49a735091363944cb5ded0f272e6c0f37b707",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Preparar entorno reproducible con caché compartida",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Resolver checkpoint M06",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Recuperar estado M06",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Restaurar estado M06",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Auditar componentes geométricos de M06",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Registrar estado verificable de producción",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Aplicar puerta de certificación territorial",
+          "conclusion": "failure",
+          "number": 11
+        },
+        {
+          "name": "Post Preparar entorno reproducible con caché compartida",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Post Run docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success",
+          "number": 23
+        }
+      ]
+    }
+  ],
+  "log_extracts": {
+    "m05": [
+      "2026-10-05T14:51:12.6250994Z [Módulo 5] OK v7.4.1 hard=1 fuera_12=18 max_rel_dev=0.7387 greedy=0 anneal=521 changed_units=0 out=/app/territorios/madrid/.cache/ddd/preparacion/madrid_2025/madrid_2025_m05_distritos_optimizados.geojson.zip"
+    ],
+    "m06": [
+      "2026-10-05T14:52:27.0543880Z [Módulo 6] OK v7.2.1 K=135 rows=4479 pop=6871903 hard=1 fuera_12=18 catalog=/app/territorios/madrid/.cache/ddd/preparacion/madrid_2025/madrid_2025_m06_catalogo_distritos.csv composition=/app/territorios/madrid/.cache/ddd/preparacion/madrid_2025/madrid_2025_m06_composicion_distritos.csv districts=/app/territorios/madrid/.cache/ddd/preparacion/madrid_2025/madrid_2025_m06_distritos.geojson.zip"
+    ],
+    "certification": [
+      "2026-10-05T14:52:45.4845855Z HEAD is now at 93203b1 chore: registrar evaluación pre-generación de madrid",
+      "2026-10-05T14:53:27.7080030Z   \"governed_exceptions\": 5,",
+      "2026-10-05T14:53:27.7080375Z   \"blocked_districts\": 0,",
+      "2026-10-05T14:53:27.9233781Z   GEOMETRIC_DECISION: PASS_WITH_EXCEPTIONS",
+      "2026-10-05T14:53:28.0554278Z BLOCK",
+      "2026-10-05T14:53:28.0554649Z POPULATION_HARD_BLOCK",
+      "2026-10-05T14:53:29.0892021Z ##[error]Certificación territorial bloqueada: BLOCK",
+      "2026-10-05T14:53:29.0901246Z ##[error]Process completed with exit code 32."
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 11353290857,
+      "name": "ddd-state-37325328346-M05",
+      "size": 13234888,
+      "digest": "sha256:6a5181ddeca846dae3afde8e560ac51077d30ca82a09c85277d57406fe289d9c",
+      "expired": false,
+      "expires_at": "2026-10-19T14:51:17Z"
+    },
+    {
+      "id": 11353126344,
+      "name": "ddd-state-37325328346-M06",
+      "size": 17582883,
+      "digest": "sha256:8ac657696a852346e938e692b5c3b0dfe1ed9665043899b33695396e3e56d71a",
+      "expired": false,
+      "expires_at": "2026-10-19T14:52:27Z"
+    },
+    {
+      "id": 11352204784,
+      "name": "ddd-audit-37325328346",
+      "size": 17741,
+      "digest": "sha256:80a720bed13f807e9cf84e1f4ca02bda7637d48909f44e490b295132ae50ab16",
+      "expired": false,
+      "expires_at": "2026-10-19T14:53:28Z"
+    }
+  ],
+  "limitations": [
+    "Madrid checkpoint bytes unavailable locally; DNS download failure; no replay of repair; no district-level root cause established.",
+    "Historical workflow metadata SHA differs from effective checkout SHA; latter is 93203b1ef3a6b1a33e689ba380553b32cf479eb7."
+  ]
+}

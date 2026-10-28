@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 83, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 79, in main
+    if run.returncode:raise RuntimeError(f'{mode} exit={run.returncode}: {run.stderr[-1200:]}')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: ddd_current exit=1:  "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 72, in main
+    if a.worker:worker(a.fixture,a.worker);return
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/ddd-nacho-validacion-20261010/contraccion.py", line 42, in worker
+    problem=prepare_problem(fixture/'graph.json',fixture/'m04.zip',contract,population_field='POP_2023',metric_crs='EPSG:3035',min_shared_border_m=1.0)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_gerrychain_strategy.py", line 530, in prepare_problem
+    violations = hard_constraint_violations(problem, initial, contract)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_gerrychain_strategy.py", line 602, in hard_constraint_violations
+    if observed.get(str(province).zfill(2), 0) != int(expected):
+                                                  ^^^^^^^^^^^^^
+TypeError: int() argument must be a string, a bytes-like object or a real number, not 'dict'
+

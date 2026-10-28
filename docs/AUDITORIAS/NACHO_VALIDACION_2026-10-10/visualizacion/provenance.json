@@ -1,0 +1,68 @@
+{
+  "source_sha256": {
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/results.json": "3ef8b107c33fa923301fd56df1be83a82d0e8a726069fd54efa678d2a152e684",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_plan.json": "b8e840f6e2acfbc5f0bdd72c5fe08057e3351305b777dcee8177af4dbbb94441",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ensemble_summary.json": "93b1cff2b8c5a2a1e5e78f5fdd6316a8fdb558ebd69100eccc0b2556796d6712",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/experiments.py": "523b423cfe576bb5c83b07b28a989ff32905453bdaa7d25b638dab7b22499be9",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_ensemble/ensemble_assembler.py": "66666acfef804e25c198bb28729af87fff2c0d7735720ec1de48be19d14bb326",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_ensemble/gallery.py": "67c4344b0f3b6269f246f13b007736534a30ae45b2e0f0ea7f28f4c7246ea4c6",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/INFORME.md": "e4c1dd59c86edd5dcb8665f5e39f635198b5a118a5ac792095d050ad5a5132a7",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/C_hard_invalid/report.json": "fc3263a052b6c53331728babd6024da640f1f137c0e6c0df1b618ed8aaba1afd",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/A_lower_L1/report.json": "542170638f1e3ed3cdf18f06d5acc783031033c49949d1d53c11f7500bac5b7f",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/B_lower_max/report.json": "1e5c9022b802fafe8da572199574ce00ac5aa646b8673ad6185899f88b9a3198"
+  },
+  "assignment_sha256": {
+    "A_lower_L1": "b2589fa8b94eb36ba57f00fdcdb5cab38248f11b760f4848e191fe7a5ec87f83",
+    "B_lower_max": "06bd071b587ce8bea12912663ad6392c76d22b87c9aa5d4d73adbca29c67979e",
+    "C_hard_invalid": "2b212d9089dbb303e0f5c343e3508122d35126665b3f26faaf83283b21ab8987"
+  },
+  "config_frozen": {
+    "schema": "ddd.ensemble-plan/1.0",
+    "candidates": [
+      {
+        "candidate_id": "A_lower_L1",
+        "profile": "controlled",
+        "seed": 0,
+        "parameters": {}
+      },
+      {
+        "candidate_id": "B_lower_max",
+        "profile": "controlled",
+        "seed": 0,
+        "parameters": {}
+      },
+      {
+        "candidate_id": "C_hard_invalid",
+        "profile": "controlled",
+        "seed": 0,
+        "parameters": {}
+      }
+    ],
+    "profiles": [
+      "controlled"
+    ],
+    "shards": [],
+    "territory_id": "SYNTHETIC",
+    "prepared_bundle_id": "synthetic-grid",
+    "plan_sha256": "7321053a1c52b84cd73320535ec15df66b81eac286d2b7970260f225127ebd97"
+  },
+  "synthetic_contract": {
+    "K": 4,
+    "P": 4000,
+    "target": 1000,
+    "tolerance": 0.2,
+    "floor": 800,
+    "cap": 1750,
+    "municipality_atomicity": true
+  },
+  "assets_are_reconstruction_of_existing_assignments": true,
+  "synthetic_embedding_only_for_web": {
+    "crs": "EPSG:3857",
+    "anchor_lon_lat": [
+      -3.7,
+      40.4
+    ],
+    "unit_metre": 1,
+    "purpose": "derived illustration, not official geometry"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "schema": "ddd.nacho-remote-verification/1.0",
+  "date": "2026-10-10",
+  "read_only": true,
+  "reference": {
+    "repository": "nplaton/diputado-distrito",
+    "branch": "master",
+    "head": "f5d063b909e33b6ce917b670d85126fa0da92887",
+    "commits": [
+      {
+        "sha": "f5d063b909e33b6ce917b670d85126fa0da92887",
+        "date": "2021-04-19T23:16:33Z",
+        "subject": "Working version of diputado-distrito",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/f5d063b909e33b6ce917b670d85126fa0da92887"
+      },
+      {
+        "sha": "d2a2972729bb831ee4a4df2e27517022d32f0f34",
+        "date": "2021-04-08T10:03:22Z",
+        "subject": "Improved with a more stable version and detailed config",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/d2a2972729bb831ee4a4df2e27517022d32f0f34"
+      },
+      {
+        "sha": "61ed9bc2df02b833ec08d8cc366a06e292029216",
+        "date": "2021-03-27T19:30:12Z",
+        "subject": "Add requirements.txt",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/61ed9bc2df02b833ec08d8cc366a06e292029216"
+      },
+      {
+        "sha": "42150645780134432e7a83bef8bc3e808f9809b3",
+        "date": "2021-03-27T19:20:20Z",
+        "subject": "Added parameters for all hyperparameters in notebook",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/42150645780134432e7a83bef8bc3e808f9809b3"
+      },
+      {
+        "sha": "eb789a6d97e48457fd8cc7945bd60d5c0b7ddcb7",
+        "date": "2021-02-10T22:07:50Z",
+        "subject": "Working version with papermill",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/eb789a6d97e48457fd8cc7945bd60d5c0b7ddcb7"
+      },
+      {
+        "sha": "0ee646598d3b91844875eea6036c39e023552832",
+        "date": "2021-02-09T23:10:21Z",
+        "subject": "Parametrized diputado-distrito template for papermill",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/0ee646598d3b91844875eea6036c39e023552832"
+      },
+      {
+        "sha": "497e024db5c79e123391711e98d5a45f1e5f0dd8",
+        "date": "2020-11-24T14:55:05Z",
+        "subject": "Uncommented parts that require comments in colab",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/497e024db5c79e123391711e98d5a45f1e5f0dd8"
+      },
+      {
+        "sha": "a860e41e68f92211592fdd6dbe77372ef529146e",
+        "date": "2020-11-24T14:53:42Z",
+        "subject": "Added functionality to include all iterations in Kepler map",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/a860e41e68f92211592fdd6dbe77372ef529146e"
+      },
+      {
+        "sha": "f777bab5d43859b4518909f3c7a48f78666b9c91",
+        "date": "2020-11-23T19:05:03Z",
+        "subject": "Added colab part to upload file",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/f777bab5d43859b4518909f3c7a48f78666b9c91"
+      },
+      {
+        "sha": "6093d82203d148baf4401845ba7a6e80a276322f",
+        "date": "2020-11-23T18:45:56Z",
+        "subject": "Removed psycopg2 dependency",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/6093d82203d148baf4401845ba7a6e80a276322f"
+      },
+      {
+        "sha": "5f606157c358da2a07c65d3c1efed205a5a5e326",
+        "date": "2020-11-23T18:42:48Z",
+        "subject": "Created requirements.txt on notebook",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/5f606157c358da2a07c65d3c1efed205a5a5e326"
+      },
+      {
+        "sha": "e3fbbc960ff2551a90bdf73843967597f37fd02e",
+        "date": "2020-11-23T18:32:03Z",
+        "subject": "Added the installation at the top of the notebook",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/e3fbbc960ff2551a90bdf73843967597f37fd02e"
+      },
+      {
+        "sha": "1874aff63a6e7ffca72515b7ed1037db6d13070b",
+        "date": "2020-11-23T18:19:17Z",
+        "subject": "Removed all config and queries from notebook",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/1874aff63a6e7ffca72515b7ed1037db6d13070b"
+      },
+      {
+        "sha": "d80000bc5f32a92ac86ded1512a413dd325f51f2",
+        "date": "2020-11-23T18:18:49Z",
+        "subject": "Added zipped data, requirements and changes to notebook",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/d80000bc5f32a92ac86ded1512a413dd325f51f2"
+      },
+      {
+        "sha": "7ab762c3c5c67bf432558bb93ebf49345937665b",
+        "date": "2020-11-19T12:00:03Z",
+        "subject": "Removed credentials",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/7ab762c3c5c67bf432558bb93ebf49345937665b"
+      },
+      {
+        "sha": "8fcfa0fd0ba4a74c52447be338547b014d08475b",
+        "date": "2020-11-19T11:54:19Z",
+        "subject": "Improved diputado-distrito notebook",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/8fcfa0fd0ba4a74c52447be338547b014d08475b"
+      },
+      {
+        "sha": "48fe0a39c73d770266560a01f8449c0f9e6893e2",
+        "date": "2020-11-18T00:58:30Z",
+        "subject": "Added notebook and pyptoject of project",
+        "url": "https://github.com/nplaton/diputado-distrito/commit/48fe0a39c73d770266560a01f8449c0f9e6893e2"
+      }
+    ]
+  },
+  "ddd": {
+    "repository": "jfmurciego/DiputadodeDistrito",
+    "branch": "main",
+    "head": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce"
+  },
+  "gerrychain_contemporary": {
+    "sha": "6fbf342f15851832dc3d8a0b37e8d5a9e81e7cc2",
+    "exact_0_2_12_distribution_verified": false,
+    "files": [
+      {
+        "index": 0,
+        "url": "https://github.com/mggg/GerryChain/blob/6fbf342f15851832dc3d8a0b37e8d5a9e81e7cc2/setup.py",
+        "content_available": true
+      },
+      {
+        "index": 1,
+        "url": "https://github.com/mggg/GerryChain/blob/6fbf342f15851832dc3d8a0b37e8d5a9e81e7cc2/gerrychain/tree.py",
+        "content_available": true
+      },
+      {
+        "index": 2,
+        "url": "https://github.com/mggg/GerryChain/blob/6fbf342f15851832dc3d8a0b37e8d5a9e81e7cc2/gerrychain/proposals/tree_proposals.py",
+        "content_available": true
+      },
+      {
+        "index": 3,
+        "url": "https://github.com/mggg/GerryChain/blob/6fbf342f15851832dc3d8a0b37e8d5a9e81e7cc2/gerrychain/chain.py",
+        "content_available": true
+      },
+      {
+        "index": 4,
+        "url": "https://github.com/mggg/GerryChain/blob/6fbf342f15851832dc3d8a0b37e8d5a9e81e7cc2/gerrychain/constraints/validity.py",
+        "content_available": true
+      },
+      {
+        "index": 5,
+        "url": "https://github.com/mggg/GerryChain/blob/6fbf342f15851832dc3d8a0b37e8d5a9e81e7cc2/gerrychain/random.py",
+        "content_available": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "Validación exclusivamente visual; dictamen BLOQUEADO",
+  "base_head": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "artifact_commit": null,
+  "files": {
+    "BASELINE.json": "0abdca43f2e5066b4e90eeba85843194b5668136b86a0ac3c9f1aaab2c502097",
+    "BROWSER_ATTEMPT.json": "2e7dc519544049e671154f0cd0d12268679a5acb253dca4bb6e4df4048a577e7",
+    "BROWSER_ATTEMPT_GUI.json": "50cbfa787445294c26760fe93c1c0125af16d045ec4f639ee43be7a6a6b5a38b",
+    "CONSERVACION.json": "78c967daa57a9112168d51e1ec090a16a2bf867d0b7d02b20d753beaea5ec9d5",
+    "DATOS_RESULTADO.json": "c83b706b75fc1f7b7732261bd48fc1349542d394a4fe09f1990ea80d5e1ac614",
+    "GUI_ATTEMPTS.md": "aa8c0fb8b8615b40f955e0a65e564a2133cfe3f0451f0d381d0feef3bca9de6f",
+    "IDENTIDAD.json": "1ae60b9061c8adf02d21a0c63009dbccceffd5040331e6db8e28c7202238dae2",
+    "INFORME.md": "681904e0eaab9d6bbe8693f9267a3cda2d2aaab24927aad87c3d4754273e2e26",
+    "README.md": "530f042144eb5174f538fce612f8239602eb3e4d85946e52d147c04c8955889f",
+    "REVISION.md": "90444c0fe793e88b3f16925cb6915898fcce37c06f8f12ad36404bbe025b31d8",
+    "SAFARI_ATTEMPT.json": "5d3e15bfbc2fc57c981a950c5b6b49c93b5c35a4827f6d3b75c8114803a1df82",
+    "firefox.crash.extracto.log": "79ef0a9db4c1f8a043f941b06346fae07edd68125124f72020ed20d49a9cbf44",
+    "firefox.stderr.log": "d37095890e41abeb8aa1cae77e628c525ff001e33622b496422c431b4a24aaaf",
+    "firefox.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "firefox_gui.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "firefox_gui.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "safari.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "safari.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validar_evidencia.py": "25487a040b69da2b78ff999c4b2800b93ebf8681c1e00d50ae05985c3cd6f249"
+  }
+}

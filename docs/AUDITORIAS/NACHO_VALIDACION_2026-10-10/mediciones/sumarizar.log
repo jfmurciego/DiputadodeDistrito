@@ -1,0 +1,47 @@
+{
+  "decision": "MEJORA_DEMOSTRADA",
+  "pairs": [
+    {
+      "fixture": "A_lower_L1",
+      "seed": 17,
+      "population_max_improves": false,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 12.449650751651285
+    },
+    {
+      "fixture": "A_lower_L1",
+      "seed": 29,
+      "population_max_improves": false,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 12.598680518578854
+    },
+    {
+      "fixture": "A_lower_L1",
+      "seed": 43,
+      "population_max_improves": false,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 12.423400190602935
+    },
+    {
+      "fixture": "B_lower_max",
+      "seed": 17,
+      "population_max_improves": true,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 24.64165820714287
+    },
+    {
+      "fixture": "B_lower_max",
+      "seed": 29,
+      "population_max_improves": true,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 25.540387703174993
+    },
+    {
+      "fixture": "B_lower_max",
+      "seed": 43,
+      "population_max_improves": true,
+      "shape_median_improves": true,
+      "time_ratio_recom_to_canonical": 24.978378132702574
+    }
+  ]
+}

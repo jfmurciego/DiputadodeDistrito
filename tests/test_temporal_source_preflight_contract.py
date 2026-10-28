@@ -296,6 +296,8 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
                     "global_components": 1,
                     "province_disconnected": 0,
                     "municipality_disconnected": 0,
+                    "municipality_admitted_disconnected": 0,
+                    "municipality_unresolved": 0,
                 },
                 "partitioning": {
                     "job_artifact_name": "ddd-internal-units-7",

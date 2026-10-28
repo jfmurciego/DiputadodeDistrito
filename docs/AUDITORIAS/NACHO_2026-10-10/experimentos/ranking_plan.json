@@ -1,0 +1,30 @@
+{
+  "schema": "ddd.ensemble-plan/1.0",
+  "candidates": [
+    {
+      "candidate_id": "A_lower_L1",
+      "profile": "controlled",
+      "seed": 0,
+      "parameters": {}
+    },
+    {
+      "candidate_id": "B_lower_max",
+      "profile": "controlled",
+      "seed": 0,
+      "parameters": {}
+    },
+    {
+      "candidate_id": "C_hard_invalid",
+      "profile": "controlled",
+      "seed": 0,
+      "parameters": {}
+    }
+  ],
+  "profiles": [
+    "controlled"
+  ],
+  "shards": [],
+  "territory_id": "SYNTHETIC",
+  "prepared_bundle_id": "synthetic-grid",
+  "plan_sha256": "7321053a1c52b84cd73320535ec15df66b81eac286d2b7970260f225127ebd97"
+}

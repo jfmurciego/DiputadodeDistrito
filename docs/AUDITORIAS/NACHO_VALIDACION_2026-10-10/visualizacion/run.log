@@ -1,0 +1,41 @@
+{
+  "schema": "ddd.nacho-visual-validation/1.0",
+  "scope": "existing frozen candidates only; diagnostic function, not generation or production visor",
+  "assembler_seconds": 0.001142609165981412,
+  "gallery_build_seconds": 0.002677394775673747,
+  "browser_gallery": {
+    "status": "BLOCKED_SANDBOX",
+    "reason": "Chrome crashpad bootstrap EPERM; ps EPERM. Prior attempt preserved in gallery_dom.stderr.log. No browser DOM/render."
+  },
+  "real_app_js_with_MapLibre_stub_DOM": null,
+  "browser_diagnostic": {
+    "status": "NOT_EXECUTED",
+    "reason": "Same documented sandbox block; no second browser attempted."
+  },
+  "diagnostic_offline_checks": {
+    "two_svg_maps": true,
+    "has_floor_cap_tolerance": true,
+    "has_rejected_C": true,
+    "has_population_2000_100": true,
+    "has_explanation_Pareto": true,
+    "has_split_municipalities": true
+  },
+  "source_and_production_files_unchanged": true,
+  "original_ranking_unchanged": true,
+  "C_excluded_from_selection": true,
+  "baseline_missing_diagnostic_features": [
+    "district population table",
+    "floor/cap/tolerance shown",
+    "municipal splits shown",
+    "invalid causes shown",
+    "selection objective explanation",
+    "config/assignment hashes visible"
+  ],
+  "classification": "MEJORA_DEMOSTRADA",
+  "classification_scope": "additional diagnostic information on frozen fixture, never algorithm benefit or approval to implement",
+  "offline_checks_are": "Static HTML checks, not rendered browser DOM",
+  "process_peak_RSS_bytes": 43626496,
+  "python": "3.11.4 (v3.11.4:d2340ef257, Jun  6 2023, 19:15:51) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "platform": "macOS-11.7.11-x86_64-i386-64bit",
+  "seconds_total": 0.07311954000033438
+}

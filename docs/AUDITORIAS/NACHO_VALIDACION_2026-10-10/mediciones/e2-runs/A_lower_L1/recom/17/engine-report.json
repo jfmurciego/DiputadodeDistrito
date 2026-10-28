@@ -1,0 +1,150 @@
+{
+  "schema": "ddd.m05-gerrychain-strategy/2.0",
+  "strategy": "gerrychain_recom",
+  "strategy_version": "2.1.0",
+  "engine": {
+    "gerrychain": "1.0.0",
+    "rustworkx": "0.18.1",
+    "python": "3.11.4"
+  },
+  "objective_start": [
+    0,
+    0.0,
+    1,
+    0.15,
+    0.0075
+  ],
+  "objective_final": [
+    0,
+    0.0,
+    0,
+    0.0,
+    0.0
+  ],
+  "districts_below_floor": 0,
+  "districts_above_cap": 0,
+  "districts_outside_tolerance": 0,
+  "best_max_rel_dev": 0.0,
+  "target_population": 1000.0,
+  "cut_edges_start": 12,
+  "cut_edges_final": 10,
+  "changed_units": 13,
+  "changed_unit_ratio": 0.8125,
+  "hard_constraints_before": [],
+  "hard_constraints_after": [],
+  "operational_graph": {
+    "authority": "M03",
+    "source_graph_edge_type_counts": {
+      "geometric": 24
+    },
+    "proposal_graph_edge_type_counts": {
+      "geometric": 24
+    },
+    "contiguity_semantics": "operational_graph_including_declared_topology_bridges"
+  },
+  "physical_geometry_diagnostics": {
+    "initial": {
+      "available": true,
+      "districts": [],
+      "count": 0,
+      "unexplained_count": 0,
+      "semantics": "diagnostic_only_operational_graph_is_authoritative"
+    },
+    "selected": {
+      "available": true,
+      "districts": [],
+      "count": 0,
+      "unexplained_count": 0,
+      "semantics": "diagnostic_only_operational_graph_is_authoritative"
+    }
+  },
+  "search": {
+    "steps_per_seed": 1001,
+    "seed_base": 16,
+    "seed_count": 1,
+    "seeds": [
+      17
+    ],
+    "proposal_epsilon": 0.12,
+    "population_band": 0.005,
+    "metric_crs": "EPSG:3035",
+    "min_shared_border_m": 1,
+    "max_bipartition_attempts": 50,
+    "pythonhashseed": "0",
+    "runs": [
+      {
+        "seed": 17,
+        "states_observed": 1001,
+        "unique_states": 711,
+        "self_loops": 207,
+        "proposal_failures": 0,
+        "seconds": 7.413575964979827,
+        "rank": [
+          0,
+          0,
+          0.33677488424215474,
+          0.0,
+          0.0,
+          10,
+          0.8125
+        ],
+        "assignment_hash": "b0a18f277681d84dbc76f1cfcb6793be84990f267853cc7f26b595f2eccf030b"
+      }
+    ],
+    "selected_seed": 17,
+    "selected_assignment_hash": "b0a18f277681d84dbc76f1cfcb6793be84990f267853cc7f26b595f2eccf030b",
+    "frozen_geometric_exceptions": {
+      "count": 0,
+      "district_ids": []
+    }
+  },
+  "inputs": {
+    "graph": "/private/tmp/ddd-nacho-validacion-20261010/fixture-e2/A_lower_L1/graph.json",
+    "graph_sha256": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+    "initial": "/private/tmp/ddd-nacho-validacion-20261010/fixture-e2/A_lower_L1/initial.geojson",
+    "initial_sha256": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d"
+  },
+  "output": {
+    "geojson": "/private/tmp/ddd-nacho-validacion-20261010/e2-runs/A_lower_L1/recom/17/selected.zip",
+    "sha256": "5c9358af0c7c84bec0b77e3b4a37ca0d49db8c4d6553b540ea11900c80bebfcb"
+  },
+  "portfolio": {
+    "candidate_count": 1,
+    "unique_candidate_count": 1,
+    "candidates": [
+      {
+        "index": 1,
+        "seed": 17,
+        "assignment_hash": "b0a18f277681d84dbc76f1cfcb6793be84990f267853cc7f26b595f2eccf030b",
+        "rank": [
+          0,
+          0,
+          0.33677488424215474,
+          0.0,
+          0.0,
+          10,
+          0.8125
+        ],
+        "states_observed": 1001,
+        "unique_states": 711,
+        "proposal_failures": 0,
+        "geojson": "/private/tmp/ddd-nacho-validacion-20261010/e2-runs/A_lower_L1/recom/17/selected_gerrychain_portfolio/candidate_001_seed_17.geojson.zip",
+        "sha256": "cbc39264182e15361b7386856e657b18bca197a3eb3d39e50d334c481317c895",
+        "selected": true
+      }
+    ]
+  },
+  "nonpartisan_contract": {
+    "electoral_fields_consumed": [],
+    "party_fields_consumed": [],
+    "expected_k": 4,
+    "target_tolerance_ratio": 0.12,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "province_districts": {
+      "01": 4
+    },
+    "population_floor_exempt_partitions": [],
+    "municipality_discipline_field": "CUMUN"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/Applications/Firefox.app/Contents/MacOS/firefox",
+    "--headless",
+    "--no-remote",
+    "--profile",
+    "/private/tmp/ddd-nacho-visual-firefox-5cnav3lv",
+    "--window-size",
+    "1440,1200",
+    "--screenshot",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_VISUAL_2026-10-10/diagnostico.png",
+    "file:///Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_VALIDACION_2026-10-10/visualizacion/diagnostico.html"
+  ],
+  "seconds": 0.31466211983934045,
+  "returncode": -6,
+  "timeout": false,
+  "screenshot_exists": false,
+  "browser_paths": {
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome": false,
+    "/Applications/Firefox.app/Contents/MacOS/firefox": true,
+    "/usr/bin/safaridriver": true
+  }
+}

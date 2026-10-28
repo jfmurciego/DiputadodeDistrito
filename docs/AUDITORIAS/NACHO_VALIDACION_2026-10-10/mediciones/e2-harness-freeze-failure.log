@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/private/tmp/ddd-nacho-validacion-20261010/comparar_m05.py", line 146, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/private/tmp/ddd-nacho-validacion-20261010/comparar_m05.py", line 132, in main
+    fixtures=freeze();results=[]
+             ^^^^^^^^
+  File "/private/tmp/ddd-nacho-validacion-20261010/comparar_m05.py", line 26, in freeze
+    assert old_hash(assign)==source['ranking']['candidates'][name]['assignment_sha256']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

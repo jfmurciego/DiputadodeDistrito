@@ -1,0 +1,4 @@
+[1010/124246.340443:ERROR:third_party/crashpad/crashpad/util/mach/bootstrap.cc:65] bootstrap_check_in org.chromium.crashpad.child_port_handshake.22963.73909476.ECCNDFERJTVXWBDF: Permission denied (1100)
+[1010/124246.342234:ERROR:third_party/crashpad/crashpad/util/file/file_io.cc:103] ReadExactly: expected 4, observed 0
+[1010/124246.343703:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:208] open /Users/macbookpro/Library/Application Support/Google/Chrome/Crashpad/settings.dat: Operation not permitted (1)
+[1010/124246.344067:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:208] open /Users/macbookpro/Library/Application Support/Google/Chrome/Crashpad/settings.dat: Operation not permitted (1)

@@ -127,6 +127,160 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertTrue(90 <= x["population_before"]["C"] <= 110)
         self.assertTrue(x["controlled_improvement_verified"])
 
+    def test_expanded_search_repairs_with_original_transfer_validator(self):
+        units={"a":U(40),"x":U(10),"b":U(50)}; ass={"a":"A","x":"B","b":"B"}; adj=A(("a","x"),("x","b"))
+        fixed,steps,meta=r._expanded_hard_search(
+            state=ass,units=units,adjacency=adj,target=50,tolerance=6,floor=45,cap=55,
+            limits=r.SearchLimits(max_seconds=1,expanded_max_seconds=1,expanded_max_states=20,
+                expanded_max_depth=3,expanded_max_radius=1,expanded_beam_per_district=1),
+        )
+        self.assertEqual(meta["outcome"],"REPAIRED")
+        self.assertEqual(r._hard_population_signature(r._district_pops(fixed,units),floor=45,cap=55),(0,0))
+        self.assertEqual(len(steps),1)
+        self.assertTrue(steps[0]["population_transition_verified"])
+        self.assertTrue(r.verify_partition_constraints(fixed,units,adj,floor=45,cap=55)["valid"])
+
+    def test_expanded_search_keeps_a_hard_neutral_preparatory_move(self):
+        # Move y from C to B first. This leaves the hard signature unchanged,
+        # but connects B after x leaves for A, allowing the final repair.
+        units={"a":U(40),"x":U(20),"b1":U(40),"b2":U(40),"y":U(10),"c":U(90)}
+        state={"a":"A","x":"B","b1":"B","b2":"B","y":"C","c":"C"}
+        adj=A(("a","x"),("x","b1"),("x","b2"),("y","c"),("y","b1"),("y","b2"))
+        limits=r.SearchLimits(max_seconds=1,expanded_max_seconds=1,expanded_max_states=100,
+            expanded_max_candidates=500,expanded_max_depth=3,expanded_max_radius=2,
+            expanded_beam_width=8)
+        fixed,steps,meta=r._expanded_hard_search(
+            state=state,units=units,adjacency=adj,target=100,tolerance=10,floor=50,cap=150,
+            limits=limits,candidate_budget=500,
+        )
+        self.assertEqual(meta["outcome"],"REPAIRED")
+        self.assertEqual([step["units"] for step in steps],[["y"],["x"]])
+        self.assertEqual(steps[0]["hard_signature_before"],steps[0]["hard_signature_after"])
+        self.assertEqual(steps[0]["hard_signature_after"][0],1)
+        self.assertEqual(steps[-1]["hard_signature_after"],[0,0])
+        self.assertTrue(r.verify_partition_constraints(fixed,units,adj,floor=50,cap=150)["hard_limits_met"])
+
+    def test_expanded_global_beam_keeps_the_recorded_madrid_fifth_prefix(self):
+        # Controlled replay of the exact candidate condition traced against
+        # solucion_validada.json SHA-256 6e832b1c6f35891d104f04ffdeedcb1fd7c7481a3598015b42aaf43f61d6091a.
+        # Its fifth move (28:28003:M, 91->125) ranked 577/4,127 while the
+        # global beam admitted 128. The parent was expanded and the child was
+        # generated; deduplication and transfer validation were not the cause.
+        target=b"madrid-fifth-state"
+        route_parent=b"parent-frontier-14"
+        frontier=[f"parent-frontier-{i}".encode() for i in range(128)]
+        frontier[14]=route_parent
+        parents={route_parent:(frontier[13],("previous-unit",),91,125,{})}
+        candidates={}; scores={}; hard=(1,23321)
+        for i in range(4127):
+            key=target if i==576 else f"candidate-{i}".encode()
+            score=i if i<576 else i+1
+            candidates[key]={}
+            scores[key]=(hard,score)
+            if key==target:
+                parents[key]=(route_parent,("28:28003:M",),91,125,{})
+            else:
+                parent=f"unrelated-parent-{i}".encode()
+                parents[key]=(parent,(f"unit-{i}",),i%135,(i+1)%135,{})
+        rank=lambda key:scores[key]
+        self.assertEqual(sorted(candidates,key=rank).index(target)+1,577)
+        self.assertNotIn(target,sorted(candidates,key=rank)[:128])
+        selected=r._select_expanded_frontier(candidates,parents,frontier,rank,128)
+        self.assertIn(target,selected)
+        self.assertEqual(len(selected),128)
+
+    def test_expanded_global_beam_preserves_parent_when_handoff_pair_changes(self):
+        # Generic route diversity: the useful child changes A->B into B->C.
+        target=b"child-changing-handoff"
+        route_parent=b"frontier-parent-14"
+        frontier=[f"frontier-parent-{i}".encode() for i in range(128)]
+        frontier[14]=route_parent
+        parents={route_parent:(frontier[13],("previous",),"A","B",{})}
+        candidates={}; scores={}
+        for i in range(4127):
+            key=target if i==576 else f"candidate-{i}".encode()
+            candidates[key]={}
+            scores[key]=i if i<576 else i+1
+            if key==target:
+                parents[key]=(route_parent,("preparatory",),"B","C",{})
+            else:
+                parent=f"unrelated-parent-{i}".encode()
+                parents[key]=(parent,(f"unit-{i}",),"X","Y",{})
+        rank=lambda key:scores[key]
+        self.assertEqual(sorted(candidates,key=rank).index(target)+1,577)
+        self.assertEqual((parents[target][2],parents[target][3]),("B","C"))
+        self.assertNotIn(target,sorted(candidates,key=rank)[:128])
+        selected=r._select_expanded_frontier(candidates,parents,frontier,rank,128)
+        self.assertIn(target,selected)
+        self.assertEqual(len(selected),128)
+
+    def test_expanded_search_is_reproducible_for_fixed_seed(self):
+        units={"a":U(40),"x":U(20),"b1":U(40),"b2":U(40),"y":U(10),"c":U(90)}
+        state={"a":"A","x":"B","b1":"B","b2":"B","y":"C","c":"C"}
+        adj=A(("a","x"),("x","b1"),("x","b2"),("y","c"),("y","b1"),("y","b2"))
+        limits=r.SearchLimits(max_seconds=1,expanded_max_seconds=1,expanded_max_states=100,
+            expanded_max_candidates=500,expanded_max_depth=3,expanded_max_radius=2,
+            expanded_beam_width=8,seed=37)
+        outcomes=[r._expanded_hard_search(state=state,units=units,adjacency=adj,
+            target=100,tolerance=10,floor=50,cap=150,limits=limits,candidate_budget=500)
+            for _ in range(2)]
+        self.assertEqual(outcomes[0][0],outcomes[1][0])
+        self.assertEqual(outcomes[0][1],outcomes[1][1])
+        for outcome in outcomes:
+            meta=outcome[2]
+            meta.pop("elapsed_seconds",None)
+            meta.pop("peak_traced_memory_mib",None)
+        self.assertEqual(outcomes[0][2],outcomes[1][2])
+
+    def test_expanded_search_keeps_frozen_urban_units_unchanged(self):
+        units={"a":U(40),"x":U(10),"b":U(50)}; ass={"a":"A","x":"B","b":"B"}; adj=A(("a","x"),("x","b"))
+        fixed,steps,meta=r._expanded_hard_search(
+            state=ass,units=units,adjacency=adj,target=50,tolerance=6,floor=45,cap=55,
+            frozen_assignments={"a":"A"},
+            limits=r.SearchLimits(max_seconds=1,expanded_max_seconds=1,expanded_max_states=20,
+                expanded_max_depth=3,expanded_max_radius=1,expanded_beam_per_district=1),
+        )
+        self.assertEqual(fixed["a"],"A")
+        self.assertNotEqual(meta["outcome"],"REPAIRED")
+        self.assertEqual(steps,[])
+
+    def test_expanded_global_beam_preserves_ninth_prefix_route(self):
+        # Recorded Madrid candidate: global rank 34 among 2,077 valid
+        # candidates, but omitted by the old per-district top-2 slice.
+        children={f"c{i:04d}":{} for i in range(2077)}
+        parents={key:("parent",("unit",),"donor","receiver",{}) for key in children}
+        ranks={key:i for i,key in enumerate(children)}
+        pops={key:{str(d):-1 for d in range(135)} for key in children}
+        target="c0034"
+        # Model the recorded per-district ranking: eight candidates have more
+        # local population, while the target remains 34th by global rank.
+        for i in range(8):
+            pops[f"c{i:04d}"]={str(d):100 for d in range(135)}
+        pops[target]={str(d):90 for d in range(135)}
+        for district in map(str,range(135)):
+            self.assertEqual(
+                sorted(pops,key=lambda key:(-pops[key][district],key)).index(target),
+                8,
+            )
+        old_selected=set()
+        for district in map(str,range(135)):
+            old_selected.update(sorted(pops,key=lambda key:(-pops[key][district],key))[:2])
+        self.assertNotIn(target,old_selected)
+        rank=lambda key:(ranks[key],key)
+        keep=r._select_expanded_frontier(children,parents,["parent"],rank,128)
+        self.assertIn(target,keep)
+        self.assertEqual(len(keep),128)
+
+    def test_incremental_hard_signature_matches_full_fractional_floor_calculation(self):
+        pops={"A":40,"B":50,"C":100}; floors={"A":40.4,"B":49.7,"C":40.4}
+        before=r._hard_population_signature(pops,floor=40.4,cap=120,district_floors=floors)
+        after_pops={**pops,"A":39,"B":51}
+        expected=r._hard_population_signature(after_pops,floor=40.4,cap=120,district_floors=floors)
+        exact=sum(max(0.0,floors[d]-p,p-120) for d,p in pops.items())
+        actual=r._single_transfer_hard_signature(pops,"A","B",1,floor=40.4,cap=120,
+            district_floors=floors,before_signature=before,before_magnitude_exact=exact)
+        self.assertEqual(actual,expected)
+
     def test_hard_repair_stops_at_zero_hard_even_with_soft_outlier_remaining(self):
         # A empieza bajo suelo. El único movimiento reparador lleva A y B a
         # suelo/techo válidos, mientras C queda fuera de la banda objetivo.
@@ -266,7 +420,7 @@ class PopulationRepairTests(unittest.TestCase):
             ass,units,adj,
             limits=r.SearchLimits(max_depth=0,max_transfer_set=1,max_candidates=50,max_seconds=2,seed=13),
         )
-        self.assertEqual(x["schema"],"ddd.m05-population-repair/1.6")
+        self.assertEqual(x["schema"],"ddd.m05-population-repair/1.9")
         self.assertEqual(
             x["objective_hierarchy"],
             ["hard_violation_count","outliers","max_deviation","total_deviation","cohesion"],

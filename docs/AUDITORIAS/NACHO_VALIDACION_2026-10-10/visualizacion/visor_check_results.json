@@ -1,0 +1,330 @@
+{
+  "runtime": "local JavaScriptCore",
+  "pure_functions_only": true,
+  "DOM": false,
+  "browser_render": false,
+  "frozen_candidates_only": true,
+  "case_count": 12,
+  "outputs": [
+    {
+      "candidate": "A_lower_L1",
+      "district": 0,
+      "input_properties": {
+        "district_id": 0,
+        "population": 1150,
+        "target_population": 1000,
+        "relative_deviation": 0.15,
+        "municipalities": "M1,M2,M3,M4",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 0</p><dl class=\"detail-list\"><dt>Población</dt><dd>1150</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>15,00 %</dd><dt>Municipios</dt><dd>M1,M2,M3,M4</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "A_lower_L1",
+      "district": 1,
+      "input_properties": {
+        "district_id": 1,
+        "population": 950,
+        "target_population": 1000,
+        "relative_deviation": -0.05,
+        "municipalities": "M5,M6,M7,M8",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 1</p><dl class=\"detail-list\"><dt>Población</dt><dd>950</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-5,00 %</dd><dt>Municipios</dt><dd>M5,M6,M7,M8</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "A_lower_L1",
+      "district": 2,
+      "input_properties": {
+        "district_id": 2,
+        "population": 950,
+        "target_population": 1000,
+        "relative_deviation": -0.05,
+        "municipalities": "M9,M10,M11,M12",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 2</p><dl class=\"detail-list\"><dt>Población</dt><dd>950</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-5,00 %</dd><dt>Municipios</dt><dd>M9,M10,M11,M12</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "A_lower_L1",
+      "district": 3,
+      "input_properties": {
+        "district_id": 3,
+        "population": 950,
+        "target_population": 1000,
+        "relative_deviation": -0.05,
+        "municipalities": "M13,M14,M15,M16",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 3</p><dl class=\"detail-list\"><dt>Población</dt><dd>950</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-5,00 %</dd><dt>Municipios</dt><dd>M13,M14,M15,M16</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "B_lower_max",
+      "district": 0,
+      "input_properties": {
+        "district_id": 0,
+        "population": 1100,
+        "target_population": 1000,
+        "relative_deviation": 0.1,
+        "municipalities": "M1,M5,M9,M13",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 0</p><dl class=\"detail-list\"><dt>Población</dt><dd>1100</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>10,00 %</dd><dt>Municipios</dt><dd>M1,M5,M9,M13</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "B_lower_max",
+      "district": 1,
+      "input_properties": {
+        "district_id": 1,
+        "population": 1100,
+        "target_population": 1000,
+        "relative_deviation": 0.1,
+        "municipalities": "M2,M6,M10,M14",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 1</p><dl class=\"detail-list\"><dt>Población</dt><dd>1100</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>10,00 %</dd><dt>Municipios</dt><dd>M2,M6,M10,M14</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "B_lower_max",
+      "district": 2,
+      "input_properties": {
+        "district_id": 2,
+        "population": 900,
+        "target_population": 1000,
+        "relative_deviation": -0.1,
+        "municipalities": "M3,M7,M11,M15",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 2</p><dl class=\"detail-list\"><dt>Población</dt><dd>900</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-10,00 %</dd><dt>Municipios</dt><dd>M3,M7,M11,M15</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "B_lower_max",
+      "district": 3,
+      "input_properties": {
+        "district_id": 3,
+        "population": 900,
+        "target_population": 1000,
+        "relative_deviation": -0.1,
+        "municipalities": "M4,M8,M12,M16",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": []
+      },
+      "html": "<p class=\"district-title\">Distrito 3</p><dl class=\"detail-list\"><dt>Población</dt><dd>900</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-10,00 %</dd><dt>Municipios</dt><dd>M4,M8,M12,M16</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "C_hard_invalid",
+      "district": 0,
+      "input_properties": {
+        "district_id": 0,
+        "population": 2000,
+        "target_population": 1000,
+        "relative_deviation": 1,
+        "municipalities": "M1,M2,M3,M4,M5,M6",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": [
+          "population_cap:0",
+          "population_floor:1",
+          "population_tolerance:0",
+          "population_tolerance:1"
+        ]
+      },
+      "html": "<p class=\"district-title\">Distrito 0</p><dl class=\"detail-list\"><dt>Población</dt><dd>2000</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>100,00 %</dd><dt>Municipios</dt><dd>M1,M2,M3,M4,M5,M6</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "C_hard_invalid",
+      "district": 1,
+      "input_properties": {
+        "district_id": 1,
+        "population": 100,
+        "target_population": 1000,
+        "relative_deviation": -0.9,
+        "municipalities": "M7,M8",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": [
+          "population_cap:0",
+          "population_floor:1",
+          "population_tolerance:0",
+          "population_tolerance:1"
+        ]
+      },
+      "html": "<p class=\"district-title\">Distrito 1</p><dl class=\"detail-list\"><dt>Población</dt><dd>100</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-90,00 %</dd><dt>Municipios</dt><dd>M7,M8</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "C_hard_invalid",
+      "district": 2,
+      "input_properties": {
+        "district_id": 2,
+        "population": 950,
+        "target_population": 1000,
+        "relative_deviation": -0.05,
+        "municipalities": "M9,M10,M11,M12",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": [
+          "population_cap:0",
+          "population_floor:1",
+          "population_tolerance:0",
+          "population_tolerance:1"
+        ]
+      },
+      "html": "<p class=\"district-title\">Distrito 2</p><dl class=\"detail-list\"><dt>Población</dt><dd>950</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-5,00 %</dd><dt>Municipios</dt><dd>M9,M10,M11,M12</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    },
+    {
+      "candidate": "C_hard_invalid",
+      "district": 3,
+      "input_properties": {
+        "district_id": 3,
+        "population": 950,
+        "target_population": 1000,
+        "relative_deviation": -0.05,
+        "municipalities": "M13,M14,M15,M16",
+        "floor": 800,
+        "cap": 1750,
+        "municipality_split_count": 0,
+        "hard_constraint_violations": [
+          "population_cap:0",
+          "population_floor:1",
+          "population_tolerance:0",
+          "population_tolerance:1"
+        ]
+      },
+      "html": "<p class=\"district-title\">Distrito 3</p><dl class=\"detail-list\"><dt>Población</dt><dd>950</dd><dt>Objetivo</dt><dd>1000</dd><dt>Desviación</dt><dd>-5,00 %</dd><dt>Municipios</dt><dd>M13,M14,M15,M16</dd></dl>",
+      "checks": {
+        "population_visible": true,
+        "target_visible": true,
+        "deviation_visible": true,
+        "municipalities_list_visible": true,
+        "floor_cap_not_visible": true,
+        "split_count_not_shown": true,
+        "granular_failures_not_shown": true
+      }
+    }
+  ]
+}

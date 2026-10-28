@@ -1,0 +1,98 @@
+{
+  "schema": "ddd.nacho-validation-e2-run/1.0",
+  "fixture": "B_lower_max",
+  "fixture_sha256": {
+    "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+    "initial.geojson": "e642ea246895d44afe6b771a33f93260573313837312b34b0cc977d570b6ae37",
+    "frozen.json": "4e9bdb7be6b1e5c69e5a3263aa87a158c7b53f345a5cc96fb3f7056bb7e79cf8"
+  },
+  "mode": "recom",
+  "seed": 17,
+  "status": "PASS",
+  "error": null,
+  "seconds_engine_including_io_instrumentation": 7.397687976947054,
+  "memory": {
+    "python_peak_bytes": 2088457,
+    "rss_peak_process_bytes": 108298240,
+    "rss_includes": "imports and common preparedbaseline, native libs"
+  },
+  "instrumentation": {
+    "type": "observe existing candidate_rank calls in _run_seed, no modified rank",
+    "timing_includes_observer": true
+  },
+  "source_sha256": {
+    "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+    "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+    "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+    "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+  },
+  "metrics": {
+    "assignment": {
+      "0": 0,
+      "1": 1,
+      "2": 1,
+      "3": 3,
+      "4": 0,
+      "5": 1,
+      "6": 1,
+      "7": 3,
+      "8": 2,
+      "9": 2,
+      "10": 2,
+      "11": 3,
+      "12": 2,
+      "13": 2,
+      "14": 3,
+      "15": 3
+    },
+    "assignment_hash": "a6369082479c223db0c834a358db2a76304459cf17189c7cea8cbb4ce5cf18eb",
+    "unlabeled_partition_hash": "7e5a6d767b452394aef59ce1b794cece7f3d4a6301bbbba819759f4552b59541",
+    "hard_violations": [],
+    "independent_fixture_violations": [],
+    "K": 4,
+    "population": 4000,
+    "district_populations": {
+      "0": 1000,
+      "1": 1000,
+      "2": 1000,
+      "3": 1000
+    },
+    "population_max_relative": 0.0,
+    "population_l1": 0,
+    "population_rms_relative": 0.0,
+    "outside_target_tolerance": 0,
+    "graph_connected_districts": 4,
+    "physical_connected_districts": 4,
+    "municipalities_split": 0,
+    "municipality_count": 16,
+    "atomic_units": 16,
+    "closed_urban_districts": 0,
+    "geometry_preserved_exact": true,
+    "polsby_popper_min": 0.4363323129985824,
+    "polsby_popper_median": 0.6632251157578453,
+    "comarca_retention": 1.0,
+    "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+  },
+  "search": {
+    "seed": 17,
+    "states_observed": 1001,
+    "unique_states": 695,
+    "self_loops": 204,
+    "proposal_failures": 0,
+    "seconds": 7.254873889964074,
+    "rank": [
+      0,
+      0,
+      0.33677488424215474,
+      0.0,
+      0.0,
+      10,
+      0.4375
+    ],
+    "assignment_hash": "cb95dd6e388584ef6e0c9cf2ada68b237dbbe9f4f1261411713292a08892a3df",
+    "observed_unique_unlabeled_partitions": 293,
+    "observed_unique_labeled_states": 695,
+    "observed_states_from_harness": 1001
+  },
+  "observed_states_with_hard_violations": 0
+}

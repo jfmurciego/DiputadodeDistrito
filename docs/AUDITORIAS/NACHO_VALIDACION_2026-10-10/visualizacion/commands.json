@@ -1,0 +1,13 @@
+{
+  "successful": [
+    "/private/tmp/madrid-gerrychain-venv/bin/python /private/tmp/ddd-nacho-validacion3-20261010/validate.py",
+    "/private/tmp/madrid-gerrychain-venv/bin/python /private/tmp/ddd-nacho-validacion3-20261010/run_js.py"
+  ],
+  "browser_attempt": "Recorded Chrome headless args in validate.py:chrome_dump; first attempt failed Chrome bootstrap EPERM and ps EPERM, no subsequent retry.",
+  "final_checks": [
+    "Python compile validate.py/run_js.py",
+    "All artifact JSON parse",
+    "All frozen source hashes before/after identical",
+    "SVG_count2; CSV_rows12; assignment_hashes3 match; gallery candidatesAB only; invalidC gate retained"
+  ]
+}

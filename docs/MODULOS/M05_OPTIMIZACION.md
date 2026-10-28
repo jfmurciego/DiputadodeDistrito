@@ -1,20 +1,20 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.4.2
-**Nombre de versión:** Reparación poblacional automática con contrato durable
-**Fecha:** 2026-10-05
-**Código activo:** M05 v7.7.2
+**Versión documental:** 1.4.3
+**Nombre de versión:** Identidad del módulo y compatibilidad del informe M05
+**Fecha:** 2026-10-19
+**Código activo:** M05 v7.8.0
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.1.md`
-**Cambio:** mantiene la fase C opt-in y consolida en v7.7.2 la fase D automática ante violaciones duras, con presupuesto focal reservado, evidencia durable compatible y respeto de excepciones de suelo gobernadas; `version` sigue identificando el motor base y `wrapper_version` la interfaz/orquestador activo.
-**Motivo:** incorporar una reparación poblacional reusable y acotada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.2_2026-10-19.md`
+**Cambio:** identifica el archivo activo como v7.8.0 y aclara que `wrapper_version` en el informe conserva el valor 7.7.2 por compatibilidad; no cambia la búsqueda, contratos, tolerancias ni cuotas.
+**Motivo:** corregir la discrepancia documental entre la versión declarada por el módulo y la versión de interfaz conservada en el informe.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
 
 ## Separación wrapper / motor
-- `modulos/05_optimizar_distritos.py` v7.7.2 es la interfaz activa.
+- `modulos/05_optimizar_distritos.py` v7.8.0 es el archivo de interfaz activo.
 - `ddd_core/m05_opt_engine_v741.py` es el motor activo de cálculo; conserva las guardas estructurales de v7.4.0 y deja de abortar únicamente por incumplimientos poblacionales remanentes.
 - `ddd_core/m05_swap_polish.py` v1.0.1 añade exclusivamente la fase C determinista y está desacoplado del motor base.
 - `ddd_core/m05_population_repair.py` añade la reparación poblacional genérica posterior al motor base y al pulido. Se activa automáticamente si el baseline estructural conserva violaciones duras, salvo `population_repair.enabled: false` explícito.
@@ -24,7 +24,7 @@ M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional s
 
 ## Semántica del informe
 - `version`: versión del **motor optimizador** que genera el cuerpo del informe. En el wrapper actual es `7.4.1`.
-- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.7.2`.
+- `wrapper_version`: versión de interfaz conservada en el informe por compatibilidad. En el código activo el valor continúa siendo `7.7.2`; no equivale a la versión declarada del archivo M05 (`7.8.0`).
 - `swap_polish.version`: versión del componente de fase C cuando se ejecuta; actualmente `1.0.1`.
 - `population_repair`: evidencia estructurada de la reparación cuando está habilitada, o de su desactivación cuando no lo está.
 - `unit_id_normalization`: se registra cuando el fallback de identidad es necesario.
@@ -70,7 +70,7 @@ EXT-06 Run `34642098588` validó operativamente la fase C sobre c020: acepta 2 s
 
 ## Estado de validación
 - La lógica base v7.4.0 permanece validada/promocionada por Run #9 y el motor activo v7.4.1 conserva esa línea estructural.
-- El wrapper v7.7.2 mantiene la fase C como opt-in y hace la fase D automática únicamente ante violaciones duras sobre un baseline estructuralmente válido.
+- El archivo de interfaz activo es v7.8.0 y conserva `wrapper_version=7.7.2` en el informe por compatibilidad; mantiene la fase C como opt-in y hace la fase D automática únicamente ante violaciones duras sobre un baseline estructuralmente válido.
 - La fase C está validada operativamente en EXT-06 pero sigue siendo opt-in; esa evidencia histórica no se presenta como validación territorial de la fase D.
 - La fase D está cubierta por regresiones sintéticas y por regresiones del camino canónico M04/M05. Las ejecuciones territoriales históricas no se reinterpretan ni se promueven por el mero cambio de código.
 

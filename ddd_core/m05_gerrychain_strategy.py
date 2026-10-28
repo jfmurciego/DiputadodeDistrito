@@ -2,8 +2,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: 02.5 Estrategia de Optimización — GerryChain/ReCom
-VERSIÓN PROPUESTA: 2.1.0
+VERSIÓN PROPUESTA: 2.2.0
+FECHA: 2026-10-11
+NOMBRE: Reparación experimental con estados poblacionales privados
 ESTADO: candidato de integración, genérico multi-territorio
+ALCANCE: ensayo opt-in para una asignación M05 con infracciones poblacionales y estructura territorial válida.
+CAMBIOS: búsqueda experimental ReCom desde una partición con infracciones poblacionales transitorias en memoria, salida solo con hard=0; presupuesto de pasos compartido y timeout.
+MOTIVO: evitar ampliar el contrato de transición monotónica de A2 para alcanzar factibilidad poblacional.
+PREDECESOR: ../legacy/core/m05_gerrychain_strategy_v2.1.0.py
 
 Objetivo
 ========
@@ -68,7 +74,7 @@ except Exception as exc:  # pragma: no cover - exercised by explicit dependency 
 else:
     _GERRYCHAIN_IMPORT_ERROR = None
 
-STRATEGY_VERSION = "2.1.0"
+STRATEGY_VERSION = "2.2.0"
 
 
 @dataclass(frozen=True)
@@ -343,6 +349,7 @@ def prepare_problem(
     closed_urban_field: str = "ddd_closed_urban",
     metric_crs: str = "EPSG:3035",
     min_shared_border_m: float = 1.0,
+    allow_population_infeasible_initial: bool = False,
 ) -> PreparedProblem:
     municipality_field = municipality_field or contract.municipality_discipline_field
     graph = json.loads(graph_path.read_text(encoding="utf-8"))
@@ -528,6 +535,14 @@ def prepare_problem(
         },
     )
     violations = hard_constraint_violations(problem, initial, contract)
+    if allow_population_infeasible_initial:
+        # Isolated repair mode: only population floor/cap failures may enter
+        # the private chain. No input or product is modified here.
+        violations = [
+            item for item in violations
+            if not item.startswith("population_floor:")
+            and not item.startswith("population_cap:")
+        ]
     if violations:
         raise BaselineValidationError(
             "Formación inicial viola restricciones duras: " + ", ".join(violations[:20])
@@ -854,6 +869,10 @@ def _run_seed(
     contract: StrategyContract,
     config: StrategyConfig,
     seed: int,
+    *,
+    allow_transient_population_violations: bool = False,
+    total_steps: int | None = None,
+    deadline: float | None = None,
 ) -> dict[str, Any]:
     require_runtime(config)
     graph = _proposal_graph(problem)
@@ -867,7 +886,14 @@ def _run_seed(
     )
 
     def hard(partition: Any) -> bool:
-        return not hard_constraint_violations(problem, _partition_assignment(partition), contract)
+        violations = hard_constraint_violations(problem, _partition_assignment(partition), contract)
+        if allow_transient_population_violations:
+            violations = [
+                item for item in violations
+                if not item.startswith("population_floor:")
+                and not item.startswith("population_cap:")
+            ]
+        return not violations
 
     raw_proposal = build_recom_proposal_fn(
         pop_col="population",
@@ -885,6 +911,8 @@ def _run_seed(
 
     def safe_proposal(partition: Any, *, rng: Any) -> Any:
         nonlocal proposal_failures
+        if deadline is not None and time.monotonic() >= deadline:
+            raise TimeoutError("population repair time budget exhausted")
         try:
             return raw_proposal(partition, rng=rng)
         except (BalanceError, PopulationBalanceError, ReselectException, MetagraphError, RuntimeError):
@@ -897,29 +925,48 @@ def _run_seed(
         proposal_fn=safe_proposal,
         constraints=[hard],
         initial_partition=initial_partition,
-        total_steps=config.steps_per_seed,
+        total_steps=total_steps or config.steps_per_seed,
         rng=seed,
     )
 
-    best_assignment = dict(problem.initial_assignment)
-    best_rank = candidate_rank(problem, best_assignment, contract, problem.initial_assignment, config.population_band)
+    initial_assignment = dict(problem.initial_assignment)
+    initial_is_valid = not hard_constraint_violations(problem, initial_assignment, contract)
+    best_assignment = initial_assignment if initial_is_valid else None
+    best_rank = (
+        candidate_rank(problem, initial_assignment, contract, problem.initial_assignment, config.population_band)
+        if initial_is_valid else None
+    )
     unique: set[str] = set()
     self_loops = 0
     previous_hash: str | None = None
     observed = 0
+    transient_population_states = 0
+    timed_out = False
     started = time.perf_counter()
-    for partition in chain:
-        observed += 1
-        assignment = _partition_assignment(partition)
-        digest = _assignment_hash(assignment)
-        unique.add(digest)
-        if previous_hash == digest:
-            self_loops += 1
-        previous_hash = digest
-        rank = candidate_rank(problem, assignment, contract, problem.initial_assignment, config.population_band)
-        if rank < best_rank:
-            best_rank = rank
-            best_assignment = assignment
+    try:
+        for partition in chain:
+            observed += 1
+            assignment = _partition_assignment(partition)
+            digest = _assignment_hash(assignment)
+            unique.add(digest)
+            if previous_hash == digest:
+                self_loops += 1
+            previous_hash = digest
+            violations = hard_constraint_violations(problem, assignment, contract)
+            if violations:
+                if allow_transient_population_violations and all(
+                    item.startswith(("population_floor:", "population_cap:")) for item in violations
+                ):
+                    transient_population_states += 1
+                # Private infeasible states may continue the chain, but never
+                # enter ranking, selection, portfolio, or materialisation.
+                continue
+            rank = candidate_rank(problem, assignment, contract, problem.initial_assignment, config.population_band)
+            if best_rank is None or rank < best_rank:
+                best_rank = rank
+                best_assignment = assignment
+    except TimeoutError:
+        timed_out = True
     elapsed = time.perf_counter() - started
     return {
         "seed": seed,
@@ -928,9 +975,12 @@ def _run_seed(
         "self_loops": self_loops,
         "proposal_failures": proposal_failures,
         "seconds": elapsed,
-        "rank": list(best_rank[:-1]),
-        "assignment_hash": _assignment_hash(best_assignment),
+        "rank": list(best_rank[:-1]) if best_rank is not None else None,
+        "assignment_hash": _assignment_hash(best_assignment) if best_assignment is not None else None,
         "assignment": best_assignment,
+        "valid_candidate_found": best_assignment is not None,
+        "transient_population_states": transient_population_states,
+        "termination": "TIMEOUT" if timed_out else ("STEP_BUDGET_EXHAUSTED" if observed < (total_steps or config.steps_per_seed) else "STEP_BUDGET_REACHED"),
     }
 
 
@@ -938,18 +988,72 @@ def run_portfolio(
     problem: PreparedProblem,
     contract: StrategyContract,
     config: StrategyConfig,
+    *,
+    allow_transient_population_violations: bool = False,
+    max_total_steps: int | None = None,
+    max_seconds: float | None = None,
 ) -> dict[str, Any]:
     initial_rank = candidate_rank(problem, problem.initial_assignment, contract, problem.initial_assignment, config.population_band)
-    runs = [_run_seed(problem, contract, config, seed) for seed in config.seeds()]
+    started = time.monotonic()
+    step_budget = max_total_steps if max_total_steps is not None else config.steps_per_seed * config.seed_count
+    if step_budget < 1:
+        raise ValueError("max_total_steps debe ser >= 1")
+    if max_seconds is not None and max_seconds <= 0:
+        raise ValueError("max_seconds debe ser > 0")
+    deadline = started + max_seconds if max_seconds is not None else None
+    runs = []
+    remaining = step_budget
+    for seed in config.seeds():
+        if remaining <= 0 or (deadline is not None and time.monotonic() >= deadline):
+            break
+        steps = min(config.steps_per_seed, remaining)
+        run = _run_seed(
+            problem, contract, config, seed,
+            allow_transient_population_violations=allow_transient_population_violations,
+            total_steps=steps,
+            deadline=deadline,
+        )
+        runs.append(run)
+        remaining -= run["states_observed"]
+    all_runs = list(runs)
+    eligible_runs = [run for run in all_runs if run["assignment"] is not None]
+    if not eligible_runs:
+        diagnostics = {
+            "budget": {
+                "max_total_steps": step_budget,
+                "states_observed": sum(run["states_observed"] for run in all_runs),
+                "max_seconds": max_seconds,
+                "seconds": round(time.monotonic() - started, 6),
+            },
+            "runs": [
+                {key: value for key, value in run.items() if key != "assignment"}
+                for run in all_runs
+            ],
+        }
+        raise BaselineValidationError(
+            "NO_VALID_CANDIDATE_WITHIN_BUDGET "
+            + json.dumps(diagnostics, ensure_ascii=False, sort_keys=True)
+        )
     selected = min(
-        runs,
+        eligible_runs,
         key=lambda r: candidate_rank(problem, r["assignment"], contract, problem.initial_assignment, config.population_band),
     )
     selected_assignment = selected["assignment"]
     selected_rank = candidate_rank(problem, selected_assignment, contract, problem.initial_assignment, config.population_band)
-    if selected_rank > initial_rank:
+    if not hard_constraint_violations(problem, problem.initial_assignment, contract) and selected_rank > initial_rank:
         raise AssertionError("El portfolio GerryChain intentó degradar M04; esto no debe ser posible")
-    return {"runs": runs, "selected": selected}
+    return {
+        "runs": all_runs,
+        "selected": selected,
+        "budget": {
+            "max_total_steps": step_budget,
+            "states_observed": sum(run["states_observed"] for run in all_runs),
+            "max_seconds": max_seconds,
+            "seconds": round(time.monotonic() - started, 6),
+            "termination": "TIMEOUT" if any(run["termination"] == "TIMEOUT" for run in all_runs) else
+                ("STEP_BUDGET_EXHAUSTED" if sum(run["states_observed"] for run in all_runs) < step_budget else "STEP_BUDGET_REACHED"),
+        },
+    }
 
 
 def materialise_output(
@@ -993,6 +1097,21 @@ def materialise_portfolio(
 
     rows: list[dict[str, Any]] = []
     for index, run in enumerate(portfolio["runs"], start=1):
+        if run["assignment"] is None:
+            rows.append({
+                "index": index,
+                "seed": run["seed"],
+                "assignment_hash": None,
+                "rank": None,
+                "states_observed": run["states_observed"],
+                "unique_states": run["unique_states"],
+                "proposal_failures": run["proposal_failures"],
+                "status": "REJECTED_NO_HARD_VALID_CANDIDATE",
+                "geojson": None,
+                "sha256": None,
+                "selected": False,
+            })
+            continue
         candidate = portfolio_dir / f"candidate_{index:03d}_seed_{run['seed']}.geojson.zip"
         materialise_output(problem, run["assignment"], candidate)
         rows.append({
@@ -1003,6 +1122,7 @@ def materialise_portfolio(
             "states_observed": run["states_observed"],
             "unique_states": run["unique_states"],
             "proposal_failures": run["proposal_failures"],
+            "status": "HARD_VALID_CANDIDATE",
             "geojson": str(candidate),
             "sha256": _sha256(candidate),
             "selected": run["assignment_hash"] == portfolio["selected"]["assignment_hash"],
@@ -1120,6 +1240,11 @@ def build_report(
             "min_shared_border_m": config.min_shared_border_m,
             "max_bipartition_attempts": config.max_bipartition_attempts,
             "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
+            "budget": dict(portfolio.get("budget") or {}),
+            "private_transient_population_states": sum(
+                run.get("transient_population_states", 0) for run in portfolio["runs"]
+            ),
+            "population_infeasible_initial_is_private": bool(hard_before),
             "runs": [
                 {k: v for k, v in run.items() if k != "assignment"}
                 for run in portfolio["runs"]
@@ -1145,8 +1270,8 @@ def build_report(
             "sha256": _sha256(output_path),
         },
         "portfolio": {
-            "candidate_count": len(portfolio_rows or []),
-            "unique_candidate_count": len({row["assignment_hash"] for row in (portfolio_rows or [])}),
+            "candidate_count": sum(row.get("status") == "HARD_VALID_CANDIDATE" for row in (portfolio_rows or [])),
+            "unique_candidate_count": len({row["assignment_hash"] for row in (portfolio_rows or []) if row.get("assignment_hash")}),
             "candidates": portfolio_rows or [],
         },
         "nonpartisan_contract": {
@@ -1171,7 +1296,15 @@ def run_from_paths(
     report_path: Path,
     contract: StrategyContract,
     strategy: StrategyConfig,
+    allow_population_infeasible_initial: bool = False,
+    max_total_steps: int | None = None,
+    max_seconds: float | None = None,
 ) -> dict[str, Any]:
+    if allow_population_infeasible_initial:
+        if output_path.expanduser().resolve() in {
+            initial_path.expanduser().resolve(), graph_path.expanduser().resolve(),
+        }:
+            raise BaselineValidationError("EXPERIMENT_OUTPUT_MUST_NOT_OVERWRITE_INPUT")
     try:
         problem = prepare_problem(
             graph_path,
@@ -1179,12 +1312,18 @@ def run_from_paths(
             contract,
             metric_crs=strategy.metric_crs,
             min_shared_border_m=strategy.min_shared_border_m,
+            allow_population_infeasible_initial=allow_population_infeasible_initial,
         )
     except BaselineValidationError:
         raise
     except (ValueError, FileNotFoundError, KeyError) as exc:
         raise BaselineValidationError(str(exc)) from exc
-    portfolio = run_portfolio(problem, contract, strategy)
+    portfolio = run_portfolio(
+        problem, contract, strategy,
+        allow_transient_population_violations=allow_population_infeasible_initial,
+        max_total_steps=max_total_steps if allow_population_infeasible_initial else None,
+        max_seconds=max_seconds if allow_population_infeasible_initial else None,
+    )
     materialise_output(problem, portfolio["selected"]["assignment"], output_path)
     portfolio_rows = materialise_portfolio(problem, portfolio, output_path)
     report = build_report(
@@ -1216,6 +1355,12 @@ def _main_impl() -> None:
     ap.add_argument("--population-band", type=float)
     ap.add_argument("--max-bipartition-attempts", type=int)
     ap.add_argument("--validate-baseline-only", action="store_true")
+    ap.add_argument(
+        "--allow-population-infeasible-initial", action="store_true",
+        help="Experimento aislado: permite infracciones poblacionales en estados privados; solo materializa candidatas hard-válidas.",
+    )
+    ap.add_argument("--max-total-steps", type=int)
+    ap.add_argument("--max-seconds", type=float)
     args = ap.parse_args()
 
     try:
@@ -1272,13 +1417,24 @@ def _main_impl() -> None:
                 contract,
                 metric_crs=strategy.metric_crs,
                 min_shared_border_m=strategy.min_shared_border_m,
+                allow_population_infeasible_initial=args.allow_population_infeasible_initial,
             )
         except BaselineValidationError:
             raise
         except (ValueError, FileNotFoundError, KeyError) as exc:
             raise BaselineValidationError(str(exc)) from exc
+        baseline_violations = hard_constraint_violations(problem, problem.initial_assignment, contract)
+        private_population_violations = [
+            item for item in baseline_violations
+            if item.startswith(("population_floor:", "population_cap:"))
+        ]
         print(json.dumps({
-            "baseline_valid": True,
+            "baseline_valid": not baseline_violations,
+            "baseline_structurally_valid": not [
+                item for item in baseline_violations if item not in private_population_violations
+            ],
+            "private_population_infeasible": bool(private_population_violations),
+            "hard_violations": baseline_violations,
             "units": len(problem.units),
             "districts": len(set(problem.initial_assignment.values())),
         }, ensure_ascii=False))
@@ -1291,6 +1447,9 @@ def _main_impl() -> None:
         report_path=Path(paths["report"]),
         contract=contract,
         strategy=strategy,
+        allow_population_infeasible_initial=args.allow_population_infeasible_initial,
+        max_total_steps=args.max_total_steps,
+        max_seconds=args.max_seconds,
     )
     print(json.dumps({
         "strategy": report["strategy"],

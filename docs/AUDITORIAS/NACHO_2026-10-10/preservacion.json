@@ -1,0 +1,61 @@
+{
+  "schema": "ddd.nacho-preservation/1.0",
+  "date": "2026-10-10",
+  "head": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "previous_files": {
+    "ddd_core/m05_population_repair.py": {
+      "expected": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+      "current": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+      "unchanged": true
+    },
+    "docs/AUDITORIAS/MADRID_M06_2026-10-09.json": {
+      "expected": "8cdee5e11064dfee820d77d81030c024dd9f71e62901452820d78221779f3407",
+      "current": "8cdee5e11064dfee820d77d81030c024dd9f71e62901452820d78221779f3407",
+      "unchanged": true
+    },
+    "docs/AUDITORIAS/MADRID_M06_2026-10-09.md": {
+      "expected": "491f79f8d382c8ac0a216779dd337d3d358ccf87b0a43b3f91a754bf3263308c",
+      "current": "491f79f8d382c8ac0a216779dd337d3d358ccf87b0a43b3f91a754bf3263308c",
+      "unchanged": true
+    },
+    "modulos/05_optimizar_distritos.py": {
+      "expected": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+      "current": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+      "unchanged": true
+    },
+    "tests/test_m05_population_repair.py": {
+      "expected": "c8e67c94dd6d320460c74a54bdcd444b3cf0a569afc66a92cd4f4f86b6e31d46",
+      "current": "c8e67c94dd6d320460c74a54bdcd444b3cf0a569afc66a92cd4f4f86b6e31d46",
+      "unchanged": true
+    },
+    "docs/AUDITORIAS/M05_BUSQUEDA_AMPLIADA_MADRID_2026-10-09.md": {
+      "expected": "be1a36f5e89240a4a084fcf953d7953b7da9988b749e5e4a3bc061e02273d3f1",
+      "current": "be1a36f5e89240a4a084fcf953d7953b7da9988b749e5e4a3bc061e02273d3f1",
+      "unchanged": true
+    },
+    "legacy/core/m05_population_repair_v1.6.0_2026-10-09.py": {
+      "expected": "1c87809aefaa015307288f1d1491815ba3bbeafd70ddef8800fad9916cc874b8",
+      "current": "1c87809aefaa015307288f1d1491815ba3bbeafd70ddef8800fad9916cc874b8",
+      "unchanged": true
+    },
+    "legacy/modulo05/05_optimizar_distritos_v7.7.2_2026-10-09.py": {
+      "expected": "09a0f8470e1acacbd005e161a2879fcf15819eb46263441a2c29151059ef5ffd",
+      "current": "09a0f8470e1acacbd005e161a2879fcf15819eb46263441a2c29151059ef5ffd",
+      "unchanged": true
+    },
+    "legacy/tests/test_m05_population_repair_pre_expanded_search_2026-10-09.py": {
+      "expected": "4b2ba9c4e7487949e1061ada19a5b821561507531dbda5c67aed7c7ebaf652df",
+      "current": "4b2ba9c4e7487949e1061ada19a5b821561507531dbda5c67aed7c7ebaf652df",
+      "unchanged": true
+    }
+  },
+  "production_source_changes": [],
+  "all_preexisting_unchanged": true,
+  "production_unchanged": true,
+  "git_diff_check_exit": 0,
+  "territorial_runs": 0,
+  "workflows": 0,
+  "push": 0,
+  "pr_created": 0,
+  "production_edits": 0
+}

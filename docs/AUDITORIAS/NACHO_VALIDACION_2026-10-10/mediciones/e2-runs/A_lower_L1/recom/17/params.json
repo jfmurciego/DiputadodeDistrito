@@ -1,0 +1,30 @@
+{
+  "contract": {
+    "expected_k": 4,
+    "target_tolerance_ratio": 0.12,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "province_districts": {
+      "01": 4
+    },
+    "population_floor_exempt_partitions": [],
+    "require_single_province": true,
+    "require_contiguity": true,
+    "require_municipality_discipline": true,
+    "municipality_discipline_field": "CUMUN",
+    "max_mixed_districts_per_split_municipality": 1,
+    "preserve_closed_urban": true
+  },
+  "strategy": {
+    "steps_per_seed": 1001,
+    "seed_base": 16,
+    "seed_count": 1,
+    "proposal_epsilon": 0.12,
+    "comarca_surcharge": 0,
+    "population_band": 0.005,
+    "metric_crs": "EPSG:3035",
+    "min_shared_border_m": 1,
+    "max_bipartition_attempts": 50,
+    "require_pythonhashseed_zero": true
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema": "ddd.nacho-validation-e2-run/1.0",
+  "fixture": "A_lower_L1",
+  "fixture_sha256": {
+    "graph.json": "be5bc9c070499f24d610ee68778c2eb3f29e6ad028e69952aaeaf6c069f7f909",
+    "initial.geojson": "f7d85941a22d0671030c87f587dd8931391adeb63d3f99e991b0ccb05083e53d",
+    "frozen.json": "009d8a8a861cf8bf71da6fc9311ebce63b1235f4fc46c05badf1b37a9d74028f"
+  },
+  "mode": "canonical",
+  "seed": 43,
+  "status": "PASS",
+  "error": null,
+  "seconds_engine_including_io_instrumentation": 0.6072222520597279,
+  "memory": {
+    "python_peak_bytes": 1617825,
+    "rss_peak_process_bytes": 113414144,
+    "rss_includes": "imports and common preparedbaseline, native libs"
+  },
+  "instrumentation": {
+    "type": "read-only sys.settrace existing main, no code patch",
+    "source": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_core/m05_opt_engine_v741.py",
+    "watched_lines": {
+      "greedy": 243,
+      "anneal": 295,
+      "last": 361
+    },
+    "timing_includes_trace": true
+  },
+  "source_sha256": {
+    "modulos/05_optimizar_distritos.py": "132fb5308c8514ec1f36e26ac0f5869af9af15459a74e751247dfe343d88dafa",
+    "ddd_core/m05_opt_engine_v741.py": "ba4315244ed318e0df31f6da3c06e2438b189dbfd7d28411e84cdde9fc263179",
+    "ddd_core/m05_population_repair.py": "6d0c70b27bad3cd02d0ffef66af891969d3bbfce31025dc01f86c9d30571336b",
+    "ddd_core/m05_gerrychain_strategy.py": "8d9e5c94389323f82948947afba4cb621d567d8e2d0cac5d034f0ce17173359e"
+  },
+  "metrics": {
+    "assignment": {
+      "0": 0,
+      "1": 1,
+      "2": 1,
+      "3": 1,
+      "4": 0,
+      "5": 1,
+      "6": 3,
+      "7": 3,
+      "8": 2,
+      "9": 2,
+      "10": 2,
+      "11": 3,
+      "12": 2,
+      "13": 2,
+      "14": 3,
+      "15": 3
+    },
+    "assignment_hash": "15e7f307bd8690c67f42d028f434b454f1890e5f3cb20638c5cb6f8a01716ee4",
+    "unlabeled_partition_hash": "a36caa307d7d1fe2421582bf946a2e07808a4c083ac29de556802531b97c6fe2",
+    "hard_violations": [],
+    "independent_fixture_violations": [],
+    "K": 4,
+    "population": 4000,
+    "district_populations": {
+      "0": 1000,
+      "1": 1000,
+      "2": 1000,
+      "3": 1000
+    },
+    "population_max_relative": 0.0,
+    "population_l1": 0,
+    "population_rms_relative": 0.0,
+    "outside_target_tolerance": 0,
+    "graph_connected_districts": 4,
+    "physical_connected_districts": 4,
+    "municipalities_split": 0,
+    "municipality_count": 16,
+    "atomic_units": 16,
+    "closed_urban_districts": 0,
+    "geometry_preserved_exact": true,
+    "polsby_popper_min": 0.4363323129985824,
+    "polsby_popper_median": 0.5654866776461627,
+    "comarca_retention": 1.0,
+    "fine_tolerance_role": "objective, not hard; floor800/cap1750 hard for both"
+  },
+  "search": {
+    "greedy_accepted": 3,
+    "anneal_accepted": 68,
+    "anneal_attempts": 1000,
+    "unique_labeled_states": 54,
+    "unique_unlabeled_partitions": 54,
+    "anneal_hold_transitions": 932,
+    "anneal_transition_count": 1000,
+    "population_repair": {
+      "enabled": false,
+      "activation": "NOT_NEEDED",
+      "result": "DISABLED",
+      "hard_population_violations_before": 0,
+      "population_floor_exempt_partitions": [],
+      "district_floor_overrides": {}
+    },
+    "note": "SA holds are not a MarkovChain quality gate; greedy selection not counted as failed proposals"
+  },
+  "observed_states_with_hard_violations": 0
+}

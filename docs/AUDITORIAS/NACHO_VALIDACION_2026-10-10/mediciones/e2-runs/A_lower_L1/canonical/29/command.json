@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/private/tmp/madrid-gerrychain-venv/bin/python",
+    "/private/tmp/ddd-nacho-validacion-20261010/comparar_m05.py",
+    "--worker",
+    "canonical",
+    "--fixture",
+    "/private/tmp/ddd-nacho-validacion-20261010/fixture-e2/A_lower_L1",
+    "--seed",
+    "29"
+  ],
+  "env": {
+    "PYTHONHASHSEED": "0",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit": 0,
+  "wall_seconds_process": 1.900715593015775
+}

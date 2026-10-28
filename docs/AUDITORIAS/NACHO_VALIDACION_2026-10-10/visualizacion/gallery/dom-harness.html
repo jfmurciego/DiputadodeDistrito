@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DDD · Revisión territorial</title><link rel="stylesheet" href="style.css"></head>
+<body><header><h1>Revisión de alternativas territoriales</h1><p id="meta"></p></header>
+<main><section class="toolbar"><label>Perfil <select id="profile"><option value="">Todos</option></select></label>
+<label><input id="pareto" type="checkbox"> Solo frente de Pareto</label><button id="download">Descargar selection.json</button></section>
+<section class="compare"><div><label>Mapa A <select id="compareA"></select></label><div id="mapA" class="map"></div></div>
+<div><label>Mapa B <select id="compareB"></select></label><div id="mapB" class="map"></div></div></section>
+<section id="cards" class="cards"></section><section class="decision"><h2>Decisión de campo</h2>
+<label>Candidato <select id="selected"><option value="">Sin seleccionar</option></select></label>
+<label>Responsable <input id="reviewer"></label><label>Justificación <textarea id="reason"></textarea></label></section></main>
+<script>
+window.mapCalls=[];window.downloadedSelections=[];
+window.maplibregl={Map:class{constructor(o){mapCalls.push(o)}remove(){}fitBounds(b){this.bounds=b}addControl(){}},NavigationControl:class{}};
+URL.createObjectURL=b=>{b.text().then(t=>downloadedSelections.push(JSON.parse(t)));return 'blob:diagnostic';};HTMLAnchorElement.prototype.click=function(){};
+async function verify(){if(typeof DATA==='undefined'||!DATA){setTimeout(verify,20);return;}let tests={};tests.initialCards=cards.children.length;tests.initialIDs=[...cards.children].map(x=>x.querySelector('h2').textContent);tests.invalidOptionsAbsent=![...selected.options].some(o=>o.value==='C_hard_invalid');tests.mapsLoaded=mapCalls.length;pareto.checked=true;pareto.onchange();tests.paretoIDs=[...cards.children].map(x=>x.querySelector('h2').textContent);pareto.checked=false;pareto.onchange();profile.value='';profile.onchange();cards.children[1].querySelector('button').onclick();tests.selected=selected.value;reviewer.value='DIAGNOSTIC_ONLY';reason.value='Fixture congelado; ninguna promoción autorizada';download.onclick();await new Promise(r=>setTimeout(r,20));tests.downloaded=downloadedSelections;tests.visibleLabels=[...cards.querySelectorAll('.metric span')].map(x=>x.textContent);tests.visibleCardText=cards.textContent;tests.maps=mapCalls.map(o=>({container:o.container,featureCount:o.style.sources.candidate.data.features.length}));let p=document.createElement('pre');p.id='test-results';p.textContent=JSON.stringify(tests);document.body.appendChild(p);}
+window.addEventListener('load',()=>setTimeout(verify,200));
+</script><script src="app.js"></script></body></html>

@@ -37,14 +37,11 @@ class RiojaRepairReproductionTests(unittest.TestCase):
         self.assertEqual([r["population"] for r in proof["explored"]], [4025, 6769])
         self.assertEqual(min(r["population"] for r in proof["over_upper"]), 11580)
 
-    def test_existing_focal_search_preserves_real_partition(self):
-        result = h.replay(self.case, h.core.SearchLimits(max_depth=0))
-        self.assertEqual(result["repair"]["result"], "NO_FEASIBLE_REPAIR_FOUND")
-        self.assertEqual(result["repair"]["termination_reason"], "QUEUE_EMPTY")
-        self.assertEqual(result["repair"]["repairs"], [])
-        self.assertEqual(result["repair"]["assignments"], self.case["kwargs"]["assignments"])
-        self.assertEqual(result["after"]["objective"][:2], [0, 1])
-        self.assertTrue(result["after"]["frozen_preserved"])
+    def test_historical_focal_search_requires_matching_repair_code_identity(self):
+        # El artefacto conserva el resultado histórico, pero el motor local ya
+        # no es idéntico. Debe fallar cerrado antes de atribuirle una reproducción.
+        with self.assertRaisesRegex(ValueError, "REPAIR_CODE_DIFFERS_FROM_RUN"):
+            h.replay(self.case, h.core.SearchLimits(max_depth=0))
 
     def test_legal_rincon_transfer_worsens_maximum_deviation(self):
         kw = self.case["kwargs"]
@@ -83,9 +80,12 @@ class RiojaRepairReproductionTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "REPAIR_CODE_DIFFERS_FROM_RUN"):
                 h.replay(self.case)
 
-    def test_large_search_is_rejected(self):
-        with self.assertRaisesRegex(ValueError, "OPERATIONAL_LIMIT_EXCEEDED"):
-            h.replay(self.case, h.core.SearchLimits(max_seconds=60))
+    def test_large_search_limit_is_rejected_after_matching_identity(self):
+        expected = self.case["compatibility"]["engine_files"]["ddd_core/m05_population_repair.py"]
+        # Aísla la guarda de presupuesto sin atribuir el checkpoint al motor local.
+        with patch.object(h, "digest", return_value=expected):
+            with self.assertRaisesRegex(ValueError, "OPERATIONAL_LIMIT_EXCEEDED"):
+                h.replay(self.case, h.core.SearchLimits(max_seconds=60))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,27 @@
+{
+  "before": {
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/results.json": "3ef8b107c33fa923301fd56df1be83a82d0e8a726069fd54efa678d2a152e684",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_plan.json": "b8e840f6e2acfbc5f0bdd72c5fe08057e3351305b777dcee8177af4dbbb94441",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ensemble_summary.json": "93b1cff2b8c5a2a1e5e78f5fdd6316a8fdb558ebd69100eccc0b2556796d6712",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/experiments.py": "523b423cfe576bb5c83b07b28a989ff32905453bdaa7d25b638dab7b22499be9",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_ensemble/ensemble_assembler.py": "66666acfef804e25c198bb28729af87fff2c0d7735720ec1de48be19d14bb326",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_ensemble/gallery.py": "67c4344b0f3b6269f246f13b007736534a30ae45b2e0f0ea7f28f4c7246ea4c6",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/INFORME.md": "e4c1dd59c86edd5dcb8665f5e39f635198b5a118a5ac792095d050ad5a5132a7",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/C_hard_invalid/report.json": "fc3263a052b6c53331728babd6024da640f1f137c0e6c0df1b618ed8aaba1afd",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/A_lower_L1/report.json": "542170638f1e3ed3cdf18f06d5acc783031033c49949d1d53c11f7500bac5b7f",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/B_lower_max/report.json": "1e5c9022b802fafe8da572199574ce00ac5aa646b8673ad6185899f88b9a3198"
+  },
+  "after": {
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/results.json": "3ef8b107c33fa923301fd56df1be83a82d0e8a726069fd54efa678d2a152e684",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_plan.json": "b8e840f6e2acfbc5f0bdd72c5fe08057e3351305b777dcee8177af4dbbb94441",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ensemble_summary.json": "93b1cff2b8c5a2a1e5e78f5fdd6316a8fdb558ebd69100eccc0b2556796d6712",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/experiments.py": "523b423cfe576bb5c83b07b28a989ff32905453bdaa7d25b638dab7b22499be9",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_ensemble/ensemble_assembler.py": "66666acfef804e25c198bb28729af87fff2c0d7735720ec1de48be19d14bb326",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/ddd_ensemble/gallery.py": "67c4344b0f3b6269f246f13b007736534a30ae45b2e0f0ea7f28f4c7246ea4c6",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/INFORME.md": "e4c1dd59c86edd5dcb8665f5e39f635198b5a118a5ac792095d050ad5a5132a7",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/C_hard_invalid/report.json": "fc3263a052b6c53331728babd6024da640f1f137c0e6c0df1b618ed8aaba1afd",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/A_lower_L1/report.json": "542170638f1e3ed3cdf18f06d5acc783031033c49949d1d53c11f7500bac5b7f",
+    "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos/docs/AUDITORIAS/NACHO_2026-10-10/experimentos/ranking_reports/B_lower_max/report.json": "1e5c9022b802fafe8da572199574ce00ac5aa646b8673ad6185899f88b9a3198"
+  },
+  "equal": true
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.m05-gerrychain-portfolio/1.0",
+  "candidate_count": 1,
+  "unique_candidate_count": 1,
+  "selected_assignment_hash": "3fc909ce69154b92ee2c1403231382674b5ef434d80b46d017ed1ef7a1c0466b",
+  "candidates": [
+    {
+      "index": 1,
+      "seed": 29,
+      "assignment_hash": "3fc909ce69154b92ee2c1403231382674b5ef434d80b46d017ed1ef7a1c0466b",
+      "rank": [
+        0,
+        10,
+        0.2739430311703589,
+        0.05,
+        0.05,
+        9,
+        0.5625
+      ],
+      "states_observed": 1001,
+      "unique_states": 670,
+      "proposal_failures": 0,
+      "geojson": "/private/tmp/ddd-nacho-validacion-20261010/e2-runs/B_lower_max/recom/29/selected_gerrychain_portfolio/candidate_001_seed_29.geojson.zip",
+      "sha256": "e04a4c41460690c227dee75b4a9b6d1a99c6ffbac693fbd1c2bf83c696d659d3",
+      "selected": true
+    }
+  ]
+}

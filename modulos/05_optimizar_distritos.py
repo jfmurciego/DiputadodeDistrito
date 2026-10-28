@@ -3,19 +3,19 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.7.2
-NOMBRE DE VERSIÓN: Reparación poblacional focal con presupuesto reservado
-FECHA: 2026-10-05
-ESTADO: activo; reparación poblacional automática ante violaciones duras, con desactivación explícita y CI completa.
+VERSIÓN: 7.8.0
+NOMBRE DE VERSIÓN: Reparación poblacional focal y búsqueda ampliada acotada
+FECHA: 2026-10-09
+ESTADO: candidato para revisión; búsqueda ampliada con límites y protección explícita de unidades urbanas congeladas.
 FUNCIÓN: ejecutar el motor base M05 v7.4.1, aplicar el pulido determinista existente y activar de forma genérica
 una reparación poblacional acotada cuando una partición estructuralmente válida conserva violaciones duras.
 ENTRADAS: grafo M03 y solución M04 con district_id, ddd_unit_id y provincia.
 SALIDAS: GeoJSON optimizado e informe M05 con versión de wrapper y evidencia estructurada de reparación.
 REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; una desactivación explícita prevalece y la activación
 automática solo ocurre ante violaciones duras sobre una partición estructuralmente válida.
-CAMBIOS: reserva presupuesto y tiempo para la búsqueda focal ante violaciones duras, eleva el default a 20000 sucesores admisibles y mantiene el vector durable de objetivo compatible con consumidores existentes.
-MOTIVO: permitir reparación poblacional reusable y acotada sin alterar el motor base ni los contratos territoriales.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.7.1.py
+CAMBIOS: conserva búsqueda focal; si quedan violaciones duras, activa búsqueda ampliada con límites explícitos y prohíbe transferencias de unidades o distritos urbanos congelados.
+MOTIVO: ampliar rutas preparatorias genéricas, manteniendo restricciones territoriales y salidas compatibles.
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.7.2_2026-10-09.py
 """
 from __future__ import annotations
 import argparse, copy, importlib.util, io, json, sys, tempfile, zipfile
@@ -204,6 +204,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
         cap=cap,
         limits=limits,
         district_floors=district_floors,
+        frozen_assignments=baseline_frozen,
     )
     meta["enabled"]=True
     meta["activation"]=activation

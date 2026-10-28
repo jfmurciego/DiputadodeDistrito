@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/usr/bin/safaridriver",
+    "--port",
+    "8766"
+  ],
+  "seconds": 0.8427948660682887,
+  "returncode": 1,
+  "session_response": null,
+  "error": null
+}

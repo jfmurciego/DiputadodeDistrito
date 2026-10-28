@@ -1,0 +1,18 @@
+Version:               157.0.1 (15726.10.5)
+Date/Time:             2026-10-10 13:53:05.529 +0200
+OS Version:            macOS 11.7.11 (20G1443)
+Crashed Thread:        0  MainThread
+Exception Type:        EXC_CRASH (SIGABRT)
+Exception Codes:       0x0000000000000000, 0x0000000000000000
+Thread 0 Crashed:: MainThread
+0   libsystem_kernel.dylib        	0x00007fff204cc90e 0x7fff204c5000 + 30990
+1   libsystem_c.dylib             	0x00007fff20450406 0x7fff203d0000 + 525318
+2   com.apple.HIServices          	0x00007fff2588566d 0x7fff2587f000 + 26221
+3   com.apple.HIServices          	0x00007fff2588aaec 0x7fff2587f000 + 47852
+4   XUL                           	0x000000010fae6c48 0x10e216000 + 26020936
+5   XUL                           	0x00000001141b1b7f 0x10e216000 + 100252543
+6   XUL                           	0x00000001141b21a7 0x10e216000 + 100254119
+7   org.mozilla.firefox           	0x0000000103297323 0x103296000 + 4899
+8   libdyld.dylib                 	0x00007fff20516f3d 0x7fff20501000 + 89917
+
+Thread 1:: AsyncSignalControlThread

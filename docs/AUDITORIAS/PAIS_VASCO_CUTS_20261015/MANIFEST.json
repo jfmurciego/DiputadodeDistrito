@@ -1,0 +1,120 @@
+{
+  "schema": "ddd.pv_iterative_connectivity_cuts/1.0",
+  "experiment": "PV-CUT-01",
+  "created": "2026-10-15",
+  "candidate": false,
+  "termination": "SOLVER_NO_INCUMBENT",
+  "head": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "input_m04_archive_sha256": "56979163e7b14ead11682e194277cc3b96ed54c8db3c62fe7857de8952d8a83d",
+  "input_m04_cached_geojson_sha256": "4a3d363de1c81381900eebecbc10c5ccc1e0beced11d1c385ca9d135978d7c13",
+  "m03_graph_sha256": "8d3f19d66bb718a772ca75c36c18165b547c26a6a67f7ba10afa5213f2a2b316",
+  "script_sha256": "af12a93466d449d9446d2e28ac904064dfa94e1c5c793e7200858e86dddac65c",
+  "valid_run_elapsed_wall_seconds": 120.12180519101094,
+  "total_solver_nodes": 10,
+  "cuts_total": 72,
+  "rss_telemetry": "INVALID_DARWIN_RU_MAXRSS_UNIT_MULTIPLIED_BY_1024",
+  "files": [
+    {
+      "path": "PRE_REGISTRO.md",
+      "bytes": 2817,
+      "sha256": "617466fdef6ab2c2dbef9916ce481c72d1d2b1dbc7900092097f93a4bf750fc5"
+    },
+    {
+      "path": "pv_iterative_connectivity_cuts.py",
+      "bytes": 12758,
+      "sha256": "af12a93466d449d9446d2e28ac904064dfa94e1c5c793e7200858e86dddac65c"
+    },
+    {
+      "path": "result.json",
+      "bytes": 5991,
+      "sha256": "148449d3e0a9693746853c27da2028a756e584d0d51167d69dac8befdc16c260"
+    },
+    {
+      "path": "result_pre_fix_invalid.json",
+      "bytes": 5480,
+      "sha256": "65d8dd6cd3747323ad67ebd03952832532157ba3702d4897750383b7de74bf57"
+    },
+    {
+      "path": "INFORME.md",
+      "bytes": 5761,
+      "sha256": "bb1480f7a1134766a8b7ff495c5357776e0244ff2b7c01cf281e10f7a72f0d25"
+    }
+  ],
+  "status": "NO_GO_ALGORITHM_INVALID_CUT",
+  "valid_inference": false,
+  "independent_review": "NO_GO: unrooted cut invalid, can exclude valid connected partitions",
+  "related_experiments": {
+    "PV-EDGE-01": "see PRE_REGISTRO_EDGE_01.md and edge_supervisor.json; terminated by hard supervisor, no result/assignment",
+    "PV-CUT-02": "see MANIFEST_ROOTED_02.json; rooted cut independently PASS_ACOTADO, search NEGATIVE_BOUNDED"
+  },
+  "related_files": {
+    "PRE_REGISTRO_EDGE_01.md": {
+      "bytes": 2836,
+      "sha256": "f43eebc4948e0bdde80024037ce9044f81cb91c61024a20583ce7f19830b7db8"
+    },
+    "pv_edge_compactness_milp.py": {
+      "bytes": 12478,
+      "sha256": "ed3b91ae616595b97116427e300bb0724f685eee689d01f20651cc33c9a2fdc1"
+    },
+    "edge_stdout.log": {
+      "bytes": 902,
+      "sha256": "90db061bd0dc3e78558618abdbd3ca9663dc2fc385045fa7fd01712d982ad396"
+    },
+    "edge_stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "edge_supervisor.json": {
+      "bytes": 399,
+      "sha256": "cd106c9f72f7dd444d34a5b8cbf54293956b2f92e6f828b49b2bbb65a6b80e7c"
+    },
+    "PRE_REGISTRO_ROOTED_02.md": {
+      "bytes": 2426,
+      "sha256": "db68ad90c41c68bdfbf83024989ac4f0a9290e9e8e752f29872b4831abc59b1f"
+    },
+    "pv_rooted_connectivity_cuts.py": {
+      "bytes": 14326,
+      "sha256": "b932f0472d6faac181691755f494b09eac3b5df457931ca01c5ab19e8d31a3a5"
+    },
+    "run_rooted_cuts_with_wall_guard.py": {
+      "bytes": 1795,
+      "sha256": "9d2301a146af8c71bc3f7f069be8877fe2643df4d022387b4a6d34baf89ee5a6"
+    },
+    "connectivity_cut.py": {
+      "bytes": 861,
+      "sha256": "d777d3717c97ceeb7a5878ce06168c152815ec798b053ccd8f0dbd3b3344f48a"
+    },
+    "tests/test_connectivity_cut.py": {
+      "bytes": 1428,
+      "sha256": "f362533ff7876db01309903117bbbd457cf688f45d221786861b9fc7ccf941a2"
+    },
+    "rooted_result.json": {
+      "bytes": 107272,
+      "sha256": "412ab0859e1bca6089170d6d1fbc7f5bb5e8a49419c89c3ab3a08a7c7b2f172f"
+    },
+    "rooted_stdout.log": {
+      "bytes": 74381,
+      "sha256": "25a58b7df8ce2e5603633a6532e8900abdc509bd78d94badfbe625571900ba2f"
+    },
+    "rooted_stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rooted_supervisor.json": {
+      "bytes": 400,
+      "sha256": "06691a1f7162f2ab6a6f1c67eba81aa079ec46ef4b9628a6b4df1e2e0b69ea5f"
+    },
+    "INFORME_ROOTED_02.md": {
+      "bytes": 4538,
+      "sha256": "48d8f21d16014a4250f4b1799e515d2ef12b4a6e559762dc2bb0fc93a68d548d"
+    },
+    "REVISOR_INDEPENDIENTE_ROOTED_02.md": {
+      "bytes": 2156,
+      "sha256": "ca001c5ee603f190000ad82e776d0566f0721ea9f553e10f762a6e6541049918"
+    },
+    "MATRIZ_EXPERIMENTOS.md": {
+      "bytes": 2360,
+      "sha256": "678b1486604038b7f759ddb476796eb49e32a28d8f711df2566f4d4fd068b699"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+ID	ORIGEN_NACHO	DDD	CLASIFICACION	JUSTIFICACION
+I01	C10–19, lectura SQL/5 Parquet por provincia	Eplan runner:83/96; bundles y M01	MEJOR_IMPLEMENTADO_EN_DDD	Offline útil, identidad/edición/hash esenciales; Parquet no es requisito
+I02	C21, prefijos provincial/municipal del identificador	D03:68/93; L05:128/153	MEJOR_IMPLEMENTADO_EN_DDD	ID oficial conservado, duplicados y campos administrativos validados
+I03	C23 recorta provincia; C25 usa `census_section` bruto	D03:124; G05:332	INCOMPATIBLE	El histórico depende de caches previamente provinciales sin gate de universo
+I04	C25:L1, `dissolve` municipal y suma	D04b:204; G05:332	YA_IMPLEMENTADO	Agregación por unidad contractual conservando ledger seccional
+I05	C26:L1 pequeño `< target`, C27 grande `>= target`	D04b:204; límites contractuales	MEJOR_IMPLEMENTADO_EN_DDD	Nacho tiene frontera distinta y no acredita que sea óptima; DDD no puede alterar umbral por tiempo
+I06	C29–30, mezcla municipios/secciones	D04b:204; G05:332	MEJOR_IMPLEMENTADO_EN_DDD	`ddd_unit_id` explícito, U/R, expansión y urbano cerrado
+I07	C25 suma atributos junto con población	D03:68; G05:332	INCOMPATIBLE	Sumar códigos/atributos no conserva sus semánticas; separar agregadores
+I08	C33:L1 Graph desde geometría disuelta	D02:84, D03:124, G05:332	MEJOR_IMPLEMENTADO_EN_DDD	Cociente deriva del M03 acreditado, evita reconstruir autoridad topológica
+I09	C34:L6–11 borra isla pequeña	Top:208/302; D03:81	INCOMPATIBLE	E2 demuestra pérdida de universo/población; no reintroduce islas en salida
+I10	C35:L5–12 busca componente por cada nodo	D03:81; D04b:50	MEJOR_IMPLEMENTADO_EN_DDD	Una pasada O(V+E), sin repetir O(V(V+E)) ni orden de sets
+I11	C38:L12–14 omite componentes pequeños	Top:208; D04b:204	INCOMPATIBLE	Conservación total y decisión acreditada por componente
+I12	C37:L3–11 K redondeado por componente	D04b:204; contrato K/cuotas	INCOMPATIBLE	E2 da K3/K5 cuando contrato K4; factibilidad conjunta imprescindible
+I13	C37:L6 `recursive_tree_part`	D04b:61/77/102, D04m:124	REQUIERE_EXPERIMENTO	Sustitución de semilla no medida; contrato y núcleos cambian el espacio factible
+I14	Árboles aleatorios/peeling con deuda poblacional en dependencia histórica	D04b:169/187; D04:132/219	REQUIERE_EXPERIMENTO	Intervalos de factibilidad remanente pueden ayudar A3; no prueban factibilidad global
+I15	C37 init amplia; C38 propuesta más estrecha	G05:91/882; L05:629	YA_IMPLEMENTADO	Separación propuesta/límites/objetivo existe en G05; laboratorio exige banda fina
+I16	`node_repeats` configuración vs C37 sin pasarlo	G05:882, máximo intentos500	REQUIERE_EXPERIMENTO	Reintentos afectan tiempo/éxito, no calidad garantizada; parámetros no idénticos
+I17	C7:L2 `random.random.seed(seed)`	Eplan:22; G05:852	MEJOR_IMPLEMENTADO_EN_DDD	Expresión histórica compatible con módulo antiguo; DDD explicita seeds/hashseed
+I18	config.py:34, semillas manuales por provincia	Eplan:27; G05:937	MEJOR_IMPLEMENTADO_EN_DDD	Plan determinista y cartera reproducible; robustez aún debe medirse
+I19	runner d2a2972 reintentos aleatorios; final:26–42 comentados	D04m:124; G05:852; Eplan:256	REQUIERE_EXPERIMENTO	No importar reintento ciego; tipificar imposibilidad, presupuesto y fallo recuperable
+I20	C38:L41–47 MarkovChain	G05:852; Ecal:328	YA_IMPLEMENTADO	Ya integrada como alternativa, no canónica predeterminada
+I21	C38:L33 recom selecciona arista de corte en fuente contemporánea	G05:882 `district_pairs`; L05:671	REQUIERE_EXPERIMENTO	Probabilidad por frontera frente por pareja; no equivalencia de distribución
+I22	C38:L26–28 dos contigüidades y tolerancia	G05:555/647; Top:302; M06	MEJOR_IMPLEMENTADO_EN_DDD	Excepciones acreditadas y diagnóstico causal; no confundir validación local y certificación
+I23	`partition_percentage=2` config:43	G05 contrato:75/config:91; L05:350	INCOMPATIBLE	Fuente contemporánea usa fracción ±200%, no 2%; falta wheel exacto para atribuirlo definitivamente
+I24	C38:L44 `always_accept`	G05:852; Ecal:191; D05:247	YA_IMPLEMENTADO	Exploración y mejor visitado separados; annealing canónico sí pondera aceptación
+I25	C38 pasos56, top10; config:25/28	G05:91; Eplan:27; Ecal:101	MEJOR_IMPLEMENTADO_EN_DDD	Más estados configurables, diagnósticos de degeneración; pasos no prueban mezcla
+I26	C38 inválidos sin contador explícito	G05:852 safe proposal/counters; Ecal:101	MEJOR_IMPLEMENTADO_EN_DDD	Fallos recuperables self-loop, intentos limitados; falta medir costo real por estado
+I27	C5 watchdog SIGALRM, C38:L50 120s	R05:26; G05:882; Eplan:256	APROVECHABLE	Límite temporal tipificado útil; histórico no protege inicialización y runner limita celda90s
+I28	C38:L55–60 except amplios/salida parcial	G05 error baseline y fallback; Ecal:63/191	INCOMPATIBLE	Parcial no puede aparentar cartera terminada o mapa certificado
+I29	C38:L54 asigna arrays por orden de nodo	L05:153/620; G05:955	MEJOR_IMPLEMENTADO_EN_DDD	Join por identidad; orden gráfico y fila pueden diferir tras filtrado
+I30	C38:L77 L1 absoluto a `target`	D04b:116; D05:175; Esel:17; G05:786	MEJOR_IMPLEMENTADO_EN_DDD	E1: L1 prefiere máximo15% frente10%; DDD elige10% en ese caso
+I31	C38:L78 std, no usada al ordenar	G05:538/786; Ecal:471	MEJOR_IMPLEMENTADO_EN_DDD	RMS/distribuciones y percentiles; especificar std muestral y unidad de cada métrica
+I32	Sin compactación en selector histórico	L05:510; G05:750; Esel:17	MEJOR_IMPLEMENTADO_EN_DDD	PP y geometría/comarca explícitos; microcheck exige contactos completos
+I33	Sin penalización comarcal	L05:467/571; G05:882; Esel:17	MEJOR_IMPLEMENTADO_EN_DDD	G05 usa surcharge en propuesta, no objetivo comarcal en ranking; no confundir
+I34	Municipal pequeño intacto; grandes libremente seccionables	G05:555; L05:350; D04b:204	MEJOR_IMPLEMENTADO_EN_DDD	Preserva unidades y cerrados; laboratorio tiene discrepancia concreta del parámetro atómico
+I35	Sin reparación focal, sólo nuevo árbol/ReCom	R05:397/559/731	MEJOR_IMPLEMENTADO_EN_DDD	Cadenas preparatorias y budgets existen; problemas de poda pertenecen A2
+I36	C38:L72 unión de cada estado	L05:510; G05:750; Esel measure:16	MEJOR_IMPLEMENTADO_EN_DDD	E3 ahorro≈5× ya aprovechado; exportaciones requieren equivalencia de ranking
+I37	C38 todos los `flipstep` guardados	Ecal:72/191; G05:905–933	MEJOR_IMPLEMENTADO_EN_DDD	Streaming/reservoir; hashes únicos aún O(S), no memoria totalmente constante
+I38	Top10 por componente sin deduplicar	G05:972; Eplan:27; Esel:47	MEJOR_IMPLEMENTADO_EN_DDD	Hashes y Pareto; hash etiquetado no garantiza diversidad física (microcheck)
+I39	C39:L18–21 rellena alternativas faltantes al azar	Ecal:63; Esel:47	INCOMPATIBLE	No inventar diez alternativas; registrar cantidad y causa de incompletitud
+I40	C39 `fillna(0)` y IDs locales repetidos	G05:955; Eplan candidate manifest	INCOMPATIBLE	Cero oculta ausencias; identidad debe incluir provincia/componente y ledger
+I41	runner:17 parámetros Papermill/cuaderno por provincia	Eplan:256; G05:1023	APROVECHABLE	Manifest legible por ejecución y notebook diagnóstico opcional, no nueva dependencia
+I42	runner:80/84 Excel/pickle sólo al final	Eplan:215/256; manifiestos JSON	MEJOR_IMPLEMENTADO_EN_DDD	Resultado por candidato reanudable; identidad de configuración completa pendiente
+I43	runner:54 secuencial	Eplan plan/shards; campañas existentes	YA_IMPLEMENTADO	Sharding existe; paralelismo local no medido, debe mantener budgets totales
+I44	map_assembler:18 sustituye 52 provincias por Burgos	N1/N2 inventarios; manifiestos DDD	INCOMPATIBLE	Configuraciones presentes no acreditan mapa completo
+I45	config_assembler selección `map_iteration`	Esel:47; Vis:72	APROVECHABLE	Selección explícita provincia/candidato/config; ya hay selection.json con justificación
+I46	map_assembler:31–36 añade provincia/iteración	Eplan:256; ensamblado conceptual N1	YA_IMPLEMENTADO	Metadatos útiles; completarlos con hashes/ediciones y ledger
+I47	map_assembler:44–45 reetiqueta por fila	M06; N1/N2 comparadores	INCOMPATIBLE	Renumerar filas no certifica distritos, secciones, K o cuotas nacionales
+I48	map_assembler:48 simplifica .0005 sin CRS explícito	Vis:52; geometría oficial/M06	INCOMPATIBLE	Sólo derivado visual aislado si aprobado; nunca reemplazar geometría certificada
+I49	C40 Kepler multilayer, C41:L3 GeoJSON top	Vis:72; visor MapLibre	YA_IMPLEMENTADO	Comparación A/B y capas sin añadir Kepler
+I50	map_assembler:65 Excel estadísticas	informes M06/JSON/CSV; N1 workbooks	APROVECHABLE	Exportación tabular por manifest, Excel optativo; no prueba territorial
+I51	pyproject Python^3.6.8/Gerry^0.2.12/Geo^0.8.1	runtime aislado G05:149	OBSOLETO	Pins de 2020 no sustituibles sin adaptar APIs y medir; Papermill falta en pyproject
+I52	requirements.txt 104 dependencias congeladas	aislamiento runtime/código actual	OBSOLETO	No importar stack completo; sólo mecanismos necesarios
+I53	Notebook con outputs parciales, sin suite	tests actuales/M06; expediente sintético	MEJOR_IMPLEMENTADO_EN_DDD	Prueba dirigida, cadena, campaña y certificación son evidencias distintas
+I54	Falta checkpoint mitad de cadena	Eplan:215; G05:972	REQUIERE_EXPERIMENTO	DDD reanuda candidatos completos, no RNG/estado intermedio; checkpoint exige contrato adicional
+I55	Híbrido previo a construir grafo	G05:332 ya unitario; Ecal:328/L05:629 seccionales	REQUIERE_EXPERIMENTO	E5 cuantifica validación, no ley de propuestas; portarlo al laboratorio debe preservar expansión física
+I56	Sin fuentes electorales en delimitación estudiada	contrato territorial, M01–M06	YA_IMPLEMENTADO	Mantener separación; M07/M08 posteriores no retroalimentan límites

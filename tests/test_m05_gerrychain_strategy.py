@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 import geopandas as gpd
@@ -32,6 +33,7 @@ from ddd_core.m05_gerrychain_strategy import (
     physical_geometry_diagnostics,
     prepare_problem,
     _run_seed,
+    run_portfolio,
 )
 
 GALICIA = Path(os.environ.get("DDD_GALICIA_M06_DIR", "/mnt/data/galicia_m06/cache"))
@@ -702,6 +704,135 @@ class GerryChainRuntimeTests(unittest.TestCase):
         self.assertEqual(result["states_observed"], 4)
         self.assertGreaterEqual(result["proposal_failures"], 1)
         self.assertEqual(result["assignment_hash"], __import__("ddd_core.m05_gerrychain_strategy", fromlist=["_assignment_hash"])._assignment_hash(problem.initial_assignment))
+
+
+class PopulationTransientRepairTests(unittest.TestCase):
+    def setUp(self):
+        self.old_hash = os.environ.get("PYTHONHASHSEED")
+        os.environ["PYTHONHASHSEED"] = "0"
+
+    def tearDown(self):
+        if self.old_hash is None:
+            os.environ.pop("PYTHONHASHSEED", None)
+        else:
+            os.environ["PYTHONHASHSEED"] = self.old_hash
+
+    @staticmethod
+    def problem():
+        populations = {"a": 2, "b": 1, "c": 3, "d": 4}
+        return PreparedProblem(
+            sections=gpd.GeoDataFrame(),
+            units={u: {
+                "unit_id": u, "population": p, "province": "01",
+                "municipality": u, "closed_urban": False, "comarca": "x",
+            } for u, p in populations.items()},
+            edges=[("a", "b"), ("b", "c"), ("c", "d")],
+            initial_assignment={"a": 1, "b": 1, "c": 2, "d": 2},
+            frozen_districts={}, target_population=5.0,
+        )
+
+    @staticmethod
+    def contract():
+        return StrategyContract(
+            expected_k=2, target_tolerance_ratio=0.12,
+            population_floor_ratio=0.8, population_cap_ratio=1.75,
+            province_districts={"01": 2}, require_municipality_discipline=False,
+        )
+
+    def test_population_infeasible_start_is_private_and_only_valid_states_are_selected(self):
+        from ddd_core.m05_gerrychain_strategy import population_metrics
+        problem, contract = self.problem(), self.contract()
+        self.assertIn("population_floor:1", hard_constraint_violations(problem, problem.initial_assignment, contract))
+        config = StrategyConfig(
+            steps_per_seed=40, seed_base=4628, seed_count=1,
+            proposal_epsilon=0.8, max_bipartition_attempts=20,
+        )
+        first = run_portfolio(problem, contract, config, allow_transient_population_violations=True,
+                              max_total_steps=40, max_seconds=10)
+        second = run_portfolio(problem, contract, config, allow_transient_population_violations=True,
+                               max_total_steps=40, max_seconds=10)
+        assignment = first["selected"]["assignment"]
+        self.assertEqual(hard_constraint_violations(problem, assignment, contract), [])
+        self.assertEqual(first["selected"]["assignment_hash"], second["selected"]["assignment_hash"])
+        self.assertGreaterEqual(first["budget"]["states_observed"], 1)
+        self.assertGreaterEqual(first["selected"]["transient_population_states"], 1)
+        # Hard feasibility is the admission gate; soft tolerance remains a
+        # separate quality metric and may still be nonzero.
+        self.assertIn("districts_outside_tolerance", population_metrics(problem, assignment, contract))
+
+    def test_shared_step_budget_rejects_infeasible_candidate_without_materialising(self):
+        from ddd_core.m05_gerrychain_strategy import run_from_paths
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            graph_path, input_path = root / "graph.json", root / "input.geojson"
+            output_path, report_path = root / "candidate.zip", root / "report.json"
+            graph_path.write_text("{}", encoding="utf-8")
+            input_path.write_text("preserve-origin", encoding="utf-8")
+            output_path.write_text("sentinel-origin", encoding="utf-8")
+            with self.assertRaisesRegex(BaselineValidationError, "NO_VALID_CANDIDATE_WITHIN_BUDGET"):
+                with patch("ddd_core.m05_gerrychain_strategy.prepare_problem", return_value=self.problem()):
+                    run_from_paths(
+                        graph_path=graph_path, initial_path=input_path, output_path=output_path,
+                        report_path=report_path, contract=self.contract(),
+                        strategy=StrategyConfig(steps_per_seed=5, seed_count=2),
+                        allow_population_infeasible_initial=True, max_total_steps=1,
+                    )
+            self.assertEqual(input_path.read_text(encoding="utf-8"), "preserve-origin")
+            self.assertEqual(output_path.read_text(encoding="utf-8"), "sentinel-origin")
+            self.assertFalse(report_path.exists())
+
+    def test_timeout_rejects_candidate_and_preserves_existing_origin(self):
+        from ddd_core.m05_gerrychain_strategy import run_from_paths
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            graph_path, input_path = root / "graph.json", root / "input.geojson"
+            output_path, report_path = root / "candidate.zip", root / "report.json"
+            graph_path.write_text("{}", encoding="utf-8")
+            input_path.write_text("preserve-origin", encoding="utf-8")
+            output_path.write_text("sentinel-origin", encoding="utf-8")
+            with self.assertRaisesRegex(BaselineValidationError, "NO_VALID_CANDIDATE_WITHIN_BUDGET"):
+                with patch("ddd_core.m05_gerrychain_strategy.prepare_problem", return_value=self.problem()):
+                    run_from_paths(
+                        graph_path=graph_path, initial_path=input_path, output_path=output_path,
+                        report_path=report_path, contract=self.contract(),
+                        strategy=StrategyConfig(steps_per_seed=5, seed_count=1),
+                        allow_population_infeasible_initial=True, max_total_steps=5,
+                        max_seconds=1e-9,
+                    )
+            self.assertEqual(input_path.read_text(encoding="utf-8"), "preserve-origin")
+            self.assertEqual(output_path.read_text(encoding="utf-8"), "sentinel-origin")
+            self.assertFalse(report_path.exists())
+
+    def test_step_budget_is_shared_across_seeds(self):
+        from ddd_core.m05_gerrychain_strategy import run_portfolio
+        seen = []
+        def fake_run(problem, contract, config, seed, **kwargs):
+            seen.append(kwargs["total_steps"])
+            return {"seed": seed, "states_observed": kwargs["total_steps"], "assignment": None}
+        with patch("ddd_core.m05_gerrychain_strategy._run_seed", side_effect=fake_run):
+            with self.assertRaisesRegex(BaselineValidationError, "NO_VALID_CANDIDATE_WITHIN_BUDGET"):
+                run_portfolio(self.problem(), self.contract(), StrategyConfig(steps_per_seed=5, seed_count=3),
+                              allow_transient_population_violations=True, max_total_steps=6)
+        self.assertEqual(seen, [5, 1])
+        self.assertEqual(sum(seen), 6)
+
+    def test_invalid_nonpopulation_baseline_still_fails_closed(self):
+        from ddd_core.m05_gerrychain_strategy import prepare_problem
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            graph_path, geo_path = root / "graph.json", root / "initial.geojson"
+            graph_path.write_text(json.dumps({"nodes": [
+                {"id": u, "pop": p} for u, p in {"a": 2, "b": 1, "c": 3, "d": 4}.items()
+            ], "edges": [{"u": "a", "v": "b"}, {"u": "b", "v": "c"}, {"u": "c", "v": "d"}]}), encoding="utf-8")
+            frame = gpd.GeoDataFrame({
+                "CUSEC_KEY": ["a", "b", "c", "d"], "ddd_unit_id": ["a", "b", "c", "d"],
+                "CPRO": ["01", "02", "01", "02"], "CUMUN": ["a", "b", "c", "d"],
+                "ddd_closed_urban": [False] * 4, "district_id": [1, 1, 2, 2],
+            }, geometry=[box(i * 10, 0, i * 10 + 10, 10) for i in range(4)], crs="EPSG:3035")
+            frame.to_file(geo_path, driver="GeoJSON")
+            with self.assertRaisesRegex(BaselineValidationError, "province:1"):
+                prepare_problem(graph_path, geo_path, self.contract(),
+                                allow_population_infeasible_initial=True)
 
 
 @unittest.skipUnless(GRAPH.is_file() and M04.is_file(), "Checkpoint M03/M04 de Galicia no disponible")

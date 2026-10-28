@@ -1,0 +1,11 @@
+{
+  "script": "pv_edge_compactness_milp.py",
+  "hard_timeout_seconds": 130.0,
+  "elapsed_seconds": 130.05188601999544,
+  "timed_out": true,
+  "returncode": -15,
+  "stdout_sha256": "90db061bd0dc3e78558618abdbd3ca9663dc2fc385045fa7fd01712d982ad396",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "solver_report_exists": false,
+  "assignment_exists": false
+}

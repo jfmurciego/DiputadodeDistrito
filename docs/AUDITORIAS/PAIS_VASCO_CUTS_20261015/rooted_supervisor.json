@@ -1,0 +1,11 @@
+{
+  "script": "pv_rooted_connectivity_cuts.py",
+  "hard_timeout_seconds": 130.0,
+  "elapsed_seconds": 121.00878036301583,
+  "timed_out": false,
+  "returncode": 0,
+  "stdout_sha256": "25a58b7df8ce2e5603633a6532e8900abdc509bd78d94badfbe625571900ba2f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "solver_report_exists": true,
+  "assignment_exists": false
+}

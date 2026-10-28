@@ -1,0 +1,270 @@
+{
+  "schema": "ddd.autonomias.continuidad/1.1",
+  "date": "2026-10-14",
+  "repository": "/Users/macbookpro/Desarrollo/DDD-distritos-autonomicos",
+  "branch": "codex/distritos-autonomicos",
+  "head": "42163cd8cebd120db9ab9fd1329c32ccdd87cf36",
+  "worktree_preexisting_changes_preserved": true,
+  "actions_forbidden_and_not_performed": [
+    "territorial production generation",
+    "source acquisition",
+    "push",
+    "pull request",
+    "merge",
+    "workflow",
+    "A3 activation"
+  ],
+  "tasks": [
+    {
+      "id": "AUTO-01",
+      "status": "CLOSED_LOCAL_PREPARED_FOR_REVIEW",
+      "implementation": "herramientas/preflight_topologico.py v1.1.1",
+      "regression": "tests/test_topology_preflight.py::PreflightUnitIdentityCases",
+      "current_session_tests": "33 passed, 4 subtests; broader relevant battery 128 passed, 45 subtests",
+      "review": "GO_ACOTADO, independent reviewer previously inspected code but did not run tests"
+    },
+    {
+      "id": "OPT-01",
+      "status": "LOCAL_FIX_REVIEW_GO_REAL_INPUT_BLOCKED",
+      "implementation": "modulos/02_construir_adyacencias.py v7.3.3",
+      "predecessor_archive": "legacy/modulo02/02_construir_adyacencias_v7.3.2.py",
+      "predecessor_sha256": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c",
+      "new_module_sha256": "7e588c5454620bbca18d27ed49c670f6740a20aa40031bae128716c40bc6a42f",
+      "synthetic_evidence": "docs/AUDITORIAS/A-OPT-01_M02_20261014/benchmark.json",
+      "required_real_m01_sha256": "5f939e8daae23ebc4e430966311cfecb5aedceaaa5882b62fbc480f2bb52215f",
+      "review": "GO, independent read-only reviewer on local diff"
+    },
+    {
+      "id": "CAT-01",
+      "status": "BLOCKED_AUTHENTIC_GEOMETRY_MISSING",
+      "run_id": 37215025861
+    },
+    {
+      "id": "CAT-02",
+      "status": "BLOCKED_RUNTIME_LOG_AND_PACKAGE_MISSING",
+      "run_id": 37453376100,
+      "manifest_sha256": "67de8f8426e5f45e3175131916b12ef72e4f09d124109ac89849245a072a1e7a",
+      "preflight_sha256": "97ec9e205d3da3603d2a00583a227bb89cab64843454d0cdd7e348c2926fe91f",
+      "package_sha256": "e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0"
+    },
+    {
+      "id": "MUR-01",
+      "status": "BLOCKED_AUTHENTIC_M01_M02_MISSING",
+      "run_id": 37344628042,
+      "manifest_sha256": "8c23f0a1d19006726e12d6eddc13276c56004a0b54cdd0d71df3316644001c63",
+      "preflight_sha256": "fcbb37171602a0fe84e3a343c33935b86d52a85b7d67f85db052eaf64a76ef0d",
+      "package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534"
+    },
+    {
+      "id": "ISLANDS-01",
+      "status": "FIXTURE_TESTS_PASS_TERRITORIAL_RUN_NOT_VALIDATED",
+      "tests": "7 passed, 4 subtests",
+      "note": "M02 change invalidates prior M03U preflight binding; re-accreditation requires authentic input package"
+    },
+    {
+      "id": "PAIS_VASCO_GLOBAL_REPAIR",
+      "status": "BLOCKED_AUTHENTIC_M05_CHECKPOINT_MISSING",
+      "run_id": 37458584767,
+      "note": "No repeat of exhausted historical search"
+    },
+    {
+      "id": "A2",
+      "status": "PRESERVED_EXCLUDED",
+      "note": "No A2 algorithm investigation or activation; A3 blocked"
+    }
+  ],
+  "regression_battery": {
+    "command": "PATH=/usr/local/Caskroom/miniforge/base/bin:$PATH TMPDIR=/private/tmp /usr/local/Caskroom/miniforge/base/bin/pytest -q tests/test_m02_candidate_completeness.py tests/test_m02_wfs_contact_regression.py tests/test_topology_preflight.py tests/test_m03_administrative_components.py tests/test_m03_degenerate_graph.py tests/test_m03_observability.py tests/test_pre_m04_persistencia_concurrente.py tests/test_pre_m04_evidence_pipeline.py tests/test_m04_engine_contract.py tests/test_m05_population_repair.py tests/test_temporal_source_preflight_contract.py",
+    "result": "128 passed, 45 subtests passed",
+    "independent_islands_command": "PATH=/usr/local/Caskroom/miniforge/base/bin:$PATH TMPDIR=/private/tmp /usr/local/Caskroom/miniforge/base/bin/pytest -q tests/test_physical_components_source_identity.py",
+    "independent_islands_result": "7 passed, 4 subtests passed",
+    "full_active_tests_before_island_expectation_update": "1309 passed, 9 skipped, 1029 subtests passed, 8 failed; two missing GerryChain dependency, two shared-shell syntax failures, one pre-existing M05 docs mismatch, two Rioja identity-guard failures, one stale archipelago preflight expectation later corrected",
+    "archipelago_expectation_update_tests": "36 passed, 4 subtests; full suite not rerun after test-only update",
+    "unavailable_dependency": "gerrychain is not installed; tests requiring its runtime were not counted as PASS",
+    "diff_check": "PASS"
+  },
+  "m02_pre_m04_binding_inventory": {
+    "working_tree_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "inventory_method": "all repository JSON files containing m02_git_blob_sha1",
+    "total": 13,
+    "matching_current_blob": 0,
+    "stale_bindings": {
+      "254ab944f8e76dd51d76917d69deb7fe7e035ba6": 11,
+      "2f8256d6a82920c3145fad330c4862af60bff30a": 2
+    },
+    "territories": [
+      "la_rioja",
+      "comunidad_foral_de_navarra",
+      "ceuta",
+      "illes_balears",
+      "pais_vasco",
+      "canarias",
+      "comunidad_valenciana",
+      "cantabria",
+      "madrid",
+      "melilla",
+      "principado_de_asturias",
+      "galicia",
+      "castilla_la_mancha"
+    ],
+    "result": "NO_TERRITORIAL_PREFLIGHT_IS_REACREDITED_FOR_M02_V7_3_3",
+    "action": "reaccredit with authenticated inputs before territorial use; no phases were run"
+  },
+  "independent_review_final": {
+    "task": "OPT-01 M02 candidate completeness",
+    "verdict": "GO",
+    "scope": "local code diff and synthetic regression; no authentic territory validation"
+  },
+  "session_closure": {
+    "worktree_paths_preserved": 38,
+    "commit_created": false,
+    "territorial_generation": false,
+    "full_suite_rerun_after_test_only_island_expectation_update": false
+  },
+  "aragon_real_m02_input_followup": {
+    "run": "gh-34599224954-1",
+    "product_manifest": "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M01/PRODUCTOS.json",
+    "product_manifest_sha256": "2fa6157330545a54bac8396904097489a4f574ae2f07bf2c47d7c2abffb828e2",
+    "expected_m01_geojson_zip_bytes": 4123522,
+    "expected_m01_geojson_zip_sha256": "5f939e8daae23ebc4e430966311cfecb5aedceaaa5882b62fbc480f2bb52215f",
+    "file_available_locally": false,
+    "run_manifest_git_commit": "f9ca44ff005043f630fce39334d34726d8bf55c5",
+    "result": "IDENTITY_AUTHENTICATED_BUT_REQUIRED_GEOMETRY_ABSENT",
+    "m01_reconstructed_or_rerun": false
+  },
+  "procedure_bash_compatibility_fix": {
+    "issue": "procedimiento.sh invoked with macOS system Bash 3.2 failed before modules because readarray is unavailable",
+    "reproduction": "tests/test_procedimiento_encadenado.py failed both cases on /bin/bash 3.2 before the fix",
+    "implementation": "procedimiento.sh v2.9.2 captures two contract paths with command substitution and validates newline-separated output; no territorial module execution",
+    "predecessor": "legacy/procedimiento/procedimiento_v2.9.1.sh",
+    "predecessor_sha256": "15760024420f21ba8963bb75f94ac8a6663012cfcc9b7a5d5b62947a21711cb4",
+    "current_script_sha256": "7858a254232b372eff691e8719b67cac11867db13949baa782b9dee68d7dea4a",
+    "current_changelog_sha256": "a4107d9a26e4264b5e2ace38594b521e43ec93da0e4122ba0d6e6709a5302fe5",
+    "archive_changelog_sha256": "01ed20b14fab95b985445c5fea4aa26a53118b89ab25c1298c4ae6ad32ae6051",
+    "directed_tests_after_final_guard": "20 passed",
+    "bash_syntax": "PASS on /bin/bash 3.2",
+    "review": "GO_ACOTADO",
+    "review_checks": [
+      "/bin/bash 3.2 syntax PASS",
+      "chained M01->M02 fixture 2/2 PASS",
+      "predecessor byte identity verified against HEAD"
+    ],
+    "review_evidence": "docs/AUDITORIAS/REVISOR_PROCEDIMIENTO_BASH3_20261015.md"
+  },
+  "full_active_suite_20261015": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests:. PATH=/usr/local/Caskroom/miniforge/base/bin:$PATH TMPDIR=/private/tmp /usr/local/Caskroom/miniforge/base/bin/pytest -q tests",
+    "result": "1312 passed, 9 skipped, 1029 subtests passed, 5 failed; run after initial Bash3 fix and before final malformed-path guard tightening",
+    "failures": [
+      "two GerryChain tests: optional runtime package absent (No module named gerrychain)",
+      "one existing M05 code/document version mismatch: dirty preserved A2 wrapper v7.8.0 vs docs v7.7.2",
+      "two Rioja replay tests fail closed because current preserved A2 repair code hash differs from historical run identity"
+    ],
+    "post_guard_affected_tests": "20 passed; full suite not repeated after the guard-only tightening"
+  },
+  "full_active_suite_with_temporary_gerrychain_20261015": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/private/tmp/ddd-gerrychain-test-site:tests:. PATH=/usr/local/Caskroom/miniforge/base/bin:$PATH TMPDIR=/private/tmp /usr/local/Caskroom/miniforge/base/bin/pytest -q tests",
+    "result": "1319 passed, 4 skipped, 1029 subtests passed, 3 failed",
+    "log": "docs/AUDITORIAS/CONTINUIDAD_AUTONOMICA_20261015_full_suite_gerrychain.log",
+    "environment": "Miniforge Python 3.13; temporary target includes gerrychain 1.0.0 and rustworkx 0.18.1; base numpy 2.4.2, geopandas 1.1.2, pandas 3.0.0; not production Python 3.11 lock",
+    "remaining_failures": [
+      "M05 documentation in main says v7.7.2 while preserved experimental local wrapper says v7.8.0; not changed to avoid relabeling experiment as active product",
+      "two Rioja historical replay tests reject worktree code SHA 064a32bce09aeafa4ecfd4e0d88e358f9e0cdf820e2dd805caee15180e58a602; fixture requires 1c87809aefaa015307288f1d1491815ba3bbeafd70ddef8800fad9916cc874b8, matching archived v1.6.0 exactly; identity guard retained"
+    ],
+    "procedure_fix_validated_in_same_suite": "yes; full run was before guard-only syntax confirmation? actual procedure code unchanged after targeted final checks",
+    "procedure_fix_included": "yes; final procedure v2.9.2 code was present; focused 20-test shell regression was also run after the final guard change"
+  },
+  "cross_checkout_evidence_read_only": {
+    "checkout": "/Users/macbookpro/Desarrollo/DDD-orquestador-auto",
+    "modified": false,
+    "cataluna_run_manifest_sha256": "67de8f8426e5f45e3175131916b12ef72e4f09d124109ac89849245a072a1e7a",
+    "murcia_run_manifest_sha256": "8c23f0a1d19006726e12d6eddc13276c56004a0b54cdd0d71df3316644001c63",
+    "both_match_autonomico_checkout": true,
+    "found_source_receipt_dir_contents": "receipt.json and fuentes_oficiales.yaml only",
+    "packages_runtime_logs_or_geometries_found": false,
+    "blockers_resolved": false
+  },
+  "full_active_suite_py311_compatible_gdal_20261015": {
+    "environment": "existing conda ddd_aragon, Python 3.11.14; no mutation of environment; PYTHONPATH adds temporary GerryChain/Rustworkx target",
+    "packages": {
+      "gerrychain": "1.0.0",
+      "rustworkx": "0.18.1",
+      "geopandas": "1.1.2",
+      "pyogrio": "0.12.1",
+      "pyproj": "3.7.2",
+      "numpy": "2.4.2",
+      "shapely": "2.1.2",
+      "pytest": "9.1.1"
+    },
+    "result": "1319 passed, 4 skipped, 1029 subtests passed, 3 failed",
+    "log": "docs/AUDITORIAS/CONTINUIDAD_AUTONOMICA_20261015_full_suite_py311_gdal.log",
+    "remaining_failures": "same three as Python 3.13 run: one M05 docs/code experimental version mismatch and two Rioja identity guard failures",
+    "reproducibility": "counts and failing test identities match Python 3.13 suite"
+  },
+  "python311_lock_environment_attempt": {
+    "lock": "requirements-gerrychain-m05.lock",
+    "result": "INVALID_RUNTIME_SETUP",
+    "cause": "pyogrio 0.13.0 built from source links @rpath/libgdal.38.dylib; isolated venv cannot load its GDAL runtime; broad DYLD_LIBRARY_PATH caused Accelerate BLAS incompatibility",
+    "suite": "101 failures primarily due GIS imports failing; see docs/AUDITORIAS/CONTINUIDAD_AUTONOMICA_20261015_full_suite_py311.log",
+    "cleanup": "the failed venv created in this session was removed; logs retained",
+    "replacement": "existing ddd_aragon Python 3.11.14 with working GDAL; full suite result recorded separately"
+  },
+  "pais_vasco_cut_01": {
+    "status": "NO_GO_ALGORITHM_INVALID_CUT",
+    "source_evidence_directory": "/Users/macbookpro/Desarrollo/DDD_PV_A2_G1_EVIDENCIAS",
+    "source_manifest_files_verified": 146,
+    "official_artifacts": {
+      "M03": "9d163de0e69ba03c27c8396d9120010c36f67a6d7641c6e28a825a3d22fbacad",
+      "M04": "56979163e7b14ead11682e194277cc3b96ed54c8db3c62fe7857de8952d8a83d",
+      "M05": "f2224735f4bb650082ca7137fa6e037e3f7b969f9778d256d02b3ad71f2b8fbd"
+    },
+    "valid_experiment": {
+      "script_sha256": "af12a93466d449d9446d2e28ac904064dfa94e1c5c793e7200858e86dddac65c",
+      "report_sha256": "148449d3e0a9693746853c27da2028a756e584d0d51167d69dac8befdc16c260",
+      "termination": "SOLVER_NO_INCUMBENT",
+      "elapsed_wall_seconds": 120.12180519101094,
+      "solver_nodes": 10,
+      "cuts": 72,
+      "incumbents_rejected_for_connectivity": 11,
+      "candidate": false,
+      "rss_metric": "INVALID_DARWIN_UNIT_CONVERSION",
+      "first_run": "INVALID_DIAGNOSTIC_ONLY: frozen units in partially frozen districts not pinned; preserved separately"
+    },
+    "persistent_addendum": "/Users/macbookpro/Desarrollo/DDD_PV_A2_G1_EVIDENCIAS/experiment_08_connectivity_cuts/PERSISTENCE_ADDENDUM.json",
+    "persistent_addendum_sha256": "e94b5316e1aff1ad2318839ae8b766650dd7563bfc10eefe9c5dad479d2267d4",
+    "independent_review": "NO_GO: unrooted cut excludes some valid connected partitions",
+    "inference": "invalid; do not treat the observed bounded run as evidence about global feasibility"
+  },
+  "pais_vasco_edge_01": {
+    "status": "NEGATIVE_BOUNDED_SUPERVISOR_TIMEOUT",
+    "script": "docs/AUDITORIAS/PAIS_VASCO_CUTS_20261015/pv_edge_compactness_milp.py",
+    "hard_wall_seconds": 130,
+    "elapsed_seconds": 130.052,
+    "returncode": -15,
+    "solver_report_exists": false,
+    "assignment_exists": false,
+    "inference": "solver run was externally terminated; not infeasibility; no repeat scheduled"
+  },
+  "pais_vasco_cut_02": {
+    "status": "NEGATIVE_BOUNDED_REVIEW_PENDING",
+    "input_geojson_zip_sha256": "4a3d363de1c81381900eebecbc10c5ccc1e0beced11d1c385ca9d135978d7c13",
+    "graph_sha256": "8d3f19d66bb718a772ca75c36c18165b547c26a6a67f7ba10afa5213f2a2b316",
+    "script_sha256": "b932f0472d6faac181691755f494b09eac3b5df457931ca01c5ab19e8d31a3a5",
+    "result_sha256": "412ab0859e1bca6089170d6d1fbc7f5bb5e8a49419c89c3ab3a08a7c7b2f172f",
+    "supervisor_sha256": "06691a1f7162f2ab6a6f1c67eba81aa079ec46ef4b9628a6b4df1e2e0b69ea5f",
+    "pytest": "3 passed",
+    "termination": "BUDGET_EXHAUSTED",
+    "elapsed_solver_wall_seconds": 120.244,
+    "elapsed_supervisor_seconds": 121.009,
+    "cpu_seconds": 140.681,
+    "max_rss_bytes": 643604480,
+    "resolves": 10,
+    "solver_nodes": 49,
+    "cuts": 42,
+    "incumbents": 10,
+    "connected_candidate": false,
+    "official_validation": "NOT_EXECUTED: no connected candidate",
+    "review": "PASS_ACOTADO: formulación y pruebas correctas; el ensayo solo arroja NEGATIVE_BOUNDED",
+    "reviewer_limitation": "el modelo presupone consistencia intragrupo de provincia/distrito/congelación; no se halló evidencia de inconsistencia efectiva",
+    "postprocess_overrun_seconds": 0.244
+  }
+}

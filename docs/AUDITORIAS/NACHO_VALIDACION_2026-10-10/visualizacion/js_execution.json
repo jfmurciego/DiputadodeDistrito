@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Helpers/jsc",
+    "/private/tmp/ddd-nacho-validacion3-20261010/dom_simulation.js"
+  ],
+  "seconds": 0.017930399859324098,
+  "exit_code": 0,
+  "peak_child_RSS_bytes": 4599808,
+  "memory_limit_DATA_bytes": 671088640,
+  "timeout_seconds": 60,
+  "DOM_simulated": true,
+  "MapLibre_simulated": true,
+  "render_browser": false
+}

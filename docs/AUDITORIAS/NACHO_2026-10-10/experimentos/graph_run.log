@@ -1,0 +1,46 @@
+{
+  "negative": {
+    "section_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "section_to_municipality": [
+      0,
+      1,
+      0
+    ],
+    "assignment_sections": [
+      0,
+      1,
+      0
+    ],
+    "assignment_units": [
+      0,
+      1
+    ],
+    "source_district_A_connected": false,
+    "quotient_district_A_connected": true,
+    "exact_population_preserved": true,
+    "decision": "REJECT pure contraction: municipal atomicity does not prove physical connectedness. Keep independent polygon/component gate and accredited exceptions. Section-to-unit mapping itself is many-to-one, not bijective."
+  },
+  "summary": [
+    {
+      "sections_per_municipality": 4,
+      "median_total_speedup": 4.3251616813887805
+    },
+    {
+      "sections_per_municipality": 8,
+      "median_total_speedup": 8.671162093469132
+    },
+    {
+      "sections_per_municipality": 16,
+      "median_total_speedup": 17.366186817307486
+    }
+  ]
+}

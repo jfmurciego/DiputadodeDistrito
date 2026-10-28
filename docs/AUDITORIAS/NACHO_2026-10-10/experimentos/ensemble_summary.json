@@ -1,0 +1,93 @@
+{
+  "schema": "ddd.ensemble-summary/1.0",
+  "territory_id": "SYNTHETIC",
+  "prepared_bundle_id": "synthetic-grid",
+  "plan_sha256": "7321053a1c52b84cd73320535ec15df66b81eac286d2b7970260f225127ebd97",
+  "candidate_count_expected": 3,
+  "candidate_count_received": 3,
+  "candidate_count_valid": 2,
+  "unique_candidate_hash_count": 2,
+  "require_unique_assignment_hashes": false,
+  "duplicate_assignment_hashes": {},
+  "complete": false,
+  "missing_candidates": [],
+  "invalid_candidates": [
+    "C_hard_invalid"
+  ],
+  "retry_matrix": {
+    "include": []
+  },
+  "pareto_candidates": [
+    "B_lower_max"
+  ],
+  "shortlist": [
+    "B_lower_max"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "A_lower_L1",
+      "profile": "controlled",
+      "seed": 0,
+      "parameters": {},
+      "assignment_hash": "b2589fa8b94eb36ba57f00fdcdb5cab38248f11b760f4848e191fe7a5ec87f83",
+      "metrics": {
+        "population": {
+          "max_deviation": 0.15
+        },
+        "shape": {
+          "polsby_popper_median": 0.5026548245743669,
+          "corridor_alerts": []
+        },
+        "comarca": {
+          "retention_ratio": 1.0
+        },
+        "stability": {
+          "assignment_delta": 0.0
+        }
+      },
+      "fields": {},
+      "objectives": {
+        "population_max_deviation": 0.15,
+        "shape_penalty": 0.49734517542563306,
+        "comarca_penalty": 0.0,
+        "corridor_count": 0.0,
+        "assignment_delta": 0.0
+      },
+      "report_path": "/private/tmp/ddd-nacho-experimentos-20261010/ranking_reports/A_lower_L1/report.json",
+      "geojson": null
+    },
+    {
+      "candidate_id": "B_lower_max",
+      "profile": "controlled",
+      "seed": 0,
+      "parameters": {},
+      "assignment_hash": "06bd071b587ce8bea12912663ad6392c76d22b87c9aa5d4d73adbca29c67979e",
+      "metrics": {
+        "population": {
+          "max_deviation": 0.1
+        },
+        "shape": {
+          "polsby_popper_median": 0.5026548245743669,
+          "corridor_alerts": []
+        },
+        "comarca": {
+          "retention_ratio": 1.0
+        },
+        "stability": {
+          "assignment_delta": 0.0
+        }
+      },
+      "fields": {},
+      "objectives": {
+        "population_max_deviation": 0.1,
+        "shape_penalty": 0.49734517542563306,
+        "comarca_penalty": 0.0,
+        "corridor_count": 0.0,
+        "assignment_delta": 0.0
+      },
+      "report_path": "/private/tmp/ddd-nacho-experimentos-20261010/ranking_reports/B_lower_max/report.json",
+      "geojson": null
+    }
+  ],
+  "selection_status": "PENDING_FIELD_REVIEW"
+}

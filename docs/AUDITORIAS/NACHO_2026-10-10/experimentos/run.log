@@ -1,0 +1,140 @@
+{
+  "ranking": {
+    "same_universe_population": 4000,
+    "K": 4,
+    "tolerance": 0.2,
+    "cell_population_matrix": [
+      [
+        950,
+        100,
+        50,
+        50
+      ],
+      [
+        50,
+        800,
+        50,
+        50
+      ],
+      [
+        50,
+        150,
+        700,
+        50
+      ],
+      [
+        50,
+        50,
+        100,
+        750
+      ]
+    ],
+    "candidates": {
+      "A_lower_L1": {
+        "population": [
+          1150,
+          950,
+          950,
+          950
+        ],
+        "target": 1000.0,
+        "L1": 300.0,
+        "max_relative": 0.15,
+        "std_absolute": 50.0,
+        "shape_polsby_popper_median": 0.5026548245743669,
+        "comarca_retention": 1.0,
+        "hard_all_pass": true,
+        "assignment_sha256": "b2589fa8b94eb36ba57f00fdcdb5cab38248f11b760f4848e191fe7a5ec87f83"
+      },
+      "B_lower_max": {
+        "population": [
+          1100,
+          1100,
+          900,
+          900
+        ],
+        "target": 1000.0,
+        "L1": 400.0,
+        "max_relative": 0.1,
+        "std_absolute": 0.0,
+        "shape_polsby_popper_median": 0.5026548245743669,
+        "comarca_retention": 1.0,
+        "hard_all_pass": true,
+        "assignment_sha256": "06bd071b587ce8bea12912663ad6392c76d22b87c9aa5d4d73adbca29c67979e"
+      },
+      "C_hard_invalid": {
+        "population": [
+          2000,
+          100,
+          950,
+          950
+        ],
+        "target": 1000.0,
+        "L1": 2000.0,
+        "max_relative": 1.0,
+        "std_absolute": 521.2165257037296,
+        "shape_polsby_popper_median": 0.5131268000863329,
+        "comarca_retention": 1.0,
+        "hard_all_pass": false,
+        "assignment_sha256": "2b212d9089dbb303e0f5c343e3508122d35126665b3f26faaf83283b21ab8987"
+      }
+    },
+    "historical_L1_winner": "A_lower_L1",
+    "max_relative_winner": "B_lower_max",
+    "actual_DDD_ensemble_winner": "B_lower_max",
+    "actual_DDD_invalid": [
+      "C_hard_invalid"
+    ],
+    "note": "No MarkovChain; controlled assignments with equal A/B geometry and comarca metrics."
+  },
+  "benchmark_summary": [
+    {
+      "N": 800,
+      "seed": 17,
+      "speedup": 5.373957451740031,
+      "python_allocation_peak_ratio": 1.538533457993856,
+      "RSS_ratio": 1.0288378766140602,
+      "exact_selected_WKB_population_assignment_match": true
+    },
+    {
+      "N": 800,
+      "seed": 29,
+      "speedup": 5.150302975012657,
+      "python_allocation_peak_ratio": 1.5440920647664926,
+      "RSS_ratio": 1.0249857224443175,
+      "exact_selected_WKB_population_assignment_match": true
+    },
+    {
+      "N": 800,
+      "seed": 43,
+      "speedup": 4.519983800078293,
+      "python_allocation_peak_ratio": 1.5497529050353946,
+      "RSS_ratio": 1.0207268597387849,
+      "exact_selected_WKB_population_assignment_match": true
+    },
+    {
+      "N": 3200,
+      "seed": 17,
+      "speedup": 5.1584834809337705,
+      "python_allocation_peak_ratio": 1.305723220129445,
+      "RSS_ratio": 1.0487156775907882,
+      "exact_selected_WKB_population_assignment_match": true
+    },
+    {
+      "N": 3200,
+      "seed": 29,
+      "speedup": 4.883430646514246,
+      "python_allocation_peak_ratio": 1.2784119462990882,
+      "RSS_ratio": 1.0383410600175416,
+      "exact_selected_WKB_population_assignment_match": true
+    },
+    {
+      "N": 3200,
+      "seed": 43,
+      "speedup": 4.748632864154068,
+      "python_allocation_peak_ratio": 1.276267661191996,
+      "RSS_ratio": 1.0444976679692424,
+      "exact_selected_WKB_population_assignment_match": true
+    }
+  ]
+}

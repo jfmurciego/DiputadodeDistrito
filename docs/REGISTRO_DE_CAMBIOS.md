@@ -1,12 +1,92 @@
 Nombre: Registro de cambios DDD
-Versión: 1.0.1 (PATCH; predecesor sin versión declarada)
-Fecha: 2026-10-08
-Alcance: corrección local de integridad electoral en orquestación compartida
-Estado: candidato; pendiente de CI y revisión contractual
-Cambios: Registrar la corrección electoral fail-closed y sus obligaciones de cierre
-Motivo: defecto fail-closed electoral detectado tras PR #230
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_pre_fail_closed_2d8508a0.md
-Origen: HEAD 2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce; contenido histórico conservado sin reescritura
+Versión: 1.0.13 (PATCH; predecesor local preservado)
+Fecha: 2026-10-19
+Alcance: M02 de adyacencias, preflight topológico, persistencia pre-M04 de acreditaciones, aclaración documental M05 y compatibilidad Bash autonómica; conserva el registro experimental A2 preexistente
+Estado: candidato; A2 experimental preexistente permanece NO_GO territorial
+Cambios: enumera candidatos M02 exhaustivamente, bloquea IDs topológicos ambiguos, persiste acreditaciones municipales ligadas a fuente con contadores enteros estrictos, aclara la versión documental M05 y mantiene compatibilidad Bash autonómica
+Motivo: preservar contactos válidos, bloquear identidades ambiguas y contadores booleanos, reconocer discontinuidades acreditadas sin relajar conectividad provincial/global, mantener trazable M05 y permitir Bash 3.2
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_pre_changelog_wording_20261019.md
+Origen: HEAD 42163cd8cebd120db9ab9fd1329c32ccdd87cf36; contenido previo archivado byte a byte
+
+## 2026-10-19 — Aclaración de contadores pre-M04 (PATCH 1.0.13)
+
+La puerta pre-M04 exige que `municipality_disconnected` sea siempre un entero
+no booleano y no negativo. Si vale cero, los subcontadores admitidos/sin
+resolver pueden omitirse por compatibilidad histórica o declarar cero; si es
+mayor que cero, ambos deben ser enteros explícitos no negativos y su suma debe
+coincidir con el total. Esto bloquea `False == 0` sin invalidar evidencia
+histórica que acredita cero cortes. Las pruebas cubren el gate público y esa
+compatibilidad. Esta versión aclara la redacción anterior, preservada en
+`legacy/docs/REGISTRO_DE_CAMBIOS_pre_changelog_wording_20261019.md`.
+
+## 2026-10-19 — Identidad documental M05 (PATCH 1.0.9)
+
+La ficha M05 ahora distingue el archivo activo `7.8.0` del campo de informe `wrapper_version=7.7.2`, que se conserva por compatibilidad. Es una corrección documental y no cambia la estrategia, entradas, contratos o parámetros. El documento anterior queda archivado en `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.2_2026-10-19.md`.
+
+## 2026-10-19 — Acreditación municipal en la puerta pre-M04 (PATCH 1.0.8)
+
+La materialización pre-M04 conserva el detalle de acreditación topológica emitido por M03. La puerta solo acepta discontinuidades municipales cuando el contrato declara exactamente los componentes aceptados por M03 y la acreditación liga edición, año de secciones, paquete fuente y compatibilidad al input preparado. Unresolved, discrepancias, rechazo o binding obsoleto mantienen la puerta bloqueada. La conectividad global y provincial no se relaja; el puente contractual de Llívia continúa por su ruta separada.
+
+La prueba sintética de puerta y el contrato fuente-vinculado de Cataluña (Tremp) pasan; el checkpoint M03/M03U auténtico no está disponible en este worktree, por lo que esta corrección no declara generación habilitada ni certificación territorial. El predecesor inmediato del registro se conserva byte a byte en `legacy/docs/REGISTRO_DE_CAMBIOS_pre_cat_pre_m04_20261019.md`.
+
+## 2026-10-15 — Captura de rutas compatible con Bash 3 (PATCH 1.0.7)
+
+El procedimiento autonómico deja de depender de `readarray`, que no existe en el Bash 3.2 incluido en macOS. Una lectura línea a línea conserva las mismas dos rutas del contrato y falla de forma explícita si el resolver no devuelve ambas. La regresión ejecuta los tramos encadenados con `/bin/bash`; no inicia fases territoriales reales.
+
+El script anterior `procedimiento.sh` v2.9.1 se conserva byte por byte en
+`legacy/procedimiento/procedimiento_v2.9.1.sh`, y el registro anterior se conserva en
+`legacy/docs/REGISTRO_DE_CAMBIOS_pre_bash3_procedimiento_20261015.md`.
+
+## 2026-10-14 — Enumeración completa de candidatos M02 (PATCH 1.0.6)
+
+M02 conserva todos los hits del índice espacial y los procesa en orden estable. El valor
+configurado en `max_candidates` se mantiene por compatibilidad, pero ya no descarta
+geometrías que podrían compartir frontera válida. La regresión reproduce una frontera
+omitida al limitar a 50 candidatos y confirma igualdad con la enumeración exhaustiva.
+El ensayo usa datos sintéticos; el M01 auténtico de Aragón no está disponible localmente,
+por lo que no acredita impacto ni rendimiento sobre un territorio real.
+
+El registro inmediatamente anterior a esta corrección se conserva íntegro en
+`legacy/docs/REGISTRO_DE_CAMBIOS_pre_m02_completeness_20261014.md`.
+
+## 2026-10-13 — Identidad fail-closed en preflight topológico (PATCH 1.0.5)
+
+El preflight valida la identidad de todas las filas antes de construir el mapa de unidades.
+IDs nulos, vacíos o duplicados tras conversión textual producen un informe `BLOCKED` y
+código de salida 2. La regresión CLI cubre duplicados con metadatos municipales/provinciales iguales y contradictorios. No cambia M02, el contrato territorial ni datos oficiales.
+
+El estado exacto de este registro anterior al cambio se conserva en
+`legacy/docs/REGISTRO_DE_CAMBIOS_pre_auto01_20261013.md`.
+
+## 2026-10-11 — Ensayo aislado ReCom con estado poblacional transitorio (PATCH 1.0.4)
+
+Se añade un modo opt-in al motor GerryChain/ReCom ya existente. Admite que la cadena
+privada atraviese estados con infracciones poblacionales, pero solo selecciona y
+materializa asignaciones con `hard=0`. Los topes de pasos entre semillas y tiempo
+se comparten; un timeout o una búsqueda sin candidata deja intactos los inputs.
+La ejecución aislada del checkpoint M05 auténtico de Madrid terminó sin candidata
+hard-válida; M06 y el validador oficial no se ejecutaron. Dictamen territorial:
+`NO_GO`. La auditoría de este ensayo documenta identidad, configuración, pruebas y
+límites. A2 v1.9 conserva su dictamen `NO_GO`; no se modifica el Plan Maestro.
+
+El predecesor local completo de este registro se conserva byte por byte en
+`legacy/docs/REGISTRO_DE_CAMBIOS_pre_m05_recom_20261011.md`.
+
+## 2026-10-10 — Diversidad de estados preparatorios M05 (PATCH 1.0.3)
+
+El carril reservado de M05 selecciona el mejor descendiente por estado padre, aunque
+el movimiento cambie la pareja donante/receptor de su predecesor. Mantiene el ancho y
+los presupuestos existentes. El replay dirigido vuelve a perder el prefijo 5, antes de
+alcanzar el prefijo 9; por la puerta de parada no se ejecuta el benchmark funcional.
+No se declara reparación certificada ni integración.
+
+## 2026-10-10 — Selección de estados preparatorios M05 (PATCH 1.0.2)
+
+M05 conserva, dentro del beam y presupuestos existentes, una plaza de continuación por padre
+para handoffs repetidos. Esto evita que la selección global elimine sistemáticamente
+trayectorias preparatorias cuya infracción dura no mejora de inmediato. No cambia contratos,
+umbrales ni límites. El benchmark real de Madrid y las regresiones territoriales permanecen
+pendientes de cierre; este registro no declara reparación funcional ni integración.
 
 ## 2026-10-08 — Corrección electoral fail-closed (PATCH 1.0.1)
 
