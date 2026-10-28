@@ -1,7 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — puerta de validación
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.2.0
 # QUÉ HACE: acredita identidad, digest y aptitud semántica del artefacto que alimentará la siguiente fase.
+# FECHA: 2026-10-28
+# CAMBIOS: si el artefacto acreditado caducó en Actions, lo toma de su release draft almacen-m06-* con el mismo SHA-256.
+# MOTIVO: los M06 certificados dejaban de poder reutilizarse a los 14 días aunque sus bytes estuvieran conservados.
+# ANTERIOR: legacy/workflows/_reutilizable-puerta-validacion_v1.1.0.yml
 name: _Puerta de Validación de Fase
 
 on:
@@ -84,16 +88,31 @@ jobs:
             metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100")"
             row="$(jq -c --arg n "$ARTIFACT_NAME" --arg d "$expected" '[.artifacts[]|select(.name==$n and (.expired|not))|select(($d=="") or (((.digest//"")|sub("^sha256:";""))==$d))]|.[0]//empty' <<<"$metadata")"
           fi
+          from_release=false
           if [[ -z "$row" ]]; then
             metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$ARTIFACT_NAME&per_page=100")"
             row="$(jq -c --arg n "$ARTIFACT_NAME" --arg d "$expected" '[.artifacts[]|select(.name==$n and (.expired|not))|select(($d=="") or (((.digest//"")|sub("^sha256:";""))==$d))]|sort_by(.created_at)|reverse|.[0]//empty' <<<"$metadata")"
-            [[ -n "$row" ]] || emit_blocked "Artefacto requerido no disponible o digest durable no coincidente: $ARTIFACT_NAME" 41
-            resolved_run_id="$(jq -r '.workflow_run.id // empty' <<<"$row")"
+            if [[ -n "$row" ]]; then
+              resolved_run_id="$(jq -r '.workflow_run.id // empty' <<<"$row")"
+            elif [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ && "$expected" =~ ^[0-9a-f]{64}$ ]]; then
+              # Artefacto de Actions caducado: copia durable en release draft con el mismo SHA-256.
+              python -m herramientas.localizar_artefacto_durable --repo "$GITHUB_REPOSITORY" --run-id "$SOURCE_RUN_ID" \
+                --name "$ARTIFACT_NAME" --sha256 "$expected" --out-dir .ddd-gate/artifact --extract > .ddd-gate/artifact-location.json \
+                || emit_blocked "Artefacto requerido no disponible ni en Actions ni en su release durable: $ARTIFACT_NAME" 41
+              row="$(cat .ddd-gate/artifact-location.json)"
+              from_release=true
+            else
+              emit_blocked "Artefacto requerido no disponible o digest durable no coincidente: $ARTIFACT_NAME" 41
+            fi
           fi
           [[ "$resolved_run_id" =~ ^[0-9]+$ ]] || emit_blocked "No se pudo acreditar el run del artefacto $ARTIFACT_NAME" 41
-          digest="$(jq -r '.digest // empty' <<<"$row")"
-          [[ -n "$digest" ]] || emit_blocked "Artefacto sin digest GitHub: $ARTIFACT_NAME" 42
-          gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$ARTIFACT_NAME" --dir .ddd-gate/artifact || emit_blocked "No se pudo descargar $ARTIFACT_NAME" 42
+          if [[ "$from_release" == true ]]; then
+            digest="sha256:$(jq -r '.artifact_sha256' <<<"$row")"
+          else
+            digest="$(jq -r '.digest // empty' <<<"$row")"
+            [[ -n "$digest" ]] || emit_blocked "Artefacto sin digest GitHub: $ARTIFACT_NAME" 42
+            gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$ARTIFACT_NAME" --dir .ddd-gate/artifact || emit_blocked "No se pudo descargar $ARTIFACT_NAME" 42
+          fi
           audit_args=()
           if [[ "$PHASE" == territorial_product || "$PHASE" == electoral_product ]]; then
             if [[ -n "$AUDIT_ARTIFACT_NAME" ]]; then
@@ -109,7 +128,11 @@ jobs:
               audit_count="$(jq --arg n "$audit_name" '[.artifacts[]|select(.name==$n and (.expired|not))]|length' <<<"$audit_metadata")"
               [[ "$audit_count" == "1" ]] || emit_blocked "La evidencia electoral final debe ser única: $audit_name ($audit_count artefactos)" 43
             fi
-            gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir .ddd-gate/audit || emit_blocked "Falta certificación $audit_name" 43
+            if ! gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir .ddd-gate/audit; then
+              [[ "$from_release" == true ]] || emit_blocked "Falta certificación $audit_name" 43
+              python -m herramientas.localizar_artefacto_durable --repo "$GITHUB_REPOSITORY" --run-id "$resolved_run_id" \
+                --name "$audit_name" --out-dir .ddd-gate/audit --extract >/dev/null || emit_blocked "Falta certificación $audit_name" 43
+            fi
             audit_args=(--audit-root .ddd-gate/audit)
           fi
           params="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$EDITION" | jq -r '.contract_path // empty')"
