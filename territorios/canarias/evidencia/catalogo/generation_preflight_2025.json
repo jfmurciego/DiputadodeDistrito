@@ -5,10 +5,10 @@
   "territory_name": "Canarias",
   "edition": "2025",
   "run_id": 40773378883,
-  "source_commit": "7bfa1f3a20445b7d13b2a051f1b93f4b80a3a516",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "806e63b1e75deb16715c305cd889392ab013a43c",
+  "decision": "BLOCKED",
+  "evaluation_status": "BLOCKED",
+  "stage": "DISTRICT_FORMATION_INPUT",
   "source": {
     "run_id": 40773378883,
     "artifact_name": "ddd-source-package-canarias-2025-40773378883",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "status": "BLOCKED",
+    "capability": "CAP_M04_INPUT",
+    "reason": "ValueError: SOURCE_IDENTITY_MISMATCH: no existe inventario físico acreditado para section_year=2023 sectioning_sha256=11d3eb11ae551aa380c556cc8d88cc66b8bb7906d7a59ca31d697b1fc758ce10 territorial_identity_sha256=0fec08cc211b96caf8df424995be0a279699378cc2174b32a0730f9104e12831"
   }
 }
