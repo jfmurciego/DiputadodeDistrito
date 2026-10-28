@@ -1,12 +1,34 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.22
+Versión: 1.0.23
 Fecha: 2026-10-28
-Alcance: rescate M04 de Canarias, Cataluña y Ceuta y CRS nativo de Murcia en M02
+Alcance: inventario físico insular ante re-descargas INE del mismo año
 Estado: candidato
-Cambios/motivo: las ejecuciones 00 del 26-10 fallaban en M04 (Canarias, Cataluña, Ceuta) y en M03 (Murcia)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.21_20261028.md
+Cambios/motivo: Canarias se bloqueaba antes de M04 porque el inventario estaba atado a bytes
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.22_20261028.md
 -->
+
+## 2026-10-28 — Pre-M04 — inventario físico por año, con CUSEC verificado al materializar
+
+La ejecución "desde el principio" de Canarias (40773378883) re-descargó del INE las secciones 2023
+con otra huella (sectioning 11d3eb11…) y `_hard_partition_spec` exigía la huella exacta del
+inventario de `configuracion/particiones_insulares_2025.json`: `SOURCE_IDENTITY_MISMATCH` antes de
+M04 sin que cambiara ninguna sección. Rompía también `test_physical_components_source_identity`.
+
+- `_resolver_ejecucion_completa_core.py` 1.0.2: sin huella exacta admite el único inventario del
+  mismo año de secciones y población y lo declara (`inventory_binding =
+  SECTION_YEAR_CUSEC_VERIFIED_AT_MATERIALIZATION`). `preparar_particiones_fisicas_m04` sigue
+  verificando el universo y cada componente CUSEC a CUSEC; cualquier diferencia falla con
+  `PHYSICAL_COMPONENT_INVENTORY_MISMATCH`. Un año sin inventario sigue en `SOURCE_IDENTITY_MISMATCH`.
+- `test_physical_components_source_identity.py`: la re-descarga del mismo año reasigna el
+  inventario; un año no acreditado falla cerrado.
+- Raíz congelada aee8215e (`tests/_raiz_congelada.py`): ahora guarda la lista de ficheros de
+  `configuracion/`, `orchestracion/`, `publicado/dashboard/` y `config/` y `evidencia/` de cada
+  territorio con su SHA-256 (`MANIFEST.json`); oculta los añadidos después, superpone los
+  reescritos (`overlay/`) y falla con mensaje explícito si uno nuevo cambia sin copia.
+- Las regresiones de territorios reales que rompieron las ejecuciones del 28-10 (Ceuta, Galicia,
+  Murcia, Cataluña, Canarias) usan la raíz congelada sólo en esos tests; la de archipiélagos pasa
+  a regla (preparar fuente y reacreditar pre-M04 van juntos).
 
 ## 2026-10-28 — M04/M02 — rescate autonómico del 26-10
 

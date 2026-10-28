@@ -13,6 +13,7 @@ from herramientas.gestor_campana_nacional import (
 )
 
 ROOT=Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
 
 def freeze(manifest):
  manifest["manifest_sha256"]=_sha_payload({k:v for k,v in manifest.items() if k!="manifest_sha256"})
@@ -240,6 +241,7 @@ class NationalCampaignTests(unittest.TestCase):
    apply_explicit_territorial_source({},campaign_instance="campaign-test",reuse_run_id="123")
 
  def test_2025_canonical_14_routes_rebuild_stale_lineage_without_reusing_obsolete_products(self):
+  ROOT = frozen_root()  # caso real congelado en aee8215e
   from herramientas.catalogo_territorios import load_master
   selected_codes={"03","04","05","06","08","09","12","13","14","15","16","17","18","19"}
   selected=[r["territory_id"] for r in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
@@ -297,6 +299,7 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertEqual(aggregate(m,[])["status"],"FAIL")
 
  def test_obsolete_galicia_ceuta_products_are_deaccredited_from_producer_proof(self):
+  ROOT = frozen_root()  # caso real congelado en aee8215e
   catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text())
   by_id={r["territory_id"]:r["editions"]["2025"] for r in catalog["territories"]}
   galicia=by_id["galicia"]
@@ -401,6 +404,7 @@ class NationalCampaignTests(unittest.TestCase):
     self.assertEqual({r["evidence"]["kind"] for r in manifest["territories"]},{expected_kind})
 
  def test_ceuta_stale_m06_is_not_reused_and_new_generation_requires_accreditation(self):
+  ROOT = frozen_root()  # caso real congelado en aee8215e
   from herramientas.resolver_ejecucion_completa import build_plan
   p=build_plan(territory="ceuta",edition="2025",execution_mode="reuse",
                catalog=ROOT/"configuracion/catalogo_preparacion.yaml",root_dir=ROOT,

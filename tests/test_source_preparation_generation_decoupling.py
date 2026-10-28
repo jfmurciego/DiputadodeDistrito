@@ -22,6 +22,7 @@ from herramientas.promover_catalogo_tras_preparacion import promote
 
 
 ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
 WF = ROOT / ".github" / "workflows"
 
 
@@ -328,6 +329,7 @@ class WorkflowDecouplingTests(unittest.TestCase):
             )
 
     def test_current_prepared_sources_keep_generation_enablement_independent(self):
+        ROOT = frozen_root()  # caso real congelado en aee8215e
         catalog = yaml.safe_load(
             (ROOT / "configuracion/catalogo_preparacion.yaml").read_text(
                 encoding="utf-8"

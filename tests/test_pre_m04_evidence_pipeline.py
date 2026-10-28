@@ -31,6 +31,7 @@ SHA_C = "c" * 64
 SHA_D = "d" * 64
 COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
 # Madrid, Ceuta y Cataluña cuentan con preflight vigente en el catálogo; sólo
 # estos dos territorios aún necesitan reacreditación para el caso cubierto.
 REAL_TARGETS = ("comunidad_valenciana", "region_de_murcia")
@@ -699,6 +700,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         return state, contract_path, prep, evidence
 
     def test_historical_real_targets_require_reaccreditation_before_generation(self):
+        ROOT = frozen_root()  # caso real congelado en aee8215e
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
         for territory_id in REAL_TARGETS:
             with self.subTest(territory=territory_id):
@@ -734,6 +736,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 )
 
     def test_00_reuse_plan_reaccredits_historical_real_targets(self):
+        ROOT = frozen_root()  # caso real congelado en aee8215e
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
         for territory_id in REAL_TARGETS:
             with self.subTest(territory=territory_id):
@@ -1357,6 +1360,7 @@ class AccreditedMunicipalDiscontinuityGateTests(unittest.TestCase):
                     self._build(Path(td), **kwargs)
 
     def test_catalonia_tremp_accreditation_is_source_bound_and_llivia_bridge_stays_separate(self):
+        ROOT = frozen_root()  # caso real congelado en aee8215e
         from herramientas._resolver_ejecucion_completa_core import _accredited_municipal_disconnections_match
 
         contract_path = ROOT / "territorios/cataluna/config/cataluna_2025.yaml"
