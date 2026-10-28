@@ -11,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 import yaml
@@ -37,6 +38,7 @@ from tests.test_registro_producto_electoral_concurrencia import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
 FULL = ROOT / ".github" / "workflows" / "ejecucion-completa-proyecto.yml"
 MANIFEST_WRITER = ROOT / "herramientas" / "escribir_manifest_ejecucion_completa.py"
 
@@ -809,6 +811,10 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         self.assertNotIn(36573474139, [row["run_id"] for row in candidates])
 
     def test_ceuta_historical_candidates_survive_but_stale_m06_requires_rebuild(self):
+        # Caso real congelado en aee8215e: Ceuta generó después un M06 nuevo.
+        patcher = unittest.mock.patch.object(sys.modules[__name__], "ROOT", frozen_root())
+        patcher.start()
+        self.addCleanup(patcher.stop)
         # El producto M06 de Ceuta continúa siendo auditable, pero la fuente
         # vigente es posterior e incompatible. El catálogo lo deshabilita,
         # obligando a regenerar M04–M06 sin reutilizar ese M06 histórico.

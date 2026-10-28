@@ -334,9 +334,31 @@ class PhysicalComponentsSourceIdentityTests(unittest.TestCase):
             self.assertEqual("secciones_2023", hard["inventory_id"], territory_id)
             self.assertEqual(2023, hard["source_identity"]["section_year"], territory_id)
 
-    def test_unaccredited_source_identity_fails_closed(self):
+    def test_same_year_redownload_rebinds_inventory_for_cusec_verification(self):
+        # Una re-descarga INE del mismo año con otra huella usa el inventario de ese año; sus CUSEC
+        # se verifican al materializar (test_materializer_conserves_input_output_and_records_hashes
+        # cubre el fallo cerrado PHYSICAL_COMPONENT_INVENTORY_MISMATCH).
         contract = _contract_for_inventory("illes_balears", 2023)
         contract["generation_state"]["source_inputs"][0]["sha256"] = "f" * 64
+        hard = _hard_partition_spec(contract, ROOT)
+        self.assertEqual("secciones_2023", hard["inventory_id"])
+        self.assertEqual("SECTION_YEAR_CUSEC_VERIFIED_AT_MATERIALIZATION", hard["inventory_binding"])
+        self.assertEqual("f" * 64, hard["source_identity"]["sectioning_sha256"])
+        exact = _hard_partition_spec(_contract_for_inventory("illes_balears", 2023), ROOT)
+        self.assertEqual("EXACT_SOURCE_IDENTITY", exact["inventory_binding"])
+
+    def test_unaccredited_source_year_fails_closed(self):
+        contract = _contract_for_inventory("illes_balears", 2023)
+        contract["meta"]["source_section_year"] = 2021
+        contract["meta"]["source_population_year"] = 2021
+        contract["generation_state"]["source_inputs"][0]["sha256"] = "f" * 64
+        for row in contract["generation_state"]["source_inputs"]:
+            if "year" in row:
+                row["year"] = 2021
+        baseline = (contract.get("validation") or {}).get("source_baseline") or {}
+        for key in ("section_year", "population_year"):
+            if key in baseline:
+                baseline[key] = 2021
         with self.assertRaisesRegex(ValueError, "SOURCE_IDENTITY_MISMATCH"):
             _hard_partition_spec(contract, ROOT)
 
