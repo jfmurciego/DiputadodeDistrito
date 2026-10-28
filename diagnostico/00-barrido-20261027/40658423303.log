@@ -1,0 +1,400 @@
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9909897Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9910228Z ##[group]Metadata
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9922722Z ::stop-commands::***
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9923183Z {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9923524Z   "buildx.build.provenance": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9923996Z     "builder": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9924380Z       "id": ""
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9924697Z     },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9925140Z     "buildType": "https://mobyproject.org/buildkit@v1",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9925745Z     "materials": [
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9926122Z       {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9926727Z         "uri": "pkg:docker/python@3.11.13-slim-bookworm?platform=linux%2Famd64",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9927453Z         "digest": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9928452Z           "sha256": "86adf8dbadc3d6e82ee5dd2c74bec2e1c2467cdad47886280501df722372d2e1"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9929191Z         }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9929479Z       }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9929747Z     ],
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9930028Z     "invocation": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9930373Z       "configSource": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9930740Z         "entryPoint": "Dockerfile"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9931124Z       },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9931402Z       "parameters": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9931764Z         "frontend": "dockerfile.v0",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9932535Z         "locals": [
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9932906Z           {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9933223Z             "name": "context"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9933585Z           },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9933925Z           {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9934222Z             "name": "dockerfile"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9934585Z           }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9934854Z         ],
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9935126Z         "root": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9935453Z           "configSource": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9935834Z             "path": "Dockerfile"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9936263Z           },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9936610Z           "request": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9936987Z             "args": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9937343Z               "vcs:localdir:context": ".",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9937820Z               "vcs:localdir:dockerfile": ".",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9938360Z               "vcs:revision": "34959597d124a5fc46dedfab978678727af90834",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9939051Z               "vcs:source": "https://github.com/jfmurciego/DiputadodeDistrito"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9939692Z             }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9940067Z           }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9940403Z         },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9940789Z         "compatibilityVersion": 30
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9941247Z       },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9941602Z       "environment": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9942842Z         "dockerfileVersion": "1.27.0",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9943399Z         "github_actor": "jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9943855Z         "github_actor_id": "821888",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9944359Z         "github_event_name": "workflow_dispatch",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9944916Z         "github_event_payload": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9945318Z           "inputs": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9945740Z             "data_edition": "2025",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9946326Z             "execution_mode": "Ejecutar desde el principio",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9946918Z             "optimization_algorithm": "GerryChain",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9947458Z             "publication_mode": "territorial_only",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9948329Z             "publish_result": "false",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9948807Z             "territory_id": "13 Comunidad de Madrid"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9949270Z           },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9949614Z           "ref": "refs/heads/main",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9950053Z           "repository": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9950510Z             "allow_forking": true,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9951485Z             "archive_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/{archive_format}{/ref}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9952660Z             "archived": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9953483Z             "assignees_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/assignees{/user}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9954683Z             "blobs_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/blobs{/sha}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9955900Z             "branches_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/branches{/branch}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9957013Z             "clone_url": "https://github.com/jfmurciego/DiputadodeDistrito.git",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9958268Z             "collaborators_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/collaborators{/collaborator}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9959664Z             "comments_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/comments{/number}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9960881Z             "commits_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/commits{/sha}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9962771Z             "compare_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/compare/{base}...{head}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9964319Z             "contents_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/contents/{+path}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9965556Z             "contributors_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/contributors",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9966481Z             "created_at": "2026-09-10T21:17:59Z",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9967000Z             "default_branch": "main",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9967852Z             "deployments_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/deployments",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9971415Z             "description": "DDD (Diputado de Distrito), un motor en Python que construye, optimiza, valida y audita distritos uninominales a partir de secciones censales oficiales. Está organizado en una cadena por módulos, con contratos por territorio en territorios, ensembles con GerryChain, unos 25 workflows de GitHub Actions y un visor web.",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9974206Z             "disabled": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9975020Z             "downloads_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/downloads",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9976159Z             "events_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/events",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9976983Z             "fork": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9977407Z             "forks": 0,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9977811Z             "forks_count": 0,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9978540Z             "forks_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/forks",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9979400Z             "full_name": "jfmurciego/DiputadodeDistrito",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9980385Z             "git_commits_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/commits{/sha}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9981638Z             "git_refs_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/refs{/sha}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9983161Z             "git_tags_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/tags{/sha}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9984169Z             "git_url": "git://github.com/jfmurciego/DiputadodeDistrito.git",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9984867Z             "has_discussions": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9985369Z             "has_downloads": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9985842Z             "has_issues": true,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9986274Z             "has_pages": true,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9986725Z             "has_projects": true,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9987633Z             "has_pull_requests": true,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9988105Z             "has_wiki": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9988531Z             "homepage": "",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9989235Z             "hooks_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/hooks",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9990199Z             "html_url": "https://github.com/jfmurciego/DiputadodeDistrito",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9990862Z             "id": 1364937795,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9991310Z             "is_template": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9992517Z             "issue_comment_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/issues/comments{/number}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9993871Z             "issue_events_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/issues/events{/number}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9995086Z             "issues_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/issues{/number}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9996187Z             "keys_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/keys{/key_id}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9997336Z             "labels_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/labels{/name}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9997990Z             "language": "Python",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9998431Z             "languages_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/languages",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:41.9998899Z             "license": null,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0000730Z             "merges_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/merges",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0002309Z             "milestones_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/milestones{/number}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0003134Z             "mirror_url": null,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0003541Z             "name": "DiputadodeDistrito",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0003996Z             "node_id": "R_kgDOUVtMQw",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0004947Z             "notifications_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/notifications{?since,all,participating}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0005913Z             "open_issues": 4,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0006299Z             "open_issues_count": 4,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0006684Z             "owner": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0007242Z               "avatar_url": "https://avatars.githubusercontent.com/u/821888?v=4",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0008044Z               "events_url": "https://api.github.com/users/jfmurciego/events{/privacy}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0008854Z               "followers_url": "https://api.github.com/users/jfmurciego/followers",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0009715Z               "following_url": "https://api.github.com/users/jfmurciego/following{/other_user}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0010581Z               "gists_url": "https://api.github.com/users/jfmurciego/gists{/gist_id}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0011261Z               "gravatar_id": "",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0011723Z               "html_url": "https://github.com/jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0012404Z               "id": 821888,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0012784Z               "login": "jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0013221Z               "node_id": "MDQ6VXNlcjgyMTg4OA==",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0013837Z               "organizations_url": "https://api.github.com/users/jfmurciego/orgs",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0014661Z               "received_events_url": "https://api.github.com/users/jfmurciego/received_events",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0015454Z               "repos_url": "https://api.github.com/users/jfmurciego/repos",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0016063Z               "site_admin": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0016677Z               "starred_url": "https://api.github.com/users/jfmurciego/starred{/owner}{/repo}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0017615Z               "subscriptions_url": "https://api.github.com/users/jfmurciego/subscriptions",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0018284Z               "type": "User",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0018715Z               "url": "https://api.github.com/users/jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0019247Z               "user_view_type": "public"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0019866Z             },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0020186Z             "private": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0020611Z             "pull_request_creation_policy": "all",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0021344Z             "pulls_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/pulls{/number}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0022310Z             "pushed_at": "2026-10-28T08:36:40Z",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0023081Z             "releases_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/releases{/id}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0023803Z             "size": 295148,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0024274Z             "ssh_url": "git@github.com:jfmurciego/DiputadodeDistrito.git",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0024975Z             "stargazers_count": 1,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0025675Z             "stargazers_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/stargazers",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0026514Z             "statuses_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/statuses/{sha}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0027644Z             "subscribers_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/subscribers",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0028707Z             "subscription_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/subscription",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0029594Z             "svn_url": "https://github.com/jfmurciego/DiputadodeDistrito",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0030408Z             "tags_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/tags",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0031560Z             "teams_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/teams",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0032626Z             "topics": [],
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0033332Z             "trees_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/trees{/sha}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0034139Z             "updated_at": "2026-10-28T00:08:43Z",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0034785Z             "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0035433Z             "visibility": "public",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0035863Z             "watchers": 1,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0036254Z             "watchers_count": 1,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0036695Z             "web_commit_signoff_required": false
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0037146Z           },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0037459Z           "sender": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0037996Z             "avatar_url": "https://avatars.githubusercontent.com/u/821888?v=4",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0038844Z             "events_url": "https://api.github.com/users/jfmurciego/events{/privacy}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0039696Z             "followers_url": "https://api.github.com/users/jfmurciego/followers",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0040587Z             "following_url": "https://api.github.com/users/jfmurciego/following{/other_user}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0041490Z             "gists_url": "https://api.github.com/users/jfmurciego/gists{/gist_id}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0042381Z             "gravatar_id": "",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0042854Z             "html_url": "https://github.com/jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0043368Z             "id": 821888,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0043751Z             "login": "jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0044200Z             "node_id": "MDQ6VXNlcjgyMTg4OA==",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0044864Z             "organizations_url": "https://api.github.com/users/jfmurciego/orgs",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0045771Z             "received_events_url": "https://api.github.com/users/jfmurciego/received_events",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0046634Z             "repos_url": "https://api.github.com/users/jfmurciego/repos",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0047220Z             "site_admin": false,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0047870Z             "starred_url": "https://api.github.com/users/jfmurciego/starred{/owner}{/repo}",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0048765Z             "subscriptions_url": "https://api.github.com/users/jfmurciego/subscriptions",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0049447Z             "type": "User",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0049913Z             "url": "https://api.github.com/users/jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0050435Z             "user_view_type": "public"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0051038Z           },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0051527Z           "workflow": ".github/workflows/ejecucion-completa-proyecto.yml"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0052315Z         },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0052614Z         "github_job": "m05",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0052999Z         "github_ref": "refs/heads/main",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0053447Z         "github_ref_name": "main",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0053882Z         "github_ref_protected": "false",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0054334Z         "github_ref_type": "branch",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0054865Z         "github_repository": "jfmurciego/DiputadodeDistrito",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0055442Z         "github_repository_id": "1364937795",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0055947Z         "github_repository_owner": "jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0056461Z         "github_repository_owner_id": "821888",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0056950Z         "github_run_attempt": "1",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0057380Z         "github_run_id": "40658423303",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0057826Z         "github_run_number": "1436",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0058261Z         "github_runner_arch": "X64",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0058754Z         "github_runner_environment": "github-hosted",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0059286Z         "github_runner_image_os": "ubuntu24",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0059807Z         "github_runner_image_version": "20261026.354.1",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0060354Z         "github_runner_name": "GitHub Actions 1000016559",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0061059Z         "github_runner_os": "Linux",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0061694Z         "github_runner_tracking_id": "github_9d9a93d6-0c98-4115-97d0-8df4cc6eff42",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0062578Z         "github_server_url": "https://github.com",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0063098Z         "github_triggering_actor": "jfmurciego",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0063921Z         "github_workflow": "00 Ejecución Completa del Proyecto",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0065057Z         "github_workflow_ref": "jfmurciego/DiputadodeDistrito/.github/workflows/ejecucion-completa-proyecto.yml@refs/heads/main",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0066238Z         "github_workflow_sha": "d497bf39739dbcb9ff49403ad62f33b840bffa2f",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0066862Z         "platform": "linux/amd64"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0067259Z       }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0067540Z     }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0067831Z   },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0068772Z   "buildx.build.ref": "builder-5bf233a0-82a7-4940-b6e5-24aebbf76a95/builder-5bf233a0-82a7-4940-b6e5-24aebbf76a950/dslyqv5y0sg0tc4hoxb69duxx",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0070301Z   "containerimage.config.digest": "sha256:194e008658ab8dc15dd41a58d0c407d287f057c0c81d1e32bccf3658fe81a9df",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0071214Z   "containerimage.descriptor": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0071776Z     "mediaType": "application/vnd.oci.image.manifest.v1+json",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0072799Z     "digest": "sha256:337a4727ee32f4292ef10122094d532215e3d2df1e38a668646349220a7bec72",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0073509Z     "size": 2388,
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0073844Z     "annotations": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0074323Z       "org.opencontainers.image.created": "2026-10-28T09:59:50Z"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0074883Z     },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0075181Z     "platform": {
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0075534Z       "architecture": "amd64",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0075928Z       "os": "linux"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0076247Z     }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0076526Z   },
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0077176Z   "containerimage.digest": "sha256:337a4727ee32f4292ef10122094d532215e3d2df1e38a668646349220a7bec72",
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0078272Z   "image.name": "docker.io/library/ddd-production:d497bf39739dbcb9ff49403ad62f33b840bffa2f"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0079017Z }
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0079890Z ::***::
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0080474Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0081261Z ##[group]Reference
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0082292Z builder-5bf233a0-82a7-4940-b6e5-24aebbf76a95/builder-5bf233a0-82a7-4940-b6e5-24aebbf76a950/dslyqv5y0sg0tc4hoxb69duxx
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0083174Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0083529Z ##[group]Check build summary support
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0083973Z Build summary supported!
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0084564Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0149849Z ##[group]Run set -euo pipefail
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0150214Z [36;1mset -euo pipefail[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0150748Z [36;1mif [[ "$PREVIOUS_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0151640Z [36;1m[[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::No hay run anterior utilizable.'; exit 22; }[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0152257Z [36;1martifact_suffix=''[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0152882Z [36;1mif [[ "$state_run_id" == "$GITHUB_RUN_ID" && -n '' ]]; then artifact_suffix='-'; fi[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0153306Z [36;1m{[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0153516Z [36;1m  echo "run_id=$state_run_id"[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0153829Z [36;1m  echo "artifact_suffix=$artifact_suffix"[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0154336Z [36;1m} >> "$GITHUB_OUTPUT"[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0180187Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0180548Z env:
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0180854Z   PARAMS: territorios/madrid/config/madrid_2025.yaml
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0181196Z   RUN_ID: production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0181555Z   CACHE_DIR: territorios/madrid/.cache/ddd/preparacion/madrid_2025
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0182368Z   RUNS_DIR: territorios/madrid/resultados/ejecuciones/production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0182785Z   STAGE: M05
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0182995Z   PREVIOUS_STAGE: M04
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0183220Z   PREVIOUS_RESULT: success
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0183469Z   CHECKPOINT_RUN_ID: 
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0183678Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0330634Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0331078Z with:
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0331288Z   name: ddd-state-40658423303-M04
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0331547Z   path: .ddd-state/in
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0334564Z   github-token: ***
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0334835Z   repository: jfmurciego/DiputadodeDistrito
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0335130Z   run-id: 40658423303
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0335354Z   merge-multiple: false
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0335603Z   skip-decompress: false
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0335843Z   digest-mismatch: error
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0336059Z env:
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0336295Z   PARAMS: territorios/madrid/config/madrid_2025.yaml
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0336624Z   RUN_ID: production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0336965Z   CACHE_DIR: territorios/madrid/.cache/ddd/preparacion/madrid_2025
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0337455Z   RUNS_DIR: territorios/madrid/resultados/ejecuciones/production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0337863Z   STAGE: M05
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0338101Z   PREVIOUS_STAGE: M04
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0338347Z   PREVIOUS_RESULT: success
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0338586Z   CHECKPOINT_RUN_ID: 
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.0338800Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.1838606Z Downloading single artifact
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.6498384Z Preparing to download the following artifacts:
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.6500368Z - ddd-state-40658423303-M04 (ID: 12806642934, Size: 90130139, Expected Digest: sha256:bc487d45c66e8daf617feedfce9d8bbd0691511f5002f3f202d8efdf2a3abf4b)
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.6515152Z Downloading artifact '12806642934' from 'jfmurciego/DiputadodeDistrito'
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.8720010Z Redirecting to blob download url: https://productionresultssa14.blob.core.windows.net/actions-results/64eb8087-315a-4073-aee0-1f825fa838cb/workflow-job-run-4d1cce2c-6f68-5e0b-95a8-f414964266b2/artifacts/8a7404c5de115690abdce0eb833b87a55714b0c8820fad947bb8fd60dd7829ea.zip
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:42.8722310Z Starting download of artifact to: /home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.ddd-state/in
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:43.1891730Z (node:3274) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:43.1893197Z (Use `node --trace-deprecation ...` to show where the warning was created)
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0249100Z SHA256 digest of downloaded artifact is bc487d45c66e8daf617feedfce9d8bbd0691511f5002f3f202d8efdf2a3abf4b
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0254144Z Artifact download completed successfully.
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0255210Z Total of 1 artifact(s) downloaded
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0256143Z Download artifact has finished successfully
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0428438Z ##[group]Run set -euo pipefail
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0428766Z [36;1mset -euo pipefail[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0429103Z [36;1mtest -d .ddd-state/in/cache && test -d .ddd-state/in/run[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0429504Z [36;1mmkdir -p "$CACHE_DIR" "$RUNS_DIR"[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0429852Z [36;1mcp -a .ddd-state/in/cache/. "$CACHE_DIR/"[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0430188Z [36;1mcp -a .ddd-state/in/run/. "$RUNS_DIR/"[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0430520Z [36;1mif [[ -d .ddd-state/in/sources ]]; then[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0430834Z [36;1m  rm -rf .ddd-source-package[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0431128Z [36;1m  mkdir -p .ddd-source-package[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0431484Z [36;1m  cp -a .ddd-state/in/sources/. .ddd-source-package/[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0431812Z [36;1mfi[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0432367Z [36;1mtest -f "$RUNS_DIR/CHAIN_STATE.json"[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0452172Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0452521Z env:
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0452806Z   PARAMS: territorios/madrid/config/madrid_2025.yaml
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0453146Z   RUN_ID: production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0453494Z   CACHE_DIR: territorios/madrid/.cache/ddd/preparacion/madrid_2025
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0453982Z   RUNS_DIR: territorios/madrid/resultados/ejecuciones/production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0454385Z   STAGE: M05
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0454593Z   PREVIOUS_STAGE: M04
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0454826Z   PREVIOUS_RESULT: success
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0455068Z   CHECKPOINT_RUN_ID: 
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0455280Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0956592Z ##[group]Run docker run --rm -v "$PWD:/app" -w /app -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID" -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE" -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json" -e DDD_OPTIMIZATION_ALGORITHM="GerryChain" -e DDD_GERRYCHAIN_ENTRYPOINT="" -e DDD_REQUIRE_UNIQUE_HASHES="false" --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0959227Z [36;1mdocker run --rm -v "$PWD:/app" -w /app -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID" -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE" -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json" -e DDD_OPTIMIZATION_ALGORITHM="GerryChain" -e DDD_GERRYCHAIN_ENTRYPOINT="" -e DDD_REQUIRE_UNIQUE_HASHES="false" --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh[0m
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0979976Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0980330Z env:
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0980616Z   PARAMS: territorios/madrid/config/madrid_2025.yaml
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0980954Z   RUN_ID: production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0981304Z   CACHE_DIR: territorios/madrid/.cache/ddd/preparacion/madrid_2025
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0982035Z   RUNS_DIR: territorios/madrid/resultados/ejecuciones/production-40658423303-1
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0982477Z   STAGE: M05
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0982684Z   PREVIOUS_STAGE: M04
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0982911Z   PREVIOUS_RESULT: success
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0983141Z   CHECKPOINT_RUN_ID: 
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.0983351Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:49.9894550Z {"schema": "ddd-source-execution/1.0", "decision": "REUSE", "restored_from_checkpoint": true, "edition": "2025", "sha256": "b5b53cf90dae362c8ff1ca7a93927bebb9faaa99ab310e90b3ccf390412a408a", "bytes": 85601767, "records": 2, "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2728%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv", "acquired_at": "2026-10-28T09:23:59.464050+00:00"}
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:50.2780602Z ===== MÓDULO 5: Estrategia de optimización — gerrychain_recom; candidatos=1 =====
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:54.1621349Z [FATAL] BASELINE_INVALID: Formación inicial viola restricciones duras: population_floor:120
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:54.2474509Z [FATAL] Contrato o Formación inicial inválidos; no se permite fallback.
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:54.4448873Z ##[error]Process completed with exit code 42.
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:54.4596027Z Post job cleanup.
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:54.7178995Z ##[group]Generating build summary
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:54.8066260Z exporting build record to /home/runner/work/_temp/docker-actions-toolkit-RXhi3k/export
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:54.9604633Z [command]/usr/bin/docker buildx history export --builder builder-5bf233a0-82a7-4940-b6e5-24aebbf76a95 --output /home/runner/work/_temp/docker-actions-toolkit-RXhi3k/export/jfmurciego~DiputadodeDistrito~DSLYQV.dockerbuild dslyqv5y0sg0tc4hoxb69duxx --finalize
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.1418946Z Build record written to /home/runner/work/_temp/docker-actions-toolkit-RXhi3k/export/jfmurciego~DiputadodeDistrito~DSLYQV.dockerbuild (30.43 KB)
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.1421070Z Uploading jfmurciego~DiputadodeDistrito~DSLYQV.dockerbuild as an artifact
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.1429244Z Artifact name is valid!
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.1429850Z Root directory input is valid!
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.4951222Z Uploading artifact: jfmurciego~DiputadodeDistrito~DSLYQV.dockerbuild
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.4988109Z Beginning upload of artifact content to blob storage
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.8324542Z Uploaded bytes 31160
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.8939024Z Finished uploading artifact content to blob storage!
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.8940451Z SHA256 digest of uploaded artifact is c0403946a2f4f8b31c548ce40c9290090b0c1329ffc15228e9068d4a707d45cd
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:55.8941543Z Finalizing artifact upload
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5206864Z Artifact jfmurciego~DiputadodeDistrito~DSLYQV.dockerbuild successfully finalized. Artifact ID 12807446516
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5208832Z Artifact download URL: https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/40658423303/artifacts/12807446516
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5244750Z Writing summary
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5258336Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5259021Z ##[group]Removing temp folder /home/runner/work/_temp/docker-actions-toolkit-spZOjC
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5264853Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5265559Z ##[group]Post cache
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5265983Z State not set
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5266743Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.5467822Z Post job cleanup.
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.7341677Z ##[group]Removing builder
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:56.8662656Z [command]/usr/bin/docker buildx rm builder-5bf233a0-82a7-4940-b6e5-24aebbf76a95
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3636585Z builder-5bf233a0-82a7-4940-b6e5-24aebbf76a95 removed
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3706551Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3707567Z ##[group]Cleaning up certificates
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3710151Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3710744Z ##[group]Post cache
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3712610Z State not set
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3713238Z ##[endgroup]
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.3944650Z Post job cleanup.
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.4864642Z [command]/usr/bin/git version
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.4933392Z git version 2.56.0
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5007146Z Temporarily overriding HOME='/home/runner/work/_temp/5573fe29-16d4-4f86-afd6-fc1b17bd3938' before making global git config changes
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5008555Z Adding repository directory to the temporary git global config as a safe directory
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5014152Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/DiputadodeDistrito/DiputadodeDistrito
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5064692Z Removing SSH command configuration
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5072472Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5120863Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5405383Z Removing HTTP extra header
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5409687Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5463868Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5747894Z Removing includeIf entries pointing to credentials config files
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5755566Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5809620Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5811366Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5813328Z includeif.gitdir:/github/workspace/.git.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5814104Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5822562Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5861647Z /home/runner/work/_temp/git-credentials-599f71fe-3694-4889-9b9b-24e156389f07.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5876177Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-599f71fe\-3694\-4889\-9b9b\-24e156389f07\.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5937928Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5975312Z /home/runner/work/_temp/git-credentials-599f71fe-3694-4889-9b9b-24e156389f07.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.5985050Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-599f71fe\-3694\-4889\-9b9b\-24e156389f07\.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6029752Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6064585Z /github/runner_temp/git-credentials-599f71fe-3694-4889-9b9b-24e156389f07.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6073618Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-599f71fe\-3694\-4889\-9b9b\-24e156389f07\.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6118187Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6152156Z /github/runner_temp/git-credentials-599f71fe-3694-4889-9b9b-24e156389f07.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6159906Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-599f71fe\-3694\-4889\-9b9b\-24e156389f07\.config
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6207167Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6465450Z Removing credentials config '/home/runner/work/_temp/git-credentials-599f71fe-3694-4889-9b9b-24e156389f07.config'
+02 Generar distritos autonómicos / Generar y certificar distritos / Optimización de distritos	UNKNOWN STEP	2026-10-28T10:00:57.6620178Z Cleaning up orphan processes
