@@ -22,7 +22,8 @@ Se trae de `rescate/autonomico-20261026` (dab2299e) sólo el código y las regre
   `test_m04_residual_cardinality` y `test_murcia_m02_native_crs` con sus fixtures.
 - El expediente N08 de Cáceres acredita el motor M04 v7.6.4: `test_preflight_caceres_n08.py` lo
   lee de `legacy/ddd_core/m04_seed_engine_v7.6.4.py` y `verificar_evidencia_n08_readonly.py`
-  1.1.1 lo monta en su copia aislada, como ya hacía con el M02 v7.3.2.
+  1.1.1 lo monta en su copia aislada, como ya hacía con el M02 v7.3.2. `.dockerignore` 1.4.2
+  incluye ese snapshot en la imagen de pruebas.
 
 ## 2026-10-28 — Melilla — límites de población excepcionales
 
