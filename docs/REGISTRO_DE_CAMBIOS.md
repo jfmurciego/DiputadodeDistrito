@@ -19,6 +19,11 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.23_20261028.md
   (ratio, rationale, evidence, decided_at) con tope duro del 2 %; M07 7.3.2 la lee de
   `configuracion/excepciones_reconciliacion_electoral_2025.yaml` (nuevo), fuera del contrato
   electoral sellado por hash. Galicia 2024 declara 0,02.
+- Raíz congelada aee8215e: `overlay/` guarda ya los 551 ficheros de estado de hasta 300 KB (4,4 MB),
+  no sólo los reescritos hasta hoy; las ejecuciones de País Vasco, Navarra, Baleares y Castilla y
+  León volvían a romperla. `test_m06_product_reuse_integration` y el caso de Castilla y León de
+  `test_acreditacion_historica_territorial` usan la raíz congelada (su relanzamiento registra
+  fuente nueva antes que su M06); `test_valencia_m02_native_crs` toma los años de fuente del catálogo.
 
 ## 2026-10-28 — Pre-M04 — inventario físico por año, con CUSEC verificado al materializar
 

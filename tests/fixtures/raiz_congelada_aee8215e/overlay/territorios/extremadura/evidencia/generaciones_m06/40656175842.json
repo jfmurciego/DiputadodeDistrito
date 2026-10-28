@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12806053005,
+      "artifact_name": "ddd-audit-40656175842",
+      "artifact_sha256": "21fe9624f69c3730ee1980ac8179ed24e0551e15372c879936077f874a6b38fc",
+      "run_id": 40656175842,
+      "size_in_bytes": 11562
+    },
+    "m04": {
+      "artifact_id": 12805183376,
+      "artifact_name": "ddd-state-40656175842-M04",
+      "artifact_sha256": "0073de537400980f28e369fe44f31472a04fcb59308cabe0a8814ccdff022e12",
+      "run_id": 40656175842,
+      "size_in_bytes": 87432825
+    },
+    "m05": {
+      "artifact_id": 12806057223,
+      "artifact_name": "ddd-state-40656175842-M05",
+      "artifact_sha256": "db874770b8dab75fd6fb5c7d8f081826349aa486e459d9e57100b228e9cf61af",
+      "run_id": 40656175842,
+      "size_in_bytes": 89568719
+    },
+    "m06": {
+      "artifact_id": 12806705160,
+      "artifact_name": "ddd-state-40656175842-M06",
+      "artifact_sha256": "ab3dcff900e876241dc25dbfa1ae24c83acfe9ac89d3f59a2c8c67cec5eb7faa",
+      "run_id": 40656175842,
+      "size_in_bytes": 92684030
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "b859a07773de2410f1cffa9acdbb2fca63e54f1a3ec0cc397fed2b09d450ba47",
+        "size_in_bytes": 467
+      },
+      "extremadura_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "e08adfb98b2d7469fe77d7d0b397f206ed26b5860d345ca2d03af1c146a927f9",
+        "size_in_bytes": 64060
+      },
+      "optimization_execution.json": {
+        "sha256": "0bfc7c3aad94aa3dc68807e20f88de139eac4608778ba72b6996c60a1ba22c21",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "80e02c8a379d9f91b34c1ef925244f929d99357b8c13d031c29d764898779492",
+        "size_in_bytes": 1289
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "80e02c8a379d9f91b34c1ef925244f929d99357b8c13d031c29d764898779492",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/extremadura/config/extremadura_2025.yaml",
+    "sha256": "6b930590d3764cf820e1ec6a57d05e343d23d851b7a58f963304728f06186eac"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "8c138aa8d4308ac5e94afc4c6ee2f83b42b2177e9b6874758f58c3cfab7b517c",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "a102dfe050cdcc9b368a3b4d8cefa9a51d897dec",
+    "edition": "2025",
+    "territory_id": "extremadura",
+    "territory_name": "Extremadura",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40656175842,
+    "workflow_sha": "d497bf39739dbcb9ff49403ad62f33b840bffa2f"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12805183376,
+      "artifact_name": "ddd-state-40656175842-M04",
+      "artifact_sha256": "0073de537400980f28e369fe44f31472a04fcb59308cabe0a8814ccdff022e12",
+      "run_id": 40656175842,
+      "size_in_bytes": 87432825
+    },
+    "source_manifest_sha256": "1977467e83258ee715b5d18d71d58cbaf825e45204344e676cb4c80cbcb3fb05",
+    "source_package_artifact": {
+      "artifact_id": 12804355650,
+      "artifact_name": "ddd-source-package-extremadura-2025-40656175842",
+      "artifact_sha256": "e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec",
+      "run_id": 40656175842,
+      "size_in_bytes": 81051481
+    }
+  },
+  "manifest_sha256": "91550189df5bd529792baf6f8e2450300b507c5fc560c9867632d569264ecff9",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

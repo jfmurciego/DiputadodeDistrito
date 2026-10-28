@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "region_de_murcia",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 37344628042,
+  "artifact_name": "ddd-source-package-region_de_murcia-2025-37344628042",
+  "artifact_sha256": "e117e965b04547b1b5dea5ce4cf7d9ea826eaa076bfc0e691ac4e204624ed336",
+  "package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534",
+  "source_commit": "d84685942043cc11cf9956e2047ae6bbcce7d0d5",
+  "source_declaration": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443/37344628042/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "c5979efd29142e6f002bb8d728947fe633b9af82975dbcb625626c8538c15737",
+  "compatibility_identity_sha256": "234860acfd0a8e71e089f18156dd4d76e0b010a35e5edf6510eb49aba9d309f7"
+}

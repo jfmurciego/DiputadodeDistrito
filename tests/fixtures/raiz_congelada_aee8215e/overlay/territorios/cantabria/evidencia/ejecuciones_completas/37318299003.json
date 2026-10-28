@@ -1,0 +1,83 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "cantabria",
+  "territory_name": "Cantabria",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 37318299003,
+  "source_sha": "3938c97a8b46590a54016173416acf34c165d5a1",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "resumption": null,
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 37318299003,
+      "artifact": "ddd-source-package-cantabria-2025-37318299003",
+      "artifact_digest": "sha256:c7441921b73a9f36a1e4597f2a9808235cb727ec03cdd755d2ac089ce4247552",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 37318299003,
+      "artifact": "ddd-state-37318299003-M06",
+      "artifact_digest": "sha256:ad72c3856b45a639fd9eb4223d6f3af8fef4e7450568311e1c213b1990e55121",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36629227614,
+      "artifact": "ddd-electoral-package-cantabria-2025-36629227614",
+      "artifact_digest": "sha256:9b6c6f52ff76481ca6ff5f697558222e8ffbb9740ca2d7c77b0b5fd2b9ef92b4",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 37318299003,
+      "artifact": "ddd-state-37318299003-M08",
+      "artifact_digest": "sha256:c13f34a4ab4b8e9d83934e8f86447f2ca81542f2285b2324cd2f4e18d01f3177",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-05T13:59:27.231726+00:00"
+}

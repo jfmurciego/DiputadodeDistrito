@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.raw-population-input/1.0",
+  "source_id": "poblacion_por_sexo_y_edad",
+  "source_year": 2023,
+  "url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+  "configured_locator_url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+  "acquisition_mode": "official_live",
+  "path": "raw/population/48e899929c6df3845889ad83a0a872a07f83e4350648a54bf3939e8172cb24fc.bin",
+  "sha256": "48e899929c6df3845889ad83a0a872a07f83e4350648a54bf3939e8172cb24fc",
+  "bytes": 1641601577,
+  "snapshot_identity": null
+}

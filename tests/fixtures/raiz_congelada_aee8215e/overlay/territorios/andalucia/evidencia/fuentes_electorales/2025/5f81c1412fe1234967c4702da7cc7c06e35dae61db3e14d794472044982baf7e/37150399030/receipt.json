@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "andalucia",
+  "territory_name": "Andalucía",
+  "edition": "2025",
+  "run_id": 37150399030,
+  "artifact_name": "ddd-electoral-package-andalucia-2025-37150399030",
+  "artifact_sha256": "4e075fd15d3f946c7ed54d373bf225f527bec35a3f70cf3140ff3589c08aa6ba",
+  "source_commit": "0d3da30a0bf804e6bbec22f13c1b3fff1b966a33",
+  "election_id": "andalucia_parlamento_2026",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2026-05-17",
+  "electoral_identity_sha256": "5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e"
+}

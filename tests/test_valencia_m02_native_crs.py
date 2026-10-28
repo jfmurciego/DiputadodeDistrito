@@ -35,8 +35,12 @@ class ValenciaM02NativeCrsTests(unittest.TestCase):
         self.assertEqual(m02["min_shared_border_m"], 1.0)
         self.assertEqual(m02["buffer_m"], 0.0)
         self.assertEqual(m02["simplify_m"], 0.0)
-        self.assertEqual(config["meta"]["source_section_year"], 2025)
-        self.assertEqual(config["meta"]["source_population_year"], 2025)
+        # Los años de fuente siguen a la preparación vigente del catálogo (cada ejecución desde el
+        # principio puede acreditar otra edición INE); el contrato debe coincidir con ella.
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        prep = next(r for r in catalog["territories"] if r["territory_id"] == "comunidad_valenciana")["editions"]["2025"]["preparation_evidence"]
+        self.assertEqual(config["meta"]["source_section_year"], prep["section_year"])
+        self.assertEqual(config["meta"]["source_population_year"], prep["population_year"])
 
     def test_source_contacts_are_admitted_without_projected_overlap(self):
         gdf = gpd.read_file(FIXTURE)

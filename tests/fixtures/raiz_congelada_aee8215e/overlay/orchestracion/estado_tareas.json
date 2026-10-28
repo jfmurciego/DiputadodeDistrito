@@ -1,0 +1,71 @@
+{
+  "records": [
+    {
+      "artifacts": [
+        "task.log",
+        "evidence.json"
+      ],
+      "fingerprint": "sha256:2fe8a82a845bab9ad6d4d2025e275edc6ab3852e7511b6ff3589d6eb41a60627",
+      "legacy_module": null,
+      "run_id": "34722294209",
+      "stage_id": "G10_CONTROL",
+      "status": "SUCCESS",
+      "task_id": "catalogo-semantico",
+      "territory": "sintetico"
+    },
+    {
+      "artifacts": [
+        "task.log",
+        "evidence.json"
+      ],
+      "fingerprint": "sha256:2c849c3bdf74f13511ac75a79ca46aaa0962bb7e25036e48ad0f8c09b1bbf4e5",
+      "legacy_module": null,
+      "run_id": "34722294209",
+      "stage_id": "G10_CONTROL",
+      "status": "SUCCESS",
+      "task_id": "control-g10",
+      "territory": "sintetico"
+    },
+    {
+      "artifacts": [
+        "task.log",
+        "evidence.json"
+      ],
+      "fingerprint": "sha256:a17437e22efe59144f48bf719505a4fa4263f6e10c1272a5cca43a625f6dfc15",
+      "legacy_module": "M06",
+      "run_id": "34722294209",
+      "stage_id": "TERRITORIAL_CERTIFICATION",
+      "status": "SUCCESS",
+      "task_id": "evidencia-aragon",
+      "territory": "aragon"
+    },
+    {
+      "artifacts": [
+        "task.log",
+        "evidence.json"
+      ],
+      "fingerprint": "sha256:e75e44b4238f491e4f0aa3629b0dbc1e0763e7267e8d9ecd12bcd281a8e5b17f",
+      "legacy_module": "M06",
+      "run_id": "34722294209",
+      "stage_id": "TERRITORIAL_CERTIFICATION",
+      "status": "SUCCESS",
+      "task_id": "evidencia-castilla-y-leon",
+      "territory": "castilla_y_leon"
+    },
+    {
+      "artifacts": [
+        "task.log",
+        "evidence.json"
+      ],
+      "fingerprint": "sha256:d0e05451fd1e3d8ebfc114a7cfb34ad4b62172043cd09b210e09463c86954a22",
+      "legacy_module": "M06",
+      "run_id": "34722294209",
+      "stage_id": "TERRITORIAL_CERTIFICATION",
+      "status": "SUCCESS",
+      "task_id": "evidencia-extremadura",
+      "territory": "extremadura"
+    }
+  ],
+  "schema_version": "1.0",
+  "stage_catalog_version": "2.0.0"
+}

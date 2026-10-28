@@ -1,0 +1,71 @@
+schema: ddd-territory-sources/1.1
+territory:
+  id: castilla_y_leon
+  business_name: Castilla y León
+  edition: 2025
+  territorial_codes:
+  - code: '05'
+    business_name: '05'
+  - code: 09
+    business_name: 09
+  - code: '24'
+    business_name: '24'
+  - code: '34'
+    business_name: '34'
+  - code: '37'
+    business_name: '37'
+  - code: '40'
+    business_name: '40'
+  - code: '42'
+    business_name: '42'
+  - code: '47'
+    business_name: '47'
+  - code: '49'
+    business_name: '49'
+required_sources:
+- poblacion_por_sexo_y_edad
+- secciones_censales
+source_bindings:
+  poblacion_por_sexo_y_edad:
+    materialized_path: inputs/65034.csv.zip
+    archive_member: 65034.csv
+  secciones_censales:
+    materialized_path: inputs/seccionado_2025.zip
+population_validation:
+  required_columns:
+  - Periodo
+  - Sexo
+  - Edad
+  - Secciones
+  - Total
+  year_col: Periodo
+  sex_col: Sexo
+  age_col: Edad
+  section_col: Secciones
+  population_col: Total
+  sex_total_values:
+  - Total
+  age_total_values:
+  - Todas las edades
+coverage_checks:
+  required_territorial_codes:
+  - '05'
+  - 09
+  - '24'
+  - '34'
+  - '37'
+  - '40'
+  - '42'
+  - '47'
+  - '49'
+default_mode:
+  development: official_live
+  test: official_live
+  production: official_live
+environment_policy:
+  development:
+  - official_live
+  test:
+  - official_live
+  production:
+  - official_live

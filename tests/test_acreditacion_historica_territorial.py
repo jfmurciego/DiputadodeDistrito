@@ -23,6 +23,7 @@ from herramientas.resolver_activos_durables import DurableAssetBlock, validate_d
 from herramientas.resolver_ejecucion_completa import build_plan
 
 ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 EXPECTED = {
     "aragon": {
@@ -252,8 +253,11 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
     def test_planner_reuses_both_real_m06_from_durable_sealed_evidence(self):
         # El planificador lee el repositorio real: Aragón se comprueba con su M06 vivo adoptado.
         for territory_id in ("aragon", "castilla_y_leon"):
+            frozen = territory_id == "castilla_y_leon"
+            catalog_source = frozen_root() / "configuracion/catalogo_preparacion.yaml" if frozen else CATALOG
             with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td, \
-                    mock.patch.dict(FIXTURE_CASES, clear=True):
+                    mock.patch.dict(FIXTURE_CASES, clear=True), \
+                    mock.patch(f"{__name__}.CATALOG", catalog_source):
                 catalog = Path(td) / "catalogo.yaml"
                 territory_name, _ = _planner_catalog(territory_id, catalog)
                 plan = build_plan(
@@ -261,7 +265,9 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
                     edition="2025",
                     execution_mode="reuse",
                     catalog=catalog,
-                    root_dir=ROOT,
+                    # Castilla y León se relanza desde el principio y registra fuente nueva antes
+                    # que su M06; su caso real se evalúa en la raíz congelada aee8215e.
+                    root_dir=frozen_root() if frozen else ROOT,
                     optimization_algorithm="Canónico",
                     force_selected_algorithm=False,
                 )

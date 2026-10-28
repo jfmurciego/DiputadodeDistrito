@@ -1,0 +1,15 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "run_id": 40389705458,
+  "artifact_name": "ddd-electoral-package-principado_de_asturias-2025-40389705458",
+  "artifact_sha256": "85e2d198db4216120dfacd46a6f5681dcf24f62ac8e68aacd634575f5e5eb037",
+  "source_commit": "164a2d6044282f01702046596b087b8d688af71d",
+  "election_id": "asturias_jgpa_2023",
+  "declaration": "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml",
+  "election_date": "2023-05-28",
+  "electoral_identity_sha256": "29fb6a23b9c2e9fa3f3c393c34b90c868983302ea5d8767f7be5d472fbd6536c"
+}

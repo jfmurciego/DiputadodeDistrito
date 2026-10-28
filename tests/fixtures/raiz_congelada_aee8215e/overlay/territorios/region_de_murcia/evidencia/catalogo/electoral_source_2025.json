@@ -1,0 +1,15 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "region_de_murcia",
+  "territory_name": "Región de Murcia",
+  "edition": "2025",
+  "run_id": 36629290688,
+  "artifact_name": "ddd-electoral-package-region_de_murcia-2025-36629290688",
+  "artifact_sha256": "2f15478dafafe1dd5e8df964a56eadc13eb811db55dc3d242ade849b92d22a8b",
+  "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+  "election_id": "region_murcia_asamblea_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28"
+}

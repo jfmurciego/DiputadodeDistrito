@@ -1,0 +1,56 @@
+{
+  "schema": "ddd.full-run-manifest/1.0",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "optimization_algorithm": "GerryChain",
+  "workflow_run_id": 35542554559,
+  "source_sha": "ff1ab57a08a1091aaf2f4651ec54d8c8c64e332e",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales",
+    "05 · Publicación del Visor"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35542554559,
+      "artifact": "ddd-source-package-principado_de_asturias-2025-35542554559"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35542554559,
+      "artifact": null
+    }
+  ],
+  "generated_at": "2026-09-20T22:57:03.728175+00:00"
+}

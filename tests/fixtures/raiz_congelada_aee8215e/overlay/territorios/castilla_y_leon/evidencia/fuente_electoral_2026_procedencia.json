@@ -1,0 +1,20 @@
+{
+  "schema": "ddd-election-source-provenance/1.0",
+  "territory_id": "castilla_y_leon",
+  "election_id": "castilla_y_leon_cortes_2026-03-15",
+  "publisher": "Junta de Castilla y León — Datos Abiertos",
+  "source_url": "https://analisis.datosabiertos.jcyl.es/explore/dataset/resultados-electorales-1983-actualidad/",
+  "retrieved_at": "2026-09-18",
+  "source_bytes": 47629031,
+  "source_sha256": "a1ac5c54d7092a4ad9585a6c085cf87d210cb28dc83bbe707e69640a137a08cd",
+  "source_rows_2026": 67006,
+  "normalized_path": "inputs/cyl_2026_secciones_partidos.csv",
+  "normalized_rows": 52385,
+  "normalized_sections": 3528,
+  "normalized_parties": 29,
+  "normalized_sha256": "603e0261adc11871cdc8345a847da9f9161894050a51dd334f9928a4e6d01d30",
+  "party_dictionary_path": "territorios/castilla_y_leon/config/elecciones/diccionario_partidos_cyl_2026.json",
+  "party_dictionary_sha256": "c7198a0bf8d45722c8110f81ef731cd4be857caa56eb767686c9dbaf5d1db675",
+  "transformation": "Agrupación de resultados oficiales de mesa por CUSEC 2026 y partido; CUSEC construido a partir del código oficial de mesa provincia-municipio-distrito-sección.",
+  "boundary_independence": true
+}
