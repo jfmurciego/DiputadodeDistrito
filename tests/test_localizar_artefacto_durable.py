@@ -88,6 +88,13 @@ class LocateTests(unittest.TestCase):
             locate(REPO, RUN, NAME, SHA, api=_api([], [other]))
         self.assertEqual(EXIT_NOT_FOUND, ctx.exception.code)
 
+    def test_without_accredited_sha_the_recorded_digest_is_adopted(self):
+        live = locate(REPO, RUN, NAME, None, api=_api(
+            [{"id": 1, "name": NAME, "expired": False, "digest": f"sha256:{SHA}"}]))
+        self.assertEqual(SHA, live["artifact_sha256"])
+        stored = locate(REPO, RUN, NAME, "", api=_api([], [_release()]))
+        self.assertEqual((SHA, "release"), (stored["artifact_sha256"], stored["source"]))
+
     def test_nothing_available_blocks(self):
         with self.assertRaises(LocationError) as ctx:
             locate(REPO, RUN, NAME, SHA, api=_api([], []))
@@ -129,3 +136,18 @@ class FetchTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PuertaValidacionWorkflowTests(unittest.TestCase):
+    def test_gate_falls_back_to_release_only_with_accredited_digest(self):
+        import yaml
+        wf = yaml.safe_load((Path(__file__).resolve().parents[1]
+                             / ".github/workflows/_reutilizable-puerta-validacion.yml").read_text(encoding="utf-8"))
+        run = next(step["run"] for job in wf["jobs"].values() for step in job["steps"]
+                   if "herramientas.validar_puerta_ejecucion" in str(step.get("run", "")))
+        fallback = run.index("herramientas.localizar_artefacto_durable")
+        guard = run.rindex('"$expected" =~ ^[0-9a-f]{64}$', 0, fallback)
+        self.assertLess(guard, fallback)
+        self.assertIn('--sha256 "$expected"', run)
+        self.assertIn('[[ "$from_release" == true ]] || emit_blocked "Falta certificación $audit_name" 43', run)
+        self.assertIn("ni en Actions ni en su release durable", run)

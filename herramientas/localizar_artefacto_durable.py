@@ -41,8 +41,10 @@ class LocationError(RuntimeError):
         self.code = code
 
 
-def _sha(value: str) -> str:
-    value = str(value or "").removeprefix("sha256:").lower()
+def _sha(value: str | None) -> str | None:
+    if value in (None, ""):
+        return None  # sin acreditación previa: se adopta el digest observado
+    value = str(value).removeprefix("sha256:").lower()
     if not re.fullmatch(r"[0-9a-f]{64}", value):
         raise LocationError(EXIT_DIGEST, f"SHA-256 acreditado inválido: {value!r}")
     return value
@@ -67,8 +69,12 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def locate(repo: str, run_id: int, name: str, sha256: str, *, api: Api = gh_api) -> dict:
-    """Devuelve la ubicación verificada por metadatos; no descarga nada."""
+def locate(repo: str, run_id: int, name: str, sha256: str | None, *, api: Api = gh_api) -> dict:
+    """Devuelve la ubicación verificada por metadatos; no descarga nada.
+
+    Sin ``sha256`` (p. ej. la auditoría que acompaña a un M06) se adopta el digest que
+    GitHub registró para el artefacto o, si caducó, el que conserva su copia en la release.
+    """
     expected = _sha(sha256)
     artifacts = (api(f"repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100") or {}).get("artifacts") or []
     named = [a for a in artifacts if a.get("name") == name]
@@ -77,6 +83,8 @@ def locate(repo: str, run_id: int, name: str, sha256: str, *, api: Api = gh_api)
         raise LocationError(EXIT_NOT_FOUND, f"Artefacto ambiguo en Actions: {name} (run {run_id})")
     if live:
         observed = str(live[0].get("digest") or "").removeprefix("sha256:").lower()
+        if expected is None and re.fullmatch(r"[0-9a-f]{64}", observed):
+            expected = observed
         if observed != expected:
             raise LocationError(EXIT_DIGEST, f"Digest de Actions contradice la acreditación: {name}")
         return {"schema": SCHEMA, "source": "actions", "run_id": run_id, "artifact_name": name,
@@ -98,13 +106,17 @@ def locate(repo: str, run_id: int, name: str, sha256: str, *, api: Api = gh_api)
             match = pattern.match(str(asset.get("name") or ""))
             if match:
                 candidates.append((release, asset, int(match.group(1))))
+    def _asset_sha(asset: dict) -> str:
+        return str(asset.get("digest") or "").removeprefix("sha256:").lower()
     verified = [c for c in candidates
-                if str(c[1].get("digest") or "").removeprefix("sha256:").lower() == expected]
+                if (expected is None and re.fullmatch(r"[0-9a-f]{64}", _asset_sha(c[1])))
+                or _asset_sha(c[1]) == expected]
     if not verified:
         reason = "con digest distinto" if candidates else "ni en Actions ni en releases"
         raise LocationError(EXIT_NOT_FOUND if not candidates else EXIT_DIGEST,
                             f"Artefacto acreditado no disponible ({reason}): {name} (run {run_id})")
     release, asset, artifact_id = verified[0]
+    expected = expected or _asset_sha(asset)
     return {"schema": SCHEMA, "source": "release", "run_id": run_id, "artifact_name": name,
             "artifact_id": artifact_id, "artifact_sha256": expected,
             "release_tag": release["tag_name"], "asset_id": asset["id"],
@@ -144,7 +156,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--repo", required=True)
     ap.add_argument("--run-id", required=True, type=int)
     ap.add_argument("--name", required=True)
-    ap.add_argument("--sha256", required=True)
+    ap.add_argument("--sha256", default="", help="SHA-256 acreditado; vacío = digest registrado")
     ap.add_argument("--out-dir", type=Path, help="descargar aquí; sin él solo se localiza")
     ap.add_argument("--extract", action="store_true", help="extraer el zip como gh run download")
     ns = ap.parse_args(argv)
