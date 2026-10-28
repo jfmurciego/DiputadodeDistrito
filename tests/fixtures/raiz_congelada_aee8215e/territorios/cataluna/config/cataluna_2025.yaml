@@ -1,0 +1,389 @@
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: cataluna
+  territory: Cataluña
+  run_name: cataluna_2025
+  year: 2025
+  scope: provincial
+  schema_version: 0.3.0
+  status: generation_ready
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+  source_population_year: 2024
+  source_section_year: 2024
+io:
+  project_root:
+    path: ../../..
+  input:
+    seccionado:
+      path: inputs/seccionado_2024.zip
+      layer: ''
+      section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
+    population_cip:
+      paths:
+      - inputs/65034.csv.zip
+      sep: ;
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+        year_value: 2024
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+  cache:
+    dir: territorios/cataluna/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/cataluna/resultados/ejecuciones/{run_id}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes: &id001
+  - 08
+  - '17'
+  - '25'
+  - '43'
+  status: generation_ready
+  notes:
+  - CAT-02 run 34688104014 certificó 1709401001, Llívia, como único aislado.
+  - La sección española más próxima es 1714101003, Puigcerdà, a 1.636,011 m en EPSG:3035.
+  - La pasarela es administrativa, explícita y auditable; no representa contacto geométrico.
+  - Todavía no se fija K ni se abre M04.
+  k_districts: 135
+  k_source: norma
+  k_rationale: K=135 conserva el tamaño vigente del Parlament de Catalunya como regla
+    institucional ex ante.
+  district_apportionment: hamilton
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.75
+  require_auditable_district_catalogue: true
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes:
+    - 08
+    - '17'
+    - '25'
+    - '43'
+    drop_missing_population: false
+    out_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json
+  modulo_02_construir_adyacencias:
+    in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    out_edges_jsonl: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges:
+    - u: '1709401001'
+      v: '1714101003'
+      admin_scope: province:17
+      edge_type: administrative_enclave
+      reason: Llívia es un enclave español separado del cuerpo principal de Girona;
+        enlace a la sección española más próxima en Puigcerdà (~1636 m).
+      source: CAT-02 run 34688104014; revalidado geométricamente contra ddd-source-package-cataluna-2025-37215025861
+  modulo_03_construir_grafo:
+    in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
+    id_field: CUSEC_KEY
+    pop_field: POP_2024
+    out_graph_json: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    out_report: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2024
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 135
+    municipality_atomicity_limit_ratio: 1.75
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_semillas.geojson.zip
+    out_report: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_informe.json
+  modulo_05_optimizar_distritos:
+    in_graph_json: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2024
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    swap_polish_max: 0
+    out_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_2024
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 135
+    strict_expected_k: true
+    out_summary_csv: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m06_composicion_distritos.csv
+    out_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m06_secciones.geojson.zip
+    out_district_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m06_distritos.geojson.zip
+validation:
+  expected_province_codes: *id001
+  expected_sections_geometry: 5143
+  expected_population_total_2025: 8124126
+  expected_topology_bridges: 1
+  require_unique_section_id: true
+  require_non_null_population: true
+  province_field: CPRO
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  audit_graph_components: true
+  audit_admin_level_1_components: true
+  audit_admin_level_2_components: true
+  require_one_graph_component_per_province: true
+  require_connected_municipalities: true
+  expected_districts: 135
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton
+  province_districts:
+    08: 99
+    '17': 14
+    '25': 8
+    '43': 14
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.75
+  max_mixed_districts_per_split_municipality: 1
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  population_floor_exempt_partitions: []
+  topology_accreditation:
+    schema: ddd.topology-accreditation.v1
+    source_binding:
+      edition: '2025'
+      section_year: 2024
+      package_sha256: e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0
+      compatibility_identity_sha256: 58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a
+    administrative_components:
+    - admin_scope: municipality:25234
+      components:
+      - - '2523401001'
+        - '2523401002'
+        - '2523402001'
+        - '2523402002'
+      - - '2523403001'
+      reason: El seccionado oficial 2024 asigna las cinco secciones a Tremp (25234),
+        pero bajo la adyacencia productiva contact, EPSG:3035 y min_shared_border_m=1.0
+        forman dos componentes [4,1]. 2523403001 sólo toca puntualmente a 2523401002,
+        con 0 m de frontera lineal compartida. La acreditación describe la estructura
+        administrativa de entrada; no añade aristas ni habilita generación.
+      source: ddd-source-package-cataluna-2025-37215025861, INE seccionado 2024; ICGC
+        Divisions administratives v2.2, datos 2026-01-20; Ajuntament de Tremp, ficha
+        vigente de Puigcercós
+      evidence:
+        run_id: 37215025861
+        source_commit: d4f8b84769290aa252498399b66ba90c37b44612
+        working_crs: EPSG:3035
+        point_contact:
+          u: '2523401002'
+          v: '2523403001'
+          shared_border_m: 0.0
+        administrative_dataset:
+          authority: Institut Cartogràfic i Geològic de Catalunya
+          dataset: Divisions administratives
+          specification: v2.2
+          data_date: '2026-01-20'
+          municipality_geometry_contract: polígono simple o compuesto de diversas
+            partes disjuntas
+        section_correspondence:
+          section: '2523403001'
+          component_sections:
+          - '2523403001'
+          official_enclave: Puigcercós
+          local_authority: Ajuntament de Tremp
+          official_area_km2: 1.59
+          matched_part_area_km2_epsg3035: 1.5834613860534748
+          matched_part_centroid_wgs84:
+            longitude: 0.8861609846822961
+            latitude: 42.129575417543286
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2024
+    section_year: 2024
+    population_total: 8012231
+    target_section_count: 5117
+    package_sha256: e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0
+    compatibility_report_sha256: b035b6aa54bdd037554628094b168432eb2beee89e98c14a6897c3500ffd1090
+    compatibility_identity_sha256: 58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: cataluna
+    territory_name: Cataluña
+    project_edition: '2025'
+  temporal:
+    population_year: 2024
+    section_year: 2024
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 2cedf1e2a7bee0e4d2dfd9af7ee960f76df0ad20a54a9aecc89c7f7f30698ef1
+        bytes: 61389
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2024.zip
+        sha256: 7ff7c455cc17b441bba9ce5c9642131222f9a63bce0edf8b9173862221f18fec
+        bytes: 6638397
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2024
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: be54e45f56c12d6126f1b3d7ddc3b31b3f11ff22ebd656a2385470fad6acaade
+generation_state:
+  source_prepared: true
+  generation_enabled: true
+  package_sha256: e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0
+  compatibility_identity_sha256: 58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: 2cedf1e2a7bee0e4d2dfd9af7ee960f76df0ad20a54a9aecc89c7f7f30698ef1
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2024.zip
+    sha256: 7ff7c455cc17b441bba9ce5c9642131222f9a63bce0edf8b9173862221f18fec
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+  pre_m04_run_id: 40200428904
+  pre_m04_source_commit: 6e6f3d90af1b5eded2863e2908e9715c75939fb4
+  pre_m04_artifact_sha256: b37c48a74f42a6f3e0b276fa0441865f7c8f8155c43df481fe4abd1d61091b4d

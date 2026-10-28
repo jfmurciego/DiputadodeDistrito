@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "region_de_murcia",
+  "territory_name": "Región de Murcia",
+  "edition": "2025",
+  "run_id": 40604944550,
+  "source_commit": "161667c0d482461e4f6d0bc030e641ab5d219f9e",
+  "decision": "BLOCKED",
+  "evaluation_status": "BLOCKED",
+  "stage": "TERRITORY_GRAPH",
+  "source": {
+    "run_id": 40604944550,
+    "artifact_name": "ddd-source-package-region_de_murcia-2025-40604944550",
+    "artifact_sha256": "0d23aac59422a784fc6b22c5ec37e7e9161a81ba7dddf266014b69557f6188cd",
+    "package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534",
+    "compatibility_identity_sha256": "234860acfd0a8e71e089f18156dd4d76e0b010a35e5edf6510eb49aba9d309f7",
+    "territorial_identity_sha256": "14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "BLOCKED",
+    "capability": "CAP_GRAPH",
+    "reason": "M03 bloqueó conectividad administrativa: provincias=1, municipios=0"
+  }
+}

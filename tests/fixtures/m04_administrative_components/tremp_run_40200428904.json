@@ -1,0 +1,115 @@
+{
+  "origin_run_id": 40200428904,
+  "population_total": 8012231,
+  "k": 135,
+  "atomic_ratio": 1.75,
+  "declaration": {
+    "admin_scope": "municipality:25234",
+    "components": [
+      [
+        "2523401001",
+        "2523401002",
+        "2523402001",
+        "2523402002"
+      ],
+      [
+        "2523403001"
+      ]
+    ],
+    "reason": "El seccionado oficial 2024 asigna las cinco secciones a Tremp (25234), pero bajo la adyacencia productiva contact, EPSG:3035 y min_shared_border_m=1.0 forman dos componentes [4,1]. 2523403001 sólo toca puntualmente a 2523401002, con 0 m de frontera lineal compartida. La acreditación describe la estructura administrativa de entrada; no añade aristas ni habilita generación.",
+    "source": "ddd-source-package-cataluna-2025-37215025861, INE seccionado 2024; ICGC Divisions administratives v2.2, datos 2026-01-20; Ajuntament de Tremp, ficha vigente de Puigcercós",
+    "evidence": {
+      "run_id": 37215025861,
+      "source_commit": "d4f8b84769290aa252498399b66ba90c37b44612",
+      "working_crs": "EPSG:3035",
+      "point_contact": {
+        "u": "2523401002",
+        "v": "2523403001",
+        "shared_border_m": 0.0
+      },
+      "administrative_dataset": {
+        "authority": "Institut Cartogràfic i Geològic de Catalunya",
+        "dataset": "Divisions administratives",
+        "specification": "v2.2",
+        "data_date": "2026-01-20",
+        "municipality_geometry_contract": "polígono simple o compuesto de diversas partes disjuntas"
+      },
+      "section_correspondence": {
+        "section": "2523403001",
+        "component_sections": [
+          "2523403001"
+        ],
+        "official_enclave": "Puigcercós",
+        "local_authority": "Ajuntament de Tremp",
+        "official_area_km2": 1.59,
+        "matched_part_area_km2_epsg3035": 1.5834613860534748,
+        "matched_part_centroid_wgs84": {
+          "longitude": 0.8861609846822961,
+          "latitude": 42.129575417543286
+        }
+      }
+    }
+  },
+  "municipalities": {
+    "25215": [
+      "2521501001"
+    ],
+    "25234": [
+      "2523401001",
+      "2523401002",
+      "2523402001",
+      "2523402002",
+      "2523403001"
+    ]
+  },
+  "populations": {
+    "2521501001": 541,
+    "2523401001": 949,
+    "2523401002": 1096,
+    "2523402001": 1794,
+    "2523402002": 1726,
+    "2523403001": 491
+  },
+  "physical_edges": [
+    [
+      "2521501001",
+      "2523401002"
+    ],
+    [
+      "2521501001",
+      "2523402001"
+    ],
+    [
+      "2521501001",
+      "2523402002"
+    ],
+    [
+      "2521501001",
+      "2523403001"
+    ],
+    [
+      "2523401001",
+      "2523401002"
+    ],
+    [
+      "2523401001",
+      "2523402001"
+    ],
+    [
+      "2523401001",
+      "2523402002"
+    ],
+    [
+      "2523401002",
+      "2523402001"
+    ],
+    [
+      "2523401002",
+      "2523402002"
+    ],
+    [
+      "2523402001",
+      "2523402002"
+    ]
+  ]
+}

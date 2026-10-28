@@ -1,0 +1,15 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "madrid",
+  "territory_name": "Comunidad de Madrid",
+  "edition": "2025",
+  "run_id": 36629279414,
+  "artifact_name": "ddd-electoral-package-madrid-2025-36629279414",
+  "artifact_sha256": "9c42884ffe6fe8e0ebb2a6dfbf6d6a4dd494a49e39b2fc1f4eea5d694468feb7",
+  "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+  "election_id": "comunidad_madrid_asamblea_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28"
+}

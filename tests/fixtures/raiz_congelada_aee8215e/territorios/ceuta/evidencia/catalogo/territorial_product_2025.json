@@ -1,0 +1,13 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "ceuta",
+  "territory_name": "Ceuta",
+  "edition": "2025",
+  "run_id": 36482903970,
+  "artifact_name": "ddd-state-36482903970-M06",
+  "artifact_sha256": "b4fb76e66c6267c157e07f3231adbfc96e39e437ca12ac4dcda1511f796a1c01",
+  "source_commit": "f07f5c8c7d5a9fcda98e625692c85e5122fc8a91",
+  "decision": "PASS",
+  "stage": "M06"
+}
