@@ -22,6 +22,9 @@ más poblado es 1,70. El resto de territorios conserva los límites nacionales. 
 versiones anteriores de la política, del materializador y del contrato de Melilla se
 conservan en `legacy/`.
 
+- `test_gestor_campana_nacional.py` 0.0.5: con el contrato nuevo Melilla pasa a
+  `SOURCE_PREPARATION_REQUIRED`, como Baleares; la campaña de 14 rutas queda en 4/3/7.
+
 ## 2026-10-28 — Puerta 02→03 — M06 caducados desde su release durable
 
 `herramientas/localizar_artefacto_durable.py` localiza un artefacto acreditado por run,
