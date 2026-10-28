@@ -1,7 +1,7 @@
-"""Version: 1.0.3; name: orphan M08 recovery tests; date: 2026-10-28.
+"""Version: 1.0.4; name: orphan M08 recovery tests; date: 2026-10-29.
 Scope: fail-closed recovery and exact durable M06/M08 lineage.
-Status: candidate. Change/reason: the CLM regression checks the M06/M08 lineage rule instead of pinning run ids, so new full runs do not turn main red.
-Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.2.py.
+Status: candidate. Change/reason: the Ceuta regression accepts a newer certified M06 (reuse) or, without one, requires a rebuild; it no longer pins the absence of a product.
+Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.3.py.
 """
 from __future__ import annotations
 
@@ -812,6 +812,23 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         # El producto M06 de Ceuta continúa siendo auditable, pero la fuente
         # vigente es posterior e incompatible. El catálogo lo deshabilita,
         # obligando a regenerar M04–M06 sin reutilizar ese M06 histórico.
+        # Regla: el M06 histórico obsoleto nunca se reutiliza. Si una ejecución posterior
+        # certificó un M06 vigente, el plan reutiliza ese; si no, regenera M04–M06.
+        plan = build_plan(
+            territory="Ceuta",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=True,
+        )
+        if plan["catalog_state"]["territorial_product_available"]:
+            current = int(plan["existing"]["territorial_product"]["run_id"])
+            self.assertGreater(current, 36529371312)
+            self.assertFalse(plan["run_generate"])
+            self.assertFalse(plan["run_prepare_territorial"])
+            return
         self._assert_real_case(
             territory_name="Ceuta",
             territory_id="ceuta",
