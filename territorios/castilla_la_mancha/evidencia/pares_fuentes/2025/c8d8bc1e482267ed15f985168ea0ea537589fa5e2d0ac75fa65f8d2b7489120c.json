@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "castilla_la_mancha",
+  "territory_name": "Castilla-La Mancha",
+  "edition": "2025",
+  "election": {
+    "election_id": "castilla_la_mancha_cortes_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40690624792,
+    "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40690624792",
+    "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
+    "package_sha256": "d601e87101c28fab18fc48778854617e20f354ae8bc353265f5e195fdebf56fc",
+    "source_commit": "8940b848734cc05516ead27b48378493aa9aeddb",
+    "source_declaration": "territorios/castilla_la_mancha/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b/40690624792/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "c4a69037fdcde1672e22c6e5ee83d79f34cbcf530893b54a898bf0e5ac76cf5e",
+    "compatibility_identity_sha256": "6d495d0ead09d91ddc4861b3f516ae238e3f09713ec47cc4bb4b290150e8a09b",
+    "remote_verification": {
+      "run_id": 40690624792,
+      "artifact_id": 12819061539,
+      "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40690624792",
+      "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 40690624792,
+    "artifact_name": "ddd-electoral-package-castilla_la_mancha-2025-40690624792",
+    "artifact_sha256": "2a3c5ca24899b65a00867ef805bdde7173b6c50ed1e1ffd07e84d182197e41f0",
+    "source_commit": "8940b848734cc05516ead27b48378493aa9aeddb",
+    "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_electorales/2025/c4a03521682f6b68d6648fdd6ad72a37a697df36d410675a9414746b90359bcf/40690624792/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "castilla_la_mancha_cortes_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "c4a03521682f6b68d6648fdd6ad72a37a697df36d410675a9414746b90359bcf",
+    "remote_verification": {
+      "run_id": 40690624792,
+      "artifact_id": 12821048329,
+      "artifact_name": "ddd-electoral-package-castilla_la_mancha-2025-40690624792",
+      "artifact_sha256": "2a3c5ca24899b65a00867ef805bdde7173b6c50ed1e1ffd07e84d182197e41f0",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "62d83ef5f8a589ce47a7db753c506f9b8606e6a16774c69cc17a7d9e714c0a7b",
+  "electoral_compatibility_key": "c4a03521682f6b68d6648fdd6ad72a37a697df36d410675a9414746b90359bcf",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "c8d8bc1e482267ed15f985168ea0ea537589fa5e2d0ac75fa65f8d2b7489120c"
+}

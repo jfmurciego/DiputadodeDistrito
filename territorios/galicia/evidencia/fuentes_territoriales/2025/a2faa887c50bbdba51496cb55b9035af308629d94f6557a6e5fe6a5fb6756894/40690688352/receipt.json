@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "galicia",
+  "edition": "2025",
+  "population_year": 2024,
+  "section_year": 2024,
+  "run_id": 40690688352,
+  "artifact_name": "ddd-source-package-galicia-2025-40690688352",
+  "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
+  "package_sha256": "891470ada7696896661e9987cd5bf47c6a7332886bbb0669d4d6e3a6ae49b04d",
+  "source_commit": "8940b848734cc05516ead27b48378493aa9aeddb",
+  "source_declaration": "territorios/galicia/evidencia/fuentes_territoriales/2025/a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894/40690688352/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "a2faa887c50bbdba51496cb55b9035af308629d94f6557a6e5fe6a5fb6756894",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "eac810f98aea3cd2aac78e5984c89ee5548b13bda9736b926503b41dd723af33",
+  "compatibility_identity_sha256": "b1de69fa6f311928d4d4e983561f89591522162c1b41a68b2f7df8dfa179d268"
+}
