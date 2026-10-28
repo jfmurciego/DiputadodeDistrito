@@ -1,12 +1,26 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.15
+Versión: 1.0.16
 Fecha: 2026-10-28
-Alcance: reutilización de fuentes territoriales cuyo artefacto de Actions caducó
+Alcance: estado registrado por las ejecuciones 00 del 27-10 y puerta F10 territorial
 Estado: candidato
-Cambios/motivo: volver a adquirir la fuente oficial en lugar de bloquear "Reutilizar progreso existente"
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.14_20261028.md
+Cambios/motivo: aceptar en F10 el re-registro del mismo paquete y fijar los M06 nuevos en las pruebas
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.15_20261028.md
 -->
+
+## 2026-10-28 — F10/M06 — estado registrado por las ejecuciones 00 del 27-10
+
+Los commits automáticos de registro de esas ejecuciones avanzaron `main` sin CI y
+dejaron siete pruebas en rojo. `estado_derivado_f10.py` 1.1.3 acepta como expediente
+acreditado un receipt territorial distinto del de la matriz F10 solo si su run es
+posterior y coinciden `package_sha256`, la identidad territorial, los dos hashes de
+compatibilidad y los años: cada reutilización de 00 vuelve a registrar el mismo
+paquete con run y artefacto propios, como Murcia en el run 40604944550. Un paquete
+distinto sigue bloqueando hasta una nueva auditoría F10, y el receipt de la matriz
+mantiene la comprobación completa. `test_m06_product_reuse_integration.py` fija los
+M06 de Cantabria (40604431189), Castilla-La Mancha (40604483629) y Galicia
+(40604535110), cuyos digests coinciden con sus manifiestos durables. Las versiones
+anteriores se conservan en `legacy/`.
 
 ## 2026-10-28 — 01 — fuente territorial registrada con artefacto caducado
 
