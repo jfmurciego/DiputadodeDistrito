@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "extremadura",
+  "territory_name": "Extremadura",
+  "edition": "2025",
+  "run_id": 40656175842,
+  "source_commit": "68beeb001fcf41d5441066d3263cfdc9764c1be0",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 40656175842,
+    "artifact_name": "ddd-source-package-extremadura-2025-40656175842",
+    "artifact_sha256": "e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec",
+    "package_sha256": "5af74bed654e8926382c9e47c01608effaee56ca9c59f0bab244843c5708c208",
+    "compatibility_identity_sha256": "8c84b7f183c5c64e455530d369f3cf217cce61c4edb23e7a2758ab623e2706a9",
+    "territorial_identity_sha256": "e4f3b536ed0c961315a3dd45d6e58c102c44a7a80cd211133dc17ffbe17ebfa8",
+    "population_year": 2025,
+    "section_year": 2025
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}

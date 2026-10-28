@@ -481,6 +481,7 @@ territories:
         compatibility_identity_sha256: cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
+        generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: galicia
   name: Galicia
