@@ -30,7 +30,7 @@ jobs:
             .ddd-siel-andalucia-2026/manifest.json >> "$GITHUB_STEP_SUMMARY"
       - name: Conservar checkpoint para reanudación controlada
         if: ${{ always() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: ddd-siel-andalucia-2026-checkpoint
           path: |
@@ -40,7 +40,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
       - name: Publicar snapshot durable
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: ddd-siel-andalucia-2026-snapshot
           path: .ddd-siel-andalucia-2026
@@ -48,7 +48,7 @@ jobs:
           if-no-files-found: error
           retention-days: 90
       - name: Publicar paquete normalizado sólo para diagnóstico
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: ddd-siel-andalucia-2026-package
           path: .ddd-electoral-package
@@ -56,7 +56,7 @@ jobs:
           if-no-files-found: error
           retention-days: 30
       - name: Publicar sólo informe pequeño
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: evidencia-siel-andalucia-2026
           path: siel-andalucia-2026-report.json

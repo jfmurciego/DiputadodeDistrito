@@ -41,8 +41,8 @@ jobs:
           - territory_id: galicia
             params: territorios/galicia/config/galicia_2025.yaml
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Install source validator dependency
@@ -67,7 +67,7 @@ jobs:
           PY
       - name: Upload the exact validated package
         id: upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ddd-electoral-package-${{ matrix.territory_id }}-2025-${{ github.run_id }}
           path: docs/AUDITORIAS/F10_RECIBOS_ELECTORALES_ASTURIAS_GALICIA_20261026/paquetes/${{ matrix.territory_id }}/

@@ -135,7 +135,7 @@ jobs:
             echo "from_num=$from_num"
             echo "to_num=$to_num"
           } >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: ddd-decision-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
@@ -283,7 +283,7 @@ jobs:
             --root-dir /app
       - name: Publicar evidencia de preparación
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-fuentes-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: |
@@ -298,7 +298,7 @@ jobs:
           retention-days: 14
       - name: Publicar entradas consumibles
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-official-inputs-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-sources/materialized
@@ -307,7 +307,7 @@ jobs:
           retention-days: 14
       - name: Publicar paquete durable de fuentes
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-source-package-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-source-package
@@ -372,7 +372,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
       - name: Recuperar estado acumulado anterior
         if: ${{ env.PREVIOUS_STAGE != '' }}
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}${{ steps.state.outputs.artifact_suffix }}
           path: .ddd-state/in
@@ -396,13 +396,13 @@ jobs:
           test -f "$RUNS_DIR/CHAIN_STATE.json"
       - name: Recuperar fuentes aprobadas para M01
         if: ${{ env.STAGE == 'M01' }}
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ddd-official-inputs-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-sources/materialized
       - name: Recuperar paquete durable para M01
         if: ${{ env.STAGE == 'M01' }}
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ddd-source-package-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-source-package
@@ -468,7 +468,7 @@ jobs:
           PY
       - name: Publicar diagnóstico GerryChain 50 fallido
         if: ${{ failure() && env.STAGE == 'M05' && inputs.optimization_algorithm == 'GerryChain 50' }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-gerrychain50-diagnostic-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-gerrychain50-diagnostic
@@ -527,7 +527,7 @@ jobs:
           PY
       - name: Publicar diagnóstico M03 bloqueado
         if: ${{ failure() && env.STAGE == 'M03' }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-generation-diagnostic-${{ github.run_id }}-M03${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-generation-diagnostic/classification.json
@@ -548,7 +548,7 @@ jobs:
             python herramientas/huella_checkpoint_m05.py --params "$PARAMS" --root-dir . \
               --output .ddd-state/out/compatibility/m05.json
           fi
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state/out
@@ -615,7 +615,7 @@ jobs:
             echo "artifact_suffix=$artifact_suffix"
           } >> "$GITHUB_OUTPUT"
       - name: Recuperar entrada M03
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ddd-state-${{ steps.state.outputs.run_id }}-M03${{ steps.state.outputs.artifact_suffix }}
           path: .ddd-state/in
@@ -675,7 +675,7 @@ jobs:
           cp -a "$CACHE_DIR/." .ddd-state/out/cache/
           cp -a "$RUNS_DIR/." .ddd-state/out/run/
           cp -a .ddd-source-package/. .ddd-state/out/sources/
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-state-${{ github.run_id }}-M03U${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state/out
@@ -684,7 +684,7 @@ jobs:
           retention-days: 14
       - name: Publicar preparación de unidades internas
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-internal-units-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-internal-units
@@ -791,14 +791,14 @@ jobs:
           echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"
       - name: Publicar diagnóstico de persistencia pre-M04
         if: ${{ always() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-pre-m04-persistence-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}
           path: ${{ runner.temp }}/ddd-pre-m04-persistence-${{ github.run_id }}.json
           if-no-files-found: warn
           retention-days: 30
       - name: Publicar evidencia pre-M04 inmutable
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-generation-preflight-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}
           path: ${{ runner.temp }}/ddd-pre-m04-evidence-${{ github.run_id }}.json
@@ -950,7 +950,7 @@ jobs:
 
       - name: Publicar diagnóstico de evaluación
         if: ${{ always() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-generation-evaluation-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}
           path: |
@@ -1029,7 +1029,7 @@ jobs:
             echo "artifact_suffix=$artifact_suffix"
           } >> "$GITHUB_OUTPUT"
       - name: Recuperar estado M06
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: ddd-state-${{ steps.state.outputs.run_id }}-M06${{ steps.state.outputs.artifact_suffix }}
           path: .ddd-state/in
@@ -1161,7 +1161,7 @@ jobs:
           Path(output).write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
           [[ "$audit_missing" == false ]] || exit 33
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: ddd-audit-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
