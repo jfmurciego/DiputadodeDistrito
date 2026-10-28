@@ -1,12 +1,3 @@
-# PROYECTO: Diputado de Distrito
-# TERRITORIO: Comunidad Valenciana
-# VERSIÓN: 1.0.1
-# NOMBRE DE VERSIÓN: Reproyección métrica UTM para topología M02
-# FECHA: 2026-10-19
-# ESTADO: candidato, pendiente de CI y revisión independiente
-# CAMBIOS: M02 usa EPSG:25830; declara ediciones fuente 2025 para población y seccionado.
-# MOTIVO: evitar solapes de reproyección >1 m² y conservar los contactos lineales de los originales, sin alterar geometrías ni umbral.
-# ANTERIOR: legacy/configuracion/comunidad_valenciana_2025_v1.0.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   territory_id: comunidad_valenciana
