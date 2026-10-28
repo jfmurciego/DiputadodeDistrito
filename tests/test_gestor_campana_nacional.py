@@ -254,8 +254,9 @@ class NationalCampaignTests(unittest.TestCase):
   all_by_slot={r["slot"]:r for r in m["territories"]}
   self.assertEqual({code for code,row in all_by_slot.items() if row["preflight_status"]=="BLOCKED"},set())
   self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),4)
-  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),1)
-  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),9)
+  # Baleares (04) cambió su contrato y vuelve a preparar fuente antes de generar.
+  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),2)
+  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),8)
   by_slot={r["slot"]:r for r in matrix}
   for code in ("06", "08"):
    row=by_slot[code]

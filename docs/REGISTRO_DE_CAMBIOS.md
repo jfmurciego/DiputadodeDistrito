@@ -1,12 +1,26 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.18
+Versión: 1.0.19
 Fecha: 2026-10-28
-Alcance: adopción de los M06 del 28-10 de Aragón y Extremadura
+Alcance: bloqueos de población de Madrid y Baleares
 Estado: candidato
-Cambios/motivo: los M06 anteriores ya no tienen artefacto; se adoptan los únicos con bytes vivos
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.17_20261028.md
+Cambios/motivo: reparación privada en Madrid y exención de suelo de Menorca
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.18_20261028.md
 -->
+
+## 2026-10-28 — M05 — bloqueos de población de Madrid y Baleares
+
+Diagnóstico con los informes M04/M05/M06 de los checkpoints (rama `diagnostico/poblacion-20261028`).
+
+- Madrid: el reparador focal agota su cola con 90 de 135 distritos urbanos cerrados y deja una
+  violación dura (distrito 110, 17.401). El ensayo local de `private_annealing` sobre el mismo
+  grafo M03 y la misma salida M05 la elimina (partición válida, 27 s). El contrato activa esa
+  estrategia; la candidata sigue sometida a la validación oficial atómica de M05.
+- Baleares: Menorca (07-C02, 5 distritos, 99.005 habitantes) no admite ninguna partición sobre el
+  suelo: Mahón (30.006) y Ciudadela (31.669) son indivisibles y los otros tres distritos dispondrían
+  de 37.330 habitantes para un mínimo de 49.218. Se exime del suelo como Formentera (07-C03) y su
+  auditoría de reparto lo declara. El cambio de contrato obliga a reacreditar la fase pre-M04.
+
 
 ## 2026-10-28 — M06 — Aragón y Extremadura adoptan sus productos del 28-10
 

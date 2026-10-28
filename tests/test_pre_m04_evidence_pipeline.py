@@ -1094,13 +1094,13 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        # El preflight vigente ya vincula la fuente de Baleares al blob M02
-        # actual; reuse y catalog_source no deben programar una reacreditación redundante.
-        self.assertFalse(reuse["run_prepare_territorial"])
-        self.assertFalse(reuse["pre_m04_accreditation_planned"])
+        # El contrato de Baleares cambió (exención de suelo de Menorca, 07-C02): su preflight
+        # ya no lo acredita y reuse programa la reacreditación antes de generar.
+        self.assertTrue(reuse["run_prepare_territorial"])
+        self.assertTrue(reuse["pre_m04_accreditation_planned"])
         self.assertTrue(reuse["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "validated_pre_m04_topology"},
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
             reuse["generation_gate"],
         )
 
@@ -1111,11 +1111,11 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertFalse(catalog_source["run_prepare_territorial"])
-        self.assertFalse(catalog_source["pre_m04_accreditation_planned"])
+        self.assertTrue(catalog_source["run_prepare_territorial"])
+        self.assertTrue(catalog_source["pre_m04_accreditation_planned"])
         self.assertTrue(catalog_source["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "validated_pre_m04_topology"},
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
             catalog_source["generation_gate"],
         )
         self.assertEqual(
