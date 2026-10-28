@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "madrid",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 40658423303,
+  "artifact_name": "ddd-source-package-madrid-2025-40658423303",
+  "artifact_sha256": "d0ddfa8180595ad132e610370b35e118bdfce0daa48198d62dfe3c2c4b176ce3",
+  "package_sha256": "b5b53cf90dae362c8ff1ca7a93927bebb9faaa99ab310e90b3ccf390412a408a",
+  "source_commit": "d497bf39739dbcb9ff49403ad62f33b840bffa2f",
+  "source_declaration": "territorios/madrid/evidencia/fuentes_territoriales/2025/c077faee9c946c2f5f4340e6203095a63faec1b52eb0c68cc14cb28ede66d6fb/40658423303/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "c077faee9c946c2f5f4340e6203095a63faec1b52eb0c68cc14cb28ede66d6fb",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "fd6d77e065d7dc8977924e82c094a2ef319d667ee3167769c863e373e58a1394",
+  "compatibility_identity_sha256": "c0a88a34f308608d44d1c2d05208ff4f651b3e5c05e9e87f77fe7dd334df4788"
+}
