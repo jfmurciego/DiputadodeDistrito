@@ -427,18 +427,18 @@ territories:
         run_id: 40656175842
         stage: M06
       preparation_evidence:
-        run_id: 40656175842
-        artifact_name: ddd-source-package-extremadura-2025-40656175842
-        artifact_sha256: e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec
-        package_sha256: 5af74bed654e8926382c9e47c01608effaee56ca9c59f0bab244843c5708c208
-        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/e4f3b536ed0c961315a3dd45d6e58c102c44a7a80cd211133dc17ffbe17ebfa8/40656175842/receipt.json
-        territorial_identity_sha256: e4f3b536ed0c961315a3dd45d6e58c102c44a7a80cd211133dc17ffbe17ebfa8
-        compatibility_report_sha256: 3b820527cc773127483c113a3649b056765f3881a30ce1a4705ea092bc2827db
-        compatibility_identity_sha256: 8c84b7f183c5c64e455530d369f3cf217cce61c4edb23e7a2758ab623e2706a9
+        run_id: 40691774876
+        artifact_name: ddd-source-package-extremadura-2025-40691774876
+        artifact_sha256: 62efb06eafc4302639b1264999ed8afb7bb7ba94f0639f872bae72dfb2b7c619
+        package_sha256: 02e52e3ecde5f9d8d59b07cf7152742786f4766941f7003ee9541ac5f0ef6c52
+        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37/40691774876/receipt.json
+        territorial_identity_sha256: 3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37
+        compatibility_report_sha256: 9fdd2d68d733ed66b3789f2c996e11321f75bbcce7851ef6586b6f59cc4cbdd9
+        compatibility_identity_sha256: d32cb2818b33f5cd627161d3a2fe3e0664a8e8af53b24d1f8e731b5077946e89
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: d497bf39739dbcb9ff49403ad62f33b840bffa2f
+        source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
       independent_source_evidence:
         status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
         promoted: false
@@ -456,8 +456,7 @@ territories:
         compatibility_identity_sha256: cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
-        generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: galicia
   name: Galicia
   editions:

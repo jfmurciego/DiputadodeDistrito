@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   full_process_readiness: territorios/extremadura/config/preparacion_proceso_completo.yaml
   electoral_sources_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
   source_population_year: 2025
@@ -85,7 +85,7 @@ territory_contract:
     común connected_internal_units.
   - La producción sigue bloqueada: este paquete prepara configuración y capacidades
       sin ejecutar ni certificar una solución territorial.
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 partitioning:
   enabled: true
   strategy: connected_internal_units
@@ -224,9 +224,9 @@ validation:
     section_year: 2025
     population_total: 1053345
     target_section_count: 964
-    package_sha256: 5af74bed654e8926382c9e47c01608effaee56ca9c59f0bab244843c5708c208
-    compatibility_report_sha256: 3b820527cc773127483c113a3649b056765f3881a30ce1a4705ea092bc2827db
-    compatibility_identity_sha256: 8c84b7f183c5c64e455530d369f3cf217cce61c4edb23e7a2758ab623e2706a9
+    package_sha256: 02e52e3ecde5f9d8d59b07cf7152742786f4766941f7003ee9541ac5f0ef6c52
+    compatibility_report_sha256: 9fdd2d68d733ed66b3789f2c996e11321f75bbcce7851ef6586b6f59cc4cbdd9
+    compatibility_identity_sha256: d32cb2818b33f5cd627161d3a2fe3e0664a8e8af53b24d1f8e731b5077946e89
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -300,9 +300,9 @@ resolved_source_contract:
   contract_sha256: 031421c6a777eb5c1581d29db39584d7b02dfd7b2924544526e4afd8323ac5c3
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: 5af74bed654e8926382c9e47c01608effaee56ca9c59f0bab244843c5708c208
-  compatibility_identity_sha256: 8c84b7f183c5c64e455530d369f3cf217cce61c4edb23e7a2758ab623e2706a9
+  generation_enabled: false
+  package_sha256: 02e52e3ecde5f9d8d59b07cf7152742786f4766941f7003ee9541ac5f0ef6c52
+  compatibility_identity_sha256: d32cb2818b33f5cd627161d3a2fe3e0664a8e8af53b24d1f8e731b5077946e89
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: de69c1f9ff54e8c03693970711ccc82a93e239817f8dc7fdd24ae9d0c47a9405
@@ -352,6 +352,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40656175842
-  pre_m04_source_commit: cb19be7ea974c4bd8df11f25c33ed1234aa6679c
-  pre_m04_artifact_sha256: ea87d88c8f2e015188e8dc97e0fe11a2912dbb1d332653b83744a1c8d36dae38
