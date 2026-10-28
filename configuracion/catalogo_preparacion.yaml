@@ -130,6 +130,7 @@ territories:
         electoral_source: territorios/principado_de_asturias/evidencia/fuentes_electorales/2025/29fb6a23b9c2e9fa3f3c393c34b90c868983302ea5d8767f7be5d472fbd6536c/40389705458/receipt.json
         electoral_product: territorios/principado_de_asturias/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/principado_de_asturias/evidencia/pares_fuentes/2025/dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22.json
+        generation_preflight: territorios/principado_de_asturias/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: illes_balears
   name: Islas Baleares
