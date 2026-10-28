@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "madrid",
+  "territory_name": "Comunidad de Madrid",
+  "edition": "2025",
+  "run_id": 40787900559,
+  "artifact_name": "ddd-state-40787900559-M08",
+  "artifact_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+  "source_commit": "9c554d0729ee26daaef39eff1788a79628492135",
+  "stage": "M08"
+}

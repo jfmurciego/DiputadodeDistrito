@@ -534,12 +534,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40787900559
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40773465956
         artifact_name: ddd-source-package-madrid-2025-40773465956
@@ -558,6 +558,7 @@ territories:
         prepared_source_pair: territorios/madrid/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json
         generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/madrid/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/madrid/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: region_de_murcia
   name: Región de Murcia
