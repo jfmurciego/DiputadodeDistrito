@@ -1,7 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.1.0
-# FECHA: 2026-09-20
+# VERSIÓN: 1.2.0
+# FECHA: 2026-10-28
+# CAMBIOS: admite population_limits por territorio; Melilla, territorio excepcional, suelo 0,70 y tolerancia 0,30.
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.1.0.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -59,7 +61,17 @@ territories:
   pais_vasco: {k: 75, k_source: norma, partition_mode: province_hamilton, rationale: "K=75 conserva el tamaño vigente del Parlamento Vasco como regla institucional ex ante."}
   la_rioja: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente del Parlamento de La Rioja como regla institucional ex ante."}
   ceuta: {k: 25, k_source: norma, partition_mode: province_hamilton, rationale: "K=25 conserva el tamaño de la Asamblea de Ceuta como regla institucional ex ante."}
-  melilla: {k: 25, k_source: norma, partition_mode: province_hamilton, rationale: "K=25 conserva el tamaño de la Asamblea de Melilla como regla institucional ex ante."}
+  melilla:
+    k: 25
+    k_source: norma
+    partition_mode: province_hamilton
+    rationale: "K=25 conserva el tamaño de la Asamblea de Melilla como regla institucional ex ante."
+    population_limits:
+      population_floor_ratio: 0.70
+      target_tolerance_ratio: 0.30
+      decided_at: "2026-10-28"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.melilla.population_limits; población INE 65034 (2023), 44 secciones, 85.493 habitantes"
+      rationale: "Territorio excepcional (decisión del propietario, 28-10-2026): 44 secciones indivisibles para K=25 obligan a al menos 6 distritos de una sola sección; con población 2023 la 6.ª mayor es el 72,8 % del objetivo, por lo que con el suelo nacional del 80 % no existe partición."
 archipelago:
   partition_lookup: configuracion/particiones_insulares_2025.json
   apportionment: hamilton_min_one_floor_feasible

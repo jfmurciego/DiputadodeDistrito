@@ -1,8 +1,7 @@
-"""Regresiones del gestor nacional, versión 0.0.4, 2026-10-28.
+"""Regresiones del gestor nacional, versión 0.0.5, 2026-10-28.
 Alcance: planificación pura y cierre de acreditación; estado: candidato.
-Cambio/motivo: Asturias, Cantabria y Castilla-La Mancha se comprueban por regla de linaje M06/M08
-y no por run_id fijo, para que una ejecución completa nueva no ponga main en rojo.
-Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.3_20261028.py.
+Cambio/motivo: Melilla cambia su contrato (límites excepcionales) y vuelve a preparar fuente.
+Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.4_20261028.py.
 """
 import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
@@ -256,9 +255,10 @@ class NationalCampaignTests(unittest.TestCase):
   all_by_slot={r["slot"]:r for r in m["territories"]}
   self.assertEqual({code for code,row in all_by_slot.items() if row["preflight_status"]=="BLOCKED"},set())
   self.assertEqual(sum(r["execution_route"]=="PRODUCT_REUSE_READY" for r in matrix),4)
-  # Baleares (04) cambió su contrato y vuelve a preparar fuente antes de generar.
-  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),2)
-  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),8)
+  # Baleares (04) y Melilla (19) cambiaron su contrato y vuelven a preparar fuente antes de generar.
+  self.assertEqual(sum(r["execution_route"]=="SOURCE_PREPARATION_REQUIRED" for r in matrix),3)
+  self.assertEqual(next(r["execution_route"] for r in matrix if r["slot"]=="19"),"SOURCE_PREPARATION_REQUIRED")
+  self.assertEqual(sum(r["execution_route"]=="GENERATION_READY" for r in matrix),7)
   by_slot={r["slot"]:r for r in matrix}
   for code in ("06", "08"):
    row=by_slot[code]

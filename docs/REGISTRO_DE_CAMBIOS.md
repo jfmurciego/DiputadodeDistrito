@@ -1,12 +1,37 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.20
+Versión: 1.0.21
 Fecha: 2026-10-28
-Alcance: bloqueos de población de Madrid y Baleares
+Alcance: límites de población excepcionales de Melilla y puerta 02→03 con M06 durables
 Estado: candidato
-Cambios/motivo: reparación privada en Madrid y exención de suelo de Menorca
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.19_20261028.md
+Cambios/motivo: Melilla no admite 25 distritos con el suelo nacional; #311 entró sin entrada propia
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.20_20261028.md
 -->
+
+## 2026-10-28 — Melilla — límites de población excepcionales
+
+La política de generación 1.2.0 admite `population_limits` por territorio: solo suelo,
+techo y tolerancia, con `rationale`, `evidence` y `decided_at` obligatorios. El
+materializador los aplica y emite `limits_profile: exception` con esos tres campos,
+que `territory_contract` ya exige para cualquier límite distinto del estándar. Melilla,
+declarada territorio excepcional por el propietario, pasa a suelo 0,70 y tolerancia
+0,30. Con 44 secciones indivisibles y K=25 hacen falta al menos 6 distritos de una sola
+sección, y con la población INE 2023 la 6.ª sección más poblada es el 72,8 % del
+objetivo; con el suelo del 80 % no existe partición. El techo (1,75) no cambia: el par
+más poblado es 1,70. El resto de territorios conserva los límites nacionales. Las
+versiones anteriores de la política, del materializador y del contrato de Melilla se
+conservan en `legacy/`.
+
+- `test_gestor_campana_nacional.py` 0.0.5: con el contrato nuevo Melilla pasa a
+  `SOURCE_PREPARATION_REQUIRED`, como Baleares; la campaña de 14 rutas queda en 4/3/7.
+
+## 2026-10-28 — Puerta 02→03 — M06 caducados desde su release durable
+
+`herramientas/localizar_artefacto_durable.py` localiza un artefacto acreditado por run,
+nombre y SHA-256: usa el de Actions si sigue vivo o, si caducó, el asset
+`<nombre>-<id>.zip` de las releases draft `almacen-m06-*`, y solo acepta bytes con el
+mismo SHA-256. `_reutilizable-puerta-validacion.yml` 1.2.0 la usa antes de bloquear un
+M06 acreditado cuyo artefacto caducó, y también para su auditoría (PR #311).
 
 ## 2026-10-28 — M05 — bloqueos de población de Madrid y Baleares
 

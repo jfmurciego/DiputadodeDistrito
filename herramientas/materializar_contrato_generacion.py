@@ -804,6 +804,38 @@ def existing_or_bootstrap(
     return cfg, path
 
 
+LIMIT_KEYS = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio")
+
+
+def territory_population_limits(defaults: dict, pentry: dict, territory_id: str) -> dict:
+    """Aplica los límites de población propios que la política declara para un territorio.
+
+    Solo admite las tres claves de población, exige una justificación y mantiene
+    suelo < 1 < techo; el resto de la política nacional no se puede sobrescribir aquí.
+    """
+    limits = pentry.get("population_limits")
+    if not limits:
+        return defaults
+    unknown = set(limits) - set(LIMIT_KEYS) - {"rationale", "evidence", "decided_at"}
+    if unknown:
+        raise ValueError(f"Límites de población no admitidos para {territory_id}: {sorted(unknown)}")
+    for key in ("rationale", "evidence", "decided_at"):
+        if not str(limits.get(key) or "").strip():
+            raise ValueError(f"Límites de población excepcionales sin {key}: {territory_id}")
+    merged = dict(defaults)
+    merged.update({key: float(limits[key]) for key in LIMIT_KEYS if key in limits})
+    floor, cap, tol = (float(merged[k]) for k in LIMIT_KEYS)
+    if not (0 < floor < 1 < cap and 0 < tol < 1):
+        raise ValueError(f"Límites de población incoherentes para {territory_id}: {floor}, {cap}, {tol}")
+    merged["limits_exception"] = {
+        "limits_profile": "exception",
+        "limits_exception_rationale": str(limits["rationale"]),
+        "limits_exception_evidence": str(limits["evidence"]),
+        "limits_exception_decided_at": str(limits["decided_at"]),
+    }
+    return merged
+
+
 def materialize(
     root: Path,
     territory_id: str,
@@ -836,7 +868,7 @@ def materialize(
     name = str(row["name"])
     provinces = [str(x).zfill(2) for x in row["province_codes"]]
     k = int(pentry["k"])
-    defaults = policy["defaults"]
+    defaults = territory_population_limits(policy["defaults"], pentry, territory_id)
     source_inputs = source_input_manifest(package)
     resolved_contract = resolved_source_contract(package)
     section_pop = section_populations(
@@ -1006,7 +1038,7 @@ def materialize(
         "population_floor_ratio": float(defaults["population_floor_ratio"]),
         "population_cap_ratio": float(defaults["population_cap_ratio"]),
         "target_tolerance_ratio": float(defaults["target_tolerance_ratio"]),
-        "limits_profile": "standard-1.0.0",
+        **(defaults.get("limits_exception") or {"limits_profile": "standard-1.0.0"}),
         "require_graph_contiguity": True, "require_single_admin_level_1_per_district": True,
         "require_municipality_discipline": True,
         "oversized_municipality_rule": defaults["oversized_municipality_rule"],
