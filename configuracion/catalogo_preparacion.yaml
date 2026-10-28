@@ -531,7 +531,7 @@ territories:
         source_commit: e6778a88325a7c787e4279783fd0e19d7d1d2975
       evidence:
         electoral_source: territorios/madrid/evidencia/fuentes_electorales/2025/66b8d0cd823a4a29607a1553595c2a79c2d6ddbae51d432f5cd158dfec29d9ba/40773465956/receipt.json
-        prepared_source_pair: territorios/madrid/evidencia/pares_fuentes/2025/a73ba65bf9ecbd03b291ea77df2243cc6bd6342eb2127b63ea1875880cd9b63b.json
+        prepared_source_pair: territorios/madrid/evidencia/pares_fuentes/2025/4e4ba55364eb2c69b3d497847c93339e6c99dfea41fa686ae389fbb8c57fdeb8.json
         generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/madrid/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
@@ -688,12 +688,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40784389253
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40773443591
         artifact_name: ddd-source-package-ceuta-2025-40773443591
@@ -712,6 +712,7 @@ territories:
         electoral_source: territorios/ceuta/evidencia/fuentes_electorales/2025/a030a3e1892b4fd6943caef31f04f339ec7f31414e7e9baf51a361c1e068cd5e/40773443591/receipt.json
         prepared_source_pair: territorios/ceuta/evidencia/pares_fuentes/2025/43ce033b960a05ee9bfeff48c913a06b288c498729213cf59789b4ef1e9e70d8.json
         generation_preflight: territorios/ceuta/evidencia/catalogo/generation_preflight_2025.json
+        electoral_product: territorios/ceuta/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: melilla
   name: Melilla
