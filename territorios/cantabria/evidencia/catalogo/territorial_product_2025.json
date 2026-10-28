@@ -4,11 +4,11 @@
   "territory_id": "cantabria",
   "territory_name": "Cantabria",
   "edition": "2025",
-  "run_id": 40604431189,
-  "artifact_name": "ddd-state-40604431189-M06",
-  "artifact_sha256": "232a101d11467d89c3be9e3a359c64f1e78305e57b4def7cfcd0de82b60891fa",
-  "source_commit": "2ef7afae8cb129128479549ea45dbccfd7bc858f",
+  "run_id": 40689735716,
+  "artifact_name": "ddd-state-40689735716-M06",
+  "artifact_sha256": "05138794eca82e9eaf824a8d85840b144d71a480bd66062850c4b89b0818613f",
+  "source_commit": "f8896903f295cafa9d9367c9d84ee609771b256e",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/40604431189.json"
+  "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/40689735716.json"
 }
