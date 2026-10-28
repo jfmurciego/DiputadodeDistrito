@@ -113,25 +113,24 @@ territories:
         run_id: 40241852045
         stage: M06
       preparation_evidence:
-        run_id: 40132061626
-        artifact_name: ddd-source-package-principado_de_asturias-2025-40132061626
-        artifact_sha256: 9dbaff46b33d2695c04fb520d840252dd9f15f4aa7036b15619e81f90f1d38c5
-        package_sha256: 8418a0d5232b0dae7c643cda869d9c08a1a11b1ce9e1c84a00578109fa41e615
-        receipt_path: territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/40132061626/receipt.json
-        territorial_identity_sha256: b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe
-        compatibility_report_sha256: 6e344f525c5694a89d269a1cb10f8ee92c1faa1a0cfabda2477f7c7daecd2286
-        compatibility_identity_sha256: 059ef52320bb60eb3ee358f4e3b219c15df7bdcb1b499073b9345737bb868d79
+        run_id: 40693720831
+        artifact_name: ddd-source-package-principado_de_asturias-2025-40693720831
+        artifact_sha256: 60bacfb549404fed841f2ceda6666376fb16852f05ac1ffba5223dc104e3fec6
+        package_sha256: b3e10ec48bb9879d9614bed5ddd0760b90d49cfb3008b4c2b933b916f10a0b2a
+        receipt_path: territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab/40693720831/receipt.json
+        territorial_identity_sha256: c7318c4524f8378c37e9a7352ba3ada506ae31e7dc5daa2e7996660d8f6c5cab
+        compatibility_report_sha256: e09f8ce688227aa5d14a2180a33d2537589591dd0be40080a40078a480f4122d
+        compatibility_identity_sha256: b490468babe5df385b6857eab9163bf55060e8e4a3f378a8387b4a5af6e5b040
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: a790fa18a8dd320ac75f90301cc3fdfc738055d3
+        source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
       evidence:
         territorial_product: territorios/principado_de_asturias/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/principado_de_asturias/evidencia/fuentes_electorales/2025/29fb6a23b9c2e9fa3f3c393c34b90c868983302ea5d8767f7be5d472fbd6536c/40389705458/receipt.json
         electoral_product: territorios/principado_de_asturias/evidencia/catalogo/electoral_product_2025.json
         prepared_source_pair: territorios/principado_de_asturias/evidencia/pares_fuentes/2025/dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22.json
-        generation_preflight: territorios/principado_de_asturias/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: illes_balears
   name: Islas Baleares
   editions:
