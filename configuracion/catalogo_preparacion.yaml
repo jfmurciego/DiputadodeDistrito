@@ -150,23 +150,23 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40132081479
-        artifact_name: ddd-source-package-illes_balears-2025-40132081479
-        artifact_sha256: 333a98ad02ae67a4c4477bc4b069a3071df45251fe1ead88f299373f3676eeb6
-        package_sha256: aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a
-        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61/40132081479/receipt.json
-        territorial_identity_sha256: dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61
-        compatibility_report_sha256: 6b9e30559d4bbd1a94554aec5815d123533ebde32c4a8e0f2a6f8fbf75b499e5
-        compatibility_identity_sha256: 9cef825582b7883baf353d6bc810a336bd2d2340ea999df43b0917efe43efd3c
+        run_id: 40784622560
+        artifact_name: ddd-source-package-illes_balears-2025-40784622560
+        artifact_sha256: 3e310aa1c1193ef92ac81a387fd21d1030f3bc454f70329ded4fb95b4ea0f20d
+        package_sha256: bbaaaf5e70964edc64e5309587d055d5f9d8600950e3410ba5270b75fd044f72
+        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/b8944c11a9e1ce6617c7fcaf80fef3686e640824f5785d216342183ffa0390e5/40784622560/receipt.json
+        territorial_identity_sha256: b8944c11a9e1ce6617c7fcaf80fef3686e640824f5785d216342183ffa0390e5
+        compatibility_report_sha256: 24623cecc6f21baa34f9aad151dd212505e9ce06dc1ec51a6e7499be59569018
+        compatibility_identity_sha256: 64986eff1a72501c90a8f16e6b546b50863343ab57661a5db2b2e0b7268bd952
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: a790fa18a8dd320ac75f90301cc3fdfc738055d3
+        source_commit: e7b907ef3fbd14be521147fa44dff965ea20e6b2
       evidence:
         electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99.json
         generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: canarias
   name: Canarias
   editions:
@@ -299,11 +299,25 @@ territories:
         territorial_product_source_lineage: territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json
         electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f/36875351443/receipt.json
         electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
+        generation_preflight: territorios/castilla_y_leon/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 35889595424
         stage: M06
+      preparation_evidence:
+        run_id: 40784651090
+        artifact_name: ddd-source-package-castilla_y_leon-2025-40784651090
+        artifact_sha256: 1729becb95fa033cfd89af58383c93b85ccafdc1537f84ea136d33b493596170
+        package_sha256: f8c210881dbceabfce9f439530502b3e1e57f00666006b32917f6d01ff745084
+        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/131eee1f6bc0d61cc2d9260514a5d5ccc51fc9a94d792a33dd4c2ffa88729712/40784651090/receipt.json
+        territorial_identity_sha256: 131eee1f6bc0d61cc2d9260514a5d5ccc51fc9a94d792a33dd4c2ffa88729712
+        compatibility_report_sha256: aef7258fe273fe8b64ad5d9ea56f5b58783bb3516ff09858c0201664fa4cf9a4
+        compatibility_identity_sha256: cdd03ef6b840883a62bf007ab6b06287ea194325a6d2ab14b2b8c228d83150ed
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2025
+        section_year: 2025
+        source_commit: e7b907ef3fbd14be521147fa44dff965ea20e6b2
       independent_source_evidence:
         status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
         promoted: false
@@ -319,16 +333,7 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: b60ea3d02fc860a95b6029ed8fad89abe84e53555ef88036dd74299d047f66ce
         compatibility_identity_sha256: 63a2b0e0636cf45020df78733c33ba73414805258f4a16fc88f8aff6731f3646
-      preparation_evidence:
-        run_id: 35610439734
-        artifact_name: ddd-source-package-castilla_y_leon-2025-35610439734
-        artifact_sha256: c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d
-        package_sha256: 37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752
-        source_commit: 0c516d79e2eaa36966deb016bcf57aafff9c4409
-        population_year: 2025
-        section_year: 2025
-        territorial_identity_sha256: 380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c
-        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json
+      generation_enabled: false
 - territory_id: cataluna
   name: Cataluña
   editions:
@@ -588,23 +593,23 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40241742181
-        artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-40241742181
-        artifact_sha256: 78927770be61365ef0eec5c42eb84328ff79a9daa3484b05ee58ed4c647f530e
-        package_sha256: 85e406bccf7e33de8a7133540f0ae33532a234e16f66d02979c8aeae30330a03
-        receipt_path: territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/40241742181/receipt.json
-        territorial_identity_sha256: b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2
-        compatibility_report_sha256: 37e6c6d48e2da4e646df0ebd10040de299c5468b16524fd00a5c104907c60a31
-        compatibility_identity_sha256: 16868f3fbeb2a1053a4c47ec0ff009d0b9654b776995868e386932a57894677b
+        run_id: 40784711945
+        artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-40784711945
+        artifact_sha256: 47c0d30006255a990a42b0c100385bf44fc2707a7f5efd9ec70ab69693dfdac7
+        package_sha256: f68ac5361f5916757999d8386a9d7053732b4123a4a31a4d11e67a80bfac8c8d
+        receipt_path: territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/2b5b828cef125338814ec3a091e62f5be1b5147ce3e857e607ecb3bf17c9be4a/40784711945/receipt.json
+        territorial_identity_sha256: 2b5b828cef125338814ec3a091e62f5be1b5147ce3e857e607ecb3bf17c9be4a
+        compatibility_report_sha256: 79ecf222c725b4da8debc6c4f2f17e36223f5d55fc26c265151b2e408caaf496
+        compatibility_identity_sha256: d63121bd04a773b55ca1552a31a66e7e1cb509653fed0caf8093ed68df5f1f7b
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 30b83efd809997942b2d8ac1352c7873f7d45ce1
+        source_commit: e7b907ef3fbd14be521147fa44dff965ea20e6b2
       evidence:
         electoral_source: territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/d0a820d9fa006f296618c60c9148102e9edca70d447290ed038c82e312ebf1c7/36882818980/receipt.json
         prepared_source_pair: territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc.json
         generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: pais_vasco
   name: País Vasco
   editions:
@@ -623,23 +628,23 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40241757334
-        artifact_name: ddd-source-package-pais_vasco-2025-40241757334
-        artifact_sha256: e843103feb9f0dad12e8a4dcf3ab7bc277010daefde6a932feb3eae2cc0bb083
-        package_sha256: b920a3f0d0ed07cfe3b7b43698fff61346d07f8cbffadbaf16084b9282f88335
-        receipt_path: territorios/pais_vasco/evidencia/fuentes_territoriales/2025/1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a/40241757334/receipt.json
-        territorial_identity_sha256: 1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a
-        compatibility_report_sha256: 18f7f17786f19324150b67c985702dfd8454054bf10949725b83da571155c4fe
-        compatibility_identity_sha256: 9093176a6a06c0f93a570d5ea6180b4ae6f6b9c034f6cd13d119dab6cdb6d17b
+        run_id: 40784741627
+        artifact_name: ddd-source-package-pais_vasco-2025-40784741627
+        artifact_sha256: c4ee9df6f190292cceef3ddcb66f49013faa9574012d9c456398c455b9f8ea3f
+        package_sha256: 73b444b96e98354ae6db5d123d85d17ce6e27969cb0e1afc4605cb4c49e16a7e
+        receipt_path: territorios/pais_vasco/evidencia/fuentes_territoriales/2025/dd21f7469ef3b4e8392d666deece38faf2d83daaf5ff67ce1ae22828648cd9cd/40784741627/receipt.json
+        territorial_identity_sha256: dd21f7469ef3b4e8392d666deece38faf2d83daaf5ff67ce1ae22828648cd9cd
+        compatibility_report_sha256: 6ceb39c187373cc3846a6e69706a50145c344c0ce75b78fe57420f704f0a4db9
+        compatibility_identity_sha256: 3bab2ce86d8014493b7b3fb1042f690c4fe390bcf2b0ded7a0129dcd1db85e73
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: 7f2a4093bf48391028e0f62a71953f31ba8b5bf1
+        source_commit: e7b907ef3fbd14be521147fa44dff965ea20e6b2
       evidence:
         electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
         prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: la_rioja
   name: La Rioja
   editions:
