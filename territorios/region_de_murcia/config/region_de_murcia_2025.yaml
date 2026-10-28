@@ -1,12 +1,3 @@
-# PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.1
-# NOMBRE: Fuente 2023 y frontera territorial en CRS métrico compatible
-# FECHA: 2026-10-26
-# ESTADO: candidato
-# ALCANCE: contrato territorial de Región de Murcia; sólo M02.
-# CAMBIOS: usa EPSG:25830 sin alterar geometrías, K, municipios ni umbrales.
-# MOTIVO: EPSG:3035 crea falsos solapes en fronteras exactas Yecla–Jumilla.
-# ANTERIOR: legacy/territorios/region_de_murcia/region_de_murcia_2025_pre_native_crs_20261026.yaml
 meta:
   procedure_name: Diputado de Distrito
   territory_id: region_de_murcia
