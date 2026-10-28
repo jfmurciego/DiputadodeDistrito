@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12822588878,
+      "artifact_name": "ddd-audit-40693720831",
+      "artifact_sha256": "837983736c5c6f2055937a917298decd1b39084ab640edb958d269b807d7f630",
+      "run_id": 40693720831,
+      "size_in_bytes": 8588
+    },
+    "m04": {
+      "artifact_id": 12822971769,
+      "artifact_name": "ddd-state-40693720831-M04",
+      "artifact_sha256": "d6a75c3cbd2dd48616427abc72a6fdc71205c902be2e827e7b8c19dad3f2a663",
+      "run_id": 40693720831,
+      "size_in_bytes": 81548752
+    },
+    "m05": {
+      "artifact_id": 12823745531,
+      "artifact_name": "ddd-state-40693720831-M05",
+      "artifact_sha256": "6ada340aa12fbfc486fddaf318b8f560ed0e1ed36449ae95a315900800f7164b",
+      "run_id": 40693720831,
+      "size_in_bytes": 82798299
+    },
+    "m06": {
+      "artifact_id": 12823656588,
+      "artifact_name": "ddd-state-40693720831-M06",
+      "artifact_sha256": "35e02af0efced43bab12324f4041765c2088fba394a4de0a9df58a59ecaaaa92",
+      "run_id": 40693720831,
+      "size_in_bytes": 84611122
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "11d5daae896c68542815563b1decdd60a36631ab9c9153ac8f371de1a1f3458c",
+        "size_in_bytes": 509
+      },
+      "optimization_execution.json": {
+        "sha256": "fbb04229c04b2087da8c42159dc91a33cbc7879d4501a694d8d5f5053b67d100",
+        "size_in_bytes": 664
+      },
+      "principado_de_asturias_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "6add2ad7c68dada361b926ca26e96bce11327014edf5927cb33e3f4a2af45ab0",
+        "size_in_bytes": 46616
+      },
+      "production_status.json": {
+        "sha256": "4ea942b54fa8f4e14f26b172e2ebc6f17fd7c6edf9978582a327c5a70cda6689",
+        "size_in_bytes": 1361
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "4ea942b54fa8f4e14f26b172e2ebc6f17fd7c6edf9978582a327c5a70cda6689",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml",
+    "sha256": "a2056ae17171b2eb01bcb57d5a648ce98340c4ac88ae0f76049d8cbdc4d95501"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9ba20806b88a2030ff964e371f497b7ee6a0a2f7cc5ec1629f3c7cec7c2d783a",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "722f0665259275d3171a21ff0c0c77af758401a8",
+    "edition": "2025",
+    "territory_id": "principado_de_asturias",
+    "territory_name": "Principado de Asturias",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40693720831,
+    "workflow_sha": "8940b848734cc05516ead27b48378493aa9aeddb"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12822971769,
+      "artifact_name": "ddd-state-40693720831-M04",
+      "artifact_sha256": "d6a75c3cbd2dd48616427abc72a6fdc71205c902be2e827e7b8c19dad3f2a663",
+      "run_id": 40693720831,
+      "size_in_bytes": 81548752
+    },
+    "source_manifest_sha256": "09d2806e47e9549527a24c6185cf8819c04c639159ef560dd26d0781bca90a04",
+    "source_package_artifact": {
+      "artifact_id": 12820271948,
+      "artifact_name": "ddd-source-package-principado_de_asturias-2025-40693720831",
+      "artifact_sha256": "60bacfb549404fed841f2ceda6666376fb16852f05ac1ffba5223dc104e3fec6",
+      "run_id": 40693720831,
+      "size_in_bytes": 77813752
+    }
+  },
+  "manifest_sha256": "f8ad731942e5802bd4ecb81d3781707f369afeb6af99f08396fb33fe8909f0c2",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12825807239,
+      "artifact_name": "ddd-audit-40706722115",
+      "artifact_sha256": "ce2cf3cbf39212f03c8e7f8b070ae9247d04b9781e5833c92059e2e91c8288d3",
+      "run_id": 40706722115,
+      "size_in_bytes": 16812
+    },
+    "m04": {
+      "artifact_id": 12824269644,
+      "artifact_name": "ddd-state-40706722115-M04",
+      "artifact_sha256": "ee639e94f2df9590ce0434a3325644a8a6fe845267d5d3762eba0b6ea0155203",
+      "run_id": 40706722115,
+      "size_in_bytes": 88707131
+    },
+    "m05": {
+      "artifact_id": 12824697762,
+      "artifact_name": "ddd-state-40706722115-M05",
+      "artifact_sha256": "adf03062c2e2501682874fa2d8549dc70b505a5cfaa845329b44b05920e9d94f",
+      "run_id": 40706722115,
+      "size_in_bytes": 91556391
+    },
+    "m06": {
+      "artifact_id": 12824723069,
+      "artifact_name": "ddd-state-40706722115-M06",
+      "artifact_sha256": "b3367203b50821ce3d8f6a14171ca65407239fffce303c153652d01490a4f78e",
+      "run_id": 40706722115,
+      "size_in_bytes": 95560479
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "1f5521d9ce725ea68be2587b5ebe2b5b8fdbc00a10ddf51fd615637f994379a2",
+        "size_in_bytes": 455
+      },
+      "galicia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "828cf808e5121ea14cd145903aa3f668fbbc14f0e850c286d0e099c640d4c23f",
+        "size_in_bytes": 108987
+      },
+      "optimization_execution.json": {
+        "sha256": "fe246dea6dad306e8cc2ce34950356e26166d5e462d7d039268c828573652203",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "c0343bdb111364b38829efe99822baff26eedcbbaa40fbfcaa2733c1abdaf20c",
+        "size_in_bytes": 1302
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "c0343bdb111364b38829efe99822baff26eedcbbaa40fbfcaa2733c1abdaf20c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/galicia/config/galicia_2025.yaml",
+    "sha256": "37865e1b17f9295cf7cb5e059ed32104d6e754120b90a19c2abe20dcb7375f3d"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "e8b1e921eb0f155a896fc731900ff52c374c0e351a89d27adfd4bd4ef6e68066",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
+    "edition": "2025",
+    "territory_id": "galicia",
+    "territory_name": "Galicia",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40706722115,
+    "workflow_sha": "87473d2bc07285d7200e8cd0b170f79aeefedda8"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12824269644,
+      "artifact_name": "ddd-state-40706722115-M04",
+      "artifact_sha256": "ee639e94f2df9590ce0434a3325644a8a6fe845267d5d3762eba0b6ea0155203",
+      "run_id": 40706722115,
+      "size_in_bytes": 88707131
+    },
+    "source_manifest_sha256": "9b7277186ca8347b04998fe4d9f6f4b652092a97f482f2ffc3776a617319862c",
+    "source_package_artifact": {
+      "artifact_id": 12819127873,
+      "artifact_name": "ddd-source-package-galicia-2025-40690688352",
+      "artifact_sha256": "20d7850a31f2ae24fb25d4a58726589fa5938da8691bfb41e7b1f1722661622b",
+      "run_id": 40690688352,
+      "size_in_bytes": 82972798
+    }
+  },
+  "manifest_sha256": "62a6866b68a29774967695ab11f3e0d3e124570f8537c0af783bb3643244df09",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

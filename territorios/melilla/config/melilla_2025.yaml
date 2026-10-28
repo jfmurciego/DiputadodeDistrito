@@ -61,10 +61,13 @@ territory_contract:
   legal_apportionment_reused: false
   legal_apportionment_context: null
   district_apportionment: hamilton
-  population_floor_ratio: 0.8
+  population_floor_ratio: 0.7
   population_cap_ratio: 1.75
-  target_tolerance_ratio: 0.12
-  limits_profile: standard-1.0.0
+  target_tolerance_ratio: 0.3
+  limits_profile: exception
+  limits_exception_rationale: 'Territorio excepcional (decisión del propietario, 28-10-2026): 44 secciones indivisibles para K=25 obligan a al menos 6 distritos de una sola sección; con población 2023 la 6.ª mayor es el 72,8 % del objetivo, por lo que con el suelo nacional del 80 % no existe partición.'
+  limits_exception_evidence: 'configuracion/politica_generacion_territorial_2025.yaml#territories.melilla.population_limits; población INE 65034 (2023), 44 secciones, 85.493 habitantes'
+  limits_exception_decided_at: '2026-10-28'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
@@ -167,9 +170,9 @@ validation:
   require_one_graph_component_per_province: true
   require_connected_municipalities: true
   expected_districts: 25
-  population_floor_ratio: 0.8
+  population_floor_ratio: 0.7
   population_cap_ratio: 1.75
-  target_tolerance_ratio: 0.12
+  target_tolerance_ratio: 0.3
   province_apportionment: hamilton
   province_districts:
     '52': 25

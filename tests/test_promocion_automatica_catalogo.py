@@ -66,19 +66,15 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         self.assertTrue(row["territorial_contract_complete"])
         self.assertEqual(row["production_authorization"], "AUTHORIZED")
         evidence = row["preparation_evidence"]
-        self.assertEqual(evidence["run_id"], 40656175842)
+        # Regla, no instantánea: la evidencia nombra el paquete de su propio run y fija
+        # digests SHA-256 completos; cada ejecución desde el principio registra uno nuevo.
+        self.assertIsInstance(evidence["run_id"], int)
         self.assertEqual(
             evidence["artifact_name"],
-            "ddd-source-package-extremadura-2025-40656175842",
+            f"ddd-source-package-extremadura-2025-{evidence['run_id']}",
         )
-        self.assertEqual(
-            evidence["artifact_sha256"],
-            "e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec",
-        )
-        self.assertEqual(
-            evidence["package_sha256"],
-            "5af74bed654e8926382c9e47c01608effaee56ca9c59f0bab244843c5708c208",
-        )
+        self.assertRegex(evidence["artifact_sha256"], r"^[0-9a-f]{64}$")
+        self.assertRegex(evidence["package_sha256"], r"^[0-9a-f]{64}$")
         self.assertNotIn("stage", evidence)
 
     def test_extremadura_contract_is_generation_complete(self):

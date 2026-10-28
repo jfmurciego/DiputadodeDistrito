@@ -1,12 +1,78 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.18
+Versión: 1.0.21
 Fecha: 2026-10-28
-Alcance: adopción de los M06 del 28-10 de Aragón y Extremadura
+Alcance: límites de población excepcionales de Melilla y puerta 02→03 con M06 durables
 Estado: candidato
-Cambios/motivo: los M06 anteriores ya no tienen artefacto; se adoptan los únicos con bytes vivos
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.17_20261028.md
+Cambios/motivo: Melilla no admite 25 distritos con el suelo nacional; #311 entró sin entrada propia
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.20_20261028.md
 -->
+
+## 2026-10-28 — Melilla — límites de población excepcionales
+
+La política de generación 1.2.0 admite `population_limits` por territorio: solo suelo,
+techo y tolerancia, con `rationale`, `evidence` y `decided_at` obligatorios. El
+materializador los aplica y emite `limits_profile: exception` con esos tres campos,
+que `territory_contract` ya exige para cualquier límite distinto del estándar. Melilla,
+declarada territorio excepcional por el propietario, pasa a suelo 0,70 y tolerancia
+0,30. Con 44 secciones indivisibles y K=25 hacen falta al menos 6 distritos de una sola
+sección, y con la población INE 2023 la 6.ª sección más poblada es el 72,8 % del
+objetivo; con el suelo del 80 % no existe partición. El techo (1,75) no cambia: el par
+más poblado es 1,70. El resto de territorios conserva los límites nacionales. Las
+versiones anteriores de la política, del materializador y del contrato de Melilla se
+conservan en `legacy/`.
+
+- `test_gestor_campana_nacional.py` 0.0.5: con el contrato nuevo Melilla pasa a
+  `SOURCE_PREPARATION_REQUIRED`, como Baleares; la campaña de 14 rutas queda en 4/3/7.
+
+## 2026-10-28 — Puerta 02→03 — M06 caducados desde su release durable
+
+`herramientas/localizar_artefacto_durable.py` localiza un artefacto acreditado por run,
+nombre y SHA-256: usa el de Actions si sigue vivo o, si caducó, el asset
+`<nombre>-<id>.zip` de las releases draft `almacen-m06-*`, y solo acepta bytes con el
+mismo SHA-256. `_reutilizable-puerta-validacion.yml` 1.2.0 la usa antes de bloquear un
+M06 acreditado cuyo artefacto caducó, y también para su auditoría (PR #311).
+
+## 2026-10-28 — M05 — bloqueos de población de Madrid y Baleares
+
+Diagnóstico con los informes M04/M05/M06 de los checkpoints (rama `diagnostico/poblacion-20261028`).
+
+- Madrid: el reparador focal agota su cola con 90 de 135 distritos urbanos cerrados y deja una
+  violación dura (distrito 110, 17.401). El ensayo local de `private_annealing` sobre el mismo
+  grafo M03 y la misma salida M05 la elimina (partición válida, 27 s). El contrato activa esa
+  estrategia; la candidata sigue sometida a la validación oficial atómica de M05.
+- Baleares: Menorca (07-C02, 5 distritos, 99.005 habitantes) no admite ninguna partición sobre el
+  suelo: Mahón (30.006) y Ciudadela (31.669) son indivisibles y los otros tres distritos dispondrían
+  de 37.330 habitantes para un mínimo de 49.218. Se exime del suelo como Formentera (07-C03) y su
+  auditoría de reparto lo declara. El cambio de contrato obliga a reacreditar la fase pre-M04.
+
+## 2026-10-28 — Tests — linaje M06/M08 por regla y no por run_id fijo
+
+Asturias (40706742818), Cantabria (40701656466) y Castilla-La Mancha (40706698510) completaron
+01→04 tras activar su par de fuentes y registraron M06 y M08 del mismo run. Tres regresiones
+fijaban los run_id anteriores (CLM 37444564173, Asturias 40241852045) y exigían incorporar un M08
+nuevo, por lo que `main` quedó en rojo sin cambio de código.
+
+- `test_reanudacion_m08_huerfano.py` 1.0.3: la regresión de CLM comprueba la regla: el M08 se
+  reutiliza sólo si su manifiesto productor lo liga al M06 vigente; si no, se rechaza.
+- `test_gestor_campana_nacional.py` 0.0.4: Asturias, Cantabria y CLM incorporan M08 sólo cuando
+  no hay uno con el linaje del M06 vigente; el run_id se toma del catálogo.
+- `test_m06_product_reuse_integration.py`: el resolver durable debe devolver exactamente el M06
+  que declara el catálogo, en vez de siete run_id fijos.
+- `test_ejecucion_completa.py` 1.0.4 y `test_continuar_ultimo_resultado_valido.py` 1.0.3: CLM
+  reutiliza el M08 sólo si procede del mismo run que su M06 vigente.
+- `test_preparacion_legislatura_vigente.py`: la preparación, el checkpoint y el M06 de Aragón
+  proceden del mismo run. `test_promocion_automatica_catalogo.py`: la evidencia de Extremadura
+  nombra el paquete de su propio run y fija digests completos.
+- Los seis módulos `test_f10_*` que fijan recuentos y receipts exactos se evalúan sobre la raíz
+  congelada en aee8215e (`tests/_raiz_congelada.py`, `tests/fixtures/raiz_congelada_aee8215e`):
+  el árbol vivo se enlaza y se superponen los 25 ficheros que reescriben las ejecuciones.
+- `F10LiveRepositoryRuleTests`: sobre el repositorio vivo sólo se exige coherencia. Asturias,
+  Cantabria, Castilla-La Mancha y Galicia re-descargaron hoy del INE paquetes con bytes nuevos
+  (mismos años) y F10 los deja en BLOCKED hasta una auditoría nueva; es fail-closed por diseño.
+- `f10-electoral-receipts-asturias-galicia.yml` 1.0.1: la proyección F10 viva se comprueba por
+  coherencia (sin errores de catálogo, 19 territorios por puerta) y no por recuentos fijos.
+
 
 ## 2026-10-28 — M06 — Aragón y Extremadura adoptan sus productos del 28-10
 

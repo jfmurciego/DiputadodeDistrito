@@ -890,18 +890,22 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-            # El recibo pre-M04 vigente ya acredita el contrato y el blob M02;
-            # no se planifica una reacreditación redundante.
-            self.assertFalse(plan["pre_m04_accreditation_planned"], territory_id)
-            self.assertFalse(plan["run_prepare_territorial"], territory_id)
+            # El recibo pre-M04 vigente ya acredita el contrato y el blob M02; no se planifica
+            # una reacreditación redundante. Baleares cambió su contrato (exención de suelo de
+            # Menorca, 07-C02) y debe reacreditarse antes de generar.
+            reaccredit = territory_id == "illes_balears"
+            self.assertEqual(reaccredit, plan["pre_m04_accreditation_planned"], territory_id)
+            self.assertEqual(reaccredit, plan["run_prepare_territorial"], territory_id)
             self.assertEqual(
-                {"allowed": True, "route": "validated_pre_m04_topology"},
+                {"allowed": True,
+                 "route": "planned_pre_m04_accreditation" if reaccredit else "validated_pre_m04_topology"},
                 plan["generation_gate"],
                 territory_id,
             )
             self.assertTrue(plan["run_generate"], territory_id)
             self.assertTrue(plan["generation_gate"]["allowed"], territory_id)
-            self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"], territory_id)
+            self.assertEqual("planned_pre_m04_accreditation" if reaccredit else "validated_pre_m04_topology",
+                             plan["generation_gate"]["route"], territory_id)
             self.assertFalse(plan["catalog_state"]["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
 
@@ -1379,3 +1383,24 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TerritoryPopulationLimitsTests(unittest.TestCase):
+    def test_melilla_exceptional_limits_and_national_defaults_elsewhere(self):
+        from herramientas.materializar_contrato_generacion import territory_population_limits
+        policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
+        melilla = territory_population_limits(policy["defaults"], policy["territories"]["melilla"], "melilla")
+        self.assertEqual((0.70, 1.75, 0.30), (melilla["population_floor_ratio"], melilla["population_cap_ratio"], melilla["target_tolerance_ratio"]))
+        for territory_id, entry in policy["territories"].items():
+            if territory_id != "melilla":
+                self.assertIs(policy["defaults"], territory_population_limits(policy["defaults"], entry, territory_id))
+
+    def test_population_limits_reject_unknown_keys_missing_rationale_and_incoherent_values(self):
+        from herramientas.materializar_contrato_generacion import territory_population_limits
+        defaults = {"population_floor_ratio": 0.8, "population_cap_ratio": 1.75, "target_tolerance_ratio": 0.12}
+        for limits in ({"population_floor_ratio": 0.7},
+                       {"population_floor_ratio": 0.7, "k": 3, "rationale": "x"},
+                       {"population_floor_ratio": 1.2, "rationale": "x"},
+                       {"target_tolerance_ratio": 1.5, "rationale": "x"}):
+            with self.subTest(limits=limits), self.assertRaises(ValueError):
+                territory_population_limits(defaults, {"population_limits": limits}, "t")
