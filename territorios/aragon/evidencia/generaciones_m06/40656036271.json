@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12805307655,
+      "artifact_name": "ddd-audit-40656036271",
+      "artifact_sha256": "ef8eeafa3882693bdc80116289a81d255c2221056d17e32eb248fe4b718b7109",
+      "run_id": 40656036271,
+      "size_in_bytes": 11283
+    },
+    "m04": {
+      "artifact_id": 12804967506,
+      "artifact_name": "ddd-state-40656036271-M04",
+      "artifact_sha256": "5e109b473bb2179b932bbecef5434049e5a2b0917bff7b2578aa633f36907faf",
+      "run_id": 40656036271,
+      "size_in_bytes": 86998244
+    },
+    "m05": {
+      "artifact_id": 12805520539,
+      "artifact_name": "ddd-state-40656036271-M05",
+      "artifact_sha256": "01725a1a756aa63261ee4df37523ad2a36df00ab899f50ef5959cadc29eb6b1b",
+      "run_id": 40656036271,
+      "size_in_bytes": 89416116
+    },
+    "m06": {
+      "artifact_id": 12805600704,
+      "artifact_name": "ddd-state-40656036271-M06",
+      "artifact_sha256": "77ec092206d9ca47db9814d64310cd8d728075851179584933a42ca94953d34b",
+      "run_id": 40656036271,
+      "size_in_bytes": 92772782
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "aragon_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "2e1d6265aad9df866112d312df278fc224340252c806cc7983799864764ceefd",
+        "size_in_bytes": 62474
+      },
+      "block_causes.json": {
+        "sha256": "3d52e8d5390638cd12ba2026a670e0bb6a103b934e148030ff5efdc02f57dcec",
+        "size_in_bytes": 431
+      },
+      "optimization_execution.json": {
+        "sha256": "47bfaa2b3a39c2906c7be6ef8ffb7eef28207b83470fc94a0a7c2c3dd86575fd",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "f18d8d63f65e7fe40c1420a41d946de11a0f627bb1bbc0ca8a2a5581dacb9fa2",
+        "size_in_bytes": 1235
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "f18d8d63f65e7fe40c1420a41d946de11a0f627bb1bbc0ca8a2a5581dacb9fa2",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/aragon/config/aragon_2025.yaml",
+    "sha256": "407965078cd0cf428602f4f6367feb1fe01b59cd32af6ee78e550e2692cb1426"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "c2c0dd319bac28cf12a6f9084cbdb1025d94fb301616597d122cd55260d83b4f",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "e6b7afccde4a014ce2c54b3d6c9869896fc983cb",
+    "edition": "2025",
+    "territory_id": "aragon",
+    "territory_name": "Aragón",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40656036271,
+    "workflow_sha": "d497bf39739dbcb9ff49403ad62f33b840bffa2f"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12804967506,
+      "artifact_name": "ddd-state-40656036271-M04",
+      "artifact_sha256": "5e109b473bb2179b932bbecef5434049e5a2b0917bff7b2578aa633f36907faf",
+      "run_id": 40656036271,
+      "size_in_bytes": 86998244
+    },
+    "source_manifest_sha256": "46aed4012812e94fa48e542e5df77df5f7b9bd76b9e12244ef5fe41bf0b27ab5",
+    "source_package_artifact": {
+      "artifact_id": 12802833707,
+      "artifact_name": "ddd-source-package-aragon-2025-40656036271",
+      "artifact_sha256": "5ae11fd043912cbbb5de15fe42c0616d81dc9d31fafc37ff616b2833ee4f24e7",
+      "run_id": 40656036271,
+      "size_in_bytes": 82129868
+    }
+  },
+  "manifest_sha256": "e076827c27f68b28f9f4ea1c222a64e83798f0edc017beef6730a33e2f46c0b0",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
