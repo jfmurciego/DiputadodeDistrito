@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.1
+# VERSIÓN: 1.4.2
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
-# FECHA: 2026-10-25
+# FECHA: 2026-10-28
 # ESTADO: candidato
-# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/preparacion-fuentes.pre-p0.yml (versión 1.4.0 conservada)
+# CAMBIOS: en reutilización ordinaria, si el artefacto registrado caducó o fue eliminado, vuelve a adquirir la fuente oficial en vez de fallar (la recuperación exacta sigue bloqueando); el aviso de PENDING solo se emite si la preparación tuvo éxito.
+# MOTIVO: los artefactos de Actions caducan y bloqueaban "Reutilizar progreso existente" (Andalucía, run 40604585745; Comunidad Valenciana, run 40604791319).
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.1.yml
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -78,6 +78,7 @@ jobs:
       registered_run_id: ${{ steps.resolve.outputs.registered_run_id }}
       registered_artifact_name: ${{ steps.resolve.outputs.registered_artifact_name }}
       registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
+      explicit_recovery: ${{ steps.resolve.outputs.explicit_recovery }}
       source_year: ${{ steps.resolve.outputs.source_year }}
       population_year: ${{ steps.resolve.outputs.population_year }}
       section_year: ${{ steps.resolve.outputs.section_year }}
@@ -147,6 +148,7 @@ jobs:
           preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY" --edition "$EDITION")"
           echo "territory_id=$TERRITORY" >> "$GITHUB_OUTPUT"
           if [[ -n "$RECOVERY_RUN_ID" || -n "$RECOVERY_SHA256" ]]; then
+            echo "explicit_recovery=true" >> "$GITHUB_OUTPUT"
             [[ "$(jq -r '.persist_state|tostring' <<<"$persist_json")" == true ]] || { echo "::error::La recuperación durable exige persist_state=true."; exit 41; }
             [[ "$GITHUB_REF_NAME" == main ]] || { echo "::error::La recuperación durable solo se permite en main."; exit 41; }
             [[ "$reuse_enabled" == true ]] || { echo "::error::La recuperación exige reutilización habilitada."; exit 41; }
@@ -159,6 +161,7 @@ jobs:
             echo "registered_artifact_name=ddd-source-package-$(jq -r .territory_id <<<"$row")-$EDITION-$RECOVERY_RUN_ID" >> "$GITHUB_OUTPUT"
             echo "registered_artifact_sha256=${RECOVERY_SHA256,,}" >> "$GITHUB_OUTPUT"
           else
+            echo "explicit_recovery=false" >> "$GITHUB_OUTPUT"
             registered_population_year="$(jq -r '.population_year // .source_year // empty' <<<"$preflight")"
             registered_section_year="$(jq -r '.section_year // .source_year // empty' <<<"$preflight")"
             if [[ "$(jq -r '.registered|tostring' <<<"$preflight")" == true && "$registered_population_year" == "$population_year" && "$registered_section_year" == "$section_year" ]]; then
@@ -221,11 +224,22 @@ jobs:
           REGISTERED_RUN_ID: ${{ needs.resolver.outputs.registered_run_id }}
           REGISTERED_ARTIFACT_NAME: ${{ needs.resolver.outputs.registered_artifact_name }}
           REGISTERED_ARTIFACT_SHA256: ${{ needs.resolver.outputs.registered_artifact_sha256 }}
+          EXPLICIT_RECOVERY: ${{ needs.resolver.outputs.explicit_recovery }}
         run: |
           set -euo pipefail
           arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"
-          match="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '[.artifacts[]|select(.name==$n and (.expired|not))] | if length==1 then .[0] else empty end' <<<"$arts")"
-          [[ -n "$match" ]] || { echo "::error::Artefacto territorial registrado no disponible: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
+          named="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '[.artifacts[]|select(.name==$n)]' <<<"$arts")"
+          [[ "$(jq 'length' <<<"$named")" -le 1 ]] || { echo "::error::Artefacto territorial registrado ambiguo: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
+          match="$(jq -c '[.[]|select(.expired|not)] | if length==1 then .[0] else empty end' <<<"$named")"
+          if [[ -z "$match" ]]; then
+            # La recuperación exacta solo admite esos bytes. En la reutilización ordinaria,
+            # caducado o eliminado no contradice la identidad registrada: se vuelve a adquirir
+            # desde la fuente oficial y el registro apuntará al paquete nuevo.
+            [[ "$EXPLICIT_RECOVERY" != true ]] || { echo "::error::Artefacto territorial registrado no disponible: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
+            echo "::warning::Artefacto territorial registrado no disponible (caducado o eliminado): $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID); se prepara de nuevo desde la fuente oficial."
+            echo "reused_candidate=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           actual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"
           [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto territorial no coincide con el registro."; exit 45; }
           rm -rf .ddd-source-package
@@ -422,7 +436,7 @@ jobs:
           PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
           GENERATION_PENDING_RESULT: ${{ needs.generation_pending.result }}
         run: |
-          if [[ "$PERSIST_STATE" == true && "$GENERATION_PENDING_RESULT" != success ]]; then
+          if [[ "$PERSIST_STATE" == true && "$PREPARATION_RESULT" == success && "$GENERATION_PENDING_RESULT" != success ]]; then
             echo "::error::La fuente fue preparada, pero no quedó persistido su estado PENDING de generación: $GENERATION_PENDING_RESULT"
             exit 56
           fi

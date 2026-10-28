@@ -1,12 +1,25 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.14
-Fecha: 2026-10-27
-Alcance: registro del producto territorial M06 desde el workflow 02
+Versión: 1.0.15
+Fecha: 2026-10-28
+Alcance: reutilización de fuentes territoriales cuyo artefacto de Actions caducó
 Estado: candidato
-Cambios/motivo: corregir el import que impedía promover cualquier M06 nuevo al catálogo
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.13_20261027.md
+Cambios/motivo: volver a adquirir la fuente oficial en lugar de bloquear "Reutilizar progreso existente"
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.14_20261028.md
 -->
+
+## 2026-10-28 — 01 — fuente territorial registrada con artefacto caducado
+
+`preparacion-fuentes.yml` 1.4.2: en la reutilización ordinaria, si el artefacto del
+paquete territorial registrado caducó o fue eliminado, el paso "Recuperar fuente
+territorial registrada" emite un aviso y cede a "Adquirir y congelar fuentes"; el
+registro posterior apunta al paquete nuevo. Antes terminaba con `exit 44`, como en
+Andalucía (run 40604585745) y Comunidad Valenciana (run 40604791319). Siguen
+bloqueando un digest distinto (`exit 45`), un nombre ambiguo y la recuperación exacta
+con `recover_run_id`, que solo admite esos bytes. El job final ya no atribuye a una
+preparación fallida el aviso de estado PENDING no persistido.
+`tests/test_preparacion_fuente_caducada.py` ejecuta el script real del paso con un
+`gh` simulado para cada caso. La versión anterior se conserva en `legacy/workflows/`.
 
 ## 2026-10-27 — 02 — registro del producto territorial M06
 
