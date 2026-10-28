@@ -1,7 +1,7 @@
-"""Version: 1.0.3; name: full execution planning tests; date: 2026-10-26.
+"""Version: 1.0.4; name: full execution planning tests; date: 2026-10-28.
 Scope: 00 planning, durable evidence gates, and incompatible product replanning.
-Status: candidate. Change/reason: isolate helper tests from mutable territorial artifacts.
-Previous: legacy/tests/m06-durable-manifest_20261026/test_ejecucion_completa_pre_m06_manifest.py.
+Status: candidate. Change/reason: CLM reuse checks the M06/M08 lineage rule instead of a historical mismatch.
+Previous: legacy/tests/test_ejecucion_completa_v1.0.3.py.
 """
 from __future__ import annotations
 
@@ -980,13 +980,12 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertTrue(state["electoral_source_prepared"])
         self.assertTrue(state["electoral_product_available"])
         checkpoint = state["last_valid_checkpoint"]
-        self.assertEqual(checkpoint["stage"], "M06")
+        self.assertIn(checkpoint["stage"], {"M06", "M08"})
         current_run = checkpoint["run_id"]
         self.assertIsInstance(current_run, int)
         territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
         electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
         self.assertEqual(territorial["run_id"], current_run)
-        self.assertNotEqual(electoral["run_id"], current_run)
         plan = build_plan(
             territory="Castilla-La Mancha",
             edition="2025",
@@ -995,8 +994,13 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
             root_dir=ROOT,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
-        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        # Regla de linaje: el M08 sólo se reutiliza si procede del mismo run que el M06 vigente.
+        if electoral["run_id"] == current_run:
+            self.assertEqual(checkpoint["stage"], "M08")
+            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], current_run)
+        else:
+            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
 
 class TerritorialSourceVerificationShellTests(unittest.TestCase):
