@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2025
   source_section_year: 2025
 io:
@@ -92,7 +92,7 @@ territory_contract:
     bloqueado porque solo 60 de 67 distritos pasan la auditoría geométrica independiente.
     Este valor se conserva como referencia reproducible, no como trinquete canónico
     de publicación.
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -293,7 +293,7 @@ resolved_source_contract:
   contract_sha256: d951851b13a12cfc118a579b79bcbebb485d18223067957dcd29319c35e9961b
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 63d4163a7c91ecbb16d562b754013bb6989f23709c215d17c1bcfe3426703652
   compatibility_identity_sha256: b68bf1a7f4cd2a355126ba9dbef0847aff479c7245a949e30e8a9240df7ae836
   source_inputs:
@@ -345,3 +345,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40656036271
+  pre_m04_source_commit: faa4e9b701c61ea5d9ec6d510ef1b80cf7c93a79
+  pre_m04_artifact_sha256: 414d27e9988d427e88501e0169e45af5cbefeaf026b9bc2126b7a453fdeec721
