@@ -235,7 +235,7 @@ territories:
         section_year: 2023
         source_commit: 2e52208e89e3e8fa9cd6f4b40cdc25eb504450a5
       evidence:
-        electoral_source: territorios/cantabria/evidencia/catalogo/electoral_source_2025.json
+        electoral_source: territorios/cantabria/evidencia/fuentes_electorales/2025/6fdb5407f99745b11a39f68ac187bb95610c0a2b0508fd1f469989f3b9be9ee1/40689735716/receipt.json
         prepared_source_pair: territorios/cantabria/evidencia/pares_fuentes/2025/ed3f68dc4a753b9568f1e22a7a0923abfa79bbe5a42de01f4ebdd41425e7cb5b.json
         territorial_product: territorios/cantabria/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/cantabria/evidencia/catalogo/electoral_product_2025.json
