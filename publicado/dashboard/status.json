@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-26T09:13:56.323684+00:00",
+  "generated_at": "2026-10-28T00:06:31.336612+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -752,8 +752,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40241734290,
-            "receipt_path": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443/40241734290/receipt.json"
+            "run_id": 40604944550,
+            "receipt_path": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443/40604944550/receipt.json"
           }
         },
         "electoral": {
@@ -1147,9 +1147,9 @@
       "name": "Principado de Asturias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
+      "fe": "yellow",
       "re": "green",
-      "status": "Cadena completa validada",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40132061626,
       "stage": "M08",
@@ -1176,19 +1176,7 @@
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
-        "electoral_source": {
-          "schema": "ddd.catalog-evidence/1.0",
-          "kind": "electoral_source",
-          "territory_id": "principado_de_asturias",
-          "territory_name": "Principado de Asturias",
-          "edition": "2025",
-          "run_id": 36136631352,
-          "artifact_name": "ddd-electoral-package-principado_de_asturias-2025-36136631352",
-          "artifact_sha256": "981059cad011f32fbc3c8b22784782e2f6f844f53a98ade75b5c66d5d0690b0b",
-          "source_commit": "8bbab11a4cadf66568fe6eed3118c01ea6628fd8",
-          "election_id": "asturias_jgpa_2023",
-          "declaration": "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml"
-        },
+        "electoral_source": null,
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
@@ -1302,12 +1290,13 @@
           "territory_id": "cantabria",
           "territory_name": "Cantabria",
           "edition": "2025",
-          "run_id": 40241638106,
-          "artifact_name": "ddd-state-40241638106-M06",
-          "artifact_sha256": "4cba58ed39ac13c106d35df230fade2af65a7a87210bef25dea524cd5138f8d4",
-          "source_commit": "30b83efd809997942b2d8ac1352c7873f7d45ce1",
+          "run_id": 40604431189,
+          "artifact_name": "ddd-state-40604431189-M06",
+          "artifact_sha256": "232a101d11467d89c3be9e3a359c64f1e78305e57b4def7cfcd0de82b60891fa",
+          "source_commit": "2ef7afae8cb129128479549ea45dbccfd7bc858f",
           "decision": "PASS_WITH_EXCEPTIONS",
-          "stage": "M06"
+          "stage": "M06",
+          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/40604431189.json"
         },
         "electoral_source": {
           "schema": "ddd.catalog-evidence/1.0",
@@ -1546,11 +1535,11 @@
       "name": "Galicia",
       "ft": "green",
       "g": "green",
-      "fe": "green",
+      "fe": "yellow",
       "re": "yellow",
-      "status": "Listo para incorporar resultados electorales",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40241719200,
+      "run_id": 40604535110,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -1568,26 +1557,15 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 40241719200,
-          "artifact_name": "ddd-state-40241719200-M06",
-          "artifact_sha256": "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc",
-          "source_commit": "30b83efd809997942b2d8ac1352c7873f7d45ce1",
+          "run_id": 40604535110,
+          "artifact_name": "ddd-state-40604535110-M06",
+          "artifact_sha256": "b734e29e58f7a2f4af3161058971508c356f783832d5212535d9ab7bd5b0fe4d",
+          "source_commit": "2ef7afae8cb129128479549ea45dbccfd7bc858f",
           "decision": "PASS_WITH_EXCEPTIONS",
-          "stage": "M06"
+          "stage": "M06",
+          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40604535110.json"
         },
-        "electoral_source": {
-          "schema": "ddd.catalog-evidence/1.0",
-          "kind": "electoral_source",
-          "territory_id": "galicia",
-          "territory_name": "Galicia",
-          "edition": "2025",
-          "run_id": 36136559051,
-          "artifact_name": "ddd-electoral-package-galicia-2025-36136559051",
-          "artifact_sha256": "59392e194397ea965fde76a5a68fe97519d08e6c175f4328d3830fc72d102db2",
-          "source_commit": "8bbab11a4cadf66568fe6eed3118c01ea6628fd8",
-          "election_id": "galicia_parlamento_2024",
-          "declaration": "territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml"
-        },
+        "electoral_source": null,
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
@@ -1662,9 +1640,9 @@
         "territorial_source": {
           "territory_id": "region_de_murcia",
           "edition": "2025",
-          "run_id": 40241734290,
-          "artifact_name": "ddd-source-package-region_de_murcia-2025-40241734290",
-          "artifact_sha256": "636ed8b19a7fe30e746b2d592fa26a8078f540a81baedd12c1f3242b4195f325",
+          "run_id": 40604944550,
+          "artifact_name": "ddd-source-package-region_de_murcia-2025-40604944550",
+          "artifact_sha256": "0d23aac59422a784fc6b22c5ec37e7e9161a81ba7dddf266014b69557f6188cd",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1870,10 +1848,9 @@
     }
   ],
   "kpis": {
-    "complete": 4,
+    "complete": 3,
     "complete_names": [
       "02 Aragón",
-      "03 Principado de Asturias",
       "06 Cantabria",
       "08 Castilla-La Mancha"
     ],
@@ -1918,11 +1895,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "principado_de_asturias",
-    "name": "Principado de Asturias",
-    "display_name": "03 Principado de Asturias",
-    "autonomous_community_code_ine": "03",
-    "run_id": 40132061626,
+    "territory_id": "castilla_la_mancha",
+    "name": "Castilla-La Mancha",
+    "display_name": "08 Castilla-La Mancha",
+    "autonomous_community_code_ine": "08",
+    "run_id": 37444564173,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -1985,6 +1962,12 @@
       "action": "generar y validar distritos"
     },
     {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "principado_de_asturias",
+      "autonomous_community_code_ine": "03",
+      "action": "preparar fuentes electorales"
+    },
+    {
       "territory": "04 Islas Baleares",
       "territory_id": "illes_balears",
       "autonomous_community_code_ine": "04",
@@ -2019,12 +2002,6 @@
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
       "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "12 Galicia",
-      "territory_id": "galicia",
-      "autonomous_community_code_ine": "12",
-      "action": "incorporar resultados electorales"
     }
   ]
 }
