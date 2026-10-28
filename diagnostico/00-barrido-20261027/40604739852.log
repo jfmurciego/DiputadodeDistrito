@@ -1,0 +1,400 @@
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9944269Z [36;1m    if p.get("execution_mode") == "catalog_source":[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9944709Z [36;1m        if any((reuse_run_id, reuse_artifact, reuse_digest, reuse_source_sha)):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9945128Z [36;1m            raise ValueError([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9945574Z [36;1m                "CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite reuse_* explícitos"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9946170Z [36;1m            )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9946612Z [36;1m    elif not campaign_instance or any((reuse_run_id, reuse_artifact, reuse_digest, reuse_source_sha)):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9947224Z [36;1m        # El manifiesto de campaña ya congela la procedencia; la validación[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9947743Z [36;1m        # de identidad del child sucede antes de iniciar fases productivas.[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9948206Z [36;1m        # Un reuse_* parcial sigue entrando aquí y se rechaza.[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9948586Z [36;1m        apply_explicit_territorial_source([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9948990Z [36;1m            p, reuse_run_id=reuse_run_id, reuse_artifact_name=reuse_artifact,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9949499Z [36;1m            reuse_artifact_sha256=reuse_digest, reuse_source_sha=reuse_source_sha,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9950216Z [36;1m            campaign_instance=campaign_instance, expected_population=expected_population,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9950963Z [36;1m            expected_sections=expected_sections, expected_districts=expected_districts,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9951468Z [36;1m            expected_certification=expected_certification,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9951798Z [36;1m        )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9952014Z [36;1mexcept ValueError as exc:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9952296Z [36;1m    raise SystemExit(str(exc)) from exc[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9952737Z [36;1m# La fuente territorial se resuelve primero y permanece inmutable para M04-M06.[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9953287Z [36;1m# La pareja electoral sólo habilita M07-M08 cuando acredita exactamente[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9953799Z [36;1m# esa misma identidad territorial; una alternativa B nunca sustituye[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9954258Z [36;1m# automáticamente a la fuente territorial preferida.[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9954725Z [36;1mterritorial_path=Path(".ddd-full-run/prepared_territorial.json")[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9955121Z [36;1mterritorial_doc=None[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9955358Z [36;1mpair_doc=None[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9955581Z [36;1mpair=None[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9955789Z [36;1mselection=None[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9956009Z [36;1mreuse={}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9956344Z [36;1mif p.get("execution_mode")!="from_start" and territorial_path.is_file():[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9956874Z [36;1m    territorial_doc=json.loads(territorial_path.read_text(encoding="utf-8"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9957343Z [36;1m    preferred=territorial_doc["territorial_source"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9957675Z [36;1m    selected=preferred[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9957925Z [36;1m    selection={[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9958173Z [36;1m        "status":"TERRITORIAL_READY",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9958587Z [36;1m        "preferred_identity_sha256":preferred["territorial_identity_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9959126Z [36;1m        "selected_identity_sha256":preferred["territorial_identity_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9959599Z [36;1m        "selection_reason":"PREFERRED_TERRITORIAL_SOURCE",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9959933Z [36;1m    }[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9960191Z [36;1m    activation=p.get("electoral_activation") or {}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9960504Z [36;1m    if ([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9960722Z [36;1m        effective_mode=="electoral"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9961318Z [36;1m        and activation.get("execution")=="EXECUTE"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9961693Z [36;1m        and p.get("run_prepare_electoral") is False[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9961999Z [36;1m    ):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9962317Z [36;1m        from herramientas.consumir_par_fuentes_legislatura import ([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9962730Z [36;1m            PreparedPairExecutionBlock,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9963031Z [36;1m            resolve_pair,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9963273Z [36;1m        )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9963472Z [36;1m        try:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9963715Z [36;1m            pair_doc=resolve_pair([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9964125Z [36;1m                root_dir=Path("."),territory=p["territory_name"],edition=p["edition"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9964661Z [36;1m            )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9964947Z [36;1m        except PreparedPairExecutionBlock as exc:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9965269Z [36;1m            try:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9965557Z [36;1m                gap=classify_prepared_pair_failure(str(exc))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9965922Z [36;1m            except ValueError as technical:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9966269Z [36;1m                raise SystemExit(str(technical)) from exc[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9966601Z [36;1m            _skip_electoral([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9966857Z [36;1m                p,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9967144Z [36;1m                activation_status=gap["activation_status"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9967526Z [36;1m                completion_status=gap["completion_status"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9967990Z [36;1m                reason=gap["reason"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9968262Z [36;1m            )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9968469Z [36;1m        else:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9968705Z [36;1m            pair=pair_doc["pair"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9969037Z [36;1m            selection=select_territorial_for_prepared_pair([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9969495Z [36;1m                p,preferred_territorial=preferred,pair=pair,root_dir=Path(".")[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9969882Z [36;1m            )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9970200Z [36;1m            if selection["status"]=="TERRITORIAL_READY_PAIR_INCOMPATIBLE":[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9970591Z [36;1m                _skip_electoral([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9970995Z [36;1m                    p,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9971338Z [36;1m                    activation_status="TERRITORIAL_READY_PAIR_INCOMPATIBLE",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9971786Z [36;1m                    completion_status="SKIPPED_INCOMPATIBLE_PAIR",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9972180Z [36;1m                    reason=selection["selection_reason"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9972487Z [36;1m                )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9972713Z [36;1m                pair=None[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9972958Z [36;1m            else:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9973212Z [36;1m                selected=selection["selected"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9973549Z [36;1m                electoral=pair["electoral_source"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9973884Z [36;1m                p["prepared_source_pair"]={[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9974222Z [36;1m                    "receipt_path":pair_doc["receipt_path"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9974586Z [36;1m                    "pair_sha256":pair["pair_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9975035Z [36;1m                    "territorial_identity_sha256":selected["territorial_identity_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9975587Z [36;1m                    "electoral_identity_sha256":electoral["electoral_identity_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9975987Z [36;1m                }[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9976263Z [36;1m                p["existing"]["electoral_source"]={[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9976618Z [36;1m                    **p["existing"].get("electoral_source",{}),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9976977Z [36;1m                    "run_id":electoral["run_id"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9977328Z [36;1m                    "artifact_name":electoral["artifact_name"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9977718Z [36;1m                    "artifact_sha256":electoral["artifact_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9978105Z [36;1m                    "election_id":electoral["election_id"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9978439Z [36;1m                    "decision":"VALIDADO",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9978716Z [36;1m                }[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9978972Z [36;1m                p["electoral_activation"]={[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9979287Z [36;1m                    "status":selection["status"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9979602Z [36;1m                    "execution":"EXECUTE",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9979924Z [36;1m                    "completion_status":"PENDING",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9980267Z [36;1m                    "reason":selection["selection_reason"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9980693Z [36;1m                }[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9981258Z [36;1m    p["territorial_selection"]=selection[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9981609Z [36;1m    p["prepared_territorial_source"]={[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9982078Z [36;1m        "receipt_path":selected.get("receipt_path") or territorial_doc["receipt_path"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9982644Z [36;1m        "territorial_identity_sha256":selected["territorial_identity_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9983039Z [36;1m    }[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9983269Z [36;1m    p["existing"]["territorial_source"]={[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9983611Z [36;1m        **p["existing"].get("territorial_source",{}),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9983945Z [36;1m        "run_id":selected["run_id"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9984265Z [36;1m        "artifact_name":selected["artifact_name"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9984781Z [36;1m        "artifact_sha256":selected["artifact_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9985145Z [36;1m        "package_sha256":selected["package_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9985516Z [36;1m        "source_commit":selected.get("source_commit"),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9985920Z [36;1m        "source_declaration":selected.get("source_declaration"),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9986411Z [36;1m        "territorial_identity_sha256":selected["territorial_identity_sha256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9986830Z [36;1m        "decision":"VALIDADO",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9987084Z [36;1m    }[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9987280Z [36;1m    if not reuse:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9987580Z [36;1m        reuse=territorial_doc.get("geometric_reuse") or {}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9987905Z [36;1m[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9988086Z [36;1mif reuse:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9988287Z [36;1m    if ([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9988511Z [36;1m        p.get("execution_mode")=="reuse"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9988867Z [36;1m        and p.get("optimization_algorithm")=="Canónico"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9989234Z [36;1m        and reuse.get("compatible") is True[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9989514Z [36;1m    ):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9989734Z [36;1m        p["run_generate"]=False[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9990040Z [36;1m        p["existing"]["territorial_product"]={[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9990377Z [36;1m            "run_id":reuse.get("product_run_id"),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9990746Z [36;1m            "artifact_name":reuse.get("product_artifact_name"),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9991450Z [36;1m            "artifact_sha256":reuse.get("product_artifact_sha256"),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9991823Z [36;1m            "decision":"VALIDADO",[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9992093Z [36;1m        }[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9992421Z [36;1m    elif p.get("execution_mode")=="reuse" and reuse.get("available") is True:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9992919Z [36;1m        from herramientas.resolver_ejecucion_completa import ([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9993355Z [36;1m            replan_generation_for_incompatible_product,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9993668Z [36;1m        )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9993868Z [36;1m        try:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9994202Z [36;1m            replan_generation_for_incompatible_product(p, root_dir=Path("."))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9994615Z [36;1m        except ValueError as exc:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9994935Z [36;1m            raise SystemExit(str(exc)) from exc[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9995226Z [36;1m[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9995474Z [36;1mp["publication_mode_requested"]=publication_mode[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9995842Z [36;1mp["publication_mode_effective"]=effective_mode[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9996177Z [36;1mp["publication_mode"]=effective_mode[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9996585Z [36;1mif (p.get("execution_mode")!="from_start" and territorial_doc is not None[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9997042Z [36;1m        and not p.get("pre_m04_accreditation_planned")):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9997400Z [36;1m    p["run_prepare_territorial"]=False[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9997702Z [36;1mif pair is not None:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9997968Z [36;1m    p["run_prepare_electoral"]=False[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9998406Z [36;1mif effective_mode=="territorial_only":[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9998717Z [36;1m    p["run_prepare_electoral"]=False[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9999008Z [36;1m    p["run_incorporate"]=False[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9999318Z [36;1mif p.get("run_prepare_territorial") is True:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9999624Z [36;1m    temporal_missing=[[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:07.9999932Z [36;1m        key for key in ("population_year","section_year")[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0000289Z [36;1m        if not isinstance(p.get(key), int)[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0000575Z [36;1m    ][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0000777Z [36;1m    if temporal_missing:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0001280Z [36;1m        raise SystemExit([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0001677Z [36;1m            "TEMPORAL_CONTRACT_BLOCK: 00 no puede lanzar 01 sin contrato temporal: "[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0002253Z [36;1m            + ", ".join(temporal_missing)[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0002526Z [36;1m        )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0002773Z [36;1mif p.get("execution_mode")=="from_start":[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0003243Z [36;1m    required=["run_prepare_territorial","pre_m04_accreditation_planned","run_generate"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0003910Z [36;1m    if effective_mode=="electoral" and (p.get("electoral_activation") or {}).get("execution")=="EXECUTE":[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0004486Z [36;1m        required += ["run_prepare_electoral","run_incorporate"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0004921Z [36;1m    missing=[key for key in required if p.get(key) is not True][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0005277Z [36;1m    if missing:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0005516Z [36;1m        raise SystemExit([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0005915Z [36;1m            "FROM_START_CONTRACT_BLOCK: el plan intentó omitir fases obligatorias: "[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0006342Z [36;1m            + ", ".join(missing)[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0006603Z [36;1m        )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0006877Z [36;1m    if pair is not None or territorial_doc is not None:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0007458Z [36;1m        raise SystemExit("FROM_START_CONTRACT_BLOCK: from_start no puede consumir fuentes preparadas previas")[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0008170Z [36;1mpath.write_text(json.dumps(p,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0008591Z [36;1mPY[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0008813Z [36;1mpython - <<'PY' >> "$GITHUB_OUTPUT"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0009094Z [36;1mimport json[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0009403Z [36;1mp=json.load(open(".ddd-full-run/plan.json",encoding="utf-8"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0009768Z [36;1mdef out(k,v):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0010001Z [36;1m    if isinstance(v,bool):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0010267Z [36;1m        v=str(v).lower()[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0010514Z [36;1m    elif v is None:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0010738Z [36;1m        v=""[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0011082Z [36;1m    print(f"{k}={v}")[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0011350Z [36;1mout("territory_id",p["territory_id"])[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0011671Z [36;1mout("territory_name",p["territory_name"])[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0012013Z [36;1mout("contract_path",p.get("contract_path"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0012373Z [36;1mout("execution_mode_internal",p["execution_mode"])[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0012883Z [36;1mout("generation_execution_mode",p.get("generation_execution_mode",p["execution_mode"]))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0013422Z [36;1mout("optimization_algorithm",p["optimization_algorithm"])[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0013799Z [36;1mcampaign=p.get("campaign") or {}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0014104Z [36;1mif campaign.get("campaign_instance"):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0014439Z [36;1m    entrypoint=campaign.get("entrypoint") or ""[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0014840Z [36;1m    require_unique=bool(campaign.get("require_unique_hashes"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0015192Z [36;1melse:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0015559Z [36;1m    entrypoint="gerrychain_50" if p["optimization_algorithm"] == "GerryChain 50" else ""[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0016112Z [36;1m    require_unique=p["optimization_algorithm"] == "GerryChain 50"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0016653Z [36;1mout("gerrychain_entrypoint",entrypoint)[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0016996Z [36;1mout("require_unique_hashes",require_unique)[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0017304Z [36;1mout("edition",p["edition"])[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0017618Z [36;1mout("population_year",p.get("population_year"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0017963Z [36;1mout("section_year",p.get("section_year"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0018425Z [36;1mout("publication_mode_requested",p.get("publication_mode_requested","electoral"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0019106Z [36;1mout("publication_mode_effective",p.get("publication_mode_effective",p.get("publication_mode","electoral")))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0019841Z [36;1mout("publication_mode",p.get("publication_mode_effective",p.get("publication_mode","electoral")))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0020747Z [36;1mfor key in ("run_prepare_territorial","pre_m04_accreditation_planned","run_generate","run_prepare_electoral","run_incorporate"):[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0021636Z [36;1m    out(key,p.get(key, False))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0021928Z [36;1mexisting=p["existing"][0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0022362Z [36;1mout("existing_territorial_source_run_id",existing["territorial_source"].get("run_id"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0023018Z [36;1mout("existing_territorial_source_artifact",existing["territorial_source"].get("artifact_name"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0023704Z [36;1mout("existing_territorial_source_digest",existing["territorial_source"].get("artifact_sha256"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0024359Z [36;1mout("existing_territorial_product_run_id",existing["territorial_product"].get("run_id"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0025027Z [36;1mout("existing_territorial_product_artifact",existing["territorial_product"].get("artifact_name"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0025716Z [36;1mout("existing_territorial_product_digest",existing["territorial_product"].get("artifact_sha256"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0026361Z [36;1mout("existing_electoral_source_run_id",existing["electoral_source"].get("run_id"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0026983Z [36;1mout("existing_electoral_source_artifact",existing["electoral_source"].get("artifact_name"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0027630Z [36;1mout("existing_electoral_source_digest",existing["electoral_source"].get("artifact_sha256"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0028252Z [36;1mout("existing_electoral_product_run_id",existing["electoral_product"].get("run_id"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0028882Z [36;1mout("existing_electoral_product_artifact",existing["electoral_product"].get("artifact_name"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0029542Z [36;1mout("existing_electoral_product_digest",existing["electoral_product"].get("artifact_sha256"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0030058Z [36;1mprepared=p.get("prepared_source_pair") or {}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0030442Z [36;1mprepared_t=p.get("prepared_territorial_source") or {}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0031013Z [36;1mout("prepared_source_pair_receipt",prepared.get("receipt_path"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0031497Z [36;1mout("prepared_source_pair_sha256",prepared.get("pair_sha256"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0031981Z [36;1mout("prepared_territorial_receipt",prepared_t.get("receipt_path"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0032547Z [36;1mout("prepared_territorial_identity_sha256",prepared_t.get("territorial_identity_sha256"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0033058Z [36;1mactivation=p.get("electoral_activation") or {}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0033420Z [36;1mselection=p.get("territorial_selection") or {}[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0033821Z [36;1mout("electoral_activation_status",activation.get("status"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0034252Z [36;1mout("electoral_execution",activation.get("execution"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0034724Z [36;1mout("electoral_completion_status",activation.get("completion_status"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0035189Z [36;1mout("electoral_skip_reason",activation.get("reason"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0035615Z [36;1mout("territorial_selection_status",selection.get("status"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0036092Z [36;1mout("territorial_selection_reason",selection.get("selection_reason"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0036622Z [36;1mPY[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0036850Z [36;1mif [[ -n "$CAMPAIGN_INSTANCE" ]]; then[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0037145Z [36;1m  python - <<'PY'[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0037397Z [36;1mimport json,os,subprocess[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0037678Z [36;1mfrom pathlib import Path[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0038073Z [36;1mfrom herramientas.gestor_campana_nacional import validate_campaign_child[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0038618Z [36;1mp=json.loads(Path(".ddd-full-run/plan.json").read_text(encoding="utf-8"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0039240Z [36;1mmanifest=json.loads(Path(".ddd-campaign/campaign-manifest.json").read_text(encoding="utf-8"))[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0039719Z [36;1mtry:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0039931Z [36;1m    validate_campaign_child([0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0040244Z [36;1m        manifest=manifest,plan=p,root=Path("."),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0040990Z [36;1m        expected_sha=os.environ["CAMPAIGN_MANIFEST_SHA256"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0041556Z [36;1m        source_sha=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0042169Z [36;1m        slot=os.environ["CAMPAIGN_SLOT"],campaign_instance=os.environ["CAMPAIGN_INSTANCE"],[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0042633Z [36;1m        frozen_inputs=os.environ,[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0042898Z [36;1m    )[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0043116Z [36;1mexcept ValueError as exc:[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0043555Z [36;1m    raise SystemExit(str(exc)) from exc  # CAMPAIGN_MANIFEST_MISMATCH blocks before generation[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0044001Z [36;1mPY[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0063676Z [36;1mfi[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0064059Z [36;1mpersist="$PERSIST_INPUT"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0064508Z [36;1mpublish="$PUBLISH_INPUT"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0064846Z [36;1mif [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0065222Z [36;1m  persist=false[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0065473Z [36;1m  publish=false[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0065903Z [36;1melif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && -z "$CAMPAIGN_INSTANCE" ]]; then[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0066513Z [36;1m  # Una ejecución manual independiente conserva su contrato histórico.[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0067098Z [36;1m  # Un hijo de campaña respeta PERSIST_INPUT, ya validado contra su manifiesto.[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0067532Z [36;1m  persist=true[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0067759Z [36;1mfi[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0068059Z [36;1mif [[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]; then[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0068648Z [36;1m  echo "::error::La persistencia durable sólo está permitida desde main; ref actual: $GITHUB_REF_NAME"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0069137Z [36;1m  exit 52[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0069344Z [36;1mfi[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0069739Z [36;1mpre_m04_planned="$(jq -r '.pre_m04_accreditation_planned // false' .ddd-full-run/plan.json)"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0070429Z [36;1mif [[ "$pre_m04_planned" == "true" && "$persist" != "true" && "$GITHUB_EVENT_NAME" != "pull_request" ]]; then[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0071489Z [36;1m  echo "::error::La acreditación pre-M04 planificada exige persist_state=true antes de habilitar generación."[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0072013Z [36;1m  exit 56[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0072214Z [36;1mfi[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0072399Z [36;1m{[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0072601Z [36;1m  echo "source_sha=$source_sha"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0072881Z [36;1m  echo "source_ref=$source_sha"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0073156Z [36;1m  echo "persist_state=$persist"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0073442Z [36;1m  echo "publish_result=$publish"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0073934Z [36;1m  echo "artifact_suffix=$([[ -n "$ARTIFACT_NAMESPACE" ]] && printf -- "-%s" "$ARTIFACT_NAMESPACE" || true)"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0074427Z [36;1m} >> "$GITHUB_OUTPUT"[0m
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0139136Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0139513Z env:
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0139727Z   TERRITORY: 07 Castilla y León
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0139981Z   EDITION: 2025
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0140370Z   UI_MODE: Reutilizar progreso existente
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0140680Z   UI_ALGORITHM: Canónico
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0141153Z   PERSIST_INPUT: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0141381Z   PUBLISH_INPUT: false
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0141634Z   PUBLICATION_MODE: territorial_only
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0141908Z   ARTIFACT_NAMESPACE: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0142127Z   CAMPAIGN_INSTANCE: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0142335Z   CAMPAIGN_SLOT: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0142534Z   CAMPAIGN_NAMESPACE: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0142751Z   CAMPAIGN_MANIFEST_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0142992Z   CAMPAIGN_CONTRACT_PATH: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0143222Z   CAMPAIGN_CONTRACT_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0143471Z   CAMPAIGN_GENERATION_EVIDENCE_PATH: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0143749Z   CAMPAIGN_GENERATION_EVIDENCE_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0144016Z   CAMPAIGN_SOURCE_RUN_ID: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0144425Z   CAMPAIGN_SOURCE_ARTIFACT_NAME: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0144684Z   CAMPAIGN_SOURCE_ARTIFACT_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0144943Z   CAMPAIGN_SOURCE_PACKAGE_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0145211Z   CAMPAIGN_EVIDENCE_RECEIPT_PATH: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0145471Z   CAMPAIGN_EVIDENCE_RECEIPT_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0145740Z   CAMPAIGN_TERRITORIAL_IDENTITY_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0146021Z   CAMPAIGN_ELECTORAL_IDENTITY_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0146280Z   CAMPAIGN_PAIR_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0146502Z   CANDIDATE_COUNT: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0146717Z   GERRYCHAIN_ENTRYPOINT: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0146948Z   REQUIRE_UNIQUE_HASHES: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0147164Z   REUSE_RUN_ID: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0147366Z   REUSE_ARTIFACT_NAME: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0147585Z   REUSE_ARTIFACT_SHA256: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0147805Z   REUSE_SOURCE_SHA: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0148023Z   EXPECTED_POPULATION_TOTAL: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0148267Z   EXPECTED_SECTION_COUNT: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0148505Z   EXPECTED_DISTRICT_COUNT: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0148744Z   EXPECTED_CERTIFICATION: 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.0148969Z ##[endgroup]
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.6524832Z OK
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9820570Z Traceback (most recent call last):
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9821900Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_activos_durables.py", line 66, in _load_json
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9822615Z     payload = json.loads(path.read_text(encoding="utf-8"))
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9822953Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9823309Z   File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9870436Z     return _default_decoder.decode(s)
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9871271Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9872228Z   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9873440Z     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9874174Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9874862Z   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9875705Z     raise JSONDecodeError("Expecting value", s, err.value) from None
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9876587Z json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9877147Z 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9877481Z During handling of the above exception, another exception occurred:
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9877999Z 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9878175Z Traceback (most recent call last):
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9879303Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_ejecucion_completa.py", line 604, in build_plan
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9880498Z     durable = validate_durable_assets(
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9881207Z               ^^^^^^^^^^^^^^^^^^^^^^^^
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9882448Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_activos_durables.py", line 525, in validate_durable_assets
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9883772Z     electoral_product = _receipt(
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9884234Z                         ^^^^^^^^^
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9885705Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_activos_durables.py", line 84, in _receipt
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9886921Z     payload = _load_json(root, rel, label=kind)
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9887457Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9888567Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_activos_durables.py", line 68, in _load_json
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9889871Z     _block("DURABLE_ASSET_INVALID", f"{label}: receipt durable ilegible")
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9891390Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_activos_durables.py", line 37, in _block
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9892518Z     raise DurableAssetBlock(f"{code}: {reason}")
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9893523Z herramientas.resolver_activos_durables.DurableAssetBlock: DURABLE_ASSET_INVALID: electoral_product: receipt durable ilegible
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9894644Z 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9894934Z The above exception was the direct cause of the following exception:
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9895398Z 
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9895560Z Traceback (most recent call last):
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9896049Z   File "<frozen runpy>", line 198, in _run_module_as_main
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9896563Z   File "<frozen runpy>", line 88, in _run_code
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9897540Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_ejecucion_completa.py", line 949, in <module>
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9898518Z     main()
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9899350Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_ejecucion_completa.py", line 933, in main
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9900284Z     plan = build_plan(
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9900609Z            ^^^^^^^^^^^
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9901728Z   File "/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/herramientas/resolver_ejecucion_completa.py", line 615, in build_plan
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9902917Z     raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:08.9904347Z ValueError: CONTINUE_DURABLE_BLOCK: Castilla y León: DURABLE_ASSET_INVALID: electoral_product: receipt durable ilegible
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.0092393Z ##[error]Process completed with exit code 1.
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.0233324Z Post job cleanup.
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1131745Z [command]/usr/bin/git version
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1152283Z git version 2.55.0
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1193637Z Temporarily overriding HOME='/home/runner/work/_temp/34bbccb6-c730-46e6-a8df-aed694d39c66' before making global git config changes
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1195072Z Adding repository directory to the temporary git global config as a safe directory
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1200256Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/DiputadodeDistrito/DiputadodeDistrito
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1241275Z Removing SSH command configuration
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1249953Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1295646Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1572756Z Removing HTTP extra header
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1592215Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1631585Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1903299Z Removing includeIf entries pointing to credentials config files
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1912130Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1947704Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1949073Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1950090Z includeif.gitdir:/github/workspace/.git.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1951094Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1975898Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.1996531Z /home/runner/work/_temp/git-credentials-7352f96b-9db2-4d28-bfce-25f3a79e00aa.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2007077Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-7352f96b\-9db2\-4d28\-bfce\-25f3a79e00aa\.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2055986Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2082709Z /home/runner/work/_temp/git-credentials-7352f96b-9db2-4d28-bfce-25f3a79e00aa.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2092800Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-7352f96b\-9db2\-4d28\-bfce\-25f3a79e00aa\.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2128937Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2154897Z /github/runner_temp/git-credentials-7352f96b-9db2-4d28-bfce-25f3a79e00aa.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2195595Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-7352f96b\-9db2\-4d28\-bfce\-25f3a79e00aa\.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2234554Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2261399Z /github/runner_temp/git-credentials-7352f96b-9db2-4d28-bfce-25f3a79e00aa.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2268923Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-7352f96b\-9db2\-4d28\-bfce\-25f3a79e00aa\.config
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2306746Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2534781Z Removing credentials config '/home/runner/work/_temp/git-credentials-7352f96b-9db2-4d28-bfce-25f3a79e00aa.config'
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2677667Z Evaluate and set job outputs
+Planificar ejecución completa	UNKNOWN STEP	2026-10-27T23:50:09.2698177Z Cleaning up orphan processes

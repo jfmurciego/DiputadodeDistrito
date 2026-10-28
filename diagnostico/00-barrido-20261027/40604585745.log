@@ -1,0 +1,400 @@
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7694436Z   TERRITORY: Andalucía
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7694672Z   TERRITORY_ID: andalucia
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7694892Z   EDITION: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7695095Z   POPULATION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7695315Z   SECTION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7695632Z   SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7696007Z   EVIDENCE_DIR: .ddd-sources
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:22.7696241Z ##[endgroup]
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.0394362Z Defaulting to user installation because normal site-packages is not writeable
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.5118292Z Collecting pandas==2.3.2 (from -r requirements.lock (line 6))
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.6092697Z   Downloading pandas-2.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (91 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.6463572Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.2/91.2 kB 2.3 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.6610564Z Requirement already satisfied: PyYAML==6.0.2 in /home/runner/.local/lib/python3.12/site-packages (from -r requirements.lock (line 7)) (6.0.2)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.7150840Z Collecting geopandas==1.1.1 (from -r requirements.lock (line 8))
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.7491391Z   Downloading geopandas-1.1.1-py3-none-any.whl.metadata (2.3 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.8864209Z Collecting shapely==2.1.1 (from -r requirements.lock (line 9))
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:23.9188528Z   Downloading shapely-2.1.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.7 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.0461757Z Collecting pyproj==3.7.2 (from -r requirements.lock (line 10))
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.0730577Z   Downloading pyproj-3.7.2-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (31 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.1459379Z Collecting pyogrio==0.11.1 (from -r requirements.lock (line 11))
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.1749729Z   Downloading pyogrio-0.11.1-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.5481488Z Collecting numpy>=1.26.0 (from pandas==2.3.2->-r requirements.lock (line 6))
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.5768660Z   Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.5813056Z Requirement already satisfied: python-dateutil>=2.8.2 in /usr/lib/python3/dist-packages (from pandas==2.3.2->-r requirements.lock (line 6)) (2.8.2)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.5829288Z Requirement already satisfied: pytz>=2020.1 in /usr/lib/python3/dist-packages (from pandas==2.3.2->-r requirements.lock (line 6)) (2024.1)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.6434874Z Collecting tzdata>=2022.7 (from pandas==2.3.2->-r requirements.lock (line 6))
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.6696815Z   Downloading tzdata-2026.5-py2.py3-none-any.whl.metadata (1.4 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.6940826Z Requirement already satisfied: packaging in /usr/lib/python3/dist-packages (from geopandas==1.1.1->-r requirements.lock (line 8)) (24.0)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.7186795Z Requirement already satisfied: certifi in /usr/lib/python3/dist-packages (from pyproj==3.7.2->-r requirements.lock (line 10)) (2023.11.17)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.7623036Z Downloading pandas-2.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.0 MB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.9404290Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.0/12.0 MB 112.5 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.9683920Z Downloading geopandas-1.1.1-py3-none-any.whl (338 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:24.9735520Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 338.4/338.4 kB 96.3 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.0036468Z Downloading shapely-2.1.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.1 MB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.0303518Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 125.5 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.0614109Z Downloading pyproj-3.7.2-cp312-cp312-manylinux_2_28_x86_64.whl (9.6 MB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.1447371Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.6/9.6 MB 117.1 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.1751215Z Downloading pyogrio-0.11.1-cp312-cp312-manylinux_2_28_x86_64.whl (27.7 MB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.4320930Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 27.7/27.7 MB 80.1 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.4574022Z Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.5572183Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 157.7 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.5849343Z Downloading tzdata-2026.5-py2.py3-none-any.whl (347 kB)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.5903541Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 348.0/348.0 kB 101.5 MB/s eta 0:00:00
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:25.9935243Z Installing collected packages: tzdata, pyproj, numpy, shapely, pyogrio, pandas, geopandas
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:32.9921900Z Successfully installed geopandas-1.1.1 numpy-2.5.4 pandas-2.3.2 pyogrio-0.11.1 pyproj-3.7.2 shapely-2.1.1 tzdata-2026.5
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1084763Z ##[group]Run python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1085403Z [36;1mpython -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1105030Z shell: /usr/bin/bash -e {0}
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1105275Z env:
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1107692Z   GH_TOKEN: ***
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1107915Z   TERRITORY: Andalucía
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1108143Z   TERRITORY_ID: andalucia
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1108363Z   EDITION: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1108561Z   POPULATION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1108780Z   SECTION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1109097Z   SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1109473Z   EVIDENCE_DIR: .ddd-sources
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.1109696Z ##[endgroup]
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7607675Z ##[group]Run set -euo pipefail
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7608024Z [36;1mset -euo pipefail[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7608317Z [36;1mmkdir -p "$(dirname "$SOURCE_DECLARATION")"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7608791Z [36;1mpython herramientas/resolver_fuentes_territorio.py declaration \[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7609219Z [36;1m  --territory "$TERRITORY" \[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7609490Z [36;1m  --edition "$EDITION" \[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7609780Z [36;1m  --population-year "$POPULATION_YEAR" \[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7610098Z [36;1m  --section-year "$SECTION_YEAR" \[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7610389Z [36;1m  --output "$SOURCE_DECLARATION"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7610669Z [36;1mtest -s "$SOURCE_DECLARATION"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7630140Z shell: /usr/bin/bash -e {0}
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7630379Z env:
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7632737Z   GH_TOKEN: ***
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7632958Z   TERRITORY: Andalucía
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7633183Z   TERRITORY_ID: andalucia
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7633433Z   EDITION: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7633632Z   POPULATION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7634326Z   SECTION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7634651Z   SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7635030Z   EVIDENCE_DIR: .ddd-sources
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.7635257Z ##[endgroup]
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8342953Z ##[group]Run set -euo pipefail
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8343294Z [36;1mset -euo pipefail[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8343780Z [36;1marts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8344999Z [36;1mmatch="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '[.artifacts[]|select(.name==$n and (.expired|not))] | if length==1 then .[0] else empty end' <<<"$arts")"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8346018Z [36;1m[[ -n "$match" ]] || { echo "::error::Artefacto territorial registrado no disponible: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8346791Z [36;1mactual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8347546Z [36;1m[[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto territorial no coincide con el registro."; exit 45; }[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8348174Z [36;1mrm -rf .ddd-source-package[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8348800Z [36;1mgh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-source-package[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8350011Z [36;1mpython -m herramientas.seleccionar_paquete_fuentes             --package .ddd-source-package             --territory-id "$TERRITORY_ID"             --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8350985Z [36;1mecho "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8351425Z [36;1mecho "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8351862Z [36;1mecho "reused_candidate=true" >> "$GITHUB_OUTPUT"[0m
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8372412Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8372781Z env:
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8375435Z   GH_TOKEN: ***
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8375664Z   TERRITORY: Andalucía
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8375900Z   TERRITORY_ID: andalucia
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8376134Z   EDITION: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8376336Z   POPULATION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8376550Z   SECTION_YEAR: 2025
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8376872Z   SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8377248Z   EVIDENCE_DIR: .ddd-sources
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8377487Z   REGISTERED_RUN_ID: 36020646219
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8377847Z   REGISTERED_ARTIFACT_NAME: ddd-source-package-andalucia-2025-36020646219
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8378415Z   REGISTERED_ARTIFACT_SHA256: cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:33.8378859Z ##[endgroup]
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.1696734Z ##[error]Artefacto territorial registrado no disponible: ddd-source-package-andalucia-2025-36020646219 (run 36020646219)
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.1706447Z ##[error]Process completed with exit code 44.
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.1864703Z Post job cleanup.
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2723586Z [command]/usr/bin/git version
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2768870Z git version 2.56.0
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2809497Z Temporarily overriding HOME='/home/runner/work/_temp/83952f29-e1c8-4117-bd99-4bd32c4632e1' before making global git config changes
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2810819Z Adding repository directory to the temporary git global config as a safe directory
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2814894Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/DiputadodeDistrito/DiputadodeDistrito
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2850070Z Removing SSH command configuration
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2857354Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.2898104Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3258650Z Removing HTTP extra header
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3270782Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3332659Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3618052Z Removing includeIf entries pointing to credentials config files
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3625590Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3671152Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3672208Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3673057Z includeif.gitdir:/github/workspace/.git.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3673846Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3681533Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3721586Z /home/runner/work/_temp/git-credentials-eaee2189-deb1-45a5-8c1e-6ac3d8a48264.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3732965Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-eaee2189\-deb1\-45a5\-8c1e\-6ac3d8a48264\.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3782370Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3817729Z /home/runner/work/_temp/git-credentials-eaee2189-deb1-45a5-8c1e-6ac3d8a48264.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3826474Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-eaee2189\-deb1\-45a5\-8c1e\-6ac3d8a48264\.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3879984Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3915152Z /github/runner_temp/git-credentials-eaee2189-deb1-45a5-8c1e-6ac3d8a48264.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3924541Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-eaee2189\-deb1\-45a5\-8c1e\-6ac3d8a48264\.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.3971542Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.4005679Z /github/runner_temp/git-credentials-eaee2189-deb1-45a5-8c1e-6ac3d8a48264.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.4014802Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-eaee2189\-deb1\-45a5\-8c1e\-6ac3d8a48264\.config
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.4061610Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.4305432Z Removing credentials config '/home/runner/work/_temp/git-credentials-eaee2189-deb1-45a5-8c1e-6ac3d8a48264.config'
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.4449767Z Evaluate and set job outputs
+01 Preparar datos territoriales / Preparar fuentes territoriales	UNKNOWN STEP	2026-10-27T23:49:34.4456442Z Cleaning up orphan processes
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	﻿2026-10-27T23:49:39.7132195Z Current runner version: '2.338.0'
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7158118Z ##[group]Runner Image Provisioner
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7159123Z Hosted Compute Agent
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7159723Z Version: 20261021.618
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7160560Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7161374Z Build Date: 2026-10-21T00:45:21Z
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7162057Z Worker ID: {1d9849c8-53fd-4dd3-b4ba-873a78790bb3}
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7162819Z Region: eastus
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7163380Z Cloud: Azure
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7163913Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7165776Z ##[group]Operating System
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7166454Z Ubuntu
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7167083Z 24.04.5
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7167598Z LTS
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7168086Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7168703Z ##[group]Runner Image
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7169301Z Image: ubuntu-24.04
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7169926Z Version: 20261012.334.1
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7171602Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7173232Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7174215Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7175470Z ##[group]GITHUB_TOKEN Permissions
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7178321Z Actions: read
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7179426Z Contents: write
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7180004Z Metadata: read
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7181221Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7183402Z Secret source: Actions
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7184288Z Cache mode: write
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7185471Z Prepare workflow directory
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7522368Z Prepare all required actions
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.7571339Z Getting action download info
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:39.9655608Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1781379Z Uses: jfmurciego/DiputadodeDistrito/.github/workflows/preparacion-fuentes.yml@refs/heads/main (2ef7afae8cb129128479549ea45dbccfd7bc858f)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1787123Z ##[group] Inputs
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1787792Z   territory_id: Andalucía
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1788412Z   data_edition: 2025
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1789041Z   source_year: 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1789574Z   population_year: 2025
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1790443Z   section_year: 2025
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1791555Z   reutilizar_si_ya_preparada: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1792294Z   source_ref: 2ef7afae8cb129128479549ea45dbccfd7bc858f
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1793243Z   persist_state: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1794153Z   recover_run_id: 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1794975Z   recover_artifact_sha256: 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1795676Z   execution_mode: Reutilizar progreso existente
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1796385Z   optimization_algorithm: Canónico
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1797128Z   publication_mode: territorial_only
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1797794Z   publish_result: false
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1798416Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.1799311Z Complete job name: 01 Preparar datos territoriales / Verificar resultado durable de preparación
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2746117Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2747201Z with:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2747684Z   ref: 2ef7afae8cb129128479549ea45dbccfd7bc858f
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2748336Z   repository: jfmurciego/DiputadodeDistrito
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2752419Z   token: ***
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2752864Z   ssh-strict: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2753302Z   ssh-user: git
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2753751Z   persist-credentials: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2754252Z   clean: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2754698Z   sparse-checkout-cone-mode: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2755225Z   fetch-depth: 1
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2755656Z   fetch-tags: false
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2756095Z   show-progress: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2756538Z   lfs: false
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2756949Z   submodules: false
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2757402Z   set-safe-directory: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2757912Z   allow-unsafe-pr-checkout: false
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.2758716Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6209650Z Syncing repository: jfmurciego/DiputadodeDistrito
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6213085Z ##[group]Getting Git version info
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6214422Z Working directory is '/home/runner/work/DiputadodeDistrito/DiputadodeDistrito'
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6216785Z [command]/usr/bin/git version
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6337633Z git version 2.55.0
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6365520Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6382384Z Temporarily overriding HOME='/home/runner/work/_temp/a0193c0d-18a7-40ff-b1ac-f269dbbca6de' before making global git config changes
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6385241Z Adding repository directory to the temporary git global config as a safe directory
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6401774Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/DiputadodeDistrito/DiputadodeDistrito
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6466008Z Deleting the contents of '/home/runner/work/DiputadodeDistrito/DiputadodeDistrito'
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6469671Z ##[group]Determining repository object format
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6471765Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6472703Z ##[group]Initializing the repository
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6478766Z [command]/usr/bin/git init /home/runner/work/DiputadodeDistrito/DiputadodeDistrito
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6621418Z hint: Using 'master' as the name for the initial branch. This default branch name
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6624378Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6627138Z hint: to use in all of your new repositories, which will suppress this warning,
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6629149Z hint: call:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6630517Z hint:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6631971Z hint: 	git config --global init.defaultBranch <name>
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6633501Z hint:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6634956Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6637328Z hint: 'development'. The just-created branch can be renamed via this command:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6639301Z hint:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6640276Z hint: 	git branch -m <name>
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6641626Z hint:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6642861Z hint: Disable this message with "git config set advice.defaultBranchName false"
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6644195Z Initialized empty Git repository in /home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6646445Z [command]/usr/bin/git remote add origin https://github.com/jfmurciego/DiputadodeDistrito
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6704031Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6705453Z ##[group]Disabling automatic garbage collection
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6706757Z [command]/usr/bin/git config --local gc.auto 0
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6747764Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6750337Z ##[group]Setting up auth
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6751863Z Removing SSH command configuration
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6754958Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.6799170Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7221877Z Removing HTTP extra header
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7229147Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7276551Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7541942Z Removing includeIf entries pointing to credentials config files
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7543070Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7592515Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7870925Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7922511Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path /home/runner/work/_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.7961543Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.8007635Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.8049952Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.8097821Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.8100031Z ##[group]Fetching the repository
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:40.8103295Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 2ef7afae8cb129128479549ea45dbccfd7bc858f
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4277744Z From https://github.com/jfmurciego/DiputadodeDistrito
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4280327Z  * branch            2ef7afae8cb129128479549ea45dbccfd7bc858f -> FETCH_HEAD
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4287451Z [command]/usr/bin/git rev-parse --verify --quiet 2ef7afae8cb129128479549ea45dbccfd7bc858f^{object}
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4319824Z 2ef7afae8cb129128479549ea45dbccfd7bc858f
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4326206Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4328055Z ##[group]Determining the checkout info
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4329925Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4331862Z [command]/usr/bin/git sparse-checkout disable
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4391559Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4426289Z ##[group]Checking out the ref
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:46.4429876Z [command]/usr/bin/git checkout --progress --force 2ef7afae8cb129128479549ea45dbccfd7bc858f
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7373567Z Updating files:  47% (1634/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7397391Z Updating files:  48% (1640/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7415764Z Updating files:  49% (1674/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7434769Z Updating files:  50% (1708/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7457157Z Updating files:  51% (1743/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7480555Z Updating files:  52% (1777/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7497898Z Updating files:  53% (1811/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7515778Z Updating files:  54% (1845/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7544707Z Updating files:  55% (1879/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7571725Z Updating files:  56% (1913/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7594544Z Updating files:  57% (1948/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7617868Z Updating files:  58% (1982/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7640317Z Updating files:  59% (2016/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7669191Z Updating files:  60% (2050/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7751317Z Updating files:  61% (2084/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7769029Z Updating files:  62% (2118/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7793763Z Updating files:  63% (2153/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7819153Z Updating files:  64% (2187/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7838239Z Updating files:  65% (2221/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7856388Z Updating files:  66% (2255/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7883231Z Updating files:  67% (2289/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7902650Z Updating files:  68% (2323/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7925373Z Updating files:  69% (2358/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:47.7951177Z Updating files:  70% (2392/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.1719578Z Updating files:  71% (2426/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.1742513Z Updating files:  72% (2460/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.5021530Z Updating files:  73% (2494/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.7648671Z Updating files:  73% (2519/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.7697077Z Updating files:  74% (2528/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.7738057Z Updating files:  75% (2562/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.7773429Z Updating files:  76% (2597/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.7975379Z Updating files:  77% (2631/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.7999595Z Updating files:  78% (2665/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8018857Z Updating files:  79% (2699/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8038823Z Updating files:  80% (2733/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8102788Z Updating files:  81% (2767/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8123080Z Updating files:  82% (2802/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8144311Z Updating files:  83% (2836/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8828769Z Updating files:  84% (2870/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8858041Z Updating files:  85% (2904/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8875429Z Updating files:  86% (2938/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8897588Z Updating files:  87% (2972/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8916976Z Updating files:  88% (3007/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8942041Z Updating files:  89% (3041/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.8968757Z Updating files:  90% (3075/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9003871Z Updating files:  91% (3109/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9029047Z Updating files:  92% (3143/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9049449Z Updating files:  93% (3177/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9073916Z Updating files:  94% (3212/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9094804Z Updating files:  95% (3246/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9121886Z Updating files:  96% (3280/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9148187Z Updating files:  97% (3314/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9173939Z Updating files:  98% (3348/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9195562Z Updating files:  99% (3382/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9196027Z Updating files: 100% (3416/3416)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9196480Z Updating files: 100% (3416/3416), done.
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9266903Z Note: switching to '2ef7afae8cb129128479549ea45dbccfd7bc858f'.
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9267388Z 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9267744Z You are in 'detached HEAD' state. You can look around, make experimental
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9268322Z changes and commit them, and you can discard any commits you make in this
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9268803Z state without impacting any branches by switching back to a branch.
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9269081Z 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9269322Z If you want to create a new branch to retain commits you create, you may
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9270469Z do so (now or later) by using -c with the switch command. Example:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9271032Z 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9271225Z   git switch -c <new-branch-name>
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9271532Z 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9271708Z Or undo this operation with:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9271991Z 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9272140Z   git switch -
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9272357Z 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9272722Z Turn off this advice by setting config variable advice.detachedHead to false
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9273247Z 
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9274079Z HEAD is now at 2ef7afa fix(02): importar manifest_sha256 con respaldo de ejecución directa (#307)
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9336704Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9392632Z [command]/usr/bin/git log -1 --format=%H
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9431093Z 2ef7afae8cb129128479549ea45dbccfd7bc858f
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9663574Z ##[group]Run if [[ "$PERSIST_STATE" == true && "$GENERATION_PENDING_RESULT" != success ]]; then
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9664270Z [36;1mif [[ "$PERSIST_STATE" == true && "$GENERATION_PENDING_RESULT" != success ]]; then[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9665063Z [36;1m  echo "::error::La fuente fue preparada, pero no quedó persistido su estado PENDING de generación: $GENERATION_PENDING_RESULT"[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9665658Z [36;1m  exit 56[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9665862Z [36;1mfi[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9666198Z [36;1mpython herramientas/evaluar_persistencia_preparacion.py terminal \[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9666662Z [36;1m  --preparation-result "$PREPARATION_RESULT" \[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9667039Z [36;1m  --registration-result "$REGISTRATION_RESULT" \[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9667389Z [36;1m  --persist-state "$PERSIST_STATE"[0m
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9967501Z shell: /usr/bin/bash -e {0}
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9967864Z env:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9968145Z   PREPARATION_RESULT: failure
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9968555Z   REGISTRATION_RESULT: skipped
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9968872Z   PERSIST_STATE: true
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9969172Z   GENERATION_PENDING_RESULT: skipped
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:48.9969511Z ##[endgroup]
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.0100924Z ##[error]La fuente fue preparada, pero no quedó persistido su estado PENDING de generación: skipped
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.0112002Z ##[error]Process completed with exit code 56.
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.0245763Z Post job cleanup.
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1250741Z [command]/usr/bin/git version
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1309405Z git version 2.55.0
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1354534Z Temporarily overriding HOME='/home/runner/work/_temp/9a213f28-94d9-476b-b3c0-90321b34b336' before making global git config changes
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1355921Z Adding repository directory to the temporary git global config as a safe directory
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1360771Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/DiputadodeDistrito/DiputadodeDistrito
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1398335Z Removing SSH command configuration
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1406622Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1505485Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1806837Z Removing HTTP extra header
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1813405Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.1871286Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2182439Z Removing includeIf entries pointing to credentials config files
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2188868Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2225980Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2226686Z includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2227212Z includeif.gitdir:/github/workspace/.git.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2227627Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2236677Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2265540Z /home/runner/work/_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2276889Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-7f16562c\-707a\-4981\-91ed\-a0f2718133d2\.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2318003Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2345965Z /home/runner/work/_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2355384Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/DiputadodeDistrito/DiputadodeDistrito/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-7f16562c\-707a\-4981\-91ed\-a0f2718133d2\.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2400534Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2426742Z /github/runner_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2435728Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-7f16562c\-707a\-4981\-91ed\-a0f2718133d2\.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2472037Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2498244Z /github/runner_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2507341Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-7f16562c\-707a\-4981\-91ed\-a0f2718133d2\.config
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2561569Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2790937Z Removing credentials config '/home/runner/work/_temp/git-credentials-7f16562c-707a-4981-91ed-a0f2718133d2.config'
+01 Preparar datos territoriales / Verificar resultado durable de preparación	UNKNOWN STEP	2026-10-27T23:49:49.2948063Z Cleaning up orphan processes
