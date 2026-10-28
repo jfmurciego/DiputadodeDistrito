@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# Versión: 1.1.2; nombre: Puertas derivadas F10; fecha: 2026-10-19.
+# Versión: 1.1.3; nombre: Puertas derivadas F10; fecha: 2026-10-28.
 # Alcance: validar fichas READ_ONLY y evidencias de actividades F10.
-# Estado: candidato. Cambios/motivo: derivar admisibilidad geométrica desde evidencia
-# M02 vinculada al recibo, separada de la adquisición temporal de fuentes.
-# Anterior: legacy/herramientas/estado_derivado_f10_v1.1.1_20261019.py.
+# Estado: candidato. Cambios/motivo: aceptar el re-registro posterior del mismo paquete
+# territorial (mismos bytes y compatibilidad) que hace cada reutilización de 00.
+# Anterior: legacy/herramientas/estado_derivado_f10_v1.1.2_20261028.py.
 """Read-only F10 door projection from current receipts and canonical consumers.
 
 The closure dossier is cross-checked as a tracking record; it never grants PASS.
@@ -111,14 +111,28 @@ def check_territorial_evidence(receipt: dict[str, Any], *, territory_id: str,
         raise ValueError("receipt territorial con identidad/edición errónea")
     if type(receipt.get("population_year")) is not int or type(receipt.get("section_year")) is not int:
         raise ValueError("receipt territorial sin años poblacionales/seccionales íntegros")
-    if dossier_row.get("receipt_path") != receipt_path:
-        raise ValueError("matriz de seguimiento contradice receipt_path")
-    if dossier_row.get("receipt_sha256") != receipt_sha256:
-        raise ValueError("matriz de seguimiento contradice receipt_sha256")
-    for key in (
-        "run_id", "artifact_sha256", "package_sha256", "population_year", "section_year",
+    package_keys = (
+        "package_sha256", "population_year", "section_year",
         "territorial_identity_sha256", "compatibility_report_sha256", "compatibility_identity_sha256",
-    ):
+    )
+    if dossier_row.get("receipt_path") == receipt_path:
+        if dossier_row.get("receipt_sha256") != receipt_sha256:
+            raise ValueError("matriz de seguimiento contradice receipt_sha256")
+        keys = ("run_id", "artifact_sha256", *package_keys)
+    else:
+        # Cada reutilización vuelve a registrar el mismo paquete con su run y artefacto
+        # propios. Solo es el expediente acreditado si es posterior y los bytes de la
+        # fuente coinciden; un paquete distinto exige una nueva auditoría F10.
+        if not all(dossier_row.get(key) not in (None, "") for key in package_keys):
+            raise ValueError("matriz de seguimiento contradice receipt_path")
+        try:
+            newer = int(receipt.get("run_id")) > int(dossier_row.get("run_id"))
+        except (TypeError, ValueError):
+            newer = False
+        if not newer:
+            raise ValueError("matriz de seguimiento contradice receipt_path")
+        keys = package_keys
+    for key in keys:
         expected = dossier_row.get(key)
         if expected not in (None, "") and str(receipt.get(key)) != str(expected):
             raise ValueError(f"matriz de seguimiento contradice receipt.{key}")

@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: Manifiesto durable M06 posterior al empaquetado
-# FECHA: 2026-10-26
+# VERSIÓN: 1.2.1
+# NOMBRE DE VERSIÓN: Declaración de fuentes acreditada por el catálogo
+# FECHA: 2026-10-28
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
-# CAMBIOS: empaqueta M06, resuelve referencias por digest, emite manifiesto independiente y registra su ruta en el recibo territorial.
-# MOTIVO: hacer reutilizable el producto emitido por 02 sin referencias circulares ni atribución a 00.
-# ANTERIOR: legacy/workflows/m06_manifest_20261026/_reutilizable-generacion-territorial_v1.1.1_20261025.yml
+# CAMBIOS: "Verificar datos territoriales preparados" lee la declaración que el catálogo acredita (territorial_source_declaration) y solo recurre a config/fuentes_oficiales.yaml si el catálogo no fija ninguna.
+# MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40656129840.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.0_20261028.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -152,7 +152,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
-      SOURCE_DECLARATION: territorios/${{ needs.resolve.outputs.territory_id }}/config/fuentes_oficiales.yaml
+      PARAMS: ${{ needs.resolve.outputs.params }}
       EVIDENCE_DIR: .ddd-sources
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
       SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
@@ -165,7 +165,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
+          # La declaración efectiva es la que acredita el catálogo; config/ es solo el valor por omisión.
+          edition="$(python - <<'PY'
+          import os,yaml
+          d=yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}
+          print((d.get("meta") or {}).get("year",""))
+          PY
+          )"
+          declaration="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$edition" | jq -r '.territorial_source_declaration // empty')"
+          declaration="${declaration:-territorios/$TERRITORY_ID/config/fuentes_oficiales.yaml}"
+          test -f "$declaration" || { echo "::error::No existe declaración de fuentes: $declaration"; exit 40; }
+          echo "SOURCE_DECLARATION=$declaration" >> "$GITHUB_ENV"
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - name: Preparar entorno reproducible de fuentes
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0

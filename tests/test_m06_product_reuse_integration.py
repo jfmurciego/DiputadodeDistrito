@@ -1,3 +1,8 @@
+"""Versión: 1.0.1; nombre: reutilización de los M06 registrados; fecha: 2026-10-28.
+Cambios/motivo: Cantabria, Castilla-La Mancha y Galicia registraron M06 nuevos (runs 40604431189,
+40604483629 y 40604535110) con su manifiesto durable; se fijan esos productos.
+Anterior: legacy/tests/test_m06_product_reuse_integration_v1.0.0_20261028.py.
+"""
 from __future__ import annotations
 
 import unittest
@@ -13,11 +18,11 @@ CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 PRODUCTS = {
     "aragon": (36321736287, "ddd-state-36321736287-M06", "1aa6889ae4e49e49ce2a6b469b6cfbc325d040b30639d5adb8326afde9c89394"),
     "principado_de_asturias": (40241852045, "ddd-state-40241852045-M06", "9e8a8aa21962dea749fd4db1b0c357216a4ac901dab8351cc6be294e74676cdd"),
-    "cantabria": (40241638106, "ddd-state-40241638106-M06", "4cba58ed39ac13c106d35df230fade2af65a7a87210bef25dea524cd5138f8d4"),
+    "cantabria": (40604431189, "ddd-state-40604431189-M06", "232a101d11467d89c3be9e3a359c64f1e78305e57b4def7cfcd0de82b60891fa"),
     "castilla_y_leon": (35889595424, "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon", "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b"),
-    "castilla_la_mancha": (40241650464, "ddd-state-40241650464-M06", "02daf0fded87f9b1d607091e37ee769d3aa5820f4c67a201ba42f6f460e3c32a"),
+    "castilla_la_mancha": (40604483629, "ddd-state-40604483629-M06", "ea98d1cef0153f1f5201756a8dca0e8943637e843b37702d64ca6f851b7a8a8d"),
     "extremadura": (36472516474, "ddd-state-36472516474-M06", "1a491b8ae90a1051989cca29ffa712ade781adb81d622ac0607cc6fac15d26dd"),
-    "galicia": (40241719200, "ddd-state-40241719200-M06", "b44244f06c6e9c6bbfa10966615f7b0b8840cd76ad39d76c63776512d8d405dc"),
+    "galicia": (40604535110, "ddd-state-40604535110-M06", "b734e29e58f7a2f4af3161058971508c356f783832d5212535d9ab7bd5b0fe4d"),
 }
 
 

@@ -1,7 +1,7 @@
-"""Version: 1.1.3; name: F10 derived doors regressions; date: 2026-10-26.
+"""Version: 1.1.4; name: F10 derived doors regressions; date: 2026-10-28.
 Scope: deterministic failure-closed validation of F10 receipts and task cards.
-Status: candidate. Change/reason: reconcile expected counts after canonical territorial receipt references were repaired.
-Previous: legacy/tests/test_f10_derived_doors_v1.1.2_20261026.py.
+Status: candidate. Change/reason: cover the newer re-registration of an identical territorial package.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.3_20261028.py.
 """
 from __future__ import annotations
 
@@ -144,6 +144,28 @@ class F10DerivedDoorsTests(unittest.TestCase):
         contradictory = copy.deepcopy(dossier_row); contradictory["territorial_acquisition"] = "BLOCKED"
         with self.assertRaisesRegex(ValueError, "contradice receipt territorial"):
             check_territorial_evidence(receipt, **{**args, "dossier_row": contradictory})
+
+    def test_reregistration_of_same_package_is_accepted_only_if_newer_and_identical(self):
+        canonical = next(x for x in self.projection["territories"] if x["territory_id"] == "extremadura")
+        receipt = json.loads((ROOT / canonical["territorial_receipt_path"]).read_text())
+        dossier_row = json.loads((ROOT / "docs/AUDITORIAS/F10_CIERRE_TERRITORIAL_20261012/matriz_nacional_19.json").read_text())["rows"]
+        dossier_row = next(x for x in dossier_row if x["territory_id"] == "extremadura")
+        # Mismo paquete reutilizado por un run posterior: run, artefacto y receipt nuevos.
+        rereg = copy.deepcopy(receipt)
+        rereg["run_id"] = int(receipt["run_id"]) + 1
+        rereg["artifact_sha256"] = "1" * 64
+        args = dict(territory_id="extremadura", receipt_path="territorios/extremadura/otro/receipt.json",
+                    receipt_sha256="2" * 64, dossier_row=dossier_row)
+        check_territorial_evidence(rereg, **args)
+        older = copy.deepcopy(rereg); older["run_id"] = int(receipt["run_id"]) - 1
+        with self.assertRaisesRegex(ValueError, "receipt_path"):
+            check_territorial_evidence(older, **args)
+        other_package = copy.deepcopy(rereg); other_package["package_sha256"] = "3" * 64
+        with self.assertRaisesRegex(ValueError, "package_sha256"):
+            check_territorial_evidence(other_package, **args)
+        other_compat = copy.deepcopy(rereg); other_compat["compatibility_identity_sha256"] = "4" * 64
+        with self.assertRaisesRegex(ValueError, "compatibility_identity_sha256"):
+            check_territorial_evidence(other_compat, **args)
 
     def test_corrupt_receipt_bytes_fail_in_the_canonical_consumer(self):
         from herramientas import consumir_par_fuentes_legislatura as consumer

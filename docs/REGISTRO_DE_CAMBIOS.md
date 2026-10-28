@@ -1,12 +1,63 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.14
-Fecha: 2026-10-27
-Alcance: registro del producto territorial M06 desde el workflow 02
+Versión: 1.0.17
+Fecha: 2026-10-28
+Alcance: estado registrado por las ejecuciones 00 "desde el principio" del 28-10
 Estado: candidato
-Cambios/motivo: corregir el import que impedía promover cualquier M06 nuevo al catálogo
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.13_20261027.md
+Cambios/motivo: devolver main al estado acreditado anterior y corregir la declaración de fuentes de 02 y la cabecera de los contratos materializados
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.16_20261028.md
 -->
+
+## 2026-10-28 — 00/01/02 — estado registrado por las ejecuciones del 28-10
+
+Las seis ejecuciones 00 "Ejecutar desde el principio" del 28-10 (Andalucía 40655989924,
+Aragón 40656036271, Castilla y León 40656083930, Comunidad Valenciana 40656129840,
+Extremadura 40656175842 y Madrid con GerryChain 40658423303) registraron en `main`, sin CI,
+fuentes, contratos y catálogo nuevos. Cuatro terminaron en FAILED (Andalucía
+`POPULATION_HARD_BLOCK`; Castilla y León `POPULATION_TARGET_NOT_MET`; Valencia sin años en la
+declaración; Madrid `BASELINE_INVALID` en el M05 de GerryChain) y dejaron el catálogo
+contradiciendo sus productos: Castilla y León perdía el linaje de su M06, Madrid acreditaba un
+paquete nuevo que F10 bloquea y el contrato de Aragón perdía su cabecera de gobernanza.
+
+Se devuelven la configuración, el preflight, el producto territorial y el catálogo de los seis
+territorios al estado anterior. Aragón y Extremadura siguen cerrados con sus productos
+acreditados (36321736287 con acreditación histórica sellada, y 36472516474); sus M06 del 28-10
+quedan como evidencia en `generaciones_m06/` para adoptarlos en un cambio propio. Se conservan
+también los receipts y manifiestos de ejecución de los seis runs.
+
+- `_reutilizable-generacion-territorial.yml` 1.2.1: "Verificar datos territoriales preparados"
+  usa la declaración que acredita el catálogo (`territorial_source_declaration`) y solo recurre a
+  `config/fuentes_oficiales.yaml` si no hay ninguna; la ruta fija leía en Valencia una
+  declaración sin `population_year` ni `section_year`.
+- `materializar_contrato_generacion.py`: al reescribir un contrato conserva sus comentarios
+  iniciales; `yaml.safe_dump` borraba la cabecera VERSIÓN/ANTERIOR que exige R015.
+
+## 2026-10-28 — F10/M06 — estado registrado por las ejecuciones 00 del 27-10
+
+Los commits automáticos de registro de esas ejecuciones avanzaron `main` sin CI y
+dejaron siete pruebas en rojo. `estado_derivado_f10.py` 1.1.3 acepta como expediente
+acreditado un receipt territorial distinto del de la matriz F10 solo si su run es
+posterior y coinciden `package_sha256`, la identidad territorial, los dos hashes de
+compatibilidad y los años: cada reutilización de 00 vuelve a registrar el mismo
+paquete con run y artefacto propios, como Murcia en el run 40604944550. Un paquete
+distinto sigue bloqueando hasta una nueva auditoría F10, y el receipt de la matriz
+mantiene la comprobación completa. `test_m06_product_reuse_integration.py` fija los
+M06 de Cantabria (40604431189), Castilla-La Mancha (40604483629) y Galicia
+(40604535110), cuyos digests coinciden con sus manifiestos durables. Las versiones
+anteriores se conservan en `legacy/`.
+
+## 2026-10-28 — 01 — fuente territorial registrada con artefacto caducado
+
+`preparacion-fuentes.yml` 1.4.2: en la reutilización ordinaria, si el artefacto del
+paquete territorial registrado caducó o fue eliminado, el paso "Recuperar fuente
+territorial registrada" emite un aviso y cede a "Adquirir y congelar fuentes"; el
+registro posterior apunta al paquete nuevo. Antes terminaba con `exit 44`, como en
+Andalucía (run 40604585745) y Comunidad Valenciana (run 40604791319). Siguen
+bloqueando un digest distinto (`exit 45`), un nombre ambiguo y la recuperación exacta
+con `recover_run_id`, que solo admite esos bytes. El job final ya no atribuye a una
+preparación fallida el aviso de estado PENDING no persistido.
+`tests/test_preparacion_fuente_caducada.py` ejecuta el script real del paso con un
+`gh` simulado para cada caso. La versión anterior se conserva en `legacy/workflows/`.
 
 ## 2026-10-27 — 02 — registro del producto territorial M06
 
