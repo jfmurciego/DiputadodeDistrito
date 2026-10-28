@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "pais_vasco",
+  "edition": "2025",
+  "population_year": 2024,
+  "section_year": 2024,
+  "run_id": 40784741627,
+  "artifact_name": "ddd-source-package-pais_vasco-2025-40784741627",
+  "artifact_sha256": "c4ee9df6f190292cceef3ddcb66f49013faa9574012d9c456398c455b9f8ea3f",
+  "package_sha256": "73b444b96e98354ae6db5d123d85d17ce6e27969cb0e1afc4605cb4c49e16a7e",
+  "source_commit": "e7b907ef3fbd14be521147fa44dff965ea20e6b2",
+  "source_declaration": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/dd21f7469ef3b4e8392d666deece38faf2d83daaf5ff67ce1ae22828648cd9cd/40784741627/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "dd21f7469ef3b4e8392d666deece38faf2d83daaf5ff67ce1ae22828648cd9cd",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "6ceb39c187373cc3846a6e69706a50145c344c0ce75b78fe57420f704f0a4db9",
+  "compatibility_identity_sha256": "3bab2ce86d8014493b7b3fb1042f690c4fe390bcf2b0ded7a0129dcd1db85e73"
+}
