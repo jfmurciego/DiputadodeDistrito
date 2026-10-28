@@ -87,8 +87,8 @@ class F10ReceiptContractTests(unittest.TestCase):
         )
         self.assertFalse(plan['run_prepare_territorial'])
         self.assertFalse(plan['run_generate'])
-        self.assertEqual(plan['existing']['territorial_product']['run_id'], 36472516474)
-        self.assertEqual(plan['existing']['territorial_source']['run_id'], 35755043806)
+        self.assertEqual(plan['existing']['territorial_product']['run_id'], 40656175842)
+        self.assertEqual(plan['existing']['territorial_source']['run_id'], 40656175842)
 
     def test_local_derived_receipts_never_accredit_effective_bytes(self):
         for territory in TERRITORIES:
@@ -103,13 +103,13 @@ class F10ReceiptContractTests(unittest.TestCase):
         row, receipt = consumer.validate_territorial_receipt(
             root_dir=ROOT, territory='extremadura', edition='2025')
         self.assertEqual(38091144559, receipt['run_id'])
-        self.assertEqual(35755043806, row['preparation_evidence']['run_id'])
+        self.assertEqual(40656175842, row['preparation_evidence']['run_id'])
         self.assertEqual(
             'AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED',
             row['independent_source_evidence']['status'])
         self.assertFalse(row['independent_source_evidence']['promoted'])
         product = json.loads((ROOT / 'territorios/extremadura/evidencia/catalogo/territorial_product_2025.json').read_text())
-        self.assertEqual(36472516474, product['run_id'])
+        self.assertEqual(40656175842, product['run_id'])
 
     def test_retagging_and_borrowing_historical_run_cannot_accredit_candidate(self):
         for territory in TERRITORIES:

@@ -52,7 +52,21 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+# Aragón adoptó el M06 durable 40656036271; su producto histórico 36321736287 se conserva
+# como caso fijo (fila de catálogo y receipt anteriores) para seguir ejercitando la acreditación.
+HISTORICAL_FIXTURES = ROOT / "tests/fixtures/acreditacion_historica"
+FIXTURE_CASES = {
+    "aragon": (
+        HISTORICAL_FIXTURES / "aragon_catalog_row_36321736287.yaml",
+        HISTORICAL_FIXTURES / "aragon_territorial_product_36321736287.json",
+    ),
+}
+
+
 def _catalog_row(territory_id: str) -> tuple[dict, dict]:
+    if territory_id in FIXTURE_CASES:
+        row = yaml.safe_load(FIXTURE_CASES[territory_id][0].read_text(encoding="utf-8"))
+        return row, row["editions"]["2025"]
     data = yaml.safe_load(CATALOG.read_text(encoding="utf-8")) or {}
     row = next(row for row in data["territories"] if row["territory_id"] == territory_id)
     return row, row["editions"]["2025"]
@@ -64,6 +78,8 @@ def _receipt_rel(territory_id: str) -> str:
 
 
 def _receipt(territory_id: str, root: Path = ROOT) -> dict:
+    if territory_id in FIXTURE_CASES and root == ROOT:
+        return json.loads(FIXTURE_CASES[territory_id][1].read_text(encoding="utf-8"))
     return json.loads((root / _receipt_rel(territory_id)).read_text(encoding="utf-8"))
 
 
@@ -123,7 +139,11 @@ def _copy_case(territory_id: str) -> tuple[Path, tempfile.TemporaryDirectory, st
     asset = _receipt(territory_id)
     run_id = int(asset["run_id"])
     acc_rel = _accreditation_rel(territory_id, run_id)
-    _copy_file(root, receipt_rel)
+    if territory_id in FIXTURE_CASES:
+        (root / receipt_rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(FIXTURE_CASES[territory_id][1], root / receipt_rel)
+    else:
+        _copy_file(root, receipt_rel)
     _copy_file(root, acc_rel)
     record = json.loads((root / acc_rel).read_text(encoding="utf-8"))
     for name in ("gate", "audit"):
@@ -230,8 +250,10 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
         )
 
     def test_planner_reuses_both_real_m06_from_durable_sealed_evidence(self):
+        # El planificador lee el repositorio real: Aragón se comprueba con su M06 vivo adoptado.
         for territory_id in ("aragon", "castilla_y_leon"):
-            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
+            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td, \
+                    mock.patch.dict(FIXTURE_CASES, clear=True):
                 catalog = Path(td) / "catalogo.yaml"
                 territory_name, _ = _planner_catalog(territory_id, catalog)
                 plan = build_plan(

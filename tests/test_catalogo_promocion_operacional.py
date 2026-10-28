@@ -72,6 +72,25 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             self.assertEqual(payload["artifact_name"], "ddd-electoral-package-demo-2025-101")
             self.assertFalse((root / ".github").exists())
 
+    def test_new_m06_drops_lineage_of_previous_product(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            self.fixture(root)
+            catalog_path = root / "configuracion/catalogo_preparacion.yaml"
+            catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
+            catalog["territories"][0]["editions"]["2025"]["evidence"] = {
+                "territorial_product_source_lineage": "territorios/demo/evidencia/linaje_producto_territorial/90.json",
+            }
+            catalog_path.write_text(yaml.safe_dump(catalog, sort_keys=False), encoding="utf-8")
+            promote(
+                root_dir=root, kind="territorial_product", territory_id="demo", edition="2025",
+                run_id=100, artifact_name="ddd-state-100-M06", artifact_sha256="a" * 64,
+                decision="PASS_WITH_EXCEPTIONS", source_commit="1" * 40,
+            )
+            state = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))["territories"][0]["editions"]["2025"]
+            self.assertNotIn("territorial_product_source_lineage", state["evidence"])
+            self.assertEqual(state["last_valid_checkpoint"], {"run_id": 100, "stage": "M06"})
+
     def test_electoral_source_rejects_mismatched_declaration_identity(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)

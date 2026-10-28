@@ -1,0 +1,50 @@
+# Fila del catálogo de Aragón 2025 antes de adoptar el M06 40656036271 (commit d497bf39).
+territory_id: aragon
+name: Aragón
+editions:
+  '2025':
+    territory_declared: true
+    preparation_status: READY
+    contract_path: territorios/aragon/config/aragon_2025.yaml
+    territorial_source_declaration: territorios/aragon/config/fuentes_oficiales.yaml
+    electoral_source_declaration: null
+    territorial_sources_prepared: true
+    territorial_contract_complete: true
+    territorial_product_available: true
+    electoral_source_prepared: true
+    electoral_product_available: true
+    evidence:
+      territorial_product: territorios/aragon/evidencia/catalogo/territorial_product_2025.json
+      territorial_product_source_lineage: territorios/aragon/evidencia/linaje_producto_territorial/36321736287.json
+      electoral_source: territorios/aragon/evidencia/catalogo/electoral_source_2025.json
+      electoral_product: territorios/aragon/evidencia/catalogo/electoral_product_2025.json
+    territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+    production_authorization: AUTHORIZED
+    last_valid_checkpoint:
+      run_id: 36321736287
+      stage: M06
+    independent_source_evidence:
+      status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
+      promoted: false
+      receipt_path: territorios/aragon/evidencia/fuentes_territoriales/2025/e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac/38093067883/receipt.json
+      run_id: 38093067883
+      artifact_name: ddd-source-package-aragon-2025-38093067883
+      artifact_sha256: 35adcbfcf41619c3e54219714aefac5b4885fae0ccd08ae5fcf9930e0528db51
+      package_sha256: 92a53be66ac0aa74cd4d58f8dbe14482fc294503bd87eb11da3045c6a325e16c
+      source_commit: 5216a1b25da7726dd73296723f22754dcf7451e1
+      population_year: 2025
+      section_year: 2025
+      territorial_identity_sha256: e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac
+      compatibility_report_member: compatibilidad_poblacion_seccionado.json
+      compatibility_report_sha256: 44695b29da3cc7b14d1f3859b1b8aebac0bfdef5c61cb804c36f17f33a733727
+      compatibility_identity_sha256: 592dea65f7b934015afa42c2d13efc66ddaf9f4d7e89b8e868d02c00d68045ee
+    preparation_evidence:
+      run_id: 35728613828
+      artifact_name: ddd-source-package-aragon-2025-35728613828
+      artifact_sha256: df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2
+      package_sha256: f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2
+      source_commit: 7a37a00834d7614a21f02bb6d0f181d475aad5e2
+      population_year: 2025
+      section_year: 2025
+      territorial_identity_sha256: 4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0
+      receipt_path: territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/35728613828/receipt.json

@@ -2,14 +2,14 @@
 """Promueve evidencia operacional sin perder el enlace productor M06.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.1
-NOMBRE DE VERSIÓN: Promoción operacional con referencia al manifiesto M06
-FECHA: 2026-10-27
+VERSIÓN: 1.1.2
+NOMBRE DE VERSIÓN: Linaje histórico retirado al registrar un M06 nuevo
+FECHA: 2026-10-28
 ESTADO: candidato
 QUÉ HACE: registra recibos operativos y rederiva su persistencia desde el HEAD destino.
-CAMBIOS: importa manifest_sha256 con el mismo respaldo de ejecución directa que el resto de dependencias.
-MOTIVO: la invocación `python herramientas/promover_catalogo_operacional.py` del workflow 02 fallaba con ModuleNotFoundError al registrar un M06.
-ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.0_20261027.py
+CAMBIOS: al registrar territorial_product retira territorial_product_source_lineage si pertenece a otro run.
+MOTIVO: Aragón registró el M06 40656036271 conservando el linaje del producto 36321736287, y la reutilización geométrica atribuía el producto nuevo a la fuente antigua.
+ANTERIOR: legacy/herramientas/promover_catalogo_operacional_v1.1.1_20261028.py
 """
 from __future__ import annotations
 
@@ -125,6 +125,10 @@ def promote(
             product_receipt["producer_manifest_path"] = producer_ref
         rel = _write_receipt(receipt, product_receipt)
         state["territorial_product_available"] = True; state["territorial_certification"] = "PASS" if decision == "PASS" else "PASS_WITH_GOVERNED_EXCEPTIONS"; state["last_valid_checkpoint"] = {"run_id": int(run_id), "stage": "M06"}; evidence["territorial_product"] = str(Path(rel).relative_to(root))
+        # El linaje producto→fuente describe un producto concreto; no se hereda al M06 nuevo.
+        lineage = str(evidence.get("territorial_product_source_lineage") or "")
+        if lineage and Path(lineage).stem != str(int(run_id)):
+            evidence.pop("territorial_product_source_lineage")
 
     elif kind == "electoral_source":
         receipt_payload = {**common, "election_id": election_id}

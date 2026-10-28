@@ -66,18 +66,18 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         self.assertTrue(row["territorial_contract_complete"])
         self.assertEqual(row["production_authorization"], "AUTHORIZED")
         evidence = row["preparation_evidence"]
-        self.assertEqual(evidence["run_id"], 35755043806)
+        self.assertEqual(evidence["run_id"], 40656175842)
         self.assertEqual(
             evidence["artifact_name"],
-            "ddd-source-package-extremadura-2025-35755043806",
+            "ddd-source-package-extremadura-2025-40656175842",
         )
         self.assertEqual(
             evidence["artifact_sha256"],
-            "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+            "e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec",
         )
         self.assertEqual(
             evidence["package_sha256"],
-            "edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07",
+            "5af74bed654e8926382c9e47c01608effaee56ca9c59f0bab244843c5708c208",
         )
         self.assertNotIn("stage", evidence)
 

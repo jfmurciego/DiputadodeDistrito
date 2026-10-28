@@ -1,6 +1,8 @@
-"""F10 v1.0.0 — receipts auténticos INE 2025/2025; 2026 electoral sigue bloqueada.
-Fecha: 2026-10-12. Alcance: evidencia territorial independiente; sin promoción ni producción.
+"""F10 v1.0.1 — receipts auténticos INE 2025/2025; 2026 electoral sigue bloqueada.
+Fecha: 2026-10-28. Alcance: evidencia territorial independiente; sin promoción ni producción.
 Origen: ZIP protegido DDD_F10_5_ARTEFACTOS_AUTENTICOS_20261011 y receipts #179 ya versionados.
+Cambios: Aragón adopta la preparación y el M06 del run de producción 40656036271; el receipt F10
+sigue sin promoverse. Anterior: legacy/tests/test_f10_2025_independent_territorial_receipts_v1.0.0.py.
 """
 import json
 import unittest
@@ -15,6 +17,10 @@ MANIFEST = ROOT / "docs/AUDITORIAS/F10_RECIBOS_2025_20261012/VERIFICACION.json"
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 
 
+# Preparaciones históricas sustituidas por una ejecución de producción posterior (no por el
+# receipt independiente F10, que sigue sin promoverse).
+PRODUCTION_SUPERSEDED_PREPARATION = {"aragon": 40656036271}
+
 class F10Receipts2025Tests(unittest.TestCase):
     def test_real_receipts_match_catalogue_and_preserve_historical_preparation(self):
         evidence = json.loads(MANIFEST.read_text(encoding="utf-8"))
@@ -28,7 +34,9 @@ class F10Receipts2025Tests(unittest.TestCase):
                 self.assertEqual(item["compatibility_report_sha256"], receipt["compatibility_report_sha256"])
                 self.assertEqual(item["compatibility_identity_sha256"], receipt["compatibility_identity_sha256"])
                 self.assertEqual((2025, 2025), (receipt["population_year"], receipt["section_year"]))
-                self.assertEqual(item["historic_preparation_run"], state["preparation_evidence"]["run_id"])
+                expected_preparation = PRODUCTION_SUPERSEDED_PREPARATION.get(tid, item["historic_preparation_run"])
+                self.assertEqual(expected_preparation, state["preparation_evidence"]["run_id"])
+                self.assertNotEqual(receipt["run_id"], state["preparation_evidence"]["run_id"])
                 self.assertIs(state["independent_source_evidence"]["promoted"], False)
                 self.assertEqual("AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED", state["independent_source_evidence"]["status"])
 
@@ -64,7 +72,7 @@ class F10Receipts2025Tests(unittest.TestCase):
     def test_original_product_source_runs_remain_unchanged(self):
         records = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
         indexed = {x["territory_id"]:x["editions"]["2025"] for x in records}
-        self.assertEqual(indexed["aragon"]["last_valid_checkpoint"]["run_id"], 36321736287)
+        self.assertEqual(indexed["aragon"]["last_valid_checkpoint"]["run_id"], 40656036271)
         self.assertEqual(indexed["castilla_y_leon"]["last_valid_checkpoint"]["run_id"], 35889595424)
         self.assertIsNone(indexed["andalucia"]["last_valid_checkpoint"])
         self.assertEqual(39315133646, indexed["comunidad_valenciana"]["independent_source_evidence"]["run_id"])

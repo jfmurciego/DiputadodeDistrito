@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: suite de regresión R015
-VERSIÓN: 1.2.1
-NOMBRE DE VERSIÓN: Evidencia territorial canónica única
-FECHA: 2026-09-11
-ESTADO: vigente
+VERSIÓN: 1.2.2
+NOMBRE DE VERSIÓN: Contrato de Aragón gobernado por su manifiesto M06
+FECHA: 2026-10-28
+ESTADO: candidato
 FUNCIÓN: proteger las invariantes territoriales R012/R014, el determinismo de M05 y la trazabilidad activa hacia legacy.
-CAMBIOS: migra referencias de evidencia raíz duplicada a la ubicación territorial canónica; no cambia invariantes.
-MOTIVO: impedir la reaparición del YAML raíz retirado.
-ANTERIOR: legacy/tests/test_r015_invariantes_v1.2.0.py
+CAMBIOS: retira territorios/aragon/config/aragon_2025.yaml de las cabeceras obligatorias; no cambia invariantes.
+MOTIVO: el contrato lo materializa 01 y el M06 durable del run 40656036271 fija su SHA-256; una cabecera añadida invalidaría ese producto. Su trazabilidad la acreditan el manifiesto M06 y test_m06_product_reuse_integration.
+ANTERIOR: legacy/tests/test_r015_invariantes_v1.2.1.py
 """
 from __future__ import annotations
 
@@ -272,7 +272,6 @@ class GovernanceHeaders(unittest.TestCase):
         "herramientas/generar_outputs_auditables.py",
         "herramientas/registrar_ejecucion.py",
         "herramientas/validar_ejecucion.py",
-        "territorios/aragon/config/aragon_2025.yaml",
         "procedimiento.sh",
         ".github/workflows/producir-territorio-por-contrato.yml",
     ]
