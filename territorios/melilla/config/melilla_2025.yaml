@@ -21,10 +21,13 @@ io:
       path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -36,6 +39,10 @@ io:
         edad_total_values:
         - Todas las edades
         year_value: 2023
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/melilla/.cache/ddd/preparacion/{run_name}
   runs:
@@ -65,8 +72,12 @@ territory_contract:
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.3
   limits_profile: exception
-  limits_exception_rationale: 'Territorio excepcional (decisión del propietario, 28-10-2026): 44 secciones indivisibles para K=25 obligan a al menos 6 distritos de una sola sección; con población 2023 la 6.ª mayor es el 72,8 % del objetivo, por lo que con el suelo nacional del 80 % no existe partición.'
-  limits_exception_evidence: 'configuracion/politica_generacion_territorial_2025.yaml#territories.melilla.population_limits; población INE 65034 (2023), 44 secciones, 85.493 habitantes'
+  limits_exception_rationale: 'Territorio excepcional (decisión del propietario, 28-10-2026):
+    44 secciones indivisibles para K=25 obligan a al menos 6 distritos de una sola
+    sección; con población 2023 la 6.ª mayor es el 72,8 % del objetivo, por lo que
+    con el suelo nacional del 80 % no existe partición.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.melilla.population_limits;
+    población INE 65034 (2023), 44 secciones, 85.493 habitantes
   limits_exception_decided_at: '2026-10-28'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
@@ -192,38 +203,134 @@ validation:
     section_year: 2023
     population_total: 85493
     target_section_count: 44
-    package_sha256: cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b
-    compatibility_report_sha256: fa16e7be1bb0bc20150a59c8d3e15775b7100a9dd85baebc413a683a316ab8e2
-    compatibility_identity_sha256: 12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918
+    package_sha256: f59fd6b2ab7b52ce0a98dcdf331a99d1a950db07c191d35099a0fc9fc128973e
+    compatibility_report_sha256: d624c082016fecd5b578b7c519d74cf8c1489db39ab9b1bc2c0c6078a101ea08
+    compatibility_identity_sha256: 5c8c766f548185e84567cde4e7a10c851d6feda80ad2fa3c56ec70a8131d2c40
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b
-  compatibility_identity_sha256: 12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918
+  package_sha256: f59fd6b2ab7b52ce0a98dcdf331a99d1a950db07c191d35099a0fc9fc128973e
+  compatibility_identity_sha256: 5c8c766f548185e84567cde4e7a10c851d6feda80ad2fa3c56ec70a8131d2c40
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 892d722de3ccd76619bf0180e5f0349a5736afd9b0f5a143b7a0e6af79c2e92f
     role: population
     source_id: poblacion_por_sexo_y_edad
-    consumer_contract: null
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 7efd3a771471c450147a07cc65e4908131cbfc04ec162a671ff7791fb706952b
+    sha256: ac6ff9e4e342f33e56c12a2d541b5bbde92cdecd555d3dc95e116a53324a7321
     role: target_sectioning
     source_id: secciones_censales
-    consumer_contract: null
-  pre_m04_run_id: 40241784009
-  pre_m04_source_commit: 14a51254b2d87e10c8fbbc6d698d5d1cd775b43f
-  pre_m04_artifact_sha256: 5e3acfac34d56789c8b9a1fe36e47a987fc19f7b249933e0ce2cc21b0cb5f4b3
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+  pre_m04_run_id: 40761431907
+  pre_m04_source_commit: a9c692d8e0941858b1d4bc73a836a4223b2613e4
+  pre_m04_artifact_sha256: 219e70500e9656601ee771f405d38aebce024235a60dd5583b8c58d843714c8a
 resolved_source_contract:
-  schema: ddd.resolved-source-contract/legacy-bridge
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: melilla
+    territory_name: Melilla
+    project_edition: '2025'
   temporal:
     population_year: 2023
     section_year: 2023
   sources:
-    population: null
-    sectioning: null
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 892d722de3ccd76619bf0180e5f0349a5736afd9b0f5a143b7a0e6af79c2e92f
+        bytes: 665
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2023.zip
+        sha256: ac6ff9e4e342f33e56c12a2d541b5bbde92cdecd555d3dc95e116a53324a7321
+        bytes: 234027
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
     province_field: CPRO
     municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: 1a8be2001f2fb1ce7311a296e25298b739116231473f7547404ead7bea3cf1e5
