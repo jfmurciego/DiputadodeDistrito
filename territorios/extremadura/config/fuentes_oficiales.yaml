@@ -1,13 +1,16 @@
-schema: ddd-territory-sources/1.1
+schema: ddd-territory-sources/1.2
 territory:
   id: extremadura
   business_name: Extremadura
   edition: 2025
+  population_year: 2025
+  section_year: 2025
   territorial_codes:
   - code: '06'
     business_name: '06'
   - code: '10'
     business_name: '10'
+  source_year: 2025
 required_sources:
 - poblacion_por_sexo_y_edad
 - secciones_censales
