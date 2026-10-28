@@ -890,18 +890,22 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-            # El recibo pre-M04 vigente ya acredita el contrato y el blob M02;
-            # no se planifica una reacreditación redundante.
-            self.assertFalse(plan["pre_m04_accreditation_planned"], territory_id)
-            self.assertFalse(plan["run_prepare_territorial"], territory_id)
+            # El recibo pre-M04 vigente ya acredita el contrato y el blob M02; no se planifica
+            # una reacreditación redundante. Baleares cambió su contrato (exención de suelo de
+            # Menorca, 07-C02) y debe reacreditarse antes de generar.
+            reaccredit = territory_id == "illes_balears"
+            self.assertEqual(reaccredit, plan["pre_m04_accreditation_planned"], territory_id)
+            self.assertEqual(reaccredit, plan["run_prepare_territorial"], territory_id)
             self.assertEqual(
-                {"allowed": True, "route": "validated_pre_m04_topology"},
+                {"allowed": True,
+                 "route": "planned_pre_m04_accreditation" if reaccredit else "validated_pre_m04_topology"},
                 plan["generation_gate"],
                 territory_id,
             )
             self.assertTrue(plan["run_generate"], territory_id)
             self.assertTrue(plan["generation_gate"]["allowed"], territory_id)
-            self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"], territory_id)
+            self.assertEqual("planned_pre_m04_accreditation" if reaccredit else "validated_pre_m04_topology",
+                             plan["generation_gate"]["route"], territory_id)
             self.assertFalse(plan["catalog_state"]["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
 

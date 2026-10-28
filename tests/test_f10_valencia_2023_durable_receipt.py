@@ -1,7 +1,8 @@
-"""Version: 1.0.2; name: F10 Valencian receipt regression; date: 2026-10-26.
+"""Version: 1.0.3; name: F10 Valencian receipt regression; date: 2026-10-28.
 Scope: Valencian independent-source receipt and fail-closed F10 projection.
-Status: candidate. Change/reason: assert current 19-territory receipt reconciliation.
-Previous: legacy/tests/test_f10_valencia_2023_durable_receipt_v1.0.1_20261026.py.
+Status: candidate. Change/reason: exact counts and receipts run on the frozen aee8215e root
+(tests/_raiz_congelada.py), so new full runs do not change the historical case.
+Previous: legacy/tests/test_f10_valencia_2023_durable_receipt_v1.0.2_20261028.py.
 """
 from __future__ import annotations
 
@@ -18,7 +19,11 @@ from herramientas.estado_derivado_f10 import _geometric_admissibility, derive_f1
 from herramientas.identidad_fuentes_legislatura import territorial_identity
 from herramientas.resolver_preparacion_legislatura import resolve
 
-ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
+
+# Estado congelado en aee8215e: los recuentos y receipts exactos no dependen de las ejecuciones
+# completas posteriores, que reescriben catálogo y productos en main.
+ROOT = frozen_root()
 VERSION = ROOT / (
     "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/"
     "94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646"

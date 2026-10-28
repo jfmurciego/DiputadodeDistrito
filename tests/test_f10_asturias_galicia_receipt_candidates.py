@@ -1,7 +1,8 @@
-"""Version: 1.0.1; name: F10 Asturias/Galicia receipt candidate regressions; date: 2026-10-26.
+"""Version: 1.0.2; name: F10 Asturias/Galicia receipt candidate regressions; date: 2026-10-28.
 Scope: validate preserved source packages and their canonical CI receipts.
-Status: candidate. Change/reason: pin the emitted receipts to real Actions run/artifact digests and reject tampering.
-Previous: legacy/tests/test_f10_asturias_galicia_receipt_candidates_v1.0.0_20261026.py.
+Status: candidate. Change/reason: exact counts and receipts run on the frozen aee8215e root
+(tests/_raiz_congelada.py), so new full runs do not change the historical case.
+Previous: legacy/tests/test_f10_asturias_galicia_receipt_candidates_v1.0.1_20261028.py.
 """
 import json
 import shutil
@@ -13,7 +14,11 @@ from herramientas.validar_paquete_electoral import validate_package
 from herramientas.estado_derivado_f10 import _electoral_identity
 
 
-ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
+
+# Estado congelado en aee8215e: los recuentos y receipts exactos no dependen de las ejecuciones
+# completas posteriores, que reescriben catálogo y productos en main.
+ROOT = frozen_root()
 PACKAGE_ROOT = ROOT / "docs/AUDITORIAS/F10_RECIBOS_ELECTORALES_ASTURIAS_GALICIA_20261026/paquetes"
 CASES = {
     "principado_de_asturias": {

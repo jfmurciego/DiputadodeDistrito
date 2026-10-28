@@ -1,7 +1,7 @@
-"""Version: 1.0.2; name: orphan M08 recovery tests; date: 2026-10-26.
+"""Version: 1.0.3; name: orphan M08 recovery tests; date: 2026-10-28.
 Scope: fail-closed recovery and exact durable M06/M08 lineage.
-Status: candidate. Change/reason: align live-territory regressions with current product runs.
-Previous: legacy/tests/m06-durable-manifest_20261026/test_reanudacion_m08_huerfano_pre_m06_manifest.py.
+Status: candidate. Change/reason: the CLM regression checks the M06/M08 lineage rule instead of pinning run ids, so new full runs do not turn main red.
+Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.2.py.
 """
 from __future__ import annotations
 
@@ -723,73 +723,52 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             incorporate_if,
         )
 
-    def test_castilla_la_mancha_keeps_current_m06_separate_from_historical_m08(self):
-        # El M06 más reciente procede de 02 territorial_only. El M08 vigente
-        # sigue ligado por su manifiesto a otro M06; no se debe fabricar una
-        # pareja completa ni convertir los productos en runs del mismo linaje.
-        evidence_root = (
-            ROOT
-            / "territorios"
-            / "castilla_la_mancha"
-            / "evidencia"
-        )
+    def test_castilla_la_mancha_m08_is_reused_only_with_its_exact_m06(self):
+        # Regla, no instantánea: el M08 vigente sólo se reutiliza si su
+        # manifiesto productor lo liga al M06 vigente; si procede de otro M06
+        # se rechaza sin fabricar pareja. Vale para cualquier ejecución futura.
+        evidence_root = ROOT / "territorios" / "castilla_la_mancha" / "evidencia"
         territorial = json.loads(
-            (evidence_root / "catalogo" / "territorial_product_2025.json")
-            .read_text(encoding="utf-8")
+            (evidence_root / "catalogo" / "territorial_product_2025.json").read_text(encoding="utf-8")
         )
         electoral = json.loads(
-            (evidence_root / "catalogo" / "electoral_product_2025.json")
-            .read_text(encoding="utf-8")
+            (evidence_root / "catalogo" / "electoral_product_2025.json").read_text(encoding="utf-8")
         )
         current_run = territorial["run_id"]
         self.assertIsInstance(current_run, int)
-        self.assertEqual(electoral["run_id"], 37444564173)
-        self.assertNotEqual(electoral["run_id"], current_run)
         self.assertEqual(territorial["stage"], "M06")
         self.assertEqual(electoral["stage"], "M08")
 
         manifest = json.loads(
-            (evidence_root / "ejecuciones_completas" / f"{electoral['run_id']}.json")
-            .read_text(encoding="utf-8")
+            (evidence_root / "ejecuciones_completas" / f"{electoral['run_id']}.json").read_text(encoding="utf-8")
         )
         self.assertEqual(manifest["status"], "SUCCESS")
         self.assertEqual(manifest["completion_status"], "COMPLETE")
-        phase02 = next(
-            row for row in manifest["phases"] if row["name"].startswith("02 ·")
-        )
-        phase04 = next(
-            row for row in manifest["phases"] if row["name"].startswith("04 ·")
-        )
-        self.assertEqual(phase02["run_id"], electoral["run_id"])
-        self.assertNotEqual(phase02["artifact"], territorial["artifact_name"])
-        self.assertEqual(phase02["result"], "success")
+        phase02 = next(row for row in manifest["phases"] if row["name"].startswith("02 ·"))
+        phase04 = next(row for row in manifest["phases"] if row["name"].startswith("04 ·"))
         self.assertEqual(phase04["run_id"], electoral["run_id"])
         self.assertEqual(phase04["artifact"], electoral["artifact_name"])
         self.assertEqual(phase04["result"], "success")
+        same_lineage = phase02["artifact"] == territorial["artifact_name"]
 
         plan = build_plan(
             territory="Castilla-La Mancha", edition="2025", execution_mode="reuse",
             catalog=ROOT / "configuracion/catalogo_preparacion.yaml", root_dir=ROOT,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
-        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        if same_lineage:
+            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
+        else:
+            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
-        result = scan(
-            root_dir=ROOT,
-            territory_id="castilla_la_mancha",
-            edition="2025",
-        )
+        result = scan(root_dir=ROOT, territory_id="castilla_la_mancha", edition="2025")
         self.assertEqual(result["status"], "NONE")
         self.assertEqual(result["reason"], "NO_PENDING_FAILED_INCORPORATION")
         self.assertIsNone(result["absence_barrier_run_id"])
         self.assertEqual(result["retired_candidates"], [])
         self.assertEqual(
-            structural_candidates(
-                root_dir=ROOT,
-                territory_id="castilla_la_mancha",
-                edition="2025",
-            ),
+            structural_candidates(root_dir=ROOT, territory_id="castilla_la_mancha", edition="2025"),
             [],
         )
 
