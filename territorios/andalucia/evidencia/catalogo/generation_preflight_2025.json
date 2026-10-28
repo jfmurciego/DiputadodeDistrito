@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "andalucia",
+  "territory_name": "Andalucía",
+  "edition": "2025",
+  "run_id": 40784594752,
+  "source_commit": "a439034a3e342acb4b99aab6415223e44000b70f",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 40784594752,
+    "artifact_name": "ddd-source-package-andalucia-2025-40784594752",
+    "artifact_sha256": "d7feb5605d3fca0217ea9dcd9b407c70b2c5f41ea4b7928dab0012d4469e9d43",
+    "package_sha256": "90d4bd35de43a27466ff9229428ccd0d6449984017955fda23d1fbb359b06617",
+    "compatibility_identity_sha256": "5708fa39faf5e72eefd5c0372c72f72bb360936e455b0402f0a58796cdca5cc2",
+    "territorial_identity_sha256": "d385927074dbb9a0055c647eb6f3bd80dd5237c704b3f61134bf6542e0645042",
+    "population_year": 2025,
+    "section_year": 2025
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
