@@ -1,12 +1,24 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.23
-Fecha: 2026-10-28
-Alcance: inventario físico insular ante re-descargas INE del mismo año
+Versión: 1.0.24
+Fecha: 2026-10-29
+Alcance: suelo de Melilla al 50 % y excepción de pérdida electoral del 2 % para Galicia
 Estado: candidato
-Cambios/motivo: Canarias se bloqueaba antes de M04 porque el inventario estaba atado a bytes
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.22_20261028.md
+Cambios/motivo: decisiones del propietario tras los diagnósticos M04 de Melilla y M07 de Galicia
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.23_20261028.md
 -->
+
+## 2026-10-29 — Melilla y Galicia — excepciones decididas por el propietario
+
+- Melilla (run 40773487000): con suelo 0,70 la M04 termina en
+  `INCOMPATIBLE_ATOMIC_POPULATION_CONNECTIVITY … NO_EXACT_CONNECTED_HARD_PARTITION` (44 secciones,
+  K=25, suelo 2.393,80, techo 5.984,51). `politica_generacion_territorial_2025.yaml` 1.3.0 y su
+  contrato fijan suelo 0,50 y tolerancia 0,50; techo 1,75 sin cambios.
+- Galicia (run 40706722115): M07 bloqueó por pérdida atribuible a DDD de 22.504/1.488.705 =
+  1,5116 % > 1,5 %. `electoral_reconciliation.py` 2.1.0 admite `loss_exception` por elección
+  (ratio, rationale, evidence, decided_at) con tope duro del 2 %; M07 7.3.2 la lee de
+  `configuracion/excepciones_reconciliacion_electoral_2025.yaml` (nuevo), fuera del contrato
+  electoral sellado por hash. Galicia 2024 declara 0,02.
 
 ## 2026-10-28 — Pre-M04 — inventario físico por año, con CUSEC verificado al materializar
 
