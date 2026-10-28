@@ -258,9 +258,13 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             if r["territory_id"] == "aragon"
         )["editions"]["2025"]
         self.assertTrue(state["territorial_product_available"])
-        # Aragón adoptó la preparación y el M06 del run de producción 40656036271.
-        self.assertEqual(state["preparation_evidence"]["run_id"], 40656036271)
-        self.assertEqual(state["last_valid_checkpoint"], {"run_id": 40656036271, "stage": "M06"})
+        # Regla: la preparación y el M06 vigentes proceden del mismo run de producción, sea
+        # cual sea la última ejecución completa registrada.
+        checkpoint = state["last_valid_checkpoint"]
+        self.assertEqual(checkpoint["stage"], "M06")
+        self.assertEqual(state["preparation_evidence"]["run_id"], checkpoint["run_id"])
+        product = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text(encoding="utf-8"))
+        self.assertEqual(product["run_id"], checkpoint["run_id"])
         self.assertNotIn("stage", state["preparation_evidence"])
 
     def test_castilla_y_leon_source_receipt_is_repaired_without_erasing_historical_product(self):

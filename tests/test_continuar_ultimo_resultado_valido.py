@@ -1,5 +1,5 @@
-"""Version 1.0.2, 2026-10-26: reject stale M08 without invalidating territorial M06 reuse.
-Previous bytes: legacy/tests/m06-durable-manifest_20261026/test_continuar_ultimo_resultado_valido_pre_m06_manifest.py.
+"""Version 1.0.3, 2026-10-28: the live CLM case checks the M06/M08 lineage rule, not a fixed mismatch.
+Previous bytes: legacy/tests/test_continuar_ultimo_resultado_valido_v1.0.2.py.
 """
 from __future__ import annotations
 
@@ -386,12 +386,11 @@ class ContinueFromLastValidTests(unittest.TestCase):
                     force_selected_algorithm=False,
                 )
 
-    def test_castilla_la_mancha_current_m06_survives_historical_m08_mismatch(self):
+    def test_castilla_la_mancha_m08_reuse_follows_m06_lineage(self):
         state = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text())
         state = next(r for r in state["territories"] if r["territory_id"] == "castilla_la_mancha")["editions"]["2025"]
         territorial = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text())
         electoral = json.loads((ROOT / state["evidence"]["electoral_product"]).read_text())
-        self.assertNotEqual(territorial["run_id"], electoral["run_id"])
         plan = build_plan(
             territory="Castilla-La Mancha",
             edition="2025",
@@ -402,8 +401,12 @@ class ContinueFromLastValidTests(unittest.TestCase):
             force_selected_algorithm=True,
         )
         self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
-        self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
-        self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
+        # El M06 vigente se reutiliza siempre; el M08 sólo si procede del mismo run.
+        if electoral["run_id"] == territorial["run_id"]:
+            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], electoral["run_id"])
+        else:
+            self.assertFalse(plan["existing"]["electoral_product"]["run_id"])
+            self.assertFalse(plan["catalog_state"]["rejected_electoral_product"]["reusable"])
 
     def test_workflow_accepts_future_label_without_exposing_interface_yet(self):
         workflow = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")

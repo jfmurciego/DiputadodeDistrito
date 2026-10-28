@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.19
+Versión: 1.0.20
 Fecha: 2026-10-28
 Alcance: bloqueos de población de Madrid y Baleares
 Estado: candidato
 Cambios/motivo: reparación privada en Madrid y exención de suelo de Menorca
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.18_20261028.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.19_20261028.md
 -->
 
 ## 2026-10-28 — M05 — bloqueos de población de Madrid y Baleares
@@ -20,6 +20,26 @@ Diagnóstico con los informes M04/M05/M06 de los checkpoints (rama `diagnostico/
   suelo: Mahón (30.006) y Ciudadela (31.669) son indivisibles y los otros tres distritos dispondrían
   de 37.330 habitantes para un mínimo de 49.218. Se exime del suelo como Formentera (07-C03) y su
   auditoría de reparto lo declara. El cambio de contrato obliga a reacreditar la fase pre-M04.
+
+## 2026-10-28 — Tests — linaje M06/M08 por regla y no por run_id fijo
+
+Asturias (40706742818), Cantabria (40701656466) y Castilla-La Mancha (40706698510) completaron
+01→04 tras activar su par de fuentes y registraron M06 y M08 del mismo run. Tres regresiones
+fijaban los run_id anteriores (CLM 37444564173, Asturias 40241852045) y exigían incorporar un M08
+nuevo, por lo que `main` quedó en rojo sin cambio de código.
+
+- `test_reanudacion_m08_huerfano.py` 1.0.3: la regresión de CLM comprueba la regla: el M08 se
+  reutiliza sólo si su manifiesto productor lo liga al M06 vigente; si no, se rechaza.
+- `test_gestor_campana_nacional.py` 0.0.4: Asturias, Cantabria y CLM incorporan M08 sólo cuando
+  no hay uno con el linaje del M06 vigente; el run_id se toma del catálogo.
+- `test_m06_product_reuse_integration.py`: el resolver durable debe devolver exactamente el M06
+  que declara el catálogo, en vez de siete run_id fijos.
+- `test_ejecucion_completa.py` 1.0.4 y `test_continuar_ultimo_resultado_valido.py` 1.0.3: CLM
+  reutiliza el M08 sólo si procede del mismo run que su M06 vigente.
+- `test_preparacion_legislatura_vigente.py`: la preparación, el checkpoint y el M06 de Aragón
+  proceden del mismo run. `test_promocion_automatica_catalogo.py`: la evidencia de Extremadura
+  nombra el paquete de su propio run y fija digests completos.
+- Los recibos F10 (`test_f10_*`) siguen el mismo criterio en el frente de Fuentes.
 
 
 ## 2026-10-28 — M06 — Aragón y Extremadura adoptan sus productos del 28-10
