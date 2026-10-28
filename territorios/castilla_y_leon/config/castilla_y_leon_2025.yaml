@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2025
   source_section_year: 2025
 io:
@@ -110,7 +110,7 @@ territory_contract:
   - CYL-04 certificó M05 con fuera_12=0, hard=0, K=82 y contigüidad 82/82.
   - M06 no puede cambiar district_id; solo materializa, mide, describe y audita la
     solución de M05.
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -394,7 +394,7 @@ resolved_source_contract:
   contract_sha256: 5c1387f19fa4fbf4e400e76bf7c5dc134e1b936634f6e235a651bca3880368a4
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: f8c210881dbceabfce9f439530502b3e1e57f00666006b32917f6d01ff745084
   compatibility_identity_sha256: cdd03ef6b840883a62bf007ab6b06287ea194325a6d2ab14b2b8c228d83150ed
   source_inputs:
@@ -446,3 +446,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40784651090
+  pre_m04_source_commit: ff388e07223764009da55bd7f63bb2f3937fdc77
+  pre_m04_artifact_sha256: ec65c51296f95c24fe05325530de5aa88302aebdf7e0c487e0c9e0983e4eb497
