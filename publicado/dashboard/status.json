@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-28T14:22:03.889607+00:00",
+  "generated_at": "2026-10-28T14:26:51.566830+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1274,7 +1274,7 @@
       "re": "green",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 37318299003,
+      "run_id": 40701656466,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -1307,10 +1307,10 @@
           "territory_id": "cantabria",
           "territory_name": "Cantabria",
           "edition": "2025",
-          "run_id": 37318299003,
-          "artifact_name": "ddd-state-37318299003-M08",
-          "artifact_sha256": "c13f34a4ab4b8e9d83934e8f86447f2ca81542f2285b2324cd2f4e18d01f3177",
-          "source_commit": "7c2ba6f9fc66649939c515289b5e8eea3cc4e5c1",
+          "run_id": 40701656466,
+          "artifact_name": "ddd-state-40701656466-M08",
+          "artifact_sha256": "95d81df5e8104b75f9893ad739929c852e6b0218ce9da3a08f4e2176e8c36886",
+          "source_commit": "38ca79e5d5e70fe2984a303fe0e0cbcbff6fd09f",
           "stage": "M08"
         }
       },
