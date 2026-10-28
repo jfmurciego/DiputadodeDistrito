@@ -482,7 +482,7 @@ territories:
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
         generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: galicia
   name: Galicia
   editions:
