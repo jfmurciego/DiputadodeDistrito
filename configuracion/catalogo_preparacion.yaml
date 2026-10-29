@@ -773,7 +773,7 @@ territories:
         source_commit: 14b4d01c67fc3660ef275e6f76da0e06c8894d90
       evidence:
         electoral_source: territorios/melilla/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json
-        prepared_source_pair: territorios/melilla/evidencia/pares_fuentes/2025/de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4.json
+        prepared_source_pair: territorios/melilla/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json
         generation_preflight: territorios/melilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/melilla/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
