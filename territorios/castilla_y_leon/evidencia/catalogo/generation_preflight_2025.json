@@ -5,10 +5,12 @@
   "territory_name": "Castilla y León",
   "edition": "2025",
   "run_id": 40850261102,
-  "source_commit": "7fd2d60e0385e01d8d4180856300e0d9ce244fcc",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "56780f59d3a68b9206d0bce2493ed6ffe7cfff32",
+  "artifact_name": "ddd-state-40850261102-M03U",
+  "artifact_sha256": "55def7f72f01548f6c60337f0db780f51eac742258b74828c40c86e0b3b990c3",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 40850261102,
     "artifact_name": "ddd-source-package-castilla_y_leon-2025-40850261102",
@@ -19,10 +21,136 @@
     "population_year": 2025,
     "section_year": 2025
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": null,
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "0910901001",
+        "v": "0921904001",
+        "admin_scope": "province:09",
+        "edge_type": "administrative_enclave"
+      },
+      {
+        "u": "0922301001",
+        "v": "0941401001",
+        "admin_scope": "province:09",
+        "edge_type": "cartographic_gap"
+      },
+      {
+        "u": "0915401001",
+        "v": "0933001001",
+        "admin_scope": "province:09",
+        "edge_type": "cartographic_gap"
+      },
+      {
+        "u": "3403201001",
+        "v": "3413501001",
+        "admin_scope": "province:34",
+        "edge_type": "administrative_exclave"
+      },
+      {
+        "u": "3424201001",
+        "v": "3412101001",
+        "admin_scope": "province:34",
+        "edge_type": "administrative_exclave"
+      },
+      {
+        "u": "4713401001",
+        "v": "4718301001",
+        "admin_scope": "province:47",
+        "edge_type": "administrative_exclave"
+      },
+      {
+        "u": "4717501004",
+        "v": "4717501003",
+        "admin_scope": "municipality:47175",
+        "edge_type": "municipal_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-40850261102-M03",
+    "artifact_sha256": "0b4b27e7450ae3e63ff54ba336749e060e231e4d249edf3b507c9c144756d921",
+    "module_version": "7.5.0",
+    "nodes": 3506,
+    "edges": 10053,
+    "population": 2401221,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-40850261102",
+    "job_artifact_sha256": "6bb725e507a1acaa3f67b56ce93ac5bc2976b64c662450db6664dde04e5bcc0c",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2025,
+    "section_year": 2025,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "population_total": 2401221,
+      "target_section_count": 3506,
+      "package_sha256": "5a9ec647da0ddacabd4443b5844c427dcc585970553a21e68bd3a71c972e6840",
+      "compatibility_report_sha256": "5fb1703349da7401e4cb45d42d78c60d8db9efccba9125c1ceb7b6ba069e5a28",
+      "compatibility_identity_sha256": "8ecaf7d2b010cb83ffeec0e647427628e08a77b428014ce5e33452ba2a9dbd3d"
+    },
+    "topology_accreditation": null,
+    "k_districts": 82,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "closed_target_cores_plus_open_residual",
+    "municipality_atomicity_limit_ratio": 1.12,
+    "m01_output_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 82,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
