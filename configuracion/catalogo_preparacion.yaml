@@ -66,7 +66,7 @@ territories:
       electoral_product_available: true
       evidence:
         territorial_product: territorios/aragon/evidencia/catalogo/territorial_product_2025.json
-        electoral_source: territorios/aragon/evidencia/catalogo/electoral_source_2025.json
+        electoral_source: territorios/aragon/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json
         electoral_product: territorios/aragon/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aragon/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
