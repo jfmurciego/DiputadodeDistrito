@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.16
+VERSIÓN: 7.4.17
 NOMBRE DE VERSIÓN: Cardinalidad residual de unidades indivisibles
 FECHA: 2026-10-26
 FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos mientras sean compatibles con el contrato territorial y dividiendo municipios sobredimensionados sin aislar el residuo municipal abierto.
@@ -12,13 +12,14 @@ SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M0
 ESTADO: candidato CYL-03.
 CAMBIOS: mantiene la búsqueda de núcleo cerrado y el fallback residual-first, pero separa las cotas duras de población (suelo/techo contractuales) de la banda ±tolerancia, que queda exclusivamente como objetivo de calidad.
 MOTIVO: CYL-03 v7.4.4 identificó correctamente dos puertas reales de Aranda de Duero, pero el BFS orientado al núcleo no encontró una solución aunque el problema natural es pequeño: reservar un residuo de borde y cerrar el complemento urbano.
-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.4.15_pre_connected_growth.py
+ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.4.16_pre_residual_first.py
+CAMBIO 7.4.17: si también se agota el crecimiento conexo, construye primero el residuo (árbol mínimo que une las unidades protegidas y las bolsas que aísla) y reparte el resto con hybrid_partition+rebalance; las particiones que hoy tienen éxito no cambian. Motivo: municipio de Murcia (run 40853664303), 4 protegidas que la búsqueda secuencial nunca reunía en el residuo.
 CAMBIO 7.4.16: solo si las búsquedas secuencial y equilibrada se agotan, reintenta con núcleos que crecen añadiendo únicamente unidades que dejan el resto conexo; las particiones que hoy tienen éxito no cambian. Motivo: Cartagena (Murcia, run 40850405847, 'no connected core' con banda amplia).
 CAMBIO 7.4.15: solo cuando la búsqueda secuencial se agota, la reintenta apuntando cada núcleo al reparto equilibrado del resto (pop_restante/partes_restantes) en vez de al objetivo; las particiones que hoy tienen éxito no cambian. Motivo: Cartagena (Murcia, run 40773421805).
 CAMBIO 7.4.14: reserva una unidad por distrito pendiente antes de aceptar una extracción y rechaza cardinalidades imposibles explícitamente; conserva K y el grafo.
 """
 from __future__ import annotations
-import argparse, collections, io, json, math, sys, zipfile
+import argparse, collections, heapq, io, json, math, sys, zipfile
 from pathlib import Path
 import geopandas as gpd
 ROOT=Path(__file__).resolve().parents[1]
@@ -231,6 +232,49 @@ def _sequential_count(nodes,n_closed,target,floor,cap,adj,w,protected,residual_g
     return (closed,rem,mode), None
 
 
+def _components_within(nodes,adj):
+    nodes=set(nodes);out=[]
+    while nodes:
+        s=nodes.pop();comp={s};stack=[s]
+        while stack:
+            u=stack.pop()
+            for v in adj[u]&nodes:nodes.discard(v);comp.add(v);stack.append(v)
+        out.append(comp)
+    return out
+
+def split_residual_first(nodes,target,floor,cap,tol,adj,w,protected,residual_gateways,label=''):
+    # El residuo se construye primero: árbol mínimo (por población) que une las unidades protegidas,
+    # más las bolsas que ese árbol aísla, crecido hasta el reparto medio; el resto se reparte globalmente.
+    nodes=set(nodes);terms=sorted(set(protected) or (set(residual_gateways)&nodes) or nodes)[:]
+    res={terms[0]};pending=set(terms[1:])
+    while pending:
+        dist={n:0 for n in res};prev={};heap=[(0,n) for n in sorted(res)]
+        while heap:
+            c,u=heapq.heappop(heap)
+            if c>dist[u]:continue
+            for v in sorted(adj[u]&nodes):
+                if c+w[v]<dist.get(v,float('inf')):dist[v]=c+w[v];prev[v]=u;heapq.heappush(heap,(dist[v],v))
+        reach=[x for x in pending if x in dist]
+        if not reach:return None,'protected not connected within municipality'
+        x=min(reach,key=lambda n:(dist[n],n));pending.discard(x)
+        while x not in res:res.add(x);x=prev[x]
+    comps=sorted(_components_within(nodes-res,adj),key=lambda c:(sum(w[n] for n in c),sorted(c)))
+    for c in comps[:-1]:res|=c
+    mp=sum(w[n] for n in nodes);rp=sum(w[n] for n in res);q=max(2,int(round(mp/target)));aim=mp/q
+    while rp<aim:
+        frontier=sorted({v for u in res for v in adj[u]&nodes if v not in res},key=lambda v:(-len(adj[v]&res),w[v],v))
+        pick=next((v for v in frontier if rp+w[v]<=cap and connected(nodes-res-{v},adj)),None)
+        if pick is None:break
+        res.add(pick);rp+=w[pick]
+    rest=nodes-res
+    if rp>cap or not rest or not connected(rest,adj) or not connected(res,adj) or len(rest)<q-1:
+        return None,f'residual pop={rp} rest_connected={bool(rest) and connected(rest,adj)}'
+    if residual_gateways and not(res&residual_gateways):return None,'residual gateways'
+    parts=hybrid_partition(rest,q-1,adj,w,label=f'residuo-primero {label}');parts,pvals,obj=rebalance(parts,adj,w,target,floor,cap,tol,50000)
+    if not all(floor<=x<=cap for x in pvals) or not all(connected(p,adj) for p in parts):
+        return None,f'rest partition out of band {sorted(round(x) for x in pvals)}'
+    return ([set(p) for p in parts],res,f'residual_first_global:{q-1}'),None
+
 def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,residual_gateways=None):
     nodes=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ())
     mp=sum(w[n] for n in nodes)
@@ -259,6 +303,12 @@ def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,re
                 closed,residual,mode=result
                 return closed,residual,mode+f'+connected_growth:{count}'
             attempts.append({'closed_cores':count,'reason':'growth: '+reason})
+    # Último recurso: residuo primero (une las protegidas) y reparto global del resto.
+    result,reason=split_residual_first(nodes,target,floor,cap,tol,adj,w,protected,residual_gateways,label)
+    if result is not None:
+        closed,residual,mode=result
+        return closed,residual,'sequential_core_residual+'+mode
+    attempts.append({'closed_cores':'residual_first','reason':reason})
     raise SystemExit(f'M04: SEQUENTIAL_PARTITION_SEARCH_EXHAUSTED {label}; attempts={attempts} protected={sorted(protected)}; no structural impossibility inferred')
 
 def partition_oversized_municipality(nodes,target,floor,cap,tol,adj,w,label='',protected=None):
