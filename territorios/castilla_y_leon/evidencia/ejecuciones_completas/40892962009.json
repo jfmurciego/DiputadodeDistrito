@@ -1,0 +1,91 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "castilla_y_leon",
+  "territory_name": "Castilla y León",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 40892962009,
+  "source_sha": "baf5c2b496403ce2e35b39303a6204acc75dc56b",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "TERRITORIAL_COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "SKIPPED_NO_ACCREDITED_PAIR",
+  "electoral_activation_status": "TERRITORIAL_READY_ELECTORAL_PENDING",
+  "electoral_skip_reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Castilla y León edición 2025; complete la preparación conjunta antes de ejecutar",
+  "resumption": null,
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40868935788,
+      "artifact": "ddd-source-package-castilla_y_leon-2025-40868935788",
+      "artifact_digest": "sha256:fc30afc6d0123ecadf1c19ad3e7c95c97298c4cf12bbca5017addfe2855f3c9f",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40868935788,
+      "artifact": "ddd-state-40868935788-M06",
+      "artifact_digest": "sha256:3b2562e023fa08c3b8e7f864ec40bb22cef75e33c55c883390339237599e39c0",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-29T14:42:07.452587+00:00"
+}
