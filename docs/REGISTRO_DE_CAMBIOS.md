@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.44
+Versión: 1.0.45
 Fecha: 2026-10-29
-Alcance: retrieved_at en contratos Minsait y diagnóstico de validación en la 04
+Alcance: diagnóstico M05 con exención por municipio y resumen del informe M05
 Estado: candidato
-Cambios/motivo: Extremadura falla en M07 por falta de retrieved_at; CyL falla en M08 sin detalle del municipio
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.43_20261029.md
+Cambios/motivo: Andalucía sigue fallando en M05 con su exención por municipio y el diagnóstico no lo explica
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.44_20261029.md
 -->
 
 
@@ -16,6 +16,16 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.43_20261029.md
 
 
 
+
+
+## 2026-10-29 — 02 — diagnóstico M05 con exención por municipio
+
+Andalucía (40958892613) incluía #347 y siguió en M05 `NO_FEASIBLE`; el diagnóstico seguía listando los
+cuatro distritos exentos porque no conocía `population_floor_exempt_municipalities`.
+
+- `diagnosticar_poblacion_m05.py` 1.1.0: respeta la exención por municipio y publica `DIAG_M05_INFORME`
+  (estado, motivo y claves de reparación/violaciones del informe M05).
+- `tests/test_diagnosticar_poblacion_m05.py` 1.1.0.
 
 ## 2026-10-29 — 03/04 — retrieved_at en contratos Minsait y DIAG_VALIDACION
 
