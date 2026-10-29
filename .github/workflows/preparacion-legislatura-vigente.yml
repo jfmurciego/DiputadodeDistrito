@@ -1,14 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-legislatura-vigente.yml
-# VERSIÓN: 1.0.1
-# NOMBRE DE VERSIÓN: Cola durable de operaciones
-# FECHA: 2026-10-25
+# VERSIÓN: 1.0.2
+# NOMBRE DE VERSIÓN: Cola durable de operaciones con nombre por territorio
+# FECHA: 2026-10-29
 # ESTADO: candidato
 # QUÉ HACE: serializa el acceso al recurso compartido y conserva todos los trabajos en espera.
-# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/preparacion-legislatura-vigente.pre-p0.yml (bytes pre-cambio conservados)
+# CAMBIOS: 1.0.2: run-name con territorio y operación, para que el 00 identifique su activación.
+#   1.0.1: exclusión mutua y hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: el 00 encadena la activación del par y debe esperar a la suya, no a la de otro territorio.
+# ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.1_20261029.yml
 name: '- Activación de Legislatura Vigente'
+run-name: "Activación de Legislatura Vigente · ${{ inputs.territory || 'todos' }} · ${{ inputs.operation || 'plan' }}"
 
 on:
   workflow_dispatch:

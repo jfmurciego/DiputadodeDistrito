@@ -1,12 +1,28 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.29
+Versión: 1.0.30
 Fecha: 2026-10-29
-Alcance: Dependabot sólo propone parches
+Alcance: el 00 encadena la activación del par de fuentes y la 04
 Estado: candidato
-Cambios/motivo: la #293 de Dependabot saltaba versiones mayores en 34 workflows sin gobernanza
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.28_20261029.md
+Cambios/motivo: la 04 se saltaba en toda primera ejecución completa por falta de prepared_source_pair
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.29_20261029.md
 -->
+
+## 2026-10-29 — 00 — encadenado automático del par de fuentes hasta la 04
+
+La 04 exige un `prepared_source_pair` que sólo registra "Activación de Legislatura Vigente"; el 00
+no lo creaba, y en cada primera ejecución completa (Cantabria, Castilla-La Mancha, Galicia,
+Asturias, Ceuta, Madrid, Melilla, Navarra) hubo que activar el par y relanzar el 00 a mano.
+
+- `ejecucion-completa-proyecto.yml` 1.4.0: nuevo job `encadenar_par_y_04`. Si la clasificación
+  electoral termina en `SKIPPED_NO_ACCREDITED_PAIR`, la ejecución es `workflow_dispatch` en `main`,
+  no está en modo reutilizar y el manifiesto quedó registrado, lanza la activación (`prepare_one`),
+  espera a la suya y, si termina bien, relanza el 00 en "Reutilizar progreso existente" con el mismo
+  territorio, edición, estrategia y publicación. Permisos del job: `actions: write`, `contents: read`.
+  Una ejecución en modo reutilizar nunca vuelve a encadenar.
+- `preparacion-legislatura-vigente.yml` 1.0.2: `run-name` con territorio y operación para que el 00
+  identifique su activación entre varias simultáneas.
+- `tests/test_00_encadenado_par.py` (nuevo) y `test_ejecucion_completa.py` 1.0.5 (lista de jobs del 00).
 
 ## 2026-10-29 — Plataforma — Dependabot sólo parches
 
