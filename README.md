@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-29T22:45:31.339901+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-29T22:56:52.427214+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -34,7 +34,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **04 Islas Baleares** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 40957888543 · SUCCESS | — | — | preparar fuentes electorales |
 | **05 Canarias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40951280657 · SUCCESS | — | — | — |
 | **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40701656466 · SUCCESS | — | — | — |
-| **07 Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 40964570303 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
+| **07 Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 40967609380 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
 | **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40706698510 · SUCCESS | — | — | — |
 | **09 Cataluña** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40952013601 · SUCCESS | — | — | — |
 | **10 Comunidad Valenciana** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 40956462986 · SUCCESS | 03/04 · rama electoral omitida | 03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08 | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
