@@ -752,12 +752,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40840795932
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40832114779
         artifact_name: ddd-source-package-melilla-2025-40832114779
@@ -776,4 +776,5 @@ territories:
         prepared_source_pair: territorios/melilla/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json
         generation_preflight: territorios/melilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/melilla/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/melilla/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
