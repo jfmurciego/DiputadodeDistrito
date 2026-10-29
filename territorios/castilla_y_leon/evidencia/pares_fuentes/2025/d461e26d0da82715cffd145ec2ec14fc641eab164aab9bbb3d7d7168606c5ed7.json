@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "castilla_y_leon",
+  "territory_name": "Castilla y León",
+  "edition": "2025",
+  "election": {
+    "election_id": "castilla_y_leon_cortes_2026-03-15",
+    "election_date": "2026-03-15"
+  },
+  "references": {
+    "population": {
+      "required_year": 2026,
+      "year": 2025,
+      "reference_date": "2025-01-01"
+    },
+    "sectioning": {
+      "required_year": 2026,
+      "year": 2025,
+      "reference_label": "Secciones_2025"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40868935788,
+    "artifact_name": "ddd-source-package-castilla_y_leon-2025-40868935788",
+    "artifact_sha256": "fc30afc6d0123ecadf1c19ad3e7c95c97298c4cf12bbca5017addfe2855f3c9f",
+    "package_sha256": "442c269b8a081649ffeed3fc8104e3e44cacd16bb7976069831f9f0a17d109d9",
+    "source_commit": "18d7c9798db3ea79035d338558d486520349ccae",
+    "source_declaration": "territorios/castilla_y_leon/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/0733e068c4b2213a2ff41e1e95e4bf79db2c0224e307c6e1cef11e9665de930f/40868935788/receipt.json",
+    "population_year": 2025,
+    "section_year": 2025,
+    "territorial_identity_sha256": "0733e068c4b2213a2ff41e1e95e4bf79db2c0224e307c6e1cef11e9665de930f",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "8110fd910eb23b75c52a21a012327f53ba75715421e76998701998362101c48b",
+    "compatibility_identity_sha256": "f9f920d6da9d00702522fdb220d65a3ec6a5d893a66a86b9e2d470d2ce680fe9",
+    "remote_verification": {
+      "run_id": 40868935788,
+      "artifact_id": 12896519393,
+      "artifact_name": "ddd-source-package-castilla_y_leon-2025-40868935788",
+      "artifact_sha256": "fc30afc6d0123ecadf1c19ad3e7c95c97298c4cf12bbca5017addfe2855f3c9f",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 36875351443,
+    "artifact_name": "ddd-electoral-package-castilla_y_leon-2025-36875351443",
+    "artifact_sha256": "7f50a2b43e0c84613b4691cda15d2b85cdfcdf1841a6f594c029217cbaaacc7e",
+    "source_commit": "49a06d5fc1e9bf3c000adc7bf3c4900474edbd4e",
+    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f/36875351443/receipt.json",
+    "provenance_reference": "territorios/castilla_y_leon/config/elecciones/castilla_y_leon_cortes_2026.json",
+    "election_id": "castilla_y_leon_cortes_2026-03-15",
+    "election_date": "2026-03-15",
+    "electoral_identity_sha256": "0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f",
+    "remote_verification": {
+      "run_id": 36875351443,
+      "artifact_id": 11169550299,
+      "artifact_name": "ddd-electoral-package-castilla_y_leon-2025-36875351443",
+      "artifact_sha256": "7f50a2b43e0c84613b4691cda15d2b85cdfcdf1841a6f594c029217cbaaacc7e",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "0733e068c4b2213a2ff41e1e95e4bf79db2c0224e307c6e1cef11e9665de930f",
+  "electoral_compatibility_key": "0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "d461e26d0da82715cffd145ec2ec14fc641eab164aab9bbb3d7d7168606c5ed7"
+}
