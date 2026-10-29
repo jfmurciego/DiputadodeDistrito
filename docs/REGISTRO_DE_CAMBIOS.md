@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.31
+Versión: 1.0.32
 Fecha: 2026-10-29
-Alcance: exenciones de suelo estructurales persistentes y reparación de población en Cataluña
+Alcance: F10 admite re-descargas INE del mismo año
 Estado: candidato
-Cambios/motivo: la preparación territorial borró la exención de Menorca; Cataluña bloqueaba por población
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.30_20261029.md
+Cambios/motivo: cada "desde el principio" dejaba la adquisición territorial F10 en BLOCKED por otra huella
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.31_20261029.md
 -->
+
+## 2026-10-29 — F10 — re-descargas del mismo año
+
+`herramientas/estado_derivado_f10.py` 1.1.4: un receipt territorial posterior al de la matriz de
+seguimiento hereda el cierre F10 si conserva los años de población y seccionado, aunque cambien la
+huella del paquete, la identidad territorial o la de compatibilidad (re-descarga INE desde el
+principio). Otro año sigue exigiendo una auditoría nueva y un receipt anterior sigue bloqueando.
+Proyección viva: adquisición territorial CLOSED 19/19. `test_f10_derived_doors.py` 1.1.6.
 
 ## 2026-10-29 — Población — exenciones estructurales y Cataluña
 
