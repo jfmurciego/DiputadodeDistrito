@@ -75,7 +75,7 @@ territory_contract:
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: split_only_above_hard_cap
-  municipality_atomicity_limit_ratio: 1.75
+  municipality_atomicity_limit_ratio: 1.25
   require_auditable_district_catalogue: true
 modulos:
   modulo_01_preparar_base_territorial:
@@ -124,7 +124,7 @@ modulos:
     municipality_name_field: NMUN
     district_apportionment: hamilton
     k_districts: 135
-    municipality_atomicity_limit_ratio: 1.75
+    municipality_atomicity_limit_ratio: 1.25
     preserve_province_residual_feasibility: true
     seed: 12345
     out_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_semillas.geojson.zip
@@ -201,7 +201,7 @@ validation:
   require_graph_contiguity: true
   require_single_province_per_district: true
   require_municipality_discipline: true
-  municipality_atomicity_limit_ratio: 1.75
+  municipality_atomicity_limit_ratio: 1.25
   max_mixed_districts_per_split_municipality: 1
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true

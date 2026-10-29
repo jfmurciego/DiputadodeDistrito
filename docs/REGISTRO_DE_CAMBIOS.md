@@ -1,16 +1,30 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.39
+Versión: 1.0.40
 Fecha: 2026-10-29
-Alcance: exenciones estructurales de suelo en particiones insulares
+Alcance: umbral de atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña
 Estado: candidato
-Cambios/motivo: Baleares y Canarias terminan M05 sin reparación factible en particiones insulares
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.38_20261029.md
+Cambios/motivo: los tres terminan M05 sin reparación factible por municipios indivisibles
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.39_20261029.md
 -->
 
 
 
 
+
+
+## 2026-10-29 — Población — atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña
+
+Decisión del propietario (opción B). Andalucía (40891753503), País Vasco (40891768209) y Cataluña
+(40891810589) terminan M05 en `NO_FEASIBLE_REPAIR_FOUND` con distritos residuales bajo el suelo.
+
+- `materializar_contrato_generacion.py`: `population_limits` admite `municipality_atomicity_limit_ratio`
+  por territorio (1 < valor <= techo, con rationale/evidence/decided_at). Si es la única clave, el
+  perfil de límites sigue siendo `standard-1.0.0`. Así el umbral sobrevive a la re-materialización
+  (el cambio de Valencia, #336, sólo tocó su contrato).
+- `politica_generacion_territorial_2025.yaml` 1.5.1 y contratos de los tres territorios: umbral 1,25
+  en `territory_contract`, M04 y `validation`.
+- `test_materializacion_contratos_nacionales` 1.0.3.
 
 ## 2026-10-29 — Población — exenciones de suelo en Ibiza, Tenerife y 35-C02
 
