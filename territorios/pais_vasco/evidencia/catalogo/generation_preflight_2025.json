@@ -4,123 +4,25 @@
   "territory_id": "pais_vasco",
   "territory_name": "País Vasco",
   "edition": "2025",
-  "run_id": 40784741627,
-  "source_commit": "b0920f118f311a069d88d05687ac5a8ddf115e42",
-  "artifact_name": "ddd-state-40784741627-M03U",
-  "artifact_sha256": "0319e8fe53a9792f214931a8bac6fe4968df8a6a83cd18d1b1c41257e52a9f06",
-  "decision": "READY_FOR_FIRST_GENERATION",
-  "evaluation_status": "ENABLED",
-  "stage": "M03U",
+  "run_id": 40838196490,
+  "source_commit": "e6f8df347e695732cd7a0a893635280e459861f9",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 40784741627,
-    "artifact_name": "ddd-source-package-pais_vasco-2025-40784741627",
-    "artifact_sha256": "c4ee9df6f190292cceef3ddcb66f49013faa9574012d9c456398c455b9f8ea3f",
-    "package_sha256": "73b444b96e98354ae6db5d123d85d17ce6e27969cb0e1afc4605cb4c49e16a7e",
-    "compatibility_identity_sha256": "3bab2ce86d8014493b7b3fb1042f690c4fe390bcf2b0ded7a0129dcd1db85e73",
-    "territorial_identity_sha256": "dd21f7469ef3b4e8392d666deece38faf2d83daaf5ff67ce1ae22828648cd9cd",
+    "run_id": 40838196490,
+    "artifact_name": "ddd-source-package-pais_vasco-2025-40838196490",
+    "artifact_sha256": "c6751d88ea389075ea52f7af4bdfb4cf1e105c14804724bbf5fee025ac189005",
+    "package_sha256": "7d19e1a44e861dc45f564471e8f2f3d5c1affe2d5e278e71d06f57dd77504e42",
+    "compatibility_identity_sha256": "d1b8539fdacf5a4fb76b66f733859758716915cf51c2c00886a9a005260f1e63",
+    "territorial_identity_sha256": "e8fd625160a49ebf67541a456546011ce08dd38ac09083114f1f2a8ba6699679",
     "population_year": 2024,
     "section_year": 2024
   },
-  "implementation": {
-    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
-    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
-    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
-    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
-    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
-  },
-  "adjacency": {
-    "predicate": "contact",
-    "working_crs": "EPSG:3035",
-    "min_shared_border_m": 1.0,
-    "max_precision_overlap_area_m2": 1.0,
-    "buffer_m": 0.0,
-    "simplify_m": 0.0,
-    "topology_bridges": [
-      {
-        "u": "4807401002",
-        "v": "4807501001",
-        "admin_scope": "province:48",
-        "edge_type": "administrative_exclave"
-      },
-      {
-        "u": "2006401001",
-        "v": "2006402001",
-        "admin_scope": "municipality:20064",
-        "edge_type": "municipal_discontinuity"
-      }
-    ]
-  },
-  "graph": {
-    "artifact_name": "ddd-state-40784741627-M03",
-    "artifact_sha256": "0b720f3e82a00f3356cd797d83b88b2c9faa166a36d58ed6418139914e56d8dd",
-    "module_version": "7.5.0",
-    "nodes": 1713,
-    "edges": 4687,
-    "population": 2227684,
-    "isolated": 0,
-    "global_components": 1,
-    "province_disconnected": 0,
-    "municipality_disconnected": 0,
-    "municipality_admitted_disconnected": 0,
-    "municipality_unresolved": 0,
-    "topology_accreditation": {
-      "valid": true,
-      "administrative_components": {
-        "accepted": [],
-        "rejected": []
-      }
-    }
-  },
-  "partitioning": {
-    "job_artifact_name": "ddd-internal-units-40784741627",
-    "job_artifact_sha256": "175b69f1eb6c6807c4e8a1d462859e8bbfbb022b19b9504361de3ee37329f744",
-    "status": "NOOP",
-    "strategy": null,
-    "contract_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
-    "resolved_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/pais_vasco_2025/pais_vasco_2025_m01_secciones_poblacion.geojson.zip"
-  },
-  "contract_binding": {
-    "contract_level": "production_m01_m06",
-    "edition": 2025,
-    "population_year": 2024,
-    "section_year": 2024,
-    "source_baseline": {
-      "schema": "ddd.source-baseline/1.0",
-      "edition": "2025",
-      "population_year": 2024,
-      "section_year": 2024,
-      "population_total": 2227684,
-      "target_section_count": 1713,
-      "package_sha256": "73b444b96e98354ae6db5d123d85d17ce6e27969cb0e1afc4605cb4c49e16a7e",
-      "compatibility_report_sha256": "6ceb39c187373cc3846a6e69706a50145c344c0ce75b78fe57420f704f0a4db9",
-      "compatibility_identity_sha256": "3bab2ce86d8014493b7b3fb1042f690c4fe390bcf2b0ded7a0129dcd1db85e73"
-    },
-    "topology_accreditation": null,
-    "k_districts": 75,
-    "population_floor_ratio": 0.8,
-    "population_cap_ratio": 1.75,
-    "target_tolerance_ratio": 0.12,
-    "oversized_municipality_rule": "split_only_above_hard_cap",
-    "municipality_atomicity_limit_ratio": 1.75,
-    "m01_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
-    "m03_output_graph_json": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
-    "m04_input_graph_json": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
-    "m04_input_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
-    "m04_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_semillas.geojson.zip",
-    "m05_input_graph_json": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
-    "m05_input_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_semillas.geojson.zip",
-    "m05_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m05_distritos_optimizados.geojson.zip",
-    "m06_input_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m05_distritos_optimizados.geojson.zip",
-    "m04_municipality_field": "CUMUN",
-    "m05_municipality_field": "CUMUN",
-    "m06_municipality_field": "CUMUN",
-    "validation_municipality_field": "CUMUN",
-    "expected_districts": 75,
-    "require_graph_contiguity": true,
-    "require_municipality_discipline": true
-  },
   "effective_gate": {
-    "allowed": true,
-    "route": "validated_pre_m04_topology"
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
