@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "la_rioja",
+  "territory_name": "La Rioja",
+  "edition": "2025",
+  "run_id": 40850322464,
+  "artifact_name": "ddd-state-40850322464-M06",
+  "artifact_sha256": "d58bb3540e242ace02e2d03c446689b43b89bd6aeae941ca8f02bf08523aaead",
+  "source_commit": "5988a3d73288a3f543b475133cc75d616d0d7537",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40850322464.json"
+}

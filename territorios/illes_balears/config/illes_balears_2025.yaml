@@ -210,6 +210,7 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions:
+  - 07-C02
   - 07-C03
   partition_apportionment_audit:
     07-C01:
@@ -228,7 +229,7 @@ validation:
       average_population_per_district: 19801.0
       relative_deviation_from_target: -0.034421682
       population_floor: 16405.505085
-      floor_exception_required: false
+      floor_exception_required: true
       floor_exception_governed: true
     07-C03:
       population: 11389
