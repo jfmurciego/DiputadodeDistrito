@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2025
   source_section_year: 2025
 io:
@@ -110,7 +110,7 @@ territory_contract:
   - CYL-04 certificó M05 con fuera_12=0, hard=0, K=82 y contigüidad 82/82.
   - M06 no puede cambiar district_id; solo materializa, mide, describe y audita la
     solución de M05.
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -316,9 +316,9 @@ validation:
     section_year: 2025
     population_total: 2401221
     target_section_count: 3506
-    package_sha256: bca65a6b3ad7926bc5ab9aab0bfaeadfbf517be07f7363d2aa065dfcc9d920aa
-    compatibility_report_sha256: a23fc03624d3a4d379240b8113d3d7f10ced2ed514ff9380c964e7ac0f906b49
-    compatibility_identity_sha256: 022bac8f0ce4b3bb15d6637c52a79925e419b0319f2e4ebbe88eab9b87395436
+    package_sha256: 5a9ec647da0ddacabd4443b5844c427dcc585970553a21e68bd3a71c972e6840
+    compatibility_report_sha256: 5fb1703349da7401e4cb45d42d78c60d8db9efccba9125c1ceb7b6ba069e5a28
+    compatibility_identity_sha256: 8ecaf7d2b010cb83ffeec0e647427628e08a77b428014ce5e33452ba2a9dbd3d
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -392,9 +392,9 @@ resolved_source_contract:
   contract_sha256: 5caf9e9c8dd2ebc42ff05f0428e8b188abd599a2a4b9f0ac0438eec59232d13b
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: bca65a6b3ad7926bc5ab9aab0bfaeadfbf517be07f7363d2aa065dfcc9d920aa
-  compatibility_identity_sha256: 022bac8f0ce4b3bb15d6637c52a79925e419b0319f2e4ebbe88eab9b87395436
+  generation_enabled: false
+  package_sha256: 5a9ec647da0ddacabd4443b5844c427dcc585970553a21e68bd3a71c972e6840
+  compatibility_identity_sha256: 8ecaf7d2b010cb83ffeec0e647427628e08a77b428014ce5e33452ba2a9dbd3d
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 18f8bc18d421e2dc6a95917f216789ee642a798f9e573fa0fed0088827d7816f
@@ -444,6 +444,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40838146021
-  pre_m04_source_commit: 1f9f428dbccc86dd2954dfb59741ceca3e4c38f7
-  pre_m04_artifact_sha256: 5d6281573698f356065070f57865145ef6e6002e3788537fa9a23b4d2a2a00a7
