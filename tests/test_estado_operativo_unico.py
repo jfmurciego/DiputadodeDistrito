@@ -363,10 +363,16 @@ class EstadoOperativoDetalleTests(unittest.TestCase):
                 continue
             with self.subTest(territory=row["territory_id"]):
                 evidence = row["phase_evidence"]
-                self.assertEqual(
-                    str(evidence["territorial_product"]["run_id"]),
-                    str(evidence["electoral_product"]["run_id"]),
-                )
+                m06 = str(evidence["territorial_product"]["run_id"])
+                m08 = str(evidence["electoral_product"]["run_id"])
+                if m06 != m08:
+                    # 00 en reutilización: el manifiesto del run M08 acredita que su 04 consumió este M06.
+                    manifest = json.loads((self.root / "territorios" / row["territory_id"]
+                                           / "evidencia/ejecuciones_completas" / f"{m08}.json").read_text(encoding="utf-8"))
+                    phases = {str(p["name"])[:2]: p for p in manifest["phases"]}
+                    self.assertEqual(m06, str(phases["02"]["run_id"]))
+                    self.assertEqual(m08, str(phases["04"]["run_id"]))
+                    self.assertEqual("success", phases["04"]["result"])
                 self.assertEqual("green", row["fe"])
 
     def test_each_territory_reports_its_last_full_run(self):
