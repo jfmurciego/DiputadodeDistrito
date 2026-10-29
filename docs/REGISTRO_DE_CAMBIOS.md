@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.28
+Versión: 1.0.29
 Fecha: 2026-10-29
-Alcance: objetivo ±12 % de Castilla y León y La Rioja; tiempo de reparación de Andalucía y País Vasco
+Alcance: Dependabot sólo propone parches
 Estado: candidato
-Cambios/motivo: diagnóstico de los logs M05/M06 del grupo A (40838120876, 40838146021, 40838196490, 40838222105)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.27_20261029.md
+Cambios/motivo: la #293 de Dependabot saltaba versiones mayores en 34 workflows sin gobernanza
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.28_20261029.md
 -->
+
+## 2026-10-29 — Plataforma — Dependabot sólo parches
+
+`.github/dependabot.yml` 1.1.0 ignora `version-update:semver-major` y `version-update:semver-minor`
+en acciones y pip. La #293 (checkout 4→7, upload-artifact 4→7, setup-python 5→7 en 34 workflows)
+se cerró sin fusionar: CI en rojo y sin cabeceras, legacy ni registro. Las versiones mayores se
+actualizarán en una PR propia validada con una ejecución completa.
 
 ## 2026-10-29 — Población — Castilla y León, La Rioja, Andalucía y País Vasco
 
