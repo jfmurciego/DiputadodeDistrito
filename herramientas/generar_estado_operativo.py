@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.0 · FECHA: 2026-10-29 · ESTADO: candidato
-CAMBIOS: 2.3.0: "cadena completa" exige M06 y M08 del mismo run; FE se da por buena si la 04 terminó;
+VERSIÓN: 2.3.1 · FECHA: 2026-10-29 · ESTADO: candidato
+CAMBIOS: 2.3.1: "parado en" usa la fase fallida aunque no esté numerada (p. ej. reanudación M08).
+  2.3.0: "cadena completa" exige M06 y M08 del mismo run; FE se da por buena si la 04 terminó;
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_pre_detalle_20261029.py
+ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.0_20261029.py
 """
 from __future__ import annotations
 
@@ -400,6 +401,8 @@ def _latest_run(root: Path, tid: str, edition: str) -> dict:
     failed = [str(x) for x in manifest.get("failed_phases") or [] if str(x)[:2].isdigit()]
     if not failed and manifest.get("status") == "FAILED":
         failed = [str(x) for x in manifest.get("blocked_phases") or [] if str(x)[:2].isdigit()][:1]
+    if not failed and manifest.get("status") == "FAILED":
+        failed = [str(x) for x in manifest.get("failed_phases") or [] if str(x).strip()][:1]
     stopped = failed[0] if failed else None
     reason = None
     if stopped and stopped.startswith("02"):

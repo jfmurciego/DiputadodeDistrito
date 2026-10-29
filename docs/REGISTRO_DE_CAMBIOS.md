@@ -25,6 +25,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.43_20261029.md
 - Castilla y León (40957531696) falla en M08: `municipios con fragmentación inválida=1`, sin decir cuál.
   `_reutilizable-incorporacion-electoral.yml` 1.1.3: si la 04 falla, publica `DIAG_VALIDACION` con
   `failures` y `municipality_violations` de `VALIDACION.json`.
+- `generar_estado_operativo.py` 2.3.1: si la fase fallida no está numerada (Murcia, 40957577850:
+  «Reanudación de producto electoral durable»), «parado en» la muestra en vez de quedar vacío.
 
 ## 2026-10-29 — Población — exención de suelo por municipio en Andalucía
 
