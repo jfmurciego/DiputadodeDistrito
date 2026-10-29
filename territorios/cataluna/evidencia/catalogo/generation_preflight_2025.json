@@ -4,25 +4,25 @@
   "territory_id": "cataluna",
   "territory_name": "Cataluña",
   "edition": "2025",
-  "run_id": 40773400155,
-  "source_commit": "fa977322e929536b88c7d024847800d7816c4e6d",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "TERRITORY_ADJACENCY",
+  "run_id": 40847205333,
+  "source_commit": "67ec3322e23574c723b1aa1327f050a68a48ce73",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 40773400155,
-    "artifact_name": "ddd-source-package-cataluna-2025-40773400155",
-    "artifact_sha256": "70621c4f78567838200124126eaaa23c0fd3de02b43c2c171d59491773cd1000",
-    "package_sha256": "ebb395bcc73ccc2f6303155f239269f01874aedb3dfae1c327ff4582f5cb6979",
-    "compatibility_identity_sha256": "dde3c9ca61e23cca1da2f1cb79cde3c2e64a2946b37b2ec0318a073ca2855bad",
-    "territorial_identity_sha256": "3aa356ecd88d3035eb0354638c61a01121d3e433d3bccec593ceb80b0caea8e8",
+    "run_id": 40847205333,
+    "artifact_name": "ddd-source-package-cataluna-2025-40847205333",
+    "artifact_sha256": "ee7d6fd51c8c32cb330b3369bcb1b3943a3624e6abd6f5eea9aa0c8a9cbe5b13",
+    "package_sha256": "c376434f1414e104d60aae7d1a4dc5ae3ec068d52315712dccae7780fdd364bd",
+    "compatibility_identity_sha256": "e688fb3b06ceae5eeb0f7c3835c7f58aeb1276240b9c2db7147319d46a9f53fa",
+    "territorial_identity_sha256": "bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5",
     "population_year": 2024,
     "section_year": 2024
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La construcción de adyacencias falló durante la evaluación de generación."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
