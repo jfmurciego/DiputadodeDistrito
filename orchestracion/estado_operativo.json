@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T13:09:03.298779+00:00",
+  "generated_at": "2026-10-29T14:37:50.979979+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 15,
-      "action_required": 0,
-      "blocked": 4,
+      "admissible": 18,
+      "action_required": 1,
+      "blocked": 0,
       "unavailable": 0,
       "activated": 9,
-      "activable": 6,
+      "activable": 9,
       "territorial_pending": 0,
-      "electoral_pending": 4,
+      "electoral_pending": 1,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,7 +38,7 @@
       "legislature_resolved": 19,
       "years_resolved": 19,
       "territorial_source": 19,
-      "electoral_source": 15,
+      "electoral_source": 18,
       "durable_pair": 9
     },
     "territories": [
@@ -70,15 +70,15 @@
           }
         },
         "electoral": {
-          "status": "BLOCKED",
+          "status": "ADMISSIBLE",
           "action": "REUSE",
           "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
           "granularity": "section_party_with_cera_reconciliation"
         },
-        "status": "BLOCKED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "BLOCKED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -91,13 +91,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral_section_crosswalk",
-            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
-            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "aragon",
@@ -122,20 +116,20 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 38093067883,
-            "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac/38093067883/receipt.json"
+            "run_id": 40691712762,
+            "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json"
           }
         },
         "electoral": {
-          "status": "BLOCKED",
+          "status": "ADMISSIBLE",
           "action": "REUSE",
           "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Corporación RTVE — resultados 2026",
           "granularity": "section_party"
         },
-        "status": "BLOCKED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "BLOCKED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -148,13 +142,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral_section_crosswalk",
-            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
-            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "principado_de_asturias",
@@ -383,20 +371,20 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 38091055890,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/155b35accd76c2f82cb21c298fda55b2df0fe122a7059df1c6068fbfb3e26b5e/38091055890/receipt.json"
+            "run_id": 40868935788,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/0733e068c4b2213a2ff41e1e95e4bf79db2c0224e307c6e1cef11e9665de930f/40868935788/receipt.json"
           }
         },
         "electoral": {
-          "status": "BLOCKED",
+          "status": "ADMISSIBLE",
           "action": "REUSE",
           "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Junta de Castilla y León — Datos Abiertos",
           "granularity": "section_party"
         },
-        "status": "BLOCKED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "BLOCKED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -409,13 +397,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral_section_crosswalk",
-            "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
-            "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "castilla_la_mancha",
@@ -593,20 +575,20 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 38091144559,
-            "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json"
+            "run_id": 40691774876,
+            "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/3e53d9481b871f105f2f6fd0d3564aaa10a4ce331e4fde4268cddda327fb8a37/40691774876/receipt.json"
           }
         },
         "electoral": {
-          "status": "BLOCKED",
-          "action": "BLOCKED_PROVISIONAL",
-          "reason": "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE",
-          "source": "Minsait / EleccionesDB mirror provisional",
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Minsait / EleccionesDB mirror provisional (excepción del propietario 2026-10-29)",
           "granularity": "section_party_after_polling_station_aggregation"
         },
-        "status": "BLOCKED",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
-          "state": "BLOCKED",
+          "state": "NOT_ACCREDITED",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -622,8 +604,8 @@
         "next_steps": [
           {
             "domain": "electoral",
-            "planner_action": "BLOCKED_PROVISIONAL",
-            "reason": "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE"
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
           }
         ]
       },
@@ -1284,7 +1266,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40847144583,
+        "run_id": 40891782899,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1382,11 +1364,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40868935788,
       "last_run": {
-        "run_id": 40850261102,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 40868935788,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "ELECTORAL_DURABLE_CANDIDATE",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1493,7 +1475,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40847205333,
+        "run_id": 40868906120,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1543,9 +1525,9 @@
         "territorial_source": {
           "territory_id": "comunidad_valenciana",
           "edition": "2025",
-          "run_id": 40784680666,
-          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40784680666",
-          "artifact_sha256": "6acb5f5d008ca1f85ed289736086d3fac3bba3014967877f1062404e73c042fd",
+          "run_id": 40888918116,
+          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40888918116",
+          "artifact_sha256": "e84554dae2fde207ce089f1da05d88b9517205f3b8e640815363c570ffa1a604",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1851,7 +1833,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40850291263,
+        "run_id": 40891768209,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
