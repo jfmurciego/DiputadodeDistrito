@@ -14,7 +14,11 @@ import yaml
 from herramientas.resolver_activos_durables import DurableAssetBlock, validate_durable_assets
 from herramientas.resolver_ejecucion_completa import build_plan
 
-ROOT = Path(__file__).resolve().parents[1]
+from tests._raiz_congelada import frozen_root  # noqa: E402
+
+# Los M06 registrados se evalúan sobre el estado congelado en aee8215e: un relanzamiento en curso
+# registra fuente nueva antes que su M06 y deja el linaje vivo transitoriamente incompatible.
+ROOT = frozen_root()
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 # Territorios con M06 registrado. Los run_id no se fijan: cada ejecución completa registra uno
 # nuevo; la regla es que el resolver durable devuelva exactamente el producto del catálogo.

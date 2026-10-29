@@ -1,0 +1,81 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "andalucia",
+  "territory_name": "Andalucía",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "NOT_AVAILABLE_DUE_TO_GENERATION_FAILURE",
+  "workflow_run_id": 35746122811,
+  "source_sha": "f4553cd77550f459ea1b150fd9dea359b5589735",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales",
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35746122811,
+      "artifact": "ddd-source-package-andalucia-2025-35746122811",
+      "artifact_digest": "sha256:a9fe53ace05f6626696c0a8c45d6fb0cd2881875f43b8774e4aebe16b24ebffb",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35746122811,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-22T15:59:30.659564+00:00"
+}

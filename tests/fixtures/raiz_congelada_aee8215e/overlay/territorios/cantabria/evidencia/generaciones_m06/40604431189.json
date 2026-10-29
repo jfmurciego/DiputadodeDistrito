@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12780179742,
+      "artifact_name": "ddd-audit-40604431189",
+      "artifact_sha256": "9335d9d08f8e28d8c7647e8530203adf08987f78fdb152eda1d2c2131d96c7f5",
+      "run_id": 40604431189,
+      "size_in_bytes": 7259
+    },
+    "m04": {
+      "artifact_id": 12779369984,
+      "artifact_name": "ddd-state-40604431189-M04",
+      "artifact_sha256": "9190c7c41929337ea011813e7dd0f6d40634e50b89d1fbb49b1ba3a5f5b2997d",
+      "run_id": 40604431189,
+      "size_in_bytes": 1736704
+    },
+    "m05": {
+      "artifact_id": 12780807331,
+      "artifact_name": "ddd-state-40604431189-M05",
+      "artifact_sha256": "db6c025208200b6e82095921a23d92ab19088c2f9a6a668bf8ed06d88758a064",
+      "run_id": 40604431189,
+      "size_in_bytes": 2253115
+    },
+    "m06": {
+      "artifact_id": 12779789644,
+      "artifact_name": "ddd-state-40604431189-M06",
+      "artifact_sha256": "232a101d11467d89c3be9e3a359c64f1e78305e57b4def7cfcd0de82b60891fa",
+      "run_id": 40604431189,
+      "size_in_bytes": 3053642
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "bd86508b5fe60f377eb83b6ece2a268f4b3096dbd579e88641cc4680a886336c",
+        "size_in_bytes": 461
+      },
+      "cantabria_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "b132bd540f21b1a60943fe41813c2fd761ffc2b81e8b97182a9892b297cfc3cd",
+        "size_in_bytes": 32932
+      },
+      "optimization_execution.json": {
+        "sha256": "c3ea893c9bc11cf941beb472f27b5926213158bf6d19a2e9f15d3edb15ba84cc",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "16dfa3ba4102047b40027cac2d6642c33453f3e9a0742a511b893fdea0a52caf",
+        "size_in_bytes": 1315
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "16dfa3ba4102047b40027cac2d6642c33453f3e9a0742a511b893fdea0a52caf",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/cantabria/config/cantabria_2025.yaml",
+    "sha256": "0b45891ba4de7ca7b7066e72725c78c8bb7d56c94f778a20667699dd57e60c05"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "24f7b5a7249153da5d18eb51011fb02aaebb0065592dba1d6d1f33c1bdaa4c62",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "2ef7afae8cb129128479549ea45dbccfd7bc858f",
+    "edition": "2025",
+    "territory_id": "cantabria",
+    "territory_name": "Cantabria",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40604431189,
+    "workflow_sha": "2ef7afae8cb129128479549ea45dbccfd7bc858f"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12779369984,
+      "artifact_name": "ddd-state-40604431189-M04",
+      "artifact_sha256": "9190c7c41929337ea011813e7dd0f6d40634e50b89d1fbb49b1ba3a5f5b2997d",
+      "run_id": 40604431189,
+      "size_in_bytes": 1736704
+    },
+    "source_manifest_sha256": "cc2e925e9c2e8368a1e4590eefa9fff869028b6d859b6c64eb5129274f0b6c42",
+    "source_package_artifact": {
+      "artifact_id": 12617190596,
+      "artifact_name": "ddd-source-package-cantabria-2025-40241638106",
+      "artifact_sha256": "b496db543f7baedf4d6d56fdb1f11aa00ea0b6c55ae3768fa22db295ebe56ed9",
+      "run_id": 40241638106,
+      "size_in_bytes": 699409
+    }
+  },
+  "manifest_sha256": "8c52563137f8bc4a8b3e4191616769ca1a37f55df980ff85deca750747ee0550",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

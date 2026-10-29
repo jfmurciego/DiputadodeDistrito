@@ -1,0 +1,210 @@
+{
+  "schema_family": "ddd-party-dictionary",
+  "schema_version": "1.0.0",
+  "unknown_party_policy": "reject",
+  "parties": [
+    {
+      "canonical_id": "AD_EV",
+      "display_name": "AD-EV",
+      "aliases": [
+        "AD-EV"
+      ]
+    },
+    {
+      "canonical_id": "C_BIERZO",
+      "display_name": "C. Bierzo",
+      "aliases": [
+        "C. Bierzo"
+      ]
+    },
+    {
+      "canonical_id": "CS",
+      "display_name": "Cs",
+      "aliases": [
+        "Cs"
+      ]
+    },
+    {
+      "canonical_id": "DECIDE_NUEVECYL",
+      "display_name": "DECIDE-NUEVECYL",
+      "aliases": [
+        "DECIDE-NUEVECYL"
+      ]
+    },
+    {
+      "canonical_id": "ESCANOS_EN_BLANCO",
+      "display_name": "ESCAÑOS EN BLANCO",
+      "aliases": [
+        "ESCAÑOS EN BLANCO"
+      ]
+    },
+    {
+      "canonical_id": "ESPANA_VACIADA",
+      "display_name": "ESPAÑA VACIADA",
+      "aliases": [
+        "ESPAÑA VACIADA"
+      ]
+    },
+    {
+      "canonical_id": "EV",
+      "display_name": "EV",
+      "aliases": [
+        "EV"
+      ]
+    },
+    {
+      "canonical_id": "FE_DE_LAS_JONS",
+      "display_name": "FE de las JONS",
+      "aliases": [
+        "FE de las JONS"
+      ]
+    },
+    {
+      "canonical_id": "IU_MS_VQ",
+      "display_name": "IU-MS-VQ",
+      "aliases": [
+        "IU-MS-VQ"
+      ]
+    },
+    {
+      "canonical_id": "MEV",
+      "display_name": "MEV",
+      "aliases": [
+        "MEV"
+      ]
+    },
+    {
+      "canonical_id": "MUNDO_JUSTO",
+      "display_name": "MUNDO+JUSTO",
+      "aliases": [
+        "MUNDO+JUSTO"
+      ]
+    },
+    {
+      "canonical_id": "NUEVECYL",
+      "display_name": "NUEVECYL",
+      "aliases": [
+        "NUEVECYL"
+      ]
+    },
+    {
+      "canonical_id": "P_ALANTRE",
+      "display_name": "P. ALANTRE",
+      "aliases": [
+        "P. ALANTRE"
+      ]
+    },
+    {
+      "canonical_id": "PACMA",
+      "display_name": "PACMA",
+      "aliases": [
+        "PACMA"
+      ]
+    },
+    {
+      "canonical_id": "PANCAL_URCI",
+      "display_name": "PANCAL-URCI",
+      "aliases": [
+        "PANCAL-URCI"
+      ]
+    },
+    {
+      "canonical_id": "PCAS_TC",
+      "display_name": "PCAS-TC",
+      "aliases": [
+        "PCAS-TC"
+      ]
+    },
+    {
+      "canonical_id": "PCTE",
+      "display_name": "PCTE",
+      "aliases": [
+        "PCTE"
+      ]
+    },
+    {
+      "canonical_id": "PODEMOS_AV",
+      "display_name": "PODEMOS - AV",
+      "aliases": [
+        "PODEMOS - AV"
+      ]
+    },
+    {
+      "canonical_id": "PP",
+      "display_name": "PP",
+      "aliases": [
+        "PP"
+      ]
+    },
+    {
+      "canonical_id": "PREPAL",
+      "display_name": "PREPAL",
+      "aliases": [
+        "PREPAL"
+      ]
+    },
+    {
+      "canonical_id": "PSOE",
+      "display_name": "PSOE",
+      "aliases": [
+        "PSOE"
+      ]
+    },
+    {
+      "canonical_id": "SAE",
+      "display_name": "SAE",
+      "aliases": [
+        "SAE"
+      ]
+    },
+    {
+      "canonical_id": "SALF",
+      "display_name": "SALF",
+      "aliases": [
+        "SALF"
+      ]
+    },
+    {
+      "canonical_id": "SY",
+      "display_name": "SY",
+      "aliases": [
+        "SY"
+      ]
+    },
+    {
+      "canonical_id": "U_P_L",
+      "display_name": "U.P.L.",
+      "aliases": [
+        "U.P.L."
+      ]
+    },
+    {
+      "canonical_id": "VBM",
+      "display_name": "VBM",
+      "aliases": [
+        "VBM"
+      ]
+    },
+    {
+      "canonical_id": "VOX",
+      "display_name": "VOX",
+      "aliases": [
+        "VOX"
+      ]
+    },
+    {
+      "canonical_id": "VP",
+      "display_name": "VP",
+      "aliases": [
+        "VP"
+      ]
+    },
+    {
+      "canonical_id": "XAV",
+      "display_name": "XAV",
+      "aliases": [
+        "XAV"
+      ]
+    }
+  ]
+}

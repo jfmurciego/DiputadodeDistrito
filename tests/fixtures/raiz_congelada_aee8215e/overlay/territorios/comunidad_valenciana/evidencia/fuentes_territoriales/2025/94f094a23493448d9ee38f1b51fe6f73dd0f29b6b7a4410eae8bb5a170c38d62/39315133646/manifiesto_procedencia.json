@@ -1,0 +1,101 @@
+{
+  "schema": "ddd-source-provenance/1.2",
+  "territory_id": "comunidad_valenciana",
+  "territory": "Comunidad Valenciana",
+  "edition": 2025,
+  "population_year": 2023,
+  "section_year": 2023,
+  "environment": "production",
+  "acquisition_mode": "official_live",
+  "source_year": 2023,
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "1bb88e20437edfee346d0cabc254044e9fd07ef6e94892318e9263b2c8a38478",
+      "bytes": 41673,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2023,
+      "role": "population",
+      "provider": "Instituto Nacional de Estadística",
+      "acquired_at_utc": "2026-10-19T20:24:36.057033+00:00",
+      "mode": "official_live",
+      "consumer_contract": {
+        "schema": "ddd.resolved-source-binding/1.0",
+        "source_id": "poblacion_por_sexo_y_edad",
+        "role": "population",
+        "path": "inputs/65034.csv.zip",
+        "effective_year": 2023,
+        "source_kind": "static_csv",
+        "source_format": "csv",
+        "container": "zip",
+        "materialized_format": "csv",
+        "archive_member": "65034.csv",
+        "encoding": "utf-8-sig",
+        "delimiter": ";",
+        "fields": {
+          "section_id": "Secciones",
+          "population": "Total",
+          "year": "Periodo",
+          "sex": "Sexo",
+          "age": "Edad"
+        },
+        "filters": {
+          "year_value": 2023,
+          "sex_total_values": [
+            "Total"
+          ],
+          "age_total_values": [
+            "Todas las edades"
+          ]
+        }
+      },
+      "derivation": null,
+      "staged_path": "/app/.ddd-sources/materialized/inputs/65034.csv.zip"
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2023.zip",
+      "sha256": "4800798a5e3dd418a87ff36340575b6a3d02f183e0fc80e30d63081612c3bc47",
+      "bytes": 4256997,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2703%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2712%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2746%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2023,
+      "role": "target_sectioning",
+      "provider": "Instituto Nacional de Estadística",
+      "acquired_at_utc": "2026-10-19T20:25:34.144551+00:00",
+      "mode": "official_live",
+      "consumer_contract": {
+        "schema": "ddd.resolved-source-binding/1.0",
+        "source_id": "secciones_censales",
+        "role": "target_sectioning",
+        "path": "inputs/seccionado_2023.zip",
+        "effective_year": 2023,
+        "source_kind": "ogc_features",
+        "source_format": "geojson",
+        "container": "zip",
+        "materialized_format": "shapefile",
+        "layer": "",
+        "crs": "EPSG:4326",
+        "fields": {
+          "section_id": "CUSEC",
+          "territorial_filter": "CPRO"
+        }
+      },
+      "derivation": {
+        "path": "geometry_normalization/secciones_censales_2023.json",
+        "sha256": "f567cfd27ea2980f7a4ede88c1c8933d6c457e7593ad1d0f8e7fdf0c599fe2e8",
+        "source_id": "secciones_censales",
+        "source_year": 2023,
+        "decision": "READY"
+      },
+      "staged_path": "/app/.ddd-sources/materialized/inputs/seccionado_2023.zip"
+    }
+  ],
+  "resolved_source_contract_sha256": "e3a21f27dbabb8d2923b6482064b0ba5d2b76b2c5d643f0acd3d431784351431"
+}

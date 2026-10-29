@@ -1,13 +1,16 @@
 """PROYECTO: Diputado de Distrito
 HERRAMIENTA: Core del resolver de ejecución completa
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Acreditación municipal pre-M04 ligada a fuente
-FECHA: 2026-10-19
+VERSIÓN: 1.0.2
+NOMBRE DE VERSIÓN: Inventario físico por año con CUSEC verificado al materializar
+FECHA: 2026-10-28
 ESTADO: candidato de integración; pendiente de CI y revisión.
 QUÉ HACE: aplica las puertas de compatibilidad y generación territorial.
-CAMBIOS: valida discontinuidades municipales contra los componentes acreditados por M03 y la fuente/edición del contrato; exige contadores enteros coherentes y estado global/provincial conectado.
-MOTIVO: admitir solo discontinuidades municipales acreditadas sin relajar conectividad global o provincial ni aceptar contadores ambiguos.
-ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_pre_cat_pre_m04_20261019.py
+CAMBIOS: 1.0.2: sin inventario físico de huella exacta, admite el único del mismo año de secciones y
+  población (inventory_binding=SECTION_YEAR_CUSEC_VERIFIED_AT_MATERIALIZATION); sus CUSEC se siguen
+  verificando al materializar. 1.0.1: discontinuidades municipales acreditadas por M03.
+MOTIVO: la re-descarga del INE del 28-10 dio otra huella para las secciones 2023 de Canarias y el
+  inventario insular, atado a bytes, bloqueaba la generación sin que cambiara ninguna sección.
+ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.1_20261028.py
 PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
 """
 from __future__ import annotations
@@ -260,6 +263,21 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
         and str(row.get("territorial_identity_sha256") or "").lower()
             == source_identity["territorial_identity_sha256"]
     ]
+    inventory_binding = "EXACT_SOURCE_IDENTITY"
+    if not matches:
+        # Una re-descarga del INE del mismo año puede traer bytes nuevos (otra huella) con las
+        # mismas secciones. Se admite el único inventario acreditado de ese año de secciones y
+        # población; lo que acredita (CUSEC del universo y de cada componente) se verifica
+        # sección a sección al materializar y falla con PHYSICAL_COMPONENT_INVENTORY_MISMATCH.
+        same_year = [
+            row for row in inventories
+            if isinstance(row, dict)
+            and int(row.get("section_year") or 0) == source_identity["section_year"]
+            and int(row.get("population_year") or 0) == source_identity["population_year"]
+        ]
+        if len(same_year) == 1:
+            matches = same_year
+            inventory_binding = "SECTION_YEAR_CUSEC_VERIFIED_AT_MATERIALIZATION"
     if len(matches) != 1:
         raise ValueError(
             "SOURCE_IDENTITY_MISMATCH: no existe inventario físico acreditado para "
@@ -269,7 +287,8 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
         )
     inventory = matches[0]
     if (
-        inventory.get("source_package_sha256")
+        inventory_binding == "EXACT_SOURCE_IDENTITY"
+        and inventory.get("source_package_sha256")
         and str(inventory.get("source_package_sha256") or "").lower() != source_identity["package_sha256"]
     ):
         raise ValueError("SOURCE_IDENTITY_MISMATCH: inventario físico ligado a otro paquete territorial")
@@ -345,6 +364,7 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
         "partition_field": m04.get("province_field"),
         "municipality_field": m04.get("municipality_field"),
         "inventory_id": str(inventory.get("inventory_id") or ""),
+        "inventory_binding": inventory_binding,
         "source_identity": source_identity,
         "component_sections": section_counts,
         "component_cusec_set_sha256": component_hashes,

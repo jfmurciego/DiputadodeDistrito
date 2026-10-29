@@ -1,0 +1,51 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Galicia
+# COMPONENTE: fuente electoral oficial vigente para la edición territorial 2025
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-19
+schema: ddd-election-official-source-declaration/1.0
+territory_id: galicia
+election_id: galicia_parlamento_2024
+election_date: '2024-02-18'
+selection_mode: all_required
+minimum_resolution: polling_station
+max_download_bytes: 5000000
+allowed_official_hosts:
+  - abertos.xunta.gal
+forbidden_substitutes:
+  - rtve.es
+  - resultados-elecciones.rtve.es
+  - Corporación RTVE
+sources:
+  - id: a_coruna_mesas
+    publisher: Xunta de Galicia
+    url: https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/003/descarga-directa-del-fichero.csv
+    access: public
+    required: true
+    declared_resolution: polling_station
+    format: csv
+    granularity_markers: [mesa, censo]
+  - id: lugo_mesas
+    publisher: Xunta de Galicia
+    url: https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/007/descarga-directa-del-fichero.csv
+    access: public
+    required: true
+    declared_resolution: polling_station
+    format: csv
+    granularity_markers: [mesa, censo]
+  - id: ourense_mesas
+    publisher: Xunta de Galicia
+    url: https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/011/descarga-directa-del-fichero.csv
+    access: public
+    required: true
+    declared_resolution: polling_station
+    format: csv
+    granularity_markers: [mesa, censo]
+  - id: pontevedra_mesas
+    publisher: Xunta de Galicia
+    url: https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024/015/descarga-directa-del-fichero.csv
+    access: public
+    required: true
+    declared_resolution: polling_station
+    format: csv
+    granularity_markers: [mesa, censo]

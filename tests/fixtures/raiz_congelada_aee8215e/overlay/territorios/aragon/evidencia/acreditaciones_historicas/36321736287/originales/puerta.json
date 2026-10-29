@@ -1,0 +1,13 @@
+{
+  "schema": "ddd.puerta-validacion/1.0",
+  "phase": "territorial_product",
+  "decision": "VALIDADO",
+  "phase_decision": "PASS_WITH_EXCEPTIONS",
+  "territory_id": "aragon",
+  "edition": "2025",
+  "run_id": 36321736287,
+  "artifact_name": "ddd-state-36321736287-M06",
+  "artifact_digest": "sha256:1aa6889ae4e49e49ce2a6b469b6cfbc325d040b30639d5adb8326afde9c89394",
+  "expected_digest": null,
+  "reasons": []
+}

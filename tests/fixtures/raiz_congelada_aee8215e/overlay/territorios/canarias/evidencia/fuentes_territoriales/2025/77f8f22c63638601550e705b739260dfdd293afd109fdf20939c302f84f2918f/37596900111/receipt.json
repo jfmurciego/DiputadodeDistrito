@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "canarias",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 37596900111,
+  "artifact_name": "ddd-source-package-canarias-2025-37596900111",
+  "artifact_sha256": "057c902d9516493589b161c0c1946bf5fdc309c940881aee56e27ae41c56237c",
+  "package_sha256": "81f3b9981994072f6882c6451acda17c64c650f1773cb8da28952b114518906b",
+  "source_commit": "17666df88125bf0a104d876b7a8293f9b88931f2",
+  "source_declaration": "territorios/canarias/evidencia/fuentes_territoriales/2025/77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f/37596900111/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "d862b561efafe1d98f78d8cc5af7bc53c05b75eee2929e4c0e9ab844b898ba6d",
+  "compatibility_identity_sha256": "58649ba6af163393f567747d673269b7c6a52e9c0cd6c286b3c0c5a592c7fca8"
+}

@@ -1,12 +1,51 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.22
-Fecha: 2026-10-28
-Alcance: rescate M04 de Canarias, Cataluña y Ceuta y CRS nativo de Murcia en M02
+Versión: 1.0.24
+Fecha: 2026-10-29
+Alcance: suelo de Melilla al 50 % y excepción de pérdida electoral del 2 % para Galicia
 Estado: candidato
-Cambios/motivo: las ejecuciones 00 del 26-10 fallaban en M04 (Canarias, Cataluña, Ceuta) y en M03 (Murcia)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.21_20261028.md
+Cambios/motivo: decisiones del propietario tras los diagnósticos M04 de Melilla y M07 de Galicia
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.23_20261028.md
 -->
+
+## 2026-10-29 — Melilla y Galicia — excepciones decididas por el propietario
+
+- Melilla (run 40773487000): con suelo 0,70 la M04 termina en
+  `INCOMPATIBLE_ATOMIC_POPULATION_CONNECTIVITY … NO_EXACT_CONNECTED_HARD_PARTITION` (44 secciones,
+  K=25, suelo 2.393,80, techo 5.984,51). `politica_generacion_territorial_2025.yaml` 1.3.0 y su
+  contrato fijan suelo 0,50 y tolerancia 0,50; techo 1,75 sin cambios.
+- Galicia (run 40706722115): M07 bloqueó por pérdida atribuible a DDD de 22.504/1.488.705 =
+  1,5116 % > 1,5 %. `electoral_reconciliation.py` 2.1.0 admite `loss_exception` por elección
+  (ratio, rationale, evidence, decided_at) con tope duro del 2 %; M07 7.3.2 la lee de
+  `configuracion/excepciones_reconciliacion_electoral_2025.yaml` (nuevo), fuera del contrato
+  electoral sellado por hash. Galicia 2024 declara 0,02.
+- Raíz congelada aee8215e: `overlay/` guarda ya los 551 ficheros de estado de hasta 300 KB (4,4 MB),
+  no sólo los reescritos hasta hoy; las ejecuciones de País Vasco, Navarra, Baleares y Castilla y
+  León volvían a romperla. `test_m06_product_reuse_integration` y el caso de Castilla y León de
+  `test_acreditacion_historica_territorial` usan la raíz congelada (su relanzamiento registra
+  fuente nueva antes que su M06); `test_valencia_m02_native_crs` toma los años de fuente del catálogo.
+
+## 2026-10-28 — Pre-M04 — inventario físico por año, con CUSEC verificado al materializar
+
+La ejecución "desde el principio" de Canarias (40773378883) re-descargó del INE las secciones 2023
+con otra huella (sectioning 11d3eb11…) y `_hard_partition_spec` exigía la huella exacta del
+inventario de `configuracion/particiones_insulares_2025.json`: `SOURCE_IDENTITY_MISMATCH` antes de
+M04 sin que cambiara ninguna sección. Rompía también `test_physical_components_source_identity`.
+
+- `_resolver_ejecucion_completa_core.py` 1.0.2: sin huella exacta admite el único inventario del
+  mismo año de secciones y población y lo declara (`inventory_binding =
+  SECTION_YEAR_CUSEC_VERIFIED_AT_MATERIALIZATION`). `preparar_particiones_fisicas_m04` sigue
+  verificando el universo y cada componente CUSEC a CUSEC; cualquier diferencia falla con
+  `PHYSICAL_COMPONENT_INVENTORY_MISMATCH`. Un año sin inventario sigue en `SOURCE_IDENTITY_MISMATCH`.
+- `test_physical_components_source_identity.py`: la re-descarga del mismo año reasigna el
+  inventario; un año no acreditado falla cerrado.
+- Raíz congelada aee8215e (`tests/_raiz_congelada.py`): ahora guarda la lista de ficheros de
+  `configuracion/`, `orchestracion/`, `publicado/dashboard/` y `config/` y `evidencia/` de cada
+  territorio con su SHA-256 (`MANIFEST.json`); oculta los añadidos después, superpone los
+  reescritos (`overlay/`) y falla con mensaje explícito si uno nuevo cambia sin copia.
+- Las regresiones de territorios reales que rompieron las ejecuciones del 28-10 (Ceuta, Galicia,
+  Murcia, Cataluña, Canarias) usan la raíz congelada sólo en esos tests; la de archipiélagos pasa
+  a regla (preparar fuente y reacreditar pre-M04 van juntos).
 
 ## 2026-10-28 — M04/M02 — rescate autonómico del 26-10
 

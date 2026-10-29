@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 35978568807,
+  "source_sha": "2e63eb2237a362b4319197845e23e5719edea52d",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "blocked_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35586097396,
+      "artifact": "ddd-source-package-galicia-2025-35586097396",
+      "artifact_digest": "sha256:40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 35978568807,
+      "artifact": "ddd-state-35978568807-M06",
+      "artifact_digest": "sha256:cca0e9da06c07e524724b7a0f8cc1b05be22254cb41c164c25c62a4f8272c7fe",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "success",
+      "run_id": 35978568807,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-24T09:10:24.450424+00:00"
+}

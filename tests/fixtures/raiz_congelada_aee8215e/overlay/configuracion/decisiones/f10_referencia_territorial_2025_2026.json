@@ -1,0 +1,31 @@
+{
+  "schema": "ddd.territorial-reference-owner-decision/1.0",
+  "version": "1.0.0",
+  "decision_id": "F10-20261012-PAIR-2025",
+  "decision_date": "2026-10-12",
+  "status": "OWNER_APPROVED_TERRITORIAL_REFERENCE_ONLY",
+  "scope": "Aragón, Castilla y León y Andalucía: pareja territorial poblacion/seccionado INE 2025/2025 para elecciones 2026. No certifica correspondencia electoral.",
+  "territory_ids": [
+    "andalucia",
+    "aragon",
+    "castilla_y_leon"
+  ],
+  "selected_population_year": 2025,
+  "selected_section_year": 2025,
+  "election_year": 2026,
+  "official_population_year_2026_available": false,
+  "official_sectioning_year_2026_available": true,
+  "reason": "Sin población seccional oficial 2026 ni correspondencia interanual acreditada para todos los componentes, se seleccionan fuentes territoriales contemporáneas 2025/2025. Se conserva la edición electoral 2026 como obligación independiente.",
+  "electoral_crosswalk_2025_to_2026": "BLOCKED_PENDING_OFFICIAL_EVIDENCE",
+  "generation_authorized_by_this_decision": false,
+  "source_promotion_authorized_by_this_decision": false,
+  "prior_products_and_lineage": "PRESERVED",
+  "not_equivalent_to": "El seccionado territorial 2025 no se acredita como idéntico al seccionado electoral 2026.",
+  "approval_basis": "Aprobación expresa del titular en conversación DDD el 2026-10-12; se registra decisión territorial, no certificación de datos ni autorización de ejecución.",
+  "review_requirements": [
+    "Verificar fuente oficial INE 2025/2025 en cada territorio y recibo auténtico",
+    "Separar preparación territorial de incorporación electoral",
+    "No habilitar generación o promoción con esta decisión",
+    "Mantener F10 PENDING mientras los consumidores no superen puertas reales"
+  ]
+}

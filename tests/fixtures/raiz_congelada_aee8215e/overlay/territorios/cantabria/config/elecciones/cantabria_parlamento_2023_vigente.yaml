@@ -1,0 +1,38 @@
+schema: ddd-election-official-source-declaration/1.0
+territory_id: cantabria
+title: Elecciones al Parlamento de Cantabria 2023
+election_id: cantabria_parlamento_2023
+election_date: '2023-05-28'
+selection_mode: first_ready
+minimum_resolution: polling_station
+max_download_bytes: 2000000
+
+allowed_source_hosts:
+  - pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev
+forbidden_substitutes:
+  - rtve.es
+  - resultados-elecciones.rtve.es
+  - Corporación RTVE
+
+official_reference_urls:
+  - https://boc.cantabria.es/boces/verAnuncioAction.do?idAnuBlob=390459
+
+sources:
+  - id: cantabria_2023_mesas_verified_mirror
+    publisher: GIPEYOP / Spain Electoral Project (mirror auditable)
+    url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/06-cantabria/gipeyop/Cantabria2023_mesas.xlsx
+    access: public
+    required: true
+    source_class: verified_mirror
+    declared_resolution: polling_station
+    format: xlsx
+    granularity_markers: []
+    transform:
+      kind: gipeyop_polling_xlsx
+      sheet: MESAS
+      election_year: '2023'
+
+reconciliation:
+  policy: fail_unless_declared
+  allowed_result_only_sections: []
+  allowed_map_only_sections: []

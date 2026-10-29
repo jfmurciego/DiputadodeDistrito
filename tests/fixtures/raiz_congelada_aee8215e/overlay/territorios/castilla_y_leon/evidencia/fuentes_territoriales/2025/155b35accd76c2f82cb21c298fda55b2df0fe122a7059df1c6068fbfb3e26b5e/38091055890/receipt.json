@@ -1,0 +1,17 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "castilla_y_leon",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "run_id": 38091055890,
+  "artifact_name": "ddd-source-package-castilla_y_leon-2025-38091055890",
+  "artifact_sha256": "1f9d6a7c0362b157d2bb300a4c1eca037eb7a07fa52fec53ad550d46752351bd",
+  "package_sha256": "c63c998459f0122a6dc856ed9cdbe022acc1d48cc05e2194d72e3d5f109bb2ec",
+  "source_commit": "776006e62ebd80ab20a55b186c3778bce76e9f19",
+  "territorial_identity_sha256": "155b35accd76c2f82cb21c298fda55b2df0fe122a7059df1c6068fbfb3e26b5e",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "b60ea3d02fc860a95b6029ed8fad89abe84e53555ef88036dd74299d047f66ce",
+  "compatibility_identity_sha256": "63a2b0e0636cf45020df78733c33ba73414805258f4a16fc88f8aff6731f3646"
+}

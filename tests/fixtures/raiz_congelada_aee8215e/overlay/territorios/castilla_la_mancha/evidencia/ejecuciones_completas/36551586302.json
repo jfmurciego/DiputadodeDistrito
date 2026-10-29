@@ -1,0 +1,101 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "castilla_la_mancha",
+  "territory_name": "Castilla-La Mancha",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 36551586302,
+  "source_sha": "1f3f18445f20711feded806995e37bb0d3f9813e",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "resumption": {
+    "kind": "durable_electoral_product",
+    "status": "NO_RECOVERY",
+    "result": "skipped",
+    "reason": "M08_ABSENT",
+    "origin_run_id": null,
+    "origin_manifest": null,
+    "artifact": null,
+    "artifact_digest": null,
+    "source_commit": null,
+    "registration_status": null,
+    "receipt_accredited": false,
+    "catalog_accredited": false
+  },
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales",
+    "Reanudación de producto electoral durable"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35744494489,
+      "artifact": "ddd-source-package-castilla_la_mancha-2025-35744494489",
+      "artifact_digest": "sha256:3317a19b68d5fa341b8066d1d5927884912fe981de1b803e67388d573f010e57",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36444657976,
+      "artifact": "ddd-state-36444657976-M06",
+      "artifact_digest": "sha256:c65d384e78cb9bb43ef6694b193d28710b91ce7096ff49763d7c6f321ccb5f6a",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36402139263,
+      "artifact": "ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+      "artifact_digest": "sha256:24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-29T09:53:01.031262+00:00"
+}

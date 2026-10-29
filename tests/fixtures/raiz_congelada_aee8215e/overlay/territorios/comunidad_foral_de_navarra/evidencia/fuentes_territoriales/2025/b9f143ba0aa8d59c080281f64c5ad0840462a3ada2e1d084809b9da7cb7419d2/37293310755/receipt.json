@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "comunidad_foral_de_navarra",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 37293310755,
+  "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-37293310755",
+  "artifact_sha256": "703200daee826174b087ea6a8a2a4d101e70fc050ff9a2b59ec1e27bb593c3db",
+  "package_sha256": "85e406bccf7e33de8a7133540f0ae33532a234e16f66d02979c8aeae30330a03",
+  "source_commit": "d1f86218f730a1ef686c1b0e8c9eb58874617a41",
+  "source_declaration": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/37293310755/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "37e6c6d48e2da4e646df0ebd10040de299c5468b16524fd00a5c104907c60a31",
+  "compatibility_identity_sha256": "16868f3fbeb2a1053a4c47ec0ff009d0b9654b776995868e386932a57894677b"
+}
