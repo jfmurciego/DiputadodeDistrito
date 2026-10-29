@@ -436,6 +436,7 @@ territories:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
         generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
         electoral_source: territorios/extremadura/evidencia/fuentes_electorales/2025/a8d06aca4343e13d0e061e435af7735e91d0e5b9c0baf9972b1bf5836f38f06f/40892977224/receipt.json
+        prepared_source_pair: territorios/extremadura/evidencia/pares_fuentes/2025/ca6e9b0f31203c21d4305dacfc471b1cf185e16ba6313796c301485ea2914d57.json
       generation_enabled: true
 - territory_id: galicia
   name: Galicia
