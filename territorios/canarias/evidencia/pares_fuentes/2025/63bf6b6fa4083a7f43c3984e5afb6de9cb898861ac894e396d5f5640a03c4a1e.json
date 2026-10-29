@@ -1,0 +1,76 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "canarias",
+  "territory_name": "Canarias",
+  "edition": "2025",
+  "election": {
+    "election_id": "canarias_parlamento_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40946861866,
+    "artifact_name": "ddd-source-package-canarias-2025-40946861866",
+    "artifact_sha256": "0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb",
+    "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
+    "source_commit": "091d40cef648abcc9319af1f6dc3488a5abdc556",
+    "source_declaration": "territorios/canarias/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/40946861866/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "86f389eec7d9ad8aefa24f76bcbde7953727a9e5811532b702d0268b92f08dc7",
+    "compatibility_identity_sha256": "af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c",
+    "remote_verification": {
+      "run_id": 40946861866,
+      "artifact_id": 12930560249,
+      "artifact_name": "ddd-source-package-canarias-2025-40946861866",
+      "artifact_sha256": "0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 36789298682,
+    "artifact_name": "ddd-electoral-package-canarias-2025-36789298682",
+    "artifact_sha256": "c441326716da23131e40e0c00ed60a98b71d03f752c4c488945d64acf45aba90",
+    "source_commit": "d627dcc5583f4b36989ceae7eb98328c64847285",
+    "receipt_path": "territorios/canarias/evidencia/fuentes_electorales/2025/02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11/36789298682/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "canarias_parlamento_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11",
+    "remote_verification": {
+      "run_id": 36789298682,
+      "artifact_id": 11130554965,
+      "artifact_name": "ddd-electoral-package-canarias-2025-36789298682",
+      "artifact_sha256": "c441326716da23131e40e0c00ed60a98b71d03f752c4c488945d64acf45aba90",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
+  "electoral_compatibility_key": "02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11",
+  "territorial_product_reuse": {
+    "available": false,
+    "geometric_reuse_compatible": false,
+    "reason": "NO_TERRITORIAL_PRODUCT"
+  },
+  "pair_sha256": "63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e"
+}
