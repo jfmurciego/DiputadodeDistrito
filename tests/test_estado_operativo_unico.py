@@ -347,3 +347,39 @@ class EstadoOperativoUnicoTests(unittest.TestCase):
 
 if __name__=="__main__":
     unittest.main()
+
+
+class EstadoOperativoDetalleTests(unittest.TestCase):
+    """Reglas del README detallado (generar_estado_operativo 2.3.0) sobre el repositorio vivo."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.root = Path(__file__).resolve().parents[1]
+        cls.state = build(cls.root, "2025")
+
+    def test_complete_chain_requires_m06_and_m08_from_same_run(self):
+        for row in self.state["territories"]:
+            if row["re"] != "green":
+                continue
+            with self.subTest(territory=row["territory_id"]):
+                evidence = row["phase_evidence"]
+                self.assertEqual(
+                    str(evidence["territorial_product"]["run_id"]),
+                    str(evidence["electoral_product"]["run_id"]),
+                )
+                self.assertEqual("green", row["fe"])
+
+    def test_each_territory_reports_its_last_full_run(self):
+        for row in self.state["territories"]:
+            folder = self.root / "territorios" / row["territory_id"] / "evidencia/ejecuciones_completas"
+            runs = [int(p.stem) for p in folder.glob("*.json") if p.stem.isdigit()] if folder.is_dir() else []
+            with self.subTest(territory=row["territory_id"]):
+                if not runs:
+                    self.assertEqual({}, row["last_run"])
+                    continue
+                last = row["last_run"]
+                self.assertEqual(max(runs), last["run_id"])
+                self.assertIn(last["publication"], {"executed", "failed", "not_requested"})
+                if last["status"] == "FAILED":
+                    self.assertTrue(last["stopped_at"])
+                self.assertTrue(row["next_step"])

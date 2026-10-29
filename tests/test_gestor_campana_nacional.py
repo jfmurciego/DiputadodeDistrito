@@ -172,6 +172,7 @@ class NationalCampaignTests(unittest.TestCase):
          slot=row["slot"],campaign_instance=manifest["campaign_instance"])
 
  def test_dispatch_contract_path_and_electoral_persistence(self):
+  ROOT=frozen_root()  # Galicia pendiente de incorporar: caso congelado en aee8215e
   manager=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
   self.assertIn("campaign_contract_path: ${{ matrix.contract_path }}",manager)
   self.assertIn("persist_state: ${{ matrix.persist_state }}",manager)
@@ -355,6 +356,7 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertEqual(_campaign_lineage_identity({"existing":original}),original)
 
  def test_galicia_child_consumed_electoral_source_sha_is_enforced(self):
+  ROOT=frozen_root()  # Galicia pendiente de incorporar: caso congelado en aee8215e
   from herramientas.gestor_campana_nacional import campaign_execution_plan
   m=build_manifest(selected=["galicia"],publication_mode="electoral",
                    source_sha="a"*40,strategy="Canónico",campaign_instance="galicia-lineage",root=ROOT)
