@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.45
+Versión: 1.0.46
 Fecha: 2026-10-29
-Alcance: diagnóstico M05 con exención por municipio y resumen del informe M05
+Alcance: ruta de VALIDACION.json en el diagnóstico de la 04
 Estado: candidato
-Cambios/motivo: Andalucía sigue fallando en M05 con su exención por municipio y el diagnóstico no lo explica
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.44_20261029.md
+Cambios/motivo: CyL (40964570303) falló en M08 sin DIAG_VALIDACION: el informe vive en ejecuciones/<RUN_ID>/
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.45_20261029.md
 -->
 
 
@@ -17,6 +17,13 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.44_20261029.md
 
 
 
+
+
+## 2026-10-29 — 04 — ruta de VALIDACION.json en el diagnóstico
+
+`validar_ejecucion.py` escribe `ejecuciones/<RUN_ID>/VALIDACION.json` en la raíz, no en el `io.runs.dir` del
+contrato; el diagnóstico de 1.1.3 sólo miraba `RUNS_DIR` y Castilla y León (40964570303) volvió a fallar
+en M08 sin detalle. `_reutilizable-incorporacion-electoral.yml` 1.1.4 busca en las dos rutas.
 
 ## 2026-10-29 — 02 — diagnóstico M05 con exención por municipio
 
