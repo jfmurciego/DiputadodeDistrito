@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.42
+Versión: 1.0.43
 Fecha: 2026-10-29
-Alcance: checkpoints M04 con configuración vigente y consumo de M06 certificado en la 04
+Alcance: exención de suelo por municipio en Andalucía
 Estado: candidato
-Cambios/motivo: Andalucía/PV/Cataluña reanudaron M05 con semillas de 1,75; CyL/Extremadura no localizan su M06
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.41_20261029.md
+Cambios/motivo: Andalucía sigue en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.42_20261029.md
 -->
 
 
@@ -14,6 +14,16 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.41_20261029.md
 
 
 
+
+
+## 2026-10-29 — Población — exención de suelo por municipio en Andalucía
+
+Decisión del propietario. Con atomicidad 1,25 (#342) y semillas M04 nuevas, Andalucía (40952332904) sigue
+en `NO_FEASIBLE_REPAIR_FOUND` por cuatro distritos de municipios rurales bajo el suelo: en Cádiz, los de
+11002 (20.261 hab., 0,25), 11005 (35.805, 0,45) y 11001 (52.719, 0,66); en Sevilla, el de 41001 (55.814, 0,70).
+
+- `andalucia_2025.yaml`: `validation.population_floor_exempt_municipalities` = 11001, 11002, 11005 y
+  41001 (mecanismo de #343): sólo el distrito que contiene cada municipio queda exento del suelo.
 
 ## 2026-10-29 — 02/04 — checkpoints M04 y consumo de M06 certificado
 
