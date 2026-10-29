@@ -239,15 +239,15 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
     def test_aragon_source_receipt_is_repaired_without_reacquiring_historical_product(self):
         plan = resolve(ROOT, "Aragón")["plans"][0]
         candidate = plan["territorial_candidate"]
-        self.assertEqual(candidate["run_id"], 38093067883)
-        self.assertEqual(
-            candidate["artifact_name"],
-            "ddd-source-package-aragon-2025-38093067883",
-        )
-        self.assertEqual(
-            candidate["artifact_sha256"],
-            "35adcbfcf41619c3e54219714aefac5b4885fae0ccd08ae5fcf9930e0528db51",
-        )
+        # Regla: el candidato es el receipt durable que el catálogo declara vigente
+        # (F10 independiente si sigue sin promover; si no, la preparación).
+        live = next(
+            r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
+            if r["territory_id"] == "aragon"
+        )["editions"]["2025"]
+        declared = live.get("independent_source_evidence") or live["preparation_evidence"]
+        for key in ("run_id", "artifact_name", "artifact_sha256"):
+            self.assertEqual(candidate[key], declared[key])
         self.assertEqual(candidate["reason"], "TERRITORIAL_DURABLE_CANDIDATE")
         self.assertEqual(plan["territorial_action"], "REUSE_TEMPORAL_SUBSTITUTION")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE_TEMPORAL_SUBSTITUTION")

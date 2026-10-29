@@ -1,12 +1,37 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.35
+Versión: 1.0.36
 Fecha: 2026-10-29
-Alcance: diagnóstico de distritos fuera de límites al fallar M04/M05
+Alcance: reutilización 00 con la fuente territorial re-descargada
 Estado: candidato
-Cambios/motivo: cinco territorios fallan en M05 y el log sólo dice cuántos distritos incumplen, no cuáles
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.34_20261029.md
+Cambios/motivo: Aragón, Extremadura y Castilla y León fallaban al planificar el 00 en reutilización
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.35_20261029.md
 -->
+
+
+## 2026-10-29 — 00 — reutilización con la fuente territorial re-descargada
+
+Los 00 en reutilización de Aragón (40888544861), Extremadura (40888581480) y Castilla y León
+(40888506741) fallaban en «Resolver fases necesarias»:
+
+- Aragón y Extremadura: `TERRITORIAL_REPLAN_BLOCK: fuente elegida difiere del catálogo: run_id`.
+  `independent_source_evidence` (receipt F10 antiguo, no promovido) tapaba a la re-descarga de
+  `preparation_evidence` con la que se generó el M06 vigente; y, sin linaje producto→fuente, el
+  M06 nuevo no se reconocía como reutilizable.
+- Castilla y León: `DURABLE_ASSET_INVALID: electoral_product: receipt durable ilegible`; la evidencia
+  electoral apuntaba a un informe .md del M08 anterior al M06 nuevo.
+
+Cambios:
+
+- `consumir_par_fuentes_legislatura.py` 1.2.0: sin linaje versionado, la reutilización geométrica
+  acepta el manifiesto del productor M06 si es del mismo run que el producto y su
+  `inputs.source_package_artifact` coincide (run, nombre y SHA-256) con el receipt territorial
+  vigente (`SOURCE_PRODUCER_MANIFEST_MATCH`). Cualquier otra diferencia mantiene el bloqueo.
+- `catalogo_preparacion.yaml`: se retira `independent_source_evidence` de Aragón, Extremadura y
+  Castilla y León (su razón de ser, preservar el linaje del M06 histórico, desaparece con el M06
+  nuevo); Castilla y León pasa a `electoral_product_available: false` hasta el 04 sobre el M06 nuevo.
+- Tests: `test_linaje_manifiesto_productor_m06` (nuevo); `test_preparacion_legislatura_vigente`
+  compara el candidato de Aragón con el receipt que el catálogo declara vigente.
 
 ## 2026-10-29 — 02 — diagnóstico de población al fallar M04/M05
 
