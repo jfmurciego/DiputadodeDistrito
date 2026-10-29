@@ -1,0 +1,78 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "extremadura",
+  "territory_name": "Extremadura",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 36136783101,
+  "source_sha": "b5051291377b1e1fcb7f198fd6eada8dd0a45b3f",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "blocked_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35755043806,
+      "artifact": "ddd-source-package-extremadura-2025-35755043806",
+      "artifact_digest": "sha256:fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 36136783101,
+      "artifact": "ddd-state-36136783101-M06",
+      "artifact_digest": "sha256:647a1477bb8aa385c35992be92a086a39fac7a37fbe72cfe92c7982b3b304b0a",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "success",
+      "run_id": 36136783101,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-25T12:56:03.656673+00:00"
+}

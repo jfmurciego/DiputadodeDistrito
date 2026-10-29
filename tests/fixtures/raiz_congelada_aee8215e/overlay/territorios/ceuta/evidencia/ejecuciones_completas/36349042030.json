@@ -1,0 +1,79 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "ceuta",
+  "territory_name": "Ceuta",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 36349042030,
+  "source_sha": "7678375ed1a81ae8083711974c624767cc9b50e8",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36258940598,
+      "artifact": "ddd-source-package-ceuta-2025-36258940598",
+      "artifact_digest": "sha256:c682bc36d11b91edc5016c78e4f55baeb1499e0b8dd1b1b58f6fa87086302529",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 36349042030,
+      "artifact": "ddd-state-36349042030-M06",
+      "artifact_digest": "sha256:6b4141bcdbdab39499dcb2abe97d1cb0348c1c37b9aae8ebc484982a8b98b990",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 36349042030,
+      "artifact": "ddd-electoral-package-ceuta-2025-36349042030",
+      "artifact_digest": "sha256:aec5705a7fc342bc752e1f05ca3fe4f6c169b2bf71dca01bdac8e7a33274b6d9",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-27T20:52:09.159709+00:00"
+}

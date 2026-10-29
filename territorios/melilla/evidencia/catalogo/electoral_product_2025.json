@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "melilla",
+  "territory_name": "Melilla",
+  "edition": "2025",
+  "run_id": 40840795932,
+  "artifact_name": "ddd-state-40840795932-M08",
+  "artifact_sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d",
+  "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
+  "stage": "M08"
+}

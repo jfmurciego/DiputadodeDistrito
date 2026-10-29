@@ -138,6 +138,12 @@ modulos:
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
     hard_partition_territory_id: canarias
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      strategy: private_annealing
+      seed: 0
+      max_candidates: 5000000
+      max_seconds: 120.0
     in_graph_json: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_grafo.json
     in_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
@@ -303,9 +309,9 @@ validation:
     section_year: 2023
     population_total: 2213016
     target_section_count: 1396
-    package_sha256: ed90c2eae4d78385a105108016989b6fe0d2b356952161b45d5ec6fc847bc3a0
-    compatibility_report_sha256: 3181add1362a52d13dfd72e951264f79db7658b7f5a2bb61315a4d8b208b4201
-    compatibility_identity_sha256: b01d9dc228517ba8ceaeeb78f356d1ce3d85739853926ac887e4ae91ade07321
+    package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
+    compatibility_report_sha256: 86f389eec7d9ad8aefa24f76bcbde7953727a9e5811532b702d0268b92f08dc7
+    compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -362,7 +368,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 11d3eb11ae551aa380c556cc8d88cc66b8bb7906d7a59ca31d697b1fc758ce10
+        sha256: 205731ac8650e496cc8ffec5e2f6fcd62e3f8ac947dffeca343243102caffe8b
         bytes: 8666923
   runtime:
     section_id_field: CUSEC_KEY
@@ -376,12 +382,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 044ad4a88aa48ac95acb93dfb167f842c40c4dec0925a28df1b15f9724cba970
+  contract_sha256: 49be87fd36d4e4c23a3f247a718eced10bb00a0622d796199fe787d8928afd33
 generation_state:
   source_prepared: true
   generation_enabled: false
-  package_sha256: ed90c2eae4d78385a105108016989b6fe0d2b356952161b45d5ec6fc847bc3a0
-  compatibility_identity_sha256: b01d9dc228517ba8ceaeeb78f356d1ce3d85739853926ac887e4ae91ade07321
+  package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
+  compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 65555af58d6b04a7b27c081c065ca25cf297e3ea181e3404a72e648f8f9e9c99
@@ -413,7 +419,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 11d3eb11ae551aa380c556cc8d88cc66b8bb7906d7a59ca31d697b1fc758ce10
+    sha256: 205731ac8650e496cc8ffec5e2f6fcd62e3f8ac947dffeca343243102caffe8b
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:

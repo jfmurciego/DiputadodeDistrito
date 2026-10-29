@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "comunidad_foral_de_navarra",
+  "territory_name": "Comunidad Foral de Navarra",
+  "edition": "2025",
+  "run_id": 40847881909,
+  "artifact_name": "ddd-state-40847881909-M08",
+  "artifact_sha256": "d7f5e4d28234d593d3a67923b7a0d664ffb2fef01ae4bca7e206c5a9282186c7",
+  "source_commit": "865441a7b2bae30a9fd0c823f5211820f7182be5",
+  "stage": "M08"
+}

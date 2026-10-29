@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -55,7 +55,7 @@ territory_contract:
   - '01'
   - '20'
   - '48'
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   notes:
   - R022 congeló 1707 secciones y 2242343 habitantes sin faltantes.
   - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
@@ -133,6 +133,12 @@ modulos:
     out_geojson: territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_semillas.geojson.zip
     out_report: territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_informe.json
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      strategy: private_annealing
+      seed: 0
+      max_candidates: 5000000
+      max_seconds: 1800.0
     in_graph_json: territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
@@ -209,9 +215,9 @@ validation:
     section_year: 2024
     population_total: 2227684
     target_section_count: 1713
-    package_sha256: 73b444b96e98354ae6db5d123d85d17ce6e27969cb0e1afc4605cb4c49e16a7e
-    compatibility_report_sha256: 6ceb39c187373cc3846a6e69706a50145c344c0ce75b78fe57420f704f0a4db9
-    compatibility_identity_sha256: 3bab2ce86d8014493b7b3fb1042f690c4fe390bcf2b0ded7a0129dcd1db85e73
+    package_sha256: 7d19e1a44e861dc45f564471e8f2f3d5c1affe2d5e278e71d06f57dd77504e42
+    compatibility_report_sha256: f25d719f2713409c50f6c20247202fd0b611354f6d7f47fd2636893e9830ebc3
+    compatibility_identity_sha256: d1b8539fdacf5a4fb76b66f733859758716915cf51c2c00886a9a005260f1e63
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -268,7 +274,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2024.zip
-        sha256: b163abdd6ef5bd9f1526d8a981a61de4686737469b8d0d5460b2868583407751
+        sha256: fe621a80c7bb53e1f4bd46a6969ec84afaa2d78700a6a18b3e7f3d965c997620
         bytes: 5845863
   runtime:
     section_id_field: CUSEC_KEY
@@ -282,12 +288,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 926a6f0852486f0bfb5a9e7d839b2da8d6e833d7a7c57c2a314e1412b46f4d98
+  contract_sha256: b2054d03dc2fb461b01f53af7e4e0bd79b1b98e9b5152b7a904865163ccb1fcc
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: 73b444b96e98354ae6db5d123d85d17ce6e27969cb0e1afc4605cb4c49e16a7e
-  compatibility_identity_sha256: 3bab2ce86d8014493b7b3fb1042f690c4fe390bcf2b0ded7a0129dcd1db85e73
+  generation_enabled: true
+  package_sha256: 7d19e1a44e861dc45f564471e8f2f3d5c1affe2d5e278e71d06f57dd77504e42
+  compatibility_identity_sha256: d1b8539fdacf5a4fb76b66f733859758716915cf51c2c00886a9a005260f1e63
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: a3d879ea855f837653948b90483b5930e69b94a4caaba0ad45cfbcbe26a6442c
@@ -319,7 +325,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2024.zip
-    sha256: b163abdd6ef5bd9f1526d8a981a61de4686737469b8d0d5460b2868583407751
+    sha256: fe621a80c7bb53e1f4bd46a6969ec84afaa2d78700a6a18b3e7f3d965c997620
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -337,3 +343,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40838196490
+  pre_m04_source_commit: 0769e684cd81c2551a362691f5b2f008fd4c61fa
+  pre_m04_artifact_sha256: 8810004a7c504f4ea0dfa606524e27aed16451ae8ead2997fd14dce3d8efd7be

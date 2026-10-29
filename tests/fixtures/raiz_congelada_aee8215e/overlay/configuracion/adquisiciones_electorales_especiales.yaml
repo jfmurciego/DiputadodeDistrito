@@ -1,0 +1,22 @@
+schema: ddd-special-electoral-acquisitions/1.0
+acquisitions:
+  andalucia_parlamento_2026:
+    territory_id: andalucia
+    election_date: '2026-05-17'
+    kind: official_api_snapshot
+    provider: siel
+    source_status: VERIFIED_OFFICIAL_FINAL
+    promotion_allowed: true
+    provider_config:
+      election_key: 202605
+      workers: 32
+      expected_sections: 6044
+      official_candidate_votes: 4157539
+      expected_snapshot:
+        sections_sha256: 6ef7fd1efb04ea3623b401b6fd73c1ed3895005384306c75b5953a97ddafa70e
+        cera_sha256: 1a8de1e3e43623f677f5142fc300d70692837b30ffc5aa65e57ece3f6e7e9e7c
+      locator:
+        role: SECTION_LOCATOR_ONLY
+        url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+        sha256: 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
+      official_reference: https://www.juntadeandalucia.es/boja/2026/115/1

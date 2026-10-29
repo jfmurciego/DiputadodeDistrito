@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -84,7 +84,7 @@ territory_contract:
   - 07-C02
   - 07-C03
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -132,6 +132,12 @@ modulos:
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
     hard_partition_territory_id: illes_balears
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      strategy: private_annealing
+      seed: 0
+      max_candidates: 5000000
+      max_seconds: 120.0
     in_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
     in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
@@ -251,9 +257,9 @@ validation:
     section_year: 2023
     population_total: 1209906
     target_section_count: 670
-    package_sha256: bbaaaf5e70964edc64e5309587d055d5f9d8600950e3410ba5270b75fd044f72
-    compatibility_report_sha256: 24623cecc6f21baa34f9aad151dd212505e9ce06dc1ec51a6e7499be59569018
-    compatibility_identity_sha256: 64986eff1a72501c90a8f16e6b546b50863343ab57661a5db2b2e0b7268bd952
+    package_sha256: 1fb9e2dbc236ade9917e131b6f1b153fad1c9babbf6454ac476b6e692f9af242
+    compatibility_report_sha256: 5470887499ef6459ce974da98671845f62466325b9baa974ebce5049978942ef
+    compatibility_identity_sha256: c8a1ea03dbed284ad9d5144d8198047b7096881928894a2017e60ad19fb6f748
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -310,7 +316,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: b3c739575c175caea30e3dc327570ff1792eac4e4a592f00a1ace8c8fcf836cd
+        sha256: eabbf448aa3b5ce4bad555fd9bc555f478f1f7655fedc05fd74f1c93ecea45c5
         bytes: 3454672
   runtime:
     section_id_field: CUSEC_KEY
@@ -324,12 +330,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: da023098ab70041c08166885f5bd46f74a494d0d2fdce9d06d9d83fccfc0022f
+  contract_sha256: 548f5293f98d2a525d7b844017905bc63403d73ab30c0904c3c320f0ced2169c
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: bbaaaf5e70964edc64e5309587d055d5f9d8600950e3410ba5270b75fd044f72
-  compatibility_identity_sha256: 64986eff1a72501c90a8f16e6b546b50863343ab57661a5db2b2e0b7268bd952
+  generation_enabled: true
+  package_sha256: 1fb9e2dbc236ade9917e131b6f1b153fad1c9babbf6454ac476b6e692f9af242
+  compatibility_identity_sha256: c8a1ea03dbed284ad9d5144d8198047b7096881928894a2017e60ad19fb6f748
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b
@@ -361,7 +367,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: b3c739575c175caea30e3dc327570ff1792eac4e4a592f00a1ace8c8fcf836cd
+    sha256: eabbf448aa3b5ce4bad555fd9bc555f478f1f7655fedc05fd74f1c93ecea45c5
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -379,3 +385,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40847174556
+  pre_m04_source_commit: 36838bf5be539f208278d6c4e15aa5965171f88c
+  pre_m04_artifact_sha256: 378600829d8e6f535baf2c08df39728065a56d2d901d38b482695095a83c6b84

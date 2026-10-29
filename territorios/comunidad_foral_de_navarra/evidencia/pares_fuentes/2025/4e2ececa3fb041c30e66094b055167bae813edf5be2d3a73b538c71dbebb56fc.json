@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "comunidad_foral_de_navarra",
+  "territory_name": "Comunidad Foral de Navarra",
+  "edition": "2025",
+  "election": {
+    "election_id": "navarra_parlamento_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40838170635,
+    "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-40838170635",
+    "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
+    "package_sha256": "208c559a716b904fd9f2bf778feaacd8d976b77bba78b0fd9dc3c06904bf644a",
+    "source_commit": "56a05425004ca2539106f4d016a06a7096e48098",
+    "source_declaration": "territorios/comunidad_foral_de_navarra/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1/40838170635/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "a9d7607694237c4ce4194e2c19ab095e09aeb90c250a46974acf4c3ceae2111a",
+    "compatibility_identity_sha256": "cd06fc1124dd3bc3b0844370a0b5aef5f3583ed0144e612c5339b5dd3ced76b2",
+    "remote_verification": {
+      "run_id": 40838170635,
+      "artifact_id": 12883122407,
+      "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-40838170635",
+      "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 40838170635,
+    "artifact_name": "ddd-electoral-package-comunidad_foral_de_navarra-2025-40838170635",
+    "artifact_sha256": "66d6bf48a7c065a65334948895928faa092501e5d76cc24d70f572b6ffcced11",
+    "source_commit": "56a05425004ca2539106f4d016a06a7096e48098",
+    "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f/40838170635/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "navarra_parlamento_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f",
+    "remote_verification": {
+      "run_id": 40838170635,
+      "artifact_id": 12886260298,
+      "artifact_name": "ddd-electoral-package-comunidad_foral_de_navarra-2025-40838170635",
+      "artifact_sha256": "66d6bf48a7c065a65334948895928faa092501e5d76cc24d70f572b6ffcced11",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "4a5f888684b78f1badcfcc2aad1fa897ca04701105103b42e179f6c6e74b00d1",
+  "electoral_compatibility_key": "ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc"
+}

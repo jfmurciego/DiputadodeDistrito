@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.14
+VERSIÓN: 7.4.16
 NOMBRE DE VERSIÓN: Cardinalidad residual de unidades indivisibles
 FECHA: 2026-10-26
 FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos mientras sean compatibles con el contrato territorial y dividiendo municipios sobredimensionados sin aislar el residuo municipal abierto.
@@ -12,7 +12,9 @@ SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M0
 ESTADO: candidato CYL-03.
 CAMBIOS: mantiene la búsqueda de núcleo cerrado y el fallback residual-first, pero separa las cotas duras de población (suelo/techo contractuales) de la banda ±tolerancia, que queda exclusivamente como objetivo de calidad.
 MOTIVO: CYL-03 v7.4.4 identificó correctamente dos puertas reales de Aranda de Duero, pero el BFS orientado al núcleo no encontró una solución aunque el problema natural es pequeño: reservar un residuo de borde y cerrar el complemento urbano.
-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.4.10_pre_residual_cardinality.py
+ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.4.15_pre_connected_growth.py
+CAMBIO 7.4.16: solo si las búsquedas secuencial y equilibrada se agotan, reintenta con núcleos que crecen añadiendo únicamente unidades que dejan el resto conexo; las particiones que hoy tienen éxito no cambian. Motivo: Cartagena (Murcia, run 40850405847, 'no connected core' con banda amplia).
+CAMBIO 7.4.15: solo cuando la búsqueda secuencial se agota, la reintenta apuntando cada núcleo al reparto equilibrado del resto (pop_restante/partes_restantes) en vez de al objetivo; las particiones que hoy tienen éxito no cambian. Motivo: Cartagena (Murcia, run 40773421805).
 CAMBIO 7.4.14: reserva una unidad por distrito pendiente antes de aceptar una extracción y rechaza cardinalidades imposibles explícitamente; conserva K y el grafo.
 """
 from __future__ import annotations
@@ -162,6 +164,28 @@ def find_closed_core(rem,desired,lo,hi,adj,w,left_after,protected=None,residual_
                 if v in rem and v not in seen and v not in protected:seen.add(v);q.append(v)
     return best[1] if best else None
 
+def find_closed_core_grow(rem,desired,lo,hi,adj,w,left_after,protected=None,residual_gateways=None,max_starts=200):
+    # Crecimiento que solo añade unidades frontera que dejan el resto conexo (el BFS por prefijos puede cortarlo).
+    rem=set(rem);protected=set(protected or ());residual_gateways=set(residual_gateways or ());rp=sum(w[n] for n in rem);best=None
+    starts=sorted(rem-protected,key=lambda n:(sum(v in rem for v in adj[n]),w[n],str(n)))[:max_starts]
+    for s in starts:
+        ch={s};cum=w[s]
+        if not connected(rem-ch,adj):continue
+        while True:
+            rest=rem-ch;rest_pop=rp-cum
+            if lo<=cum<=hi and len(rest)>=left_after+1:
+                future_ok=(rest_pop>=left_after*lo and rest_pop<=left_after*hi+hi) if left_after else (rest_pop==0 or rest_pop<=hi)
+                gateway_ok=(not residual_gateways) or bool(rest&residual_gateways)
+                if future_ok and gateway_ok:
+                    score=(abs(cum-desired),-len(rest&residual_gateways),cum,len(ch),str(s))
+                    if best is None or score<best[0]:best=(score,set(ch))
+            if cum>=desired:break
+            frontier=sorted({v for u in ch for v in adj[u] if v in rest and v not in protected},key=lambda v:(-sum(x in ch for x in adj[v]),abs(cum+w[v]-desired),str(v)))
+            pick=next((v for v in frontier if cum+w[v]<=hi and connected(rest-{v},adj)),None)
+            if pick is None:break
+            ch.add(pick);cum+=w[pick]
+    return best[1] if best else None
+
 def find_residual_complement(rem,desired,lo,hi,adj,w,protected=None,residual_gateways=None):
     rem=set(rem);protected=set(protected or ());residual_gateways=set(residual_gateways or ());rp=sum(w[n] for n in rem)
     starts=sorted(residual_gateways or protected or rem,key=str);best=None
@@ -177,7 +201,7 @@ def find_residual_complement(rem,desired,lo,hi,adj,w,protected=None,residual_gat
             for v in nbrs:seen.add(v);q.append(v)
     return (best[1],best[2]) if best else (None,None)
 
-def _sequential_count(nodes,n_closed,target,floor,cap,adj,w,protected,residual_gateways):
+def _sequential_count(nodes,n_closed,target,floor,cap,adj,w,protected,residual_gateways,balanced=False,grow=False):
     rem=set(nodes);closed=[];mode='sequential_core_residual'
     for idx in range(n_closed):
         left_after=n_closed-idx-1;rp=sum(w[n] for n in rem)
@@ -185,8 +209,12 @@ def _sequential_count(nodes,n_closed,target,floor,cap,adj,w,protected,residual_g
         core_max=min(cap,rp-left_after*floor)
         if core_min>core_max+1e-9:
             return None, f'range=[{core_min:.2f},{core_max:.2f}] pop_rem={rp}'
-        desired=min(max(target,core_min),core_max)
+        # balanced: reparto equilibrado del resto entre los núcleos pendientes y el residual.
+        aim=rp/(left_after+2) if balanced else target
+        desired=min(max(aim,core_min),core_max)
         core=find_closed_core(rem,desired,core_min,core_max,adj,w,left_after,protected,residual_gateways)
+        if core is None and grow:
+            core=find_closed_core_grow(rem,desired,core_min,core_max,adj,w,left_after,protected,residual_gateways)
         if core is None and left_after==0:
             core,residual=find_residual_complement(rem,desired,core_min,core_max,adj,w,protected,residual_gateways)
             if core is not None:
@@ -216,6 +244,21 @@ def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,re
             if count!=minimum:mode+=f'+reconsidered_core_count:{minimum}->{count}'
             return closed,residual,mode
         attempts.append({'closed_cores':count,'reason':reason})
+    # Solo si la búsqueda anterior se agota: reintento con objetivo equilibrado por núcleo.
+    for count in range(minimum,maximum+1):
+        result,reason=_sequential_count(nodes,count,target,floor,cap,adj,w,protected,residual_gateways,balanced=True)
+        if result is not None:
+            closed,residual,mode=result
+            return closed,residual,mode+f'+balanced_lookahead:{count}'
+        attempts.append({'closed_cores':count,'reason':'balanced: '+reason})
+    # Solo si ambas se agotan: núcleos por crecimiento que preserva la conexión del resto.
+    for balanced in (True,False):
+        for count in range(minimum,maximum+1):
+            result,reason=_sequential_count(nodes,count,target,floor,cap,adj,w,protected,residual_gateways,balanced=balanced,grow=True)
+            if result is not None:
+                closed,residual,mode=result
+                return closed,residual,mode+f'+connected_growth:{count}'
+            attempts.append({'closed_cores':count,'reason':'growth: '+reason})
     raise SystemExit(f'M04: SEQUENTIAL_PARTITION_SEARCH_EXHAUSTED {label}; attempts={attempts} protected={sorted(protected)}; no structural impossibility inferred')
 
 def partition_oversized_municipality(nodes,target,floor,cap,tol,adj,w,label='',protected=None):

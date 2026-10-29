@@ -1,0 +1,44 @@
+# Registro cerrado de controles obligatorios del motor de producción M05.
+#
+# Regla: un control solo sale de esta lista mediante un commit que modifique
+# ESTE fichero y lo justifique en docs/REGISTRO_DE_CAMBIOS.md. Retirarlo del
+# motor sin tocar este fichero hace fallar tests/test_controles_obligatorios.py.
+#
+# CODEOWNERS exige revisión explícita para cualquier cambio aquí.
+# La continuidad geométrica física se conserva como diagnóstico auditable, no
+# como segunda restricción dura capaz de contradecir pasarelas declaradas.
+
+schema: ddd.controles-obligatorios/1.1
+motor: ddd_core/m05_gerrychain_strategy.py
+
+restricciones_duras:
+  # nombre emitido en violations.append(...) o en return [...]
+  - unit_universe
+  - district_count
+  - population_floor
+  - population_cap
+  - province
+  - province_count
+  - municipality
+  - municipality_mixed
+  - closed_urban
+  - empty_district
+  - contiguity                # autoridad única: grafo territorial operativo M03
+
+semantica_contigüidad:
+  hard_constraint: operational_graph_m03
+  physical_geometry: diagnostic_only
+  declared_topology_bridges: authoritative
+  fallback_on_invalid_baseline: forbidden
+
+objetivo:
+  # region_surcharge no puede ser None en la propuesta ReCom
+  comarca_surcharge_activo: true
+  # candidate_rank debe agrupar población antes de comparar forma.
+  population_band: 0.005
+  # candidate_rank debe contener un término de forma real y efectivo.
+  forma_en_objetivo: true
+
+reproducibilidad:
+  require_pythonhashseed_zero: true
+  garantia_monotonia: true

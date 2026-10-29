@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "la_rioja",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 40838222105,
+  "artifact_name": "ddd-source-package-la_rioja-2025-40838222105",
+  "artifact_sha256": "3b842c9a96de9e05c7767944ff5fcfc629219f8c685f30c690c552b9dd40b94d",
+  "package_sha256": "de9c6c0b7a95d8c65f710041ecff4f25e58927d7715f90997c63ec0341840ae2",
+  "source_commit": "56a05425004ca2539106f4d016a06a7096e48098",
+  "source_declaration": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/9ee79e5bcb8c63400da72c8537cf1edf90588a720e9affb6e906e5f892ebccee/40838222105/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "9ee79e5bcb8c63400da72c8537cf1edf90588a720e9affb6e906e5f892ebccee",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "af9e5e928e6a74eb58d5dbabc260c0c9343291c50c30cd8ce84310ecc3bca83f",
+  "compatibility_identity_sha256": "8c7eb95153390bb915a2a60171a69253659bc4d21d7a7ec24b9b0f0fb6229172"
+}

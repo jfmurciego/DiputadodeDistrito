@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "ceuta",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 37159991566,
+  "artifact_name": "ddd-source-package-ceuta-2025-37159991566",
+  "artifact_sha256": "7badbe6d89325152887d45029c1fc62a2ba0b3b0f65f8d694cc6698fd8a64fa4",
+  "package_sha256": "9535a68d47fbf806043f8269c3ba9c5456553be57710397c6a321e032e4c9cf6",
+  "source_commit": "8f0f517d4e8750f13c511ffa9b7b8bf2ff40ce51",
+  "source_declaration": "territorios/ceuta/evidencia/fuentes_territoriales/2025/29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853/37159991566/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "bb6b26b0abc8fef0ab2486b69add9b3675a86d89fd5526b3eef333b97574152a",
+  "compatibility_identity_sha256": "1352e96cca7e549c5d6a5ec75ac3b42a666d92f4a48373af1ecde17a3075ba3f"
+}

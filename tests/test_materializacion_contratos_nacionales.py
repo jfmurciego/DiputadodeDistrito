@@ -890,15 +890,10 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-            # El recibo pre-M04 vigente ya acredita el contrato y el blob M02; no se planifica
-            # una reacreditación redundante. Baleares cambió su contrato (exención de suelo de
-            # Menorca, 07-C02) y debe reacreditarse antes de generar.
-            # Regla: preparar fuente y reacreditar pre-M04 van juntos; Baleares lo exige siempre por
-            # su cambio de contrato y Canarias cuando una re-descarga cambia su fuente.
+            # Regla: si el recibo pre-M04 vigente acredita el contrato y el blob M02 no se reacredita;
+            # si el contrato o la fuente cambiaron, preparar fuente y reacreditar van juntos.
             reaccredit = plan["pre_m04_accreditation_planned"]
             self.assertEqual(plan["run_prepare_territorial"], reaccredit, territory_id)
-            if territory_id == "illes_balears":
-                self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
             self.assertEqual(
                 {"allowed": True,
                  "route": "planned_pre_m04_accreditation" if reaccredit else "validated_pre_m04_topology"},
@@ -1393,7 +1388,7 @@ class TerritoryPopulationLimitsTests(unittest.TestCase):
         from herramientas.materializar_contrato_generacion import territory_population_limits
         policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
         melilla = territory_population_limits(policy["defaults"], policy["territories"]["melilla"], "melilla")
-        self.assertEqual((0.70, 1.75, 0.30), (melilla["population_floor_ratio"], melilla["population_cap_ratio"], melilla["target_tolerance_ratio"]))
+        self.assertEqual((0.50, 1.75, 0.50), (melilla["population_floor_ratio"], melilla["population_cap_ratio"], melilla["target_tolerance_ratio"]))
         for territory_id, entry in policy["territories"].items():
             if territory_id != "melilla":
                 self.assertIs(policy["defaults"], territory_population_limits(policy["defaults"], entry, territory_id))

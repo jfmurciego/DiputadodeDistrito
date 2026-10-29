@@ -4,27 +4,33 @@
   "territory_id": "comunidad_valenciana",
   "territory_name": "Comunidad Valenciana",
   "edition": "2025",
-  "run_id": 36273981926,
-  "source_commit": "b10531a9c6e0314ae389874043d71507d1163c44",
-  "artifact_name": "ddd-state-36273981926-M03U",
-  "artifact_sha256": "5d6e35be1562686c9b5ac65a725a25e50b7cdcc1c3e08f42fc4da19066b561bd",
+  "run_id": 40784680666,
+  "source_commit": "cc22cbbf52f64ef1c838575f5476f3dfd03aa9d2",
+  "artifact_name": "ddd-state-40784680666-M03U",
+  "artifact_sha256": "410374199a43a068545e3ad4b0a24a3671cce6f35c569d0ce273ac4cd293a238",
   "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
   "stage": "M03U",
   "source": {
-    "artifact_name": "ddd-source-package-comunidad_valenciana-2025-36273981926",
-    "artifact_sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
-    "package_sha256": "201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97"
+    "run_id": 40784680666,
+    "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40784680666",
+    "artifact_sha256": "6acb5f5d008ca1f85ed289736086d3fac3bba3014967877f1062404e73c042fd",
+    "package_sha256": "3e8efc32370692932fb4ba778b6ddb8e2602c5909867fb690e7abd7b1160bd70",
+    "compatibility_identity_sha256": "96e3e6692a46682ebd3dc93f90bd173f085b3f0a1078a75a86539aeefb824e30",
+    "territorial_identity_sha256": "dbc8127b1a7f0839006112b2e72cd643fce01badef41382a5e90690d54a0635d",
+    "population_year": 2023,
+    "section_year": 2023
   },
   "implementation": {
-    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
-    "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
-    "m03_git_blob_sha1": "c2c928d1e21d3b486ee3e9975eace18364bd3176",
-    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
     "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
   },
   "adjacency": {
     "predicate": "contact",
-    "working_crs": "EPSG:3035",
+    "working_crs": "EPSG:25830",
     "min_shared_border_m": 1.0,
     "max_precision_overlap_area_m2": 1.0,
     "buffer_m": 0.0,
@@ -45,20 +51,29 @@
     ]
   },
   "graph": {
-    "artifact_name": "ddd-state-36273981926-M03",
-    "artifact_sha256": "50d557eeb61ee2f60b2613ae2a386d8fc2cf7cd1e687e2f68f7859dc41b4b0db",
-    "module_version": "7.4.1",
-    "nodes": 3515,
-    "edges": 9724,
-    "population": 5425182,
+    "artifact_name": "ddd-state-40784680666-M03",
+    "artifact_sha256": "61888cd52b53dfd60ad30200dd8ea5f9fddf8710674a8a28bde15a47b82c4b21",
+    "module_version": "7.5.0",
+    "nodes": 3503,
+    "edges": 9677,
+    "population": 5216195,
     "isolated": 0,
     "global_components": 1,
     "province_disconnected": 0,
-    "municipality_disconnected": 0
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-36273981926",
-    "job_artifact_sha256": "afb2ede437f28930fae867ef6aea15abe8d62b4485bb3e0b219f26473bfd4d5c",
+    "job_artifact_name": "ddd-internal-units-40784680666",
+    "job_artifact_sha256": "cc8c60c061e5eb50289e9092c5213b2f97f802dc13eb0cf5d202eb856ac2c70f",
     "status": "NOOP",
     "strategy": null,
     "contract_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
@@ -66,6 +81,21 @@
   },
   "contract_binding": {
     "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 5216195,
+      "target_section_count": 3503,
+      "package_sha256": "3e8efc32370692932fb4ba778b6ddb8e2602c5909867fb690e7abd7b1160bd70",
+      "compatibility_report_sha256": "1bf4683f1b77855c4ac3b6a3f15f423f0192029f103a97a31a75ef11b9a57522",
+      "compatibility_identity_sha256": "96e3e6692a46682ebd3dc93f90bd173f085b3f0a1078a75a86539aeefb824e30"
+    },
+    "topology_accreditation": null,
     "k_districts": 99,
     "population_floor_ratio": 0.8,
     "population_cap_ratio": 1.75,

@@ -20,7 +20,7 @@ _SPEC.loader.exec_module(_M03)
 
 
 class M03AdministrativeComponents(unittest.TestCase):
-    def fixture(self, root: Path, *, accredited: bool = True, stale: bool = False):
+    def fixture(self, root: Path, *, accredited: bool = True, stale: bool = False, redownload: bool = False):
         geo = root / "m01.geojson"
         edges = root / "m02.jsonl"
         graph = root / "m03.json"
@@ -51,7 +51,7 @@ class M03AdministrativeComponents(unittest.TestCase):
             encoding="utf-8",
         )
 
-        package = "d" * 64 if stale else "a" * 64
+        package = "d" * 64 if stale or redownload else "a" * 64
         validation = {
             "source_baseline": {
                 "package_sha256": package,
@@ -91,7 +91,7 @@ class M03AdministrativeComponents(unittest.TestCase):
             }
 
         cfg = {
-            "meta": {"year": 2025, "source_section_year": 2024},
+            "meta": {"year": 2025, "source_section_year": 2023 if stale else 2024},
             "modulos": {
                 "modulo_03_construir_grafo": {
                     "in_geojson": str(geo),
@@ -139,6 +139,17 @@ class M03AdministrativeComponents(unittest.TestCase):
                 self.invoke(params)
             report = json.loads(report_path.read_text(encoding="utf-8"))
             self.assertEqual(1, report["municipality_component_audit"]["unresolved"])
+
+    def test_same_year_redownload_rebinds_when_membership_matches(self):
+        # Otra huella de paquete con la misma edición y año de secciones: la pertenencia exacta de
+        # la componente declarada se verifica y la acreditación se conserva (SECTION_YEAR_REBOUND).
+        with tempfile.TemporaryDirectory() as td:
+            params, _, report_path = self.fixture(Path(td), redownload=True)
+            self.invoke(params)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertTrue(report["topology_accreditation"]["valid"])
+            self.assertEqual("SECTION_YEAR_REBOUND", report["topology_accreditation"]["binding"])
+            self.assertEqual(0, report["municipality_component_audit"]["unresolved"])
 
     def test_stale_source_binding_blocks_even_when_membership_matches(self):
         with tempfile.TemporaryDirectory() as td:

@@ -226,5 +226,29 @@ class ElectoralReconciliation(unittest.TestCase):
         )
 
 
+class GovernedLossExceptionTests(unittest.TestCase):
+    def test_exception_allows_up_to_two_percent_only_when_complete(self):
+        from fractions import Fraction
+        from ddd_core.electoral_reconciliation import _loss_limit
+        full = {"ratio": 0.02, "rationale": "r", "evidence": "e", "decided_at": "2026-10-28"}
+        self.assertEqual(Fraction(1, 50), _loss_limit({"loss_exception": full}))
+        with self.assertRaisesRegex(ValueError, "incompleta"):
+            _loss_limit({"loss_exception": {"ratio": 0.02}})
+        with self.assertRaisesRegex(ValueError, "fuera de rango"):
+            _loss_limit({"loss_exception": dict(full, ratio=0.03)})
+        with self.assertRaisesRegex(ValueError, "fuera de rango"):
+            _loss_limit({"loss_exception": dict(full, ratio=0.01)})
+        self.assertEqual(Fraction(3, 200), _loss_limit({}))
+
+    def test_galicia_exception_is_declared_outside_sealed_contract(self):
+        import yaml
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        data = yaml.safe_load((root / "configuracion/excepciones_reconciliacion_electoral_2025.yaml").read_text(encoding="utf-8"))
+        from ddd_core.electoral_reconciliation import _loss_limit
+        from fractions import Fraction
+        self.assertEqual(Fraction(1, 50), _loss_limit({"loss_exception": data["elections"]["galicia_parlamento_2024"]}))
+
+
 if __name__ == "__main__":
     unittest.main()

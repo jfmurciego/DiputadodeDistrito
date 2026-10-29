@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 0.3.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -56,7 +56,7 @@ territory_contract:
   - '17'
   - '25'
   - '43'
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   notes:
   - CAT-02 run 34688104014 certificó 1709401001, Llívia, como único aislado.
   - La sección española más próxima es 1714101003, Puigcerdà, a 1.636,011 m en EPSG:3035.
@@ -256,9 +256,9 @@ validation:
     section_year: 2024
     population_total: 8012231
     target_section_count: 5117
-    package_sha256: ebb395bcc73ccc2f6303155f239269f01874aedb3dfae1c327ff4582f5cb6979
-    compatibility_report_sha256: a891503e3bc43561edfa97aec3ba5e5c8ed1719e283f14b16217922a9778f886
-    compatibility_identity_sha256: dde3c9ca61e23cca1da2f1cb79cde3c2e64a2946b37b2ec0318a073ca2855bad
+    package_sha256: c376434f1414e104d60aae7d1a4dc5ae3ec068d52315712dccae7780fdd364bd
+    compatibility_report_sha256: 99a0c2baf24c7cdb136b088c8925d14755cba8045108365f75f164a828b5557f
+    compatibility_identity_sha256: e688fb3b06ceae5eeb0f7c3835c7f58aeb1276240b9c2db7147319d46a9f53fa
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -315,8 +315,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2024.zip
-        sha256: 844cdaf0e6e88a9034b4ab3ea74883c2c360e3c99cab40c4f17400a1eaf86e45
-        bytes: 6638398
+        sha256: c8c0dceff75dadab67fdf6d419eb8cb506a73c6555a87847b74d601d869e89f9
+        bytes: 6638397
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2024
@@ -329,12 +329,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 077198cb46aee2e92773672ee3cf3d4c46e40269af84f65b116a05af096ab757
+  contract_sha256: 06dfb6a949495781ae1a17c17c3b6ed95ed56a88d8da895c9182c3b2aee381f8
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: ebb395bcc73ccc2f6303155f239269f01874aedb3dfae1c327ff4582f5cb6979
-  compatibility_identity_sha256: dde3c9ca61e23cca1da2f1cb79cde3c2e64a2946b37b2ec0318a073ca2855bad
+  generation_enabled: true
+  package_sha256: c376434f1414e104d60aae7d1a4dc5ae3ec068d52315712dccae7780fdd364bd
+  compatibility_identity_sha256: e688fb3b06ceae5eeb0f7c3835c7f58aeb1276240b9c2db7147319d46a9f53fa
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 2cedf1e2a7bee0e4d2dfd9af7ee960f76df0ad20a54a9aecc89c7f7f30698ef1
@@ -366,7 +366,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2024.zip
-    sha256: 844cdaf0e6e88a9034b4ab3ea74883c2c360e3c99cab40c4f17400a1eaf86e45
+    sha256: c8c0dceff75dadab67fdf6d419eb8cb506a73c6555a87847b74d601d869e89f9
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -384,3 +384,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40847205333
+  pre_m04_source_commit: 35f273c24dafb6840b9779034fc4591610edf6bc
+  pre_m04_artifact_sha256: 64c9a387a91aa5f53bcec191704db169ddbdceee5e4642a7fe2e26533c483523

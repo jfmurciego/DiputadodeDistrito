@@ -11,6 +11,8 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
+  source_population_year: 2025
+  source_section_year: 2025
 io:
   project_root:
     path: ../../..
@@ -19,10 +21,13 @@ io:
       path: inputs/seccionado_2025.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -33,6 +38,11 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
+        year_value: 2025
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/andalucia/.cache/ddd/preparacion/{run_name}
   runs:
@@ -134,14 +144,14 @@ modulos:
     in_geojson: territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2025
     out_graph_json: territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     out_report: territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2025
     province_field: CPRO
     municipality_field: CUMUN
     municipality_name_field: NMUN
@@ -153,10 +163,16 @@ modulos:
     out_geojson: territorios/andalucia/.cache/ddd/preparacion/{run_name}/andalucia_2025_m04_semillas.geojson.zip
     out_report: territorios/andalucia/.cache/ddd/preparacion/{run_name}/andalucia_2025_m04_informe.json
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      strategy: private_annealing
+      seed: 0
+      max_candidates: 5000000
+      max_seconds: 1800.0
     in_graph_json: territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/andalucia/.cache/ddd/preparacion/{run_name}/andalucia_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2025
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -176,7 +192,7 @@ modulos:
     in_geojson: territorios/andalucia/.cache/ddd/preparacion/{run_name}/andalucia_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{year}
+    pop_field: POP_2025
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -223,3 +239,141 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2025
+    section_year: 2025
+    population_total: 8676713
+    target_section_count: 6029
+    package_sha256: 2aafe89b9b44aedb97573c8f7cf3ef5b092f918230868e03ff9d66eb814a56c7
+    compatibility_report_sha256: ffc7786393a106014d1afc4c600dc95bd398dd4ff4fa1619bbaa3b136f89a520
+    compatibility_identity_sha256: ea00c21a15b68322a9b7272bd59e2c6b570d7ca68bf50654e03dbd247a053dad
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: andalucia
+    territory_name: Andalucía
+    project_edition: '2025'
+  temporal:
+    population_year: 2025
+    section_year: 2025
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2025
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2025
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996
+        bytes: 68174
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2025.zip
+      effective_year: 2025
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2025.zip
+        sha256: 11e034f6e8d816813c7e7ec40b98f7a208309a142b2c62d8d9ebaaf10d8be249
+        bytes: 11050249
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2025
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: ceb5670c328da29c39651ccc994621416555963537c621cf5ff4766e678ff6ab
+generation_state:
+  source_prepared: true
+  generation_enabled: true
+  package_sha256: 2aafe89b9b44aedb97573c8f7cf3ef5b092f918230868e03ff9d66eb814a56c7
+  compatibility_identity_sha256: ea00c21a15b68322a9b7272bd59e2c6b570d7ca68bf50654e03dbd247a053dad
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: 0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2025
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2025
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2025.zip
+    sha256: 11e034f6e8d816813c7e7ec40b98f7a208309a142b2c62d8d9ebaaf10d8be249
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2025.zip
+      effective_year: 2025
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+  pre_m04_run_id: 40838120876
+  pre_m04_source_commit: 99193e5aabdf17839b6effce7efa61f0bc199091
+  pre_m04_artifact_sha256: 8c690dcb70472ab548fe3a81ba2ddfae4e4b5b5489561100ca23c6cb9ea3a05b

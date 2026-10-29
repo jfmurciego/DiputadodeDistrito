@@ -1,0 +1,14 @@
+schema: ddd-publication-catalog/1.0
+description: >-
+  Catálogo mínimo de releases relevantes para el read model. C1 solo lo consume;
+  la automatización de sincronización con GitHub Releases queda para una fase posterior.
+publications:
+  - territory_id: castilla_y_leon
+    kind: technical_checkpoint
+    status: PRERELEASE
+    source_commit: null
+    artifact_sha256: d8eb79905c678a07e2aef7f9e6b66b6f1ddccfb1f4c5f42ea663ee3e87fd613b
+    release_tag: cyl-m06-checkpoint-temp
+    doi: null
+    attestation_verified: false
+    osf_registration: null

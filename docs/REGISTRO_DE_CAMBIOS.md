@@ -1,12 +1,92 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.23
-Fecha: 2026-10-28
-Alcance: inventario físico insular ante re-descargas INE del mismo año
+Versión: 1.0.29
+Fecha: 2026-10-29
+Alcance: Dependabot sólo propone parches
 Estado: candidato
-Cambios/motivo: Canarias se bloqueaba antes de M04 porque el inventario estaba atado a bytes
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.22_20261028.md
+Cambios/motivo: la #293 de Dependabot saltaba versiones mayores en 34 workflows sin gobernanza
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.28_20261029.md
 -->
+
+## 2026-10-29 — Plataforma — Dependabot sólo parches
+
+`.github/dependabot.yml` 1.1.0 ignora `version-update:semver-major` y `version-update:semver-minor`
+en acciones y pip. La #293 (checkout 4→7, upload-artifact 4→7, setup-python 5→7 en 34 workflows)
+se cerró sin fusionar: CI en rojo y sin cabeceras, legacy ni registro. Las versiones mayores se
+actualizarán en una PR propia validada con una ejecución completa.
+
+## 2026-10-29 — Población — Castilla y León, La Rioja, Andalucía y País Vasco
+
+- Castilla y León (M05 `hard=0 fuera_12=2`, validación oficial `VALIDAR_EJECUCION_FAIL`) y La Rioja
+  (M06 PASS 33/33, certificación `POPULATION_TARGET_NOT_MET`) eran los dos únicos contratos con
+  `require_zero_outside_tolerance_after_m05: true`. Decisión del propietario (29-10-2026): se retira
+  y quedan con la regla de los otros 17 territorios (suelo y techo duros).
+- Andalucía (M05 `hard=4`) y País Vasco (`hard=2`) agotaron la reparación `private_annealing` sin
+  partición válida (`NO_FEASIBLE_REPAIR_FOUND`, 300 s y 120 s). Su `max_seconds` sube a 1800 s; si
+  persiste, se examinará si la causa es estructural (unidades indivisibles, como Menorca).
+
+## 2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares
+
+- Cataluña (40773400155): `M02 acreditación topológica obsoleta: stale topology accreditation;
+  source binding changed: package_sha256, compatibility_identity_sha256`. La re-descarga INE de la
+  misma edición y año de secciones trajo otra huella. `ddd_core/topology_preflight.py` 1.2.0 conserva
+  la acreditación (`binding=SECTION_YEAR_REBOUND`) si sólo cambian huella de paquete e identidad de
+  compatibilidad; M03 sigue verificando la pertenencia exacta de cada componente declarada (Tremp,
+  Llívia). Otra edición o año de secciones sigue siendo obsoleta. Tests: `test_topology_preflight`
+  (18), `test_m03_administrative_components` y `test_pre_m04_evidence_pipeline` (re-descarga
+  reasigna; año distinto bloquea).
+- Canarias (40832065646) y Baleares (40832091398) ya pasan M04 tras #319 y la certificación los
+  bloquea como al grupo A: sus contratos activan `population_repair.strategy: private_annealing`
+  (seed 0, 5.000.000 candidatos, 120 s). Sin aristas entre islas, la reparación no cruza componentes.
+
+## 2026-10-29 — Estado operativo — README detallado
+
+`herramientas/generar_estado_operativo.py` 2.3.0 (esquema JSON 2.2, sólo campos añadidos):
+
+- "Cadena completa validada" exige que el M08 proceda del mismo run que el M06 vigente; Aragón deja
+  de figurar como completo. FE se da por buena cuando la 04 terminó con ese linaje.
+- Cada territorio informa de su última ejecución completa (`last_run`: run, estado, fase donde se
+  paró, motivo y publicación 05), leída de `evidencia/ejecuciones_completas` y del preflight de
+  generación, y de su siguiente paso (`next_step`).
+- La tabla del README añade PUB (05), última ejecución, parada en, motivo y siguiente paso.
+- `test_estado_operativo_unico.py`: reglas de linaje de la cadena completa y de la última ejecución.
+- Galicia completó 01→04 (40832139215) y Baleares reacreditó su pre-M04: las regresiones de
+  archipiélagos y de `test_pre_m04_evidence_pipeline` comprueban la regla (reacreditar sólo si el
+  preflight no acredita el contrato) y los dos casos de Galicia pendiente de incorporar de
+  `test_gestor_campana_nacional` usan la raíz congelada aee8215e.
+
+## 2026-10-29 — M05 — reparación privada de población en cinco territorios
+
+Los relanzamientos desde el principio del 28-10 (40784594752, 40784651090, 40784711945,
+40784741627, 40784770643) generan M04–M06 y la puerta de certificación termina en
+`Certificación territorial bloqueada: BLOCK`, la misma situación de Madrid antes de #313
+(`POPULATION_HARD_BLOCK` / `TARGET_NOT_MET` con el reparador focal). Madrid completó 01→04
+(40787900559) con `population_repair.strategy: private_annealing`.
+
+- Los contratos de Andalucía, Castilla y León, Navarra, País Vasco y La Rioja activan el mismo
+  `population_repair` (seed 0, 5.000.000 candidatos; 300 s en Andalucía y Castilla y León, 120 s
+  en el resto). Castilla y León sustituye su reparador focal. La candidata sigue sometida a la
+  validación oficial atómica de M05 y a la certificación M06.
+- `test_territory_contract_admission.py` 1.3.0: el validador declarativo admite el perfil
+  `private_annealing` (enabled, strategy, seed, max_candidates, max_seconds; requiere grafo y
+  provincia) además del focal, que sigue exigiendo unidad indivisible.
+
+## 2026-10-29 — Melilla y Galicia — excepciones decididas por el propietario
+
+- Melilla (run 40773487000): con suelo 0,70 la M04 termina en
+  `INCOMPATIBLE_ATOMIC_POPULATION_CONNECTIVITY … NO_EXACT_CONNECTED_HARD_PARTITION` (44 secciones,
+  K=25, suelo 2.393,80, techo 5.984,51). `politica_generacion_territorial_2025.yaml` 1.3.0 y su
+  contrato fijan suelo 0,50 y tolerancia 0,50; techo 1,75 sin cambios.
+- Galicia (run 40706722115): M07 bloqueó por pérdida atribuible a DDD de 22.504/1.488.705 =
+  1,5116 % > 1,5 %. `electoral_reconciliation.py` 2.1.0 admite `loss_exception` por elección
+  (ratio, rationale, evidence, decided_at) con tope duro del 2 %; M07 7.3.2 la lee de
+  `configuracion/excepciones_reconciliacion_electoral_2025.yaml` (nuevo), fuera del contrato
+  electoral sellado por hash. Galicia 2024 declara 0,02.
+- Raíz congelada aee8215e: `overlay/` guarda ya los 551 ficheros de estado de hasta 300 KB (4,4 MB),
+  no sólo los reescritos hasta hoy; las ejecuciones de País Vasco, Navarra, Baleares y Castilla y
+  León volvían a romperla. `test_m06_product_reuse_integration` y el caso de Castilla y León de
+  `test_acreditacion_historica_territorial` usan la raíz congelada (su relanzamiento registra
+  fuente nueva antes que su M06); `test_valencia_m02_native_crs` toma los años de fuente del catálogo.
 
 ## 2026-10-28 — Pre-M04 — inventario físico por año, con CUSEC verificado al materializar
 

@@ -4,25 +4,25 @@
   "territory_id": "canarias",
   "territory_name": "Canarias",
   "edition": "2025",
-  "run_id": 40773378883,
-  "source_commit": "806e63b1e75deb16715c305cd889392ab013a43c",
-  "decision": "BLOCKED",
-  "evaluation_status": "BLOCKED",
-  "stage": "DISTRICT_FORMATION_INPUT",
+  "run_id": 40847144583,
+  "source_commit": "24a65be3de713eba946bdcaa9797fb1d77baf0ca",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 40773378883,
-    "artifact_name": "ddd-source-package-canarias-2025-40773378883",
-    "artifact_sha256": "a3c164ff09ca7e4a2b0531a0138e727638bb9cf2bbfcba922ecd4cea8c9c62b0",
-    "package_sha256": "ed90c2eae4d78385a105108016989b6fe0d2b356952161b45d5ec6fc847bc3a0",
-    "compatibility_identity_sha256": "b01d9dc228517ba8ceaeeb78f356d1ce3d85739853926ac887e4ae91ade07321",
-    "territorial_identity_sha256": "0fec08cc211b96caf8df424995be0a279699378cc2174b32a0730f9104e12831",
+    "run_id": 40847144583,
+    "artifact_name": "ddd-source-package-canarias-2025-40847144583",
+    "artifact_sha256": "e628e0dbc0f6a0e6ce7be08fb45f459de1db54583b2f7a8f8af58b0a835e717a",
+    "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
+    "compatibility_identity_sha256": "af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c",
+    "territorial_identity_sha256": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
     "population_year": 2023,
     "section_year": 2023
   },
   "effective_gate": {
     "allowed": false,
-    "status": "BLOCKED",
-    "capability": "CAP_M04_INPUT",
-    "reason": "ValueError: SOURCE_IDENTITY_MISMATCH: no existe inventario físico acreditado para section_year=2023 sectioning_sha256=11d3eb11ae551aa380c556cc8d88cc66b8bb7906d7a59ca31d697b1fc758ce10 territorial_identity_sha256=0fec08cc211b96caf8df424995be0a279699378cc2174b32a0730f9104e12831"
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }

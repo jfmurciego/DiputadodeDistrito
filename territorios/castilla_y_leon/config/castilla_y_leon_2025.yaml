@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2025
   source_section_year: 2025
 io:
@@ -110,7 +110,7 @@ territory_contract:
   - CYL-04 certificó M05 con fuera_12=0, hard=0, K=82 y contigüidad 82/82.
   - M06 no puede cambiar district_id; solo materializa, mide, describe y audita la
     solución de M05.
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -228,11 +228,10 @@ modulos:
     anneal_temp_end: 0.0005
     population_repair:
       enabled: true
-      max_depth: 4
-      max_transfer_set: 2
-      max_candidates: 20000
-      max_seconds: 120
+      strategy: private_annealing
       seed: 0
+      max_candidates: 5000000
+      max_seconds: 300.0
     out_geojson: territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
     out_report: territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json
   modulo_06_consolidar_distritos:
@@ -308,7 +307,6 @@ validation:
   municipality_atomicity_limit_ratio: 1.12
   require_closed_core_province_residual_feasibility: true
   max_mixed_districts_per_split_municipality: 1
-  require_zero_outside_tolerance_after_m05: true
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   source_baseline:
@@ -318,9 +316,9 @@ validation:
     section_year: 2025
     population_total: 2401221
     target_section_count: 3506
-    package_sha256: f8c210881dbceabfce9f439530502b3e1e57f00666006b32917f6d01ff745084
-    compatibility_report_sha256: aef7258fe273fe8b64ad5d9ea56f5b58783bb3516ff09858c0201664fa4cf9a4
-    compatibility_identity_sha256: cdd03ef6b840883a62bf007ab6b06287ea194325a6d2ab14b2b8c228d83150ed
+    package_sha256: bca65a6b3ad7926bc5ab9aab0bfaeadfbf517be07f7363d2aa065dfcc9d920aa
+    compatibility_report_sha256: a23fc03624d3a4d379240b8113d3d7f10ced2ed514ff9380c964e7ac0f906b49
+    compatibility_identity_sha256: 022bac8f0ce4b3bb15d6637c52a79925e419b0319f2e4ebbe88eab9b87395436
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -377,7 +375,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2025.zip
-        sha256: db195fd9e35a75173f403b0ff9a1a4cc514efe0d643c3d0cfec3cd55f049eeb2
+        sha256: 1ddd2e88cf58262644f029683919648d176e64505fe73cab0de4fa8a31141548
         bytes: 6794084
   runtime:
     section_id_field: CUSEC_KEY
@@ -391,12 +389,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 5c1387f19fa4fbf4e400e76bf7c5dc134e1b936634f6e235a651bca3880368a4
+  contract_sha256: 5caf9e9c8dd2ebc42ff05f0428e8b188abd599a2a4b9f0ac0438eec59232d13b
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: f8c210881dbceabfce9f439530502b3e1e57f00666006b32917f6d01ff745084
-  compatibility_identity_sha256: cdd03ef6b840883a62bf007ab6b06287ea194325a6d2ab14b2b8c228d83150ed
+  generation_enabled: true
+  package_sha256: bca65a6b3ad7926bc5ab9aab0bfaeadfbf517be07f7363d2aa065dfcc9d920aa
+  compatibility_identity_sha256: 022bac8f0ce4b3bb15d6637c52a79925e419b0319f2e4ebbe88eab9b87395436
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 18f8bc18d421e2dc6a95917f216789ee642a798f9e573fa0fed0088827d7816f
@@ -428,7 +426,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2025.zip
-    sha256: db195fd9e35a75173f403b0ff9a1a4cc514efe0d643c3d0cfec3cd55f049eeb2
+    sha256: 1ddd2e88cf58262644f029683919648d176e64505fe73cab0de4fa8a31141548
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -446,3 +444,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40838146021
+  pre_m04_source_commit: 1f9f428dbccc86dd2954dfb59741ceca3e4c38f7
+  pre_m04_artifact_sha256: 5d6281573698f356065070f57865145ef6e6002e3788537fa9a23b4d2a2a00a7

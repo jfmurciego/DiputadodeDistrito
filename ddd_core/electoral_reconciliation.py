@@ -1,13 +1,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Reconciliación electoral M07
-VERSIÓN: 2.0.0
-NOMBRE DE VERSIÓN: Pérdida atribuible a DDD
-FECHA: 2026-09-30
+VERSIÓN: 2.1.0
+NOMBRE DE VERSIÓN: Pérdida atribuible a DDD con excepción gobernada
+FECHA: 2026-10-28
 QUÉ HACE: separa población, votos presentes en la fuente aceptada y votos incorporados por DDD.
 ESTADO: vigente
 MOTIVO: la población no es denominador electoral; el hueco de la fuente frente al definitivo
 no se imputa a DDD y la pérdida adicional de transformación queda limitada al 1,5 %.
+CAMBIOS: 2.1.0: una elección puede declarar loss_exception (ratio, rationale, evidence, decided_at)
+  hasta un tope duro del 2 %; sin excepción completa el máximo sigue siendo el 1,5 %.
+ANTERIOR: legacy/ddd_core/electoral_reconciliation_v2.0.0.py
 """
 from __future__ import annotations
 
@@ -17,6 +20,8 @@ from typing import Any, Mapping
 import pandas as pd
 
 MAX_PROVISIONAL_DDD_LOSS_RATIO = Fraction(3, 200)
+MAX_GOVERNED_EXCEPTION_DDD_LOSS_RATIO = Fraction(1, 50)
+EXCEPTION_FIELDS = ("ratio", "rationale", "evidence", "decided_at")
 
 
 def _declared(items: Any) -> dict[str, Mapping[str, Any]]:
@@ -28,6 +33,23 @@ def _declared(items: Any) -> dict[str, Mapping[str, Any]]:
 
 
 def _loss_limit(policy: Mapping[str, Any]) -> Fraction:
+    exception = policy.get("loss_exception")
+    if exception is not None:
+        if not isinstance(exception, Mapping) or any(
+            exception.get(key) in (None, "") for key in EXCEPTION_FIELDS
+        ):
+            raise ValueError("excepción de pérdida DDD incompleta: exige ratio, rationale, evidence y decided_at")
+        try:
+            value = Fraction(str(exception["ratio"]))
+        except (TypeError, ValueError, ZeroDivisionError) as exc:
+            raise ValueError("excepción de pérdida DDD no medible") from exc
+        if value <= MAX_PROVISIONAL_DDD_LOSS_RATIO or value > MAX_GOVERNED_EXCEPTION_DDD_LOSS_RATIO:
+            raise ValueError(
+                "excepción de pérdida DDD fuera de rango: "
+                f"{float(value):.6f} debe ser > {float(MAX_PROVISIONAL_DDD_LOSS_RATIO):.6f} "
+                f"y <= {float(MAX_GOVERNED_EXCEPTION_DDD_LOSS_RATIO):.6f}"
+            )
+        return value
     raw = policy.get("max_ddd_loss_ratio", MAX_PROVISIONAL_DDD_LOSS_RATIO)
     try:
         value = raw if isinstance(raw, Fraction) else Fraction(str(raw))
@@ -232,6 +254,7 @@ def reconcile_sections(
         "ddd_unassigned_votes": ddd_unassigned_votes,
         "ddd_loss_ratio": ddd_loss_ratio,
         "max_ddd_loss_ratio": max_loss_ratio,
+        "loss_exception": dict(policy.get("loss_exception") or {}) or None,
         "source_gap_to_definitive_votes": source_gap_votes,
         "source_gap_to_definitive_ratio": source_gap_ratio,
         # aliases históricos para consumidores existentes

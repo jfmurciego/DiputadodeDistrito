@@ -1,0 +1,326 @@
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: la_rioja
+  territory: La Rioja
+  run_name: la_rioja_2025
+  year: 2025
+  scope: provincial
+  schema_version: 1.1.1
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+  status: generation_ready
+  source_population_year: 2023
+  source_section_year: 2023
+io:
+  project_root:
+    path: ../../..
+  input:
+    seccionado:
+      path: inputs/seccionado_2023.zip
+      layer: ''
+      section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
+    population_cip:
+      paths:
+      - inputs/65034.csv.zip
+      sep: ;
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+        year_value: 2023
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+  cache:
+    dir: territorios/la_rioja/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/la_rioja/resultados/ejecuciones/{run_id}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes:
+  - '26'
+  k_districts: 33
+  k_source: norma
+  k_rationale: K=33 conserva el número legal vigente de diputados del Parlamento de
+    La Rioja antes de generar cualquier mapa.
+  district_apportionment: hamilton
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: closed_target_cores_plus_open_residual
+  municipality_atomicity_limit_ratio: 1.12
+  require_closed_core_province_residual_feasibility: true
+  require_auditable_district_catalogue: true
+  notes:
+  - La Ley 3/1991 de Elecciones de La Rioja fija 33 diputados; la decisión se toma
+    antes de M04 y no depende de geometría ni voto.
+  - La Rioja es uniprovincial; Hamilton asigna de forma trivial los 33 distritos a
+    la provincia 26 y no introduce redondeo interprovincial.
+  - R022 congeló 343 secciones y 326803 habitantes sin faltantes.
+  - R023 justificó 0 pasarelas; no se añade ninguna excepción topológica.
+  - Se aplica el perfil general R036 0.80/1.75/0.12 sin excepción.
+  status: generation_ready
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes:
+    - '26'
+    drop_missing_population: false
+    out_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json
+  modulo_02_construir_adyacencias:
+    in_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    out_edges_jsonl: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges: []
+  modulo_03_construir_grafo:
+    in_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
+    id_field: CUSEC_KEY
+    pop_field: POP_2023
+    out_graph_json: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    out_report: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2023
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 33
+    municipality_atomicity_limit_ratio: 1.12
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip
+    out_report: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json
+  modulo_05_optimizar_distritos:
+    in_graph_json: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2023
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    out_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_2023
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 33
+    strict_expected_k: true
+    out_summary_csv: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv
+    out_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip
+    out_district_geojson: territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip
+validation:
+  expected_province_codes:
+  - '26'
+  expected_sections_geometry: 343
+  expected_population_total_2025: 326803
+  expected_topology_bridges: 0
+  expected_districts: 33
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton
+  province_districts:
+    '26': 33
+  require_unique_section_id: true
+  require_non_null_population: true
+  require_graph_contiguity: true
+  require_one_graph_component_per_province: true
+  require_connected_municipalities: true
+  province_field: CPRO
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  municipality_atomicity_limit_ratio: 1.12
+  require_closed_core_province_residual_feasibility: true
+  max_mixed_districts_per_split_municipality: 1
+  require_zero_outside_tolerance_after_m05: true
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2023
+    section_year: 2023
+    population_total: 322282
+    target_section_count: 343
+    package_sha256: 47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d
+    compatibility_report_sha256: 272fe7f82f85d5f9ed107207256b869347d40e1cd390b52725f246ae12e50f10
+    compatibility_identity_sha256: 6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: la_rioja
+    territory_name: La Rioja
+    project_edition: '2025'
+  temporal:
+    population_year: 2023
+    section_year: 2023
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 738be8a3867af70f4e73f6de326654f54b85abbf16d1eb6292b2ee5e0c950891
+        bytes: 5301
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2023.zip
+        sha256: 1b9becd63cccd7494af22acea5a997ee6f96a7eb53d48d6c6e3c274071c4109e
+        bytes: 642818
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2023
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: d122d107fd28f648a2914d97ffce5f19d572b729c64b4714c2c55dcb7d9a2d66
+generation_state:
+  source_prepared: true
+  generation_enabled: true
+  package_sha256: 47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d
+  compatibility_identity_sha256: 6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: 738be8a3867af70f4e73f6de326654f54b85abbf16d1eb6292b2ee5e0c950891
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2023.zip
+    sha256: 1b9becd63cccd7494af22acea5a997ee6f96a7eb53d48d6c6e3c274071c4109e
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+  pre_m04_run_id: 40198151865
+  pre_m04_source_commit: c8d73ba6886c33fa1c8e109043d57a04065d75ee
+  pre_m04_artifact_sha256: e99c7ceaeede75df680ec8881062e87651ec655a4b7f95801a1e8462deac9472

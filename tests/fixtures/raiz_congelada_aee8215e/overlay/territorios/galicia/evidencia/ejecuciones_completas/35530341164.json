@@ -1,0 +1,56 @@
+{
+  "schema": "ddd.full-run-manifest/1.0",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "workflow_run_id": 35530341164,
+  "source_sha": "bd044594971d2d67a2375ca496438f14c061bd2d",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "01 · Preparación de Datos Territoriales",
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales",
+    "05 · Publicación del Visor"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": true,
+      "result": "failure",
+      "run_id": 35470063566,
+      "artifact": "ddd-source-package-galicia-2025-35470063566"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35520753227,
+      "artifact": "ddd-state-35520753227-M06"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35506635453,
+      "artifact": "ddd-electoral-package-galicia-2025-35506635453"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35518747305,
+      "artifact": "ddd-state-35518747305-M08"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35530341164,
+      "artifact": null
+    }
+  ],
+  "generated_at": "2026-09-20T18:53:21.683010+00:00"
+}
