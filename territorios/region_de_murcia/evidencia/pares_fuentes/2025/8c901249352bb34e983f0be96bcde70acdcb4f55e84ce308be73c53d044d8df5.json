@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "region_de_murcia",
+  "territory_name": "Región de Murcia",
+  "edition": "2025",
+  "election": {
+    "election_id": "region_murcia_asamblea_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40773421805,
+    "artifact_name": "ddd-source-package-region_de_murcia-2025-40773421805",
+    "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
+    "package_sha256": "3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b",
+    "source_commit": "e6778a88325a7c787e4279783fd0e19d7d1d2975",
+    "source_declaration": "territorios/region_de_murcia/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a/40773421805/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "f164e3c8b1627d478c47f05b1dd07301d5b4f42408332b80c19a4bfe1e712822",
+    "compatibility_identity_sha256": "83781a2ede58bbd0df66520d5e58222d15e97a05ea9cef9bea24d51aeb2b8c28",
+    "remote_verification": {
+      "run_id": 40773421805,
+      "artifact_id": 12855927231,
+      "artifact_name": "ddd-source-package-region_de_murcia-2025-40773421805",
+      "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 36629290688,
+    "artifact_name": "ddd-electoral-package-region_de_murcia-2025-36629290688",
+    "artifact_sha256": "2f15478dafafe1dd5e8df964a56eadc13eb811db55dc3d242ade849b92d22a8b",
+    "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+    "receipt_path": "territorios/region_de_murcia/evidencia/catalogo/electoral_source_2025.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "region_murcia_asamblea_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "bbd317b5a4fe0e0667629ee3ad39360833b58160bb8032bdf8480fde53f0796f",
+    "remote_verification": {
+      "run_id": 36629290688,
+      "artifact_id": 11061441474,
+      "artifact_name": "ddd-electoral-package-region_de_murcia-2025-36629290688",
+      "artifact_sha256": "2f15478dafafe1dd5e8df964a56eadc13eb811db55dc3d242ade849b92d22a8b",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "3f88a98386760622dad53eaf794afd0cd6c6f1bb82e1919612abdd7fa3df8c2a",
+  "electoral_compatibility_key": "bbd317b5a4fe0e0667629ee3ad39360833b58160bb8032bdf8480fde53f0796f",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/region_de_murcia/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "8c901249352bb34e983f0be96bcde70acdcb4f55e84ce308be73c53d044d8df5"
+}
