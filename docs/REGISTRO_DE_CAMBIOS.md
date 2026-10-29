@@ -1,12 +1,24 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.31
+Versión: 1.0.32
 Fecha: 2026-10-29
-Alcance: exenciones de suelo estructurales persistentes y reparación de población en Cataluña
+Alcance: Aragón incorpora los resultados 2026 de RTVE con reconciliación M07
 Estado: candidato
-Cambios/motivo: la preparación territorial borró la exención de Menorca; Cataluña bloqueaba por población
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.30_20261029.md
+Cambios/motivo: decisión del propietario; el crosswalk 2025→2026 bloqueaba la fuente electoral de Aragón
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.31_20261029b.md
 -->
+
+## 2026-10-29 — Fuentes — Aragón con RTVE y reconciliación M07
+
+La fuente electoral de Aragón (RTVE, resultados 2026 por sección, paquete 36136639133) estaba lista
+para reutilizar, pero `electoral_2026_crosswalk_status: BLOCKED_PENDING_OFFICIAL_EVIDENCE` la dejaba
+en BLOCKED. Decisión del propietario (29-10-2026): se usa RTVE y las secciones 2026 sin
+correspondencia con el mapa 2025 cuentan como pérdida atribuible a DDD en M07, acotada por su margen.
+
+- `preparacion_legislatura_vigente.yaml` 1.0.2: Aragón pasa a `ACCEPTED_M07_RECONCILIATION` con
+  `crosswalk_decided_at` y `crosswalk_rationale`. Andalucía y Castilla y León siguen bloqueadas.
+- `resolver_preparacion_legislatura.py`: admite ese estado sólo con decisión fechada y razonada.
+- `test_preparacion_legislatura_vigente.py`: Aragón admisible; el resto sigue bloqueado.
 
 ## 2026-10-29 — Población — exenciones estructurales y Cataluña
 
