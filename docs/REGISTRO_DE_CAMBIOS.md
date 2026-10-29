@@ -1,17 +1,30 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.40
+Versión: 1.0.41
 Fecha: 2026-10-29
-Alcance: umbral de atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña
+Alcance: detector de M08 huérfano con receipts declarados en el catálogo
 Estado: candidato
-Cambios/motivo: los tres terminan M05 sin reparación factible por municipios indivisibles
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.39_20261029.md
+Cambios/motivo: Castilla y León y Extremadura fallan en «Detectar M08 electoral materializado sin registro»
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.40_20261029.md
 -->
 
 
 
 
 
+
+
+## 2026-10-29 — 00 — detector de M08 huérfano con receipts del catálogo
+
+Los 00 40946826228 (Castilla y León) y 40946838414 (Extremadura) fallan antes de la 04 con
+`RECOVERY_IDENTITY_CONTRADICTORY: faltan receipts territorial o electoral vigentes`. El detector sólo
+buscaba `evidencia/catalogo/electoral_source_2025.json`, pero los receipts que registra la 03 viven en
+`evidencia/fuentes_electorales/...`, donde los declara el catálogo.
+
+- `detectar_producto_electoral_huerfano.py`: si no existe el receipt en `evidencia/catalogo/`, usa la
+  ruta de `evidence.<kind>` del catálogo. Con los inventarios reales de 40895514741 y 40895537017 el
+  resultado pasa a `NO_RECOVERY / M08_ABSENT` y la 04 puede ejecutarse.
+- `tests/test_huerfano_recibo_declarado.py` (nuevo).
 
 ## 2026-10-29 — Población — atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña
 

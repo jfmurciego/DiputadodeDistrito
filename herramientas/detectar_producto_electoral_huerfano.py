@@ -45,7 +45,25 @@ def _receipt(root: Path, territory_id: str, edition: str, kind: str) -> dict:
         / "catalogo"
         / f"{kind}_{edition}.json"
     )
-    return _json(path)
+    data = _json(path)
+    if data:
+        return data
+    # Los receipts registrados por 03 viven donde el catálogo los declara
+    # (evidencia/fuentes_electorales/...), no en evidencia/catalogo/.
+    declared = _catalog_evidence_path(root, territory_id, edition, kind)
+    return _json(root / declared) if declared else {}
+
+
+def _catalog_evidence_path(root: Path, territory_id: str, edition: str, kind: str) -> str:
+    import yaml
+
+    try:
+        catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
+    except Exception:
+        return ""
+    row = next((r for r in catalog.get("territories") or [] if r.get("territory_id") == territory_id), {})
+    state = ((row.get("editions") or {}).get(str(edition))) or {}
+    return str((state.get("evidence") or {}).get(kind) or "")
 
 
 def _phase(manifest: dict, prefix: str) -> dict:
