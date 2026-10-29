@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Consumo de fuentes acreditadas de la legislatura.
 
-Versión: 1.1.0; nombre: Fuente independiente sin sustituir linaje; fecha: 2026-10-12.
-Alcance: consumidor territorial compartido; estado: candidato local F10.
-Cambios: admitir un receipt independiente marcado como auténtico y no promovido,
-         manteniendo separada la evidencia de preparación que sustenta productos existentes.
-Motivo: acreditar receipts F10 sin reemplazar linajes territoriales históricos.
-Predecesor: legacy/herramientas/consumir_par_fuentes_legislatura_v1.0.1_pre_independent_receipt_20261012.py
+Versión: 1.2.0; nombre: Linaje M06 desde el manifiesto del productor; fecha: 2026-10-29.
+Alcance: consumidor territorial compartido; estado: candidato.
+Cambios: sin linaje producto→fuente versionado, la reutilización geométrica acepta el manifiesto
+         del productor M06 cuando su paquete fuente es exactamente el receipt territorial vigente.
+Motivo: los M06 generados con la re-descarga (Aragón, Extremadura, Castilla y León) no tienen
+        linaje separado y el 00 en reutilización los regeneraba o bloqueaba.
+Predecesor: legacy/herramientas/consumir_par_fuentes_legislatura_v1.1.0_pre_producer_manifest_lineage_20261029.py
 Origen: origin/main@f87445f5d75a53cee17cd3bcc711854318b795ff.
 """
 from __future__ import annotations
@@ -187,6 +188,7 @@ def resolve_territorial_source(
             territory_id=str(row["territory_id"]),
             edition=str(edition),
             current_identity=str(receipt["territorial_identity_sha256"]),
+            current_source=receipt,
         ),
     }
 
@@ -231,7 +233,52 @@ def resolve_pair(
             territory_id=str(pair["territory_id"]),
             edition=str(pair["edition"]),
             current_identity=str(territorial.get("territorial_identity_sha256") or ""),
+            current_source=territorial,
         ),
+    }
+
+
+def _producer_manifest_reuse(
+    root: Path, product_rel: str, *, current_source: dict | None, current_identity: str,
+) -> dict | None:
+    """Linaje implícito: el manifiesto M06 declara el paquete fuente que consumió.
+
+    Sólo se acepta si el manifiesto pertenece al mismo run del producto y su
+    ``inputs.source_package_artifact`` coincide byte a byte (run, nombre y SHA-256)
+    con el receipt territorial vigente; en otro caso se mantiene el bloqueo.
+    """
+    if not current_source or not product_rel or not (root / product_rel).is_file():
+        return None
+    product = _json(root / product_rel, label="receipt de producto territorial")
+    manifest_rel = str(product.get("producer_manifest_path") or "")
+    if not manifest_rel or not (root / manifest_rel).is_file():
+        return None
+    manifest = _json(root / manifest_rel, label="manifiesto del productor M06")
+    identity = manifest.get("identity") or {}
+    source = (manifest.get("inputs") or {}).get("source_package_artifact") or {}
+    m06 = (manifest.get("artifacts") or {}).get("m06") or {}
+    try:
+        same_run = int(identity.get("workflow_run_id")) == int(product.get("run_id"))
+    except (TypeError, ValueError):
+        return None
+    if not same_run or str(m06.get("artifact_sha256") or "") != str(product.get("artifact_sha256") or ""):
+        return None
+    if any(
+        str(source.get(key) or "") != str(current_source.get(key) or "") or not source.get(key)
+        for key in ("run_id", "artifact_name", "artifact_sha256")
+    ):
+        return None
+    return {
+        "available": True,
+        "compatible": True,
+        "reason": "SOURCE_PRODUCER_MANIFEST_MATCH",
+        "product_run_id": product.get("run_id"),
+        "product_artifact_name": product.get("artifact_name"),
+        "product_artifact_sha256": product.get("artifact_sha256"),
+        "product_source_territorial_identity_sha256": current_identity,
+        "current_territorial_identity_sha256": current_identity,
+        "producer_manifest_path": manifest_rel,
+        "product_receipt_path": product_rel,
     }
 
 
@@ -241,6 +288,7 @@ def resolve_geometric_reuse(
     territory_id: str,
     edition: str,
     current_identity: str,
+    current_source: dict | None = None,
 ) -> dict:
     """La reutilización M06 depende sólo de la identidad territorial acreditada."""
     root = root_dir.resolve()
@@ -260,6 +308,11 @@ def resolve_geometric_reuse(
     lineage_rel = str(evidence.get("territorial_product_source_lineage") or "")
     product_rel = str(evidence.get("territorial_product") or "")
     if not lineage_rel or not (root / lineage_rel).is_file():
+        from_manifest = _producer_manifest_reuse(
+            root, product_rel, current_source=current_source, current_identity=current_identity,
+        )
+        if from_manifest is not None:
+            return from_manifest
         return {
             "available": True,
             "compatible": False,

@@ -87,21 +87,6 @@ territories:
         population_year: 2025
         section_year: 2025
         source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
-      independent_source_evidence:
-        status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
-        promoted: false
-        receipt_path: territorios/aragon/evidencia/fuentes_territoriales/2025/e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac/38093067883/receipt.json
-        run_id: 38093067883
-        artifact_name: ddd-source-package-aragon-2025-38093067883
-        artifact_sha256: 35adcbfcf41619c3e54219714aefac5b4885fae0ccd08ae5fcf9930e0528db51
-        package_sha256: 92a53be66ac0aa74cd4d58f8dbe14482fc294503bd87eb11da3045c6a325e16c
-        source_commit: 5216a1b25da7726dd73296723f22754dcf7451e1
-        population_year: 2025
-        section_year: 2025
-        territorial_identity_sha256: e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac
-        compatibility_report_member: compatibilidad_poblacion_seccionado.json
-        compatibility_report_sha256: 44695b29da3cc7b14d1f3859b1b8aebac0bfdef5c61cb804c36f17f33a733727
-        compatibility_identity_sha256: 592dea65f7b934015afa42c2d13efc66ddaf9f4d7e89b8e868d02c00d68045ee
       generation_enabled: true
 - territory_id: principado_de_asturias
   name: Principado de Asturias
@@ -303,11 +288,10 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: true
+      electoral_product_available: false
       evidence:
         territorial_product: territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f/36875351443/receipt.json
-        electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
         generation_preflight: territorios/castilla_y_leon/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
@@ -327,21 +311,6 @@ territories:
         population_year: 2025
         section_year: 2025
         source_commit: 18d7c9798db3ea79035d338558d486520349ccae
-      independent_source_evidence:
-        status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
-        promoted: false
-        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/155b35accd76c2f82cb21c298fda55b2df0fe122a7059df1c6068fbfb3e26b5e/38091055890/receipt.json
-        run_id: 38091055890
-        artifact_name: ddd-source-package-castilla_y_leon-2025-38091055890
-        artifact_sha256: 1f9d6a7c0362b157d2bb300a4c1eca037eb7a07fa52fec53ad550d46752351bd
-        package_sha256: c63c998459f0122a6dc856ed9cdbe022acc1d48cc05e2194d72e3d5f109bb2ec
-        source_commit: 776006e62ebd80ab20a55b186c3778bce76e9f19
-        population_year: 2025
-        section_year: 2025
-        territorial_identity_sha256: 155b35accd76c2f82cb21c298fda55b2df0fe122a7059df1c6068fbfb3e26b5e
-        compatibility_report_member: compatibilidad_poblacion_seccionado.json
-        compatibility_report_sha256: b60ea3d02fc860a95b6029ed8fad89abe84e53555ef88036dd74299d047f66ce
-        compatibility_identity_sha256: 63a2b0e0636cf45020df78733c33ba73414805258f4a16fc88f8aff6731f3646
       generation_enabled: true
 - territory_id: cataluna
   name: Cataluña
@@ -462,21 +431,6 @@ territories:
         population_year: 2025
         section_year: 2025
         source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
-      independent_source_evidence:
-        status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
-        promoted: false
-        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json
-        run_id: 38091144559
-        artifact_name: ddd-source-package-extremadura-2025-38091144559
-        artifact_sha256: b4241708cbc7eb1fcf3dd7b6298152392731975106bbddaf6d8ae03bc3fcd8dc
-        package_sha256: 5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a
-        source_commit: 776006e62ebd80ec5e6f51c89123e56649cc3790
-        population_year: 2025
-        section_year: 2025
-        territorial_identity_sha256: 70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084
-        compatibility_report_member: compatibilidad_poblacion_seccionado.json
-        compatibility_report_sha256: a45c3ff9833d9898c56f177180731fd07b52e6dadeb3d3e937a510eaa1664346
-        compatibility_identity_sha256: cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
         generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
