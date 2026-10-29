@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "region_de_murcia",
+  "territory_name": "Región de Murcia",
+  "edition": "2025",
+  "run_id": 40945284725,
+  "artifact_name": "ddd-state-40945284725-M06",
+  "artifact_sha256": "f3169dd583c1d7033ff17717bfd6329151d10677c32e590eabbf8fd4c49b5eb1",
+  "source_commit": "e1e61517e07485de592bd76d08327dd788671dce",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/40945284725.json"
+}
