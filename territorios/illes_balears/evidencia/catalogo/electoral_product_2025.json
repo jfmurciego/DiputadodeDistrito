@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "illes_balears",
+  "territory_name": "Islas Baleares",
+  "edition": "2025",
+  "run_id": 40957888543,
+  "artifact_name": "ddd-state-40957888543-M08",
+  "artifact_sha256": "84095f46aca5aba8129460818daebb24b111258072eb0aca82a5491de9ff1610",
+  "source_commit": "550a95a11604e542c9e1a06bdb920c2de798bfdd",
+  "stage": "M08"
+}
