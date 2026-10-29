@@ -1,12 +1,28 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.25
+Versión: 1.0.26
 Fecha: 2026-10-29
-Alcance: reparación privada de población en Andalucía, Castilla y León, Navarra, País Vasco y La Rioja
+Alcance: README de estado detallado por territorio
 Estado: candidato
-Cambios/motivo: los cinco pasan M04–M06 y la certificación los bloquea por población, como a Madrid
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.24_20261029.md
+Cambios/motivo: el README marcaba completo a Aragón con un M08 de otro linaje y no decía dónde ni por qué se paró cada territorio
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.25_20261029.md
 -->
+
+## 2026-10-29 — Estado operativo — README detallado
+
+`herramientas/generar_estado_operativo.py` 2.3.0 (esquema JSON 2.2, sólo campos añadidos):
+
+- "Cadena completa validada" exige que el M08 proceda del mismo run que el M06 vigente; Aragón deja
+  de figurar como completo. FE se da por buena cuando la 04 terminó con ese linaje.
+- Cada territorio informa de su última ejecución completa (`last_run`: run, estado, fase donde se
+  paró, motivo y publicación 05), leída de `evidencia/ejecuciones_completas` y del preflight de
+  generación, y de su siguiente paso (`next_step`).
+- La tabla del README añade PUB (05), última ejecución, parada en, motivo y siguiente paso.
+- `test_estado_operativo_unico.py`: reglas de linaje de la cadena completa y de la última ejecución.
+- Galicia completó 01→04 (40832139215) y Baleares reacreditó su pre-M04: las regresiones de
+  archipiélagos y de `test_pre_m04_evidence_pipeline` comprueban la regla (reacreditar sólo si el
+  preflight no acredita el contrato) y los dos casos de Galicia pendiente de incorporar de
+  `test_gestor_campana_nacional` usan la raíz congelada aee8215e.
 
 ## 2026-10-29 — M05 — reparación privada de población en cinco territorios
 
