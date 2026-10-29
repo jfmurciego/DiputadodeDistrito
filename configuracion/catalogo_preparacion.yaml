@@ -629,7 +629,7 @@ territories:
         source_commit: 56a05425004ca2539106f4d016a06a7096e48098
       evidence:
         electoral_source: territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f/40838170635/receipt.json
-        prepared_source_pair: territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc.json
+        prepared_source_pair: territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json
         generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/comunidad_foral_de_navarra/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
