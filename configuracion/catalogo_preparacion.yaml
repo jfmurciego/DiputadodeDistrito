@@ -369,27 +369,9 @@ territories:
       territory_declared: true
       preparation_status: READY
       contract_path: territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml
-      territorial_source_declaration: territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/fuentes_oficiales.yaml
+      territorial_source_declaration: territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0/40956462986/fuentes_oficiales.yaml
       electoral_source_declaration: null
       territorial_sources_prepared: true
-      independent_source_evidence:
-        status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
-        promoted: false
-        receipt_path: territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/receipt.json
-        run_id: 39315133646
-        artifact_name: ddd-source-package-comunidad_valenciana-2025-39315133646
-        artifact_sha256: 799f32341da727984244cf56e706b74861b09d45f4128f6b812ae043cb4f06ee
-        package_sha256: 2a58c757c816b1ca834d93777aeee992e7a224e75d002fb7fbbeaa3a5e21934d
-        source_commit: 55d405d0390870e60c87c13404123a12127d2ae9
-        population_year: 2023
-        section_year: 2023
-        territorial_identity_sha256: 94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62
-        compatibility_report_member: compatibilidad_poblacion_seccionado.json
-        compatibility_report_sha256: ae420356e6afde7611c9a331944908f10280ebb46f20597bc09c99c5bfd58911
-        compatibility_identity_sha256: be36c1cac8221fef7aef94cad54b16a584c8ac8748b1e64bc9bf6b730dd5c62c
-        geometry_assessment_path: territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/94f094a23493448d9ee38f1b51fe6f73dd0f29b6b7a4410eae8bb5a170c38d62/39315133646/m02_contract_assessment_2023.json
-        geometry_assessment_sha256: 806d3c896a599383790e684322bcafc8f933bdd1c8b2d65a0a7137f8a0ddfaac
-        geometry_admissibility: BLOCKED
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
