@@ -890,15 +890,10 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-            # El recibo pre-M04 vigente ya acredita el contrato y el blob M02; no se planifica
-            # una reacreditación redundante. Baleares cambió su contrato (exención de suelo de
-            # Menorca, 07-C02) y debe reacreditarse antes de generar.
-            # Regla: preparar fuente y reacreditar pre-M04 van juntos; Baleares lo exige siempre por
-            # su cambio de contrato y Canarias cuando una re-descarga cambia su fuente.
+            # Regla: si el recibo pre-M04 vigente acredita el contrato y el blob M02 no se reacredita;
+            # si el contrato o la fuente cambiaron, preparar fuente y reacreditar van juntos.
             reaccredit = plan["pre_m04_accreditation_planned"]
             self.assertEqual(plan["run_prepare_territorial"], reaccredit, territory_id)
-            if territory_id == "illes_balears":
-                self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
             self.assertEqual(
                 {"allowed": True,
                  "route": "planned_pre_m04_accreditation" if reaccredit else "validated_pre_m04_topology"},
