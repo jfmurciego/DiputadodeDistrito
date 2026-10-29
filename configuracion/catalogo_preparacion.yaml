@@ -160,23 +160,22 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40832091398
-        artifact_name: ddd-source-package-illes_balears-2025-40832091398
-        artifact_sha256: 0fb6a1fb6825f7e9d9c9bb5a4ce9969677043d95e9fcc6960eb78f201c6b52c7
-        package_sha256: 940790ffe188a30698c68808032a1c1c33e4229674e25656dd2c0baa9bfdc17d
-        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/77f04c7e0ed451694a77848400bd87d302f7dd77700f7420ba52619374054803/40832091398/receipt.json
-        territorial_identity_sha256: 77f04c7e0ed451694a77848400bd87d302f7dd77700f7420ba52619374054803
-        compatibility_report_sha256: b33342671c48aaad8a94278afd353facdc98d2a2207a824244a2ee3b606544c9
-        compatibility_identity_sha256: 5284fbb9cd543698c3fe3632dd76517bd278921c3c01e4db7992f549a30497cd
+        run_id: 40847174556
+        artifact_name: ddd-source-package-illes_balears-2025-40847174556
+        artifact_sha256: 1e214d55fd9006de1cdfc7db478cdbd684e3c867ced763ab8591a275f9ad5876
+        package_sha256: 1fb9e2dbc236ade9917e131b6f1b153fad1c9babbf6454ac476b6e692f9af242
+        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/8fa10ea81b97bb8fc65684d0fd2aae68ca04495b325f9fd5e87b276248424cc2/40847174556/receipt.json
+        territorial_identity_sha256: 8fa10ea81b97bb8fc65684d0fd2aae68ca04495b325f9fd5e87b276248424cc2
+        compatibility_report_sha256: 5470887499ef6459ce974da98671845f62466325b9baa974ebce5049978942ef
+        compatibility_identity_sha256: c8a1ea03dbed284ad9d5144d8198047b7096881928894a2017e60ad19fb6f748
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 14b4d01c67fc3660ef275e6f76da0e06c8894d90
+        source_commit: 140d82f5980803531146fe0143cae22f64adb8e7
       evidence:
         electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99.json
-        generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: canarias
   name: Canarias
   editions:
