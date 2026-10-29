@@ -104,7 +104,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(territorial["section_lag_years"], 1)
                 self.assertEqual(territorial["section_reference_label"], "Secciones_2025")
                 self.assertEqual(territorial["territorial_reference_decision"], "F10-20261012-PAIR-2025")
-                self.assertEqual(territorial["electoral_2026_crosswalk_status"], "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
+                # Decisión del propietario (29-10-2026): los tres reconcilian el crosswalk en M07.
+                self.assertEqual(territorial["electoral_2026_crosswalk_status"], "ACCEPTED_M07_RECONCILIATION")
+                self.assertEqual(territorial["crosswalk_decided_at"], "2026-10-29")
                 self.assertEqual(
                     territorial["temporal_evidence"],
                     "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
@@ -120,17 +122,16 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "TERRITORIAL_REFERENCE_DECISION_MISSING"):
                 validate_matrix(root)
 
-    def test_2026_temporal_decision_does_not_authorize_electoral_crosswalk(self):
+    def test_owner_accepted_crosswalk_is_reconciled_in_m07_not_blocking(self):
         for territory in ("Aragón", "Castilla y León", "Andalucía"):
             with self.subTest(territory=territory):
                 plan = resolve(ROOT, territory)["plans"][0]
                 self.assertEqual(plan["section_year_selected"], 2025)
                 self.assertEqual(plan["section_year_required"], 2026)
-                self.assertEqual(plan["electoral_2026_crosswalk_status"], "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
+                self.assertEqual(plan["electoral_2026_crosswalk_status"], "ACCEPTED_M07_RECONCILIATION")
                 self.assertFalse(plan["generation_authorized_by_reference_decision"])
-                self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
-                self.assertEqual(plan["sources_status"], "BLOCKED")
-                self.assertTrue(any(s["domain"] == "electoral_section_crosswalk" for s in plan["source_next_steps"]))
+                self.assertNotEqual(plan["electoral_admissibility"], "BLOCKED")
+                self.assertFalse(any(s["domain"] == "electoral_section_crosswalk" for s in plan["source_next_steps"]))
 
     def test_temporal_evidence_preserves_query_response_date_and_digest(self):
         evidence = json.loads(TEMPORAL.read_text(encoding="utf-8"))
@@ -206,9 +207,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["territorial_action"], "REUSE")
         self.assertEqual(plan["territorial_reason"], "TERRITORIAL_DURABLE_CANDIDATE")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE")
-        self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
-        self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
-        self.assertEqual(plan["sources_status"], "BLOCKED")
+        # Excepción del propietario (29-10-2026): provisionales por sección, delta 0,46 % declarado.
+        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertNotEqual(plan["electoral_admissibility"], "BLOCKED")
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 522418)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 2419)
@@ -251,8 +252,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["territorial_action"], "REUSE_TEMPORAL_SUBSTITUTION")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE_TEMPORAL_SUBSTITUTION")
         self.assertEqual(plan["electoral_action"], "REUSE")
-        self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
-        self.assertEqual(plan["sources_status"], "BLOCKED")
+        self.assertEqual(plan["electoral_admissibility"], "ADMISSIBLE")
         state = next(
             r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
             if r["territory_id"] == "aragon"
@@ -366,10 +366,13 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(candidate["provider"], "siel")
         self.assertEqual(candidate["source_status"], "VERIFIED_OFFICIAL_FINAL")
 
-    def test_extremadura_without_special_contract_remains_blocked_provisional(self):
-        plan = resolve(ROOT, "Extremadura")["plans"][0]
-        self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
-        self.assertEqual(plan["electoral_reason"], "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE")
+    def test_blocked_provisional_action_still_blocks_without_owner_exception(self):
+        candidate, action = _electoral_plan(ROOT, "extremadura", {}, {
+            "territory_id": "extremadura", "election_id": "extremadura_asamblea_2025-12-21", "election_date": "2025-12-21",
+            "electoral": {"action": "BLOCKED_PROVISIONAL"},
+        })
+        self.assertEqual(action, "BLOCKED_PROVISIONAL")
+        self.assertEqual(candidate["reason"], "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE")
 
     def test_andalucia_matrix_describes_current_siel_source(self):
         state = {

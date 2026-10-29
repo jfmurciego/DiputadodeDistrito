@@ -395,12 +395,15 @@ class GeometricReuseTests(unittest.TestCase):
                 35889595424,
             ),
         }
+        # Caso histórico congelado en aee8215e: Castilla y León generó después un M06 nuevo.
+        from tests._raiz_congelada import frozen_root
+        root = frozen_root()
         for territory_id, (receipt_rel, product_run) in cases.items():
-            receipt = json.loads((ROOT / receipt_rel).read_text(encoding="utf-8"))
+            receipt = json.loads((root / receipt_rel).read_text(encoding="utf-8"))
             current = receipt["territorial_identity_sha256"]
             with self.subTest(territory=territory_id, source="compatible"):
                 reuse = resolve_geometric_reuse(
-                    root_dir=ROOT,
+                    root_dir=root,
                     territory_id=territory_id,
                     edition="2025",
                     current_identity=current,
@@ -410,7 +413,7 @@ class GeometricReuseTests(unittest.TestCase):
 
             with self.subTest(territory=territory_id, source="different"):
                 reuse = resolve_geometric_reuse(
-                    root_dir=ROOT,
+                    root_dir=root,
                     territory_id=territory_id,
                     edition="2025",
                     current_identity="f" * 64,

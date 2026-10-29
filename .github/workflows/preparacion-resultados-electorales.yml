@@ -1,13 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
 # NOMBRE DE VERSIÓN: Cola durable de operaciones
 # FECHA: 2026-10-25
 # ESTADO: candidato
 # QUÉ HACE: serializa el acceso al recurso compartido y conserva todos los trabajos en espera.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/preparacion-resultados-electorales.pre-p0.yml (bytes pre-cambio conservados)
+# CAMBIOS 1.0.2: pasa --production-eligible al adaptador Minsait cuando el contrato lleva
+#   owner_production_exception validada (Extremadura 2025).
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.1_20261029.yml
 name: 03 Preparación de Resultados Electorales
 
 on:
@@ -248,6 +250,10 @@ jobs:
               definitive_url="$(jq -r .reconciliation.definitive.url .ddd-minsait-contract.json)"
               definitive_candidate_votes="$(jq -r .reconciliation.definitive.candidate_votes .ddd-minsait-contract.json)"
               expected_delta="$(jq -r .reconciliation.delta_definitive_minus_provisional .ddd-minsait-contract.json)"
+              eligible_args=()
+              if [[ "$(jq -r '.production_eligible|tostring' .ddd-minsait-contract.json)" == true ]]; then
+                eligible_args=(--production-eligible)
+              fi
               python herramientas/adaptador_minsait_csv.py \
                 --source minsait-provisional.csv \
                 --out .ddd-electoral-package \
@@ -267,7 +273,8 @@ jobs:
                 --definitive-reference-publisher "$definitive_publisher" \
                 --definitive-reference-url "$definitive_url" \
                 --definitive-candidate-votes "$definitive_candidate_votes" \
-                --expected-delta-definitive-minus-provisional "$expected_delta"
+                --expected-delta-definitive-minus-provisional "$expected_delta" \
+                "${eligible_args[@]}"
             fi
           else
             args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)

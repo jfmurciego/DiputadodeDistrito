@@ -1,12 +1,45 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.32
+Versión: 1.0.34
 Fecha: 2026-10-29
-Alcance: F10 admite re-descargas INE del mismo año
+Alcance: Extremadura usa sus resultados provisionales por sección con excepción del propietario
 Estado: candidato
-Cambios/motivo: cada "desde el principio" dejaba la adquisición territorial F10 en BLOCKED por otra huella
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.31_20261029.md
+Cambios/motivo: la Junta sólo publica en abierto resultados municipales; el definitivo es provincial
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.33_20261029.md
 -->
+
+## 2026-10-29 — Fuentes — Extremadura con provisionales por sección
+
+Decisión del propietario (29-10-2026). El CSV provisional por sección (Minsait / EleccionesDB, 966
+secciones, 522.418 votos) difiere del definitivo del DOE (524.837) en 2.419 votos (0,46 %).
+
+- `configuracion/contratos_minsait_provisionales.yaml`: `owner_production_exception` (decided_at,
+  rationale, evidence, `max_delta_ratio: 0.01`) en Extremadura 2025.
+- `resolver_contrato_minsait_provisional.py`: con excepción completa y delta dentro del máximo,
+  `production_eligible=true`; si el delta lo supera, falla. Sin excepción sigue en false.
+- `adaptador_minsait_csv.py`: `--production-eligible`. `preparacion-resultados-electorales.yml`
+  1.0.2 lo pasa cuando el contrato resuelto lo declara.
+- `preparacion_legislatura_vigente.yaml` 1.0.3: Extremadura pasa de `BLOCKED_PROVISIONAL` a `ACQUIRE`;
+  1.0.4: Andalucía y Castilla y León pasan, como Aragón, a `ACCEPTED_M07_RECONCILIATION`.
+- `verificar-andalucia-2026-provisional.yml`: el contrato y el paquete provisional sólo son
+  elegibles con `owner_production_exception`; el flag del adaptador se pasa con un array (actionlint).
+- `f10_auto_tareas.json`: nueva huella del contrato Minsait en la ficha F10-EXT-ELECTORAL-SOURCE.
+- Tests: `test_preparacion_legislatura_vigente`, `test_contratos_minsait_provisionales`,
+  `test_territorial_only_selector`. Castilla y León generó un M06 nuevo (40868935788): su caso
+  histórico 35889595424 pasa a `tests/fixtures/acreditacion_historica` y a la raíz congelada en
+  `test_acreditacion_historica_territorial` y `test_prepared_source_pair_execution`.
+
+## 2026-10-29 — Fuentes — Aragón con RTVE y reconciliación M07
+
+La fuente electoral de Aragón (RTVE, resultados 2026 por sección, paquete 36136639133) estaba lista
+para reutilizar, pero `electoral_2026_crosswalk_status: BLOCKED_PENDING_OFFICIAL_EVIDENCE` la dejaba
+en BLOCKED. Decisión del propietario (29-10-2026): se usa RTVE y las secciones 2026 sin
+correspondencia con el mapa 2025 cuentan como pérdida atribuible a DDD en M07, acotada por su margen.
+
+- `preparacion_legislatura_vigente.yaml` 1.0.2: Aragón pasa a `ACCEPTED_M07_RECONCILIATION` con
+  `crosswalk_decided_at` y `crosswalk_rationale`. Andalucía y Castilla y León siguen bloqueadas.
+- `resolver_preparacion_legislatura.py`: admite ese estado sólo con decisión fechada y razonada.
+- `test_preparacion_legislatura_vigente.py`: Aragón admisible; el resto sigue bloqueado.
 
 ## 2026-10-29 — F10 — re-descargas del mismo año
 
