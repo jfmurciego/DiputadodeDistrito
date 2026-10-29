@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 0.3.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -70,7 +70,7 @@ territory_contract:
     '23': 8
     '29': 22
     '41': 25
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   notes:
   - AND-01 certificó 6.029 secciones y 8.676.713 habitantes sin faltantes de población.
   - Población observada: Almería 770.554; Cádiz 1.261.420; Córdoba 773.163; Granada
@@ -246,9 +246,9 @@ validation:
     section_year: 2025
     population_total: 8676713
     target_section_count: 6029
-    package_sha256: 90d4bd35de43a27466ff9229428ccd0d6449984017955fda23d1fbb359b06617
-    compatibility_report_sha256: 4c3747eab02ebeb02e52dc52fb2c4da7ea88af9e9416a5ef25ecdf75002ffb1a
-    compatibility_identity_sha256: 5708fa39faf5e72eefd5c0372c72f72bb360936e455b0402f0a58796cdca5cc2
+    package_sha256: 2aafe89b9b44aedb97573c8f7cf3ef5b092f918230868e03ff9d66eb814a56c7
+    compatibility_report_sha256: ffc7786393a106014d1afc4c600dc95bd398dd4ff4fa1619bbaa3b136f89a520
+    compatibility_identity_sha256: ea00c21a15b68322a9b7272bd59e2c6b570d7ca68bf50654e03dbd247a053dad
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -305,7 +305,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2025.zip
-        sha256: 5bd0c919c2e01e10f57546cac48afbb1607af75617c4e3e0e45ff1630ead82aa
+        sha256: 11e034f6e8d816813c7e7ec40b98f7a208309a142b2c62d8d9ebaaf10d8be249
         bytes: 11050249
   runtime:
     section_id_field: CUSEC_KEY
@@ -319,12 +319,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: cd1c865bef7b7eda9ebe24028972a66ce103ca0a3928c2b4aa28c781274d5057
+  contract_sha256: ceb5670c328da29c39651ccc994621416555963537c621cf5ff4766e678ff6ab
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: 90d4bd35de43a27466ff9229428ccd0d6449984017955fda23d1fbb359b06617
-  compatibility_identity_sha256: 5708fa39faf5e72eefd5c0372c72f72bb360936e455b0402f0a58796cdca5cc2
+  generation_enabled: false
+  package_sha256: 2aafe89b9b44aedb97573c8f7cf3ef5b092f918230868e03ff9d66eb814a56c7
+  compatibility_identity_sha256: ea00c21a15b68322a9b7272bd59e2c6b570d7ca68bf50654e03dbd247a053dad
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996
@@ -356,7 +356,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2025.zip
-    sha256: 5bd0c919c2e01e10f57546cac48afbb1607af75617c4e3e0e45ff1630ead82aa
+    sha256: 11e034f6e8d816813c7e7ec40b98f7a208309a142b2c62d8d9ebaaf10d8be249
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -374,6 +374,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40784594752
-  pre_m04_source_commit: dd9ac98ae1b93c6b4e6b90c5f98d84e27bd41953
-  pre_m04_artifact_sha256: fb0c66dd1479937cfe5bdfa189fb52aeced3de93dea3305fb84d18aa68b0387e
