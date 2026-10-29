@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12884578939,
+      "artifact_name": "ddd-audit-40838170635",
+      "artifact_sha256": "2fcb220e45af0a26b1c5d8e92d80c78d30db32d79eb14f1222d442f45191ca71",
+      "run_id": 40838170635,
+      "size_in_bytes": 9705
+    },
+    "m04": {
+      "artifact_id": 12884822428,
+      "artifact_name": "ddd-state-40838170635-M04",
+      "artifact_sha256": "541ac64d8e707aea56789862366c0db2afb91e9f18ca6bcb40526193428064af",
+      "run_id": 40838170635,
+      "size_in_bytes": 97486602
+    },
+    "m05": {
+      "artifact_id": 12885211988,
+      "artifact_name": "ddd-state-40838170635-M05",
+      "artifact_sha256": "ded9e0954925e03f1484ff37cbdf4a2231e98b568459fcc1e4ab4c65629e294e",
+      "run_id": 40838170635,
+      "size_in_bytes": 101854719
+    },
+    "m06": {
+      "artifact_id": 12884399133,
+      "artifact_name": "ddd-state-40838170635-M06",
+      "artifact_sha256": "cbf59616a2636688846dcd87c69d43279d86f4f4ab689a1fad3ea127042bb6b5",
+      "run_id": 40838170635,
+      "size_in_bytes": 108464713
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "37993639a8121766d9f979b485d61a84362bb8ddd74a676823d44b49a0217e33",
+        "size_in_bytes": 521
+      },
+      "comunidad_foral_de_navarra_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f3306a8e7a4d475f9eeaee9cad8efad461b57b0844a31ca2312fe2c5d478c2ab",
+        "size_in_bytes": 49765
+      },
+      "optimization_execution.json": {
+        "sha256": "9f3e06d7f84fd215d52b9e7512ec8fc2009cdc697bfd3288ba312f9ce8adfbd4",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "d83f072d2bcfba18755b95433dbf8b69f23045ad5585c69535de85fb57542e2b",
+        "size_in_bytes": 1387
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "d83f072d2bcfba18755b95433dbf8b69f23045ad5585c69535de85fb57542e2b",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/comunidad_foral_de_navarra/config/comunidad_foral_de_navarra_2025.yaml",
+    "sha256": "bc5faa52a8afb76a2de43d3d509e0dd5dde03a28e3a83e75bef18add3e1f29ce"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "c942e0a810fbc63f9dcd30faa208e0a022d6a1928440fc0b3646699180f34bd8",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "f5899e94bb3d4f51d11db028edc32feed78e64ed",
+    "edition": "2025",
+    "territory_id": "comunidad_foral_de_navarra",
+    "territory_name": "Comunidad Foral de Navarra",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40838170635,
+    "workflow_sha": "56a05425004ca2539106f4d016a06a7096e48098"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12884822428,
+      "artifact_name": "ddd-state-40838170635-M04",
+      "artifact_sha256": "541ac64d8e707aea56789862366c0db2afb91e9f18ca6bcb40526193428064af",
+      "run_id": 40838170635,
+      "size_in_bytes": 97486602
+    },
+    "source_manifest_sha256": "e64840cf0a673024a9593e7c569b572648f91200e029f306bd03fd75db546c00",
+    "source_package_artifact": {
+      "artifact_id": 12883122407,
+      "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-40838170635",
+      "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
+      "run_id": 40838170635,
+      "size_in_bytes": 88752118
+    }
+  },
+  "manifest_sha256": "51c94c97f32ec7998710f08b387994a274f3a716405cbb5a237ce29189433ad3",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

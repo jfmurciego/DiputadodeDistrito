@@ -132,6 +132,12 @@ modulos:
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
     hard_partition_territory_id: illes_balears
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      strategy: private_annealing
+      seed: 0
+      max_candidates: 5000000
+      max_seconds: 120.0
     in_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
     in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY

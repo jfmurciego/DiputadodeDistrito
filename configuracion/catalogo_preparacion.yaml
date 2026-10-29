@@ -49,7 +49,7 @@ territories:
       evidence:
         electoral_source: territorios/andalucia/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json
         generation_preflight: territorios/andalucia/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: aragon
   name: Aragón
   editions:
@@ -343,7 +343,7 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: b60ea3d02fc860a95b6029ed8fad89abe84e53555ef88036dd74299d047f66ce
         compatibility_identity_sha256: 63a2b0e0636cf45020df78733c33ba73414805258f4a16fc88f8aff6731f3646
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: cataluna
   name: Cataluña
   editions:
@@ -606,12 +606,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 40838170635
+        stage: M06
       preparation_evidence:
         run_id: 40838170635
         artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-40838170635
@@ -626,10 +628,11 @@ territories:
         section_year: 2023
         source_commit: 56a05425004ca2539106f4d016a06a7096e48098
       evidence:
-        electoral_source: territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/d0a820d9fa006f296618c60c9148102e9edca70d447290ed038c82e312ebf1c7/36882818980/receipt.json
-        prepared_source_pair: territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc.json
+        electoral_source: territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/ac4fd5f21ab07fe8db6d056bdb71454d9a6ecdb69fa12e4f72983e6356ca141f/40838170635/receipt.json
+        prepared_source_pair: territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json
         generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+        territorial_product: territorios/comunidad_foral_de_navarra/evidencia/catalogo/territorial_product_2025.json
+      generation_enabled: true
 - territory_id: pais_vasco
   name: País Vasco
   editions:
@@ -664,7 +667,7 @@ territories:
         electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
         prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: la_rioja
   name: La Rioja
   editions:
@@ -699,7 +702,7 @@ territories:
         electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json
         generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: ceuta
   name: Ceuta
   editions:
@@ -752,12 +755,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40832114779
-        stage: M06
+        run_id: 40840795932
+        stage: M08
       preparation_evidence:
         run_id: 40832114779
         artifact_name: ddd-source-package-melilla-2025-40832114779
@@ -776,4 +779,5 @@ territories:
         prepared_source_pair: territorios/melilla/evidencia/pares_fuentes/2025/f545e3ed494cab6b0c44ede7f34152268b0d028fa8bd4327d0c3e4729da336d4.json
         generation_preflight: territorios/melilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/melilla/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/melilla/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true

@@ -1,12 +1,52 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.25
+Versión: 1.0.28
 Fecha: 2026-10-29
-Alcance: reparación privada de población en Andalucía, Castilla y León, Navarra, País Vasco y La Rioja
+Alcance: objetivo ±12 % de Castilla y León y La Rioja; tiempo de reparación de Andalucía y País Vasco
 Estado: candidato
-Cambios/motivo: los cinco pasan M04–M06 y la certificación los bloquea por población, como a Madrid
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.24_20261029.md
+Cambios/motivo: diagnóstico de los logs M05/M06 del grupo A (40838120876, 40838146021, 40838196490, 40838222105)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.27_20261029.md
 -->
+
+## 2026-10-29 — Población — Castilla y León, La Rioja, Andalucía y País Vasco
+
+- Castilla y León (M05 `hard=0 fuera_12=2`, validación oficial `VALIDAR_EJECUCION_FAIL`) y La Rioja
+  (M06 PASS 33/33, certificación `POPULATION_TARGET_NOT_MET`) eran los dos únicos contratos con
+  `require_zero_outside_tolerance_after_m05: true`. Decisión del propietario (29-10-2026): se retira
+  y quedan con la regla de los otros 17 territorios (suelo y techo duros).
+- Andalucía (M05 `hard=4`) y País Vasco (`hard=2`) agotaron la reparación `private_annealing` sin
+  partición válida (`NO_FEASIBLE_REPAIR_FOUND`, 300 s y 120 s). Su `max_seconds` sube a 1800 s; si
+  persiste, se examinará si la causa es estructural (unidades indivisibles, como Menorca).
+
+## 2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares
+
+- Cataluña (40773400155): `M02 acreditación topológica obsoleta: stale topology accreditation;
+  source binding changed: package_sha256, compatibility_identity_sha256`. La re-descarga INE de la
+  misma edición y año de secciones trajo otra huella. `ddd_core/topology_preflight.py` 1.2.0 conserva
+  la acreditación (`binding=SECTION_YEAR_REBOUND`) si sólo cambian huella de paquete e identidad de
+  compatibilidad; M03 sigue verificando la pertenencia exacta de cada componente declarada (Tremp,
+  Llívia). Otra edición o año de secciones sigue siendo obsoleta. Tests: `test_topology_preflight`
+  (18), `test_m03_administrative_components` y `test_pre_m04_evidence_pipeline` (re-descarga
+  reasigna; año distinto bloquea).
+- Canarias (40832065646) y Baleares (40832091398) ya pasan M04 tras #319 y la certificación los
+  bloquea como al grupo A: sus contratos activan `population_repair.strategy: private_annealing`
+  (seed 0, 5.000.000 candidatos, 120 s). Sin aristas entre islas, la reparación no cruza componentes.
+
+## 2026-10-29 — Estado operativo — README detallado
+
+`herramientas/generar_estado_operativo.py` 2.3.0 (esquema JSON 2.2, sólo campos añadidos):
+
+- "Cadena completa validada" exige que el M08 proceda del mismo run que el M06 vigente; Aragón deja
+  de figurar como completo. FE se da por buena cuando la 04 terminó con ese linaje.
+- Cada territorio informa de su última ejecución completa (`last_run`: run, estado, fase donde se
+  paró, motivo y publicación 05), leída de `evidencia/ejecuciones_completas` y del preflight de
+  generación, y de su siguiente paso (`next_step`).
+- La tabla del README añade PUB (05), última ejecución, parada en, motivo y siguiente paso.
+- `test_estado_operativo_unico.py`: reglas de linaje de la cadena completa y de la última ejecución.
+- Galicia completó 01→04 (40832139215) y Baleares reacreditó su pre-M04: las regresiones de
+  archipiélagos y de `test_pre_m04_evidence_pipeline` comprueban la regla (reacreditar sólo si el
+  preflight no acredita el contrato) y los dos casos de Galicia pendiente de incorporar de
+  `test_gestor_campana_nacional` usan la raíz congelada aee8215e.
 
 ## 2026-10-29 — M05 — reparación privada de población en cinco territorios
 
