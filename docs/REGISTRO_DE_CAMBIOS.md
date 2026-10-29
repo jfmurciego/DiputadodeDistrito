@@ -1,14 +1,26 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.37
+Versión: 1.0.38
 Fecha: 2026-10-29
-Alcance: encadenado del par de fuentes también en modo reutilizar
+Alcance: diagnóstico de M07/M08 al fallar la 04
 Estado: candidato
-Cambios/motivo: Aragón, Castilla y León y Extremadura terminaron en reutilizar sin 04 ni encadenado
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.36_20261029.md
+Cambios/motivo: Castilla y León y Extremadura fallan en M08/M07 sin más detalle que el código de salida
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.37_20261029.md
 -->
 
 
+
+
+## 2026-10-29 — 04 — diagnóstico de M07/M08 al fallar
+
+Castilla y León (40895514741, M08, exit 3) y Extremadura (40895537017, M07, exit 1) fallan en la 04 y
+los logs de Actions no son legibles desde fuera del repositorio.
+
+- `_reutilizable-incorporacion-electoral.yml` 1.1.2: la salida de M07 y M08 se guarda en
+  `.ddd-logs/<etapa>.log` (sin cambiar el código de salida) y, si la 04 falla, sus 40 últimas
+  líneas se publican como anotación `DIAG_M07` / `DIAG_M08`.
+- `test_gestor_campana_nacional` 0.0.7: el caso histórico de Extremadura sin par se evalúa sobre la
+  raíz congelada (Extremadura ya tiene fuente electoral y par en main).
 
 ## 2026-10-29 — 00 — encadenado del par también en modo reutilizar
 
