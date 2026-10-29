@@ -4,123 +4,25 @@
   "territory_id": "comunidad_valenciana",
   "territory_name": "Comunidad Valenciana",
   "edition": "2025",
-  "run_id": 40784680666,
-  "source_commit": "cc22cbbf52f64ef1c838575f5476f3dfd03aa9d2",
-  "artifact_name": "ddd-state-40784680666-M03U",
-  "artifact_sha256": "410374199a43a068545e3ad4b0a24a3671cce6f35c569d0ce273ac4cd293a238",
-  "decision": "READY_FOR_FIRST_GENERATION",
-  "evaluation_status": "ENABLED",
-  "stage": "M03U",
+  "run_id": 40888918116,
+  "source_commit": "6d87cd1ca2c3d6fe34d6018a65bffe3d5f780fcf",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 40784680666,
-    "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40784680666",
-    "artifact_sha256": "6acb5f5d008ca1f85ed289736086d3fac3bba3014967877f1062404e73c042fd",
+    "run_id": 40888918116,
+    "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40888918116",
+    "artifact_sha256": "e84554dae2fde207ce089f1da05d88b9517205f3b8e640815363c570ffa1a604",
     "package_sha256": "3e8efc32370692932fb4ba778b6ddb8e2602c5909867fb690e7abd7b1160bd70",
     "compatibility_identity_sha256": "96e3e6692a46682ebd3dc93f90bd173f085b3f0a1078a75a86539aeefb824e30",
     "territorial_identity_sha256": "dbc8127b1a7f0839006112b2e72cd643fce01badef41382a5e90690d54a0635d",
     "population_year": 2023,
     "section_year": 2023
   },
-  "implementation": {
-    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
-    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
-    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
-    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
-    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
-  },
-  "adjacency": {
-    "predicate": "contact",
-    "working_crs": "EPSG:25830",
-    "min_shared_border_m": 1.0,
-    "max_precision_overlap_area_m2": 1.0,
-    "buffer_m": 0.0,
-    "simplify_m": 0.0,
-    "topology_bridges": [
-      {
-        "u": "4620101001",
-        "v": "4604101001",
-        "admin_scope": "province:46",
-        "edge_type": "administrative_enclave"
-      },
-      {
-        "u": "0309907006",
-        "v": "0309907004",
-        "admin_scope": "municipality:03099",
-        "edge_type": "municipal_discontinuity"
-      }
-    ]
-  },
-  "graph": {
-    "artifact_name": "ddd-state-40784680666-M03",
-    "artifact_sha256": "61888cd52b53dfd60ad30200dd8ea5f9fddf8710674a8a28bde15a47b82c4b21",
-    "module_version": "7.5.0",
-    "nodes": 3503,
-    "edges": 9677,
-    "population": 5216195,
-    "isolated": 0,
-    "global_components": 1,
-    "province_disconnected": 0,
-    "municipality_disconnected": 0,
-    "municipality_admitted_disconnected": 0,
-    "municipality_unresolved": 0,
-    "topology_accreditation": {
-      "valid": true,
-      "administrative_components": {
-        "accepted": [],
-        "rejected": []
-      }
-    }
-  },
-  "partitioning": {
-    "job_artifact_name": "ddd-internal-units-40784680666",
-    "job_artifact_sha256": "cc8c60c061e5eb50289e9092c5213b2f97f802dc13eb0cf5d202eb856ac2c70f",
-    "status": "NOOP",
-    "strategy": null,
-    "contract_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
-    "resolved_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/comunidad_valenciana_2025/comunidad_valenciana_2025_m01_secciones_poblacion.geojson.zip"
-  },
-  "contract_binding": {
-    "contract_level": "production_m01_m06",
-    "edition": 2025,
-    "population_year": 2023,
-    "section_year": 2023,
-    "source_baseline": {
-      "schema": "ddd.source-baseline/1.0",
-      "edition": "2025",
-      "population_year": 2023,
-      "section_year": 2023,
-      "population_total": 5216195,
-      "target_section_count": 3503,
-      "package_sha256": "3e8efc32370692932fb4ba778b6ddb8e2602c5909867fb690e7abd7b1160bd70",
-      "compatibility_report_sha256": "1bf4683f1b77855c4ac3b6a3f15f423f0192029f103a97a31a75ef11b9a57522",
-      "compatibility_identity_sha256": "96e3e6692a46682ebd3dc93f90bd173f085b3f0a1078a75a86539aeefb824e30"
-    },
-    "topology_accreditation": null,
-    "k_districts": 99,
-    "population_floor_ratio": 0.8,
-    "population_cap_ratio": 1.75,
-    "target_tolerance_ratio": 0.12,
-    "oversized_municipality_rule": "split_only_above_hard_cap",
-    "municipality_atomicity_limit_ratio": 1.75,
-    "m01_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
-    "m03_output_graph_json": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
-    "m04_input_graph_json": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
-    "m04_input_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
-    "m04_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m04_semillas.geojson.zip",
-    "m05_input_graph_json": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
-    "m05_input_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m04_semillas.geojson.zip",
-    "m05_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m05_distritos_optimizados.geojson.zip",
-    "m06_input_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m05_distritos_optimizados.geojson.zip",
-    "m04_municipality_field": "CUMUN",
-    "m05_municipality_field": "CUMUN",
-    "m06_municipality_field": "CUMUN",
-    "validation_municipality_field": "CUMUN",
-    "expected_districts": 99,
-    "require_graph_contiguity": true,
-    "require_municipality_discipline": true
-  },
   "effective_gate": {
-    "allowed": true,
-    "route": "validated_pre_m04_topology"
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
