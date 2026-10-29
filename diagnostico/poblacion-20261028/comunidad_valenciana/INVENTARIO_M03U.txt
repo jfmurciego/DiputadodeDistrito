@@ -1,0 +1,13 @@
+498 ./cache/comunidad_valenciana_2025_m01_informe.json
+3005641 ./cache/comunidad_valenciana_2025_m01_secciones_poblacion.geojson.zip
+629393 ./cache/comunidad_valenciana_2025_m02_adyacencias.jsonl
+1108975 ./cache/comunidad_valenciana_2025_m03_grafo.json
+86880 ./cache/comunidad_valenciana_2025_m03_informe.json
+385 ./run/CHAIN_STATE.json
+397 ./run/REENGANCHE.json
+199 ./run/logs/modulo_1.log
+254 ./run/logs/modulo_2.log
+275 ./run/logs/modulo_3.log
+1120 ./sources/manifest.json
+85944591 ./sources/prepared_sources.zip
+925 ./sources/source_execution.json
