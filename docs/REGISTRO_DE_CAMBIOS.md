@@ -1,15 +1,29 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.38
+Versión: 1.0.39
 Fecha: 2026-10-29
-Alcance: diagnóstico de M07/M08 al fallar la 04
+Alcance: exenciones estructurales de suelo en particiones insulares
 Estado: candidato
-Cambios/motivo: Castilla y León y Extremadura fallan en M08/M07 sin más detalle que el código de salida
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.37_20261029.md
+Cambios/motivo: Baleares y Canarias terminan M05 sin reparación factible en particiones insulares
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.38_20261029.md
 -->
 
 
 
+
+
+## 2026-10-29 — Población — exenciones de suelo en Ibiza, Tenerife y 35-C02
+
+Decisión del propietario (opción A). Con el diagnóstico de la 02 (#337), Baleares (40891796781) y
+Canarias (40891782899) terminan M05 en `NO_FEASIBLE_REPAIR_FOUND` sólo por distritos residuales de
+particiones insulares bajo el suelo.
+
+- `politica_generacion_territorial_2025.yaml` 1.5.0: `structural_floor_exemptions` para Ibiza
+  (07-C04), Tenerife (38-C01) y 35-C02, con evidencia y motivo.
+- Contratos de Baleares y Canarias: las particiones se añaden a `population_floor_exempt_partitions`
+  y su auditoría marca `floor_exception_required`.
+- `test_materializacion_contratos_nacionales` 1.0.2.
+- Andalucía, País Vasco y Cataluña siguen pendientes (opción B no aplicada).
 
 ## 2026-10-29 — 04 — diagnóstico de M07/M08 al fallar
 

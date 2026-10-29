@@ -1,5 +1,5 @@
-"""Version 1.0.1, 2026-10-26: use existing island pre-M04 accreditation.
-Previous bytes: tests/legacy/ci_followup_20261026/test_materializacion_contratos_nacionales_cff5d3c.py.
+"""Version 1.0.2, 2026-10-29: island structural floor exemptions (Ibiza 07-C04, Tenerife 38-C01, 35-C02).
+Previous bytes: legacy/tests/test_materializacion_contratos_nacionales_v1.0.1_20261029.py.
 """
 from __future__ import annotations
 
@@ -1337,7 +1337,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertEqual("institutional_chamber_size_only", result["k_reference_scope"])
             self.assertEqual("ddd_design_policy", result["apportionment_source"])
             self.assertFalse(result["legal_apportionment_reused"])
-            self.assertEqual(["35-C04","38-C02","38-C04"], result["population_floor_exempt_partitions"])
+            # 35-C04, 38-C02 y 38-C04 por quedar bajo el suelo; 35-C02 y 38-C01 por exención estructural.
+            self.assertEqual(["35-C02","35-C04","38-C01","38-C02","38-C04"], result["population_floor_exempt_partitions"])
             self.assertTrue(all(x["floor_exception_governed"] for x in result["partition_apportionment_audit"].values()))
             self.assertIn("38-C04", result["population_floor_exempt_partitions"])
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
@@ -1370,7 +1371,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertFalse(result["legal_apportionment_reused"])
             # Formentera por quedar bajo el suelo con un distrito; Menorca por exención estructural
             # declarada en la política (Mahón y Ciudadela indivisibles).
-            self.assertEqual(["07-C02", "07-C03"], result["population_floor_exempt_partitions"])
+            # e Ibiza (07-C04) por exención estructural (decisión del propietario, 29-10-2026).
+            self.assertEqual(["07-C02", "07-C03", "07-C04"], result["population_floor_exempt_partitions"])
             self.assertTrue(result["partition_apportionment_audit"]["07-C02"]["floor_exception_required"])
             self.assertTrue(all(x["floor_exception_governed"] for x in result["partition_apportionment_audit"].values()))
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
@@ -1415,10 +1417,11 @@ class StructuralFloorExemptionTests(unittest.TestCase):
         policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
         structural = structural_floor_exemptions(policy["territories"]["illes_balears"], "illes_balears")
         self.assertIn("07-C02", structural)
+        self.assertIn("07-C04", structural)
         pops = {"07-C01": 940332, "07-C02": 99005, "07-C03": 11389, "07-C04": 159180}
         quota = {"07-C01": 45, "07-C02": 5, "07-C03": 1, "07-C04": 8}
         audit = component_apportionment_audit(
-            pops, quota, 59, 0.8, ["07-C02", "07-C03"],
+            pops, quota, 59, 0.8, sorted({"07-C03"} | set(structural)),
             exception_policy="one_contiguous_district_floor_exception",
             structural=frozenset(structural),
         )
@@ -1431,4 +1434,5 @@ class StructuralFloorExemptionTests(unittest.TestCase):
     def test_live_baleares_contract_keeps_menorca_exempt(self):
         cfg = yaml.safe_load((ROOT / "territorios/illes_balears/config/illes_balears_2025.yaml").read_text(encoding="utf-8"))
         self.assertIn("07-C02", cfg["validation"]["population_floor_exempt_partitions"])
+        self.assertIn("07-C04", cfg["validation"]["population_floor_exempt_partitions"])
         self.assertTrue(cfg["validation"]["partition_apportionment_audit"]["07-C02"]["floor_exception_required"])

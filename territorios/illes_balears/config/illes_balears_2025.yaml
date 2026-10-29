@@ -83,6 +83,7 @@ territory_contract:
   population_floor_exempt_partitions:
   - 07-C02
   - 07-C03
+  - 07-C04
   small_component_exception_policy: one_contiguous_district_floor_exception
   status: generation_ready
 modulos:
@@ -212,6 +213,7 @@ validation:
   population_floor_exempt_partitions:
   - 07-C02
   - 07-C03
+  - 07-C04
   partition_apportionment_audit:
     07-C01:
       population: 940332
@@ -247,7 +249,7 @@ validation:
       average_population_per_district: 19897.5
       relative_deviation_from_target: -0.029715945
       population_floor: 16405.505085
-      floor_exception_required: false
+      floor_exception_required: true
       floor_exception_governed: true
   hard_partition_mode: physical_components
   hard_partition_lookup: configuracion/particiones_insulares_2025.json

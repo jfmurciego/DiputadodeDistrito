@@ -86,7 +86,9 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.75
   require_auditable_district_catalogue: true
   population_floor_exempt_partitions:
+  - 35-C02
   - 35-C04
+  - 38-C01
   - 38-C02
   - 38-C04
   small_component_exception_policy: one_contiguous_district_floor_exception
@@ -224,7 +226,9 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions:
+  - 35-C02
   - 35-C04
+  - 38-C01
   - 38-C02
   - 38-C04
   partition_apportionment_audit:
@@ -244,7 +248,7 @@ validation:
       average_population_per_district: 31038.0
       relative_deviation_from_target: -0.018235747
       population_floor: 25291.611429
-      floor_exception_required: false
+      floor_exception_required: true
       floor_exception_governed: true
     35-C03:
       population: 158065
@@ -271,7 +275,7 @@ validation:
       average_population_per_district: 32717.758621
       relative_deviation_from_target: 0.034896767
       population_floor: 25291.611429
-      floor_exception_required: false
+      floor_exception_required: true
       floor_exception_governed: true
     38-C02:
       population: 22361
