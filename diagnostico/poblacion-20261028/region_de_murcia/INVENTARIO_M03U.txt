@@ -1,0 +1,13 @@
+477 ./cache/region_de_murcia_2025_m01_informe.json
+1272805 ./cache/region_de_murcia_2025_m01_secciones_poblacion.geojson.zip
+222685 ./cache/region_de_murcia_2025_m02_adyacencias.jsonl
+391304 ./cache/region_de_murcia_2025_m03_grafo.json
+8888 ./cache/region_de_murcia_2025_m03_informe.json
+369 ./run/CHAIN_STATE.json
+381 ./run/REENGANCHE.json
+187 ./run/logs/modulo_1.log
+242 ./run/logs/modulo_2.log
+263 ./run/logs/modulo_3.log
+740 ./sources/manifest.json
+79305296 ./sources/prepared_sources.zip
+549 ./sources/source_execution.json

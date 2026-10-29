@@ -1,0 +1,441 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 1223,
+  "edges": 3420,
+  "isolated": 0,
+  "total_pop": 1551692,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/region_de_murcia/.cache/ddd/preparacion/region_de_murcia_2025/region_de_murcia_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 1,
+    "component_sizes": [
+      1223
+    ],
+    "component_samples": [
+      [
+        "3000101001",
+        "3000101002",
+        "3000101003",
+        "3000102001",
+        "3000102002",
+        "3000102003",
+        "3000201001",
+        "3000201002",
+        "3000201003",
+        "3000201004",
+        "3000201005",
+        "3000201006"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "3cfc6aafeeb09273ca63b59f916ad2aaace11274e0304fd7e6183cda9957c58b",
+      "compatibility_identity_sha256": "83781a2ede58bbd0df66520d5e58222d15e97a05ea9cef9bea24d51aeb2b8c28"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": true,
+    "groups": 1,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "30": {
+        "nodes": 1223,
+        "components": 1,
+        "component_sizes": [
+          1223
+        ]
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": true,
+    "groups": 45,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "30/30001": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Abanilla"
+      },
+      "30/30002": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Abarán"
+      },
+      "30/30003": {
+        "nodes": 30,
+        "components": 1,
+        "component_sizes": [
+          30
+        ],
+        "name": "Águilas"
+      },
+      "30/30004": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Albudeite"
+      },
+      "30/30005": {
+        "nodes": 26,
+        "components": 1,
+        "component_sizes": [
+          26
+        ],
+        "name": "Alcantarilla"
+      },
+      "30/30006": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Aledo"
+      },
+      "30/30007": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Alguazas"
+      },
+      "30/30008": {
+        "nodes": 18,
+        "components": 1,
+        "component_sizes": [
+          18
+        ],
+        "name": "Alhama de Murcia"
+      },
+      "30/30009": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Archena"
+      },
+      "30/30010": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Beniel"
+      },
+      "30/30011": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Blanca"
+      },
+      "30/30012": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Bullas"
+      },
+      "30/30013": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Calasparra"
+      },
+      "30/30014": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Campos del Río"
+      },
+      "30/30015": {
+        "nodes": 26,
+        "components": 1,
+        "component_sizes": [
+          26
+        ],
+        "name": "Caravaca de la Cruz"
+      },
+      "30/30016": {
+        "nodes": 182,
+        "components": 1,
+        "component_sizes": [
+          182
+        ],
+        "name": "Cartagena"
+      },
+      "30/30017": {
+        "nodes": 15,
+        "components": 1,
+        "component_sizes": [
+          15
+        ],
+        "name": "Cehegín"
+      },
+      "30/30018": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Ceutí"
+      },
+      "30/30019": {
+        "nodes": 34,
+        "components": 1,
+        "component_sizes": [
+          34
+        ],
+        "name": "Cieza"
+      },
+      "30/30020": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Fortuna"
+      },
+      "30/30021": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Fuente Álamo de Murcia"
+      },
+      "30/30022": {
+        "nodes": 22,
+        "components": 1,
+        "component_sizes": [
+          22
+        ],
+        "name": "Jumilla"
+      },
+      "30/30023": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Librilla"
+      },
+      "30/30024": {
+        "nodes": 69,
+        "components": 1,
+        "component_sizes": [
+          69
+        ],
+        "name": "Lorca"
+      },
+      "30/30025": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Lorquí"
+      },
+      "30/30026": {
+        "nodes": 21,
+        "components": 1,
+        "component_sizes": [
+          21
+        ],
+        "name": "Mazarrón"
+      },
+      "30/30027": {
+        "nodes": 56,
+        "components": 1,
+        "component_sizes": [
+          56
+        ],
+        "name": "Molina de Segura"
+      },
+      "30/30028": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Moratalla"
+      },
+      "30/30029": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Mula"
+      },
+      "30/30030": {
+        "nodes": 387,
+        "components": 1,
+        "component_sizes": [
+          387
+        ],
+        "name": "Murcia"
+      },
+      "30/30031": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Ojós"
+      },
+      "30/30032": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Pliego"
+      },
+      "30/30033": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Puerto Lumbreras"
+      },
+      "30/30034": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Ricote"
+      },
+      "30/30035": {
+        "nodes": 23,
+        "components": 1,
+        "component_sizes": [
+          23
+        ],
+        "name": "San Javier"
+      },
+      "30/30036": {
+        "nodes": 19,
+        "components": 1,
+        "component_sizes": [
+          19
+        ],
+        "name": "San Pedro del Pinatar"
+      },
+      "30/30037": {
+        "nodes": 21,
+        "components": 1,
+        "component_sizes": [
+          21
+        ],
+        "name": "Torre-Pacheco"
+      },
+      "30/30038": {
+        "nodes": 20,
+        "components": 1,
+        "component_sizes": [
+          20
+        ],
+        "name": "Torres de Cotillas, Las"
+      },
+      "30/30039": {
+        "nodes": 27,
+        "components": 1,
+        "component_sizes": [
+          27
+        ],
+        "name": "Totana"
+      },
+      "30/30040": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Ulea"
+      },
+      "30/30041": {
+        "nodes": 15,
+        "components": 1,
+        "component_sizes": [
+          15
+        ],
+        "name": "Unión, La"
+      },
+      "30/30042": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Villanueva del Río Segura"
+      },
+      "30/30043": {
+        "nodes": 31,
+        "components": 1,
+        "component_sizes": [
+          31
+        ],
+        "name": "Yecla"
+      },
+      "30/30901": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Santomera"
+      },
+      "30/30902": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Alcázares, Los"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
