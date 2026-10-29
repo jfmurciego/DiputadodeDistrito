@@ -2,14 +2,16 @@
 """Diagnóstico de distritos fuera de límites de población tras un fallo de M04/M05.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-10-29 · ESTADO: candidato
+VERSIÓN: 1.1.0 · FECHA: 2026-10-29 · ESTADO: candidato
 QUÉ HACE: localiza la última salida de M05 (o, si no existe, de M04) en la caché del territorio,
   calcula la población de cada distrito frente al suelo y el techo del contrato y emite, para cada
   distrito que los incumple, su componente (provincia o isla), población, ratio y municipios.
   Escribe un JSON y una anotación ::warning:: por distrito, legible sin descargar artefactos.
 MOTIVO: Andalucía, País Vasco, Canarias, Baleares y Cataluña fallan en M05 con
   NO_FEASIBLE_REPAIR_FOUND y el log sólo da el número de distritos imposibles, no cuáles son.
-ANTERIOR: ninguno (herramienta nueva).
+CAMBIOS: 1.1.0: respeta population_floor_exempt_municipalities (#343) y resume el informe M05
+  (estado, motivo y claves de reparación/violaciones) en DIAG_M05_INFORME.
+ANTERIOR: legacy/herramientas/diagnosticar_poblacion_m05_v1.0.0_20261029.py
 """
 from __future__ import annotations
 
@@ -52,11 +54,13 @@ def diagnose(params: Path) -> dict:
     floor = target * float(validation.get("population_floor_ratio", 0.8))
     cap = target * float(validation.get("population_cap_ratio", 1.75))
     exempt = {str(x) for x in validation.get("population_floor_exempt_partitions") or []}
+    exempt_munis = {str(x) for x in validation.get("population_floor_exempt_municipalities") or []}
     rows = []
     for district, grp in gdf.groupby(district_field):
         pop = float(grp[pop_field].sum())
         part = str(grp[part_field].mode().iloc[0]) if part_field in grp else ""
-        below = pop < floor - 1e-9 and part not in exempt
+        munis_all = {str(m).split(":")[0] for m in grp[mun_field]} if mun_field in grp else set()
+        below = pop < floor - 1e-9 and part not in exempt and not (munis_all & exempt_munis)
         if below or pop > cap + 1e-9:
             munis = sorted({str(m) for m in grp[mun_field]}) if mun_field in grp else []
             rows.append({
@@ -67,8 +71,24 @@ def diagnose(params: Path) -> dict:
     return {
         "status": "OK", "stage": stage, "source": str(source), "k": k,
         "target": round(target, 1), "floor": round(floor, 1), "cap": round(cap, 1),
-        "floor_exempt_partitions": sorted(exempt), "violations": rows,
+        "floor_exempt_partitions": sorted(exempt), "floor_exempt_municipalities": sorted(exempt_munis),
+        "violations": rows, "m05_report": _m05_report_summary(cache, m05),
     }
+
+
+def _m05_report_summary(cache: Path, m05: dict) -> dict | None:
+    """Claves de primer nivel del informe M05 que explican el fallo (estado, motivo, reparación)."""
+    declared = Path(str(m05.get("out_report") or ""))
+    path = declared if declared.is_file() else _latest(cache, ("*m05*informe*.json",))
+    if path is None:
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {"path": str(path), "error": "ilegible"}
+    keys = ("status", "decision", "reason", "error", "hard", "repair", "violation", "outside", "below", "above")
+    summary = {k: v for k, v in data.items() if any(t in k.lower() for t in keys)}
+    return {"path": path.name, **summary}
 
 
 def main() -> int:
@@ -82,10 +102,12 @@ def main() -> int:
         report = {"status": "ERROR", "error": f"{type(exc).__name__}: {exc}"}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    head = {k: report.get(k) for k in ("status", "stage", "k", "target", "floor", "cap", "floor_exempt_partitions")}
+    head = {k: report.get(k) for k in ("status", "stage", "k", "target", "floor", "cap", "floor_exempt_partitions", "floor_exempt_municipalities")}
     print(f"::warning::DIAG_POBLACION {json.dumps(head, ensure_ascii=False)}")
     for row in (report.get("violations") or [])[:20]:
         print(f"::warning::DIAG_DISTRITO {json.dumps(row, ensure_ascii=False)}")
+    if report.get("m05_report"):
+        print(f"::warning::DIAG_M05_INFORME {json.dumps(report['m05_report'], ensure_ascii=False, default=str)[:4000]}")
     if report.get("status") == "ERROR":
         print(f"::warning::DIAG_ERROR {report['error']}")
     return 0

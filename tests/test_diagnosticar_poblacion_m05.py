@@ -1,5 +1,5 @@
-"""Versión 1.0.0; 2026-10-29; candidato. Diagnóstico de distritos fuera de límites tras fallar M04/M05.
-Origen: nuevo, sin predecesor.
+"""Versión 1.1.0; 2026-10-29; candidato. Diagnóstico de distritos fuera de límites tras fallar M04/M05.
+Cambios: exención por municipio e informe M05. Anterior: legacy/tests/test_diagnosticar_poblacion_m05_v1.0.0_20261029.py
 """
 from __future__ import annotations
 
@@ -26,13 +26,15 @@ class DiagnosticoPoblacionTests(unittest.TestCase):
             gdf = gpd.GeoDataFrame(
                 {"CUSEC_KEY": ["a", "b", "c", "d", "e"], "POP": [100, 100, 10, 190, 5],
                  "district_id": [1, 1, 2, 3, 4], "CPRO": ["01", "01", "02", "01", "03"],
-                 "CUMUN": ["01001"] * 5},
+                 "CUMUN": ["01001", "01001", "02002", "01001", "03003"]},
                 geometry=[Point(i, 0) for i in range(5)], crs="EPSG:25830")
             gdf.to_file(cache / "x_m05_distritos_optimizados.geojson", driver="GeoJSON")
+            (cache / "x_m05_informe.json").write_text('{"status": "FAIL", "reason": "NO_FEASIBLE_REPAIR_FOUND", "k": 4}', encoding="utf-8")
             cfg = {"meta": {"territory_id": "demo", "run_name": "demo", "year": 2025},
                    "territory_contract": {"k_districts": 4},
                    "validation": {"population_floor_ratio": 0.8, "population_cap_ratio": 1.75,
-                                  "population_floor_exempt_partitions": ["03"]},
+                                  "population_floor_exempt_partitions": ["03"],
+                                  "population_floor_exempt_municipalities": ["02002"]},
                    "modulos": {"modulo_05_optimizar_distritos": {
                        "in_geojson": str(cache / "seeds.geojson"), "pop_field": "POP",
                        "district_field": "district_id", "province_field": "CPRO",
@@ -42,8 +44,11 @@ class DiagnosticoPoblacionTests(unittest.TestCase):
             report = diagnose(params)
             self.assertEqual("M05", report["stage"])
             found = {r["district"]: r["violation"] for r in report["violations"]}
-            # objetivo 101,25: suelo 81, techo 177,2; el distrito 4 (5 hab.) está en partición exenta.
-            self.assertEqual({"1": "ABOVE_CAP", "2": "BELOW_FLOOR", "3": "ABOVE_CAP"}, found)
+            # objetivo 101,25: suelo 81, techo 177,2; el distrito 4 (5 hab.) está en partición exenta y
+            # el 2 (10 hab.) contiene el municipio exento 02002.
+            self.assertEqual({"1": "ABOVE_CAP", "3": "ABOVE_CAP"}, found)
+            self.assertEqual({"path": "x_m05_informe.json", "status": "FAIL", "reason": "NO_FEASIBLE_REPAIR_FOUND"},
+                             report["m05_report"])
 
 
 if __name__ == "__main__":
