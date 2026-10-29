@@ -5,10 +5,12 @@
   "territory_name": "Comunidad Valenciana",
   "edition": "2025",
   "run_id": 40956462986,
-  "source_commit": "3848dbe0164ec27f4c6c21cc39d7f05ab4786048",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "e2b322dfa693c9b3d32309ce9ed36b48491befee",
+  "artifact_name": "ddd-state-40956462986-M03U",
+  "artifact_sha256": "b81ee23d5212cd4f095dd6b4fb0dd02a165ad7451eeec8f60f26215d70a1beff",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 40956462986,
     "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
@@ -19,10 +21,106 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:25830",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "4620101001",
+        "v": "4604101001",
+        "admin_scope": "province:46",
+        "edge_type": "administrative_enclave"
+      },
+      {
+        "u": "0309907006",
+        "v": "0309907004",
+        "admin_scope": "municipality:03099",
+        "edge_type": "municipal_discontinuity"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-40956462986-M03",
+    "artifact_sha256": "c864b1bb75a15c31643bef55ba43ca24d2dcb12c77fbb7ea80e295c5159207fa",
+    "module_version": "7.5.0",
+    "nodes": 3503,
+    "edges": 9677,
+    "population": 5216195,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-40956462986",
+    "job_artifact_sha256": "beb4da50e5bb84a2718b2849f48ef80becf50d4badb67a10542ebbda4d1d0906",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/comunidad_valenciana_2025/comunidad_valenciana_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 5216195,
+      "target_section_count": 3503,
+      "package_sha256": "b8b20dfe69371a0e995b2f0d7c1b09224cd8477a0c1fa6d1d9b65e2d257f33b5",
+      "compatibility_report_sha256": "0658627c2a629f69453bd52e3b96c8d672ae2a2af0158c24c57626efe7c8687d",
+      "compatibility_identity_sha256": "60c5f99db5fdae560fe9211eef42cecea019d92268278d94a23ce1dcd5ace948"
+    },
+    "topology_accreditation": null,
+    "k_districts": 99,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.5,
+    "m01_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 99,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

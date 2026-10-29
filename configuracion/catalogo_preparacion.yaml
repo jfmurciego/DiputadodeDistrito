@@ -417,7 +417,7 @@ territories:
         territorial_product: territorios/comunidad_valenciana/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/comunidad_valenciana/evidencia/pares_fuentes/2025/684995d04f217975d154861a23094a240fa144c1a89946f92913b92c013ef5b6.json
         generation_preflight: territorios/comunidad_valenciana/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: extremadura
   name: Extremadura
   editions:
