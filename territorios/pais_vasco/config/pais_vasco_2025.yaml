@@ -138,7 +138,7 @@ modulos:
       strategy: private_annealing
       seed: 0
       max_candidates: 5000000
-      max_seconds: 120.0
+      max_seconds: 1800.0
     in_graph_json: territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
