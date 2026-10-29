@@ -1,14 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.0.1
-# NOMBRE DE VERSIÓN: Incorporación electoral desacoplada
+# VERSIÓN: 2.0.2
+# NOMBRE DE VERSIÓN: Consumo de M06 certificado sin huella del motor M05
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/incorporacion-resultados-electorales.pre-p0.yml (versión 2.0.0 conservada)
-# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-# FECHA: 2026-10-25
+# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.1_20261029.yml
+# CAMBIOS: 2.0.2: el M06 certificado se localiza con --consume-certified-product; un cambio del motor
+#   M05 (#343) ya no invalida productos cerrados. 2.0.1: exclusión mutua con queue: max.
+# MOTIVO: Castilla y León y Extremadura fallaban con «No existe un producto territorial certificado».
+# FECHA: 2026-10-29
 name: 04 Incorporación de Resultados Electorales
 
 on:
@@ -156,7 +157,7 @@ jobs:
             set +e
             python -m herramientas.seleccionar_checkpoint_productivo \
               --params "$PARAMS" --package "$source_dir" --state-root "$tmp/state" \
-              --run-id "$run_id" --stage M06 --root-dir . > "$selection"
+              --run-id "$run_id" --stage M06 --root-dir . --consume-certified-product > "$selection"
             validation_rc=$?
             set -e
             if (( validation_rc == 0 )); then

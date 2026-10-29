@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "cataluna",
+  "territory_name": "Cataluña",
+  "edition": "2025",
+  "run_id": 40952013601,
+  "artifact_name": "ddd-state-40952013601-M06",
+  "artifact_sha256": "8ee90d1e0ed12c19d1fb370bb8aeed03406e609269c8cd9e027817a6df0c5adb",
+  "source_commit": "e88ad5628db3e6390096ef21b1ab1d92ac9c0096",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/40952013601.json"
+}

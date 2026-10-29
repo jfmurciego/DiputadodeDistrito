@@ -162,7 +162,7 @@ territories:
         section_year: 2023
         source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
       evidence:
-        electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
+        electoral_source: territorios/illes_balears/evidencia/fuentes_electorales/2025/b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437/40955056606/receipt.json
         prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/897b94cd0a4ef1c9360d69512109255c18929f5b26e159e95151fef8616da89d.json
         generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/illes_balears/evidencia/catalogo/territorial_product_2025.json
@@ -333,12 +333,14 @@ territories:
       electoral_source_declaration: territorios/cataluna/config/elecciones/cataluna_parlament_2024_vigente.yaml
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 40952013601
+        stage: M08
       preparation_evidence:
         run_id: 40946901555
         artifact_name: ddd-source-package-cataluna-2025-40946901555
@@ -356,6 +358,8 @@ territories:
         electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
         prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/78bebbc5beefd9680e8a58a0651924f6653627cd9186290af990895670b135ca.json
         generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/cataluna/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/cataluna/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
@@ -562,8 +566,8 @@ territories:
         section_year: 2023
         source_commit: e6778a88325a7c787e4279783fd0e19d7d1d2975
       evidence:
-        electoral_source: territorios/region_de_murcia/evidencia/catalogo/electoral_source_2025.json
-        prepared_source_pair: territorios/region_de_murcia/evidencia/pares_fuentes/2025/8c901249352bb34e983f0be96bcde70acdcb4f55e84ce308be73c53d044d8df5.json
+        electoral_source: territorios/region_de_murcia/evidencia/fuentes_electorales/2025/bb4afc30bfd7530f7ea02f4a879b3eb7f029ed851899b925935a80c98e3add6a/40954443883/receipt.json
+        prepared_source_pair: territorios/region_de_murcia/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json
         generation_preflight: territorios/region_de_murcia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/region_de_murcia/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
@@ -619,12 +623,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40951146225
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40946888676
         artifact_name: ddd-source-package-pais_vasco-2025-40946888676
@@ -643,6 +647,7 @@ territories:
         prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/17eb947b3aa1af5f9703a54b05a41ec6d8e7b4feeec5ace3dcc830ebd8f3b5a1.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/pais_vasco/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/pais_vasco/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: la_rioja
   name: La Rioja

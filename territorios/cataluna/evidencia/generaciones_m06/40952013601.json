@@ -1,0 +1,113 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12932603496,
+      "artifact_name": "ddd-audit-40952013601",
+      "artifact_sha256": "d3a61a561f6a3f6f3856df6fae6fa236e0980955483b4d766c09d11bcb4432e3",
+      "run_id": 40952013601,
+      "size_in_bytes": 35532
+    },
+    "m04": {
+      "artifact_id": 12932321792,
+      "artifact_name": "ddd-state-40952013601-M04",
+      "artifact_sha256": "c6dfd7d223381c7d1e1ac72d1ff221ea401c62971a76e2b3a5889fc1eb2a9055",
+      "run_id": 40952013601,
+      "size_in_bytes": 100065709
+    },
+    "m05": {
+      "artifact_id": 12932926259,
+      "artifact_name": "ddd-state-40952013601-M05",
+      "artifact_sha256": "ba3a69a5d2eb125f5a91815730137eb94017ebd7af47e3a181ea20d8c005472b",
+      "run_id": 40952013601,
+      "size_in_bytes": 104878515
+    },
+    "m06": {
+      "artifact_id": 12932622081,
+      "artifact_name": "ddd-state-40952013601-M06",
+      "artifact_sha256": "8ee90d1e0ed12c19d1fb370bb8aeed03406e609269c8cd9e027817a6df0c5adb",
+      "run_id": 40952013601,
+      "size_in_bytes": 111811592
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "f0d2fb31457e63338032908c8fa9a5c1af0a10906bbec8a334a8d2bc9902b745",
+        "size_in_bytes": 467
+      },
+      "cataluna_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "a9bb54517c79b173ea39f3f4d6377dc2a1631c77048c8de69ba39f7cfa762a0c",
+        "size_in_bytes": 336320
+      },
+      "optimization_execution.json": {
+        "sha256": "5346994e0b72bd26dddb166a32a20b316b611bec20db6f8efea05fbed3fcda30",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "ae2e1d1397c785286f36a9f5becdb90db0c072cc177d57671951b2e5356de64c",
+        "size_in_bytes": 1279
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "ae2e1d1397c785286f36a9f5becdb90db0c072cc177d57671951b2e5356de64c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/cataluna/config/cataluna_2025.yaml",
+    "sha256": "55b54e1a4540a6bc1e00d9dbb6695783af2e9356acd523bf9f1d3d333bb6c32c"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": 40946901555,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M04",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "5ec5f692833d177fffed54c23d3ca884cfc31f8cbdc4aa520b4fad38c4ad050c",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "e88ad5628db3e6390096ef21b1ab1d92ac9c0096",
+    "edition": "2025",
+    "territory_id": "cataluna",
+    "territory_name": "Cataluña",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40952013601,
+    "workflow_sha": "e88ad5628db3e6390096ef21b1ab1d92ac9c0096"
+  },
+  "inputs": {
+    "checkpoint_artifact": {
+      "artifact_id": 12930073940,
+      "artifact_name": "ddd-state-40946901555-M03U",
+      "artifact_sha256": "3955ff792c2ad14862d3c9f186462990b4719c0d6585b6aea28f4c7cc0e21fcf",
+      "run_id": 40946901555,
+      "size_in_bytes": 95248151
+    },
+    "checkpoint_run_id": 40946901555,
+    "checkpoint_stage": "M04",
+    "m04_artifact": {
+      "artifact_id": 12932321792,
+      "artifact_name": "ddd-state-40952013601-M04",
+      "artifact_sha256": "c6dfd7d223381c7d1e1ac72d1ff221ea401c62971a76e2b3a5889fc1eb2a9055",
+      "run_id": 40952013601,
+      "size_in_bytes": 100065709
+    },
+    "source_manifest_sha256": "e363c12b6133d77a4f18738a8da1f0ac5041e2c404ee47dbae88ddcd92ac7873",
+    "source_package_artifact": {
+      "artifact_id": 12930565259,
+      "artifact_name": "ddd-source-package-cataluna-2025-40946901555",
+      "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
+      "run_id": 40946901555,
+      "size_in_bytes": 90328041
+    }
+  },
+  "manifest_sha256": "234d782468f4b4da7d60fbe4427969b623d68db74e0dbf8e8c77e147fdaad18b",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
