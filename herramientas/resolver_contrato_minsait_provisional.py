@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-10-29: owner_production_exception (decided_at, rationale, evidence, max_delta_ratio)
+#   hace production_eligible=true si la diferencia con el definitivo no supera el máximo.
+# ANTERIOR: legacy/herramientas/resolver_contrato_minsait_provisional_pre_excepcion_20261029.py
 from __future__ import annotations
 
 import argparse
@@ -63,9 +66,26 @@ def resolve(
             f"Delta de reconciliación inválido para {election_id}: {declared_delta} != {delta}"
         )
 
+    # Excepción del propietario: un contrato provisional puede ir a producción si la diferencia con
+    # el definitivo declarado no supera max_delta_ratio. Sin excepción completa sigue sin serlo.
+    exception = row.get("owner_production_exception")
+    production_eligible = False
+    if exception is not None:
+        if not isinstance(exception, dict) or any(
+            exception.get(k) in (None, "") for k in ("decided_at", "rationale", "evidence", "max_delta_ratio")
+        ):
+            raise ValueError(f"Excepción de producción incompleta para {election_id}")
+        ratio = abs(declared_delta) / int(definitive["candidate_votes"])
+        if ratio > float(exception["max_delta_ratio"]):
+            raise ValueError(
+                f"Excepción de producción rechazada para {election_id}: delta {ratio:.4%} > {float(exception['max_delta_ratio']):.4%}"
+            )
+        production_eligible = True
+
     return {
         "election_id": election_id,
         **row,
+        "production_eligible": production_eligible,
         "expected": {
             "ccaa": str(expected["ccaa"]).zfill(2),
             "provinces": int(expected["provinces"]),

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-10-29: --production-eligible para contratos con owner_production_exception.
+# ANTERIOR: legacy/herramientas/adaptador_minsait_csv_pre_excepcion_20261029.py
 from __future__ import annotations
 
 import argparse
@@ -52,6 +54,7 @@ def build(
     definitive_reference_url: str = "",
     definitive_candidate_votes: int | None = None,
     expected_delta_definitive_minus_provisional: int | None = None,
+    production_eligible: bool = False,
 ) -> dict:
     actual_sha = sha256(source)
     if actual_sha.lower() != expected_sha256.lower():
@@ -208,7 +211,7 @@ def build(
                 "source_url": source_url,
                 "source_class": "provisional_mirror",
                 "source_status": source_status,
-                "production_eligible": False,
+                "production_eligible": production_eligible,
                 "adapter": {
                     "kind": "long_csv",
                     "separator": ";",
@@ -234,7 +237,7 @@ def build(
         "reconciliation": reconciliation,
         "source_verification": {
             "status": source_status,
-            "production_eligible": False,
+            "production_eligible": production_eligible,
             "provinces": len(provinces),
             "sections": len(sections),
             "polling_stations": len(polling_stations),
@@ -258,14 +261,14 @@ def build(
         "election_id": election_id,
         "election_date": election_date,
         "source_status": source_status,
-        "production_eligible": False,
+        "production_eligible": production_eligible,
         "selected_source": {
             "path": "data/resultados_electorales_normalizados.csv",
             "sha256": normalized_sha,
             "bytes": normalized.stat().st_size,
             "source_class": "provisional_mirror",
             "source_status": source_status,
-            "production_eligible": False,
+            "production_eligible": production_eligible,
         },
         "embedded_contract": {
             "election_contract": "contract/election_contract.json",
@@ -317,6 +320,8 @@ def main() -> None:
     ap.add_argument("--definitive-reference-url", default="")
     ap.add_argument("--definitive-candidate-votes", type=int)
     ap.add_argument("--expected-delta-definitive-minus-provisional", type=int)
+    ap.add_argument("--production-eligible", action="store_true",
+                    help="sólo con owner_production_exception validada por el resolver del contrato")
     args = ap.parse_args()
     print(
         json.dumps(
@@ -340,6 +345,7 @@ def main() -> None:
                 definitive_reference_url=args.definitive_reference_url,
                 definitive_candidate_votes=args.definitive_candidate_votes,
                 expected_delta_definitive_minus_provisional=args.expected_delta_definitive_minus_provisional,
+                production_eligible=args.production_eligible,
             ),
             ensure_ascii=False,
             indent=2,

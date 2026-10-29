@@ -1,11 +1,13 @@
-# VERSIÓN: 1.0.2 — Aragón incorpora resultados 2026 con reconciliación M07
+# VERSIÓN: 1.0.3 — Extremadura usa sus provisionales por sección con excepción del propietario
 # FECHA: 2026-10-29; ESTADO: candidato para revisión y CI
+# CAMBIOS 1.0.3: Extremadura pasa de BLOCKED_PROVISIONAL a ACQUIRE con la excepción de producción
+#   del contrato Minsait (diferencia 0,46 % con el definitivo).
 # CAMBIOS 1.0.2: Aragón pasa a electoral_2026_crosswalk_status ACCEPTED_M07_RECONCILIATION (decisión del
 #   propietario, fuente RTVE): las secciones 2026 sin correspondencia con el mapa 2025 cuentan como
 #   pérdida en M07, acotada por su margen.
 # CAMBIOS: Andalucía, Aragón y Castilla y León usan pareja INE 2025/2025 para referencia territorial.
 # MOTIVO: población 2026 no publicada y crosswalk 2025→2026 incompleto; electoral 2026 sigue pendiente.
-# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.0.1.yaml
+# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.0.2.yaml
 schema: ddd-current-legislature-preparation/1.0
 project_edition: '2025'
 as_of: '2026-09-30'
@@ -83,7 +85,7 @@ territories:
     election_id: extremadura_asamblea_2025-12-21
     election_date: '2025-12-21'
     territorial: {population_required_year: 2025, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 0, population_reference_date: '2025-01-01', section_required_year: 2025, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 0, section_reference_label: 'Secciones_2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: REUSE_EXACT, reason: 'Población y seccionado 2025 coinciden con la elección.'}
-    electoral: {source: 'Minsait / EleccionesDB mirror provisional', granularity: section_party_after_polling_station_aggregation, action: BLOCKED_PROVISIONAL, definitive_gap_status: KNOWN_DELTA, definitive_candidate_votes: 524837, source_candidate_votes: 522418, gap_candidate_votes: 2419}
+    electoral: {source: 'Minsait / EleccionesDB mirror provisional (excepción del propietario 2026-10-29)', granularity: section_party_after_polling_station_aggregation, action: ACQUIRE, definitive_gap_status: KNOWN_DELTA, definitive_candidate_votes: 524837, source_candidate_votes: 522418, gap_candidate_votes: 2419}
   - territory_id: galicia
     name: Galicia
     election_id: galicia_parlamento_2024

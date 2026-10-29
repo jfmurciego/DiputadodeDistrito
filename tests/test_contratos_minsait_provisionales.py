@@ -42,7 +42,9 @@ class MinsaitProvisionalContractsTests(unittest.TestCase):
         self.assertEqual(row["reconciliation"]["status"], "KNOWN_PROVISIONAL_DELTA")
         self.assertEqual(row["reconciliation"]["definitive"]["candidate_votes"], 524837)
         self.assertEqual(row["reconciliation"]["delta_definitive_minus_provisional"], 2419)
-        self.assertFalse(row["production_eligible"])
+        # Excepción del propietario: 2419/524837 = 0,46 % <= 1 %; sigue sin promoción de catálogo.
+        self.assertTrue(row["production_eligible"])
+        self.assertEqual("2026-10-29", row["owner_production_exception"]["decided_at"])
         self.assertFalse(row["promotion_allowed"])
 
     def test_contract_rejects_wrong_identity(self):

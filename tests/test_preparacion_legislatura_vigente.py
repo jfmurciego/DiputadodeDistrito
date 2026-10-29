@@ -216,9 +216,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["territorial_action"], "REUSE")
         self.assertEqual(plan["territorial_reason"], "TERRITORIAL_DURABLE_CANDIDATE")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE")
-        self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
-        self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
-        self.assertEqual(plan["sources_status"], "BLOCKED")
+        # Excepción del propietario (29-10-2026): provisionales por sección, delta 0,46 % declarado.
+        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertNotEqual(plan["electoral_admissibility"], "BLOCKED")
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 522418)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 2419)
@@ -375,10 +375,13 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(candidate["provider"], "siel")
         self.assertEqual(candidate["source_status"], "VERIFIED_OFFICIAL_FINAL")
 
-    def test_extremadura_without_special_contract_remains_blocked_provisional(self):
-        plan = resolve(ROOT, "Extremadura")["plans"][0]
-        self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
-        self.assertEqual(plan["electoral_reason"], "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE")
+    def test_blocked_provisional_action_still_blocks_without_owner_exception(self):
+        candidate, action = _electoral_plan(ROOT, "extremadura", {}, {
+            "territory_id": "extremadura", "election_id": "extremadura_asamblea_2025-12-21", "election_date": "2025-12-21",
+            "electoral": {"action": "BLOCKED_PROVISIONAL"},
+        })
+        self.assertEqual(action, "BLOCKED_PROVISIONAL")
+        self.assertEqual(candidate["reason"], "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE")
 
     def test_andalucia_matrix_describes_current_siel_source(self):
         state = {
