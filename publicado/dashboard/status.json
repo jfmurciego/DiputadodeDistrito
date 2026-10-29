@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T23:34:23.108968+00:00",
+  "generated_at": "2026-10-29T23:40:19.181202+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1583,7 +1583,18 @@
           "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/40956462986.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "comunidad_valenciana",
+          "territory_name": "Comunidad Valenciana",
+          "edition": "2025",
+          "run_id": 40973760398,
+          "artifact_name": "ddd-state-40973760398-M08",
+          "artifact_sha256": "7d30d380913c108b5b0afe4177d5b83d874112bea2dada24161c968b63bc9c46",
+          "source_commit": "4465542b229562f269ed0cebe6aa5db02c3b456a",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
