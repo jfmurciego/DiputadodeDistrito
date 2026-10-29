@@ -1,13 +1,13 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.4.3
+**Versión documental:** 1.4.4
 **Nombre de versión:** Estrategia privada experimental v7.8.4
-**Fecha:** 2026-10-12
-**Código activo:** M05 v7.8.4
+**Fecha:** 2026-10-29
+**Código activo:** M05 v7.8.5
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.2.md`
-**Cambio:** documenta el wrapper v7.8.4 y `private_annealing` como estrategia experimental privada, opt-in y desactivada por defecto. El camino de reparación previo y sus parámetros predeterminados se conservan; los resultados privados solo se promueven tras validación oficial atómica.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.3.md`
+**Cambio:** 1.4.4: wrapper v7.8.5 con exención de suelo por municipio. 1.4.3: documenta el wrapper v7.8.4 y `private_annealing` como estrategia experimental privada, opt-in y desactivada por defecto. El camino de reparación previo y sus parámetros predeterminados se conservan; los resultados privados solo se promueven tras validación oficial atómica.
 **Motivo:** reflejar la implementación experimental aprobada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.
 
 ## Propósito
@@ -37,7 +37,7 @@ Esta separación evita presentar una evolución de orquestación como si fuera u
 1. K y cuotas definidos por el territorio;
 2. provincia infranqueable;
 3. contigüidad estricta por M03;
-4. suelo/techo poblacional configurado, aplicando suelo efectivo 0 sólo a las particiones incluidas en `population_floor_exempt_partitions`, sin eximir el techo;
+4. suelo/techo poblacional configurado, aplicando suelo efectivo 0 sólo a las particiones incluidas en `population_floor_exempt_partitions` y a los distritos que contienen un municipio de `population_floor_exempt_municipalities` (v7.8.5; Beniel, Murcia), sin eximir el techo;
 5. movimientos de `ddd_unit_id` completas;
 6. distritos `ddd_closed_urban` no reciben ni ceden unidades;
 7. disciplina municipal final auditada contra `municipality_field` real.
