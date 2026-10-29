@@ -1,7 +1,7 @@
-"""Version: 1.0.4; name: full execution planning tests; date: 2026-10-28.
+"""Version: 1.0.5; name: full execution planning tests; date: 2026-10-29.
 Scope: 00 planning, durable evidence gates, and incompatible product replanning.
-Status: candidate. Change/reason: CLM reuse checks the M06/M08 lineage rule instead of a historical mismatch.
-Previous: legacy/tests/test_ejecucion_completa_v1.0.3.py.
+Status: candidate. Change/reason: the 00 ends with encadenar_par_y_04 (automatic pair activation and 04).
+Previous: legacy/tests/test_ejecucion_completa_v1.0.4.py.
 """
 from __future__ import annotations
 
@@ -185,6 +185,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "publicar",
                 "campaign_status",
                 "manifestar",
+                "encadenar_par_y_04",
             ],
         )
         self.assertEqual(jobs["preparar_territorial"]["uses"], "./.github/workflows/preparacion-fuentes.yml")
