@@ -140,12 +140,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 40951592449
+        stage: M06
       preparation_evidence:
         run_id: 40946850006
         artifact_name: ddd-source-package-illes_balears-2025-40946850006
@@ -163,6 +165,7 @@ territories:
         electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/897b94cd0a4ef1c9360d69512109255c18929f5b26e159e95151fef8616da89d.json
         generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/illes_balears/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: canarias
   name: Canarias

@@ -1,0 +1,113 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12931319607,
+      "artifact_name": "ddd-audit-40951592449",
+      "artifact_sha256": "2cc969ebcb4f923af54623bb3598f849b6e3adb3dc9ae85b59b75031546ac04c",
+      "run_id": 40951592449,
+      "size_in_bytes": 30111
+    },
+    "m04": {
+      "artifact_id": 12932096722,
+      "artifact_name": "ddd-state-40951592449-M04",
+      "artifact_sha256": "fae82487a9fd14b6014f4e81877915c2393d05395147ba42e5e90d49de9f3294",
+      "run_id": 40951592449,
+      "size_in_bytes": 89058806
+    },
+    "m05": {
+      "artifact_id": 12931524498,
+      "artifact_name": "ddd-state-40951592449-M05",
+      "artifact_sha256": "d25a185db07f68a6a3f9b958239a3a3dc14a1521c6264730395743ebbe11c63d",
+      "run_id": 40951592449,
+      "size_in_bytes": 91483163
+    },
+    "m06": {
+      "artifact_id": 12931794541,
+      "artifact_name": "ddd-state-40951592449-M06",
+      "artifact_sha256": "e702e71f393c6f8d76238a3d0a224a645ce82d409cac06c0996d511e3b61ef09",
+      "run_id": 40951592449,
+      "size_in_bytes": 95633123
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "9b2f3078a2e56a62ae57f90678cd50ddc1ed3d278e1202a00e538baf55565f0d",
+        "size_in_bytes": 473
+      },
+      "illes_balears_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f1cae4b0311d4d68e189dc67d7fb471a4436804800c2f7bc9dfd1f01f43052aa",
+        "size_in_bytes": 425564
+      },
+      "optimization_execution.json": {
+        "sha256": "078526b8bac9abfa6098389edcb048d816cfe4390a64388bfc8e0edbc7e8c475",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "9566a469c9033b083d26a671131c9747e53e925458871004ad7ac5f666f5ec52",
+        "size_in_bytes": 1302
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "9566a469c9033b083d26a671131c9747e53e925458871004ad7ac5f666f5ec52",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/illes_balears/config/illes_balears_2025.yaml",
+    "sha256": "f01d96def913862a5454ce9bd3a6d785d45e3f55e11b9e1a16f84f881087699e"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": 40946850006,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M04",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "fb89092c7d0904496c7a6f1163b477eafb45f181f33427146c3e3a85d280901a",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "dcabb4b4b23952d70646878f885e0c3a2ed61dff",
+    "edition": "2025",
+    "territory_id": "illes_balears",
+    "territory_name": "Islas Baleares",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40951592449,
+    "workflow_sha": "dcabb4b4b23952d70646878f885e0c3a2ed61dff"
+  },
+  "inputs": {
+    "checkpoint_artifact": {
+      "artifact_id": 12931165965,
+      "artifact_name": "ddd-state-40946850006-M03U",
+      "artifact_sha256": "db1abdd9c243ce8ce836ec3d94230725726d0b45346ca0cb23aac54a53602a16",
+      "run_id": 40946850006,
+      "size_in_bytes": 86634038
+    },
+    "checkpoint_run_id": 40946850006,
+    "checkpoint_stage": "M04",
+    "m04_artifact": {
+      "artifact_id": 12932096722,
+      "artifact_name": "ddd-state-40951592449-M04",
+      "artifact_sha256": "fae82487a9fd14b6014f4e81877915c2393d05395147ba42e5e90d49de9f3294",
+      "run_id": 40951592449,
+      "size_in_bytes": 89058806
+    },
+    "source_manifest_sha256": "df7d66d6579858ef7751955841c3ff7985f062323eb63fc88e18b1b938fd1078",
+    "source_package_artifact": {
+      "artifact_id": 12928938438,
+      "artifact_name": "ddd-source-package-illes_balears-2025-40946850006",
+      "artifact_sha256": "3f73fd53f8a6bc06f0b559e237959bf6f078589d7510f48eaee2d1fc347e1a03",
+      "run_id": 40946850006,
+      "size_in_bytes": 81801864
+    }
+  },
+  "manifest_sha256": "41f6183e99abf900eecf6c466a4fa3588169e127adafafa60361e97ac33c03f5",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "illes_balears",
+  "territory_name": "Islas Baleares",
+  "edition": "2025",
+  "run_id": 40951592449,
+  "artifact_name": "ddd-state-40951592449-M06",
+  "artifact_sha256": "e702e71f393c6f8d76238a3d0a224a645ce82d409cac06c0996d511e3b61ef09",
+  "source_commit": "dcabb4b4b23952d70646878f885e0c3a2ed61dff",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/illes_balears/evidencia/generaciones_m06/40951592449.json"
+}
