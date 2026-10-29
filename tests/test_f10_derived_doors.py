@@ -1,8 +1,8 @@
-"""Version: 1.1.5; name: F10 derived doors regressions; date: 2026-10-28.
+"""Version: 1.1.6; name: F10 derived doors regressions; date: 2026-10-29.
 Scope: deterministic failure-closed validation of F10 receipts and task cards.
-Status: candidate. Change/reason: exact counts and receipts run on the frozen aee8215e root
-(tests/_raiz_congelada.py), so new full runs do not change the historical case.
-Previous: legacy/tests/test_f10_derived_doors_v1.1.4_20261028.py.
+Status: candidate. Change/reason: a newer same-year re-download inherits the F10 closure
+(estado_derivado_f10 1.1.4); another year still requires a new audit.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.5_20261029.py.
 """
 from __future__ import annotations
 
@@ -150,7 +150,7 @@ class F10DerivedDoorsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "contradice receipt territorial"):
             check_territorial_evidence(receipt, **{**args, "dossier_row": contradictory})
 
-    def test_reregistration_of_same_package_is_accepted_only_if_newer_and_identical(self):
+    def test_reregistration_is_accepted_only_if_newer_and_same_years(self):
         canonical = next(x for x in self.projection["territories"] if x["territory_id"] == "extremadura")
         receipt = json.loads((ROOT / canonical["territorial_receipt_path"]).read_text())
         dossier_row = json.loads((ROOT / "docs/AUDITORIAS/F10_CIERRE_TERRITORIAL_20261012/matriz_nacional_19.json").read_text())["rows"]
@@ -165,12 +165,14 @@ class F10DerivedDoorsTests(unittest.TestCase):
         older = copy.deepcopy(rereg); older["run_id"] = int(receipt["run_id"]) - 1
         with self.assertRaisesRegex(ValueError, "receipt_path"):
             check_territorial_evidence(older, **args)
+        # 1.1.4: una re-descarga del mismo año con otra huella de paquete o compatibilidad hereda
+        # el cierre; otro año de seccionado o población exige nueva auditoría F10.
         other_package = copy.deepcopy(rereg); other_package["package_sha256"] = "3" * 64
-        with self.assertRaisesRegex(ValueError, "package_sha256"):
-            check_territorial_evidence(other_package, **args)
-        other_compat = copy.deepcopy(rereg); other_compat["compatibility_identity_sha256"] = "4" * 64
-        with self.assertRaisesRegex(ValueError, "compatibility_identity_sha256"):
-            check_territorial_evidence(other_compat, **args)
+        other_package["compatibility_identity_sha256"] = "4" * 64
+        check_territorial_evidence(other_package, **args)
+        other_year = copy.deepcopy(rereg); other_year["section_year"] = int(receipt["section_year"]) + 1
+        with self.assertRaisesRegex(ValueError, "section_year"):
+            check_territorial_evidence(other_year, **args)
 
     def test_corrupt_receipt_bytes_fail_in_the_canonical_consumer(self):
         from herramientas import consumir_par_fuentes_legislatura as consumer
@@ -235,6 +237,33 @@ class F10DerivedDoorsTests(unittest.TestCase):
     def test_without_local_investigation_grant_no_work_is_unlocked(self):
         work = work_items_for(self.projection["territories"], {"local_read_only": ["local_tests"]}, PLAN_OVERLAY["activities"])
         self.assertTrue(all(row["state"] == "WAIT_OWNER" for row in work))
+
+
+class F10SameYearRedownloadTests(unittest.TestCase):
+    ROW = {"receipt_path": "old/receipt.json", "receipt_sha256": "a" * 64, "run_id": 100,
+           "package_sha256": "b" * 64, "population_year": 2023, "section_year": 2023,
+           "territorial_identity_sha256": "c" * 64, "compatibility_report_sha256": "d" * 64,
+           "compatibility_identity_sha256": "e" * 64, "territorial_acquisition": "CLOSED"}
+
+    def receipt(self, **over):
+        base = {"territory_id": "demo", "edition": "2025", "run_id": 200, "population_year": 2023,
+                "section_year": 2023, "package_sha256": "f" * 64, "territorial_identity_sha256": "9" * 64,
+                "compatibility_report_sha256": "8" * 64, "compatibility_identity_sha256": "7" * 64}
+        return {**base, **over}
+
+    def test_newer_same_year_redownload_inherits_closure(self):
+        check_territorial_evidence(self.receipt(), territory_id="demo", receipt_path="new/receipt.json",
+                                   receipt_sha256="1" * 64, dossier_row=self.ROW)
+
+    def test_other_year_or_older_receipt_still_blocks(self):
+        with self.assertRaisesRegex(ValueError, "section_year"):
+            check_territorial_evidence(self.receipt(section_year=2025), territory_id="demo",
+                                       receipt_path="new/receipt.json", receipt_sha256="1" * 64,
+                                       dossier_row=self.ROW)
+        with self.assertRaisesRegex(ValueError, "receipt_path"):
+            check_territorial_evidence(self.receipt(run_id=50), territory_id="demo",
+                                       receipt_path="new/receipt.json", receipt_sha256="1" * 64,
+                                       dossier_row=self.ROW)
 
 
 class F10LiveRepositoryRuleTests(unittest.TestCase):

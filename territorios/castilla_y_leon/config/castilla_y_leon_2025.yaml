@@ -317,9 +317,9 @@ validation:
     section_year: 2025
     population_total: 2401221
     target_section_count: 3506
-    package_sha256: 5a9ec647da0ddacabd4443b5844c427dcc585970553a21e68bd3a71c972e6840
-    compatibility_report_sha256: 5fb1703349da7401e4cb45d42d78c60d8db9efccba9125c1ceb7b6ba069e5a28
-    compatibility_identity_sha256: 8ecaf7d2b010cb83ffeec0e647427628e08a77b428014ce5e33452ba2a9dbd3d
+    package_sha256: 442c269b8a081649ffeed3fc8104e3e44cacd16bb7976069831f9f0a17d109d9
+    compatibility_report_sha256: 8110fd910eb23b75c52a21a012327f53ba75715421e76998701998362101c48b
+    compatibility_identity_sha256: f9f920d6da9d00702522fdb220d65a3ec6a5d893a66a86b9e2d470d2ce680fe9
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -394,8 +394,8 @@ resolved_source_contract:
 generation_state:
   source_prepared: true
   generation_enabled: true
-  package_sha256: 5a9ec647da0ddacabd4443b5844c427dcc585970553a21e68bd3a71c972e6840
-  compatibility_identity_sha256: 8ecaf7d2b010cb83ffeec0e647427628e08a77b428014ce5e33452ba2a9dbd3d
+  package_sha256: 442c269b8a081649ffeed3fc8104e3e44cacd16bb7976069831f9f0a17d109d9
+  compatibility_identity_sha256: f9f920d6da9d00702522fdb220d65a3ec6a5d893a66a86b9e2d470d2ce680fe9
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 18f8bc18d421e2dc6a95917f216789ee642a798f9e573fa0fed0088827d7816f
@@ -445,6 +445,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40850261102
-  pre_m04_source_commit: 56780f59d3a68b9206d0bce2493ed6ffe7cfff32
-  pre_m04_artifact_sha256: 55def7f72f01548f6c60337f0db780f51eac742258b74828c40c86e0b3b990c3
+  pre_m04_run_id: 40868935788
+  pre_m04_source_commit: 57e644ce90658179dbeb3c14be10f565d2674d87
+  pre_m04_artifact_sha256: 85b098fcfb857f27066d38fdd3ce2352c5f37b293e233075a4536f931eef07dc

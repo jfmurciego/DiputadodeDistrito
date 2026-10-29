@@ -160,18 +160,18 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40847174556
-        artifact_name: ddd-source-package-illes_balears-2025-40847174556
-        artifact_sha256: 1e214d55fd9006de1cdfc7db478cdbd684e3c867ced763ab8591a275f9ad5876
-        package_sha256: 1fb9e2dbc236ade9917e131b6f1b153fad1c9babbf6454ac476b6e692f9af242
-        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/8fa10ea81b97bb8fc65684d0fd2aae68ca04495b325f9fd5e87b276248424cc2/40847174556/receipt.json
-        territorial_identity_sha256: 8fa10ea81b97bb8fc65684d0fd2aae68ca04495b325f9fd5e87b276248424cc2
-        compatibility_report_sha256: 5470887499ef6459ce974da98671845f62466325b9baa974ebce5049978942ef
-        compatibility_identity_sha256: c8a1ea03dbed284ad9d5144d8198047b7096881928894a2017e60ad19fb6f748
+        run_id: 40868876197
+        artifact_name: ddd-source-package-illes_balears-2025-40868876197
+        artifact_sha256: c9ce487d7452d577ecf546c0c16532c601ff6e8b57d774376a9d28b8d7a39317
+        package_sha256: 02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046
+        receipt_path: territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40868876197/receipt.json
+        territorial_identity_sha256: 4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f
+        compatibility_report_sha256: 3024d4a552405401ce01a8c4be82afefab6a3613df53a44f7066096b566c054a
+        compatibility_identity_sha256: 3a32c1d23d729e16095710a9eaf25912dcc939cfdae763d6fc21996b9e0888aa
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 140d82f5980803531146fe0143cae22f64adb8e7
+        source_commit: 18d7c9798db3ea79035d338558d486520349ccae
       evidence:
         electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99.json
@@ -306,28 +306,27 @@ territories:
       electoral_product_available: true
       evidence:
         territorial_product: territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json
-        territorial_product_source_lineage: territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json
         electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f/36875351443/receipt.json
         electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
         generation_preflight: territorios/castilla_y_leon/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 35889595424
+        run_id: 40868935788
         stage: M06
       preparation_evidence:
-        run_id: 40850261102
-        artifact_name: ddd-source-package-castilla_y_leon-2025-40850261102
-        artifact_sha256: 3be2c44cf6790d4f2a09ca0ff28efda36f5e03d0d42151d436a7b4b94c3d605b
-        package_sha256: 5a9ec647da0ddacabd4443b5844c427dcc585970553a21e68bd3a71c972e6840
-        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/e5385a98ddb2f0f018357443223a2bac39d3c67685e8a2c8d37b14c6d09f2811/40850261102/receipt.json
-        territorial_identity_sha256: e5385a98ddb2f0f018357443223a2bac39d3c67685e8a2c8d37b14c6d09f2811
-        compatibility_report_sha256: 5fb1703349da7401e4cb45d42d78c60d8db9efccba9125c1ceb7b6ba069e5a28
-        compatibility_identity_sha256: 8ecaf7d2b010cb83ffeec0e647427628e08a77b428014ce5e33452ba2a9dbd3d
+        run_id: 40868935788
+        artifact_name: ddd-source-package-castilla_y_leon-2025-40868935788
+        artifact_sha256: fc30afc6d0123ecadf1c19ad3e7c95c97298c4cf12bbca5017addfe2855f3c9f
+        package_sha256: 442c269b8a081649ffeed3fc8104e3e44cacd16bb7976069831f9f0a17d109d9
+        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/0733e068c4b2213a2ff41e1e95e4bf79db2c0224e307c6e1cef11e9665de930f/40868935788/receipt.json
+        territorial_identity_sha256: 0733e068c4b2213a2ff41e1e95e4bf79db2c0224e307c6e1cef11e9665de930f
+        compatibility_report_sha256: 8110fd910eb23b75c52a21a012327f53ba75715421e76998701998362101c48b
+        compatibility_identity_sha256: f9f920d6da9d00702522fdb220d65a3ec6a5d893a66a86b9e2d470d2ce680fe9
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: 1d22781f17213fd39d15879c0a707e035c6b5cc1
+        source_commit: 18d7c9798db3ea79035d338558d486520349ccae
       independent_source_evidence:
         status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
         promoted: false
@@ -362,18 +361,18 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40847205333
-        artifact_name: ddd-source-package-cataluna-2025-40847205333
-        artifact_sha256: ee7d6fd51c8c32cb330b3369bcb1b3943a3624e6abd6f5eea9aa0c8a9cbe5b13
-        package_sha256: c376434f1414e104d60aae7d1a4dc5ae3ec068d52315712dccae7780fdd364bd
-        receipt_path: territorios/cataluna/evidencia/fuentes_territoriales/2025/bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5/40847205333/receipt.json
-        territorial_identity_sha256: bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5
-        compatibility_report_sha256: 99a0c2baf24c7cdb136b088c8925d14755cba8045108365f75f164a828b5557f
-        compatibility_identity_sha256: e688fb3b06ceae5eeb0f7c3835c7f58aeb1276240b9c2db7147319d46a9f53fa
+        run_id: 40868906120
+        artifact_name: ddd-source-package-cataluna-2025-40868906120
+        artifact_sha256: e3f43123bba8a8ca9eadb3dfd5fa7a33d3e59cde3bb43c4b47035b2d7dae77d2
+        package_sha256: 045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce
+        receipt_path: territorios/cataluna/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40868906120/receipt.json
+        territorial_identity_sha256: 3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25
+        compatibility_report_sha256: 1804eff2352db7be2f1ff38ad1f90e27cae5478ee48bc77ee85a81211a931bf3
+        compatibility_identity_sha256: ea4fe2f8b2f6920df63d6701617ed28b9f1f0bbca1621190d3c9459c6910cdcf
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: 140d82f5980803531146fe0143cae22f64adb8e7
+        source_commit: 18d7c9798db3ea79035d338558d486520349ccae
       evidence:
         electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
         prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/9457fa2c3379e273f5238f8de79885e62b120e591fbbb1f85a53bcb3d3641597.json
@@ -682,12 +681,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40850322464
-        stage: M06
+        run_id: 40867456776
+        stage: M08
       preparation_evidence:
         run_id: 40850322464
         artifact_name: ddd-source-package-la_rioja-2025-40850322464
@@ -706,6 +705,7 @@ territories:
         prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json
         generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/la_rioja/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/la_rioja/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: ceuta
   name: Ceuta

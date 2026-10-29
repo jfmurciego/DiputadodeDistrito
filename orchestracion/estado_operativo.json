@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T10:53:54.140321+00:00",
+  "generated_at": "2026-10-29T13:09:03.298779+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 4,
       "unavailable": 0,
-      "activated": 8,
-      "activable": 7,
+      "activated": 9,
+      "activable": 6,
       "territorial_pending": 0,
       "electoral_pending": 4,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 15,
-      "durable_pair": 8
+      "durable_pair": 9
     },
     "territories": [
       {
@@ -230,8 +230,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40847174556,
-            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/8fa10ea81b97bb8fc65684d0fd2aae68ca04495b325f9fd5e87b276248424cc2/40847174556/receipt.json"
+            "run_id": 40868876197,
+            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40868876197/receipt.json"
           }
         },
         "electoral": {
@@ -491,8 +491,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40847205333,
-            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5/40847205333/receipt.json"
+            "run_id": 40868906120,
+            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40868906120/receipt.json"
           }
         },
         "electoral": {
@@ -918,12 +918,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json",
-            "pair_sha256": "0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/la_rioja/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json",
+            "pair_sha256": "b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1233,7 +1233,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40847174556,
+        "run_id": 40868876197,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1246,9 +1246,9 @@
         "territorial_source": {
           "territory_id": "illes_balears",
           "edition": "2025",
-          "run_id": 40847174556,
-          "artifact_name": "ddd-source-package-illes_balears-2025-40847174556",
-          "artifact_sha256": "1e214d55fd9006de1cdfc7db478cdbd684e3c867ced763ab8591a275f9ad5876",
+          "run_id": 40868876197,
+          "artifact_name": "ddd-source-package-illes_balears-2025-40868876197",
+          "artifact_sha256": "c9ce487d7452d577ecf546c0c16532c601ff6e8b57d774376a9d28b8d7a39317",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1380,7 +1380,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 35889595424,
+      "run_id": 40868935788,
       "last_run": {
         "run_id": 40850261102,
         "status": "FAILED",
@@ -1395,9 +1395,9 @@
         "territorial_source": {
           "territory_id": "castilla_y_leon",
           "edition": "2025",
-          "run_id": 40850261102,
-          "artifact_name": "ddd-source-package-castilla_y_leon-2025-40850261102",
-          "artifact_sha256": "3be2c44cf6790d4f2a09ca0ff28efda36f5e03d0d42151d436a7b4b94c3d605b",
+          "run_id": 40868935788,
+          "artifact_name": "ddd-source-package-castilla_y_leon-2025-40868935788",
+          "artifact_sha256": "fc30afc6d0123ecadf1c19ad3e7c95c97298c4cf12bbca5017addfe2855f3c9f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1406,12 +1406,13 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 35889595424,
-          "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
-          "artifact_sha256": "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b",
-          "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+          "run_id": 40868935788,
+          "artifact_name": "ddd-state-40868935788-M06",
+          "artifact_sha256": "3b2562e023fa08c3b8e7f864ec40bb22cef75e33c55c883390339237599e39c0",
+          "source_commit": "9dd97397464edf20438d702fe1089fa9ea4aa9ad",
           "decision": "PASS_WITH_EXCEPTIONS",
-          "stage": "M06"
+          "stage": "M06",
+          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/40868935788.json"
         },
         "electoral_source": null,
         "electoral_product": null
@@ -1505,9 +1506,9 @@
         "territorial_source": {
           "territory_id": "cataluna",
           "edition": "2025",
-          "run_id": 40847205333,
-          "artifact_name": "ddd-source-package-cataluna-2025-40847205333",
-          "artifact_sha256": "ee7d6fd51c8c32cb330b3369bcb1b3943a3624e6abd6f5eea9aa0c8a9cbe5b13",
+          "run_id": 40868906120,
+          "artifact_name": "ddd-source-package-cataluna-2025-40868906120",
+          "artifact_sha256": "e3f43123bba8a8ca9eadb3dfd5fa7a33d3e59cde3bb43c4b47035b2d7dae77d2",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1738,7 +1739,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40853664303,
+        "run_id": 40875300066,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1881,20 +1882,20 @@
       "name": "La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40850322464,
+      "run_id": 40867456776,
       "last_run": {
-        "run_id": 40838222105,
+        "run_id": 40867482289,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1911,20 +1912,31 @@
           "territory_id": "la_rioja",
           "territory_name": "La Rioja",
           "edition": "2025",
-          "run_id": 40850322464,
-          "artifact_name": "ddd-state-40850322464-M06",
-          "artifact_sha256": "d58bb3540e242ace02e2d03c446689b43b89bd6aeae941ca8f02bf08523aaead",
-          "source_commit": "5988a3d73288a3f543b475133cc75d616d0d7537",
+          "run_id": 40867456776,
+          "artifact_name": "ddd-state-40867456776-M06",
+          "artifact_sha256": "d2d53eb72ad88809617b04a958f4bc4d645786ac52d9e75ea3a9fbf4d9463346",
+          "source_commit": "09124ea84984685a622f379af43678eee5fd99ea",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40850322464.json"
+          "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40867456776.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "la_rioja",
+          "territory_name": "La Rioja",
+          "edition": "2025",
+          "run_id": 40867456776,
+          "artifact_name": "ddd-state-40867456776-M08",
+          "artifact_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+          "source_commit": "09124ea84984685a622f379af43678eee5fd99ea",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "17",
       "display_name": "17 La Rioja",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "ceuta",
@@ -2050,7 +2062,7 @@
     }
   ],
   "kpis": {
-    "complete": 8,
+    "complete": 9,
     "complete_names": [
       "03 Principado de Asturias",
       "06 Cantabria",
@@ -2058,6 +2070,7 @@
       "12 Galicia",
       "13 Comunidad de Madrid",
       "15 Comunidad Foral de Navarra",
+      "17 La Rioja",
       "18 Ceuta",
       "19 Melilla"
     ],
@@ -2107,11 +2120,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "comunidad_foral_de_navarra",
-    "name": "Comunidad Foral de Navarra",
-    "display_name": "15 Comunidad Foral de Navarra",
-    "autonomous_community_code_ine": "15",
-    "run_id": 40847881909,
+    "territory_id": "la_rioja",
+    "name": "La Rioja",
+    "display_name": "17 La Rioja",
+    "autonomous_community_code_ine": "17",
+    "run_id": 40867456776,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"

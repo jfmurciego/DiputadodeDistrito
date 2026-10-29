@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-10-29: electoral_2026_crosswalk_status admite ACCEPTED_M07_RECONCILIATION (decisión del
+# propietario con crosswalk_decided_at y crosswalk_rationale): el crosswalk 2025→2026 deja de bloquear
+# y la salvaguarda pasa a la reconciliación de M07 (pérdida atribuible a DDD acotada).
+# ANTERIOR: legacy/herramientas/resolver_preparacion_legislatura_pre_crosswalk_m07_20261029.py
 from __future__ import annotations
 
 import argparse
@@ -611,6 +615,9 @@ def _territorial_admissibility(action: str, candidate: dict) -> str:
     raise ValueError(f"territorial: acción no clasificada: {action!r}")
 
 
+CROSSWALK_STATUSES = {"BLOCKED_PENDING_OFFICIAL_EVIDENCE", "ACCEPTED_M07_RECONCILIATION"}
+
+
 def _electoral_admissibility(action: str, candidate: dict) -> str:
     reason = str(candidate.get("reason") or "").strip()
     mapped = _mapped_admissibility(
@@ -763,7 +770,11 @@ def validate_matrix(root: Path) -> list[dict]:
                 or int(terr.get("section_lag_years", 0)) != 1
                 or terr.get("section_reference_label") != "Secciones_2025"
                 or terr.get("territorial_reference_decision") != fallback_decision_id
-                or terr.get("electoral_2026_crosswalk_status") != "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
+                or terr.get("electoral_2026_crosswalk_status") not in CROSSWALK_STATUSES
+                or (
+                    terr.get("electoral_2026_crosswalk_status") == "ACCEPTED_M07_RECONCILIATION"
+                    and not (terr.get("crosswalk_decided_at") and terr.get("crosswalk_rationale"))
+                )
             ):
                 raise ValueError(f"{tid}: excepción territorial 2025/2025 inconsistente o sin aprobación")
         elif terr.get("territorial_reference_decision") or terr.get("electoral_2026_crosswalk_status"):

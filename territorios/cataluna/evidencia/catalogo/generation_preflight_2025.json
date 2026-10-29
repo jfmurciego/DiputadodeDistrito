@@ -4,20 +4,20 @@
   "territory_id": "cataluna",
   "territory_name": "Cataluña",
   "edition": "2025",
-  "run_id": 40847205333,
-  "source_commit": "35f273c24dafb6840b9779034fc4591610edf6bc",
-  "artifact_name": "ddd-state-40847205333-M03U",
-  "artifact_sha256": "64c9a387a91aa5f53bcec191704db169ddbdceee5e4642a7fe2e26533c483523",
+  "run_id": 40868906120,
+  "source_commit": "cda7b8104be910076927d8508480f51d114a2880",
+  "artifact_name": "ddd-state-40868906120-M03U",
+  "artifact_sha256": "df3b3cf1e5103d679488d54c44f19d3c04a77b3351d38ce1d77b4531321ca1ad",
   "decision": "READY_FOR_FIRST_GENERATION",
   "evaluation_status": "ENABLED",
   "stage": "M03U",
   "source": {
-    "run_id": 40847205333,
-    "artifact_name": "ddd-source-package-cataluna-2025-40847205333",
-    "artifact_sha256": "ee7d6fd51c8c32cb330b3369bcb1b3943a3624e6abd6f5eea9aa0c8a9cbe5b13",
-    "package_sha256": "c376434f1414e104d60aae7d1a4dc5ae3ec068d52315712dccae7780fdd364bd",
-    "compatibility_identity_sha256": "e688fb3b06ceae5eeb0f7c3835c7f58aeb1276240b9c2db7147319d46a9f53fa",
-    "territorial_identity_sha256": "bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5",
+    "run_id": 40868906120,
+    "artifact_name": "ddd-source-package-cataluna-2025-40868906120",
+    "artifact_sha256": "e3f43123bba8a8ca9eadb3dfd5fa7a33d3e59cde3bb43c4b47035b2d7dae77d2",
+    "package_sha256": "045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce",
+    "compatibility_identity_sha256": "ea4fe2f8b2f6920df63d6701617ed28b9f1f0bbca1621190d3c9459c6910cdcf",
+    "territorial_identity_sha256": "3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25",
     "population_year": 2024,
     "section_year": 2024
   },
@@ -45,8 +45,8 @@
     ]
   },
   "graph": {
-    "artifact_name": "ddd-state-40847205333-M03",
-    "artifact_sha256": "60ec7d8130221cfb9cdb02ddbff5c2a2f889d7b36eb7e0111699de245dcaace3",
+    "artifact_name": "ddd-state-40868906120-M03",
+    "artifact_sha256": "3fb7d0f0543701a020e770f6aa7c628532e7d6eb3614bf30087be9bd9ba32257",
     "module_version": "7.5.0",
     "nodes": 5117,
     "edges": 14316,
@@ -115,8 +115,8 @@
     }
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-40847205333",
-    "job_artifact_sha256": "b596e9d7a1b7b5a1ce8f340ab86639b8917ab2b8890dac5ce4ab96db7aeba0b8",
+    "job_artifact_name": "ddd-internal-units-40868906120",
+    "job_artifact_sha256": "8663389766232f907f93a505a1a82633b60eba38d4de820626e0079928466d7b",
     "status": "NOOP",
     "strategy": null,
     "contract_output_geojson": "territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
@@ -134,9 +134,9 @@
       "section_year": 2024,
       "population_total": 8012231,
       "target_section_count": 5117,
-      "package_sha256": "c376434f1414e104d60aae7d1a4dc5ae3ec068d52315712dccae7780fdd364bd",
-      "compatibility_report_sha256": "99a0c2baf24c7cdb136b088c8925d14755cba8045108365f75f164a828b5557f",
-      "compatibility_identity_sha256": "e688fb3b06ceae5eeb0f7c3835c7f58aeb1276240b9c2db7147319d46a9f53fa"
+      "package_sha256": "045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce",
+      "compatibility_report_sha256": "1804eff2352db7be2f1ff38ad1f90e27cae5478ee48bc77ee85a81211a931bf3",
+      "compatibility_identity_sha256": "ea4fe2f8b2f6920df63d6701617ed28b9f1f0bbca1621190d3c9459c6910cdcf"
     },
     "topology_accreditation": {
       "schema": "ddd.topology-accreditation.v1",

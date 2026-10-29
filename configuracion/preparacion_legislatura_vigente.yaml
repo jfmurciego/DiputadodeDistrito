@@ -1,8 +1,15 @@
-# VERSIÓN: 1.0.1 — Decisión territorial ex ante F10 2025/2025
-# FECHA: 2026-10-12; ESTADO: candidato para revisión y CI
+# VERSIÓN: 1.0.4 — Andalucía y Castilla y León reconcilian el crosswalk 2026 en M07, como Aragón
+# FECHA: 2026-10-29; ESTADO: candidato para revisión y CI
+# CAMBIOS 1.0.4: Andalucía y Castilla y León pasan a ACCEPTED_M07_RECONCILIATION (decisión del
+#   propietario 2026-10-29); ningún territorio queda con el crosswalk 2025→2026 bloqueante.
+# CAMBIOS 1.0.3: Extremadura pasa de BLOCKED_PROVISIONAL a ACQUIRE con la excepción de producción
+#   del contrato Minsait (diferencia 0,46 % con el definitivo).
+# CAMBIOS 1.0.2: Aragón pasa a electoral_2026_crosswalk_status ACCEPTED_M07_RECONCILIATION (decisión del
+#   propietario, fuente RTVE): las secciones 2026 sin correspondencia con el mapa 2025 cuentan como
+#   pérdida en M07, acotada por su margen.
 # CAMBIOS: Andalucía, Aragón y Castilla y León usan pareja INE 2025/2025 para referencia territorial.
 # MOTIVO: población 2026 no publicada y crosswalk 2025→2026 incompleto; electoral 2026 sigue pendiente.
-# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_pre_f10_20251012.yaml
+# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.0.3.yaml
 schema: ddd-current-legislature-preparation/1.0
 project_edition: '2025'
 as_of: '2026-09-30'
@@ -19,13 +26,13 @@ territories:
     name: Andalucía
     election_id: andalucia_parlamento_2026
     election_date: '2026-05-17'
-    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 1, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'F10-20261012-PAIR-2025', electoral_2026_crosswalk_status: BLOCKED_PENDING_OFFICIAL_EVIDENCE, temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'Decisión titular F10 2026-10-12: emplear población y seccionado INE 2025/2025 como referencia territorial. Seccionado electoral 2026 y correspondencia 2025→2026 siguen separados y NO acreditados.'}
+    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 1, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'F10-20261012-PAIR-2025', electoral_2026_crosswalk_status: ACCEPTED_M07_RECONCILIATION, crosswalk_decided_at: '2026-10-29', crosswalk_rationale: 'Decisión del propietario, como en Aragón: los resultados 2026 por sección se incorporan sobre el mapa 2025; las secciones 2026 sin correspondencia cuentan como pérdida DDD en M07 y su margen bloquea si se excede.', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'Decisión titular F10 2026-10-12: emplear población y seccionado INE 2025/2025 como referencia territorial. Seccionado electoral 2026 y correspondencia 2025→2026 siguen separados y NO acreditados.'}
     electoral: {source: 'Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)', granularity: section_party_with_cera_reconciliation, action: ACQUIRE, definitive_gap_status: RECONCILED_TO_OFFICIAL_TOTALS, definitive_candidate_votes: 4157539, source_candidate_votes: 4157539, gap_candidate_votes: 0}
   - territory_id: aragon
     name: Aragón
     election_id: aragon_cortes_2026-02-08
     election_date: '2026-02-08'
-    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 1, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'F10-20261012-PAIR-2025', electoral_2026_crosswalk_status: BLOCKED_PENDING_OFFICIAL_EVIDENCE, temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'Decisión titular F10 2026-10-12: emplear población y seccionado INE 2025/2025 como referencia territorial. Seccionado electoral 2026 y correspondencia 2025→2026 siguen separados y NO acreditados.'}
+    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 1, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'F10-20261012-PAIR-2025', electoral_2026_crosswalk_status: ACCEPTED_M07_RECONCILIATION, crosswalk_decided_at: '2026-10-29', crosswalk_rationale: 'Decisión del propietario: Aragón incorpora los resultados 2026 de RTVE por sección sobre el mapa 2025; las secciones 2026 sin correspondencia cuentan como pérdida DDD en M07 y su margen bloquea si se excede.', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'Decisión titular F10 2026-10-12: emplear población y seccionado INE 2025/2025 como referencia territorial. Seccionado electoral 2026 y correspondencia 2025→2026 siguen separados y NO acreditados.'}
     electoral: {source: 'Corporación RTVE — resultados 2026', granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: principado_de_asturias
     name: Principado de Asturias
@@ -55,7 +62,7 @@ territories:
     name: Castilla y León
     election_id: castilla_y_leon_cortes_2026-03-15
     election_date: '2026-03-15'
-    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 1, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'F10-20261012-PAIR-2025', electoral_2026_crosswalk_status: BLOCKED_PENDING_OFFICIAL_EVIDENCE, temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'Decisión titular F10 2026-10-12: emplear población y seccionado INE 2025/2025 como referencia territorial. Seccionado electoral 2026 y correspondencia 2025→2026 siguen separados y NO acreditados.'}
+    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 1, section_reference_label: 'Secciones_2025', territorial_reference_decision: 'F10-20261012-PAIR-2025', electoral_2026_crosswalk_status: ACCEPTED_M07_RECONCILIATION, crosswalk_decided_at: '2026-10-29', crosswalk_rationale: 'Decisión del propietario, como en Aragón: los resultados 2026 por sección se incorporan sobre el mapa 2025; las secciones 2026 sin correspondencia cuentan como pérdida DDD en M07 y su margen bloquea si se excede.', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: USE_OWNER_APPROVED_2025_TERRITORIAL_PAIR, reason: 'Decisión titular F10 2026-10-12: emplear población y seccionado INE 2025/2025 como referencia territorial. Seccionado electoral 2026 y correspondencia 2025→2026 siguen separados y NO acreditados.'}
     electoral: {source: 'Junta de Castilla y León — Datos Abiertos', granularity: section_party, action: ACQUIRE, definitive_gap_status: OFFICIAL_SOURCE, reason: 'La procedencia legacy acredita fuente y digest normalizado, pero no identifica un paquete electoral durable reutilizable.'}
   - territory_id: castilla_la_mancha
     name: Castilla-La Mancha
@@ -80,7 +87,7 @@ territories:
     election_id: extremadura_asamblea_2025-12-21
     election_date: '2025-12-21'
     territorial: {population_required_year: 2025, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 0, population_reference_date: '2025-01-01', section_required_year: 2025, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 0, section_reference_label: 'Secciones_2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: REUSE_EXACT, reason: 'Población y seccionado 2025 coinciden con la elección.'}
-    electoral: {source: 'Minsait / EleccionesDB mirror provisional', granularity: section_party_after_polling_station_aggregation, action: BLOCKED_PROVISIONAL, definitive_gap_status: KNOWN_DELTA, definitive_candidate_votes: 524837, source_candidate_votes: 522418, gap_candidate_votes: 2419}
+    electoral: {source: 'Minsait / EleccionesDB mirror provisional (excepción del propietario 2026-10-29)', granularity: section_party_after_polling_station_aggregation, action: ACQUIRE, definitive_gap_status: KNOWN_DELTA, definitive_candidate_votes: 524837, source_candidate_votes: 522418, gap_candidate_votes: 2419}
   - territory_id: galicia
     name: Galicia
     election_id: galicia_parlamento_2024

@@ -102,7 +102,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
         from herramientas.resolver_ejecucion_completa import resolve_publication_mode
         adapter = (ROOT / "herramientas/adaptador_minsait_csv.py").read_text(encoding="utf-8")
         workflow = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
-        self.assertIn('"production_eligible": False', adapter)
+        self.assertIn("production_eligible: bool = False", adapter)
         self.assertIn("needs.electorales.outputs.production_eligible == 'true'", workflow)
         plan = {"territory_name": "Andalucía", "edition": "2025", "run_prepare_electoral": True}
         self.assertEqual(resolve_publication_mode(plan, "electoral", root_dir=ROOT), "electoral")

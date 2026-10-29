@@ -1,4 +1,4 @@
-"""DDD regression 1.1.0, 2026-10-29: M04 7.4.15/7.4.16 reintentos solo si la búsqueda secuencial se agota.
+"""DDD regression 1.2.0, 2026-10-29: M04 7.4.15/7.4.16/7.4.17 reintentos solo si la búsqueda secuencial se agota.
 
 Origen: Cartagena (Murcia, run 40773421805).
 """
@@ -55,6 +55,26 @@ class BalancedLookaheadTests(unittest.TestCase):
         self.assertTrue(all(21.25 <= sum(w[n] for n in c) <= 28.75 for c in closed))
         self.assertTrue(all(engine.connected(c, adj) for c in closed))
         self.assertTrue(engine.connected(residual, adj))
+
+    def test_residual_first_gathers_scattered_protected_units(self):
+        # Rejilla 6x6 con protegidas en esquinas opuestas: el residuo debe reunirlas.
+        w = {r * 6 + c: 5 for r in range(6) for c in range(6)}
+        adj = {n: set() for n in w}
+        for n in w:
+            if n % 6 != 5:
+                adj[n].add(n + 1); adj[n + 1].add(n)
+            if n + 6 in w:
+                adj[n].add(n + 6); adj[n + 6].add(n)
+        protected = {0, 5}
+        result, reason = engine.split_residual_first(set(w), 30, 25.5, 52.5, 0.15, adj, w, protected, set())
+        self.assertIsNotNone(result, reason)
+        closed, residual, mode = result
+        self.assertIn("residual_first_global", mode)
+        self.assertTrue(protected <= residual)
+        self.assertTrue(engine.connected(residual, adj))
+        self.assertLessEqual(sum(w[n] for n in residual), 52.5)
+        self.assertEqual(set().union(*closed) | residual, set(w))
+        self.assertTrue(all(25.5 <= sum(w[n] for n in c) <= 52.5 and engine.connected(c, adj) for c in closed))
 
     def test_partitions_that_already_succeed_are_unchanged(self):
         w = {0: 10, 1: 15, 2: 10, 3: 15, 4: 10, 5: 15}

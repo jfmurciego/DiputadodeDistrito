@@ -1,3 +1,7 @@
+# CAMBIOS 2026-10-29: owner_production_exception permite usar en producción un contrato provisional
+#   cuando el propietario lo decide y la diferencia con el definitivo no supera max_delta_ratio.
+#   Extremadura 2025 la declara (2.419 de 524.837 votos, 0,46 %).
+# ANTERIOR: legacy/configuracion/contratos_minsait_provisionales_pre_excepcion_20261029.yaml
 schema: ddd-minsait-provisional-contracts/1.0
 contracts:
   andalucia_parlamento_2026:
@@ -26,6 +30,11 @@ contracts:
       delta_definitive_minus_provisional: 28964
 
   extremadura_asamblea_2025-12-21:
+    owner_production_exception:
+      decided_at: "2026-10-29"
+      max_delta_ratio: 0.01
+      evidence: "DOE 2026AC0001 (524.837 votos a candidaturas) frente a 522.418 del CSV provisional por sección"
+      rationale: "Decisión del propietario: la Junta sólo publica en abierto resultados municipales; se usan los provisionales por sección con la diferencia frente al definitivo declarada y acotada."
     territory_id: extremadura
     canonical_codauto: '11'
     election_date: '2025-12-21'

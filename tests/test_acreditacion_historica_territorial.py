@@ -61,6 +61,11 @@ FIXTURE_CASES = {
         HISTORICAL_FIXTURES / "aragon_catalog_row_36321736287.yaml",
         HISTORICAL_FIXTURES / "aragon_territorial_product_36321736287.json",
     ),
+    # Castilla y León generó un M06 nuevo el 29-10; su producto histórico 35889595424 se fija igual.
+    "castilla_y_leon": (
+        HISTORICAL_FIXTURES / "castilla_y_leon_catalog_row_35889595424.yaml",
+        HISTORICAL_FIXTURES / "castilla_y_leon_territorial_product_35889595424.json",
+    ),
 }
 
 
@@ -253,8 +258,8 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
     def test_planner_reuses_both_real_m06_from_durable_sealed_evidence(self):
         # El planificador lee el repositorio real: Aragón se comprueba con su M06 vivo adoptado.
         for territory_id in ("aragon", "castilla_y_leon"):
-            frozen = territory_id == "castilla_y_leon"
-            catalog_source = frozen_root() / "configuracion/catalogo_preparacion.yaml" if frozen else CATALOG
+            frozen = False  # el linaje vivo de Castilla y León vuelve a ser coherente (M06 40868935788)
+            catalog_source = CATALOG
             with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td, \
                     mock.patch.dict(FIXTURE_CASES, clear=True), \
                     mock.patch(f"{__name__}.CATALOG", catalog_source):

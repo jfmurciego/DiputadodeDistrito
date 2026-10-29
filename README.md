@@ -10,13 +10,13 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-29T10:53:54.140321+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-29T13:09:03.298779+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **8** | 03 Principado de Asturias · 06 Cantabria · 08 Castilla-La Mancha · 12 Galicia · 13 Comunidad de Madrid · 15 Comunidad Foral de Navarra · 18 Ceuta · 19 Melilla |
+| **Cadena completa validada** | 🟢 **9** | 03 Principado de Asturias · 06 Cantabria · 08 Castilla-La Mancha · 12 Galicia · 13 Comunidad de Madrid · 15 Comunidad Foral de Navarra · 17 La Rioja · 18 Ceuta · 19 Melilla |
 | **Generación territorial validada** | 🟢 **12** | 02 Aragón · 03 Principado de Asturias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 15 Comunidad Foral de Navarra · 17 La Rioja · 18 Ceuta · 19 Melilla |
 | **Preparados para continuar** | 🔵 **7** | 01 Andalucía · 04 Islas Baleares · 05 Canarias · 09 Cataluña · 10 Comunidad Valenciana · 14 Región de Murcia · 16 País Vasco |
 | **Validación pendiente** | 🟡 **0** | — |
@@ -31,7 +31,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **01 Andalucía** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 40850228710 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟡 | ⚪ | Listo para incorporar resultados electorales | 40691712762 · SUCCESS | 03/04 · rama electoral omitida | ELECTORAL_DURABLE_CANDIDATE | incorporar resultados electorales |
 | **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40706742818 · SUCCESS | — | — | — |
-| **04 Islas Baleares** | 🟢 | 🟡 | 🟢 | ⚪ | ⚪ | Fuentes territoriales preparadas | 40847174556 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **04 Islas Baleares** | 🟢 | 🟡 | 🟢 | ⚪ | ⚪ | Fuentes territoriales preparadas | 40868876197 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **05 Canarias** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 40847144583 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40701656466 · SUCCESS | — | — | — |
 | **07 Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 40850261102 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
@@ -41,10 +41,10 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **11 Extremadura** | 🟢 | 🟢 | 🟡 | ⚪ | ⚪ | Generación territorial validada | 40691774876 · SUCCESS | 03/04 · rama electoral omitida | PROVISIONAL_NOT_PRODUCTION_ELIGIBLE | preparar fuentes electorales |
 | **12 Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40832139215 · SUCCESS | — | — | — |
 | **13 Comunidad de Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40787900559 · SUCCESS | — | — | — |
-| **14 Región de Murcia** | 🟢 | 🟡 | 🟢 | ⚪ | ⚪ | Fuentes territoriales preparadas | 40853664303 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **14 Región de Murcia** | 🟢 | 🟡 | 🟢 | ⚪ | ⚪ | Fuentes territoriales preparadas | 40875300066 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **15 Comunidad Foral de Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40847881909 · SUCCESS | — | — | — |
 | **16 País Vasco** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 40850291263 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
-| **17 La Rioja** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 40838222105 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
+| **17 La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40867482289 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
 | **18 Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40784389253 · SUCCESS | — | — | — |
 | **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40840795932 · SUCCESS | — | — | — |
 
