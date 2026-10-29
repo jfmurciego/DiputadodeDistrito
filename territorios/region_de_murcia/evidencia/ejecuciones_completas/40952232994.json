@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "region_de_murcia",
+  "territory_name": "Región de Murcia",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 40952232994,
+  "source_sha": "d8bd063175f09947081adb82e70bc203b5ccf1c9",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40773421805,
+      "artifact": "ddd-source-package-region_de_murcia-2025-40773421805",
+      "artifact_digest": "sha256:c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40945284725,
+      "artifact": "ddd-state-40945284725-M06",
+      "artifact_digest": "sha256:f3169dd583c1d7033ff17717bfd6329151d10677c32e590eabbf8fd4c49b5eb1",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36629290688,
+      "artifact": "ddd-electoral-package-region_de_murcia-2025-36629290688",
+      "artifact_digest": "sha256:2f15478dafafe1dd5e8df964a56eadc13eb811db55dc3d242ade849b92d22a8b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-29T20:52:22.877626+00:00"
+}
