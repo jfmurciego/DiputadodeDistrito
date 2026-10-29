@@ -180,12 +180,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40951280657
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40946861866
         artifact_name: ddd-source-package-canarias-2025-40946861866
@@ -204,6 +204,7 @@ territories:
         prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json
         generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/canarias/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/canarias/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: cantabria
   name: Cantabria

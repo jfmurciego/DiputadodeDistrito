@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "canarias",
+  "territory_name": "Canarias",
+  "edition": "2025",
+  "run_id": 40951280657,
+  "artifact_name": "ddd-state-40951280657-M08",
+  "artifact_sha256": "b0b6ceaf2b354559e9ce7f0430359a9f2e1d0258863e1bb69c139df1cc8cf3c9",
+  "source_commit": "e8e26fc88b46331f1269c06c37f6cb05f7faee5c",
+  "stage": "M08"
+}
