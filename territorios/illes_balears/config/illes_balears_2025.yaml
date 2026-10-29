@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -84,7 +84,7 @@ territory_contract:
   - 07-C02
   - 07-C03
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -334,7 +334,7 @@ resolved_source_contract:
   contract_sha256: 548f5293f98d2a525d7b844017905bc63403d73ab30c0904c3c320f0ced2169c
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046
   compatibility_identity_sha256: 3a32c1d23d729e16095710a9eaf25912dcc939cfdae763d6fc21996b9e0888aa
   source_inputs:
@@ -386,3 +386,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 40868876197
+  pre_m04_source_commit: 333360548a10b07218587ec2531c731813fd5268
+  pre_m04_artifact_sha256: 433b05976d521ac46f66c52c902b027927726cc3897f3e8174419aea08bab4f3
