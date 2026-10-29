@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.17
+VERSIÓN: 7.4.18
 NOMBRE DE VERSIÓN: Cardinalidad residual de unidades indivisibles
 FECHA: 2026-10-26
 FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos mientras sean compatibles con el contrato territorial y dividiendo municipios sobredimensionados sin aislar el residuo municipal abierto.
@@ -12,7 +12,8 @@ SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M0
 ESTADO: candidato CYL-03.
 CAMBIOS: mantiene la búsqueda de núcleo cerrado y el fallback residual-first, pero separa las cotas duras de población (suelo/techo contractuales) de la banda ±tolerancia, que queda exclusivamente como objetivo de calidad.
 MOTIVO: CYL-03 v7.4.4 identificó correctamente dos puertas reales de Aranda de Duero, pero el BFS orientado al núcleo no encontró una solución aunque el problema natural es pequeño: reservar un residuo de borde y cerrar el complemento urbano.
-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.4.16_pre_residual_first.py
+ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.4.17_pre_ideal_count_order.py
+CAMBIO 7.4.18: el residuo primero (7.4.17) se intenta antes que el crecimiento conexo, porque reparte en piezas cercanas al objetivo; y los reintentos equilibrado y de crecimiento prueban primero el número de núcleos más cercano al reparto ideal (round(pop/target)-1) en vez del mínimo; la búsqueda primaria no cambia. Motivo: Cartagena salía en 3 núcleos de ~52k + residuo de 60k y dejaba distritos encajonados bajo el suelo (Aledo, Pliego, Beniel, La Unión).
 CAMBIO 7.4.17: si también se agota el crecimiento conexo, construye primero el residuo (árbol mínimo que une las unidades protegidas y las bolsas que aísla) y reparte el resto con hybrid_partition+rebalance; las particiones que hoy tienen éxito no cambian. Motivo: municipio de Murcia (run 40853664303), 4 protegidas que la búsqueda secuencial nunca reunía en el residuo.
 CAMBIO 7.4.16: solo si las búsquedas secuencial y equilibrada se agotan, reintenta con núcleos que crecen añadiendo únicamente unidades que dejan el resto conexo; las particiones que hoy tienen éxito no cambian. Motivo: Cartagena (Murcia, run 40850405847, 'no connected core' con banda amplia).
 CAMBIO 7.4.15: solo cuando la búsqueda secuencial se agota, la reintenta apuntando cada núcleo al reparto equilibrado del resto (pop_restante/partes_restantes) en vez de al objetivo; las particiones que hoy tienen éxito no cambian. Motivo: Cartagena (Murcia, run 40773421805).
@@ -244,7 +245,7 @@ def _components_within(nodes,adj):
 
 def split_residual_first(nodes,target,floor,cap,tol,adj,w,protected,residual_gateways,label=''):
     # El residuo se construye primero: árbol mínimo (por población) que une las unidades protegidas,
-    # más las bolsas que ese árbol aísla, crecido hasta el reparto medio; el resto se reparte globalmente.
+    # más las bolsas que ese árbol aísla (sin engordarlo); cada trozo restante se reparte globalmente.
     nodes=set(nodes);terms=sorted(set(protected) or (set(residual_gateways)&nodes) or nodes)[:]
     res={terms[0]};pending=set(terms[1:])
     while pending:
@@ -259,21 +260,24 @@ def split_residual_first(nodes,target,floor,cap,tol,adj,w,protected,residual_gat
         x=min(reach,key=lambda n:(dist[n],n));pending.discard(x)
         while x not in res:res.add(x);x=prev[x]
     comps=sorted(_components_within(nodes-res,adj),key=lambda c:(sum(w[n] for n in c),sorted(c)))
-    for c in comps[:-1]:res|=c
-    mp=sum(w[n] for n in nodes);rp=sum(w[n] for n in res);q=max(2,int(round(mp/target)));aim=mp/q
-    while rp<aim:
-        frontier=sorted({v for u in res for v in adj[u]&nodes if v not in res},key=lambda v:(-len(adj[v]&res),w[v],v))
-        pick=next((v for v in frontier if rp+w[v]<=cap and connected(nodes-res-{v},adj)),None)
-        if pick is None:break
-        res.add(pick);rp+=w[pick]
-    rest=nodes-res
-    if rp>cap or not rest or not connected(rest,adj) or not connected(res,adj) or len(rest)<q-1:
-        return None,f'residual pop={rp} rest_connected={bool(rest) and connected(rest,adj)}'
+    big=[c for c in comps if sum(w[n] for n in c)>=floor] or comps[-1:]
+    for c in comps:
+        if not any(c is x for x in big):res|=c
+    mp=sum(w[n] for n in nodes);rp=sum(w[n] for n in res);q=max(2,int(round(mp/target)))
+    # El residuo no se engorda: queda abierto para las unidades vecinas que dependen de él.
+    if rp>cap or not connected(res,adj) or not all(connected(c,adj) for c in big):
+        return None,f'residual pop={rp} components={[sum(w[n] for n in c) for c in big]}'
     if residual_gateways and not(res&residual_gateways):return None,'residual gateways'
-    parts=hybrid_partition(rest,q-1,adj,w,label=f'residuo-primero {label}');parts,pvals,obj=rebalance(parts,adj,w,target,floor,cap,tol,50000)
-    if not all(floor<=x<=cap for x in pvals) or not all(connected(p,adj) for p in parts):
+    parts=[]
+    for c in big:
+        cp=sum(w[n] for n in c);k=q-1 if len(big)==1 else max(1,int(round(cp/target)))
+        if k==1:parts.append(set(c));continue
+        if len(c)<k:return None,f'component cardinality {len(c)}<{k}'
+        cparts=hybrid_partition(c,k,adj,w,label=f'residuo-primero {label}');cparts,_,_=rebalance(cparts,adj,w,target,floor,cap,tol,50000);parts+=[set(x) for x in cparts]
+    pvals=[sum(w[n] for n in x) for x in parts]
+    if not all(floor<=x<=cap for x in pvals) or not all(connected(x,adj) for x in parts):
         return None,f'rest partition out of band {sorted(round(x) for x in pvals)}'
-    return ([set(p) for p in parts],res,f'residual_first_global:{q-1}'),None
+    return ([set(p) for p in parts],res,f'residual_first_global:{len(parts)}'),None
 
 def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,residual_gateways=None):
     nodes=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ())
@@ -288,27 +292,29 @@ def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,re
             if count!=minimum:mode+=f'+reconsidered_core_count:{minimum}->{count}'
             return closed,residual,mode
         attempts.append({'closed_cores':count,'reason':reason})
+    # Reintentos: primero el número de núcleos más cercano al reparto ideal (q-1), no el mínimo.
+    ideal_order=sorted(range(minimum,maximum+1),key=lambda c:(abs(c-(round(mp/target)-1)),c))
     # Solo si la búsqueda anterior se agota: reintento con objetivo equilibrado por núcleo.
-    for count in range(minimum,maximum+1):
+    for count in ideal_order:
         result,reason=_sequential_count(nodes,count,target,floor,cap,adj,w,protected,residual_gateways,balanced=True)
         if result is not None:
             closed,residual,mode=result
             return closed,residual,mode+f'+balanced_lookahead:{count}'
         attempts.append({'closed_cores':count,'reason':'balanced: '+reason})
-    # Solo si ambas se agotan: núcleos por crecimiento que preserva la conexión del resto.
-    for balanced in (True,False):
-        for count in range(minimum,maximum+1):
-            result,reason=_sequential_count(nodes,count,target,floor,cap,adj,w,protected,residual_gateways,balanced=balanced,grow=True)
-            if result is not None:
-                closed,residual,mode=result
-                return closed,residual,mode+f'+connected_growth:{count}'
-            attempts.append({'closed_cores':count,'reason':'growth: '+reason})
-    # Último recurso: residuo primero (une las protegidas) y reparto global del resto.
+    # Tras el equilibrado: residuo primero (une las protegidas) y reparto global del resto.
     result,reason=split_residual_first(nodes,target,floor,cap,tol,adj,w,protected,residual_gateways,label)
     if result is not None:
         closed,residual,mode=result
         return closed,residual,'sequential_core_residual+'+mode
     attempts.append({'closed_cores':'residual_first','reason':reason})
+    # Último recurso: núcleos por crecimiento que preserva la conexión del resto.
+    for balanced in (True,False):
+        for count in ideal_order:
+            result,reason=_sequential_count(nodes,count,target,floor,cap,adj,w,protected,residual_gateways,balanced=balanced,grow=True)
+            if result is not None:
+                closed,residual,mode=result
+                return closed,residual,mode+f'+connected_growth:{count}'
+            attempts.append({'closed_cores':count,'reason':'growth: '+reason})
     raise SystemExit(f'M04: SEQUENTIAL_PARTITION_SEARCH_EXHAUSTED {label}; attempts={attempts} protected={sorted(protected)}; no structural impossibility inferred')
 
 def partition_oversized_municipality(nodes,target,floor,cap,tol,adj,w,label='',protected=None):
