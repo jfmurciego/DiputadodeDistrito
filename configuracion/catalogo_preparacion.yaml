@@ -407,11 +407,11 @@ territories:
       preparation_status: READY
       contract_path: territorios/extremadura/config/extremadura_2025.yaml
       territorial_source_declaration: territorios/extremadura/config/fuentes_oficiales.yaml
-      electoral_source_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
+      electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: true
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
@@ -434,6 +434,7 @@ territories:
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
         generation_preflight: territorios/extremadura/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/extremadura/evidencia/fuentes_electorales/2025/a8d06aca4343e13d0e061e435af7735e91d0e5b9c0baf9972b1bf5836f38f06f/40892977224/receipt.json
       generation_enabled: true
 - territory_id: galicia
   name: Galicia
