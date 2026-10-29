@@ -613,23 +613,22 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40850291263
-        artifact_name: ddd-source-package-pais_vasco-2025-40850291263
-        artifact_sha256: 0a26889fd72d38554bee8f32386218dd039c64ee82bcaa78a0f8233a6e7f2f09
+        run_id: 40946888676
+        artifact_name: ddd-source-package-pais_vasco-2025-40946888676
+        artifact_sha256: c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c
         package_sha256: b47721cbd4aa28cae80b185814b0a002f903ce7a7b5e07aab372cafdd6cef874
-        receipt_path: territorios/pais_vasco/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40850291263/receipt.json
+        receipt_path: territorios/pais_vasco/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json
         territorial_identity_sha256: ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288
         compatibility_report_sha256: aa1097efe890eeff63689357f237e350b54a5d75707ed1bc8982ba243f64090f
         compatibility_identity_sha256: 90707fb28597d7f75bf8af3d4dfb427cac2f3508bfae26220a4eca00a4c6c001
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: 1d22781f17213fd39d15879c0a707e035c6b5cc1
+        source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
       evidence:
         electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
         prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json
-        generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: la_rioja
   name: La Rioja
   editions:
