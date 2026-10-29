@@ -20,6 +20,9 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.30_20261029.md
 - Cataluña (40847205333): con #323 pasa M02–M05 y la auditoría geométrica (135 distritos, 0 BLOCK)
   y la certificación termina en `POPULATION_HARD_BLOCK`. Su contrato activa `private_annealing`
   (1800 s).
+- Castilla y León (40850261102): con `private_annealing` la M05 vuelve a fallar; usa unidades
+  indivisibles (`ddd_unit_id`) que sólo gestiona el reparador focal, con el que ya cumplía suelo y
+  techo (sólo fallaba el ±12 %, retirado en #325). Vuelve al reparador focal.
 - Tests: `StructuralFloorExemptionTests` y el archipiélago balear materializado incluye 07-C02.
 
 ## 2026-10-29 — 00 — encadenado automático del par de fuentes hasta la 04

@@ -170,12 +170,14 @@ class PopulationRepairDeclarativeContract(unittest.TestCase):
 
     def test_perfil_generico_exacto_y_declarativo(self):
         m05 = self.data["modulos"]["modulo_05_optimizar_distritos"]
+        # Castilla y León usa unidades indivisibles (ddd_unit_id), que sólo gestiona el reparador focal.
         self.assertEqual(m05["population_repair"], {
             "enabled": True,
-            "strategy": "private_annealing",
+            "max_depth": 4,
+            "max_transfer_set": 2,
+            "max_candidates": 20000,
+            "max_seconds": 120,
             "seed": 0,
-            "max_candidates": 5000000,
-            "max_seconds": 300.0,
         })
         self.assertEqual(m05["unit_id_field"], "ddd_unit_id")
         source = (ROOT / "modulos/05_optimizar_distritos.py").read_text(encoding="utf-8")
