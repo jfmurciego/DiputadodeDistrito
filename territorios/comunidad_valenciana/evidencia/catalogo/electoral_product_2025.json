@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "comunidad_valenciana",
+  "territory_name": "Comunidad Valenciana",
+  "edition": "2025",
+  "run_id": 40973760398,
+  "artifact_name": "ddd-state-40973760398-M08",
+  "artifact_sha256": "7d30d380913c108b5b0afe4177d5b83d874112bea2dada24161c968b63bc9c46",
+  "source_commit": "4465542b229562f269ed0cebe6aa5db02c3b456a",
+  "stage": "M08"
+}
