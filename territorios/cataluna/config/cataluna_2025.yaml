@@ -130,6 +130,12 @@ modulos:
     out_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_semillas.geojson.zip
     out_report: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_informe.json
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      strategy: private_annealing
+      seed: 0
+      max_candidates: 5000000
+      max_seconds: 1800.0
     in_graph_json: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY

@@ -228,10 +228,11 @@ modulos:
     anneal_temp_end: 0.0005
     population_repair:
       enabled: true
-      strategy: private_annealing
+      max_depth: 4
+      max_transfer_set: 2
+      max_candidates: 20000
+      max_seconds: 120
       seed: 0
-      max_candidates: 5000000
-      max_seconds: 300.0
     out_geojson: territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
     out_report: territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json
   modulo_06_consolidar_distritos:
