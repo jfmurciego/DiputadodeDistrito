@@ -66,14 +66,15 @@ territories:
       electoral_product_available: true
       evidence:
         territorial_product: territorios/aragon/evidencia/catalogo/territorial_product_2025.json
-        electoral_source: territorios/aragon/evidencia/catalogo/electoral_source_2025.json
+        electoral_source: territorios/aragon/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json
         electoral_product: territorios/aragon/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aragon/evidencia/catalogo/generation_preflight_2025.json
+        prepared_source_pair: territorios/aragon/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40691712762
-        stage: M06
+        run_id: 40898231736
+        stage: M08
       preparation_evidence:
         run_id: 40691712762
         artifact_name: ddd-source-package-aragon-2025-40691712762
@@ -377,12 +378,14 @@ territories:
         geometry_assessment_sha256: 806d3c896a599383790e684322bcafc8f933bdd1c8b2d65a0a7137f8a0ddfaac
         geometry_admissibility: BLOCKED
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 40896263473
+        stage: M06
       preparation_evidence:
         run_id: 40888918116
         artifact_name: ddd-source-package-comunidad_valenciana-2025-40888918116
@@ -399,6 +402,8 @@ territories:
       evidence:
         electoral_source: territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/81b385e7be11975f01870a1dbc41ab6c947774a0c6f611a5c3940e289523959e/36875387632/receipt.json
         generation_preflight: territorios/comunidad_valenciana/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/comunidad_valenciana/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/comunidad_valenciana/evidencia/pares_fuentes/2025/684995d04f217975d154861a23094a240fa144c1a89946f92913b92c013ef5b6.json
       generation_enabled: true
 - territory_id: extremadura
   name: Extremadura

@@ -1,0 +1,91 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "comunidad_valenciana",
+  "territory_name": "Comunidad Valenciana",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 40896263473,
+  "source_sha": "cca9d958f7cdb9a7dba603ab85b1d35287654756",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "TERRITORIAL_COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "SKIPPED_NO_ACCREDITED_PAIR",
+  "electoral_activation_status": "TERRITORIAL_READY_ELECTORAL_PENDING",
+  "electoral_skip_reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Comunidad Valenciana edición 2025; complete la preparación conjunta antes de ejecutar",
+  "resumption": null,
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 39315133646,
+      "artifact": "ddd-source-package-comunidad_valenciana-2025-39315133646",
+      "artifact_digest": "sha256:799f32341da727984244cf56e706b74861b09d45f4128f6b812ae043cb4f06ee",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 40896263473,
+      "artifact": "ddd-state-40896263473-M06",
+      "artifact_digest": "sha256:8908c37c69ec72484e65b1bf7d121491f593f79c4af1edec21ea82d9ae9fbda7",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-29T15:19:59.925566+00:00"
+}
