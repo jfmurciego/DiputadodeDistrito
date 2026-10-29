@@ -195,22 +195,21 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40773378883
-        artifact_name: ddd-source-package-canarias-2025-40773378883
-        artifact_sha256: a3c164ff09ca7e4a2b0531a0138e727638bb9cf2bbfcba922ecd4cea8c9c62b0
-        package_sha256: ed90c2eae4d78385a105108016989b6fe0d2b356952161b45d5ec6fc847bc3a0
-        receipt_path: territorios/canarias/evidencia/fuentes_territoriales/2025/0fec08cc211b96caf8df424995be0a279699378cc2174b32a0730f9104e12831/40773378883/receipt.json
-        territorial_identity_sha256: 0fec08cc211b96caf8df424995be0a279699378cc2174b32a0730f9104e12831
-        compatibility_report_sha256: 3181add1362a52d13dfd72e951264f79db7658b7f5a2bb61315a4d8b208b4201
-        compatibility_identity_sha256: b01d9dc228517ba8ceaeeb78f356d1ce3d85739853926ac887e4ae91ade07321
+        run_id: 40832065646
+        artifact_name: ddd-source-package-canarias-2025-40832065646
+        artifact_sha256: 55b25a03970d80efd87d74b0e7ab9f3ed6de8da63fee43d9e455365c7cfdcd03
+        package_sha256: 0aa0d081c5be725b959d8f318b6c063b9be477700f80e461ba7461c6dcde08bf
+        receipt_path: territorios/canarias/evidencia/fuentes_territoriales/2025/af3cada7b306dcfc7f62ddf333af3b5887d8ad32fdf7ec1335bc4aab14753306/40832065646/receipt.json
+        territorial_identity_sha256: af3cada7b306dcfc7f62ddf333af3b5887d8ad32fdf7ec1335bc4aab14753306
+        compatibility_report_sha256: 4357b085ec896b097f4a55be5a7447a444f2925f15108651cfc6ab96086e4a58
+        compatibility_identity_sha256: 31d73af164a04ba7732bd730a644c40bbb2b2daca0d0425481baf835911e5f7d
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: e6778a88325a7c787e4279783fd0e19d7d1d2975
+        source_commit: 14b4d01c67fc3660ef275e6f76da0e06c8894d90
       evidence:
         electoral_source: territorios/canarias/evidencia/fuentes_electorales/2025/02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11/36789298682/receipt.json
         prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364.json
-        generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: cantabria
   name: Cantabria
