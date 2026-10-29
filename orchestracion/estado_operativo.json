@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-28T23:43:24.854874+00:00",
+  "generated_at": "2026-10-29T00:00:37.606968+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -905,8 +905,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40198151865,
-            "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/40198151865/receipt.json"
+            "run_id": 40784770643,
+            "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/eb655253b9c7c133e1bb143e5b31300abb690609b01d35821b5338957f8c6284/40784770643/receipt.json"
           }
         },
         "electoral": {
@@ -1065,9 +1065,9 @@
         "territorial_source": {
           "territory_id": "andalucia",
           "edition": "2025",
-          "run_id": 36020646219,
-          "artifact_name": "ddd-source-package-andalucia-2025-36020646219",
-          "artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+          "run_id": 40784594752,
+          "artifact_name": "ddd-source-package-andalucia-2025-40784594752",
+          "artifact_sha256": "d7feb5605d3fca0217ea9dcd9b407c70b2c5f41ea4b7928dab0012d4469e9d43",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1453,9 +1453,9 @@
         "territorial_source": {
           "territory_id": "comunidad_valenciana",
           "edition": "2025",
-          "run_id": 36273981926,
-          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-36273981926",
-          "artifact_sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
+          "run_id": 40784680666,
+          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40784680666",
+          "artifact_sha256": "6acb5f5d008ca1f85ed289736086d3fac3bba3014967877f1062404e73c042fd",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1564,11 +1564,11 @@
       "ft": "green",
       "g": "green",
       "fe": "yellow",
-      "re": "yellow",
+      "re": "green",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40773465956,
-      "stage": "M06",
+      "run_id": 40787900559,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1585,16 +1585,27 @@
           "territory_id": "madrid",
           "territory_name": "Comunidad de Madrid",
           "edition": "2025",
-          "run_id": 40773465956,
-          "artifact_name": "ddd-state-40773465956-M06",
-          "artifact_sha256": "0921a540db4baa5cf3711399d320e8e66c8a825d92a71440531c80625b632ae8",
-          "source_commit": "6c413dbe650d9d7e00e7bf66232844f603c414f2",
+          "run_id": 40787900559,
+          "artifact_name": "ddd-state-40787900559-M06",
+          "artifact_sha256": "a0258112ed6dec09d720075eaa37a10985aa55adbd22197a96f8752de3e86ac8",
+          "source_commit": "9c554d0729ee26daaef39eff1788a79628492135",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/40773465956.json"
+          "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/40787900559.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "madrid",
+          "territory_name": "Comunidad de Madrid",
+          "edition": "2025",
+          "run_id": 40787900559,
+          "artifact_name": "ddd-state-40787900559-M08",
+          "artifact_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
+          "source_commit": "9c554d0729ee26daaef39eff1788a79628492135",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "13",
       "display_name": "13 Comunidad de Madrid"
@@ -1713,9 +1724,9 @@
         "territorial_source": {
           "territory_id": "la_rioja",
           "edition": "2025",
-          "run_id": 40198151865,
-          "artifact_name": "ddd-source-package-la_rioja-2025-40198151865",
-          "artifact_sha256": "ff28e2c35f8747e1144c986021f5d45bc6f9da311afc33ec13a339d5129a9c92",
+          "run_id": 40784770643,
+          "artifact_name": "ddd-source-package-la_rioja-2025-40784770643",
+          "artifact_sha256": "f73fad64de8313031579e5dd15852b9607486ea739f26535d9397cc3d62098b6",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1921,10 +1932,10 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "13 Comunidad de Madrid",
-      "territory_id": "madrid",
-      "autonomous_community_code_ine": "13",
-      "action": "incorporar resultados electorales"
+      "territory": "14 Región de Murcia",
+      "territory_id": "region_de_murcia",
+      "autonomous_community_code_ine": "14",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
