@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -90,7 +90,7 @@ territory_contract:
   - 38-C02
   - 38-C04
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -309,9 +309,9 @@ validation:
     section_year: 2023
     population_total: 2213016
     target_section_count: 1396
-    package_sha256: 0aa0d081c5be725b959d8f318b6c063b9be477700f80e461ba7461c6dcde08bf
-    compatibility_report_sha256: 4357b085ec896b097f4a55be5a7447a444f2925f15108651cfc6ab96086e4a58
-    compatibility_identity_sha256: 31d73af164a04ba7732bd730a644c40bbb2b2daca0d0425481baf835911e5f7d
+    package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
+    compatibility_report_sha256: 86f389eec7d9ad8aefa24f76bcbde7953727a9e5811532b702d0268b92f08dc7
+    compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -385,9 +385,9 @@ resolved_source_contract:
   contract_sha256: 49be87fd36d4e4c23a3f247a718eced10bb00a0622d796199fe787d8928afd33
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: 0aa0d081c5be725b959d8f318b6c063b9be477700f80e461ba7461c6dcde08bf
-  compatibility_identity_sha256: 31d73af164a04ba7732bd730a644c40bbb2b2daca0d0425481baf835911e5f7d
+  generation_enabled: false
+  package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
+  compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 65555af58d6b04a7b27c081c065ca25cf297e3ea181e3404a72e648f8f9e9c99
@@ -437,6 +437,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40832065646
-  pre_m04_source_commit: 85a95bb875ddfa90e5c165172fa8de719b461457
-  pre_m04_artifact_sha256: 58580e13b5e19eb13d5bfc36ae7ab50140d99057b6a25d7357c597f403bbe4e0
