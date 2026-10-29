@@ -1,5 +1,5 @@
-"""Version 1.0.2, 2026-10-29: island structural floor exemptions (Ibiza 07-C04, Tenerife 38-C01, 35-C02).
-Previous bytes: legacy/tests/test_materializacion_contratos_nacionales_v1.0.1_20261029.py.
+"""Version 1.0.3, 2026-10-29: per-territory municipal atomicity limit (Andalucía, País Vasco, Cataluña 1.25).
+Previous bytes: legacy/tests/test_materializacion_contratos_nacionales_v1.0.2_20261029.py.
 """
 from __future__ import annotations
 
@@ -1395,8 +1395,28 @@ class TerritoryPopulationLimitsTests(unittest.TestCase):
         melilla = territory_population_limits(policy["defaults"], policy["territories"]["melilla"], "melilla")
         self.assertEqual((0.50, 1.75, 0.50), (melilla["population_floor_ratio"], melilla["population_cap_ratio"], melilla["target_tolerance_ratio"]))
         for territory_id, entry in policy["territories"].items():
-            if territory_id != "melilla":
+            if not entry.get("population_limits"):
                 self.assertIs(policy["defaults"], territory_population_limits(policy["defaults"], entry, territory_id))
+
+    def test_atomicity_limit_override_for_peninsular_m05_group(self):
+        from herramientas.materializar_contrato_generacion import territory_population_limits
+        policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
+        for territory_id in ("andalucia", "pais_vasco", "cataluna"):
+            with self.subTest(territory=territory_id):
+                limits = territory_population_limits(policy["defaults"], policy["territories"][territory_id], territory_id)
+                self.assertEqual(1.25, limits["municipality_atomicity_limit_ratio"])
+                self.assertEqual((0.8, 1.75, 0.12), (limits["population_floor_ratio"], limits["population_cap_ratio"], limits["target_tolerance_ratio"]))
+                self.assertNotIn("limits_exception", limits)
+                cfg = yaml.safe_load((ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml").read_text(encoding="utf-8"))
+                self.assertEqual(1.25, cfg["territory_contract"]["municipality_atomicity_limit_ratio"])
+                self.assertEqual(1.25, cfg["modulos"]["modulo_04_generar_semillas"]["municipality_atomicity_limit_ratio"])
+                self.assertEqual(1.25, cfg["validation"]["municipality_atomicity_limit_ratio"])
+        defaults = {"population_floor_ratio": 0.8, "population_cap_ratio": 1.75, "target_tolerance_ratio": 0.12,
+                    "municipality_atomicity_limit_ratio": 1.75}
+        governed = {"rationale": "x", "evidence": "y", "decided_at": "2026-10-29"}
+        for bad in (1.0, 2.0):
+            with self.subTest(atomicity=bad), self.assertRaises(ValueError):
+                territory_population_limits(defaults, {"population_limits": {"municipality_atomicity_limit_ratio": bad, **governed}}, "t")
 
     def test_population_limits_reject_unknown_keys_missing_rationale_and_incoherent_values(self):
         from herramientas.materializar_contrato_generacion import territory_population_limits

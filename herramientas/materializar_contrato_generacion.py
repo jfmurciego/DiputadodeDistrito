@@ -6,6 +6,9 @@ La puerta contractual se conserva como validación estructural, pero deja de exi
 industrialización manual territorio a territorio. 01 prepara fuentes y este
 materializador completa automáticamente el contrato que 02 necesita.
 
+CAMBIOS 2026-10-29 (b): population_limits admite municipality_atomicity_limit_ratio por territorio
+(1 < ratio <= techo), con rationale/evidence/decided_at; sin otras claves el perfil sigue siendo estándar.
+ANTERIOR (b): legacy/herramientas/materializar_contrato_generacion_pre_atomicidad_territorial_20261029.py
 CAMBIOS 2026-10-29: conserva las exenciones de suelo estructurales declaradas en la política
 (territories.<id>.structural_floor_exemptions, con rationale, evidence y decided_at). Antes cada
 preparación territorial recalculaba las exenciones y sólo eximía componentes de un único distrito,
@@ -823,6 +826,7 @@ def existing_or_bootstrap(
 
 
 LIMIT_KEYS = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio")
+ATOMICITY_KEY = "municipality_atomicity_limit_ratio"
 
 
 def territory_population_limits(defaults: dict, pentry: dict, territory_id: str) -> dict:
@@ -834,7 +838,7 @@ def territory_population_limits(defaults: dict, pentry: dict, territory_id: str)
     limits = pentry.get("population_limits")
     if not limits:
         return defaults
-    unknown = set(limits) - set(LIMIT_KEYS) - {"rationale", "evidence", "decided_at"}
+    unknown = set(limits) - set(LIMIT_KEYS) - {ATOMICITY_KEY, "rationale", "evidence", "decided_at"}
     if unknown:
         raise ValueError(f"Límites de población no admitidos para {territory_id}: {sorted(unknown)}")
     for key in ("rationale", "evidence", "decided_at"):
@@ -845,6 +849,15 @@ def territory_population_limits(defaults: dict, pentry: dict, territory_id: str)
     floor, cap, tol = (float(merged[k]) for k in LIMIT_KEYS)
     if not (0 < floor < 1 < cap and 0 < tol < 1):
         raise ValueError(f"Límites de población incoherentes para {territory_id}: {floor}, {cap}, {tol}")
+    if ATOMICITY_KEY in limits:
+        atomicity = float(limits[ATOMICITY_KEY])
+        if not (1 < atomicity <= cap):
+            raise ValueError(f"Umbral de atomicidad municipal incoherente para {territory_id}: {atomicity}")
+        merged[ATOMICITY_KEY] = atomicity
+    if not any(key in limits for key in LIMIT_KEYS):
+        # Sólo cambia la atomicidad: suelo, techo y tolerancia siguen siendo los comunes y el perfil
+        # de límites es el estándar; la justificación queda en la política.
+        return merged
     merged["limits_exception"] = {
         "limits_profile": "exception",
         "limits_exception_rationale": str(limits["rationale"]),
