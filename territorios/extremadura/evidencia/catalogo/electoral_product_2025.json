@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "extremadura",
+  "territory_name": "Extremadura",
+  "edition": "2025",
+  "run_id": 40965231300,
+  "artifact_name": "ddd-state-40965231300-M08",
+  "artifact_sha256": "436cf8745eab8fa94827d3f5a1b9f60cd20c1f1f78d748188d0e8ebf97553b0a",
+  "source_commit": "10ada622f71a2f536ae0a86ee5fc68b9a0b8fb59",
+  "stage": "M08"
+}
