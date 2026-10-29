@@ -48,6 +48,7 @@ territories:
         compatibility_identity_sha256: 5cca7fab7281f1175568e433247d113e953c30990fbe22468eae4569d25a0824
       evidence:
         electoral_source: territorios/andalucia/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json
+        generation_preflight: territorios/andalucia/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: aragon
   name: Aragón
