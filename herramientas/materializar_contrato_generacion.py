@@ -5,6 +5,12 @@
 La puerta contractual se conserva como validación estructural, pero deja de exigir
 industrialización manual territorio a territorio. 01 prepara fuentes y este
 materializador completa automáticamente el contrato que 02 necesita.
+
+CAMBIOS 2026-10-29: conserva las exenciones de suelo estructurales declaradas en la política
+(territories.<id>.structural_floor_exemptions, con rationale, evidence y decided_at). Antes cada
+preparación territorial recalculaba las exenciones y sólo eximía componentes de un único distrito,
+y borró la de Menorca (07-C02) que había introducido #313.
+ANTERIOR: legacy/herramientas/materializar_contrato_generacion_pre_exenciones_estructurales_20261029.py
 """
 from __future__ import annotations
 
@@ -692,6 +698,17 @@ def component_hamilton(populations: dict[str, int], k: int, floor_ratio: float) 
         raise AssertionError("Reparto por componentes no conserva K")
     return q, exempt
 
+def structural_floor_exemptions(pentry: dict, territory_id: str) -> dict[str, dict[str, Any]]:
+    """Exenciones de suelo que la geometría impone (unidades indivisibles), gobernadas en la política."""
+    declared = pentry.get("structural_floor_exemptions") or {}
+    if not isinstance(declared, dict):
+        raise ValueError(f"{territory_id}: structural_floor_exemptions debe ser un objeto")
+    for key, entry in declared.items():
+        if not isinstance(entry, dict) or any(entry.get(f) in (None, "") for f in ("rationale", "evidence", "decided_at")):
+            raise ValueError(f"{territory_id}: exención estructural {key} exige rationale, evidence y decided_at")
+    return {str(key): entry for key, entry in declared.items()}
+
+
 def component_apportionment_audit(
     populations: dict[str, int],
     quota: dict[str, int],
@@ -700,6 +717,7 @@ def component_apportionment_audit(
     floor_exempt: list[str],
     *,
     exception_policy: str | None,
+    structural: frozenset[str] = frozenset(),
 ) -> dict[str, dict[str, Any]]:
     """Explica el reparto DDD por componente sin atribuirlo a la norma electoral."""
     total = sum(populations.values())
@@ -713,7 +731,7 @@ def component_apportionment_audit(
         districts = int(quota[key])
         population = int(populations[key])
         average = population / districts
-        required = districts == 1 and population < floor - 1e-9
+        required = (districts == 1 and population < floor - 1e-9) or key in structural
         governed = (not required) or (
             key in exempt and exception_policy == "one_contiguous_district_floor_exception"
         )
@@ -929,6 +947,11 @@ def materialize(
             component_pop = _component_populations(root, territory_id, section_pop)
             floor_ratio = float(defaults["population_floor_ratio"])
             quota, floor_exempt = component_hamilton(component_pop, current_k, floor_ratio)
+            structural = structural_floor_exemptions(pentry, territory_id)
+            unknown = set(structural) - set(component_pop)
+            if unknown:
+                raise ValueError(f"{territory_id}: exención estructural de componentes inexistentes {sorted(unknown)}")
+            floor_exempt = sorted(set(floor_exempt) | set(structural))
             cfg.setdefault("validation", {})["partition_populations"] = component_pop
             cfg["validation"]["province_districts"] = quota
             cfg["validation"]["population_floor_exempt_partitions"] = floor_exempt
@@ -939,6 +962,7 @@ def materialize(
                 floor_ratio,
                 floor_exempt,
                 exception_policy=(policy.get("archipelago") or {}).get("small_component_policy"),
+                structural=frozenset(structural),
             )
         row.update({
             "contract_level": "production_m01_m06", "production_authorization": "AUTHORIZED",
@@ -1004,6 +1028,8 @@ def materialize(
     if partition_mode == "physical_components_hamilton":
         component_pop = _component_populations(root, territory_id, section_pop)
         quota, floor_exempt = component_hamilton(component_pop, k, float(defaults["population_floor_ratio"]))
+        structural = structural_floor_exemptions(pentry, territory_id)
+        floor_exempt = sorted(set(floor_exempt) | set(structural))
         partition_audit = component_apportionment_audit(
             component_pop,
             quota,
@@ -1011,6 +1037,7 @@ def materialize(
             float(defaults["population_floor_ratio"]),
             floor_exempt,
             exception_policy=(policy.get("archipelago") or {}).get("small_component_policy"),
+            structural=frozenset(structural),
         )
         partition_field = "DDD_PARTITION"
         municipality_field = "DDD_MUNICIPALITY_PARTITION"

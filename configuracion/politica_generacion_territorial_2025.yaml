@@ -1,10 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.3.0
-# FECHA: 2026-10-28
-# CAMBIOS: 1.3.0: Melilla baja a suelo 0,50 y tolerancia 0,50 (con 0,70 la M04 no encuentra partición conexa).
+# VERSIÓN: 1.4.0
+# FECHA: 2026-10-29
+# CAMBIOS: 1.4.0: structural_floor_exemptions por territorio; Menorca (07-C02) exenta del suelo.
+#   1.3.0: Melilla baja a suelo 0,50 y tolerancia 0,50 (con 0,70 la M04 no encuentra partición conexa).
 #   1.2.0: admite population_limits por territorio.
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.2.0.yaml
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.3.0.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -36,6 +37,11 @@ territories:
     legal_context:
       note: "Contexto solamente; no es el reparto producido por DDD."
       constituencies: {Mallorca: 33, Menorca: 13, Ibiza: 12, Formentera: 1}
+    structural_floor_exemptions:
+      07-C02:
+        decided_at: "2026-10-28"
+        evidence: "#313; run 40847174556 (M05 hard=3 tras borrarse la exención en la preparación del 28-10)"
+        rationale: "Menorca (5 distritos, 99.005 habitantes) no admite partición sobre el suelo: Mahón (30.006) y Ciudadela (31.669) son indivisibles y los otros tres distritos dispondrían de 37.330 habitantes para un mínimo de 49.218."
   canarias:
     k: 70
     k_source: norma

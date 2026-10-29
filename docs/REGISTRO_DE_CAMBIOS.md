@@ -1,12 +1,26 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.30
+Versión: 1.0.31
 Fecha: 2026-10-29
-Alcance: el 00 encadena la activación del par de fuentes y la 04
+Alcance: exenciones de suelo estructurales persistentes y reparación de población en Cataluña
 Estado: candidato
-Cambios/motivo: la 04 se saltaba en toda primera ejecución completa por falta de prepared_source_pair
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.29_20261029.md
+Cambios/motivo: la preparación territorial borró la exención de Menorca; Cataluña bloqueaba por población
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.30_20261029.md
 -->
+
+## 2026-10-29 — Población — exenciones estructurales y Cataluña
+
+- Baleares (40847174556, M05 `hard=3`): la preparación territorial del 28-10 (9732a463) regeneró
+  `validation` y borró la exención de Menorca (07-C02) de #313, porque el materializador sólo eximía
+  componentes de un distrito bajo el suelo. `materializar_contrato_generacion.py` lee ahora
+  `territories.<id>.structural_floor_exemptions` (rationale, evidence, decided_at) de la política,
+  las une a las exenciones calculadas y las marca como requeridas y gobernadas en la auditoría de
+  reparto. `politica_generacion_territorial_2025.yaml` 1.4.0 declara Menorca; el contrato vigente
+  recupera la exención.
+- Cataluña (40847205333): con #323 pasa M02–M05 y la auditoría geométrica (135 distritos, 0 BLOCK)
+  y la certificación termina en `POPULATION_HARD_BLOCK`. Su contrato activa `private_annealing`
+  (1800 s).
+- Tests: `StructuralFloorExemptionTests` y el archipiélago balear materializado incluye 07-C02.
 
 ## 2026-10-29 — 00 — encadenado automático del par de fuentes hasta la 04
 

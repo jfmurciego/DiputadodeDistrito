@@ -1368,7 +1368,10 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertEqual("institutional_chamber_size_only", result["k_reference_scope"])
             self.assertEqual("ddd_design_policy", result["apportionment_source"])
             self.assertFalse(result["legal_apportionment_reused"])
-            self.assertEqual(["07-C03"], result["population_floor_exempt_partitions"])
+            # Formentera por quedar bajo el suelo con un distrito; Menorca por exención estructural
+            # declarada en la política (Mahón y Ciudadela indivisibles).
+            self.assertEqual(["07-C02", "07-C03"], result["population_floor_exempt_partitions"])
+            self.assertTrue(result["partition_apportionment_audit"]["07-C02"]["floor_exception_required"])
             self.assertTrue(all(x["floor_exception_governed"] for x in result["partition_apportionment_audit"].values()))
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["modulos"]["modulo_04_generar_semillas"]["province_field"], "DDD_PARTITION")
@@ -1402,3 +1405,30 @@ class TerritoryPopulationLimitsTests(unittest.TestCase):
                        {"target_tolerance_ratio": 1.5, "rationale": "x"}):
             with self.subTest(limits=limits), self.assertRaises(ValueError):
                 territory_population_limits(defaults, {"population_limits": limits}, "t")
+
+
+class StructuralFloorExemptionTests(unittest.TestCase):
+    def test_structural_exemption_survives_rematerialization_and_is_governed(self):
+        from herramientas.materializar_contrato_generacion import (
+            component_apportionment_audit, structural_floor_exemptions,
+        )
+        policy = yaml.safe_load((ROOT / "configuracion/politica_generacion_territorial_2025.yaml").read_text(encoding="utf-8"))
+        structural = structural_floor_exemptions(policy["territories"]["illes_balears"], "illes_balears")
+        self.assertIn("07-C02", structural)
+        pops = {"07-C01": 940332, "07-C02": 99005, "07-C03": 11389, "07-C04": 159180}
+        quota = {"07-C01": 45, "07-C02": 5, "07-C03": 1, "07-C04": 8}
+        audit = component_apportionment_audit(
+            pops, quota, 59, 0.8, ["07-C02", "07-C03"],
+            exception_policy="one_contiguous_district_floor_exception",
+            structural=frozenset(structural),
+        )
+        self.assertTrue(audit["07-C02"]["floor_exception_required"])
+        self.assertTrue(audit["07-C02"]["floor_exception_governed"])
+        self.assertFalse(audit["07-C01"]["floor_exception_required"])
+        with self.assertRaisesRegex(ValueError, "rationale, evidence y decided_at"):
+            structural_floor_exemptions({"structural_floor_exemptions": {"07-C02": {"rationale": "x"}}}, "t")
+
+    def test_live_baleares_contract_keeps_menorca_exempt(self):
+        cfg = yaml.safe_load((ROOT / "territorios/illes_balears/config/illes_balears_2025.yaml").read_text(encoding="utf-8"))
+        self.assertIn("07-C02", cfg["validation"]["population_floor_exempt_partitions"])
+        self.assertTrue(cfg["validation"]["partition_apportionment_audit"]["07-C02"]["floor_exception_required"])
