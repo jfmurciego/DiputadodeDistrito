@@ -703,7 +703,7 @@ territories:
         source_commit: 1d22781f17213fd39d15879c0a707e035c6b5cc1
       evidence:
         electoral_source: territorios/la_rioja/evidencia/fuentes_electorales/2025/35a5a19b40d7d19c48d53eadfdcc2f045be0cc239ba3266c18389c1b0d09e951/40850322464/receipt.json
-        prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json
+        prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/b5a3bc5961e4bfaa84b79820100f51105d8518f600780195d6b1838304d474bd.json
         generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/la_rioja/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
