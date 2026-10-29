@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T15:19:32.515892+00:00",
+  "generated_at": "2026-10-29T16:25:55.211560+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 12,
-      "activable": 7,
+      "activated": 13,
+      "activable": 6,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 19,
-      "durable_pair": 12
+      "durable_pair": 13
     },
     "territories": [
       {
@@ -537,12 +537,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/comunidad_valenciana/evidencia/pares_fuentes/2025/684995d04f217975d154861a23094a240fa144c1a89946f92913b92c013ef5b6.json",
+            "pair_sha256": "684995d04f217975d154861a23094a240fa144c1a89946f92913b92c013ef5b6",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1492,11 +1492,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40896263473,
       "last_run": {
-        "run_id": 40888918116,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 40896263473,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Comunidad Valenciana edición 2025; complete la preparación conjunta antes de ejecutar",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1529,7 +1529,7 @@
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "extremadura",
