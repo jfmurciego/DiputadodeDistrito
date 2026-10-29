@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.1 · FECHA: 2026-10-29 · ESTADO: candidato
-CAMBIOS: 2.3.1: "parado en" usa la fase fallida aunque no esté numerada (p. ej. reanudación M08).
+VERSIÓN: 2.3.2 · FECHA: 2026-10-29 · ESTADO: candidato
+CAMBIOS: 2.3.2: un M08 de otro run cuenta si el manifiesto de ese run acredita que su 04 consumió el
+  M06 vigente (fase 02 con el mismo run_id); 00 en reutilización nunca comparte run entre M06 y M08.
+  2.3.1: "parado en" usa la fase fallida aunque no esté numerada (p. ej. reanudación M08).
   2.3.0: "cadena completa" exige M06 y M08 del mismo run; FE se da por buena si la 04 terminó;
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.0_20261029.py
+ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.1_20261029.py
 """
 from __future__ import annotations
 
@@ -432,6 +434,22 @@ def _latest_run(root: Path, tid: str, edition: str) -> dict:
     }
 
 
+def _m08_consumed_current_m06(root: Path, tid: str, electoral_run: object, territorial_run: object) -> bool:
+    """El manifiesto del run M08 acredita que su 04 terminó consumiendo el M06 vigente."""
+    path = root / "territorios" / tid / "evidencia" / "ejecuciones_completas" / f"{electoral_run}.json"
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    phases = {str(p.get("name", ""))[:2]: p for p in manifest.get("phases") or [] if isinstance(p, dict)}
+    generation, incorporation = phases.get("02") or {}, phases.get("04") or {}
+    return (
+        str(generation.get("run_id")) == str(territorial_run)
+        and str(incorporation.get("run_id")) == str(electoral_run)
+        and incorporation.get("result") == "success"
+    )
+
+
 def derive(root: Path, row: dict, edition: str) -> dict:
     tid = row["territory_id"]
     name = row.get("name", tid)
@@ -447,10 +465,14 @@ def derive(root: Path, row: dict, edition: str) -> dict:
     fe_ok = bool(state.get("electoral_source_prepared") and electoral_source)
     cert = str(state.get("territorial_certification") or "")
     g_ok = bool(state.get("territorial_product_available") and territorial and cert in PASS_CERTIFICATIONS)
-    # Regla de linaje: el M08 sólo cuenta si procede del mismo run que el M06 vigente.
+    # Regla de linaje: el M08 sólo cuenta si procede del mismo run que el M06 vigente
+    # o si el manifiesto de su run acredita que la 04 consumió ese M06.
     re_ok = bool(
         state.get("electoral_product_available") and electoral_product and territorial
-        and str(electoral_product.get("run_id")) == str(territorial.get("run_id"))
+        and (
+            str(electoral_product.get("run_id")) == str(territorial.get("run_id"))
+            or _m08_consumed_current_m06(root, tid, electoral_product.get("run_id"), territorial.get("run_id"))
+        )
     )
     fe_ok = fe_ok or (re_ok and g_ok)
 
