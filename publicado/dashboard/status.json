@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T22:30:20.531664+00:00",
+  "generated_at": "2026-10-29T22:32:16.045264+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 19,
-      "activable": 0,
+      "activated": 18,
+      "activable": 1,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 19,
-      "durable_pair": 19
+      "durable_pair": 18
     },
     "territories": [
       {
@@ -537,12 +537,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/comunidad_valenciana/evidencia/pares_fuentes/2025/684995d04f217975d154861a23094a240fa144c1a89946f92913b92c013ef5b6.json",
             "pair_sha256": "684995d04f217975d154861a23094a240fa144c1a89946f92913b92c013ef5b6",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1600,10 +1600,10 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691774876,
       "last_run": {
-        "run_id": 40957543745,
+        "run_id": 40965231300,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "stopped_at": "Reanudación de producto electoral durable",
         "reason": "ver log del run",
         "publication": "not_requested"
       },
