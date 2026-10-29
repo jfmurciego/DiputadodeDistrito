@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T14:37:50.979979+00:00",
+  "generated_at": "2026-10-29T14:39:15.583865+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 18,
-      "action_required": 1,
+      "admissible": 19,
+      "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
       "activated": 9,
-      "activable": 9,
+      "activable": 10,
       "territorial_pending": 0,
-      "electoral_pending": 1,
+      "electoral_pending": 0,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,7 +38,7 @@
       "legislature_resolved": 19,
       "years_resolved": 19,
       "territorial_source": 19,
-      "electoral_source": 18,
+      "electoral_source": 19,
       "durable_pair": 9
     },
     "territories": [
@@ -580,15 +580,15 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Minsait / EleccionesDB mirror provisional (excepción del propietario 2026-10-29)",
           "granularity": "section_party_after_polling_station_aggregation"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -601,13 +601,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "galicia",
@@ -1079,11 +1073,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691712762,
       "last_run": {
-        "run_id": 40691712762,
+        "run_id": 40892947074,
         "status": "SUCCESS",
         "completion_status": "TERRITORIAL_COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "ELECTORAL_DURABLE_CANDIDATE",
+        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Aragón edición 2025; complete la preparación conjunta antes de ejecutar",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1141,7 +1135,7 @@
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "incorporar resultados electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "principado_de_asturias",
@@ -1544,7 +1538,7 @@
       "ft": "green",
       "g": "green",
       "fe": "yellow",
-      "re": "gray",
+      "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691774876,
@@ -2155,10 +2149,10 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "14 Región de Murcia",
-      "territory_id": "region_de_murcia",
-      "autonomous_community_code_ine": "14",
-      "action": "completar puerta de validación territorial"
+      "territory": "11 Extremadura",
+      "territory_id": "extremadura",
+      "autonomous_community_code_ine": "11",
+      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
