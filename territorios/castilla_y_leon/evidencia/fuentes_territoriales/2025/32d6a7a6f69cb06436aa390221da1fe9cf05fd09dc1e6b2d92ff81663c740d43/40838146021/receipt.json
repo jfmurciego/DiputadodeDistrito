@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "castilla_y_leon",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "run_id": 40838146021,
+  "artifact_name": "ddd-source-package-castilla_y_leon-2025-40838146021",
+  "artifact_sha256": "f3320554a1cf521c33906c815b75e70a8ab505a4747efa68367b0f395b3421c5",
+  "package_sha256": "bca65a6b3ad7926bc5ab9aab0bfaeadfbf517be07f7363d2aa065dfcc9d920aa",
+  "source_commit": "56a05425004ca2539106f4d016a06a7096e48098",
+  "source_declaration": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/32d6a7a6f69cb06436aa390221da1fe9cf05fd09dc1e6b2d92ff81663c740d43/40838146021/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "32d6a7a6f69cb06436aa390221da1fe9cf05fd09dc1e6b2d92ff81663c740d43",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "a23fc03624d3a4d379240b8113d3d7f10ced2ed514ff9380c964e7ac0f906b49",
+  "compatibility_identity_sha256": "022bac8f0ce4b3bb15d6637c52a79925e419b0319f2e4ebbe88eab9b87395436"
+}

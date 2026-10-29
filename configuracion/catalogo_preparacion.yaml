@@ -309,25 +309,24 @@ territories:
         territorial_product_source_lineage: territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json
         electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f/36875351443/receipt.json
         electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
-        generation_preflight: territorios/castilla_y_leon/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 35889595424
         stage: M06
       preparation_evidence:
-        run_id: 40784651090
-        artifact_name: ddd-source-package-castilla_y_leon-2025-40784651090
-        artifact_sha256: 1729becb95fa033cfd89af58383c93b85ccafdc1537f84ea136d33b493596170
-        package_sha256: f8c210881dbceabfce9f439530502b3e1e57f00666006b32917f6d01ff745084
-        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/131eee1f6bc0d61cc2d9260514a5d5ccc51fc9a94d792a33dd4c2ffa88729712/40784651090/receipt.json
-        territorial_identity_sha256: 131eee1f6bc0d61cc2d9260514a5d5ccc51fc9a94d792a33dd4c2ffa88729712
-        compatibility_report_sha256: aef7258fe273fe8b64ad5d9ea56f5b58783bb3516ff09858c0201664fa4cf9a4
-        compatibility_identity_sha256: cdd03ef6b840883a62bf007ab6b06287ea194325a6d2ab14b2b8c228d83150ed
+        run_id: 40838146021
+        artifact_name: ddd-source-package-castilla_y_leon-2025-40838146021
+        artifact_sha256: f3320554a1cf521c33906c815b75e70a8ab505a4747efa68367b0f395b3421c5
+        package_sha256: bca65a6b3ad7926bc5ab9aab0bfaeadfbf517be07f7363d2aa065dfcc9d920aa
+        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/32d6a7a6f69cb06436aa390221da1fe9cf05fd09dc1e6b2d92ff81663c740d43/40838146021/receipt.json
+        territorial_identity_sha256: 32d6a7a6f69cb06436aa390221da1fe9cf05fd09dc1e6b2d92ff81663c740d43
+        compatibility_report_sha256: a23fc03624d3a4d379240b8113d3d7f10ced2ed514ff9380c964e7ac0f906b49
+        compatibility_identity_sha256: 022bac8f0ce4b3bb15d6637c52a79925e419b0319f2e4ebbe88eab9b87395436
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: e7b907ef3fbd14be521147fa44dff965ea20e6b2
+        source_commit: 56a05425004ca2539106f4d016a06a7096e48098
       independent_source_evidence:
         status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
         promoted: false
@@ -343,7 +342,7 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: b60ea3d02fc860a95b6029ed8fad89abe84e53555ef88036dd74299d047f66ce
         compatibility_identity_sha256: 63a2b0e0636cf45020df78733c33ba73414805258f4a16fc88f8aff6731f3646
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: cataluna
   name: Cataluña
   editions:
