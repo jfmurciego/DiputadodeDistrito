@@ -1,12 +1,26 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.26
+Versión: 1.0.27
 Fecha: 2026-10-29
-Alcance: README de estado detallado por territorio
+Alcance: acreditación topológica de Cataluña ante re-descargas y reparación de población insular
 Estado: candidato
-Cambios/motivo: el README marcaba completo a Aragón con un M08 de otro linaje y no decía dónde ni por qué se paró cada territorio
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.25_20261029.md
+Cambios/motivo: Cataluña se paraba en M02 por la huella del paquete; Canarias y Baleares, en la certificación por población
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.26_20261029.md
 -->
+
+## 2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares
+
+- Cataluña (40773400155): `M02 acreditación topológica obsoleta: stale topology accreditation;
+  source binding changed: package_sha256, compatibility_identity_sha256`. La re-descarga INE de la
+  misma edición y año de secciones trajo otra huella. `ddd_core/topology_preflight.py` 1.2.0 conserva
+  la acreditación (`binding=SECTION_YEAR_REBOUND`) si sólo cambian huella de paquete e identidad de
+  compatibilidad; M03 sigue verificando la pertenencia exacta de cada componente declarada (Tremp,
+  Llívia). Otra edición o año de secciones sigue siendo obsoleta. Tests: `test_topology_preflight`
+  (18), `test_m03_administrative_components` y `test_pre_m04_evidence_pipeline` (re-descarga
+  reasigna; año distinto bloquea).
+- Canarias (40832065646) y Baleares (40832091398) ya pasan M04 tras #319 y la certificación los
+  bloquea como al grupo A: sus contratos activan `population_repair.strategy: private_annealing`
+  (seed 0, 5.000.000 candidatos, 120 s). Sin aristas entre islas, la reparación no cruza componentes.
 
 ## 2026-10-29 — Estado operativo — README detallado
 

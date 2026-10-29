@@ -1320,7 +1320,9 @@ class AccreditedMunicipalDiscontinuityGateTests(unittest.TestCase):
         cfg["validation"]["topology_accreditation"] = {
             "schema": "ddd.topology-accreditation.v1",
             "source_binding": {
-                "edition": "2025", "section_year": 2025,
+                # Obsoleta = otro año de secciones; otra huella del mismo año se reasigna
+                # (topology_preflight 1.2.0, SECTION_YEAR_REBOUND).
+                "edition": "2025", "section_year": 2023 if stale else 2025,
                 "package_sha256": ("0" * 64) if stale else SHA_B,
                 "compatibility_identity_sha256": SHA_C,
             },
