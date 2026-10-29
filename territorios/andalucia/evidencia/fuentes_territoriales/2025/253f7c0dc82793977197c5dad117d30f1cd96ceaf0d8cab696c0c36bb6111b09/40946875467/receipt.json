@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "andalucia",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "run_id": 40946875467,
+  "artifact_name": "ddd-source-package-andalucia-2025-40946875467",
+  "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+  "package_sha256": "2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37",
+  "source_commit": "091d40cef648abcc9319af1f6dc3488a5abdc556",
+  "source_declaration": "territorios/andalucia/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "c0550f29f74c7ed1b4bd8894fcbfbdc0b0283964898f527454bc00ca8544a6f4",
+  "compatibility_identity_sha256": "4d75bcab25a4bba27656fcf6184e510ab61718c222e213befa04fd8ec96cbc02"
+}
