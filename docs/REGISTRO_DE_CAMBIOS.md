@@ -2,19 +2,23 @@
 Nombre: Registro de cambios DDD
 Versión: 1.0.32
 Fecha: 2026-10-29
-Alcance: F10 admite re-descargas INE del mismo año
+Alcance: Aragón incorpora los resultados 2026 de RTVE con reconciliación M07
 Estado: candidato
-Cambios/motivo: cada "desde el principio" dejaba la adquisición territorial F10 en BLOCKED por otra huella
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.31_20261029.md
+Cambios/motivo: decisión del propietario; el crosswalk 2025→2026 bloqueaba la fuente electoral de Aragón
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.31_20261029b.md
 -->
 
-## 2026-10-29 — F10 — re-descargas del mismo año
+## 2026-10-29 — Fuentes — Aragón con RTVE y reconciliación M07
 
-`herramientas/estado_derivado_f10.py` 1.1.4: un receipt territorial posterior al de la matriz de
-seguimiento hereda el cierre F10 si conserva los años de población y seccionado, aunque cambien la
-huella del paquete, la identidad territorial o la de compatibilidad (re-descarga INE desde el
-principio). Otro año sigue exigiendo una auditoría nueva y un receipt anterior sigue bloqueando.
-Proyección viva: adquisición territorial CLOSED 19/19. `test_f10_derived_doors.py` 1.1.6.
+La fuente electoral de Aragón (RTVE, resultados 2026 por sección, paquete 36136639133) estaba lista
+para reutilizar, pero `electoral_2026_crosswalk_status: BLOCKED_PENDING_OFFICIAL_EVIDENCE` la dejaba
+en BLOCKED. Decisión del propietario (29-10-2026): se usa RTVE y las secciones 2026 sin
+correspondencia con el mapa 2025 cuentan como pérdida atribuible a DDD en M07, acotada por su margen.
+
+- `preparacion_legislatura_vigente.yaml` 1.0.2: Aragón pasa a `ACCEPTED_M07_RECONCILIATION` con
+  `crosswalk_decided_at` y `crosswalk_rationale`. Andalucía y Castilla y León siguen bloqueadas.
+- `resolver_preparacion_legislatura.py`: admite ese estado sólo con decisión fechada y razonada.
+- `test_preparacion_legislatura_vigente.py`: Aragón admisible; el resto sigue bloqueado.
 
 ## 2026-10-29 — Población — exenciones estructurales y Cataluña
 
