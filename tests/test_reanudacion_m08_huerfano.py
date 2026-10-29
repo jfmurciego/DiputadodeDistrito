@@ -1,7 +1,7 @@
-"""Version: 1.0.4; name: orphan M08 recovery tests; date: 2026-10-29.
+"""Version: 1.0.5; name: orphan M08 recovery tests; date: 2026-10-29.
 Scope: fail-closed recovery and exact durable M06/M08 lineage.
-Status: candidate. Change/reason: the Ceuta regression accepts a newer certified M06 (reuse) or, without one, requires a rebuild; it no longer pins the absence of a product.
-Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.3.py.
+Status: candidate. Change/reason: NO_RECOVERY (M08_ABSENT) with a successful 04 yields a COMPLETE manifest.
+Previous: legacy/tests/test_reanudacion_m08_huerfano_v1.0.4.py.
 """
 from __future__ import annotations
 
@@ -913,7 +913,8 @@ class FullRunRecoveryContractTests(unittest.TestCase):
         self.assertIn("needs.puerta_04.result == 'success'", publish_if)
         self.assertNotIn("NO_RECOVERY", publish_if)
 
-    def _manifest(self, *, catalog_ok: bool, receipt_ok: bool) -> dict:
+    def _manifest(self, *, catalog_ok: bool, receipt_ok: bool, overrides: dict | None = None,
+                  drop: tuple[str, ...] = ()) -> dict:
         with tempfile.TemporaryDirectory() as td:
             out = Path(td) / "manifest.json"
             args = [
@@ -955,6 +956,11 @@ class FullRunRecoveryContractTests(unittest.TestCase):
                 "--electoral-recovery-catalog-accredited", str(catalog_ok).lower(),
                 "--output", str(out),
             ]
+            for flag, value in (overrides or {}).items():
+                args[args.index(flag) + 1] = value
+            for flag in drop:
+                index = args.index(flag)
+                del args[index:index + 2]
             completed = subprocess.run(
                 args,
                 cwd=ROOT,
@@ -981,6 +987,24 @@ class FullRunRecoveryContractTests(unittest.TestCase):
         self.assertEqual(manifest["status"], "FAILED")
         self.assertEqual(manifest["completion_status"], "INCOMPLETE")
         self.assertIn("Reanudación de producto electoral durable", manifest["failed_phases"])
+
+    def test_no_recovery_with_successful_04_is_complete(self):
+        # Murcia 40957577850 / Extremadura 40965231300: M08_ABSENT y la 04 terminó bien.
+        manifest = self._manifest(
+            catalog_ok=True, receipt_ok=True,
+            overrides={
+                "--electoral-recovery-status": "NO_RECOVERY",
+                "--electoral-recovery-result": "skipped",
+                "--incorporate-result": "success",
+                "--incorporate-executed": "true",
+            },
+            drop=("--electoral-recovery-source-run-id", "--electoral-recovery-artifact",
+                  "--electoral-recovery-digest", "--electoral-recovery-source-commit",
+                  "--electoral-recovery-origin-manifest", "--electoral-recovery-registration-status"),
+        )
+        self.assertNotIn("Reanudación de producto electoral durable", manifest["failed_phases"])
+        self.assertEqual(manifest["status"], "SUCCESS")
+        self.assertEqual(manifest["completion_status"], "COMPLETE")
 
 
 if __name__ == "__main__":

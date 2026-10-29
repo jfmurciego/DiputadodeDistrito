@@ -2,7 +2,7 @@
 Nombre: Registro de cambios DDD
 Versión: 1.0.47
 Fecha: 2026-10-29
-Alcance: final del log de M04/M05 al fallar la 02
+Alcance: final del log de M04/M05 al fallar la 02 y reanudación NO_RECOVERY en el manifiesto 00
 Estado: candidato
 Cambios/motivo: Andalucía (40965846902) falla en M05 sin informe ni distritos fuera de límites
 Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.46_20261029.md
@@ -26,6 +26,10 @@ Andalucía (40965846902), con su exención por municipio, no tiene distritos fue
 informe M05: el fallo de M05 sólo queda en el log. `_reutilizable-generacion-territorial.yml` 1.2.3
 guarda la salida de la etapa en `.ddd-logs/<etapa>.log` (con `pipefail`, sin cambiar el código de salida)
 y, si M04 o M05 fallan, publica sus 40 últimas líneas como `DIAG_<etapa>`.
+
+Además, `escribir_manifest_ejecucion_completa.py`: una reanudación `NO_RECOVERY` (M08_ABSENT, sin M08
+huérfano que recuperar) ya no cuenta como fase fallida. Murcia (40957577850) y Extremadura
+(40965231300) terminaron la 04 y registraron su M08, pero su manifiesto quedó `INCOMPLETE`.
 
 ## 2026-10-29 — 04 — ruta de VALIDACION.json en el diagnóstico
 

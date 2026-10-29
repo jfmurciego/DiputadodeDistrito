@@ -1,3 +1,9 @@
+"""Escribe el manifiesto único de la ejecución completa (00).
+
+CAMBIOS 2026-10-29: la reanudación con estado NO_RECOVERY no cuenta como fase fallida; antes Murcia
+  (40957577850) y Extremadura (40965231300) quedaban INCOMPLETE con la 04 terminada.
+ANTERIOR: legacy/herramientas/escribir_manifest_ejecucion_completa_pre_no_recovery_20261029.py
+"""
 from __future__ import annotations
 
 import argparse
@@ -232,7 +238,8 @@ def main() -> None:
     scope_mismatch = ns.publication_mode_requested != ns.publication_mode_effective
 
     recovery_status = str(ns.electoral_recovery_status or "NONE")
-    recovery_active = recovery_status not in {"", "NONE"}
+    # NO_RECOVERY (p. ej. M08_ABSENT): no había M08 huérfano que reanudar; la 04 sigue su curso normal.
+    recovery_active = recovery_status not in {"", "NONE", "NO_RECOVERY"}
     recovery_receipt_ok = b(ns.electoral_recovery_receipt_accredited)
     recovery_catalog_ok = b(ns.electoral_recovery_catalog_accredited)
     recovery_ok = (
