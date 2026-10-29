@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T09:09:17.038396+00:00",
+  "generated_at": "2026-10-29T09:42:20.085286+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 4,
       "unavailable": 0,
-      "activated": 7,
-      "activable": 8,
+      "activated": 8,
+      "activable": 7,
       "territorial_pending": 0,
       "electoral_pending": 4,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 15,
-      "durable_pair": 7
+      "durable_pair": 8
     },
     "territories": [
       {
@@ -491,8 +491,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40773400155,
-            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/3aa356ecd88d3035eb0354638c61a01121d3e433d3bccec593ceb80b0caea8e8/40773400155/receipt.json"
+            "run_id": 40847205333,
+            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5/40847205333/receipt.json"
           }
         },
         "electoral": {
@@ -816,12 +816,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc.json",
-            "pair_sha256": "a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json",
+            "pair_sha256": "4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1496,7 +1496,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La construcción de adyacencias falló durante la evaluación de generación.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1505,9 +1505,9 @@
         "territorial_source": {
           "territory_id": "cataluna",
           "edition": "2025",
-          "run_id": 40773400155,
-          "artifact_name": "ddd-source-package-cataluna-2025-40773400155",
-          "artifact_sha256": "70621c4f78567838200124126eaaa23c0fd3de02b43c2c171d59491773cd1000",
+          "run_id": 40847205333,
+          "artifact_name": "ddd-source-package-cataluna-2025-40847205333",
+          "artifact_sha256": "ee7d6fd51c8c32cb330b3369bcb1b3943a3624e6abd6f5eea9aa0c8a9cbe5b13",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1738,7 +1738,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40773421805,
+        "run_id": 40850405847,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1783,20 +1783,20 @@
       "name": "Comunidad Foral de Navarra",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40838170635,
+      "run_id": 40847881909,
       "last_run": {
-        "run_id": 40784711945,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 40838170635,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1813,20 +1813,31 @@
           "territory_id": "comunidad_foral_de_navarra",
           "territory_name": "Comunidad Foral de Navarra",
           "edition": "2025",
-          "run_id": 40838170635,
-          "artifact_name": "ddd-state-40838170635-M06",
-          "artifact_sha256": "cbf59616a2636688846dcd87c69d43279d86f4f4ab689a1fad3ea127042bb6b5",
-          "source_commit": "f5899e94bb3d4f51d11db028edc32feed78e64ed",
+          "run_id": 40847881909,
+          "artifact_name": "ddd-state-40847881909-M06",
+          "artifact_sha256": "4d74b3bbfbc80911e5fba9dc4c66a5f91ed5f04f2e3c1c33e7ca2c83e6ca1511",
+          "source_commit": "865441a7b2bae30a9fd0c823f5211820f7182be5",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/comunidad_foral_de_navarra/evidencia/generaciones_m06/40838170635.json"
+          "producer_manifest_path": "territorios/comunidad_foral_de_navarra/evidencia/generaciones_m06/40847881909.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "comunidad_foral_de_navarra",
+          "territory_name": "Comunidad Foral de Navarra",
+          "edition": "2025",
+          "run_id": 40847881909,
+          "artifact_name": "ddd-state-40847881909-M08",
+          "artifact_sha256": "d7f5e4d28234d593d3a67923b7a0d664ffb2fef01ae4bca7e206c5a9282186c7",
+          "source_commit": "865441a7b2bae30a9fd0c823f5211820f7182be5",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "15",
       "display_name": "15 Comunidad Foral de Navarra",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "pais_vasco",
@@ -2040,13 +2051,14 @@
     }
   ],
   "kpis": {
-    "complete": 7,
+    "complete": 8,
     "complete_names": [
       "03 Principado de Asturias",
       "06 Cantabria",
       "08 Castilla-La Mancha",
       "12 Galicia",
       "13 Comunidad de Madrid",
+      "15 Comunidad Foral de Navarra",
       "18 Ceuta",
       "19 Melilla"
     ],
@@ -2095,13 +2107,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "melilla",
-    "name": "Melilla",
-    "display_name": "19 Melilla",
-    "autonomous_community_code_ine": "19",
-    "run_id": 40840795932,
+    "territory_id": "comunidad_foral_de_navarra",
+    "name": "Comunidad Foral de Navarra",
+    "display_name": "15 Comunidad Foral de Navarra",
+    "autonomous_community_code_ine": "15",
+    "run_id": 40847881909,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
