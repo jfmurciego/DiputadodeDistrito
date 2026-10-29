@@ -413,7 +413,7 @@ territories:
         section_year: 2023
         source_commit: 682c70d53d3c0ec2e7c389bc3c2e559be371827c
       evidence:
-        electoral_source: territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/81b385e7be11975f01870a1dbc41ab6c947774a0c6f611a5c3940e289523959e/36875387632/receipt.json
+        electoral_source: territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/d57a97ef4e9ce51736a9fb0239591fe4cb1bce023d3fecba0b2f48734af757a4/40956462986/receipt.json
         territorial_product: territorios/comunidad_valenciana/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/comunidad_valenciana/evidencia/pares_fuentes/2025/684995d04f217975d154861a23094a240fa144c1a89946f92913b92c013ef5b6.json
         generation_preflight: territorios/comunidad_valenciana/evidencia/catalogo/generation_preflight_2025.json
