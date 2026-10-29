@@ -1,12 +1,22 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.27
+Versión: 1.0.28
 Fecha: 2026-10-29
-Alcance: acreditación topológica de Cataluña ante re-descargas y reparación de población insular
+Alcance: objetivo ±12 % de Castilla y León y La Rioja; tiempo de reparación de Andalucía y País Vasco
 Estado: candidato
-Cambios/motivo: Cataluña se paraba en M02 por la huella del paquete; Canarias y Baleares, en la certificación por población
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.26_20261029.md
+Cambios/motivo: diagnóstico de los logs M05/M06 del grupo A (40838120876, 40838146021, 40838196490, 40838222105)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.27_20261029.md
 -->
+
+## 2026-10-29 — Población — Castilla y León, La Rioja, Andalucía y País Vasco
+
+- Castilla y León (M05 `hard=0 fuera_12=2`, validación oficial `VALIDAR_EJECUCION_FAIL`) y La Rioja
+  (M06 PASS 33/33, certificación `POPULATION_TARGET_NOT_MET`) eran los dos únicos contratos con
+  `require_zero_outside_tolerance_after_m05: true`. Decisión del propietario (29-10-2026): se retira
+  y quedan con la regla de los otros 17 territorios (suelo y techo duros).
+- Andalucía (M05 `hard=4`) y País Vasco (`hard=2`) agotaron la reparación `private_annealing` sin
+  partición válida (`NO_FEASIBLE_REPAIR_FOUND`, 300 s y 120 s). Su `max_seconds` sube a 1800 s; si
+  persiste, se examinará si la causa es estructural (unidades indivisibles, como Menorca).
 
 ## 2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares
 
