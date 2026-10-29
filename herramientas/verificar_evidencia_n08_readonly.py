@@ -1,4 +1,4 @@
-"""Versión 1.1.1; 2026-10-28; reproducción aislada y read-only de evidencias N08.
+"""Versión 1.1.2; 2026-10-29; reproducción aislada y read-only de evidencias N08.
 
 Nombre: verificador read-only de la evidencia nacional y Cáceres.
 Alcance: verificar 74/74 y 26/26, y reproducir la matriz de cierre sin escribir
@@ -9,8 +9,9 @@ Cambios/motivo: ejecuta el verificador histórico en un root temporal aislado,
                 snapshot M02 archivado que el manifiesto histórico acredita.
                 1.1.1: monta también el motor M04 v7.6.4 archivado, que acredita el
                 expediente de Cáceres, porque el rescate M04 del 26-10 cambia el activo.
+                1.1.2: monta también el M06 v7.2.2 archivado (la exención de suelo por municipio cambia el activo).
 Origen: nuevo; no sustituye ni modifica el verificador histórico.
-Anterior: legacy/herramientas/verificar_evidencia_n08_readonly_v1.1.0_20261028.py
+Anterior: legacy/herramientas/verificar_evidencia_n08_readonly_v1.1.1_20261029.py
 """
 from __future__ import annotations
 
@@ -108,8 +109,12 @@ def verify(root: Path | str) -> dict[str, Any]:
         historical_m02 = root / "legacy/modulo02/02_construir_adyacencias_v7.3.2.py"
         if not historical_m02.is_file():
             raise EvidenceMismatch("MISSING_HISTORICAL_M02_SNAPSHOT")
+        historical_m06 = root / "legacy/modulo06/06_consolidar_distritos_v7.2.2.py"
+        if not historical_m06.is_file():
+            raise EvidenceMismatch("MISSING_HISTORICAL_M06_SNAPSHOT")
+        historical_modules = {"02_construir_adyacencias.py": historical_m02, "06_consolidar_distritos.py": historical_m06}
         for item in source_modules.iterdir():
-            target = historical_m02 if item.name == "02_construir_adyacencias.py" else item
+            target = historical_modules.get(item.name, item)
             (temp_modules / item.name).symlink_to(target, target_is_directory=target.is_dir())
 
         temp_output = temp_root / HISTORICAL_REL.parent
