@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "melilla",
+  "territory_name": "Melilla",
+  "edition": "2025",
+  "run_id": 40832114779,
+  "artifact_name": "ddd-state-40832114779-M06",
+  "artifact_sha256": "39de58bef99803b8326446b98e2b671cb2fdcbcfecaadc20aff35258274a83b2",
+  "source_commit": "17a3ddecdaad3985bb7ea6da41f658a343034e25",
+  "decision": "PASS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/40832114779.json"
+}
