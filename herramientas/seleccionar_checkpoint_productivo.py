@@ -5,6 +5,15 @@
 No adquiere ni descarga fuentes oficiales. Valida paquetes ``sources/`` ya
 recuperados de checkpoints mediante la misma puerta común de reanudación y
 permite seleccionar el candidato más reciente que resulte REUSE.
+
+CAMBIOS 2026-10-29: un checkpoint M04 o posterior sólo se reutiliza si su informe M04 se generó
+con la misma K y el mismo umbral de atomicidad municipal que el contrato vigente. Antes bastaba con
+que coincidieran las fuentes y Andalucía, País Vasco y Cataluña reanudaron M05 con semillas de 1,75
+tras pasar a 1,25.
+Con --consume-certified-product (la 04 consumiendo un M06 ya certificado) no se exige la huella
+del motor M05: sirve para reanudar optimización, no para consumir un producto cerrado; se siguen
+exigiendo fuentes, configuración M04 y certificación poblacional.
+ANTERIOR: legacy/herramientas/seleccionar_checkpoint_productivo_pre_huella_m04_20261029.py
 """
 from __future__ import annotations
 
@@ -39,6 +48,30 @@ def _validate_m05_compatibility(*, params: Path, state_root: Path, root_dir: Pat
             f"{stored.get('fingerprint') or 'MISSING'} != {current.get('fingerprint')}"
         )
     return {"stored":stored,"current":current}
+
+
+def _validate_m04_configuration(*, params: Path, state_root: Path) -> dict:
+    """El M04 reutilizado debe proceder de la misma K y umbral de atomicidad que el contrato vigente."""
+    cfg = load_params_yaml(str(params))
+    m04 = ((cfg.get("modulos") or {}).get("modulo_04_generar_semillas") or {})
+    reports = sorted(state_root.rglob("*m04_informe*.json"))
+    if not reports:
+        # Checkpoints sin informe M04 (sintéticos o anteriores al informe) no son verificables aquí.
+        return {"status": "UNVERIFIED_NO_M04_REPORT"}
+    report = json.loads(reports[0].read_text(encoding="utf-8"))
+    checks = {
+        "k_districts": (m04.get("k_districts"), report.get("K")),
+        "municipality_atomicity_limit_ratio": (
+            m04.get("municipality_atomicity_limit_ratio"),
+            report.get("municipality_atomicity_limit_ratio"),
+        ),
+    }
+    for key, (expected, stored) in checks.items():
+        if expected is None:
+            continue
+        if stored is None or abs(float(stored) - float(expected)) > 1e-9:
+            raise ValueError(f"checkpoint M04 generado con otra configuración: {key} {stored} != {expected}")
+    return {"status": "MATCH", "report": str(reports[0].relative_to(state_root)), "checked": sorted(checks)}
 
 
 def _validate_population_certification(*, params: Path, state_root: Path, run_id: str) -> dict:
@@ -93,7 +126,8 @@ def _validate_population_certification(*, params: Path, state_root: Path, run_id
 
 
 def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
-                       root_dir: Path = Path("."), state_root: Path | None = None) -> dict:
+                       root_dir: Path = Path("."), state_root: Path | None = None,
+                       consume_certified: bool = False) -> dict:
     try:
         evidence = validate_resume_sources(
             params=params,
@@ -105,7 +139,19 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
         derivation=None
         compatibility_error=None
         derivation_cause=None
-        if _stage_num(stage) >= 5:
+        m04_configuration=None
+        if _stage_num(stage) >= 4 and state_root is not None:
+            m04_configuration=_validate_m04_configuration(params=params,state_root=state_root)
+        if consume_certified and _stage_num(stage) >= 6:
+            if state_root is None:
+                raise ValueError("producto M06 exige estado completo para validar su certificación")
+            population_evidence=_validate_population_certification(
+                params=params,
+                state_root=state_root,
+                run_id=str(run_id),
+            )
+            compatibility={"status":"NOT_REQUIRED_FOR_CERTIFIED_PRODUCT"}
+        elif _stage_num(stage) >= 5:
             if state_root is None:
                 raise ValueError("checkpoint M05/M06 exige estado completo para validar compatibilidad")
             try:
@@ -143,6 +189,8 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
         "effective_stage": str(stage),
         "from_stage": f"M{_stage_num(stage)+1:02d}",
     }
+    if m04_configuration is not None:
+        result["m04_configuration"]=m04_configuration
     if compatibility is not None:
         result["m05_compatibility"]=compatibility
         result["population_evidence"]=population_evidence
@@ -192,6 +240,7 @@ def main() -> int:
     ap.add_argument("--stage", required=True)
     ap.add_argument("--root-dir", default=".", type=Path)
     ap.add_argument("--state-root", type=Path)
+    ap.add_argument("--consume-certified-product", action="store_true")
     args = ap.parse_args()
     result = evaluate_candidate(
         params=args.params,
@@ -200,6 +249,7 @@ def main() -> int:
         stage=args.stage,
         root_dir=args.root_dir,
         state_root=args.state_root,
+        consume_certified=args.consume_certified_product,
     )
     print(json.dumps(result, ensure_ascii=False))
     return 0 if result["valid"] else 2

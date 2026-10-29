@@ -1,7 +1,7 @@
-"""Version: 1.0.1; name: pre-M04 evidence pipeline tests; date: 2026-10-26.
+"""Version: 1.0.2; name: pre-M04 evidence pipeline tests; date: 2026-10-29.
 Scope: reaccredit only sources whose current evidence fails the topology gate.
-Status: candidate. Change/reason: distinguish refreshed valid preflights from stale M02 evidence.
-Previous: legacy/tests/test_pre_m04_evidence_pipeline_v1.0.0_20261012.py.
+Status: candidate. Change/reason: the real-territory case runs on the frozen root aee8215e.
+Previous: legacy/tests/test_pre_m04_evidence_pipeline_v1.0.1_20261029.py.
 """
 from __future__ import annotations
 
@@ -1088,6 +1088,9 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 )
 
     def test_current_m02_preflight_avoids_redundant_pre_m04_reaccreditation(self):
+        # Caso histórico congelado en aee8215e: los archipiélagos generaron después su M06.
+        from tests._raiz_congelada import frozen_root
+        ROOT = frozen_root()
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
 
         reuse = build_plan(

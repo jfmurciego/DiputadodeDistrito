@@ -1,5 +1,5 @@
-"""Version 1.0.3, 2026-10-29: per-territory municipal atomicity limit (Andalucía, País Vasco, Cataluña 1.25).
-Previous bytes: legacy/tests/test_materializacion_contratos_nacionales_v1.0.2_20261029.py.
+"""Version 1.0.4, 2026-10-29: archipelago pre-M04 cases evaluated on the frozen root (they now have M06).
+Previous bytes: legacy/tests/test_materializacion_contratos_nacionales_v1.0.3_20261029.py.
 """
 from __future__ import annotations
 
@@ -843,6 +843,9 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 td.cleanup()
 
     def test_archipelagos_plan_physical_input_then_require_durable_pre_m04_evidence(self):
+        # Caso histórico congelado en aee8215e: los archipiélagos generaron después su M06.
+        from tests._raiz_congelada import frozen_root
+        ROOT = frozen_root()
         catalog = yaml.safe_load(
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )
@@ -908,6 +911,9 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
 
     def test_historical_archipelago_preflight_does_not_bypass_new_source_identity(self):
+        # Caso histórico congelado en aee8215e: los archipiélagos generaron después su M06.
+        from tests._raiz_congelada import frozen_root
+        ROOT = frozen_root()
         catalog = yaml.safe_load(
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )

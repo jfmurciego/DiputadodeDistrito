@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.41
+Versión: 1.0.42
 Fecha: 2026-10-29
-Alcance: detector de M08 huérfano con receipts declarados en el catálogo
+Alcance: checkpoints M04 con configuración vigente y consumo de M06 certificado en la 04
 Estado: candidato
-Cambios/motivo: Castilla y León y Extremadura fallan en «Detectar M08 electoral materializado sin registro»
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.40_20261029.md
+Cambios/motivo: Andalucía/PV/Cataluña reanudaron M05 con semillas de 1,75; CyL/Extremadura no localizan su M06
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.41_20261029.md
 -->
 
 
@@ -13,6 +13,27 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.40_20261029.md
 
 
 
+
+
+## 2026-10-29 — 02/04 — checkpoints M04 y consumo de M06 certificado
+
+- Andalucía (40946875467), País Vasco y Cataluña reanudaron M05 desde un checkpoint M04 de un run
+  anterior generado con atomicidad 1,75: la selección sólo comparaba fuentes. Los diagnósticos
+  salieron idénticos a los previos a #342.
+- Castilla y León (40954321463) y Extremadura (40954334572) fallan en la 04 con «No existe un producto
+  territorial certificado y reutilizable»: #343 cambió `modulos/05_optimizar_distritos.py`, que forma
+  parte de la huella M05, y todos los M06 anteriores dejaron de ser «reutilizables».
+
+Cambios:
+
+- `seleccionar_checkpoint_productivo.py`: un checkpoint M04 o posterior exige que su informe M04 tenga
+  la misma K y el mismo umbral de atomicidad que el contrato vigente (sin informe: no verificable, no
+  bloquea). Nuevo `--consume-certified-product`: un M06 certificado no exige la huella del motor M05
+  (sí fuentes, configuración M04 y certificación poblacional).
+- `incorporacion-resultados-electorales.yml` 2.0.2: la 04 localiza el M06 con ese modo.
+- `tests/test_checkpoint_m04_configuracion.py` (nuevo).
+- `test_materializacion_contratos_nacionales` 1.0.4 y `test_pre_m04_evidence_pipeline` 1.0.2: los casos
+  históricos de archipiélagos pasan a la raíz congelada (Baleares y Canarias ya tienen M06 en main).
 
 ## 2026-10-29 — 00 — detector de M08 huérfano con receipts del catálogo
 
