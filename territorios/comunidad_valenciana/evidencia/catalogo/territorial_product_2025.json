@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "comunidad_valenciana",
+  "territory_name": "Comunidad Valenciana",
+  "edition": "2025",
+  "run_id": 40896263473,
+  "artifact_name": "ddd-state-40896263473-M06",
+  "artifact_sha256": "8908c37c69ec72484e65b1bf7d121491f593f79c4af1edec21ea82d9ae9fbda7",
+  "source_commit": "cca9d958f7cdb9a7dba603ab85b1d35287654756",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/40896263473.json"
+}
