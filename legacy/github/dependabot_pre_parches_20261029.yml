@@ -1,0 +1,12 @@
+# Mantiene actualizados los SHA fijados de las acciones y las dependencias pip.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly}
+    groups:
+      acciones: {patterns: ["*"]}
+  - package-ecosystem: pip
+    directory: /
+    schedule: {interval: weekly}
+    open-pull-requests-limit: 5

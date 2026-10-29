@@ -1,4 +1,9 @@
 # Mantiene actualizados los SHA fijados de las acciones y las dependencias pip.
+# VERSIÓN: 1.1.0 · FECHA: 2026-10-29
+# CAMBIOS: sólo propone parches (semver-patch); se ignoran las versiones menores y mayores.
+# MOTIVO: la #293 (checkout 4→7, upload-artifact 4→7, setup-python 5→7 en 34 workflows) llegó con
+#   la CI en rojo y sin gobernanza; esos saltos se harán en PR propia validada con una ejecución completa.
+# ANTERIOR: legacy/github/dependabot_pre_parches_20261029.yml
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -6,7 +11,13 @@ updates:
     schedule: {interval: weekly}
     groups:
       acciones: {patterns: ["*"]}
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
   - package-ecosystem: pip
     directory: /
     schedule: {interval: weekly}
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
