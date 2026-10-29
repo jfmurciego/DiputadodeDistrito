@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T21:10:35.426553+00:00",
+  "generated_at": "2026-10-29T21:32:23.427974+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 17,
-      "activable": 2,
+      "activated": 19,
+      "activable": 0,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 19,
-      "durable_pair": 17
+      "durable_pair": 19
     },
     "territories": [
       {
@@ -231,12 +231,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/897b94cd0a4ef1c9360d69512109255c18929f5b26e159e95151fef8616da89d.json",
-            "pair_sha256": "897b94cd0a4ef1c9360d69512109255c18929f5b26e159e95151fef8616da89d",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/14766c46e536bfcfb9a6461047f5d4cea0b20d4cdb479fc8493870381fbd1a1c.json",
+            "pair_sha256": "14766c46e536bfcfb9a6461047f5d4cea0b20d4cdb479fc8493870381fbd1a1c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -741,12 +741,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/region_de_murcia/evidencia/pares_fuentes/2025/8c901249352bb34e983f0be96bcde70acdcb4f55e84ce308be73c53d044d8df5.json",
-            "pair_sha256": "8c901249352bb34e983f0be96bcde70acdcb4f55e84ce308be73c53d044d8df5",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/region_de_murcia/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json",
+            "pair_sha256": "317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1036,7 +1036,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40946875467,
+        "run_id": 40952332904,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1478,11 +1478,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40952013601,
       "last_run": {
-        "run_id": 40946901555,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 40952013601,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1589,7 +1589,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691774876,
       "last_run": {
-        "run_id": 40954334572,
+        "run_id": 40957543745,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "04 · Incorporación de Resultados Electorales",
@@ -1794,7 +1794,18 @@
           "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/40945284725.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "region_de_murcia",
+          "territory_name": "Región de Murcia",
+          "edition": "2025",
+          "run_id": 40957577850,
+          "artifact_name": "ddd-state-40957577850-M08",
+          "artifact_sha256": "dcd9ff153ac52f188edcaa1ab1be953d4811ff184d82bb99fb93ac7d395d329d",
+          "source_commit": "91279b5d50304d55266ccbe31c1d316887b1371c",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "14",
       "display_name": "14 Región de Murcia",
