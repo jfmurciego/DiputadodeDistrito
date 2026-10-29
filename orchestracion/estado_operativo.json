@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T00:00:37.606968+00:00",
+  "generated_at": "2026-10-29T07:25:42.527028+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1512,11 +1512,11 @@
       "ft": "green",
       "g": "green",
       "fe": "yellow",
-      "re": "yellow",
+      "re": "green",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40706722115,
-      "stage": "M06",
+      "run_id": 40832139215,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1533,13 +1533,13 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 40706722115,
-          "artifact_name": "ddd-state-40706722115-M06",
-          "artifact_sha256": "b3367203b50821ce3d8f6a14171ca65407239fffce303c153652d01490a4f78e",
-          "source_commit": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
+          "run_id": 40832139215,
+          "artifact_name": "ddd-state-40832139215-M06",
+          "artifact_sha256": "8c5baf6f9a04b6a5a223d4d75405ab524b78adf77d7ea9b81b7dcafa253e6971",
+          "source_commit": "14b4d01c67fc3660ef275e6f76da0e06c8894d90",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40706722115.json"
+          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40832139215.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1548,10 +1548,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 36403519566,
-          "artifact_name": "ddd-state-36403519566-M08",
-          "artifact_sha256": "c0fd18457e228aaf1d63f4e832f1601a02ae30e31512e90971b6812562b5c513",
-          "source_commit": "61763602fc0cdbd0bea4f6b615c4e1dd422bc9af",
+          "run_id": 40832139215,
+          "artifact_name": "ddd-state-40832139215-M08",
+          "artifact_sha256": "0989bb657aa9479f2b77b1e9fd883f146a76e17eda265df02f7ab26e0fea3ef8",
+          "source_commit": "14b4d01c67fc3660ef275e6f76da0e06c8894d90",
           "stage": "M08"
         }
       },
@@ -1926,15 +1926,15 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "12 Galicia",
-      "territory_id": "galicia",
-      "autonomous_community_code_ine": "12",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "14 Región de Murcia",
       "territory_id": "region_de_murcia",
       "autonomous_community_code_ine": "14",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "15 Comunidad Foral de Navarra",
+      "territory_id": "comunidad_foral_de_navarra",
+      "autonomous_community_code_ine": "15",
       "action": "completar puerta de validación territorial"
     }
   ],

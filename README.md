@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-29T00:00:37.606968+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-29T07:25:42.527028+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -39,7 +39,7 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 | **09 Cataluña** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
 | **10 Comunidad Valenciana** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
 | **11 Extremadura** | 🟢 | 🟢 | 🟡 | ⚪ | Generación territorial validada |
-| **12 Galicia** | 🟢 | 🟢 | 🟡 | 🟡 | Generación territorial validada |
+| **12 Galicia** | 🟢 | 🟢 | 🟡 | 🟢 | Generación territorial validada |
 | **13 Comunidad de Madrid** | 🟢 | 🟢 | 🟡 | 🟢 | Generación territorial validada |
 | **14 Región de Murcia** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
 | **15 Comunidad Foral de Navarra** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
