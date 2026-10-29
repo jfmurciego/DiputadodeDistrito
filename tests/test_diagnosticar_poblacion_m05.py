@@ -41,7 +41,9 @@ class DiagnosticoPoblacionTests(unittest.TestCase):
             params.write_text(yaml.safe_dump(cfg), encoding="utf-8")
             report = diagnose(params)
             self.assertEqual("M05", report["stage"])
-            self.assertEqual([("2", "BELOW_FLOOR")], [(r["district"], r["violation"]) for r in report["violations"]])
+            found = {r["district"]: r["violation"] for r in report["violations"]}
+            # objetivo 101,25: suelo 81, techo 177,2; el distrito 4 (5 hab.) está en partición exenta.
+            self.assertEqual({"1": "ABOVE_CAP", "2": "BELOW_FLOOR", "3": "ABOVE_CAP"}, found)
 
 
 if __name__ == "__main__":

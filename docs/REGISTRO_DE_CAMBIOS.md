@@ -1,12 +1,24 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.34
+Versión: 1.0.35
 Fecha: 2026-10-29
-Alcance: Extremadura usa sus resultados provisionales por sección con excepción del propietario
+Alcance: diagnóstico de distritos fuera de límites al fallar M04/M05
 Estado: candidato
-Cambios/motivo: la Junta sólo publica en abierto resultados municipales; el definitivo es provincial
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.33_20261029.md
+Cambios/motivo: cinco territorios fallan en M05 y el log sólo dice cuántos distritos incumplen, no cuáles
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.34_20261029.md
 -->
+
+## 2026-10-29 — 02 — diagnóstico de población al fallar M04/M05
+
+Andalucía, País Vasco, Canarias, Baleares y Cataluña terminan M05 en `NO_FEASIBLE_REPAIR_FOUND` y,
+al fallar, no se sube ningún artefacto M05: no había forma de saber qué distritos incumplen.
+
+- `herramientas/diagnosticar_poblacion_m05.py` (nueva): localiza la última salida M05 (o M04) en la
+  caché, calcula población, ratio, partición y municipios de cada distrito fuera de suelo o techo
+  (respetando las particiones exentas) y emite `::warning::DIAG_DISTRITO {...}` por distrito.
+- `_reutilizable-generacion-territorial.yml` 1.2.2: si M04 o M05 fallan, ejecuta el diagnóstico en la
+  imagen de producción (sin ocultar el fallo) y sube `ddd-diag-poblacion-<run>-<etapa>`.
+- `tests/test_diagnosticar_poblacion_m05.py` (nuevo).
 
 ## 2026-10-29 — Fuentes — Extremadura con provisionales por sección
 
