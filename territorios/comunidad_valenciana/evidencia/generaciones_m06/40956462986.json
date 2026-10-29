@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12937728156,
+      "artifact_name": "ddd-audit-40956462986",
+      "artifact_sha256": "eaeb4e5e03763a79fbc90527cc86e782ea9eb8f3d5b4e2c8488366d82a0ad71c",
+      "run_id": 40956462986,
+      "size_in_bytes": 26604
+    },
+    "m04": {
+      "artifact_id": 12937198608,
+      "artifact_name": "ddd-state-40956462986-M04",
+      "artifact_sha256": "6c6518d1f36212b2ee7387737eb5d859163452e1903b21f1d1cb7d7b1ba3db26",
+      "run_id": 40956462986,
+      "size_in_bytes": 90530193
+    },
+    "m05": {
+      "artifact_id": 12937438103,
+      "artifact_name": "ddd-state-40956462986-M05",
+      "artifact_sha256": "2e179b666f205305a3aafdd57c52a1fd9994d0bd499b42a60cde3ea1c00da92c",
+      "run_id": 40956462986,
+      "size_in_bytes": 93580366
+    },
+    "m06": {
+      "artifact_id": 12938327196,
+      "artifact_name": "ddd-state-40956462986-M06",
+      "artifact_sha256": "216291f454b7bf157872319855674101fc1008f19de5edd9b8333be7de91fc1c",
+      "run_id": 40956462986,
+      "size_in_bytes": 97835762
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "d45dee0b782eb39a53bc82393d4d69cf3a5934d2f5f6fcfce0c84e9008d5dc15",
+        "size_in_bytes": 503
+      },
+      "comunidad_valenciana_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "1cd285d28816baff1802004f83570e9720f46406dc33070379e136800cbd364a",
+        "size_in_bytes": 250748
+      },
+      "optimization_execution.json": {
+        "sha256": "4c57ff5dcdf9b79f79dc737401b615eab60d70520965caf657a572b96483fc0a",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "f2613628f93ebfe91d35121cf5bae92834d95433d6454b57f761aa68612b5182",
+        "size_in_bytes": 1351
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "f2613628f93ebfe91d35121cf5bae92834d95433d6454b57f761aa68612b5182",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml",
+    "sha256": "07f4ced463f2ce7ab9abf2f38a08e124433384b87f0607cf711316b0c63301eb"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9ec6dd0f475fcbd453b93259de458752f527fe1ca6d2bf033cf755ed9d26ebcc",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "2f48386321ea250edf4de53f3ead0fff0188fdaa",
+    "edition": "2025",
+    "territory_id": "comunidad_valenciana",
+    "territory_name": "Comunidad Valenciana",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40956462986,
+    "workflow_sha": "682c70d53d3c0ec2e7c389bc3c2e559be371827c"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12937198608,
+      "artifact_name": "ddd-state-40956462986-M04",
+      "artifact_sha256": "6c6518d1f36212b2ee7387737eb5d859163452e1903b21f1d1cb7d7b1ba3db26",
+      "run_id": 40956462986,
+      "size_in_bytes": 90530193
+    },
+    "source_manifest_sha256": "07203c2ce63597230d43ae7a38fe281e1ab2d0a60ffe937bce6029982e5b1a4b",
+    "source_package_artifact": {
+      "artifact_id": 12936526235,
+      "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
+      "artifact_sha256": "1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
+      "run_id": 40956462986,
+      "size_in_bytes": 84350164
+    }
+  },
+  "manifest_sha256": "1c58d6ca364750a24aef60fd7a05aeaf7ce5f3475ebc2ddd6e22e4f4f964223b",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

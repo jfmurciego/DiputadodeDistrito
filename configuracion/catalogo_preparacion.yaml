@@ -397,7 +397,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40896263473
+        run_id: 40956462986
         stage: M06
       preparation_evidence:
         run_id: 40956462986
