@@ -772,7 +772,7 @@ territories:
         section_year: 2023
         source_commit: 14b4d01c67fc3660ef275e6f76da0e06c8894d90
       evidence:
-        electoral_source: territorios/melilla/evidencia/fuentes_electorales/2025/5c3fceaf4341f2bfa52ed5639a927f71d28979601554dc4529c6b814c7d13c22/37009226866/receipt.json
+        electoral_source: territorios/melilla/evidencia/fuentes_electorales/2025/8ac3f49c633f1be8ba441bf1290dc79c1a4b30b2bac0033f9c2699e73c1fd019/40832114779/receipt.json
         prepared_source_pair: territorios/melilla/evidencia/pares_fuentes/2025/de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4.json
         generation_preflight: territorios/melilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/melilla/evidencia/catalogo/territorial_product_2025.json
