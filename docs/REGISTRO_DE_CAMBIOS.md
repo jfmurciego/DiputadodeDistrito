@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.46
+Versión: 1.0.47
 Fecha: 2026-10-29
-Alcance: ruta de VALIDACION.json en el diagnóstico de la 04
+Alcance: final del log de M04/M05 al fallar la 02
 Estado: candidato
-Cambios/motivo: CyL (40964570303) falló en M08 sin DIAG_VALIDACION: el informe vive en ejecuciones/<RUN_ID>/
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.45_20261029.md
+Cambios/motivo: Andalucía (40965846902) falla en M05 sin informe ni distritos fuera de límites
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.46_20261029.md
 -->
 
 
@@ -18,6 +18,14 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.45_20261029.md
 
 
 
+
+
+## 2026-10-29 — 02 — final del log de M04/M05 al fallar
+
+Andalucía (40965846902), con su exención por municipio, no tiene distritos fuera de límites en M04 ni
+informe M05: el fallo de M05 sólo queda en el log. `_reutilizable-generacion-territorial.yml` 1.2.3
+guarda la salida de la etapa en `.ddd-logs/<etapa>.log` (con `pipefail`, sin cambiar el código de salida)
+y, si M04 o M05 fallan, publica sus 40 últimas líneas como `DIAG_<etapa>`.
 
 ## 2026-10-29 — 04 — ruta de VALIDACION.json en el diagnóstico
 
