@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T16:25:55.211560+00:00",
+  "generated_at": "2026-10-29T20:26:10.985458+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -218,8 +218,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40868876197,
-            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40868876197/receipt.json"
+            "run_id": 40946850006,
+            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40946850006/receipt.json"
           }
         },
         "electoral": {
@@ -269,8 +269,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40847144583,
-            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/40847144583/receipt.json"
+            "run_id": 40946861866,
+            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/40946861866/receipt.json"
           }
         },
         "electoral": {
@@ -473,8 +473,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40868906120,
-            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40868906120/receipt.json"
+            "run_id": 40946901555,
+            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40946901555/receipt.json"
           }
         },
         "electoral": {
@@ -830,8 +830,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40850291263,
-            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40850291263/receipt.json"
+            "run_id": 40946888676,
+            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/ffe54c547f3775cbfcffe997d4a4480267edec446c74f6c6eb56ea66a7eac288/40946888676/receipt.json"
           }
         },
         "electoral": {
@@ -1040,7 +1040,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1049,9 +1049,9 @@
         "territorial_source": {
           "territory_id": "andalucia",
           "edition": "2025",
-          "run_id": 40850228710,
-          "artifact_name": "ddd-source-package-andalucia-2025-40850228710",
-          "artifact_sha256": "222ad7ecfbf22656e4cf68e8c5aba67b7409f38bc851556321fc5da84162be66",
+          "run_id": 40946875467,
+          "artifact_name": "ddd-source-package-andalucia-2025-40946875467",
+          "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1199,7 +1199,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1208,9 +1208,9 @@
         "territorial_source": {
           "territory_id": "illes_balears",
           "edition": "2025",
-          "run_id": 40868876197,
-          "artifact_name": "ddd-source-package-illes_balears-2025-40868876197",
-          "artifact_sha256": "c9ce487d7452d577ecf546c0c16532c601ff6e8b57d774376a9d28b8d7a39317",
+          "run_id": 40946850006,
+          "artifact_name": "ddd-source-package-illes_balears-2025-40946850006",
+          "artifact_sha256": "3f73fd53f8a6bc06f0b559e237959bf6f078589d7510f48eaee2d1fc347e1a03",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1250,7 +1250,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1259,9 +1259,9 @@
         "territorial_source": {
           "territory_id": "canarias",
           "edition": "2025",
-          "run_id": 40847144583,
-          "artifact_name": "ddd-source-package-canarias-2025-40847144583",
-          "artifact_sha256": "e628e0dbc0f6a0e6ce7be08fb45f459de1db54583b2f7a8f8af58b0a835e717a",
+          "run_id": 40946861866,
+          "artifact_name": "ddd-source-package-canarias-2025-40946861866",
+          "artifact_sha256": "0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1344,7 +1344,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40868935788,
       "last_run": {
-        "run_id": 40895514741,
+        "run_id": 40946826228,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "04 · Incorporación de Resultados Electorales",
@@ -1459,7 +1459,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1468,9 +1468,9 @@
         "territorial_source": {
           "territory_id": "cataluna",
           "edition": "2025",
-          "run_id": 40868906120,
-          "artifact_name": "ddd-source-package-cataluna-2025-40868906120",
-          "artifact_sha256": "e3f43123bba8a8ca9eadb3dfd5fa7a33d3e59cde3bb43c4b47035b2d7dae77d2",
+          "run_id": 40946901555,
+          "artifact_name": "ddd-source-package-cataluna-2025-40946901555",
+          "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1542,7 +1542,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691774876,
       "last_run": {
-        "run_id": 40895537017,
+        "run_id": 40946838414,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "04 · Incorporación de Resultados Electorales",
@@ -1707,12 +1707,12 @@
       "territory_id": "region_de_murcia",
       "name": "Región de Murcia",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "green",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Listo para incorporar resultados electorales",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 40945284725,
       "last_run": {
         "run_id": 40875300066,
         "status": "FAILED",
@@ -1721,7 +1721,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1732,7 +1732,20 @@
           "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "region_de_murcia",
+          "territory_name": "Región de Murcia",
+          "edition": "2025",
+          "run_id": 40945284725,
+          "artifact_name": "ddd-state-40945284725-M06",
+          "artifact_sha256": "f3169dd583c1d7033ff17717bfd6329151d10677c32e590eabbf8fd4c49b5eb1",
+          "source_commit": "e1e61517e07485de592bd76d08327dd788671dce",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/40945284725.json"
+        },
         "electoral_source": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_source",
@@ -1752,7 +1765,7 @@
       },
       "autonomous_community_code_ine": "14",
       "display_name": "14 Región de Murcia",
-      "next_step": "generar y validar distritos"
+      "next_step": "incorporar resultados electorales"
     },
     {
       "territory_id": "comunidad_foral_de_navarra",
@@ -1830,7 +1843,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1839,9 +1852,9 @@
         "territorial_source": {
           "territory_id": "pais_vasco",
           "edition": "2025",
-          "run_id": 40850291263,
-          "artifact_name": "ddd-source-package-pais_vasco-2025-40850291263",
-          "artifact_sha256": "0a26889fd72d38554bee8f32386218dd039c64ee82bcaa78a0f8233a6e7f2f09",
+          "run_id": 40946888676,
+          "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
+          "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -2049,7 +2062,7 @@
       "18 Ceuta",
       "19 Melilla"
     ],
-    "territorial_validated": 13,
+    "territorial_validated": 14,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -2060,12 +2073,13 @@
       "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
+      "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla"
     ],
-    "validated": 13,
+    "validated": 14,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -2076,18 +2090,18 @@
       "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
+      "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla"
     ],
-    "ready": 6,
+    "ready": 5,
     "ready_names": [
       "01 Andalucía",
       "04 Islas Baleares",
       "05 Canarias",
       "09 Cataluña",
-      "14 Región de Murcia",
       "16 País Vasco"
     ],
     "pending": 0,
