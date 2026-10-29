@@ -630,7 +630,7 @@ territories:
         source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
       evidence:
         electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
-        prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json
+        prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/17eb947b3aa1af5f9703a54b05a41ec6d8e7b4feeec5ace3dcc830ebd8f3b5a1.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true
 - territory_id: la_rioja
