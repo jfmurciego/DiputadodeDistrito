@@ -343,7 +343,7 @@ territories:
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         compatibility_report_sha256: b60ea3d02fc860a95b6029ed8fad89abe84e53555ef88036dd74299d047f66ce
         compatibility_identity_sha256: 63a2b0e0636cf45020df78733c33ba73414805258f4a16fc88f8aff6731f3646
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: cataluna
   name: Cataluña
   editions:
