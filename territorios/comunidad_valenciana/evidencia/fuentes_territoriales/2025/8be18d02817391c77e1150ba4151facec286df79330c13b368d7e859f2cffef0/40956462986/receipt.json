@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "comunidad_valenciana",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 40956462986,
+  "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
+  "artifact_sha256": "1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
+  "package_sha256": "b8b20dfe69371a0e995b2f0d7c1b09224cd8477a0c1fa6d1d9b65e2d257f33b5",
+  "source_commit": "682c70d53d3c0ec2e7c389bc3c2e559be371827c",
+  "source_declaration": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0/40956462986/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "8be18d02817391c77e1150ba4151facec286df79330c13b368d7e859f2cffef0",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "0658627c2a629f69453bd52e3b96c8d672ae2a2af0158c24c57626efe7c8687d",
+  "compatibility_identity_sha256": "60c5f99db5fdae560fe9211eef42cecea019d92268278d94a23ce1dcd5ace948"
+}
