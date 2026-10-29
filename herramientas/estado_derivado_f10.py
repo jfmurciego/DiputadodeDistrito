@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-# Versión: 1.1.3; nombre: Puertas derivadas F10; fecha: 2026-10-28.
+# Versión: 1.1.4; nombre: Puertas derivadas F10; fecha: 2026-10-29.
 # Alcance: validar fichas READ_ONLY y evidencias de actividades F10.
-# Estado: candidato. Cambios/motivo: aceptar el re-registro posterior del mismo paquete
-# territorial (mismos bytes y compatibilidad) que hace cada reutilización de 00.
-# Anterior: legacy/herramientas/estado_derivado_f10_v1.1.2_20261028.py.
+# Estado: candidato. Cambios/motivo: un receipt territorial posterior hereda el cierre F10 si
+# conserva los años de población y seccionado; la re-descarga INE del mismo año desde el principio
+# trae otra huella de paquete y dejaba la adquisición en BLOCKED sin cambiar de fuente.
+# Anterior: legacy/herramientas/estado_derivado_f10_v1.1.3_20261029.py.
 """Read-only F10 door projection from current receipts and canonical consumers.
 
 The closure dossier is cross-checked as a tracking record; it never grants PASS.
@@ -120,9 +121,10 @@ def check_territorial_evidence(receipt: dict[str, Any], *, territory_id: str,
             raise ValueError("matriz de seguimiento contradice receipt_sha256")
         keys = ("run_id", "artifact_sha256", *package_keys)
     else:
-        # Cada reutilización vuelve a registrar el mismo paquete con su run y artefacto
-        # propios. Solo es el expediente acreditado si es posterior y los bytes de la
-        # fuente coinciden; un paquete distinto exige una nueva auditoría F10.
+        # Cada reutilización o re-descarga registra el paquete con su run y artefacto propios.
+        # Un receipt posterior hereda el cierre F10 si conserva la edición y los años de
+        # población y seccionado: la re-descarga INE del mismo año puede traer otra huella
+        # (paquete, identidad, compatibilidad) sin cambiar de fuente. Otro año exige auditoría.
         if not all(dossier_row.get(key) not in (None, "") for key in package_keys):
             raise ValueError("matriz de seguimiento contradice receipt_path")
         try:
@@ -131,7 +133,7 @@ def check_territorial_evidence(receipt: dict[str, Any], *, territory_id: str,
             newer = False
         if not newer:
             raise ValueError("matriz de seguimiento contradice receipt_path")
-        keys = package_keys
+        keys = ("population_year", "section_year")
     for key in keys:
         expected = dossier_row.get(key)
         if expected not in (None, "") and str(receipt.get(key)) != str(expected):
