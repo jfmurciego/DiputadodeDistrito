@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "aragon",
+  "territory_name": "Aragón",
+  "edition": "2025",
+  "election": {
+    "election_id": "aragon_cortes_2026-02-08",
+    "election_date": "2026-02-08"
+  },
+  "references": {
+    "population": {
+      "required_year": 2026,
+      "year": 2025,
+      "reference_date": "2025-01-01"
+    },
+    "sectioning": {
+      "required_year": 2026,
+      "year": 2025,
+      "reference_label": "Secciones_2025"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 40691712762,
+    "artifact_name": "ddd-source-package-aragon-2025-40691712762",
+    "artifact_sha256": "47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a",
+    "package_sha256": "2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34",
+    "source_commit": "8940b848734cc05516ead27b48378493aa9aeddb",
+    "source_declaration": "territorios/aragon/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json",
+    "population_year": 2025,
+    "section_year": 2025,
+    "territorial_identity_sha256": "2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "caadb892c3cf6c306c81a2d23838ce8f1bb50db95682a61dc0877e776de8a5ad",
+    "compatibility_identity_sha256": "4f80abeb0e1fb1f24de0deb7c654e27a7115e8123b404181cac3e59ea290152f",
+    "remote_verification": {
+      "run_id": 40691712762,
+      "artifact_id": 12820400310,
+      "artifact_name": "ddd-source-package-aragon-2025-40691712762",
+      "artifact_sha256": "47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 40896686254,
+    "artifact_name": "ddd-electoral-package-aragon-2025-40896686254",
+    "artifact_sha256": "1f8de814f571e9becbf5f359be1530bffa0492155c72344bd0ea49e8a5c19870",
+    "source_commit": "cca9d958f7cdb9a7dba603ab85b1d35287654756",
+    "receipt_path": "territorios/aragon/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json",
+    "provenance_reference": "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+    "election_id": "aragon_cortes_2026-02-08",
+    "election_date": "2026-02-08",
+    "electoral_identity_sha256": "9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af",
+    "remote_verification": {
+      "run_id": 40896686254,
+      "artifact_id": 12907926206,
+      "artifact_name": "ddd-electoral-package-aragon-2025-40896686254",
+      "artifact_sha256": "1f8de814f571e9becbf5f359be1530bffa0492155c72344bd0ea49e8a5c19870",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f",
+  "electoral_compatibility_key": "9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/aragon/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47"
+}

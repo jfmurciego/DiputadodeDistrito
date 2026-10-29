@@ -69,6 +69,7 @@ territories:
         electoral_source: territorios/aragon/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json
         electoral_product: territorios/aragon/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/aragon/evidencia/catalogo/generation_preflight_2025.json
+        prepared_source_pair: territorios/aragon/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
