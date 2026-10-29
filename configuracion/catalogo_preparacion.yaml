@@ -362,23 +362,22 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40847205333
-        artifact_name: ddd-source-package-cataluna-2025-40847205333
-        artifact_sha256: ee7d6fd51c8c32cb330b3369bcb1b3943a3624e6abd6f5eea9aa0c8a9cbe5b13
-        package_sha256: c376434f1414e104d60aae7d1a4dc5ae3ec068d52315712dccae7780fdd364bd
-        receipt_path: territorios/cataluna/evidencia/fuentes_territoriales/2025/bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5/40847205333/receipt.json
-        territorial_identity_sha256: bd7647bce4b0cec00ce55428f99bca874687e35982029eb0f7379bec72c9d7f5
-        compatibility_report_sha256: 99a0c2baf24c7cdb136b088c8925d14755cba8045108365f75f164a828b5557f
-        compatibility_identity_sha256: e688fb3b06ceae5eeb0f7c3835c7f58aeb1276240b9c2db7147319d46a9f53fa
+        run_id: 40868906120
+        artifact_name: ddd-source-package-cataluna-2025-40868906120
+        artifact_sha256: e3f43123bba8a8ca9eadb3dfd5fa7a33d3e59cde3bb43c4b47035b2d7dae77d2
+        package_sha256: 045cbc8f075163bc60451b5a49fffe86563baf9d2a48be8aa89c0480cd61abce
+        receipt_path: territorios/cataluna/evidencia/fuentes_territoriales/2025/3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25/40868906120/receipt.json
+        territorial_identity_sha256: 3aba26246288658b1f6e266d5644a62fc6b10051862ee2d340e22c43b0604d25
+        compatibility_report_sha256: 1804eff2352db7be2f1ff38ad1f90e27cae5478ee48bc77ee85a81211a931bf3
+        compatibility_identity_sha256: ea4fe2f8b2f6920df63d6701617ed28b9f1f0bbca1621190d3c9459c6910cdcf
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2024
         section_year: 2024
-        source_commit: 140d82f5980803531146fe0143cae22f64adb8e7
+        source_commit: 18d7c9798db3ea79035d338558d486520349ccae
       evidence:
         electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
         prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/9457fa2c3379e273f5238f8de79885e62b120e591fbbb1f85a53bcb3d3641597.json
-        generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
   editions:
