@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2023
   source_section_year: 2023
 io:
@@ -77,7 +77,7 @@ territory_contract:
   - R022 congeló 343 secciones y 326803 habitantes sin faltantes.
   - R023 justificó 0 pasarelas; no se añade ninguna excepción topológica.
   - Se aplica el perfil general R036 0.80/1.75/0.12 sin excepción.
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -198,9 +198,9 @@ validation:
     section_year: 2023
     population_total: 322282
     target_section_count: 343
-    package_sha256: de9c6c0b7a95d8c65f710041ecff4f25e58927d7715f90997c63ec0341840ae2
-    compatibility_report_sha256: af9e5e928e6a74eb58d5dbabc260c0c9343291c50c30cd8ce84310ecc3bca83f
-    compatibility_identity_sha256: 8c7eb95153390bb915a2a60171a69253659bc4d21d7a7ec24b9b0f0fb6229172
+    package_sha256: 18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888
+    compatibility_report_sha256: 3194a6768260a83b2784458a2dd9309afd6bcb57aaf1e5b00556d33c15cc83ba
+    compatibility_identity_sha256: 3aeba2c82a6868ba8c88075b08fdc1e862da7545dde6296d7216c3aa173d16ed
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -274,9 +274,9 @@ resolved_source_contract:
   contract_sha256: f9d7a6ab80df988d1c7b8fc397945a27cf133004c572c7e37262249cd89315ff
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: de9c6c0b7a95d8c65f710041ecff4f25e58927d7715f90997c63ec0341840ae2
-  compatibility_identity_sha256: 8c7eb95153390bb915a2a60171a69253659bc4d21d7a7ec24b9b0f0fb6229172
+  generation_enabled: false
+  package_sha256: 18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888
+  compatibility_identity_sha256: 3aeba2c82a6868ba8c88075b08fdc1e862da7545dde6296d7216c3aa173d16ed
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 738be8a3867af70f4e73f6de326654f54b85abbf16d1eb6292b2ee5e0c950891
@@ -326,6 +326,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40838222105
-  pre_m04_source_commit: 89ae62dd0c24d1eab6fc508b996b8f1f790cfa0e
-  pre_m04_artifact_sha256: 2d00fcd0f6d3a324048515c8d5ce428b55475e0bd436205bb0d771d495ed0a13

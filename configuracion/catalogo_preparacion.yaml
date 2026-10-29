@@ -687,23 +687,22 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 40838222105
-        artifact_name: ddd-source-package-la_rioja-2025-40838222105
-        artifact_sha256: 3b842c9a96de9e05c7767944ff5fcfc629219f8c685f30c690c552b9dd40b94d
-        package_sha256: de9c6c0b7a95d8c65f710041ecff4f25e58927d7715f90997c63ec0341840ae2
-        receipt_path: territorios/la_rioja/evidencia/fuentes_territoriales/2025/9ee79e5bcb8c63400da72c8537cf1edf90588a720e9affb6e906e5f892ebccee/40838222105/receipt.json
-        territorial_identity_sha256: 9ee79e5bcb8c63400da72c8537cf1edf90588a720e9affb6e906e5f892ebccee
-        compatibility_report_sha256: af9e5e928e6a74eb58d5dbabc260c0c9343291c50c30cd8ce84310ecc3bca83f
-        compatibility_identity_sha256: 8c7eb95153390bb915a2a60171a69253659bc4d21d7a7ec24b9b0f0fb6229172
+        run_id: 40850322464
+        artifact_name: ddd-source-package-la_rioja-2025-40850322464
+        artifact_sha256: c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca
+        package_sha256: 18d6198245386da78d425674a0fc2bbd379811c428507602eac96dbfbbb63888
+        receipt_path: territorios/la_rioja/evidencia/fuentes_territoriales/2025/fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853/40850322464/receipt.json
+        territorial_identity_sha256: fbf5b41576e3533105f0ec78a121cedc66d7b5339be786cdad73faf9ee502853
+        compatibility_report_sha256: 3194a6768260a83b2784458a2dd9309afd6bcb57aaf1e5b00556d33c15cc83ba
+        compatibility_identity_sha256: 3aeba2c82a6868ba8c88075b08fdc1e862da7545dde6296d7216c3aa173d16ed
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 56a05425004ca2539106f4d016a06a7096e48098
+        source_commit: 1d22781f17213fd39d15879c0a707e035c6b5cc1
       evidence:
         electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json
-        generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: ceuta
   name: Ceuta
   editions:
