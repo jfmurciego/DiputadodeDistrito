@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T22:32:16.045264+00:00",
+  "generated_at": "2026-10-29T22:33:02.947942+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1550,11 +1550,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40956462986,
       "last_run": {
-        "run_id": 40896263473,
+        "run_id": 40956462986,
         "status": "SUCCESS",
         "completion_status": "TERRITORIAL_COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Comunidad Valenciana edición 2025; complete la preparación conjunta antes de ejecutar",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
       "stage": "M06",
