@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.47
+Versión: 1.0.48
 Fecha: 2026-10-29
-Alcance: final del log de M04/M05 al fallar la 02
+Alcance: disciplina municipal en la reparación privada M05
 Estado: candidato
-Cambios/motivo: Andalucía (40965846902) falla en M05 sin informe ni distritos fuera de límites
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.46_20261029.md
+Cambios/motivo: Andalucía (40969274807) llega a hard=0 y la puerta oficial lo rechaza con VALIDAR_EJECUCION_FAIL
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.47_20261029.md
 -->
 
 
@@ -19,6 +19,18 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.46_20261029.md
 
 
 
+
+
+## 2026-10-29 — M05 — disciplina municipal en la reparación privada
+
+Andalucía (40969274807): M05 base deja hard=1; `private_annealing` llega a hard=0, pero la puerta
+oficial rechaza el candidato con `VALIDAR_EJECUCION_FAIL`. La reparación movía trozos de municipios
+partidos sin comprobar la regla R012 de `validar_ejecucion` (un municipio partido admite un solo
+distrito mixto), la misma que incumple Ávila en el M06 de Castilla y León.
+
+- `ddd_core/m05_private_annealing.py` 1.1.0: rechaza todo movimiento que aumente los municipios
+  partidos con más de un distrito mixto. No forma parte de la huella M05, así que no invalida M06.
+- `tests/test_m05_private_annealing.py` 1.1.0.
 
 ## 2026-10-29 — 02 — final del log de M04/M05 al fallar
 

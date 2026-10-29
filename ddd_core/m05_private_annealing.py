@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""M05 v1.0.0 — private annealing repair with atomic admission.
+"""M05 v1.1.0 — private annealing repair with atomic admission.
 
-Version: 1.0.0; name: private bounded annealing; date: 2026-10-11.
+Version: 1.1.0; name: private bounded annealing with municipal discipline; date: 2026-10-29.
+Changes 1.1.0: a move is rejected if it increases the split municipalities that have more than one
+mixed district (validar_ejecucion R012); Andalucía 40969274807 reached hard=0 and was then rejected
+by the official gate with VALIDAR_EJECUCION_FAIL. Predecessor:
+legacy/ddd_core/m05_private_annealing_v1.0.0_20261029.py.
+Version 1.0.0; name: private bounded annealing; date: 2026-10-11.
 Scope: opt-in autonomous M05 repair; status: experimental candidate.
 Changes: bounded seeded walk, private transient population violations, final
 constraint validation and immutable-origin fallback. Reason: support preparatory
@@ -16,6 +21,24 @@ import random
 import time
 
 from ddd_core.m05_population_repair import _district_pops, _verify_final_constraints
+
+
+def _unit_municipality(unit):
+    """Unidades M04 '{partición}:{municipio}:M|R|Un' → municipio; None si no sigue el formato."""
+    parts=str(unit).split(":")
+    return parts[1] if len(parts)>=3 else None
+
+
+def _mixed_discipline_violations(municipalities, state, owned, municipality_units):
+    """Municipios partidos con más de un distrito mixto (R012 de validar_ejecucion)."""
+    bad=0
+    for municipality in municipalities:
+        districts={state[u] for u in municipality_units.get(municipality,())}
+        if len(districts)<=1:
+            continue
+        mixed=sum(1 for d in districts if len({_unit_municipality(u) for u in owned[d]})>1)
+        bad+=mixed>1
+    return bad
 
 
 def repair_private(*, assignments, units, adjacency, target, tolerance, floor, cap,
@@ -59,6 +82,12 @@ def repair_private(*, assignments, units, adjacency, target, tolerance, floor, c
         return len(seen)==len(nodes)
 
     rng=random.Random(int(seed)); state=dict(original); owned={d:set(us) for d,us in groups.items()}; pops=dict(initial_pops)
+    municipality_units={}
+    for u in keys:
+        municipality=_unit_municipality(u)
+        if municipality: municipality_units.setdefault(municipality,set()).add(u)
+    def touched_municipalities(*districts_):
+        return {m for d in districts_ for m in (_unit_municipality(u) for u in owned[d]) if m}
     # These counters describe private search states only; they are never written
     # to the checkpoint or catalog. Record transient population violations so
     # reviewers can distinguish preparatory moves from feasible admissions.
@@ -75,6 +104,13 @@ def repair_private(*, assignments, units, adjacency, target, tolerance, floor, c
         if not receivers: rejects["NO_RECEIVER"]+=1; continue
         receiver=rng.choice(receivers)
         if not connected(owned[donor]-{unit}):rejects["DONOR_DISCONNECT"]+=1;continue
+        touched=touched_municipalities(donor,receiver)
+        discipline_before=_mixed_discipline_violations(touched,state,owned,municipality_units)
+        owned[donor].remove(unit);owned[receiver].add(unit);state[unit]=receiver
+        discipline_after=_mixed_discipline_violations(touched,state,owned,municipality_units)
+        owned[receiver].remove(unit);owned[donor].add(unit);state[unit]=donor
+        if discipline_after>discipline_before:
+            rejects["MUNICIPAL_DISCIPLINE"]+=1; continue
         expanded+=1; before_d= pops[donor]; before_r=pops[receiver]
         pops[donor]-=pop[unit];pops[receiver]+=pop[unit];state[unit]=receiver
         candidate=objective(pops,state); temp=12*(.97**(accepted/2000))+.5

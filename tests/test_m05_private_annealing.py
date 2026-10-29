@@ -1,3 +1,6 @@
+"""Versión 1.1.0; 2026-10-29; candidato. Reparación privada M05; añade la disciplina municipal (R012).
+Anterior: legacy/tests/test_m05_private_annealing_v1.0.0_20261029.py
+"""
 import unittest
 
 from ddd_core.m05_private_annealing import repair_private
@@ -68,3 +71,16 @@ class PrivateAnnealingTests(unittest.TestCase):
 
 
 if __name__=="__main__": unittest.main()
+
+
+class MunicipalDisciplineTests(unittest.TestCase):
+    def test_counts_split_municipality_with_two_mixed_districts(self):
+        from ddd_core.m05_private_annealing import _mixed_discipline_violations
+        # Municipio 05019 partido en A (con 05001) y B (con 05002): dos distritos mixtos → 1 infracción.
+        state={"05:05019:U1":"A","05:05019:U2":"B","05:05001:M":"A","05:05002:M":"B"}
+        owned={"A":{"05:05019:U1","05:05001:M"},"B":{"05:05019:U2","05:05002:M"}}
+        munis={"05019":{"05:05019:U1","05:05019:U2"},"05001":{"05:05001:M"},"05002":{"05:05002:M"}}
+        self.assertEqual(1,_mixed_discipline_violations({"05019","05001","05002"},state,owned,munis))
+        # Con B puro (sólo 05019), queda un único distrito mixto: válido.
+        state2={**state,"05:05002:M":"A"}; owned2={"A":{"05:05019:U1","05:05001:M","05:05002:M"},"B":{"05:05019:U2"}}
+        self.assertEqual(0,_mixed_discipline_violations({"05019","05001","05002"},state2,owned2,munis))
