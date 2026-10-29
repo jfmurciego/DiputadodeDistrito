@@ -73,8 +73,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40691712762
-        stage: M06
+        run_id: 40898231736
+        stage: M08
       preparation_evidence:
         run_id: 40691712762
         artifact_name: ddd-source-package-aragon-2025-40691712762
