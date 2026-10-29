@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.4.1
+VERSIÓN: 7.4.2
 NOMBRE DE VERSIÓN: Refinamiento canónico con baseline poblacional imperfecto
 FECHA: 2026-09-11
 FUNCIÓN: optimizar población sin cruzar provincias ni romper las unidades municipales/urbanas construidas por M04.
@@ -14,7 +14,8 @@ OBJETIVO CANÓNICO: primero eliminar violaciones duras; después minimizar distr
 ESTADO: candidato R016 — pendiente de ejecución territorial GitHub.
 CAMBIOS: continúa la búsqueda después de la primera solución con fuera_12=0; conserva como ámbito las provincias que eran problemáticas al inicio y registra primera factibilidad frente al óptimo final encontrado.
 MOTIVO: el código v7.3.x interrumpía el recocido al primer fuera_12=0 aunque el objetivo canónico todavía ordena minimizar máximo desvío y error cuadrático.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.3.1.py
+ANTERIOR: legacy/ddd_core/m05_opt_engine_v7.4.1_pre_exencion_municipal.py
+CAMBIO 7.4.2: suelo 0 para el distrito que contiene un municipio de population_floor_exempt_municipalities.
 """
 from __future__ import annotations
 
@@ -36,6 +37,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
+from ddd_core.population_floor_exemptions import exempt_municipalities, units_touch_exempt
 
 
 def load_geo(path):
@@ -169,8 +171,12 @@ def main():
                 uadj[u].add(v)
     uadj_list = {u: sorted(vs) for u, vs in uadj.items()}
 
+    exempt_muns = exempt_municipalities(cfg)
+
     def district_floor(d):
-        return 0.0 if str(d_prov.get(d, "")) in floor_exempt else floor
+        if str(d_prov.get(d, "")) in floor_exempt or units_touch_exempt(d_units.get(d, ()), exempt_muns):
+            return 0.0
+        return floor
 
     def obj(values):
         items = list(values.items())

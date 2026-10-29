@@ -135,6 +135,12 @@ modulos:
     out_geojson: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/region_de_murcia_2025_m04_semillas.geojson.zip
     out_report: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/region_de_murcia_2025_m04_informe.json
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      strategy: private_annealing
+      seed: 0
+      max_candidates: 5000000
+      max_seconds: 600.0
     in_graph_json: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/region_de_murcia_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
@@ -202,6 +208,10 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  # Decisión del propietario (29-10-2026): Beniel (11.462 hab.) solo linda dentro de la provincia con
+  # la ciudad de Murcia, cuyos núcleos son cerrados; su distrito queda exento del suelo.
+  population_floor_exempt_municipalities:
+  - '30010'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0

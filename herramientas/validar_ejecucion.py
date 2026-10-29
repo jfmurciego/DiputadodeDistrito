@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Validación de ejecución
-VERSIÓN: 1.3.1
+VERSIÓN: 1.3.2
 NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal — Gobernanza R015
 FECHA: 2026-09-11
 QUÉ HACE: valida cardinalidad, unicidad, población, contigüidad, integridad provincial y disciplina de división municipal.
 ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
 CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
 MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/herramientas/validar_ejecucion_v1.3.0.py
+ANTERIOR: legacy/herramientas/validar_ejecucion_v1.3.1.py
+CAMBIO 1.3.2: el suelo por distrito sale de la columna population_floor del resumen M06 cuando existe (exenciones por partición o municipio).
 """
 from __future__ import annotations
 import argparse,json,math,os,sys
@@ -97,7 +98,8 @@ def main():
 
     target,floor,cap,_=hard_limits(cfg,k=expected,total_pop=section_pop)
     pops=pd.to_numeric(summ[pop_col],errors='coerce') if pop_col else pd.Series(dtype=float)
-    below=summ.loc[pops<floor,['district_id',pop_col]].to_dict('records') if pop_col else []
+    district_floor=pd.to_numeric(summ['population_floor'],errors='coerce').fillna(floor) if 'population_floor' in summ.columns else floor
+    below=summ.loc[pops<district_floor,['district_id',pop_col]].to_dict('records') if pop_col else []
     above=summ.loc[pops>cap,['district_id',pop_col]].to_dict('records') if pop_col else []
     if below:fails.append(f'distritos bajo límite poblacional={len(below)}')
     if above:fails.append(f'distritos sobre límite poblacional={len(above)}')
