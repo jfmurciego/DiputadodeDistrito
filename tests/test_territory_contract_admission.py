@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Pruebas R036 v1.2.0: admisión y autorización sin ejecutar M01-M06.
+"""Pruebas R036 v1.3.0: admisión y autorización sin ejecutar M01-M06.
 
-ANTERIOR: legacy/tests/test_territory_contract_admission_v1.1.0.py
+CAMBIOS 1.3.0: el perfil declarativo admite también private_annealing (M05), el de Madrid,
+  que adoptan Andalucía, Castilla y León, Navarra, País Vasco y La Rioja.
+ANTERIOR: legacy/tests/test_territory_contract_admission_v1.2.0.py
 """
 from __future__ import annotations
 import copy
@@ -14,6 +16,7 @@ from ddd_core.territory_contract import validate_production_contract
 
 ROOT = Path(__file__).resolve().parents[1]
 REPAIR_KEYS = {"enabled", "max_depth", "max_transfer_set", "max_candidates", "max_seconds", "seed"}
+PRIVATE_REPAIR_KEYS = {"enabled", "strategy", "max_candidates", "max_seconds", "seed"}
 
 
 def population_repair_contract_errors(data):
@@ -25,15 +28,17 @@ def population_repair_contract_errors(data):
     errors = []
     if not isinstance(repair, dict):
         return ["population_repair debe ser objeto"]
-    unknown = set(repair) - REPAIR_KEYS
-    missing = REPAIR_KEYS - set(repair)
+    private = repair.get("strategy") == "private_annealing"
+    keys = PRIVATE_REPAIR_KEYS if private else REPAIR_KEYS
+    unknown = set(repair) - keys
+    missing = keys - set(repair)
     if unknown:
         errors.append(f"parámetros desconocidos: {sorted(unknown)}")
     if missing:
         errors.append(f"parámetros ausentes: {sorted(missing)}")
     if repair.get("enabled") is not True and repair.get("enabled") is not False:
         errors.append("enabled debe ser booleano")
-    for key in ("max_depth", "max_transfer_set", "max_candidates"):
+    for key in (("max_candidates",) if private else ("max_depth", "max_transfer_set", "max_candidates")):
         value = repair.get(key)
         if not isinstance(value, int) or isinstance(value, bool) or value < 1:
             errors.append(f"{key} debe ser entero >= 1")
@@ -44,7 +49,7 @@ def population_repair_contract_errors(data):
     if not isinstance(seed, int) or isinstance(seed, bool):
         errors.append("seed debe ser entero")
     if repair.get("enabled") is True:
-        for key in ("in_graph_json", "province_field", "unit_id_field"):
+        for key in (("in_graph_json", "province_field") if private else ("in_graph_json", "province_field", "unit_id_field")):
             if not m05.get(key):
                 errors.append(f"activación requiere {key}")
     return errors
@@ -167,11 +172,10 @@ class PopulationRepairDeclarativeContract(unittest.TestCase):
         m05 = self.data["modulos"]["modulo_05_optimizar_distritos"]
         self.assertEqual(m05["population_repair"], {
             "enabled": True,
-            "max_depth": 4,
-            "max_transfer_set": 2,
-            "max_candidates": 20000,
-            "max_seconds": 120,
+            "strategy": "private_annealing",
             "seed": 0,
+            "max_candidates": 5000000,
+            "max_seconds": 300.0,
         })
         self.assertEqual(m05["unit_id_field"], "ddd_unit_id")
         source = (ROOT / "modulos/05_optimizar_distritos.py").read_text(encoding="utf-8")
@@ -189,7 +193,13 @@ class PopulationRepairDeclarativeContract(unittest.TestCase):
             self.assertTrue(self.errors_after(mutate))
 
     def test_activacion_exige_grafo_provincia_y_unidad_indivisible(self):
+        # El perfil focal exige además unidad indivisible; private_annealing sólo grafo y provincia.
+        focal = {"enabled": True, "max_depth": 4, "max_transfer_set": 2,
+                 "max_candidates": 20000, "max_seconds": 120, "seed": 0}
         for key in ("in_graph_json", "province_field", "unit_id_field"):
+            self.assertTrue(self.errors_after(
+                lambda m, key=key: (m.__setitem__("population_repair", dict(focal)), m.pop(key))))
+        for key in ("in_graph_json", "province_field"):
             self.assertTrue(self.errors_after(lambda m, key=key: m.pop(key)))
 
     def test_desactivacion_explicita_prevalece_sobre_activacion_automatica(self):

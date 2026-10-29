@@ -1,12 +1,28 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.24
+Versión: 1.0.25
 Fecha: 2026-10-29
-Alcance: suelo de Melilla al 50 % y excepción de pérdida electoral del 2 % para Galicia
+Alcance: reparación privada de población en Andalucía, Castilla y León, Navarra, País Vasco y La Rioja
 Estado: candidato
-Cambios/motivo: decisiones del propietario tras los diagnósticos M04 de Melilla y M07 de Galicia
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.23_20261028.md
+Cambios/motivo: los cinco pasan M04–M06 y la certificación los bloquea por población, como a Madrid
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.24_20261029.md
 -->
+
+## 2026-10-29 — M05 — reparación privada de población en cinco territorios
+
+Los relanzamientos desde el principio del 28-10 (40784594752, 40784651090, 40784711945,
+40784741627, 40784770643) generan M04–M06 y la puerta de certificación termina en
+`Certificación territorial bloqueada: BLOCK`, la misma situación de Madrid antes de #313
+(`POPULATION_HARD_BLOCK` / `TARGET_NOT_MET` con el reparador focal). Madrid completó 01→04
+(40787900559) con `population_repair.strategy: private_annealing`.
+
+- Los contratos de Andalucía, Castilla y León, Navarra, País Vasco y La Rioja activan el mismo
+  `population_repair` (seed 0, 5.000.000 candidatos; 300 s en Andalucía y Castilla y León, 120 s
+  en el resto). Castilla y León sustituye su reparador focal. La candidata sigue sometida a la
+  validación oficial atómica de M05 y a la certificación M06.
+- `test_territory_contract_admission.py` 1.3.0: el validador declarativo admite el perfil
+  `private_annealing` (enabled, strategy, seed, max_candidates, max_seconds; requiere grafo y
+  provincia) además del focal, que sigue exigiendo unidad indivisible.
 
 ## 2026-10-29 — Melilla y Galicia — excepciones decididas por el propietario
 
