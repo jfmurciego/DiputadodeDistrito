@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T14:39:42.415407+00:00",
+  "generated_at": "2026-10-29T15:17:27.979512+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 9,
-      "activable": 10,
+      "activated": 12,
+      "activable": 7,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 19,
-      "durable_pair": 9
+      "durable_pair": 12
     },
     "territories": [
       {
@@ -129,12 +129,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/aragon/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json",
+            "pair_sha256": "b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -384,12 +384,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/d461e26d0da82715cffd145ec2ec14fc641eab164aab9bbb3d7d7168606c5ed7.json",
+            "pair_sha256": "d461e26d0da82715cffd145ec2ec14fc641eab164aab9bbb3d7d7168606c5ed7",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -588,12 +588,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/extremadura/evidencia/pares_fuentes/2025/ca6e9b0f31203c21d4305dacfc471b1cf185e16ba6313796c301485ea2914d57.json",
+            "pair_sha256": "ca6e9b0f31203c21d4305dacfc471b1cf185e16ba6313796c301485ea2914d57",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1036,7 +1036,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40850228710,
+        "run_id": 40891753503,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1067,9 +1067,9 @@
       "name": "Aragón",
       "ft": "green",
       "g": "green",
-      "fe": "green",
+      "fe": "yellow",
       "re": "yellow",
-      "status": "Listo para incorporar resultados electorales",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691712762,
       "last_run": {
@@ -1105,31 +1105,17 @@
           "stage": "M06",
           "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40691712762.json"
         },
-        "electoral_source": {
-          "schema": "ddd.catalog-evidence/1.0",
-          "kind": "electoral_source",
-          "territory_id": "aragon",
-          "territory_name": "Aragón",
-          "edition": "2025",
-          "run_id": 36136639133,
-          "artifact_name": "ddd-electoral-package-aragon-2025-36136639133",
-          "artifact_sha256": "46200575a77d4751a82a760f6f1215584e2386b7fd0eabfcc6f653dad9d2dcb2",
-          "source_commit": "8bbab11a4cadf66568fe6eed3118c01ea6628fd8",
-          "election_id": "aragon_cortes_2026-02-08",
-          "declaration": null,
-          "election_contract": "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
-          "election_contract_sha256": "2a9c7bfb9005311989f3e5634d62479a4d7b81a0cabad456e4887a85eeaa406a"
-        },
+        "electoral_source": null,
         "electoral_product": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_product",
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 35710908574,
-          "artifact_name": "ddd-state-35710908574-M08",
-          "artifact_sha256": "1f31bed4df68020542abaf3ed07e71fd83612745dc9ce77b2321fb72602c0ba5",
-          "source_commit": "7a9bcac22d4171e5ca298602935339f6d427d557",
+          "run_id": 40898231736,
+          "artifact_name": "ddd-state-40898231736-M08",
+          "artifact_sha256": "93ba5bd02532024b081ecc591628f9f39b2f1fb188f5dc361a1e1cb411022be8",
+          "source_commit": "04671bcece679678d4166d0ba8d2da411a90c09f",
           "stage": "M08"
         }
       },
@@ -1209,7 +1195,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40868876197,
+        "run_id": 40891796781,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1358,11 +1344,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40868935788,
       "last_run": {
-        "run_id": 40868935788,
-        "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "ELECTORAL_DURABLE_CANDIDATE",
+        "run_id": 40895514741,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1469,7 +1455,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40868906120,
+        "run_id": 40891810589,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1506,7 +1492,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40857312179,
+        "run_id": 40888918116,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1543,11 +1529,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691774876,
       "last_run": {
-        "run_id": 40691774876,
-        "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE",
+        "run_id": 40895537017,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -2166,7 +2152,7 @@
       "territory": "02 Aragón",
       "territory_id": "aragon",
       "autonomous_community_code_ine": "02",
-      "action": "incorporar resultados electorales"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "04 Islas Baleares",
