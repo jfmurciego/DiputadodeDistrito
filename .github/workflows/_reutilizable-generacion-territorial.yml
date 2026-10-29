@@ -1,15 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.2.2
-# NOMBRE DE VERSIÓN: Diagnóstico de población al fallar M04/M05
+# VERSIÓN: 1.2.3
+# NOMBRE DE VERSIÓN: Log de etapa al fallar M04/M05
 # FECHA: 2026-10-29
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
-# CAMBIOS: 1.2.2: si M04 o M05 fallan, herramientas/diagnosticar_poblacion_m05.py lista los distritos fuera
+# CAMBIOS: 1.2.3: la salida de la etapa se guarda en .ddd-logs y, si falla, sus 40 últimas líneas
+#   se publican como DIAG_<etapa> (Andalucía falla en M05 sin informe ni distritos fuera de límites).
+#   1.2.2: si M04 o M05 fallan, herramientas/diagnosticar_poblacion_m05.py lista los distritos fuera
 #   de suelo/techo como anotaciones ::warning:: y como artefacto ddd-diag-poblacion-*.
 # 1.2.1: "Verificar datos territoriales preparados" lee la declaración que el catálogo acredita (territorial_source_declaration) y solo recurre a config/fuentes_oficiales.yaml si el catálogo no fija ninguna.
 # MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40656129840.
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.1_20261029.yml
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.2_20261029.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -427,6 +429,7 @@ jobs:
       - name: Ejecutar módulo
         shell: bash
         run: >-
+          set -o pipefail; mkdir -p .ddd-logs;
           docker run --rm -v "$PWD:/app" -w /app
           -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID"
           -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE"
@@ -435,6 +438,15 @@ jobs:
           -e DDD_GERRYCHAIN_ENTRYPOINT="${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint }}"
           -e DDD_REQUIRE_UNIQUE_HASHES="${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes }}"
           --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
+          2>&1 | tee ".ddd-logs/$STAGE.log"
+      - name: Publicar final del log de la etapa
+        if: ${{ failure() && (env.STAGE == 'M04' || env.STAGE == 'M05') }}
+        shell: bash
+        run: |
+          log=".ddd-logs/$STAGE.log"
+          [[ -s "$log" ]] || exit 0
+          body="$(tail -n 40 "$log" | cut -c1-300 | sed -e 's/%/%25/g' -e 's/\r//g' | awk 'BEGIN{ORS=""} {print (NR>1?"%0A":"") $0}')"
+          echo "::error title=DIAG_${STAGE}::${body}"
       - name: Diagnosticar distritos fuera de límites de población
         if: ${{ failure() && (env.STAGE == 'M04' || env.STAGE == 'M05') }}
         shell: bash
