@@ -136,6 +136,8 @@ class CaceresN08PreflightTests(unittest.TestCase):
                 'legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py',
             'ddd_core/m04_seed_engine.py':
                 'legacy/ddd_core/m04_seed_engine_v7.6.4.py',
+            'modulos/06_consolidar_distritos.py':
+                'legacy/modulo06/06_consolidar_distritos_v7.2.2.py',
         }
         for rel, record in manifest['files'].items():
             data = (ROOT / original.get(rel, rel)).read_bytes()

@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.8.4
+VERSIÓN: 7.8.5
 NOMBRE DE VERSIÓN: Estados poblacionales finales y staging completo de M06
 FECHA: 2026-10-12
 ESTADO: candidato; reparación focal por defecto y estrategia privada experimental optativa con validación oficial obligatoria.
@@ -15,7 +15,8 @@ REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; una desactivación e
 automática solo ocurre ante violaciones duras sobre una partición estructuralmente válida.
 CAMBIOS: reconstruye estados poblacionales y reporte desde asignaciones finales; dirige todas las salidas M06 de la puerta privada a staging y limpia el informe operativo temporal del validador.
 MOTIVO: impedir atributos y diagnósticos obsoletos y proteger productos duraderos mientras se valida una candidata privada.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.3_2026-10-11.py
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.4_2026-10-29.py
+CAMBIO 7.8.5: un distrito que contiene un municipio de validation.population_floor_exempt_municipalities queda exento del suelo (Beniel, Murcia).
 """
 from __future__ import annotations
 import argparse, copy, importlib.util, io, json, os, shutil, subprocess, sys, tempfile, uuid, zipfile
@@ -30,6 +31,7 @@ from ddd_core.m05_swap_polish import polish as swap_polish, load_geo, write_geo
 from ddd_core.m05_population_repair import repair, SearchLimits, verify_partition_constraints
 from ddd_core.m05_private_annealing import repair_private
 from ddd_core.m05_atomic_output import run_staged_output
+from ddd_core.population_floor_exemptions import exempt_municipalities, municipalities_touch_exempt, units_touch_exempt
 
 BASE_ENGINE = ROOT / "ddd_core" / "m05_opt_engine_v741.py"
 WRAPPER_VERSION = "7.8.4"
@@ -210,11 +212,14 @@ def _refresh_final_population_products(cfg,s5,out_path,report_path):
     pop={str(node["id"]):int(node.get("pop",0)) for node in graph["nodes"]}
     target,floor,cap,tol=hard_limits(cfg,k=len(set(g[did])),total_pop=sum(pop.values()))
     floor_exempt={str(value).zfill(2) for value in ((cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [])}
-    provf=s5.get("province_field","CPRO"); districts={}
+    provf=s5.get("province_field","CPRO"); munf=s5.get("municipality_field","CUMUN"); districts={}
+    exempt_muns=exempt_municipalities(cfg)
     for district,frame in g.groupby(did):
         provinces={str(value).zfill(2) for value in frame[provf]}
         if len(provinces)==1:
-            province=next(iter(provinces)); districts[str(district)]=0.0 if province in floor_exempt else floor
+            province=next(iter(provinces))
+            muns=frame[munf] if munf in frame.columns else ()
+            districts[str(district)]=0.0 if province in floor_exempt or municipalities_touch_exempt(muns,exempt_muns) else floor
     g=_refresh_population_report(report_path,g,did,pop,idf,target,floor,cap,tol,districts,popf)
     write_geo(g,out_path)
 
@@ -268,6 +273,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
         for value in ((cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [])
     }
     district_floors={}
+    exempt_muns=exempt_municipalities(cfg)
     for district in set(assignments.values()):
         provinces={
             str(units[u].get("province")).zfill(2)
@@ -276,7 +282,8 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
         }
         if len(provinces)==1:
             province=next(iter(provinces))
-            district_floors[district]=0.0 if province in floor_exempt else floor
+            members=[u for u,d in assignments.items() if d==district]
+            district_floors[district]=0.0 if province in floor_exempt or units_touch_exempt(members,exempt_muns) else floor
 
     baseline_check=verify_partition_constraints(
         assignments,units,adj,floor=floor,cap=cap,district_floors=district_floors

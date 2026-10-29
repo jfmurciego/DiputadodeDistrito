@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 06 — Consolidar y describir distritos
-VERSIÓN: 7.2.2
+VERSIÓN: 7.2.3
 NOMBRE DE VERSIÓN: Exportación GeoJSON con precisión geométrica conservada
 FECHA: 2026-10-10
 QUÉ HACE: transforma la asignación M05 en productos territoriales finales de sección y distrito, catálogo distrital auditable y composición exacta por sección.
@@ -11,7 +11,8 @@ POR QUÉ ES SEPARADO: M05 optimiza la partición; M06 no puede cambiarla. Su res
 ESTADO: candidato multi-territorio — CYL-05.
 CAMBIOS: evita la pérdida de vértices al exportar geometrías GeoJSON usando 17 cifras significativas; mantiene la consolidación y composición territorial de v7.2.1.
 MOTIVO: impedir que el redondeo de coordenadas genere anillos inválidos durante la serialización, sin alterar asignaciones, geometrías internas ni población.
-ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.2.1.py
+ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.2.2.py
+CAMBIO 7.2.3: suelo 0 para el distrito que contiene un municipio de validation.population_floor_exempt_municipalities.
 """
 from __future__ import annotations
 
@@ -31,6 +32,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
+from ddd_core.population_floor_exemptions import exempt_municipalities, municipalities_touch_exempt
 from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
 
 
@@ -164,9 +166,17 @@ def main():
     else:
         district_partition = {}
     summary["hard_partition"] = summary["district_id"].map(lambda d: district_partition.get(int(d), ""))
-    summary["population_floor"] = summary["hard_partition"].map(
-        lambda p: 0.0 if str(p) in floor_exempt else floor
-    )
+    exempt_muns = exempt_municipalities(cfg)
+    exempt_districts = set()
+    if exempt_muns and municipality_field in df.columns:
+        exempt_districts = {
+            int(d) for d, values in df.groupby(district_field)[municipality_field]
+            if municipalities_touch_exempt(values, exempt_muns)
+        }
+    summary["population_floor"] = [
+        0.0 if str(p) in floor_exempt or int(d) in exempt_districts else floor
+        for p, d in zip(summary["hard_partition"], summary["district_id"])
+    ]
     summary["population_cap"] = cap
     summary["within_hard_bounds"] = (summary["district_pop"] >= summary["population_floor"]) & (summary["district_pop"] <= cap)
     summary["within_target_tolerance"] = summary["relative_deviation"].abs() <= tol_ratio + 1e-12
@@ -270,7 +280,7 @@ def main():
     diagnostic = {
         "schema": "ddd.m06-population-diagnostic/1.0",
         "module": "06",
-        "version": "7.2.2",
+        "version": "7.2.3",
         "structural_status": "PASS",
         "population_conformance": "PASS" if hard_count == 0 else "NON_CONFORMING",
         "hard_population_violations": hard_count,
@@ -290,7 +300,7 @@ def main():
     diagnostic_path.parent.mkdir(parents=True, exist_ok=True)
     diagnostic_path.write_text(json.dumps(diagnostic, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
-        f"[Módulo 6] OK v7.2.2 K={k} rows={n_rows} pop={total_pop} hard={hard_count} fuera_12={outside} "
+        f"[Módulo 6] OK v7.2.3 K={k} rows={n_rows} pop={total_pop} hard={hard_count} fuera_12={outside} "
         f"catalog={out_catalog or '-'} composition={out_composition or '-'} districts={out_district_geo or '-'}"
     )
 

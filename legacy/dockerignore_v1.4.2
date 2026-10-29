@@ -1,0 +1,63 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.4.2
+# NOMBRE: Imagen sin datos con snapshots contractuales y M02 histórico de regresión
+# FECHA: 2026-10-28
+# QUÉ HACE: excluye datasets y resultados, pero incorpora únicamente los snapshots históricos mínimos requeridos por las regresiones.
+# ANTERIOR: legacy/dockerignore_v1.4.1
+# Evita duplicar datos y resultados dentro de cada imagen Docker.
+.git
+inputs/*
+!inputs/MANIFEST.sha256
+# Regresión electoral materializada: verifica REUSE real de Castilla y León sin red.
+!inputs/cyl_2026_secciones_partidos.csv
+.cache
+ejecuciones
+# Mantener excluido el archivo histórico excepto fixtures mínimas de regresión.
+legacy/*
+!legacy/configuracion/
+legacy/configuracion/*
+!legacy/configuracion/aragon_2025_v7.14.0.yaml
+__pycache__
+*.pyc
+.ddd-siel-andalucia-2026
+andalucia-section-locator.csv
+siel-andalucia-2026.zip
+.ddd-electoral-package
+
+# CAMBIOS/MOTIVO: incluir el snapshot M02 v7.3.2 para demostrar que cap=50 perdía una arista; no incluir datasets históricos.
+!legacy/modulo02/
+legacy/modulo02/*
+!legacy/modulo02/02_construir_adyacencias_v7.3.2.py
+!legacy/n06_contrato_20261012/
+legacy/n06_contrato_20261012/*
+!legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json
+!legacy/territorios/
+legacy/territorios/*
+!legacy/territorios/congreso/
+legacy/territorios/congreso/*
+!legacy/territorios/congreso/contrato_congreso_2026_pre_n06_integracion.json
+
+# N08 2026-10-13: incluir SOLO tres snapshots históricos del preflight
+# de Cáceres. Cada uno se verifica por SHA-256 del MANIFEST original 26/26.
+# No permite importar datasets ni el resto del directorio legacy.
+!legacy/n08_caceres_20261012/
+legacy/n08_caceres_20261012/*
+!legacy/n08_caceres_20261012/congreso_contract_v1_1.py
+!legacy/n08_caceres_20261012/contrato_congreso_2026_v0_3.json
+!legacy/n08_caceres_20261012/test_preflight_caceres_n08_v1.py
+!legacy/n08_caceres_20261012/congreso_preflight_adapter_v0_1.py
+!legacy/n08_caceres_20261012/m05_population_repair_v1_6.py
+!legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py
+!legacy/gitattributes_pre_n08_20261013
+
+# NAC: snapshot inmutable del contrato Congreso v1.2.0, necesario para
+# la regresión SHA en CI Docker; no incluir el resto de legacy.
+!legacy/n08_nac_20261019/
+legacy/n08_nac_20261019/*
+!legacy/n08_nac_20261019/congreso_contract_v1.2.0.py
+
+# CAMBIOS/MOTIVO (1.4.2): el expediente N08 de Cáceres acredita el motor M04 v7.6.4; las
+# regresiones lo leen del snapshot archivado tras el rescate M04 del 26-10.
+!legacy/ddd_core/
+legacy/ddd_core/*
+!legacy/ddd_core/m04_seed_engine_v7.6.4.py
