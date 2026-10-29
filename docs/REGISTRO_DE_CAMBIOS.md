@@ -1,12 +1,30 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.33
+Versión: 1.0.34
 Fecha: 2026-10-29
-Alcance: Aragón incorpora los resultados 2026 de RTVE con reconciliación M07
+Alcance: Extremadura usa sus resultados provisionales por sección con excepción del propietario
 Estado: candidato
-Cambios/motivo: decisión del propietario; el crosswalk 2025→2026 bloqueaba la fuente electoral de Aragón
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.32_20261029.md
+Cambios/motivo: la Junta sólo publica en abierto resultados municipales; el definitivo es provincial
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.33_20261029.md
 -->
+
+## 2026-10-29 — Fuentes — Extremadura con provisionales por sección
+
+Decisión del propietario (29-10-2026). El CSV provisional por sección (Minsait / EleccionesDB, 966
+secciones, 522.418 votos) difiere del definitivo del DOE (524.837) en 2.419 votos (0,46 %).
+
+- `configuracion/contratos_minsait_provisionales.yaml`: `owner_production_exception` (decided_at,
+  rationale, evidence, `max_delta_ratio: 0.01`) en Extremadura 2025.
+- `resolver_contrato_minsait_provisional.py`: con excepción completa y delta dentro del máximo,
+  `production_eligible=true`; si el delta lo supera, falla. Sin excepción sigue en false.
+- `adaptador_minsait_csv.py`: `--production-eligible`. `preparacion-resultados-electorales.yml`
+  1.0.2 lo pasa cuando el contrato resuelto lo declara.
+- `preparacion_legislatura_vigente.yaml` 1.0.3: Extremadura pasa de `BLOCKED_PROVISIONAL` a `ACQUIRE`.
+- `f10_auto_tareas.json`: nueva huella del contrato Minsait en la ficha F10-EXT-ELECTORAL-SOURCE.
+- Tests: `test_preparacion_legislatura_vigente`, `test_contratos_minsait_provisionales`,
+  `test_territorial_only_selector`. Castilla y León generó un M06 nuevo (40868935788): su caso
+  histórico 35889595424 pasa a `tests/fixtures/acreditacion_historica` y a la raíz congelada en
+  `test_acreditacion_historica_territorial` y `test_prepared_source_pair_execution`.
 
 ## 2026-10-29 — Fuentes — Aragón con RTVE y reconciliación M07
 
