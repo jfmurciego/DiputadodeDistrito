@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+"""Estado operativo del proyecto (README y JSON compartido).
+
+VERSIÓN: 2.3.0 · FECHA: 2026-10-29 · ESTADO: candidato
+CAMBIOS: 2.3.0: "cadena completa" exige M06 y M08 del mismo run; FE se da por buena si la 04 terminó;
+  cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
+MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
+  con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
+ANTERIOR: legacy/herramientas/generar_estado_operativo_pre_detalle_20261029.py
+"""
 from __future__ import annotations
 
 import argparse
@@ -377,6 +386,49 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
     }
 
 
+def _latest_run(root: Path, tid: str, edition: str) -> dict:
+    """Última ejecución completa registrada: dónde se paró y por qué, sin leer logs."""
+    folder = root / "territorios" / tid / "evidencia" / "ejecuciones_completas"
+    runs = sorted((int(p.stem), p) for p in folder.glob("*.json") if p.stem.isdigit()) if folder.is_dir() else []
+    if not runs:
+        return {}
+    try:
+        manifest = json.loads(runs[-1][1].read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"run_id": runs[-1][0], "status": "ILEGIBLE"}
+    phases = {str(p.get("name", ""))[:2]: p for p in manifest.get("phases") or []}
+    failed = [str(x) for x in manifest.get("failed_phases") or [] if str(x)[:2].isdigit()]
+    if not failed and manifest.get("status") == "FAILED":
+        failed = [str(x) for x in manifest.get("blocked_phases") or [] if str(x)[:2].isdigit()][:1]
+    stopped = failed[0] if failed else None
+    reason = None
+    if stopped and stopped.startswith("02"):
+        preflight = root / "territorios" / tid / "evidencia" / "catalogo" / f"generation_preflight_{edition}.json"
+        try:
+            gate = (json.loads(preflight.read_text(encoding="utf-8")).get("effective_gate") or {})
+        except (OSError, json.JSONDecodeError):
+            gate = {}
+        if gate.get("status") not in (None, "ENABLED", "READY", "PASS", "READY_FOR_FIRST_GENERATION") and gate.get("reason"):
+            reason = str(gate["reason"]).splitlines()[0]
+        else:
+            reason = "M04–M06 o certificación territorial (ver log del run)"
+    elif stopped:
+        reason = "ver log del run"
+    elif manifest.get("electoral_skip_reason"):
+        reason = str(manifest["electoral_skip_reason"]).splitlines()[0]
+        stopped = "03/04 · rama electoral omitida"
+    publication = phases.get("05") or {}
+    return {
+        "run_id": runs[-1][0],
+        "status": manifest.get("status"),
+        "completion_status": manifest.get("completion_status"),
+        "stopped_at": stopped,
+        "reason": (reason[:160] + "…") if reason and len(reason) > 160 else reason,
+        "publication": "executed" if publication.get("executed") and publication.get("result") == "success"
+        else ("failed" if publication.get("result") == "failure" else "not_requested"),
+    }
+
+
 def derive(root: Path, row: dict, edition: str) -> dict:
     tid = row["territory_id"]
     name = row.get("name", tid)
@@ -392,7 +444,12 @@ def derive(root: Path, row: dict, edition: str) -> dict:
     fe_ok = bool(state.get("electoral_source_prepared") and electoral_source)
     cert = str(state.get("territorial_certification") or "")
     g_ok = bool(state.get("territorial_product_available") and territorial and cert in PASS_CERTIFICATIONS)
-    re_ok = bool(state.get("electoral_product_available") and electoral_product)
+    # Regla de linaje: el M08 sólo cuenta si procede del mismo run que el M06 vigente.
+    re_ok = bool(
+        state.get("electoral_product_available") and electoral_product and territorial
+        and str(electoral_product.get("run_id")) == str(territorial.get("run_id"))
+    )
+    fe_ok = fe_ok or (re_ok and g_ok)
 
     ft = "green" if ft_ok else ("yellow" if state.get("territorial_sources_prepared") or state.get("territorial_source_declaration") else ("red" if not contract else "gray"))
     fe = "green" if fe_ok else ("yellow" if state.get("electoral_source_prepared") or state.get("electoral_source_declaration") else ("red" if not contract else "gray"))
@@ -407,7 +464,7 @@ def derive(root: Path, row: dict, edition: str) -> dict:
     if re_ok:
         re_state = "green"
     elif state.get("electoral_product_available") or (state.get("electoral_source_prepared") and state.get("territorial_product_available")):
-        re_state = "yellow"
+        re_state = "yellow"  # pendiente o M08 de otro linaje
     elif not contract:
         re_state = "red"
     else:
@@ -437,6 +494,7 @@ def derive(root: Path, row: dict, edition: str) -> dict:
     return {
         "territory_id": tid, "name": name, "ft": ft, "g": g, "fe": fe, "re": re_state,
         "status": status, "certification": cert or "NOT_CERTIFIED", "run_id": run_id,
+        "last_run": _latest_run(root, tid, edition),
         "stage": stage, "edition": edition,
         "phase_evidence": {
             "territorial_source": source or None,
@@ -486,6 +544,18 @@ def build(root: Path, edition: str) -> dict:
 
     alerts, next_actions = [], []
     for r in rows:
+        if r["g"] != "green":
+            r["next_step"] = "generar y validar distritos" if r["ft"] == "green" else "preparar fuentes territoriales"
+        elif r["fe"] != "green":
+            skip = str((r.get("last_run") or {}).get("reason") or "")
+            r["next_step"] = ("activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+                              if "prepared_source_pair" in skip else "preparar fuentes electorales")
+        elif r["re"] != "green":
+            skip = str((r.get("last_run") or {}).get("reason") or "")
+            r["next_step"] = ("activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+                              if "prepared_source_pair" in skip else "incorporar resultados electorales")
+        else:
+            r["next_step"] = "—"
         if r["re"] == "yellow":
             alerts.append({"territory": r["display_name"], "territory_id": r["territory_id"], "autonomous_community_code_ine": r["autonomous_community_code_ine"], "action": "incorporar resultados electorales"})
         elif r["g"] == "yellow":
@@ -550,11 +620,20 @@ def render_readme_block(state: dict) -> str:
         f"| **Validación pendiente** | 🟡 **{k['pending']}** | {' · '.join(k['pending_names']) or '—'} |",
         f"| **Pendientes o no incorporados** | ⚪/🔴 **{k['blocked']}** | {' · '.join(k['blocked_names']) or '—'} |",
         "", "## Estado actual por territorio", "",
-        "FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuentes electorales** · RE = **incorporación de resultados electorales**", "",
-        "| Territorio | FT | G | FE | RE | Estado |", "|---|:---:|:---:|:---:|:---:|---|",
+        "FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · FE = **fuentes electorales (03)** · RE = **incorporación de resultados electorales (04)** · PUB = **publicación del visor (05)**", "",
+        "| Territorio | FT | G | FE | RE | PUB | Estado | Última ejecución | Parada en | Motivo | Siguiente paso |",
+        "|---|:---:|:---:|:---:|:---:|:---:|---|---|---|---|---|",
     ]
+    pub_icon = {"executed": "🟢", "failed": "🔴", "not_requested": "⚪"}
     for r in state["territories"]:
-        rows.append(f"| **{r['display_name']}** | {ICON[r['ft']]} | {ICON[r['g']]} | {ICON[r['fe']]} | {ICON[r['re']]} | {r['status']} |")
+        last = r.get("last_run") or {}
+        run = f"{last['run_id']} · {last.get('status') or '—'}" if last.get("run_id") else "—"
+        stopped = str(last.get("stopped_at") or "—").replace("|", "/")
+        reason = str(last.get("reason") or "—").replace("|", "/")
+        rows.append(
+            f"| **{r['display_name']}** | {ICON[r['ft']]} | {ICON[r['g']]} | {ICON[r['fe']]} | {ICON[r['re']]} | "
+            f"{pub_icon.get(last.get('publication'), '⚪')} | {r['status']} | {run} | {stopped} | {reason} | {r.get('next_step', '—')} |"
+        )
     rows += [
         "", "## Cadena automática", "",
         "01 Preparación territorial → **Puerta de validación** → 02 Generación territorial → **Puerta de validación** → 03 Preparación electoral → **Puerta de validación** → 04 Incorporación electoral → **Puerta de validación** → 05 Publicación opcional", "",
