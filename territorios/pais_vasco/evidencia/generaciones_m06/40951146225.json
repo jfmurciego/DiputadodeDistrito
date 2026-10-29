@@ -1,0 +1,113 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12932097330,
+      "artifact_name": "ddd-audit-40951146225",
+      "artifact_sha256": "6a60e6a8754920a2de990092a114f1c44e5f6b714e4fd19c9ca0e5cff39761bd",
+      "run_id": 40951146225,
+      "size_in_bytes": 15469
+    },
+    "m04": {
+      "artifact_id": 12931494054,
+      "artifact_name": "ddd-state-40951146225-M04",
+      "artifact_sha256": "08588652547ac7063fb8080f73922f37ae4d0065971e3d83155412d707577a82",
+      "run_id": 40951146225,
+      "size_in_bytes": 96337764
+    },
+    "m05": {
+      "artifact_id": 12931633954,
+      "artifact_name": "ddd-state-40951146225-M05",
+      "artifact_sha256": "e131ddcab5f409779b005fc003e30f7e8b3395802166c557700ce2da02bf7ec5",
+      "run_id": 40951146225,
+      "size_in_bytes": 100454937
+    },
+    "m06": {
+      "artifact_id": 12933050066,
+      "artifact_name": "ddd-state-40951146225-M06",
+      "artifact_sha256": "94865ccb2f9787337a647029b5dbad2838ffc41e71ee811d941d5f4f37ca3b4e",
+      "run_id": 40951146225,
+      "size_in_bytes": 106389924
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "46fc82a1583ee98b7c699788f75ab23b9f16329b4ec6202a65e0834937466d2c",
+        "size_in_bytes": 473
+      },
+      "optimization_execution.json": {
+        "sha256": "91000d2b470a9f83e3aa9db1ac5b1c0a894592e1b55e1cf5cbc10c0abfc9e398",
+        "size_in_bytes": 664
+      },
+      "pais_vasco_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "9e2910267524099e58c3cd828e32399d26963ee9def692a1bfd19f7db7d3fd77",
+        "size_in_bytes": 89476
+      },
+      "production_status.json": {
+        "sha256": "a9db32fd17f57d5abf99efe5991a530d5f07b93a574ed133761915656c0da1ce",
+        "size_in_bytes": 1290
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "a9db32fd17f57d5abf99efe5991a530d5f07b93a574ed133761915656c0da1ce",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/pais_vasco/config/pais_vasco_2025.yaml",
+    "sha256": "6815f944c3583f35bab4af40bc091373580b270324b60d19577a8da9c05e583a"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": 40946888676,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M04",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "59536a5724105afa047e9370868a5290fce9f399c113ea864c75fb740a8e2545",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "581862de64f0e7b9bf983d5bb689603f2ca068e8",
+    "edition": "2025",
+    "territory_id": "pais_vasco",
+    "territory_name": "País Vasco",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40951146225,
+    "workflow_sha": "581862de64f0e7b9bf983d5bb689603f2ca068e8"
+  },
+  "inputs": {
+    "checkpoint_artifact": {
+      "artifact_id": 12929964796,
+      "artifact_name": "ddd-state-40946888676-M03U",
+      "artifact_sha256": "964b4bcf612fb9ae57455f377a8f422a1b70060ca07fbdcb514c72ec56f84150",
+      "run_id": 40946888676,
+      "size_in_bytes": 92220136
+    },
+    "checkpoint_run_id": 40946888676,
+    "checkpoint_stage": "M04",
+    "m04_artifact": {
+      "artifact_id": 12931494054,
+      "artifact_name": "ddd-state-40951146225-M04",
+      "artifact_sha256": "08588652547ac7063fb8080f73922f37ae4d0065971e3d83155412d707577a82",
+      "run_id": 40951146225,
+      "size_in_bytes": 96337764
+    },
+    "source_manifest_sha256": "54b13f0d6329eb30bfb5fedaa8c867aebbe0a3bf99680f6dcbada153e8b84ba8",
+    "source_package_artifact": {
+      "artifact_id": 12929082937,
+      "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
+      "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
+      "run_id": 40946888676,
+      "size_in_bytes": 88076378
+    }
+  },
+  "manifest_sha256": "87f4e7939252315003769ed5584486a71c4e457c02caa7b6e63ca2ae890c4e1b",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

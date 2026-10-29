@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "pais_vasco",
+  "territory_name": "País Vasco",
+  "edition": "2025",
+  "run_id": 40951146225,
+  "artifact_name": "ddd-state-40951146225-M06",
+  "artifact_sha256": "94865ccb2f9787337a647029b5dbad2838ffc41e71ee811d941d5f4f37ca3b4e",
+  "source_commit": "581862de64f0e7b9bf983d5bb689603f2ca068e8",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/pais_vasco/evidencia/generaciones_m06/40951146225.json"
+}
