@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "canarias",
+  "territory_name": "Canarias",
+  "edition": "2025",
+  "run_id": 40951280657,
+  "artifact_name": "ddd-state-40951280657-M06",
+  "artifact_sha256": "625796d5cf68465b21000944dd358bb4409e0b0852644a3507d7e5ad42868629",
+  "source_commit": "e8e26fc88b46331f1269c06c37f6cb05f7faee5c",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/40951280657.json"
+}
