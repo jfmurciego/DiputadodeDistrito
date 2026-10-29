@@ -238,6 +238,11 @@ validation:
   max_mixed_districts_per_split_municipality: 1
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
+  population_floor_exempt_municipalities:
+  - '11001'
+  - '11002'
+  - '11005'
+  - '41001'
   population_floor_exempt_partitions: []
   source_baseline:
     schema: ddd.source-baseline/1.0
