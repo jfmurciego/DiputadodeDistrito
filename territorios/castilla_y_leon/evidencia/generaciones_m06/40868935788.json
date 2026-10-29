@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12899945442,
+      "artifact_name": "ddd-audit-40868935788",
+      "artifact_sha256": "52886bce1eb5a3f7f5825f975beb7364250517f92e4bbeaae3fc232506af444d",
+      "run_id": 40868935788,
+      "size_in_bytes": 19812
+    },
+    "m04": {
+      "artifact_id": 12899186682,
+      "artifact_name": "ddd-state-40868935788-M04",
+      "artifact_sha256": "d5e63b63ac40e373757081385d87d1ebe16588929fbf73abf6ba0566fd4194af",
+      "run_id": 40868935788,
+      "size_in_bytes": 101566472
+    },
+    "m05": {
+      "artifact_id": 12898309751,
+      "artifact_name": "ddd-state-40868935788-M05",
+      "artifact_sha256": "eabe5106bca9e9a97102fa56a3f88302194b5fc7e4e7eff64efdaf991a1896ce",
+      "run_id": 40868935788,
+      "size_in_bytes": 106637923
+    },
+    "m06": {
+      "artifact_id": 12898728695,
+      "artifact_name": "ddd-state-40868935788-M06",
+      "artifact_sha256": "3b2562e023fa08c3b8e7f864ec40bb22cef75e33c55c883390339237599e39c0",
+      "run_id": 40868935788,
+      "size_in_bytes": 113462629
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "055f57b7f3a28a412bdcee5181ff453ec88f3be1346b108f7d6f434d0c194864",
+        "size_in_bytes": 488
+      },
+      "castilla_y_leon_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "b428dfd1ce4c72634223f7598cbb6c700b043b3b9513af0704d4767f49478ac9",
+        "size_in_bytes": 127047
+      },
+      "optimization_execution.json": {
+        "sha256": "3ac257f2ebe15a6510f1309576a660acce10cb5011c5c5dc3be306fc8e27e856",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "8fc772c792a7c82e812f34b5595a5cf2d776c41a0ce2e4a1479429ea61404d44",
+        "size_in_bytes": 1318
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "8fc772c792a7c82e812f34b5595a5cf2d776c41a0ce2e4a1479429ea61404d44",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
+    "sha256": "1ddfee9619c561001a9dc15763f660f97b47b6e66111f3e7b9b48e6e07668a83"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "a15800cab84bb951a654555c52dd073890b05cb35040df0c5ad9a583494da2b7",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "9dd97397464edf20438d702fe1089fa9ea4aa9ad",
+    "edition": "2025",
+    "territory_id": "castilla_y_leon",
+    "territory_name": "Castilla y León",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40868935788,
+    "workflow_sha": "18d7c9798db3ea79035d338558d486520349ccae"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12899186682,
+      "artifact_name": "ddd-state-40868935788-M04",
+      "artifact_sha256": "d5e63b63ac40e373757081385d87d1ebe16588929fbf73abf6ba0566fd4194af",
+      "run_id": 40868935788,
+      "size_in_bytes": 101566472
+    },
+    "source_manifest_sha256": "018b1f1f868e507692b0e2c9b9c147372aa806b68b6c3ee90a362330491db719",
+    "source_package_artifact": {
+      "artifact_id": 12896519393,
+      "artifact_name": "ddd-source-package-castilla_y_leon-2025-40868935788",
+      "artifact_sha256": "fc30afc6d0123ecadf1c19ad3e7c95c97298c4cf12bbca5017addfe2855f3c9f",
+      "run_id": 40868935788,
+      "size_in_bytes": 91325112
+    }
+  },
+  "manifest_sha256": "a5fc0746e5fea0c651eaa298aceaf7775cde9310c94a256fcd4ce7b7a8bf95d2",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
