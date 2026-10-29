@@ -1,11 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.4.0
+# VERSIÓN: 1.5.0
 # FECHA: 2026-10-29
-# CAMBIOS: 1.4.0: structural_floor_exemptions por territorio; Menorca (07-C02) exenta del suelo.
+# CAMBIOS: 1.5.0: exenciones estructurales de suelo en Ibiza (07-C04), Tenerife (38-C01) y 35-C02.
+#   1.4.0: structural_floor_exemptions por territorio; Menorca (07-C02) exenta del suelo.
 #   1.3.0: Melilla baja a suelo 0,50 y tolerancia 0,50 (con 0,70 la M04 no encuentra partición conexa).
 #   1.2.0: admite population_limits por territorio.
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.3.0.yaml
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.4.0.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -42,6 +43,10 @@ territories:
         decided_at: "2026-10-28"
         evidence: "#313; run 40847174556 (M05 hard=3 tras borrarse la exención en la preparación del 28-10)"
         rationale: "Menorca (5 distritos, 99.005 habitantes) no admite partición sobre el suelo: Mahón (30.006) y Ciudadela (31.669) son indivisibles y los otros tres distritos dispondrían de 37.330 habitantes para un mínimo de 49.218."
+      07-C04:
+        decided_at: "2026-10-29"
+        evidence: "run 40891796781: M05 NO_FEASIBLE_REPAIR_FOUND; DIAG_DISTRITO 56 = Sant Joan de Labritja (07050) sola, 6.809 hab., ratio 0,33"
+        rationale: "Decisión del propietario (opción A, 29-10-2026). Ibiza (8 distritos, 159.180 hab.) no admite partición sobre el suelo con la disciplina municipal: Sant Josep y Sant Antoni son indivisibles y Sant Joan no completa distrito sin dejar por debajo del suelo a los de Eivissa y Santa Eulària."
   canarias:
     k: 70
     k_source: norma
@@ -55,6 +60,15 @@ territories:
       note: "Contexto solamente; no es el reparto producido por DDD."
       autonomous_constituency: 9
       island_constituencies: {El_Hierro: 3, Fuerteventura: 8, Gran_Canaria: 15, La_Gomera: 4, Lanzarote: 8, La_Palma: 8, Tenerife: 15}
+    structural_floor_exemptions:
+      35-C02:
+        decided_at: "2026-10-29"
+        evidence: "run 40891782899: M05 NO_FEASIBLE_REPAIR_FOUND; DIAG_DISTRITO 27 (35007 y 35015), 21.941 hab., ratio 0,69"
+        rationale: "Decisión del propietario (opción A, 29-10-2026): partición insular cuyos municipios indivisibles impiden que M05 repare el distrito residual por encima del suelo."
+      38-C01:
+        decided_at: "2026-10-29"
+        evidence: "run 40891782899: M05 NO_FEASIBLE_REPAIR_FOUND; DIAG_DISTRITO 48, 49 y 50 (38019, 38046, 38035/38052), ratios 0,71, 0,36 y 0,79"
+        rationale: "Decisión del propietario (opción A, 29-10-2026): Tenerife deja tres distritos residuales bajo el suelo que M05 no puede reparar con la disciplina municipal vigente."
   cantabria: {k: 35, k_source: norma, partition_mode: province_hamilton, rationale: "K=35 conserva el tamaño vigente del Parlamento de Cantabria como regla institucional ex ante."}
   castilla_la_mancha: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente de las Cortes de Castilla-La Mancha como regla institucional ex ante."}
   castilla_y_leon: {k: 82, k_source: norma, partition_mode: province_hamilton, rationale: "K=82 conserva el tamaño vigente de las Cortes de Castilla y León como regla institucional ex ante."}
