@@ -378,12 +378,14 @@ territories:
         geometry_assessment_sha256: 806d3c896a599383790e684322bcafc8f933bdd1c8b2d65a0a7137f8a0ddfaac
         geometry_admissibility: BLOCKED
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 40896263473
+        stage: M06
       preparation_evidence:
         run_id: 40888918116
         artifact_name: ddd-source-package-comunidad_valenciana-2025-40888918116
@@ -400,6 +402,7 @@ territories:
       evidence:
         electoral_source: territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/81b385e7be11975f01870a1dbc41ab6c947774a0c6f611a5c3940e289523959e/36875387632/receipt.json
         generation_preflight: territorios/comunidad_valenciana/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/comunidad_valenciana/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: extremadura
   name: Extremadura
