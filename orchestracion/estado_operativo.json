@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T15:17:27.979512+00:00",
+  "generated_at": "2026-10-29T15:19:32.515892+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1073,11 +1073,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40691712762,
       "last_run": {
-        "run_id": 40892947074,
+        "run_id": 40898231736,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Aragón edición 2025; complete la preparación conjunta antes de ejecutar",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1121,7 +1121,7 @@
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "principado_de_asturias",
@@ -1485,12 +1485,12 @@
       "territory_id": "comunidad_valenciana",
       "name": "Comunidad Valenciana",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 40896263473,
       "last_run": {
         "run_id": 40888918116,
         "status": "FAILED",
@@ -1499,7 +1499,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1510,13 +1510,26 @@
           "artifact_sha256": "e84554dae2fde207ce089f1da05d88b9517205f3b8e640815363c570ffa1a604",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "comunidad_valenciana",
+          "territory_name": "Comunidad Valenciana",
+          "edition": "2025",
+          "run_id": 40896263473,
+          "artifact_name": "ddd-state-40896263473-M06",
+          "artifact_sha256": "8908c37c69ec72484e65b1bf7d121491f593f79c4af1edec21ea82d9ae9fbda7",
+          "source_commit": "cca9d958f7cdb9a7dba603ab85b1d35287654756",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/40896263473.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "extremadura",
@@ -2036,13 +2049,14 @@
       "18 Ceuta",
       "19 Melilla"
     ],
-    "territorial_validated": 12,
+    "territorial_validated": 13,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
       "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
+      "10 Comunidad Valenciana",
       "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
@@ -2051,13 +2065,14 @@
       "18 Ceuta",
       "19 Melilla"
     ],
-    "validated": 12,
+    "validated": 13,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
       "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
+      "10 Comunidad Valenciana",
       "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
@@ -2066,13 +2081,12 @@
       "18 Ceuta",
       "19 Melilla"
     ],
-    "ready": 7,
+    "ready": 6,
     "ready_names": [
       "01 Andalucía",
       "04 Islas Baleares",
       "05 Canarias",
       "09 Cataluña",
-      "10 Comunidad Valenciana",
       "14 Región de Murcia",
       "16 País Vasco"
     ],
@@ -2132,7 +2146,7 @@
       "territory": "10 Comunidad Valenciana",
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
-      "action": "completar puerta de validación territorial"
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "11 Extremadura",
@@ -2182,7 +2196,7 @@
       "territory": "10 Comunidad Valenciana",
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "11 Extremadura",
