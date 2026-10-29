@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.8.5
+VERSIÓN: 7.8.6
 NOMBRE DE VERSIÓN: Estados poblacionales finales y staging completo de M06
 FECHA: 2026-10-12
 ESTADO: candidato; reparación focal por defecto y estrategia privada experimental optativa con validación oficial obligatoria.
@@ -15,7 +15,9 @@ REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; una desactivación e
 automática solo ocurre ante violaciones duras sobre una partición estructuralmente válida.
 CAMBIOS: reconstruye estados poblacionales y reporte desde asignaciones finales; dirige todas las salidas M06 de la puerta privada a staging y limpia el informe operativo temporal del validador.
 MOTIVO: impedir atributos y diagnósticos obsoletos y proteger productos duraderos mientras se valida una candidata privada.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.4_2026-10-29.py
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.5_2026-10-29.py
+CAMBIO 7.8.6: si la puerta oficial rechaza el candidato privado, el detalle del validador se imprime línea a
+línea (M05_GATE_DETAIL) antes de limpiar el staging; antes sólo salía passed/reason (Andalucía 40972059931).
 CAMBIO 7.8.5: un distrito que contiene un municipio de validation.population_floor_exempt_municipalities queda exento del suelo (Beniel, Murcia).
 """
 from __future__ import annotations
@@ -402,6 +404,9 @@ def _emit_private_rejection_diagnostic(meta):
     if isinstance(gate,dict):
         diagnostic["official_atomic_gate"]={key:gate.get(key) for key in ("passed","reason") if key in gate}
     print("M05_PRIVATE_REJECTION_DIAGNOSTIC="+json.dumps(diagnostic,ensure_ascii=False,sort_keys=True),file=sys.stderr,flush=True)
+    detail=str((gate or {}).get("detail") or "") if isinstance(gate,dict) else ""
+    for line in [x for x in detail.splitlines() if x.strip()][-25:]:
+        print("M05_GATE_DETAIL "+line[:280],file=sys.stderr,flush=True)
 
 
 def _run_private_staged(cfg,s5):

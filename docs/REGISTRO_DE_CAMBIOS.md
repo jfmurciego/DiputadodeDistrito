@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.48
+Versión: 1.0.49
 Fecha: 2026-10-29
-Alcance: disciplina municipal en la reparación privada M05
+Alcance: detalle del validador al rechazar el candidato privado M05
 Estado: candidato
-Cambios/motivo: Andalucía (40969274807) llega a hard=0 y la puerta oficial lo rechaza con VALIDAR_EJECUCION_FAIL
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.47_20261029.md
+Cambios/motivo: Andalucía (40972059931) repite VALIDAR_EJECUCION_FAIL; #353 no cambió nada (mismas cifras)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.48_20261029.md
 -->
 
 
@@ -20,6 +20,17 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.47_20261029.md
 
 
 
+
+
+## 2026-10-29 — M05 — detalle del validador en el rechazo privado
+
+Andalucía (40972059931) repitió exactamente las cifras de 40969274807: la hipótesis de #353 (disciplina
+municipal en la reparación) no era la causa. El motivo sólo queda en `official_atomic_gate.detail`, que
+se pierde al limpiar el staging.
+
+- `modulos/05_optimizar_distritos.py` 7.8.6: imprime las 25 últimas líneas de ese detalle como
+  `M05_GATE_DETAIL`, que el log de la 02 (#351) publica como anotación. Cambia la huella M05: sólo afecta a
+  reanudar desde checkpoints M05/M06; la 04 consume M06 certificados sin huella (#346).
 
 ## 2026-10-29 — M05 — disciplina municipal en la reparación privada
 
