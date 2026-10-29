@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.1
+# VERSIÓN: 8.1.2
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
-# FECHA: 2026-10-25
+# FECHA: 2026-10-29
 # ESTADO: candidato
 # QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
-# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max; deriva el contrato GerryChain 50 de la selección manual.
+# CAMBIOS: "Resolver paquete territorial preparado" usa la declaración que acredita el catálogo (territorial_source_declaration) y solo recurre a config/fuentes_oficiales.yaml si el catálogo no fija ninguna.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/produccion-distritos.pre-p0.yml (versión 8.1.0 conservada)
-# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.1_20261029.yml
+# MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
 name: 02 Generación de Distritos Autonómicos
 
 on:
@@ -404,9 +404,12 @@ jobs:
           PREPARED_SOURCE_ARTIFACT_NAME: ${{ steps.resolve.outputs.prepared_source_artifact_name }}
           OVERRIDE_SOURCE_RUN_ID: ${{ inputs.source_package_run_id }}
           OVERRIDE_SOURCE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
-          SOURCE_DECLARATION: territorios/${{ steps.resolve.outputs.territory_id }}/config/fuentes_oficiales.yaml
         run: |
           set -euo pipefail
+          # La declaración efectiva es la que acredita el catálogo; config/ es solo el valor por omisión.
+          SOURCE_DECLARATION="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$EDITION" | jq -r '.territorial_source_declaration // empty')"
+          SOURCE_DECLARATION="${SOURCE_DECLARATION:-territorios/$TERRITORY_ID/config/fuentes_oficiales.yaml}"
+          export SOURCE_DECLARATION
           if [[ -n "$CHECKPOINT_RUN_ID" ]]; then
             echo "run_id=" >> "$GITHUB_OUTPUT"
             echo "artifact_name=" >> "$GITHUB_OUTPUT"
