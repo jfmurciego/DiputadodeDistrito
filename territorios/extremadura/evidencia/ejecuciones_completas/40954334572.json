@@ -1,0 +1,106 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "extremadura",
+  "territory_name": "Extremadura",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 40954334572,
+  "source_sha": "cd481a48643f47c50e6f5ecfc382019cdc224ac6",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": {
+    "kind": "durable_electoral_product",
+    "status": "NO_RECOVERY",
+    "result": "skipped",
+    "reason": "M08_ABSENT",
+    "origin_run_id": null,
+    "origin_manifest": null,
+    "artifact": null,
+    "artifact_digest": null,
+    "source_commit": null,
+    "registration_status": null,
+    "receipt_accredited": false,
+    "catalog_accredited": false
+  },
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales",
+    "Reanudación de producto electoral durable"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40691774876,
+      "artifact": "ddd-source-package-extremadura-2025-40691774876",
+      "artifact_digest": "sha256:62efb06eafc4302639b1264999ed8afb7bb7ba94f0639f872bae72dfb2b7c619",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40691774876,
+      "artifact": "ddd-state-40691774876-M06",
+      "artifact_digest": "sha256:edc072a08228e0780cf2ab5f0d42cde6080481e0dbc7527f06a760f69d987366",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 40892977224,
+      "artifact": "ddd-electoral-package-extremadura-2025-40892977224",
+      "artifact_digest": "sha256:590059e11579c2ebb6c2c890c0a6375032b6c8bc79baba164778841f6bac531a",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-29T21:06:43.634900+00:00"
+}
