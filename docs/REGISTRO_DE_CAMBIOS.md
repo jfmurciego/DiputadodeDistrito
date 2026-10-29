@@ -1,13 +1,27 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.36
+Versión: 1.0.37
 Fecha: 2026-10-29
-Alcance: reutilización 00 con la fuente territorial re-descargada
+Alcance: encadenado del par de fuentes también en modo reutilizar
 Estado: candidato
-Cambios/motivo: Aragón, Extremadura y Castilla y León fallaban al planificar el 00 en reutilización
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.35_20261029.md
+Cambios/motivo: Aragón, Castilla y León y Extremadura terminaron en reutilizar sin 04 ni encadenado
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.36_20261029.md
 -->
 
+
+
+## 2026-10-29 — 00 — encadenado del par también en modo reutilizar
+
+Los 00 40892947074 (Aragón), 40892962009 (Castilla y León) y 40892977224 (Extremadura) terminaron
+con `SKIPPED_NO_ACCREDITED_PAIR` y el job `encadenar_par_y_04` se saltó: su condición excluía el modo
+reutilizar, que es el modo por defecto.
+
+- `ejecucion-completa-proyecto.yml` 1.4.1: el encadenado se dispara en cualquier modo salvo si el 00
+  lo lanzó `github-actions[bot]` (el propio relanzamiento); así se sigue encadenando como mucho una
+  vez y la UI no gana controles nuevos.
+- `tests/test_00_encadenado_par.py` 1.0.1.
+- `test_preparacion_legislatura_vigente`: Extremadura admite `ACQUIRE` o `REUSE` (ya tiene fuente
+  electoral durable 40892977224), para que main no dependa del estado vivo.
 
 ## 2026-10-29 — 00 — reutilización con la fuente territorial re-descargada
 

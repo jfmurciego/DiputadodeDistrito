@@ -1,8 +1,8 @@
-"""Regresiones del gestor nacional, versión 0.0.6, 2026-10-28.
+"""Regresiones del gestor nacional, versión 0.0.7, 2026-10-29.
 Alcance: planificación pura y cierre de acreditación; estado: candidato.
-Cambio/motivo: la campaña de 14 rutas comprueba que cada ruta corresponde a su plan, sin recuentos
-fijos que cambian con cada ejecución completa.
-Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.5_20261028.py.
+Cambio/motivo: el caso histórico de Extremadura (sin par electoral) se evalúa sobre la raíz congelada
+aee8215e; Extremadura ya tiene fuente electoral y par en main.
+Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.6_20261029.py.
 """
 import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
@@ -431,10 +431,12 @@ class NationalCampaignTests(unittest.TestCase):
          ("territorial_only","GerryChain 50"):("GENERATION_READY",True,1),
          ("electoral","Canónico"):("PRODUCT_REUSE_READY",False,0),
          ("electoral","GerryChain 50"):("BLOCKED",True,0)}
+  from tests._raiz_congelada import frozen_root
+  frozen=frozen_root()
   for (mode,strategy),(status,allowed,included) in cases.items():
     with self.subTest(mode=mode,strategy=strategy):
      m=build_manifest(selected=["extremadura"],publication_mode=mode,source_sha="a"*40,
-                      strategy=strategy,campaign_instance="regression",root=ROOT)
+                      strategy=strategy,campaign_instance="regression",root=frozen)
      r=m["territories"][0]
      self.assertEqual(r["preflight_status"],status)
      self.assertEqual(r["generation_contract"]["allowed"],allowed)

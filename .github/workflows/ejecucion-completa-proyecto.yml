@@ -1,15 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.4.0
-# NOMBRE DE VERSIÓN: Encadenado automático del par de fuentes hasta la 04
+# VERSIÓN: 1.4.1
+# NOMBRE DE VERSIÓN: Encadenado también en modo reutilizar
 # ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
 # conserva un manifiesto único y permite publicar el producto territorial certificado aunque no exista producto electoral.
 # NO HACE: expone módulos internos, checkpoints ni nombres técnicos al usuario.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.3.1_20261029.yml
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.0_20261029.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
+#   1.4.1: el encadenado también se dispara en modo reutilizar (el modo por defecto); el bucle se
+#   evita porque el relanzamiento lo dispara github-actions[bot], que no vuelve a encadenar.
 # MOTIVO: un único "Ejecutar desde el principio" debe llegar a la 04 sin pasos manuales.
 # FECHA: 2026-10-29
 name: 00 Ejecución Completa del Proyecto
@@ -1376,11 +1378,11 @@ jobs:
   encadenar_par_y_04:
     # La 04 exige un prepared_source_pair que sólo registra "Activación de Legislatura Vigente".
     # Si esta ejecución dejó 01–03 válidas y saltó la 04 por falta de par, se activa el par y se
-    # relanza el 00 en modo reutilizar para completar la 04. Una ejecución en modo reutilizar no
-    # vuelve a encadenar, de modo que el encadenado ocurre como mucho una vez.
+    # relanza el 00 en modo reutilizar para completar la 04. El relanzamiento lo dispara
+    # github-actions[bot] y no vuelve a encadenar, de modo que el encadenado ocurre como mucho una vez.
     name: Encadenar par de fuentes y 04
     needs: [planificar, clasificar_electoral, manifestar]
-    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && needs.planificar.outputs.execution_mode_internal != 'reuse' && needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' }}
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && github.actor != 'github-actions[bot]' && needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     permissions:

@@ -208,7 +208,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["territorial_reason"], "TERRITORIAL_DURABLE_CANDIDATE")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE")
         # Excepción del propietario (29-10-2026): provisionales por sección, delta 0,46 % declarado.
-        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        # Regla: adquirir mientras no haya fuente durable; reutilizarla una vez registrada.
+        self.assertIn(plan["electoral_action"], {"ACQUIRE", "REUSE"})
         self.assertNotEqual(plan["electoral_admissibility"], "BLOCKED")
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 522418)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
@@ -259,12 +260,11 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         )["editions"]["2025"]
         self.assertTrue(state["territorial_product_available"])
         # Regla: la preparación y el M06 vigentes proceden del mismo run de producción, sea
-        # cual sea la última ejecución completa registrada.
+        # cual sea la última ejecución completa registrada (el checkpoint avanza a M08 con la 04).
         checkpoint = state["last_valid_checkpoint"]
-        self.assertEqual(checkpoint["stage"], "M06")
-        self.assertEqual(state["preparation_evidence"]["run_id"], checkpoint["run_id"])
+        self.assertIn(checkpoint["stage"], {"M06", "M08"})
         product = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text(encoding="utf-8"))
-        self.assertEqual(product["run_id"], checkpoint["run_id"])
+        self.assertEqual(state["preparation_evidence"]["run_id"], product["run_id"])
         self.assertNotIn("stage", state["preparation_evidence"])
 
     def test_castilla_y_leon_source_receipt_is_repaired_without_erasing_historical_product(self):
