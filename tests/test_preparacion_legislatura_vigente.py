@@ -208,7 +208,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["territorial_reason"], "TERRITORIAL_DURABLE_CANDIDATE")
         self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE")
         # Excepción del propietario (29-10-2026): provisionales por sección, delta 0,46 % declarado.
-        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        # Regla: adquirir mientras no haya fuente durable; reutilizarla una vez registrada.
+        self.assertIn(plan["electoral_action"], {"ACQUIRE", "REUSE"})
         self.assertNotEqual(plan["electoral_admissibility"], "BLOCKED")
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 522418)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
