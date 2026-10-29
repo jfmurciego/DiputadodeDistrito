@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T23:40:19.181202+00:00",
+  "generated_at": "2026-10-29T23:43:00.215966+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1544,20 +1544,20 @@
       "name": "Comunidad Valenciana",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40956462986,
+      "run_id": 40973760398,
       "last_run": {
-        "run_id": 40971719793,
+        "run_id": 40973760398,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "PAIR_ALTERNATIVE_NOT_AUTO_SELECTED_TO_PRESERVE_TERRITORIAL_INDEPENDENCE",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1598,7 +1598,7 @@
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "extremadura",
@@ -2151,7 +2151,7 @@
     }
   ],
   "kpis": {
-    "complete": 16,
+    "complete": 17,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -2160,6 +2160,7 @@
       "06 Cantabria",
       "08 Castilla-La Mancha",
       "09 Cataluña",
+      "10 Comunidad Valenciana",
       "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
@@ -2222,11 +2223,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "extremadura",
-    "name": "Extremadura",
-    "display_name": "11 Extremadura",
-    "autonomous_community_code_ine": "11",
-    "run_id": 40965231300,
+    "territory_id": "comunidad_valenciana",
+    "name": "Comunidad Valenciana",
+    "display_name": "10 Comunidad Valenciana",
+    "autonomous_community_code_ine": "10",
+    "run_id": 40973760398,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -2243,12 +2244,6 @@
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
       "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "comunidad_valenciana",
-      "autonomous_community_code_ine": "10",
-      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -2262,12 +2257,6 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "comunidad_valenciana",
-      "autonomous_community_code_ine": "10",
       "action": "preparar fuentes electorales"
     }
   ]
