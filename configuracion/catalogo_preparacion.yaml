@@ -680,12 +680,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 40850322464
+        stage: M06
       preparation_evidence:
         run_id: 40850322464
         artifact_name: ddd-source-package-la_rioja-2025-40850322464
@@ -703,6 +705,7 @@ territories:
         electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json
         generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/la_rioja/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: ceuta
   name: Ceuta
