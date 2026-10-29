@@ -4,10 +4,11 @@
   "territory_id": "castilla_y_leon",
   "territory_name": "Castilla y León",
   "edition": "2025",
-  "run_id": 35889595424,
-  "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
-  "artifact_sha256": "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b",
-  "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+  "run_id": 40868935788,
+  "artifact_name": "ddd-state-40868935788-M06",
+  "artifact_sha256": "3b2562e023fa08c3b8e7f864ec40bb22cef75e33c55c883390339237599e39c0",
+  "source_commit": "9dd97397464edf20438d702fe1089fa9ea4aa9ad",
   "decision": "PASS_WITH_EXCEPTIONS",
-  "stage": "M06"
+  "stage": "M06",
+  "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/40868935788.json"
 }
