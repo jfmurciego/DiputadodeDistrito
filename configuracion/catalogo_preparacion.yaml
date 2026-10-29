@@ -335,12 +335,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40952013601
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40946901555
         artifact_name: ddd-source-package-cataluna-2025-40946901555
@@ -359,6 +359,7 @@ territories:
         prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/78bebbc5beefd9680e8a58a0651924f6653627cd9186290af990895670b135ca.json
         generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/cataluna/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/cataluna/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
