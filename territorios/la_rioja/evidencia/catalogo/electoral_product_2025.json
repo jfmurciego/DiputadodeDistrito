@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "la_rioja",
+  "territory_name": "La Rioja",
+  "edition": "2025",
+  "run_id": 40867456776,
+  "artifact_name": "ddd-state-40867456776-M08",
+  "artifact_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
+  "source_commit": "09124ea84984685a622f379af43678eee5fd99ea",
+  "stage": "M08"
+}
