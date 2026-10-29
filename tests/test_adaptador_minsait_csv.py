@@ -77,6 +77,12 @@ class MinsaitCsvAdapterTests(unittest.TestCase):
             contract = json.loads((out / "contract/election_contract.json").read_text(encoding="utf-8"))
             self.assertEqual(contract["source_verification"]["status"], "PROVISIONAL")
             self.assertEqual(contract["source_verification"]["provinces"], 8)
+            # M07 exige publisher, source_url y retrieved_at en cada fuente del contrato.
+            for key in ("publisher", "source_url", "retrieved_at"):
+                self.assertTrue(contract["sources"][0][key], key)
+            # El contrato completo debe cargar en el validador que usa M07.
+            from ddd_core.electoral_contract import load_election_contract
+            load_election_contract(out / "contract/election_contract.json", project_root=out)
             self.assertFalse(contract["source_verification"]["production_eligible"])
             self.assertEqual(contract["reconciliation"]["status"], "KNOWN_PROVISIONAL_DELTA")
 

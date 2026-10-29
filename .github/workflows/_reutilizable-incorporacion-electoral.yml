@@ -1,12 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — incorporación electoral
-# VERSIÓN: 1.1.2
+# VERSIÓN: 1.1.3
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y un paquete electoral preparado,
 # agrega los resultados, genera el producto electoral y registra su disponibilidad.
 # NO HACE: preparación territorial, generación de distritos, auditoría geométrica ni publicación web. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
-# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.1.1_20261029.yml
-# CAMBIOS: 1.1.2: la salida de M07/M08 se guarda en .ddd-logs y, si fallan, sus últimas líneas se
+# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.1.2_20261029.yml
+# CAMBIOS: 1.1.3: el diagnóstico añade DIAG_VALIDACION con fallos y municipios de VALIDACION.json.
+#   1.1.2: la salida de M07/M08 se guarda en .ddd-logs y, si fallan, sus últimas líneas se
 #   publican como anotación DIAG_M07/DIAG_M08 (los logs de Actions no son legibles desde fuera).
 # MOTIVO: Castilla y León y Extremadura fallan en M07/M08 sin más detalle que el código de salida.
 # FECHA: 2026-10-29
@@ -211,6 +212,11 @@ jobs:
             body="$(tail -n 40 "$log" | cut -c1-300 | sed -e 's/%/%25/g' -e 's/\r//g' | awk 'BEGIN{ORS=""} {print (NR>1?"%0A":"") $0}')"
             echo "::error title=DIAG_${stage}::${body}"
           done
+          report="${RUNS_DIR:-}/VALIDACION.json"
+          if [[ -n "${RUNS_DIR:-}" && -s "$report" ]]; then
+            body="$(jq -c '{estado,failures,municipality_violations:((.municipality_violations // [])[:10])}' "$report" | cut -c1-6000 | sed -e 's/%/%25/g')"
+            echo "::error title=DIAG_VALIDACION::${body}"
+          fi
 
       - id: upload_product
         name: Conservar producto electoral territorial

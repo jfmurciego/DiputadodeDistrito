@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.43
+Versión: 1.0.44
 Fecha: 2026-10-29
-Alcance: exención de suelo por municipio en Andalucía
+Alcance: retrieved_at en contratos Minsait y diagnóstico de validación en la 04
 Estado: candidato
-Cambios/motivo: Andalucía sigue en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.42_20261029.md
+Cambios/motivo: Extremadura falla en M07 por falta de retrieved_at; CyL falla en M08 sin detalle del municipio
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.43_20261029.md
 -->
 
 
@@ -15,6 +15,16 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.42_20261029.md
 
 
 
+
+
+## 2026-10-29 — 03/04 — retrieved_at en contratos Minsait y DIAG_VALIDACION
+
+- Extremadura (40957543745) falla en M07: `contrato.sources[0]: falta retrieved_at`.
+  `adaptador_minsait_csv.py` declara `retrieved_at` (parámetro `--retrieved-at`; por defecto, la hora UTC
+  de adaptación). El paquete electoral debe regenerarse (03 sin reutilizar).
+- Castilla y León (40957531696) falla en M08: `municipios con fragmentación inválida=1`, sin decir cuál.
+  `_reutilizable-incorporacion-electoral.yml` 1.1.3: si la 04 falla, publica `DIAG_VALIDACION` con
+  `failures` y `municipality_violations` de `VALIDACION.json`.
 
 ## 2026-10-29 — Población — exención de suelo por municipio en Andalucía
 
