@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "illes_balears",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 40868876197,
+  "artifact_name": "ddd-source-package-illes_balears-2025-40868876197",
+  "artifact_sha256": "c9ce487d7452d577ecf546c0c16532c601ff6e8b57d774376a9d28b8d7a39317",
+  "package_sha256": "02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046",
+  "source_commit": "18d7c9798db3ea79035d338558d486520349ccae",
+  "source_declaration": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40868876197/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "3024d4a552405401ce01a8c4be82afefab6a3613df53a44f7066096b566c054a",
+  "compatibility_identity_sha256": "3a32c1d23d729e16095710a9eaf25912dcc939cfdae763d6fc21996b9e0888aa"
+}
