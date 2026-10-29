@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T08:29:13.079900+00:00",
+  "generated_at": "2026-10-29T08:43:34.952316+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -854,8 +854,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 40784741627,
-            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/dd21f7469ef3b4e8392d666deece38faf2d83daaf5ff67ce1ae22828648cd9cd/40784741627/receipt.json"
+            "run_id": 40838196490,
+            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/e8fd625160a49ebf67541a456546011ce08dd38ac09083114f1f2a8ba6699679/40838196490/receipt.json"
           }
         },
         "electoral": {
@@ -1064,7 +1064,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1386,7 +1386,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1793,7 +1793,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1830,7 +1830,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1839,9 +1839,9 @@
         "territorial_source": {
           "territory_id": "pais_vasco",
           "edition": "2025",
-          "run_id": 40784741627,
-          "artifact_name": "ddd-source-package-pais_vasco-2025-40784741627",
-          "artifact_sha256": "c4ee9df6f190292cceef3ddcb66f49013faa9574012d9c456398c455b9f8ea3f",
+          "run_id": 40838196490,
+          "artifact_name": "ddd-source-package-pais_vasco-2025-40838196490",
+          "artifact_sha256": "c6751d88ea389075ea52f7af4bdfb4cf1e105c14804724bbf5fee025ac189005",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1867,7 +1867,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -1969,11 +1969,11 @@
       "name": "Melilla",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 40832114779,
+      "run_id": 40840795932,
       "last_run": {
         "run_id": 40832114779,
         "status": "SUCCESS",
@@ -1982,7 +1982,7 @@
         "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1999,31 +1999,43 @@
           "territory_id": "melilla",
           "territory_name": "Melilla",
           "edition": "2025",
-          "run_id": 40832114779,
-          "artifact_name": "ddd-state-40832114779-M06",
-          "artifact_sha256": "39de58bef99803b8326446b98e2b671cb2fdcbcfecaadc20aff35258274a83b2",
-          "source_commit": "17a3ddecdaad3985bb7ea6da41f658a343034e25",
+          "run_id": 40840795932,
+          "artifact_name": "ddd-state-40840795932-M06",
+          "artifact_sha256": "f8c2d14fcef4cb294542d11f604c5ec1c413b6119a0b91102ebed22edbdee291",
+          "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/40832114779.json"
+          "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/40840795932.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "melilla",
+          "territory_name": "Melilla",
+          "edition": "2025",
+          "run_id": 40840795932,
+          "artifact_name": "ddd-state-40840795932-M08",
+          "artifact_sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d",
+          "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "19",
       "display_name": "19 Melilla",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     }
   ],
   "kpis": {
-    "complete": 6,
+    "complete": 7,
     "complete_names": [
       "03 Principado de Asturias",
       "06 Cantabria",
       "08 Castilla-La Mancha",
       "12 Galicia",
       "13 Comunidad de Madrid",
-      "18 Ceuta"
+      "18 Ceuta",
+      "19 Melilla"
     ],
     "territorial_validated": 10,
     "territorial_validated_names": [
@@ -2069,13 +2081,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "galicia",
-    "name": "Galicia",
-    "display_name": "12 Galicia",
-    "autonomous_community_code_ine": "12",
-    "run_id": 40832139215,
+    "territory_id": "melilla",
+    "name": "Melilla",
+    "display_name": "19 Melilla",
+    "autonomous_community_code_ine": "19",
+    "run_id": 40840795932,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
