@@ -250,6 +250,10 @@ jobs:
               definitive_url="$(jq -r .reconciliation.definitive.url .ddd-minsait-contract.json)"
               definitive_candidate_votes="$(jq -r .reconciliation.definitive.candidate_votes .ddd-minsait-contract.json)"
               expected_delta="$(jq -r .reconciliation.delta_definitive_minus_provisional .ddd-minsait-contract.json)"
+              eligible_args=()
+              if [[ "$(jq -r '.production_eligible|tostring' .ddd-minsait-contract.json)" == true ]]; then
+                eligible_args=(--production-eligible)
+              fi
               python herramientas/adaptador_minsait_csv.py \
                 --source minsait-provisional.csv \
                 --out .ddd-electoral-package \
@@ -270,7 +274,7 @@ jobs:
                 --definitive-reference-url "$definitive_url" \
                 --definitive-candidate-votes "$definitive_candidate_votes" \
                 --expected-delta-definitive-minus-provisional "$expected_delta" \
-                $([[ "$(jq -r '.production_eligible|tostring' .ddd-minsait-contract.json)" == true ]] && echo --production-eligible)
+                "${eligible_args[@]}"
             fi
           else
             args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)

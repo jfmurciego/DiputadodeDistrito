@@ -104,10 +104,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(territorial["section_lag_years"], 1)
                 self.assertEqual(territorial["section_reference_label"], "Secciones_2025")
                 self.assertEqual(territorial["territorial_reference_decision"], "F10-20261012-PAIR-2025")
-                # Aragón: decisión del propietario (29-10-2026) de reconciliar el crosswalk en M07.
-                expected = ("ACCEPTED_M07_RECONCILIATION" if row["territory_id"] == "aragon"
-                            else "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
-                self.assertEqual(territorial["electoral_2026_crosswalk_status"], expected)
+                # Decisión del propietario (29-10-2026): los tres reconcilian el crosswalk en M07.
+                self.assertEqual(territorial["electoral_2026_crosswalk_status"], "ACCEPTED_M07_RECONCILIATION")
+                self.assertEqual(territorial["crosswalk_decided_at"], "2026-10-29")
                 self.assertEqual(
                     territorial["temporal_evidence"],
                     "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
@@ -123,24 +122,16 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "TERRITORIAL_REFERENCE_DECISION_MISSING"):
                 validate_matrix(root)
 
-    def test_aragon_owner_accepted_crosswalk_is_admissible_and_reconciled_in_m07(self):
-        plan = resolve(ROOT, "Aragón")["plans"][0]
-        self.assertEqual(plan["electoral_2026_crosswalk_status"], "ACCEPTED_M07_RECONCILIATION")
-        self.assertFalse(plan["generation_authorized_by_reference_decision"])
-        self.assertEqual(plan["electoral_admissibility"], "ADMISSIBLE")
-        self.assertFalse(any(s["domain"] == "electoral_section_crosswalk" for s in plan["source_next_steps"]))
-
-    def test_2026_temporal_decision_does_not_authorize_electoral_crosswalk(self):
-        for territory in ("Castilla y León", "Andalucía"):
+    def test_owner_accepted_crosswalk_is_reconciled_in_m07_not_blocking(self):
+        for territory in ("Aragón", "Castilla y León", "Andalucía"):
             with self.subTest(territory=territory):
                 plan = resolve(ROOT, territory)["plans"][0]
                 self.assertEqual(plan["section_year_selected"], 2025)
                 self.assertEqual(plan["section_year_required"], 2026)
-                self.assertEqual(plan["electoral_2026_crosswalk_status"], "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
+                self.assertEqual(plan["electoral_2026_crosswalk_status"], "ACCEPTED_M07_RECONCILIATION")
                 self.assertFalse(plan["generation_authorized_by_reference_decision"])
-                self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
-                self.assertEqual(plan["sources_status"], "BLOCKED")
-                self.assertTrue(any(s["domain"] == "electoral_section_crosswalk" for s in plan["source_next_steps"]))
+                self.assertNotEqual(plan["electoral_admissibility"], "BLOCKED")
+                self.assertFalse(any(s["domain"] == "electoral_section_crosswalk" for s in plan["source_next_steps"]))
 
     def test_temporal_evidence_preserves_query_response_date_and_digest(self):
         evidence = json.loads(TEMPORAL.read_text(encoding="utf-8"))

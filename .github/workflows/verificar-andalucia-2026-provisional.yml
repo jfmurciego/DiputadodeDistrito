@@ -1,3 +1,6 @@
+# CAMBIOS 2026-10-29: con owner_production_exception el contrato y el paquete provisional son
+#   elegibles para producción (Extremadura 2025); sin ella siguen sin serlo.
+# ANTERIOR: legacy/workflows/verificar-andalucia-2026-provisional_pre_excepcion_20261029.yml
 name: Verificar Minsait provisional · copia gobernada
 
 on:
@@ -48,7 +51,9 @@ jobs:
         run: |
           set -euo pipefail
           python herramientas/resolver_contrato_minsait_provisional.py             --root-dir . --territory-id "$TERRITORY_ID"             --election-id "$ELECTION_ID" --election-date "$ELECTION_DATE"             --output .ddd-minsait-contract.json >/dev/null
-          test "$(jq -r .production_eligible .ddd-minsait-contract.json)" = false
+          # Sólo una owner_production_exception validada hace elegible un contrato provisional.
+          expected_eligible="$(jq -r 'if .owner_production_exception then "true" else "false" end' .ddd-minsait-contract.json)"
+          test "$(jq -r .production_eligible .ddd-minsait-contract.json)" = "$expected_eligible"
           test "$(jq -r .promotion_allowed .ddd-minsait-contract.json)" = false
 
       - name: Descargar fuente gobernada y construir paquete provisional
@@ -63,12 +68,16 @@ jobs:
           curl --fail --location --retry 2 --connect-timeout 10 --max-time 120             -o minsait-provisional.csv "$url"
           test "$(sha256sum minsait-provisional.csv | awk '{print $1}')" = "$source_sha"
 
-          python herramientas/adaptador_minsait_csv.py             --source minsait-provisional.csv             --out .ddd-minsait-provisional-package             --territory-id "$TERRITORY_ID"             --election-id "$ELECTION_ID"             --election-date "$ELECTION_DATE"             --edition 2025             --expected-sha256 "$source_sha"             --expected-ccaa "$(jq -r .expected.ccaa .ddd-minsait-contract.json)"             --expected-provinces "$(jq -r .expected.provinces .ddd-minsait-contract.json)"             --expected-sections "$(jq -r .expected.sections .ddd-minsait-contract.json)"             --expected-polling-stations "$(jq -r .expected.polling_stations .ddd-minsait-contract.json)"             --expected-candidate-votes "$(jq -r .expected.candidate_votes .ddd-minsait-contract.json)"             --source-url "$url"             --publisher "$(jq -r .publisher .ddd-minsait-contract.json)"             --source-status "$(jq -r .source_status .ddd-minsait-contract.json)"             --definitive-reference-publisher "$(jq -r .reconciliation.definitive.publisher .ddd-minsait-contract.json)"             --definitive-reference-url "$(jq -r .reconciliation.definitive.url .ddd-minsait-contract.json)"             --definitive-candidate-votes "$(jq -r .reconciliation.definitive.candidate_votes .ddd-minsait-contract.json)"             --expected-delta-definitive-minus-provisional "$(jq -r .reconciliation.delta_definitive_minus_provisional .ddd-minsait-contract.json)"
+          eligible_args=()
+          if [[ "$(jq -r '.production_eligible|tostring' .ddd-minsait-contract.json)" == true ]]; then
+            eligible_args=(--production-eligible)
+          fi
+          python herramientas/adaptador_minsait_csv.py "${eligible_args[@]}"             --source minsait-provisional.csv             --out .ddd-minsait-provisional-package             --territory-id "$TERRITORY_ID"             --election-id "$ELECTION_ID"             --election-date "$ELECTION_DATE"             --edition 2025             --expected-sha256 "$source_sha"             --expected-ccaa "$(jq -r .expected.ccaa .ddd-minsait-contract.json)"             --expected-provinces "$(jq -r .expected.provinces .ddd-minsait-contract.json)"             --expected-sections "$(jq -r .expected.sections .ddd-minsait-contract.json)"             --expected-polling-stations "$(jq -r .expected.polling_stations .ddd-minsait-contract.json)"             --expected-candidate-votes "$(jq -r .expected.candidate_votes .ddd-minsait-contract.json)"             --source-url "$url"             --publisher "$(jq -r .publisher .ddd-minsait-contract.json)"             --source-status "$(jq -r .source_status .ddd-minsait-contract.json)"             --definitive-reference-publisher "$(jq -r .reconciliation.definitive.publisher .ddd-minsait-contract.json)"             --definitive-reference-url "$(jq -r .reconciliation.definitive.url .ddd-minsait-contract.json)"             --definitive-candidate-votes "$(jq -r .reconciliation.definitive.candidate_votes .ddd-minsait-contract.json)"             --expected-delta-definitive-minus-provisional "$(jq -r .reconciliation.delta_definitive_minus_provisional .ddd-minsait-contract.json)"
 
           manifest=.ddd-minsait-provisional-package/manifest.json
           test "$(jq -r .decision "$manifest")" = ACQUIRE
           test "$(jq -r .source_status "$manifest")" = PROVISIONAL
-          test "$(jq -r '.production_eligible|tostring' "$manifest")" = false
+          test "$(jq -r '.production_eligible|tostring' "$manifest")" = "$(jq -r '.production_eligible|tostring' .ddd-minsait-contract.json)"
           for key in provinces sections polling_stations candidate_votes; do
             test "$(jq -r ".$key" "$manifest")" = "$(jq -r ".expected.$key" .ddd-minsait-contract.json)"
           done

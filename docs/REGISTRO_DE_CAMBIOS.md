@@ -19,7 +19,10 @@ secciones, 522.418 votos) difiere del definitivo del DOE (524.837) en 2.419 voto
   `production_eligible=true`; si el delta lo supera, falla. Sin excepción sigue en false.
 - `adaptador_minsait_csv.py`: `--production-eligible`. `preparacion-resultados-electorales.yml`
   1.0.2 lo pasa cuando el contrato resuelto lo declara.
-- `preparacion_legislatura_vigente.yaml` 1.0.3: Extremadura pasa de `BLOCKED_PROVISIONAL` a `ACQUIRE`.
+- `preparacion_legislatura_vigente.yaml` 1.0.3: Extremadura pasa de `BLOCKED_PROVISIONAL` a `ACQUIRE`;
+  1.0.4: Andalucía y Castilla y León pasan, como Aragón, a `ACCEPTED_M07_RECONCILIATION`.
+- `verificar-andalucia-2026-provisional.yml`: el contrato y el paquete provisional sólo son
+  elegibles con `owner_production_exception`; el flag del adaptador se pasa con un array (actionlint).
 - `f10_auto_tareas.json`: nueva huella del contrato Minsait en la ficha F10-EXT-ELECTORAL-SOURCE.
 - Tests: `test_preparacion_legislatura_vigente`, `test_contratos_minsait_provisionales`,
   `test_territorial_only_selector`. Castilla y León generó un M06 nuevo (40868935788): su caso
