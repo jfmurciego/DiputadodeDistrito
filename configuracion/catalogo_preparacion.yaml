@@ -608,12 +608,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40847881909
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40838170635
         artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-40838170635
@@ -632,6 +632,7 @@ territories:
         prepared_source_pair: territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/4e2ececa3fb041c30e66094b055167bae813edf5be2d3a73b538c71dbebb56fc.json
         generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/comunidad_foral_de_navarra/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/comunidad_foral_de_navarra/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: pais_vasco
   name: País Vasco
