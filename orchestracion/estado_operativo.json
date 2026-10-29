@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T21:36:13.700401+00:00",
+  "generated_at": "2026-10-29T22:30:20.531664+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -591,8 +591,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/extremadura/evidencia/pares_fuentes/2025/ca6e9b0f31203c21d4305dacfc471b1cf185e16ba6313796c301485ea2914d57.json",
-            "pair_sha256": "ca6e9b0f31203c21d4305dacfc471b1cf185e16ba6313796c301485ea2914d57",
+            "receipt_path": "territorios/extremadura/evidencia/pares_fuentes/2025/9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e.json",
+            "pair_sha256": "9fa244d93cf37eace370e0eb60819d6ecf11e23803e47f02f0c5c9557ac80a5e",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -1036,7 +1036,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 40952332904,
+        "run_id": 40958892613,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1195,11 +1195,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40951592449,
       "last_run": {
-        "run_id": 40951592449,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "03 · Preparación de Resultados Electorales",
-        "reason": "ver log del run",
+        "run_id": 40957888543,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1378,7 +1378,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40868935788,
       "last_run": {
-        "run_id": 40957531696,
+        "run_id": 40964570303,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "04 · Incorporación de Resultados Electorales",
@@ -1548,7 +1548,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40896263473,
+      "run_id": 40956462986,
       "last_run": {
         "run_id": 40896263473,
         "status": "SUCCESS",
@@ -1563,9 +1563,9 @@
         "territorial_source": {
           "territory_id": "comunidad_valenciana",
           "edition": "2025",
-          "run_id": 40888918116,
-          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40888918116",
-          "artifact_sha256": "e84554dae2fde207ce089f1da05d88b9517205f3b8e640815363c570ffa1a604",
+          "run_id": 40956462986,
+          "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
+          "artifact_sha256": "1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1574,13 +1574,13 @@
           "territory_id": "comunidad_valenciana",
           "territory_name": "Comunidad Valenciana",
           "edition": "2025",
-          "run_id": 40896263473,
-          "artifact_name": "ddd-state-40896263473-M06",
-          "artifact_sha256": "8908c37c69ec72484e65b1bf7d121491f593f79c4af1edec21ea82d9ae9fbda7",
-          "source_commit": "cca9d958f7cdb9a7dba603ab85b1d35287654756",
+          "run_id": 40956462986,
+          "artifact_name": "ddd-state-40956462986-M06",
+          "artifact_sha256": "216291f454b7bf157872319855674101fc1008f19de5edd9b8333be7de91fc1c",
+          "source_commit": "2f48386321ea250edf4de53f3ead0fff0188fdaa",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/40896263473.json"
+          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/40956462986.json"
         },
         "electoral_source": null,
         "electoral_product": null
@@ -1633,7 +1633,18 @@
           "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/40691774876.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "extremadura",
+          "territory_name": "Extremadura",
+          "edition": "2025",
+          "run_id": 40965231300,
+          "artifact_name": "ddd-state-40965231300-M08",
+          "artifact_sha256": "436cf8745eab8fa94827d3f5a1b9f60cd20c1f1f78d748188d0e8ebf97553b0a",
+          "source_commit": "10ada622f71a2f536ae0a86ee5fc68b9a0b8fb59",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
@@ -1775,8 +1786,8 @@
         "run_id": 40957577850,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "stopped_at": "Reanudación de producto electoral durable",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
