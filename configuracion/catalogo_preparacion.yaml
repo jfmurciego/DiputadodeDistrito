@@ -622,12 +622,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40951146225
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40946888676
         artifact_name: ddd-source-package-pais_vasco-2025-40946888676
@@ -646,6 +646,7 @@ territories:
         prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/17eb947b3aa1af5f9703a54b05a41ec6d8e7b4feeec5ace3dcc830ebd8f3b5a1.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/pais_vasco/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/pais_vasco/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: la_rioja
   name: La Rioja
