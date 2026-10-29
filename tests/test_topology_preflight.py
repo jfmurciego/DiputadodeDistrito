@@ -285,8 +285,14 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         }
         r = validate_topology_accreditation_binding(cfg)
         self.assertTrue(r["present"])
-        self.assertFalse(r["valid"])
+        # Misma edición y año de secciones: la re-descarga reasigna la acreditación.
+        self.assertTrue(r["valid"])
+        self.assertEqual("SECTION_YEAR_REBOUND", r["binding"])
         self.assertIn("package_sha256", r["reason"])
+        cfg["validation"]["topology_accreditation"]["source_binding"]["section_year"] = 2021
+        stale = validate_topology_accreditation_binding(cfg)
+        self.assertFalse(stale["valid"])
+        self.assertIn("section_year", stale["reason"])
 
     def test_19_real_catalonia_accreditation_survives_config_loader_verbatim(self):
         cfg = load_params_yaml(str(ROOT / "territorios/cataluna/config/cataluna_2025.yaml"))

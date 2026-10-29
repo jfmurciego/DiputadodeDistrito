@@ -3,10 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Preflight topológico territorial genérico
-VERSIÓN: 1.1.0
-FECHA: 2026-09-16
+VERSIÓN: 1.2.0
+FECHA: 2026-10-29
 ESTADO: candidato
 QUÉ HACE: separa grafo físico, componentes administrativas acreditadas, pasarelas declaradas y grafo operativo; emite READY, NEEDS_POLICY o BLOCKED sin ejecutar M01-M03.
+CAMBIOS: 1.2.0: una re-descarga INE de la misma edición y año de secciones con otra huella de paquete
+  conserva la acreditación (binding=SECTION_YEAR_REBOUND); la pertenencia exacta de cada componente
+  declarada se sigue verificando en M03. Otra edición o año de secciones sigue siendo obsoleta.
+ANTERIOR: legacy/ddd_core/topology_preflight_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -141,12 +145,18 @@ def validate_topology_accreditation_binding(cfg: Mapping[str, Any]) -> dict[str,
     }
     if normalized != current:
         mismatch = [key for key in required if normalized.get(key) != current.get(key)]
+        if set(mismatch) <= {"package_sha256", "compatibility_identity_sha256"}:
+            return {
+                "present": True, "valid": True, "binding": "SECTION_YEAR_REBOUND",
+                "reason": "same edition and section_year; package re-downloaded: " + ", ".join(mismatch),
+                "declared": normalized, "current": current,
+            }
         return {
             "present": True, "valid": False,
             "reason": "stale topology accreditation; source binding changed: " + ", ".join(mismatch),
             "declared": normalized, "current": current,
         }
-    return {"present": True, "valid": True, "declared": normalized, "current": current}
+    return {"present": True, "valid": True, "binding": "EXACT", "declared": normalized, "current": current}
 
 
 def _validate_administrative_component_evidence(
