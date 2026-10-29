@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "region_de_murcia",
+  "territory_name": "Región de Murcia",
+  "edition": "2025",
+  "run_id": 40957577850,
+  "artifact_name": "ddd-state-40957577850-M08",
+  "artifact_sha256": "dcd9ff153ac52f188edcaa1ab1be953d4811ff184d82bb99fb93ac7d395d329d",
+  "source_commit": "91279b5d50304d55266ccbe31c1d316887b1371c",
+  "stage": "M08"
+}

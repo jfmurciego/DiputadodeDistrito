@@ -546,12 +546,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40945284725
-        stage: M06
+        run_id: 40957577850
+        stage: M08
       preparation_evidence:
         run_id: 40773421805
         artifact_name: ddd-source-package-region_de_murcia-2025-40773421805
@@ -570,6 +570,7 @@ territories:
         prepared_source_pair: territorios/region_de_murcia/evidencia/pares_fuentes/2025/317d547fe0411fef0b13452c23e42ac55050a3243a80961f95a829c7a817db2d.json
         generation_preflight: territorios/region_de_murcia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/region_de_murcia/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/region_de_murcia/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: comunidad_foral_de_navarra
   name: Comunidad Foral de Navarra
