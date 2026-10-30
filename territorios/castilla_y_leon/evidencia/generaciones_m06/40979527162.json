@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12952284515,
+      "artifact_name": "ddd-audit-40979527162",
+      "artifact_sha256": "4131e84d477470ecf44acaa81b21602677dea483b8366186ca27f1709dc15438",
+      "run_id": 40979527162,
+      "size_in_bytes": 16861
+    },
+    "m04": {
+      "artifact_id": 12944174699,
+      "artifact_name": "ddd-state-40979527162-M04",
+      "artifact_sha256": "2d29b1f438a3c7e612f0679a3d8184c01da9bf4745e87da25762ac3ba5e402db",
+      "run_id": 40979527162,
+      "size_in_bytes": 101566537
+    },
+    "m05": {
+      "artifact_id": 12952432713,
+      "artifact_name": "ddd-state-40979527162-M05",
+      "artifact_sha256": "fb9b0e41c7bf8ac16cf5f59abb8f30fb256de5a569de8657e658dd95ef214db4",
+      "run_id": 40979527162,
+      "size_in_bytes": 354039138
+    },
+    "m06": {
+      "artifact_id": 12952761289,
+      "artifact_name": "ddd-state-40979527162-M06",
+      "artifact_sha256": "4f69fa84a529ea7f474197f0094570f37de4eac5a92c6356e72db16d728de824",
+      "run_id": 40979527162,
+      "size_in_bytes": 360489576
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "8978e0ffd337f4956c93cabc628bc17858e8673fa3eb944759ba241e573d019d",
+        "size_in_bytes": 475
+      },
+      "castilla_y_leon_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "74556df0ccb326813943a02b90f4873b952a495430e8df470031061a3518c446",
+        "size_in_bytes": 106380
+      },
+      "optimization_execution.json": {
+        "sha256": "ba2e3ad81e2501a0f6e2db28e929d9bc705ab018e7368909c23090fb40393095",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "832135721af9e1ed8a00d8ee343950ac9e4321235ad8d6a6aa33d6bdb919f6b4",
+        "size_in_bytes": 1312
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "832135721af9e1ed8a00d8ee343950ac9e4321235ad8d6a6aa33d6bdb919f6b4",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
+    "sha256": "74d4c915a32e6a12053c3a24373339ad47f05a609012d7fcc4aca373888c50a1"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "04392847c2082f2cbc1f84bf4a2fda0ae6b9ce95488fb97e5567bf563d40da5e",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "8014dcfd6e231e7ee571f0b153d94842d2f44febc1703415baec4e440d3303e6",
+        "d420f84be08a7179bf06479f50d05425395d8b274f97131e229c97c2e5d4836d",
+        "9a1496eeb48c85841b285cf385bbebc1c0d27d178e639145625fcfc40c517751",
+        "fa9bdcbc20a50157ae75c6c898c2a89518a3887c5fa2bf8561df91c6db80e9c8",
+        "227fbea85e956db01167f7ba8beb47e878e76e02fac5c3234bdeb888fc0f11e0",
+        "127ad4f06ddafd829ca6049776b1c5a8b52504feea5d48169d40097c4e0e4d43",
+        "a56fd13bd64482fc1cbc4c8e74bc2f7728dd6c74f591163861edddd3765802e5",
+        "a605f262ed0bce462ac5f409e61908d4ee3ba2dd339e4a502a6aada4d454d867",
+        "b595946b7fff22276098b51aa81354c446285c7193ef3b4d440d8cb8b5a390c2",
+        "b340d76775a97d77bcb992c7137127bd7b66a914c90dff8c5261cb9ed5d73a08",
+        "dc79ecc3adddab1d55721b38d1a0bfa3fdf7892ff6044345cf873cda16ed1b4f",
+        "284626a0a3012b652db7c0df63d3f7cd8988c7edfd9f2d6a222ea031d024489e",
+        "38883e1ad3685c7d8b310abf495b8bf7993ad367c0530203ce4068977fa581a9",
+        "8748a3eadd6bb9eb4855966cf0ed9b94ce4b776503f2642237c1bc7dbdfaf0e9",
+        "07ba3f2dc47c4452513d06b4ada32cbc3d9e6e15fe080268f2f8229330b5a09d",
+        "e6887b15ea742289ff2265f0dd9dbc96f0d65850a1261bd6c225840344c578f3",
+        "05b4ca317ea6c28ff01c36d12e5ffd791a6b8618d2256f2a49cac32084a44dba",
+        "95bb1a029b82bf7e42538dad3fb0e4200c4908b143ddf8397e9dec2116a38682",
+        "b757474826b41c4e33e23ab875c6143c60b711db8bdd8472c82f27547b6de821",
+        "97094fa72fefb1669b939dea40a2cdf6f221b6d42ece4e5168a7b4de0a4cefae",
+        "495b7a8b49fe2e4cab8b9598bfdccbedbf718cc4da0a279914d1edad3784ac82",
+        "4394e0ba6b3d82e052fe18f778a2d8da3a8a818888d958c50e720a79271cd179",
+        "38ab48ae2eedef4f2a403b9d85af7c12ea9dee9e3e92d8c6bd12a73618c69eb1",
+        "df7ca1ec6b64e19ee4d2b5901a57347cf83c1f664b4c0a7ac13ac24fe4506cd2",
+        "b684dfe9a916282bc0ee59ff4243bd95aaae67a931e0208c9c41aece32f84b45",
+        "2a4f14af58c012695f66ad296d4bdcb5fea2e69b19d57b24c1692776b1f999a5",
+        "2d1f09f58232091fa786e2ae350010a2dfc6d5531d0607461d40c9803931dfe3",
+        "1902b526db478eb03672b684b29fcdff6d755137a828e4f893207e4fb2d1ea86",
+        "6b919de6917baea704bbd4e57dcc500fcd3b32d4be1dcea4f2e70de98d543d46",
+        "0235e78a5f179052d19f8b0c893ba4cd1b3976aee71a85c227e087bbdc45b254",
+        "9e47577c89ef8561bec96a47009e59bd85a5eae85dbb60ab8dea1340824514ac",
+        "2a0af501bacb462d5c92f654a99bd0b6040f7506b700724dbc73bc102b75d6b3",
+        "c256b9653ca9707f328893b22a95842c3f92a9081f77769d69defcd2391d0de0",
+        "3e0938b2876fdc9f589112ced9acabfe5846135adf8a4d562853a8b935e90650",
+        "fa555295ffbe16c45309a1704b2193bb9e87f8916b983b37df1f5b741939ff25",
+        "54d04806ca2080bdfbb1a6ef8745b08e723ddc9051b3cc16567128ebeb8de260",
+        "1cd260cf29b8a351f6ba4dc5066ed9ff966897da030fcd8f0c78b0bad5c97616",
+        "3adf72e4ab2bb268204a9242d6183c433d3c40d9b3165e0f14bc26d6eb15458b",
+        "14a8117e9c998909d90c65e0fb6e38b027407ad239668576dc857b145c60cbd6",
+        "b8ac55855ab4b305bd6801037e8e25e6aaf71e7c2614a2691a26ddd87ab592f0",
+        "72c591f12984a5aefdc08ae6caf89007d0287cbcd23adff7f12823fb34cfcd21",
+        "11541a93c4340cfa89b2d07971bd9aa5222678c173886b2db22ab7d0eaecc292",
+        "e17a2190962b59001e048c8cfb2d4a9d83533bac9c85d167ce8e1304ef81d766",
+        "7f7a20689b7654b13a5e3a8320e6a9d022a542ad4ae51f6a8c7cac7450ac9d25",
+        "6465cd530c0143ac701d68fdcfc14ac576de05101b309cc3c401e6000b65620f",
+        "3c595036621c328adf7be12aecb1a5597dd3ad88418d1f15b0b4094034ad795f",
+        "1dfad7d8ac32c84b8c15142e830d1b7c55e75100fc2d009a2878ed9944940a3f",
+        "174e1ab27f9d2ded20f89e0f3fc76202b789700ffeca6f77e3b4aae5d2d52ad6",
+        "a5bf7d47e5bfc099e90ef9275291b3070e15b4c003db0ff29896b7e8431ad2ca",
+        "cd69617ea9d6bc227f8ea3e72ee09e2d6d9e58af29694b45b19c429202c6c8f5"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/castilla_y_leon_2025_m05_informe.json",
+      "report_sha256": "14fec47bf89d1037bc760650da864d3d35ccfd2c3b2724d185d6c09a383ac4a8",
+      "selected_artifact_content_sha256": "071876b30a2da60727e4f489c3b41c6f73454189dd2b32f4821ae313ad46e125",
+      "selected_artifact_sha256": "1cb5a8d684999d861245a5e83b9627555bb8b1fb8b28d1927bf145cea4a5a866",
+      "selected_assignment_hash": "b757474826b41c4e33e23ab875c6143c60b711db8bdd8472c82f27547b6de821",
+      "selected_output_content_sha256": "071876b30a2da60727e4f489c3b41c6f73454189dd2b32f4821ae313ad46e125",
+      "selected_output_sha256": "ffe02b9b140ef7e77c49a4f4325727825e421b6a7545b34ddb94420a690bc549",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "627514a362fff2e6b75bd3313356963a38fc6a73",
+    "edition": "2025",
+    "territory_id": "castilla_y_leon",
+    "territory_name": "Castilla y León",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40979527162,
+    "workflow_sha": "627514a362fff2e6b75bd3313356963a38fc6a73"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12944174699,
+      "artifact_name": "ddd-state-40979527162-M04",
+      "artifact_sha256": "2d29b1f438a3c7e612f0679a3d8184c01da9bf4745e87da25762ac3ba5e402db",
+      "run_id": 40979527162,
+      "size_in_bytes": 101566537
+    },
+    "source_manifest_sha256": "3a797e21a0e11e348098a41920c23dec845cb4b5ea48e0c246a0903ddca0b0c7",
+    "source_package_artifact": {
+      "artifact_id": 12940373832,
+      "artifact_name": "ddd-source-package-castilla_y_leon-2025-40969454399",
+      "artifact_sha256": "ed0bb11a00b950c7c2094082142064c719bf9d03c121b115c3b452630830f923",
+      "run_id": 40969454399,
+      "size_in_bytes": 91325178
+    }
+  },
+  "manifest_sha256": "37c997a82521341ccb8541c6dc871f1fe1ba9180c9323219e6b4930b80c81adb",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
