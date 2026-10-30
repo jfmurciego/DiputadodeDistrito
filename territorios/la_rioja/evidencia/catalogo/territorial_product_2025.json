@@ -4,11 +4,11 @@
   "territory_id": "la_rioja",
   "territory_name": "La Rioja",
   "edition": "2025",
-  "run_id": 40867456776,
-  "artifact_name": "ddd-state-40867456776-M06",
-  "artifact_sha256": "d2d53eb72ad88809617b04a958f4bc4d645786ac52d9e75ea3a9fbf4d9463346",
-  "source_commit": "09124ea84984685a622f379af43678eee5fd99ea",
+  "run_id": 40979652189,
+  "artifact_name": "ddd-state-40979652189-M06",
+  "artifact_sha256": "749cba0731dbb10bfd1fc94d6a25e1f04f7afd471389fa9fe565f7518a59b5ed",
+  "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40867456776.json"
+  "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40979652189.json"
 }

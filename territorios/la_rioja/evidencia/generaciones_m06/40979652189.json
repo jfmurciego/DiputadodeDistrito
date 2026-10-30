@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12945208426,
+      "artifact_name": "ddd-audit-40979652189",
+      "artifact_sha256": "dc622bf3003ecad519312593b66e2f32dfd957d35506878f5f9cbe96a537c0a7",
+      "run_id": 40979652189,
+      "size_in_bytes": 6223
+    },
+    "m04": {
+      "artifact_id": 12945041362,
+      "artifact_name": "ddd-state-40979652189-M04",
+      "artifact_sha256": "61a521adeb961bf76fbcbd8c22fce7d450dd5dbce87ff1a38168297ea97db146",
+      "run_id": 40979652189,
+      "size_in_bytes": 76524144
+    },
+    "m05": {
+      "artifact_id": 12945855666,
+      "artifact_name": "ddd-state-40979652189-M05",
+      "artifact_sha256": "fc4325411e603dd6bed765ea8f691ffb70680caa5806519dac4022cb96c5c87b",
+      "run_id": 40979652189,
+      "size_in_bytes": 100259224
+    },
+    "m06": {
+      "artifact_id": 12945361975,
+      "artifact_name": "ddd-state-40979652189-M06",
+      "artifact_sha256": "749cba0731dbb10bfd1fc94d6a25e1f04f7afd471389fa9fe565f7518a59b5ed",
+      "run_id": 40979652189,
+      "size_in_bytes": 100964120
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "0e32a174c98052381ecabe788929f5b903c1fe5c3cf95cb24d03294e0adcbaa0",
+        "size_in_bytes": 458
+      },
+      "la_rioja_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f331a9db61cc54047f64acdd6dac1bc0962b54612e0ed97380c85043df8c00ca",
+        "size_in_bytes": 28348
+      },
+      "optimization_execution.json": {
+        "sha256": "75b2f22acd94425e3e5927c5b0c836759a71d5a5d4b8a5cf659b5ee77c6c968b",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "7356487c85b83a022fff409fd0dcbe4ffbb7f4276716d9bc89603e55d0952411",
+        "size_in_bytes": 1272
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "7356487c85b83a022fff409fd0dcbe4ffbb7f4276716d9bc89603e55d0952411",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/la_rioja/config/la_rioja_2025.yaml",
+    "sha256": "8f8e7d23362e04efd2de8cb74ff5088c8d62901760c3bad900d985cebd59694c"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "b3c5aadd5df81414872aaa5b895ec68a7f156c8d2457e228738d63a7c48e9597",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "fc3872d62f6e2bcd92c03963efbb7e6dd53a1339ba12dd47dad578fd3a01c110",
+        "ee5d9375576f310f0547bf7ebdc3aaec79ce6e540e302ef41e975131dddb0482",
+        "b0f78420067f1e79b944e562426c7b7a72106c9b4190ede04a76381f0e57698f",
+        "0abde73e2356aed1ef9424750e5ca7340ad8e9669d44a78b4c9c79bb66523576",
+        "2dfd94b50027a1569e5e87170e059a587852e106ed23a2508b9881ffe062ea37",
+        "d93fd5d56da8609e1c85ee993dfadb94ae7447c9e6f07257f5980f349c3f69ce",
+        "659db3b6987b82b1e5e7395197e3c1c95946ef2ccfdf5aaf4044d75c09f6edc3",
+        "ea8c56a0006325e2991184791bfb2f327c27c91e1d981ed5a957b315f9746cb2",
+        "6a8cd6f1cb7e6d33cb62b4d71d29217cdddb5fb69993bb0d77685ecae2feb2e2",
+        "dc6d91200e8500b6f6f02efc69048541f974a1de46ae15b032e3a57761387e9b",
+        "2a454cd63462f2a8ab88a104ca08508eb97cbf1c27abecde740987864ceb277d",
+        "a0cc5b8d44643a46f63bede02d696b0706982bb21d4b9dcd83121a20491422c7",
+        "59a766443e13eae4bfa7beb473a2b166ca008efec60ec6d72e07147cee25dd69",
+        "fcb56fe50bc4eb08aad969711d7ea0fb958fcec1910b2a594f945895a6b65400",
+        "87f02b4a3a13e8cc11c64da1dcb4b51f35ddd1cd4db8c9746b8d25d25ebda325",
+        "2d64954788c67246deda25de7caf58af4df2184e75e4761b3e6d9ff207ca263d",
+        "2df1cc45c319a7f28b4093ced1908784ab77a06ef1f372155b3004787b847439",
+        "30731c6befbf69ad660b14b3d1fbf2d8ea59f74fce9522f62585ff41e3ee70db",
+        "18c5035198d7aad5f49d3add3ba3afb165ee05e255c954f2db7fafd47c36d326",
+        "55231f1aba84ec15b713c14419afb5c99d1354d4cf68bfb4fab6d84b29621b48",
+        "22d01e7da8abef33510375fcc2500fd1078a464a296c96519ad184e31a031e75",
+        "1e49635c246c1ddfa63d7d7bbb8eee2256efff73f61732bff6e9cb6a7163c8c5",
+        "4806701bee8c7f1e6bd69ed1fa6a72fe635cdca95189433ba38d0911e2e72e81",
+        "d552fb216750d021dd1d8300d8aff0706bd7c7e74f8bb5a61252779224b51d3b",
+        "9397ec373049868446af6141c4aedf45b007a4153c33b5560eeb26650b5d4560",
+        "e65fb68c3f56a76e4b51439e492aaff1c809580e06c60cadcc25564775b6390b",
+        "76e05e90eb64a4f3b363334b5bbb1175ce7d024c51a1b0dee92e4008cc089e22",
+        "56ad8d8c23254e949b6c2bd14f9c71705995211e2f378c91d75502aaab9ea78e",
+        "fe8544fd5ffbe10c03b752f4961b2d2479514cb0de0532b0b59a8bd7f33472a5",
+        "4c540a8ed67270ba790f7b59c0b4189a97d8ceb2784c724e3fcf381f2a89fdf7",
+        "21504886ed6c4a3d2a57afd7f98b26bc7451c4b2ea1ec0d682ee3c6c492ce7b8",
+        "17f1fcd7fe24023a540bf3e62654a999f448dec0af0dc685f5a7c993c065fc87",
+        "cb225a089ed1637dd5c8441e98861d63d46a0eae6416c20494f6b615dd723ab2",
+        "be69dd65811aad2b9ee6ea43c363fe741637353312f91b28ee700351fd1a936d",
+        "a237f673f64aa40eebfa36f99fe3635630119b175069f461ce4a344716077720",
+        "133720c6612570f5fac35d3cb302f349ad2101091fa6185b30562c5a80460888",
+        "b55a9e0cdbf4226c45ed824610a3162aeb873b8b86f2707e93f00a055608ca3d",
+        "fd02019bebf58fba2bc8c4cb6248ce7e8c41772d3a68d8dcd401244f6ffafb34",
+        "9ddcb560e2c787bde26248df6ba657fe6648414e879bddbfa9bdc740cab1ec35",
+        "55c26a4973934d04ec2a6f099499622b0a2e26b3f20df538b6eeecc6ad2632b3",
+        "a392c57df8cf5b32a59b3c71fa927503bd142f64d356d985dc39fce9f3be7d64",
+        "c028202a729ec511bfcdcee5f841cb12a1823d041474277cf78a40c50503d6f6",
+        "a1ed62fed50d758ab4ee89fe4b6ad76e9c2214215b6cd9d65333b46f623d02f5",
+        "f3ec219e56ac3109cb84232770fd517be619612a1a2d5910e43726231d747e64",
+        "cd31e5a1f91167fcb85dff132899d88af6880c8e512502d9882c646a68b13b1a",
+        "adc086c0ec5997d2eb5e701e3658b756c54746bd2460a0f96d40a48a8e79cc28",
+        "395b1f33f22bd166ffd1f8b931b1b021ede2255499683c3578b36c99e0adece7",
+        "3705949d1e1166f494dc53370dee099d539da3f307b59797e348f5e821f40a7e",
+        "2d2a047765b797fd954ff29e7283088abbd4ac146a00140ec134a9b23404d4e4",
+        "b4c960a61e17b272646df1d87655614314bd972017bbf75e986a67678ba3ad36"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/la_rioja_2025_m05_informe.json",
+      "report_sha256": "48086bb8125f0d3670e8ff396dd6b7de22c20013152ae5e891dd0e4e5ef0f3ef",
+      "selected_artifact_content_sha256": "61f4c290d2cb03e503698199bbd90840efb37675e13fb689b79af50e6ef8791d",
+      "selected_artifact_sha256": "ee2cb41463b976410a7bb5dfc496fc32e2c02cab9203d7a3b42756f074b471b1",
+      "selected_assignment_hash": "2dfd94b50027a1569e5e87170e059a587852e106ed23a2508b9881ffe062ea37",
+      "selected_output_content_sha256": "61f4c290d2cb03e503698199bbd90840efb37675e13fb689b79af50e6ef8791d",
+      "selected_output_sha256": "77f2283c3ace6d6e1ec1875d055caf01bf207eb1d8fbd74d0dffc453eacafc6f",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "627514a362fff2e6b75bd3313356963a38fc6a73",
+    "edition": "2025",
+    "territory_id": "la_rioja",
+    "territory_name": "La Rioja",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40979652189,
+    "workflow_sha": "627514a362fff2e6b75bd3313356963a38fc6a73"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12945041362,
+      "artifact_name": "ddd-state-40979652189-M04",
+      "artifact_sha256": "61a521adeb961bf76fbcbd8c22fce7d450dd5dbce87ff1a38168297ea97db146",
+      "run_id": 40979652189,
+      "size_in_bytes": 76524144
+    },
+    "source_manifest_sha256": "7546cd994bbc302983768317053c850c4c897f3ecde665345ba831727e16561c",
+    "source_package_artifact": {
+      "artifact_id": 12888613622,
+      "artifact_name": "ddd-source-package-la_rioja-2025-40850322464",
+      "artifact_sha256": "c8ace5e7af65516e115f9c0b34eab695168ba13363786b21b55643fffbfef9ca",
+      "run_id": 40850322464,
+      "size_in_bytes": 75549655
+    }
+  },
+  "manifest_sha256": "e321ee9dd4f4be2f0d6d4a5641a42566113705dbf9f94741afce9b806e2a089e",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
