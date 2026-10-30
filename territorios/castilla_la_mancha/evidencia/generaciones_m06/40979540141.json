@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12954875395,
+      "artifact_name": "ddd-audit-40979540141",
+      "artifact_sha256": "910b998d174844347d5e19bd7ffc8f6d86cfd9e5d61d7f3ffba79a2a50689147",
+      "run_id": 40979540141,
+      "size_in_bytes": 7600
+    },
+    "m04": {
+      "artifact_id": 12945335038,
+      "artifact_name": "ddd-state-40979540141-M04",
+      "artifact_sha256": "9956ac06f7f387e039d8342a7662b9930f23133d38789d327c10779daf9759df",
+      "run_id": 40979540141,
+      "size_in_bytes": 93943085
+    },
+    "m05": {
+      "artifact_id": 12954282148,
+      "artifact_name": "ddd-state-40979540141-M05",
+      "artifact_sha256": "7acc32d81e6a37ab5689bae8dab5673cbdce35b06fbf2f05c3ed483f77c93187",
+      "run_id": 40979540141,
+      "size_in_bytes": 280983646
+    },
+    "m06": {
+      "artifact_id": 12953914917,
+      "artifact_name": "ddd-state-40979540141-M06",
+      "artifact_sha256": "9a25063155237129ba0da8a90f02bd2e726aec9571cdb17ddd477679564266e2",
+      "run_id": 40979540141,
+      "size_in_bytes": 285587426
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "67102fe73ea40ab5c35affda426fa9b3c70e2c9403cb47349ebf21ff1dac2b89",
+        "size_in_bytes": 497
+      },
+      "castilla_la_mancha_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "5e9391e9e06e1e066853936ff8344afe97aa4d6860bb212d48d5639cd787e364",
+        "size_in_bytes": 34161
+      },
+      "optimization_execution.json": {
+        "sha256": "f7a01f55a8baef6af29d7258f9432d68dea73ed40a446c526a1719604845678c",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "e017180e0d251bd9b856e31b272917d4ecfb65a313b8ea638d264cee4bd21e96",
+        "size_in_bytes": 1343
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "e017180e0d251bd9b856e31b272917d4ecfb65a313b8ea638d264cee4bd21e96",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml",
+    "sha256": "d53abdfd584a7719f3a255add82136a36804bd5356b3c93dadd757b049eb08af"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "d5e574fe5c117647296e2a089b829f5ad8451e6b3c62c794dd47fd2d83e35ed3",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "426791e50fff43279d9d35bf169ffcab99be2832666a56ba36c0552b8893ff8d",
+        "a3a8aaa8abfa0e0388b0f17107b4066e38031fbb27d4f2f1ef6dfca97d6fc89c",
+        "e42a9ebff014fb3eff57bb9eec3c146abbe128516ea03aae626f3af60f5ab7ea",
+        "34c2035cfa4bf205f5e52e39586b63acd3c26edf2ffb371263256fad3476295e",
+        "5f8e237c841065301996f125b9bafc29f85aa52553de5a2b0102d934bd2b2479",
+        "3caba4556997e36e576ece36f59473e0966e3ab6d9318b40e16013ed006a22b0",
+        "fd48dc4ceeb7bd98ab5a2c08bf21d4fccfc5d2938645a0d0042e43d59ae8b8c4",
+        "365e073845e4df6a53ba1175cc833a4c40699f68132d9902eacf91c2d6ca7547",
+        "93e12c5e3b4352459024692558b3bcefeb1b62d490b4f1027c57e352481d9fb1",
+        "aa87727cae1337883dc0c26771d48245c6b97d8493e42289b3fc6ce763910d15",
+        "943fa17d937d837ef3a0e21858b27596dae1302f9bdc3a1fcb23abec386603d2",
+        "b9fd02c9ab1a6d9536bd7b135e60127d679cd213acdb89e2b2cdc196ffcf9097",
+        "1509e77e88163caa9ca4cff4bcb4b1b4c5fab566c3243cca73a28a061feb7a00",
+        "f64df6bc6b1b53d6d60c02ffa01ca142956e1d6c2f724667f5915ac2d7336293",
+        "dadee14aec2c4b529f37ed525e16adbe2be65162fcc2d73998e270512f146b84",
+        "318c7eaeec80f03d6efd077de3662ebde43a3e7d060b81c3e132f92e72d5a416",
+        "cfdd7043a7e9e5c72d734a0ba39c4660864836eddfc4a436fb5340f5d06d2d8e",
+        "0ac7b822f0e2be910b45762665d26988301c8b34bc21ca42b234cf2e50424937",
+        "4e0d3424334e479558383e38155abb79611333ef065f6de7588b17f828a7f3f2",
+        "97f2cf30d756b41485cda9148ce71837dbb4f2f9a091da4830ad962e2f55ceb7",
+        "9c33d0eb08ded76ed119ec6359599eaf34729f0beef62e02cfe1957dd3cb13ea",
+        "2ce94d172a530bdaf1a2004549075433d29a96cbc9707b729edb1c3808b64268",
+        "007a47a36f217d07cdf3c7bc4023f76c1ad62c8234fcd76340c0a8ee6e7425ae",
+        "b64e827bbd40cae7144d5fa9c60dcf007e4ef5189f6672991940b0a7068de45d",
+        "68580fe4010416462cd47775b38431dbcd7a270d807ead9275f9b7711b776d34",
+        "00d3d07df7d2c862d722c8f5b061955e206033ecbe21ca0ea1a5023a13dcf9b2",
+        "19c242bd2e923b78216001ce792cfe705916a61000effed465d2ca986586e9b3",
+        "8703c983aa18405acea86075223fd9a76faf356038a40faf6b489a547fba8f04",
+        "9207876f3d0ee02fc5b803ec2d3cdb9798151d18fb358647497ba5b3e8d59741",
+        "f4fc136bae8e5031cb79c662c63c8119caac634339dea49f8978836dc02a4c0d",
+        "7ffaf0354729d7a9ccd21db2d82c4cf15d5b0d4d82a0689ed5ff7c611fa820b3",
+        "24917eb1c34a3b166ed9af6e2c437f7486dc0bcf04028c353c74eaa1e0ed5cc4",
+        "90a7c33a65aafe3450cfe8fe0d8c8046d329af77a6d0e6d8658b5ed49ba3465b",
+        "3ac5d30168af9f02eaea8e9ccadb56e3f8862ca86159fe1de80c2e0a4f0928cb",
+        "1f40d0d10f469572bbd9099b304202c300e1451ce98d32768056fefaecdf1805",
+        "65dd21ab5b30fc925980c2e8a3026698ca04dc4a801cd3a4e22ee09cd94bc56a",
+        "bd6eed31237199699d9349db4a7941958093cbf4349b1d5bf3ac268950069077",
+        "cd9056ecaa4ad01ef310f05cf4dfb615685ea1b42b1ef34b43401a91d0c14cb5",
+        "d5aa1452e36b98a6886a85709d3e83c61af2894b9f0c949534c3d6b2d666b01a",
+        "fb208bc4cc82c69175983a6c2b8baa7da6ae0f4143945bbf73cc2691a2402830",
+        "f5abf0eb51ee37418c79f889ac5e9d0a327522c9b9de30cdb18fe23fcfab7e3f",
+        "47c2fa9afa377eb7b4b3cafbae465783e71fa1b1c4cde53acecf59c647a58f11",
+        "9204ba7ee71d8d922c6ec4a1d5260ec2216a2278b1c50bdfaa626b43d53f93d3",
+        "b3db7d9827a81d9e556c966d92e94110ab6702b5bf5ee025dd34a3ceab403ec4",
+        "a2d893c87b66d9799772d1532589ae148bae04695cf2bd4ab83c70ed006126c1",
+        "76d655b9eca24303325ae99d0707b6fb27e95b51e0668072303146752702f162",
+        "b3505567f4807205d6463bed80c2b9e485fa0d6f1b831bb8cdac93114ed5a76d",
+        "ffd0696ed7394fc705feed4b13ba5392c5391382ce9ef6700e6ecb71b8d6666a",
+        "206dc0f072ee308f0a6753356bea25808c01efcc25a34b79e477763fa024927c",
+        "dc25d1faa34c790bd793046e2c5053284aef1ec8a117468c97d3b224b558bad3"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/castilla_la_mancha_2025_m05_informe.json",
+      "report_sha256": "b24ea7b614332ae09602e304a225fb40d90ec89324c431d3caf520add75fb435",
+      "selected_artifact_content_sha256": "986e7533d7137aacf9f41ca5726afe66983acc310a3dce7370f2756352892854",
+      "selected_artifact_sha256": "1d20e585c56cbbaaea5d51ee177091b1f8a02a446ba58d0a80b41b9b5aca18e2",
+      "selected_assignment_hash": "65dd21ab5b30fc925980c2e8a3026698ca04dc4a801cd3a4e22ee09cd94bc56a",
+      "selected_output_content_sha256": "986e7533d7137aacf9f41ca5726afe66983acc310a3dce7370f2756352892854",
+      "selected_output_sha256": "708f88e09aedbc1e9cf3acc9ed388070c151e1008bbb453a580790b4e9ee88e0",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "627514a362fff2e6b75bd3313356963a38fc6a73",
+    "edition": "2025",
+    "territory_id": "castilla_la_mancha",
+    "territory_name": "Castilla-La Mancha",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40979540141,
+    "workflow_sha": "627514a362fff2e6b75bd3313356963a38fc6a73"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12945335038,
+      "artifact_name": "ddd-state-40979540141-M04",
+      "artifact_sha256": "9956ac06f7f387e039d8342a7662b9930f23133d38789d327c10779daf9759df",
+      "run_id": 40979540141,
+      "size_in_bytes": 93943085
+    },
+    "source_manifest_sha256": "18acc114d764e04358969a939da41334a903b2868d58da8ea8f94fe17365347b",
+    "source_package_artifact": {
+      "artifact_id": 12819061539,
+      "artifact_name": "ddd-source-package-castilla_la_mancha-2025-40690624792",
+      "artifact_sha256": "bdd316c89d209786b3050b3c1595af29ee5d5fd11098b1e628acf7861aecc288",
+      "run_id": 40690624792,
+      "size_in_bytes": 86350467
+    }
+  },
+  "manifest_sha256": "56f4ac8a629ea7ac70873f20947e4947ef2714590a5fc647817b61c8506ce4fa",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
