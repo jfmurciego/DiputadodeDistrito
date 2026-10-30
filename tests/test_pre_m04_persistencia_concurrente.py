@@ -817,5 +817,73 @@ class PreM04SemanticPersistenceTests(unittest.TestCase):
             )
 
 
+
+class PreM04PilotPersistenceTests(unittest.TestCase):
+    """Regresión del exit 59 de Huesca: el piloto no vive en master.territories."""
+
+    def test_pilot_pending_durable_without_enabling_or_changing_autonomies(self):
+        from herramientas.persistir_evidencia_pre_m04_operacional import _master_row
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            remote, _ = make_remote(base)
+            setup = base / "setup-pilot"
+            clone(remote, setup)
+            master_path = setup / "configuracion/catalogo_territorios_espana_2025.yaml"
+            master = yaml.safe_load(master_path.read_text(encoding="utf-8"))
+            pilot = master["territories"].pop(0)
+            pilot["pilot_code"] = "C22"
+            master["pilot_territories"] = [pilot]
+            master_path.write_text(yaml.safe_dump(master, sort_keys=False), encoding="utf-8")
+            git(setup, "config", "user.name", "test")
+            git(setup, "config", "user.email", "test@example.invalid")
+            git(setup, "add", ".")
+            git(setup, "commit", "-m", "move alpha to pilot collection")
+            git(setup, "push", "origin", "HEAD:main")
+            source_sha = git(setup, "rev-parse", "HEAD")
+
+            writer = base / "writer"
+            clone(remote, writer, source_sha=source_sha)
+            self.assertEqual(_master_row(writer, "alpha")["pilot_code"], "C22")
+            with self.assertRaisesRegex(PreM04PersistenceConflict, "PRE_M04_MASTER_MISSING"):
+                _master_row(writer, "unknown")
+            cand = candidate(base / "pending.json", tid="alpha", run_id=801, source_commit=source_sha, mark="9")
+            payload = json.loads(cand.read_text(encoding="utf-8"))
+            payload["decision"] = "PENDING"
+            payload["evaluation_status"] = "PENDING"
+            payload["stage"] = "SOURCE_PREPARED"
+            payload["source"]["run_id"] = 800
+            payload["effective_gate"] = {"allowed": False, "status": "PENDING"}
+            cand.write_text(json.dumps(payload), encoding="utf-8")
+            diag = base / "persistence.json"
+            first = persist(writer, cand, tid="alpha", run_id=801, source_sha=source_sha, result_json=diag)
+            self.assertEqual(json.loads(diag.read_text())["status"], "REGISTERED")
+            verify = base / "verify"
+            clone(remote, verify)
+            self.assertFalse(state(verify, "alpha")["generation_enabled"])
+            self.assertEqual(state(verify, "beta"), _state("beta"))
+            current_master = yaml.safe_load((verify / "configuracion/catalogo_territorios_espana_2025.yaml").read_text())
+            self.assertEqual([r["territory_id"] for r in current_master["pilot_territories"]], ["alpha"])
+            self.assertEqual([r["territory_id"] for r in current_master["territories"]], ["beta"])
+            self.assertEqual(current_master["pilot_territories"][0]["status"], "source_prepared_pending_pre_m04")
+            self.assertEqual(json.loads((verify / "territorios/alpha/evidencia/catalogo/generation_preflight_2025.json").read_text())["evaluation_status"], "PENDING")
+
+            again = base / "again"
+            clone(remote, again, source_sha=source_sha)
+            returned = persist(again, cand, tid="alpha", run_id=801, source_sha=source_sha, result_json=base / "noop.json")
+            self.assertEqual(returned, first)
+            self.assertEqual(json.loads((base / "noop.json").read_text())["status"], "NO_OP")
+
+    def test_pilot_duplicate_identity_is_rejected(self):
+        from herramientas.persistir_evidencia_pre_m04_operacional import _master_row
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_fixture(root)
+            p = root / "configuracion/catalogo_territorios_espana_2025.yaml"
+            doc = yaml.safe_load(p.read_text())
+            doc["pilot_territories"] = [dict(doc["territories"][0], pilot_code="C22")]
+            p.write_text(yaml.safe_dump(doc), encoding="utf-8")
+            with self.assertRaisesRegex(PreM04PersistenceConflict, "PRE_M04_MASTER_DUPLICATE"):
+                _master_row(root, "alpha")
+
 if __name__ == "__main__":
     unittest.main()
