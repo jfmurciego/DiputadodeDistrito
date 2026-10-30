@@ -648,7 +648,7 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             )
             master = root / "configuracion/catalogo_territorios_espana_2025.yaml"
             master.write_text(
-                "- {territory_id: demo, status: source_prepared_pending_pre_m04}\n",
+                "territories:\n  - {territory_id: demo, name: Demo, status: source_prepared_pending_pre_m04}\n",
                 encoding="utf-8",
             )
             contract_path = root / "contract.yaml"
