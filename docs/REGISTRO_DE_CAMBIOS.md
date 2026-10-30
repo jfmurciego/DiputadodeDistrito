@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.48
-Fecha: 2026-10-29
-Alcance: disciplina municipal en la reparación privada M05
+Versión: 1.0.49
+Fecha: 2026-10-30
+Alcance: GerryChain 50 — cuatro familias de fallo del lote de 18 runs
 Estado: candidato
-Cambios/motivo: Andalucía (40969274807) llega a hard=0 y la puerta oficial lo rechaza con VALIDAR_EJECUCION_FAIL
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.47_20261029.md
+Cambios/motivo: 12 de 18 runs GerryChain 50 fallaron en M05 (lote del 30-10-2026)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.48_20261030.md
 -->
 
 
@@ -20,6 +20,32 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.47_20261029.md
 
 
 
+
+
+## 2026-10-30 — M05 GerryChain — cuatro familias de fallo del lote nocturno
+
+Lote de 18 runs GerryChain 50 (00:24–00:26 UTC): 6 PASS (Aragón, Asturias, Castilla y León, Castilla-La
+Mancha, País Vasco, La Rioja) y 12 FAIL en M05.
+
+- `ddd_core/m05_gerrychain_strategy.py` 2.2.0:
+  - la partición dura sale del `province_field` de M05/M04 (`DDD_PARTITION` en archipiélagos), no de
+    `CPRO`: Baleares y Canarias fallaban en `province_count` y no aplicaban sus exenciones insulares;
+  - `population_floor_exempt_municipalities` (#343) exime del suelo al distrito que contiene el municipio
+    (Murcia, distrito 38 con Beniel);
+  - un grupo atómico administrativo `{p}:{a|b}:M` se admite si sus municipios son exactamente los
+    declarados (Cataluña `25:25215|25234:M`); una unidad intermunicipal no declarada sigue rechazada;
+  - `--initial` sustituye la semilla también con `--params`;
+  - preflight de cardinalidad: con tantas unidades como distritos y más de una semilla, falla con
+    `GERRYCHAIN50_ENSEMBLE_INFEASIBLE_AT_DECLARED_GRANULARITY` (Ceuta y Melilla: 25 unidades, 25 distritos);
+    no se certifican 50 alternativas falsas.
+- `procedimiento.sh` 2.9.3: si la Formación inicial M04 no es admisible (distritos bajo suelo que la ruta
+  canónica repara: Cantabria, Galicia, Madrid, Valencia, Navarra; `ddd_unit_id` no legible: Extremadura),
+  se ejecuta el M05 canónico, su salida se copia como `*_semilla_canonica.geojson.zip`, se revalida con
+  el mismo contrato y GerryChain arranca de ella. Sin semilla admisible, falla cerrado.
+- `tests/test_gerrychain50_cuatro_familias.py` (nuevo).
+- Ninguno de estos ficheros forma parte de la huella M05 (`huella_checkpoint_m05.ENGINE_FILES`).
+- `test_preparacion_legislatura_vigente`: el M06 de Aragón puede salir de un run posterior que reutiliza la
+  fuente (GerryChain 40979465420); se compara la preparación con el paquete fuente de su manifiesto productor.
 
 ## 2026-10-29 — M05 — disciplina municipal en la reparación privada
 
