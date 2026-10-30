@@ -575,8 +575,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40847881909
-        stage: M08
+        run_id: 41049986588
+        stage: M06
       preparation_evidence:
         run_id: 40838170635
         artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-40838170635

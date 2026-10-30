@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12981782989,
+      "artifact_name": "ddd-audit-41049986588",
+      "artifact_sha256": "636ee7adb5f3091f133ea9928771689d154daf69e2b77b4477abb7c914bd53b8",
+      "run_id": 41049986588,
+      "size_in_bytes": 9246
+    },
+    "m04": {
+      "artifact_id": 12975465159,
+      "artifact_name": "ddd-state-41049986588-M04",
+      "artifact_sha256": "c3918e70f1449ae029cfc08181c8e64d739e1ea0f4a61fc8812ef858d74f5ca7",
+      "run_id": 41049986588,
+      "size_in_bytes": 97486601
+    },
+    "m05": {
+      "artifact_id": 12981617424,
+      "artifact_name": "ddd-state-41049986588-M05",
+      "artifact_sha256": "268b9fefee8aa4a9c335952e355d58b5494b0710fbe2ed15a1c3b73ecf2d48e8",
+      "run_id": 41049986588,
+      "size_in_bytes": 319556454
+    },
+    "m06": {
+      "artifact_id": 12982212648,
+      "artifact_name": "ddd-state-41049986588-M06",
+      "artifact_sha256": "6f35b4daa7b839945bdd64a8d5b8fbbb48091f76760140fe411e17af5727e8dd",
+      "run_id": 41049986588,
+      "size_in_bytes": 325843843
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "37993639a8121766d9f979b485d61a84362bb8ddd74a676823d44b49a0217e33",
+        "size_in_bytes": 521
+      },
+      "comunidad_foral_de_navarra_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "2ad5a8b557539995ee0dc4a16b2e4a6e773c702ed54493a0fa35cebebb9e4786",
+        "size_in_bytes": 48107
+      },
+      "optimization_execution.json": {
+        "sha256": "5bc4df656a6ebb8b80a2df46c6e187dba8b61f72fd27258f1abf205ddb871b29",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "03a8553c575e45f04540489ac298d2db5b42ee9aed93968674407174e6c91eac",
+        "size_in_bytes": 1393
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "03a8553c575e45f04540489ac298d2db5b42ee9aed93968674407174e6c91eac",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/comunidad_foral_de_navarra/config/comunidad_foral_de_navarra_2025.yaml",
+    "sha256": "bc5faa52a8afb76a2de43d3d509e0dd5dde03a28e3a83e75bef18add3e1f29ce"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "c5c570b6934978c1629d7bf52e39a47191c2e1d2fae3c49e3ffad0c3ce08fe78",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "886467c9cc42a411135fffb9ffd481fd5602895c5df9cdcc7e47f8934009f9a4",
+        "4be5758a8b25949c24bc2dd19ca20833ecf8c53b584d001732f8f5697db35af4",
+        "2bb0297ccaf0fa01ae5402828a3a2319fd86edbad1c590c61cc8a2f2c2e3c965",
+        "0d9ff70195bd9b491107da43c47bc5455ed1e0fe0e55ad6c6cba558ad414933b",
+        "ead9fa2ed30b437f8c7a332c9f8e752816df98828c6dbda849b7df7527dbe088",
+        "4a4988555f781ce7b8022a0c60d486b6a2742e2df3561259755045285af7e107",
+        "388d414f25aca960cbb19d35c1dbb9a68f4073534e262afc486033616a75e99a",
+        "760debde521d26115083ea187c9799df9acdcb0aacd35e4ca5ff1b864018873e",
+        "6d0433a12d2e9e73a4f84f23ad0ac99ea4985bf15cef2073becd1d2d76152ea4",
+        "1a9b90526a0de1aa6b42c9a60f3a2da3c50e30a96c5e54603186f1ae80fa9e9a",
+        "852a7e2eb39fce96f2ad1b03a16a87f37eabb9b40d9d5471ab8e06b513339c8b",
+        "bdc2525b24d1af3ef8206459ad800163a9ec6562fc6e31d73a00c79140367344",
+        "dd4ad0325692a0706a755b720af0d1a87e764dfe1cf7bff6ca2c6834570bb3ff",
+        "5b0a4643bcab6859b8ffb4514dfd524d4e5768e0d444ab8712206b0bc6ae5e90",
+        "3b44f84c8d9196182ae3255137a4d580f7fa3f76dc9931806b5bb4bcda94cca1",
+        "7294fc20aa1b7ad78dcfb560bb68851bda187bb2e0e40ee7162797f4760018d0",
+        "1bc65955df7d7946a2b3b21b612917eabbfecf405560459b1d5f6f8529d01cd0",
+        "08296e4d07653d96470e0abf1f578cc27358b844897eab30f166ce5c5c58834a",
+        "9826f771125a69a07bc7ceaaf57fcee8ef4116e4c5418a09d71c167b5b0c9715",
+        "cfdf1c8bfd4cb3577a7be9a0ca5166815993d8481b18675269082c6ae124cdbc",
+        "a0072e6c3520c5f2a23d2faaf2b710297ff696b9508b550a13a2a38240cb140f",
+        "446ed1fbe511ab9271ba6f6fc2010960f630367cd9f8d1b41023455b9fcfc6de",
+        "58c7a25c36f00366f0940a55c986bc171db47ef29b087414063e06c3737841dc",
+        "49fd3e7ac68013460e3038aa8b3edc184bc58f770b117ff365ff78073c29f146",
+        "4a16c5ba709a6650d9d879993cc8d69373ac3ccbf7983cbd4606e8725736158c",
+        "6e5a06f9293c717e8270a7fbac634cb48fe592d71ad9df00e67aae733380918f",
+        "cd9a012afa4497c05ee00cd99f040ac9fb629bf754dd96f5bc4d1083b77b557d",
+        "22546c8f72be4df0c6e702c37a30019eda47da86228a7e4c75d3236789cbf899",
+        "dddb86854f8af3224f80cdf71c8e4c368c2846c6554852a9b3dde2b2fdb77df8",
+        "e0cf7b81183c3e2045997fbfc036b5847114b51e1937c7fb094f768c337c9fe9",
+        "50a10dc0f18f15e873bdd872739f7a8fe6b94e0c9b2a8e500de7f7332f13e986",
+        "6e38d780a44681ab4dd3061812baf6cc95713652c8beeca787d69b1820c2ad36",
+        "1ffba1c125a5ac197802b022444471b124fb74207ea6c38d7eee9dc9918eaee2",
+        "75220360ba61531bceb4b0b4fbcd048c43f87206e9f8b5846881729fef88febf",
+        "3f71a45a7f097b68cf377920e97cb178e7be1424fff289c027de68b9f67f1049",
+        "fe46bf3e58a0361073c246949954f30f7d9d8b888c81f5532474b663fada455a",
+        "bdcceffc821173e6b3d8dd210f7cd72b55b54fd9257f43878f523c92043c94df",
+        "3c2fcdbe3de8f273da3147ca6aefa57852f1b6115dfa6a4ede4ba8bf75b0ba65",
+        "21a770b5950cb7a39c130ffdae18175f8079d703f170d9363efc9f81c5c2b819",
+        "5cf296fcc4ed9c564af53a31d2a6ac1f10d27b72aa0c521f1f3b3283cebb4d34",
+        "462b6bf1f58fd7a3096d37cf0759c8999ab8512d2842dc4381aba647f5d46a31",
+        "e44ce6f104e3de743080389c164b54dde1d1c8cb015b17a63487822d8740d519",
+        "25dfdd97019d1a4ce7374a55083bf2045cf0e67b688940e2b06bca2039689a91",
+        "ee59f7668a06fd6fc6123312e38ad0459dbea1afd8e2de920234adb8b06ee718",
+        "93176c3e56ab59198ed2d1239ce776fa01f839a2ff719b8996f7dadbeec03dda",
+        "cb2ce025eb536a1a5e6e2f12f69ac2352a2878045efc38e8e88bb3835df92773",
+        "33bde55a5960f41222f41db6d1e89da5e323f73c68d58ab83d77f2f4463def65",
+        "883e19546981823d3bc65e99b1ac70243fef0e4e88cfbf76ad077c560b19c698",
+        "6f10f76bb1341a432005c1db200650534ee0a44f184c50b8385aa87b75d3c8e7",
+        "fb856b2089b393abce781a88e00bb46b0e6f3b2ab343df4c771cd2f0147b36a7"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/comunidad_foral_de_navarra_2025_m05_informe.json",
+      "report_sha256": "b3cc97806acc9468751c6972bff27e9f5e214d73f6ebbde75ab67c916d2c3576",
+      "selected_artifact_content_sha256": "5c0d092a2ff38f040b906c9f75d7e37f78048c00c51c6227b72431ca73a4bd16",
+      "selected_artifact_sha256": "81f5ef2287b7113729c7a43572cc8d5d151724056a34c1dd07d5b3c4ade9609a",
+      "selected_assignment_hash": "08296e4d07653d96470e0abf1f578cc27358b844897eab30f166ce5c5c58834a",
+      "selected_output_content_sha256": "5c0d092a2ff38f040b906c9f75d7e37f78048c00c51c6227b72431ca73a4bd16",
+      "selected_output_sha256": "1a5e71d52d89a043635076055601c83a1716f0a64a6f28ee0fbffaf4bf01f344",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "dfb7a87ef682033de96bee75deb68925491cd01b",
+    "edition": "2025",
+    "territory_id": "comunidad_foral_de_navarra",
+    "territory_name": "Comunidad Foral de Navarra",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41049986588,
+    "workflow_sha": "dfb7a87ef682033de96bee75deb68925491cd01b"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12975465159,
+      "artifact_name": "ddd-state-41049986588-M04",
+      "artifact_sha256": "c3918e70f1449ae029cfc08181c8e64d739e1ea0f4a61fc8812ef858d74f5ca7",
+      "run_id": 41049986588,
+      "size_in_bytes": 97486601
+    },
+    "source_manifest_sha256": "e64840cf0a673024a9593e7c569b572648f91200e029f306bd03fd75db546c00",
+    "source_package_artifact": {
+      "artifact_id": 12883122407,
+      "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-40838170635",
+      "artifact_sha256": "fa14b233a4b81efd56234916f6637a00e73087e79f20d711d8b7fe5113fb5d98",
+      "run_id": 40838170635,
+      "size_in_bytes": 88752118
+    }
+  },
+  "manifest_sha256": "f4f24d0dc224c42cbf9be7b89855d1ccfb2afa8d182254545b97ba5d3c1b7b4a",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
