@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12980306242,
+      "artifact_name": "ddd-audit-41057319037",
+      "artifact_sha256": "19ca2c7b37df1787f8ebf45a09164d35e21153e34dab3f120372d4bfde6b59bb",
+      "run_id": 41057319037,
+      "size_in_bytes": 2890
+    },
+    "m04": {
+      "artifact_id": 12979810596,
+      "artifact_name": "ddd-state-41057319037-M04",
+      "artifact_sha256": "07419d7396f541c425e82553d9378a6318874c24f98357b9e0364ac789c041de",
+      "run_id": 41057319037,
+      "size_in_bytes": 77626211
+    },
+    "m05": {
+      "artifact_id": 12980805389,
+      "artifact_name": "ddd-state-41057319037-M05",
+      "artifact_sha256": "80289310bc1112255af15408e15120b1572f5e43f79e0a58ea81af5c6328517a",
+      "run_id": 41057319037,
+      "size_in_bytes": 78309993
+    },
+    "m06": {
+      "artifact_id": 12980640985,
+      "artifact_name": "ddd-state-41057319037-M06",
+      "artifact_sha256": "4e7052a1b085ebedde94c435f5ffa17f5473e693e30e9018e71f82cc84101eb5",
+      "run_id": 41057319037,
+      "size_in_bytes": 79109105
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "861610225fde29ea1e46b88a5edca0a9ae9e554a751377379b4cbca12c499a1b",
+        "size_in_bytes": 475
+      },
+      "congreso_huesca_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "1187010b5a6b46026d8c0ebf92cf3cdf6ab484ac4723faf6ed5e8282d100b405",
+        "size_in_bytes": 3380
+      },
+      "optimization_execution.json": {
+        "sha256": "fc334bd91ec9bf53b7e7aa15118d42157ba63de40b010462e4b730325a119525",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "7bdb1a3a7d308739c7154f944d2de901cdd48ca128427436960a8a686cdeb597",
+        "size_in_bytes": 1306
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "7bdb1a3a7d308739c7154f944d2de901cdd48ca128427436960a8a686cdeb597",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_huesca/config/congreso_huesca_2025.yaml",
+    "sha256": "ab5b5da615a30737f2337ac50978016d23cad6e5ac8cf7d549ea904b631f441b"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "7350191e171b75426bc87533fd86547c1416448fa8dd31e3f1a521848126777d",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "e021b5f4673325cc32e6369e56ea788eebae9cd6",
+    "edition": "2025",
+    "territory_id": "congreso_huesca",
+    "territory_name": "Congreso Huesca",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41057319037,
+    "workflow_sha": "664218ea4c6d22d421067f973125c7376d7c3e6d"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12979810596,
+      "artifact_name": "ddd-state-41057319037-M04",
+      "artifact_sha256": "07419d7396f541c425e82553d9378a6318874c24f98357b9e0364ac789c041de",
+      "run_id": 41057319037,
+      "size_in_bytes": 77626211
+    },
+    "source_manifest_sha256": "9156109925b2b77a9bbef18ccebc5bcea3bb9225e368d3a09da03e4c26e7adf7",
+    "source_package_artifact": {
+      "artifact_id": 12977701840,
+      "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
+      "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
+      "run_id": 41057319037,
+      "size_in_bytes": 76248852
+    }
+  },
+  "manifest_sha256": "ecb4fb05602e0ca1ac382c0b5c1eb379899e8ea258e39bf28b369b24fe320d49",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
