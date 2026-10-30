@@ -4,9 +4,9 @@
   "territory_id": "madrid",
   "territory_name": "Comunidad de Madrid",
   "edition": "2025",
-  "run_id": 40787900559,
-  "artifact_name": "ddd-state-40787900559-M08",
-  "artifact_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
-  "source_commit": "9c554d0729ee26daaef39eff1788a79628492135",
+  "run_id": 41046373806,
+  "artifact_name": "ddd-state-41046373806-M08",
+  "artifact_sha256": "79a2be39285998a4477d3701984508a43806292d0ea0d0282533e73dfb6adbaf",
+  "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
   "stage": "M08"
 }
