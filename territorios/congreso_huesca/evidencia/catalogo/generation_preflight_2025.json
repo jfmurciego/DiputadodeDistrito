@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_huesca",
+  "territory_name": "Congreso Huesca",
+  "edition": "2025",
+  "run_id": 41057319037,
+  "source_commit": "38f27367b424d85555fb46e2c07bdf9f6ab5f212",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41057319037,
+    "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
+    "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
+    "package_sha256": "4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330",
+    "compatibility_identity_sha256": "c5ee625edad04be765b04e380ff044934663db3be98cb2c9024e4495b1c3d1de",
+    "territorial_identity_sha256": "67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
