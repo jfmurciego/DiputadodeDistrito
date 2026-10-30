@@ -4,9 +4,9 @@
   "territory_id": "comunidad_foral_de_navarra",
   "territory_name": "Comunidad Foral de Navarra",
   "edition": "2025",
-  "run_id": 40847881909,
-  "artifact_name": "ddd-state-40847881909-M08",
-  "artifact_sha256": "d7f5e4d28234d593d3a67923b7a0d664ffb2fef01ae4bca7e206c5a9282186c7",
-  "source_commit": "865441a7b2bae30a9fd0c823f5211820f7182be5",
+  "run_id": 41049986588,
+  "artifact_name": "ddd-state-41049986588-M08",
+  "artifact_sha256": "8b59f36746496aa4b908c17863d0db7fe2613c3ce16cf8a8347fb9cf4f7fde68",
+  "source_commit": "dfb7a87ef682033de96bee75deb68925491cd01b",
   "stage": "M08"
 }
