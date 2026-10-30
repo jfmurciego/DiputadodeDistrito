@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T12:22:00.443488+00:00",
+  "generated_at": "2026-10-30T13:23:17.278902+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1034,8 +1034,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41043769621,
-            "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41043769621/receipt.json"
+            "run_id": 41057319037,
+            "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json"
           }
         },
         "electoral": {
@@ -1551,20 +1551,20 @@
       "name": "Cataluña",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40952013601,
+      "run_id": 41038985286,
       "last_run": {
-        "run_id": 40979552997,
+        "run_id": 41038985286,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1581,13 +1581,13 @@
           "territory_id": "cataluna",
           "territory_name": "Cataluña",
           "edition": "2025",
-          "run_id": 40952013601,
-          "artifact_name": "ddd-state-40952013601-M06",
-          "artifact_sha256": "8ee90d1e0ed12c19d1fb370bb8aeed03406e609269c8cd9e027817a6df0c5adb",
-          "source_commit": "e88ad5628db3e6390096ef21b1ab1d92ac9c0096",
+          "run_id": 41038985286,
+          "artifact_name": "ddd-state-41038985286-M06",
+          "artifact_sha256": "004eb815bf2001b8fc8c2c17be27e2b69f88159d49938207f891f5bfde4c05de",
+          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/40952013601.json"
+          "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/41038985286.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1605,27 +1605,27 @@
       },
       "autonomous_community_code_ine": "09",
       "display_name": "09 Cataluña",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "comunidad_valenciana",
       "name": "Comunidad Valenciana",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40973760398,
+      "run_id": 41040844608,
       "last_run": {
-        "run_id": 40979566064,
+        "run_id": 41040844608,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1642,13 +1642,13 @@
           "territory_id": "comunidad_valenciana",
           "territory_name": "Comunidad Valenciana",
           "edition": "2025",
-          "run_id": 40956462986,
-          "artifact_name": "ddd-state-40956462986-M06",
-          "artifact_sha256": "216291f454b7bf157872319855674101fc1008f19de5edd9b8333be7de91fc1c",
-          "source_commit": "2f48386321ea250edf4de53f3ead0fff0188fdaa",
+          "run_id": 41040844608,
+          "artifact_name": "ddd-state-41040844608-M06",
+          "artifact_sha256": "c55fad04b184363d148668c6c76c9bec84875818267fcb0ffb8759743766936f",
+          "source_commit": "3cffd70dbc3600fef7282b017e184936057b1f31",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/40956462986.json"
+          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/41040844608.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1666,7 +1666,7 @@
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "extremadura",
@@ -1801,11 +1801,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41046373806,
       "last_run": {
-        "run_id": 40979604634,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41046373806,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1862,7 +1862,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40957577850,
       "last_run": {
-        "run_id": 40979616852,
+        "run_id": 41048193467,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -2221,12 +2221,12 @@
       "territory_id": "congreso_huesca",
       "name": "Congreso Huesca",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "gray",
       "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41057319037,
       "last_run": {
         "run_id": 41043769621,
         "status": "FAILED",
@@ -2235,28 +2235,41 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "congreso_huesca",
           "edition": "2025",
-          "run_id": 41043769621,
-          "artifact_name": "ddd-source-package-congreso_huesca-2025-41043769621",
-          "artifact_sha256": "79d06303a7b130631019b6b48d208f5f9569e320ce91bcef4906a864c9d4c4d2",
+          "run_id": 41057319037,
+          "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
+          "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_huesca",
+          "territory_name": "Congreso Huesca",
+          "edition": "2025",
+          "run_id": 41057319037,
+          "artifact_name": "ddd-state-41057319037-M06",
+          "artifact_sha256": "4e7052a1b085ebedde94c435f5ffa17f5473e693e30e9018e71f82cc84101eb5",
+          "source_commit": "e021b5f4673325cc32e6369e56ea788eebae9cd6",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/41057319037.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C22",
       "display_name": "Congreso Huesca",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     }
   ],
   "kpis": {
-    "complete": 16,
+    "complete": 14,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -2264,8 +2277,6 @@
       "05 Canarias",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
-      "09 Cataluña",
-      "10 Comunidad Valenciana",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -2275,7 +2286,7 @@
       "18 Ceuta",
       "19 Melilla"
     ],
-    "territorial_validated": 18,
+    "territorial_validated": 19,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -2294,9 +2305,10 @@
       "16 País Vasco",
       "17 La Rioja",
       "18 Ceuta",
-      "19 Melilla"
+      "19 Melilla",
+      "Congreso Huesca"
     ],
-    "validated": 18,
+    "validated": 19,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -2315,12 +2327,12 @@
       "16 País Vasco",
       "17 La Rioja",
       "18 Ceuta",
-      "19 Melilla"
-    ],
-    "ready": 2,
-    "ready_names": [
-      "01 Andalucía",
+      "19 Melilla",
       "Congreso Huesca"
+    ],
+    "ready": 1,
+    "ready_names": [
+      "01 Andalucía"
     ],
     "pending": 0,
     "pending_names": [],
@@ -2351,16 +2363,22 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "10 Comunidad Valenciana",
+      "territory_id": "comunidad_valenciana",
+      "autonomous_community_code_ine": "10",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
       "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Congreso Huesca",
-      "territory_id": "congreso_huesca",
-      "autonomous_community_code_ine": "C22",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -2377,6 +2395,18 @@
       "action": "preparar fuentes electorales"
     },
     {
+      "territory": "09 Cataluña",
+      "territory_id": "cataluna",
+      "autonomous_community_code_ine": "09",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "10 Comunidad Valenciana",
+      "territory_id": "comunidad_valenciana",
+      "autonomous_community_code_ine": "10",
+      "action": "preparar fuentes electorales"
+    },
+    {
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
@@ -2386,7 +2416,7 @@
       "territory": "Congreso Huesca",
       "territory_id": "congreso_huesca",
       "autonomous_community_code_ine": "C22",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     }
   ]
 }
