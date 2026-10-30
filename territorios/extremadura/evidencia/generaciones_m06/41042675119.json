@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12972208166,
+      "artifact_name": "ddd-audit-41042675119",
+      "artifact_sha256": "93496bef5ee18531f46f0901e86bad35121fa1bc4e093701cb13ad7633436d4b",
+      "run_id": 41042675119,
+      "size_in_bytes": 10700
+    },
+    "m04": {
+      "artifact_id": 12971802289,
+      "artifact_name": "ddd-state-41042675119-M04",
+      "artifact_sha256": "497945e2a4b39da790d21c19e9f01f1877279305d8b5e7832cc6630037b479e8",
+      "run_id": 41042675119,
+      "size_in_bytes": 87432744
+    },
+    "m05": {
+      "artifact_id": 12972163738,
+      "artifact_name": "ddd-state-41042675119-M05",
+      "artifact_sha256": "b378f23fd0624c1b66b34f3b79ed85aa6d9b6b5013f68d8b42b475cfd8aa0fb9",
+      "run_id": 41042675119,
+      "size_in_bytes": 195493968
+    },
+    "m06": {
+      "artifact_id": 12972392579,
+      "artifact_name": "ddd-state-41042675119-M06",
+      "artifact_sha256": "927c5d206e006d89975c30a7cc763ad890354f8bc08818f9232ce854356c31ec",
+      "run_id": 41042675119,
+      "size_in_bytes": 198523190
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "fd1230955d1ffd53d92c838badd17f0703102d3c4f016bb1600c0ae4ce98a20f",
+        "size_in_bytes": 463
+      },
+      "extremadura_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "d1d9cdcfd93a43da1642642b89e357b8ef0d9e518c10c48df2c46ac358af0023",
+        "size_in_bytes": 57284
+      },
+      "optimization_execution.json": {
+        "sha256": "f605a2df2090dbfab528071b693d9ca006858ae68b54c0645459cba84e004618",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "7d8e0f1608bb06e742545314a985cbd6599e01ce21f3e9cbd0736abd2c5f7c4c",
+        "size_in_bytes": 1288
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "7d8e0f1608bb06e742545314a985cbd6599e01ce21f3e9cbd0736abd2c5f7c4c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/extremadura/config/extremadura_2025.yaml",
+    "sha256": "eb722b7df4fde42ecdc2142d8e04e3bb1916e502d514bb9c98300e7e27f06900"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "a848303ee7ac53c0c1eaa2227c71dfc71a80efab809459f4ad865c8065a73675",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "cc98bd38a419098c4e778c03161fe11492271be955258cf5124383ba92531358",
+        "792d7b0e5c7dc68f3a72c882d463a7c6bb7c79f75fe4244ff93796ca25452fd2",
+        "f1434a060d10ad700f668acbab49a953b08e40523b085f4bc15e2c49c2a63b1b",
+        "bcd9feb496f5c9964a3d09497fbb3f85b5df2267dd19a66df4baef6a6fb09363",
+        "ad2f8ded46ca367576854e1ecac9d24b8b0d9b98baec627c492466da36df8f2b",
+        "b86566ad43bd4809535e2bd18660b72b2a9a09656dd6ef3d59722c7f517b963a",
+        "17d728151136cfb07fd91801169c9e01c7326e042cb48fb596f77bdc3bf0cfed",
+        "b2af6959923d72911acf4f8b8827ad4fd54174e0ed045386cccd788cf483390d",
+        "df5203f17cd9e928a98a4b2519861d7b1f7d65c41e1eb168f831a3bd5b4dc9ec",
+        "05ddde00c26f133cc4aed548a2d9cb33cb053e81f91a1bcdfdc73fb4b540c18b",
+        "e943d6cf5355aea31303068e7aa896a0b87fae1b5b568cbec374c68d51dd9197",
+        "5ebf0ab388c801f5f334518b86e51a2bab1f97bc6177462066d741bc958c5836",
+        "93fd7e3a99d2887463d0d46765dbf2a28d5ee9346d0e780f1ffefde432e70eda",
+        "69a345213699c86786d1bfadb651b7e79d09cecf7daddd9643a1b8ba658d2950",
+        "631beca1ae4f45f9c6af677db494b460858d0292193ed8ce4e3714694edd2794",
+        "121c60cd4647f240a81c974a6f04ad16597d316570a7a8a3f09901d3901378bd",
+        "3d53250cd974c4dbb91e4c7e44065b4433ea43a9011bad02bb796e88fcfc0827",
+        "12ff4035df45885031406c32b75c68622dd6d2b4b81279834d3267ef81af1d20",
+        "eb9481b98758d4f4544c4ace83da11b10cc413fb574d3d839d597a59d1ef9177",
+        "70ff7b1fae9011fb8ef6abd398fee761cff8f6cd2cb39aed5480221246ff2f1f",
+        "1ce021ba56503134da3add66da8078a20ecfc95df94687da5f3bded4ac56d82b",
+        "23d77e53f7f7326ebe63f51946652011da0a3844de31ec247201fceadc633e0f",
+        "d468551c2240b2073c4c27c78304515ebafc997e845bcdd1056537c7cfe92e19",
+        "af5db8cfe977bc4072bad56c266ff41613fd1673698814da975afbad61cbcb12",
+        "7f7132da9a6c233acfc6b40881f1eca717cc737e958c4ed695fa52a7a0759e87",
+        "ddbdf9668d3e7429f36227b45e4d1207f94f728a7c24fa5032df3c1bfb98e204",
+        "87b8c322603fbd46570993bd1705e56ff128e6ff8aa8726afa4a133367f5b488",
+        "69c9dc31c0ff57de9ac588f824cd29f42dc59dbcc393f559e0fc57d14f03f678",
+        "910c9f161fa58b07ecc5a71dd1b5908ce0c357f3ace731d9b78c175ab45d2b6c",
+        "130935126171be351917a3d79a1921b636c4d1264b30cfbbc497a7e5ec81e01b",
+        "3221625c7794ea49c56b17f205ca672ccb53fd0de7f8aa8b6a3c41956cde8320",
+        "84710aed6b98d00600a3418c994234eb57c0f67c68f95b6b7244c353dc5c7cd4",
+        "0f1bd3c46f6df83d2328c67a2518442090d8e069ac527cfeb961624b22692ac3",
+        "6708838d952e8b35ca3de6af1e7b646980e3353d28339e0fe87a64e5183b1f10",
+        "30868ed3705244f82d2434a62d02837534fbf03c930d3ed66cec37b88b315dac",
+        "118723ca04ffe8e9f5b8521d766efe123a6f06eb06a799cc17487dcf00fa85b4",
+        "dbbe03446d577381c1c0c1fce46de5e28687bd9f40738fec6715135a59d06607",
+        "16cdd4bf18c07703ca0e7ea3b286437c4068d281dc6d37a8b6d6e60ba9e672b1",
+        "a20b98666c2961c6da9bfd47c325aaf614f5fe4cb91259450fa82878e31c7ee9",
+        "b7988124752ba440688bd54b820d12dba56dca9205fc5e787bd75518649ca3d5",
+        "043aec8ba5ae7b685fde11423f70b474c3878bf5448a76543356e02bb9190aee",
+        "4b4a59b0fc600f123148adaefed552bde24179fabf4c2a4c13ced5f24827ac86",
+        "15f562d80bac8992bfe829fbed1ea1835144237075115baf9c4a10db36bbc1e3",
+        "3a96a1434d0be222f0d1e011b21c476be77eb1714b6289bc2b051cb4cd04355e",
+        "be28c24e1a461686c01e0dbcd62a44b8a9f8590233d6b3fde5497b06d70d4c57",
+        "10e47a1bf5f177c69d280b9225673957c3659b3cdb5346a8af6b9739829ed416",
+        "4e3ab19cd10d6cbf8b00bb72a0fad236471007a9f50dc5350c67555fe5e82a7b",
+        "544a497cddb8c068e390ff29eb7c1dcc92e7dfbb207c6710fbff0c1fc4e332b9",
+        "1eed071cf93b4ecfe1ab9249c574619b19484465ced12f00d006c804d6423f31",
+        "8e46e5843e03b9c69adf7d3be5cd9cf78969cde25c6a64acb227c8b6b47f78f1"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/extremadura_2025_m05_informe.json",
+      "report_sha256": "dd23fef8effe518275a5e218497e0fec5ae51d9deb49e3252fd00b04470bceb9",
+      "selected_artifact_content_sha256": "401b80408081ee7dd5cd3aa1c7f13d034100fda8f9b977b818d7253c49daa01d",
+      "selected_artifact_sha256": "29241ef2f904dfccb6c2e704735b0b94a220ca831ac91b94937a546ecf4d6556",
+      "selected_assignment_hash": "17d728151136cfb07fd91801169c9e01c7326e042cb48fb596f77bdc3bf0cfed",
+      "selected_output_content_sha256": "401b80408081ee7dd5cd3aa1c7f13d034100fda8f9b977b818d7253c49daa01d",
+      "selected_output_sha256": "2fa2af73aab08ffbedf7a3a299eddc314017629022fc142b2d78af5dc784b5cf",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "04da88c4a3b0bf3a1fb8c40778090641bf9765a4",
+    "edition": "2025",
+    "territory_id": "extremadura",
+    "territory_name": "Extremadura",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41042675119,
+    "workflow_sha": "04da88c4a3b0bf3a1fb8c40778090641bf9765a4"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12971802289,
+      "artifact_name": "ddd-state-41042675119-M04",
+      "artifact_sha256": "497945e2a4b39da790d21c19e9f01f1877279305d8b5e7832cc6630037b479e8",
+      "run_id": 41042675119,
+      "size_in_bytes": 87432744
+    },
+    "source_manifest_sha256": "f8959b3bab52843b5e01cfdf9efb4282dcf5fb6b991bf071c8260b17d714e4df",
+    "source_package_artifact": {
+      "artifact_id": 12818608956,
+      "artifact_name": "ddd-source-package-extremadura-2025-40691774876",
+      "artifact_sha256": "62efb06eafc4302639b1264999ed8afb7bb7ba94f0639f872bae72dfb2b7c619",
+      "run_id": 40691774876,
+      "size_in_bytes": 81051386
+    }
+  },
+  "manifest_sha256": "ca0a945f10a76bd64003fca6d0f1de3a3dcf4eb17a610403a96632c330ebb702",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
