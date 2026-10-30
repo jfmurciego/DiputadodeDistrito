@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12947580415,
+      "artifact_name": "ddd-audit-40979640315",
+      "artifact_sha256": "2ca641c446873ed750cbb935d3b5bcd8e19388dd517a3064f8ac3209a5f8b63b",
+      "run_id": 40979640315,
+      "size_in_bytes": 14531
+    },
+    "m04": {
+      "artifact_id": 12945041429,
+      "artifact_name": "ddd-state-40979640315-M04",
+      "artifact_sha256": "4d28296a2736387bbe78838951b7e754f5f8e65cd8e8704d7af81abd2633c767",
+      "run_id": 40979640315,
+      "size_in_bytes": 96337764
+    },
+    "m05": {
+      "artifact_id": 12946896742,
+      "artifact_name": "ddd-state-40979640315-M05",
+      "artifact_sha256": "469326da03fd648d533d7bf2adef682f829b2d5dea8166eb49867bc0ea5e4561",
+      "run_id": 40979640315,
+      "size_in_bytes": 301939953
+    },
+    "m06": {
+      "artifact_id": 12946842562,
+      "artifact_name": "ddd-state-40979640315-M06",
+      "artifact_sha256": "d29a982a4a6e7456b0f129d5119e1eb53d26834284dada7bcd6b969d394edf74",
+      "run_id": 40979640315,
+      "size_in_bytes": 307764823
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "46fc82a1583ee98b7c699788f75ab23b9f16329b4ec6202a65e0834937466d2c",
+        "size_in_bytes": 473
+      },
+      "optimization_execution.json": {
+        "sha256": "e47f7486e9cf19bf9466dbe1a8514895e554a4abea14a7ce7481f2de8619eb4d",
+        "size_in_bytes": 673
+      },
+      "pais_vasco_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "fd573a118919b9555acf6e4f197bdd95f30dee57e17456a20fd2b422ead33312",
+        "size_in_bytes": 83737
+      },
+      "production_status.json": {
+        "sha256": "74b3b8651fbbd204d80d0f8b875c3ce378e4f3e6d6f411aa04152c0504bfac5e",
+        "size_in_bytes": 1294
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "74b3b8651fbbd204d80d0f8b875c3ce378e4f3e6d6f411aa04152c0504bfac5e",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/pais_vasco/config/pais_vasco_2025.yaml",
+    "sha256": "6815f944c3583f35bab4af40bc091373580b270324b60d19577a8da9c05e583a"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "ab0c6ecc009fd3364b099be5fa0f43ad81956cada379a90911a743f9510265bb",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "98a2593f0799a4baeada41a1e06493bbcabd06d34cb327e161560732a76a0f54",
+        "013a610e4a4f8571d2f5b65e56433251a73e2acb56b922e6a95713358908b0f0",
+        "61a8ecc62888a0e56e63c07065eed954598771ac939a85393475bf5acbcd1fc2",
+        "d13a1a79fac54d35d0c73e1a9d09b51eed780af86f72d6852012e4317c36594a",
+        "4865d75de80e98999c0c5333a6b4dd0710a7c7edc56daf1959d03d0fc5ab0e87",
+        "004bf3030e7cdbb34d08fbf1fcecaeba3f3e71f68c611271195560fc1fe980a8",
+        "d556abc86a80743490ef657f2771a71506d91a58ef674e1348a049ed1ea89de3",
+        "0ae9a37fcd79de3462fd0bedc2cd72d7a20adc93f25776f654029398c8a7c08e",
+        "06b686dc7a99d64b86713dd47c7a636e50096f493e02852cb376b2da8041438b",
+        "20416324cf01cfdce6ce75ceb97586cd756f975020c93de4ac56c05a9ce77961",
+        "a5212ed4144fce7016807ff24ba0c13bfc8a07b86a4b56526c03c8c6cee91181",
+        "0a14df24efb6e3d32b75ebe1f910f528aaf6c5cc3d15fb1c524d8d5aaf31b63f",
+        "42c8f574a948629620f44bef6dc3e37553a9ccb9c35e6b7ebc29f1b647b0dc57",
+        "0cc7c7b065af3a0cacdc5c72c90ba96ef7ebac1f6f77006ae6d2f4fa4273530c",
+        "208c841c6d0dd92f859a7b5c0abd03a88c86fefff919653cb61d0888d47420d6",
+        "d7bb34e85d03097ae009cb6339a0cd75a22b60375de0f127cbcdc41de5f885fc",
+        "3558d6404f7fdea01fea4d8b305b93c016f8032a7031c742755beef38ea42b6c",
+        "0fcf7579e52a478e2c8bbe94c24b69f851b085718e4b2788e1e3a7b3df6860d8",
+        "21eba34268975f240ea9d6773c83c4522ffcafa3602c91ffaa4d2ab6561fe663",
+        "1729d2eef5a46f81df3faa9fa14e67a593a440ceed40c4d9a01cb6ccc5d0677b",
+        "53ad5723a7fb682bcb5c04187fec3651ed5f80f2477a2e4e0b9fde28b3acdc82",
+        "ad81e0846ffd8bddf9c57de6c6dd576c21046da1df408a888899ab5a0926c648",
+        "d86ef5dd1971a3ba7d2319f9bf25e9a44cba6db755af8d628d955a71118c1c12",
+        "c17d13dc78324e410eef1789b051cd3851a5054743dd3f660fe258c921daab7d",
+        "73794838e24b23e5bc0eafe64f6519f118fdf7e2e20082174e803dae18b17024",
+        "9d812d698f18e43b15970d1feb45408133fe5e15b6541ef72fc45f485685ff94",
+        "acbdff38e4982cf5ba0c450ed1aefe154f1bf339eaee5d574bb4339964d680bc",
+        "b874e0bdf2301135a9bc4357cce944c2bcd2a1f732e55e87394663f986377663",
+        "455173ddb610cfb531a865e1e7d6273d9662e4bd02a1a983928f4f1ebffa2a76",
+        "22db045bc386e644beb15424ee7414c2bcc6879378abb426945dbbf497035f0c",
+        "4e3a22a5c478c9bf4ff602306619210e5c1faf0185a4a604641ad71dc89c6944",
+        "b0d5b8740061f3639bf8808954a2e452927f60e959b70a959e3a2c98519fbcd4",
+        "0387f5aa0dffa5c2cbdd8471b79ba96c6c15d506b9f11fc36123715bc6a52a94",
+        "8113d9bc5374553fb5cac038b5a1d463e4503489c595567e41d0ac9b5aa9d4ee",
+        "b3308a3816836f2d4b998e0c81b0898271abc1933d152554127c996b852358de",
+        "30267a4c633f2d0c08b1d2d7b8c77207983bc3aede24f20035b6a88f3f746f65",
+        "e249ad8c75dbe44aa6a38218844f3d24abd88e6861c7461556304fba8f266211",
+        "6b09af36f9c9962d5e4e39e553b90b061c5a34758c75c0de5b26593fd527a25e",
+        "c0873db63edd443fcca6dcb3bc07748a93f3b9c18773418d7fb348374f0767cf",
+        "60d8d4c99c88c82f1f8ff4f804d0de0eb039633202d027bd0989064e433e8728",
+        "4fc5afb49707f7d048035ad302e7ceff56f6d90e929b2ed79c9a4c06abe09a18",
+        "e7dc18834fb2b203cd8c6eb14b970f984ab35ead26b5a8616647a5a3df86c8b4",
+        "228960f6a701374109eb53e7d01c4bfc482e67c0da25710f5b0cd11385992a2f",
+        "22def978c82c18798318e16f5cc75e411076402253354b9bb8c8706981403834",
+        "c35deadd213b415feaae4f506db1de360a8325950e1814f7849798ad5abdee9d",
+        "f847ce0411f96e5eb514ac4c9071ba80f8705ebb10df450321b8b8162e7a5088",
+        "90a23ece70f68d15c574c42babda118c43ae67d31cf66002cfc1fa41beccd0ad",
+        "31be7fd9fc99f34e7bfb27223b9e2481e41dfdc9619fa71ddfb6b5c476b45e1e",
+        "439ad76d56097a9908c431e366cd50b75ac02639219023bb2b1faa6ecdf63697",
+        "1faea1b2feb92c98e8414f18be7a3f1485ceac7b34355d0389db380dda5f22f0"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/pais_vasco_2025_m05_informe.json",
+      "report_sha256": "1dd4ee2519e4c03ddd264eb7ec6c67264e51c4db5719e551856509d45caeac6f",
+      "selected_artifact_content_sha256": "ea3fa3d16f17241acd69b210012fe63d9cb5b2dc7226a4aac3156f51235ea86f",
+      "selected_artifact_sha256": "c8f2f7d8bff880a90cb469c14f0bb9d0dd1e81e917dae92538b3f3e65771d1e8",
+      "selected_assignment_hash": "228960f6a701374109eb53e7d01c4bfc482e67c0da25710f5b0cd11385992a2f",
+      "selected_output_content_sha256": "ea3fa3d16f17241acd69b210012fe63d9cb5b2dc7226a4aac3156f51235ea86f",
+      "selected_output_sha256": "e1d5ddaeaf81b9d517ad6dec9a2f2cf6488385b27fe1bc95afa008ec12fa7993",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "627514a362fff2e6b75bd3313356963a38fc6a73",
+    "edition": "2025",
+    "territory_id": "pais_vasco",
+    "territory_name": "País Vasco",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40979640315,
+    "workflow_sha": "627514a362fff2e6b75bd3313356963a38fc6a73"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12945041429,
+      "artifact_name": "ddd-state-40979640315-M04",
+      "artifact_sha256": "4d28296a2736387bbe78838951b7e754f5f8e65cd8e8704d7af81abd2633c767",
+      "run_id": 40979640315,
+      "size_in_bytes": 96337764
+    },
+    "source_manifest_sha256": "54b13f0d6329eb30bfb5fedaa8c867aebbe0a3bf99680f6dcbada153e8b84ba8",
+    "source_package_artifact": {
+      "artifact_id": 12929082937,
+      "artifact_name": "ddd-source-package-pais_vasco-2025-40946888676",
+      "artifact_sha256": "c9175d33370e3a9eaf1e32b5b671efb5dc46462ddba7c8db9a6d6ae6d43dd90c",
+      "run_id": 40946888676,
+      "size_in_bytes": 88076378
+    }
+  },
+  "manifest_sha256": "1ecc5c35fdece711e39e241927175e40b1a1b5dfaecec407ab526ed007dda309",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

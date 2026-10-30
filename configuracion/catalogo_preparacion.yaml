@@ -613,8 +613,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40951146225
-        stage: M08
+        run_id: 40979640315
+        stage: M06
       preparation_evidence:
         run_id: 40946888676
         artifact_name: ddd-source-package-pais_vasco-2025-40946888676
