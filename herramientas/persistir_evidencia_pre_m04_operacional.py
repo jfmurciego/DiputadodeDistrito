@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 from typing import Callable
 
@@ -627,7 +628,7 @@ def main() -> int:
             handoff_metadata=args.handoff_metadata,
         )
     except PreM04PersistenceConflict as exc:
-        print(f"::error::{exc}", file=__import__("sys").stderr)
+        print(f"::error::{exc}", file=sys.stderr)
         return 59
     except RuntimeError as exc:
         print(f"::error::{exc}")
