@@ -4,9 +4,9 @@
   "territory_id": "illes_balears",
   "territory_name": "Islas Baleares",
   "edition": "2025",
-  "run_id": 40957888543,
-  "artifact_name": "ddd-state-40957888543-M08",
-  "artifact_sha256": "84095f46aca5aba8129460818daebb24b111258072eb0aca82a5491de9ff1610",
-  "source_commit": "550a95a11604e542c9e1a06bdb920c2de798bfdd",
+  "run_id": 41033500476,
+  "artifact_name": "ddd-state-41033500476-M08",
+  "artifact_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+  "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
   "stage": "M08"
 }

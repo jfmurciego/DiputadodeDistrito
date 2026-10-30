@@ -147,7 +147,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 41033500476
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40946850006
         artifact_name: ddd-source-package-illes_balears-2025-40946850006
