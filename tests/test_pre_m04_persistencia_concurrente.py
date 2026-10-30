@@ -877,6 +877,29 @@ class PreM04PilotPersistenceTests(unittest.TestCase):
             self.assertEqual(returned, first)
             self.assertEqual(json.loads((base / "noop.json").read_text())["status"], "NO_OP")
 
+    def test_unsupported_flat_master_root_rejected_consistently(self):
+        from herramientas.persistir_evidencia_pre_m04_operacional import _master_row
+        from herramientas.catalogo_preparacion import validate_repository
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_fixture(root)
+            path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
+            path.write_text(
+                "- {territory_id: alpha, name: Alpha, status: source_prepared_pending_pre_m04}\\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "YAML inválido"):
+                _master_row(root, "alpha")
+            with self.assertRaisesRegex(ValueError, "YAML inválido"):
+                validate_repository(root_dir=root)
+            with self.assertRaisesRegex(ValueError, "YAML inválido"):
+                register_evidence_path(
+                    root_dir=root, territory_id="alpha", edition="2025",
+                    evidence_path="territorios/alpha/evidencia/catalogo/generation_preflight_2025.json",
+                    contract_path="territorios/alpha/config/alpha_2025.yaml",
+                    evidence={"evaluation_status": "PENDING"},
+                )
+
     def test_pilot_duplicate_identity_is_rejected(self):
         from herramientas.persistir_evidencia_pre_m04_operacional import _master_row
         with tempfile.TemporaryDirectory() as td:
