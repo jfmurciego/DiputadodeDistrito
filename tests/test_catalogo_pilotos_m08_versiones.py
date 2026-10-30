@@ -224,5 +224,57 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
                 )
 
 
+class ElectoralSourceRecoveryPrecedenceTests(unittest.TestCase):
+    def test_declared_current_receipt_wins_over_stale_legacy_receipt(self):
+        from herramientas.detectar_producto_electoral_huerfano import _receipt
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            catalog = root / "configuracion/catalogo_preparacion.yaml"
+            catalog.parent.mkdir(parents=True)
+            declared = (
+                "territorios/demo/evidencia/fuentes_electorales/2025/"
+                "actual/receipt.json"
+            )
+            catalog.write_text(
+                yaml.safe_dump({
+                    "territories": [{
+                        "territory_id": "demo",
+                        "editions": {"2025": {"evidence": {
+                            "electoral_source": declared,
+                        }}},
+                    }],
+                }),
+                encoding="utf-8",
+            )
+            legacy = (
+                root / "territorios/demo/evidencia/catalogo/"
+                "electoral_source_2025.json"
+            )
+            active = root / declared
+            for p in (legacy, active):
+                p.parent.mkdir(parents=True, exist_ok=True)
+            legacy.write_text(json.dumps({"run_id": 100}), encoding="utf-8")
+            active.write_text(json.dumps({"run_id": 200}), encoding="utf-8")
+            self.assertEqual(
+                _receipt(root, "demo", "2025", "electoral_source")["run_id"],
+                200,
+            )
+
+            # Si la declaración vigente es inválida, no revivir la antigua.
+            active.unlink()
+            self.assertEqual(
+                _receipt(root, "demo", "2025", "electoral_source"), {},
+            )
+
+            # Sin declaración, los formatos históricos siguen pudiendo leerse.
+            data = yaml.safe_load(catalog.read_text(encoding="utf-8"))
+            del data["territories"][0]["editions"]["2025"]["evidence"]["electoral_source"]
+            catalog.write_text(yaml.safe_dump(data), encoding="utf-8")
+            self.assertEqual(
+                _receipt(root, "demo", "2025", "electoral_source")["run_id"],
+                100,
+            )
+
+
 if __name__ == "__main__":
     unittest.main()
