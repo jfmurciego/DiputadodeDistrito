@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12969922174,
+      "artifact_name": "ddd-audit-41033500476",
+      "artifact_sha256": "8708d1bf33a676ac0c14159b4d29f94d950327bb26ba794c509b279e0e5813ec",
+      "run_id": 41033500476,
+      "size_in_bytes": 30066
+    },
+    "m04": {
+      "artifact_id": 12967612142,
+      "artifact_name": "ddd-state-41033500476-M04",
+      "artifact_sha256": "c490c6bf47fd4a710d5cdc4e19f1db4aa2af8b9a73c7109c851ee0a860dbe905",
+      "run_id": 41033500476,
+      "size_in_bytes": 89058803
+    },
+    "m05": {
+      "artifact_id": 12969146911,
+      "artifact_name": "ddd-state-41033500476-M05",
+      "artifact_sha256": "6f7cc91e4564428a9959c81fa80759679309a4b9e400c94c9b0d53154e24ac4e",
+      "run_id": 41033500476,
+      "size_in_bytes": 209152231
+    },
+    "m06": {
+      "artifact_id": 12969392790,
+      "artifact_name": "ddd-state-41033500476-M06",
+      "artifact_sha256": "93bde6278f409dda6b4b25350979150263086991771d8fe9c0f63cbf4f6ec5c4",
+      "run_id": 41033500476,
+      "size_in_bytes": 213300214
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "9b2f3078a2e56a62ae57f90678cd50ddc1ed3d278e1202a00e538baf55565f0d",
+        "size_in_bytes": 473
+      },
+      "illes_balears_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "1655ec300889af5b87fbc7157afe4965dab5f9226e5df9ca68d34afd6d7b3743",
+        "size_in_bytes": 425516
+      },
+      "optimization_execution.json": {
+        "sha256": "21170d25b0c2fe82e4581b39a8ed35d62632b45fb838711dcf0e55e19758aaa5",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "838be43649b2029e58dab6e5ce05641626e847cf68c3e8f1c6ff9c7363c762fb",
+        "size_in_bytes": 1306
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "838be43649b2029e58dab6e5ce05641626e847cf68c3e8f1c6ff9c7363c762fb",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/illes_balears/config/illes_balears_2025.yaml",
+    "sha256": "f01d96def913862a5454ce9bd3a6d785d45e3f55e11b9e1a16f84f881087699e"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "ebc54e935a11646a9d66a55fb3a2f9f9297e61844fc9348449cce5971559411a",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "229719c4fb010b725310f56a624c06e266017297937f96f27e19c2c27e43a1d4",
+        "7c2c084dc1c205acb0cf4a1926bdea5b97b50da5275071c1156399767804361c",
+        "4ce86bbc244bf4c9d788a5b9ed3e25de56c3a36992815ddc48c2f371fabb523c",
+        "062595366e609c28fd37a4a13789cd4825cbb89d4485204d158fc81ed4b837d6",
+        "15523a1f9959f7cc37d422c9ef7e82579d9b5965a29a2e534bb07e232e0e7f31",
+        "3fecd5e5a5afc0ce522251e8a0e6b04dcb61a440e7ac731d25dab069114b7220",
+        "4c88c52b170550c377c7e0cff2ee1bfc350e6b2885f359fb289de2d89b2a52e1",
+        "17f8696f0c3ad05d7d1b4dcda9b2ba6cfd55eca08f763ce2a2beb3ab9dbd0ecd",
+        "09a12232797f3967e2b20fee21be89bb169b2c112c237ded910e3cbf631601c9",
+        "0ab9133ee8ed1484e77085e73dc476901ed36bc5f6f5b23dddd2d2968cf28b57",
+        "1ad8cca44f1bc6bf00d7e560964da71bf465df027a5f3d94129cd272bddbf8b8",
+        "2c6974749bd69391a03a18823c48542ebdffe9e8beba814e83808cd77320eb6a",
+        "89b6b86f50944f3cf3dfd88c5e8355fdae4d0ffc8db98c2208cc0188b640369b",
+        "20ce301e92565d87c66470814104780e795e89bf6122707874805bd36348a606",
+        "0ffb74d4ad1c55172bac1da1a6448b69a3e3bb9e829f2d3730c9b716cd73674d",
+        "c8d8dc7f2fd407bedee7abc2adba9537b1ccc3bca8a7e2666ef2e321a0f5ad7b",
+        "2753ce0b715481bc964cf626937399b5954c093e42149f4ff503a3eeadd542fa",
+        "2fc0c1ad470921e45bbe82b2c6b52a2360ea890603062b1f766332f50a611adf",
+        "1d42fee837cbc19c2548cf49c57f176059c9e4bb4bfbcc614c4d99a26bf6b844",
+        "3d8e4797d175f8ba1c960c2221997cee0259af56d8ea8e7d06db5cccd18beb24",
+        "422d8f188c25d17c0ea83b642672f1505072151a94d6618cd901f9fbc65be7c3",
+        "45474e7cc9c9ce29a7a9eb60ea976f205e8b13c5227f11ae24453636152a38e9",
+        "0f3d3657be5d273fa28ec57ec1c7828a1e8baf187e19156155128c1a03779e76",
+        "4cbcac707311384fe93263f6e5ab483922fd3d909774eeb3be51eeb4ec338f11",
+        "7e43d2604eb84fa7f12f9de7f9ed989da1ef75a18c66c94640a59de64a007a6a",
+        "e6ce2d70a5b263b6a4837ca17dff448522286ac2be775ddc848f731172a66aa7",
+        "45cca1c65a2bffdccadf12849c944feb8c5415c26d4409c85f996e2f2188246f",
+        "9f5f1d6f171f127e72f2cdb78a3ef8985cfb8be003cbe58bcfacbd2f81bc9764",
+        "07da96f0205528fdf2781cc34cf44137ca8d932eb290720bd71c5a24694fc19b",
+        "155576c6dd7cc5d57cdf3ba22f2569eaaf3a5d24d44c234b94faab05a7084571",
+        "b3dc17d10dbb92c94a12a8e61a14af8a15383db58617171f5c92be80f5b72230",
+        "18bdfb1ff7cb61c4291d111ac024ca194742b2e5207d9cca5c901383ef2689d5",
+        "8ab974f158e18d401b79a57c99b5454fbbdab536cd195b19698637d67c8e29da",
+        "4ffb8a1ea0fd959202153e177e00d301b44c340fdddd0ebe75d73ab304b8f737",
+        "64115126f1183f8e49d5652b121298340a1d625eca32a6be4d8156002f038d9c",
+        "1a85b3ec93934d7d19361a2c4b9f6570397bbed40ba56e9b3a0b11f97e19115e",
+        "741b091e7e5ae3e8ab1ba09e1905705188b9f143317ac1edce3929c815d00b21",
+        "dce1247a6308231044adf0b7a6a59e2dcb07e7888e8d5378df9b336d9d18c6d8",
+        "72a3291cd63224041783493f4c7db0549a64b0c928b00d017e049a79f0893564",
+        "4f99839270c7f1fd28a7b52618d6b94dc63f68d795f7d1dda5804acff41d0641",
+        "74f81ed6497a5f337283ae0882b82cb6944516d33c7da19269c1ee6860089c39",
+        "12bf07d9513618d5c7a90de1ba21fe7c6f37963575d8935a0656ce65a7201b87",
+        "0a8e354a07352a7e76b8b040ac81b438338c07f4430f670cd781dfc118f3b63b",
+        "45da46b1d39c4d28a4fdf5707ee901bc3e184e1fa5b5fbfa16c09140a93e1c89",
+        "12ff717554211129e888c4b7aca781833405435fd64b9ee07cb27c730c9b84b3",
+        "64cb7fb8228a76b5d7ef7d2b39209fa22a8617f662b7e239115af68c5d516132",
+        "9259e7030526e87f35798060fe25e301663fbdb0da039ab2e9fb8b4fb1171c21",
+        "5120695724981307dfa2d43ea4e2215182232c3326b7ca6cc4fc7b6eb9bd71f5",
+        "7165247a9d3032b0cdcc78bdf556fc6cc09b632bb0b8a58ef1f9e54300392c66",
+        "077992c390ddca201bafced561894e69ebe706a1c528f8869d365fca8015f620"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/illes_balears_2025_m05_informe.json",
+      "report_sha256": "c517a5855c95328d889ed7609ab85ff3b6533d51f2edea532d50c098cf8217b0",
+      "selected_artifact_content_sha256": "e12f544cfa19b555bbee23d0da15d037115e6d8d17641383a87a9e5cdd21959f",
+      "selected_artifact_sha256": "d185cabfff92441f6e7eb9ba3205b855e0f10b327c2f2905860e47fbfe6cd5f7",
+      "selected_assignment_hash": "12bf07d9513618d5c7a90de1ba21fe7c6f37963575d8935a0656ce65a7201b87",
+      "selected_output_content_sha256": "e12f544cfa19b555bbee23d0da15d037115e6d8d17641383a87a9e5cdd21959f",
+      "selected_output_sha256": "ed60a4fe2ec6b99af5cd7626e7f048c141801b73c13cf704353e8b60126197c2",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
+    "edition": "2025",
+    "territory_id": "illes_balears",
+    "territory_name": "Islas Baleares",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41033500476,
+    "workflow_sha": "b5a48e5d0c68d34a56bac423039af418ba04d2b0"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12967612142,
+      "artifact_name": "ddd-state-41033500476-M04",
+      "artifact_sha256": "c490c6bf47fd4a710d5cdc4e19f1db4aa2af8b9a73c7109c851ee0a860dbe905",
+      "run_id": 41033500476,
+      "size_in_bytes": 89058803
+    },
+    "source_manifest_sha256": "df7d66d6579858ef7751955841c3ff7985f062323eb63fc88e18b1b938fd1078",
+    "source_package_artifact": {
+      "artifact_id": 12928938438,
+      "artifact_name": "ddd-source-package-illes_balears-2025-40946850006",
+      "artifact_sha256": "3f73fd53f8a6bc06f0b559e237959bf6f078589d7510f48eaee2d1fc347e1a03",
+      "run_id": 40946850006,
+      "size_in_bytes": 81801864
+    }
+  },
+  "manifest_sha256": "eca65fe05d56ea838876f1016635472de5106e6dd03f39ed82000a8d1cf09e30",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
