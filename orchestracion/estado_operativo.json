@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T01:05:00.878022+00:00",
+  "generated_at": "2026-10-30T01:10:32.470777+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1067,9 +1067,9 @@
       "name": "Aragón",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40979465420,
       "last_run": {
@@ -1080,7 +1080,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1112,16 +1112,16 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 40898231736,
-          "artifact_name": "ddd-state-40898231736-M08",
-          "artifact_sha256": "93ba5bd02532024b081ecc591628f9f39b2f1fb188f5dc361a1e1cb411022be8",
-          "source_commit": "04671bcece679678d4166d0ba8d2da411a90c09f",
+          "run_id": 40979465420,
+          "artifact_name": "ddd-state-40979465420-M08",
+          "artifact_sha256": "063520ed35b9b2dc459addd51d9003e2f1d54aedae67e235cddcc7a03259e9de",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "principado_de_asturias",
@@ -1977,11 +1977,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40979652189,
       "last_run": {
-        "run_id": 40867482289,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 40979652189,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -2151,8 +2151,9 @@
     }
   ],
   "kpis": {
-    "complete": 15,
+    "complete": 16,
     "complete_names": [
+      "02 Aragón",
       "04 Islas Baleares",
       "05 Canarias",
       "06 Cantabria",
@@ -2238,12 +2239,6 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "02 Aragón",
-      "territory_id": "aragon",
-      "autonomous_community_code_ine": "02",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "03 Principado de Asturias",
       "territory_id": "principado_de_asturias",
       "autonomous_community_code_ine": "03",
@@ -2262,12 +2257,6 @@
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "generar y validar distritos"
-    },
-    {
-      "territory": "02 Aragón",
-      "territory_id": "aragon",
-      "autonomous_community_code_ine": "02",
-      "action": "preparar fuentes electorales"
     },
     {
       "territory": "03 Principado de Asturias",
