@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T11:41:44.932192+00:00",
+  "generated_at": "2026-10-30T12:22:00.443488+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1374,11 +1374,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41037133327,
       "last_run": {
-        "run_id": 40979514726,
+        "run_id": 41037133327,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -1740,11 +1740,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41044499258,
       "last_run": {
-        "run_id": 40979592029,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41044499258,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1799,7 +1799,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40787900559,
+      "run_id": 41046373806,
       "last_run": {
         "run_id": 40979604634,
         "status": "FAILED",
@@ -1825,13 +1825,13 @@
           "territory_id": "madrid",
           "territory_name": "Comunidad de Madrid",
           "edition": "2025",
-          "run_id": 40787900559,
-          "artifact_name": "ddd-state-40787900559-M06",
-          "artifact_sha256": "a0258112ed6dec09d720075eaa37a10985aa55adbd22197a96f8752de3e86ac8",
-          "source_commit": "9c554d0729ee26daaef39eff1788a79628492135",
+          "run_id": 41046373806,
+          "artifact_name": "ddd-state-41046373806-M06",
+          "artifact_sha256": "d695e3be4e25105dcbfcd60df825f76f0335cd73931385115b8c7485e21d4943",
+          "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/40787900559.json"
+          "producer_manifest_path": "territorios/madrid/evidencia/generaciones_m06/41046373806.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1840,10 +1840,10 @@
           "territory_id": "madrid",
           "territory_name": "Comunidad de Madrid",
           "edition": "2025",
-          "run_id": 40787900559,
-          "artifact_name": "ddd-state-40787900559-M08",
-          "artifact_sha256": "aa2ada7f6b498fa98341e04df0ee7178ed4ff129326bb37c47ecb5c525d2bef8",
-          "source_commit": "9c554d0729ee26daaef39eff1788a79628492135",
+          "run_id": 41046373806,
+          "artifact_name": "ddd-state-41046373806-M08",
+          "artifact_sha256": "79a2be39285998a4477d3701984508a43806292d0ea0d0282533e73dfb6adbaf",
+          "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
           "stage": "M08"
         }
       },
@@ -2328,11 +2328,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "galicia",
-    "name": "Galicia",
-    "display_name": "12 Galicia",
-    "autonomous_community_code_ine": "12",
-    "run_id": 41044499258,
+    "territory_id": "madrid",
+    "name": "Comunidad de Madrid",
+    "display_name": "13 Comunidad de Madrid",
+    "autonomous_community_code_ine": "13",
+    "run_id": 41046373806,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
