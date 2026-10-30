@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12991567467,
+      "artifact_name": "ddd-audit-41062567297",
+      "artifact_sha256": "b207a97345f260be401484a68e5044ba2c2a5640e569405306de6c1848e9a2af",
+      "run_id": 41062567297,
+      "size_in_bytes": 25573
+    },
+    "m04": {
+      "artifact_id": 12982383385,
+      "artifact_name": "ddd-state-41062567297-M04",
+      "artifact_sha256": "8c41e7936087254c88e10ce4e6e393feb04c7745b3b764edf8de2d2b19a75b50",
+      "run_id": 41062567297,
+      "size_in_bytes": 90530194
+    },
+    "m05": {
+      "artifact_id": 12992205941,
+      "artifact_name": "ddd-state-41062567297-M05",
+      "artifact_sha256": "08214526d11b6f96204ec5e9fe6b7e6aafe96400d62477b0e4d11f424673edab",
+      "run_id": 41062567297,
+      "size_in_bytes": 244756296
+    },
+    "m06": {
+      "artifact_id": 12991606890,
+      "artifact_name": "ddd-state-41062567297-M06",
+      "artifact_sha256": "2ee98e3d269c78a497dc26037798afd1865aa57a8cba359282be2259f33bc506",
+      "run_id": 41062567297,
+      "size_in_bytes": 248889172
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "d45dee0b782eb39a53bc82393d4d69cf3a5934d2f5f6fcfce0c84e9008d5dc15",
+        "size_in_bytes": 503
+      },
+      "comunidad_valenciana_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "9bd0405b9e34d6e26292994d35f3c9b3800af8613f1f312d9d54f0060dc33c60",
+        "size_in_bytes": 221209
+      },
+      "optimization_execution.json": {
+        "sha256": "f556ffb8a8a7eaa703780a4ff46c973c65a1be46868e079d5ff1b75e1bb05a8f",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "fce1eb4649256bd861d2250c19013bc13619094636f26db74b592d97d7b17405",
+        "size_in_bytes": 1357
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "fce1eb4649256bd861d2250c19013bc13619094636f26db74b592d97d7b17405",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml",
+    "sha256": "07f4ced463f2ce7ab9abf2f38a08e124433384b87f0607cf711316b0c63301eb"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "cb9a1bb42320f9fedf317b8798469f53758b4b0013bc18ae55c738f3621f5a4b",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "f7462c7bb2534c7ca7cc35a371fb520fc1c140ba7531501c128a87e5945b22ef",
+        "9158f713e51c496f2b2dd1ff3c68adfd85c7c4ba851db24ae653401cc9fc38a4",
+        "180cad30acd277eb1de51c8152bfa78abe87b3b68b2c867e32d2995fb0c8235d",
+        "5ecab2afab79bf69de89e33d6baaa520d7d7b70d69a19b096da1b510b4219c50",
+        "1efe424ffc6cb066f8e2f1914f0ac9457eebd2f53aadc72a8640e3065afec811",
+        "356371c3728180be9c64673133b6ce9ba62ef6c5b8dd64a25809f8c2d7e2e860",
+        "56e404185281a148232f069b2ec5a0a68a56128603b144198ba00f2727d87f68",
+        "f781921937522b7f6f416bcb46189ef682ec308a5a37b1c3bd7999b766f3c237",
+        "5c74482e82639edb62a66ed84c24f0c9665e6ba09639f5d14e121b430c1bb4dd",
+        "96cebfeafc37ea5dec055354bf4ccabfd8d3f39470496e317c9498fccd236774",
+        "78c39f1efafd2325a135e6dce91cb8e14e8828dd607cbffc97cd3658c9700eb7",
+        "0f2f26fe69b92ad3ff4a042834b216239c390d15f5661d0eee66ad9323d6b21d",
+        "637ebab9070da695babed5de55ed93d3ad91aec54fe3e749408152c9e707f4b8",
+        "28d3b42c29e7c8923acf945e5155d980302620840c448846af7ff602690beb60",
+        "0ed34a114752bd5dcf2a74ebe54ed1b930bbe0265eb0a7f8fb75b8b3c6370935",
+        "8f507ea7a936becf012451831ac5b7f79570aad7d35571948a0f04e1b74558c7",
+        "690eae4bdc3e4a2865e5c14eb6f62d73b0e5ce9d3bac430d66d69bfe088787bd",
+        "8474dec160dcacc9e3781e544fa42b2a59ae40ecd05c0cd7c5e54b52fcd0bf7b",
+        "a37fd4f5b1add12a20965a626ebf44012ad36e0959cc5ef9520110ac724e5a14",
+        "1a9149338e5821564730d126ac6850430765637e367811e13b2247859b9bfdc0",
+        "aa254888f5535f60a511e2bedf60d5a3fd1b636dc83a5a97063160e1fcdd0907",
+        "85362a647d078199adc5de34021f7d258b8ed2749b0ec0c61a0ea6381227e52a",
+        "6dc167a63b3c610c45819a189333f420449993049e303f6a242f7422e6929519",
+        "7f4f380b3af4fb20362f44f07e1b8ba083f4c0e4ed834375088a1fac045b7dcd",
+        "1938250c26343694976e3e0534a12f22352aee085b9594f0d6445aba8c359daf",
+        "0b4ba4fda8ced4956a19024ee386d37ed6f9f624bbb04fcfe77ae52ecfbe30ab",
+        "405b2a94102fe6bea6d1d942a18d4ba415c5334c2d7a78e1cfb9c1a5e160842e",
+        "72d53a74b01250e699f0e650c86ac7cdd0c15c38ba513aaedbb15d69d536882f",
+        "7d90c4586cd01e411014e0a273f681fed169e70ea2a9fde7875258af8cbc65e5",
+        "65527abac78d1edbc68a58407b55b1214395a7b4caeb3b1ee28d26754d5006a1",
+        "5c7daa7de90672b8fc2f4aaf1a86626bf722cc20663896bad9c2d73bee1e090d",
+        "0a73a346e024546d31da67eebd1db4c2bf1f278c682d7fb8160aa16273cb1e23",
+        "5bdbe6222fd34ce9aa5de616071ba75d6917a93417783399388608f66ecdbdad",
+        "a791c67f8416d53d1d82a0372ca739eb67630eb99310b9025b9970269db6ba30",
+        "85e3a6f4e69846ae91f3c01ad9ff6339db069dd4be59c415b84d8a0b1fdec2e4",
+        "0b945baacbd66dc64e5e80236909a26ed162df6110f9c42b5c5c75f6915db674",
+        "c0e20242cd5f281576108d777cc106f8025c9b7d511f85a0d6eb678bfc9638e2",
+        "74d393b2cdaab1bebc78feb6939270b3472629c20a5e18e936069e42b08c8961",
+        "44d6cfda703384f98f42c96229c9695b6fab93a5f34dbb088e5959878e21f030",
+        "ebb8088602f408820093da9300093afe41086c219f9d4dcac3c178956afbfc50",
+        "e6ce81bf164d47bda641c3628bab4ec0d71ba6d4c999e5a01971d46c7dbfc799",
+        "1cdf1aa43c6808751c45dbb1c4e31f6032f1400a0cdeec99833f9d141da48b87",
+        "fe60ee71c6538b075c1994012956bf35e0616509866a1201b3f4bc6684e3e0f5",
+        "575019cc55e2065d6def23c20e0c02ff868622343ad0615db9d25b5ce487672a",
+        "c19ec063a9726fd64a7c3b490ad39b7cc9054d1053e2c9470d16da13a6ce521b",
+        "f83eba5e3207ba02070e304fafee8a51a73111166fb0058becc89d5507354abf",
+        "5075e3ae49e8d2839687da028fc55f41aa5ec3ab53a1aad48535aa207a7ebcae",
+        "cd9b1f0fd762e10d2d5eb25ed9f1206b3798456afa3dd509bfba5fb5caea51f2",
+        "57c31fc0b48342e0067c402437690f0549e90408ef9da5836e374e5ed4d2a5ff",
+        "9f6332807d95f1779a771308213839537164e5a1d7b365ee9c3bad9a79063aea"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/comunidad_valenciana_2025_m05_informe.json",
+      "report_sha256": "585c8417850fe2859b27488a04f92167386835705482781e61413012e692dc97",
+      "selected_artifact_content_sha256": "8a201b8667ceb6539a684bfdeae13facae780898091dcb26fd9705a91b6653d1",
+      "selected_artifact_sha256": "ed06e8dfe6d4bd84ce9cf64b312704cf16b9e2fc955f7d8a9ffa7e68bbb71c99",
+      "selected_assignment_hash": "cd9b1f0fd762e10d2d5eb25ed9f1206b3798456afa3dd509bfba5fb5caea51f2",
+      "selected_output_content_sha256": "8a201b8667ceb6539a684bfdeae13facae780898091dcb26fd9705a91b6653d1",
+      "selected_output_sha256": "cdf83ef60d15a64632e9f091b81916750b49b466a565b4e4dc000bc67bc99d32",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+    "edition": "2025",
+    "territory_id": "comunidad_valenciana",
+    "territory_name": "Comunidad Valenciana",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41062567297,
+    "workflow_sha": "46609e3774f1555a6d5f54da44e618bd45e29e80"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12982383385,
+      "artifact_name": "ddd-state-41062567297-M04",
+      "artifact_sha256": "8c41e7936087254c88e10ce4e6e393feb04c7745b3b764edf8de2d2b19a75b50",
+      "run_id": 41062567297,
+      "size_in_bytes": 90530194
+    },
+    "source_manifest_sha256": "07203c2ce63597230d43ae7a38fe281e1ab2d0a60ffe937bce6029982e5b1a4b",
+    "source_package_artifact": {
+      "artifact_id": 12936526235,
+      "artifact_name": "ddd-source-package-comunidad_valenciana-2025-40956462986",
+      "artifact_sha256": "1aa62c171c5bb073a7941dd1c0b31f9f4c8155aa8153c027da9622690a0b2c2d",
+      "run_id": 40956462986,
+      "size_in_bytes": 84350164
+    }
+  },
+  "manifest_sha256": "d0a93d30a4918073318bc782fbff7cd378543ef4013c2e2baa2946b550f9fcc8",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
