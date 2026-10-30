@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T01:39:54.967364+00:00",
+  "generated_at": "2026-10-30T03:55:32.669115+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1372,11 +1372,11 @@
       "name": "Castilla y León",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40969454399,
+      "run_id": 40979527162,
       "last_run": {
         "run_id": 40977515483,
         "status": "FAILED",
@@ -1385,7 +1385,7 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1402,20 +1402,31 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 40969454399,
-          "artifact_name": "ddd-state-40969454399-M06",
-          "artifact_sha256": "66dc44bae7adc9c58dc1e76a0d9379d9c8a075b6f72613afb29805cd4bc97eb2",
-          "source_commit": "aea114c14ec142c45aed09c8ed51ea755b4e4a4b",
+          "run_id": 40979527162,
+          "artifact_name": "ddd-state-40979527162-M06",
+          "artifact_sha256": "4f69fa84a529ea7f474197f0094570f37de4eac5a92c6356e72db16d728de824",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/40969454399.json"
+          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/40979527162.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "castilla_y_leon",
+          "territory_name": "Castilla y León",
+          "edition": "2025",
+          "run_id": 40979527162,
+          "artifact_name": "ddd-state-40979527162-M08",
+          "artifact_sha256": "04d1b913b5056d9a6155cc6a84c74aaf8227fa333100442a342bb5c306edafd6",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "07",
       "display_name": "07 Castilla y León",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "castilla_la_mancha",
@@ -1916,7 +1927,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40979640315,
       "last_run": {
-        "run_id": 40951146225,
+        "run_id": 40979640315,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -2151,13 +2162,14 @@
     }
   ],
   "kpis": {
-    "complete": 17,
+    "complete": 18,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
       "06 Cantabria",
+      "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
       "10 Comunidad Valenciana",
@@ -2238,12 +2250,6 @@
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "07 Castilla y León",
-      "territory_id": "castilla_y_leon",
-      "autonomous_community_code_ine": "07",
-      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -2252,12 +2258,6 @@
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "generar y validar distritos"
-    },
-    {
-      "territory": "07 Castilla y León",
-      "territory_id": "castilla_y_leon",
-      "autonomous_community_code_ine": "07",
-      "action": "preparar fuentes electorales"
     }
   ]
 }
