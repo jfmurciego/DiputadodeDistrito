@@ -458,8 +458,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40832139215
-        stage: M08
+        run_id: 41044499258
+        stage: M06
       preparation_evidence:
         run_id: 40690688352
         artifact_name: ddd-source-package-galicia-2025-40690688352

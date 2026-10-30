@@ -4,11 +4,11 @@
   "territory_id": "galicia",
   "territory_name": "Galicia",
   "edition": "2025",
-  "run_id": 40832139215,
-  "artifact_name": "ddd-state-40832139215-M06",
-  "artifact_sha256": "8c5baf6f9a04b6a5a223d4d75405ab524b78adf77d7ea9b81b7dcafa253e6971",
-  "source_commit": "14b4d01c67fc3660ef275e6f76da0e06c8894d90",
+  "run_id": 41044499258,
+  "artifact_name": "ddd-state-41044499258-M06",
+  "artifact_sha256": "c6e36fe47b81f95236db7f7d75e915da978da0ed65ddb0b8ea31195975802734",
+  "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40832139215.json"
+  "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/41044499258.json"
 }
