@@ -13,7 +13,6 @@ from typing import Callable
 import yaml
 
 from herramientas.catalogo_preparacion import CATALOG, MASTER, validate_repository
-from herramientas.catalogo_territorios import master_index
 from herramientas.handoff_evidencia_pre_m04 import (
     PreM04HandoffError,
     validate_identity,
@@ -140,16 +139,17 @@ def _catalog_state(root: Path, territory_id: str, edition: str) -> dict:
 
 
 def _master_row(root: Path, territory_id: str) -> dict:
-    # Resolver identidades generales; load_master() sigue reservado a las 19 autonómicas.
-    # El índice incluye pilot_territories y valida unicidad entre ambos universos.
-    master_path = root / MASTER
-    try:
-        row = master_index(master_path).get(territory_id)
-    except (ValueError, KeyError) as exc:
+    # Misma unión que el catálogo maestro general, sin imponer el contrato
+    # CODAUTO=19 a los fixtures mínimos de persistencia.
+    master = _yaml(root / MASTER)
+    rows = list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
+    matches = [row for row in rows if str(row.get("territory_id") or "") == territory_id]
+    if len(matches) > 1:
         raise PreM04PersistenceConflict(
             "INCOMPATIBLE_CURRENT_STATE",
-            f"PRE_M04_MASTER_INVALID: {exc}",
-        ) from exc
+            f"PRE_M04_MASTER_DUPLICATE: {territory_id} figura más de una vez",
+        )
+    row = matches[0] if matches else None
     if not isinstance(row, dict):
         raise PreM04PersistenceConflict(
             "INCOMPATIBLE_CURRENT_STATE",
