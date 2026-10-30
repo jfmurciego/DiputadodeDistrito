@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-29T23:43:00.215966+00:00",
+  "generated_at": "2026-10-30T00:01:14.168604+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1376,7 +1376,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40868935788,
+      "run_id": 40969454399,
       "last_run": {
         "run_id": 40967609380,
         "status": "FAILED",
@@ -1402,13 +1402,13 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 40868935788,
-          "artifact_name": "ddd-state-40868935788-M06",
-          "artifact_sha256": "3b2562e023fa08c3b8e7f864ec40bb22cef75e33c55c883390339237599e39c0",
-          "source_commit": "9dd97397464edf20438d702fe1089fa9ea4aa9ad",
+          "run_id": 40969454399,
+          "artifact_name": "ddd-state-40969454399-M06",
+          "artifact_sha256": "66dc44bae7adc9c58dc1e76a0d9379d9c8a075b6f72613afb29805cd4bc97eb2",
+          "source_commit": "aea114c14ec142c45aed09c8ed51ea755b4e4a4b",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/40868935788.json"
+          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/40969454399.json"
         },
         "electoral_source": null,
         "electoral_product": null
