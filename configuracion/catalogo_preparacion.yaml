@@ -108,7 +108,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 40979477771
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40693720831
         artifact_name: ddd-source-package-principado_de_asturias-2025-40693720831
