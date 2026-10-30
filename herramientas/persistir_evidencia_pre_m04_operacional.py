@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 from typing import Callable
 
@@ -139,15 +140,17 @@ def _catalog_state(root: Path, territory_id: str, edition: str) -> dict:
 
 
 def _master_row(root: Path, territory_id: str) -> dict:
+    # Misma unión que el catálogo maestro general, sin imponer el contrato
+    # CODAUTO=19 a los fixtures mínimos de persistencia.
     master = _yaml(root / MASTER)
-    row = next(
-        (
-            row
-            for row in master.get("territories") or []
-            if str(row.get("territory_id") or "") == territory_id
-        ),
-        None,
-    )
+    rows = list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
+    matches = [row for row in rows if str(row.get("territory_id") or "") == territory_id]
+    if len(matches) > 1:
+        raise PreM04PersistenceConflict(
+            "INCOMPATIBLE_CURRENT_STATE",
+            f"PRE_M04_MASTER_DUPLICATE: {territory_id} figura más de una vez",
+        )
+    row = matches[0] if matches else None
     if not isinstance(row, dict):
         raise PreM04PersistenceConflict(
             "INCOMPATIBLE_CURRENT_STATE",
@@ -237,15 +240,23 @@ def _registration_matches(
         return False
     state = _catalog_state(root, territory_id, edition)
     evidence = state.get("evidence") or {}
-    if (
-        state.get("generation_enabled") is not True
-        or evidence.get("generation_preflight")
-        != _evidence_rel(territory_id, edition).as_posix()
-    ):
+    if evidence.get("generation_preflight") != _evidence_rel(territory_id, edition).as_posix():
         return False
 
     contract = _contract(root, contract_path)
     generation = contract.get("generation_state") or {}
+    evaluation_status = _candidate_evaluation_status(candidate)
+    master_status = str(_master_row(root, territory_id).get("status") or "")
+    if evaluation_status != "ENABLED":
+        # Un PENDING/BLOCKED duradero con la misma evidencia es un NO_OP.
+        # Jamás interpretar estos estados como habilitación de generación.
+        return (
+            state.get("generation_enabled") is False
+            and generation.get("generation_enabled") is False
+            and master_status == "source_prepared_pending_pre_m04"
+        )
+    if state.get("generation_enabled") is not True:
+        return False
     if (
         generation.get("generation_enabled") is not True
         or int(generation.get("pre_m04_run_id") or 0) != int(candidate["run_id"])
@@ -258,7 +269,7 @@ def _registration_matches(
     ):
         return False
 
-    return str(_master_row(root, territory_id).get("status") or "") == "generation_ready"
+    return master_status == "generation_ready"
 
 
 def _write_result(
@@ -625,7 +636,7 @@ def main() -> int:
             handoff_metadata=args.handoff_metadata,
         )
     except PreM04PersistenceConflict as exc:
-        print(f"::error::{exc}")
+        print(f"::error::{exc}", file=sys.stderr)
         return 59
     except RuntimeError as exc:
         print(f"::error::{exc}")

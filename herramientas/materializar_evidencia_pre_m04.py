@@ -445,9 +445,13 @@ def register_evidence_path(
     master_path = root_dir / "configuracion/catalogo_territorios_espana_2025.yaml"
     if not master_path.is_file():
         raise ValueError("falta catálogo territorial maestro antes de registrar evaluación")
-    master_lines = master_path.read_text(encoding="utf-8").splitlines()
-    if not any(f"territory_id: {territory_id}," in line for line in master_lines):
-        raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
+    # Resolver la identidad en ambos universos, no por coincidencias textuales.
+    # La escritura de estado permanece sobre la línea del mismo registro original.
+    master = _yaml(master_path)
+    rows = list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
+    matches = [row for row in rows if str(row.get("territory_id") or "") == territory_id]
+    if len(matches) != 1:
+        raise ValueError(f"{territory_id}: identidad ausente o duplicada en catálogo territorial maestro")
 
     if evaluation_status == "ENABLED":
         _replace_key(lines, start, end, state_indent, "generation_enabled", "true")
