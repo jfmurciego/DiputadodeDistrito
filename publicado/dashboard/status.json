@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T13:51:30.243909+00:00",
+  "generated_at": "2026-10-30T16:13:03.971508+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1313,7 +1313,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40951280657,
       "last_run": {
-        "run_id": 41035327579,
+        "run_id": 41062557004,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1555,7 +1555,7 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41038985286,
+      "run_id": 41062562553,
       "last_run": {
         "run_id": 41038985286,
         "status": "FAILED",
@@ -1581,13 +1581,13 @@
           "territory_id": "cataluna",
           "territory_name": "Cataluña",
           "edition": "2025",
-          "run_id": 41038985286,
-          "artifact_name": "ddd-state-41038985286-M06",
-          "artifact_sha256": "004eb815bf2001b8fc8c2c17be27e2b69f88159d49938207f891f5bfde4c05de",
-          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
+          "run_id": 41062562553,
+          "artifact_name": "ddd-state-41062562553-M06",
+          "artifact_sha256": "f8917865b064a2711b220b0a406f267d1cacb51d88e38cb69d6f734e68bf6ecb",
+          "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/41038985286.json"
+          "producer_manifest_path": "territorios/cataluna/evidencia/generaciones_m06/41062562553.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1612,11 +1612,11 @@
       "name": "Comunidad Valenciana",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41040844608,
+      "run_id": 41062567297,
       "last_run": {
         "run_id": 41040844608,
         "status": "FAILED",
@@ -1625,7 +1625,7 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1642,13 +1642,13 @@
           "territory_id": "comunidad_valenciana",
           "territory_name": "Comunidad Valenciana",
           "edition": "2025",
-          "run_id": 41040844608,
-          "artifact_name": "ddd-state-41040844608-M06",
-          "artifact_sha256": "c55fad04b184363d148668c6c76c9bec84875818267fcb0ffb8759743766936f",
-          "source_commit": "3cffd70dbc3600fef7282b017e184936057b1f31",
+          "run_id": 41062567297,
+          "artifact_name": "ddd-state-41062567297-M06",
+          "artifact_sha256": "2ee98e3d269c78a497dc26037798afd1865aa57a8cba359282be2259f33bc506",
+          "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/41040844608.json"
+          "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/41062567297.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1657,16 +1657,16 @@
           "territory_id": "comunidad_valenciana",
           "territory_name": "Comunidad Valenciana",
           "edition": "2025",
-          "run_id": 40973760398,
-          "artifact_name": "ddd-state-40973760398-M08",
-          "artifact_sha256": "7d30d380913c108b5b0afe4177d5b83d874112bea2dada24161c968b63bc9c46",
-          "source_commit": "4465542b229562f269ed0cebe6aa5db02c3b456a",
+          "run_id": 41062567297,
+          "artifact_name": "ddd-state-41062567297-M08",
+          "artifact_sha256": "ca65edac2de86fe1f9c499b379a30814ffec3e3ea515848e955a558796693cc4",
+          "source_commit": "46609e3774f1555a6d5f54da44e618bd45e29e80",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "10",
       "display_name": "10 Comunidad Valenciana",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "extremadura",
@@ -1862,7 +1862,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40957577850,
       "last_run": {
-        "run_id": 41048193467,
+        "run_id": 41062572613,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -2269,7 +2269,7 @@
     }
   ],
   "kpis": {
-    "complete": 14,
+    "complete": 15,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -2277,6 +2277,7 @@
       "05 Canarias",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
+      "10 Comunidad Valenciana",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -2340,11 +2341,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "comunidad_foral_de_navarra",
-    "name": "Comunidad Foral de Navarra",
-    "display_name": "15 Comunidad Foral de Navarra",
-    "autonomous_community_code_ine": "15",
-    "run_id": 41049986588,
+    "territory_id": "comunidad_valenciana",
+    "name": "Comunidad Valenciana",
+    "display_name": "10 Comunidad Valenciana",
+    "autonomous_community_code_ine": "10",
+    "run_id": 41062567297,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -2366,12 +2367,6 @@
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "comunidad_valenciana",
-      "autonomous_community_code_ine": "10",
       "action": "incorporar resultados electorales"
     },
     {
@@ -2398,12 +2393,6 @@
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "10 Comunidad Valenciana",
-      "territory_id": "comunidad_valenciana",
-      "autonomous_community_code_ine": "10",
       "action": "preparar fuentes electorales"
     },
     {
