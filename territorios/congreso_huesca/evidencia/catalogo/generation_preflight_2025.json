@@ -5,10 +5,12 @@
   "territory_name": "Congreso Huesca",
   "edition": "2025",
   "run_id": 41057319037,
-  "source_commit": "38f27367b424d85555fb46e2c07bdf9f6ab5f212",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "8d45688704658c9dd9f099d6f489470299becdea",
+  "artifact_name": "ddd-state-41057319037-M03U",
+  "artifact_sha256": "34ab80094158f6f2d89cb1a4f9e45fc76cd3633774b8c77ea370bd3b88b2d067",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41057319037,
     "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41057319037-M03",
+    "artifact_sha256": "bf74fa740ca95dde6e8d150c9e5e5ad155601004f93f3f3f142cb48d4c2ba9d5",
+    "module_version": "7.5.0",
+    "nodes": 286,
+    "edges": 791,
+    "population": 226878,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41057319037",
+    "job_artifact_sha256": "28e7c6c6b8027e632dfd7a0c946686e27913ae5db6d99e3e87201df024642967",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/congreso_huesca_2025/congreso_huesca_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 226878,
+      "target_section_count": 286,
+      "package_sha256": "4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330",
+      "compatibility_report_sha256": "e069f794fb11bf08c36a6b2042d036a3d09a92bbf6145fad52039985ddd12f49",
+      "compatibility_identity_sha256": "c5ee625edad04be765b04e380ff044934663db3be98cb2c9024e4495b1c3d1de"
+    },
+    "topology_accreditation": null,
+    "k_districts": 2,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_huesca/.cache/ddd/preparacion/{run_name}/congreso_huesca_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 2,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

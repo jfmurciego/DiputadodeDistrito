@@ -783,6 +783,6 @@ territories:
         population_year: 2023
         section_year: 2023
         source_commit: 664218ea4c6d22d421067f973125c7376d7c3e6d
-      generation_enabled: false
+      generation_enabled: true
       evidence:
         generation_preflight: territorios/congreso_huesca/evidencia/catalogo/generation_preflight_2025.json
