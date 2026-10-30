@@ -830,14 +830,13 @@ class PreM04PilotPersistenceTests(unittest.TestCase):
             clone(remote, setup)
             master_path = setup / "configuracion/catalogo_territorios_espana_2025.yaml"
             master_text = master_path.read_text(encoding="utf-8")
-            # Mantener la misma representación inline del catálogo productivo.
-            pilot_line = "  - {territory_id: alpha, name: Alpha, status: source_prepared_pending_pre_m04}\\n"
-            self.assertIn(pilot_line.replace("\\\\n", "\\n"), master_text)
-            master_text = master_text.replace(
-                pilot_line.replace("\\\\n", "\\n"), "", 1
-            ) + "pilot_territories:\\n" + pilot_line.replace("\\\\n", "\\n").replace(
+            # Mantener la representación inline del catálogo productivo.
+            pilot_line = "  - {territory_id: alpha, name: Alpha, status: source_prepared_pending_pre_m04}"
+            self.assertIn(pilot_line, master_text)
+            master_text = master_text.replace(pilot_line + "\n", "", 1)
+            master_text += "pilot_territories:\n" + pilot_line.replace(
                 "name: Alpha,", "name: Alpha, pilot_code: C22,"
-            )
+            ) + "\n"
             master_path.write_text(master_text, encoding="utf-8")
             git(setup, "config", "user.name", "test")
             git(setup, "config", "user.email", "test@example.invalid")
