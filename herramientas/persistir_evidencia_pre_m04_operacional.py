@@ -240,15 +240,23 @@ def _registration_matches(
         return False
     state = _catalog_state(root, territory_id, edition)
     evidence = state.get("evidence") or {}
-    if (
-        state.get("generation_enabled") is not True
-        or evidence.get("generation_preflight")
-        != _evidence_rel(territory_id, edition).as_posix()
-    ):
+    if evidence.get("generation_preflight") != _evidence_rel(territory_id, edition).as_posix():
         return False
 
     contract = _contract(root, contract_path)
     generation = contract.get("generation_state") or {}
+    evaluation_status = _candidate_evaluation_status(candidate)
+    master_status = str(_master_row(root, territory_id).get("status") or "")
+    if evaluation_status != "ENABLED":
+        # Un PENDING/BLOCKED duradero con la misma evidencia es un NO_OP.
+        # Jamás interpretar estos estados como habilitación de generación.
+        return (
+            state.get("generation_enabled") is False
+            and generation.get("generation_enabled") is False
+            and master_status == "source_prepared_pending_pre_m04"
+        )
+    if state.get("generation_enabled") is not True:
+        return False
     if (
         generation.get("generation_enabled") is not True
         or int(generation.get("pre_m04_run_id") or 0) != int(candidate["run_id"])
@@ -261,7 +269,7 @@ def _registration_matches(
     ):
         return False
 
-    return str(_master_row(root, territory_id).get("status") or "") == "generation_ready"
+    return master_status == "generation_ready"
 
 
 def _write_result(
