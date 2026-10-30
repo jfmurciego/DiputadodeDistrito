@@ -37,6 +37,16 @@ def _digest(value: object) -> str:
 
 
 def _receipt(root: Path, territory_id: str, edition: str, kind: str) -> dict:
+    # La fuente electoral efectiva se identifica por el catálogo vigente.
+    # Un receipt legacy en evidencia/catalogo/ no puede sustituir uno más
+    # reciente acreditado en evidencia/fuentes_electorales/; hacerlo rompe
+    # la comprobación de linaje de un M08 recuperable.
+    declared = _catalog_evidence_path(root, territory_id, edition, kind)
+    if kind == "electoral_source" and declared:
+        # Fallar cerrado si la declaración apunta a un fichero ausente/corrupto:
+        # nunca usar silenciosamente una versión antigua como sustituto.
+        return _json(root / declared)
+
     path = (
         root
         / "territorios"
@@ -48,9 +58,7 @@ def _receipt(root: Path, territory_id: str, edition: str, kind: str) -> dict:
     data = _json(path)
     if data:
         return data
-    # Los receipts registrados por 03 viven donde el catálogo los declara
-    # (evidencia/fuentes_electorales/...), no en evidencia/catalogo/.
-    declared = _catalog_evidence_path(root, territory_id, edition, kind)
+    # Compatibilidad de otras evidencias durables con ubicación declarada.
     return _json(root / declared) if declared else {}
 
 

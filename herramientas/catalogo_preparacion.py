@@ -62,8 +62,36 @@ def load_catalog(path:Path=CATALOG)->dict:
 def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
     root=root_dir.resolve(); data=load_catalog(path if path.is_absolute() else root/path)
     master=_yaml(root/MASTER)
-    master_rows={str(r.get("territory_id")):r for r in list(master.get("territories") or [])+list(master.get("pilot_territories") or [])}
     errors=[]
+    master_rows={}
+    # Los pilotos pueden ampliarse, pero nunca ocultar duplicados de identidad.
+    # Un dict comprehension permitiría que la última identidad sobrescribiera
+    # silenciosamente a la anterior y validara un catálogo corrupto.
+    for section in ("territories", "pilot_territories"):
+        rows=master.get(section, [])
+        if not isinstance(rows, list):
+            errors.append(f"CATALOG_MASTER_INVALID: {section} no es una lista")
+            continue
+        for row in rows:
+            if not isinstance(row, dict):
+                errors.append(f"CATALOG_MASTER_INVALID: {section} contiene un registro no estructurado")
+                continue
+            tid=str(row.get("territory_id") or "").strip()
+            name=str(row.get("name") or "").strip()
+            if not tid or not name:
+                errors.append(f"CATALOG_MASTER_INVALID: {section} tiene identidad o nombre vacío")
+                continue
+            if section == "pilot_territories":
+                # Mismo contrato de identidad que load_pilot_territories:
+                # sin CODAUTO y con pilot_code [A-Z][0-9][0-9].
+                if row.get("autonomous_community_code_ine") not in (None, ""):
+                    errors.append(f"CATALOG_MASTER_INVALID: {tid}: un territorio piloto no lleva CODAUTO")
+                if not re.fullmatch(r"[A-Z]\d{2}", str(row.get("pilot_code") or "")):
+                    errors.append(f"CATALOG_MASTER_INVALID: {tid}: pilot_code inválido")
+            if tid in master_rows:
+                errors.append(f"CATALOG_MASTER_DUPLICATE: {tid} repetido entre territorios y pilotos")
+                continue
+            master_rows[tid]=row
     for row in data["territories"]:
         tid=row["territory_id"]; name=row["name"]
         m=master_rows.get(tid)

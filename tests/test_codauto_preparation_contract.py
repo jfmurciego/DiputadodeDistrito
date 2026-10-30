@@ -9,6 +9,7 @@ from herramientas.catalogo_territorios import (
     selector_labels,
     format_territory_label,
     load_master,
+    master_index,
     normalize_territory_input,
 )
 from herramientas.preflight_preparacion_fuente import _state
@@ -96,10 +97,9 @@ class CodautoPreparationContractTests(unittest.TestCase):
 
 
     def test_generation_and_electoral_application_resolve_all_codauto_forms(self):
-        master_by_id = {
-            row["territory_id"]: row
-            for row in load_master(MASTER)
-        }
+        # La puerta admite autonomías y pilotos; CODAUTO sólo identifica las 19.
+        # master_index conserva la separación y detecta pilotos duplicados.
+        master_by_id = master_index(MASTER)
         for mode in ("generation", "electoral_application"):
             eligible = rows_for(mode, PREPARATION_CATALOG)
             self.assertTrue(eligible, mode)
@@ -108,19 +108,23 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 edition = row["edition"]
                 master = master_by_id[territory_id]
                 canonical = format_territory_label(master)
-                legacy = canonical.replace(" ", " · ", 1)
-
                 expected = resolve_catalog(mode, territory_id, edition, PREPARATION_CATALOG)
                 with self.subTest(mode=mode, territory=canonical):
                     self.assertEqual(
                         resolve_catalog(mode, canonical, edition, PREPARATION_CATALOG),
                         expected,
                     )
-                with self.subTest(mode=mode, territory=legacy):
-                    self.assertEqual(
-                        resolve_catalog(mode, legacy, edition, PREPARATION_CATALOG),
-                        expected,
-                    )
+                if master.get("autonomous_community_code_ine"):
+                    # La variante "06 · Cantabria" sólo existe para CODAUTO.
+                    legacy = canonical.replace(" ", " · ", 1)
+                    with self.subTest(mode=mode, territory=legacy):
+                        self.assertEqual(
+                            resolve_catalog(mode, legacy, edition, PREPARATION_CATALOG),
+                            expected,
+                        )
+                else:
+                    self.assertIn("pilot_code", master)
+                    self.assertEqual(canonical, master["name"])
                 with self.subTest(mode=mode, territory=territory_id):
                     self.assertEqual(
                         resolve_catalog(mode, territory_id, edition, PREPARATION_CATALOG),
