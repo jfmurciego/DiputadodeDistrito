@@ -40,6 +40,7 @@ jobs:
     timeout-minutes: 240
     outputs:
       product_digest: ${{ steps.upload_product.outputs.artifact-digest }}
+      source_commit: ${{ steps.capture_source.outputs.source_commit }}
     env:
       PARAMS: ${{ inputs.params }}
       TERRITORY_ID: ${{ inputs.territory_id }}
@@ -53,6 +54,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
+      - id: capture_source
+        name: Acreditar SHA efectivo del checkout de incorporación M08
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_commit="$(git rev-parse HEAD)"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
 
       - name: Preparar herramientas ligeras de validación
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -331,13 +340,6 @@ jobs:
       PRODUCT_DIGEST: ${{ needs.incorporar.outputs.product_digest }}
       ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ inputs.source_ref || github.ref_name }}
-      - id: capture_source
-        name: Fijar SHA del cálculo original
-        shell: bash
-        run: echo "source_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Cargar persistidor vigente compatible con main
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -352,9 +354,9 @@ jobs:
           suffix=''
           [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
-          # El checkout ya es main para cargar código compatible; la identidad
-          # del producto sigue siendo el commit capturado del cálculo original.
-          source_commit="${{ steps.capture_source.outputs.source_commit }}"
+          # El SHA procede del checkout REAL del job incorporar (antes de M08).
+          # El checkout de main en este job sólo aporta el persistidor compatible.
+          source_commit="${{ needs.incorporar.outputs.source_commit }}"
           [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
           python -m herramientas.persistir_producto_electoral_operacional \
             --root-dir . \
