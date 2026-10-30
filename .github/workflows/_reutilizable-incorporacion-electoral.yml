@@ -334,6 +334,15 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.ref_name }}
+      - id: capture_source
+        name: Fijar SHA del cálculo original
+        shell: bash
+        run: echo "source_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Cargar persistidor vigente compatible con main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Registrar disponibilidad del producto electoral
         shell: bash
@@ -343,7 +352,10 @@ jobs:
           suffix=''
           [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
-          source_commit="$(git rev-parse HEAD)"
+          # El checkout ya es main para cargar código compatible; la identidad
+          # del producto sigue siendo el commit capturado del cálculo original.
+          source_commit="${{ steps.capture_source.outputs.source_commit }}"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
           python -m herramientas.persistir_producto_electoral_operacional \
             --root-dir . \
             --territory-id "$TERRITORY_ID" \
