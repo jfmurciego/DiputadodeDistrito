@@ -447,14 +447,8 @@ def register_evidence_path(
         raise ValueError("falta catálogo territorial maestro antes de registrar evaluación")
     # Resolver la identidad en ambos universos, no por coincidencias textuales.
     # La escritura de estado permanece sobre la línea del mismo registro original.
-    master = yaml.safe_load(master_path.read_text(encoding="utf-8"))
-    if isinstance(master, dict):
-        rows = list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
-    elif isinstance(master, list):
-        # Compatibilidad con el registro plano histórico usado por consumidores y regresiones.
-        rows = master
-    else:
-        raise ValueError(f"Catálogo territorial maestro inválido: {master_path}")
+    master = _yaml(master_path)
+    rows = list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
     matches = [row for row in rows if str(row.get("territory_id") or "") == territory_id]
     if len(matches) != 1:
         raise ValueError(f"{territory_id}: identidad ausente o duplicada en catálogo territorial maestro")
