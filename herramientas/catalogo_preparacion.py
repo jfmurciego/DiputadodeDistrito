@@ -81,6 +81,13 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
             if not tid or not name:
                 errors.append(f"CATALOG_MASTER_INVALID: {section} tiene identidad o nombre vacío")
                 continue
+            if section == "pilot_territories":
+                # Mismo contrato de identidad que load_pilot_territories:
+                # sin CODAUTO y con pilot_code [A-Z][0-9][0-9].
+                if row.get("autonomous_community_code_ine") not in (None, ""):
+                    errors.append(f"CATALOG_MASTER_INVALID: {tid}: un territorio piloto no lleva CODAUTO")
+                if not re.fullmatch(r"[A-Z]\d{2}", str(row.get("pilot_code") or "")):
+                    errors.append(f"CATALOG_MASTER_INVALID: {tid}: pilot_code inválido")
             if tid in master_rows:
                 errors.append(f"CATALOG_MASTER_DUPLICATE: {tid} repetido entre territorios y pilotos")
                 continue
