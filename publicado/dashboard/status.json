@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T04:41:04.718541+00:00",
+  "generated_at": "2026-10-30T10:29:23.824464+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1193,7 +1193,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40957888543,
+      "run_id": 41033500476,
       "last_run": {
         "run_id": 40979489716,
         "status": "FAILED",
@@ -1219,13 +1219,13 @@
           "territory_id": "illes_balears",
           "territory_name": "Islas Baleares",
           "edition": "2025",
-          "run_id": 40951592449,
-          "artifact_name": "ddd-state-40951592449-M06",
-          "artifact_sha256": "e702e71f393c6f8d76238a3d0a224a645ce82d409cac06c0996d511e3b61ef09",
-          "source_commit": "dcabb4b4b23952d70646878f885e0c3a2ed61dff",
+          "run_id": 41033500476,
+          "artifact_name": "ddd-state-41033500476-M06",
+          "artifact_sha256": "93bde6278f409dda6b4b25350979150263086991771d8fe9c0f63cbf4f6ec5c4",
+          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/illes_balears/evidencia/generaciones_m06/40951592449.json"
+          "producer_manifest_path": "territorios/illes_balears/evidencia/generaciones_m06/41033500476.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1234,10 +1234,10 @@
           "territory_id": "illes_balears",
           "territory_name": "Islas Baleares",
           "edition": "2025",
-          "run_id": 40957888543,
-          "artifact_name": "ddd-state-40957888543-M08",
-          "artifact_sha256": "84095f46aca5aba8129460818daebb24b111258072eb0aca82a5491de9ff1610",
-          "source_commit": "550a95a11604e542c9e1a06bdb920c2de798bfdd",
+          "run_id": 41033500476,
+          "artifact_name": "ddd-state-41033500476-M08",
+          "artifact_sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3",
+          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
           "stage": "M08"
         }
       },
@@ -1256,7 +1256,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40951280657,
       "last_run": {
-        "run_id": 40979501633,
+        "run_id": 41035327579,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -1439,7 +1439,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40979540141,
       "last_run": {
-        "run_id": 40706698510,
+        "run_id": 40979540141,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -2235,11 +2235,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "la_rioja",
-    "name": "La Rioja",
-    "display_name": "17 La Rioja",
-    "autonomous_community_code_ine": "17",
-    "run_id": 40979652189,
+    "territory_id": "illes_balears",
+    "name": "Islas Baleares",
+    "display_name": "04 Islas Baleares",
+    "autonomous_community_code_ine": "04",
+    "run_id": 41033500476,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
