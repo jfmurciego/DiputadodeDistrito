@@ -380,8 +380,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40973760398
-        stage: M08
+        run_id: 41040844608
+        stage: M06
       preparation_evidence:
         run_id: 40956462986
         artifact_name: ddd-source-package-comunidad_valenciana-2025-40956462986

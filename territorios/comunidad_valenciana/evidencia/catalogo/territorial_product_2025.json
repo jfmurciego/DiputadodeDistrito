@@ -4,11 +4,11 @@
   "territory_id": "comunidad_valenciana",
   "territory_name": "Comunidad Valenciana",
   "edition": "2025",
-  "run_id": 40956462986,
-  "artifact_name": "ddd-state-40956462986-M06",
-  "artifact_sha256": "216291f454b7bf157872319855674101fc1008f19de5edd9b8333be7de91fc1c",
-  "source_commit": "2f48386321ea250edf4de53f3ead0fff0188fdaa",
+  "run_id": 41040844608,
+  "artifact_name": "ddd-state-41040844608-M06",
+  "artifact_sha256": "c55fad04b184363d148668c6c76c9bec84875818267fcb0ffb8759743766936f",
+  "source_commit": "3cffd70dbc3600fef7282b017e184936057b1f31",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/40956462986.json"
+  "producer_manifest_path": "territorios/comunidad_valenciana/evidencia/generaciones_m06/41040844608.json"
 }
