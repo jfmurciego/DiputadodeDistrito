@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T10:29:23.824464+00:00",
+  "generated_at": "2026-10-30T11:41:44.932192+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -23,21 +23,21 @@
     },
     "summary": {
       "admissible": 19,
-      "action_required": 0,
+      "action_required": 1,
       "blocked": 0,
       "unavailable": 0,
       "activated": 19,
       "activable": 0,
       "territorial_pending": 0,
-      "electoral_pending": 0,
+      "electoral_pending": 1,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
     "activation_chain": {
-      "total": 19,
-      "legislature_resolved": 19,
-      "years_resolved": 19,
-      "territorial_source": 19,
+      "total": 20,
+      "legislature_resolved": 20,
+      "years_resolved": 20,
+      "territorial_source": 20,
       "electoral_source": 19,
       "durable_pair": 19
     },
@@ -1010,6 +1010,63 @@
           "source": "repository_durable_state"
         },
         "next_steps": []
+      },
+      {
+        "territory_id": "congreso_huesca",
+        "name": "Congreso Huesca",
+        "display_name": "Congreso Huesca",
+        "election": {
+          "election_id": "congreso_huesca_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41043769621,
+            "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41043769621/receipt.json"
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)",
+          "granularity": "section_party"
+        },
+        "status": "ELECTORAL_ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
       }
     ]
   },
@@ -1195,11 +1252,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41033500476,
       "last_run": {
-        "run_id": 40979489716,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41033500476,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1311,11 +1368,11 @@
       "name": "Cantabria",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40701656466,
+      "run_id": 41037133327,
       "last_run": {
         "run_id": 40979514726,
         "status": "FAILED",
@@ -1324,7 +1381,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1341,13 +1398,13 @@
           "territory_id": "cantabria",
           "territory_name": "Cantabria",
           "edition": "2025",
-          "run_id": 40701656466,
-          "artifact_name": "ddd-state-40701656466-M06",
-          "artifact_sha256": "4c6317ff62efb9179e8ff530d5fedcc300c5f31b0ce4fd9420c3c6b6390ba661",
-          "source_commit": "38ca79e5d5e70fe2984a303fe0e0cbcbff6fd09f",
+          "run_id": 41037133327,
+          "artifact_name": "ddd-state-41037133327-M06",
+          "artifact_sha256": "4a0cc8bd12a92f86fb74b874b8590da94e2828e10f71a3a578a0882d9fe879d8",
+          "source_commit": "b5a48e5d0c68d34a56bac423039af418ba04d2b0",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/40701656466.json"
+          "producer_manifest_path": "territorios/cantabria/evidencia/generaciones_m06/41037133327.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1365,7 +1422,7 @@
       },
       "autonomous_community_code_ine": "06",
       "display_name": "06 Cantabria",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "castilla_y_leon",
@@ -1616,20 +1673,20 @@
       "name": "Extremadura",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40965231300,
+      "run_id": 41042675119,
       "last_run": {
-        "run_id": 40979579297,
+        "run_id": 41042675119,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1646,13 +1703,13 @@
           "territory_id": "extremadura",
           "territory_name": "Extremadura",
           "edition": "2025",
-          "run_id": 40691774876,
-          "artifact_name": "ddd-state-40691774876-M06",
-          "artifact_sha256": "edc072a08228e0780cf2ab5f0d42cde6080481e0dbc7527f06a760f69d987366",
-          "source_commit": "0de111f6955d4f6f9b7bd38a1b701c2542ed774d",
+          "run_id": 41042675119,
+          "artifact_name": "ddd-state-41042675119-M06",
+          "artifact_sha256": "927c5d206e006d89975c30a7cc763ad890354f8bc08818f9232ce854356c31ec",
+          "source_commit": "04da88c4a3b0bf3a1fb8c40778090641bf9765a4",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/40691774876.json"
+          "producer_manifest_path": "territorios/extremadura/evidencia/generaciones_m06/41042675119.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1670,7 +1727,7 @@
       },
       "autonomous_community_code_ine": "11",
       "display_name": "11 Extremadura",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "galicia",
@@ -1681,7 +1738,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40832139215,
+      "run_id": 41044499258,
       "last_run": {
         "run_id": 40979592029,
         "status": "FAILED",
@@ -1707,13 +1764,13 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 40832139215,
-          "artifact_name": "ddd-state-40832139215-M06",
-          "artifact_sha256": "8c5baf6f9a04b6a5a223d4d75405ab524b78adf77d7ea9b81b7dcafa253e6971",
-          "source_commit": "14b4d01c67fc3660ef275e6f76da0e06c8894d90",
+          "run_id": 41044499258,
+          "artifact_name": "ddd-state-41044499258-M06",
+          "artifact_sha256": "c6e36fe47b81f95236db7f7d75e915da978da0ed65ddb0b8ea31195975802734",
+          "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/40832139215.json"
+          "producer_manifest_path": "territorios/galicia/evidencia/generaciones_m06/41044499258.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1722,10 +1779,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 40832139215,
-          "artifact_name": "ddd-state-40832139215-M08",
-          "artifact_sha256": "0989bb657aa9479f2b77b1e9fd883f146a76e17eda265df02f7ab26e0fea3ef8",
-          "source_commit": "14b4d01c67fc3660ef275e6f76da0e06c8894d90",
+          "run_id": 41044499258,
+          "artifact_name": "ddd-state-41044499258-M08",
+          "artifact_sha256": "82dc88f493435eceb477cc664117110ed5d4998eb7f9ed70ece42568db4aab53",
+          "source_commit": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
           "stage": "M08"
         }
       },
@@ -2159,21 +2216,56 @@
       "autonomous_community_code_ine": "19",
       "display_name": "19 Melilla",
       "next_step": "—"
+    },
+    {
+      "territory_id": "congreso_huesca",
+      "name": "Congreso Huesca",
+      "ft": "green",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {
+        "run_id": 41043769621,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "01 · Preparación de Datos Territoriales",
+        "reason": "ver log del run",
+        "publication": "not_requested"
+      },
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "congreso_huesca",
+          "edition": "2025",
+          "run_id": 41043769621,
+          "artifact_name": "ddd-source-package-congreso_huesca-2025-41043769621",
+          "artifact_sha256": "79d06303a7b130631019b6b48d208f5f9569e320ce91bcef4906a864c9d4c4d2",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "C22",
+      "display_name": "Congreso Huesca",
+      "next_step": "generar y validar distritos"
     }
   ],
   "kpis": {
-    "complete": 18,
+    "complete": 16,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
-      "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
       "10 Comunidad Valenciana",
-      "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
       "14 Región de Murcia",
@@ -2225,9 +2317,10 @@
       "18 Ceuta",
       "19 Melilla"
     ],
-    "ready": 1,
+    "ready": 2,
     "ready_names": [
-      "01 Andalucía"
+      "01 Andalucía",
+      "Congreso Huesca"
     ],
     "pending": 0,
     "pending_names": [],
@@ -2235,11 +2328,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "illes_balears",
-    "name": "Islas Baleares",
-    "display_name": "04 Islas Baleares",
-    "autonomous_community_code_ine": "04",
-    "run_id": 41033500476,
+    "territory_id": "galicia",
+    "name": "Galicia",
+    "display_name": "12 Galicia",
+    "autonomous_community_code_ine": "12",
+    "run_id": 41044499258,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -2250,6 +2343,24 @@
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "06 Cantabria",
+      "territory_id": "cantabria",
+      "autonomous_community_code_ine": "06",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "11 Extremadura",
+      "territory_id": "extremadura",
+      "autonomous_community_code_ine": "11",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Congreso Huesca",
+      "territory_id": "congreso_huesca",
+      "autonomous_community_code_ine": "C22",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -2257,6 +2368,24 @@
       "territory": "01 Andalucía",
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "06 Cantabria",
+      "territory_id": "cantabria",
+      "autonomous_community_code_ine": "06",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "11 Extremadura",
+      "territory_id": "extremadura",
+      "autonomous_community_code_ine": "11",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Congreso Huesca",
+      "territory_id": "congreso_huesca",
+      "autonomous_community_code_ine": "C22",
       "action": "generar y validar distritos"
     }
   ]
