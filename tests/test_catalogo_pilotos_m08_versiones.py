@@ -28,12 +28,12 @@ from tests.test_registro_producto_electoral_concurrencia import (
 )
 
 
-def _add_pilot(root: Path, territory_id: str, name: str) -> None:
+def _add_pilot(root: Path, territory_id: str, name: str, pilot_code: str) -> None:
     """Crear un segundo universo válido en fixtures, sin generar distritos."""
     master_path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
     master = yaml.safe_load(master_path.read_text(encoding="utf-8"))
     master.setdefault("pilot_territories", []).append(
-        {"territory_id": territory_id, "name": name, "scope": "congreso"}
+        {"territory_id": territory_id, "name": name, "pilot_code": pilot_code, "scope": "congreso"}
     )
     master_path.write_text(
         yaml.safe_dump(master, sort_keys=False, allow_unicode=True),
@@ -65,11 +65,11 @@ def _add_pilot(root: Path, territory_id: str, name: str) -> None:
             file.rename(file.with_name(f"{territory_id}_2025.yaml"))
 
 
-def _push_pilot(remote: Path, path: Path, territory_id: str, name: str) -> None:
+def _push_pilot(remote: Path, path: Path, territory_id: str, name: str, pilot_code: str) -> None:
     clone(remote, path)
     git(path, "config", "user.name", "test")
     git(path, "config", "user.email", "test@example.invalid")
-    _add_pilot(path, territory_id, name)
+    _add_pilot(path, territory_id, name, pilot_code)
     git(path, "add", ".")
     git(path, "commit", "-m", f"add isolated congress pilot {territory_id}")
     git(path, "push", "origin", "HEAD:main")
@@ -90,13 +90,13 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
                 ),
                 ABSENT_FINGERPRINT,
             )
-            _push_pilot(remote, base / "pilot-a", "congreso_huesca", "Congreso Huesca")
+            _push_pilot(remote, base / "pilot-a", "congreso_huesca", "Congreso Huesca", "H22")
             # Antes del push del registrador aparece un segundo piloto en main.
             def add_second_pilot(attempt: int) -> None:
                 if attempt == 1:
                     _push_pilot(
                         remote, base / "pilot-b",
-                        "congreso_leon", "Congreso León",
+                        "congreso_leon", "Congreso León", "L24",
                     )
 
             result_path = base / "registered.json"
@@ -170,7 +170,7 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
             master_path = broken / "configuracion/catalogo_territorios_espana_2025.yaml"
             master = yaml.safe_load(master_path.read_text(encoding="utf-8"))
             master["pilot_territories"] = [
-                {"territory_id": "alpha", "name": "Falso Congreso Alpha"}
+                {"territory_id": "alpha", "name": "Falso Congreso Alpha", "pilot_code": "A01"}
             ]
             master_path.write_text(
                 yaml.safe_dump(master, allow_unicode=True, sort_keys=False),
@@ -208,7 +208,7 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
             master_path = broken / "configuracion/catalogo_territorios_espana_2025.yaml"
             master = yaml.safe_load(master_path.read_text(encoding="utf-8"))
             master["pilot_territories"] = [
-                {"territory_id": "congreso_sin_nombre", "name": ""}
+                {"territory_id": "congreso_sin_nombre", "name": "", "pilot_code": "H22"}
             ]
             master_path.write_text(yaml.safe_dump(master), encoding="utf-8")
             git(broken, "config", "user.name", "test")
@@ -222,6 +222,43 @@ class CatalogPilotM08EvolutionTests(unittest.TestCase):
                     run_id=830, artifact_name="ddd-state-830-M08",
                     artifact_sha256="e" * 64, source_commit=source_sha,
                 )
+
+
+    def test_missing_invalid_pilot_code_and_codauto_block_repository(self):
+        # Un piloto válido en fixture debe satisfacer también el lector maestro.
+        from herramientas.catalogo_territorios import load_pilot_territories
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            remote = make_remote(root)
+            writer = root / "writer"
+            clone(remote, writer)
+            _add_pilot(writer, "congreso_huesca", "Congreso Huesca", "H22")
+            master_path = writer / "configuracion/catalogo_territorios_espana_2025.yaml"
+            baseline = yaml.safe_load(master_path.read_text(encoding="utf-8"))
+            self.assertEqual(validate_repository(root_dir=writer), [])
+            # El fixture no tiene 19 autonómicas, por eso se prueba el contrato
+            # del lector maestro por los mismos campos de identidad.
+            for invalid, message in (
+                ({}, "pilot_code inválido"),
+                ({"pilot_code": "h22"}, "pilot_code inválido"),
+                ({"pilot_code": "H222"}, "pilot_code inválido"),
+                ({"autonomous_community_code_ine": "22"}, "no lleva CODAUTO"),
+            ):
+                with self.subTest(invalid=invalid):
+                    modified = yaml.safe_load(master_path.read_text(encoding="utf-8"))
+                    modified["pilot_territories"][0].update(invalid)
+                    if not invalid:
+                        modified["pilot_territories"][0].pop("pilot_code")
+                    master_path.write_text(
+                        yaml.safe_dump(modified, sort_keys=False, allow_unicode=True),
+                        encoding="utf-8",
+                    )
+                    with self.assertRaisesRegex(ValueError, message):
+                        validate_repository(root_dir=writer)
+                    master_path.write_text(
+                        yaml.safe_dump(baseline, sort_keys=False, allow_unicode=True),
+                        encoding="utf-8",
+                    )
 
 
 class ElectoralSourceRecoveryPrecedenceTests(unittest.TestCase):
