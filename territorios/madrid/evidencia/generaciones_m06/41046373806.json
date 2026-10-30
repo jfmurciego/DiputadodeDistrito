@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12975074568,
+      "artifact_name": "ddd-audit-41046373806",
+      "artifact_sha256": "7ded5fa18137f700e28856b792f59878d42ac5f4926c3a78b44c56328082e08f",
+      "run_id": 41046373806,
+      "size_in_bytes": 18526
+    },
+    "m04": {
+      "artifact_id": 12972814576,
+      "artifact_name": "ddd-state-41046373806-M04",
+      "artifact_sha256": "cdd540ecb309bdde21138f68b1ac0f5e516a57d43e8aaa46b51b825cb677add9",
+      "run_id": 41046373806,
+      "size_in_bytes": 90130158
+    },
+    "m05": {
+      "artifact_id": 12975606601,
+      "artifact_name": "ddd-state-41046373806-M05",
+      "artifact_sha256": "4b688b6f7295e7c7cfd76f199dd8ecbf4ed5d5d8935b10f41ad1f02c8fdadab6",
+      "run_id": 41046373806,
+      "size_in_bytes": 243086023
+    },
+    "m06": {
+      "artifact_id": 12976056327,
+      "artifact_name": "ddd-state-41046373806-M06",
+      "artifact_sha256": "d695e3be4e25105dcbfcd60df825f76f0335cd73931385115b8c7485e21d4943",
+      "run_id": 41046373806,
+      "size_in_bytes": 247437116
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "a97a7b5a96b61cd9ae597890dce410a19e7f9bafc39ae76d37f26c8f771e65f5",
+        "size_in_bytes": 461
+      },
+      "madrid_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f372402192676beb06bc71a210e569060dd5c2e70665fb5eddff3c2e1b7653e2",
+        "size_in_bytes": 119271
+      },
+      "optimization_execution.json": {
+        "sha256": "b7f61775da235e18f4239eb9f805313f3014ccde657e00f68944a0a1eb9ff2b4",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "95dc847aabac3ac1f7f678340dc410d44d29f6830979c07a1977b2f86d500cdf",
+        "size_in_bytes": 1273
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "95dc847aabac3ac1f7f678340dc410d44d29f6830979c07a1977b2f86d500cdf",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/madrid/config/madrid_2025.yaml",
+    "sha256": "aae8da373b17510e021da434fc55c442bba68a42d018a48104d5f9d35d3d6d10"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "8d3bc0a0d288c2111737bda20c55037273c5b57c1c755b5c7f5ffc06bbc2b13c",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "3ba5483439e8889be440d9c71e5ee04e512cc7784c0d45c1ce0ec38eb274b64a",
+        "1b9c48d568fc773bb6b543159cabdec58d8e4f3098cd240f03ca45c498aff173",
+        "0dd8ebb1801371e427b12d8de6751faf6c1bb936f2c7e2412cc1e90892ff1471",
+        "26f3b3cdfd5850c83a133cd3d8f0baff9e16601ffc6efd76a0d6da801d7499bb",
+        "98770845e9ace91661ee3b18498799410bda8a13aeafe741cd9da79c73248f3f",
+        "ead7a0c2710b9047e615f1708a45259d08090230a35d96f875ebf1cc50423caa",
+        "5a4cd78752bb557bee46544c243cb966571b7e195865130bc7c4a124a64dba09",
+        "aea43ae3d2277daa3a8af7723e7049cb3b997c746bb7b7e27b30ea18a867997f",
+        "8de1bd5dace90eb6fa1282a1d9f0b6b2a1ea0d4e177bcc5a4d8f662dbd88e818",
+        "e8a72da9506549ca28b15d850f446e76ebf3a7ec99e8b331de773673b11cecf0",
+        "63d705df18466a2bdab3f2cd2146bb7deebc7e20247bd9be20786e3af6e8c9f9",
+        "42a2b36585ec3144413dceabb4f77f97b21e89b9c1a481df4e0e9f14243381fb",
+        "1653a2fa5bc9c662669f45774618b5cfc23f65c232493c90fc79eb85f5826df9",
+        "106ee04a9b6700c75f9975bf71c5da3f117c255dd7f744345998d34520fc2fdf",
+        "2e875755f9a85cc50494c8bb9ff3c324c3fc9ae85cb66fd0778fccfb1b6fd1e7",
+        "22fa9e8586a5f9ccd04af59e79ee24283fe6a5c8489c7443831ef99796703699",
+        "f8ab65e49fd5915108227743a1121f6a23f610338c6bd0ecafb101c301ea324e",
+        "2ae1df722e6458367e9ff5f0b30b322555fcc357ea2b5e3500dc234827bc9605",
+        "011d13f60fc890cd28fedfce6ece75d707ea2b08b13e4783884ad1341aa1f7b0",
+        "971e03721c0986b409ba385409cabb223192c808f47fcff07c0e7e1189fd7dc3",
+        "deba42e9dda4fa811063d1954d005ada10bc28c82ce515e9c45c0d1bb378e2fc",
+        "15d5105d3f140e53b24838dec606875c7335017030a16acb8bfada0668a7eb30",
+        "95264600f6550067f0e1661c40b3482a7da1fb83c6db121d3379231c86259d24",
+        "d70fbe40a5feb5bf9ebb1e86e4075d7b29cb75521d307f7c52abc2ce84dcd1b1",
+        "f59ad3793e2eb3cd708f619bcdd989994afd6025f1d99b0fd0039eb092947faa",
+        "2bfa330c1b798ad825307ea815faa81505cfcabdd85feb9d4e68e67393f18d26",
+        "597998c9dba57afe7a023f3897c45f43b9b56ad03d7c33d7ab8a8b23af310821",
+        "797901510e639fe5f1a43adeff9841b72c13d806c430f9fd08cd73356896a474",
+        "07160819c26c3b5ba8437a8ea9e847c6207b029aaf969a34986bc3603af40eef",
+        "418c01c9d8db61b942dab321865bbebbb633b1de2d1ec62abbebc79113c38bd3",
+        "a9aacc71a1ef753ee53cceb48b01617deab4d9a1ad170ca7da3d96a6f2b2afd6",
+        "341c1344fb7e5c633d7977562fa11f1f1122eb55ff440522e18a3a1d4ba5fe7b",
+        "0a3803daecaa2533d27e2b2a8a59c57bb71e0ea7ef3ad6f5ebbfd6b1112ce9c5",
+        "0167791bd895c16ef5e82361a5ef9a2fc02e259ff1c1f49255698467aea0bdfc",
+        "ee5d521386d13a7f5f145e2377a27385f7c61623f8c803b45381767bd1c472bc",
+        "23c8e635d91a412827590b73cc8b7727ded0fb8a395a10406a93abcd57e62df2",
+        "1e5f65e91c1514b36f5d19fa50478e0b50523611cdbc1b1c28dc85eb66cee1a8",
+        "18f283863faa32d54d9fea55ae5f156d57be74e34e58c27da661c2ee2c2dd602",
+        "4477dfc4ef6ee9d1b196057314af98edd16ac1d756d970e761bfb3517970fda1",
+        "00ab9337fa88ef08e91e210c89932f671baa4da2a64aa26b4c03b8c467e6ba99",
+        "b0276a4ed9c0bf374bc800192ab4ca609c14f942ddf04baeef96df6edd4b78b6",
+        "4f9ae5818d8d0e2b60dedd14b145e863e31428a65347d0c3637c681b64374af4",
+        "e1b254917e0359e48683c79a318bf3ba9967108673e408680ed15a090b3ba938",
+        "1f0480e53986b1ada3ab4c37170247e0e2a902229baa30073e6ce95a7f6e9a9a",
+        "146791cfeb8f9957b427906f5649e407612c1c4c768534fe25dc5ed29d4ad610",
+        "15744a9934e41b2762266a10f5eca4c7591f40827ee534d488d043854c1cd3eb",
+        "4777eecd985b280059c4be57ff28fa8146d335dc3b98bff874a984eb02c676f0",
+        "256701d81bd23c85b6e1664c5f539446133503a1c0fe55bbd2a5e9ca003773a1",
+        "f6dbfd9e926ae023378ba34ece1a80260f58cd11c19ddd678c15e99d9de8d3e1",
+        "17603d6a2445829522acd84ae57530d959559a23aa4525a176d8a3c9195b14da"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/madrid_2025_m05_informe.json",
+      "report_sha256": "7f712649a0e795bacdbd3e963489ed4110c0a7a2b28487e83caf643b4aea9526",
+      "selected_artifact_content_sha256": "28de2cd933edd493a5326b811c629f83c2bd03147708c28e67a61c4b1fc9f68e",
+      "selected_artifact_sha256": "8e610a1993c663046fded4aa6d98924e9e4a7186800277cad0e605f0b17becf0",
+      "selected_assignment_hash": "f8ab65e49fd5915108227743a1121f6a23f610338c6bd0ecafb101c301ea324e",
+      "selected_output_content_sha256": "28de2cd933edd493a5326b811c629f83c2bd03147708c28e67a61c4b1fc9f68e",
+      "selected_output_sha256": "dd5d18ebc225ab59ced517bb9dc2b12cfd2035d3e63ecea9ec2b15666b3afbd8",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972",
+    "edition": "2025",
+    "territory_id": "madrid",
+    "territory_name": "Comunidad de Madrid",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41046373806,
+    "workflow_sha": "a0c0f03c9baa9a49494fd55aba2c9be6b6124972"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12972814576,
+      "artifact_name": "ddd-state-41046373806-M04",
+      "artifact_sha256": "cdd540ecb309bdde21138f68b1ac0f5e516a57d43e8aaa46b51b825cb677add9",
+      "run_id": 41046373806,
+      "size_in_bytes": 90130158
+    },
+    "source_manifest_sha256": "50d90c16176607cc4f3964610a7202cd141601c61f37468fc33fd1d46ab4333d",
+    "source_package_artifact": {
+      "artifact_id": 12855666769,
+      "artifact_name": "ddd-source-package-madrid-2025-40773465956",
+      "artifact_sha256": "b1792fa2242ab38465fbf1a182a67d5966760d997f416c4216a52b20a480713f",
+      "run_id": 40773465956,
+      "size_in_bytes": 83988216
+    }
+  },
+  "manifest_sha256": "4a661b0077ef308e12f9d2b674e287ba56ce52830e1dc6afdb62b80749964180",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
