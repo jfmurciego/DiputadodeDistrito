@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12991817529,
+      "artifact_name": "ddd-audit-41062562553",
+      "artifact_sha256": "30e8368de7cd44b9b5990c205b3189eaa905a72552bff52e66db97b6de95092d",
+      "run_id": 41062562553,
+      "size_in_bytes": 33361
+    },
+    "m04": {
+      "artifact_id": 12980808724,
+      "artifact_name": "ddd-state-41062562553-M04",
+      "artifact_sha256": "5559df42de3e6dd70bd949cbbdb8a263aad630eece3005ea398d6a80fb1997ab",
+      "run_id": 41062562553,
+      "size_in_bytes": 100065710
+    },
+    "m05": {
+      "artifact_id": 12992256117,
+      "artifact_name": "ddd-state-41062562553-M05",
+      "artifact_sha256": "6a7476fe0a18191d333201bdc0ea6e93de6a9eb4c72eae9fee8e0d8bf47883fe",
+      "run_id": 41062562553,
+      "size_in_bytes": 342815395
+    },
+    "m06": {
+      "artifact_id": 12991582708,
+      "artifact_name": "ddd-state-41062562553-M06",
+      "artifact_sha256": "f8917865b064a2711b220b0a406f267d1cacb51d88e38cb69d6f734e68bf6ecb",
+      "run_id": 41062562553,
+      "size_in_bytes": 349475646
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "f0d2fb31457e63338032908c8fa9a5c1af0a10906bbec8a334a8d2bc9902b745",
+        "size_in_bytes": 467
+      },
+      "cataluna_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "971b4c5335ad621b2dc5f18745f9b69fa975d3a1e9d9a2aaa404ff50b614379b",
+        "size_in_bytes": 320630
+      },
+      "optimization_execution.json": {
+        "sha256": "e14125489cbd14ece5545eff72a903b7dc8a5bff06d47f9d1297effe3e51d442",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "fd6a76bf9fbc527781bae8e31f7c1fd02639601f91e0a80d2a068b7f019e4c9f",
+        "size_in_bytes": 1285
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "fd6a76bf9fbc527781bae8e31f7c1fd02639601f91e0a80d2a068b7f019e4c9f",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/cataluna/config/cataluna_2025.yaml",
+    "sha256": "55b54e1a4540a6bc1e00d9dbb6695783af2e9356acd523bf9f1d3d333bb6c32c"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "03e7365b59f69790a18fbd473b63acaf95410277138ca3270e2abb48ceca3c5a",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "4c82b6361be98a592a022c7232eac29e3e6a4415d858072c42b32eb442c34339",
+        "cd8b5d657472415791ce2250a701db99e8e3d522388036dce74c28a8624d280a",
+        "909ded73872a1d883518c2d2d0b18561d8861e5b354b0158d3d7f10149f8f3e4",
+        "5a6ba839690bb5bdff54c6c78e57cde338b256e173c663c6a371f4992b21930a",
+        "4568120e88e181df3922f275ae1eb639fafc2d611f03ac3b29a7710283407710",
+        "8b4e38083d0e2057c577719e5f70e8b5c6904fc98cdd1c3970f733f66e95b174",
+        "9d61479478c7afe283a1f1bb58efcc153f6c06ecac6843cca40073d07969615f",
+        "ec06f60f1553358cca6ce67d6ce555eee8aaf2d6847fbe8083697db7383b0c36",
+        "09758a0104d775dc086dc54b1894b40ba59c4a4fa02748e570ecd223356dd580",
+        "48d66553e4acd2068ad5532fdb537e0665015b213f89e21140c3ca70829d3534",
+        "d950f47ba3525bd1ae5e305fa8900239320f28a6fa011de4b854503e84d659ff",
+        "77058c56badb329bef5bf98e5ac4339c64a37020c8ec940cd052f96bb53090fa",
+        "e6ba6386fcdcf16bc0ac97cd5df697532b912a4c0ab8348686995f55c2c0d552",
+        "7859292945a7976b708036f2c0dfa5014923ef43b8f1627e72d9ef7e44d04f52",
+        "28e896551b707c1007fba531cd363063b985ffa297246a13afd3bc5e7c258095",
+        "fbb6a6c9b9bc7fe9f8f5d626ca03b7a1f784976d85a0c6940dd840a330757d74",
+        "15e0e1413388097ce5053c270500bb032a00e454d81456503c7979e2f8d4f043",
+        "b40738b5050d4995c8cbb0df783db6d28ebc24f9bec24253198d30960b491eed",
+        "88e71f807399b79238aeb9cb9e71c96bcde200780acd03321617ff1f715a8724",
+        "92a52a000c76232ccb020e0a8d0a206af2dfcb588783195477beaf3d2a52178a",
+        "29dbfedbf4d2060113365a34263c641934267d930fcc86116c5a285932e27c14",
+        "0bc910ded3323a7c8322467822ca21c324ea37e56f7d91e7ad25342641edef6b",
+        "56ac7977350d43b4b06ead57e6ede54aff1ba1bd53cfd50f5b35af751e23e1c3",
+        "711b5fb5d4856dd071be9e52a9b153df5f37e16978e82e2a7d6495abc8444dd4",
+        "a6d0a77fb453956ccf927cad3a6f558d8e3c813c5b11f9664c9aa5b7ae99dc6f",
+        "a7bea8997ee6ff317857626d9095d45324e85d022c1108da18782ea05de46d21",
+        "09fe130ccd67478957e227a3b7275bced92770f7e8f497bd8283cb9213205f8e",
+        "b75fa652627936c9dd95392becbbac5eed4ecfb53a6784e928d75b953a67880c",
+        "be7ec656f5f05559673175e6599a8513dedc424943ac320f4170e8094ddadc5f",
+        "7ba363a0d76614b58b5cb1f85f2c4dd4960938f3dc4445147e7eb0e1be7d2088",
+        "3b8208ffcebffb66ab99269a4d5f79b28d4d1c142c985d4118cddae2f42e0aad",
+        "84ba3bf6194e53968bd4bc84a9aab7d9d8a3508cc4d6a4f2220eb05cb3b01074",
+        "29e88e997b20ef683d1e3b64808a24d01833baaa0463370bb683d7494bc97266",
+        "ecb7878409cc6b2670fc5cea67b2140916f420db4e635ca6fd0a04a7bf81e46b",
+        "fefb767b10a40907b53c21bc5b5b8cb8d0b11920f73aa87872d07843f942c7ab",
+        "2c3ef7ceab75271c3db60611323dac0eebc9618ccbecf00f03632095028ea399",
+        "61430e7b21a98135c99c187fd0fcdb072f3098604c143ebc190bb4b4e739b178",
+        "34afff9b0c93a220d0490dab15e82651dac5b0915cf9c450adb5b81988f1f9c7",
+        "9f5f4846a7d8937acf3405703d7dd9a64262a51aedaf22c2110fde0a5498b736",
+        "d14375100d3010a9386101518056f1ebe509ae5718ecc56a1fa38972568b97e3",
+        "ce8b784eee5580717248393b7a7e39d59f5d4afbadd6ee03449b357665bf6ae7",
+        "be4df51f987750836edf79db6060995411b1300fc0dc66ef3495b31b8e101080",
+        "e3f23ff086d5c08f8369c285b0bc88276ace011e70c79876f76ef9d6ae5468e1",
+        "64bfa52e1d506aca999417fd6cddc947ca7a4b4c6cc1300514b4d13460a8af7c",
+        "4c29d3fa064d12dd4bafa42e2cf349a6de27e68a5520beaa8e8b843aa4f543f9",
+        "7a92ba5ee69bf0522bfb7d50451bab6b632e445b1208129e42460f4096b5a2c5",
+        "6a687ab65714fed4fa95ce55615f40261640e55c80dc5585219a268dac401fa5",
+        "790583c216ba26b663bbf0e490bb5c1eacda7f1578351b9f94fe19867cbbda80",
+        "2e8558f0fc6156d8e730a3b69e432cee4bcc65e8fdf5b33bf653da859016fed6",
+        "9dca104945ca920a3a00284a2eb28f87aff864ebf8e687667738ae7b3fc7d579"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/cataluna_2025_m05_informe.json",
+      "report_sha256": "bd224f58b2739eefed66ce546908b3e363431915743828c83ef52cf9fc864713",
+      "selected_artifact_content_sha256": "dace45da408c262853fa3fdf830457a23b5ddf73e4e45624e091a2045e9f5be3",
+      "selected_artifact_sha256": "47d2b93eb2f702c021cabfd306b53c190702526e1af76ee850a6e49b8b8c0765",
+      "selected_assignment_hash": "ecb7878409cc6b2670fc5cea67b2140916f420db4e635ca6fd0a04a7bf81e46b",
+      "selected_output_content_sha256": "dace45da408c262853fa3fdf830457a23b5ddf73e4e45624e091a2045e9f5be3",
+      "selected_output_sha256": "db4ab1357570365bb1d3b4109cfe16cbcf687360455d547198cba59b4f219214",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "46609e3774f1555a6d5f54da44e618bd45e29e80",
+    "edition": "2025",
+    "territory_id": "cataluna",
+    "territory_name": "Cataluña",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41062562553,
+    "workflow_sha": "46609e3774f1555a6d5f54da44e618bd45e29e80"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12980808724,
+      "artifact_name": "ddd-state-41062562553-M04",
+      "artifact_sha256": "5559df42de3e6dd70bd949cbbdb8a263aad630eece3005ea398d6a80fb1997ab",
+      "run_id": 41062562553,
+      "size_in_bytes": 100065710
+    },
+    "source_manifest_sha256": "e363c12b6133d77a4f18738a8da1f0ac5041e2c404ee47dbae88ddcd92ac7873",
+    "source_package_artifact": {
+      "artifact_id": 12930565259,
+      "artifact_name": "ddd-source-package-cataluna-2025-40946901555",
+      "artifact_sha256": "48f48f116aa80838cc5a9c1a6b3794c807c52b65a3217b0c7a821016b65404f8",
+      "run_id": 40946901555,
+      "size_in_bytes": 90328041
+    }
+  },
+  "manifest_sha256": "aa1a08df12c1b120edfb2a7178cc67bb0c98fac1741569c504c51678b81760d2",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
