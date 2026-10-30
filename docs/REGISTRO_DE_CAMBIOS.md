@@ -44,6 +44,8 @@ Mancha, País Vasco, La Rioja) y 12 FAIL en M05.
   el mismo contrato y GerryChain arranca de ella. Sin semilla admisible, falla cerrado.
 - `tests/test_gerrychain50_cuatro_familias.py` (nuevo).
 - Ninguno de estos ficheros forma parte de la huella M05 (`huella_checkpoint_m05.ENGINE_FILES`).
+- `test_preparacion_legislatura_vigente`: el M06 de Aragón puede salir de un run posterior que reutiliza la
+  fuente (GerryChain 40979465420); se compara la preparación con el paquete fuente de su manifiesto productor.
 
 ## 2026-10-29 — M05 — disciplina municipal en la reparación privada
 

@@ -264,7 +264,12 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         checkpoint = state["last_valid_checkpoint"]
         self.assertIn(checkpoint["stage"], {"M06", "M08"})
         product = json.loads((ROOT / state["evidence"]["territorial_product"]).read_text(encoding="utf-8"))
-        self.assertEqual(state["preparation_evidence"]["run_id"], product["run_id"])
+        # El M06 puede salir de un run posterior que reutiliza la fuente (p. ej. GerryChain 50):
+        # su manifiesto productor debe declarar como paquete fuente la preparación vigente.
+        producer = json.loads((ROOT / product["producer_manifest_path"]).read_text(encoding="utf-8"))
+        source = producer["inputs"]["source_package_artifact"]
+        self.assertEqual(state["preparation_evidence"]["run_id"], source["run_id"])
+        self.assertEqual(state["preparation_evidence"]["artifact_sha256"], source["artifact_sha256"])
         self.assertNotIn("stage", state["preparation_evidence"])
 
     def test_castilla_y_leon_source_receipt_is_repaired_without_erasing_historical_product(self):
