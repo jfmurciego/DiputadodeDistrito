@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "castilla_y_leon",
+  "territory_name": "Castilla y León",
+  "edition": "2025",
+  "run_id": 40979527162,
+  "artifact_name": "ddd-state-40979527162-M08",
+  "artifact_sha256": "04d1b913b5056d9a6155cc6a84c74aaf8227fa333100442a342bb5c306edafd6",
+  "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+  "stage": "M08"
+}
