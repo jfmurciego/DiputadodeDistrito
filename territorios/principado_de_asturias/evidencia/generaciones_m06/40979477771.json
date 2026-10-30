@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 12945628414,
+      "artifact_name": "ddd-audit-40979477771",
+      "artifact_sha256": "5d21a60af6232310b51bb7db66b209b0a513d5cac099889e6d1cb7eccc092e41",
+      "run_id": 40979477771,
+      "size_in_bytes": 8270
+    },
+    "m04": {
+      "artifact_id": 12944264722,
+      "artifact_name": "ddd-state-40979477771-M04",
+      "artifact_sha256": "1ed3fa28cd52c8c69d03e27dde2863f157339cbadcdcdc95be5337f0b2fd5ae5",
+      "run_id": 40979477771,
+      "size_in_bytes": 81548762
+    },
+    "m05": {
+      "artifact_id": 12945513175,
+      "artifact_name": "ddd-state-40979477771-M05",
+      "artifact_sha256": "c5759a7f16b6fc7b8db3dff604641a853045112f58f1c2037177b3f75bb091f0",
+      "run_id": 40979477771,
+      "size_in_bytes": 143295313
+    },
+    "m06": {
+      "artifact_id": 12946046280,
+      "artifact_name": "ddd-state-40979477771-M06",
+      "artifact_sha256": "9f460bf1894a406f4106818103d03e0108660ed43b437089d8cf7ea4bab06bd9",
+      "run_id": 40979477771,
+      "size_in_bytes": 145065963
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "11d5daae896c68542815563b1decdd60a36631ab9c9153ac8f371de1a1f3458c",
+        "size_in_bytes": 509
+      },
+      "optimization_execution.json": {
+        "sha256": "e01168229170c96019889bf2b398480192b62fb58da2b12924bdce3f339b8775",
+        "size_in_bytes": 673
+      },
+      "principado_de_asturias_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "48bfc3ebceb220353ac75fd929113cef4f3fa45b6ad1306d56f5ba5f0844b99d",
+        "size_in_bytes": 44397
+      },
+      "production_status.json": {
+        "sha256": "022ca996292dfbc6fe83a3aac8b981b0c8d38af8f4c4ad328dc01c61e39d57d9",
+        "size_in_bytes": 1367
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "022ca996292dfbc6fe83a3aac8b981b0c8d38af8f4c4ad328dc01c61e39d57d9",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml",
+    "sha256": "a2056ae17171b2eb01bcb57d5a648ce98340c4ac88ae0f76049d8cbdc4d95501"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "fc31e0ada20a2efaa22e8b34eec732b5cd4612922a174302368fa86b0973de34",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "28bb605e62128ee3986b9c60b8809e2d96692b7381562fdaf36c9d92d708bb6e",
+        "af2203709e60c55608bd05305bfb76d18d220a135704d7cd5c388faf66cbe0d7",
+        "41a06f14f370a17e6319ab9f3377dd33a2e8f56b4325f1ef390ad8fb4599245b",
+        "79229143d63d99d46d6eea8039b7885bd96a063f56f21f7c5a90e2755e89e128",
+        "4b10ac2b6973801f8e09c9ab66e05900400587c106f7411f0cf9e3dd60157809",
+        "4046a900fc2f92fcdb919df44d60675b1a3ae2efe1a9900cc2cb9199935c173c",
+        "4ca205611ba0983bf5970aea7b530cf64190cf742b585dfda527fac67fdbd491",
+        "50f6765215b54515647c0c75b2bd4730eae728834c50fcee20dceebf6008eaba",
+        "66543f72a83066537e450c34c3dd1f4abac428f58a3ba0842580cbd51d35a64b",
+        "07743f6139a63b0e8f83b1142b552684e7c5b68933e06330bb318b4d13c9584e",
+        "01b4aaa37ecb00ffcf3705f3913bd99c4e455430017a06cde00f9c042b58ee27",
+        "abf39bf6bce0869898956bed2eee6b64b2630d206419ce7df20300814a19f973",
+        "9a749e2ba5daee8f53b76f43b86fdca2e3acd35e3a9bd6df898f482db367973c",
+        "0d3252217da7bf075112c2dc26d43daddba06d3550c1910086f2066471a7e1ff",
+        "9d56e0adcd7718c47fd982c9f3f7887985966bd96ede87f5dc1352b3cb968512",
+        "93aa336c659f73284ef41bf9dfb9ab852b69f5f42abee759f0c3b00452947c47",
+        "3219c6ffb53c2ed307ca8e2f0f734ab7364700bd2b27e115f80c7ab73b0f7887",
+        "000a28510a9f6ce3d134434ced312379baae5b8863bb78572f66e5efeb4f6a16",
+        "7d99f7e3b54ac1ba04b58f559a0aba429e95ebbdc71c8af9ec5810e5a1f95d9c",
+        "32ee2ae7010e48041ea220ce668eb4502e09382cd4d25f70589a38c0081e440d",
+        "f3ef42e1115d9ff149825c7b33ec5d30f0ab9b431555d0c00485146ad7dcff64",
+        "58b520ba3810d002f52dc1454f7a0adc39ca5c70b3b815b3f0143637c09ff12d",
+        "73781f4a00d4552c366f23ab25b4fa42b351899bec2a7e1ad7b03715979eea05",
+        "7ceab3abcffd6d46abb2606b29febbec530cdcdf2f162972fcba955aaf04b3e3",
+        "8e104ff52d0bd5e22d8375cddb33bc2c81bd8e75153f9ea3c73d18c3c3afd991",
+        "69a28200218e9504af1d9a24e0605392ef394f0b37047a0ecbc2e5fefdb5f0aa",
+        "02e25954df731cdcb9a7ba9b153c3c4a4dd598d3f7be23e3a93d7cc2c04f153a",
+        "f5a144fa36de6ab83206277ff8a92a8fd261626db4d91f2bc6d11c0c0b0c5d71",
+        "2c053b72e4584dcb897b197e48d855aaf871c183aaca63b4dc6e4b2b04977079",
+        "9db1e50c0827059609354322fb6b538577cb0508152716a5305718e6e52fe83c",
+        "dab0d081201b1e9ec1861dbe0bdd85f5201fd2ebac7f7b4e2924b80d363d13e9",
+        "57959c631aefd2435931fdd3bb1dcfe215fa4069f7020d5a3964eb7ab411d505",
+        "7e094b6b2bee90747dc08a8c6f245563ab0446a19720d673d52f6f3399e90b68",
+        "2bb2255320c25469a938d674bb4c9868c1f50df9ea51dfe5d119205df5221d01",
+        "116cbb17d0836e362cefd357f59ad43b027b3b65a94f52d8769edcf545ed5b4b",
+        "a59973bb41f9c6472fc7205baef1629a8c9cf274af7853cfad37c21a1fb0ada7",
+        "a8484c65dd326f3899abb7f88b199e07c4fe16dfcf20725c66d20213e5eae41f",
+        "1d4dc1d3bf40457cca269071d1d0871a8b33db21a6f5c188d347c10448dbcc17",
+        "38bde9a8565ae2cc4eae4d45ff4e080e77e2584e34f9d43b529f1f1bc7788b03",
+        "328dc091707f769f2dfc682114b8abe5371c0b0ded278cbd3efb0257f3ef299b",
+        "4fc1ec8254a86bfd9ccfe19e361b827d82c5ef8bdab08d7ce966e3b447c66401",
+        "bf132d3b37d69ed8607f1d5ab062abe69e56492aa3a980756d143751af457caa",
+        "59abf46eecdadb04a3941c299d73de4b2a377abbc1431e9a6083d8c94a400833",
+        "851430528bad93ff5d34580163cec561931340a125c8c536e7b514e18d498159",
+        "05c2fa83af11515a41b26ddc74f43e6d989ba28a7b43444946a3bfa64668c900",
+        "f8acc82e659a13deb8a8f4a54bfdedd1d307a78976e25e6901d53fe6caad8054",
+        "3c665d37592978d2771ebc44e007891c542fa05ca0c5907610fe931d9612e7d1",
+        "26efe5f01069e8c77e1a1d0f81f77d84a85622f36ee0ca3fe518f127fdcaaca6",
+        "c220053d0ecd5f5bee4b624e5e88a8509545dd0a9291b8e8deb604e6dafeb17e",
+        "3c6aafaaa9b42cb396324cd390af0cc7015f328985b4db420c2ad6daa23ae848"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/principado_de_asturias_2025_m05_informe.json",
+      "report_sha256": "2e6eb6535e77fbc66c40704273f3c00526cdb8dc7713dbd174e021277580f008",
+      "selected_artifact_content_sha256": "f57bc0a06aeb9d684fe5fc29eebe4109d5e760b03d434e9bcded7ba1139d437b",
+      "selected_artifact_sha256": "99b1e3b700b60f3dfb6faab1a47493ea02319415f74e4058c64783d7d447564a",
+      "selected_assignment_hash": "bf132d3b37d69ed8607f1d5ab062abe69e56492aa3a980756d143751af457caa",
+      "selected_output_content_sha256": "f57bc0a06aeb9d684fe5fc29eebe4109d5e760b03d434e9bcded7ba1139d437b",
+      "selected_output_sha256": "ea312128d85ad9df5753243f0c7c4184f46287708ddccba70db621e375396d2b",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "627514a362fff2e6b75bd3313356963a38fc6a73",
+    "edition": "2025",
+    "territory_id": "principado_de_asturias",
+    "territory_name": "Principado de Asturias",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 40979477771,
+    "workflow_sha": "627514a362fff2e6b75bd3313356963a38fc6a73"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 12944264722,
+      "artifact_name": "ddd-state-40979477771-M04",
+      "artifact_sha256": "1ed3fa28cd52c8c69d03e27dde2863f157339cbadcdcdc95be5337f0b2fd5ae5",
+      "run_id": 40979477771,
+      "size_in_bytes": 81548762
+    },
+    "source_manifest_sha256": "09d2806e47e9549527a24c6185cf8819c04c639159ef560dd26d0781bca90a04",
+    "source_package_artifact": {
+      "artifact_id": 12820271948,
+      "artifact_name": "ddd-source-package-principado_de_asturias-2025-40693720831",
+      "artifact_sha256": "60bacfb549404fed841f2ceda6666376fb16852f05ac1ffba5223dc104e3fec6",
+      "run_id": 40693720831,
+      "size_in_bytes": 77813752
+    }
+  },
+  "manifest_sha256": "ff42cfe85ec76f29ace449941e242a887f86678e6ae664b8052c2de42ef96c77",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
