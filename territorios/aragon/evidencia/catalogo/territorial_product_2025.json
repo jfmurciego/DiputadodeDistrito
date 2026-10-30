@@ -4,11 +4,11 @@
   "territory_id": "aragon",
   "territory_name": "Aragón",
   "edition": "2025",
-  "run_id": 40691712762,
-  "artifact_name": "ddd-state-40691712762-M06",
-  "artifact_sha256": "e47faf0a742dc6ed6c20fcee85a16e04af30cd76ffa96e869bf84a77f05520d8",
-  "source_commit": "479c5a17c18754fbd4cb1bffbc3c221cfe2a56e2",
+  "run_id": 40979465420,
+  "artifact_name": "ddd-state-40979465420-M06",
+  "artifact_sha256": "257d40366b285d0fd4753e1264f9002fa0ebbdc0d7886b5b7311665657a25bfe",
+  "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40691712762.json"
+  "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40979465420.json"
 }
