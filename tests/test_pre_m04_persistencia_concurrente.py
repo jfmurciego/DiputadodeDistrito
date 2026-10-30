@@ -885,7 +885,7 @@ class PreM04PilotPersistenceTests(unittest.TestCase):
             write_fixture(root)
             path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
             path.write_text(
-                "- {territory_id: alpha, name: Alpha, status: source_prepared_pending_pre_m04}\\n",
+                "- {territory_id: alpha, name: Alpha, status: source_prepared_pending_pre_m04}\n",
                 encoding="utf-8",
             )
             with self.assertRaisesRegex(ValueError, "YAML inválido"):
