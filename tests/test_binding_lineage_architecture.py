@@ -103,7 +103,8 @@ def final_contract_from_plan(plan: dict) -> tuple[dict, list[dict]]:
 class BindingLineageArchitectureTests(unittest.TestCase):
     def test_all_19_current_territories_have_explicit_binding_lineage(self):
         plans = resolve(ROOT, "Todos")["plans"]
-        self.assertEqual(len(plans), 19)
+        # 19 autonómicas y, aparte, los territorios piloto (Congreso Huesca).
+        self.assertEqual(len(plans), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
         catalog = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))
         states = {
             row["territory_id"]: row["editions"]["2025"]
@@ -138,7 +139,7 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                     for row in lineage
                 }
 
-        self.assertEqual(len(audited), 19)
+        self.assertEqual(len(audited), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
         for territory_id, lineage in audited.items():
             self.assertEqual(
                 lineage["modulos.modulo_03_construir_grafo.pop_field"],

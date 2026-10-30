@@ -58,17 +58,18 @@ class RecoverUnregisteredSourceContract(unittest.TestCase):
         current = yaml.safe_load(CURRENT.read_text(encoding="utf-8")) or {}
         rows = current.get("territories") or []
 
-        self.assertEqual(len(options), 19)
-        self.assertEqual(len(rows), 19)
+        self.assertEqual(len(options), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
+        self.assertEqual(len(rows), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
 
-        expected = [format_territory_label(row) for row in load_master(MASTER)]
+        from herramientas.catalogo_territorios import selector_labels
+        expected = selector_labels(MASTER)
         self.assertEqual(options, expected)
         self.assertTrue(all(" · " not in option for option in options))
 
         normalized = [normalize_territory_input(option) for option in options]
         configured = [str(row.get("name") or "").strip() for row in rows]
         self.assertEqual(set(normalized), set(configured))
-        self.assertEqual(len(set(normalized)), 19)
+        self.assertEqual(len(set(normalized)), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
 
         for option, wanted in zip(options, normalized):
             with self.subTest(option=option):

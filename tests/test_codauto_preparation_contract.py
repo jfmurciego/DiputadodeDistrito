@@ -6,6 +6,7 @@ import unittest
 import yaml
 
 from herramientas.catalogo_territorios import (
+    selector_labels,
     format_territory_label,
     load_master,
     normalize_territory_input,
@@ -71,7 +72,8 @@ class CodautoPreparationContractTests(unittest.TestCase):
         self.assertNotIn("section_current_year", body)
 
     def test_all_manual_territory_doors_emit_same_canonical_codauto_labels(self):
-        expected = [format_territory_label(row) for row in load_master(MASTER)]
+        # 19 etiquetas CODAUTO en orden y, al final, los territorios piloto (Congreso Huesca).
+        expected = selector_labels(MASTER)
         direct = [
             ("preparacion-fuentes.yml", "territory_id"),
             ("produccion-distritos.yml", "territory_id"),

@@ -26,6 +26,8 @@ WORKFLOWS = ROOT / ".github" / "workflows"
 MASTER = ROOT / "configuracion" / "catalogo_territorios_espana_2025.yaml"
 CATALOG = ROOT / "configuracion" / "catalogo_preparacion.yaml"
 
+# Territorios piloto (no autonómicos) que los selectores ofrecen tras las 19 etiquetas CODAUTO.
+PILOTS = ["Congreso Huesca"]
 EXPECTED = [
     "01 Andalucía",
     "02 Aragón",
@@ -140,10 +142,10 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         ]
         for workflow, key in selectors:
             with self.subTest(workflow=workflow):
-                self.assertEqual(dispatch_inputs(WORKFLOWS / workflow)[key]["options"], EXPECTED)
+                self.assertEqual(dispatch_inputs(WORKFLOWS / workflow)[key]["options"], [*EXPECTED, *PILOTS])
 
         source_test = dispatch_inputs(WORKFLOWS / "prueba-fuentes-oficiales.yml")["territory"]["options"]
-        self.assertEqual(source_test, ["Todos", *EXPECTED])
+        self.assertEqual(source_test, ["Todos", *EXPECTED, *PILOTS])
 
     def test_planning_accepts_visible_label_without_changing_plan(self):
         kwargs = dict(
@@ -171,7 +173,7 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         self.assertEqual(state["country_display_name"], "ES · España")
         self.assertEqual(
             [row["display_name"] for row in state["territories"]],
-            EXPECTED,
+            [*EXPECTED, *PILOTS],
         )
         balears = next(row for row in state["territories"] if row["territory_id"] == "illes_balears")
         self.assertEqual(balears["name"], "Islas Baleares")

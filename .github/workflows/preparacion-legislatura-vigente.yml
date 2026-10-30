@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-legislatura-vigente.yml
-# VERSIÓN: 1.0.2
+# VERSIÓN: 1.0.3
 # NOMBRE DE VERSIÓN: Cola durable de operaciones con nombre por territorio
 # FECHA: 2026-10-29
 # ESTADO: candidato
@@ -8,7 +8,8 @@
 # CAMBIOS: 1.0.2: run-name con territorio y operación, para que el 00 identifique su activación.
 #   1.0.1: exclusión mutua y hasta 100 ejecuciones pendientes con queue: max.
 # MOTIVO: el 00 encadena la activación del par y debe esperar a la suya, no a la de otro territorio.
-# ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.1_20261029.yml
+# CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
+# ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.2_20261030.yml
 name: '- Activación de Legislatura Vigente'
 run-name: "Activación de Legislatura Vigente · ${{ inputs.territory || 'todos' }} · ${{ inputs.operation || 'plan' }}"
 
@@ -41,6 +42,7 @@ on:
           - 17 La Rioja
           - 18 Ceuta
           - 19 Melilla
+          - Congreso Huesca
       operation:
         description: Planificar o preparar un único territorio
         required: true

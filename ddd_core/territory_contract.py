@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Puerta de admisión de contrato territorial
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Admisión estructural y autorización separadas
-FECHA: 2026-09-15
+VERSIÓN: 1.3.0
+NOMBRE DE VERSIÓN: Admisión de territorios piloto
+FECHA: 2026-10-30
 ESTADO: vigente — R036
 QUÉ HACE: valida el contrato M01-M06 y comunica por separado si está autorizado, bloqueado o limitado a preflight.
 CAMBIOS: añade production_authorization coherente entre catálogo y contrato sin confundir validez estructural con permiso de ejecución.
 MOTIVO: impedir que un contrato bloqueado o experimental llegue a producción por una comparación textual incompleta.
-ANTERIOR: legacy/core/territory_contract_v1.1.0.py
+CAMBIOS 1.3.0: la entrada del catálogo maestro se busca también en pilot_territories (piloto Congreso).
+ANTERIOR: legacy/core/territory_contract_v1.2.0.py
 """
 from __future__ import annotations
 
@@ -97,7 +98,9 @@ def _catalogue_entry(root: Path, territory_id: Any, errors: list[str]) -> Mappin
         errors.append("falta catálogo territorial canónico")
         return {}
     data = load_params_yaml(str(path))
-    entries = (data.get("territories") or []) if isinstance(data, Mapping) else []
+    entries = (
+        list(data.get("territories") or []) + list(data.get("pilot_territories") or [])
+    ) if isinstance(data, Mapping) else []
     matches = [item for item in entries if isinstance(item, Mapping) and item.get("territory_id") == territory_id]
     if len(matches) != 1:
         errors.append(f"el catálogo debe contener exactamente una entrada para {territory_id!r}")

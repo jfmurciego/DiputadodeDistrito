@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.2
+# VERSIÓN: 1.0.3
 # NOMBRE DE VERSIÓN: Cola durable de operaciones
 # FECHA: 2026-10-25
 # ESTADO: candidato
@@ -9,7 +9,8 @@
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 # CAMBIOS 1.0.2: pasa --production-eligible al adaptador Minsait cuando el contrato lleva
 #   owner_production_exception validada (Extremadura 2025).
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.1_20261029.yml
+# CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.2_20261030.yml
 name: 03 Preparación de Resultados Electorales
 
 on:
@@ -35,7 +36,7 @@ on:
         description: Territorio
         required: true
         type: choice
-        options: ['01 Andalucía', '02 Aragón', '03 Principado de Asturias', '04 Islas Baleares', '05 Canarias', '06 Cantabria', '07 Castilla y León', '08 Castilla-La Mancha', '09 Cataluña', '10 Comunidad Valenciana', '11 Extremadura', '12 Galicia', '13 Comunidad de Madrid', '14 Región de Murcia', '15 Comunidad Foral de Navarra', '16 País Vasco', '17 La Rioja', '18 Ceuta', '19 Melilla']
+        options: ['01 Andalucía', '02 Aragón', '03 Principado de Asturias', '04 Islas Baleares', '05 Canarias', '06 Cantabria', '07 Castilla y León', '08 Castilla-La Mancha', '09 Cataluña', '10 Comunidad Valenciana', '11 Extremadura', '12 Galicia', '13 Comunidad de Madrid', '14 Región de Murcia', '15 Comunidad Foral de Navarra', '16 País Vasco', '17 La Rioja', '18 Ceuta', '19 Melilla', 'Congreso Huesca']
       data_edition: {description: Edición de datos, required: true, default: '2025', type: choice, options: ['2025']}
       reutilizar_si_ya_preparada: {description: Reutilizar resultados electorales ya preparados, required: true, default: true, type: boolean}
 

@@ -301,7 +301,7 @@ class DashboardSourceReadinessTests(unittest.TestCase):
             readiness["temporal_evidence"],
             resolved["temporal_evidence"],
         )
-        self.assertEqual(len(readiness["territories"]), 19)
+        self.assertEqual(len(readiness["territories"]), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
         self.assertEqual(
             set(plans),
             {r["territory_id"] for r in readiness["territories"]},
@@ -407,7 +407,7 @@ class DashboardSourceReadinessTests(unittest.TestCase):
             readiness["activation_chain"]["durable_pair"],
             summary["activated"],
         )
-        self.assertEqual(readiness["activation_chain"]["total"], 19)
+        self.assertEqual(readiness["activation_chain"]["total"], len(readiness["territories"]))
 
 
 

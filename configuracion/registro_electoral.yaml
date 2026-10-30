@@ -20,3 +20,4 @@ territories:
   la_rioja: {codauto: '17', name: La Rioja, election_id: la_rioja_parlamento_2023, election_date: '2023-05-28', title: Parlamento de La Rioja 2023}
   ceuta: {codauto: '18', name: Ceuta, election_id: ceuta_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Ceuta — elecciones locales 2023}
   melilla: {codauto: '19', name: Melilla, election_id: melilla_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Melilla — elecciones locales 2023}
+  congreso_huesca: {pilot_code: C22, name: Congreso Huesca, election_id: congreso_huesca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — piloto Huesca}

@@ -655,7 +655,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
         self.assertEqual(
             set(policy["territories"]),
-            {row["territory_id"] for row in master["territories"]},
+            {row["territory_id"] for row in master["territories"] + (master.get("pilot_territories") or [])},
         )
         self.assertTrue(all(int(v["k"]) > 0 for v in policy["territories"].values()))
 
@@ -822,7 +822,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
     def test_every_non_insular_territory_materializes_without_manual_promotion(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
-        by_id = {row["territory_id"]: row for row in master["territories"]}
+        by_id = {row["territory_id"]: row for row in master["territories"] + (master.get("pilot_territories") or [])}
         for territory_id, entry in policy["territories"].items():
             if entry["partition_mode"] == "physical_components_hamilton":
                 continue

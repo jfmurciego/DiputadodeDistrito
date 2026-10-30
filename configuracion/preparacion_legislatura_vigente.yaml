@@ -1,5 +1,5 @@
-# VERSIÓN: 1.0.4 — Andalucía y Castilla y León reconcilian el crosswalk 2026 en M07, como Aragón
-# FECHA: 2026-10-29; ESTADO: candidato para revisión y CI
+# VERSIÓN: 1.0.5 — Piloto Congreso Huesca (elección general 2023, referencia 2023/2023)
+# FECHA: 2026-10-30; ESTADO: candidato para revisión y CI
 # CAMBIOS 1.0.4: Andalucía y Castilla y León pasan a ACCEPTED_M07_RECONCILIATION (decisión del
 #   propietario 2026-10-29); ningún territorio queda con el crosswalk 2025→2026 bloqueante.
 # CAMBIOS 1.0.3: Extremadura pasa de BLOCKED_PROVISIONAL a ACQUIRE con la excepción de producción
@@ -9,7 +9,8 @@
 #   pérdida en M07, acotada por su margen.
 # CAMBIOS: Andalucía, Aragón y Castilla y León usan pareja INE 2025/2025 para referencia territorial.
 # MOTIVO: población 2026 no publicada y crosswalk 2025→2026 incompleto; electoral 2026 sigue pendiente.
-# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.0.3.yaml
+# CAMBIOS 1.0.5: territorio piloto congreso_huesca (pilot_code C22).
+# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.0.4.yaml
 schema: ddd-current-legislature-preparation/1.0
 project_edition: '2025'
 as_of: '2026-09-30'
@@ -136,3 +137,10 @@ territories:
     election_date: '2023-05-28'
     territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso_huesca
+    pilot_code: C22
+    name: Congreso Huesca
+    election_id: congreso_huesca_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Piloto Congreso: elección general del 23-07-2023; existen población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}

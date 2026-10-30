@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-# Versión: 1.1.4; nombre: Puertas derivadas F10; fecha: 2026-10-29.
+# Versión: 1.1.5; nombre: Puertas derivadas F10; fecha: 2026-10-30.
+# Cambios 1.1.5: F10 cubre las 19 autonómicas; los territorios piloto quedan fuera del universo.
 # Alcance: validar fichas READ_ONLY y evidencias de actividades F10.
 # Estado: candidato. Cambios/motivo: un receipt territorial posterior hereda el cierre F10 si
 # conserva los años de población y seccionado; la re-descarga INE del mismo año desde el principio
 # trae otra huella de paquete y dejaba la adquisición en BLOCKED sin cambiar de fuente.
-# Anterior: legacy/herramientas/estado_derivado_f10_v1.1.3_20261029.py.
+# Anterior: legacy/herramientas/estado_derivado_f10_pre_pilotos_20261030.py.
 """Read-only F10 door projection from current receipts and canonical consumers.
 
 The closure dossier is cross-checked as a tracking record; it never grants PASS.
@@ -296,8 +297,12 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
             "plan_state_sha256": sha256(plan_state_path),
             "plan_catalog_sha256": sha256(plan_catalog_path),
         })
-    source_rows = {str(row["territory_id"]): row for row in catalog["territories"]}
-    prep_rows = {str(row["territory_id"]): row for row in config["territories"]}
+    pilot_ids = {
+        str(row.get("territory_id"))
+        for row in (yaml.safe_load((root / "configuracion/catalogo_territorios_espana_2025.yaml").read_text(encoding="utf-8")) or {}).get("pilot_territories") or []
+    } if (root / "configuracion/catalogo_territorios_espana_2025.yaml").is_file() else set()
+    source_rows = {str(row["territory_id"]): row for row in catalog["territories"] if str(row["territory_id"]) not in pilot_ids}
+    prep_rows = {str(row["territory_id"]): row for row in config["territories"] if str(row["territory_id"]) not in pilot_ids}
     dossier_rows = {str(row["territory_id"]): row for row in dossier["rows"]}
     if set(source_rows) != set(prep_rows) or set(source_rows) != set(dossier_rows) or len(source_rows) != 19:
         raise ValueError("Los universos de catálogo, preparación y matriz no coinciden en 19 territorios")

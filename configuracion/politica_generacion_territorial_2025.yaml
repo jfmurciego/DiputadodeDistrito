@@ -1,14 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.5.2
-# FECHA: 2026-10-29
-# CAMBIOS: 1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
+# VERSIÓN: 1.6.0
+# FECHA: 2026-10-30
+# CAMBIOS: 1.6.0: piloto Congreso Huesca (K=2, límites ±15 %, municipios indivisibles hasta el techo).
+#   1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
 #   1.5.1: umbral de atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña.
 #   1.5.0: exenciones estructurales de suelo en Ibiza (07-C04), Tenerife (38-C01) y 35-C02.
 #   1.4.0: structural_floor_exemptions por territorio; Menorca (07-C02) exenta del suelo.
 #   1.3.0: Melilla baja a suelo 0,50 y tolerancia 0,50 (con 0,70 la M04 no encuentra partición conexa).
 #   1.2.0: admite population_limits por territorio.
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.5.1.yaml
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.5.2.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -131,6 +132,19 @@ territories:
       decided_at: "2026-10-28"
       evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.melilla.population_limits; población INE 65034 (2023), 44 secciones, 85.493 habitantes"
       rationale: "Territorio excepcional (decisión del propietario, 28-10-2026): 44 secciones indivisibles para K=25 obligan a al menos 6 distritos de una sola sección; con población 2023 la 6.ª mayor es el 72,8 % del objetivo, por lo que con el suelo nacional del 80 % no existe partición. En la M04 (run 40773487000) el suelo del 70 % tampoco admite partición conexa exacta (NO_EXACT_CONNECTED_HARD_PARTITION); el propietario fija el suelo en el 50 % (28-10-2026)."
+  congreso_huesca:
+    k: 2
+    k_source: formula
+    partition_mode: province_hamilton
+    rationale: "Piloto Congreso: K=2 es la cuota de Huesca (CPRO 22) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-30"
+      evidence: "territorios/congreso/contrato_congreso_2026.json (K=407, decisión N08-OWNER-20261013-7RULES: límites ±15 % e indivisibilidad municipal bajo el techo); docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/MATRIZ_FACTIBILIDAD_52.csv (Huesca: 1 componente, 0 solapes); referencia temporal 2023 contemporánea de la elección general de 2023"
+      rationale: "Reglas del Congreso aprobadas por el propietario: suelo 85 %, techo 115 %, y un municipio que cabe bajo el techo no se divide. Piloto autorizado el 30-10-2026."
 archipelago:
   partition_lookup: configuracion/particiones_insulares_2025.json
   apportionment: hamilton_min_one_floor_feasible

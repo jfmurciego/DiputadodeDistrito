@@ -61,7 +61,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
     def test_all_19_registered_identities_preserve_requested_electoral_mode(self):
         from herramientas.resolver_ejecucion_completa import resolve_publication_mode
         registry = yaml.safe_load((ROOT / "configuracion/registro_electoral.yaml").read_text(encoding="utf-8"))
-        self.assertEqual(len(registry["territories"]), 19)
+        self.assertEqual(len(registry["territories"]), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
         for territory_id, entry in registry["territories"].items():
             with self.subTest(territory=territory_id):
                 plan = {

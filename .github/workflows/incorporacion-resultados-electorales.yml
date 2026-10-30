@@ -1,11 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.0.2
+# VERSIÓN: 2.0.3
 # NOMBRE DE VERSIÓN: Consumo de M06 certificado sin huella del motor M05
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
-# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.1_20261029.yml
+# CAMBIOS 2.0.3: opción del territorio piloto «Congreso Huesca».
+# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.2_20261030.yml
 # CAMBIOS: 2.0.2: el M06 certificado se localiza con --consume-certified-product; un cambio del motor
 #   M05 (#343) ya no invalida productos cerrados. 2.0.1: exclusión mutua con queue: max.
 # MOTIVO: Castilla y León y Extremadura fallaban con «No existe un producto territorial certificado».
@@ -53,6 +54,7 @@ on:
           - 17 La Rioja
           - 18 Ceuta
           - 19 Melilla
+          - Congreso Huesca
       data_edition:
         description: Edición de datos
         required: true

@@ -49,7 +49,7 @@ class FakeResponse:
 class SourceTestPackageTests(unittest.TestCase):
     def test_registry_covers_all_spanish_territories(self):
         rows = territories()
-        self.assertEqual(len(rows), 19)
+        self.assertEqual(len(rows), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
         self.assertEqual(matrix("Todos"), [r["name"] for r in rows])
         self.assertIn("La Rioja", matrix("Todos"))
         self.assertIn("Ceuta", matrix("Todos"))

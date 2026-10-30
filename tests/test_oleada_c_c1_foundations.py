@@ -56,7 +56,7 @@ class OleadaCC1Foundations(unittest.TestCase):
 
     def test_read_model_has_lineage_and_publications(self):
         payload=build(ROOT,"2025")
-        self.assertEqual(len(payload["territories"]),19)
+        self.assertEqual(len(payload["territories"]),19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
         self.assertGreaterEqual(len(payload["publications"]),1)
         for row in payload["territories"]:
             for key in ("source_commit","artifact_sha256","release_tag","doi","attestation_verified","osf_registration"):

@@ -156,6 +156,7 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             ("la_rioja", 2023, 2023),
             ("ceuta", 2023, 2023),
             ("melilla", 2023, 2023),
+            ("congreso_huesca", 2023, 2023),
         ]
         self.assertEqual(observed, expected)
         self.assertEqual(sum(pair[1:] == (2025, 2025) for pair in observed), 4)
