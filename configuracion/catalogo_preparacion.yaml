@@ -381,7 +381,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 41062567297
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40956462986
         artifact_name: ddd-source-package-comunidad_valenciana-2025-40956462986
