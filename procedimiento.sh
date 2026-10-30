@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.9.2
-# NOMBRE DE VERSIÓN: Estrategia de optimización seleccionable en M05
-# FECHA: 2026-10-25
+# VERSIÓN: 2.9.3
+# NOMBRE DE VERSIÓN: Semilla M05 canónica reparada para GerryChain
+# FECHA: 2026-10-30
 # ESTADO: candidato
 # CAMBIOS: falla cerrado GerryChain 50 sin fallback; valida 50 candidatos y 50 hashes; registra algoritmo solicitado/efectivo, fallback, conteo y certificación pendiente M06.
 # MOTIVO: GerryChain 50 solo puede declarar éxito si se ejecutó realmente y produjo su portfolio completo; M05 no certifica el producto territorial.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.9.1.sh
+# CAMBIOS 2.9.3: si la Formación inicial M04 no es admisible para GerryChain (p. ej. distritos bajo
+#   suelo que la ruta canónica repara en M05), se ejecuta el M05 canónico, su salida se copia como
+#   semilla y se revalida; GerryChain arranca de ella (--initial). Sin semilla admisible falla cerrado.
+#   La inviabilidad de cardinalidad (una unidad por distrito) falla sin intentar la semilla canónica.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.9.2.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -184,12 +188,34 @@ ejecutar(){
 
         # La validez del contrato y de la Formación inicial se comprueba siempre,
         # incluso si el runtime aislado de GerryChain no está disponible.
+        initial_args=()
         set +e
         python ddd_core/m05_gerrychain_strategy.py \
-          --params "$PARAMS" --run-id "$RUN_ID" --validate-baseline-only \
+          --params "$PARAMS" --run-id "$RUN_ID" --validate-baseline-only "${seed_args[@]}" \
           2>&1 | tee "$LOG_DIR/modulo_${n}_baseline_validation.log"
         baseline_rc=${PIPESTATUS[0]}
         set -e
+        if (( baseline_rc != 0 )) && ! grep -q "ENSEMBLE_INFEASIBLE_AT_DECLARED_GRANULARITY" "$LOG_DIR/modulo_${n}_baseline_validation.log"; then
+          echo "[INFO] Formación inicial M04 no admisible para GerryChain; se genera semilla M05 canónica reparada." | tee -a "$LOG_DIR/modulo_${n}.log"
+          canonical_out="$(python -c 'import sys,yaml; from pathlib import Path; sys.path.insert(0,"."); from ddd_core.m05_gerrychain_strategy import resolve_paths; p=Path(sys.argv[1]).resolve(); print(resolve_paths(yaml.safe_load(p.read_text(encoding="utf-8")) or {}, p, sys.argv[2])["output"])' "$PARAMS" "$RUN_ID")"
+          canonical_seed="${canonical_out%.geojson*}_semilla_canonica.geojson.zip"
+          set +e
+          python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}_semilla_canonica.log"
+          canonical_rc=${PIPESTATUS[0]}
+          set -e
+          if (( canonical_rc == 0 )) && [[ -s "$canonical_out" ]]; then
+            cp "$canonical_out" "$canonical_seed"
+            set +e
+            python ddd_core/m05_gerrychain_strategy.py \
+              --params "$PARAMS" --run-id "$RUN_ID" --validate-baseline-only "${seed_args[@]}" \
+              --initial "$canonical_seed" 2>&1 | tee -a "$LOG_DIR/modulo_${n}_baseline_validation.log"
+            baseline_rc=${PIPESTATUS[0]}
+            set -e
+            if (( baseline_rc == 0 )); then initial_args=(--initial "$canonical_seed"); fi
+          else
+            echo "[FATAL] El M05 canónico no produjo semilla admisible (rc=$canonical_rc)." | tee -a "$LOG_DIR/modulo_${n}.log"
+          fi
+        fi
         if (( baseline_rc != 0 )); then
           echo "[FATAL] Contrato o Formación inicial inválidos; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
           registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "" false "m04_baseline_validation_failed" "$baseline_rc" "$candidate_count" FAILED NOT_CERTIFIED
@@ -199,7 +225,7 @@ ejecutar(){
         if [[ -x /opt/ddd-gerrychain/bin/python ]]; then
           set +e
           PYTHONHASHSEED=0 /opt/ddd-gerrychain/bin/python ddd_core/m05_gerrychain_strategy.py \
-            --params "$PARAMS" --run-id "$RUN_ID" "${seed_args[@]}" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
+            --params "$PARAMS" --run-id "$RUN_ID" "${seed_args[@]}" "${initial_args[@]}" 2>&1 | tee -a "$LOG_DIR/modulo_${n}.log"
           gerry_rc=${PIPESTATUS[0]}
           set -e
         else

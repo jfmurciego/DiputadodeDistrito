@@ -2,8 +2,19 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: 02.5 Estrategia de Optimización — GerryChain/ReCom
-VERSIÓN PROPUESTA: 2.1.0
+VERSIÓN PROPUESTA: 2.2.0
 ESTADO: candidato de integración, genérico multi-territorio
+CAMBIOS 2.2.0 (2026-10-30, lote GerryChain 50 de 18 runs):
+  * la partición dura sale del ``province_field`` de M05/M04 (``DDD_PARTITION`` en archipiélagos), no de
+    ``CPRO``: Baleares y Canarias fallaban en ``province_count`` y en las exenciones de suelo insulares;
+  * ``validation.population_floor_exempt_municipalities`` (#343) exime del suelo al distrito que contiene
+    el municipio, como en la ruta canónica (Murcia/Beniel, Andalucía);
+  * una unidad de grupo atómico administrativo ``{p}:{a|b}:M`` se admite si sus municipios son
+    exactamente los declarados (Cataluña ``25:25215|25234:M``);
+  * ``--initial`` sustituye la semilla también con ``--params`` (semilla M05 canónica reparada);
+  * preflight de cardinalidad: con tantas unidades como distritos sólo existe una asignación y una
+    cartera de varias semillas se rechaza con GERRYCHAIN50_ENSEMBLE_INFEASIBLE_AT_DECLARED_GRANULARITY.
+ANTERIOR: legacy/ddd_core/m05_gerrychain_strategy_v2.1.0_20261030.py
 
 Objetivo
 ========
@@ -68,7 +79,7 @@ except Exception as exc:  # pragma: no cover - exercised by explicit dependency 
 else:
     _GERRYCHAIN_IMPORT_ERROR = None
 
-STRATEGY_VERSION = "2.1.0"
+STRATEGY_VERSION = "2.2.0"
 
 
 @dataclass(frozen=True)
@@ -79,6 +90,8 @@ class StrategyContract:
     population_cap_ratio: float
     province_districts: Mapping[str, int] = field(default_factory=dict)
     population_floor_exempt_partitions: tuple[str, ...] = ()
+    population_floor_exempt_municipalities: tuple[str, ...] = ()
+    partition_field: str = "CPRO"
     require_single_province: bool = True
     require_contiguity: bool = True
     require_municipality_discipline: bool = True
@@ -264,6 +277,10 @@ def contract_from_yaml(cfg: Mapping[str, Any]) -> StrategyContract:
         population_cap_ratio=cap,
         province_districts=quotas,
         population_floor_exempt_partitions=tuple(str(x) for x in (validation.get("population_floor_exempt_partitions") or [])),
+        population_floor_exempt_municipalities=tuple(
+            str(x) for x in (validation.get("population_floor_exempt_municipalities") or [])
+        ),
+        partition_field=str(s5.get("province_field") or s4.get("province_field") or "CPRO"),
         require_single_province=bool(validation.get("require_single_province_per_district", True)),
         require_contiguity=bool(validation.get("require_graph_contiguity", validation.get("require_contiguity", True))),
         require_municipality_discipline=bool(validation.get("require_municipality_discipline", True)),
@@ -345,6 +362,8 @@ def prepare_problem(
     min_shared_border_m: float = 1.0,
 ) -> PreparedProblem:
     municipality_field = municipality_field or contract.municipality_discipline_field
+    if province_field == "CPRO" and contract.partition_field:
+        province_field = contract.partition_field
     graph = json.loads(graph_path.read_text(encoding="utf-8"))
     graph_nodes = {str(n["id"]): n for n in graph.get("nodes", [])}
     node_population = {section: float(node.get("pop", 0)) for section, node in graph_nodes.items()}
@@ -403,8 +422,16 @@ def prepare_problem(
             raise ValueError(f"Unidad indivisible ya partida en M04: {unit}")
         if len(provinces) != 1:
             raise ValueError(f"Unidad cruza provincias: {unit}")
-        if len(municipalities) != 1:
-            raise ValueError(f"Unidad cruza municipios: {unit}")
+        unit_municipality = next(iter(municipalities)) if len(municipalities) == 1 else None
+        if unit_municipality is None:
+            # Grupo atómico administrativo de M04 ('{p}:{a|b}:M'): municipio discontinuo acreditado
+            # unido a su conector; se admite sólo si los municipios son exactamente los declarados.
+            parts = str(unit).split(":")
+            declared = set(parts[1].split("|")) if len(parts) >= 3 and "|" in parts[1] else set()
+            observed = {str(m).split(":")[0] for m in municipalities}
+            if not declared or observed != declared:
+                raise ValueError(f"Unidad cruza municipios: {unit}")
+            unit_municipality = parts[1]
 
         comarca_values: set[str] = set()
         for section_id in rows[id_field]:
@@ -431,7 +458,7 @@ def prepare_problem(
             "unit_id": unit_key,
             "population": float(sum(node_population[s] for s in rows[id_field])),
             "province": next(iter(provinces)),
-            "municipality": next(iter(municipalities)),
+            "municipality": unit_municipality,
             "municipality_discipline_field": municipality_field,
             "closed_urban": bool(rows[closed_urban_field].fillna(False).astype(bool).all()),
             "comarca": next(iter(comarca_values), None),
@@ -552,6 +579,24 @@ def population_metrics(problem: PreparedProblem, assignment: Mapping[str, Any], 
     }
 
 
+def _district_has_exempt_municipality(municipalities: Iterable[str], contract: StrategyContract) -> bool:
+    exempt = set(contract.population_floor_exempt_municipalities)
+    if not exempt:
+        return False
+    codes = {code for m in municipalities for code in str(m).split(":")[0].split("|")}
+    return bool(codes & exempt)
+
+
+def ensemble_cardinality_check(problem: PreparedProblem, contract: StrategyContract, seed_count: int) -> None:
+    """Con una unidad por distrito sólo existe una asignación: varias semillas no dan alternativas reales."""
+    if seed_count > 1 and len(problem.units) <= contract.expected_k:
+        raise BaselineValidationError(
+            "GERRYCHAIN50_ENSEMBLE_INFEASIBLE_AT_DECLARED_GRANULARITY: "
+            f"{len(problem.units)} unidades indivisibles para {contract.expected_k} distritos; "
+            "sólo existe una asignación y no puede haber varias alternativas distintas"
+        )
+
+
 def hard_constraint_violations(
     problem: PreparedProblem,
     assignment: Mapping[str, Any],
@@ -586,7 +631,11 @@ def hard_constraint_violations(
     floor_exempt = set(contract.population_floor_exempt_partitions)
     for district, population in pops.items():
         partition = next(iter(provinces.get(district, set())), "")
-        if population < floor - 1e-9 and str(partition) not in floor_exempt:
+        if (
+            population < floor - 1e-9
+            and str(partition) not in floor_exempt
+            and not _district_has_exempt_municipality(district_municipalities.get(district, set()), contract)
+        ):
             violations.append(f"population_floor:{district}")
         if population > cap + 1e-9:
             violations.append(f"population_cap:{district}")
@@ -1088,6 +1137,10 @@ def build_report(
                 problem.units[u]["province"] for u, d in selected_assignment.items()
                 if str(d) == str(district)
             }), "")) not in set(contract.population_floor_exempt_partitions)
+            and not _district_has_exempt_municipality(
+                {problem.units[u]["municipality"] for u, d in selected_assignment.items() if str(d) == str(district)},
+                contract,
+            )
         ),
         "districts_above_cap": sum(p > cap + 1e-9 for p in final_pops),
         "districts_outside_tolerance": final_metrics["districts_outside_tolerance"],
@@ -1184,6 +1237,7 @@ def run_from_paths(
         raise
     except (ValueError, FileNotFoundError, KeyError) as exc:
         raise BaselineValidationError(str(exc)) from exc
+    ensemble_cardinality_check(problem, contract, strategy.seed_count)
     portfolio = run_portfolio(problem, contract, strategy)
     materialise_output(problem, portfolio["selected"]["assignment"], output_path)
     portfolio_rows = materialise_portfolio(problem, portfolio, output_path)
@@ -1225,6 +1279,9 @@ def _main_impl() -> None:
             contract = contract_from_yaml(cfg)
             strategy = strategy_config_from_yaml(cfg)
             paths = resolve_paths(cfg, params_path, args.run_id)
+            if args.initial:
+                # Semilla explícita (p. ej. salida M05 canónica reparada); grafo y salidas no cambian.
+                paths["initial"] = args.initial.expanduser().resolve()
         else:
             if not all((args.graph, args.initial, args.output, args.report, args.expected_k)):
                 ap.error("Sin --params son obligatorios --graph --initial --output --report --expected-k")
@@ -1277,6 +1334,7 @@ def _main_impl() -> None:
             raise
         except (ValueError, FileNotFoundError, KeyError) as exc:
             raise BaselineValidationError(str(exc)) from exc
+        ensemble_cardinality_check(problem, contract, strategy.seed_count)
         print(json.dumps({
             "baseline_valid": True,
             "units": len(problem.units),
