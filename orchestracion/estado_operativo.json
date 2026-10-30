@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T01:12:16.406891+00:00",
+  "generated_at": "2026-10-30T01:39:54.967364+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1134,7 +1134,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40979477771,
       "last_run": {
-        "run_id": 40706742818,
+        "run_id": 40979477771,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -1914,7 +1914,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40951146225,
+      "run_id": 40979640315,
       "last_run": {
         "run_id": 40951146225,
         "status": "SUCCESS",
@@ -1940,13 +1940,13 @@
           "territory_id": "pais_vasco",
           "territory_name": "País Vasco",
           "edition": "2025",
-          "run_id": 40951146225,
-          "artifact_name": "ddd-state-40951146225-M06",
-          "artifact_sha256": "94865ccb2f9787337a647029b5dbad2838ffc41e71ee811d941d5f4f37ca3b4e",
-          "source_commit": "581862de64f0e7b9bf983d5bb689603f2ca068e8",
+          "run_id": 40979640315,
+          "artifact_name": "ddd-state-40979640315-M06",
+          "artifact_sha256": "d29a982a4a6e7456b0f129d5119e1eb53d26834284dada7bcd6b969d394edf74",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/pais_vasco/evidencia/generaciones_m06/40951146225.json"
+          "producer_manifest_path": "territorios/pais_vasco/evidencia/generaciones_m06/40979640315.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1955,10 +1955,10 @@
           "territory_id": "pais_vasco",
           "territory_name": "País Vasco",
           "edition": "2025",
-          "run_id": 40951146225,
-          "artifact_name": "ddd-state-40951146225-M08",
-          "artifact_sha256": "1055816b0d86391c38b706d5f5a0a5f11826b50f215500b2df91092972b50e99",
-          "source_commit": "581862de64f0e7b9bf983d5bb689603f2ca068e8",
+          "run_id": 40979640315,
+          "artifact_name": "ddd-state-40979640315-M08",
+          "artifact_sha256": "9f0d871b475feb7ed9f52c4123ea15783b86b9f49a1b2d1dd7f7c8730430c5f2",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "stage": "M08"
         }
       },
