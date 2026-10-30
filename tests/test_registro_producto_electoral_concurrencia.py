@@ -166,20 +166,30 @@ def clone(remote: Path, destination: Path) -> None:
 
 
 class ElectoralProductConcurrentRegistrationTests(unittest.TestCase):
-    def test_workflow_keeps_source_checkout_but_rederives_mutation_from_main(self):
+    def test_workflow_loads_current_persistor_but_preserves_calculation_source_sha(self):
         data = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
-        register = data["jobs"]["registrar"]
-        checkout = register["steps"][0]
+        steps = data["jobs"]["registrar"]["steps"]
+        source_checkout = steps[0]
         self.assertEqual(
-            checkout["with"]["ref"],
+            source_checkout["with"]["ref"],
             "${{ inputs.source_ref || github.ref_name }}",
         )
-        run = next(
-            step["run"]
-            for step in register["steps"]
+        capture = next(step for step in steps if step.get("id") == "capture_source")
+        self.assertIn('source_commit=$(git rev-parse HEAD)', capture["run"])
+        compatible_checkout = next(
+            step for step in steps
+            if step.get("name") == "Cargar persistidor vigente compatible con main"
+        )
+        self.assertEqual(compatible_checkout["with"]["ref"], "main")
+        self.assertLess(steps.index(capture), steps.index(compatible_checkout))
+        register = next(
+            step for step in steps
             if step.get("name") == "Registrar disponibilidad del producto electoral"
         )
-        self.assertIn('source_commit="$(git rev-parse HEAD)"', run)
+        self.assertLess(steps.index(compatible_checkout), steps.index(register))
+        run = register["run"]
+        self.assertIn('source_commit="${{ steps.capture_source.outputs.source_commit }}"', run)
+        self.assertNotIn('source_commit="$(git rev-parse HEAD)"', run)
         self.assertIn(
             "python -m herramientas.persistir_producto_electoral_operacional",
             run,
