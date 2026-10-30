@@ -829,11 +829,16 @@ class PreM04PilotPersistenceTests(unittest.TestCase):
             setup = base / "setup-pilot"
             clone(remote, setup)
             master_path = setup / "configuracion/catalogo_territorios_espana_2025.yaml"
-            master = yaml.safe_load(master_path.read_text(encoding="utf-8"))
-            pilot = master["territories"].pop(0)
-            pilot["pilot_code"] = "C22"
-            master["pilot_territories"] = [pilot]
-            master_path.write_text(yaml.safe_dump(master, sort_keys=False), encoding="utf-8")
+            master_text = master_path.read_text(encoding="utf-8")
+            # Mantener la misma representación inline del catálogo productivo.
+            pilot_line = "  - {territory_id: alpha, name: Alpha, status: source_prepared_pending_pre_m04}\\n"
+            self.assertIn(pilot_line.replace("\\\\n", "\\n"), master_text)
+            master_text = master_text.replace(
+                pilot_line.replace("\\\\n", "\\n"), "", 1
+            ) + "pilot_territories:\\n" + pilot_line.replace("\\\\n", "\\n").replace(
+                "name: Alpha,", "name: Alpha, pilot_code: C22,"
+            )
+            master_path.write_text(master_text, encoding="utf-8")
             git(setup, "config", "user.name", "test")
             git(setup, "config", "user.email", "test@example.invalid")
             git(setup, "add", ".")
