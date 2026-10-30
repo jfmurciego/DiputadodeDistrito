@@ -168,34 +168,60 @@ def clone(remote: Path, destination: Path) -> None:
 class ElectoralProductConcurrentRegistrationTests(unittest.TestCase):
     def test_workflow_loads_current_persistor_but_preserves_calculation_source_sha(self):
         data = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
-        steps = data["jobs"]["registrar"]["steps"]
-        source_checkout = steps[0]
-        self.assertEqual(
-            source_checkout["with"]["ref"],
-            "${{ inputs.source_ref || github.ref_name }}",
-        )
-        capture = next(step for step in steps if step.get("id") == "capture_source")
-        self.assertIn('source_commit=$(git rev-parse HEAD)', capture["run"])
-        compatible_checkout = next(
-            step for step in steps
-            if step.get("name") == "Cargar persistidor vigente compatible con main"
-        )
+        incorporate = data["jobs"]["incorporar"]
+        source_checkout = incorporate["steps"][0]
+        self.assertEqual(source_checkout["with"]["ref"], "${{ inputs.source_ref || github.sha }}")
+        capture = next(step for step in incorporate["steps"] if step.get("id") == "capture_source")
+        self.assertIn('source_commit="$(git rev-parse HEAD)"', capture["run"])
+        self.assertEqual(incorporate["outputs"]["source_commit"],
+                         "${{ steps.capture_source.outputs.source_commit }}")
+        register_steps = data["jobs"]["registrar"]["steps"]
+        compatible_checkout = next(step for step in register_steps
+                                   if step.get("name") == "Cargar persistidor vigente compatible con main")
         self.assertEqual(compatible_checkout["with"]["ref"], "main")
-        self.assertLess(steps.index(capture), steps.index(compatible_checkout))
-        register = next(
-            step for step in steps
-            if step.get("name") == "Registrar disponibilidad del producto electoral"
-        )
-        self.assertLess(steps.index(compatible_checkout), steps.index(register))
+        self.assertFalse(any(step.get("id") == "capture_source" for step in register_steps))
+        self.assertFalse(any(step.get("with", {}).get("ref") ==
+                             "${{ inputs.source_ref || github.ref_name }}" for step in register_steps))
+        register = next(step for step in register_steps
+                        if step.get("name") == "Registrar disponibilidad del producto electoral")
+        self.assertLess(register_steps.index(compatible_checkout), register_steps.index(register))
         run = register["run"]
-        self.assertIn('source_commit="${{ steps.capture_source.outputs.source_commit }}"', run)
+        self.assertIn('source_commit="${{ needs.incorporar.outputs.source_commit }}"', run)
         self.assertNotIn('source_commit="$(git rev-parse HEAD)"', run)
-        self.assertIn(
-            "python -m herramientas.persistir_producto_electoral_operacional",
-            run,
-        )
+        self.assertIn("python -m herramientas.persistir_producto_electoral_operacional", run)
         self.assertIn("--target-branch main", run)
         self.assertNotIn("git pull --rebase", run)
+
+    @unittest.skipUnless(shutil.which("git"), "git executable required")
+    def test_branch_advance_between_jobs_cannot_change_calculation_sha(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            remote = make_remote(root)
+            computed_checkout = root / "computed"
+            clone(remote, computed_checkout)
+            source_sha = git(computed_checkout, "rev-parse", "HEAD")
+            latest_checkout = root / "latest"
+            clone(remote, latest_checkout)
+            git(latest_checkout, "config", "user.name", "test")
+            git(latest_checkout, "config", "user.email", "test@example.invalid")
+            (latest_checkout / "new-pilot-marker").write_text("B", encoding="utf-8")
+            git(latest_checkout, "add", ".")
+            git(latest_checkout, "commit", "-m", "advance branch before registrar")
+            git(latest_checkout, "push", "origin", "HEAD:main")
+            compatible_checkout = root / "compatible"
+            clone(remote, compatible_checkout)
+            self.assertNotEqual(source_sha, git(compatible_checkout, "rev-parse", "HEAD"))
+            persisted_head = persist_electoral_product(
+                root_dir=compatible_checkout, territory_id="alpha", edition="2025",
+                run_id=920, artifact_name="ddd-state-920-M08",
+                artifact_sha256="a" * 64, source_commit=source_sha, target_branch="main",
+            )
+            self.assertEqual(persisted_head, git(compatible_checkout, "rev-parse", "HEAD"))
+            receipt = json.loads((
+                compatible_checkout / "territorios/alpha/evidencia/catalogo/electoral_product_2025.json"
+            ).read_text(encoding="utf-8"))
+            self.assertEqual(receipt["source_commit"], source_sha)
+            self.assertNotEqual(receipt["source_commit"], persisted_head)
 
     def run_two(
         self,
