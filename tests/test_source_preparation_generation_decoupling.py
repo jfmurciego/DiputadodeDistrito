@@ -104,7 +104,7 @@ def _write_minimal_prepared_source(root: Path) -> Path:
         encoding="utf-8",
     )
     (root / "configuracion/catalogo_territorios_espana_2025.yaml").write_text(
-        "- {territory_id: demo, status: source_prepared_pending_pre_m04}\n",
+        "territories:\n  - {territory_id: demo, name: Demo, status: source_prepared_pending_pre_m04}\n",
         encoding="utf-8",
     )
     return contract
