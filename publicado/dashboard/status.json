@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T00:01:38.600480+00:00",
+  "generated_at": "2026-10-30T01:05:00.878022+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 18,
-      "activable": 1,
+      "activated": 19,
+      "activable": 0,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 19,
       "electoral_source": 19,
-      "durable_pair": 18
+      "durable_pair": 19
     },
     "territories": [
       {
@@ -384,12 +384,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/d461e26d0da82715cffd145ec2ec14fc641eab164aab9bbb3d7d7168606c5ed7.json",
-            "pair_sha256": "d461e26d0da82715cffd145ec2ec14fc641eab164aab9bbb3d7d7168606c5ed7",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac.json",
+            "pair_sha256": "28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1067,11 +1067,11 @@
       "name": "Aragón",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40898231736,
+      "run_id": 40979465420,
       "last_run": {
         "run_id": 40898231736,
         "status": "SUCCESS",
@@ -1080,7 +1080,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1097,13 +1097,13 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 40691712762,
-          "artifact_name": "ddd-state-40691712762-M06",
-          "artifact_sha256": "e47faf0a742dc6ed6c20fcee85a16e04af30cd76ffa96e869bf84a77f05520d8",
-          "source_commit": "479c5a17c18754fbd4cb1bffbc3c221cfe2a56e2",
+          "run_id": 40979465420,
+          "artifact_name": "ddd-state-40979465420-M06",
+          "artifact_sha256": "257d40366b285d0fd4753e1264f9002fa0ebbdc0d7886b5b7311665657a25bfe",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40691712762.json"
+          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40979465420.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1121,18 +1121,18 @@
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "principado_de_asturias",
       "name": "Principado de Asturias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40706742818,
+      "run_id": 40979477771,
       "last_run": {
         "run_id": 40706742818,
         "status": "SUCCESS",
@@ -1141,7 +1141,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -1158,13 +1158,13 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 40706742818,
-          "artifact_name": "ddd-state-40706742818-M06",
-          "artifact_sha256": "a27a36f3b35de61350d1126a6558877609713cc96c7fe5f15c2b7782c20be88c",
-          "source_commit": "87473d2bc07285d7200e8cd0b170f79aeefedda8",
+          "run_id": 40979477771,
+          "artifact_name": "ddd-state-40979477771-M06",
+          "artifact_sha256": "9f460bf1894a406f4106818103d03e0108660ed43b437089d8cf7ea4bab06bd9",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/40706742818.json"
+          "producer_manifest_path": "territorios/principado_de_asturias/evidencia/generaciones_m06/40979477771.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -1182,7 +1182,7 @@
       },
       "autonomous_community_code_ine": "03",
       "display_name": "03 Principado de Asturias",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "illes_balears",
@@ -1195,11 +1195,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40957888543,
       "last_run": {
-        "run_id": 40957888543,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979489716,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1256,11 +1256,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40951280657,
       "last_run": {
-        "run_id": 40951280657,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979501633,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1317,11 +1317,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40701656466,
       "last_run": {
-        "run_id": 40701656466,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979514726,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1378,7 +1378,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40969454399,
       "last_run": {
-        "run_id": 40967609380,
+        "run_id": 40977515483,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "04 · Incorporación de Resultados Electorales",
@@ -1489,11 +1489,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40952013601,
       "last_run": {
-        "run_id": 40952013601,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979552997,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1550,11 +1550,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40973760398,
       "last_run": {
-        "run_id": 40973760398,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979566064,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1611,11 +1611,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40965231300,
       "last_run": {
-        "run_id": 40965231300,
+        "run_id": 40979579297,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "Reanudación de producto electoral durable",
-        "reason": "ver log del run",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1672,11 +1672,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40832139215,
       "last_run": {
-        "run_id": 40832139215,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979592029,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1733,11 +1733,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40787900559,
       "last_run": {
-        "run_id": 40787900559,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979604634,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1794,11 +1794,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40957577850,
       "last_run": {
-        "run_id": 40957577850,
+        "run_id": 40979616852,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "Reanudación de producto electoral durable",
-        "reason": "ver log del run",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1855,11 +1855,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 40847881909,
       "last_run": {
-        "run_id": 40847881909,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979628475,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -1975,7 +1975,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40867456776,
+      "run_id": 40979652189,
       "last_run": {
         "run_id": 40867482289,
         "status": "FAILED",
@@ -2001,13 +2001,13 @@
           "territory_id": "la_rioja",
           "territory_name": "La Rioja",
           "edition": "2025",
-          "run_id": 40867456776,
-          "artifact_name": "ddd-state-40867456776-M06",
-          "artifact_sha256": "d2d53eb72ad88809617b04a958f4bc4d645786ac52d9e75ea3a9fbf4d9463346",
-          "source_commit": "09124ea84984685a622f379af43678eee5fd99ea",
+          "run_id": 40979652189,
+          "artifact_name": "ddd-state-40979652189-M06",
+          "artifact_sha256": "749cba0731dbb10bfd1fc94d6a25e1f04f7afd471389fa9fe565f7518a59b5ed",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40867456776.json"
+          "producer_manifest_path": "territorios/la_rioja/evidencia/generaciones_m06/40979652189.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -2016,10 +2016,10 @@
           "territory_id": "la_rioja",
           "territory_name": "La Rioja",
           "edition": "2025",
-          "run_id": 40867456776,
-          "artifact_name": "ddd-state-40867456776-M08",
-          "artifact_sha256": "058fae7bdf1ea412070a8db035adbdf082611066741b7a46d493c56710858b2a",
-          "source_commit": "09124ea84984685a622f379af43678eee5fd99ea",
+          "run_id": 40979652189,
+          "artifact_name": "ddd-state-40979652189-M08",
+          "artifact_sha256": "a0b3dbebc81537f0c96a98cc57c277dac2ceee9c8b63350f6c3eecea7b9f18c3",
+          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
           "stage": "M08"
         }
       },
@@ -2038,11 +2038,11 @@
       "certification": "PASS",
       "run_id": 40784389253,
       "last_run": {
-        "run_id": 40784389253,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979664439,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -2099,11 +2099,11 @@
       "certification": "PASS",
       "run_id": 40840795932,
       "last_run": {
-        "run_id": 40840795932,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 40979677076,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -2151,10 +2151,8 @@
     }
   ],
   "kpis": {
-    "complete": 17,
+    "complete": 15,
     "complete_names": [
-      "02 Aragón",
-      "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
       "06 Cantabria",
@@ -2223,11 +2221,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "comunidad_valenciana",
-    "name": "Comunidad Valenciana",
-    "display_name": "10 Comunidad Valenciana",
-    "autonomous_community_code_ine": "10",
-    "run_id": 40973760398,
+    "territory_id": "la_rioja",
+    "name": "La Rioja",
+    "display_name": "17 La Rioja",
+    "autonomous_community_code_ine": "17",
+    "run_id": 40979652189,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -2238,6 +2236,18 @@
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "02 Aragón",
+      "territory_id": "aragon",
+      "autonomous_community_code_ine": "02",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "principado_de_asturias",
+      "autonomous_community_code_ine": "03",
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "07 Castilla y León",
@@ -2252,6 +2262,18 @@
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "generar y validar distritos"
+    },
+    {
+      "territory": "02 Aragón",
+      "territory_id": "aragon",
+      "autonomous_community_code_ine": "02",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "03 Principado de Asturias",
+      "territory_id": "principado_de_asturias",
+      "autonomous_community_code_ine": "03",
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "07 Castilla y León",
