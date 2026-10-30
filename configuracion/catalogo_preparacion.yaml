@@ -753,3 +753,20 @@ territories:
         territorial_product: territorios/melilla/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/melilla/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
+- territory_id: congreso_huesca
+  name: Congreso Huesca
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_huesca/config/congreso_huesca_2025.yaml
+      territorial_source_declaration: territorios/congreso_huesca/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null

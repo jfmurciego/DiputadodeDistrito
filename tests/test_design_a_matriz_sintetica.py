@@ -3,7 +3,7 @@ import hashlib,json,tempfile,unittest
 from pathlib import Path
 import yaml
 
-from herramientas.catalogo_territorios import format_territory_label, load_master
+from herramientas.catalogo_territorios import format_territory_label, load_master, selector_labels
 from herramientas.catalogo_preparacion import lookup,rows_for
 from herramientas.resolver_fuentes_territorio import territories
 from herramientas.resolver_producto_produccion import ROUTES,resolve_product,synthetic_matrix_decision
@@ -45,7 +45,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        expected=[format_territory_label(r) for r in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
+        expected=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep_options,expected)

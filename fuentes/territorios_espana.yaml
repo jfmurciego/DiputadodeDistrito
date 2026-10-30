@@ -1,7 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: registro administrativo mínimo para pruebas de fuentes
-# VERSIÓN: 1.0.0
-# FECHA: 2026-09-19
+# VERSIÓN: 1.1.0
+# FECHA: 2026-10-30
+# CAMBIOS: 1.1.0: piloto Congreso Huesca (provincia 22).
+# ANTERIOR: legacy/fuentes/territorios_espana_v1.0.0.yaml
 # ESTADO: candidato
 # FUNCIÓN: permitir probar fuentes oficiales para cualquier territorio sin exigir preparación previa.
 schema: ddd-territory-source-test-registry/1.0
@@ -26,3 +28,4 @@ territories:
   - {id: la_rioja, name: La Rioja, province_codes: ['26']}
   - {id: ceuta, name: Ceuta, province_codes: ['51']}
   - {id: melilla, name: Melilla, province_codes: ['52']}
+  - {id: congreso_huesca, name: Congreso Huesca, province_codes: ['22']}

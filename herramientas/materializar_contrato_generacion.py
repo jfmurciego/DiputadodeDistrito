@@ -6,6 +6,8 @@ La puerta contractual se conserva como validación estructural, pero deja de exi
 industrialización manual territorio a territorio. 01 prepara fuentes y este
 materializador completa automáticamente el contrato que 02 necesita.
 
+CAMBIOS 2026-10-30: la entrada del catálogo maestro se busca también en pilot_territories (piloto Congreso).
+ANTERIOR (c): legacy/herramientas/materializar_contrato_generacion_pre_pilotos_20261030.py
 CAMBIOS 2026-10-29 (b): population_limits admite municipality_atomicity_limit_ratio por territorio
 (1 < ratio <= techo), con rationale/evidence/decided_at; sin otras claves el perfil sigue siendo estándar.
 ANTERIOR (b): legacy/herramientas/materializar_contrato_generacion_pre_atomicidad_territorial_20261029.py
@@ -888,7 +890,10 @@ def materialize(
     policy = yload(root / POLICY)
     master_path = root / MASTER
     master = yload(master_path)
-    rows = [x for x in master.get("territories", []) if x.get("territory_id") == territory_id]
+    rows = [
+        x for x in list(master.get("territories") or []) + list(master.get("pilot_territories") or [])
+        if x.get("territory_id") == territory_id
+    ]
     if len(rows) != 1:
         raise ValueError(f"Territorio no único en catálogo maestro: {territory_id}")
     row = rows[0]

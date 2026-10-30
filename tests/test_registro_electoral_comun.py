@@ -31,16 +31,19 @@ class TestRegistroElectoralComun(unittest.TestCase):
             "la_rioja",
             "ceuta",
             "melilla",
+            "congreso_huesca",
         ]
         self.assertEqual(list(self.registry["territories"]),expected)
+        # Las 19 autonómicas llevan CODAUTO 01–19; los territorios piloto, pilot_code.
         self.assertEqual(
-            [row["codauto"] for row in self.registry["territories"].values()],
+            [row["codauto"] for row in self.registry["territories"].values() if "codauto" in row],
             [f"{i:02d}" for i in range(1,20)],
         )
+        self.assertEqual([row.get("pilot_code") for row in self.registry["territories"].values() if "codauto" not in row],["C22"])
 
     def test_workflow_selector_matches_registry_codauto_order(self):
         expected=[
-            f"{row['codauto']} {row['name']}"
+            f"{row['codauto']} {row['name']}" if row.get("codauto") else row["name"]
             for row in self.registry["territories"].values()
         ]
         workflow=yaml.safe_load(
@@ -51,13 +54,13 @@ class TestRegistroElectoralComun(unittest.TestCase):
         self.assertEqual(options,expected)
 
     def test_registry_has_exactly_19_identified_elections(self):
-        self.assertEqual(self.registry["schema"],"ddd-election-registry/1.0"); self.assertEqual(len(self.registry["territories"]),19)
+        self.assertEqual(self.registry["schema"],"ddd-election-registry/1.0"); self.assertEqual(len([r for r in self.registry["territories"].values() if r.get("codauto")]),19)
         for row in self.registry["territories"].values(): self.assertTrue(row["election_id"] and row["election_date"] and row["name"])
     def test_all_registered_territories_can_enter_electoral_preparation(self):
         for registry_id,entry in self.registry["territories"].items():
             with self.subTest(territory=registry_id):
                 row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
-                self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["codauto"],entry["codauto"]); self.assertEqual(row["territorial_edition"],"2025")
+                self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["codauto"],entry.get("codauto") or entry.get("pilot_code")); self.assertEqual(row["territorial_edition"],"2025")
     def test_every_registered_election_has_a_technical_route_into_03(self):
         workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
         self.assertIn("adapter=minsait_provisional",workflow)
@@ -76,7 +79,8 @@ class TestRegistroElectoralComun(unittest.TestCase):
                 or mode in {"governed_override","auto_discovered_declaration","materialized_election_contract"}
                 or election_id in minsait_contracts
             )
-            if not routed:
+            # Un piloto sin fuente electoral declarada aún queda fuera (Congreso Huesca, territorial_only).
+            if not routed and not entry.get("pilot_code"):
                 unresolved.append((registry_id,election_id,mode))
         self.assertEqual(unresolved,[])
         self.assertIn("andalucia_parlamento_2026",minsait_contracts)

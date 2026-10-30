@@ -1,14 +1,14 @@
 from pathlib import Path
 import unittest
 import yaml
-from herramientas.catalogo_territorios import format_territory_label, load_master
+from herramientas.catalogo_territorios import format_territory_label, load_master, selector_labels
 
 ROOT=Path(__file__).resolve().parents[1]
 WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
 PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
-ALL_TERRITORIES=[format_territory_label(r) for r in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
+ALL_TERRITORIES=selector_labels(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
     @staticmethod

@@ -62,7 +62,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
     def test_matrix_has_exactly_19_current_elections(self):
         rows = validate_matrix(ROOT)
         registry = yaml.safe_load(REGISTRY.read_text(encoding="utf-8"))["territories"]
-        self.assertEqual(len(rows), 19)
+        self.assertEqual(len([r for r in rows if not r.get("pilot_code")]), 19)
         self.assertEqual({r["territory_id"] for r in rows}, set(registry))
         for row in rows:
             registered = registry[row["territory_id"]]
@@ -516,7 +516,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(options[0], "Todos")
         self.assertEqual(options[1], "01 Andalucía")
         self.assertEqual(options[7], "07 Castilla y León")
-        self.assertEqual(options[-1], "19 Melilla")
+        # Tras las 19 etiquetas CODAUTO van los territorios piloto.
+        self.assertEqual(options[19], "19 Melilla")
+        self.assertEqual(options[20:], ["Congreso Huesca"])
         plain = resolve(ROOT, "Aragón")
         coded = resolve(ROOT, "02 Aragón")
         self.assertEqual(coded, plain)
@@ -760,7 +762,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_plan_exposes_package_state_and_precise_reason_for_all_19(self):
         plans = resolve(ROOT, "Todos")["plans"]
-        self.assertEqual(len(plans), 19)
+        self.assertEqual(len(plans), 19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")))
         for plan in plans:
             with self.subTest(territory=plan["territory_id"]):
                 self.assertIn(

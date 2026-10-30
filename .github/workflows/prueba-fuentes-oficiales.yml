@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de desarrollo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# CAMBIOS 1.0.1: opción del territorio piloto «Congreso Huesca».
+# ANTERIOR: legacy/workflows/prueba-fuentes-oficiales_v1.0.0_20261030.yml
 # FECHA: 2026-09-19
 # ESTADO: candidato
 # FUNCIÓN: probar adquisición oficial desde cero sin alterar fuentes ni producción.
@@ -35,6 +37,7 @@ on:
           - 17 La Rioja
           - 18 Ceuta
           - 19 Melilla
+          - Congreso Huesca
       data_edition:
         description: Edición de datos
         required: true

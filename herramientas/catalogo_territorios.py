@@ -1,3 +1,10 @@
+"""Catálogo territorial maestro.
+
+CAMBIOS 2026-10-30: ``load_all_territories`` añade a las 19 comunidades y ciudades autónomas los
+``pilot_territories`` (ámbitos no autonómicos, p. ej. el piloto Congreso Huesca); ``load_master``
+sigue exigiendo exactamente las 19 con CODAUTO 01–19.
+ANTERIOR: legacy/herramientas/catalogo_territorios_pre_pilotos_20261030.py
+"""
 from __future__ import annotations
 
 import re
@@ -49,12 +56,48 @@ def load_master(path: Path = MASTER) -> list[dict]:
     return sorted(result, key=lambda row: row["autonomous_community_code_ine"])
 
 
+def load_pilot_territories(path: Path = MASTER) -> list[dict]:
+    """Ámbitos piloto no autonómicos: sin CODAUTO, con identidad propia y fuera de las campañas."""
+    rows = _yaml(path).get("pilot_territories") or []
+    if not isinstance(rows, list):
+        raise ValueError("pilot_territories debe ser una lista")
+    autonomous = {row["territory_id"] for row in load_master(path)}
+    seen: set[str] = set()
+    result: list[dict] = []
+    for row in rows:
+        territory_id = str(row.get("territory_id") or "")
+        if not territory_id or not str(row.get("name") or ""):
+            raise ValueError("Territorio piloto con identidad incompleta")
+        if territory_id in autonomous or territory_id in seen:
+            raise ValueError(f"territory_id piloto duplicado: {territory_id}")
+        if row.get("autonomous_community_code_ine") not in (None, ""):
+            raise ValueError(f"{territory_id}: un territorio piloto no lleva CODAUTO")
+        if not re.fullmatch(r"[A-Z]\d{2}", str(row.get("pilot_code") or "")):
+            raise ValueError(f"{territory_id}: pilot_code inválido")
+        seen.add(territory_id)
+        result.append(dict(row))
+    return result
+
+
+def load_all_territories(path: Path = MASTER) -> list[dict]:
+    return load_master(path) + load_pilot_territories(path)
+
+
 def master_index(path: Path = MASTER) -> dict[str, dict]:
-    return {row["territory_id"]: row for row in load_master(path)}
+    return {row["territory_id"]: row for row in load_all_territories(path)}
 
 
 def format_territory_label(row: dict) -> str:
+    if row.get("pilot_code"):
+        return str(row["name"])
     return f"{row['autonomous_community_code_ine']} {row['name']}"
+
+
+def selector_labels(path: Path = MASTER) -> list[str]:
+    """Etiquetas de los selectores humanos: 19 CODAUTO en orden y, al final, los territorios piloto."""
+    return [format_territory_label(row) for row in load_master(path)] + [
+        format_territory_label(row) for row in load_pilot_territories(path)
+    ]
 
 
 def format_country_label(code: str = COUNTRY_CODE, name: str = COUNTRY_NAME) -> str:

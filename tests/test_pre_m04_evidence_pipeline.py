@@ -40,6 +40,7 @@ FROM_START_PRE_M04_TARGETS = {
     "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
     "comunidad_valenciana", "extremadura", "galicia", "madrid", "region_de_murcia",
     "comunidad_foral_de_navarra", "pais_vasco", "la_rioja", "ceuta", "melilla",
+    "congreso_huesca",
 }
 
 
@@ -992,7 +993,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             row["territory_id"]: (row.get("editions") or {}).get("2025") or {}
             for row in catalog.get("territories") or []
         }
-        self.assertEqual(19, len(rows))
+        self.assertEqual(19 + len(__import__("herramientas.catalogo_territorios",fromlist=["x"]).load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")), len(rows))
         authoritative = {
             item["territory_id"]: item
             for item in resolve_current_legislature(ROOT, "Todos")["plans"]

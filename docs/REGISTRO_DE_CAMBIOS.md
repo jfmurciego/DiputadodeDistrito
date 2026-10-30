@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.49
+Versión: 1.0.50
 Fecha: 2026-10-30
-Alcance: GerryChain 50 — cuatro familias de fallo del lote de 18 runs
+Alcance: piloto Congreso Huesca como territorio nuevo
 Estado: candidato
-Cambios/motivo: 12 de 18 runs GerryChain 50 fallaron en M05 (lote del 30-10-2026)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.48_20261030.md
+Cambios/motivo: primer distrito nacional por el mismo flujo, motor y visor que los autonómicos
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.49_piloto_20261030.md
 -->
 
 
@@ -21,6 +21,24 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.48_20261030.md
 
 
 
+
+
+## 2026-10-30 — Congreso — piloto Huesca (territorio nuevo)
+
+Decisión N09-OWNER-20261030-PILOTO-HUESCA (`docs/ESTUDIOS/N09_PILOTO_CONGRESO_HUESCA_20261030/DECISION.md`).
+
+- `catalogo_territorios_espana_2025.yaml` 1.6.0: lista `pilot_territories` con `congreso_huesca`
+  (pilot_code C22, provincia 22, K=2); `territories` sigue con exactamente las 19 autonómicas.
+- `catalogo_territorios.py`: `load_pilot_territories` y `load_all_territories`; `load_master` intacto.
+- Lectores del flujo 00 que buscan por `territory_id` incluyen los pilotos: materializador de contratos,
+  `territory_contract.py` 1.3.0 y validación de `catalogo_preparacion.py`.
+- `resolver_preparacion_legislatura.py`: la invariante de 19 cuenta las autonómicas; los pilotos llevan
+  `pilot_code` en la matriz de legislatura (1.0.5) y en `registro_electoral.yaml`.
+- `politica_generacion_territorial_2025.yaml` 1.6.0: K=2 (`formula`), suelo 0,85, techo 1,15, tolerancia
+  0,15 y atomicidad municipal 1,15.
+- Territorio `territorios/congreso_huesca/config/`: fuentes INE 2023 (provincia 22) y contrato bootstrap
+  materializado con paquete sintético (la 01 lo rematerializa con el paquete real).
+- `fuentes/territorios_espana.yaml` 1.1.0 y opción «Congreso Huesca» en los 7 workflows con lista territorial.
 
 ## 2026-10-30 — M05 GerryChain — cuatro familias de fallo del lote nocturno
 

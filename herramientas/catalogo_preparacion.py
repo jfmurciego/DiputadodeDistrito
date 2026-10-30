@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""Catálogo de preparación territorial.
+
+CAMBIOS 2026-10-30: la validación cruza también con pilot_territories del catálogo maestro.
+ANTERIOR: legacy/herramientas/catalogo_preparacion_pre_pilotos_20261030.py
+"""
 from __future__ import annotations
 import argparse, hashlib, json, re
 from pathlib import Path
@@ -57,7 +62,7 @@ def load_catalog(path:Path=CATALOG)->dict:
 def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
     root=root_dir.resolve(); data=load_catalog(path if path.is_absolute() else root/path)
     master=_yaml(root/MASTER)
-    master_rows={str(r.get("territory_id")):r for r in master.get("territories") or []}
+    master_rows={str(r.get("territory_id")):r for r in list(master.get("territories") or [])+list(master.get("pilot_territories") or [])}
     errors=[]
     for row in data["territories"]:
         tid=row["territory_id"]; name=row["name"]

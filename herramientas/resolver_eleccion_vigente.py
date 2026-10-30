@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Resolución de la elección vigente por territorio.
+
+CAMBIOS 2026-10-30: un territorio piloto (pilot_code, p. ej. Congreso Huesca) se identifica por su
+pilot_code en lugar de CODAUTO.
+ANTERIOR: legacy/herramientas/resolver_eleccion_vigente_pre_pilotos_20261030.py
+"""
 from __future__ import annotations
 
 import argparse
@@ -112,8 +118,8 @@ def resolve_for_preparation(territory:str,path:Path=DEFAULT,root_dir:Path=Path("
         if token in {str(tid),str((row or {}).get("name") or "")}:
             reg_id=str(tid); entry=row; break
     if not isinstance(entry,dict): raise SystemExit(f"Territorio no inscrito en el registro electoral: {territory}")
-    codauto=str(entry.get("codauto") or "")
-    if len(codauto)!=2 or not codauto.isdigit():
+    codauto=str(entry.get("codauto") or entry.get("pilot_code") or "")
+    if not entry.get("pilot_code") and (len(codauto)!=2 or not codauto.isdigit()):
         raise SystemExit(f"CODAUTO electoral inválido para {reg_id}: {codauto!r}")
     # Resolve catalog through canonical name, avoiding id aliases that differ historically (e.g. Madrid).
     found=_catalog_preparation_row(root,str(entry.get("name") or ""),selected)

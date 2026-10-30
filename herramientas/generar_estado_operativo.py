@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.2 · FECHA: 2026-10-29 · ESTADO: candidato
-CAMBIOS: 2.3.2: un M08 de otro run cuenta si el manifiesto de ese run acredita que su 04 consumió el
+VERSIÓN: 2.3.3 · FECHA: 2026-10-30 · ESTADO: candidato
+CAMBIOS: 2.3.3: los territorios piloto (pilot_territories) entran en el estado con su pilot_code.
+  2.3.2: un M08 de otro run cuenta si el manifiesto de ese run acredita que su 04 consumió el
   M06 vigente (fase 02 con el mismo run_id); 00 en reutilización nunca comparte run entre M06 y M08.
   2.3.1: "parado en" usa la fase fallida aunque no esté numerada (p. ej. reanudación M08).
   2.3.0: "cadena completa" exige M06 y M08 del mismo run; FE se da por buena si la 04 terminó;
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.1_20261029.py
+ANTERIOR: legacy/herramientas/generar_estado_operativo_pre_pilotos_20261030.py
 """
 from __future__ import annotations
 
@@ -311,7 +312,8 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
         )
     rows.sort(
         key=lambda r: (
-            master[r["territory_id"]]["autonomous_community_code_ine"],
+            # Las 19 autonómicas por CODAUTO y, después, los territorios piloto.
+            master[r["territory_id"]].get("autonomous_community_code_ine") or "~" + str(master[r["territory_id"]].get("pilot_code") or ""),
             r["name"].casefold(),
         )
     )
@@ -553,7 +555,9 @@ def build(root: Path, edition: str) -> dict:
         if canonical is None:
             raise ValueError(f"{source_row['territory_id']}: ausente del catálogo territorial maestro")
         row = derive(root, {**source_row, "name": canonical["name"]}, edition)
-        row["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
+        row["autonomous_community_code_ine"] = (
+            canonical.get("autonomous_community_code_ine") or canonical.get("pilot_code")
+        )
         row["display_name"] = (
             format_territory_label(canonical) if use_canonical_display else canonical["name"]
         )

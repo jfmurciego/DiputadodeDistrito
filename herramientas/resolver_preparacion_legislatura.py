@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-10-30: territorios piloto (pilot_code, p. ej. Congreso Huesca) en matriz y registro; la
+#   invariante de 19 se aplica a las comunidades y ciudades autónomas.
+# ANTERIOR (b): legacy/herramientas/resolver_preparacion_legislatura_pre_pilotos_20261030.py
 # CAMBIOS 2026-10-29: electoral_2026_crosswalk_status admite ACCEPTED_M07_RECONCILIATION (decisión del
 # propietario con crosswalk_decided_at y crosswalk_rationale): el crosswalk 2025→2026 deja de bloquear
 # y la salvaguarda pasa a la reconciliación de M07 (pérdida atribuible a DDD acotada).
@@ -726,10 +729,14 @@ def validate_matrix(root: Path) -> list[dict]:
     fallback_decision_id, fallback_ids = _owner_approved_2025_pair(root, matrix)
     rows = matrix.get("territories") or []
     registered = registry.get("territories") or {}
-    if len(rows) != 19 or len(registered) != 19:
-        raise ValueError(f"La matriz y el registro deben contener 19 territorios: {len(rows)}/{len(registered)}")
+    autonomous_rows = [r for r in rows if not r.get("pilot_code")]
+    autonomous_registered = {k: v for k, v in registered.items() if not (v or {}).get("pilot_code")}
+    if len(autonomous_rows) != 19 or len(autonomous_registered) != 19:
+        raise ValueError(
+            f"La matriz y el registro deben contener 19 territorios: {len(autonomous_rows)}/{len(autonomous_registered)}"
+        )
     ids = [str(r.get("territory_id") or "") for r in rows]
-    if len(set(ids)) != 19 or set(ids) != set(registered):
+    if len(set(ids)) != len(ids) or set(ids) != set(registered):
         raise ValueError("La matriz no coincide exactamente con los 19 territorios del registro electoral")
 
     pop_available = set(evidence["checks"]["population_by_section"]["available_years"])
