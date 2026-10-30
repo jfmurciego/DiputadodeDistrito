@@ -471,10 +471,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ddd-gerrychain50-diagnostic
-          python - "$RUN_DIR" .ddd-gerrychain50-diagnostic/optimization_execution.json <<'PY'
+          python - "$RUNS_DIR" .ddd-gerrychain50-diagnostic/optimization_execution.json ".ddd-logs/$STAGE.log" <<'PY'
           import datetime,hashlib,json,sys
           from pathlib import Path
-          run_dir=Path(sys.argv[1]); output=Path(sys.argv[2])
+          run_dir=Path(sys.argv[1]); output=Path(sys.argv[2]); stage_log=Path(sys.argv[3])
           metadata=run_dir/'OPTIMIZATION_EXECUTION.json'
           if metadata.is_file():
               report=json.loads(metadata.read_text(encoding='utf-8'))
@@ -491,7 +491,7 @@ jobs:
               }
           report['certification_status']='NOT_CERTIFIED'
           report['diagnostic_files']={}
-          for path in sorted(run_dir.glob('logs/modulo_5*')):
+          for path in [stage_log, *sorted(run_dir.glob('logs/modulo_5*'))]:
               if path.is_file():
                   target=output.parent/path.name
                   target.write_bytes(path.read_bytes())
