@@ -342,7 +342,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 41062562553
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40946901555
         artifact_name: ddd-source-package-cataluna-2025-40946901555
