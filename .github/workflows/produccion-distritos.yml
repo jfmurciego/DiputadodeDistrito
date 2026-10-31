@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.3
+# VERSIÓN: 8.1.4
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
 # FECHA: 2026-10-29
 # ESTADO: candidato
@@ -8,7 +8,8 @@
 # CAMBIOS: "Resolver paquete territorial preparado" usa la declaración que acredita el catálogo (territorial_source_declaration) y solo recurre a config/fuentes_oficiales.yaml si el catálogo no fija ninguna.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # CAMBIOS 8.1.3: opción del territorio piloto «Congreso Huesca».
-# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.2_20261030.yml
+# CAMBIOS 8.1.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
+# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.3_20261031.yml
 # MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
 name: 02 Generación de Distritos Autonómicos
 
@@ -57,7 +58,55 @@ on:
           - 17 La Rioja
           - 18 Ceuta
           - 19 Melilla
+          - Congreso Álava
+          - Congreso Albacete
+          - Congreso Alicante
+          - Congreso Almería
+          - Congreso Ávila
+          - Congreso Badajoz
+          - Congreso Barcelona
+          - Congreso Burgos
+          - Congreso Cáceres
+          - Congreso Cádiz
+          - Congreso Castellón
+          - Congreso Ciudad Real
+          - Congreso Córdoba
+          - Congreso La Coruña
+          - Congreso Cuenca
+          - Congreso Gerona
+          - Congreso Granada
+          - Congreso Guadalajara
+          - Congreso Guipúzcoa
+          - Congreso Huelva
           - Congreso Huesca
+          - Congreso Jaén
+          - Congreso León
+          - Congreso Lérida
+          - Congreso La Rioja
+          - Congreso Lugo
+          - Congreso Madrid
+          - Congreso Málaga
+          - Congreso Murcia
+          - Congreso Navarra
+          - Congreso Orense
+          - Congreso Asturias
+          - Congreso Palencia
+          - Congreso Pontevedra
+          - Congreso Salamanca
+          - Congreso Cantabria
+          - Congreso Segovia
+          - Congreso Sevilla
+          - Congreso Soria
+          - Congreso Tarragona
+          - Congreso Teruel
+          - Congreso Toledo
+          - Congreso Valencia
+          - Congreso Valladolid
+          - Congreso Vizcaya
+          - Congreso Zamora
+          - Congreso Zaragoza
+          - Congreso Ceuta
+          - Congreso Melilla
       data_edition:
         description: Edición de datos
         required: true

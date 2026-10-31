@@ -5,6 +5,7 @@ import yaml
 from herramientas.resolver_eleccion_vigente import resolve, resolve_for_preparation
 from herramientas.preparar_fuente_electoral import prepare
 from herramientas.adaptador_eleccionesdb import ELECTIONS
+from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 
 class TestRegistroElectoralComun(unittest.TestCase):
@@ -31,15 +32,14 @@ class TestRegistroElectoralComun(unittest.TestCase):
             "la_rioja",
             "ceuta",
             "melilla",
-            "congreso_huesca",
-        ]
+        ]+[row["territory_id"] for row in load_pilot_territories(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
         self.assertEqual(list(self.registry["territories"]),expected)
         # Las 19 autonómicas llevan CODAUTO 01–19; los territorios piloto, pilot_code.
         self.assertEqual(
             [row["codauto"] for row in self.registry["territories"].values() if "codauto" in row],
             [f"{i:02d}" for i in range(1,20)],
         )
-        self.assertEqual([row.get("pilot_code") for row in self.registry["territories"].values() if "codauto" not in row],["C22"])
+        self.assertEqual([row.get("pilot_code") for row in self.registry["territories"].values() if "codauto" not in row],[row["pilot_code"] for row in load_pilot_territories(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")])
 
     def test_workflow_selector_matches_registry_codauto_order(self):
         expected=[

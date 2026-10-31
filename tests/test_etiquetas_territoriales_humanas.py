@@ -21,13 +21,14 @@ from herramientas.preparar_visor_ejecucion import _decorate_and_sort
 from herramientas.resolver_ejecucion_completa import build_plan
 from herramientas.resolver_fuentes_territorio import build_declaration
 
+from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 MASTER = ROOT / "configuracion" / "catalogo_territorios_espana_2025.yaml"
 CATALOG = ROOT / "configuracion" / "catalogo_preparacion.yaml"
 
 # Territorios piloto (no autonómicos) que los selectores ofrecen tras las 19 etiquetas CODAUTO.
-PILOTS = ["Congreso Huesca"]
+PILOTS = [row["name"] for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")]
 EXPECTED = [
     "01 Andalucía",
     "02 Aragón",

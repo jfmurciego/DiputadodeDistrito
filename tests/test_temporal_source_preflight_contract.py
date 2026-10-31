@@ -18,6 +18,7 @@ from herramientas.promover_catalogo_tras_preparacion import _set_catalog_state, 
 from herramientas.resolver_ejecucion_completa import generation_enablement
 
 
+from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 MATRIX = ROOT / "configuracion/preparacion_legislatura_vigente.yaml"
 
@@ -156,8 +157,7 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             ("la_rioja", 2023, 2023),
             ("ceuta", 2023, 2023),
             ("melilla", 2023, 2023),
-            ("congreso_huesca", 2023, 2023),
-        ]
+        ] + [(row["territory_id"], 2023, 2023) for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")]
         self.assertEqual(observed, expected)
         self.assertEqual(sum(pair[1:] == (2025, 2025) for pair in observed), 4)
 

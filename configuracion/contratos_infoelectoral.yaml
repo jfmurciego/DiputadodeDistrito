@@ -1,11 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: contratos de fuentes oficiales Infoelectoral (Ministerio del Interior) por mesa
-# VERSIÓN: 1.1.0 · FECHA: 2026-10-31 · ESTADO: candidato
+# VERSIÓN: 1.2.0 · FECHA: 2026-10-31 · ESTADO: candidato
 # FUNCIÓN: fija URL, huella, ficheros, provincia y totales de control de cada elección adquirida del
 #   ZIP oficial por mesa. Los totales sin CERA se verificaron sobre el ZIP real el 30-10-2026 y cuadran
 #   con la Resolución de la JEC de 30-08-2023 (BOE) menos el CERA publicado por la JEC.
 # CAMBIOS 1.1.0: espejo en release del repositorio (mismo ZIP, misma huella); Interior rechaza a los runners.
-# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.0.0_20261031.yaml
+# CAMBIOS 1.2.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
+# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.1.0_20261031.yaml
 schema: ddd-infoelectoral-contracts/1.0
 contracts:
   congreso_huesca_2023-07-23:
@@ -41,3 +42,1203 @@ contracts:
       blank_votes_total: 1217
       null_votes_total: 1253
       cera: {census: 8142, voters: 958, candidate_votes: 943, blank_votes: 4, null_votes: 11}
+  congreso_alava_2023-07-23:
+    territory_id: congreso_alava
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '01'
+    expected:
+      ccaa: '14'
+      sections: 240
+      polling_stations: 427
+      parties: 12
+      candidate_votes: 167304
+      blank_votes: 715
+      null_votes: 1422
+      voters: 169441
+      cera_records: 1
+  congreso_albacete_2023-07-23:
+    territory_id: congreso_albacete
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '02'
+    expected:
+      ccaa: '07'
+      sections: 296
+      polling_stations: 521
+      parties: 8
+      candidate_votes: 218503
+      blank_votes: 1830
+      null_votes: 2724
+      voters: 223057
+      cera_records: 1
+  congreso_alicante_2023-07-23:
+    territory_id: congreso_alicante
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '03'
+    expected:
+      ccaa: '17'
+      sections: 1236
+      polling_stations: 2227
+      parties: 9
+      candidate_votes: 888631
+      blank_votes: 6558
+      null_votes: 9192
+      voters: 904381
+      cera_records: 1
+  congreso_almeria_2023-07-23:
+    territory_id: congreso_almeria
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '04'
+    expected:
+      ccaa: '01'
+      sections: 462
+      polling_stations: 837
+      parties: 10
+      candidate_votes: 316006
+      blank_votes: 2440
+      null_votes: 2978
+      voters: 321424
+      cera_records: 1
+  congreso_avila_2023-07-23:
+    territory_id: congreso_avila
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '05'
+    expected:
+      ccaa: '08'
+      sections: 310
+      polling_stations: 358
+      parties: 11
+      candidate_votes: 96470
+      blank_votes: 620
+      null_votes: 1147
+      voters: 98237
+      cera_records: 1
+  congreso_badajoz_2023-07-23:
+    territory_id: congreso_badajoz
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '06'
+    expected:
+      ccaa: '10'
+      sections: 551
+      polling_stations: 902
+      parties: 9
+      candidate_votes: 386842
+      blank_votes: 3217
+      null_votes: 6662
+      voters: 396721
+      cera_records: 1
+  congreso_barcelona_2023-07-23:
+    territory_id: congreso_barcelona
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '08'
+    expected:
+      ccaa: '09'
+      sections: 3649
+      polling_stations: 6472
+      parties: 12
+      candidate_votes: 2625437
+      blank_votes: 20865
+      null_votes: 20984
+      voters: 2667286
+      cera_records: 1
+  congreso_burgos_2023-07-23:
+    territory_id: congreso_burgos
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '09'
+    expected:
+      ccaa: '08'
+      sections: 582
+      polling_stations: 746
+      parties: 11
+      candidate_votes: 198616
+      blank_votes: 1835
+      null_votes: 2289
+      voters: 202740
+      cera_records: 1
+  congreso_caceres_2023-07-23:
+    territory_id: congreso_caceres
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '10'
+    expected:
+      ccaa: '10'
+      sections: 412
+      polling_stations: 524
+      parties: 10
+      candidate_votes: 232620
+      blank_votes: 1709
+      null_votes: 3882
+      voters: 238211
+      cera_records: 1
+  congreso_cadiz_2023-07-23:
+    territory_id: congreso_cadiz
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '11'
+    expected:
+      ccaa: '01'
+      sections: 926
+      polling_stations: 1528
+      parties: 10
+      candidate_votes: 627167
+      blank_votes: 7087
+      null_votes: 7679
+      voters: 641933
+      cera_records: 1
+  congreso_castellon_2023-07-23:
+    territory_id: congreso_castellon
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '12'
+    expected:
+      ccaa: '17'
+      sections: 444
+      polling_stations: 740
+      parties: 8
+      candidate_votes: 303870
+      blank_votes: 2645
+      null_votes: 3619
+      voters: 310134
+      cera_records: 1
+  congreso_ciudad_real_2023-07-23:
+    territory_id: congreso_ciudad_real
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '13'
+    expected:
+      ccaa: '07'
+      sections: 419
+      polling_stations: 707
+      parties: 8
+      candidate_votes: 279684
+      blank_votes: 2348
+      null_votes: 3911
+      voters: 285943
+      cera_records: 1
+  congreso_cordoba_2023-07-23:
+    territory_id: congreso_cordoba
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '14'
+    expected:
+      ccaa: '01'
+      sections: 620
+      polling_stations: 948
+      parties: 10
+      candidate_votes: 442151
+      blank_votes: 4337
+      null_votes: 6944
+      voters: 453432
+      cera_records: 1
+  congreso_la_coruna_2023-07-23:
+    territory_id: congreso_la_coruna
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '15'
+    expected:
+      ccaa: '11'
+      sections: 882
+      polling_stations: 1544
+      parties: 8
+      candidate_votes: 662459
+      blank_votes: 5000
+      null_votes: 5326
+      voters: 672785
+      cera_records: 1
+  congreso_cuenca_2023-07-23:
+    territory_id: congreso_cuenca
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '16'
+    expected:
+      ccaa: '07'
+      sections: 310
+      polling_stations: 383
+      parties: 10
+      candidate_votes: 112472
+      blank_votes: 967
+      null_votes: 1471
+      voters: 114910
+      cera_records: 1
+  congreso_gerona_2023-07-23:
+    territory_id: congreso_gerona
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '17'
+    expected:
+      ccaa: '09'
+      sections: 536
+      polling_stations: 863
+      parties: 12
+      candidate_votes: 317740
+      blank_votes: 2965
+      null_votes: 4119
+      voters: 324824
+      cera_records: 1
+  congreso_granada_2023-07-23:
+    territory_id: congreso_granada
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '18'
+    expected:
+      ccaa: '01'
+      sections: 672
+      polling_stations: 1121
+      parties: 11
+      candidate_votes: 494203
+      blank_votes: 4034
+      null_votes: 6593
+      voters: 504830
+      cera_records: 1
+  congreso_guadalajara_2023-07-23:
+    territory_id: congreso_guadalajara
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '19'
+    expected:
+      ccaa: '07'
+      sections: 400
+      polling_stations: 587
+      parties: 10
+      candidate_votes: 139031
+      blank_votes: 1139
+      null_votes: 1817
+      voters: 141987
+      cera_records: 1
+  congreso_guipuzcoa_2023-07-23:
+    territory_id: congreso_guipuzcoa
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '20'
+    expected:
+      ccaa: '14'
+      sections: 547
+      polling_stations: 858
+      parties: 12
+      candidate_votes: 370320
+      blank_votes: 1989
+      null_votes: 2319
+      voters: 374628
+      cera_records: 1
+  congreso_huelva_2023-07-23:
+    territory_id: congreso_huelva
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '21'
+    expected:
+      ccaa: '01'
+      sections: 371
+      polling_stations: 651
+      parties: 8
+      candidate_votes: 253713
+      blank_votes: 2405
+      null_votes: 4054
+      voters: 260172
+      cera_records: 1
+  congreso_jaen_2023-07-23:
+    territory_id: congreso_jaen
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '23'
+    expected:
+      ccaa: '01'
+      sections: 501
+      polling_stations: 873
+      parties: 9
+      candidate_votes: 364706
+      blank_votes: 2490
+      null_votes: 4901
+      voters: 372097
+      cera_records: 1
+  congreso_leon_2023-07-23:
+    territory_id: congreso_leon
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '24'
+    expected:
+      ccaa: '08'
+      sections: 447
+      polling_stations: 722
+      parties: 12
+      candidate_votes: 269759
+      blank_votes: 1543
+      null_votes: 2440
+      voters: 273742
+      cera_records: 1
+  congreso_lerida_2023-07-23:
+    territory_id: congreso_lerida
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '25'
+    expected:
+      ccaa: '09'
+      sections: 388
+      polling_stations: 549
+      parties: 13
+      candidate_votes: 180770
+      blank_votes: 2044
+      null_votes: 2357
+      voters: 185171
+      cera_records: 1
+  congreso_la_rioja_2023-07-23:
+    territory_id: congreso_la_rioja
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '26'
+    expected:
+      ccaa: '16'
+      sections: 344
+      polling_stations: 516
+      parties: 11
+      candidate_votes: 171589
+      blank_votes: 1596
+      null_votes: 2273
+      voters: 175458
+      cera_records: 1
+  congreso_lugo_2023-07-23:
+    territory_id: congreso_lugo
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '27'
+    expected:
+      ccaa: '11'
+      sections: 277
+      polling_stations: 533
+      parties: 10
+      candidate_votes: 193699
+      blank_votes: 1224
+      null_votes: 2049
+      voters: 196972
+      cera_records: 1
+  congreso_madrid_2023-07-23:
+    territory_id: congreso_madrid
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '28'
+    expected:
+      ccaa: '12'
+      sections: 4480
+      polling_stations: 7118
+      parties: 11
+      candidate_votes: 3535749
+      blank_votes: 28700
+      null_votes: 30244
+      voters: 3594693
+      cera_records: 1
+  congreso_malaga_2023-07-23:
+    territory_id: congreso_malaga
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '29'
+    expected:
+      ccaa: '01'
+      sections: 1084
+      polling_stations: 1734
+      parties: 9
+      candidate_votes: 775255
+      blank_votes: 7496
+      null_votes: 10191
+      voters: 792942
+      cera_records: 1
+  congreso_murcia_2023-07-23:
+    territory_id: congreso_murcia
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '30'
+    expected:
+      ccaa: '15'
+      sections: 1223
+      polling_stations: 1726
+      parties: 12
+      candidate_votes: 739321
+      blank_votes: 5007
+      null_votes: 7383
+      voters: 751711
+      cera_records: 1
+  congreso_navarra_2023-07-23:
+    territory_id: congreso_navarra
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '31'
+    expected:
+      ccaa: '13'
+      sections: 578
+      polling_stations: 997
+      parties: 12
+      candidate_votes: 336216
+      blank_votes: 2839
+      null_votes: 3229
+      voters: 342284
+      cera_records: 1
+  congreso_orense_2023-07-23:
+    territory_id: congreso_orense
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '32'
+    expected:
+      ccaa: '11'
+      sections: 257
+      polling_stations: 539
+      parties: 11
+      candidate_votes: 179460
+      blank_votes: 1080
+      null_votes: 1676
+      voters: 182216
+      cera_records: 1
+  congreso_asturias_2023-07-23:
+    territory_id: congreso_asturias
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '33'
+    expected:
+      ccaa: '03'
+      sections: 832
+      polling_stations: 1528
+      parties: 11
+      candidate_votes: 582385
+      blank_votes: 5974
+      null_votes: 6058
+      voters: 594417
+      cera_records: 1
+  congreso_palencia_2023-07-23:
+    territory_id: congreso_palencia
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '34'
+    expected:
+      ccaa: '08'
+      sections: 275
+      polling_stations: 335
+      parties: 14
+      candidate_votes: 95377
+      blank_votes: 827
+      null_votes: 1105
+      voters: 97309
+      cera_records: 1
+  congreso_pontevedra_2023-07-23:
+    territory_id: congreso_pontevedra
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '36'
+    expected:
+      ccaa: '11'
+      sections: 727
+      polling_stations: 1344
+      parties: 9
+      candidate_votes: 559676
+      blank_votes: 3766
+      null_votes: 5853
+      voters: 569295
+      cera_records: 1
+  congreso_salamanca_2023-07-23:
+    territory_id: congreso_salamanca
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '37'
+    expected:
+      ccaa: '08'
+      sections: 532
+      polling_stations: 648
+      parties: 12
+      candidate_votes: 194989
+      blank_votes: 1636
+      null_votes: 2272
+      voters: 198897
+      cera_records: 1
+  congreso_cantabria_2023-07-23:
+    territory_id: congreso_cantabria
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '39'
+    expected:
+      ccaa: '06'
+      sections: 460
+      polling_stations: 777
+      parties: 8
+      candidate_votes: 343495
+      blank_votes: 3247
+      null_votes: 4956
+      voters: 351698
+      cera_records: 1
+  congreso_segovia_2023-07-23:
+    territory_id: congreso_segovia
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '40'
+    expected:
+      ccaa: '08'
+      sections: 276
+      polling_stations: 330
+      parties: 11
+      candidate_votes: 87194
+      blank_votes: 873
+      null_votes: 1314
+      voters: 89381
+      cera_records: 1
+  congreso_sevilla_2023-07-23:
+    territory_id: congreso_sevilla
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '41'
+    expected:
+      ccaa: '01'
+      sections: 1365
+      polling_stations: 2588
+      parties: 11
+      candidate_votes: 1043832
+      blank_votes: 10883
+      null_votes: 15721
+      voters: 1070436
+      cera_records: 1
+  congreso_soria_2023-07-23:
+    territory_id: congreso_soria
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '42'
+    expected:
+      ccaa: '08'
+      sections: 216
+      polling_stations: 256
+      parties: 10
+      candidate_votes: 49823
+      blank_votes: 282
+      null_votes: 374
+      voters: 50479
+      cera_records: 1
+  congreso_tarragona_2023-07-23:
+    territory_id: congreso_tarragona
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '43'
+    expected:
+      ccaa: '09'
+      sections: 542
+      polling_stations: 1039
+      parties: 14
+      candidate_votes: 362891
+      blank_votes: 3162
+      null_votes: 4381
+      voters: 370434
+      cera_records: 1
+  congreso_teruel_2023-07-23:
+    territory_id: congreso_teruel
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '44'
+    expected:
+      ccaa: '02'
+      sections: 284
+      polling_stations: 328
+      parties: 13
+      candidate_votes: 75074
+      blank_votes: 407
+      null_votes: 637
+      voters: 76118
+      cera_records: 1
+  congreso_toledo_2023-07-23:
+    territory_id: congreso_toledo
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '45'
+    expected:
+      ccaa: '07'
+      sections: 530
+      polling_stations: 903
+      parties: 9
+      candidate_votes: 383100
+      blank_votes: 2604
+      null_votes: 5763
+      voters: 391467
+      cera_records: 1
+  congreso_valencia_2023-07-23:
+    territory_id: congreso_valencia
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '46'
+    expected:
+      ccaa: '17'
+      sections: 1827
+      polling_stations: 3200
+      parties: 11
+      candidate_votes: 1419017
+      blank_votes: 10767
+      null_votes: 13884
+      voters: 1443668
+      cera_records: 1
+  congreso_valladolid_2023-07-23:
+    territory_id: congreso_valladolid
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '47'
+    expected:
+      ccaa: '08'
+      sections: 565
+      polling_stations: 763
+      parties: 14
+      candidate_votes: 311740
+      blank_votes: 2410
+      null_votes: 2997
+      voters: 317147
+      cera_records: 1
+  congreso_vizcaya_2023-07-23:
+    territory_id: congreso_vizcaya
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '48'
+    expected:
+      ccaa: '14'
+      sections: 929
+      polling_stations: 1410
+      parties: 11
+      candidate_votes: 602806
+      blank_votes: 3371
+      null_votes: 5171
+      voters: 611348
+      cera_records: 1
+  congreso_zamora_2023-07-23:
+    territory_id: congreso_zamora
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '49'
+    expected:
+      ccaa: '08'
+      sections: 319
+      polling_stations: 369
+      parties: 12
+      candidate_votes: 100766
+      blank_votes: 912
+      null_votes: 1247
+      voters: 102925
+      cera_records: 1
+  congreso_zaragoza_2023-07-23:
+    territory_id: congreso_zaragoza
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '50'
+    expected:
+      ccaa: '02'
+      sections: 885
+      polling_stations: 1467
+      parties: 14
+      candidate_votes: 510009
+      blank_votes: 4664
+      null_votes: 4666
+      voters: 519339
+      cera_records: 1
+  congreso_ceuta_2023-07-23:
+    territory_id: congreso_ceuta
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '51'
+    expected:
+      ccaa: '18'
+      sections: 56
+      polling_stations: 96
+      parties: 8
+      candidate_votes: 32905
+      blank_votes: 328
+      null_votes: 352
+      voters: 33585
+      cera_records: 1
+  congreso_melilla_2023-07-23:
+    territory_id: congreso_melilla
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '52'
+    expected:
+      ccaa: '19'
+      sections: 44
+      polling_stations: 87
+      parties: 8
+      candidate_votes: 26925
+      blank_votes: 253
+      null_votes: 294
+      voters: 27472
+      cera_records: 1
