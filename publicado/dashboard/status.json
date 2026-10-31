@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:00:07.330332+00:00",
+  "generated_at": "2026-10-31T23:03:05.333250+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 4,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 26,
-      "activable": 41,
+      "activated": 27,
+      "activable": 40,
       "territorial_pending": 4,
       "electoral_pending": 2,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 67,
       "electoral_source": 69,
-      "durable_pair": 26
+      "durable_pair": 27
     },
     "territories": [
       {
@@ -3682,12 +3682,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_melilla/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json",
+            "pair_sha256": "c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5064,7 +5064,14 @@
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41242287390,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "publication": "not_requested"
+      },
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
@@ -5178,14 +5185,14 @@
       "territory_id": "congreso_caceres",
       "name": "Congreso Cáceres",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41240512324,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5196,13 +5203,26 @@
           "artifact_sha256": "c28a6c0c45bd071655deed566a7aa275e526c6cc3baec4287f3765c93d76a8bc",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_caceres",
+          "territory_name": "Congreso Cáceres",
+          "edition": "2025",
+          "run_id": 41240512324,
+          "artifact_name": "ddd-state-41240512324-M06",
+          "artifact_sha256": "07a03176fa980a93c9a39e2228d894c8cdc50349cb1ea003234f84ba0c687772",
+          "source_commit": "af8fccb278673aa95e96274a53bffd14b3dc0ad0",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_caceres/evidencia/generaciones_m06/41240512324.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C10",
       "display_name": "Congreso Cáceres",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_cadiz",
@@ -5646,14 +5666,14 @@
       "territory_id": "congreso_jaen",
       "name": "Congreso Jaén",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41241896061,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5664,13 +5684,26 @@
           "artifact_sha256": "2f845f1bcd9e796bcd02a86005a55547f656d15f90be05cff7dd4a72aa2bce5e",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_jaen",
+          "territory_name": "Congreso Jaén",
+          "edition": "2025",
+          "run_id": 41241896061,
+          "artifact_name": "ddd-state-41241896061-M06",
+          "artifact_sha256": "19affc80bcd06390e2b042b12c3740d29df960624e475740b61c924717ae49cd",
+          "source_commit": "82ffa564d4d0d243f6bef3464e61fa9e353aeb6f",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_jaen/evidencia/generaciones_m06/41241896061.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C23",
       "display_name": "Congreso Jaén",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_leon",
@@ -5805,7 +5838,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41240766116,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41240766116,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -5938,7 +5978,14 @@
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41242678275,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "publication": "not_requested"
+      },
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
@@ -6805,7 +6852,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 35,
+    "territorial_validated": 37,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6827,9 +6874,11 @@
       "19 Melilla",
       "Congreso Albacete",
       "Congreso Ávila",
+      "Congreso Cáceres",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso Jaén",
       "Congreso León",
       "Congreso La Rioja",
       "Congreso Lugo",
@@ -6843,7 +6892,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 35,
+    "validated": 37,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6865,9 +6914,11 @@
       "19 Melilla",
       "Congreso Albacete",
       "Congreso Ávila",
+      "Congreso Cáceres",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso Jaén",
       "Congreso León",
       "Congreso La Rioja",
       "Congreso Lugo",
@@ -6881,7 +6932,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 32,
+    "ready": 30,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -6890,7 +6941,6 @@
       "Congreso Badajoz",
       "Congreso Barcelona",
       "Congreso Burgos",
-      "Congreso Cáceres",
       "Congreso Cádiz",
       "Congreso Castellón",
       "Congreso Ciudad Real",
@@ -6899,7 +6949,6 @@
       "Congreso Gerona",
       "Congreso Granada",
       "Congreso Guipúzcoa",
-      "Congreso Jaén",
       "Congreso Lérida",
       "Congreso Madrid",
       "Congreso Málaga",
