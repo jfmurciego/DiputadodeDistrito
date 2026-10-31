@@ -1335,6 +1335,7 @@ territories:
         source_commit: 1ecd108edf90a8be4e688ccea3c1aaea65b6aefa
       evidence:
         electoral_source: territorios/congreso_jaen/evidencia/fuentes_electorales/2025/0a0920bcd99d4bb67e789d0996f800b0cbade5ff38d912ced9baeb5a8304438c/41239841417/receipt.json
+        generation_preflight: territorios/congreso_jaen/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_leon
   name: Congreso León

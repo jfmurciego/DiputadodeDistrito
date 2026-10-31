@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_jaen",
+  "territory_name": "Congreso Jaén",
+  "edition": "2025",
+  "run_id": 41241896061,
+  "source_commit": "8589c662c5a080084a7ac50b5925a380decc03f2",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41241896061,
+    "artifact_name": "ddd-source-package-congreso_jaen-2025-41241896061",
+    "artifact_sha256": "2f845f1bcd9e796bcd02a86005a55547f656d15f90be05cff7dd4a72aa2bce5e",
+    "package_sha256": "0bba04d35fc1b9665cce27c8abc99d55b429f4fe8dc1edfc115cf7eaa26646d1",
+    "compatibility_identity_sha256": "a26298aeefec728071c374606111feec379f8588083cc82740ab1ec31addcd21",
+    "territorial_identity_sha256": "28881a56e4bbf2301048f901cbb1c89853b7a62c91b65f3138517bfb40ce77ad",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
