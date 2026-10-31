@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_guadalajara",
+  "territory_name": "Congreso Guadalajara",
+  "edition": "2025",
+  "run_id": 41236816482,
+  "source_commit": "eecee26da2a2ea261ddd311f1a8ce367e2913944",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41236816482,
+    "artifact_name": "ddd-source-package-congreso_guadalajara-2025-41236816482",
+    "artifact_sha256": "d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f",
+    "package_sha256": "999307e568f21491c3698c3ab5e29d82a645bec12462879ec2741f692eb0adab",
+    "compatibility_identity_sha256": "0020d4b06226f86bc7a3b8b38202383a9435c314f0f39313c912e3094231e983",
+    "territorial_identity_sha256": "f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
