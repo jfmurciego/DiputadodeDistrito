@@ -1,13 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.0.4
+# VERSIÓN: 2.0.5
 # NOMBRE DE VERSIÓN: Consumo de M06 certificado sin huella del motor M05
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
 # CAMBIOS 2.0.3: opción del territorio piloto «Congreso Huesca».
 # CAMBIOS 2.0.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
-# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.3_20261031.yml
+# CAMBIOS 2.0.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
+# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.4_20261031.yml
 # CAMBIOS: 2.0.2: el M06 certificado se localiza con --consume-certified-product; un cambio del motor
 #   M05 (#343) ya no invalida productos cerrados. 2.0.1: exclusión mutua con queue: max.
 # MOTIVO: Castilla y León y Extremadura fallaban con «No existe un producto territorial certificado».
@@ -90,6 +91,7 @@ on:
           - Congreso Palencia
           - Congreso Pontevedra
           - Congreso Salamanca
+          - Congreso Santa Cruz de Tenerife
           - Congreso Cantabria
           - Congreso Segovia
           - Congreso Sevilla

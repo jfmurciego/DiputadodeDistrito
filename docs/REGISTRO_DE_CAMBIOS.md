@@ -1,12 +1,22 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.57
+Versión: 1.0.58
 Fecha: 2026-10-31
-Alcance: alta de 48 provincias del Congreso por el flujo 00
+Alcance: Congreso — Santa Cruz de Tenerife con islas agrupadas
 Estado: candidato
-Cambios/motivo: el piloto Huesca completó 01→05 (run 41194447427); se extiende a las provincias peninsulares, Ceuta y Melilla
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.56_provincias_20261031.md
+Cambios/motivo: decisión del propietario (31-10-2026, opción B): agrupar islas en un distrito, empezando por Tenerife
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.57_islas_20261031.md
 -->
+
+## 2026-10-31 — Congreso — Santa Cruz de Tenerife: islas agrupadas
+
+- Decisión del propietario (opción B): la provincia 38 (K=9) se reparte entre Tenerife (8 distritos, 1,00 de la media) y La Gomera + La Palma + El Hierro (1 distrito, 1,00).
+- `particiones_insulares_2025.json` (esquema 1.3): territorio `congreso_santa_cruz_de_tenerife`, con componentes 38-C01 y 38-G01. Su inventario 2023 sale de las secciones del ZIP oficial de Interior. Cada isla coincide en conjunto CUSEC (hash) con el inventario INE 2023 ya acreditado de Canarias.
+- Puentes declarados (La Gomera–La Palma y La Gomera–El Hierro) como aristas `maritime_group` de M02.
+- `materializar_contrato_generacion.py` copia en M02 los puentes del lookup.
+- `_resolver_ejecucion_completa_core.py` 1.0.3 admite sólo esos puentes y sólo dentro de una misma componente. Las autonómicas siguen sin aristas marinas.
+- `generar_provincias_congreso.py` 1.1.0: una provincia insular entra cuando su partición está declarada (Hamilton por componentes).
+- Tests: grupo de Tenerife, puentes no declarados o entre componentes rechazados, registro de archipiélagos.
 
 ## 2026-10-31 — Congreso — 48 provincias nuevas
 

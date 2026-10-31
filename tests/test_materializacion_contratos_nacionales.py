@@ -1,5 +1,5 @@
-"""Version 1.0.4, 2026-10-29: archipelago pre-M04 cases evaluated on the frozen root (they now have M06).
-Previous bytes: legacy/tests/test_materializacion_contratos_nacionales_v1.0.3_20261029.py.
+"""Version 1.0.5, 2026-10-31: el registro de archipiélagos admite el grupo de islas del Congreso (Santa Cruz de Tenerife).
+Previous bytes: legacy/tests/test_materializacion_contratos_nacionales_v1.0.4_20261031.py.
 """
 from __future__ import annotations
 
@@ -661,7 +661,10 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_archipelago_registry_is_explicit_and_has_no_marine_edges(self):
         data = json.loads(PARTITIONS.read_text(encoding="utf-8"))
-        self.assertEqual(set(data["territories"]), {"illes_balears", "canarias"})
+        self.assertEqual(set(data["territories"]), {"illes_balears", "canarias", "congreso_santa_cruz_de_tenerife"})
+        # Las autonómicas no tienen aristas marinas; sólo un grupo de islas del Congreso declara puentes.
+        self.assertFalse(data["territories"]["illes_balears"].get("bridges"))
+        self.assertFalse(data["territories"]["canarias"].get("bridges"))
         self.assertEqual(len(data["territories"]["illes_balears"]["components"]), 4)
         self.assertEqual(len(data["territories"]["canarias"]["components"]), 8)
         self.assertEqual(

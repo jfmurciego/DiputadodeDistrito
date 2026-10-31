@@ -55,6 +55,7 @@ territories:
   congreso_palencia: {pilot_code: C34, name: Congreso Palencia, election_id: congreso_palencia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Palencia}
   congreso_pontevedra: {pilot_code: C36, name: Congreso Pontevedra, election_id: congreso_pontevedra_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Pontevedra}
   congreso_salamanca: {pilot_code: C37, name: Congreso Salamanca, election_id: congreso_salamanca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Salamanca}
+  congreso_santa_cruz_de_tenerife: {pilot_code: C38, name: Congreso Santa Cruz de Tenerife, election_id: congreso_santa_cruz_de_tenerife_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Santa Cruz de Tenerife}
   congreso_cantabria: {pilot_code: C39, name: Congreso Cantabria, election_id: congreso_cantabria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cantabria}
   congreso_segovia: {pilot_code: C40, name: Congreso Segovia, election_id: congreso_segovia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Segovia}
   congreso_sevilla: {pilot_code: C41, name: Congreso Sevilla, election_id: congreso_sevilla_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Sevilla}

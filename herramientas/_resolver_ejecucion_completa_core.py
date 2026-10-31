@@ -1,6 +1,6 @@
 """PROYECTO: Diputado de Distrito
 HERRAMIENTA: Core del resolver de ejecución completa
-VERSIÓN: 1.0.2
+VERSIÓN: 1.0.3
 NOMBRE DE VERSIÓN: Inventario físico por año con CUSEC verificado al materializar
 FECHA: 2026-10-28
 ESTADO: candidato de integración; pendiente de CI y revisión.
@@ -10,7 +10,10 @@ CAMBIOS: 1.0.2: sin inventario físico de huella exacta, admite el único del mi
   verificando al materializar. 1.0.1: discontinuidades municipales acreditadas por M03.
 MOTIVO: la re-descarga del INE del 28-10 dio otra huella para las secciones 2023 de Canarias y el
   inventario insular, atado a bytes, bloqueaba la generación sin que cambiara ninguna sección.
-ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.1_20261028.py
+CAMBIOS 1.0.3: un contrato de componentes físicos admite los puentes declarados en el lookup para su
+  territorio (grupo de islas en un distrito del Congreso), sólo si coinciden exactamente y cada puente une
+  secciones de la misma componente.
+ANTERIOR: legacy/herramientas/_resolver_ejecucion_completa_core_v1.0.2_20261031.py
 PREDECESOR: copia exacta del archivo de main antes de la primera versión integrada.
 """
 from __future__ import annotations
@@ -221,9 +224,6 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
     if (m04.get("province_field") != validation.get("province_field")
             or m04.get("municipality_field") != validation.get("municipality_field")):
         raise ValueError("campos físicos de Formación inicial no coinciden con validación")
-    if m02.get("topology_bridges") not in ([], None):
-        raise ValueError("un contrato de componentes físicos no puede introducir puentes topológicos")
-
     lookup_path = root_dir / str(lookup_raw)
     if not lookup_path.is_file():
         raise ValueError("lookup físico durable inexistente")
@@ -320,6 +320,14 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
         raise ValueError("lookup físico contiene mapeo municipal incompleto o ajeno a sus componentes")
     if any(v not in component_ids for v in overrides.values()):
         raise ValueError("lookup físico contiene override de sección ajeno a sus componentes")
+    declared_bridges = territory.get("bridges") or []
+    contract_bridges = m02.get("topology_bridges") or []
+    if contract_bridges != declared_bridges:
+        raise ValueError("un contrato de componentes físicos sólo admite los puentes declarados en su lookup")
+    for bridge in declared_bridges:
+        ends = [overrides.get(str(bridge.get(end))) or municipality_map.get(str(bridge.get(end))[:5]) for end in ("u", "v")]
+        if None in ends or ends[0] != ends[1]:
+            raise ValueError("un puente físico sólo puede unir secciones de la misma componente declarada")
 
     quotas = validation.get("province_districts") or {}
     populations = validation.get("partition_populations") or {}

@@ -6,6 +6,9 @@ La puerta contractual se conserva como validación estructural, pero deja de exi
 industrialización manual territorio a territorio. 01 prepara fuentes y este
 materializador completa automáticamente el contrato que 02 necesita.
 
+CAMBIOS 2026-10-31: en componentes físicos, M02 recibe los puentes declarados en el lookup del territorio
+  (grupo de islas en un mismo distrito del Congreso; Santa Cruz de Tenerife).
+ANTERIOR (d): legacy/herramientas/materializar_contrato_generacion_pre_puentes_grupo_20261031.py
 CAMBIOS 2026-10-30: la entrada del catálogo maestro se busca también en pilot_territories (piloto Congreso).
 ANTERIOR (c): legacy/herramientas/materializar_contrato_generacion_pre_pilotos_20261030.py
 CAMBIOS 2026-10-29 (b): population_limits admite municipality_atomicity_limit_ratio por territorio
@@ -615,6 +618,11 @@ def _apply_source_contract(
     territory_contract["status"] = "source_prepared_pending_pre_m04"
 
 
+def _declared_physical_bridges(root: Path, territory_id: str) -> list[dict[str, Any]]:
+    pdata = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
+    return copy.deepcopy(((pdata.get("territories") or {}).get(territory_id) or {}).get("bridges") or [])
+
+
 def _component_populations(root: Path, territory_id: str, section_pop: dict[str, int]) -> dict[str, int]:
     pdata = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
     territory = (pdata.get("territories") or {}).get(territory_id)
@@ -1068,6 +1076,7 @@ def materialize(
         modules["modulo_02_construir_adyacencias"].update({
             "bridge_admin_level_1_field": "CPRO",
             "bridge_admin_level_2_field": "CUMUN",
+            "topology_bridges": _declared_physical_bridges(root, territory_id),
         })
 
     contract.update({

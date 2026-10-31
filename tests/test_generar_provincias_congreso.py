@@ -1,4 +1,4 @@
-"""Versión 1.0.0; 2026-10-31; candidato. Coherencia del alta de las provincias del Congreso.
+"""Versión 1.1.0; 2026-10-31; candidato. 1.1.0: provincias insulares con partición declarada. Coherencia del alta de las provincias del Congreso.
 Origen: nuevo, sin predecesor. Cada provincia dada de alta por generar_provincias_congreso.py debe estar
 declarada igual en catálogo, política, matriz, registro, contrato Infoelectoral y contrato M01–M06.
 """
@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from herramientas.catalogo_territorios import load_pilot_territories, selector_labels  # noqa: E402
-from herramientas.generar_provincias_congreso import INSULAR, PROVINCES, provinces  # noqa: E402
+from herramientas.generar_provincias_congreso import INSULAR, PROVINCES, _partition, provinces  # noqa: E402
 
 
 def _load(rel: str) -> dict:
@@ -31,7 +31,7 @@ class CongressProvincesTests(unittest.TestCase):
     def test_reparto_is_n06_and_every_peninsular_province_is_declared(self):
         self.assertEqual(52, len(self.reparto))
         self.assertEqual(407, sum(p["k"] for p in self.reparto.values()))
-        expected = {tid for tid, p in self.reparto.items() if p["code"] not in INSULAR}
+        expected = {tid for tid, p in self.reparto.items() if p["code"] not in INSULAR or _partition(ROOT, tid)}
         self.assertEqual(expected, set(self.pilots))
 
     def test_number_and_plate_identify_each_province_once(self):
@@ -62,7 +62,21 @@ class CongressProvincesTests(unittest.TestCase):
                 self.assertIn(pilot["name"], labels)
                 contract = _load(f"territorios/{tid}/config/{tid}_2025.yaml")
                 self.assertEqual(k, contract["validation"]["expected_districts"])
-                self.assertEqual({self.reparto[tid]["code"]: k}, contract["validation"]["province_districts"])
+                if self.reparto[tid]["code"] in INSULAR:
+                    self.assertEqual(k, sum(contract["validation"]["province_districts"].values()))
+                else:
+                    self.assertEqual({self.reparto[tid]["code"]: k}, contract["validation"]["province_districts"])
+
+    def test_tenerife_groups_western_islands_in_one_district_joined_by_declared_bridges(self):
+        partition = _partition(ROOT, "congreso_santa_cruz_de_tenerife")
+        groups = partition["municipality_to_partition"]
+        self.assertEqual({"38-C01", "38-G01"}, set(groups.values()))
+        for bridge in partition["bridges"]:
+            self.assertEqual("38-G01", groups[bridge["u"][:5]])
+            self.assertEqual("38-G01", groups[bridge["v"][:5]])
+        contract = _load("territorios/congreso_santa_cruz_de_tenerife/config/congreso_santa_cruz_de_tenerife_2025.yaml")
+        self.assertEqual({"38-C01": 8, "38-G01": 1}, contract["validation"]["province_districts"])
+        self.assertEqual(partition["bridges"], contract["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"])
 
     def test_spanish_toponyms_only(self):
         names = {name for name, _ in PROVINCES.values()}
