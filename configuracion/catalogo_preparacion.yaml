@@ -1248,11 +1248,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_leon/evidencia/fuentes_electorales/2025/a57d170628ef34e459163cee84bbc310d5225cd1d586a8a771419bb3a66a5e35/41239847787/receipt.json
 - territory_id: congreso_lerida
   name: Congreso Lérida
   editions:
