@@ -1,12 +1,17 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.55
+Versión: 1.0.56
 Fecha: 2026-10-31
-Alcance: Actions sólo con workflows de producción
+Alcance: visor con provincias del Congreso
 Estado: candidato
-Cambios/motivo: decisión del titular (31-10-2026): retirar diagnósticos, F10, pruebas y smokes del menú de Actions
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.54_retirada_20261031.md
+Cambios/motivo: el 00 de Huesca (run 41194447427) falló al construir el visor por KeyError autonomous_community_code_ine
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.55_visor_20261031.md
 -->
+
+## 2026-10-31 — 05 — visor con provincias del Congreso
+
+- `preparar_visor_ejecucion.py` 1.5.1: una provincia sin CODAUTO usa su `pilot_code` (C22) para ordenar y queda detrás de las 19 autonómicas.
+- `test_etiquetas_territoriales_humanas.py`: regresión con Huesca.
 
 ## 2026-10-31 — plataforma — workflows no productivos a legacy
 

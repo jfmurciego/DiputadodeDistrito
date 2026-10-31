@@ -193,6 +193,17 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         self.assertTrue(all(row["country_display_name"] == "ES · España" for row in decorated))
         self.assertEqual(decorated[2]["territory_id"], "illes_balears")
 
+    def test_viewer_orders_congress_province_after_autonomous_communities(self):
+        # Run 41194447427: Huesca (pilot_territories) no tiene CODAUTO y el visor daba KeyError.
+        rows = [
+            {"id": "m08-huesca", "territory_id": "congreso_huesca", "label": "M08", "kind": "canonical_m08"},
+            {"id": "m08-melilla", "territory_id": "melilla", "label": "M08", "kind": "canonical_m08"},
+        ]
+        decorated = _decorate_and_sort(rows, ROOT)
+        self.assertEqual([row["id"] for row in decorated], ["m08-melilla", "m08-huesca"])
+        self.assertEqual(decorated[1]["autonomous_community_code_ine"], "C22")
+        self.assertEqual(decorated[1]["territory_label"], "Congreso Huesca")
+
     def test_dashboard_and_viewer_consume_central_display_fields(self):
         dashboard = (ROOT / "dashboard" / "app.js").read_text(encoding="utf-8")
         published_dashboard = (ROOT / "publicado" / "dashboard" / "app.js").read_text(encoding="utf-8")

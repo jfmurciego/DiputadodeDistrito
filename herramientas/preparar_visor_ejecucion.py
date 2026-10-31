@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.5.0
+VERSIÓN: 1.5.1
+CAMBIOS 1.5.1: las provincias del Congreso (pilot_territories) no tienen CODAUTO; se ordenan por su
+  pilot_code (C22) detrás de las 19 autonómicas. Run 41194447427 (Huesca): KeyError en _decorate_and_sort.
+ANTERIOR: legacy/herramientas/preparar_visor_ejecucion_v1.5.0_20261031.py
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
 Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.
@@ -359,7 +362,9 @@ def _decorate_and_sort(results: list[dict], repository_root: Path) -> list[dict]
             item["territory_name"] = canonical["name"]
             item["territory_label"] = format_territory_label(canonical)
             item["territory_display_name"] = item["territory_label"]
-            item["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
+            item["autonomous_community_code_ine"] = str(
+                canonical.get("autonomous_community_code_ine") or canonical.get("pilot_code") or "99"
+            )
         item["country_code"] = COUNTRY_CODE
         item["country_name"] = COUNTRY_NAME
         item["country_display_name"] = format_country_label()
