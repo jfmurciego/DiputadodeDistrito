@@ -1562,7 +1562,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_lugo/evidencia/fuentes_electorales/2025/339edf67d8e73c4feb82e4a93f4f054bcaff752740334909fad44b177aa43ef4/41239865976/receipt.json
         generation_preflight: territorios/congreso_lugo/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_madrid
   name: Congreso Madrid
   editions:
