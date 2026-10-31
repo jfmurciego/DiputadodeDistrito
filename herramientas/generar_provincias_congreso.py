@@ -158,6 +158,63 @@ def _bootstrap_contract(root: Path, p: dict) -> None:
         shutil.rmtree(work, ignore_errors=True)
 
 
+def _code_of(text: str, codes: dict[str, str]) -> str:
+    for key, code in codes.items():
+        if key in text:
+            return code
+    raise ValueError(f"Provincia no identificada: {text[:80]}")
+
+
+def _sort_lines(path: Path, is_item, codes: dict[str, str]) -> None:
+    """Ordena por número INE las líneas consecutivas de provincias (una por provincia)."""
+    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+    idx = [i for i, line in enumerate(lines) if is_item(line)]
+    if idx and idx == list(range(idx[0], idx[-1] + 1)):
+        lines[idx[0]:idx[-1] + 1] = sorted((lines[i] for i in idx), key=lambda l: _code_of(l, codes))
+        path.write_text("".join(lines), encoding="utf-8")
+    elif idx:
+        raise ValueError(f"{path}: provincias no consecutivas")
+
+
+def _sort_blocks(path: Path, start: str, codes: dict[str, str]) -> None:
+    """Ordena los bloques finales que empiezan por `start` (lista YAML de provincias al final del fichero)."""
+    text = path.read_text(encoding="utf-8")
+    first = text.index(start)
+    head, tail = text[:first], text[first:]
+    blocks = [start + b for b in tail.split(start)[1:]]
+    if any(not b.startswith(start) for b in blocks):
+        raise ValueError(f"{path}: bloque inesperado")
+    blocks = [b if b.endswith("\n") else b + "\n" for b in blocks]
+    path.write_text(head + "".join(sorted(blocks, key=lambda b: _code_of(b.split("\n")[0] + "\n", codes))), encoding="utf-8")
+
+
+def sort_by_province_code(root: Path) -> None:
+    """Las provincias van siempre en orden de número INE, como las ordena el dashboard (pilot_code)."""
+    rows = provinces(root)
+    ids = {f"{p['territory_id']}:": p["code"] for p in rows}
+    ids.update({f"{p['territory_id']}," : p["code"] for p in rows})
+    ids.update({f"{p['territory_id']}\n": p["code"] for p in rows})
+    labels = {f"{p['label']}\n": p["code"] for p in rows}
+    _sort_lines(root / "configuracion/catalogo_territorios_espana_2025.yaml",
+                lambda l: l.startswith("  - {territory_id: congreso_"), ids)
+    _sort_lines(root / "fuentes/territorios_espana.yaml", lambda l: l.startswith("  - {id: congreso_"), ids)
+    _sort_lines(root / "configuracion/registro_electoral.yaml", lambda l: l.startswith("  congreso_"), ids)
+    _sort_blocks(root / "configuracion/preparacion_legislatura_vigente.yaml", "  - territory_id: congreso_", ids)
+    _sort_blocks(root / "configuracion/catalogo_preparacion.yaml", "- territory_id: congreso_", ids)
+    for workflow in WORKFLOWS:
+        path = root / ".github/workflows" / workflow
+        _sort_lines(path, lambda l: l.startswith("          - Congreso "), labels)
+        text = path.read_text(encoding="utf-8")
+        for line in text.splitlines():
+            if "'Congreso " in line and "options:" in line:
+                prefix, _, rest = line.partition("'Congreso ")
+                items = ["'Congreso " + x.strip().rstrip(",") for x in rest.rstrip("]").split(", 'Congreso ")]
+                items = [i if i.endswith("'") else i + "'" for i in items]
+                ordered = sorted(items, key=lambda i: _code_of(i.strip("'") + "\n", labels))
+                text = text.replace(line, prefix + ", ".join(ordered) + "]")
+        path.write_text(text, encoding="utf-8")
+
+
 def generate(root: Path, zip_path: Path) -> list[str]:
     master_path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
     existing = {row["territory_id"] for row in yaml.safe_load(master_path.read_text(encoding="utf-8")).get("pilot_territories") or []}
@@ -259,6 +316,7 @@ def generate(root: Path, zip_path: Path) -> list[str]:
                 raise ValueError(f"{workflow}: no encuentro la opción {previous_label}")
             path.write_text(text, encoding="utf-8")
         added.append(tid)
+    sort_by_province_code(root)
     for tid in added:
         _bootstrap_contract(root, next(p for p in provinces(root) if p["territory_id"] == tid))
     return added

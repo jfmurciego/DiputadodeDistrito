@@ -30,6 +30,7 @@ SHA_B = "b" * 64
 SHA_C = "c" * 64
 SHA_D = "d" * 64
 COMMIT = "1" * 40
+from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 from tests._raiz_congelada import frozen_root  # noqa: E402
 # Madrid, Ceuta y Cataluña cuentan con preflight vigente en el catálogo; sólo
@@ -40,8 +41,7 @@ FROM_START_PRE_M04_TARGETS = {
     "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
     "comunidad_valenciana", "extremadura", "galicia", "madrid", "region_de_murcia",
     "comunidad_foral_de_navarra", "pais_vasco", "la_rioja", "ceuta", "melilla",
-    "congreso_huesca",
-}
+} | {row["territory_id"] for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")}
 
 
 def contract(*, partitioned: bool) -> dict:

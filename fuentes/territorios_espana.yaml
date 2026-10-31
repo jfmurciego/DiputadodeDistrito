@@ -29,7 +29,6 @@ territories:
   - {id: la_rioja, name: La Rioja, province_codes: ['26']}
   - {id: ceuta, name: Ceuta, province_codes: ['51']}
   - {id: melilla, name: Melilla, province_codes: ['52']}
-  - {id: congreso_huesca, name: Congreso Huesca, province_codes: ['22']}
   - {id: congreso_alava, name: Congreso Álava, province_codes: ['01']}
   - {id: congreso_albacete, name: Congreso Albacete, province_codes: ['02']}
   - {id: congreso_alicante, name: Congreso Alicante, province_codes: ['03']}
@@ -50,6 +49,7 @@ territories:
   - {id: congreso_guadalajara, name: Congreso Guadalajara, province_codes: ['19']}
   - {id: congreso_guipuzcoa, name: Congreso Guipúzcoa, province_codes: ['20']}
   - {id: congreso_huelva, name: Congreso Huelva, province_codes: ['21']}
+  - {id: congreso_huesca, name: Congreso Huesca, province_codes: ['22']}
   - {id: congreso_jaen, name: Congreso Jaén, province_codes: ['23']}
   - {id: congreso_leon, name: Congreso León, province_codes: ['24']}
   - {id: congreso_lerida, name: Congreso Lérida, province_codes: ['25']}

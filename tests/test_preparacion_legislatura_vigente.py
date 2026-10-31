@@ -26,6 +26,7 @@ from herramientas.registrar_par_fuentes_legislatura import (
 from herramientas.resolver_fuentes_territorio import build_declaration
 from herramientas.resolver_preparacion_legislatura import _electoral_plan, resolve, validate_matrix
 
+from herramientas.catalogo_territorios import load_pilot_territories  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-legislatura-vigente.yml"
 MATRIX = ROOT / "configuracion/preparacion_legislatura_vigente.yaml"
@@ -518,7 +519,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(options[7], "07 Castilla y León")
         # Tras las 19 etiquetas CODAUTO van los territorios piloto.
         self.assertEqual(options[19], "19 Melilla")
-        self.assertEqual(options[20:], ["Congreso Huesca"])
+        self.assertEqual(options[20:], [row["name"] for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")])
         plain = resolve(ROOT, "Aragón")
         coded = resolve(ROOT, "02 Aragón")
         self.assertEqual(coded, plain)

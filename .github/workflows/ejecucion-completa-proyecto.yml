@@ -108,7 +108,6 @@ on:
           - 17 La Rioja
           - 18 Ceuta
           - 19 Melilla
-          - Congreso Huesca
           - Congreso Álava
           - Congreso Albacete
           - Congreso Alicante
@@ -129,6 +128,7 @@ on:
           - Congreso Guadalajara
           - Congreso Guipúzcoa
           - Congreso Huelva
+          - Congreso Huesca
           - Congreso Jaén
           - Congreso León
           - Congreso Lérida

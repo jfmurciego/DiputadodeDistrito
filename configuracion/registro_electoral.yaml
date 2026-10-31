@@ -20,7 +20,6 @@ territories:
   la_rioja: {codauto: '17', name: La Rioja, election_id: la_rioja_parlamento_2023, election_date: '2023-05-28', title: Parlamento de La Rioja 2023}
   ceuta: {codauto: '18', name: Ceuta, election_id: ceuta_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Ceuta — elecciones locales 2023}
   melilla: {codauto: '19', name: Melilla, election_id: melilla_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Melilla — elecciones locales 2023}
-  congreso_huesca: {pilot_code: C22, name: Congreso Huesca, election_id: congreso_huesca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — piloto Huesca}
   congreso_alava: {pilot_code: C01, name: Congreso Álava, election_id: congreso_alava_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Álava}
   congreso_albacete: {pilot_code: C02, name: Congreso Albacete, election_id: congreso_albacete_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Albacete}
   congreso_alicante: {pilot_code: C03, name: Congreso Alicante, election_id: congreso_alicante_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Alicante}
@@ -41,6 +40,7 @@ territories:
   congreso_guadalajara: {pilot_code: C19, name: Congreso Guadalajara, election_id: congreso_guadalajara_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Guadalajara}
   congreso_guipuzcoa: {pilot_code: C20, name: Congreso Guipúzcoa, election_id: congreso_guipuzcoa_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Guipúzcoa}
   congreso_huelva: {pilot_code: C21, name: Congreso Huelva, election_id: congreso_huelva_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Huelva}
+  congreso_huesca: {pilot_code: C22, name: Congreso Huesca, election_id: congreso_huesca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — piloto Huesca}
   congreso_jaen: {pilot_code: C23, name: Congreso Jaén, election_id: congreso_jaen_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Jaén}
   congreso_leon: {pilot_code: C24, name: Congreso León, election_id: congreso_leon_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — León}
   congreso_lerida: {pilot_code: C25, name: Congreso Lérida, election_id: congreso_lerida_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Lérida}
