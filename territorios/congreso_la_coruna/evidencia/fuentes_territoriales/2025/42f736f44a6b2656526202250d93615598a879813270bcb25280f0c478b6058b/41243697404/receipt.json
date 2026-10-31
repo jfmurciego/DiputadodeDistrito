@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_la_coruna",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41243697404,
+  "artifact_name": "ddd-source-package-congreso_la_coruna-2025-41243697404",
+  "artifact_sha256": "c3e29f26b8c080248e37f94449ab610d6bec2423f02b77f3256de09080bef3a3",
+  "package_sha256": "5489cd34367f4f5b7824c46708c178b88e734b8edb8233a15a73107120476df1",
+  "source_commit": "5e8d4478b2f5591c121e5e1e28307ac5b130dee5",
+  "source_declaration": "territorios/congreso_la_coruna/evidencia/fuentes_territoriales/2025/42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b/41243697404/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "42f736f44a6b2656526202250d93615598a879813270bcb25280f0c478b6058b",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "eac37714897d4fb32f1bc6aa39c5122164db720a3961d28fe4a9cd858dec24a8",
+  "compatibility_identity_sha256": "d04771073502c80cc84aa784eeb378c6ec083d2594fd3c0d0afadc7f9dc770ee"
+}
