@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.5
+# VERSIÓN: 8.1.6
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
 # FECHA: 2026-10-29
 # ESTADO: candidato
@@ -10,7 +10,8 @@
 # CAMBIOS 8.1.3: opción del territorio piloto «Congreso Huesca».
 # CAMBIOS 8.1.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 8.1.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.4_20261031.yml
+# CAMBIOS 8.1.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
+# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.5_islas_20261031.yml
 # MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
 name: 02 Generación de Distritos Autonómicos
 
@@ -65,6 +66,7 @@ on:
           - Congreso Almería
           - Congreso Ávila
           - Congreso Badajoz
+          - Congreso Baleares
           - Congreso Barcelona
           - Congreso Burgos
           - Congreso Cáceres
@@ -92,6 +94,7 @@ on:
           - Congreso Orense
           - Congreso Asturias
           - Congreso Palencia
+          - Congreso Las Palmas
           - Congreso Pontevedra
           - Congreso Salamanca
           - Congreso Santa Cruz de Tenerife

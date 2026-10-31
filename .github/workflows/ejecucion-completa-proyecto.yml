@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.4.4
+# VERSIÓN: 1.4.5
 # NOMBRE DE VERSIÓN: Encadenado también en modo reutilizar
 # ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
@@ -9,7 +9,8 @@
 # CAMBIOS 1.4.2: opción del territorio piloto «Congreso Huesca».
 # CAMBIOS 1.4.3: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.4.4: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.3_20261031.yml
+# CAMBIOS 1.4.5: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.4_islas_20261031.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -115,6 +116,7 @@ on:
           - Congreso Almería
           - Congreso Ávila
           - Congreso Badajoz
+          - Congreso Baleares
           - Congreso Barcelona
           - Congreso Burgos
           - Congreso Cáceres
@@ -142,6 +144,7 @@ on:
           - Congreso Orense
           - Congreso Asturias
           - Congreso Palencia
+          - Congreso Las Palmas
           - Congreso Pontevedra
           - Congreso Salamanca
           - Congreso Santa Cruz de Tenerife

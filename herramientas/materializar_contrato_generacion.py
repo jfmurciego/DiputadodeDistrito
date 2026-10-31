@@ -6,6 +6,9 @@ La puerta contractual se conserva como validación estructural, pero deja de exi
 industrialización manual territorio a territorio. 01 prepara fuentes y este
 materializador completa automáticamente el contrato que 02 necesita.
 
+CAMBIOS 2026-10-31 (e): component_districts en la política fija el reparto por componentes decidido por
+  el propietario (Baleares: Mallorca 7, Menorca 1, Ibiza y Formentera 2) en lugar de Hamilton.
+ANTERIOR (e): legacy/herramientas/materializar_contrato_generacion_pre_reparto_fijo_20261031.py
 CAMBIOS 2026-10-31: en componentes físicos, M02 recibe los puentes declarados en el lookup del territorio
   (grupo de islas en un mismo distrito del Congreso; Santa Cruz de Tenerife).
 ANTERIOR (d): legacy/herramientas/materializar_contrato_generacion_pre_puentes_grupo_20261031.py
@@ -618,6 +621,20 @@ def _apply_source_contract(
     territory_contract["status"] = "source_prepared_pending_pre_m04"
 
 
+def _component_quota(pentry: dict, territory_id: str, component_pop: dict[str, int], k: int,
+                     floor_ratio: float) -> tuple[dict[str, int], list[str]]:
+    """Reparto por componentes: el fijado por el propietario en la política o, si no hay, Hamilton."""
+    fixed = pentry.get("component_districts")
+    if not fixed:
+        return component_hamilton(component_pop, k, floor_ratio)
+    quota = {str(key): int(value) for key, value in fixed.items()}
+    if set(quota) != set(component_pop) or sum(quota.values()) != k or min(quota.values()) < 1:
+        raise ValueError(f"{territory_id}: component_districts debe cubrir las componentes y sumar K={k}")
+    # Como en Hamilton: una componente de un distrito bajo el suelo queda declarada como excepción.
+    floor = sum(component_pop.values()) / k * floor_ratio
+    return quota, sorted(key for key, n in quota.items() if n == 1 and component_pop[key] < floor)
+
+
 def _declared_physical_bridges(root: Path, territory_id: str) -> list[dict[str, Any]]:
     pdata = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
     return copy.deepcopy(((pdata.get("territories") or {}).get(territory_id) or {}).get("bridges") or [])
@@ -972,7 +989,7 @@ def materialize(
         if str(pentry.get("partition_mode") or "") == "physical_components_hamilton":
             component_pop = _component_populations(root, territory_id, section_pop)
             floor_ratio = float(defaults["population_floor_ratio"])
-            quota, floor_exempt = component_hamilton(component_pop, current_k, floor_ratio)
+            quota, floor_exempt = _component_quota(pentry, territory_id, component_pop, current_k, floor_ratio)
             structural = structural_floor_exemptions(pentry, territory_id)
             unknown = set(structural) - set(component_pop)
             if unknown:
@@ -1053,7 +1070,7 @@ def materialize(
 
     if partition_mode == "physical_components_hamilton":
         component_pop = _component_populations(root, territory_id, section_pop)
-        quota, floor_exempt = component_hamilton(component_pop, k, float(defaults["population_floor_ratio"]))
+        quota, floor_exempt = _component_quota(pentry, territory_id, component_pop, k, float(defaults["population_floor_ratio"]))
         structural = structural_floor_exemptions(pentry, territory_id)
         floor_exempt = sorted(set(floor_exempt) | set(structural))
         partition_audit = component_apportionment_audit(

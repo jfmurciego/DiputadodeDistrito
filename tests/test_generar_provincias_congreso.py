@@ -1,4 +1,4 @@
-"""Versión 1.1.0; 2026-10-31; candidato. 1.1.0: provincias insulares con partición declarada. Coherencia del alta de las provincias del Congreso.
+"""Versión 1.2.0; 2026-10-31; candidato. 1.2.0: Baleares y Las Palmas con reparto fijado. 1.1.0: provincias insulares con partición declarada. Coherencia del alta de las provincias del Congreso.
 Origen: nuevo, sin predecesor. Cada provincia dada de alta por generar_provincias_congreso.py debe estar
 declarada igual en catálogo, política, matriz, registro, contrato Infoelectoral y contrato M01–M06.
 """
@@ -77,6 +77,19 @@ class CongressProvincesTests(unittest.TestCase):
         contract = _load("territorios/congreso_santa_cruz_de_tenerife/config/congreso_santa_cruz_de_tenerife_2025.yaml")
         self.assertEqual({"38-C01": 8, "38-G01": 1}, contract["validation"]["province_districts"])
         self.assertEqual(partition["bridges"], contract["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"])
+
+    def test_owner_fixed_island_apportionment(self):
+        # Decisión del propietario 31-10-2026: Mallorca 7, Menorca 1, Ibiza y Formentera 2; Lanzarote solo.
+        expected = {"congreso_baleares": {"07-C01": 7, "07-C02": 1, "07-G01": 2},
+                    "congreso_las_palmas": {"35-C01": 8, "35-C02": 1, "35-G01": 1}}
+        for tid, quota in expected.items():
+            contract = _load(f"territorios/{tid}/config/{tid}_2025.yaml")
+            self.assertEqual(quota, contract["validation"]["province_districts"])
+            bridges = _partition(ROOT, tid)["bridges"]
+            self.assertEqual(bridges, contract["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"])
+        baleares = _load("territorios/congreso_baleares/config/congreso_baleares_2025.yaml")["validation"]
+        self.assertEqual(["07-C02", "07-G01"], baleares["population_floor_exempt_partitions"])
+        self.assertEqual(1.4, _load("territorios/congreso_las_palmas/config/congreso_las_palmas_2025.yaml")["validation"]["population_cap_ratio"])
 
     def test_spanish_toponyms_only(self):
         names = {name for name, _ in PROVINCES.values()}

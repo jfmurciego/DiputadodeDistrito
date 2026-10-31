@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.5
+# VERSIÓN: 1.4.6
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-10-28
 # ESTADO: candidato
@@ -9,7 +9,8 @@
 # CAMBIOS 1.4.3: opción del territorio piloto «Congreso Huesca».
 # CAMBIOS 1.4.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.4.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.4_20261031.yml
+# CAMBIOS 1.4.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.5_islas_20261031.yml
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -68,6 +69,7 @@ on:
           - Congreso Almería
           - Congreso Ávila
           - Congreso Badajoz
+          - Congreso Baleares
           - Congreso Barcelona
           - Congreso Burgos
           - Congreso Cáceres
@@ -95,6 +97,7 @@ on:
           - Congreso Orense
           - Congreso Asturias
           - Congreso Palencia
+          - Congreso Las Palmas
           - Congreso Pontevedra
           - Congreso Salamanca
           - Congreso Santa Cruz de Tenerife

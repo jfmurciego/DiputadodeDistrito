@@ -1,4 +1,4 @@
-# VERSIÓN: 1.1.1 — Piloto Congreso Huesca (elección general 2023, referencia 2023/2023)
+# VERSIÓN: 1.1.2 — Piloto Congreso Huesca (elección general 2023, referencia 2023/2023)
 # FECHA: 2026-10-30; ESTADO: candidato para revisión y CI
 # CAMBIOS 1.0.4: Andalucía y Castilla y León pasan a ACCEPTED_M07_RECONCILIATION (decisión del
 #   propietario 2026-10-29); ningún territorio queda con el crosswalk 2025→2026 bloqueante.
@@ -12,7 +12,8 @@
 # CAMBIOS 1.0.5: territorio piloto congreso_huesca (pilot_code C22).
 # CAMBIOS 1.1.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.1.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.1.0.yaml
+# CAMBIOS 1.1.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
+# ANTERIOR: legacy/configuracion/preparacion_legislatura_vigente_v1.1.1_islas_20261031.yaml
 schema: ddd-current-legislature-preparation/1.0
 project_edition: '2025'
 as_of: '2026-09-30'
@@ -178,6 +179,13 @@ territories:
     pilot_code: C06
     name: Congreso Badajoz
     election_id: congreso_badajoz_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso_baleares
+    pilot_code: C07
+    name: Congreso Baleares
+    election_id: congreso_baleares_2023-07-23
     election_date: '2023-07-23'
     territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
@@ -367,6 +375,13 @@ territories:
     pilot_code: C34
     name: Congreso Palencia
     election_id: congreso_palencia_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso_las_palmas
+    pilot_code: C35
+    name: Congreso Las Palmas
+    election_id: congreso_las_palmas_2023-07-23
     election_date: '2023-07-23'
     territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
