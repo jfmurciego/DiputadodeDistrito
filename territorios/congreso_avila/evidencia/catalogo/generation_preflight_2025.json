@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_avila",
+  "territory_name": "Congreso Ávila",
+  "edition": "2025",
+  "run_id": 41235278274,
+  "source_commit": "dcbf0854f537467ad29dba1bbbfe9b7577489022",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41235278274,
+    "artifact_name": "ddd-source-package-congreso_avila-2025-41235278274",
+    "artifact_sha256": "64e0326c45cda0e0f8ca06b547eb479cbdcd9129af1fbe6f0c3eb38351cc3f3b",
+    "package_sha256": "376536b60057625e599290c8b5173c1157eed276f0afed65062f2791c9f8dfef",
+    "compatibility_identity_sha256": "38ab5e1aa0d487449ead173192a13e6dc15fa7eb78ef1941f7ca7d815f3ea517",
+    "territorial_identity_sha256": "a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
