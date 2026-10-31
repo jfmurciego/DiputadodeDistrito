@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_melilla",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41236482346,
+  "artifact_name": "ddd-source-package-congreso_melilla-2025-41236482346",
+  "artifact_sha256": "24dddfcf1da318e310e2128223720a597b4e1e97a50780e64ce0d076a8ab4857",
+  "package_sha256": "16e40982b89410ff605c19763c963a5c26edb1d240c2b57d449084be77b6bb63",
+  "source_commit": "e5904c8fc26e7ce4a80b14c7620cbde126579072",
+  "source_declaration": "territorios/congreso_melilla/evidencia/fuentes_territoriales/2025/3b064d541fae902c734746e3fb7c9d1d0c2b5e5b6aa439475d34b1f1aed4e67e/41236482346/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "3b064d541fae902c734746e3fb7c9d1d0c2b5e5b6aa439475d34b1f1aed4e67e",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "0012547f241b4c5c0abd02341a09e0028c683a7e122d6778e83ca364f046a56f",
+  "compatibility_identity_sha256": "fd1b8364ad7e9c0ed0085aa978c0b9111e69460ce99906c4542f3299aeb8aad0"
+}
