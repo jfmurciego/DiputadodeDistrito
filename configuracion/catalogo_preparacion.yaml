@@ -1062,20 +1062,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_ciudad_real/config/congreso_ciudad_real_2025.yaml
       territorial_source_declaration: territorios/congreso_ciudad_real/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41241133485
+        artifact_name: ddd-source-package-congreso_ciudad_real-2025-41241133485
+        artifact_sha256: 67da31185cefa495e45795789dc87a47ddd1863e55c5c4d0b9a03638bcb69f10
+        package_sha256: 86ffa5002fc53e7928609b65bb3ea2dbe7aabebc1803e0d81b8b0a7c33741992
+        receipt_path: territorios/congreso_ciudad_real/evidencia/fuentes_territoriales/2025/f0a8b7a4debed55d0ca32ee64b8531def34e67dfefa08d3313eb6d10a108a8a7/41241133485/receipt.json
+        territorial_identity_sha256: f0a8b7a4debed55d0ca32ee64b8531def34e67dfefa08d3313eb6d10a108a8a7
+        compatibility_report_sha256: 861a1cbbb7511fcd4666fc3225f7d2779935fa9fb8917bbc996ea10cde11706a
+        compatibility_identity_sha256: 1ecc2f93b181849376360044634844f4d164b585d348a909417499aeabb02407
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 9725346bacbd6fb9d7924cf44a62037a92eb7669
       evidence:
         electoral_source: territorios/congreso_ciudad_real/evidencia/fuentes_electorales/2025/630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d/41239804426/receipt.json
+      generation_enabled: false
 - territory_id: congreso_cordoba
   name: Congreso Córdoba
   editions:
