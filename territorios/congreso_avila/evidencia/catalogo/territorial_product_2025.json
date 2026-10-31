@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_avila",
+  "territory_name": "Congreso Ávila",
+  "edition": "2025",
+  "run_id": 41235278274,
+  "artifact_name": "ddd-state-41235278274-M06",
+  "artifact_sha256": "0d523f17c5e271e1aebec3209b17f8aaa2fe60e12d6134a7f8e83ee2ca6843c9",
+  "source_commit": "4e8b3d596ae843b683fd954088a356bd3edd78ac",
+  "decision": "PASS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_avila/evidencia/generaciones_m06/41235278274.json"
+}

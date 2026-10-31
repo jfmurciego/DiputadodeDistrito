@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13057042937,
+      "artifact_name": "ddd-audit-41235278274",
+      "artifact_sha256": "b6635c5cb7457f0922cf5f0fdb43621308e73077ca9fadd96b9318f1c5efdae0",
+      "run_id": 41235278274,
+      "size_in_bytes": 2405
+    },
+    "m04": {
+      "artifact_id": 13057555914,
+      "artifact_name": "ddd-state-41235278274-M04",
+      "artifact_sha256": "15db5820ca2288bbe4cf23637f3f441b0e5fcaa52802c0b3dd0405c5c9a6f114",
+      "run_id": 41235278274,
+      "size_in_bytes": 77297602
+    },
+    "m05": {
+      "artifact_id": 13057465597,
+      "artifact_name": "ddd-state-41235278274-M05",
+      "artifact_sha256": "f6d2e0cae8e0439bda83d8e652af541e224c363250da4c84b8ef1592ee49ddee",
+      "run_id": 41235278274,
+      "size_in_bytes": 77917275
+    },
+    "m06": {
+      "artifact_id": 13056898422,
+      "artifact_name": "ddd-state-41235278274-M06",
+      "artifact_sha256": "0d523f17c5e271e1aebec3209b17f8aaa2fe60e12d6134a7f8e83ee2ca6843c9",
+      "run_id": 41235278274,
+      "size_in_bytes": 78603760
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "fec3d6fe5077dd73cbaabf96fd8a93d0f6135167a508bf63cf8373d5dfbda325",
+        "size_in_bytes": 440
+      },
+      "congreso_avila_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "293befe1de179a797890e920a298899d8450171e392934b9f5cc0d774f359496",
+        "size_in_bytes": 1664
+      },
+      "optimization_execution.json": {
+        "sha256": "4db33ed0103bd67ca0fcd6293a7fccaff48eb30e7e1f31ebb2df801bcc7c8f97",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "f34574ebf11d0c36aefa6f63fa6e6234d533eda4da5434046baad4b77f1a39d7",
+        "size_in_bytes": 1230
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "f34574ebf11d0c36aefa6f63fa6e6234d533eda4da5434046baad4b77f1a39d7",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_avila/config/congreso_avila_2025.yaml",
+    "sha256": "2ddf31fd353d0e0635c6a11520d72c518182bbf937549998d7ef690b1875618a"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "3c291f91bd24d243d7390a0cc93ab2292315e3f87115b18b4e29b24e1e8b23a4",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "4e8b3d596ae843b683fd954088a356bd3edd78ac",
+    "edition": "2025",
+    "territory_id": "congreso_avila",
+    "territory_name": "Congreso Ávila",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41235278274,
+    "workflow_sha": "f893b44ad3da0966cf862f9da0b1fee88a0e5454"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13057555914,
+      "artifact_name": "ddd-state-41235278274-M04",
+      "artifact_sha256": "15db5820ca2288bbe4cf23637f3f441b0e5fcaa52802c0b3dd0405c5c9a6f114",
+      "run_id": 41235278274,
+      "size_in_bytes": 77297602
+    },
+    "source_manifest_sha256": "2e52f4d78bae183a587c633e6fa025d85d1921747f3d866e534cd85e72e776c6",
+    "source_package_artifact": {
+      "artifact_id": 13055894438,
+      "artifact_name": "ddd-source-package-congreso_avila-2025-41235278274",
+      "artifact_sha256": "64e0326c45cda0e0f8ca06b547eb479cbdcd9129af1fbe6f0c3eb38351cc3f3b",
+      "run_id": 41235278274,
+      "size_in_bytes": 76047015
+    }
+  },
+  "manifest_sha256": "56ab5ab93f78a2c5818dc8e3069e5bfc0b50393feed930ab572485a435813a4c",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
