@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_gerona",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41242933360,
+  "artifact_name": "ddd-source-package-congreso_gerona-2025-41242933360",
+  "artifact_sha256": "9ed0bd2c7b13a2f7d41a76c7e389ccb90601148fed2d5082668eb724cc436ab2",
+  "package_sha256": "b26ca924f1cca32b33970b388e90bdf07acc0b455ad9e102ab88510435d9d7c6",
+  "source_commit": "9b09962dd870eb500567df49959e2f7d12f0caec",
+  "source_declaration": "territorios/congreso_gerona/evidencia/fuentes_territoriales/2025/55c6f417fd9a4d828f67f26108ae05f6310cac7279a9df599ec6da3091179807/41242933360/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "55c6f417fd9a4d828f67f26108ae05f6310cac7279a9df599ec6da3091179807",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "0878785776ea8a0e4093fc05151be9b0e1657b0676c2ae41227c062af7655d19",
+  "compatibility_identity_sha256": "c5dca2b209481d06b58241e506b4109b30cd47fbc42276db402c86e98e100539"
+}
