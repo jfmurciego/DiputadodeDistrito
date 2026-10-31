@@ -1659,6 +1659,7 @@ territories:
         source_commit: 807a1f9888d1418fd682e63dcaf3898ac47186b9
       evidence:
         electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/810ba9d1ea413302b78cf21a46cec0a52bfcfaade3bb7ec8595759c011a50357/41239877192/receipt.json
+        generation_preflight: territorios/congreso_malaga/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_murcia
   name: Congreso Murcia

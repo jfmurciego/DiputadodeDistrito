@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_malaga",
+  "territory_name": "Congreso Málaga",
+  "edition": "2025",
+  "run_id": 41244216073,
+  "source_commit": "0fd521ca82826f6814c3449a9489560ad936739a",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41244216073,
+    "artifact_name": "ddd-source-package-congreso_malaga-2025-41244216073",
+    "artifact_sha256": "50ba36b7f0f415ceaab0d3e577ade8478f1176280186d08debd6d3d7dcbfe211",
+    "package_sha256": "f13b39b31d2e873fc8f98a88878b243cf5f8d4e0381ac3c1cb835d8da51b84ca",
+    "compatibility_identity_sha256": "ba9fa08b6256de88ffc4474ad7323fad69c0dafb6f675fcb158d1728edb70b41",
+    "territorial_identity_sha256": "d24dbb5266acf523479d117818c6f758b8b97a55c8d48316ae03b054cb92c1bc",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
