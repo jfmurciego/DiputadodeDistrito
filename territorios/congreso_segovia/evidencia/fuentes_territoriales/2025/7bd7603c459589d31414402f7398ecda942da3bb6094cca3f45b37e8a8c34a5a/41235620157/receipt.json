@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_segovia",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41235620157,
+  "artifact_name": "ddd-source-package-congreso_segovia-2025-41235620157",
+  "artifact_sha256": "69095d26e3c0e80f7156162c014d97b8c7b99f5f60475c30d5caf9350359c40f",
+  "package_sha256": "eca15937f80c9222c45599aaf9cc52862f0246c259c558c025185f02a3911361",
+  "source_commit": "d7ab47a933897447ac476f9825c92845b75a052c",
+  "source_declaration": "territorios/congreso_segovia/evidencia/fuentes_territoriales/2025/7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a/41235620157/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "efade81924ea9363ddc1c5763dfa221b095fb84eb983a50318527e1648714726",
+  "compatibility_identity_sha256": "0f82ba4031c99c2c975b0cc626aabd256a898d0755dfa0788dbfcfb3b47b26a9"
+}
