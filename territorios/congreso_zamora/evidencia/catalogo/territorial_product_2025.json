@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_zamora",
+  "territory_name": "Congreso Zamora",
+  "edition": "2025",
+  "run_id": 41236140669,
+  "artifact_name": "ddd-state-41236140669-M06",
+  "artifact_sha256": "e971ceef4fa72dd3b6961860ed8a2300a3d3c760c414093adbe775e4a226717f",
+  "source_commit": "3606d7db4eb5433b4f1c3524976f734758e1d40c",
+  "decision": "PASS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_zamora/evidencia/generaciones_m06/41236140669.json"
+}

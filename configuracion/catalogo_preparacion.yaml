@@ -1766,12 +1766,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41236140669
+        stage: M06
       preparation_evidence:
         run_id: 41236140669
         artifact_name: ddd-source-package-congreso_zamora-2025-41236140669
@@ -1788,6 +1790,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_zamora/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json
         generation_preflight: territorios/congreso_zamora/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_zamora/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_zaragoza
   name: Congreso Zaragoza
