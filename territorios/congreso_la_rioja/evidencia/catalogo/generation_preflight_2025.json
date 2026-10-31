@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_la_rioja",
+  "territory_name": "Congreso La Rioja",
+  "edition": "2025",
+  "run_id": 41240637295,
+  "source_commit": "42a5f3480ede5aa8db34327b75bfc54f10c62a2f",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41240637295,
+    "artifact_name": "ddd-source-package-congreso_la_rioja-2025-41240637295",
+    "artifact_sha256": "cbb9e9fbfba6bfbf5b3e5502712e14e6f11a6e54ecc3ca228b3d32199af882f0",
+    "package_sha256": "7cc86a540e97a496c86b8747b935f028b8702817abee7637c61bc361043e5dea",
+    "compatibility_identity_sha256": "3e2a2472847ecb46735593c374a0b9eea52c4c4c8ab56f49cd503c3b7080a64a",
+    "territorial_identity_sha256": "fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
