@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:03:05.333250+00:00",
+  "generated_at": "2026-10-31T23:04:02.595875+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5258,14 +5258,14 @@
       "territory_id": "congreso_castellon",
       "name": "Congreso Castellón",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41241768943,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5276,13 +5276,26 @@
           "artifact_sha256": "a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_castellon",
+          "territory_name": "Congreso Castellón",
+          "edition": "2025",
+          "run_id": 41241768943,
+          "artifact_name": "ddd-state-41241768943-M06",
+          "artifact_sha256": "fd40a4ea8cae6a3f2e63b583926ba6f49e3b6500359b93beabc85e6d681bda6c",
+          "source_commit": "17a0d4e5ba5f6e37b7e89177fe4a27d53cb792fc",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_castellon/evidencia/generaciones_m06/41241768943.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C12",
       "display_name": "Congreso Castellón",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_ciudad_real",
@@ -6852,7 +6865,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 37,
+    "territorial_validated": 38,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6875,6 +6888,7 @@
       "Congreso Albacete",
       "Congreso Ávila",
       "Congreso Cáceres",
+      "Congreso Castellón",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
@@ -6892,7 +6906,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 37,
+    "validated": 38,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6915,6 +6929,7 @@
       "Congreso Albacete",
       "Congreso Ávila",
       "Congreso Cáceres",
+      "Congreso Castellón",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
@@ -6932,7 +6947,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 30,
+    "ready": 29,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -6942,7 +6957,6 @@
       "Congreso Barcelona",
       "Congreso Burgos",
       "Congreso Cádiz",
-      "Congreso Castellón",
       "Congreso Ciudad Real",
       "Congreso Córdoba",
       "Congreso La Coruña",
