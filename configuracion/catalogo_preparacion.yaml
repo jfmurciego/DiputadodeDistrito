@@ -1818,6 +1818,7 @@ territories:
         source_commit: c5331b03c60bde9b283977ba4c68319fb00e1699
       evidence:
         electoral_source: territorios/congreso_pontevedra/evidencia/fuentes_electorales/2025/308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db/41239903028/receipt.json
+        generation_preflight: territorios/congreso_pontevedra/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_salamanca
   name: Congreso Salamanca
