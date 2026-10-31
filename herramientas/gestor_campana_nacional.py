@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Gestor de campaña nacional — versión 0.0.1, 2026-10-10.
+"""Gestor de campaña nacional — versión 0.1.0, 2026-10-31.
 Alcance: preflight local; estado: candidato.
-Cambio/motivo: consumir el plan común y distinguir reuso, generación y preparación.
-Anterior: legacy/herramientas/gestor_campana_nacional_v0.0.0.py (sin versión declarada).
+Cambio/motivo: 0.1.0 parse_selection acepta «todos», números o nombres (sin tildes ni mayúsculas);
+  0.0.1 consumir el plan común y distinguir reuso, generación y preparación.
+Anterior: legacy/herramientas/gestor_campana_nacional_v0.0.1_20261031.py
 """
 from __future__ import annotations
 import argparse, hashlib, json
@@ -176,6 +177,31 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
 def _catalog_index(root:Path)->dict[str,dict[str,Any]]:
     data=_yaml(root/CATALOG)
     return {str(r["territory_id"]):r for r in data.get("territories") or []}
+
+def _norm(text:str)->str:
+    import unicodedata
+    plain=unicodedata.normalize("NFKD",str(text)).encode("ascii","ignore").decode()
+    return " ".join(plain.lower().replace("_"," ").replace("-"," ").split())
+
+def parse_selection(raw:str,root:Path=Path("."))->list[str]:
+    """«todos», números de comunidad (3, 03) o nombres (Cantabria, comunidad valenciana), separados por coma."""
+    master=load_master(root/MASTER)
+    items=[x.strip() for x in str(raw or "").split(",") if x.strip()]
+    if not items: raise ValueError("Indica territorios: todos, números (03,06) o nombres (Cantabria, Galicia)")
+    if len(items)==1 and _norm(items[0])=="todos":
+        return [str(r["territory_id"]) for r in master]
+    index:dict[str,str]={}
+    for r in master:
+        tid=str(r["territory_id"]); code=str(r["autonomous_community_code_ine"])
+        for key in (code,str(int(code)),tid,r.get("name") or "",f"{code} {r.get('name') or ''}"):
+            index[_norm(key)]=tid
+    selected:list[str]=[]; unknown:list[str]=[]
+    for item in items:
+        tid=index.get(_norm(item))
+        if tid is None: unknown.append(item)
+        elif tid not in selected: selected.append(tid)
+    if unknown: raise ValueError("Territorios no reconocidos: "+", ".join(unknown))
+    return selected
 
 def canonical_selection(selected:list[str],root:Path=Path("."))->list[dict[str,Any]]:
     master=load_master(root/MASTER)

@@ -1,12 +1,23 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.52
+Versión: 1.0.54
 Fecha: 2026-10-31
-Alcance: espejo del ZIP Infoelectoral en release (Interior rechaza a los runners)
+Alcance: recuperación M08 con receipt declarado y Gestor de Campañas operativo
 Estado: candidato
-Cambios/motivo: la 03 de Congreso Huesca (run 41192319910) falló con curl 22 al descargar de Interior
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.51_espejo_20261031.md
+Cambios/motivo: el Gestor nunca arrancaba (startup_failure) y su selección por CODAUTO era poco usable
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.53_gestor_20261031.md
 -->
+
+## 2026-10-31 — 0 — Gestor de Campañas operativo
+
+- `gestor-campanas.yml` 1.1.0: `actions: write` en el llamador. El 00 llamado tiene un job con `actions: write` y, con `read`, GitHub rechazaba arrancar el workflow (`startup_failure` en cada PR y en cada lanzamiento). El campo de territorios acepta `todos`, números (`3,6,11`) o nombres (`Cantabria, Extremadura`), sin valor por defecto.
+- `gestor_campana_nacional.py` 0.1.0: `parse_selection`, que no distingue tildes ni mayúsculas y rechaza nombres desconocidos.
+- `test_gestor_campana_nacional.py`: selección y permisos del llamador frente al 00.
+
+## 2026-10-31 — 04 — recuperación M08 con receipt declarado
+
+- `recuperar-producto-electoral-durable.yml` 1.0.2: la verificación de identidad lee la fuente electoral con el mismo criterio que el detector (#360), el receipt declarado en el catálogo. El legacy `evidencia/catalogo/electoral_source_2025.json` estaba obsoleto en Cantabria (run 36629227614 frente a 40689735716) y no existía en Extremadura.
+- `test_recuperacion_producto_electoral.py`: regresión del contrato del workflow.
 
 ## 2026-10-31 — 03 — espejo del ZIP Infoelectoral
 

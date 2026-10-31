@@ -725,4 +725,28 @@ class NationalCampaignTests(unittest.TestCase):
   self.assertIn("publish_result: false",text)
   self.assertIn("persist_state: ${{ matrix.persist_state }}",text)
 
+
+
+class SelectionInputTests(unittest.TestCase):
+  """1.1.0 (2026-10-31): selección legible y permisos compatibles con el 00 llamado."""
+  def test_names_numbers_and_all(self):
+    from herramientas.gestor_campana_nacional import parse_selection
+    self.assertEqual(["cantabria","extremadura"],parse_selection("6, Extremadura",ROOT))
+    self.assertEqual(["comunidad_valenciana"],parse_selection("comunidad valenciana",ROOT))
+    self.assertEqual(["castilla_y_leon"],parse_selection("07 Castilla y León",ROOT))
+    self.assertEqual(19,len(parse_selection("Todos",ROOT)))
+    with self.assertRaisesRegex(ValueError,"no reconocidos: Narnia"):
+      parse_selection("Galicia, Narnia",ROOT)
+    with self.assertRaises(ValueError):
+      parse_selection("",ROOT)
+
+  def test_caller_grants_what_the_called_00_requests(self):
+    import re
+    gestor=(ROOT/".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+    called=(ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+    top=gestor[gestor.index("\npermissions:"):gestor.index("\njobs:")]
+    for scope in set(re.findall(r"^\s+([a-z-]+): write",called,re.M)):
+      self.assertIn(f"{scope}: write",top)
+
+
 if __name__=="__main__": unittest.main()

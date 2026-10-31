@@ -1,5 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
+# VERSIÓN: 1.1.0 · FECHA: 2026-10-31 · ESTADO: candidato
+# CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
+#   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
+# ANTERIOR: legacy/workflows/gestor-campanas_sin_version_20261031.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: 0 Gestor de Campañas
@@ -33,10 +37,10 @@ on:
           - electoral
           - territorial_only
       territorios:
-        description: CODAUTO seleccionados (1–19), separados por coma
+        description: 'Territorios separados por coma: todos, números (3,6,11) o nombres (Cantabria, Extremadura)'
         required: true
         type: string
-        default: '03,04,05,06,08,09,12,13,14,15,16,17,18,19'
+        default: ''
   pull_request:
     branches: [main]
     paths:
@@ -56,7 +60,7 @@ on:
 
 permissions:
   contents: write
-  actions: read
+  actions: write
   issues: write
   pages: write
   id-token: write
@@ -89,15 +93,12 @@ jobs:
             test "$GITHUB_REF_NAME" = main || { echo "::error::Las campañas sólo se lanzan desde main."; exit 21; }
             selected_json="$(python - <<'PY'
           import json,os
-          from herramientas.catalogo_territorios import load_master
+          from herramientas.gestor_campana_nacional import parse_selection
           inputs=json.loads(os.environ["INPUTS_JSON"])
-          raw=str(inputs.get("territorios") or "")
-          codes=[x.strip().zfill(2) for x in raw.split(",") if x.strip()]
-          master=load_master()
-          by_code={str(r["autonomous_community_code_ine"]):r["territory_id"] for r in master}
-          unknown=[c for c in codes if c not in by_code]
-          if unknown: raise SystemExit("CODAUTO no registrados: "+",".join(unknown))
-          print(json.dumps([by_code[c] for c in codes]))
+          try:
+              print(json.dumps(parse_selection(str(inputs.get("territorios") or ""))))
+          except ValueError as exc:
+              raise SystemExit(f"::error::{exc}")
           PY
           )"
             publication_mode="${{ inputs.publication_mode }}"
