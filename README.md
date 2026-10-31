@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-31T23:19:20.674854+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-31T23:20:07.394576+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -75,7 +75,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso La Rioja** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41240637295 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Lugo** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41240766116 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Madrid** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | — | — | — | generar y validar distritos |
-| **Congreso Málaga** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | — | — | — | generar y validar distritos |
+| **Congreso Málaga** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41244216073 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
 | **Congreso Murcia** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41244085018 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
 | **Congreso Navarra** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41242678275 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
 | **Congreso Orense** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41240887712 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
@@ -91,7 +91,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Soria** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41235794328 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Tarragona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | — | — | — | preparar fuentes electorales |
 | **Congreso Teruel** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41235966858 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
-| **Congreso Toledo** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | — | — | — | preparar fuentes electorales |
+| **Congreso Toledo** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41242809451 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Valencia** | 🟡 | 🟡 | 🟡 | ⚪ | ⚪ | Validación pendiente | 41244586540 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes territoriales |
 | **Congreso Valladolid** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41241636977 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
 | **Congreso Vizcaya** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243819237 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
