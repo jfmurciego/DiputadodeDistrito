@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_avila",
+  "territory_name": "Congreso Ávila",
+  "edition": "2025",
+  "run_id": 41241662219,
+  "artifact_name": "ddd-state-41241662219-M08",
+  "artifact_sha256": "65d669aa04fb38668d8727daa3ce2da892152642400cdd7b76255a261c206613",
+  "source_commit": "a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2",
+  "stage": "M08"
+}
