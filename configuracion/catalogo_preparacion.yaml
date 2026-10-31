@@ -1579,6 +1579,7 @@ territories:
         electoral_source: territorios/congreso_segovia/evidencia/fuentes_electorales/2025/4bca7fef1bff38a856c1be9861cb0096afeb8621c45de88bdf67eaa07e6cd04c/41235628457/receipt.json
         generation_preflight: territorios/congreso_segovia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_segovia/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_segovia/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json
       generation_enabled: true
 - territory_id: congreso_sevilla
   name: Congreso Sevilla
