@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_huesca",
+  "territory_name": "Congreso Huesca",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_huesca_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41057319037,
+    "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
+    "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
+    "package_sha256": "4912eea85523c456f7297e406b76b184b23fc3b46b2cd4aca0c48d908a168330",
+    "source_commit": "664218ea4c6d22d421067f973125c7376d7c3e6d",
+    "source_declaration": "territorios/congreso_huesca/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_territoriales/2025/67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f/41057319037/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "e069f794fb11bf08c36a6b2042d036a3d09a92bbf6145fad52039985ddd12f49",
+    "compatibility_identity_sha256": "c5ee625edad04be765b04e380ff044934663db3be98cb2c9024e4495b1c3d1de",
+    "remote_verification": {
+      "run_id": 41057319037,
+      "artifact_id": 12977701840,
+      "artifact_name": "ddd-source-package-congreso_huesca-2025-41057319037",
+      "artifact_sha256": "e22527ea7a1ea54d8af41f3ab5446f35c316c31310e4e8f5a8ef000910b4c211",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41194293941,
+    "artifact_name": "ddd-electoral-package-congreso_huesca-2025-41194293941",
+    "artifact_sha256": "fd2a0bd657b2e1265af3cf331e00a8ef63d434426c1302b0103ffc069c6f56c4",
+    "source_commit": "575711ab89bfa68c2cf88433d6ad76584c86a1ee",
+    "receipt_path": "territorios/congreso_huesca/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_huesca_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422",
+    "remote_verification": {
+      "run_id": 41194293941,
+      "artifact_id": 13040215386,
+      "artifact_name": "ddd-electoral-package-congreso_huesca-2025-41194293941",
+      "artifact_sha256": "fd2a0bd657b2e1265af3cf331e00a8ef63d434426c1302b0103ffc069c6f56c4",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "67e2c96b0fc9282ae60da65067073bb566c86cd769ac0286a3e5cdca43d5055f",
+  "electoral_compatibility_key": "155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_huesca/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18"
+}

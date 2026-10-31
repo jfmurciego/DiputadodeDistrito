@@ -790,3 +790,4 @@ territories:
         generation_preflight: territorios/congreso_huesca/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_huesca/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/congreso_huesca/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
+        prepared_source_pair: territorios/congreso_huesca/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json
