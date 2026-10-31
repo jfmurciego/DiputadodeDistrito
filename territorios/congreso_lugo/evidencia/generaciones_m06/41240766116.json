@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13060411876,
+      "artifact_name": "ddd-audit-41240766116",
+      "artifact_sha256": "2aa3ff0af7dd1e6538ca4b74b35894920d8d34b8ad3f8d47c5bae685d1af0442",
+      "run_id": 41240766116,
+      "size_in_bytes": 3959
+    },
+    "m04": {
+      "artifact_id": 13060601272,
+      "artifact_name": "ddd-state-41240766116-M04",
+      "artifact_sha256": "8d44a336e402ec8b1fb842b2e7edb9a32cdd4997174aa1c58b01cc84e09463d6",
+      "run_id": 41240766116,
+      "size_in_bytes": 76465334
+    },
+    "m05": {
+      "artifact_id": 13060336692,
+      "artifact_name": "ddd-state-41240766116-M05",
+      "artifact_sha256": "450f857254838d6370e0a69be6a29e39cb631fc58fa520b40dc6dafdeb1e9dc6",
+      "run_id": 41240766116,
+      "size_in_bytes": 76949532
+    },
+    "m06": {
+      "artifact_id": 13060113502,
+      "artifact_name": "ddd-state-41240766116-M06",
+      "artifact_sha256": "5333bbf941e9eeb1185142bc6df04a8f2c569ab720c6a525c4880a398a409f50",
+      "run_id": 41240766116,
+      "size_in_bytes": 77557552
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "112ec435c96c0a1b93071de4447e057c2ad5936d89c0e8bafaa0c263f159d091",
+        "size_in_bytes": 469
+      },
+      "congreso_lugo_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "295e98704d09152353c2169a1ccf75fd697963b0daa8af18eb828067b815f09f",
+        "size_in_bytes": 11630
+      },
+      "optimization_execution.json": {
+        "sha256": "c907fa897efd06f4d9756cc04a2862eef162570149218f337cf64fbe74ba365e",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "18dde3b4c528b5ce176b74cf03e615a5ec2a9443cd4caffa502d3fbccfda60da",
+        "size_in_bytes": 1294
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "18dde3b4c528b5ce176b74cf03e615a5ec2a9443cd4caffa502d3fbccfda60da",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_lugo/config/congreso_lugo_2025.yaml",
+    "sha256": "d60181535e12a4abfe90d210e4c3847ab4223cab66c98d03ea27f2e1de55a761"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "91780699b744f01e747c0bbfef7a0ebb28253abd3971b44a301db33e5e0447a8",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "773efe666dc10eaa81fd171db22631e4ea10c4a9",
+    "edition": "2025",
+    "territory_id": "congreso_lugo",
+    "territory_name": "Congreso Lugo",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41240766116,
+    "workflow_sha": "0f1d8e733f49ff6d6d711051a35e9f1706685ff7"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060601272,
+      "artifact_name": "ddd-state-41240766116-M04",
+      "artifact_sha256": "8d44a336e402ec8b1fb842b2e7edb9a32cdd4997174aa1c58b01cc84e09463d6",
+      "run_id": 41240766116,
+      "size_in_bytes": 76465334
+    },
+    "source_manifest_sha256": "5107e36ca635777829cacfaaec669ba493d5a208509c84cff331bc49644034b3",
+    "source_package_artifact": {
+      "artifact_id": 13058227567,
+      "artifact_name": "ddd-source-package-congreso_lugo-2025-41240766116",
+      "artifact_sha256": "e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
+      "run_id": 41240766116,
+      "size_in_bytes": 75489020
+    }
+  },
+  "manifest_sha256": "1c546fab1a87be48bb4f23e3bb19b69a62e3b039037646f45ce3a2c27c12e810",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
