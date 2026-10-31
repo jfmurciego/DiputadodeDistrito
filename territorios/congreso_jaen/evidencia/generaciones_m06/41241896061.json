@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13060279979,
+      "artifact_name": "ddd-audit-41241896061",
+      "artifact_sha256": "3e53f95178fe98cf2943528dbddfabfc468fcfbde4432eeabd8abb5529edea2c",
+      "run_id": 41241896061,
+      "size_in_bytes": 4297
+    },
+    "m04": {
+      "artifact_id": 13060239173,
+      "artifact_name": "ddd-state-41241896061-M04",
+      "artifact_sha256": "2e6e9efae6ca46a1a9694d164c84bb5d4b6a88b031fa007b26c58a4862f142c0",
+      "run_id": 41241896061,
+      "size_in_bytes": 78858109
+    },
+    "m05": {
+      "artifact_id": 13059899984,
+      "artifact_name": "ddd-state-41241896061-M05",
+      "artifact_sha256": "b901d6d4c1df9b8ed5e27cf9631736bbd64ce52fb0488acd40f8d0a90cc01d3e",
+      "run_id": 41241896061,
+      "size_in_bytes": 79794978
+    },
+    "m06": {
+      "artifact_id": 13060297953,
+      "artifact_name": "ddd-state-41241896061-M06",
+      "artifact_sha256": "19affc80bcd06390e2b042b12c3740d29df960624e475740b61c924717ae49cd",
+      "run_id": 41241896061,
+      "size_in_bytes": 80960367
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "23b65e181e57651c08f86fed4f5995675f839a58db684be88b2f0d81301fbe77",
+        "size_in_bytes": 469
+      },
+      "congreso_jaen_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "e53c94cab492373ac878f6c89158dfdb9e2e85296b77bb399c889f1579aab954",
+        "size_in_bytes": 15608
+      },
+      "optimization_execution.json": {
+        "sha256": "dc191b86131f8f07c2fe2f3e0e3e0a2edb7348cc4745f4c4dbbec8b0dd55c409",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "89f6a6ac78c9c872b27dbb0095b6c50cf150179c3c22a3610c63aa942a47a34d",
+        "size_in_bytes": 1294
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "89f6a6ac78c9c872b27dbb0095b6c50cf150179c3c22a3610c63aa942a47a34d",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_jaen/config/congreso_jaen_2025.yaml",
+    "sha256": "6106f31761636b6f661765f67396859d64dbaf3497130191c7a0e77e9f0a48f5"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "e612682a26e515d969c00a203c0b6c88206dc302776b2f819c5d88228d86deb5",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "82ffa564d4d0d243f6bef3464e61fa9e353aeb6f",
+    "edition": "2025",
+    "territory_id": "congreso_jaen",
+    "territory_name": "Congreso Jaén",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41241896061,
+    "workflow_sha": "1ecd108edf90a8be4e688ccea3c1aaea65b6aefa"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060239173,
+      "artifact_name": "ddd-state-41241896061-M04",
+      "artifact_sha256": "2e6e9efae6ca46a1a9694d164c84bb5d4b6a88b031fa007b26c58a4862f142c0",
+      "run_id": 41241896061,
+      "size_in_bytes": 78858109
+    },
+    "source_manifest_sha256": "3f130e285af3199ef918bc2411be79e56a92a4ae80f0ab4be0f0d2c518ab587d",
+    "source_package_artifact": {
+      "artifact_id": 13058214878,
+      "artifact_name": "ddd-source-package-congreso_jaen-2025-41241896061",
+      "artifact_sha256": "2f845f1bcd9e796bcd02a86005a55547f656d15f90be05cff7dd4a72aa2bce5e",
+      "run_id": 41241896061,
+      "size_in_bytes": 76972658
+    }
+  },
+  "manifest_sha256": "58d51b10d6122710a08531534402d91c1c376fd19e6abb90c2e832b9c0e0de45",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
