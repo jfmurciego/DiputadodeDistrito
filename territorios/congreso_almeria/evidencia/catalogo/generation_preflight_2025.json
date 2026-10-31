@@ -5,10 +5,12 @@
   "territory_name": "Congreso Almería",
   "edition": "2025",
   "run_id": 41242160179,
-  "source_commit": "421af04eb0b7ba42f2571e0812dec827216b2914",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "99f2163360c8be1bd0a7469eeb73b744900e800c",
+  "artifact_name": "ddd-state-41242160179-M03U",
+  "artifact_sha256": "3c74db889c20adee8b52a00e7e0859aedd916094934a7b2e9d634c497f2ed22f",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41242160179,
     "artifact_name": "ddd-source-package-congreso_almeria-2025-41242160179",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41242160179-M03",
+    "artifact_sha256": "f8a3b67951016fa71f1f0132fbbde8ecf76939130212e994191cfb35d476515a",
+    "module_version": "7.5.0",
+    "nodes": 459,
+    "edges": 1230,
+    "population": 753364,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41242160179",
+    "job_artifact_sha256": "7a0bb8eb207282675c5867dc00024dcd6779cf11310725136b5d0ebabdb1143a",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/congreso_almeria_2025/congreso_almeria_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 753364,
+      "target_section_count": 459,
+      "package_sha256": "b360a877b4e64184ecf5002e30cf39a3d52a493cac09cbab79e4c7e5b8720121",
+      "compatibility_report_sha256": "8578cacccc41275ae47338c67c13806d80f2bfa5cddf371ed143da3d2d900ec8",
+      "compatibility_identity_sha256": "e4cdc40cc90a5e1abd1ffb1ea8bd1adec58d639516fecbd1f36b214e6787169f"
+    },
+    "topology_accreditation": null,
+    "k_districts": 6,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_almeria/.cache/ddd/preparacion/{run_name}/congreso_almeria_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 6,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

@@ -891,7 +891,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_almeria/evidencia/fuentes_electorales/2025/4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c/41239766467/receipt.json
         generation_preflight: territorios/congreso_almeria/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_avila
   name: Congreso Ávila
   editions:
