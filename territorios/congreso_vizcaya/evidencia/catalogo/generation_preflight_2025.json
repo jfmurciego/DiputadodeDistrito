@@ -5,10 +5,10 @@
   "territory_name": "Congreso Vizcaya",
   "edition": "2025",
   "run_id": 41243819237,
-  "source_commit": "aa99382ceeacdcf78abc2ae24d2975cc531c2c44",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "ffa9e04e43424053b889b048003a0047a41b2456",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 41243819237,
     "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41243819237",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
