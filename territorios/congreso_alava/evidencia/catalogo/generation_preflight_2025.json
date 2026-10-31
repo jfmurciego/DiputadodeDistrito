@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_alava",
+  "territory_name": "Congreso Álava",
+  "edition": "2025",
+  "run_id": 41240137880,
+  "source_commit": "23411a4ffed106f047a7ad9263aacf9bb21d3f0e",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41240137880,
+    "artifact_name": "ddd-source-package-congreso_alava-2025-41240137880",
+    "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
+    "package_sha256": "cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9",
+    "compatibility_identity_sha256": "57a0d1cd652493de2c435be0a5f2fbd5a39fdf6ed4425fa503774a95ff52f619",
+    "territorial_identity_sha256": "8cb1cbc2062363a4832538bb3f2f38a4686fe2acda896fbf54678c1db0dbad16",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
