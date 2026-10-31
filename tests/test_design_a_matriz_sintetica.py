@@ -35,13 +35,11 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "04 Incorporación de Resultados Electorales":ELECTORAL_APPLY,
             "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
             "05 Publicación del Visor":WF/"desplegar-visor-publico.yml",
-            "06 Congreso — Preflight analítico León y Cáceres":WF/"congreso-piloto-leon.yml",
             "0 Gestor de Campañas":WF/"gestor-campanas.yml",
-            "F10 Preparación territorial aislada":WF/"f10-preparacion-territorial-aislada.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["congreso-piloto-leon.yml","desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","f10-preparacion-territorial-aislada.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml","publicar-version-mapa.yml","recuperar-producto-electoral-durable.yml","smoke-gerrychain-galicia.yml"])
+        self.assertEqual(sorted(dispatch),["desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","publicar-version-mapa.yml","recuperar-producto-electoral-durable.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]

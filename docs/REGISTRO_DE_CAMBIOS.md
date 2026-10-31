@@ -1,12 +1,43 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.54
+Versión: 1.0.56
 Fecha: 2026-10-31
-Alcance: recuperación M08 con receipt declarado y Gestor de Campañas operativo
+Alcance: visor con provincias del Congreso
 Estado: candidato
-Cambios/motivo: el Gestor nunca arrancaba (startup_failure) y su selección por CODAUTO era poco usable
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.53_gestor_20261031.md
+Cambios/motivo: el 00 de Huesca (run 41194447427) falló al construir el visor por KeyError autonomous_community_code_ine
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.55_visor_20261031.md
 -->
+
+## 2026-10-31 — 05 — visor con provincias del Congreso
+
+- `preparar_visor_ejecucion.py` 1.5.1: una provincia sin CODAUTO usa su `pilot_code` (C22) para ordenar y queda detrás de las 19 autonómicas.
+- `test_etiquetas_territoriales_humanas.py`: regresión con Huesca.
+
+## 2026-10-31 — plataforma — workflows no productivos a legacy
+
+- 16 workflows pasan a `legacy/workflows/retirados_20261031/` con `git mv`:
+  - `congreso-piloto-leon`;
+  - `diagnostico-eleccionesdb-grupo-a`;
+  - `diagnostico-fuentes-electorales-pendientes`;
+  - `f10-electoral-receipts-asturias-galicia`;
+  - `f10-electoral-source-validation`;
+  - `f10-preparacion-territorial-aislada`;
+  - `prueba-fuentes-oficiales`;
+  - `prueba-openai`;
+  - `smoke-gerrychain-galicia`;
+  - `validar-poblacion-ine-2026-aragon`;
+  - `verificar-andalucia-2026-provisional`;
+  - `verificar-cataluna-2024`;
+  - `verificar_ign_temporal_2025`;
+  - `p0-verificacion-remota`;
+  - `publicar-checkpoint-cyl-m06` (sin llamador);
+  - `adquirir-siel-andalucia-2026` (sin llamador).
+- Quedan activos:
+  - 0, 00–05, la activación de legislatura y la recuperación del M08;
+  - los reutilizables y su orquestación;
+  - `publicar-version-mapa` (publicación con DOI);
+  - las comprobaciones de CI: pruebas, contratos y productos públicos.
+- Los tests de los workflows retirados validan la copia retirada; los inventarios de workflows visibles se reducen a los de producción.
 
 ## 2026-10-31 — 0 — Gestor de Campañas operativo
 

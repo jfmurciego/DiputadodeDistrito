@@ -53,7 +53,7 @@ class OperationalConcurrencyTests(unittest.TestCase):
         self.assertNotIn("CANCELLED", pending)
 
     def test_remote_smoke_is_pr_only_and_has_no_productive_side_effects(self):
-        path = WF / "p0-verificacion-remota.yml"
+        path = ROOT / "legacy/workflows/retirados_20261031/p0-verificacion-remota.yml"
         data = load_yaml(path)
         self.assertIn("pull_request", data["on"])
         self.assertNotIn("workflow_dispatch", data["on"])

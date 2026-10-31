@@ -65,25 +65,16 @@ class WorkflowSafety(unittest.TestCase):
         reusable_triggers=reusable.get(True,reusable.get("on",{})) or {}
         self.assertEqual(set(reusable_triggers),{"workflow_call"})
 
-    def test_electoral_network_ci_is_path_scoped(self):
+    def test_retired_diagnostics_are_not_active_workflows(self):
+        # 2026-10-31: diagnósticos, F10, pruebas y smokes retirados a legacy/workflows/retirados_20261031/.
         for name in (
             "diagnostico-eleccionesdb-grupo-a.yml",
             "diagnostico-fuentes-electorales-pendientes.yml",
             "verificar-cataluna-2024.yml",
+            "adquirir-siel-andalucia-2026.yml",
         ):
-            data=yaml.safe_load((WORKFLOWS/name).read_text(encoding="utf-8")) or {}
-            triggers=data.get(True,data.get("on",{})) or {}
-            self.assertNotIn("workflow_dispatch",triggers,name)
-            pr=triggers.get("pull_request") or {}
-            paths=pr.get("paths") or []
-            self.assertTrue(paths,name)
-            self.assertIn(f".github/workflows/{name}",paths,name)
-
-        siel=yaml.safe_load((WORKFLOWS/"adquirir-siel-andalucia-2026.yml").read_text(encoding="utf-8")) or {}
-        siel_triggers=siel.get(True,siel.get("on",{})) or {}
-        self.assertEqual(set(siel_triggers),{"workflow_call"})
-        self.assertNotIn("workflow_dispatch",siel_triggers)
-
+            self.assertFalse((WORKFLOWS/name).exists(),name)
+            self.assertTrue((ROOT/"legacy/workflows/retirados_20261031"/name).exists(),name)
         self.assertFalse(
             (WORKFLOWS/"verificar-registro-eleccionesdb.yml").exists(),
             "El registro de las doce elecciones se valida dentro del productor del snapshot; no mantener polling cruzado.",

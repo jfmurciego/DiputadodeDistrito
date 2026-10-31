@@ -144,8 +144,6 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
             with self.subTest(workflow=workflow):
                 self.assertEqual(dispatch_inputs(WORKFLOWS / workflow)[key]["options"], [*EXPECTED, *PILOTS])
 
-        source_test = dispatch_inputs(WORKFLOWS / "prueba-fuentes-oficiales.yml")["territory"]["options"]
-        self.assertEqual(source_test, ["Todos", *EXPECTED, *PILOTS])
 
     def test_planning_accepts_visible_label_without_changing_plan(self):
         kwargs = dict(
@@ -194,6 +192,17 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         )
         self.assertTrue(all(row["country_display_name"] == "ES · España" for row in decorated))
         self.assertEqual(decorated[2]["territory_id"], "illes_balears")
+
+    def test_viewer_orders_congress_province_after_autonomous_communities(self):
+        # Run 41194447427: Huesca (pilot_territories) no tiene CODAUTO y el visor daba KeyError.
+        rows = [
+            {"id": "m08-huesca", "territory_id": "congreso_huesca", "label": "M08", "kind": "canonical_m08"},
+            {"id": "m08-melilla", "territory_id": "melilla", "label": "M08", "kind": "canonical_m08"},
+        ]
+        decorated = _decorate_and_sort(rows, ROOT)
+        self.assertEqual([row["id"] for row in decorated], ["m08-melilla", "m08-huesca"])
+        self.assertEqual(decorated[1]["autonomous_community_code_ine"], "C22")
+        self.assertEqual(decorated[1]["territory_label"], "Congreso Huesca")
 
     def test_dashboard_and_viewer_consume_central_display_fields(self):
         dashboard = (ROOT / "dashboard" / "app.js").read_text(encoding="utf-8")

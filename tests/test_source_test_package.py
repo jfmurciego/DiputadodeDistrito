@@ -25,7 +25,7 @@ from herramientas.adquirir_fuentes_oficiales import (
 from herramientas.resolver_fuentes_territorio import build_declaration, matrix, territories
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW = ROOT / ".github/workflows/prueba-fuentes-oficiales.yml"
+WORKFLOW = ROOT / "legacy/workflows/retirados_20261031/prueba-fuentes-oficiales.yml"
 
 
 class FakeResponse:

@@ -51,7 +51,7 @@ class CongressViewerContractTests(unittest.TestCase):
                     artifact_provenance(run_id, candidate_sha)
 
     def test_pilot_preflight_packs_standalone_viewer_without_public_deploy(self):
-        workflow = (ROOT / ".github/workflows/congreso-piloto-leon.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / "legacy/workflows/retirados_20261031/congreso-piloto-leon.yml").read_text(encoding="utf-8")
         self.assertIn("N08_STANDALONE_VIEWER_READY", workflow)
         self.assertIn("piloto-autonomo.html", workflow)
         self.assertIn("10-split", workflow)

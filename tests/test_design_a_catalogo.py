@@ -31,7 +31,6 @@ class DesignA(unittest.TestCase):
                 if "territory_id" in inputs: manual.append(path.name)
         self.assertEqual(sorted(manual),[
             "ejecucion-completa-proyecto.yml",
-            "f10-preparacion-territorial-aislada.yml",
             "incorporacion-resultados-electorales.yml",
             "preparacion-fuentes.yml",
             "preparacion-resultados-electorales.yml",
@@ -46,7 +45,7 @@ class DesignA(unittest.TestCase):
           "desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml","generar-alternativas-territoriales.yml",
           "notificar-finalizacion-orquestacion.yml","orquestacion-control.yml",
           "orquestacion-durable.yml","producir-territorio-por-contrato.yml","_reutilizable-incorporacion-electoral.yml","_reutilizable-generacion-territorial.yml",
-          "publicar-checkpoint-cyl-m06.yml","validar-contratos-territoriales.yml",
+          "validar-contratos-territoriales.yml",
           "validar-productos-publicos.yml",
         }
         self.assertTrue(expected.issubset({p.name for p in WF.glob("*.yml")}))
