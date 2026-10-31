@@ -2248,12 +2248,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41235966858
-        stage: M06
+        run_id: 41250394074
+        stage: M08
       preparation_evidence:
         run_id: 41235966858
         artifact_name: ddd-source-package-congreso_teruel-2025-41235966858
@@ -2272,6 +2272,7 @@ territories:
         generation_preflight: territorios/congreso_teruel/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_teruel/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_teruel/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json
+        electoral_product: territorios/congreso_teruel/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_toledo
   name: Congreso Toledo
