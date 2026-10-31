@@ -1286,11 +1286,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_la_rioja/evidencia/fuentes_electorales/2025/6e544aa5f7d7e5f16ffa23ff442d528a7948beb2bb2021526c16c8268b1c2886/41239859752/receipt.json
 - territory_id: congreso_lugo
   name: Congreso Lugo
   editions:
