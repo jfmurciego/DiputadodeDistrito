@@ -1485,11 +1485,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_salamanca/evidencia/fuentes_electorales/2025/98bbcaab7ca5b91879fbdf67f680ac886b0ae774212430c06e071fa4e190faad/41239908359/receipt.json
 - territory_id: congreso_santa_cruz_de_tenerife
   name: Congreso Santa Cruz de Tenerife
   editions:
