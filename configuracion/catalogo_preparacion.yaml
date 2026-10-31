@@ -765,7 +765,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: true
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
@@ -789,3 +789,4 @@ territories:
       evidence:
         generation_preflight: territorios/congreso_huesca/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_huesca/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/congreso_huesca/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
