@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_santa_cruz_de_tenerife",
+  "territory_name": "Congreso Santa Cruz de Tenerife",
+  "edition": "2025",
+  "run_id": 41239515252,
+  "artifact_name": "ddd-electoral-package-congreso_santa_cruz_de_tenerife-2025-41239515252",
+  "artifact_sha256": "e219b97086882dfe61201e2e1a6e4b6bb3c6522f1c79aa52511fb1080d5db40e",
+  "source_commit": "ed9b20f03c521f2dc5129ee731c9c3b96d3fbaad",
+  "election_id": "congreso_santa_cruz_de_tenerife_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "a990a414e34865c72ba8902ce6f691e48970933f793c8ab38796093676c6f536"
+}
