@@ -1,0 +1,221 @@
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: congreso_valencia
+  territory: Congreso Valencia
+  run_name: congreso_valencia_2025
+  year: 2025
+  scope: provincial
+  schema_version: 1.0.0
+  status: source_prepared_pending_pre_m04
+  source_population_year: 2023
+  source_section_year: 2023
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+io:
+  project_root:
+    path: ../../..
+  input:
+    seccionado:
+      path: inputs/seccionado_2023.zip
+      layer: ''
+      section_key_col: CUSEC
+    population_cip:
+      paths:
+      - inputs/65034.csv.zip
+      sep: auto
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+        year_value: 2023
+  cache:
+    dir: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/congreso_valencia/resultados/ejecuciones/{run_id}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes: &id001
+  - '46'
+  k_districts: 23
+  k_source: formula
+  k_rationale: 'Congreso: K=23 es la cuota de Valencia (CPRO 46) en N06-OWNER-20261012-K,
+    con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000,
+    y K2025 = 407.'
+  k_reference_scope: institutional_or_contractual_reference
+  k_reference_source: null
+  apportionment_source: ddd_design_policy
+  legal_apportionment_reused: false
+  legal_apportionment_context: null
+  district_apportionment: hamilton
+  population_floor_ratio: 0.85
+  population_cap_ratio: 1.15
+  target_tolerance_ratio: 0.15
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
+  limits_exception_decided_at: '2026-10-31'
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.15
+  require_auditable_district_catalogue: true
+  status: source_prepared_pending_pre_m04
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes: *id001
+    drop_missing_population: false
+    out_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m01_informe.json
+  modulo_02_construir_adyacencias:
+    in_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    out_edges_jsonl: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m02_adyacencias.jsonl
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges: []
+  modulo_03_construir_grafo:
+    in_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m02_adyacencias.jsonl
+    id_field: CUSEC_KEY
+    pop_field: POP_2023
+    out_graph_json: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m03_grafo.json
+    out_report: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m03_grafo.json
+    in_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2023
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 23
+    municipality_atomicity_limit_ratio: 1.15
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m04_semillas.geojson.zip
+    out_report: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m04_informe.json
+  modulo_05_optimizar_distritos:
+    in_graph_json: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m03_grafo.json
+    in_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2023
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    swap_polish_max: 0
+    out_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_2023
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 23
+    strict_expected_k: true
+    out_summary_csv: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m06_composicion_distritos.csv
+    out_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m06_secciones.geojson.zip
+    out_district_geojson: territorios/congreso_valencia/.cache/ddd/preparacion/{run_name}/congreso_valencia_2025_m06_distritos.geojson.zip
+validation:
+  expected_province_codes: *id001
+  require_unique_section_id: true
+  require_non_null_population: true
+  province_field: CPRO
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  audit_graph_components: true
+  audit_admin_level_1_components: true
+  audit_admin_level_2_components: true
+  require_one_graph_component_per_province: false
+  require_connected_municipalities: false
+  expected_districts: 23
+  population_floor_ratio: 0.85
+  population_cap_ratio: 1.15
+  target_tolerance_ratio: 0.15
+  province_apportionment: hamilton
+  province_districts:
+    '46': 23
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.15
+  max_mixed_districts_per_split_municipality: 1
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  population_floor_exempt_partitions: []
+  partition_apportionment_audit: {}
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2023
+    section_year: 2023
+    population_total: 2763996
+    target_section_count: 1
+    package_sha256: c2192591b60e4656ce49093d7329b9f8bebcd6bc495fd1337746eeba4a2c5a6e
+    compatibility_report_sha256: 96ddec71438a2afd05bc45f368d6f1361b1d3e101d44404fee603cbcceff7656
+    compatibility_identity_sha256: eb95a30070bd419b503b61703834cc14cf6c587891c15517477c33d86e0316d5
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/legacy-bridge
+  temporal:
+    population_year: 2023
+    section_year: 2023
+  sources:
+    population: null
+    sectioning: null
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2023
+    province_field: CPRO
+    municipality_field: CUMUN
+generation_state:
+  source_prepared: true
+  generation_enabled: false
+  package_sha256: c2192591b60e4656ce49093d7329b9f8bebcd6bc495fd1337746eeba4a2c5a6e
+  compatibility_identity_sha256: eb95a30070bd419b503b61703834cc14cf6c587891c15517477c33d86e0316d5
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: dfeb5211398d9ed944bbb147dbd7b93c6202482d816552062fa3cae97e1104f3
+    role: population
+    source_id: synthetic_population
+    consumer_contract: null
+  - path: inputs/seccionado_2023.zip
+    sha256: 4817b53352052411ac9fa624668863c0d75edb1cb4a71931b7a5e9b70cfbac62
+    role: target_sectioning
+    source_id: synthetic_sectioning
+    consumer_contract: null

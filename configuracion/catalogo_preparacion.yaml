@@ -792,3 +792,819 @@ territories:
         electoral_source: territorios/congreso_huesca/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
         prepared_source_pair: territorios/congreso_huesca/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json
         electoral_product: territorios/congreso_huesca/evidencia/catalogo/electoral_product_2025.json
+- territory_id: congreso_alava
+  name: Congreso Álava
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_alava/config/congreso_alava_2025.yaml
+      territorial_source_declaration: territorios/congreso_alava/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_albacete
+  name: Congreso Albacete
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_albacete/config/congreso_albacete_2025.yaml
+      territorial_source_declaration: territorios/congreso_albacete/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_alicante
+  name: Congreso Alicante
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_alicante/config/congreso_alicante_2025.yaml
+      territorial_source_declaration: territorios/congreso_alicante/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_almeria
+  name: Congreso Almería
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_almeria/config/congreso_almeria_2025.yaml
+      territorial_source_declaration: territorios/congreso_almeria/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_avila
+  name: Congreso Ávila
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_avila/config/congreso_avila_2025.yaml
+      territorial_source_declaration: territorios/congreso_avila/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_badajoz
+  name: Congreso Badajoz
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_badajoz/config/congreso_badajoz_2025.yaml
+      territorial_source_declaration: territorios/congreso_badajoz/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_barcelona
+  name: Congreso Barcelona
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_barcelona/config/congreso_barcelona_2025.yaml
+      territorial_source_declaration: territorios/congreso_barcelona/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_burgos
+  name: Congreso Burgos
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_burgos/config/congreso_burgos_2025.yaml
+      territorial_source_declaration: territorios/congreso_burgos/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_caceres
+  name: Congreso Cáceres
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_caceres/config/congreso_caceres_2025.yaml
+      territorial_source_declaration: territorios/congreso_caceres/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_cadiz
+  name: Congreso Cádiz
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_cadiz/config/congreso_cadiz_2025.yaml
+      territorial_source_declaration: territorios/congreso_cadiz/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_castellon
+  name: Congreso Castellón
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_castellon/config/congreso_castellon_2025.yaml
+      territorial_source_declaration: territorios/congreso_castellon/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_ciudad_real
+  name: Congreso Ciudad Real
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_ciudad_real/config/congreso_ciudad_real_2025.yaml
+      territorial_source_declaration: territorios/congreso_ciudad_real/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_cordoba
+  name: Congreso Córdoba
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_cordoba/config/congreso_cordoba_2025.yaml
+      territorial_source_declaration: territorios/congreso_cordoba/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_la_coruna
+  name: Congreso La Coruña
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_la_coruna/config/congreso_la_coruna_2025.yaml
+      territorial_source_declaration: territorios/congreso_la_coruna/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_cuenca
+  name: Congreso Cuenca
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_cuenca/config/congreso_cuenca_2025.yaml
+      territorial_source_declaration: territorios/congreso_cuenca/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_gerona
+  name: Congreso Gerona
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_gerona/config/congreso_gerona_2025.yaml
+      territorial_source_declaration: territorios/congreso_gerona/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_granada
+  name: Congreso Granada
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_granada/config/congreso_granada_2025.yaml
+      territorial_source_declaration: territorios/congreso_granada/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_guadalajara
+  name: Congreso Guadalajara
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_guadalajara/config/congreso_guadalajara_2025.yaml
+      territorial_source_declaration: territorios/congreso_guadalajara/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_guipuzcoa
+  name: Congreso Guipúzcoa
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_guipuzcoa/config/congreso_guipuzcoa_2025.yaml
+      territorial_source_declaration: territorios/congreso_guipuzcoa/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_huelva
+  name: Congreso Huelva
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_huelva/config/congreso_huelva_2025.yaml
+      territorial_source_declaration: territorios/congreso_huelva/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_jaen
+  name: Congreso Jaén
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_jaen/config/congreso_jaen_2025.yaml
+      territorial_source_declaration: territorios/congreso_jaen/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_leon
+  name: Congreso León
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_leon/config/congreso_leon_2025.yaml
+      territorial_source_declaration: territorios/congreso_leon/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_lerida
+  name: Congreso Lérida
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_lerida/config/congreso_lerida_2025.yaml
+      territorial_source_declaration: territorios/congreso_lerida/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_la_rioja
+  name: Congreso La Rioja
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_la_rioja/config/congreso_la_rioja_2025.yaml
+      territorial_source_declaration: territorios/congreso_la_rioja/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_lugo
+  name: Congreso Lugo
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_lugo/config/congreso_lugo_2025.yaml
+      territorial_source_declaration: territorios/congreso_lugo/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_madrid
+  name: Congreso Madrid
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_madrid/config/congreso_madrid_2025.yaml
+      territorial_source_declaration: territorios/congreso_madrid/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_malaga
+  name: Congreso Málaga
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_malaga/config/congreso_malaga_2025.yaml
+      territorial_source_declaration: territorios/congreso_malaga/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_murcia
+  name: Congreso Murcia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_murcia/config/congreso_murcia_2025.yaml
+      territorial_source_declaration: territorios/congreso_murcia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_navarra
+  name: Congreso Navarra
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_navarra/config/congreso_navarra_2025.yaml
+      territorial_source_declaration: territorios/congreso_navarra/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_orense
+  name: Congreso Orense
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_orense/config/congreso_orense_2025.yaml
+      territorial_source_declaration: territorios/congreso_orense/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_asturias
+  name: Congreso Asturias
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_asturias/config/congreso_asturias_2025.yaml
+      territorial_source_declaration: territorios/congreso_asturias/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_palencia
+  name: Congreso Palencia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_palencia/config/congreso_palencia_2025.yaml
+      territorial_source_declaration: territorios/congreso_palencia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_pontevedra
+  name: Congreso Pontevedra
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_pontevedra/config/congreso_pontevedra_2025.yaml
+      territorial_source_declaration: territorios/congreso_pontevedra/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_salamanca
+  name: Congreso Salamanca
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_salamanca/config/congreso_salamanca_2025.yaml
+      territorial_source_declaration: territorios/congreso_salamanca/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_cantabria
+  name: Congreso Cantabria
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_cantabria/config/congreso_cantabria_2025.yaml
+      territorial_source_declaration: territorios/congreso_cantabria/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_segovia
+  name: Congreso Segovia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_segovia/config/congreso_segovia_2025.yaml
+      territorial_source_declaration: territorios/congreso_segovia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_sevilla
+  name: Congreso Sevilla
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_sevilla/config/congreso_sevilla_2025.yaml
+      territorial_source_declaration: territorios/congreso_sevilla/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_soria
+  name: Congreso Soria
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_soria/config/congreso_soria_2025.yaml
+      territorial_source_declaration: territorios/congreso_soria/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_tarragona
+  name: Congreso Tarragona
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_tarragona/config/congreso_tarragona_2025.yaml
+      territorial_source_declaration: territorios/congreso_tarragona/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_teruel
+  name: Congreso Teruel
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_teruel/config/congreso_teruel_2025.yaml
+      territorial_source_declaration: territorios/congreso_teruel/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_toledo
+  name: Congreso Toledo
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_toledo/config/congreso_toledo_2025.yaml
+      territorial_source_declaration: territorios/congreso_toledo/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_valencia
+  name: Congreso Valencia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_valencia/config/congreso_valencia_2025.yaml
+      territorial_source_declaration: territorios/congreso_valencia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_valladolid
+  name: Congreso Valladolid
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_valladolid/config/congreso_valladolid_2025.yaml
+      territorial_source_declaration: territorios/congreso_valladolid/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_vizcaya
+  name: Congreso Vizcaya
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_vizcaya/config/congreso_vizcaya_2025.yaml
+      territorial_source_declaration: territorios/congreso_vizcaya/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_zamora
+  name: Congreso Zamora
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_zamora/config/congreso_zamora_2025.yaml
+      territorial_source_declaration: territorios/congreso_zamora/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_zaragoza
+  name: Congreso Zaragoza
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_zaragoza/config/congreso_zaragoza_2025.yaml
+      territorial_source_declaration: territorios/congreso_zaragoza/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_ceuta
+  name: Congreso Ceuta
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_ceuta/config/congreso_ceuta_2025.yaml
+      territorial_source_declaration: territorios/congreso_ceuta/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso_melilla
+  name: Congreso Melilla
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_melilla/config/congreso_melilla_2025.yaml
+      territorial_source_declaration: territorios/congreso_melilla/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null

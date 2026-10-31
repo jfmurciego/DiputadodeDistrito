@@ -1,0 +1,512 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz operativa principal — Diseño A
+# VERSIÓN: 8.1.3
+# NOMBRE DE VERSIÓN: Generación de distritos autonómicos
+# FECHA: 2026-10-29
+# ESTADO: candidato
+# QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
+# CAMBIOS: "Resolver paquete territorial preparado" usa la declaración que acredita el catálogo (territorial_source_declaration) y solo recurre a config/fuentes_oficiales.yaml si el catálogo no fija ninguna.
+# COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
+# CAMBIOS 8.1.3: opción del territorio piloto «Congreso Huesca».
+# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.2_20261030.yml
+# MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
+name: 02 Generación de Distritos Autonómicos
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      execution_mode: {required: false, type: string, default: reuse}
+      optimization_algorithm: {required: false, type: string, default: Canónico}
+      source_package_run_id: {required: false, type: string, default: ''}
+      source_package_artifact_name: {required: false, type: string, default: ''}
+      source_package_artifact_sha256: {required: false, type: string, default: ''}
+      generation_preflight_artifact_name: {required: false, type: string, default: ''}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
+      invocation_context: {required: false, type: string, default: reusable}
+      artifact_namespace: {required: false, type: string, default: ''}
+      gerrychain_entrypoint: {required: false, type: string, default: ''}
+      require_unique_hashes: {required: false, type: boolean, default: false}
+      require_generation_gate: {required: false, type: boolean, default: false}
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio
+        required: true
+        default: 07 Castilla y León
+        type: choice
+        options:
+          - 01 Andalucía
+          - 02 Aragón
+          - 03 Principado de Asturias
+          - 04 Islas Baleares
+          - 05 Canarias
+          - 06 Cantabria
+          - 07 Castilla y León
+          - 08 Castilla-La Mancha
+          - 09 Cataluña
+          - 10 Comunidad Valenciana
+          - 11 Extremadura
+          - 12 Galicia
+          - 13 Comunidad de Madrid
+          - 14 Región de Murcia
+          - 15 Comunidad Foral de Navarra
+          - 16 País Vasco
+          - 17 La Rioja
+          - 18 Ceuta
+          - 19 Melilla
+          - Congreso Huesca
+      data_edition:
+        description: Edición de datos
+        required: true
+        default: '2025'
+        type: choice
+        options:
+          - '2025'
+      execution_mode:
+        description: Modo de ejecución
+        required: true
+        default: Reutilizar progreso existente
+        type: choice
+        options:
+          - Reutilizar progreso existente
+          - Ejecutar desde el principio
+      optimization_algorithm:
+        description: Estrategia de optimización 02.5
+        required: true
+        default: Canónico
+        type: choice
+        options:
+          - Canónico
+          - GerryChain
+          - GerryChain 25
+          - GerryChain 50
+
+concurrency:
+  group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
+  cancel-in-progress: false
+  queue: max
+permissions:
+  contents: write
+  actions: read
+  issues: write
+
+jobs:
+  resolver_interfaz:
+    name: Preparar contrato y reanudación
+    runs-on: ubuntu-24.04
+    outputs:
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      params: ${{ steps.resolve.outputs.params }}
+      from_stage: ${{ steps.checkpoint.outputs.from_stage }}
+      to_stage: ${{ steps.resolve.outputs.to_stage }}
+      product: ${{ steps.resolve.outputs.product }}
+      checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
+      prepared_source_run_id: ${{ steps.resolve.outputs.prepared_source_run_id }}
+      prepared_source_artifact_name: ${{ steps.resolve.outputs.prepared_source_artifact_name }}
+      checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
+      source_package_run_id: ${{ steps.source_package.outputs.run_id }}
+      source_package_artifact_name: ${{ steps.source_package.outputs.artifact_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - name: Instalar entorno geoespacial para selección de fuentes
+        run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Verificar entorno geoespacial para selección de fuentes
+        run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
+      - id: resolve
+        name: Resolver territorio, edición y recorrido necesario
+        shell: bash
+        env:
+          UI_TERRITORY: ${{ inputs.territory_id }}
+          UI_EDITION: ${{ inputs.data_edition }}
+          UI_PRODUCT: Distritos
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-checkpoint-selection
+          printf '{"status":"INITIALIZED","run_id":"%s"}\n' "$GITHUB_RUN_ID" > .ddd-checkpoint-selection/resolucion_inicial.json
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          row="$(python herramientas/catalogo_preparacion.py resolve --mode generation --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+          territory_id="$(jq -r '.territory_id' <<<"$row")"
+          params="$(jq -r '.contract_path // empty' <<<"$row")"
+          [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
+          route="$(python herramientas/resolver_producto_produccion.py --product "$UI_PRODUCT")"
+          {
+            echo "territory_id=$territory_id"
+            echo "params=$params"
+            echo "product=$UI_PRODUCT"
+            echo "to_stage=$(jq -r .to_stage <<<"$route")"
+            echo "checkpoint_policy=$(jq -r .checkpoint_policy <<<"$route")"
+            echo "prepared_source_run_id=$(jq -r '.preparation_evidence.run_id // empty' <<<"$row")"
+            echo "prepared_source_artifact_name=$(jq -r '.preparation_evidence.artifact_name // empty' <<<"$row")"
+          } >> "$GITHUB_OUTPUT"
+
+      - id: checkpoint
+        name: Validar y resolver último checkpoint reutilizable
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+          TO_STAGE: ${{ steps.resolve.outputs.to_stage }}
+          PRODUCT: ${{ steps.resolve.outputs.product }}
+          CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
+          EXECUTION_MODE: ${{ inputs.execution_mode }}
+          OPTIMIZATION_ALGORITHM: ${{ inputs.optimization_algorithm }}
+        run: |
+          set -euo pipefail
+          checkpoint_run_id=''
+          from_stage=M01
+          mode="$EXECUTION_MODE"
+          [[ "$mode" == "Ejecutar desde el principio" ]] && mode=from_start
+          [[ "$mode" == "Reutilizar progreso existente" ]] && mode=reuse
+          if [[ "$mode" == from_start ]]; then
+            mkdir -p .ddd-checkpoint-selection
+            printf '[]\n' > .ddd-checkpoint-selection/checkpoints_descartados.json
+            jq -cn --arg territory_id "$TERRITORY_ID" --arg params "$PARAMS"               '{territory_id:$territory_id,params:$params,checkpoint_run_id:"",from_stage:"M01",execution_mode:"from_start"}'               > .ddd-checkpoint-selection/seleccion_checkpoint.json
+            {
+              echo "checkpoint_run_id="
+              echo "from_stage=M01"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          target_num="$((10#${TO_STAGE#M}))"
+          if [[ "$CHECKPOINT_POLICY" == require_m06 ]]; then
+            search_from=6
+            search_to=6
+          elif [[ "$CHECKPOINT_POLICY" == latest_through_m06 ]]; then
+            search_from=6
+            search_to=1
+          elif [[ "$CHECKPOINT_POLICY" == latest_before_target ]]; then
+            # El usuario ha elegido explícitamente cómo ejecutar 02.5. Esa elección
+            # debe ejecutarse siempre: reutilizamos como máximo M04 y recalculamos
+            # optimización + consolidación, tanto para Canónico como para GerryChain.
+            search_from=4
+            search_to=1
+          else
+            search_from=$target_num
+            search_to=1
+          fi
+          mkdir -p .ddd-checkpoint-selection
+          : > .ddd-checkpoint-selection/checkpoints_descartados.jsonl
+          api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
+          mapfile -t run_ids < <(gh api "$api" --jq '.workflow_runs | sort_by(.created_at) | reverse | .[].id')
+
+          record_discard() {
+            local run_id="$1" stage="$2" reason="$3"
+            jq -cn --arg run_id "$run_id" --arg stage "$stage" --arg reason "$reason" \
+              '{run_id:$run_id,stage:$stage,reason:$reason}' >> .ddd-checkpoint-selection/checkpoints_descartados.jsonl
+          }
+
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            jq -e --arg n "ddd-decision-$run_id" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            tmp_decision="$(mktemp -d)"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-decision-$run_id" --dir "$tmp_decision" >/dev/null 2>&1; then
+              rm -rf "$tmp_decision"; continue
+            fi
+            decision="$(find "$tmp_decision" -name decision.json -type f -print -quit)"
+            if [[ -z "$decision" ]]; then
+              record_discard "$run_id" decision "decision.json ausente"
+              rm -rf "$tmp_decision"; continue
+            fi
+            if [[ "$(jq -r '.territory_id // empty' "$decision")" != "$TERRITORY_ID" ]]; then
+              rm -rf "$tmp_decision"; continue
+            fi
+            if [[ "$(jq -r '.params // empty' "$decision")" != "$PARAMS" ]]; then
+              record_discard "$run_id" decision "contrato o edición distintos"
+              rm -rf "$tmp_decision"; continue
+            fi
+            rm -rf "$tmp_decision"
+
+            for ((stage_num=search_from; stage_num>=search_to; stage_num--)); do
+              stage="M$(printf '%02d' "$stage_num")"
+              artifact_name="ddd-state-$run_id-$stage"
+              jq -e --arg n "$artifact_name" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+              tmp_state="$(mktemp -d)"
+              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp_state" >/dev/null 2>&1; then
+                record_discard "$run_id" "$stage" "no se pudo recuperar el checkpoint"
+                rm -rf "$tmp_state"; continue
+              fi
+              source_dir="$(find "$tmp_state" -type f -path '*/sources/manifest.json' -printf '%h\n' | sort | head -1)"
+              if [[ -z "$source_dir" ]]; then
+                record_discard "$run_id" "$stage" "sources/manifest.json ausente"
+                rm -rf "$tmp_state"; continue
+              fi
+
+              candidate_json="$tmp_state/validacion_checkpoint.json"
+              set +e
+              python -m herramientas.seleccionar_checkpoint_productivo \
+                --params "$PARAMS" --package "$source_dir" --state-root "$tmp_state" \
+                --run-id "$run_id" --stage "$stage" --root-dir . > "$candidate_json"
+              validation_rc=$?
+              set -e
+              if (( validation_rc == 0 )); then
+                requires_derivation="$(jq -r '.requires_derivation // false' "$candidate_json")"
+                if [[ "$CHECKPOINT_POLICY" == latest_before_target && "$stage_num" -ge "$target_num" && "$requires_derivation" != true ]]; then
+                  record_discard "$run_id" "$stage" "checkpoint no anterior al objetivo y sin derivación requerida"
+                  rm -rf "$tmp_state"
+                  continue
+                fi
+                cp "$candidate_json" .ddd-checkpoint-selection/checkpoint_seleccionado.json
+                if [[ "$requires_derivation" == true ]]; then
+                  rm -rf .ddd-derived-checkpoint
+                  python herramientas/derivar_checkpoint_acumulado.py \
+                    --params "$PARAMS" --state-root "$tmp_state" \
+                    --target-stage M04 --output .ddd-derived-checkpoint \
+                    > .ddd-checkpoint-selection/derivacion_checkpoint.json
+                  checkpoint_run_id="$GITHUB_RUN_ID"
+                  from_stage="$(jq -r '.from_stage' "$candidate_json")"
+                  echo "derived_checkpoint=true" >> "$GITHUB_OUTPUT"
+                  echo "derived_from_run_id=$run_id" >> "$GITHUB_OUTPUT"
+                else
+                  checkpoint_run_id="$run_id"
+                  from_stage="$(jq -r '.from_stage // empty' "$candidate_json")"
+                  [[ -n "$from_stage" ]] || from_stage="M$(printf '%02d' "$((stage_num+1))")"
+                  echo "derived_checkpoint=false" >> "$GITHUB_OUTPUT"
+                fi
+                rm -rf "$tmp_state"
+                break 2
+              elif (( validation_rc == 2 )); then
+                reason="$(jq -r '.reason // "validación de fuentes rechazada"' "$candidate_json" 2>/dev/null || echo 'validación de fuentes rechazada')"
+                record_discard "$run_id" "$stage" "$reason"
+                rm -rf "$tmp_state"
+                continue
+              else
+                echo "::error::Falló el validador de checkpoint para run $run_id, $stage (rc=$validation_rc)."
+                cat "$candidate_json" || true
+                rm -rf "$tmp_state"
+                exit "$validation_rc"
+              fi
+            done
+          done
+
+          if [[ "$CHECKPOINT_POLICY" == require_m06 && -z "$checkpoint_run_id" ]]; then
+            echo "::error::Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06."
+            exit 44
+          fi
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('.ddd-checkpoint-selection/checkpoints_descartados.jsonl')
+          rows=[json.loads(line) for line in p.read_text(encoding='utf-8').splitlines() if line.strip()]
+          Path('.ddd-checkpoint-selection/checkpoints_descartados.json').write_text(
+              json.dumps(rows,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+          jq -cn --arg checkpoint_run_id "$checkpoint_run_id" --arg from_stage "$from_stage" \
+            --arg territory_id "$TERRITORY_ID" --arg params "$PARAMS" \
+            '{territory_id:$territory_id,params:$params,checkpoint_run_id:$checkpoint_run_id,from_stage:$from_stage}' \
+            > .ddd-checkpoint-selection/seleccion_checkpoint.json
+          {
+            echo "checkpoint_run_id=$checkpoint_run_id"
+            echo "from_stage=$from_stage"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publicar checkpoint M04 derivado
+        if: ${{ steps.checkpoint.outputs.derived_checkpoint == 'true' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-state-${{ github.run_id }}-M04${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: .ddd-derived-checkpoint
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Recuperar evidencia pre-M04 explícita
+        if: ${{ inputs.generation_preflight_artifact_name != '' }}
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.generation_preflight_artifact_name }}
+          path: .ddd-generation-preflight
+
+      - name: Validar puerta efectiva antes de Formación inicial
+        if: ${{ inputs.require_generation_gate }}
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          GENERATION_PREFLIGHT_ARTIFACT_NAME: ${{ inputs.generation_preflight_artifact_name }}
+          SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
+          SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+          SOURCE_PACKAGE_ARTIFACT_SHA256: ${{ inputs.source_package_artifact_sha256 }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import yaml
+          from herramientas.resolver_ejecucion_completa import generation_enablement
+
+          root = Path(".")
+          env = __import__("os").environ
+          catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
+          territory_id = env["TERRITORY_ID"]
+          edition = env["EDITION"]
+          row = next(r for r in (catalog.get("territories") or []) if r.get("territory_id") == territory_id)
+          state = (row.get("editions") or {}).get(edition) or {}
+          evidence = None
+          preparation_evidence = state.get("preparation_evidence") or {}
+          explicit_name = env.get("GENERATION_PREFLIGHT_ARTIFACT_NAME", "")
+          if explicit_name:
+              candidates = sorted((root / ".ddd-generation-preflight").rglob("*.json"))
+              if len(candidates) != 1:
+                  raise SystemExit(f"GENERATION_CONTRACT_BLOCK: evidencia pre-M04 explícita no única: {len(candidates)}")
+              evidence = json.loads(candidates[0].read_text(encoding="utf-8"))
+              expected_run = env.get("SOURCE_PACKAGE_RUN_ID", "")
+              expected_artifact = env.get("SOURCE_PACKAGE_ARTIFACT_NAME", "")
+              expected_digest = env.get("SOURCE_PACKAGE_ARTIFACT_SHA256", "").removeprefix("sha256:")
+              source = evidence.get("source") or {}
+              source_run = source.get("run_id", evidence.get("run_id"))
+              if str(source_run or "") != expected_run:
+                  raise SystemExit("GENERATION_CONTRACT_BLOCK: run de fuente ligado a evidencia pre-M04 no coincide con la fuente validada")
+              if str(source.get("artifact_name") or "") != expected_artifact:
+                  raise SystemExit("GENERATION_CONTRACT_BLOCK: artefacto de evidencia pre-M04 no coincide con la fuente validada")
+              if str(source.get("artifact_sha256") or "").removeprefix("sha256:") != expected_digest:
+                  raise SystemExit("GENERATION_CONTRACT_BLOCK: digest de evidencia pre-M04 no coincide con la fuente validada")
+              preparation_evidence = {
+                  "run_id": evidence.get("run_id"),
+                  "artifact_name": source.get("artifact_name"),
+                  "artifact_sha256": source.get("artifact_sha256"),
+                  "package_sha256": source.get("package_sha256"),
+                  "compatibility_identity_sha256": source.get("compatibility_identity_sha256"),
+                  "population_year": source.get("population_year"),
+                  "section_year": source.get("section_year"),
+              }
+          else:
+              evidence_path = ((state.get("evidence") or {}).get("generation_preflight"))
+              if evidence_path:
+                  evidence = json.loads((root / evidence_path).read_text(encoding="utf-8"))
+          gate = generation_enablement(
+              root_dir=root,
+              contract_path=state.get("contract_path"),
+              territory_id=territory_id,
+              certified_product_ready=bool(state.get("territorial_product_available")),
+              first_generation_evidence=evidence,
+              preparation_evidence=preparation_evidence,
+              require_source=True,
+          )
+          if not gate.get("allowed"):
+              raise SystemExit("GENERATION_CONTRACT_BLOCK: " + str(gate.get("reason") or gate))
+          print(json.dumps(gate, ensure_ascii=False))
+          PY
+
+      - id: source_package
+        name: Resolver paquete territorial preparado
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          CHECKPOINT_RUN_ID: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
+          PREPARED_SOURCE_RUN_ID: ${{ steps.resolve.outputs.prepared_source_run_id }}
+          PREPARED_SOURCE_ARTIFACT_NAME: ${{ steps.resolve.outputs.prepared_source_artifact_name }}
+          OVERRIDE_SOURCE_RUN_ID: ${{ inputs.source_package_run_id }}
+          OVERRIDE_SOURCE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+        run: |
+          set -euo pipefail
+          # La declaración efectiva es la que acredita el catálogo; config/ es solo el valor por omisión.
+          SOURCE_DECLARATION="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$EDITION" | jq -r '.territorial_source_declaration // empty')"
+          SOURCE_DECLARATION="${SOURCE_DECLARATION:-territorios/$TERRITORY_ID/config/fuentes_oficiales.yaml}"
+          export SOURCE_DECLARATION
+          if [[ -n "$CHECKPOINT_RUN_ID" ]]; then
+            echo "run_id=" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          validate_candidate() {
+            local run_id="$1" artifact_name="$2" tmp
+            [[ -n "$run_id" && -n "$artifact_name" ]] || return 1
+            tmp="$(mktemp -d)"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
+              rm -rf "$tmp"
+              return 1
+            fi
+            read -r source_edition population_year section_year < <(python - "$SOURCE_DECLARATION" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
+          t=d.get("territory") or {}
+          edition=t.get("edition")
+          population=t.get("population_year", t.get("source_year"))
+          section=t.get("section_year", t.get("source_year"))
+          if edition in (None,"") or population in (None,"") or section in (None,""):
+              raise SystemExit("La declaración debe fijar edition, population_year y section_year")
+          print(edition, population, section)
+          PY
+            )
+            [[ "$source_edition" == "$EDITION" ]] || return 1
+            if python -m herramientas.seleccionar_paquete_fuentes \
+              --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$source_edition" \
+              --population-year "$population_year" --section-year "$section_year" >/dev/null; then
+              echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+              echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+              rm -rf "$tmp"
+              return 0
+            fi
+            rm -rf "$tmp"
+            return 1
+          }
+
+          if [[ -n "$OVERRIDE_SOURCE_RUN_ID" || -n "$OVERRIDE_SOURCE_ARTIFACT_NAME" ]]; then
+            if validate_candidate "$OVERRIDE_SOURCE_RUN_ID" "$OVERRIDE_SOURCE_ARTIFACT_NAME"; then
+              exit 0
+            fi
+            echo "::error::El paquete territorial explícito no es válido; se prohíbe sustituirlo por el catálogo."
+            exit 46
+          fi
+          if validate_candidate "$PREPARED_SOURCE_RUN_ID" "$PREPARED_SOURCE_ARTIFACT_NAME"; then
+            exit 0
+          fi
+
+          prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
+          mapfile -t candidates < <(
+            gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100" |
+              jq -r --arg p "$prefix" '.artifacts[]? | select((.name|startswith($p)) and (.expired|not)) | "\(.workflow_run.id)|\(.name)"'
+          )
+          for candidate in "${candidates[@]}"; do
+            run_id="${candidate%%|*}"
+            artifact_name="${candidate#*|}"
+            [[ "$run_id" == "$PREPARED_SOURCE_RUN_ID" && "$artifact_name" == "$PREPARED_SOURCE_ARTIFACT_NAME" ]] && continue
+            if validate_candidate "$run_id" "$artifact_name"; then
+              exit 0
+            fi
+          done
+
+          echo "::error::La generación requiere datos territoriales preparados, íntegros y de la misma edición."
+          exit 46
+
+      - name: Publicar decisión de reanudación
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-checkpoint-selection-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: .ddd-checkpoint-selection
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+  ruta:
+    name: Generar y certificar distritos
+    needs: resolver_interfaz
+    uses: ./.github/workflows/_reutilizable-generacion-territorial.yml
+    secrets: inherit
+    with:
+      params: ${{ needs.resolver_interfaz.outputs.params }}
+      mode: execute
+      from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
+      to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
+      checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
+      source_package_run_id: ${{ needs.resolver_interfaz.outputs.source_package_run_id }}
+      source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
+      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+      source_ref: ${{ inputs.source_ref }}
+      persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}
+      optimization_algorithm: ${{ inputs.optimization_algorithm }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}
+      gerrychain_entrypoint: ${{ inputs.optimization_algorithm == 'GerryChain 50' && 'gerrychain_50' || inputs.gerrychain_entrypoint }}
+      require_unique_hashes: ${{ inputs.optimization_algorithm == 'GerryChain 50' || inputs.require_unique_hashes }}

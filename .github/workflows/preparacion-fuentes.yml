@@ -1,13 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.3
+# VERSIÓN: 1.4.4
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-10-28
 # ESTADO: candidato
 # CAMBIOS: en reutilización ordinaria, si el artefacto registrado caducó o fue eliminado, vuelve a adquirir la fuente oficial en vez de fallar (la recuperación exacta sigue bloqueando); el aviso de PENDING solo se emite si la preparación tuvo éxito.
 # MOTIVO: los artefactos de Actions caducan y bloqueaban "Reutilizar progreso existente" (Andalucía, run 40604585745; Comunidad Valenciana, run 40604791319).
 # CAMBIOS 1.4.3: opción del territorio piloto «Congreso Huesca».
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.2_20261030.yml
+# CAMBIOS 1.4.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.3_20261031.yml
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -61,6 +62,54 @@ on:
           - 18 Ceuta
           - 19 Melilla
           - Congreso Huesca
+          - Congreso Álava
+          - Congreso Albacete
+          - Congreso Alicante
+          - Congreso Almería
+          - Congreso Ávila
+          - Congreso Badajoz
+          - Congreso Barcelona
+          - Congreso Burgos
+          - Congreso Cáceres
+          - Congreso Cádiz
+          - Congreso Castellón
+          - Congreso Ciudad Real
+          - Congreso Córdoba
+          - Congreso La Coruña
+          - Congreso Cuenca
+          - Congreso Gerona
+          - Congreso Granada
+          - Congreso Guadalajara
+          - Congreso Guipúzcoa
+          - Congreso Huelva
+          - Congreso Jaén
+          - Congreso León
+          - Congreso Lérida
+          - Congreso La Rioja
+          - Congreso Lugo
+          - Congreso Madrid
+          - Congreso Málaga
+          - Congreso Murcia
+          - Congreso Navarra
+          - Congreso Orense
+          - Congreso Asturias
+          - Congreso Palencia
+          - Congreso Pontevedra
+          - Congreso Salamanca
+          - Congreso Cantabria
+          - Congreso Segovia
+          - Congreso Sevilla
+          - Congreso Soria
+          - Congreso Tarragona
+          - Congreso Teruel
+          - Congreso Toledo
+          - Congreso Valencia
+          - Congreso Valladolid
+          - Congreso Vizcaya
+          - Congreso Zamora
+          - Congreso Zaragoza
+          - Congreso Ceuta
+          - Congreso Melilla
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}
   cancel-in-progress: false

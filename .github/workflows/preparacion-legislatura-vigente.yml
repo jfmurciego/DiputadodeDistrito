@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-legislatura-vigente.yml
-# VERSIÓN: 1.0.3
+# VERSIÓN: 1.0.4
 # NOMBRE DE VERSIÓN: Cola durable de operaciones con nombre por territorio
 # FECHA: 2026-10-29
 # ESTADO: candidato
@@ -9,7 +9,8 @@
 #   1.0.1: exclusión mutua y hasta 100 ejecuciones pendientes con queue: max.
 # MOTIVO: el 00 encadena la activación del par y debe esperar a la suya, no a la de otro territorio.
 # CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
-# ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.2_20261030.yml
+# CAMBIOS 1.0.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
+# ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.3_20261031.yml
 name: '- Activación de Legislatura Vigente'
 run-name: "Activación de Legislatura Vigente · ${{ inputs.territory || 'todos' }} · ${{ inputs.operation || 'plan' }}"
 
@@ -43,6 +44,54 @@ on:
           - 18 Ceuta
           - 19 Melilla
           - Congreso Huesca
+          - Congreso Álava
+          - Congreso Albacete
+          - Congreso Alicante
+          - Congreso Almería
+          - Congreso Ávila
+          - Congreso Badajoz
+          - Congreso Barcelona
+          - Congreso Burgos
+          - Congreso Cáceres
+          - Congreso Cádiz
+          - Congreso Castellón
+          - Congreso Ciudad Real
+          - Congreso Córdoba
+          - Congreso La Coruña
+          - Congreso Cuenca
+          - Congreso Gerona
+          - Congreso Granada
+          - Congreso Guadalajara
+          - Congreso Guipúzcoa
+          - Congreso Huelva
+          - Congreso Jaén
+          - Congreso León
+          - Congreso Lérida
+          - Congreso La Rioja
+          - Congreso Lugo
+          - Congreso Madrid
+          - Congreso Málaga
+          - Congreso Murcia
+          - Congreso Navarra
+          - Congreso Orense
+          - Congreso Asturias
+          - Congreso Palencia
+          - Congreso Pontevedra
+          - Congreso Salamanca
+          - Congreso Cantabria
+          - Congreso Segovia
+          - Congreso Sevilla
+          - Congreso Soria
+          - Congreso Tarragona
+          - Congreso Teruel
+          - Congreso Toledo
+          - Congreso Valencia
+          - Congreso Valladolid
+          - Congreso Vizcaya
+          - Congreso Zamora
+          - Congreso Zaragoza
+          - Congreso Ceuta
+          - Congreso Melilla
       operation:
         description: Planificar o preparar un único territorio
         required: true
