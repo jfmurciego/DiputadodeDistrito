@@ -1673,6 +1673,7 @@ territories:
         source_commit: 19ca8fade9b8034a5a228cae1acc29731aa4d828
       evidence:
         electoral_source: territorios/congreso_madrid/evidencia/fuentes_electorales/2025/c6978e2a5cb956599067eeb70492424862f94a8275616611bd65fc95b9fb9586/41239871833/receipt.json
+        generation_preflight: territorios/congreso_madrid/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_malaga
   name: Congreso Málaga

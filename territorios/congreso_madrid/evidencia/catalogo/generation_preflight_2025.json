@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_madrid",
+  "territory_name": "Congreso Madrid",
+  "edition": "2025",
+  "run_id": 41244835816,
+  "source_commit": "77d027747bc3005c219ef49312d2ca54cbc9b9fd",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41244835816,
+    "artifact_name": "ddd-source-package-congreso_madrid-2025-41244835816",
+    "artifact_sha256": "27e42f529e0967c1e6b5b1975fe0526385e07e9279612c2674c878c0a8b72dbe",
+    "package_sha256": "d9ba7fdb4684c53feadb15392aa96986e9d0675e8bc08d4c6a60f66e2b63feef",
+    "compatibility_identity_sha256": "3b26dbaff94f8beb869d6e2a1cbef489558e133f03c70e4eb4aa9a3d6c4c06b4",
+    "territorial_identity_sha256": "d1601961220191226b90af97e5124402486aa3d6a0475d12bbe93aecff143d97",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
