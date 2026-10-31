@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_guadalajara",
+  "territory_name": "Congreso Guadalajara",
+  "edition": "2025",
+  "run_id": 41236816482,
+  "artifact_name": "ddd-state-41236816482-M06",
+  "artifact_sha256": "2ba55b2ac52125af032d7b85ae615d8a52bf574b15e45bf8c34f1c0d1676a858",
+  "source_commit": "79e943d21c6e1210b4390185ddd8b0245012209b",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_guadalajara/evidencia/generaciones_m06/41236816482.json"
+}

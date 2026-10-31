@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13058010120,
+      "artifact_name": "ddd-audit-41236816482",
+      "artifact_sha256": "c3217df86403a425a5561c192eef1794022fd5da4b6973ce207a634120c3a3d2",
+      "run_id": 41236816482,
+      "size_in_bytes": 3054
+    },
+    "m04": {
+      "artifact_id": 13057347858,
+      "artifact_name": "ddd-state-41236816482-M04",
+      "artifact_sha256": "da083778c4b436429c6108c1c65b64569cc8f8837c84be1f3fbe94b969a72168",
+      "run_id": 41236816482,
+      "size_in_bytes": 77669102
+    },
+    "m05": {
+      "artifact_id": 13057178358,
+      "artifact_name": "ddd-state-41236816482-M05",
+      "artifact_sha256": "9218a97517224f0cfa9975c8f5a79a08a1c3acfadf2012c3f9f3624298faaab0",
+      "run_id": 41236816482,
+      "size_in_bytes": 78351734
+    },
+    "m06": {
+      "artifact_id": 13057381834,
+      "artifact_name": "ddd-state-41236816482-M06",
+      "artifact_sha256": "2ba55b2ac52125af032d7b85ae615d8a52bf574b15e45bf8c34f1c0d1676a858",
+      "run_id": 41236816482,
+      "size_in_bytes": 79195210
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "cc10c900824dae08b49de386332c072bfe7b4f94577c5f6cb3e1340eca1180d4",
+        "size_in_bytes": 490
+      },
+      "congreso_guadalajara_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "1f60bb34beba02c227925175b3fa687221881f8fbe8d4f52b1cf415581bf8407",
+        "size_in_bytes": 4269
+      },
+      "optimization_execution.json": {
+        "sha256": "02b183548811b531f6c9a3cdbe9f7697c20b1d3dc2e5ed9ef34c543e8c30a8f0",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "181ff44e4929f56f14c0c703795bbfee625c7326a8bed1298fc2bb3199257dd8",
+        "size_in_bytes": 1334
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "181ff44e4929f56f14c0c703795bbfee625c7326a8bed1298fc2bb3199257dd8",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_guadalajara/config/congreso_guadalajara_2025.yaml",
+    "sha256": "8d9b9de1b5444d158a86c4790fa83411a25f671d92ae8683f3de5a634d3d0358"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "2b2834362488c59e28993a636fe489ea9cae4a3b53a1f58aad9526a108b6f6f5",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "79e943d21c6e1210b4390185ddd8b0245012209b",
+    "edition": "2025",
+    "territory_id": "congreso_guadalajara",
+    "territory_name": "Congreso Guadalajara",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41236816482,
+    "workflow_sha": "2fa2d24ea024244737ae89e97380142a7c7cef14"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13057347858,
+      "artifact_name": "ddd-state-41236816482-M04",
+      "artifact_sha256": "da083778c4b436429c6108c1c65b64569cc8f8837c84be1f3fbe94b969a72168",
+      "run_id": 41236816482,
+      "size_in_bytes": 77669102
+    },
+    "source_manifest_sha256": "5134f397c26efa6e37285994b137954cdfc7eff37a476520486dc65d8bd385dd",
+    "source_package_artifact": {
+      "artifact_id": 13056975362,
+      "artifact_name": "ddd-source-package-congreso_guadalajara-2025-41236816482",
+      "artifact_sha256": "d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f",
+      "run_id": 41236816482,
+      "size_in_bytes": 76290367
+    }
+  },
+  "manifest_sha256": "2cd746a0702cd4a6c38d398a54e4530ed9e10e2ea984208c0daf7e74efad01a3",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

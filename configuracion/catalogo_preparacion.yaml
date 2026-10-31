@@ -1120,12 +1120,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41236816482
+        stage: M06
       preparation_evidence:
         run_id: 41236816482
         artifact_name: ddd-source-package-congreso_guadalajara-2025-41236816482
@@ -1142,6 +1144,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_guadalajara/evidencia/fuentes_electorales/2025/f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03/41236827273/receipt.json
         generation_preflight: territorios/congreso_guadalajara/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_guadalajara/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_guipuzcoa
   name: Congreso Guipúzcoa
