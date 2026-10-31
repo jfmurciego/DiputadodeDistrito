@@ -1649,12 +1649,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41235620157
-        stage: M06
+        run_id: 41241846017
+        stage: M08
       preparation_evidence:
         run_id: 41235620157
         artifact_name: ddd-source-package-congreso_segovia-2025-41235620157
@@ -1673,6 +1673,7 @@ territories:
         generation_preflight: territorios/congreso_segovia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_segovia/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_segovia/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json
+        electoral_product: territorios/congreso_segovia/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_sevilla
   name: Congreso Sevilla
