@@ -1562,11 +1562,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_zamora/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json
 - territory_id: congreso_zaragoza
   name: Congreso Zaragoza
   editions:
