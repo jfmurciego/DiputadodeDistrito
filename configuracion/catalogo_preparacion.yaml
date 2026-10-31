@@ -1844,7 +1844,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_asturias/evidencia/fuentes_electorales/2025/815921ec4064eeba680988044d82905e5cade7b6b7eda8eb6e4421234ae3a825/41239897911/receipt.json
         generation_preflight: territorios/congreso_asturias/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_palencia
   name: Congreso Palencia
   editions:
