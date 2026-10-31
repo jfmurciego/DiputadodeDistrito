@@ -5,10 +5,12 @@
   "territory_name": "Congreso Segovia",
   "edition": "2025",
   "run_id": 41235620157,
-  "source_commit": "66ad5341dc947ff01e71e741dd7cd0d1f4f0d8b2",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "c908793e2e3844d74ed9565c86235e45b9c8e61b",
+  "artifact_name": "ddd-state-41235620157-M03U",
+  "artifact_sha256": "2d7024e1fdda6b25374023a6acd63d5a2a7251562b004db6d6b4b59f393f6f28",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41235620157,
     "artifact_name": "ddd-source-package-congreso_segovia-2025-41235620157",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41235620157-M03",
+    "artifact_sha256": "9d98ee32b9b73fe4932c74aec86224405947cfc6e87d1a1d1556e8722dc8f8df",
+    "module_version": "7.5.0",
+    "nodes": 276,
+    "edges": 746,
+    "population": 155332,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41235620157",
+    "job_artifact_sha256": "4af3eaff4d44da2e90c8b5af39351d8def6adb0a94fd0b6f3556a74f30c8d156",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/congreso_segovia_2025/congreso_segovia_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 155332,
+      "target_section_count": 276,
+      "package_sha256": "eca15937f80c9222c45599aaf9cc52862f0246c259c558c025185f02a3911361",
+      "compatibility_report_sha256": "efade81924ea9363ddc1c5763dfa221b095fb84eb983a50318527e1648714726",
+      "compatibility_identity_sha256": "0f82ba4031c99c2c975b0cc626aabd256a898d0755dfa0788dbfcfb3b47b26a9"
+    },
+    "topology_accreditation": null,
+    "k_districts": 1,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_segovia/.cache/ddd/preparacion/{run_name}/congreso_segovia_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 1,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
