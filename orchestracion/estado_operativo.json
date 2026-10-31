@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-30T16:19:32.816623+00:00",
+  "generated_at": "2026-10-31T10:59:26.010317+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 19,
-      "action_required": 1,
+      "admissible": 20,
+      "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 19,
+      "activated": 20,
       "activable": 0,
       "territorial_pending": 0,
-      "electoral_pending": 1,
+      "electoral_pending": 0,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 20,
       "years_resolved": 20,
       "territorial_source": 20,
-      "electoral_source": 19,
-      "durable_pair": 19
+      "electoral_source": 20,
+      "durable_pair": 20
     },
     "territories": [
       {
@@ -1039,20 +1039,20 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_huesca/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json",
+            "pair_sha256": "e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1060,13 +1060,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       }
     ]
   },
@@ -1374,10 +1368,10 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41037133327,
       "last_run": {
-        "run_id": 41037133327,
+        "run_id": 41194218470,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "stopped_at": "05 · Publicación del Visor",
         "reason": "ver log del run",
         "publication": "not_requested"
       },
@@ -1557,12 +1551,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41062562553,
       "last_run": {
-        "run_id": 41038985286,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
-        "reason": "ver log del run",
-        "publication": "not_requested"
+        "run_id": 41062562553,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
       "stage": "M08",
       "edition": "2025",
@@ -1679,10 +1673,10 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41042675119,
       "last_run": {
-        "run_id": 41042675119,
+        "run_id": 41194221261,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "stopped_at": "05 · Publicación del Visor",
         "reason": "ver log del run",
         "publication": "not_requested"
       },
@@ -2222,17 +2216,17 @@
       "name": "Congreso Huesca",
       "ft": "green",
       "g": "green",
-      "fe": "gray",
-      "re": "gray",
+      "fe": "yellow",
+      "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41057319037,
       "last_run": {
-        "run_id": 41057319037,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "run_id": 41192326130,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "01 · Preparación de Datos Territoriales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -2261,7 +2255,18 @@
           "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/41057319037.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_huesca",
+          "territory_name": "Congreso Huesca",
+          "edition": "2025",
+          "run_id": 41194447427,
+          "artifact_name": "ddd-state-41194447427-M08",
+          "artifact_sha256": "a72510e3efecb33b97fccb709a6c9131cb4b77f0d692e61debc17236e3f538eb",
+          "source_commit": "310580a5f74db2b916c8eec7904d41861ee3b318",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C22",
       "display_name": "Congreso Huesca",
@@ -2368,6 +2373,12 @@
       "territory": "11 Extremadura",
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Congreso Huesca",
+      "territory_id": "congreso_huesca",
+      "autonomous_community_code_ine": "C22",
       "action": "incorporar resultados electorales"
     }
   ],
