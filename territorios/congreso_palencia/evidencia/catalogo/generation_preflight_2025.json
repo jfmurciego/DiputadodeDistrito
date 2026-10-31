@@ -5,10 +5,10 @@
   "territory_name": "Congreso Palencia",
   "edition": "2025",
   "run_id": 41235453115,
-  "source_commit": "0bd9f28d3a8d68076591212c204a1ed96e98cebb",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "85cd377c343019c74ce17668b96bd4d5b42dcae3",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 41235453115,
     "artifact_name": "ddd-source-package-congreso_palencia-2025-41235453115",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
