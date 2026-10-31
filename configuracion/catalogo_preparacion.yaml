@@ -2517,4 +2517,5 @@ territories:
         electoral_source: territorios/congreso_melilla/evidencia/fuentes_electorales/2025/2cceadcf877ec84018cd247c26f0cc744e4e54e7829c243f4cd6af6b1bf1c3b4/41236491113/receipt.json
         generation_preflight: territorios/congreso_melilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_melilla/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_melilla/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json
       generation_enabled: true
