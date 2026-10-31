@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_gerona",
+  "territory_name": "Congreso Gerona",
+  "edition": "2025",
+  "run_id": 41239820081,
+  "artifact_name": "ddd-electoral-package-congreso_gerona-2025-41239820081",
+  "artifact_sha256": "b37c83cf3ee39ee827bc4d4d6bd7fa36fe0e2b1013a9b67d198cf9d29e06b8a5",
+  "source_commit": "79e943d21c6e1210b4390185ddd8b0245012209b",
+  "election_id": "congreso_gerona_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f"
+}
