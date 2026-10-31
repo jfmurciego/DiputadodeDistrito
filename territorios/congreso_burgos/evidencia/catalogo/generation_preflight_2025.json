@@ -5,10 +5,10 @@
   "territory_name": "Congreso Burgos",
   "edition": "2025",
   "run_id": 41240386898,
-  "source_commit": "dd8e3e6ce4e336056b6297d5d1c7d845acb06f44",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "a1796ed295f7daca3641dd470e13c0be95e10b84",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 41240386898,
     "artifact_name": "ddd-source-package-congreso_burgos-2025-41240386898",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
