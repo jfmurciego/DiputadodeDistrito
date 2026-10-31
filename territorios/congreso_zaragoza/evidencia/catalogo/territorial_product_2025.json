@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_zaragoza",
+  "territory_name": "Congreso Zaragoza",
+  "edition": "2025",
+  "run_id": 41243577758,
+  "artifact_name": "ddd-state-41243577758-M06",
+  "artifact_sha256": "b0c03700ef4492ba850952e3e182cde04a7939e8e4a1c1544cf2e1423fed336a",
+  "source_commit": "edf1eb284a1505ca5e6605195c54f17fb352bc91",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_zaragoza/evidencia/generaciones_m06/41243577758.json"
+}
