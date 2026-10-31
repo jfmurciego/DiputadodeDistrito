@@ -5,10 +5,12 @@
   "territory_name": "Congreso Jaén",
   "edition": "2025",
   "run_id": 41241896061,
-  "source_commit": "8589c662c5a080084a7ac50b5925a380decc03f2",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "5d989fec696b1595d5d03b3048af0765b1e72557",
+  "artifact_name": "ddd-state-41241896061-M03U",
+  "artifact_sha256": "50bee98b1c2f86a096fe48a483cd6ba8b4eecf9b1d4f81b9597e750e83aec49b",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41241896061,
     "artifact_name": "ddd-source-package-congreso_jaen-2025-41241896061",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41241896061-M03",
+    "artifact_sha256": "adfcc141b4d865efabb5282b99bbab74227ac4b37de1b08cc21d5d9b65dd4fe2",
+    "module_version": "7.5.0",
+    "nodes": 507,
+    "edges": 1294,
+    "population": 620637,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41241896061",
+    "job_artifact_sha256": "ec1cddfa6469ae238649a980a22094d7ce8e5e0c95009ab9db3c8ccf4dbfcb7c",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/congreso_jaen_2025/congreso_jaen_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 620637,
+      "target_section_count": 507,
+      "package_sha256": "0bba04d35fc1b9665cce27c8abc99d55b429f4fe8dc1edfc115cf7eaa26646d1",
+      "compatibility_report_sha256": "faa7a84aa5ed1cfa44c2738bcbda0510a6ac4710318bcdda1da20a1de6842234",
+      "compatibility_identity_sha256": "a26298aeefec728071c374606111feec379f8588083cc82740ab1ec31addcd21"
+    },
+    "topology_accreditation": null,
+    "k_districts": 5,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_jaen/.cache/ddd/preparacion/{run_name}/congreso_jaen_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 5,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
