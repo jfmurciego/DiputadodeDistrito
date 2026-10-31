@@ -2242,6 +2242,7 @@ territories:
         electoral_source: territorios/congreso_teruel/evidencia/fuentes_electorales/2025/672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240/41235977145/receipt.json
         generation_preflight: territorios/congreso_teruel/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_teruel/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_teruel/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json
       generation_enabled: true
 - territory_id: congreso_toledo
   name: Congreso Toledo
