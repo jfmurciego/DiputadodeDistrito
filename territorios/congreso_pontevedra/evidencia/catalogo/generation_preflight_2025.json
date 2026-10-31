@@ -5,10 +5,10 @@
   "territory_name": "Congreso Pontevedra",
   "edition": "2025",
   "run_id": 41243452235,
-  "source_commit": "999d970b9a9c2ddc3f5e8af1d1b097787c62c7af",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "25f960bf13b4c2d0cb0704a1934eb835e18dc12c",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 41243452235,
     "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41243452235",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
