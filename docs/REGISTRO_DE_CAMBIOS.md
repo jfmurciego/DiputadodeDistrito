@@ -1,26 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.50
-Fecha: 2026-10-30
-Alcance: piloto Congreso Huesca como territorio nuevo
+Versión: 1.0.51
+Fecha: 2026-10-31
+Alcance: fuente oficial Infoelectoral por mesa en la 03 (piloto Congreso Huesca)
 Estado: candidato
-Cambios/motivo: primer distrito nacional por el mismo flujo, motor y visor que los autonómicos
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.49_piloto_20261030.md
+Cambios/motivo: resultados definitivos del Congreso 23-07-2023 por mesa desde el ZIP oficial del Ministerio del Interior
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.50_infoelectoral_20261031.md
 -->
 
+## 2026-10-31 — 03 — fuente oficial Infoelectoral por mesa
 
-
-
-
-
-
-
-
-
-
-
-
-
+- `herramientas/fuente_infoelectoral_mesas.py` 1.0.0 (nuevo): resuelve el contrato y convierte el ZIP oficial por mesa (ficheros 09, 10 y 03) en el CSV largo del adaptador común; excluye el CERA y exige cuadre por mesa y totales.
+- `configuracion/contratos_infoelectoral.yaml` 1.0.0 (nuevo): contrato `congreso_huesca_2023-07-23` con URL, SHA-256 y totales verificados sobre el ZIP real; cuadran con la JEC menos el CERA.
+- `adaptador_minsait_csv.py`: parámetros `--source-class` y `--adapter-label` (por defecto, comportamiento anterior).
+- `preparacion-resultados-electorales.yml` 1.0.4: ruta `infoelectoral_mesas` con descarga, huella y conversión antes de Minsait.
+- Tests: `test_fuente_infoelectoral_mesas.py` (nuevo); `test_registro_electoral_comun.py` cuenta los contratos Infoelectoral como ruta y retira la exención del piloto.
 
 
 ## 2026-10-30 — Congreso — piloto Huesca (territorio nuevo)
