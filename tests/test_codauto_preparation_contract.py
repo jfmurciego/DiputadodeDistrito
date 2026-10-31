@@ -88,7 +88,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 self.assertEqual(options, expected)
                 self.assertTrue(all(" · " not in item for item in options))
 
-        for workflow in ("prueba-fuentes-oficiales.yml", "preparacion-legislatura-vigente.yml"):
+        for workflow in ("preparacion-legislatura-vigente.yml",):
             with self.subTest(workflow=workflow):
                 options = dispatch_inputs(WORKFLOWS / workflow)["territory"]["options"]
                 self.assertEqual(options, ["Todos", *expected])
@@ -157,21 +157,16 @@ class CodautoPreparationContractTests(unittest.TestCase):
         self.assertEqual(
             manual,
             [
-                "congreso-piloto-leon.yml",
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
-                "f10-preparacion-territorial-aislada.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
                 "preparacion-resultados-electorales.yml",
                 "produccion-distritos.yml",
-                "prueba-fuentes-oficiales.yml",
-                "prueba-openai.yml",
                 "publicar-version-mapa.yml",
                 "recuperar-producto-electoral-durable.yml",
-                "smoke-gerrychain-galicia.yml",
             ],
         )
 

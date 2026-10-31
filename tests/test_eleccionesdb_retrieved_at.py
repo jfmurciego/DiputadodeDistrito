@@ -289,7 +289,7 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
 
     def test_snapshot_carries_upstream_artifact_created_at(self):
         builder = (ROOT / "herramientas/construir_snapshot_eleccionesdb.py").read_text(encoding="utf-8")
-        workflow = (ROOT / ".github/workflows/diagnostico-eleccionesdb-grupo-a.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / "legacy/workflows/retirados_20261031/diagnostico-eleccionesdb-grupo-a.yml").read_text(encoding="utf-8")
         self.assertIn("ap.add_argument('--retrieved-at',required=True)", builder)
         self.assertIn("'retrieved_at':str(retrieved_at).strip()", builder)
         self.assertIn("artifact_created_at.txt", workflow)

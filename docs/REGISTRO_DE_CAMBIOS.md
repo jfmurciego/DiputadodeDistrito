@@ -1,12 +1,38 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.54
+Versión: 1.0.55
 Fecha: 2026-10-31
-Alcance: recuperación M08 con receipt declarado y Gestor de Campañas operativo
+Alcance: Actions sólo con workflows de producción
 Estado: candidato
-Cambios/motivo: el Gestor nunca arrancaba (startup_failure) y su selección por CODAUTO era poco usable
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.53_gestor_20261031.md
+Cambios/motivo: decisión del titular (31-10-2026): retirar diagnósticos, F10, pruebas y smokes del menú de Actions
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.54_retirada_20261031.md
 -->
+
+## 2026-10-31 — plataforma — workflows no productivos a legacy
+
+- 16 workflows pasan a `legacy/workflows/retirados_20261031/` con `git mv`:
+  - `congreso-piloto-leon`;
+  - `diagnostico-eleccionesdb-grupo-a`;
+  - `diagnostico-fuentes-electorales-pendientes`;
+  - `f10-electoral-receipts-asturias-galicia`;
+  - `f10-electoral-source-validation`;
+  - `f10-preparacion-territorial-aislada`;
+  - `prueba-fuentes-oficiales`;
+  - `prueba-openai`;
+  - `smoke-gerrychain-galicia`;
+  - `validar-poblacion-ine-2026-aragon`;
+  - `verificar-andalucia-2026-provisional`;
+  - `verificar-cataluna-2024`;
+  - `verificar_ign_temporal_2025`;
+  - `p0-verificacion-remota`;
+  - `publicar-checkpoint-cyl-m06` (sin llamador);
+  - `adquirir-siel-andalucia-2026` (sin llamador).
+- Quedan activos:
+  - 0, 00–05, la activación de legislatura y la recuperación del M08;
+  - los reutilizables y su orquestación;
+  - `publicar-version-mapa` (publicación con DOI);
+  - las comprobaciones de CI: pruebas, contratos y productos públicos.
+- Los tests de los workflows retirados validan la copia retirada; los inventarios de workflows visibles se reducen a los de producción.
 
 ## 2026-10-31 — 0 — Gestor de Campañas operativo
 

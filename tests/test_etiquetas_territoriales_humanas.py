@@ -144,8 +144,6 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
             with self.subTest(workflow=workflow):
                 self.assertEqual(dispatch_inputs(WORKFLOWS / workflow)[key]["options"], [*EXPECTED, *PILOTS])
 
-        source_test = dispatch_inputs(WORKFLOWS / "prueba-fuentes-oficiales.yml")["territory"]["options"]
-        self.assertEqual(source_test, ["Todos", *EXPECTED, *PILOTS])
 
     def test_planning_accepts_visible_label_without_changing_plan(self):
         kwargs = dict(

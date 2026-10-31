@@ -15,7 +15,7 @@ class CongressLeonPilotTests(unittest.TestCase):
     def test_pilot_workflow_isolated_from_publication_and_pages(self):
         from pathlib import Path
         root = Path(__file__).resolve().parents[1]
-        workflow = (root / ".github/workflows/congreso-piloto-leon.yml").read_text(encoding="utf-8")
+        workflow = (root / "legacy/workflows/retirados_20261031/congreso-piloto-leon.yml").read_text(encoding="utf-8")
         self.assertNotIn("pages: write", workflow)
         self.assertNotIn("deploy-pages", workflow)
         self.assertNotIn("_reutilizable-publicar-sitio", workflow)

@@ -24,7 +24,7 @@ from tests._raiz_congelada import frozen_root  # noqa: E402
 # Estado congelado en aee8215e: los recuentos y receipts exactos no dependen de las ejecuciones
 # completas posteriores, que reescriben catálogo y productos en main.
 ROOT = frozen_root()
-PATH = ROOT / '.github/workflows/f10-preparacion-territorial-aislada.yml'
+PATH = ROOT / 'legacy/workflows/retirados_20261031/f10-preparacion-territorial-aislada.yml'
 TERRITORIES = {'andalucia', 'aragon', 'castilla_y_leon', 'comunidad_valenciana', 'extremadura'}
 CHOICES = ['01 Andalucía', '02 Aragón', '07 Castilla y León', '10 Comunidad Valenciana', '11 Extremadura']
 
