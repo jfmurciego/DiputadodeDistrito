@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_pontevedra",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41243452235,
+  "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41243452235",
+  "artifact_sha256": "f3eaba8553bbf031bb407e1c6e849bc1742fabc3a5f4d26cbb0a258d19827959",
+  "package_sha256": "9b43e320e1feb06b939d2677c92e6e9c96de6acf3c7c5c8ba84523c14e28f239",
+  "source_commit": "c5331b03c60bde9b283977ba4c68319fb00e1699",
+  "source_declaration": "territorios/congreso_pontevedra/evidencia/fuentes_territoriales/2025/ab9b76b86732abf7ae39e98472393160b4c0c85d6b2411f82ea17a6d3932bdba/41243452235/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "ab9b76b86732abf7ae39e98472393160b4c0c85d6b2411f82ea17a6d3932bdba",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "37bc3d98b4ceff1ec9b99bf79a618e61722e7eb9685fee29619f6661056509c4",
+  "compatibility_identity_sha256": "cf50180054c031970d5a3462036e893198fba0560442d64f9f7323cfd4fd16b4"
+}
