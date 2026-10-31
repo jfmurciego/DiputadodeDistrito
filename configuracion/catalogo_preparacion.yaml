@@ -1732,20 +1732,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_ceuta/config/congreso_ceuta_2025.yaml
       territorial_source_declaration: territorios/congreso_ceuta/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41236313879
+        artifact_name: ddd-source-package-congreso_ceuta-2025-41236313879
+        artifact_sha256: c09be464c5afe9f7857aa9e6ebc94073ca1dab2968042d783bc507bdd92b76f9
+        package_sha256: 21b4d39b5b2da7c1ac237a5ca9db4fac7504b6fa29961ecbd3ca673f8ee5227b
+        receipt_path: territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/b3db2c5faf733e0bf055ce1d6bc3b259cbeb5ad4161e83021f031a0638f4bd44/41236313879/receipt.json
+        territorial_identity_sha256: b3db2c5faf733e0bf055ce1d6bc3b259cbeb5ad4161e83021f031a0638f4bd44
+        compatibility_report_sha256: 3e33ed5873de39140e8bf6109f6e86a07d51decf051522611fb59c0ff480552c
+        compatibility_identity_sha256: 353a951b62602d2ec0d6d39984950025bb0e199a433d4f774f173a68653cb176
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 6224f3d1c823388f1195bf6e6aa7b14459df63a1
       evidence:
         electoral_source: territorios/congreso_ceuta/evidencia/fuentes_electorales/2025/ddaa7e15da270b0590ad9ca79d4f6f83b4c4d0298b140408c8d7e639121b13ce/41236322923/receipt.json
+      generation_enabled: false
 - territory_id: congreso_melilla
   name: Congreso Melilla
   editions:
