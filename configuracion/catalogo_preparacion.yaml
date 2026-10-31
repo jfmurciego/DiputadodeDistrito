@@ -845,20 +845,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_almeria/config/congreso_almeria_2025.yaml
       territorial_source_declaration: territorios/congreso_almeria/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41242160179
+        artifact_name: ddd-source-package-congreso_almeria-2025-41242160179
+        artifact_sha256: 50605604d8979ecc8625a2cb92b30f76cffb8ec197642234c5a0bdd13c3dac2d
+        package_sha256: b360a877b4e64184ecf5002e30cf39a3d52a493cac09cbab79e4c7e5b8720121
+        receipt_path: territorios/congreso_almeria/evidencia/fuentes_territoriales/2025/ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183/41242160179/receipt.json
+        territorial_identity_sha256: ce84679b4ae3c362cf8c561ef8b1fb60823719eb603c96f6d4fa0b49f2336183
+        compatibility_report_sha256: 8578cacccc41275ae47338c67c13806d80f2bfa5cddf371ed143da3d2d900ec8
+        compatibility_identity_sha256: e4cdc40cc90a5e1abd1ffb1ea8bd1adec58d639516fecbd1f36b214e6787169f
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: b53dd1af35d21917f0218e3c9a04756b4da50292
       evidence:
         electoral_source: territorios/congreso_almeria/evidencia/fuentes_electorales/2025/4ec8ae00ed211a167735c2d8a9a21b56d8c4710c51c599b8fb2f5a9df35e680c/41239766467/receipt.json
+      generation_enabled: false
 - territory_id: congreso_avila
   name: Congreso Ávila
   editions:
