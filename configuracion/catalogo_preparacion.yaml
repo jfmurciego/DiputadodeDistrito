@@ -1305,20 +1305,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_la_rioja/config/congreso_la_rioja_2025.yaml
       territorial_source_declaration: territorios/congreso_la_rioja/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41240637295
+        artifact_name: ddd-source-package-congreso_la_rioja-2025-41240637295
+        artifact_sha256: cbb9e9fbfba6bfbf5b3e5502712e14e6f11a6e54ecc3ca228b3d32199af882f0
+        package_sha256: 7cc86a540e97a496c86b8747b935f028b8702817abee7637c61bc361043e5dea
+        receipt_path: territorios/congreso_la_rioja/evidencia/fuentes_territoriales/2025/fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826/41240637295/receipt.json
+        territorial_identity_sha256: fd93e7ca00c87e765ff70d80551e3e9e8610149c0db46da42a6337acd6543826
+        compatibility_report_sha256: b284f67d16ab0cd12cfaa224605c0fc1dc70f2b255e60d62d3396fa6f8a12af1
+        compatibility_identity_sha256: 3e2a2472847ecb46735593c374a0b9eea52c4c4c8ab56f49cd503c3b7080a64a
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 26387f9f17964a315e52ac3be299d6a8e4142b37
       evidence:
         electoral_source: territorios/congreso_la_rioja/evidencia/fuentes_electorales/2025/6e544aa5f7d7e5f16ffa23ff442d528a7948beb2bb2021526c16c8268b1c2886/41239859752/receipt.json
+      generation_enabled: false
 - territory_id: congreso_lugo
   name: Congreso Lugo
   editions:
