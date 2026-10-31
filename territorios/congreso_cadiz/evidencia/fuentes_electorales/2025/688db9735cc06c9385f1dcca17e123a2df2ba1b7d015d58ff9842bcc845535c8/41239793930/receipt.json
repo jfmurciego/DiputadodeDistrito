@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_cadiz",
+  "territory_name": "Congreso Cádiz",
+  "edition": "2025",
+  "run_id": 41239793930,
+  "artifact_name": "ddd-electoral-package-congreso_cadiz-2025-41239793930",
+  "artifact_sha256": "0f6a04efe3ab1fd56ecbcc39e421a2aa2d84ecdfb7067103fa86ae252411bd55",
+  "source_commit": "5218c0e9d47db27ed3ea8c937f8606c967225833",
+  "election_id": "congreso_cadiz_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "688db9735cc06c9385f1dcca17e123a2df2ba1b7d015d58ff9842bcc845535c8"
+}

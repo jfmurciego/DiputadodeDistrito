@@ -949,11 +949,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_cadiz/evidencia/fuentes_electorales/2025/688db9735cc06c9385f1dcca17e123a2df2ba1b7d015d58ff9842bcc845535c8/41239793930/receipt.json
 - territory_id: congreso_castellon
   name: Congreso Castellón
   editions:
