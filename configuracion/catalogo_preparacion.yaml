@@ -1626,6 +1626,7 @@ territories:
         source_commit: 77f053655ac35e403dad362c023e12b872428256
       evidence:
         electoral_source: territorios/congreso_salamanca/evidencia/fuentes_electorales/2025/98bbcaab7ca5b91879fbdf67f680ac886b0ae774212430c06e071fa4e190faad/41239908359/receipt.json
+        generation_preflight: territorios/congreso_salamanca/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_santa_cruz_de_tenerife
   name: Congreso Santa Cruz de Tenerife
