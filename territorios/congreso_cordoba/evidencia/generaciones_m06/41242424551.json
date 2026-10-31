@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13060508744,
+      "artifact_name": "ddd-audit-41242424551",
+      "artifact_sha256": "20eeab62d7419aa7b1c83e61d5a2e1f816423fe6d8635f8c94db00ae37768540",
+      "run_id": 41242424551,
+      "size_in_bytes": 3386
+    },
+    "m04": {
+      "artifact_id": 13061171123,
+      "artifact_name": "ddd-state-41242424551-M04",
+      "artifact_sha256": "2532522f1fabafdcc9b5916d758156c6633c181499920051b9847ed2c3f7758a",
+      "run_id": 41242424551,
+      "size_in_bytes": 78551608
+    },
+    "m05": {
+      "artifact_id": 13061350730,
+      "artifact_name": "ddd-state-41242424551-M05",
+      "artifact_sha256": "36878d53d57c4c6f48abce3f93ec8c3a58ccc0e7e96dda8ff5a107653edc22b0",
+      "run_id": 41242424551,
+      "size_in_bytes": 79419764
+    },
+    "m06": {
+      "artifact_id": 13061236509,
+      "artifact_name": "ddd-state-41242424551-M06",
+      "artifact_sha256": "4fe8eb92f31b09fb0e45b360d59e787606a508bd223edfb6fdbcccba4ce4b809",
+      "run_id": 41242424551,
+      "size_in_bytes": 80522431
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "b852a92c137b51dcf455ccc0b5619456a5c2a35a122fad42a6a6994013e22717",
+        "size_in_bytes": 478
+      },
+      "congreso_cordoba_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "2773d0c671fedd017c4dc51bea4a89272123541a8cbc1dd4b363637fcb00a915",
+        "size_in_bytes": 6625
+      },
+      "optimization_execution.json": {
+        "sha256": "cbd688e4c063abacdd9d93565d2c41298ecd200ed20b9dda8ec1f97d6c8adfde",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "993f51d070f2efe79b6a4507027625269c96d6018b13dda388d0fe82ec412b6b",
+        "size_in_bytes": 1312
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "993f51d070f2efe79b6a4507027625269c96d6018b13dda388d0fe82ec412b6b",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_cordoba/config/congreso_cordoba_2025.yaml",
+    "sha256": "4f180a11d7a30a8f172aab55b416908b2393278536863bf28caec1bfdfe550e8"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "af37cf84dae55c5a4249e6d7b385fc80bc52f9f0af882d1cee3497a76825d1d2",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "3f888590f7d18e072fb3c65ca7a4a5818aaa6d36",
+    "edition": "2025",
+    "territory_id": "congreso_cordoba",
+    "territory_name": "Congreso Córdoba",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41242424551,
+    "workflow_sha": "3c8987226976760910b7711b660979a7f5f84c78"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13061171123,
+      "artifact_name": "ddd-state-41242424551-M04",
+      "artifact_sha256": "2532522f1fabafdcc9b5916d758156c6633c181499920051b9847ed2c3f7758a",
+      "run_id": 41242424551,
+      "size_in_bytes": 78551608
+    },
+    "source_manifest_sha256": "ecdc44fd2ed2203f901ce4c328bef4160042894f296fc6a749069584554112a3",
+    "source_package_artifact": {
+      "artifact_id": 13059004006,
+      "artifact_name": "ddd-source-package-congreso_cordoba-2025-41242424551",
+      "artifact_sha256": "e5d35701bc33a7dd3dd81ae3dd5a5b3f990ba1882eb322595d86a85940d542e6",
+      "run_id": 41242424551,
+      "size_in_bytes": 76801054
+    }
+  },
+  "manifest_sha256": "397bfbcd2effadd04171f325aed0a98b8c4e4d14f32e3aeb92aee7a5ae2bd53d",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
