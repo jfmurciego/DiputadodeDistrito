@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:14:01.082464+00:00",
+  "generated_at": "2026-10-31T23:14:51.742152+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5194,7 +5194,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41240512324,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41240512324,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6823,7 +6830,18 @@
           "producer_manifest_path": "territorios/congreso_zamora/evidencia/generaciones_m06/41236140669.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_zamora",
+          "territory_name": "Congreso Zamora",
+          "edition": "2025",
+          "run_id": 41250479211,
+          "artifact_name": "ddd-state-41250479211-M08",
+          "artifact_sha256": "4e8533ca678e6b7e0b86d6250459331d7c117538edb529c636df3af7763c1336",
+          "source_commit": "f28835321760641235465f68efd58f125d97a814",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C49",
       "display_name": "Congreso Zamora",

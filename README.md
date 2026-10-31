@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-31T23:14:01.082464+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-31T23:14:51.742152+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -56,7 +56,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Baleares** | 🟡 | 🟡 | 🟡 | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Congreso Barcelona** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | — | — | — | generar y validar distritos |
 | **Congreso Burgos** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41240386898 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
-| **Congreso Cáceres** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | — | — | — | preparar fuentes electorales |
+| **Congreso Cáceres** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41240512324 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Cádiz** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | — | — | — | generar y validar distritos |
 | **Congreso Castellón** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | — | — | — | preparar fuentes electorales |
 | **Congreso Ciudad Real** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41241133485 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
