@@ -5,10 +5,12 @@
   "territory_name": "Congreso Melilla",
   "edition": "2025",
   "run_id": 41236482346,
-  "source_commit": "d89554c1f1a2b27fd99004dded11fe21f6890ca5",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "df15b0cb0abf392c444d2c197fc53b1fb158533f",
+  "artifact_name": "ddd-state-41236482346-M03U",
+  "artifact_sha256": "de302815808efbadbdd9ae3cf8d0107b0426401806166e131852434386d2e9e4",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41236482346,
     "artifact_name": "ddd-source-package-congreso_melilla-2025-41236482346",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41236482346-M03",
+    "artifact_sha256": "2f8b6c71728fe89c78f081409ca1782b59c2ee8553a7c60cb87e0988c702bf08",
+    "module_version": "7.5.0",
+    "nodes": 44,
+    "edges": 105,
+    "population": 85493,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41236482346",
+    "job_artifact_sha256": "6212e2f4240afc396f260d388b9ddf49769128c6c981d7b4ba37a87a2c077395",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/congreso_melilla_2025/congreso_melilla_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 85493,
+      "target_section_count": 44,
+      "package_sha256": "16e40982b89410ff605c19763c963a5c26edb1d240c2b57d449084be77b6bb63",
+      "compatibility_report_sha256": "0012547f241b4c5c0abd02341a09e0028c683a7e122d6778e83ca364f046a56f",
+      "compatibility_identity_sha256": "fd1b8364ad7e9c0ed0085aa978c0b9111e69460ce99906c4542f3299aeb8aad0"
+    },
+    "topology_accreditation": null,
+    "k_districts": 1,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_melilla/.cache/ddd/preparacion/{run_name}/congreso_melilla_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 1,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
