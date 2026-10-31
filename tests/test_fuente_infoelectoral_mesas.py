@@ -1,4 +1,4 @@
-"""Versión 1.0.0; 2026-10-30; candidato. Conversor del ZIP oficial Infoelectoral por mesa.
+"""Versión 1.0.1; 2026-10-31; candidato. Conversor del ZIP oficial Infoelectoral por mesa.
 Origen: nuevo, sin predecesor. Los registros siguen el ancho fijo real de 02202307_MESA.zip (Huesca).
 """
 from __future__ import annotations
@@ -113,6 +113,13 @@ class HuescaContractTests(unittest.TestCase):
         self.assertEqual("e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8", contract["source_sha256"])
         self.assertEqual(117735, contract["expected"]["candidate_votes"])
         self.assertEqual(120190, contract["expected"]["voters"])
+        self.assertEqual("02202307_MESA.zip", contract["mirror"]["asset"])
+
+    def test_workflow_falls_back_to_mirror_with_same_fingerprint(self):
+        wf = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        step = wf[wf.index("Recuperar y convertir ZIP oficial"):wf.index("id: prepare")]
+        self.assertIn('gh release download "$mirror_tag"', step)
+        self.assertLess(step.index("gh release download"), step.index("sha256sum infoelectoral-mesas.zip"))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.4
+# VERSIÓN: 1.0.5
 # NOMBRE DE VERSIÓN: Cola durable de operaciones
 # FECHA: 2026-10-25
 # ESTADO: candidato
@@ -12,7 +12,9 @@
 # CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
 # CAMBIOS 1.0.4: ruta infoelectoral_mesas (ZIP oficial por mesa del Ministerio del Interior, contrato en
 #   configuracion/contratos_infoelectoral.yaml) para el piloto Congreso Huesca.
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.3_infoelectoral_20261030.yml
+# CAMBIOS 1.0.5: Interior rechaza a los runners de GitHub (curl 22); si falla la URL oficial, descarga el
+#   mismo ZIP del release espejo declarado en el contrato. La huella SHA-256 se exige igual en ambos casos.
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.4_espejo_20261031.yml
 name: 03 Preparación de Resultados Electorales
 
 on:
@@ -237,10 +239,21 @@ jobs:
           source_url="$(jq -r .source_url .ddd-infoelectoral-contract.json)"
           source_sha256="$(jq -r .source_sha256 .ddd-infoelectoral-contract.json)"
           # El servidor de Infoelectoral corta peticiones sin cabecera de navegador.
-          curl --fail --location --retry 3 --connect-timeout 15 --max-time 300 \
+          if ! curl --fail --location --retry 2 --connect-timeout 15 --max-time 300 \
             -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" \
             -H "Referer: https://infoelectoral.interior.gob.es/" \
-            -o infoelectoral-mesas.zip "$source_url"
+            -o infoelectoral-mesas.zip "$source_url"; then
+            # Interior rechaza las IP de los runners: espejo íntegro en un release del repositorio.
+            mirror_tag="$(jq -r '.mirror.release_tag // empty' .ddd-infoelectoral-contract.json)"
+            mirror_asset="$(jq -r '.mirror.asset // empty' .ddd-infoelectoral-contract.json)"
+            [[ -n "$mirror_tag" && -n "$mirror_asset" ]] || {
+              echo "::error::URL oficial Infoelectoral inaccesible y el contrato no declara espejo"
+              exit 22
+            }
+            echo "::warning::URL oficial inaccesible; se usa el espejo $mirror_tag/$mirror_asset"
+            rm -f infoelectoral-mesas.zip
+            gh release download "$mirror_tag" -R "$GITHUB_REPOSITORY" -p "$mirror_asset" -O infoelectoral-mesas.zip
+          fi
           actual="$(sha256sum infoelectoral-mesas.zip | awk '{print $1}')"
           [[ "$actual" == "$source_sha256" ]] || {
             echo "::error::Huella del ZIP Infoelectoral no coincide con el contrato"

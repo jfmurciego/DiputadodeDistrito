@@ -1,0 +1,41 @@
+# PROYECTO: Diputado de Distrito
+# COMPONENTE: contratos de fuentes oficiales Infoelectoral (Ministerio del Interior) por mesa
+# VERSIÓN: 1.0.0 · FECHA: 2026-10-30 · ESTADO: candidato
+# FUNCIÓN: fija URL, huella, ficheros, provincia y totales de control de cada elección adquirida del
+#   ZIP oficial por mesa. Los totales sin CERA se verificaron sobre el ZIP real el 30-10-2026 y cuadran
+#   con la Resolución de la JEC de 30-08-2023 (BOE) menos el CERA publicado por la JEC.
+# ANTERIOR: ninguno (fichero nuevo).
+schema: ddd-infoelectoral-contracts/1.0
+contracts:
+  congreso_huesca_2023-07-23:
+    territory_id: congreso_huesca
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '22'
+    expected:
+      ccaa: '02'
+      sections: 286
+      polling_stations: 403
+      parties: 13
+      candidate_votes: 117735
+      blank_votes: 1213
+      null_votes: 1242
+      voters: 120190
+      cera_records: 1
+    official_totals:
+      publisher: Junta Electoral Central — Resolución de 30-08-2023 (BOE), resultados definitivos
+      census_total: 173391
+      voters_total: 121148
+      candidate_votes_total: 118678
+      blank_votes_total: 1217
+      null_votes_total: 1253
+      cera: {census: 8142, voters: 958, candidate_votes: 943, blank_votes: 4, null_votes: 11}
