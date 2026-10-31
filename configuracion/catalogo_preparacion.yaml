@@ -977,11 +977,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_baleares/evidencia/fuentes_electorales/2025/affe7b19fb8d79d5c23dff92d589467fb7e5d3c79cf584d68cc90e3380883460/41250238804/receipt.json
 - territory_id: congreso_barcelona
   name: Congreso Barcelona
   editions:
