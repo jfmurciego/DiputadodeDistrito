@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_castellon",
+  "territory_name": "Congreso Castellón",
+  "edition": "2025",
+  "run_id": 41241768943,
+  "artifact_name": "ddd-state-41241768943-M06",
+  "artifact_sha256": "fd40a4ea8cae6a3f2e63b583926ba6f49e3b6500359b93beabc85e6d681bda6c",
+  "source_commit": "17a0d4e5ba5f6e37b7e89177fe4a27d53cb792fc",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_castellon/evidencia/generaciones_m06/41241768943.json"
+}

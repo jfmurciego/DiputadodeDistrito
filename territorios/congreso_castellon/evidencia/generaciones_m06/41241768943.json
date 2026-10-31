@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13060564470,
+      "artifact_name": "ddd-audit-41241768943",
+      "artifact_sha256": "790e169d894d5a17a9aec645c37180d4f5daca4ea984e602fde0e7145c1b6a2a",
+      "run_id": 41241768943,
+      "size_in_bytes": 3448
+    },
+    "m04": {
+      "artifact_id": 13060557497,
+      "artifact_name": "ddd-state-41241768943-M04",
+      "artifact_sha256": "851e3a6c21eb848bb3908dd95e1d4ada06e0ca25f4b9e5b80e5c7cce41c90860",
+      "run_id": 41241768943,
+      "size_in_bytes": 76976383
+    },
+    "m05": {
+      "artifact_id": 13060307953,
+      "artifact_name": "ddd-state-41241768943-M05",
+      "artifact_sha256": "5ddc7ec06def746f75830084e9e4a75c7161a8bd3ae2975eed9344aa5c803924",
+      "run_id": 41241768943,
+      "size_in_bytes": 77534316
+    },
+    "m06": {
+      "artifact_id": 13059923718,
+      "artifact_name": "ddd-state-41241768943-M06",
+      "artifact_sha256": "fd40a4ea8cae6a3f2e63b583926ba6f49e3b6500359b93beabc85e6d681bda6c",
+      "run_id": 41241768943,
+      "size_in_bytes": 78228700
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "d7d8fa568624dc72f25706f2d86a5e0596a0d43cfb653cdcbf18ede74ea55b72",
+        "size_in_bytes": 484
+      },
+      "congreso_castellon_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "5d9e4c9e213c0eefb13bcae66193349f06c96da19639636010266ee991e9a9e8",
+        "size_in_bytes": 6726
+      },
+      "optimization_execution.json": {
+        "sha256": "4e550da76dc3125c875984ac1195ae8a0a758b94192b8bce12e79a6038e1ee18",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "36205db9a3740ec6ca51f2661256b3057d18e919c5bc787bb706f468c403b6a3",
+        "size_in_bytes": 1324
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "36205db9a3740ec6ca51f2661256b3057d18e919c5bc787bb706f468c403b6a3",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_castellon/config/congreso_castellon_2025.yaml",
+    "sha256": "3a9d5e705bc0016a347833dc783a04865275412522752c3ea299a08fee4d41a5"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "2d8b4db2316e54d83eb71e99346cf6735f17824c9b4ba46a62f274b77c687813",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "17a0d4e5ba5f6e37b7e89177fe4a27d53cb792fc",
+    "edition": "2025",
+    "territory_id": "congreso_castellon",
+    "territory_name": "Congreso Castellón",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41241768943,
+    "workflow_sha": "a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060557497,
+      "artifact_name": "ddd-state-41241768943-M04",
+      "artifact_sha256": "851e3a6c21eb848bb3908dd95e1d4ada06e0ca25f4b9e5b80e5c7cce41c90860",
+      "run_id": 41241768943,
+      "size_in_bytes": 76976383
+    },
+    "source_manifest_sha256": "72d3185abed18a1df7ba1c4fbeaf8b1b4bec3396b5c201bf44b2372aa9750ac9",
+    "source_package_artifact": {
+      "artifact_id": 13059075349,
+      "artifact_name": "ddd-source-package-congreso_castellon-2025-41241768943",
+      "artifact_sha256": "a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b",
+      "run_id": 41241768943,
+      "size_in_bytes": 75847710
+    }
+  },
+  "manifest_sha256": "3d127d1b90910aee7da0cc3776a76f5943eb35359722ac04af3967bac0a5e1c0",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
