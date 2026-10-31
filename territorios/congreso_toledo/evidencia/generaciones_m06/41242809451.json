@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13061006961,
+      "artifact_name": "ddd-audit-41242809451",
+      "artifact_sha256": "d80755d1de77b0ad1eedc8a1519758309d467e1adc951692571c25acb8e01917",
+      "run_id": 41242809451,
+      "size_in_bytes": 3560
+    },
+    "m04": {
+      "artifact_id": 13060966500,
+      "artifact_name": "ddd-state-41242809451-M04",
+      "artifact_sha256": "684859b3a1c41cca9c07532ef94157d551ea5ec077e1554a9a29ae2d24caf3ff",
+      "run_id": 41242809451,
+      "size_in_bytes": 79388185
+    },
+    "m05": {
+      "artifact_id": 13061240943,
+      "artifact_name": "ddd-state-41242809451-M05",
+      "artifact_sha256": "0e984209d1c33e7a037887aaacc4f919cfd3e56705577faa9bf9cee3f2f36798",
+      "run_id": 41242809451,
+      "size_in_bytes": 80425430
+    },
+    "m06": {
+      "artifact_id": 13060164069,
+      "artifact_name": "ddd-state-41242809451-M06",
+      "artifact_sha256": "f17c5a3d40e127948a5f721505ab877db5340422b9370be6ae8d8e999877b826",
+      "run_id": 41242809451,
+      "size_in_bytes": 81700146
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "0a6e2837dddab85ca2f7334edeccee36878c47851aaaf03d4773d47d4e6720be",
+        "size_in_bytes": 475
+      },
+      "congreso_toledo_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "d5ccd16eb38b0fa7257b51af36413494d2e9be6ee432cd05a63d51419687fd03",
+        "size_in_bytes": 7511
+      },
+      "optimization_execution.json": {
+        "sha256": "618056f74a0ba412cf636bb9cedf3c42e65ef13517f8ed04534a43239c4259db",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "95efad10b6b02c965200769dbfd8e09a1f1b6a695eb133bdabf9230953e3f675",
+        "size_in_bytes": 1306
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "95efad10b6b02c965200769dbfd8e09a1f1b6a695eb133bdabf9230953e3f675",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_toledo/config/congreso_toledo_2025.yaml",
+    "sha256": "7d8473fc81fdab0344d3cd8b2e370166d347469cfe3396010ae9a8599ecca6b4"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9f5a9e94ad9399093a01e5d271f3b25c1cee32643c1194e30b08c0ec900ad93f",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "3a0adcfb9cfe058748a38f0ddfb2ce9201ea912d",
+    "edition": "2025",
+    "territory_id": "congreso_toledo",
+    "territory_name": "Congreso Toledo",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41242809451,
+    "workflow_sha": "9b09962dd870eb500567df49959e2f7d12f0caec"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060966500,
+      "artifact_name": "ddd-state-41242809451-M04",
+      "artifact_sha256": "684859b3a1c41cca9c07532ef94157d551ea5ec077e1554a9a29ae2d24caf3ff",
+      "run_id": 41242809451,
+      "size_in_bytes": 79388185
+    },
+    "source_manifest_sha256": "aa27a6f24c99444191837ad84bd5cf688e6ec12267e0e6ae9f41402c7903afc4",
+    "source_package_artifact": {
+      "artifact_id": 13059053517,
+      "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
+      "artifact_sha256": "71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465",
+      "run_id": 41242809451,
+      "size_in_bytes": 77298947
+    }
+  },
+  "manifest_sha256": "b450b0a787a714a3b76164e87c3864cfd73f8fc71ead8db6531c853c79f29c9f",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_toledo",
+  "territory_name": "Congreso Toledo",
+  "edition": "2025",
+  "run_id": 41242809451,
+  "artifact_name": "ddd-state-41242809451-M06",
+  "artifact_sha256": "f17c5a3d40e127948a5f721505ab877db5340422b9370be6ae8d8e999877b826",
+  "source_commit": "3a0adcfb9cfe058748a38f0ddfb2ce9201ea912d",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_toledo/evidencia/generaciones_m06/41242809451.json"
+}

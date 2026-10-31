@@ -2277,12 +2277,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41242809451
+        stage: M06
       preparation_evidence:
         run_id: 41242809451
         artifact_name: ddd-source-package-congreso_toledo-2025-41242809451
@@ -2299,6 +2301,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_toledo/evidencia/fuentes_electorales/2025/4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a/41239931236/receipt.json
         generation_preflight: territorios/congreso_toledo/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_toledo/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_valencia
   name: Congreso Valencia
