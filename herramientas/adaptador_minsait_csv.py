@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# CAMBIOS 2026-10-30: --source-class y --adapter-label para fuentes oficiales convertidas al mismo CSV
+#   largo por mesa (Infoelectoral, Ministerio del Interior); por defecto, provisional_mirror/minsait_csv/1.1.
+# ANTERIOR (c): legacy/herramientas/adaptador_minsait_csv_pre_source_class_20261030.py
 # CAMBIOS 2026-10-29 (b): el contrato declara sources[0].retrieved_at (M07 lo exige; Extremadura fallaba).
 # ANTERIOR (b): legacy/herramientas/adaptador_minsait_csv_pre_retrieved_at_20261029.py
 # CAMBIOS 2026-10-29: --production-eligible para contratos con owner_production_exception.
@@ -58,6 +61,8 @@ def build(
     expected_delta_definitive_minus_provisional: int | None = None,
     production_eligible: bool = False,
     retrieved_at: str = "",
+    source_class: str = "provisional_mirror",
+    adapter_label: str = "minsait_csv/1.1",
 ) -> dict:
     retrieved_at = retrieved_at or datetime.now(timezone.utc).isoformat()
     actual_sha = sha256(source)
@@ -214,7 +219,7 @@ def build(
                 "publisher": publisher,
                 "source_url": source_url,
                 "retrieved_at": retrieved_at,
-                "source_class": "provisional_mirror",
+                "source_class": source_class,
                 "source_status": source_status,
                 "production_eligible": production_eligible,
                 "adapter": {
@@ -225,7 +230,7 @@ def build(
                     "votes_field": "votes",
                 },
                 "upstream_snapshot": {
-                    "adapter": "minsait_csv/1.1",
+                    "adapter": adapter_label,
                     "source_sha256": actual_sha,
                     "codigo_ccaa": expected_ccaa,
                     "expected_provinces": expected_provinces,
@@ -260,7 +265,7 @@ def build(
     manifest = {
         "schema": "ddd-electoral-package/1.0",
         "decision": "ACQUIRE",
-        "adapter": "minsait_csv/1.1",
+        "adapter": adapter_label,
         "territory_id": territory_id,
         "edition": str(edition),
         "election_id": election_id,
@@ -271,7 +276,7 @@ def build(
             "path": "data/resultados_electorales_normalizados.csv",
             "sha256": normalized_sha,
             "bytes": normalized.stat().st_size,
-            "source_class": "provisional_mirror",
+            "source_class": source_class,
             "source_status": source_status,
             "production_eligible": production_eligible,
         },
@@ -320,6 +325,8 @@ def main() -> None:
     ap.add_argument("--expected-candidate-votes", type=int, required=True)
     ap.add_argument("--source-url", required=True)
     ap.add_argument("--publisher", required=True)
+    ap.add_argument("--source-class", default="provisional_mirror")
+    ap.add_argument("--adapter-label", default="minsait_csv/1.1")
     ap.add_argument("--retrieved-at", default="", help="Fecha ISO de obtención del CSV (por defecto, ahora en UTC)")
     ap.add_argument("--source-status", default="PROVISIONAL")
     ap.add_argument("--definitive-reference-publisher", default="")
@@ -353,6 +360,8 @@ def main() -> None:
                 expected_delta_definitive_minus_provisional=args.expected_delta_definitive_minus_provisional,
                 production_eligible=args.production_eligible,
                 retrieved_at=args.retrieved_at,
+                source_class=args.source_class,
+                adapter_label=args.adapter_label,
             ),
             ensure_ascii=False,
             indent=2,

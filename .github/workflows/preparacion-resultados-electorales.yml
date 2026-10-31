@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.3
+# VERSIÓN: 1.0.4
 # NOMBRE DE VERSIÓN: Cola durable de operaciones
 # FECHA: 2026-10-25
 # ESTADO: candidato
@@ -10,7 +10,9 @@
 # CAMBIOS 1.0.2: pasa --production-eligible al adaptador Minsait cuando el contrato lleva
 #   owner_production_exception validada (Extremadura 2025).
 # CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.2_20261030.yml
+# CAMBIOS 1.0.4: ruta infoelectoral_mesas (ZIP oficial por mesa del Ministerio del Interior, contrato en
+#   configuracion/contratos_infoelectoral.yaml) para el piloto Congreso Huesca.
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.3_infoelectoral_20261030.yml
 name: 03 Preparación de Resultados Electorales
 
 on:
@@ -134,6 +136,22 @@ jobs:
             adapter=eleccionesdb
           else
             set +e
+            python herramientas/fuente_infoelectoral_mesas.py resolve \
+              --root-dir . \
+              --election-id "$ELECTION_ID" \
+              --territory-id "$TERRITORY_ID" \
+              --election-date "$ELECTION_DATE" \
+              --output .ddd-infoelectoral-contract.json >/dev/null
+            infoelectoral_rc=$?
+            set -e
+            if [[ "$infoelectoral_rc" == 0 ]]; then
+              adapter=infoelectoral_mesas
+            elif [[ "$infoelectoral_rc" != 3 ]]; then
+              exit "$infoelectoral_rc"
+            fi
+          fi
+          if [[ "$adapter" != "official_snapshot" && "$adapter" != "eleccionesdb" && "$adapter" != "infoelectoral_mesas" ]]; then
+            set +e
             python herramientas/resolver_contrato_minsait_provisional.py \
               --root-dir . \
               --election-id "$ELECTION_ID" \
@@ -211,6 +229,28 @@ jobs:
             echo "::error::Huella del CSV Minsait provisional no coincide con el contrato"
             exit 53
           }
+      - name: Recuperar y convertir ZIP oficial Infoelectoral por mesa
+        if: ${{ steps.mode.outputs.adapter == 'infoelectoral_mesas' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          test -s .ddd-infoelectoral-contract.json
+          source_url="$(jq -r .source_url .ddd-infoelectoral-contract.json)"
+          source_sha256="$(jq -r .source_sha256 .ddd-infoelectoral-contract.json)"
+          # El servidor de Infoelectoral corta peticiones sin cabecera de navegador.
+          curl --fail --location --retry 3 --connect-timeout 15 --max-time 300 \
+            -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" \
+            -H "Referer: https://infoelectoral.interior.gob.es/" \
+            -o infoelectoral-mesas.zip "$source_url"
+          actual="$(sha256sum infoelectoral-mesas.zip | awk '{print $1}')"
+          [[ "$actual" == "$source_sha256" ]] || {
+            echo "::error::Huella del ZIP Infoelectoral no coincide con el contrato"
+            exit 53
+          }
+          python herramientas/fuente_infoelectoral_mesas.py convert \
+            --root-dir . --election-id "$ELECTION_ID" --territory-id "$TERRITORY_ID" \
+            --election-date "$ELECTION_DATE" --zip infoelectoral-mesas.zip \
+            --csv infoelectoral-mesas.csv --output .ddd-infoelectoral-conversion.json
+          jq -c '{polling_stations,sections,parties,candidate_votes,blank_votes,null_votes,voters,cera_excluded}' .ddd-infoelectoral-conversion.json
       - id: prepare
         name: Preparar paquete electoral con contrato común
         run: |
@@ -232,6 +272,36 @@ jobs:
             else
               retrieved_at="$(jq -r .retrieved_at snapshot/ddd-eleccionesdb-snapshot.json)"
               python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256" --edition "$EDITION" --retrieved-at "$retrieved_at"
+            fi
+          elif [[ "$adapter" == "infoelectoral_mesas" ]]; then
+            if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
+              cp -a .ddd-electoral-previous .ddd-electoral-package
+            else
+              test -s .ddd-infoelectoral-conversion.json
+              c=.ddd-infoelectoral-contract.json
+              python herramientas/adaptador_minsait_csv.py \
+                --source infoelectoral-mesas.csv \
+                --out .ddd-electoral-package \
+                --territory-id "$TERRITORY_ID" \
+                --election-id "$ELECTION_ID" \
+                --election-date "$ELECTION_DATE" \
+                --edition "$EDITION" \
+                --expected-sha256 "$(jq -r .csv_sha256 .ddd-infoelectoral-conversion.json)" \
+                --expected-ccaa "$(jq -r .expected.ccaa "$c")" \
+                --expected-provinces 1 \
+                --expected-sections "$(jq -r .expected.sections "$c")" \
+                --expected-polling-stations "$(jq -r .expected.polling_stations "$c")" \
+                --expected-candidate-votes "$(jq -r .expected.candidate_votes "$c")" \
+                --source-url "$(jq -r .source_url "$c")" \
+                --publisher "$(jq -r .publisher "$c")" \
+                --source-status DEFINITIVE \
+                --definitive-reference-publisher "$(jq -r .official_totals.publisher "$c")" \
+                --definitive-reference-url "$(jq -r .source_url "$c")" \
+                --definitive-candidate-votes "$(jq -r .expected.candidate_votes "$c")" \
+                --expected-delta-definitive-minus-provisional 0 \
+                --production-eligible \
+                --source-class official \
+                --adapter-label infoelectoral_mesas/1.0
             fi
           elif [[ "$adapter" == "minsait_provisional" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then

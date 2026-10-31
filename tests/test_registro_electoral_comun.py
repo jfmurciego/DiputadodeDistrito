@@ -69,6 +69,10 @@ class TestRegistroElectoralComun(unittest.TestCase):
         minsait_contracts=yaml.safe_load(
             (ROOT/"configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8")
         )["contracts"]
+        infoelectoral_contracts=yaml.safe_load(
+            (ROOT/"configuracion/contratos_infoelectoral.yaml").read_text(encoding="utf-8")
+        )["contracts"]
+        self.assertIn("adapter=infoelectoral_mesas",workflow)
         unresolved=[]
         for registry_id,entry in self.registry["territories"].items():
             row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
@@ -78,13 +82,14 @@ class TestRegistroElectoralComun(unittest.TestCase):
                 election_id in ELECTIONS
                 or mode in {"governed_override","auto_discovered_declaration","materialized_election_contract"}
                 or election_id in minsait_contracts
+                or election_id in infoelectoral_contracts
             )
-            # Un piloto sin fuente electoral declarada aún queda fuera (Congreso Huesca, territorial_only).
-            if not routed and not entry.get("pilot_code"):
+            if not routed:
                 unresolved.append((registry_id,election_id,mode))
         self.assertEqual(unresolved,[])
         self.assertIn("andalucia_parlamento_2026",minsait_contracts)
         self.assertIn("extremadura_asamblea_2025-12-21",minsait_contracts)
+        self.assertIn("congreso_huesca_2023-07-23",infoelectoral_contracts)
 
     def test_identified_election_without_source_reaches_acquisition_and_blocks(self):
         row=resolve_for_preparation("Andalucía",root_dir=ROOT,edition="2025")
