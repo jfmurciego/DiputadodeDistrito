@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_ceuta",
+  "territory_name": "Congreso Ceuta",
+  "edition": "2025",
+  "run_id": 41236313879,
+  "source_commit": "7e1f76dcc0bcd78ab2f24c8551417fb4e11260b5",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41236313879,
+    "artifact_name": "ddd-source-package-congreso_ceuta-2025-41236313879",
+    "artifact_sha256": "c09be464c5afe9f7857aa9e6ebc94073ca1dab2968042d783bc507bdd92b76f9",
+    "package_sha256": "21b4d39b5b2da7c1ac237a5ca9db4fac7504b6fa29961ecbd3ca673f8ee5227b",
+    "compatibility_identity_sha256": "353a951b62602d2ec0d6d39984950025bb0e199a433d4f774f173a68653cb176",
+    "territorial_identity_sha256": "b3db2c5faf733e0bf055ce1d6bc3b259cbeb5ad4161e83021f031a0638f4bd44",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
