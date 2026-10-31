@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-31T23:10:08.596497+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-31T23:10:46.414153+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -70,7 +70,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Huelva** | 🟡 | 🟡 | 🟡 | ⚪ | ⚪ | Validación pendiente | 41241257412 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes territoriales |
 | **Congreso Huesca** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41194447427 · FAILED | 05 · Publicación del Visor | ver log del run | — |
 | **Congreso Jaén** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | — | — | — | preparar fuentes electorales |
-| **Congreso León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | — | — | — | preparar fuentes electorales |
+| **Congreso León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41241377284 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Lérida** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41241496894 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
 | **Congreso La Rioja** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41240637295 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Lugo** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41240766116 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
