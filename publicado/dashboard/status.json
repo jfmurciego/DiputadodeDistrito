@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T21:25:58.183167+00:00",
+  "generated_at": "2026-10-31T21:27:59.216645+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6323,14 +6323,14 @@
       "territory_id": "congreso_melilla",
       "name": "Congreso Melilla",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 41236482346,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6341,13 +6341,26 @@
           "artifact_sha256": "24dddfcf1da318e310e2128223720a597b4e1e97a50780e64ce0d076a8ab4857",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_melilla",
+          "territory_name": "Congreso Melilla",
+          "edition": "2025",
+          "run_id": 41236482346,
+          "artifact_name": "ddd-state-41236482346-M06",
+          "artifact_sha256": "e13d18b3bddb993b1cf68eef202bcad76cb629c2c36d6b14422fba96ea43ab24",
+          "source_commit": "c638f777105d3eec526b2a11dc77ac539b4a591e",
+          "decision": "PASS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_melilla/evidencia/generaciones_m06/41236482346.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C52",
       "display_name": "Congreso Melilla",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     }
   ],
   "kpis": {
@@ -6373,7 +6386,7 @@
       "19 Melilla",
       "Congreso Huesca"
     ],
-    "territorial_validated": 26,
+    "territorial_validated": 27,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6400,9 +6413,10 @@
       "Congreso Segovia",
       "Congreso Soria",
       "Congreso Teruel",
-      "Congreso Zamora"
+      "Congreso Zamora",
+      "Congreso Melilla"
     ],
-    "validated": 26,
+    "validated": 27,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6429,17 +6443,17 @@
       "Congreso Segovia",
       "Congreso Soria",
       "Congreso Teruel",
-      "Congreso Zamora"
+      "Congreso Zamora",
+      "Congreso Melilla"
     ],
-    "ready": 7,
+    "ready": 6,
     "ready_names": [
       "01 Andalucía",
       "Congreso Albacete",
       "Congreso Lugo",
       "Congreso Palencia",
       "Congreso Santa Cruz de Tenerife",
-      "Congreso Ceuta",
-      "Congreso Melilla"
+      "Congreso Ceuta"
     ],
     "pending": 36,
     "pending_names": [
