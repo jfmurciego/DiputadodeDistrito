@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_tarragona",
+  "territory_name": "Congreso Tarragona",
+  "edition": "2025",
+  "run_id": 41243062797,
+  "source_commit": "3d925d0123cad2e626b582aa221706acea60d511",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41243062797,
+    "artifact_name": "ddd-source-package-congreso_tarragona-2025-41243062797",
+    "artifact_sha256": "52587a94ffe47e234d57e062bfb78e1b30d2d653b7af23ef534ba0c2ef03e964",
+    "package_sha256": "5610fbd5e43d083a9cd220dbedbf2ffe2e5b0d09a5e69044397f01c764fefc44",
+    "compatibility_identity_sha256": "4fb57ab0bf575ec3c0f25fc9172e28d821dacde5983dc9ea38285cc85d0ce2fb",
+    "territorial_identity_sha256": "163a77990bfeb183b9b123fbdeda14b823e1c8a01bb6b8ebaf6ebfbed2fe5a26",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
