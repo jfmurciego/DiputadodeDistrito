@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_salamanca",
+  "territory_name": "Congreso Salamanca",
+  "edition": "2025",
+  "run_id": 41241010241,
+  "artifact_name": "ddd-state-41241010241-M06",
+  "artifact_sha256": "e6dac328a678eb3961625869159882bf71417fb138fb634675bdf1c29732f7ab",
+  "source_commit": "1ac4d826f597a6965824f3a24b065712eca3f906",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_salamanca/evidencia/generaciones_m06/41241010241.json"
+}

@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13061070103,
+      "artifact_name": "ddd-audit-41241010241",
+      "artifact_sha256": "fac8fff7ea5acb520f78277687a386969539040f00c1eea4da0fb0864a3ac84e",
+      "run_id": 41241010241,
+      "size_in_bytes": 3339
+    },
+    "m04": {
+      "artifact_id": 13060062685,
+      "artifact_name": "ddd-state-41241010241-M04",
+      "artifact_sha256": "12c95bd8b9fc73a8e0fb8f2b57f3ff42a50079590c2857b0a33a96447f2771d9",
+      "run_id": 41241010241,
+      "size_in_bytes": 78621102
+    },
+    "m05": {
+      "artifact_id": 13060423598,
+      "artifact_name": "ddd-state-41241010241-M05",
+      "artifact_sha256": "6e5fc6e1cd1f1859e65682fa59f334d47f31cedf67799b681112df198c968bcd",
+      "run_id": 41241010241,
+      "size_in_bytes": 79477760
+    },
+    "m06": {
+      "artifact_id": 13060920027,
+      "artifact_name": "ddd-state-41241010241-M06",
+      "artifact_sha256": "e6dac328a678eb3961625869159882bf71417fb138fb634675bdf1c29732f7ab",
+      "run_id": 41241010241,
+      "size_in_bytes": 80504187
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "2a309a4f9e19cf6b6d587dee26e8236444b0a6b4b97ead042421b60933df07cc",
+        "size_in_bytes": 484
+      },
+      "congreso_salamanca_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "04282ced4fcf3d15ec6c2d1402bb6b2f0e445dd9d8e1f93df4aa773c4510a74f",
+        "size_in_bytes": 5959
+      },
+      "optimization_execution.json": {
+        "sha256": "54d01df525d3d4c61eb0a617566de0ea13d1ebedf78685a1330d13d5601f38b9",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "2fc47b5f75f0614b77d0185470e25332aed8b4ad2ced37fc84daa60972d44bd2",
+        "size_in_bytes": 1322
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "2fc47b5f75f0614b77d0185470e25332aed8b4ad2ced37fc84daa60972d44bd2",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_salamanca/config/congreso_salamanca_2025.yaml",
+    "sha256": "ae11ee910efdd6b01f100003871210a177ba14e5439573088bf73ca6c4b51ce9"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "06eb023611ca7bf9edd855ebe090c695ce1945f652a8c850e7447d3a9484cf99",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "1ac4d826f597a6965824f3a24b065712eca3f906",
+    "edition": "2025",
+    "territory_id": "congreso_salamanca",
+    "territory_name": "Congreso Salamanca",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41241010241,
+    "workflow_sha": "77f053655ac35e403dad362c023e12b872428256"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060062685,
+      "artifact_name": "ddd-state-41241010241-M04",
+      "artifact_sha256": "12c95bd8b9fc73a8e0fb8f2b57f3ff42a50079590c2857b0a33a96447f2771d9",
+      "run_id": 41241010241,
+      "size_in_bytes": 78621102
+    },
+    "source_manifest_sha256": "e051fb0121def617422ff4a3c0207d4c43a1942677317f2155f48a0bb04874b4",
+    "source_package_artifact": {
+      "artifact_id": 13057924632,
+      "artifact_name": "ddd-source-package-congreso_salamanca-2025-41241010241",
+      "artifact_sha256": "da869071df48034b3734bd864ee837ec428131b51154aa0f40d5cf880cb40ebe",
+      "run_id": 41241010241,
+      "size_in_bytes": 76890862
+    }
+  },
+  "manifest_sha256": "c18eb143e4bf00b9b3f8ee711f1108e3b77982e33221d0f90dbc3e4897fc7cac",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
