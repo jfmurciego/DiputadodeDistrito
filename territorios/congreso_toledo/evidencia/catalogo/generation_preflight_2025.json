@@ -5,10 +5,12 @@
   "territory_name": "Congreso Toledo",
   "edition": "2025",
   "run_id": 41242809451,
-  "source_commit": "921020251310fb6301918675d07950ea3121808a",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "797030dbe386ee718dd5f4db0ae50af9e4983b08",
+  "artifact_name": "ddd-state-41242809451-M03U",
+  "artifact_sha256": "f4d3a36e83e77ec090f28f148b328fa395b399dff829aab8ac8dfa84e3bc2e5d",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41242809451,
     "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41242809451-M03",
+    "artifact_sha256": "0e0e504e358f176a72814ea93ed5d936ab7bad723d33c8ed851e5e6c460f6525",
+    "module_version": "7.5.0",
+    "nodes": 530,
+    "edges": 1458,
+    "population": 731112,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41242809451",
+    "job_artifact_sha256": "e687146947e8a2f9afcb10854951a6f5264793bad2893b21827a382a513ba82e",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/congreso_toledo_2025/congreso_toledo_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 731112,
+      "target_section_count": 530,
+      "package_sha256": "fd2fa7a4c735b1ccd07b09f9a80b893af0c777a1e6589645703fff43efd73c20",
+      "compatibility_report_sha256": "a035d589f3d43c84754a6ea84628bbeeac1ca21209d6f281ceb0b3c9584c2e4b",
+      "compatibility_identity_sha256": "80923df35b4801e2ea66ef2d0dd84500b6257dd7030aafd5695ccb180329bfbe"
+    },
+    "topology_accreditation": null,
+    "k_districts": 6,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_toledo/.cache/ddd/preparacion/{run_name}/congreso_toledo_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 6,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
