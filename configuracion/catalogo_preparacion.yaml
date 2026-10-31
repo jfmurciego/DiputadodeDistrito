@@ -1418,6 +1418,7 @@ territories:
         source_commit: 2ab455ae49d0cad9901621a4998087dd89ae5ed6
       evidence:
         electoral_source: territorios/congreso_lerida/evidencia/fuentes_electorales/2025/613cb73be2446e2fc25ccddbc8ff56f4d3f02edc6600bb0c391f173398f57245/41239853848/receipt.json
+        generation_preflight: territorios/congreso_lerida/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_la_rioja
   name: Congreso La Rioja
