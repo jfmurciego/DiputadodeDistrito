@@ -784,11 +784,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_albacete/evidencia/fuentes_electorales/2025/024e50f3973fbd525d3a3bd3f2e0fb20d1f0edd510eea1af15b9b8b3811cfe02/41239755540/receipt.json
 - territory_id: congreso_alicante
   name: Congreso Alicante
   editions:
