@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_murcia",
+  "territory_name": "Congreso Murcia",
+  "edition": "2025",
+  "run_id": 41244085018,
+  "source_commit": "915c5141a42e682cfdb387e0bbbbbe3cb5d3860b",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41244085018,
+    "artifact_name": "ddd-source-package-congreso_murcia-2025-41244085018",
+    "artifact_sha256": "70e60aef285fefa6d0841206feaed75ca6d0692aa67dae4885487fec3d609a08",
+    "package_sha256": "9f86c2577b6fdd69639a9b438bde785273d3819bede871ee79254b70111852be",
+    "compatibility_identity_sha256": "86cebb1dbd6ff1ab71b55e911cee6d4e50b328c57a9ca5a2a356702c92eb408c",
+    "territorial_identity_sha256": "ee7045ec34eaff6d206f74c18d00c65f98c924c94e90813477ffb12e21a848ac",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
