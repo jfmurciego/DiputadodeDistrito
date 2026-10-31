@@ -5,10 +5,12 @@
   "territory_name": "Congreso Cáceres",
   "edition": "2025",
   "run_id": 41240512324,
-  "source_commit": "11b2c2ce39af66e97fe5524494ff2309348ba3a7",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "97beb6c9921eec5b392affbbba4af1afb8fce0d5",
+  "artifact_name": "ddd-state-41240512324-M03U",
+  "artifact_sha256": "6b5082e2734716df1175497d41f4e97d4cc8a4cb0c95ce84ad336770950ca323",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41240512324,
     "artifact_name": "ddd-source-package-congreso_caceres-2025-41240512324",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41240512324-M03",
+    "artifact_sha256": "2f9652bad3e4e4d69495d5281197336cf39b7e0681ab3aad92fed1786084d9f7",
+    "module_version": "7.5.0",
+    "nodes": 412,
+    "edges": 1120,
+    "population": 388257,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41240512324",
+    "job_artifact_sha256": "68254b55191e4e3e8bf21f9dfbe27e3d7b022f06298df9be9b025e64428d741d",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/congreso_caceres_2025/congreso_caceres_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 388257,
+      "target_section_count": 412,
+      "package_sha256": "151415ae76db981e300e716465611f5f6abb6691226f1543cfb1478b934f3eea",
+      "compatibility_report_sha256": "6f6d36eb61b31aab2132b0705f041389d4731245315daf3cecfba2b4ad6947d1",
+      "compatibility_identity_sha256": "e6eadbf78216fa9cec47d1c9acb2e828ab5389c252dd4f7a3614d0333e93155b"
+    },
+    "topology_accreditation": null,
+    "k_districts": 3,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_caceres/.cache/ddd/preparacion/{run_name}/congreso_caceres_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 3,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
