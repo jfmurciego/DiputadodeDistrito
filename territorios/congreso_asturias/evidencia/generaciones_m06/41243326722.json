@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13061381700,
+      "artifact_name": "ddd-audit-41243326722",
+      "artifact_sha256": "d8e093465de0b79038de2ed12b0fa3139968ebe666d87ec0cd3b6899f6d85deb",
+      "run_id": 41243326722,
+      "size_in_bytes": 3994
+    },
+    "m04": {
+      "artifact_id": 13061126975,
+      "artifact_name": "ddd-state-41243326722-M04",
+      "artifact_sha256": "7ace202e8f45928ee0125c0d1c78bd33420119a2fe163c2404a5eac704e26765",
+      "run_id": 41243326722,
+      "size_in_bytes": 80323727
+    },
+    "m05": {
+      "artifact_id": 13061237014,
+      "artifact_name": "ddd-state-41243326722-M05",
+      "artifact_sha256": "f3637966f3a0a486c94fd3f8574609689d0d3f63e09f7750c1780880aa22f19b",
+      "run_id": 41243326722,
+      "size_in_bytes": 81569498
+    },
+    "m06": {
+      "artifact_id": 13060878736,
+      "artifact_name": "ddd-state-41243326722-M06",
+      "artifact_sha256": "eb9476dc3b17bd543c44e2c3bd0dd2fe147ca0d8b9325495f256a6645fd46266",
+      "run_id": 41243326722,
+      "size_in_bytes": 83154615
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "d840e1bfac7c2a3d0cc0f2c2296608f73dd7ac7bf9fcbf336bb0d4bb5a03500d",
+        "size_in_bytes": 481
+      },
+      "congreso_asturias_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f515a00085ed45d922eced36f131206dac90810560070941e8defa9f834e44f4",
+        "size_in_bytes": 13607
+      },
+      "optimization_execution.json": {
+        "sha256": "ec188dc49412def7bd95a9d838c8fc167a3a59c9e45662fb8ac3ed0ac3f9e833",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "2d1de5a369292604311601f01f1052de025afa87e6641946e2bcbd5c7a5ef0cf",
+        "size_in_bytes": 1318
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "2d1de5a369292604311601f01f1052de025afa87e6641946e2bcbd5c7a5ef0cf",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_asturias/config/congreso_asturias_2025.yaml",
+    "sha256": "d03b844c314dd8e953356a1962a78d9d77ff2d15206b4b7f596d4ed0546974cd"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "cf183f8acd75f3e39a431699f73172aeb9c70ca5d30d22ce35c8b9bb27cdf032",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "5b57e60ff04425efa3ab1e9760c3fc48b29e769a",
+    "edition": "2025",
+    "territory_id": "congreso_asturias",
+    "territory_name": "Congreso Asturias",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41243326722,
+    "workflow_sha": "6ff6532547597b240f067c72fa651388868d1ca4"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13061126975,
+      "artifact_name": "ddd-state-41243326722-M04",
+      "artifact_sha256": "7ace202e8f45928ee0125c0d1c78bd33420119a2fe163c2404a5eac704e26765",
+      "run_id": 41243326722,
+      "size_in_bytes": 80323727
+    },
+    "source_manifest_sha256": "04ea2ebc596fe7df9f7c772e7bc891254ad252f41d7958069a08578f73eefaa9",
+    "source_package_artifact": {
+      "artifact_id": 13059358489,
+      "artifact_name": "ddd-source-package-congreso_asturias-2025-41243326722",
+      "artifact_sha256": "74451f158552e71551faed7025cfa418b75de54ba526f666aa6d1e8c26c1ab98",
+      "run_id": 41243326722,
+      "size_in_bytes": 77813715
+    }
+  },
+  "manifest_sha256": "15148ce458860e35fc1103778bccb10173c456ff7f3406f56f376bbe533713c1",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
