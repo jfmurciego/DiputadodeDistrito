@@ -1236,7 +1236,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_la_coruna/evidencia/fuentes_electorales/2025/1e07330a56680771cc6c920fad75cbfa0efd30938dfcd8ca4f15387b6a219091/41239814650/receipt.json
         generation_preflight: territorios/congreso_la_coruna/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_cuenca
   name: Congreso Cuenca
   editions:
