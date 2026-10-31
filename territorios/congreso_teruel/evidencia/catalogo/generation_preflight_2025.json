@@ -5,10 +5,12 @@
   "territory_name": "Congreso Teruel",
   "edition": "2025",
   "run_id": 41235966858,
-  "source_commit": "18f7e2f5bdf4c2a51af2c9f56ad7102c7e4c1591",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "52f82be5cb00df8c59b7d3dedf624088c61fd9f9",
+  "artifact_name": "ddd-state-41235966858-M03U",
+  "artifact_sha256": "5ac5a51f578eec067877aa074f8e0851e6e9d8b67692d04296317d6f2f8fa789",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41235966858,
     "artifact_name": "ddd-source-package-congreso_teruel-2025-41235966858",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41235966858-M03",
+    "artifact_sha256": "e30a9b59a477e5be6499ac988b1f19447b70505496e5d9ac2dc2363d3767933b",
+    "module_version": "7.5.0",
+    "nodes": 284,
+    "edges": 715,
+    "population": 135046,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41235966858",
+    "job_artifact_sha256": "90c0f6be71ebdbcddbfe91193a74e1e28b62d0e460683af2bb58fce79589ed25",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/congreso_teruel_2025/congreso_teruel_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 135046,
+      "target_section_count": 284,
+      "package_sha256": "4591f4d0469002e5a529466dbb69270e8cd1e3ebcd8595f2f3f8063e8c874243",
+      "compatibility_report_sha256": "cd606c6a63d092a3d20125c0f5c0b83cf2a80f8578754640e1debdb866238c1a",
+      "compatibility_identity_sha256": "123b6939aff888648d4f6ea2a72304255736e6cd79430415a6c21316a07ea228"
+    },
+    "topology_accreditation": null,
+    "k_districts": 1,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_teruel/.cache/ddd/preparacion/{run_name}/congreso_teruel_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 1,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
