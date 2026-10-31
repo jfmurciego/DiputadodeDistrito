@@ -1490,6 +1490,7 @@ territories:
         source_commit: 1ab4f4f74dc0f561a94b2b39223b12a0e30c0392
       evidence:
         electoral_source: territorios/congreso_orense/evidencia/fuentes_electorales/2025/e6d0f9c9083e2b30b604145d2f2e05adf93b1fff3c51244f45d136c9440ae829/41239892753/receipt.json
+        generation_preflight: territorios/congreso_orense/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_asturias
   name: Congreso Asturias
