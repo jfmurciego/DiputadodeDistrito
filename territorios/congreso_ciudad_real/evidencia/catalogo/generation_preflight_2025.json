@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_ciudad_real",
+  "territory_name": "Congreso Ciudad Real",
+  "edition": "2025",
+  "run_id": 41241133485,
+  "source_commit": "8f8e43323317789e620a10d14e48cd59a6843a33",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41241133485,
+    "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41241133485",
+    "artifact_sha256": "67da31185cefa495e45795789dc87a47ddd1863e55c5c4d0b9a03638bcb69f10",
+    "package_sha256": "86ffa5002fc53e7928609b65bb3ea2dbe7aabebc1803e0d81b8b0a7c33741992",
+    "compatibility_identity_sha256": "1ecc2f93b181849376360044634844f4d164b585d348a909417499aeabb02407",
+    "territorial_identity_sha256": "f0a8b7a4debed55d0ca32ee64b8531def34e67dfefa08d3313eb6d10a108a8a7",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
