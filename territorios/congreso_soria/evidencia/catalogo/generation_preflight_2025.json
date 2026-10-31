@@ -5,10 +5,12 @@
   "territory_name": "Congreso Soria",
   "edition": "2025",
   "run_id": 41235794328,
-  "source_commit": "ea3e90d5f573b0552b22e5dfdce9dd52074899e8",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "f66516a07a1085800ccdc7bf86c93bfbff0f9606",
+  "artifact_name": "ddd-state-41235794328-M03U",
+  "artifact_sha256": "3c28cfdb5d32ab7ba30a416d263f19d47f680401c3b7fca7d9ab7e242104b333",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41235794328,
     "artifact_name": "ddd-source-package-congreso_soria-2025-41235794328",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41235794328-M03",
+    "artifact_sha256": "8c1c2ebde26821ee2c7982080626731a45cd34af06f2d44143612f5020aa7b23",
+    "module_version": "7.5.0",
+    "nodes": 216,
+    "edges": 567,
+    "population": 89528,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41235794328",
+    "job_artifact_sha256": "4cbb22366e2844436a131ef4424f7feb2df89ffd0c84129dc25cf19cb50173fa",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/congreso_soria_2025/congreso_soria_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 89528,
+      "target_section_count": 216,
+      "package_sha256": "69ec473593919d945d5b92d6271319dcad50f2e24c5306cb0813878e4eee2102",
+      "compatibility_report_sha256": "30f3a70d267e8b6104274cb4407a4a7272af599142ad3566e7ebb3134daf90f9",
+      "compatibility_identity_sha256": "a99190465f7559ecc6cac51c6e0ddcb05ee0bd759495cf5770e8c7082af126df"
+    },
+    "topology_accreditation": null,
+    "k_districts": 1,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_soria/.cache/ddd/preparacion/{run_name}/congreso_soria_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 1,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
