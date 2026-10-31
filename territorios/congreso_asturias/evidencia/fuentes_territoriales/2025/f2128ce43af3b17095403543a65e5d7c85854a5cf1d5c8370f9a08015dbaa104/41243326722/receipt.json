@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_asturias",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41243326722,
+  "artifact_name": "ddd-source-package-congreso_asturias-2025-41243326722",
+  "artifact_sha256": "74451f158552e71551faed7025cfa418b75de54ba526f666aa6d1e8c26c1ab98",
+  "package_sha256": "4231edec418d4bbef046bd4205100a0d08de6a73dce3c65ff9bef82669ad9fc6",
+  "source_commit": "6ff6532547597b240f067c72fa651388868d1ca4",
+  "source_declaration": "territorios/congreso_asturias/evidencia/fuentes_territoriales/2025/f2128ce43af3b17095403543a65e5d7c85854a5cf1d5c8370f9a08015dbaa104/41243326722/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "f2128ce43af3b17095403543a65e5d7c85854a5cf1d5c8370f9a08015dbaa104",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "88e1882e2a26213cdb3f03714bd000b8e2390bc83b8d08ebe0bc2e6317f2b5c5",
+  "compatibility_identity_sha256": "1d6fef829fc06baad9315b3fdbd7b08b7512555211ccd29267d3d23749a92849"
+}
