@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_caceres",
+  "territory_name": "Congreso Cáceres",
+  "edition": "2025",
+  "run_id": 41240512324,
+  "artifact_name": "ddd-state-41240512324-M06",
+  "artifact_sha256": "07a03176fa980a93c9a39e2228d894c8cdc50349cb1ea003234f84ba0c687772",
+  "source_commit": "af8fccb278673aa95e96274a53bffd14b3dc0ad0",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_caceres/evidencia/generaciones_m06/41240512324.json"
+}

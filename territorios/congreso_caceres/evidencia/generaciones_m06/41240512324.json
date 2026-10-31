@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13060308025,
+      "artifact_name": "ddd-audit-41240512324",
+      "artifact_sha256": "439a62f663c39c49da91d13c97e84c109d7c8864a469f830315c7bae445d2771",
+      "run_id": 41240512324,
+      "size_in_bytes": 3016
+    },
+    "m04": {
+      "artifact_id": 13060447356,
+      "artifact_name": "ddd-state-41240512324-M04",
+      "artifact_sha256": "b1242df423641f0b8024711a654a12807d43b8377d324f71e37607026f53d8c6",
+      "run_id": 41240512324,
+      "size_in_bytes": 79907231
+    },
+    "m05": {
+      "artifact_id": 13060628610,
+      "artifact_name": "ddd-state-41240512324-M05",
+      "artifact_sha256": "a51ab61579f218a8629f69b45df8d252810f7854f9e8614df8cf3fa8587f837c",
+      "run_id": 41240512324,
+      "size_in_bytes": 81019626
+    },
+    "m06": {
+      "artifact_id": 13060123220,
+      "artifact_name": "ddd-state-41240512324-M06",
+      "artifact_sha256": "07a03176fa980a93c9a39e2228d894c8cdc50349cb1ea003234f84ba0c687772",
+      "run_id": 41240512324,
+      "size_in_bytes": 82387003
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "a78439b17d3cccf742ad2df73171edd481ef7da081948f58567ad8cdb56566bc",
+        "size_in_bytes": 478
+      },
+      "congreso_caceres_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "306e899a9d1b3a3f58ee82c52f120b2e1b68bf93d303c368e23e28acd2073a29",
+        "size_in_bytes": 4200
+      },
+      "optimization_execution.json": {
+        "sha256": "83f798a235ead62ee22868d53010cf50b7613dd84a92cb7d759441227163bee7",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "76a5fa296e80303aaa4641b1b32cdf91907118c71c7ff480595b986dc42ebec9",
+        "size_in_bytes": 1312
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "76a5fa296e80303aaa4641b1b32cdf91907118c71c7ff480595b986dc42ebec9",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_caceres/config/congreso_caceres_2025.yaml",
+    "sha256": "b22f7f7115444c964abc5685c0f41331c1bc5459153e14a82081a37dc342c3ce"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "d776b2088950a326fe902f2bdccf14e5d470521f791839b694b0d931901ab56f",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "af8fccb278673aa95e96274a53bffd14b3dc0ad0",
+    "edition": "2025",
+    "territory_id": "congreso_caceres",
+    "territory_name": "Congreso Cáceres",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41240512324,
+    "workflow_sha": "7fd9e8487d16e65c589afa67f361bcf39e8f0558"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060447356,
+      "artifact_name": "ddd-state-41240512324-M04",
+      "artifact_sha256": "b1242df423641f0b8024711a654a12807d43b8377d324f71e37607026f53d8c6",
+      "run_id": 41240512324,
+      "size_in_bytes": 79907231
+    },
+    "source_manifest_sha256": "f7b103b9744e7d14b53996aa1d92271cd47bbe75d17fe5066ac449985bb0426d",
+    "source_package_artifact": {
+      "artifact_id": 13058109203,
+      "artifact_name": "ddd-source-package-congreso_caceres-2025-41240512324",
+      "artifact_sha256": "c28a6c0c45bd071655deed566a7aa275e526c6cc3baec4287f3765c93d76a8bc",
+      "run_id": 41240512324,
+      "size_in_bytes": 77671126
+    }
+  },
+  "manifest_sha256": "db68ffb05204c425da29819aee9750f4d8a61499c8f56acf246d8d3a6530aebc",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
