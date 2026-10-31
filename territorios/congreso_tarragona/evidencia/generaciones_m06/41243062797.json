@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13061142502,
+      "artifact_name": "ddd-audit-41243062797",
+      "artifact_sha256": "9e21b0e0564d81593ab0cf3f97b7f0062033d104289c487210b3788a79a5d226",
+      "run_id": 41243062797,
+      "size_in_bytes": 4753
+    },
+    "m04": {
+      "artifact_id": 13060839388,
+      "artifact_name": "ddd-state-41243062797-M04",
+      "artifact_sha256": "ee9a7bd7be9153d92f8129aa33c268d15f1ed1f4e2935a1bef524bca10ac6950",
+      "run_id": 41243062797,
+      "size_in_bytes": 79289902
+    },
+    "m05": {
+      "artifact_id": 13060553872,
+      "artifact_name": "ddd-state-41243062797-M05",
+      "artifact_sha256": "5fc256aa52a48ed5dfc3d41e85e3966066b29bef498148f8f4a0724e1c0cb114",
+      "run_id": 41243062797,
+      "size_in_bytes": 80276212
+    },
+    "m06": {
+      "artifact_id": 13060044728,
+      "artifact_name": "ddd-state-41243062797-M06",
+      "artifact_sha256": "765119177f393e33e4bd0f5f6581826717ab1d5771157c1b491204727ca8832b",
+      "run_id": 41243062797,
+      "size_in_bytes": 81762175
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "34dab42febdeda0f75ddc6aef92a08725d47d2f3460d72b028778139c6a0e9f2",
+        "size_in_bytes": 484
+      },
+      "congreso_tarragona_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "cd645486ec0516afa5e51ff62b7da4b002c5a78b30efa71150088d873286cc4d",
+        "size_in_bytes": 17560
+      },
+      "optimization_execution.json": {
+        "sha256": "bb45ea013e21c7c0a598453e248a7c45046823e9320998cb8f97ba10f0155b71",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "5a36821cc17d05e07faec12727420a4da0592fb799c7146483061b2cf9163626",
+        "size_in_bytes": 1324
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "5a36821cc17d05e07faec12727420a4da0592fb799c7146483061b2cf9163626",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_tarragona/config/congreso_tarragona_2025.yaml",
+    "sha256": "c84dca486b339076af6a88a4cd4f37ff5bf7ae04910a143567030b7635f56ad5"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "e66bdf57ad5457af22f66fd24f3634b1d7ce9b2003404abccf69eaf3bc963785",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "a109fe8f27cd738d6112dd6a12a12ec9350f1f99",
+    "edition": "2025",
+    "territory_id": "congreso_tarragona",
+    "territory_name": "Congreso Tarragona",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41243062797,
+    "workflow_sha": "2a6e0c9b3c2444e479314e49f0380ae50ce51eac"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060839388,
+      "artifact_name": "ddd-state-41243062797-M04",
+      "artifact_sha256": "ee9a7bd7be9153d92f8129aa33c268d15f1ed1f4e2935a1bef524bca10ac6950",
+      "run_id": 41243062797,
+      "size_in_bytes": 79289902
+    },
+    "source_manifest_sha256": "0b2117e67823db04f5f159e5370ffd0dab1714a921a6dc5dac6e11609573cf87",
+    "source_package_artifact": {
+      "artifact_id": 13058929927,
+      "artifact_name": "ddd-source-package-congreso_tarragona-2025-41243062797",
+      "artifact_sha256": "52587a94ffe47e234d57e062bfb78e1b30d2d653b7af23ef534ba0c2ef03e964",
+      "run_id": 41243062797,
+      "size_in_bytes": 77303255
+    }
+  },
+  "manifest_sha256": "9d807f8e353846be51b1012b6042e442fb31810fb241bed86f9cee6f65e0b451",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
