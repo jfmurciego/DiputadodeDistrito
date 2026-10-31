@@ -5,10 +5,12 @@
   "territory_name": "Congreso Tarragona",
   "edition": "2025",
   "run_id": 41243062797,
-  "source_commit": "3d925d0123cad2e626b582aa221706acea60d511",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "4fd8d56d509ef72970f4c8f46ca388b5d8b924e9",
+  "artifact_name": "ddd-state-41243062797-M03U",
+  "artifact_sha256": "1b4b41e07232995c03514e6a9ac5a1402d76c9b04cad1ade57a6e6f1a24d99ba",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41243062797,
     "artifact_name": "ddd-source-package-congreso_tarragona-2025-41243062797",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41243062797-M03",
+    "artifact_sha256": "95faed2a6784294978e64e97b49f05228bd4ad0227cee0c96160dc62e5c24c04",
+    "module_version": "7.5.0",
+    "nodes": 542,
+    "edges": 1476,
+    "population": 848592,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41243062797",
+    "job_artifact_sha256": "bb6fb0fdacf259847be6f5affbc2ff4f444adbcc03dd01518d08d57d0de6de78",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/congreso_tarragona_2025/congreso_tarragona_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 848592,
+      "target_section_count": 542,
+      "package_sha256": "5610fbd5e43d083a9cd220dbedbf2ffe2e5b0d09a5e69044397f01c764fefc44",
+      "compatibility_report_sha256": "3b69f012499fc249e357a271309fa83d5fd9f2583ee8828a0aa3e19ad8b53f09",
+      "compatibility_identity_sha256": "4fb57ab0bf575ec3c0f25fc9172e28d821dacde5983dc9ea38285cc85d0ce2fb"
+    },
+    "topology_accreditation": null,
+    "k_districts": 7,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_tarragona/.cache/ddd/preparacion/{run_name}/congreso_tarragona_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 7,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

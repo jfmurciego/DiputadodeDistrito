@@ -2162,7 +2162,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_tarragona/evidencia/fuentes_electorales/2025/05ee98c2e9f9e0e4d18c306351f5d35c701d2074bd7c0d061e5c07817e95d22b/41239925359/receipt.json
         generation_preflight: territorios/congreso_tarragona/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_teruel
   name: Congreso Teruel
   editions:
