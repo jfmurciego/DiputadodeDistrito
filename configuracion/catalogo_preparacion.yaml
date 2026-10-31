@@ -894,11 +894,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_barcelona/evidencia/fuentes_electorales/2025/00a14eb290c463601d26aa2547e3af9a5a229c7d8b0fc92110f899c44592ff6b/41239777027/receipt.json
 - territory_id: congreso_burgos
   name: Congreso Burgos
   editions:
