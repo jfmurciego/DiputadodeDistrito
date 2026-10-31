@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_baleares",
+  "territory_name": "Congreso Baleares",
+  "edition": "2025",
+  "run_id": 41250230577,
+  "source_commit": "06647dcdfdd723d785f5679931872ce0da8b7a01",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41250230577,
+    "artifact_name": "ddd-source-package-congreso_baleares-2025-41250230577",
+    "artifact_sha256": "5460968a2be9a135f7bad62a38d6b85d2e2a1c789848c6a2182251c06faa5aaa",
+    "package_sha256": "4be23c377d470b6bcb25c97e019173088c3e0e0e4df608886422582ac303d447",
+    "compatibility_identity_sha256": "66c208080d9a2d651188e663843114db0aa4449c34956f9fd68083aba75eebd0",
+    "territorial_identity_sha256": "1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
