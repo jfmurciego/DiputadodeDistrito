@@ -1475,11 +1475,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_teruel/evidencia/fuentes_electorales/2025/672246c160d11ced224250bfe9f0ad643360584d7226f127b8c8e8ad97b2f240/41235977145/receipt.json
 - territory_id: congreso_toledo
   name: Congreso Toledo
   editions:
