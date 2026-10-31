@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T20:57:44.125626+00:00",
+  "generated_at": "2026-10-31T20:58:35.060528+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5991,14 +5991,14 @@
       "territory_id": "congreso_teruel",
       "name": "Congreso Teruel",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 41235966858,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6009,13 +6009,26 @@
           "artifact_sha256": "bf78bc22524148b7cd586655cedc3e5550dbd2dcda4cd57ccfbb79f7427805af",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_teruel",
+          "territory_name": "Congreso Teruel",
+          "edition": "2025",
+          "run_id": 41235966858,
+          "artifact_name": "ddd-state-41235966858-M06",
+          "artifact_sha256": "c4852368e9556592eeae609e5f0e533d312ecd168e289efc34b9b47cbea2f564",
+          "source_commit": "5218c0e9d47db27ed3ea8c937f8606c967225833",
+          "decision": "PASS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_teruel/evidencia/generaciones_m06/41235966858.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C44",
       "display_name": "Congreso Teruel",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_toledo",
@@ -6259,7 +6272,7 @@
       "19 Melilla",
       "Congreso Huesca"
     ],
-    "territorial_validated": 21,
+    "territorial_validated": 22,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6281,9 +6294,10 @@
       "19 Melilla",
       "Congreso Ávila",
       "Congreso Huesca",
+      "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "validated": 21,
+    "validated": 22,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6305,9 +6319,10 @@
       "19 Melilla",
       "Congreso Ávila",
       "Congreso Huesca",
+      "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "ready": 9,
+    "ready": 8,
     "ready_names": [
       "01 Andalucía",
       "Congreso Cuenca",
@@ -6315,7 +6330,6 @@
       "Congreso Palencia",
       "Congreso Segovia",
       "Congreso Soria",
-      "Congreso Teruel",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
@@ -6471,7 +6485,7 @@
       "territory": "Congreso Teruel",
       "territory_id": "congreso_teruel",
       "autonomous_community_code_ine": "C44",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     }
   ]
 }
