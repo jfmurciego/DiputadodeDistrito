@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_guadalajara",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41236816482,
+  "artifact_name": "ddd-source-package-congreso_guadalajara-2025-41236816482",
+  "artifact_sha256": "d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f",
+  "package_sha256": "999307e568f21491c3698c3ab5e29d82a645bec12462879ec2741f692eb0adab",
+  "source_commit": "2fa2d24ea024244737ae89e97380142a7c7cef14",
+  "source_declaration": "territorios/congreso_guadalajara/evidencia/fuentes_territoriales/2025/f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c/41236816482/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "f69b4153c5b745f7e7902dd918fccbd0aa165a70f8f91107da8c7335c4a3846c",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "c0686b2549d914adba6f21bc9c6d93c9b168f2c7705d1d26b26197b99a5e52b3",
+  "compatibility_identity_sha256": "0020d4b06226f86bc7a3b8b38202383a9435c314f0f39313c912e3094231e983"
+}
