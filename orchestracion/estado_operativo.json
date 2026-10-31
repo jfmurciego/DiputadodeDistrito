@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T20:58:35.060528+00:00",
+  "generated_at": "2026-10-31T20:59:12.044255+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5366,14 +5366,14 @@
       "territory_id": "congreso_guadalajara",
       "name": "Congreso Guadalajara",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41236816482,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5384,13 +5384,26 @@
           "artifact_sha256": "d5eccc8c9ef8f283fcdffd6f7bfaddbb032c9eed4a9438a880b10e187f64816f",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_guadalajara",
+          "territory_name": "Congreso Guadalajara",
+          "edition": "2025",
+          "run_id": 41236816482,
+          "artifact_name": "ddd-state-41236816482-M06",
+          "artifact_sha256": "2ba55b2ac52125af032d7b85ae615d8a52bf574b15e45bf8c34f1c0d1676a858",
+          "source_commit": "79e943d21c6e1210b4390185ddd8b0245012209b",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_guadalajara/evidencia/generaciones_m06/41236816482.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C19",
       "display_name": "Congreso Guadalajara",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_guipuzcoa",
@@ -6272,7 +6285,7 @@
       "19 Melilla",
       "Congreso Huesca"
     ],
-    "territorial_validated": 22,
+    "territorial_validated": 23,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6293,11 +6306,12 @@
       "18 Ceuta",
       "19 Melilla",
       "Congreso Ávila",
+      "Congreso Guadalajara",
       "Congreso Huesca",
       "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "validated": 22,
+    "validated": 23,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6318,15 +6332,15 @@
       "18 Ceuta",
       "19 Melilla",
       "Congreso Ávila",
+      "Congreso Guadalajara",
       "Congreso Huesca",
       "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "ready": 8,
+    "ready": 7,
     "ready_names": [
       "01 Andalucía",
       "Congreso Cuenca",
-      "Congreso Guadalajara",
       "Congreso Palencia",
       "Congreso Segovia",
       "Congreso Soria",
@@ -6461,7 +6475,7 @@
       "territory": "Congreso Guadalajara",
       "territory_id": "congreso_guadalajara",
       "autonomous_community_code_ine": "C19",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Congreso Palencia",
