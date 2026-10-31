@@ -2479,6 +2479,7 @@ territories:
         electoral_source: territorios/congreso_ceuta/evidencia/fuentes_electorales/2025/ddaa7e15da270b0590ad9ca79d4f6f83b4c4d0298b140408c8d7e639121b13ce/41236322923/receipt.json
         generation_preflight: territorios/congreso_ceuta/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_ceuta/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_ceuta/evidencia/pares_fuentes/2025/06512c236035bb31c11f899a4fc84dbb47f739f96e3f998a291ca1f9d3a980fc.json
       generation_enabled: true
 - territory_id: congreso_melilla
   name: Congreso Melilla
