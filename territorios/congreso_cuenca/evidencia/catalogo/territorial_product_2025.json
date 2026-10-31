@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_cuenca",
+  "territory_name": "Congreso Cuenca",
+  "edition": "2025",
+  "run_id": 41236647382,
+  "artifact_name": "ddd-state-41236647382-M06",
+  "artifact_sha256": "d3e40475499fc979a2aa454635827f737bd6b045ac73f4b9b33d119717403f85",
+  "source_commit": "9725346bacbd6fb9d7924cf44a62037a92eb7669",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_cuenca/evidencia/generaciones_m06/41236647382.json"
+}

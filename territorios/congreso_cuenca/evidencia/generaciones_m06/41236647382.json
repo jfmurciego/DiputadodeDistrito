@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13058232187,
+      "artifact_name": "ddd-audit-41236647382",
+      "artifact_sha256": "cef30e31d7bc8df399ba1681ed1003cbfa60af8f381e939be7fb56ba13ecb5b6",
+      "run_id": 41236647382,
+      "size_in_bytes": 3019
+    },
+    "m04": {
+      "artifact_id": 13058191254,
+      "artifact_name": "ddd-state-41236647382-M04",
+      "artifact_sha256": "90a3a508bc8724a55f587519bf18be01e31bd6301e8f37d84750e3183ef1320e",
+      "run_id": 41236647382,
+      "size_in_bytes": 77588261
+    },
+    "m05": {
+      "artifact_id": 13058291072,
+      "artifact_name": "ddd-state-41236647382-M05",
+      "artifact_sha256": "e9b7e5cbb0be28ae2dc8c153fb2a24cfc221e329b3ba2a62f62feb050e94dde1",
+      "run_id": 41236647382,
+      "size_in_bytes": 78259068
+    },
+    "m06": {
+      "artifact_id": 13058047662,
+      "artifact_name": "ddd-state-41236647382-M06",
+      "artifact_sha256": "d3e40475499fc979a2aa454635827f737bd6b045ac73f4b9b33d119717403f85",
+      "run_id": 41236647382,
+      "size_in_bytes": 79067585
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "106a9467c0fd697e1d228ae38c1ba003cdde2dd2ea90744583f6403ab774ccb7",
+        "size_in_bytes": 475
+      },
+      "congreso_cuenca_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "1635ed2c10cac03acf357aee5d433273520041e01f92ca00f425d4f43eb40e77",
+        "size_in_bytes": 4708
+      },
+      "optimization_execution.json": {
+        "sha256": "37613d01840f392696279c31274f5819ed0b3345943ecff36e2fbec8337f8a06",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "21858d0352ec15650ad596b94262abc44b0f60057967706daf267663b1ef9504",
+        "size_in_bytes": 1284
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "21858d0352ec15650ad596b94262abc44b0f60057967706daf267663b1ef9504",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_cuenca/config/congreso_cuenca_2025.yaml",
+    "sha256": "9d2784b68f44e00b64099292e0b1332e7de96187122c93dc4adc51d24c9bfaa0"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "092de5c08a9da6b9671d5b72f3b7fe3771a923f01805fe20a676982e4c5fcb5a",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "9725346bacbd6fb9d7924cf44a62037a92eb7669",
+    "edition": "2025",
+    "territory_id": "congreso_cuenca",
+    "territory_name": "Congreso Cuenca",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41236647382,
+    "workflow_sha": "09a4aeb9f22ae68bb252ffad76303ebd8fd0f02e"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13058191254,
+      "artifact_name": "ddd-state-41236647382-M04",
+      "artifact_sha256": "90a3a508bc8724a55f587519bf18be01e31bd6301e8f37d84750e3183ef1320e",
+      "run_id": 41236647382,
+      "size_in_bytes": 77588261
+    },
+    "source_manifest_sha256": "24fa37afa2f6945ac13d132b2773b33108b76899f5b1eaee97ae294bffd1f31f",
+    "source_package_artifact": {
+      "artifact_id": 13055614408,
+      "artifact_name": "ddd-source-package-congreso_cuenca-2025-41236647382",
+      "artifact_sha256": "c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6",
+      "run_id": 41236647382,
+      "size_in_bytes": 76235575
+    }
+  },
+  "manifest_sha256": "cfd538ef1d6dba40643a865a0ff9432065ce625eb65c48e81eaedb3a78238df7",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
