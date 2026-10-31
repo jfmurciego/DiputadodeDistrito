@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_guipuzcoa",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41242557327,
+  "artifact_name": "ddd-source-package-congreso_guipuzcoa-2025-41242557327",
+  "artifact_sha256": "e671623a21991c102f03d63f263cceb22e750e9138c273611664a5d80797df15",
+  "package_sha256": "17ce6969d87ce390e45c5547f8ba45bf2247208ed998f104471cf9b76bbb4bee",
+  "source_commit": "3c8987226976760910b7711b660979a7f5f84c78",
+  "source_declaration": "territorios/congreso_guipuzcoa/evidencia/fuentes_territoriales/2025/e374307624cb88a940356b551b294f49bdc0bf09ab29a6a54a1564539d526970/41242557327/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "e374307624cb88a940356b551b294f49bdc0bf09ab29a6a54a1564539d526970",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "3331efe90ecd239d6e1518579a650fdc78060d2dd60d5fb6ce09f151cc2bbf2d",
+  "compatibility_identity_sha256": "add3b7fa3a66e29b7505ceaa4d8428b2e9db5d1b1e4c021b59c8db857da3a295"
+}
