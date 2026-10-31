@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_burgos",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41240386898,
+  "artifact_name": "ddd-source-package-congreso_burgos-2025-41240386898",
+  "artifact_sha256": "2983e9f346d89f6e19073cec9561d0df367e525ddc8a653795faa3d6949fe832",
+  "package_sha256": "45f4b6c363cbf43ddd61bb8d93d934b345b4059fb5a9c569f9e448530fb25107",
+  "source_commit": "17ea4efd4fefef5b393e4446b783ca11d89e0a3b",
+  "source_declaration": "territorios/congreso_burgos/evidencia/fuentes_territoriales/2025/db4c26b9b2b86c014d3d912b397167f3d46eb00a5016bb33d9d56d566f6224c8/41240386898/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "db4c26b9b2b86c014d3d912b397167f3d46eb00a5016bb33d9d56d566f6224c8",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "8e25a5ecf706a6ac5cf24fc8c2ac944fe1e3064deaa3baaaaa7d6af1712f25fa",
+  "compatibility_identity_sha256": "34c9efdf7594bb9aa8e4aace6fd8133fbd5b587e854ac165154c37d0e2f47d6e"
+}

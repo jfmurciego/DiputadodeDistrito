@@ -21,10 +21,13 @@ io:
       path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -36,6 +39,10 @@ io:
         edad_total_values:
         - Todas las edades
         year_value: 2023
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/congreso_burgos/.cache/ddd/preparacion/{run_name}
   runs:
@@ -185,37 +192,133 @@ validation:
     edition: '2025'
     population_year: 2023
     section_year: 2023
-    population_total: 362663
-    target_section_count: 1
-    package_sha256: 306b5115d6bd0a1dc3c96b32b9b783b206cef6f0fa783dbe040344b7cd58cd17
-    compatibility_report_sha256: 5fb1d2ea68bf3d5e63c8e3be21872f860ea3f8f7126e130ee18039c7a5949157
-    compatibility_identity_sha256: b81d2eb7c8a57b47d4170e3417038490c6a938ea5c206f048041ce6bed26cc71
+    population_total: 357370
+    target_section_count: 582
+    package_sha256: 45f4b6c363cbf43ddd61bb8d93d934b345b4059fb5a9c569f9e448530fb25107
+    compatibility_report_sha256: 8e25a5ecf706a6ac5cf24fc8c2ac944fe1e3064deaa3baaaaa7d6af1712f25fa
+    compatibility_identity_sha256: 34c9efdf7594bb9aa8e4aace6fd8133fbd5b587e854ac165154c37d0e2f47d6e
 resolved_source_contract:
-  schema: ddd.resolved-source-contract/legacy-bridge
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: congreso_burgos
+    territory_name: Congreso Burgos
+    project_edition: '2025'
   temporal:
     population_year: 2023
     section_year: 2023
   sources:
-    population: null
-    sectioning: null
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 975e413b4b9c8dbbb42379456e32a0b85b38061662d9de0cc0be5e924ed7bbc1
+        bytes: 9602
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2023.zip
+        sha256: 4e57f1400c61be53a9d9b7e73997f8720580e89f68e91d567007c3fb35ad46c7
+        bytes: 1121924
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
     province_field: CPRO
     municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: 04fc3fb3cbc4ca73d0338f57bc7a938f56526b6127b0c30db50d29b17a63629d
 generation_state:
   source_prepared: true
   generation_enabled: false
-  package_sha256: 306b5115d6bd0a1dc3c96b32b9b783b206cef6f0fa783dbe040344b7cd58cd17
-  compatibility_identity_sha256: b81d2eb7c8a57b47d4170e3417038490c6a938ea5c206f048041ce6bed26cc71
+  package_sha256: 45f4b6c363cbf43ddd61bb8d93d934b345b4059fb5a9c569f9e448530fb25107
+  compatibility_identity_sha256: 34c9efdf7594bb9aa8e4aace6fd8133fbd5b587e854ac165154c37d0e2f47d6e
   source_inputs:
   - path: inputs/65034.csv.zip
-    sha256: ea1cf5426bfd54210e01c9736cd60b3d9b9e244f6242520f4e99b70f1eaedcd9
+    sha256: 975e413b4b9c8dbbb42379456e32a0b85b38061662d9de0cc0be5e924ed7bbc1
     role: population
-    source_id: synthetic_population
-    consumer_contract: null
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: ceb2fb37b79cb98c8f2fd549036c55782be075f9d6a91115700046b53585e615
+    sha256: 4e57f1400c61be53a9d9b7e73997f8720580e89f68e91d567007c3fb35ad46c7
     role: target_sectioning
-    source_id: synthetic_sectioning
-    consumer_contract: null
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
