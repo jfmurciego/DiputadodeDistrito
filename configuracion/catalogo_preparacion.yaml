@@ -1490,7 +1490,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_leon/evidencia/fuentes_electorales/2025/a57d170628ef34e459163cee84bbc310d5225cd1d586a8a771419bb3a66a5e35/41239847787/receipt.json
         generation_preflight: territorios/congreso_leon/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_lerida
   name: Congreso Lérida
   editions:

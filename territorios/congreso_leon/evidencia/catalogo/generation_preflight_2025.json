@@ -5,10 +5,12 @@
   "territory_name": "Congreso León",
   "edition": "2025",
   "run_id": 41241377284,
-  "source_commit": "6b8bcd46a8636f42e280219423005d5eeaf4430a",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "b872f44c0d53e0e6982c074d9a4b627cadb232fc",
+  "artifact_name": "ddd-state-41241377284-M03U",
+  "artifact_sha256": "af4904cdf46e9a99e5c01e377803a6f8719ec0e60f7df13ca070f0420bc2eed3",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41241377284,
     "artifact_name": "ddd-source-package-congreso_leon-2025-41241377284",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41241377284-M03",
+    "artifact_sha256": "ad365afa916bc5a75c9ee67127e3be7b44158dc7c9369d4d91684717fe66a9e4",
+    "module_version": "7.5.0",
+    "nodes": 447,
+    "edges": 1247,
+    "population": 448573,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41241377284",
+    "job_artifact_sha256": "0da9d937970e1f1d76f51af239bc8ec1e2bc606b9637c842e7cf18d6c950fd65",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/congreso_leon_2025/congreso_leon_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 448573,
+      "target_section_count": 447,
+      "package_sha256": "ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b",
+      "compatibility_report_sha256": "cc03ed216c8042c0df341b8a749dc0317acde2cba20091bc5a0efeefd94730d7",
+      "compatibility_identity_sha256": "ad0e21f088c3b151fec3761f6fff2801fe028a1e77d44e9d4d034c16a1102c5c"
+    },
+    "topology_accreditation": null,
+    "k_districts": 4,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_leon/.cache/ddd/preparacion/{run_name}/congreso_leon_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 4,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
