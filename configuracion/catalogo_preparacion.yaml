@@ -1973,20 +1973,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_toledo/config/congreso_toledo_2025.yaml
       territorial_source_declaration: territorios/congreso_toledo/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41242809451
+        artifact_name: ddd-source-package-congreso_toledo-2025-41242809451
+        artifact_sha256: 71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465
+        package_sha256: fd2fa7a4c735b1ccd07b09f9a80b893af0c777a1e6589645703fff43efd73c20
+        receipt_path: territorios/congreso_toledo/evidencia/fuentes_territoriales/2025/44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37/41242809451/receipt.json
+        territorial_identity_sha256: 44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37
+        compatibility_report_sha256: a035d589f3d43c84754a6ea84628bbeeac1ca21209d6f281ceb0b3c9584c2e4b
+        compatibility_identity_sha256: 80923df35b4801e2ea66ef2d0dd84500b6257dd7030aafd5695ccb180329bfbe
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 9b09962dd870eb500567df49959e2f7d12f0caec
       evidence:
         electoral_source: territorios/congreso_toledo/evidencia/fuentes_electorales/2025/4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a/41239931236/receipt.json
+      generation_enabled: false
 - territory_id: congreso_valencia
   name: Congreso Valencia
   editions:
