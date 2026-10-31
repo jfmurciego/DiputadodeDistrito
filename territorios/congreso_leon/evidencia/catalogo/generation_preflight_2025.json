@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_leon",
+  "territory_name": "Congreso León",
+  "edition": "2025",
+  "run_id": 41241377284,
+  "source_commit": "6b8bcd46a8636f42e280219423005d5eeaf4430a",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41241377284,
+    "artifact_name": "ddd-source-package-congreso_leon-2025-41241377284",
+    "artifact_sha256": "e576851afca31bc07379759546812488a830c35634ac15c2fc91361d31fd13ad",
+    "package_sha256": "ad4c13561666a914ad5f187a4eb74b11d44cabef38dfbd2317221abdf1dc0c8b",
+    "compatibility_identity_sha256": "ad0e21f088c3b151fec3761f6fff2801fe028a1e77d44e9d4d034c16a1102c5c",
+    "territorial_identity_sha256": "efb0cce4516bba1965435d97b91171794fa757967fbf573a329ff44c15e5a024",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
