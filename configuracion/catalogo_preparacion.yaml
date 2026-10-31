@@ -1099,11 +1099,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_granada/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json
 - territory_id: congreso_guadalajara
   name: Congreso Guadalajara
   editions:
