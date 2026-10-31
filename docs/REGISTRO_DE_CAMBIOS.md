@@ -1,12 +1,18 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.53
+Versión: 1.0.54
 Fecha: 2026-10-31
-Alcance: recuperación M08 con la fuente electoral declarada en el catálogo
+Alcance: recuperación M08 con receipt declarado y Gestor de Campañas operativo
 Estado: candidato
-Cambios/motivo: Cantabria y Extremadura (runs 41194221261 y 41194218470) fallaban al acreditar su M08 huérfano
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.52_recuperacion_20261031.md
+Cambios/motivo: el Gestor nunca arrancaba (startup_failure) y su selección por CODAUTO era poco usable
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.53_gestor_20261031.md
 -->
+
+## 2026-10-31 — 0 — Gestor de Campañas operativo
+
+- `gestor-campanas.yml` 1.1.0: `actions: write` en el llamador. El 00 llamado tiene un job con `actions: write` y, con `read`, GitHub rechazaba arrancar el workflow (`startup_failure` en cada PR y en cada lanzamiento). El campo de territorios acepta `todos`, números (`3,6,11`) o nombres (`Cantabria, Extremadura`), sin valor por defecto.
+- `gestor_campana_nacional.py` 0.1.0: `parse_selection`, que no distingue tildes ni mayúsculas y rechaza nombres desconocidos.
+- `test_gestor_campana_nacional.py`: selección y permisos del llamador frente al 00.
 
 ## 2026-10-31 — 04 — recuperación M08 con receipt declarado
 
