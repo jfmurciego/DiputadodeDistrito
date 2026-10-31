@@ -5,10 +5,12 @@
   "territory_name": "Congreso Orense",
   "edition": "2025",
   "run_id": 41240887712,
-  "source_commit": "29a950d4971e20d0fde57a6ff1b822fb9692d899",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "2599898bd2224402ac57597b43a7d412a5270f33",
+  "artifact_name": "ddd-state-41240887712-M03U",
+  "artifact_sha256": "82edf7159332e2d724d69d7d97b1727f9b78f3c4df3f976198acb54472e5a8e3",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41240887712,
     "artifact_name": "ddd-source-package-congreso_orense-2025-41240887712",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41240887712-M03",
+    "artifact_sha256": "32b90dd2d876edcecec95fde0dacd5685ef6c9db6906b4c457509b5915494397",
+    "module_version": "7.5.0",
+    "nodes": 257,
+    "edges": 698,
+    "population": 304563,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41240887712",
+    "job_artifact_sha256": "faa43ffcf3d8ffeb119a9c440f72636a78dcebd1232307f159929be73c30a9c5",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/congreso_orense_2025/congreso_orense_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 304563,
+      "target_section_count": 257,
+      "package_sha256": "29f140b521f9a4b66d6602b58d886e767192ea51135309eac1c25dca33ffb716",
+      "compatibility_report_sha256": "6fc44a9340070e6986e04cd5dc12db84de691968e4db599d609d0f80f031f4e7",
+      "compatibility_identity_sha256": "4aaaeaa30514e76a30e805918e5c4f0a6d0bb384e244411b0819eea619e6bbbd"
+    },
+    "topology_accreditation": null,
+    "k_districts": 3,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_orense/.cache/ddd/preparacion/{run_name}/congreso_orense_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 3,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
