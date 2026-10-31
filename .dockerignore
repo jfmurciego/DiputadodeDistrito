@@ -1,9 +1,10 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.4.3
+# VERSIÓN: 1.4.4
 # NOMBRE: Imagen sin datos con snapshots contractuales y M02 histórico de regresión
-# FECHA: 2026-10-29
+# FECHA: 2026-10-31
+# CAMBIOS 1.4.4: incluye legacy/workflows/retirados_20261031/ (tests de los workflows retirados del menú).
 # QUÉ HACE: excluye datasets y resultados, pero incorpora únicamente los snapshots históricos mínimos requeridos por las regresiones.
-# ANTERIOR: legacy/dockerignore_v1.4.2
+# ANTERIOR: legacy/dockerignore_v1.4.3
 # Evita duplicar datos y resultados dentro de cada imagen Docker.
 .git
 inputs/*
@@ -67,3 +68,8 @@ legacy/ddd_core/*
 !legacy/modulo06/
 legacy/modulo06/*
 !legacy/modulo06/06_consolidar_distritos_v7.2.2.py
+
+# 2026-10-31: workflows retirados del menú de Actions; sus regresiones leen la copia retirada.
+!legacy/workflows/
+legacy/workflows/*
+!legacy/workflows/retirados_20261031/
