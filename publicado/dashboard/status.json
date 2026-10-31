@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T22:35:44.175213+00:00",
+  "generated_at": "2026-10-31T22:38:40.749680+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,13 +22,13 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 64,
-      "action_required": 5,
+      "admissible": 66,
+      "action_required": 3,
       "blocked": 0,
       "unavailable": 0,
       "activated": 23,
-      "activable": 41,
-      "territorial_pending": 5,
+      "activable": 43,
+      "territorial_pending": 3,
       "electoral_pending": 0,
       "temporal_substitution": 3,
       "recent_activity": 0
@@ -37,7 +37,7 @@
       "total": 69,
       "legislature_resolved": 69,
       "years_resolved": 69,
-      "territorial_source": 64,
+      "territorial_source": 66,
       "electoral_source": 69,
       "durable_pair": 23
     },
@@ -1122,9 +1122,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -1134,10 +1134,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41244466642,
+            "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/60e7748d678fc96fe5f0e2864facd79c7b4e4032736dc746c9a83597e6ba2649/41244466642/receipt.json"
           }
         },
         "electoral": {
@@ -1147,9 +1147,9 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -1162,13 +1162,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso_almeria",
@@ -1332,9 +1326,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -1344,10 +1338,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41244711464,
+            "receipt_path": "territorios/congreso_barcelona/evidencia/fuentes_territoriales/2025/20d3e664192ec32a457cb173c91089b92877b5683bdee3fe251f172f627e6274/41244711464/receipt.json"
           }
         },
         "electoral": {
@@ -1357,9 +1351,9 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -1372,13 +1366,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso_burgos",
@@ -4774,6 +4762,49 @@
       "territory_id": "congreso_albacete",
       "name": "Congreso Albacete",
       "ft": "green",
+      "g": "green",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41240260992,
+      "last_run": {},
+      "stage": "M06",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "congreso_albacete",
+          "edition": "2025",
+          "run_id": 41240260992,
+          "artifact_name": "ddd-source-package-congreso_albacete-2025-41240260992",
+          "artifact_sha256": "2f45f2c0f403a2628ec2127e09a05f19dacf22ab9e3ccec9cf7104d7e0c5af02",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_albacete",
+          "territory_name": "Congreso Albacete",
+          "edition": "2025",
+          "run_id": 41240260992,
+          "artifact_name": "ddd-state-41240260992-M06",
+          "artifact_sha256": "06a759b15c528cb6eab63418219ec86312b0b866a4a266487f7f3d0b5e797217",
+          "source_commit": "0b8c3238704d2a0d0737e820eb0e972a1f6a0c8f",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_albacete/evidencia/generaciones_m06/41240260992.json"
+        },
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "C02",
+      "display_name": "Congreso Albacete",
+      "next_step": "preparar fuentes electorales"
+    },
+    {
+      "territory_id": "congreso_alicante",
+      "name": "Congreso Alicante",
+      "ft": "green",
       "g": "yellow",
       "fe": "yellow",
       "re": "gray",
@@ -4785,43 +4816,20 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_albacete",
+          "territory_id": "congreso_alicante",
           "edition": "2025",
-          "run_id": 41240260992,
-          "artifact_name": "ddd-source-package-congreso_albacete-2025-41240260992",
-          "artifact_sha256": "2f45f2c0f403a2628ec2127e09a05f19dacf22ab9e3ccec9cf7104d7e0c5af02",
+          "run_id": 41244466642,
+          "artifact_name": "ddd-source-package-congreso_alicante-2025-41244466642",
+          "artifact_sha256": "6c3cb0855e1192c0814fde3cd9eef1b757f6e41d669f878dc001d59c34f0b24f",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
-      "autonomous_community_code_ine": "C02",
-      "display_name": "Congreso Albacete",
-      "next_step": "generar y validar distritos"
-    },
-    {
-      "territory_id": "congreso_alicante",
-      "name": "Congreso Alicante",
-      "ft": "yellow",
-      "g": "yellow",
-      "fe": "yellow",
-      "re": "gray",
-      "status": "Validación pendiente",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
-      "last_run": {},
-      "stage": null,
-      "edition": "2025",
-      "phase_evidence": {
-        "territorial_source": null,
-        "territorial_product": null,
-        "electoral_source": null,
-        "electoral_product": null
-      },
       "autonomous_community_code_ine": "C03",
       "display_name": "Congreso Alicante",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_almeria",
@@ -4947,25 +4955,32 @@
     {
       "territory_id": "congreso_barcelona",
       "name": "Congreso Barcelona",
-      "ft": "yellow",
+      "ft": "green",
       "g": "yellow",
       "fe": "yellow",
       "re": "gray",
-      "status": "Validación pendiente",
+      "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {},
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "congreso_barcelona",
+          "edition": "2025",
+          "run_id": 41244711464,
+          "artifact_name": "ddd-source-package-congreso_barcelona-2025-41244711464",
+          "artifact_sha256": "5fe29b3be1438502ba76db845adb6dd52337c1e320ccfaf75d722ccc07e89cb6",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C08",
       "display_name": "Congreso Barcelona",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_burgos",
@@ -6498,7 +6513,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 29,
+    "territorial_validated": 30,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6518,6 +6533,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Congreso Albacete",
       "Congreso Ávila",
       "Congreso Cuenca",
       "Congreso Guadalajara",
@@ -6530,7 +6546,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 29,
+    "validated": 30,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6550,6 +6566,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Congreso Albacete",
       "Congreso Ávila",
       "Congreso Cuenca",
       "Congreso Guadalajara",
@@ -6562,13 +6579,14 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 35,
+    "ready": 36,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
-      "Congreso Albacete",
+      "Congreso Alicante",
       "Congreso Almería",
       "Congreso Badajoz",
+      "Congreso Barcelona",
       "Congreso Burgos",
       "Congreso Cáceres",
       "Congreso Cádiz",
@@ -6600,10 +6618,8 @@
       "Congreso Vizcaya",
       "Congreso Zaragoza"
     ],
-    "pending": 5,
+    "pending": 3,
     "pending_names": [
-      "Congreso Alicante",
-      "Congreso Barcelona",
       "Congreso Huelva",
       "Congreso Madrid",
       "Congreso Valencia"
@@ -6638,7 +6654,7 @@
       "territory": "Congreso Albacete",
       "territory_id": "congreso_albacete",
       "autonomous_community_code_ine": "C02",
-      "action": "completar puerta de validación territorial"
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Congreso Alicante",
@@ -6688,6 +6704,12 @@
       "territory": "Congreso Albacete",
       "territory_id": "congreso_albacete",
       "autonomous_community_code_ine": "C02",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Congreso Alicante",
+      "territory_id": "congreso_alicante",
+      "autonomous_community_code_ine": "C03",
       "action": "generar y validar distritos"
     },
     {
@@ -6703,21 +6725,15 @@
       "action": "generar y validar distritos"
     },
     {
+      "territory": "Congreso Barcelona",
+      "territory_id": "congreso_barcelona",
+      "autonomous_community_code_ine": "C08",
+      "action": "generar y validar distritos"
+    },
+    {
       "territory": "Congreso Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
-      "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Congreso Cáceres",
-      "territory_id": "congreso_caceres",
-      "autonomous_community_code_ine": "C10",
-      "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Congreso Cádiz",
-      "territory_id": "congreso_cadiz",
-      "autonomous_community_code_ine": "C11",
       "action": "generar y validar distritos"
     }
   ]
