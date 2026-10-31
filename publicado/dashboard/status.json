@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:20:07.394576+00:00",
+  "generated_at": "2026-10-31T23:20:47.299453+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6522,14 +6522,14 @@
       "territory_id": "congreso_sevilla",
       "name": "Congreso Sevilla",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41244347546,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6540,13 +6540,26 @@
           "artifact_sha256": "6fd8bcb16093981d226efd2e99093d58a0f6b40812cc3479db9ce9131317ec5d",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_sevilla",
+          "territory_name": "Congreso Sevilla",
+          "edition": "2025",
+          "run_id": 41244347546,
+          "artifact_name": "ddd-state-41244347546-M06",
+          "artifact_sha256": "757092fd4408ee1ffcfc72f106447d4420574cc9d62172782bea4886a3d8a793",
+          "source_commit": "959a9b0b591b4e2e0cdd79041ef020b4d23a5c13",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_sevilla/evidencia/generaciones_m06/41244347546.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C41",
       "display_name": "Congreso Sevilla",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_soria",
@@ -7095,7 +7108,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 45,
+    "territorial_validated": 46,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7135,6 +7148,7 @@
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
+      "Congreso Sevilla",
       "Congreso Soria",
       "Congreso Tarragona",
       "Congreso Teruel",
@@ -7143,7 +7157,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 45,
+    "validated": 46,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7183,6 +7197,7 @@
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
+      "Congreso Sevilla",
       "Congreso Soria",
       "Congreso Tarragona",
       "Congreso Teruel",
@@ -7191,7 +7206,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 22,
+    "ready": 21,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7211,7 +7226,6 @@
       "Congreso Palencia",
       "Congreso Pontevedra",
       "Congreso Cantabria",
-      "Congreso Sevilla",
       "Congreso Valladolid",
       "Congreso Vizcaya",
       "Congreso Zaragoza"
