@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13059752609,
+      "artifact_name": "ddd-audit-41239505387",
+      "artifact_sha256": "3263c6321aa4b623eb0a4428eada3674d43bb2bd00bc8d4ac71f0705afb267d0",
+      "run_id": 41239505387,
+      "size_in_bytes": 4118
+    },
+    "m04": {
+      "artifact_id": 13059811696,
+      "artifact_name": "ddd-state-41239505387-M04",
+      "artifact_sha256": "ccce8dfeb6ddb3ec27cdfb589c1f3f63d7b387c8411200a4b34940dbdae74076",
+      "run_id": 41239505387,
+      "size_in_bytes": 93235839
+    },
+    "m05": {
+      "artifact_id": 13059771892,
+      "artifact_name": "ddd-state-41239505387-M05",
+      "artifact_sha256": "803bf58388d982e065aa95db49939117df63182d46225871b0a5d43c09d01a64",
+      "run_id": 41239505387,
+      "size_in_bytes": 96418508
+    },
+    "m06": {
+      "artifact_id": 13060130790,
+      "artifact_name": "ddd-state-41239505387-M06",
+      "artifact_sha256": "bcac28237c78a78dc29ce9638755acf74b8c884b3afdfd27f248acd11a99b5e7",
+      "run_id": 41239505387,
+      "size_in_bytes": 100778833
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "e667f2a27fb75bee7172a19e155455c80b6979b69dd1b19d3389fea199d69863",
+        "size_in_bytes": 523
+      },
+      "congreso_santa_cruz_de_tenerife_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "97329a7981492932b43534eeb17412f5ac5dd824695083293a8d8734402911b1",
+        "size_in_bytes": 10747
+      },
+      "optimization_execution.json": {
+        "sha256": "f70c6c629d333bdf53c1fbc48fa0ffca5102197b7fe5f4f5be0f0721256d3da2",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "1d35467976d8d973ff7d4d098fcc6653af20b83259ac0a8b0ca127b156eb4003",
+        "size_in_bytes": 1402
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "1d35467976d8d973ff7d4d098fcc6653af20b83259ac0a8b0ca127b156eb4003",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_santa_cruz_de_tenerife/config/congreso_santa_cruz_de_tenerife_2025.yaml",
+    "sha256": "0a2e112f6c386b4cd07e8575788b2265a0a6e4f64229e0f475fc14720e7cd1cb"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "a22184921ec2b3c05362b21c135469578370875180e51d641273eb620f22876a",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "9f7ddb6cbbeeac9d8ab6f121512655bfd2f52c2c",
+    "edition": "2025",
+    "territory_id": "congreso_santa_cruz_de_tenerife",
+    "territory_name": "Congreso Santa Cruz de Tenerife",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41239505387,
+    "workflow_sha": "ed9b20f03c521f2dc5129ee731c9c3b96d3fbaad"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13059811696,
+      "artifact_name": "ddd-state-41239505387-M04",
+      "artifact_sha256": "ccce8dfeb6ddb3ec27cdfb589c1f3f63d7b387c8411200a4b34940dbdae74076",
+      "run_id": 41239505387,
+      "size_in_bytes": 93235839
+    },
+    "source_manifest_sha256": "ea1e3e0f59533d818f34875a7017fbade9019747027b2c086680a32dec2fc283",
+    "source_package_artifact": {
+      "artifact_id": 13057652288,
+      "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-41239505387",
+      "artifact_sha256": "92a3d4728c6ccd3acf30392e1448c8a3e7b456862fdbaab4d05fc8ad8e2f423b",
+      "run_id": 41239505387,
+      "size_in_bytes": 83707502
+    }
+  },
+  "manifest_sha256": "7b5b533cbb832377afca84cd3b09408ac61958b1dc167d117e9bcd777ffb69f6",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
