@@ -1642,12 +1642,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41235794328
+        stage: M06
       preparation_evidence:
         run_id: 41235794328
         artifact_name: ddd-source-package-congreso_soria-2025-41235794328
@@ -1664,6 +1666,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_soria/evidencia/fuentes_electorales/2025/7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b/41235804865/receipt.json
         generation_preflight: territorios/congreso_soria/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_soria/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_tarragona
   name: Congreso Tarragona
