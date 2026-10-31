@@ -1981,6 +1981,7 @@ territories:
         source_commit: fefd290ad115cc651b46bbf39a33ac45d83b7ae7
       evidence:
         electoral_source: territorios/congreso_las_palmas/evidencia/fuentes_electorales/2025/9c71936cebbe0ab9047846f3333b0565fa15f14bfaa03bbc258c440417299397/41250292326/receipt.json
+        generation_preflight: territorios/congreso_las_palmas/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_pontevedra
   name: Congreso Pontevedra
