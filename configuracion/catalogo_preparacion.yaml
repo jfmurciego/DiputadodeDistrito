@@ -1607,6 +1607,7 @@ territories:
         source_commit: 3c8987226976760910b7711b660979a7f5f84c78
       evidence:
         electoral_source: territorios/congreso_navarra/evidencia/fuentes_electorales/2025/4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3/41239887617/receipt.json
+        generation_preflight: territorios/congreso_navarra/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_orense
   name: Congreso Orense
