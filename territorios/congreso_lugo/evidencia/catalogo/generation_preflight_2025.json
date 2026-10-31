@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_lugo",
+  "territory_name": "Congreso Lugo",
+  "edition": "2025",
+  "run_id": 41240766116,
+  "source_commit": "2447d83e77da207c21861a21e9bf5bb8f1040a5d",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41240766116,
+    "artifact_name": "ddd-source-package-congreso_lugo-2025-41240766116",
+    "artifact_sha256": "e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
+    "package_sha256": "cf1f5b954273e80d7ad1a6078bc3752fff3757cd53498784e73a2e80be7c1bd6",
+    "compatibility_identity_sha256": "bfd620ed498ef903a127bc026b50c0bf2ef6fd03a1e6aa1dcbb363ae3ca8521d",
+    "territorial_identity_sha256": "bc60630570e46c2b31ace8e29a3e9a2dd2e091cb9c13f284b912ba1fdcf08003",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
