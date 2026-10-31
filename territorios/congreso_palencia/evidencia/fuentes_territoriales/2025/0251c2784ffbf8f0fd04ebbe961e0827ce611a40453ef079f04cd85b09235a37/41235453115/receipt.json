@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_palencia",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41235453115,
+  "artifact_name": "ddd-source-package-congreso_palencia-2025-41235453115",
+  "artifact_sha256": "9116a83ea5fb13693b0b5f1687f9d61dbb281265f6d3777410f3d25f9ae73fda",
+  "package_sha256": "fc927af5a13167c5df8d26edac32697430387912d0e9927d32f0adeec7ab16d5",
+  "source_commit": "41cce822d769c04abe5e32fc6f3edb4a12d5e460",
+  "source_declaration": "territorios/congreso_palencia/evidencia/fuentes_territoriales/2025/0251c2784ffbf8f0fd04ebbe961e0827ce611a40453ef079f04cd85b09235a37/41235453115/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "0251c2784ffbf8f0fd04ebbe961e0827ce611a40453ef079f04cd85b09235a37",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "c1e0d51f0bc82361d0de5c3d372d5643c2c93077bdf6642c292a797a8e9eadd5",
+  "compatibility_identity_sha256": "68ef39403b32962d4a326f0868893ed2bab1e9564622447073603e96ea9f5ebd"
+}
