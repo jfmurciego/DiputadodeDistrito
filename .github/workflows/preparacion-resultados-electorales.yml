@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.5
+# VERSIÓN: 1.0.6
 # NOMBRE DE VERSIÓN: Cola durable de operaciones
 # FECHA: 2026-10-25
 # ESTADO: candidato
@@ -14,7 +14,8 @@
 #   configuracion/contratos_infoelectoral.yaml) para el piloto Congreso Huesca.
 # CAMBIOS 1.0.5: Interior rechaza a los runners de GitHub (curl 22); si falla la URL oficial, descarga el
 #   mismo ZIP del release espejo declarado en el contrato. La huella SHA-256 se exige igual en ambos casos.
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.4_espejo_20261031.yml
+# CAMBIOS 1.0.6: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.5_20261031.yml
 name: 03 Preparación de Resultados Electorales
 
 on:
@@ -40,7 +41,7 @@ on:
         description: Territorio
         required: true
         type: choice
-        options: ['01 Andalucía', '02 Aragón', '03 Principado de Asturias', '04 Islas Baleares', '05 Canarias', '06 Cantabria', '07 Castilla y León', '08 Castilla-La Mancha', '09 Cataluña', '10 Comunidad Valenciana', '11 Extremadura', '12 Galicia', '13 Comunidad de Madrid', '14 Región de Murcia', '15 Comunidad Foral de Navarra', '16 País Vasco', '17 La Rioja', '18 Ceuta', '19 Melilla', 'Congreso Huesca']
+        options: ['01 Andalucía', '02 Aragón', '03 Principado de Asturias', '04 Islas Baleares', '05 Canarias', '06 Cantabria', '07 Castilla y León', '08 Castilla-La Mancha', '09 Cataluña', '10 Comunidad Valenciana', '11 Extremadura', '12 Galicia', '13 Comunidad de Madrid', '14 Región de Murcia', '15 Comunidad Foral de Navarra', '16 País Vasco', '17 La Rioja', '18 Ceuta', '19 Melilla', 'Congreso Álava', 'Congreso Albacete', 'Congreso Alicante', 'Congreso Almería', 'Congreso Ávila', 'Congreso Badajoz', 'Congreso Barcelona', 'Congreso Burgos', 'Congreso Cáceres', 'Congreso Cádiz', 'Congreso Castellón', 'Congreso Ciudad Real', 'Congreso Córdoba', 'Congreso La Coruña', 'Congreso Cuenca', 'Congreso Gerona', 'Congreso Granada', 'Congreso Guadalajara', 'Congreso Guipúzcoa', 'Congreso Huelva', 'Congreso Huesca', 'Congreso Jaén', 'Congreso León', 'Congreso Lérida', 'Congreso La Rioja', 'Congreso Lugo', 'Congreso Madrid', 'Congreso Málaga', 'Congreso Murcia', 'Congreso Navarra', 'Congreso Orense', 'Congreso Asturias', 'Congreso Palencia', 'Congreso Pontevedra', 'Congreso Salamanca', 'Congreso Cantabria', 'Congreso Segovia', 'Congreso Sevilla', 'Congreso Soria', 'Congreso Tarragona', 'Congreso Teruel', 'Congreso Toledo', 'Congreso Valencia', 'Congreso Valladolid', 'Congreso Vizcaya', 'Congreso Zamora', 'Congreso Zaragoza', 'Congreso Ceuta', 'Congreso Melilla']
       data_edition: {description: Edición de datos, required: true, default: '2025', type: choice, options: ['2025']}
       reutilizar_si_ya_preparada: {description: Reutilizar resultados electorales ya preparados, required: true, default: true, type: boolean}
 

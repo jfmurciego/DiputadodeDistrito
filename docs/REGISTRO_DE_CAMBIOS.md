@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.56
+Versión: 1.0.57
 Fecha: 2026-10-31
-Alcance: visor con provincias del Congreso
+Alcance: alta de 48 provincias del Congreso por el flujo 00
 Estado: candidato
-Cambios/motivo: el 00 de Huesca (run 41194447427) falló al construir el visor por KeyError autonomous_community_code_ine
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.55_visor_20261031.md
+Cambios/motivo: el piloto Huesca completó 01→05 (run 41194447427); se extiende a las provincias peninsulares, Ceuta y Melilla
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.56_provincias_20261031.md
 -->
+
+## 2026-10-31 — Congreso — 48 provincias nuevas
+
+- `herramientas/generar_provincias_congreso.py` 1.0.0 (nuevo, idempotente): con Huesca como plantilla, da de alta cada provincia del reparto N06 (52 provincias, 407 escaños). Escribe en catálogo maestro, política, matriz, registro, fuentes, catálogo de preparación, contrato Infoelectoral y contrato bootstrap M01–M06.
+- Identidad: `pilot_code` C+número INE; `plate_code` con las letras de matrícula (HU, M, B, CE, ML…). Topónimos en español (Gerona, Lérida, Orense, Guipúzcoa, Vizcaya, Álava, La Coruña).
+- Quedan fuera las provincias insulares (Baleares, Las Palmas y Santa Cruz de Tenerife), que necesitan la partición por islas.
+- `contratos_infoelectoral.yaml` 1.2.0: 48 contratos más; sus totales se calculan del ZIP oficial nacional y cada uno cuadra mesa a mesa con el conversor.
+- Versiones: catálogo maestro 1.7.0, política 1.7.0, matriz 1.1.0, fuentes 1.2.0 y los 6 workflows con selector (patch).
+- `tests/test_generar_provincias_congreso.py` (nuevo): K igual a N06 en todas las declaraciones, número y matrícula únicos, topónimos en español.
 
 ## 2026-10-31 — 05 — visor con provincias del Congreso
 
