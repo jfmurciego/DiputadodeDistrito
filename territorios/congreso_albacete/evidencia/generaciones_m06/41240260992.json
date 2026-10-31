@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13060465859,
+      "artifact_name": "ddd-audit-41240260992",
+      "artifact_sha256": "ff44fca816aa867e085f2be8179e54ee49175e7d43b1e48fc607347d4ffc1f06",
+      "run_id": 41240260992,
+      "size_in_bytes": 3416
+    },
+    "m04": {
+      "artifact_id": 13060550266,
+      "artifact_name": "ddd-state-41240260992-M04",
+      "artifact_sha256": "da55a8429afa457b81263bd8a5f0b814ddbd9bb5a5b4b10f14a7d54caf7a6de5",
+      "run_id": 41240260992,
+      "size_in_bytes": 76568138
+    },
+    "m05": {
+      "artifact_id": 13060385552,
+      "artifact_name": "ddd-state-41240260992-M05",
+      "artifact_sha256": "c85ae69a0bd19854bf255739555969b48b8194fb86c70b84a9ca9785ce262a1e",
+      "run_id": 41240260992,
+      "size_in_bytes": 77060166
+    },
+    "m06": {
+      "artifact_id": 13060625953,
+      "artifact_name": "ddd-state-41240260992-M06",
+      "artifact_sha256": "06a759b15c528cb6eab63418219ec86312b0b866a4a266487f7f3d0b5e797217",
+      "run_id": 41240260992,
+      "size_in_bytes": 77704009
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "e261a26d566a545cde75c6213fbaa39f92dd912894741123546926045b8243c4",
+        "size_in_bytes": 481
+      },
+      "congreso_albacete_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "ce45f4bc015af5a89868fbe084f21eabb428bb672252bf16694b38ed7f01d57b",
+        "size_in_bytes": 8179
+      },
+      "optimization_execution.json": {
+        "sha256": "f3f5215afe93912ee4db390adde33dc6db68f33647678f26e3fd7dba07624e51",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "ae27a1dfce32013d97e4c43b43c72c6d3de57dae5de554ebeacd7b5714971c76",
+        "size_in_bytes": 1318
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "ae27a1dfce32013d97e4c43b43c72c6d3de57dae5de554ebeacd7b5714971c76",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_albacete/config/congreso_albacete_2025.yaml",
+    "sha256": "b1c941ff8105ec16f546666a616283e3f0ce09fcc68b01692dab01715f614119"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "e69b4e3eee363221d90576a64d6a3a102ab12cacbf667fba3db310af1843a1de",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "0b8c3238704d2a0d0737e820eb0e972a1f6a0c8f",
+    "edition": "2025",
+    "territory_id": "congreso_albacete",
+    "territory_name": "Congreso Albacete",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41240260992,
+    "workflow_sha": "de37f79d61c0029c930e3c18e946d3661d5b17ae"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060550266,
+      "artifact_name": "ddd-state-41240260992-M04",
+      "artifact_sha256": "da55a8429afa457b81263bd8a5f0b814ddbd9bb5a5b4b10f14a7d54caf7a6de5",
+      "run_id": 41240260992,
+      "size_in_bytes": 76568138
+    },
+    "source_manifest_sha256": "fe5a1ca698d35d81df187f39557e7f78a2b1fa82c0e532f86e8507eb8ac22ab0",
+    "source_package_artifact": {
+      "artifact_id": 13058172031,
+      "artifact_name": "ddd-source-package-congreso_albacete-2025-41240260992",
+      "artifact_sha256": "2f45f2c0f403a2628ec2127e09a05f19dacf22ab9e3ccec9cf7104d7e0c5af02",
+      "run_id": 41240260992,
+      "size_in_bytes": 75575280
+    }
+  },
+  "manifest_sha256": "23cd477235846fd18928a6e879e2b180c25b9641747d257fa06bf555528b7bf4",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_albacete",
+  "territory_name": "Congreso Albacete",
+  "edition": "2025",
+  "run_id": 41240260992,
+  "artifact_name": "ddd-state-41240260992-M06",
+  "artifact_sha256": "06a759b15c528cb6eab63418219ec86312b0b866a4a266487f7f3d0b5e797217",
+  "source_commit": "0b8c3238704d2a0d0737e820eb0e972a1f6a0c8f",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_albacete/evidencia/generaciones_m06/41240260992.json"
+}
