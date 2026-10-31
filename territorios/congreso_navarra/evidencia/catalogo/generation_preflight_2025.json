@@ -5,10 +5,10 @@
   "territory_name": "Congreso Navarra",
   "edition": "2025",
   "run_id": 41242678275,
-  "source_commit": "8efb72baf7961233be9b83108c922e6139e9905a",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "9a4f0e296a962e600a96398b8d6843ecfa87664f",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 41242678275,
     "artifact_name": "ddd-source-package-congreso_navarra-2025-41242678275",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
