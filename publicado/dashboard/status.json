@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T21:37:55.268312+00:00",
+  "generated_at": "2026-10-31T21:45:28.005133+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5019,20 +5019,20 @@
       "name": "Congreso Ávila",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 41235278274,
+      "run_id": 41241662219,
       "last_run": {
-        "run_id": 41235278274,
+        "run_id": 41241662219,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5073,7 +5073,7 @@
       },
       "autonomous_community_code_ine": "C05",
       "display_name": "Congreso Ávila",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_badajoz",
@@ -5982,7 +5982,18 @@
           "producer_manifest_path": "territorios/congreso_segovia/evidencia/generaciones_m06/41235620157.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_segovia",
+          "territory_name": "Congreso Segovia",
+          "edition": "2025",
+          "run_id": 41241846017,
+          "artifact_name": "ddd-state-41241846017-M08",
+          "artifact_sha256": "03a0137ef76ac87e31192391914c1d2dc3fbc061cee7fec2f31fc22d8d514a35",
+          "source_commit": "f6ad35ad2b6da3c73f96b0f77c166663580eb8fb",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C40",
       "display_name": "Congreso Segovia",
@@ -6021,7 +6032,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS",
       "run_id": 41235794328,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41235794328,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6380,7 +6398,7 @@
     }
   ],
   "kpis": {
-    "complete": 19,
+    "complete": 20,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6400,6 +6418,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Congreso Ávila",
       "Congreso Huesca"
     ],
     "territorial_validated": 28,
@@ -6515,13 +6534,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_huesca",
-    "name": "Congreso Huesca",
-    "display_name": "Congreso Huesca",
-    "autonomous_community_code_ine": "C22",
-    "run_id": 41194447427,
+    "territory_id": "congreso_avila",
+    "name": "Congreso Ávila",
+    "display_name": "Congreso Ávila",
+    "autonomous_community_code_ine": "C05",
+    "run_id": 41241662219,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -6556,12 +6575,6 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Ávila",
-      "territory_id": "congreso_avila",
-      "autonomous_community_code_ine": "C05",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Congreso Badajoz",
       "territory_id": "congreso_badajoz",
       "autonomous_community_code_ine": "C06",
@@ -6571,6 +6584,12 @@
       "territory": "Congreso Barcelona",
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Congreso Burgos",
+      "territory_id": "congreso_burgos",
+      "autonomous_community_code_ine": "C09",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -6594,12 +6613,6 @@
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Ávila",
-      "territory_id": "congreso_avila",
-      "autonomous_community_code_ine": "C05",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Congreso Cuenca",
       "territory_id": "congreso_cuenca",
       "autonomous_community_code_ine": "C16",
@@ -6621,6 +6634,12 @@
       "territory": "Congreso Lugo",
       "territory_id": "congreso_lugo",
       "autonomous_community_code_ine": "C27",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "Congreso Orense",
+      "territory_id": "congreso_orense",
+      "autonomous_community_code_ine": "C32",
       "action": "generar y validar distritos"
     }
   ]
