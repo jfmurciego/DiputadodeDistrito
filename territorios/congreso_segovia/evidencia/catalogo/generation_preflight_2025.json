@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_segovia",
+  "territory_name": "Congreso Segovia",
+  "edition": "2025",
+  "run_id": 41235620157,
+  "source_commit": "66ad5341dc947ff01e71e741dd7cd0d1f4f0d8b2",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41235620157,
+    "artifact_name": "ddd-source-package-congreso_segovia-2025-41235620157",
+    "artifact_sha256": "69095d26e3c0e80f7156162c014d97b8c7b99f5f60475c30d5caf9350359c40f",
+    "package_sha256": "eca15937f80c9222c45599aaf9cc52862f0246c259c558c025185f02a3911361",
+    "compatibility_identity_sha256": "0f82ba4031c99c2c975b0cc626aabd256a898d0755dfa0788dbfcfb3b47b26a9",
+    "territorial_identity_sha256": "7bd7603c459589d31414402f7398ecda942da3bb6094cca3f45b37e8a8c34a5a",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
