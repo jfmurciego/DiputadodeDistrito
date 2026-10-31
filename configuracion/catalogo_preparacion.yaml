@@ -1040,6 +1040,7 @@ territories:
         source_commit: 09a4aeb9f22ae68bb252ffad76303ebd8fd0f02e
       evidence:
         electoral_source: territorios/congreso_cuenca/evidencia/fuentes_electorales/2025/b0cbccd6e4ca463e8b42fe602e7b9eace43abd0b022971272ce293fb819c58f7/41236657374/receipt.json
+        generation_preflight: territorios/congreso_cuenca/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_gerona
   name: Congreso Gerona
