@@ -2008,6 +2008,7 @@ territories:
         source_commit: 29a950d4971e20d0fde57a6ff1b822fb9692d899
       evidence:
         electoral_source: territorios/congreso_sevilla/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json
+        generation_preflight: territorios/congreso_sevilla/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_soria
   name: Congreso Soria
