@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_caceres",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41240512324,
+  "artifact_name": "ddd-source-package-congreso_caceres-2025-41240512324",
+  "artifact_sha256": "c28a6c0c45bd071655deed566a7aa275e526c6cc3baec4287f3765c93d76a8bc",
+  "package_sha256": "151415ae76db981e300e716465611f5f6abb6691226f1543cfb1478b934f3eea",
+  "source_commit": "7fd9e8487d16e65c589afa67f361bcf39e8f0558",
+  "source_declaration": "territorios/congreso_caceres/evidencia/fuentes_territoriales/2025/7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e/41240512324/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "6f6d36eb61b31aab2132b0705f041389d4731245315daf3cecfba2b4ad6947d1",
+  "compatibility_identity_sha256": "e6eadbf78216fa9cec47d1c9acb2e828ab5389c252dd4f7a3614d0333e93155b"
+}
