@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-31T11:12:30.618541+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-31T12:06:19.037885+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -33,12 +33,12 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979477771 · SUCCESS | — | — | — |
 | **04 Islas Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41033500476 · SUCCESS | — | — | — |
 | **05 Canarias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062557004 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
-| **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41194218470 · FAILED | 05 · Publicación del Visor | ver log del run | — |
+| **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41195453629 · SUCCESS | — | — | — |
 | **07 Castilla y León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979527162 · SUCCESS | — | — | — |
 | **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979540141 · SUCCESS | — | — | — |
 | **09 Cataluña** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41062562553 · SUCCESS | — | — | — |
 | **10 Comunidad Valenciana** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41062567297 · SUCCESS | — | — | — |
-| **11 Extremadura** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41194221261 · FAILED | 05 · Publicación del Visor | ver log del run | — |
+| **11 Extremadura** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41195457038 · SUCCESS | — | — | — |
 | **12 Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41044499258 · SUCCESS | — | — | — |
 | **13 Comunidad de Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41046373806 · SUCCESS | — | — | — |
 | **14 Región de Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062572613 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
