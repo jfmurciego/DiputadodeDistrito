@@ -987,6 +987,7 @@ territories:
         source_commit: 7fd9e8487d16e65c589afa67f361bcf39e8f0558
       evidence:
         electoral_source: territorios/congreso_caceres/evidencia/fuentes_electorales/2025/fd390f036b51e5bb85fb619ce3b5d2b16827be5e74c8291995d0d41bb1dcbade/41239788468/receipt.json
+        generation_preflight: territorios/congreso_caceres/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_cadiz
   name: Congreso Cádiz

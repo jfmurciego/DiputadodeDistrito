@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_caceres",
+  "territory_name": "Congreso Cáceres",
+  "edition": "2025",
+  "run_id": 41240512324,
+  "source_commit": "11b2c2ce39af66e97fe5524494ff2309348ba3a7",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41240512324,
+    "artifact_name": "ddd-source-package-congreso_caceres-2025-41240512324",
+    "artifact_sha256": "c28a6c0c45bd071655deed566a7aa275e526c6cc3baec4287f3765c93d76a8bc",
+    "package_sha256": "151415ae76db981e300e716465611f5f6abb6691226f1543cfb1478b934f3eea",
+    "compatibility_identity_sha256": "e6eadbf78216fa9cec47d1c9acb2e828ab5389c252dd4f7a3614d0333e93155b",
+    "territorial_identity_sha256": "7070e632f7a02bde0fa84ce844403dd095444994462161bd1f405f4015ddb79e",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
