@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:14:51.742152+00:00",
+  "generated_at": "2026-10-31T23:15:57.304857+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5274,7 +5274,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41241768943,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41241768943,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6559,14 +6566,14 @@
       "territory_id": "congreso_tarragona",
       "name": "Congreso Tarragona",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41243062797,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6577,13 +6584,26 @@
           "artifact_sha256": "52587a94ffe47e234d57e062bfb78e1b30d2d653b7af23ef534ba0c2ef03e964",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_tarragona",
+          "territory_name": "Congreso Tarragona",
+          "edition": "2025",
+          "run_id": 41243062797,
+          "artifact_name": "ddd-state-41243062797-M06",
+          "artifact_sha256": "765119177f393e33e4bd0f5f6581826717ab1d5771157c1b491204727ca8832b",
+          "source_commit": "a109fe8f27cd738d6112dd6a12a12ec9350f1f99",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_tarragona/evidencia/generaciones_m06/41243062797.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C43",
       "display_name": "Congreso Tarragona",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_teruel",
@@ -7003,7 +7023,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 42,
+    "territorial_validated": 43,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7042,13 +7062,14 @@
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
+      "Congreso Tarragona",
       "Congreso Teruel",
       "Congreso Toledo",
       "Congreso Zamora",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 42,
+    "validated": 43,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7087,13 +7108,14 @@
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
+      "Congreso Tarragona",
       "Congreso Teruel",
       "Congreso Toledo",
       "Congreso Zamora",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 25,
+    "ready": 24,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7116,7 +7138,6 @@
       "Congreso Pontevedra",
       "Congreso Cantabria",
       "Congreso Sevilla",
-      "Congreso Tarragona",
       "Congreso Valladolid",
       "Congreso Vizcaya",
       "Congreso Zaragoza"
