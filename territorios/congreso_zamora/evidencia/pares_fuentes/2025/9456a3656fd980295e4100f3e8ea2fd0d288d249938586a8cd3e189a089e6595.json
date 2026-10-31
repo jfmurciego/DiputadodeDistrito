@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_zamora",
+  "territory_name": "Congreso Zamora",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_zamora_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41236140669,
+    "artifact_name": "ddd-source-package-congreso_zamora-2025-41236140669",
+    "artifact_sha256": "51e3dc4d4ef5befc784a9b30440dda19aa9cac35e93348bda74fb40946622c19",
+    "package_sha256": "5dc537854661b06ad33fdcbd2de17913bac942417ea2f2fab7557cf257b23745",
+    "source_commit": "8c1d79a84a6425fb32e9332bbacd07adf3042c00",
+    "source_declaration": "territorios/congreso_zamora/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_zamora/evidencia/fuentes_territoriales/2025/9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01/41236140669/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "c58a4b516ed44839080fcfcebd6f7a3cb4efb6f83e0d5fc6e43a1c40112c9897",
+    "compatibility_identity_sha256": "56da2c5a69c564e097b229f997fcbb90b48d66b12c6b4b472cfd18a518011197",
+    "remote_verification": {
+      "run_id": 41236140669,
+      "artifact_id": 13056750307,
+      "artifact_name": "ddd-source-package-congreso_zamora-2025-41236140669",
+      "artifact_sha256": "51e3dc4d4ef5befc784a9b30440dda19aa9cac35e93348bda74fb40946622c19",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41236149824,
+    "artifact_name": "ddd-electoral-package-congreso_zamora-2025-41236149824",
+    "artifact_sha256": "27147f8941e94d9ba4f5a6f2a4efc02a72fe50738e531c10d28e62c4b6e2b183",
+    "source_commit": "8c1d79a84a6425fb32e9332bbacd07adf3042c00",
+    "receipt_path": "territorios/congreso_zamora/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_zamora_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff",
+    "remote_verification": {
+      "run_id": 41236149824,
+      "artifact_id": 13055436939,
+      "artifact_name": "ddd-electoral-package-congreso_zamora-2025-41236149824",
+      "artifact_sha256": "27147f8941e94d9ba4f5a6f2a4efc02a72fe50738e531c10d28e62c4b6e2b183",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "9a336472a131bfa3b4692ddb391f80f6edcc997221ac9d801677c3fdb7344c01",
+  "electoral_compatibility_key": "81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_zamora/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "9456a3656fd980295e4100f3e8ea2fd0d288d249938586a8cd3e189a089e6595"
+}
