@@ -1015,7 +1015,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_barcelona/evidencia/fuentes_electorales/2025/00a14eb290c463601d26aa2547e3af9a5a229c7d8b0fc92110f899c44592ff6b/41239777027/receipt.json
         generation_preflight: territorios/congreso_barcelona/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_burgos
   name: Congreso Burgos
   editions:

@@ -5,10 +5,12 @@
   "territory_name": "Congreso Barcelona",
   "edition": "2025",
   "run_id": 41244711464,
-  "source_commit": "aafeaae0b8613186742ef38c50b6af3c7c45cc40",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "e1529d495ecf3ba6da5f7fc8f5b5919b4a2f68c3",
+  "artifact_name": "ddd-state-41244711464-M03U",
+  "artifact_sha256": "4395dbf3bbc5cd93027a06f20384abf33e2666763a3bc729dfc31a750ffb59f9",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41244711464,
     "artifact_name": "ddd-source-package-congreso_barcelona-2025-41244711464",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41244711464-M03",
+    "artifact_sha256": "8ec573d2e78a24e78851027cfa39d14b06fb83f08f23f2f0d4c73dc423838fd4",
+    "module_version": "7.5.0",
+    "nodes": 3642,
+    "edges": 10165,
+    "population": 5797356,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41244711464",
+    "job_artifact_sha256": "359f13b5c3ae0d5984887a4f0847e97e697fd6cf2d9226a852fe4b081e80a540",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/congreso_barcelona_2025/congreso_barcelona_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 5797356,
+      "target_section_count": 3642,
+      "package_sha256": "c3c446cff78b033e4a201bf93e3c64be93144df5e1a6b1751514d21f40550536",
+      "compatibility_report_sha256": "d473574c238111e57d53be4daad499aa765e1f7e407883b44ea89ec7dd240f3d",
+      "compatibility_identity_sha256": "f42fb16acc812b3fcf934226c2a60f9319b4e6b0e1f29697c65f387129e67b20"
+    },
+    "topology_accreditation": null,
+    "k_districts": 50,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_barcelona/.cache/ddd/preparacion/{run_name}/congreso_barcelona_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 50,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
