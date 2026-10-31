@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T22:51:25.345325+00:00",
+  "generated_at": "2026-10-31T22:56:55.902747+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -23,23 +23,23 @@
     },
     "summary": {
       "admissible": 67,
-      "action_required": 2,
+      "action_required": 4,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 23,
-      "activable": 44,
-      "territorial_pending": 2,
-      "electoral_pending": 0,
+      "activated": 24,
+      "activable": 43,
+      "territorial_pending": 4,
+      "electoral_pending": 2,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
     "activation_chain": {
-      "total": 69,
-      "legislature_resolved": 69,
-      "years_resolved": 69,
+      "total": 71,
+      "legislature_resolved": 71,
+      "years_resolved": 71,
       "territorial_source": 67,
       "electoral_source": 69,
-      "durable_pair": 23
+      "durable_pair": 24
     },
     "territories": [
       {
@@ -1316,6 +1316,68 @@
           "source": "repository_durable_state"
         },
         "next_steps": []
+      },
+      {
+        "territory_id": "congreso_baleares",
+        "name": "Congreso Baleares",
+        "display_name": "Congreso Baleares",
+        "election": {
+          "election_id": "congreso_baleares_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
       },
       {
         "territory_id": "congreso_barcelona",
@@ -2701,6 +2763,68 @@
         "next_steps": []
       },
       {
+        "territory_id": "congreso_las_palmas",
+        "name": "Congreso Las Palmas",
+        "display_name": "Congreso Las Palmas",
+        "election": {
+          "election_id": "congreso_las_palmas_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
         "territory_id": "congreso_pontevedra",
         "name": "Congreso Pontevedra",
         "display_name": "Congreso Pontevedra",
@@ -3144,12 +3268,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_teruel/evidencia/pares_fuentes/2025/cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5.json",
+            "pair_sha256": "cae6a511035ddf63d9ac7ef89536c65041f9cff457fe64a6325f93867ffa5bd5",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -4961,6 +5085,29 @@
       "next_step": "generar y validar distritos"
     },
     {
+      "territory_id": "congreso_baleares",
+      "name": "Congreso Baleares",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "C07",
+      "display_name": "Congreso Baleares",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
       "territory_id": "congreso_barcelona",
       "name": "Congreso Barcelona",
       "ft": "green",
@@ -5127,7 +5274,14 @@
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41241133485,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "publication": "not_requested"
+      },
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
@@ -5788,14 +5942,14 @@
       "territory_id": "congreso_orense",
       "name": "Congreso Orense",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 41240887712,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5806,13 +5960,26 @@
           "artifact_sha256": "6649836bde1fa498f0f10663bbf1cb723449810f009a272e7851bf47a42cd541",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_orense",
+          "territory_name": "Congreso Orense",
+          "edition": "2025",
+          "run_id": 41240887712,
+          "artifact_name": "ddd-state-41240887712-M06",
+          "artifact_sha256": "2e9910c25b275172474a3894d698a71b46cea7584ce14b9e81c130ff19f4375f",
+          "source_commit": "d6acbff9505cb3165c55fc3ecb3ba19f714e8c02",
+          "decision": "PASS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_orense/evidencia/generaciones_m06/41240887712.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C32",
       "display_name": "Congreso Orense",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_asturias",
@@ -5880,6 +6047,29 @@
       "autonomous_community_code_ine": "C34",
       "display_name": "Congreso Palencia",
       "next_step": "generar y validar distritos"
+    },
+    {
+      "territory_id": "congreso_las_palmas",
+      "name": "Congreso Las Palmas",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "C35",
+      "display_name": "Congreso Las Palmas",
+      "next_step": "preparar fuentes territoriales"
     },
     {
       "territory_id": "congreso_pontevedra",
@@ -6312,7 +6502,14 @@
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41241636977,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "publication": "not_requested"
+      },
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
@@ -6568,7 +6765,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 32,
+    "territorial_validated": 33,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6595,6 +6792,7 @@
       "Congreso Huesca",
       "Congreso La Rioja",
       "Congreso Lugo",
+      "Congreso Orense",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
@@ -6603,7 +6801,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 32,
+    "validated": 33,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6630,6 +6828,7 @@
       "Congreso Huesca",
       "Congreso La Rioja",
       "Congreso Lugo",
+      "Congreso Orense",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
@@ -6638,7 +6837,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 35,
+    "ready": 34,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -6663,7 +6862,6 @@
       "Congreso Málaga",
       "Congreso Murcia",
       "Congreso Navarra",
-      "Congreso Orense",
       "Congreso Asturias",
       "Congreso Palencia",
       "Congreso Pontevedra",
@@ -6676,9 +6874,11 @@
       "Congreso Vizcaya",
       "Congreso Zaragoza"
     ],
-    "pending": 2,
+    "pending": 4,
     "pending_names": [
+      "Congreso Baleares",
       "Congreso Huelva",
+      "Congreso Las Palmas",
       "Congreso Valencia"
     ],
     "blocked": 0,
@@ -6732,15 +6932,15 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Barcelona",
-      "territory_id": "congreso_barcelona",
-      "autonomous_community_code_ine": "C08",
+      "territory": "Congreso Baleares",
+      "territory_id": "congreso_baleares",
+      "autonomous_community_code_ine": "C07",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Burgos",
-      "territory_id": "congreso_burgos",
-      "autonomous_community_code_ine": "C09",
+      "territory": "Congreso Barcelona",
+      "territory_id": "congreso_barcelona",
+      "autonomous_community_code_ine": "C08",
       "action": "completar puerta de validación territorial"
     }
   ],
