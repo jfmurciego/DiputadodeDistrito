@@ -1372,6 +1372,7 @@ territories:
         source_commit: 41cce822d769c04abe5e32fc6f3edb4a12d5e460
       evidence:
         electoral_source: territorios/congreso_palencia/evidencia/fuentes_electorales/2025/835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a/41235462609/receipt.json
+        generation_preflight: territorios/congreso_palencia/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_pontevedra
   name: Congreso Pontevedra

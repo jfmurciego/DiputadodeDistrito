@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_palencia",
+  "territory_name": "Congreso Palencia",
+  "edition": "2025",
+  "run_id": 41235453115,
+  "source_commit": "0bd9f28d3a8d68076591212c204a1ed96e98cebb",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41235453115,
+    "artifact_name": "ddd-source-package-congreso_palencia-2025-41235453115",
+    "artifact_sha256": "9116a83ea5fb13693b0b5f1687f9d61dbb281265f6d3777410f3d25f9ae73fda",
+    "package_sha256": "fc927af5a13167c5df8d26edac32697430387912d0e9927d32f0adeec7ab16d5",
+    "compatibility_identity_sha256": "68ef39403b32962d4a326f0868893ed2bab1e9564622447073603e96ea9f5ebd",
+    "territorial_identity_sha256": "0251c2784ffbf8f0fd04ebbe961e0827ce611a40453ef079f04cd85b09235a37",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
