@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_ceuta",
+  "territory_name": "Congreso Ceuta",
+  "edition": "2025",
+  "run_id": 41250564472,
+  "artifact_name": "ddd-state-41250564472-M08",
+  "artifact_sha256": "35a82cbf1041b54568e8efe3b0b6058435e3b419153b8204c0428103de848411",
+  "source_commit": "e05a35de955c5a77cc49fb711c559127debd0086",
+  "stage": "M08"
+}
