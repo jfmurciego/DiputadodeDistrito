@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:21:54.671486+00:00",
+  "generated_at": "2026-10-31T23:22:53.622819+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -4933,7 +4933,14 @@
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41244466642,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "publication": "not_requested"
+      },
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
@@ -5368,7 +5375,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41242424551,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41242424551,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
