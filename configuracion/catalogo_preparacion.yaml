@@ -1066,6 +1066,7 @@ territories:
         source_commit: 342876ca35767ec5fc616e2b0522633c14dd94d6
       evidence:
         electoral_source: territorios/congreso_cadiz/evidencia/fuentes_electorales/2025/688db9735cc06c9385f1dcca17e123a2df2ba1b7d015d58ff9842bcc845535c8/41239793930/receipt.json
+        generation_preflight: territorios/congreso_cadiz/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_castellon
   name: Congreso Castellón
