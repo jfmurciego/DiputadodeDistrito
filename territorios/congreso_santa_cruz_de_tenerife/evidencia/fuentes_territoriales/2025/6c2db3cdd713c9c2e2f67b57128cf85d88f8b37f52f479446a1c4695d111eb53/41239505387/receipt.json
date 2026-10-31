@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_santa_cruz_de_tenerife",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41239505387,
+  "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-41239505387",
+  "artifact_sha256": "92a3d4728c6ccd3acf30392e1448c8a3e7b456862fdbaab4d05fc8ad8e2f423b",
+  "package_sha256": "b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f",
+  "source_commit": "ed9b20f03c521f2dc5129ee731c9c3b96d3fbaad",
+  "source_declaration": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/41239505387/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "dd073ad51ad273aef19ccf0fea5bef88314917fd008a122161a968d40137ccaa",
+  "compatibility_identity_sha256": "a71306975cef7667b846faf4a0397957b11e7bdb49217d0f9017239b9de532c8"
+}
