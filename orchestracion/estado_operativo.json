@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T21:00:36.332135+00:00",
+  "generated_at": "2026-10-31T21:15:04.022152+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,13 +22,13 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 30,
-      "action_required": 39,
+      "admissible": 31,
+      "action_required": 38,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 20,
-      "activable": 10,
-      "territorial_pending": 39,
+      "activated": 22,
+      "activable": 9,
+      "territorial_pending": 38,
       "electoral_pending": 0,
       "temporal_substitution": 3,
       "recent_activity": 0
@@ -37,9 +37,9 @@
       "total": 69,
       "legislature_resolved": 69,
       "years_resolved": 69,
-      "territorial_source": 30,
+      "territorial_source": 31,
       "electoral_source": 69,
-      "durable_pair": 20
+      "durable_pair": 22
     },
     "territories": [
       {
@@ -1275,12 +1275,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_avila/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json",
+            "pair_sha256": "0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2985,9 +2985,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -2997,10 +2997,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41239505387,
+            "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/41239505387/receipt.json"
           }
         },
         "electoral": {
@@ -3010,9 +3010,9 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -3025,13 +3025,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso_cantabria",
@@ -3126,12 +3120,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_segovia/evidencia/pares_fuentes/2025/11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c.json",
+            "pair_sha256": "11f94d3495401a72fe415f131b7a62a7eeef7ef8f5281e3a8e3ed14bec680a6c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5080,7 +5074,18 @@
           "producer_manifest_path": "territorios/congreso_avila/evidencia/generaciones_m06/41235278274.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_avila",
+          "territory_name": "Congreso Ávila",
+          "edition": "2025",
+          "run_id": 41241662219,
+          "artifact_name": "ddd-state-41241662219-M08",
+          "artifact_sha256": "65d669aa04fb38668d8727daa3ce2da892152642400cdd7b76255a261c206613",
+          "source_commit": "a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C05",
       "display_name": "Congreso Ávila",
@@ -5379,7 +5384,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41236816482,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41236816482,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -5858,25 +5870,32 @@
     {
       "territory_id": "congreso_santa_cruz_de_tenerife",
       "name": "Congreso Santa Cruz de Tenerife",
-      "ft": "yellow",
+      "ft": "green",
       "g": "yellow",
       "fe": "yellow",
       "re": "gray",
-      "status": "Validación pendiente",
+      "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {},
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "congreso_santa_cruz_de_tenerife",
+          "edition": "2025",
+          "run_id": 41239505387,
+          "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-41239505387",
+          "artifact_sha256": "92a3d4728c6ccd3acf30392e1448c8a3e7b456862fdbaab4d05fc8ad8e2f423b",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C38",
       "display_name": "Congreso Santa Cruz de Tenerife",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_cantabria",
@@ -5911,7 +5930,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS",
       "run_id": 41235620157,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41235620157,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6030,7 +6056,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS",
       "run_id": 41235966858,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41235966858,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6366,16 +6399,17 @@
       "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "ready": 6,
+    "ready": 7,
     "ready_names": [
       "01 Andalucía",
       "Congreso Cuenca",
       "Congreso Palencia",
+      "Congreso Santa Cruz de Tenerife",
       "Congreso Soria",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "pending": 39,
+    "pending": 38,
     "pending_names": [
       "Congreso Álava",
       "Congreso Albacete",
@@ -6407,7 +6441,6 @@
       "Congreso Asturias",
       "Congreso Pontevedra",
       "Congreso Salamanca",
-      "Congreso Santa Cruz de Tenerife",
       "Congreso Cantabria",
       "Congreso Sevilla",
       "Congreso Tarragona",
@@ -6512,6 +6545,12 @@
       "action": "generar y validar distritos"
     },
     {
+      "territory": "Congreso Santa Cruz de Tenerife",
+      "territory_id": "congreso_santa_cruz_de_tenerife",
+      "autonomous_community_code_ine": "C38",
+      "action": "generar y validar distritos"
+    },
+    {
       "territory": "Congreso Segovia",
       "territory_id": "congreso_segovia",
       "autonomous_community_code_ine": "C40",
@@ -6522,12 +6561,6 @@
       "territory_id": "congreso_soria",
       "autonomous_community_code_ine": "C42",
       "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Congreso Teruel",
-      "territory_id": "congreso_teruel",
-      "autonomous_community_code_ine": "C44",
-      "action": "preparar fuentes electorales"
     }
   ]
 }
