@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_toledo",
+  "territory_name": "Congreso Toledo",
+  "edition": "2025",
+  "run_id": 41242809451,
+  "source_commit": "921020251310fb6301918675d07950ea3121808a",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41242809451,
+    "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
+    "artifact_sha256": "71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465",
+    "package_sha256": "fd2fa7a4c735b1ccd07b09f9a80b893af0c777a1e6589645703fff43efd73c20",
+    "compatibility_identity_sha256": "80923df35b4801e2ea66ef2d0dd84500b6257dd7030aafd5695ccb180329bfbe",
+    "territorial_identity_sha256": "44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
