@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T22:38:40.749680+00:00",
+  "generated_at": "2026-10-31T22:49:25.975806+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,13 +22,13 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 66,
-      "action_required": 3,
+      "admissible": 67,
+      "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
       "activated": 23,
-      "activable": 43,
-      "territorial_pending": 3,
+      "activable": 44,
+      "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
       "recent_activity": 0
@@ -37,7 +37,7 @@
       "total": 69,
       "legislature_resolved": 69,
       "years_resolved": 69,
-      "territorial_source": 66,
+      "territorial_source": 67,
       "electoral_source": 69,
       "durable_pair": 23
     },
@@ -2352,9 +2352,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -2364,10 +2364,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41244835816,
+            "receipt_path": "territorios/congreso_madrid/evidencia/fuentes_territoriales/2025/d1601961220191226b90af97e5124402486aa3d6a0475d12bbe93aecff143d97/41244835816/receipt.json"
           }
         },
         "electoral": {
@@ -2377,9 +2377,9 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -2392,13 +2392,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso_malaga",
@@ -4768,7 +4762,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41240260992,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41240260992,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -5597,6 +5598,49 @@
       "territory_id": "congreso_lugo",
       "name": "Congreso Lugo",
       "ft": "green",
+      "g": "green",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41240766116,
+      "last_run": {},
+      "stage": "M06",
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": {
+          "territory_id": "congreso_lugo",
+          "edition": "2025",
+          "run_id": 41240766116,
+          "artifact_name": "ddd-source-package-congreso_lugo-2025-41240766116",
+          "artifact_sha256": "e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_lugo",
+          "territory_name": "Congreso Lugo",
+          "edition": "2025",
+          "run_id": 41240766116,
+          "artifact_name": "ddd-state-41240766116-M06",
+          "artifact_sha256": "5333bbf941e9eeb1185142bc6df04a8f2c569ab720c6a525c4880a398a409f50",
+          "source_commit": "773efe666dc10eaa81fd171db22631e4ea10c4a9",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_lugo/evidencia/generaciones_m06/41240766116.json"
+        },
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "C27",
+      "display_name": "Congreso Lugo",
+      "next_step": "preparar fuentes electorales"
+    },
+    {
+      "territory_id": "congreso_madrid",
+      "name": "Congreso Madrid",
+      "ft": "green",
       "g": "yellow",
       "fe": "yellow",
       "re": "gray",
@@ -5608,43 +5652,20 @@
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
-          "territory_id": "congreso_lugo",
+          "territory_id": "congreso_madrid",
           "edition": "2025",
-          "run_id": 41240766116,
-          "artifact_name": "ddd-source-package-congreso_lugo-2025-41240766116",
-          "artifact_sha256": "e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
+          "run_id": 41244835816,
+          "artifact_name": "ddd-source-package-congreso_madrid-2025-41244835816",
+          "artifact_sha256": "27e42f529e0967c1e6b5b1975fe0526385e07e9279612c2674c878c0a8b72dbe",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
-      "autonomous_community_code_ine": "C27",
-      "display_name": "Congreso Lugo",
-      "next_step": "generar y validar distritos"
-    },
-    {
-      "territory_id": "congreso_madrid",
-      "name": "Congreso Madrid",
-      "ft": "yellow",
-      "g": "yellow",
-      "fe": "yellow",
-      "re": "gray",
-      "status": "Validación pendiente",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
-      "last_run": {},
-      "stage": null,
-      "edition": "2025",
-      "phase_evidence": {
-        "territorial_source": null,
-        "territorial_product": null,
-        "electoral_source": null,
-        "electoral_product": null
-      },
       "autonomous_community_code_ine": "C28",
       "display_name": "Congreso Madrid",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_malaga",
@@ -5903,7 +5924,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41239505387,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41239505387,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6513,7 +6541,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 30,
+    "territorial_validated": 31,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6538,6 +6566,7 @@
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso Lugo",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
@@ -6546,7 +6575,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 30,
+    "validated": 31,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6571,6 +6600,7 @@
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso Lugo",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
@@ -6601,7 +6631,7 @@
       "Congreso León",
       "Congreso Lérida",
       "Congreso La Rioja",
-      "Congreso Lugo",
+      "Congreso Madrid",
       "Congreso Málaga",
       "Congreso Murcia",
       "Congreso Navarra",
@@ -6618,10 +6648,9 @@
       "Congreso Vizcaya",
       "Congreso Zaragoza"
     ],
-    "pending": 3,
+    "pending": 2,
     "pending_names": [
       "Congreso Huelva",
-      "Congreso Madrid",
       "Congreso Valencia"
     ],
     "blocked": 0,
