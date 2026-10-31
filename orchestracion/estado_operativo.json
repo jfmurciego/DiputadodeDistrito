@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:11:21.184133+00:00",
+  "generated_at": "2026-10-31T23:14:01.082464+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5341,14 +5341,14 @@
       "territory_id": "congreso_cordoba",
       "name": "Congreso Córdoba",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41242424551,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5359,13 +5359,26 @@
           "artifact_sha256": "e5d35701bc33a7dd3dd81ae3dd5a5b3f990ba1882eb322595d86a85940d542e6",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_cordoba",
+          "territory_name": "Congreso Córdoba",
+          "edition": "2025",
+          "run_id": 41242424551,
+          "artifact_name": "ddd-state-41242424551-M06",
+          "artifact_sha256": "4fe8eb92f31b09fb0e45b360d59e787606a508bd223edfb6fdbcccba4ce4b809",
+          "source_commit": "3f888590f7d18e072fb3c65ca7a4a5818aaa6d36",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_cordoba/evidencia/generaciones_m06/41242424551.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C14",
       "display_name": "Congreso Córdoba",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_la_coruna",
@@ -5715,7 +5728,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41241896061,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41241896061,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6249,7 +6269,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41241010241,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41241010241,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -6504,7 +6531,18 @@
           "producer_manifest_path": "territorios/congreso_soria/evidencia/generaciones_m06/41235794328.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_soria",
+          "territory_name": "Congreso Soria",
+          "edition": "2025",
+          "run_id": 41250310066,
+          "artifact_name": "ddd-state-41250310066-M08",
+          "artifact_sha256": "145cfa680ce7afcc14167699ee11ae7c0e63719f3aca33f4638bf30a8bd85f61",
+          "source_commit": "8e1ecdad578c2a39b30391b79fb10b59120241ad",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C42",
       "display_name": "Congreso Soria",
@@ -6584,7 +6622,18 @@
           "producer_manifest_path": "territorios/congreso_teruel/evidencia/generaciones_m06/41235966858.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_teruel",
+          "territory_name": "Congreso Teruel",
+          "edition": "2025",
+          "run_id": 41250394074,
+          "artifact_name": "ddd-state-41250394074-M08",
+          "artifact_sha256": "dd6eaad399c3d363d6ef20d96536cb41afa8d0cbe9e2baacf283f98312b95c50",
+          "source_commit": "faf9a73a35108a802d39019d9d1554d4c731f462",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C44",
       "display_name": "Congreso Teruel",
@@ -6936,7 +6985,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 41,
+    "territorial_validated": 42,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6961,6 +7010,7 @@
       "Congreso Ávila",
       "Congreso Cáceres",
       "Congreso Castellón",
+      "Congreso Córdoba",
       "Congreso Cuenca",
       "Congreso Granada",
       "Congreso Guadalajara",
@@ -6980,7 +7030,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 41,
+    "validated": 42,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7005,6 +7055,7 @@
       "Congreso Ávila",
       "Congreso Cáceres",
       "Congreso Castellón",
+      "Congreso Córdoba",
       "Congreso Cuenca",
       "Congreso Granada",
       "Congreso Guadalajara",
@@ -7024,7 +7075,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 26,
+    "ready": 25,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7034,7 +7085,6 @@
       "Congreso Burgos",
       "Congreso Cádiz",
       "Congreso Ciudad Real",
-      "Congreso Córdoba",
       "Congreso La Coruña",
       "Congreso Gerona",
       "Congreso Guipúzcoa",
