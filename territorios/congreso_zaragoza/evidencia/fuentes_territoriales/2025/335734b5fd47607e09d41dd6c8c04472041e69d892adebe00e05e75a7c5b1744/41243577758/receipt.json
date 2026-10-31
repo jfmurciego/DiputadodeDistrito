@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_zaragoza",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41243577758,
+  "artifact_name": "ddd-source-package-congreso_zaragoza-2025-41243577758",
+  "artifact_sha256": "627977b4ba7a437b6badf0c84976f54525bb7a7634e79f7beb5291fe96af50d9",
+  "package_sha256": "164b80ccbdc6dc82f1ceb1fe496d185b555dd461d64b2173447fca3adde21b46",
+  "source_commit": "49fdd57f0d89ae347d41a31257fa98a97971e3a4",
+  "source_declaration": "territorios/congreso_zaragoza/evidencia/fuentes_territoriales/2025/335734b5fd47607e09d41dd6c8c04472041e69d892adebe00e05e75a7c5b1744/41243577758/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "335734b5fd47607e09d41dd6c8c04472041e69d892adebe00e05e75a7c5b1744",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "9cca76f8da296db30788d3011de560a20fcf90d14bdfdc8b5182d3db33542f9b",
+  "compatibility_identity_sha256": "61641be304697538b7edafa7415eedf3d814428b5df37b53d7acb54286058a9c"
+}
