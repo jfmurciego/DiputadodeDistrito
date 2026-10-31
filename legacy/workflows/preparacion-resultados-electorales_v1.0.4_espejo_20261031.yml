@@ -1,0 +1,537 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: preparacion-resultados-electorales.yml
+# VERSIÓN: 1.0.4
+# NOMBRE DE VERSIÓN: Cola durable de operaciones
+# FECHA: 2026-10-25
+# ESTADO: candidato
+# QUÉ HACE: serializa el acceso al recurso compartido y conserva todos los trabajos en espera.
+# CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
+# MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
+# CAMBIOS 1.0.2: pasa --production-eligible al adaptador Minsait cuando el contrato lleva
+#   owner_production_exception validada (Extremadura 2025).
+# CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
+# CAMBIOS 1.0.4: ruta infoelectoral_mesas (ZIP oficial por mesa del Ministerio del Interior, contrato en
+#   configuracion/contratos_infoelectoral.yaml) para el piloto Congreso Huesca.
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.3_infoelectoral_20261030.yml
+name: 03 Preparación de Resultados Electorales
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
+      allow_source_gap_success: {required: false, type: boolean, default: false}
+    outputs:
+      territory_id: {value: '${{ jobs.resolver.outputs.territory_id }}'}
+      codauto: {value: '${{ jobs.resolver.outputs.codauto }}'}
+      edition: {value: '${{ jobs.resolver.outputs.edition }}'}
+      artifact_name: {value: '${{ jobs.electorales.outputs.artifact_name }}'}
+      artifact_digest: {value: '${{ jobs.electorales.outputs.artifact_digest }}'}
+      electoral_outcome: {value: '${{ jobs.electorales.outputs.electoral_outcome }}'}
+      electoral_skip_reason: {value: '${{ jobs.electorales.outputs.electoral_skip_reason }}'}
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio
+        required: true
+        type: choice
+        options: ['01 Andalucía', '02 Aragón', '03 Principado de Asturias', '04 Islas Baleares', '05 Canarias', '06 Cantabria', '07 Castilla y León', '08 Castilla-La Mancha', '09 Cataluña', '10 Comunidad Valenciana', '11 Extremadura', '12 Galicia', '13 Comunidad de Madrid', '14 Región de Murcia', '15 Comunidad Foral de Navarra', '16 País Vasco', '17 La Rioja', '18 Ceuta', '19 Melilla', 'Congreso Huesca']
+      data_edition: {description: Edición de datos, required: true, default: '2025', type: choice, options: ['2025']}
+      reutilizar_si_ya_preparada: {description: Reutilizar resultados electorales ya preparados, required: true, default: true, type: boolean}
+
+concurrency:
+  group: ddd-electoral-prod-${{ inputs.territory_id }}
+  cancel-in-progress: false
+  queue: max
+permissions: {contents: write, actions: read}
+
+env:
+  ELECCIONESDB_SNAPSHOT_SHA256: 668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc
+
+jobs:
+  resolver:
+    name: Resolver preparación electoral
+    runs-on: ubuntu-24.04
+    outputs:
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      codauto: ${{ steps.resolve.outputs.codauto }}
+      edition: ${{ steps.resolve.outputs.edition }}
+      election_id: ${{ steps.resolve.outputs.election_id }}
+      election_date: ${{ steps.resolve.outputs.election_date }}
+      contract_path: ${{ steps.resolve.outputs.contract_path }}
+      electoral_declaration: ${{ steps.resolve.outputs.electoral_declaration }}
+      registered_run_id: ${{ steps.resolve.outputs.registered_run_id }}
+      registered_artifact_name: ${{ steps.resolve.outputs.registered_artifact_name }}
+      registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
+      persist_state: ${{ steps.resolve.outputs.persist_state }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ inputs.source_ref || github.sha }}', token: '${{ github.token }}'}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: resolve
+        env: {TERRITORY: '${{ inputs.territory_id }}', EDITION: '${{ inputs.data_edition }}', PERSIST_INPUT: '${{ toJSON(inputs.persist_state) }}'}
+        run: |
+          set -euo pipefail
+          persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
+          echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          current="$(python herramientas/resolver_eleccion_vigente.py --for-preparation --root-dir . --territory "$TERRITORY" --edition "$EDITION")"
+          edition="$(jq -r .territorial_edition <<<"$current")"; [[ "$edition" == "$EDITION" ]] || exit 41
+          row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
+          echo "territory_id=$(jq -r .territory_id <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "codauto=$(jq -r .codauto <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "edition=$edition" >> "$GITHUB_OUTPUT"; echo "election_id=$(jq -r .election_id <<<"$current")" >> "$GITHUB_OUTPUT"; echo "election_date=$(jq -r .election_date <<<"$current")" >> "$GITHUB_OUTPUT"
+          preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY" --edition "$EDITION")"
+          echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"; echo "electoral_declaration=$(jq -r .declaration <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"; echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"; echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+
+  electorales:
+    name: Preparar resultados electorales
+    needs: resolver
+    runs-on: ubuntu-24.04
+    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}', source_status: '${{ steps.policy.outputs.source_status }}', production_eligible: '${{ steps.policy.outputs.production_eligible }}', electoral_outcome: '${{ steps.outcome.outputs.electoral_outcome }}', electoral_skip_reason: '${{ steps.outcome.outputs.electoral_skip_reason }}'}
+    env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ELECTION_DATE: '${{ needs.resolver.outputs.election_date }}'}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ inputs.source_ref || github.sha }}'}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 openpyxl==3.1.5
+      - id: previous
+        name: Recuperar paquete electoral registrado
+        if: ${{ inputs.reutilizar_si_ya_preparada && needs.resolver.outputs.registered_run_id != '' }}
+        env: {REGISTERED_RUN_ID: '${{ needs.resolver.outputs.registered_run_id }}', REGISTERED_ARTIFACT_NAME: '${{ needs.resolver.outputs.registered_artifact_name }}', REGISTERED_ARTIFACT_SHA256: '${{ needs.resolver.outputs.registered_artifact_sha256 }}'}
+        run: |
+          set -euo pipefail
+          arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"; match="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$arts" | head -1)"
+          [[ -n "$match" ]] || { echo "::error::Artefacto electoral registrado no disponible"; exit 44; }
+          actual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"; [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto electoral no coincide con el registro."; exit 45; }
+          mkdir -p .ddd-electoral-previous; gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-electoral-previous; test -s .ddd-electoral-previous/manifest.json
+          echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"; echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+      - id: mode
+        name: Identificar adaptador de adquisición
+        run: |
+          set -euo pipefail
+          adapter=generic
+          set +e
+          python herramientas/resolver_adquisicion_electoral_especial.py \
+            --root-dir . \
+            --election-id "$ELECTION_ID" \
+            --territory-id "$TERRITORY_ID" \
+            --election-date "$ELECTION_DATE" \
+            --output .ddd-special-acquisition.json >/dev/null
+          special_rc=$?
+          set -e
+          if [[ "$special_rc" == 0 ]]; then
+            adapter=official_snapshot
+          elif [[ "$special_rc" != 3 ]]; then
+            exit "$special_rc"
+          elif python - "$ELECTION_ID" <<'PY'
+          import sys
+          from herramientas.adaptador_eleccionesdb import ELECTIONS
+          raise SystemExit(0 if sys.argv[1] in ELECTIONS else 1)
+          PY
+          then
+            adapter=eleccionesdb
+          else
+            set +e
+            python herramientas/fuente_infoelectoral_mesas.py resolve \
+              --root-dir . \
+              --election-id "$ELECTION_ID" \
+              --territory-id "$TERRITORY_ID" \
+              --election-date "$ELECTION_DATE" \
+              --output .ddd-infoelectoral-contract.json >/dev/null
+            infoelectoral_rc=$?
+            set -e
+            if [[ "$infoelectoral_rc" == 0 ]]; then
+              adapter=infoelectoral_mesas
+            elif [[ "$infoelectoral_rc" != 3 ]]; then
+              exit "$infoelectoral_rc"
+            fi
+          fi
+          if [[ "$adapter" != "official_snapshot" && "$adapter" != "eleccionesdb" && "$adapter" != "infoelectoral_mesas" ]]; then
+            set +e
+            python herramientas/resolver_contrato_minsait_provisional.py \
+              --root-dir . \
+              --election-id "$ELECTION_ID" \
+              --territory-id "$TERRITORY_ID" \
+              --election-date "$ELECTION_DATE" \
+              --output .ddd-minsait-contract.json >/dev/null
+            rc=$?
+            set -e
+            if [[ "$rc" == 0 ]]; then
+              adapter=minsait_provisional
+            elif [[ "$rc" != 3 ]]; then
+              exit "$rc"
+            fi
+          fi
+          echo "adapter=$adapter" >> "$GITHUB_OUTPUT"
+      - name: Adquirir snapshot oficial especializado
+        if: ${{ steps.mode.outputs.adapter == 'official_snapshot' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          workers="$(jq -r '.provider_config.workers // 16' .ddd-special-acquisition.json)"
+          python herramientas/preparar_snapshot_electoral_oficial.py \
+            --root-dir . \
+            --election-id "$ELECTION_ID" \
+            --territory-id "$TERRITORY_ID" \
+            --election-date "$ELECTION_DATE" \
+            --edition "$EDITION" \
+            --snapshot-out .ddd-official-electoral-snapshot \
+            --package-out .ddd-electoral-package \
+            --workers "$workers"
+      - name: Conservar checkpoint de adquisición oficial si existe
+        if: ${{ always() && steps.mode.outputs.adapter == 'official_snapshot' && steps.previous.outputs.run_id == '' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ddd-electoral-official-checkpoint-${{ needs.resolver.outputs.territory_id }}-${{ github.run_id }}
+          path: |
+            .ddd-official-electoral-snapshot/.checkpoint-sections
+            .ddd-official-electoral-snapshot/.checkpoint-meta.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Conservar snapshot oficial adquirido
+        if: ${{ steps.mode.outputs.adapter == 'official_snapshot' && steps.previous.outputs.run_id == '' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ddd-electoral-official-snapshot-${{ needs.resolver.outputs.territory_id }}-${{ github.run_id }}
+          path: .ddd-official-electoral-snapshot
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+      - name: Recuperar snapshot EleccionesDB durable y verificar huella
+        if: ${{ steps.mode.outputs.adapter == 'eleccionesdb' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-eleccionesdb-snapshot&per_page=100")"
+          art="$(jq -c '.artifacts|map(select(.expired|not))|sort_by(.created_at)|last' <<<"$meta")"
+          [[ "$art" != "null" && -n "$art" ]] || { echo "::error::Snapshot EleccionesDB durable ausente"; exit 51; }
+          aid="$(jq -r .id <<<"$art")"; gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > snapshot.zip
+          mkdir snapshot; unzip -q snapshot.zip -d snapshot
+          test -s snapshot/ddd-eleccionesdb-snapshot.sqlite; test -s snapshot/ddd-eleccionesdb-snapshot.json
+          declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"; actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
+          retrieved_at="$(jq -r '.retrieved_at // empty' snapshot/ddd-eleccionesdb-snapshot.json)"
+          [[ "$declared" == "$ELECCIONESDB_SNAPSHOT_SHA256" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot EleccionesDB ausente o modificada"; exit 52; }
+          [[ "$retrieved_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T.*(Z|[+-][0-9]{2}:[0-9]{2})$ ]] || { echo "::error::retrieved_at verificable ausente o inválido en snapshot EleccionesDB"; exit 54; }
+      - name: Recuperar CSV Minsait provisional gobernado
+        if: ${{ steps.mode.outputs.adapter == 'minsait_provisional' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          test -s .ddd-minsait-contract.json
+          source_url="$(jq -r .source_url .ddd-minsait-contract.json)"
+          source_sha256="$(jq -r .source_sha256 .ddd-minsait-contract.json)"
+          curl --fail --location --retry 2 --connect-timeout 10 --max-time 120 \
+            -o minsait-provisional.csv "$source_url"
+          actual="$(sha256sum minsait-provisional.csv | awk '{print $1}')"
+          [[ "$actual" == "$source_sha256" ]] || {
+            echo "::error::Huella del CSV Minsait provisional no coincide con el contrato"
+            exit 53
+          }
+      - name: Recuperar y convertir ZIP oficial Infoelectoral por mesa
+        if: ${{ steps.mode.outputs.adapter == 'infoelectoral_mesas' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          test -s .ddd-infoelectoral-contract.json
+          source_url="$(jq -r .source_url .ddd-infoelectoral-contract.json)"
+          source_sha256="$(jq -r .source_sha256 .ddd-infoelectoral-contract.json)"
+          # El servidor de Infoelectoral corta peticiones sin cabecera de navegador.
+          curl --fail --location --retry 3 --connect-timeout 15 --max-time 300 \
+            -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" \
+            -H "Referer: https://infoelectoral.interior.gob.es/" \
+            -o infoelectoral-mesas.zip "$source_url"
+          actual="$(sha256sum infoelectoral-mesas.zip | awk '{print $1}')"
+          [[ "$actual" == "$source_sha256" ]] || {
+            echo "::error::Huella del ZIP Infoelectoral no coincide con el contrato"
+            exit 53
+          }
+          python herramientas/fuente_infoelectoral_mesas.py convert \
+            --root-dir . --election-id "$ELECTION_ID" --territory-id "$TERRITORY_ID" \
+            --election-date "$ELECTION_DATE" --zip infoelectoral-mesas.zip \
+            --csv infoelectoral-mesas.csv --output .ddd-infoelectoral-conversion.json
+          jq -c '{polling_stations,sections,parties,candidate_votes,blank_votes,null_votes,voters,cera_excluded}' .ddd-infoelectoral-conversion.json
+      - id: prepare
+        name: Preparar paquete electoral con contrato común
+        run: |
+          set -euo pipefail
+          adapter="${{ steps.mode.outputs.adapter }}"
+          if [[ "$adapter" == "official_snapshot" ]]; then
+            if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
+              cp -a .ddd-electoral-previous .ddd-electoral-package
+            else
+              test -s .ddd-electoral-package/manifest.json
+              [[ "$(jq -r '.acquisition.kind // empty' .ddd-electoral-package/manifest.json)" == "official_api_snapshot" ]] || {
+                echo "::error::El proveedor oficial no produjo un paquete con estrategia acreditada"
+                exit 55
+              }
+            fi
+          elif [[ "$adapter" == "eleccionesdb" ]]; then
+            if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
+              cp -a .ddd-electoral-previous .ddd-electoral-package
+            else
+              retrieved_at="$(jq -r .retrieved_at snapshot/ddd-eleccionesdb-snapshot.json)"
+              python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256" --edition "$EDITION" --retrieved-at "$retrieved_at"
+            fi
+          elif [[ "$adapter" == "infoelectoral_mesas" ]]; then
+            if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
+              cp -a .ddd-electoral-previous .ddd-electoral-package
+            else
+              test -s .ddd-infoelectoral-conversion.json
+              c=.ddd-infoelectoral-contract.json
+              python herramientas/adaptador_minsait_csv.py \
+                --source infoelectoral-mesas.csv \
+                --out .ddd-electoral-package \
+                --territory-id "$TERRITORY_ID" \
+                --election-id "$ELECTION_ID" \
+                --election-date "$ELECTION_DATE" \
+                --edition "$EDITION" \
+                --expected-sha256 "$(jq -r .csv_sha256 .ddd-infoelectoral-conversion.json)" \
+                --expected-ccaa "$(jq -r .expected.ccaa "$c")" \
+                --expected-provinces 1 \
+                --expected-sections "$(jq -r .expected.sections "$c")" \
+                --expected-polling-stations "$(jq -r .expected.polling_stations "$c")" \
+                --expected-candidate-votes "$(jq -r .expected.candidate_votes "$c")" \
+                --source-url "$(jq -r .source_url "$c")" \
+                --publisher "$(jq -r .publisher "$c")" \
+                --source-status DEFINITIVE \
+                --definitive-reference-publisher "$(jq -r .official_totals.publisher "$c")" \
+                --definitive-reference-url "$(jq -r .source_url "$c")" \
+                --definitive-candidate-votes "$(jq -r .expected.candidate_votes "$c")" \
+                --expected-delta-definitive-minus-provisional 0 \
+                --production-eligible \
+                --source-class official \
+                --adapter-label infoelectoral_mesas/1.0
+            fi
+          elif [[ "$adapter" == "minsait_provisional" ]]; then
+            if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
+              cp -a .ddd-electoral-previous .ddd-electoral-package
+            else
+              test -s .ddd-minsait-contract.json
+              expected_ccaa="$(jq -r .expected.ccaa .ddd-minsait-contract.json)"
+              expected_provinces="$(jq -r .expected.provinces .ddd-minsait-contract.json)"
+              expected_sections="$(jq -r .expected.sections .ddd-minsait-contract.json)"
+              expected_polling_stations="$(jq -r .expected.polling_stations .ddd-minsait-contract.json)"
+              expected_candidate_votes="$(jq -r .expected.candidate_votes .ddd-minsait-contract.json)"
+              source_sha256="$(jq -r .source_sha256 .ddd-minsait-contract.json)"
+              source_url="$(jq -r .source_url .ddd-minsait-contract.json)"
+              publisher="$(jq -r .publisher .ddd-minsait-contract.json)"
+              source_status="$(jq -r .source_status .ddd-minsait-contract.json)"
+              definitive_publisher="$(jq -r .reconciliation.definitive.publisher .ddd-minsait-contract.json)"
+              definitive_url="$(jq -r .reconciliation.definitive.url .ddd-minsait-contract.json)"
+              definitive_candidate_votes="$(jq -r .reconciliation.definitive.candidate_votes .ddd-minsait-contract.json)"
+              expected_delta="$(jq -r .reconciliation.delta_definitive_minus_provisional .ddd-minsait-contract.json)"
+              eligible_args=()
+              if [[ "$(jq -r '.production_eligible|tostring' .ddd-minsait-contract.json)" == true ]]; then
+                eligible_args=(--production-eligible)
+              fi
+              python herramientas/adaptador_minsait_csv.py \
+                --source minsait-provisional.csv \
+                --out .ddd-electoral-package \
+                --territory-id "$TERRITORY_ID" \
+                --election-id "$ELECTION_ID" \
+                --election-date "$ELECTION_DATE" \
+                --edition "$EDITION" \
+                --expected-sha256 "$source_sha256" \
+                --expected-ccaa "$expected_ccaa" \
+                --expected-provinces "$expected_provinces" \
+                --expected-sections "$expected_sections" \
+                --expected-polling-stations "$expected_polling_stations" \
+                --expected-candidate-votes "$expected_candidate_votes" \
+                --source-url "$source_url" \
+                --publisher "$publisher" \
+                --source-status "$source_status" \
+                --definitive-reference-publisher "$definitive_publisher" \
+                --definitive-reference-url "$definitive_url" \
+                --definitive-candidate-votes "$definitive_candidate_votes" \
+                --expected-delta-definitive-minus-provisional "$expected_delta" \
+                "${eligible_args[@]}"
+            fi
+          else
+            args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
+            [[ -n "$PARAMS" ]] && args+=(--params "$PARAMS"); [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
+            [[ -f .ddd-electoral-previous/manifest.json ]] && args+=(--previous-package .ddd-electoral-previous --previous-run-id "${{ steps.previous.outputs.run_id }}" --previous-artifact-name "${{ steps.previous.outputs.artifact_name }}")
+            set +e
+            python -m herramientas.preparar_fuente_electoral "${args[@]}"
+            prepare_rc=$?
+            set -e
+            if [[ "$prepare_rc" != 0 && "$prepare_rc" != 2 ]]; then
+              exit "$prepare_rc"
+            fi
+            if [[ "$prepare_rc" == 2 ]]; then
+              test -s .ddd-electoral-package/manifest.json
+              [[ "$(jq -r '.decision // empty' .ddd-electoral-package/manifest.json)" == "BLOCK" ]] || {
+                echo "::error::El preparador devolvió bloqueo sin manifiesto BLOCK durable"
+                exit 48
+              }
+            fi
+          fi
+      - id: validate
+        name: Validar paquete consumible antes de promoción
+        run: |
+          set -euo pipefail
+          manifest=.ddd-electoral-package/manifest.json
+          test -s "$manifest"
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            [[ -n "$PARAMS" ]] || {
+              echo "::error::Paquete electoral consumible sin contrato territorial para validación"
+              exit 56
+            }
+            mkdir -p .ddd-electoral-package/evidence
+            validation=.ddd-electoral-package/evidence/validacion_preparacion.json
+            python herramientas/validar_paquete_electoral.py \
+              --package .ddd-electoral-package \
+              --params "$PARAMS" \
+              --territory-id "$TERRITORY_ID" \
+              --edition "$EDITION" \
+              --root-dir . \
+              --output "$validation"
+            validation_decision="$(jq -r '.decision // empty' "$validation")"
+            if [[ "$validation_decision" != "READY_PACKAGE" ]]; then
+              if [[ "${{ inputs.allow_source_gap_success }}" == "true" ]]; then
+                echo "::notice::Paquete electoral no supera READY_PACKAGE; el caller ha autorizado degradación territorial."
+              else
+                echo "::error::Paquete electoral no supera READY_PACKAGE"
+                exit 56
+              fi
+            fi
+          else
+            echo "Paquete electoral no consumible ($decision): se conserva para evidencia y bloqueo durable."
+          fi
+      - id: policy
+        name: Leer política de promoción del paquete
+        run: |
+          set -euo pipefail
+          echo "source_status=$(jq -r '.source_status // "UNKNOWN"' .ddd-electoral-package/manifest.json)" >> "$GITHUB_OUTPUT"
+          echo "production_eligible=$(jq -r '(.production_eligible // true)|tostring' .ddd-electoral-package/manifest.json)" >> "$GITHUB_OUTPUT"
+      - name: Validar identidad vigente del paquete
+        run: |
+          set -euo pipefail
+          test -s .ddd-electoral-package/manifest.json
+          manifest=.ddd-electoral-package/manifest.json
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" || "$decision" == "BLOCK" ]] || {
+            echo "::error::Decisión electoral no reconocida: $decision"
+            exit 46
+          }
+          package_election_id="$(jq -r '.election_id // empty' "$manifest")"
+          package_election_date="$(jq -r '.election_date // empty' "$manifest")"
+          [[ "$(jq -r '.territory_id // empty' "$manifest")" == "$TERRITORY_ID" ]] || { echo "::error::Paquete electoral de otro territorio"; exit 46; }
+          [[ "$(jq -r '.edition // empty' "$manifest")" == "$EDITION" ]] || { echo "::error::Paquete electoral de otra edición"; exit 46; }
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            [[ "$package_election_id" == "$ELECTION_ID" ]] || { echo "::error::Paquete electoral de otra elección"; exit 46; }
+            [[ "$package_election_date" == "$ELECTION_DATE" ]] || { echo "::error::Paquete electoral con fecha de elección obsoleta"; exit 46; }
+          else
+            # Un BLOCK por ausencia de fuente puede no materializar identidad electoral.
+            # Si la aporta, no se tolera que contradiga el registro vigente.
+            [[ -z "$package_election_id" || "$package_election_id" == "$ELECTION_ID" ]] || { echo "::error::Bloqueo electoral con identidad contradictoria"; exit 46; }
+            [[ -z "$package_election_date" || "$package_election_date" == "$ELECTION_DATE" ]] || { echo "::error::Bloqueo electoral con fecha contradictoria"; exit 46; }
+          fi
+      - id: meta
+        run: echo "artifact_name=ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
+      - id: upload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with: {name: 'ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}', path: .ddd-electoral-package, include-hidden-files: true, if-no-files-found: error, retention-days: 30}
+      - id: outcome
+        name: Aplicar decisión electoral
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .ddd-electoral-package/manifest.json
+          manifest=.ddd-electoral-package/manifest.json
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          validation_decision=""
+          validation=.ddd-electoral-package/evidence/validacion_preparacion.json
+          [[ -f "$validation" ]] && validation_decision="$(jq -r '.decision // empty' "$validation")"
+          production_eligible="${{ steps.policy.outputs.production_eligible }}"
+          source_status="${{ steps.policy.outputs.source_status }}"
+          ready=false
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            if [[ "$validation_decision" == "READY_PACKAGE" ]]; then
+              [[ "$production_eligible" == "true" ]] && ready=true
+            fi
+          fi
+          if [[ "$ready" == "true" ]]; then
+            {
+              echo "electoral_outcome=READY"
+              echo "electoral_skip_reason="
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "${{ inputs.allow_source_gap_success }}" != "true" ]]; then
+            echo "::error::Preparación electoral BLOQUEADA"
+            exit 42
+          fi
+
+          reason="$(jq -r '.reason // .block_reason // empty' "$manifest")"
+          if [[ "$production_eligible" != "true" ]]; then
+            reason="${reason:+$reason; }fuente electoral no elegible para producción (source_status=$source_status)"
+          fi
+          if [[ -z "$reason" && -f "$validation" ]]; then
+            reason="$(jq -r '.reason // ((.reasons // []) | join("; ")) // empty' "$validation")"
+          fi
+          [[ -n "$reason" ]] || reason="fuente electoral no apta por contrato"
+          {
+            echo "electoral_outcome=SKIPPED_ELECTORAL_SOURCE_INVALID"
+            echo "electoral_skip_reason<<DDD_EOF"
+            echo "$reason"
+            echo "DDD_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "::notice::La fuente electoral queda en SKIP contractual; no se oculta ningún fallo técnico."
+
+  registrar:
+    name: Registrar resultados electorales preparados
+    needs: [resolver, electorales]
+    if: ${{ needs.electorales.result == 'success' && needs.electorales.outputs.electoral_outcome == 'READY' && needs.resolver.outputs.persist_state == 'true' && needs.electorales.outputs.production_eligible == 'true' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+      queue: max
+    env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ADAPTER: '${{ needs.electorales.outputs.adapter }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ github.ref_name }}'}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Registrar preparación electoral
+        run: |
+          set -euo pipefail
+          artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"; test -n "$ARTIFACT_DIGEST" || exit 47
+          args=(--kind electoral_source --territory-id "$TERRITORY_ID" --edition "$EDITION" --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$ARTIFACT_DIGEST" --election-id "$ELECTION_ID" --source-commit "$GITHUB_SHA")
+          [[ "$ADAPTER" == "generic" && -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
+          args+=(--persist --target-branch "$TARGET_BRANCH" --max-attempts 4)
+          python herramientas/promover_catalogo_operacional.py "${args[@]}" > .ddd-electoral-promotion.json
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          promotion_sha="$(jq -r '.promotion_sha // empty' .ddd-electoral-promotion.json)"
+          [[ "$promotion_sha" =~ ^[0-9a-f]{40}$ && "$(git rev-parse HEAD)" == "$promotion_sha" ]] || {
+            echo "::error::La preparación electoral no quedó en un commit durable verificable."
+            exit 49
+          }
+          durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY_ID" --edition "$EDITION")"
+          [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" && "$(jq -r .artifact_name <<<"$durable")" == "$artifact_name" && "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_DIGEST#sha256:}" ]] || exit 50
+
+  resultado:
+    name: Verificar resultado durable de preparación
+    needs: [resolver, electorales, registrar]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {ref: '${{ inputs.source_ref || github.sha }}'}
+      - name: Exigir registro cuando la persistencia es obligatoria
+        env:
+          PREPARATION_RESULT: ${{ needs.electorales.result }}
+          REGISTRATION_RESULT: ${{ needs.registrar.result }}
+          PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
+          ELECTORAL_OUTCOME: ${{ needs.electorales.outputs.electoral_outcome }}
+          ALLOW_SOURCE_GAP_SUCCESS: ${{ inputs.allow_source_gap_success }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$ALLOW_SOURCE_GAP_SUCCESS" == "true" && "$ELECTORAL_OUTCOME" == "SKIPPED_ELECTORAL_SOURCE_INVALID" ]]; then
+            echo "Fuente electoral no apta: terminal válido sin promoción ni registro."
+            exit 0
+          fi
+          python herramientas/evaluar_persistencia_preparacion.py terminal             --preparation-result "$PREPARATION_RESULT"             --registration-result "$REGISTRATION_RESULT"             --persist-state "$PERSIST_STATE"

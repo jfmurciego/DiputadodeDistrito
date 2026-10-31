@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.51
+Versión: 1.0.52
 Fecha: 2026-10-31
-Alcance: fuente oficial Infoelectoral por mesa en la 03 (piloto Congreso Huesca)
+Alcance: espejo del ZIP Infoelectoral en release (Interior rechaza a los runners)
 Estado: candidato
-Cambios/motivo: resultados definitivos del Congreso 23-07-2023 por mesa desde el ZIP oficial del Ministerio del Interior
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.50_infoelectoral_20261031.md
+Cambios/motivo: la 03 de Congreso Huesca (run 41192319910) falló con curl 22 al descargar de Interior
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.51_espejo_20261031.md
 -->
+
+## 2026-10-31 — 03 — espejo del ZIP Infoelectoral
+
+- Run 41192319910: Interior devuelve error HTTP a los runners de GitHub (curl 22).
+- `contratos_infoelectoral.yaml` 1.1.0: `mirror` con el release `fuente-infoelectoral-02202307` y el asset `02202307_MESA.zip`.
+- `preparacion-resultados-electorales.yml` 1.0.5: si la URL oficial falla, descarga el espejo; la huella SHA-256 del contrato se exige igual.
+- `test_fuente_infoelectoral_mesas.py` 1.0.1: contrato con espejo y orden descarga→huella en el workflow.
 
 ## 2026-10-31 — 03 — fuente oficial Infoelectoral por mesa
 
