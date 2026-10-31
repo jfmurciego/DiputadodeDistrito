@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_guadalajara",
+  "territory_name": "Congreso Guadalajara",
+  "edition": "2025",
+  "run_id": 41236827273,
+  "artifact_name": "ddd-electoral-package-congreso_guadalajara-2025-41236827273",
+  "artifact_sha256": "a9fc96935cdb7f866f83a293c347146af07a8e384d45d2c10140172243d94cad",
+  "source_commit": "2fa2d24ea024244737ae89e97380142a7c7cef14",
+  "election_id": "congreso_guadalajara_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03"
+}
