@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T21:18:58.269936+00:00",
+  "generated_at": "2026-10-31T21:25:58.183167+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,13 +22,13 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 32,
-      "action_required": 37,
+      "admissible": 33,
+      "action_required": 36,
       "blocked": 0,
       "unavailable": 0,
       "activated": 22,
-      "activable": 10,
-      "territorial_pending": 37,
+      "activable": 11,
+      "territorial_pending": 36,
       "electoral_pending": 0,
       "temporal_substitution": 3,
       "recent_activity": 0
@@ -37,7 +37,7 @@
       "total": 69,
       "legislature_resolved": 69,
       "years_resolved": 69,
-      "territorial_source": 32,
+      "territorial_source": 33,
       "electoral_source": 69,
       "durable_pair": 22
     },
@@ -2415,9 +2415,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -2427,10 +2427,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41240766116,
+            "receipt_path": "territorios/congreso_lugo/evidencia/fuentes_territoriales/2025/bc60630570e46c2b31ace8e29a3e9a2dd2e091cb9c13f284b912ba1fdcf08003/41240766116/receipt.json"
           }
         },
         "electoral": {
@@ -2440,9 +2440,9 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -2455,13 +2455,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso_madrid",
@@ -5303,14 +5297,14 @@
       "territory_id": "congreso_cuenca",
       "name": "Congreso Cuenca",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41236647382,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5321,13 +5315,26 @@
           "artifact_sha256": "c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_cuenca",
+          "territory_name": "Congreso Cuenca",
+          "edition": "2025",
+          "run_id": 41236647382,
+          "artifact_name": "ddd-state-41236647382-M06",
+          "artifact_sha256": "d3e40475499fc979a2aa454635827f737bd6b045ac73f4b9b33d119717403f85",
+          "source_commit": "9725346bacbd6fb9d7924cf44a62037a92eb7669",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_cuenca/evidencia/generaciones_m06/41236647382.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C16",
       "display_name": "Congreso Cuenca",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_gerona",
@@ -5627,25 +5634,32 @@
     {
       "territory_id": "congreso_lugo",
       "name": "Congreso Lugo",
-      "ft": "yellow",
+      "ft": "green",
       "g": "yellow",
       "fe": "yellow",
       "re": "gray",
-      "status": "Validación pendiente",
+      "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {},
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "congreso_lugo",
+          "edition": "2025",
+          "run_id": 41240766116,
+          "artifact_name": "ddd-source-package-congreso_lugo-2025-41240766116",
+          "artifact_sha256": "e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C27",
       "display_name": "Congreso Lugo",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_madrid",
@@ -5998,14 +6012,14 @@
       "territory_id": "congreso_soria",
       "name": "Congreso Soria",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 41235794328,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6016,13 +6030,26 @@
           "artifact_sha256": "ae9e6bf66087037801fab843bb193f22f08b11f5e56103ce824d10eb2815b9f8",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_soria",
+          "territory_name": "Congreso Soria",
+          "edition": "2025",
+          "run_id": 41235794328,
+          "artifact_name": "ddd-state-41235794328-M06",
+          "artifact_sha256": "eb1049ccd5e17b8b8d6ff4b1e49c3b383f499dadbc83e7246a7878aea54304fc",
+          "source_commit": "229c9ba76abff2f662a96c004d334459fcb9c0df",
+          "decision": "PASS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_soria/evidencia/generaciones_m06/41235794328.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C42",
       "display_name": "Congreso Soria",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_tarragona",
@@ -6346,7 +6373,7 @@
       "19 Melilla",
       "Congreso Huesca"
     ],
-    "territorial_validated": 24,
+    "territorial_validated": 26,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6367,13 +6394,15 @@
       "18 Ceuta",
       "19 Melilla",
       "Congreso Ávila",
+      "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
       "Congreso Segovia",
+      "Congreso Soria",
       "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "validated": 24,
+    "validated": 26,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6394,24 +6423,25 @@
       "18 Ceuta",
       "19 Melilla",
       "Congreso Ávila",
+      "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
       "Congreso Segovia",
+      "Congreso Soria",
       "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "ready": 8,
+    "ready": 7,
     "ready_names": [
       "01 Andalucía",
       "Congreso Albacete",
-      "Congreso Cuenca",
+      "Congreso Lugo",
       "Congreso Palencia",
       "Congreso Santa Cruz de Tenerife",
-      "Congreso Soria",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "pending": 37,
+    "pending": 36,
     "pending_names": [
       "Congreso Álava",
       "Congreso Alicante",
@@ -6433,7 +6463,6 @@
       "Congreso León",
       "Congreso Lérida",
       "Congreso La Rioja",
-      "Congreso Lugo",
       "Congreso Madrid",
       "Congreso Málaga",
       "Congreso Murcia",
@@ -6537,13 +6566,19 @@
       "territory": "Congreso Cuenca",
       "territory_id": "congreso_cuenca",
       "autonomous_community_code_ine": "C16",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Congreso Guadalajara",
       "territory_id": "congreso_guadalajara",
       "autonomous_community_code_ine": "C19",
       "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Congreso Lugo",
+      "territory_id": "congreso_lugo",
+      "autonomous_community_code_ine": "C27",
+      "action": "generar y validar distritos"
     },
     {
       "territory": "Congreso Palencia",
@@ -6556,12 +6591,6 @@
       "territory_id": "congreso_santa_cruz_de_tenerife",
       "autonomous_community_code_ine": "C38",
       "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Congreso Segovia",
-      "territory_id": "congreso_segovia",
-      "autonomous_community_code_ine": "C40",
-      "action": "preparar fuentes electorales"
     }
   ]
 }
