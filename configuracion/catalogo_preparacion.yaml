@@ -1981,20 +1981,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_sevilla/config/congreso_sevilla_2025.yaml
       territorial_source_declaration: territorios/congreso_sevilla/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41244347546
+        artifact_name: ddd-source-package-congreso_sevilla-2025-41244347546
+        artifact_sha256: 6fd8bcb16093981d226efd2e99093d58a0f6b40812cc3479db9ce9131317ec5d
+        package_sha256: eeba098cfec6ff30d4819eecd360c9d5970f0a0e1716eba841dc6b2a2dbc2059
+        receipt_path: territorios/congreso_sevilla/evidencia/fuentes_territoriales/2025/2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d/41244347546/receipt.json
+        territorial_identity_sha256: 2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d
+        compatibility_report_sha256: b408f2d40dd3e82fd4dbdc1b1387a6a70bf3cbd424a4dd5256129c0f79f02c4f
+        compatibility_identity_sha256: ce8dbfbc378f5e7864ef6876c7134cd89e209a11eb29ba2bdd1beb29ce433e94
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 29a950d4971e20d0fde57a6ff1b822fb9692d899
       evidence:
         electoral_source: territorios/congreso_sevilla/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json
+      generation_enabled: false
 - territory_id: congreso_soria
   name: Congreso Soria
   editions:
