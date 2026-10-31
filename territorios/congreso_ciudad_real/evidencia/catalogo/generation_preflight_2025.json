@@ -5,10 +5,10 @@
   "territory_name": "Congreso Ciudad Real",
   "edition": "2025",
   "run_id": 41241133485,
-  "source_commit": "8f8e43323317789e620a10d14e48cd59a6843a33",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "2f4cfe96c90f32cd1d3e7b53a78274b3db38ad5c",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 41241133485,
     "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41241133485",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
