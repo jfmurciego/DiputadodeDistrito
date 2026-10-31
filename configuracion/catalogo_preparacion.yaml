@@ -1601,6 +1601,7 @@ territories:
         source_commit: 8c1d79a84a6425fb32e9332bbacd07adf3042c00
       evidence:
         electoral_source: territorios/congreso_zamora/evidencia/fuentes_electorales/2025/81aa6580b3fb902a0f3a54c85dd4a2745f2830cec119cc01e50c6722c85a04ff/41236149824/receipt.json
+        generation_preflight: territorios/congreso_zamora/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_zaragoza
   name: Congreso Zaragoza
