@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_huesca",
+  "territory_name": "Congreso Huesca",
+  "edition": "2025",
+  "run_id": 41194447427,
+  "artifact_name": "ddd-state-41194447427-M08",
+  "artifact_sha256": "a72510e3efecb33b97fccb709a6c9131cb4b77f0d692e61debc17236e3f538eb",
+  "source_commit": "310580a5f74db2b916c8eec7904d41861ee3b318",
+  "stage": "M08"
+}

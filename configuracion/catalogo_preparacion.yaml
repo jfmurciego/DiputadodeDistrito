@@ -766,12 +766,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41057319037
-        stage: M06
+        run_id: 41194447427
+        stage: M08
       preparation_evidence:
         run_id: 41057319037
         artifact_name: ddd-source-package-congreso_huesca-2025-41057319037
@@ -791,3 +791,4 @@ territories:
         territorial_product: territorios/congreso_huesca/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/congreso_huesca/evidencia/fuentes_electorales/2025/155b87799654f901f12a7596bcc86c7423d5da9ee848b6df275689df502ca422/41194293941/receipt.json
         prepared_source_pair: territorios/congreso_huesca/evidencia/pares_fuentes/2025/e279142c864244c454d08a80d936d436ce3a8497b367aaf482e1bea16c098b18.json
+        electoral_product: territorios/congreso_huesca/evidencia/catalogo/electoral_product_2025.json
