@@ -1333,11 +1333,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_palencia/evidencia/fuentes_electorales/2025/835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a/41235462609/receipt.json
 - territory_id: congreso_pontevedra
   name: Congreso Pontevedra
   editions:
