@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_orense",
+  "territory_name": "Congreso Orense",
+  "edition": "2025",
+  "run_id": 41240887712,
+  "artifact_name": "ddd-state-41240887712-M06",
+  "artifact_sha256": "2e9910c25b275172474a3894d698a71b46cea7584ce14b9e81c130ff19f4375f",
+  "source_commit": "d6acbff9505cb3165c55fc3ecb3ba19f714e8c02",
+  "decision": "PASS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_orense/evidencia/generaciones_m06/41240887712.json"
+}

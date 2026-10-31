@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13060538442,
+      "artifact_name": "ddd-audit-41240887712",
+      "artifact_sha256": "d4f8d39c9930c046506be88028f40fbec56997941a95994c5c1e2edef6d2cd0d",
+      "run_id": 41240887712,
+      "size_in_bytes": 2661
+    },
+    "m04": {
+      "artifact_id": 13060452967,
+      "artifact_name": "ddd-state-41240887712-M04",
+      "artifact_sha256": "b400d80338872d7b2c5dc3d22b84cd25cd03b2ed5f12a856fe00a1f747818e5d",
+      "run_id": 41240887712,
+      "size_in_bytes": 76112603
+    },
+    "m05": {
+      "artifact_id": 13060183813,
+      "artifact_name": "ddd-state-41240887712-M05",
+      "artifact_sha256": "db4e027333ecbd6f55f5f56eaf4daa624005d25e17669c77cfa94b727d6852bf",
+      "run_id": 41240887712,
+      "size_in_bytes": 76526795
+    },
+    "m06": {
+      "artifact_id": 13060482189,
+      "artifact_name": "ddd-state-41240887712-M06",
+      "artifact_sha256": "2e9910c25b275172474a3894d698a71b46cea7584ce14b9e81c130ff19f4375f",
+      "run_id": 41240887712,
+      "size_in_bytes": 77014066
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "2e0e32679b5bf44b360d7a0c7491d36a8099c2268742c41f47bd0ad494524538",
+        "size_in_bytes": 443
+      },
+      "congreso_orense_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "c5129ef002df4ba6bd981bde3ff4bc7ec139e8f2c4ad1366b732d6f39d60d33c",
+        "size_in_bytes": 3274
+      },
+      "optimization_execution.json": {
+        "sha256": "9a4222c1006bae190f1cb3f3b2e209ff7d8a314e5c3defb08f18b34f90f30478",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "2db0251253de0ab49198aa5efee9518ae2cd423219054f8a13f0a4ffdb0d80c4",
+        "size_in_bytes": 1258
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "2db0251253de0ab49198aa5efee9518ae2cd423219054f8a13f0a4ffdb0d80c4",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_orense/config/congreso_orense_2025.yaml",
+    "sha256": "12d0ef49588ccf4af605c6f3d30649641d6cde0972948210c614eabee0833415"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "25d7852d667fa9e5035e93fb6791bc62e82e0eb76f98a16544d2446057c6b234",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "d6acbff9505cb3165c55fc3ecb3ba19f714e8c02",
+    "edition": "2025",
+    "territory_id": "congreso_orense",
+    "territory_name": "Congreso Orense",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41240887712,
+    "workflow_sha": "1ab4f4f74dc0f561a94b2b39223b12a0e30c0392"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13060452967,
+      "artifact_name": "ddd-state-41240887712-M04",
+      "artifact_sha256": "b400d80338872d7b2c5dc3d22b84cd25cd03b2ed5f12a856fe00a1f747818e5d",
+      "run_id": 41240887712,
+      "size_in_bytes": 76112603
+    },
+    "source_manifest_sha256": "5cf9b644d29cb72b6cafe88c41e83626f41c84262d12187253be00f39164af86",
+    "source_package_artifact": {
+      "artifact_id": 13057929002,
+      "artifact_name": "ddd-source-package-congreso_orense-2025-41240887712",
+      "artifact_sha256": "6649836bde1fa498f0f10663bbf1cb723449810f009a272e7851bf47a42cd541",
+      "run_id": 41240887712,
+      "size_in_bytes": 75276184
+    }
+  },
+  "manifest_sha256": "a869f00a354da2ff4466e24ad20339653c91d9658c1d7dcb9964be7cec137139",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

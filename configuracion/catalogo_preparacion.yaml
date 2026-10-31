@@ -1811,12 +1811,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41240887712
+        stage: M06
       preparation_evidence:
         run_id: 41240887712
         artifact_name: ddd-source-package-congreso_orense-2025-41240887712
@@ -1833,6 +1835,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_orense/evidencia/fuentes_electorales/2025/e6d0f9c9083e2b30b604145d2f2e05adf93b1fff3c51244f45d136c9440ae829/41239892753/receipt.json
         generation_preflight: territorios/congreso_orense/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_orense/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_asturias
   name: Congreso Asturias
