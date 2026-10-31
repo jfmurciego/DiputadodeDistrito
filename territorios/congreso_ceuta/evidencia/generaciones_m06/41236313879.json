@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13057539481,
+      "artifact_name": "ddd-audit-41236313879",
+      "artifact_sha256": "92da9f397d3027246bb4663d2bc53b0a734f12cb55a4f2901c4d8667731cf59c",
+      "run_id": 41236313879,
+      "size_in_bytes": 2406
+    },
+    "m04": {
+      "artifact_id": 13057703354,
+      "artifact_name": "ddd-state-41236313879-M04",
+      "artifact_sha256": "badbc1d81ba4371c6138c3c99e55b0536936fd4e5d0a0be0787c30742b4775e7",
+      "run_id": 41236313879,
+      "size_in_bytes": 74277859
+    },
+    "m05": {
+      "artifact_id": 13057204162,
+      "artifact_name": "ddd-state-41236313879-M05",
+      "artifact_sha256": "b14e20aea636641baf1c62c563815ca143f3d05d0f410b5bcc108739be12b9c5",
+      "run_id": 41236313879,
+      "size_in_bytes": 74339789
+    },
+    "m06": {
+      "artifact_id": 13057214353,
+      "artifact_name": "ddd-state-41236313879-M06",
+      "artifact_sha256": "d76d53fc294267c2ce6d9291c8d1fb00c968c1cba4400088a06839f10df54005",
+      "run_id": 41236313879,
+      "size_in_bytes": 74438977
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "e600f9674c8ebee127b8ebaf87b81596c0c926c2bb2902ceff2ae86f06b10eaa",
+        "size_in_bytes": 440
+      },
+      "congreso_ceuta_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "8006f75a0707f006c3838f260b73db3a8878db27a517f16648c80e948cc5e0ba",
+        "size_in_bytes": 1665
+      },
+      "optimization_execution.json": {
+        "sha256": "dc51858f26db5bb60a1d5feddd36c37a9b8471349b0e3178f6efa875a58a1be8",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "1e3d16671b41c0949f4667d664c1e59adef8bf3280ff8a920fd29e507e7b1208",
+        "size_in_bytes": 1230
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "1e3d16671b41c0949f4667d664c1e59adef8bf3280ff8a920fd29e507e7b1208",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_ceuta/config/congreso_ceuta_2025.yaml",
+    "sha256": "74a11744d6dfdd8d66f82155e8974e7d8856058810be5cdbb5c3c1915dbf4899"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "f777f29b1639eeb13037c19fd4348c7bf6583466d6f3724fcafcaa2e7a909834",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "ea546d0b69db3b3de4d4846b25d3bcccb11760e2",
+    "edition": "2025",
+    "territory_id": "congreso_ceuta",
+    "territory_name": "Congreso Ceuta",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41236313879,
+    "workflow_sha": "6224f3d1c823388f1195bf6e6aa7b14459df63a1"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13057703354,
+      "artifact_name": "ddd-state-41236313879-M04",
+      "artifact_sha256": "badbc1d81ba4371c6138c3c99e55b0536936fd4e5d0a0be0787c30742b4775e7",
+      "run_id": 41236313879,
+      "size_in_bytes": 74277859
+    },
+    "source_manifest_sha256": "8de10c3bf2ab7fb2f2cea8366461a2dfab01e025139ebb4af4db6daa5dfb409d",
+    "source_package_artifact": {
+      "artifact_id": 13056797269,
+      "artifact_name": "ddd-source-package-congreso_ceuta-2025-41236313879",
+      "artifact_sha256": "c09be464c5afe9f7857aa9e6ebc94073ca1dab2968042d783bc507bdd92b76f9",
+      "run_id": 41236313879,
+      "size_in_bytes": 74151196
+    }
+  },
+  "manifest_sha256": "58d6986a44bcd0e30c1595ed58f70a7ebba402c61c7469eaf99c58551e4368da",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
