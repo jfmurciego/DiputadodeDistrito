@@ -1,10 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: registro administrativo mínimo para pruebas de fuentes
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.2.1
 # FECHA: 2026-10-30
 # CAMBIOS: 1.1.0: piloto Congreso Huesca (provincia 22).
 # CAMBIOS 1.2.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
-# ANTERIOR: legacy/fuentes/territorios_espana_v1.1.0.yaml
+# CAMBIOS 1.2.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
+# ANTERIOR: legacy/fuentes/territorios_espana_v1.2.0.yaml
 # ESTADO: candidato
 # FUNCIÓN: permitir probar fuentes oficiales para cualquier territorio sin exigir preparación previa.
 schema: ddd-territory-source-test-registry/1.0
@@ -64,6 +65,7 @@ territories:
   - {id: congreso_palencia, name: Congreso Palencia, province_codes: ['34']}
   - {id: congreso_pontevedra, name: Congreso Pontevedra, province_codes: ['36']}
   - {id: congreso_salamanca, name: Congreso Salamanca, province_codes: ['37']}
+  - {id: congreso_santa_cruz_de_tenerife, name: Congreso Santa Cruz de Tenerife, province_codes: ['38']}
   - {id: congreso_cantabria, name: Congreso Cantabria, province_codes: ['39']}
   - {id: congreso_segovia, name: Congreso Segovia, province_codes: ['40']}
   - {id: congreso_sevilla, name: Congreso Sevilla, province_codes: ['41']}

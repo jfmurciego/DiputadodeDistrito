@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-legislatura-vigente.yml
-# VERSIÓN: 1.0.4
+# VERSIÓN: 1.0.5
 # NOMBRE DE VERSIÓN: Cola durable de operaciones con nombre por territorio
 # FECHA: 2026-10-29
 # ESTADO: candidato
@@ -10,7 +10,8 @@
 # MOTIVO: el 00 encadena la activación del par y debe esperar a la suya, no a la de otro territorio.
 # CAMBIOS 1.0.3: opción del territorio piloto «Congreso Huesca».
 # CAMBIOS 1.0.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
-# ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.3_20261031.yml
+# CAMBIOS 1.0.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
+# ANTERIOR: legacy/workflows/preparacion-legislatura-vigente_v1.0.4_20261031.yml
 name: '- Activación de Legislatura Vigente'
 run-name: "Activación de Legislatura Vigente · ${{ inputs.territory || 'todos' }} · ${{ inputs.operation || 'plan' }}"
 
@@ -78,6 +79,7 @@ on:
           - Congreso Palencia
           - Congreso Pontevedra
           - Congreso Salamanca
+          - Congreso Santa Cruz de Tenerife
           - Congreso Cantabria
           - Congreso Segovia
           - Congreso Sevilla

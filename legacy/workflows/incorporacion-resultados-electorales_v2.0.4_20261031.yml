@@ -1,0 +1,345 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz operativa principal
+# VERSIÓN: 2.0.4
+# NOMBRE DE VERSIÓN: Consumo de M06 certificado sin huella del motor M05
+# ESTADO: candidato
+# QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
+# NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
+# CAMBIOS 2.0.3: opción del territorio piloto «Congreso Huesca».
+# CAMBIOS 2.0.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
+# ANTERIOR: legacy/workflows/incorporacion-resultados-electorales_v2.0.3_20261031.yml
+# CAMBIOS: 2.0.2: el M06 certificado se localiza con --consume-certified-product; un cambio del motor
+#   M05 (#343) ya no invalida productos cerrados. 2.0.1: exclusión mutua con queue: max.
+# MOTIVO: Castilla y León y Extremadura fallaban con «No existe un producto territorial certificado».
+# FECHA: 2026-10-29
+name: 04 Incorporación de Resultados Electorales
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      territorial_run_id: {required: false, type: string, default: ''}
+      electoral_package_run_id: {required: false, type: string, default: ''}
+      electoral_package_artifact_name: {required: false, type: string, default: ''}
+      electoral_package_artifact_digest: {required: false, type: string, default: ''}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
+      territorial_product_artifact_name: {required: false, type: string, default: ''}
+      territorial_audit_artifact_name: {required: false, type: string, default: ''}
+      artifact_namespace: {required: false, type: string, default: ''}
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio
+        required: true
+        default: 12 Galicia
+        type: choice
+        options:
+          - 01 Andalucía
+          - 02 Aragón
+          - 03 Principado de Asturias
+          - 04 Islas Baleares
+          - 05 Canarias
+          - 06 Cantabria
+          - 07 Castilla y León
+          - 08 Castilla-La Mancha
+          - 09 Cataluña
+          - 10 Comunidad Valenciana
+          - 11 Extremadura
+          - 12 Galicia
+          - 13 Comunidad de Madrid
+          - 14 Región de Murcia
+          - 15 Comunidad Foral de Navarra
+          - 16 País Vasco
+          - 17 La Rioja
+          - 18 Ceuta
+          - 19 Melilla
+          - Congreso Álava
+          - Congreso Albacete
+          - Congreso Alicante
+          - Congreso Almería
+          - Congreso Ávila
+          - Congreso Badajoz
+          - Congreso Barcelona
+          - Congreso Burgos
+          - Congreso Cáceres
+          - Congreso Cádiz
+          - Congreso Castellón
+          - Congreso Ciudad Real
+          - Congreso Córdoba
+          - Congreso La Coruña
+          - Congreso Cuenca
+          - Congreso Gerona
+          - Congreso Granada
+          - Congreso Guadalajara
+          - Congreso Guipúzcoa
+          - Congreso Huelva
+          - Congreso Huesca
+          - Congreso Jaén
+          - Congreso León
+          - Congreso Lérida
+          - Congreso La Rioja
+          - Congreso Lugo
+          - Congreso Madrid
+          - Congreso Málaga
+          - Congreso Murcia
+          - Congreso Navarra
+          - Congreso Orense
+          - Congreso Asturias
+          - Congreso Palencia
+          - Congreso Pontevedra
+          - Congreso Salamanca
+          - Congreso Cantabria
+          - Congreso Segovia
+          - Congreso Sevilla
+          - Congreso Soria
+          - Congreso Tarragona
+          - Congreso Teruel
+          - Congreso Toledo
+          - Congreso Valencia
+          - Congreso Valladolid
+          - Congreso Vizcaya
+          - Congreso Zamora
+          - Congreso Zaragoza
+          - Congreso Ceuta
+          - Congreso Melilla
+      data_edition:
+        description: Edición de datos
+        required: true
+        default: '2025'
+        type: choice
+        options: ['2025']
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: ddd-electoral-prod-${{ inputs.territory_id }}
+  cancel-in-progress: false
+  queue: max
+jobs:
+  preparar:
+    name: Preparar incorporación electoral
+    runs-on: ubuntu-24.04
+    outputs:
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      params: ${{ steps.resolve.outputs.params }}
+      territorial_run_id: ${{ steps.territorial.outputs.run_id }}
+      territorial_product_artifact_name: ${{ steps.territorial.outputs.product_artifact_name }}
+      territorial_audit_artifact_name: ${{ steps.territorial.outputs.audit_artifact_name }}
+      electoral_package_run_id: ${{ steps.electoral.outputs.run_id }}
+      electoral_package_artifact_name: ${{ steps.electoral.outputs.artifact_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+
+      - name: Preparar validadores
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+
+      - id: resolve
+        name: Verificar elegibilidad del territorio
+        shell: bash
+        env:
+          UI_TERRITORY: ${{ inputs.territory_id }}
+          UI_EDITION: ${{ inputs.data_edition }}
+          ELECTORAL_RUN_ID: ${{ inputs.electoral_package_run_id }}
+          ELECTORAL_ARTIFACT: ${{ inputs.electoral_package_artifact_name }}
+          ELECTORAL_DIGEST: ${{ inputs.electoral_package_artifact_digest }}
+        run: |
+          set -euo pipefail
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          explicit=0
+          [[ -n "$ELECTORAL_RUN_ID" ]] && explicit=$((explicit + 1))
+          [[ -n "$ELECTORAL_ARTIFACT" ]] && explicit=$((explicit + 1))
+          [[ -n "$ELECTORAL_DIGEST" ]] && explicit=$((explicit + 1))
+          if (( explicit > 0 && explicit < 3 )); then
+            echo "::error::ELECTORAL_GATE_BLOCK: evidencia explícita incompleta; se requieren run, artefacto y digest."
+            exit 46
+          fi
+          if (( explicit == 3 )); then
+            row="$(python herramientas/catalogo_preparacion.py lookup --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+            route=validated_gate_evidence
+          else
+            row="$(python herramientas/catalogo_preparacion.py resolve --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+            route=catalog_accredited
+          fi
+          territory_id="$(jq -r '.territory_id' <<<"$row")"
+          params="$(jq -r '.contract_path // empty' <<<"$row")"
+          test -n "$params" && test -f "$params"
+          echo "territory_id=$territory_id" >> "$GITHUB_OUTPUT"
+          echo "params=$params" >> "$GITHUB_OUTPUT"
+          echo "eligibility_route=$route" >> "$GITHUB_OUTPUT"
+
+      - id: territorial
+        name: Localizar producto territorial certificado
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+          OVERRIDE_RUN_ID: ${{ inputs.territorial_run_id }}
+          OVERRIDE_PRODUCT_ARTIFACT_NAME: ${{ inputs.territorial_product_artifact_name }}
+          OVERRIDE_AUDIT_ARTIFACT_NAME: ${{ inputs.territorial_audit_artifact_name }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$OVERRIDE_RUN_ID" ]]; then
+            run_ids=("$OVERRIDE_RUN_ID")
+          else
+            mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"               --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          fi
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            product_name="ddd-state-$run_id-M06"
+            audit_name="ddd-audit-$run_id"
+            if [[ "$run_id" == "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_PRODUCT_ARTIFACT_NAME" ]]; then product_name="$OVERRIDE_PRODUCT_ARTIFACT_NAME"; fi
+            if [[ "$run_id" == "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_AUDIT_ARTIFACT_NAME" ]]; then audit_name="$OVERRIDE_AUDIT_ARTIFACT_NAME"; fi
+            jq -e --arg n "$product_name" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            jq -e --arg n "$audit_name" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            tmp="$(mktemp -d)"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$product_name" --dir "$tmp/state" >/dev/null 2>&1; then
+              rm -rf "$tmp"; continue
+            fi
+            source_dir="$(find "$tmp/state" -type f -path '*/sources/manifest.json' -printf '%h\n' | head -1)"
+            test -n "$source_dir" || { rm -rf "$tmp"; continue; }
+            selection="$tmp/checkpoint_selection.json"
+            set +e
+            python -m herramientas.seleccionar_checkpoint_productivo \
+              --params "$PARAMS" --package "$source_dir" --state-root "$tmp/state" \
+              --run-id "$run_id" --stage M06 --root-dir . --consume-certified-product > "$selection"
+            validation_rc=$?
+            set -e
+            if (( validation_rc == 0 )); then
+              direct_reuse="$(jq -r '(.valid == true) and ((.requires_derivation // false) == false) and (.effective_stage == "M06")' "$selection")"
+              if [[ "$direct_reuse" != true ]]; then
+                rm -rf "$tmp"
+                continue
+              fi
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir "$tmp/audit" >/dev/null 2>&1; then
+                status="$(find "$tmp/audit" -name production_status.json -type f -print -quit)"
+                decision="$(test -n "$status" && jq -r '.decision // empty' "$status" || true)"
+                certified="$(test -n "$status" && jq -r '.territory_id // empty' "$status" || true)"
+                if [[ "$certified" == "$TERRITORY_ID" && "$decision" =~ ^PASS(_WITH_EXCEPTIONS)?$ ]]; then
+                  {
+                    echo "run_id=$run_id"
+                    echo "product_artifact_name=$product_name"
+                    echo "audit_artifact_name=$audit_name"
+                  } >> "$GITHUB_OUTPUT"
+                  rm -rf "$tmp"
+                  exit 0
+                fi
+              fi
+            elif (( validation_rc != 2 )); then
+              echo "::warning::Validador de checkpoint terminó con rc=$validation_rc para run $run_id; se descarta."
+            fi
+            rm -rf "$tmp"
+          done
+          echo "::error::No existe un producto territorial certificado y reutilizable para $TERRITORY_ID."
+          exit 44
+
+      - id: electoral
+        name: Localizar resultados electorales preparados
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+          OVERRIDE_RUN_ID: ${{ inputs.electoral_package_run_id }}
+          OVERRIDE_ARTIFACT_NAME: ${{ inputs.electoral_package_artifact_name }}
+          OVERRIDE_ARTIFACT_DIGEST: ${{ inputs.electoral_package_artifact_digest }}
+          ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
+        run: |
+          set -euo pipefail
+          prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
+
+          if [[ -n "$OVERRIDE_RUN_ID" || -n "$OVERRIDE_ARTIFACT_NAME" || -n "$OVERRIDE_ARTIFACT_DIGEST" ]]; then
+            [[ -n "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_ARTIFACT_NAME" && -n "$OVERRIDE_ARTIFACT_DIGEST" ]] || {
+              echo "::error::ELECTORAL_GATE_BLOCK: evidencia explícita incompleta."
+              exit 46
+            }
+            expected_digest="${OVERRIDE_ARTIFACT_DIGEST#sha256:}"
+            metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$OVERRIDE_RUN_ID/artifacts?per_page=100")"
+            artifact_matches="$(jq --arg n "$OVERRIDE_ARTIFACT_NAME" --arg d "$expected_digest" '[.artifacts[]|select(.name==$n and (.expired|not))|select((((.digest//"")|sub("^sha256:";""))==$d))]|length' <<<"$metadata")"
+            [[ "$artifact_matches" == "1" ]] || {
+              echo "::error::ELECTORAL_GATE_BLOCK: run/artefacto/digest deben identificar exactamente un artefacto electoral durable; encontrados=$artifact_matches."
+              exit 46
+            }
+            artifact_row="$(jq -c --arg n "$OVERRIDE_ARTIFACT_NAME" --arg d "$expected_digest" '[.artifacts[]|select(.name==$n and (.expired|not))|select((((.digest//"")|sub("^sha256:";""))==$d))]|.[0]' <<<"$metadata")"
+
+            tmp="$(mktemp -d)"
+            gate_suffix=""
+            [[ -n "$ARTIFACT_NAMESPACE" ]] && gate_suffix="-$ARTIFACT_NAMESPACE"
+            gate_name="ddd-puerta-electoral_source-$GITHUB_RUN_ID$gate_suffix"
+            gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$gate_name" --dir "$tmp/gate" >/dev/null 2>&1 || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: falta evidencia durable de puerta 03→04: $gate_name"
+              exit 46
+            }
+            gh run download "$OVERRIDE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$OVERRIDE_ARTIFACT_NAME" --dir "$tmp/package" >/dev/null 2>&1 || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: no se pudo recuperar el paquete electoral acreditado."
+              exit 46
+            }
+            gate_file="$(find "$tmp/gate" -name puerta.json -type f -print -quit)"
+            manifest="$(find "$tmp/package" -name manifest.json -type f -print -quit)"
+            [[ -n "$gate_file" && -n "$manifest" ]] || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: evidencia de puerta o manifiesto electoral ausentes."
+              exit 46
+            }
+
+            python herramientas/validar_paquete_electoral.py               --package "$tmp/package" --params "$PARAMS" --territory-id "$TERRITORY_ID"               --edition "$EDITION" --root-dir . >/dev/null || {
+                rm -rf "$tmp"
+                echo "::error::ELECTORAL_GATE_BLOCK: el paquete electoral no supera validación profunda."
+                exit 46
+              }
+            python -m herramientas.validar_elegibilidad_incorporacion_electoral               --root-dir . --territory "$TERRITORY_ID" --edition "$EDITION"               --gate-evidence "$gate_file" --package-manifest "$manifest"               --expected-run-id "$OVERRIDE_RUN_ID"               --expected-artifact-name "$OVERRIDE_ARTIFACT_NAME"               --expected-artifact-digest "$OVERRIDE_ARTIFACT_DIGEST" >/dev/null || {
+                rm -rf "$tmp"
+                echo "::error::ELECTORAL_GATE_BLOCK: evidencia 03→04 no acredita identidad electoral consumible."
+                exit 46
+              }
+            echo "run_id=$OVERRIDE_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=$OVERRIDE_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+            rm -rf "$tmp"
+            exit 0
+          fi
+
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100"             --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
+            for artifact_name in "${names[@]}"; do
+              tmp="$(mktemp -d)"
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1 &&
+                 python herramientas/validar_paquete_electoral.py                    --package "$tmp" --params "$PARAMS" --territory-id "$TERRITORY_ID"                    --edition "$EDITION" --root-dir . >/dev/null 2>&1; then
+                echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+                echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+                rm -rf "$tmp"
+                exit 0
+              fi
+              rm -rf "$tmp"
+            done
+          done
+          echo "::error::No existe un paquete electoral preparado, íntegro y compatible."
+          exit 45
+
+  incorporar:
+    name: Incorporar resultados
+    needs: preparar
+    uses: ./.github/workflows/_reutilizable-incorporacion-electoral.yml
+    secrets: inherit
+    with:
+      params: ${{ needs.preparar.outputs.params }}
+      territory_id: ${{ needs.preparar.outputs.territory_id }}
+      data_edition: ${{ inputs.data_edition }}
+      territorial_run_id: ${{ needs.preparar.outputs.territorial_run_id }}
+      territorial_product_artifact_name: ${{ needs.preparar.outputs.territorial_product_artifact_name }}
+      territorial_audit_artifact_name: ${{ needs.preparar.outputs.territorial_audit_artifact_name }}
+      electoral_package_run_id: ${{ needs.preparar.outputs.electoral_package_run_id }}
+      electoral_package_artifact_name: ${{ needs.preparar.outputs.electoral_package_artifact_name }}
+      source_ref: ${{ inputs.source_ref }}
+      persist_state: ${{ inputs.persist_state }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}

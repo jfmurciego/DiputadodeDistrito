@@ -1,3 +1,6 @@
+"""2026-10-31: puentes declarados de un grupo de islas (Congreso).
+Anterior: legacy/tests/test_physical_components_source_identity_pre_puentes_20261031.py
+"""
 from __future__ import annotations
 
 import copy
@@ -417,6 +420,36 @@ class PhysicalComponentsSourceIdentityTests(unittest.TestCase):
             with patch("herramientas.preparar_particiones_fisicas_m04._load_m04", return_value=fake):
                 with self.assertRaisesRegex(ValueError, "PHYSICAL_COMPONENT_INVENTORY_MISMATCH"):
                     prepare(params, "123", root_dir=root)
+
+
+class DeclaredGroupBridgesTests(unittest.TestCase):
+    """Un contrato físico sólo admite los puentes de su lookup y dentro de una misma componente."""
+    def _spec(self, declared, in_contract):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            contract, _, _ = _demo_contract(root, ["0700101001", "0700201001", "0700201002"])
+            lookup = root / "particiones.json"
+            data = json.loads(lookup.read_text(encoding="utf-8"))
+            data["territories"]["demo"]["bridges"] = declared
+            lookup.write_text(json.dumps(data), encoding="utf-8")
+            contract["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"] = in_contract
+            return _hard_partition_spec(contract, root)
+
+    def _bridge(self, u, v):
+        return {"u": u, "v": v, "admin_scope": "province:07", "edge_type": "maritime_group", "reason": "r", "source": "s"}
+
+    def test_declared_bridge_inside_one_component_is_accepted(self):
+        bridge = [self._bridge("0700201001", "0700201002")]
+        self.assertIsNotNone(self._spec(bridge, bridge))
+
+    def test_undeclared_bridge_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "sólo admite los puentes declarados"):
+            self._spec([], [self._bridge("0700201001", "0700201002")])
+
+    def test_bridge_across_components_is_rejected(self):
+        bridge = [self._bridge("0700101001", "0700201001")]
+        with self.assertRaisesRegex(ValueError, "misma componente"):
+            self._spec(bridge, bridge)
 
 
 if __name__ == "__main__":

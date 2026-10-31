@@ -1438,6 +1438,23 @@ territories:
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+- territory_id: congreso_santa_cruz_de_tenerife
+  name: Congreso Santa Cruz de Tenerife
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_santa_cruz_de_tenerife/config/congreso_santa_cruz_de_tenerife_2025.yaml
+      territorial_source_declaration: territorios/congreso_santa_cruz_de_tenerife/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
 - territory_id: congreso_cantabria
   name: Congreso Cantabria
   editions:

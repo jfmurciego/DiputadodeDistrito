@@ -2,21 +2,23 @@
 """Alta de las provincias del Congreso como territorios del flujo 00, con Huesca como plantilla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-10-31 · ESTADO: candidato
+VERSIÓN: 1.1.0 · FECHA: 2026-10-31 · ESTADO: candidato
 QUÉ HACE: para cada provincia del reparto N06 (K aprobado, 407 escaños) que aún no exista, añade la
   entrada en el catálogo maestro (pilot_territories, con número INE y letras de matrícula), la política,
   la matriz de legislatura, el registro electoral, las fuentes territoriales, el catálogo de preparación,
   el contrato Infoelectoral (totales calculados del ZIP oficial nacional) y el contrato bootstrap M01–M06.
   Es idempotente: una provincia ya dada de alta no se toca.
-NO HACE: provincias insulares (Baleares, Las Palmas, Santa Cruz de Tenerife), que necesitan la partición
-  por islas; ni lanzar ejecuciones.
-ANTERIOR: ninguno (herramienta nueva).
+CAMBIOS 1.1.0: una provincia insular entra cuando su partición por islas está declarada en
+  configuracion/particiones_insulares_2025.json (reparto Hamilton por componentes).
+NO HACE: provincias insulares sin partición declarada; ni lanzar ejecuciones.
+ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.0.0_20261031.py
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import hashlib
+import json
 import re
 import shutil
 import sys
@@ -33,6 +35,12 @@ REPARTO = Path("docs/ESTUDIOS/N06_DECISION_K_20261012/resultados/reparto_ddd_52.
 ELECTION_DATE = "2023-07-23"
 ELECTION_PREFIX = "02202307"
 INSULAR = {"07", "35", "38"}
+PARTITIONS = Path("configuracion/particiones_insulares_2025.json")
+
+
+def _partition(root: Path, territory_id: str) -> dict:
+    data = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
+    return (data.get("territories") or {}).get(territory_id) or {}
 TEMPLATE = "congreso_huesca"
 
 # Nombre en español y letras de la matrícula provincial (último sistema provincial).
@@ -148,7 +156,15 @@ def _bootstrap_contract(root: Path, p: dict) -> None:
             "batch: piloto_congreso, status: bootstrap, contract_level: bootstrap_m01_m03}\n", encoding="utf-8")
         (work / "inputs/MANIFEST.sha256").write_text(
             "0" * 64 + "  inputs/seccionado_2023.zip\n" + "1" * 64 + "  inputs/65034.csv.zip\n", encoding="utf-8")
-        package = population_package(work, [(f"{p['code']}12501001", p["population_2025"])],
+        partition = _partition(root, p["territory_id"])
+        if partition:
+            # Una sección sintética por componente, con población proporcional a sus secciones acreditadas.
+            counts = partition["inventories"][0]["component_sections"]
+            first = {c: min(m for m, v in partition["municipality_to_partition"].items() if v == c) for c in counts}
+            sections = [(f"{first[c]}01001", round(p["population_2025"] * n / sum(counts.values()))) for c, n in counts.items()]
+        else:
+            sections = [(f"{p['code']}12501001", p["population_2025"])]
+        package = population_package(work, sections,
                                      population_year=2023, section_year=2023)
         result = materialize(work, p["territory_id"], "2025", package, population_year="2023", section_year="2023")
         target = root / result["contract_path"]
@@ -227,7 +243,7 @@ def generate(root: Path, zip_path: Path) -> list[str]:
     sources_template = (root / f"territorios/{TEMPLATE}/config/fuentes_oficiales.yaml").read_text(encoding="utf-8")
     added: list[str] = []
     for p in provinces(root):
-        if p["territory_id"] in existing or p["code"] in INSULAR:
+        if p["territory_id"] in existing or (p["code"] in INSULAR and not _partition(root, p["territory_id"])):
             continue
         tid, label, code, k = p["territory_id"], p["label"], p["code"], p["k"]
         election_id = f"{tid}_{ELECTION_DATE}"
@@ -241,7 +257,7 @@ def generate(root: Path, zip_path: Path) -> list[str]:
   {tid}:
     k: {k}
     k_source: formula
-    partition_mode: province_hamilton
+    partition_mode: {"physical_components_hamilton" if p["code"] in INSULAR else "province_hamilton"}
     rationale: "{_rationale(p)}"
     population_limits:
       population_floor_ratio: 0.85
@@ -303,18 +319,19 @@ def generate(root: Path, zip_path: Path) -> list[str]:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(sources, encoding="utf-8")
         for workflow in WORKFLOWS:
+            # Se añade tras la última provincia; sort_by_province_code la coloca en su sitio.
             path = root / ".github/workflows" / workflow
-            text = path.read_text(encoding="utf-8")
-            previous = added[-1] if added else "Congreso Huesca"
-            previous_label = previous if previous == "Congreso Huesca" else next(
-                q["label"] for q in provinces(root) if q["territory_id"] == previous)
-            if f"          - {previous_label}\n" in text:
-                text = text.replace(f"          - {previous_label}\n", f"          - {previous_label}\n          - {label}\n", 1)
-            elif f"'{previous_label}']" in text:
-                text = text.replace(f"'{previous_label}']", f"'{previous_label}', '{label}']", 1)
+            lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+            listed = [i for i, line in enumerate(lines) if line.startswith("          - Congreso ")]
+            inline = [i for i, line in enumerate(lines) if "options:" in line and "'Congreso " in line]
+            if listed:
+                lines.insert(listed[-1] + 1, f"          - {label}\n")
+            elif inline:
+                i = inline[0]
+                lines[i] = lines[i].rstrip("\n").rstrip("]") + f", '{label}']\n"
             else:
-                raise ValueError(f"{workflow}: no encuentro la opción {previous_label}")
-            path.write_text(text, encoding="utf-8")
+                raise ValueError(f"{workflow}: no encuentro el selector de provincias")
+            path.write_text("".join(lines), encoding="utf-8")
         added.append(tid)
     sort_by_province_code(root)
     for tid in added:

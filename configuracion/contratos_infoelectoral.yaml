@@ -1,12 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: contratos de fuentes oficiales Infoelectoral (Ministerio del Interior) por mesa
-# VERSIÓN: 1.2.0 · FECHA: 2026-10-31 · ESTADO: candidato
+# VERSIÓN: 1.2.1 · FECHA: 2026-10-31 · ESTADO: candidato
 # FUNCIÓN: fija URL, huella, ficheros, provincia y totales de control de cada elección adquirida del
 #   ZIP oficial por mesa. Los totales sin CERA se verificaron sobre el ZIP real el 30-10-2026 y cuadran
 #   con la Resolución de la JEC de 30-08-2023 (BOE) menos el CERA publicado por la JEC.
 # CAMBIOS 1.1.0: espejo en release del repositorio (mismo ZIP, misma huella); Interior rechaza a los runners.
 # CAMBIOS 1.2.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
-# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.1.0_20261031.yaml
+# CAMBIOS 1.2.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
+# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.2.0_20261031.yaml
 schema: ddd-infoelectoral-contracts/1.0
 contracts:
   congreso_huesca_2023-07-23:
@@ -1241,4 +1242,29 @@ contracts:
       blank_votes: 253
       null_votes: 294
       voters: 27472
+      cera_records: 1
+  congreso_santa_cruz_de_tenerife_2023-07-23:
+    territory_id: congreso_santa_cruz_de_tenerife
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '38'
+    expected:
+      ccaa: '05'
+      sections: 681
+      polling_stations: 1379
+      parties: 9
+      candidate_votes: 484835
+      blank_votes: 5060
+      null_votes: 6224
+      voters: 496119
       cera_records: 1

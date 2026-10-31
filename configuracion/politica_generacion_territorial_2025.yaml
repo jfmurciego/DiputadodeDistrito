@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.7.0
+# VERSIÓN: 1.7.1
 # FECHA: 2026-10-30
 # CAMBIOS: 1.6.0: piloto Congreso Huesca (K=2, límites ±15 %, municipios indivisibles hasta el techo).
 #   1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
@@ -10,7 +10,8 @@
 #   1.3.0: Melilla baja a suelo 0,50 y tolerancia 0,50 (con 0,70 la M04 no encuentra partición conexa).
 #   1.2.0: admite population_limits por territorio.
 # CAMBIOS 1.7.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.6.0.yaml
+# CAMBIOS 1.7.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.0.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -809,6 +810,20 @@ territories:
     k_source: formula
     partition_mode: province_hamilton
     rationale: "Congreso: K=1 es la cuota de Melilla (CPRO 52) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso_santa_cruz_de_tenerife:
+    k: 9
+    k_source: formula
+    partition_mode: physical_components_hamilton
+    rationale: "Congreso: K=9 es la cuota de Santa Cruz de Tenerife (CPRO 38) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
     population_limits:
       population_floor_ratio: 0.85
       population_cap_ratio: 1.15

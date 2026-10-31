@@ -1,5 +1,5 @@
 {
-  "schema": "ddd-archipelago-partitions/1.2",
+  "schema": "ddd-archipelago-partitions/1.3",
   "territories": {
     "illes_balears": {
       "partition_mode": "physical_components",
@@ -340,6 +340,113 @@
             "38-C02": "8d7ca174e6f462ce0e3164b86aeb5d566c73f1bc68ab1861623c6a032df56488",
             "38-C03": "53cb1cad0d8d7e326f1c2bc780c97efc6c396652d3a281e9b62a82095dffd1a9",
             "38-C04": "d402bde485452cc28088e70a05c883c06647479186b6a26016a42b29704babd1"
+          }
+        }
+      ]
+    },
+    "congreso_santa_cruz_de_tenerife": {
+      "partition_mode": "physical_components",
+      "components": {
+        "38-C01": {
+          "province_code": "38",
+          "name": "Tenerife"
+        },
+        "38-G01": {
+          "province_code": "38",
+          "name": "La Gomera, La Palma y El Hierro"
+        }
+      },
+      "municipality_to_partition": {
+        "38001": "38-C01",
+        "38002": "38-G01",
+        "38003": "38-G01",
+        "38004": "38-C01",
+        "38005": "38-C01",
+        "38006": "38-C01",
+        "38007": "38-G01",
+        "38008": "38-G01",
+        "38009": "38-G01",
+        "38010": "38-C01",
+        "38011": "38-C01",
+        "38012": "38-C01",
+        "38013": "38-G01",
+        "38014": "38-G01",
+        "38015": "38-C01",
+        "38016": "38-G01",
+        "38017": "38-C01",
+        "38018": "38-C01",
+        "38019": "38-C01",
+        "38020": "38-C01",
+        "38021": "38-G01",
+        "38022": "38-C01",
+        "38023": "38-C01",
+        "38024": "38-G01",
+        "38025": "38-C01",
+        "38026": "38-C01",
+        "38027": "38-G01",
+        "38028": "38-C01",
+        "38029": "38-G01",
+        "38030": "38-G01",
+        "38031": "38-C01",
+        "38032": "38-C01",
+        "38033": "38-G01",
+        "38034": "38-C01",
+        "38035": "38-C01",
+        "38036": "38-G01",
+        "38037": "38-G01",
+        "38038": "38-C01",
+        "38039": "38-C01",
+        "38040": "38-C01",
+        "38041": "38-C01",
+        "38042": "38-C01",
+        "38043": "38-C01",
+        "38044": "38-C01",
+        "38045": "38-G01",
+        "38046": "38-C01",
+        "38047": "38-G01",
+        "38048": "38-G01",
+        "38049": "38-G01",
+        "38050": "38-G01",
+        "38051": "38-C01",
+        "38052": "38-C01",
+        "38053": "38-G01",
+        "38901": "38-G01"
+      },
+      "section_overrides": {},
+      "physical_component_count": 2,
+      "bridges": [
+        {
+          "u": "3803601001",
+          "v": "3803701001",
+          "admin_scope": "province:38",
+          "edge_type": "maritime_group",
+          "reason": "Grupo de islas occidentales (La Gomera y La Palma) en un mismo distrito del Congreso; decisión del propietario 31-10-2026 (opción B)",
+          "source": "configuracion/particiones_insulares_2025.json#congreso_santa_cruz_de_tenerife"
+        },
+        {
+          "u": "3803601001",
+          "v": "3804801001",
+          "admin_scope": "province:38",
+          "edge_type": "maritime_group",
+          "reason": "Grupo de islas occidentales (La Gomera y El Hierro) en un mismo distrito del Congreso; decisión del propietario 31-10-2026 (opción B)",
+          "source": "configuracion/particiones_insulares_2025.json#congreso_santa_cruz_de_tenerife"
+        }
+      ],
+      "inventories": [
+        {
+          "inventory_id": "secciones_2023",
+          "section_year": 2023,
+          "population_year": 2023,
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 38; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de canarias",
+          "universe_section_count": 681,
+          "universe_cusec_set_sha256": "589b1a0ab71efdc4212afffda98699060e2749008038d1c194f0300a0941cb66",
+          "component_sections": {
+            "38-C01": 599,
+            "38-G01": 82
+          },
+          "component_cusec_set_sha256": {
+            "38-C01": "764660e1935a2bc50b71083baa054d3b18938c8476405fe5c749ebbda2b463ce",
+            "38-G01": "11b7debcdd208866a45bbf77618c792dc617c1737f7c55cb73dc7b949f770fc6"
           }
         }
       ]
