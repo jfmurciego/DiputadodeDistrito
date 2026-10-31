@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13061710186,
+      "artifact_name": "ddd-audit-41243697404",
+      "artifact_sha256": "dba12dc6437d0923f3d785b9c080b12468f691c4351d14537293879792305583",
+      "run_id": 41243697404,
+      "size_in_bytes": 6283
+    },
+    "m04": {
+      "artifact_id": 13061012411,
+      "artifact_name": "ddd-state-41243697404-M04",
+      "artifact_sha256": "924d03df816a168a5a2ca62bb6453f65ca63c9896a00cf72e70ea24250cf0941",
+      "run_id": 41243697404,
+      "size_in_bytes": 80118139
+    },
+    "m05": {
+      "artifact_id": 13061500722,
+      "artifact_name": "ddd-state-41243697404-M05",
+      "artifact_sha256": "8225f3ba63d0a31473c5d1d9b6dd63cc9c8b4695e2e8332cb07a51a5d37dee22",
+      "run_id": 41243697404,
+      "size_in_bytes": 81310056
+    },
+    "m06": {
+      "artifact_id": 13061012794,
+      "artifact_name": "ddd-state-41243697404-M06",
+      "artifact_sha256": "04aa79ca58db2fadd09204a7ce168163891558c7347243f7e274365728d26b4d",
+      "run_id": 41243697404,
+      "size_in_bytes": 82863498
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "d98a3b9df69b55f2d04eab431bb1bdae898675e7bd1b9a0db22a1b55267c71f2",
+        "size_in_bytes": 484
+      },
+      "congreso_la_coruna_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "e15bce26c42b876bbccc6b169bb715a809c322fdfd117bc618fba5ff1d72921a",
+        "size_in_bytes": 33373
+      },
+      "optimization_execution.json": {
+        "sha256": "2e39eddd3d6f49c9c22a9e6ef24aa4d7dce865509d45cfc7ff1ff2a8a3480308",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "16a8a9f498fb393d60550db79caf9cb62b96e0e0a40eb4348985e65630b1f9a7",
+        "size_in_bytes": 1324
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "16a8a9f498fb393d60550db79caf9cb62b96e0e0a40eb4348985e65630b1f9a7",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_la_coruna/config/congreso_la_coruna_2025.yaml",
+    "sha256": "02662d0e445b3ee82ce17d0765f5d7690efd47e9ec91ef9b4f6df80aa92548d9"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "f8bf2ce30aaa0907b6c28bf34a1d4f8c8b4d16f8d0ff0ef5d257e18deb6df87e",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "2c2fc2e4182f1c65d8d3e2d38187d0180e7bf36a",
+    "edition": "2025",
+    "territory_id": "congreso_la_coruna",
+    "territory_name": "Congreso La Coruña",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41243697404,
+    "workflow_sha": "5e8d4478b2f5591c121e5e1e28307ac5b130dee5"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13061012411,
+      "artifact_name": "ddd-state-41243697404-M04",
+      "artifact_sha256": "924d03df816a168a5a2ca62bb6453f65ca63c9896a00cf72e70ea24250cf0941",
+      "run_id": 41243697404,
+      "size_in_bytes": 80118139
+    },
+    "source_manifest_sha256": "7c3c118c41e4697e755c4ea123ee5efab2c896ba31a593e0ef5ba65dc0aebf0a",
+    "source_package_artifact": {
+      "artifact_id": 13059018711,
+      "artifact_name": "ddd-source-package-congreso_la_coruna-2025-41243697404",
+      "artifact_sha256": "c3e29f26b8c080248e37f94449ab610d6bec2423f02b77f3256de09080bef3a3",
+      "run_id": 41243697404,
+      "size_in_bytes": 77713280
+    }
+  },
+  "manifest_sha256": "f9d68290222f53156f473787a45e7f06a2649f8750534899b6a585d65e23d664",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

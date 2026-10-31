@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_la_coruna",
+  "territory_name": "Congreso La Coruña",
+  "edition": "2025",
+  "run_id": 41243697404,
+  "artifact_name": "ddd-state-41243697404-M06",
+  "artifact_sha256": "04aa79ca58db2fadd09204a7ce168163891558c7347243f7e274365728d26b4d",
+  "source_commit": "2c2fc2e4182f1c65d8d3e2d38187d0180e7bf36a",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_la_coruna/evidencia/generaciones_m06/41243697404.json"
+}
