@@ -1743,20 +1743,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_cantabria/config/congreso_cantabria_2025.yaml
       territorial_source_declaration: territorios/congreso_cantabria/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41242029481
+        artifact_name: ddd-source-package-congreso_cantabria-2025-41242029481
+        artifact_sha256: b8c41bf9858659137e084ba29082f153df558e5437508884d9754dcd91a6f77b
+        package_sha256: 0a0e3a80c12f87090414914faac98f9ee3f87319d103087f51564d31bf8dffa6
+        receipt_path: territorios/congreso_cantabria/evidencia/fuentes_territoriales/2025/bb8bbc1ec2e459c4c9b50ddb8f0132ff3be0c53fd21d0979aa1437f820e6bb3f/41242029481/receipt.json
+        territorial_identity_sha256: bb8bbc1ec2e459c4c9b50ddb8f0132ff3be0c53fd21d0979aa1437f820e6bb3f
+        compatibility_report_sha256: 02abf72c833a82a277b4111072e318ad50c7c78437a2936e2449ec6edbf94fe4
+        compatibility_identity_sha256: f13113a3c37f70987b701cc703f2be54ccaa5f8bed20bab8f047f7be466e12eb
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: b53dd1af35d21917f0218e3c9a04756b4da50292
       evidence:
         electoral_source: territorios/congreso_cantabria/evidencia/fuentes_electorales/2025/3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b/41239913823/receipt.json
+      generation_enabled: false
 - territory_id: congreso_segovia
   name: Congreso Segovia
   editions:

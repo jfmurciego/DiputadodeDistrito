@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_cantabria",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41242029481,
+  "artifact_name": "ddd-source-package-congreso_cantabria-2025-41242029481",
+  "artifact_sha256": "b8c41bf9858659137e084ba29082f153df558e5437508884d9754dcd91a6f77b",
+  "package_sha256": "0a0e3a80c12f87090414914faac98f9ee3f87319d103087f51564d31bf8dffa6",
+  "source_commit": "b53dd1af35d21917f0218e3c9a04756b4da50292",
+  "source_declaration": "territorios/congreso_cantabria/evidencia/fuentes_territoriales/2025/bb8bbc1ec2e459c4c9b50ddb8f0132ff3be0c53fd21d0979aa1437f820e6bb3f/41242029481/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "bb8bbc1ec2e459c4c9b50ddb8f0132ff3be0c53fd21d0979aa1437f820e6bb3f",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "02abf72c833a82a277b4111072e318ad50c7c78437a2936e2449ec6edbf94fe4",
+  "compatibility_identity_sha256": "f13113a3c37f70987b701cc703f2be54ccaa5f8bed20bab8f047f7be466e12eb"
+}
