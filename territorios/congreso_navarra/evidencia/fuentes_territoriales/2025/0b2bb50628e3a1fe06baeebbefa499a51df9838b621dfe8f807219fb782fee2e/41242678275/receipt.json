@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_navarra",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41242678275,
+  "artifact_name": "ddd-source-package-congreso_navarra-2025-41242678275",
+  "artifact_sha256": "13c617c53e8880ab488bbfcd3b98abcccdfcdb677237be18ec99acd9323bbcb0",
+  "package_sha256": "4c8af75a2c5a3b93567556f6dafad9b911e88eb16a046dd78ac8c39fdd457278",
+  "source_commit": "3c8987226976760910b7711b660979a7f5f84c78",
+  "source_declaration": "territorios/congreso_navarra/evidencia/fuentes_territoriales/2025/0b2bb50628e3a1fe06baeebbefa499a51df9838b621dfe8f807219fb782fee2e/41242678275/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "0b2bb50628e3a1fe06baeebbefa499a51df9838b621dfe8f807219fb782fee2e",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "fb7106380836b9cd180c33df2073816fca5b0b420609b909a785a835fac7121b",
+  "compatibility_identity_sha256": "b1eff815b11329419dd12a020b340f8bf0fa5bcb7bbf84927d72c0f3c71e4e95"
+}
