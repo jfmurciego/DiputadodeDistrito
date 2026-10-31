@@ -5,10 +5,12 @@
   "territory_name": "Congreso Santa Cruz de Tenerife",
   "edition": "2025",
   "run_id": 41239505387,
-  "source_commit": "1ecd108edf90a8be4e688ccea3c1aaea65b6aefa",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "b53dd1af35d21917f0218e3c9a04756b4da50292",
+  "artifact_name": "ddd-state-41239505387-M03U",
+  "artifact_sha256": "8c9bcb78c168e5689aa71c5e613b45c8675b476602bc48bcd09efd83ad03ab3e",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41239505387,
     "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-41239505387",
@@ -19,10 +21,180 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb",
+    "physical_partition_preparer_git_blob_sha1": "1e1d197ddc8e41e0bf05505e6c22bbb70fa557ef",
+    "m04_entrypoint_git_blob_sha1": "3047b166e11448924152c043e72259ae83dfddd2"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "3803601001",
+        "v": "3803701001",
+        "admin_scope": "province:38",
+        "edge_type": "maritime_group"
+      },
+      {
+        "u": "3803601001",
+        "v": "3804801001",
+        "admin_scope": "province:38",
+        "edge_type": "maritime_group"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41239505387-M03",
+    "artifact_sha256": "109c66d42e3682dc58c5cf8673cf5fa0eeda06eafc12352957ebb374bf849c7c",
+    "module_version": "7.5.0",
+    "nodes": 681,
+    "edges": 1786,
+    "population": 1067173,
+    "isolated": 0,
+    "global_components": 2,
+    "province_disconnected": 1,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41239505387",
+    "job_artifact_sha256": "82df5ecdc8c1daa1c4a78c2adb3d482e9c4e6591154b78e91d3bc49ae28bb2c0",
+    "status": "PREPARED",
+    "strategy": "physical_components",
+    "contract_output_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m03_particiones.geojson.zip",
+    "resolved_output_geojson": "/app/territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/congreso_santa_cruz_de_tenerife_2025/congreso_santa_cruz_de_tenerife_2025_m03_particiones.geojson.zip",
+    "hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
+    "hard_partition_lookup_sha256": "266baca17aef1b25f01a0533e2acff2d4e46e050cf3a4ff26e143ae05b777c6c",
+    "inventory_id": "secciones_2023",
+    "source_identity": {
+      "territory_id": "congreso_santa_cruz_de_tenerife",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "package_sha256": "b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f",
+      "compatibility_identity_sha256": "a71306975cef7667b846faf4a0397957b11e7bdb49217d0f9017239b9de532c8",
+      "sectioning_sha256": "1b73521f6ad2f366a253bed60ad74dc554ca6e21e0d4d653efbb6fca20a8348f",
+      "territorial_identity_sha256": "6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53"
+    },
+    "partition_field": "DDD_PARTITION",
+    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "input_section_count": 681,
+    "output_section_count": 681,
+    "input_output_cusec_equal": true,
+    "universe_cusec_set_sha256": "589b1a0ab71efdc4212afffda98699060e2749008038d1c194f0300a0941cb66",
+    "component_sections": {
+      "38-C01": 599,
+      "38-G01": 82
+    },
+    "component_cusec_set_sha256": {
+      "38-C01": "764660e1935a2bc50b71083baa054d3b18938c8476405fe5c749ebbda2b463ce",
+      "38-G01": "11b7debcdd208866a45bbf77618c792dc617c1737f7c55cb73dc7b949f770fc6"
+    },
+    "component_districts": {
+      "38-C01": 8,
+      "38-G01": 1
+    }
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 1067173,
+      "target_section_count": 681,
+      "package_sha256": "b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f",
+      "compatibility_report_sha256": "dd073ad51ad273aef19ccf0fea5bef88314917fd008a122161a968d40137ccaa",
+      "compatibility_identity_sha256": "a71306975cef7667b846faf4a0397957b11e7bdb49217d0f9017239b9de532c8"
+    },
+    "topology_accreditation": null,
+    "k_districts": 9,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m03_particiones.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "m05_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "m06_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "validation_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "expected_districts": 9,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true,
+    "hard_partition_input": {
+      "mode": "physical_components",
+      "lookup": "configuracion/particiones_insulares_2025.json",
+      "partition_populations": {
+        "38-C01": 948815,
+        "38-G01": 118358
+      },
+      "component_districts": {
+        "38-C01": 8,
+        "38-G01": 1
+      },
+      "partition_apportionment_audit": {
+        "38-C01": {
+          "population": 948815,
+          "districts": 8,
+          "target_population": 118574.777778,
+          "average_population_per_district": 118601.875,
+          "relative_deviation_from_target": 0.000228524,
+          "population_floor": 100788.561111,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        },
+        "38-G01": {
+          "population": 118358,
+          "districts": 1,
+          "target_population": 118574.777778,
+          "average_population_per_district": 118358.0,
+          "relative_deviation_from_target": -0.001828195,
+          "population_floor": 100788.561111,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        }
+      },
+      "population_floor_exempt_partitions": [],
+      "source_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m01_secciones_poblacion.geojson.zip",
+      "input_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m03_particiones.geojson.zip",
+      "partition_field": "DDD_PARTITION",
+      "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+      "district_apportionment": "hamilton_components",
+      "hard_partition_territory_id": "congreso_santa_cruz_de_tenerife"
+    }
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
