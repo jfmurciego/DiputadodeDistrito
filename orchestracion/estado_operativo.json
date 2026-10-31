@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:21:20.166696+00:00",
+  "generated_at": "2026-10-31T23:21:54.671486+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6952,14 +6952,14 @@
       "territory_id": "congreso_zaragoza",
       "name": "Congreso Zaragoza",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41243577758,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6970,13 +6970,26 @@
           "artifact_sha256": "627977b4ba7a437b6badf0c84976f54525bb7a7634e79f7beb5291fe96af50d9",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_zaragoza",
+          "territory_name": "Congreso Zaragoza",
+          "edition": "2025",
+          "run_id": 41243577758,
+          "artifact_name": "ddd-state-41243577758-M06",
+          "artifact_sha256": "b0c03700ef4492ba850952e3e182cde04a7939e8e4a1c1544cf2e1423fed336a",
+          "source_commit": "edf1eb284a1505ca5e6605195c54f17fb352bc91",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_zaragoza/evidencia/generaciones_m06/41243577758.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C50",
       "display_name": "Congreso Zaragoza",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_ceuta",
@@ -7115,7 +7128,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 46,
+    "territorial_validated": 47,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7161,10 +7174,11 @@
       "Congreso Teruel",
       "Congreso Toledo",
       "Congreso Zamora",
+      "Congreso Zaragoza",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 46,
+    "validated": 47,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7210,10 +7224,11 @@
       "Congreso Teruel",
       "Congreso Toledo",
       "Congreso Zamora",
+      "Congreso Zaragoza",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 21,
+    "ready": 20,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7234,8 +7249,7 @@
       "Congreso Pontevedra",
       "Congreso Cantabria",
       "Congreso Valladolid",
-      "Congreso Vizcaya",
-      "Congreso Zaragoza"
+      "Congreso Vizcaya"
     ],
     "pending": 4,
     "pending_names": [
