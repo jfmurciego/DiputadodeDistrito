@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_huelva",
+  "territory_name": "Congreso Huelva",
+  "edition": "2025",
+  "run_id": 41239835955,
+  "artifact_name": "ddd-electoral-package-congreso_huelva-2025-41239835955",
+  "artifact_sha256": "066fc38cbde511e7db0c76113f19bc00ebf4e0e2f11dcf8c694329adceef0069",
+  "source_commit": "79e943d21c6e1210b4390185ddd8b0245012209b",
+  "election_id": "congreso_huelva_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a"
+}
