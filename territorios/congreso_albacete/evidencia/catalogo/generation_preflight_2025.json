@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_albacete",
+  "territory_name": "Congreso Albacete",
+  "edition": "2025",
+  "run_id": 41240260992,
+  "source_commit": "9b09962dd870eb500567df49959e2f7d12f0caec",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41240260992,
+    "artifact_name": "ddd-source-package-congreso_albacete-2025-41240260992",
+    "artifact_sha256": "2f45f2c0f403a2628ec2127e09a05f19dacf22ab9e3ccec9cf7104d7e0c5af02",
+    "package_sha256": "210769bb39ea986b620a6c81551a2b9c9b81c2624f4660c574d73f6d4470c06d",
+    "compatibility_identity_sha256": "b65ae32606b8da4a6504ee9b8244cf4cbe41e7a589cec59ddcbde50e61fd7834",
+    "territorial_identity_sha256": "70020652c0d9c32d03c1ef5c3cf5738ebc1e4ec539a362de24c1ab934b96ffa0",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
