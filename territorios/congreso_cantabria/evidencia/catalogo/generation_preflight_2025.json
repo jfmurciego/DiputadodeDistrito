@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_cantabria",
+  "territory_name": "Congreso Cantabria",
+  "edition": "2025",
+  "run_id": 41242029481,
+  "source_commit": "f72e308c7cf2dc30902120dfedfde3cbb4054920",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41242029481,
+    "artifact_name": "ddd-source-package-congreso_cantabria-2025-41242029481",
+    "artifact_sha256": "b8c41bf9858659137e084ba29082f153df558e5437508884d9754dcd91a6f77b",
+    "package_sha256": "0a0e3a80c12f87090414914faac98f9ee3f87319d103087f51564d31bf8dffa6",
+    "compatibility_identity_sha256": "f13113a3c37f70987b701cc703f2be54ccaa5f8bed20bab8f047f7be466e12eb",
+    "territorial_identity_sha256": "bb8bbc1ec2e459c4c9b50ddb8f0132ff3be0c53fd21d0979aa1437f820e6bb3f",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}

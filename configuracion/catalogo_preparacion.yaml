@@ -1784,6 +1784,7 @@ territories:
         source_commit: b53dd1af35d21917f0218e3c9a04756b4da50292
       evidence:
         electoral_source: territorios/congreso_cantabria/evidencia/fuentes_electorales/2025/3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b/41239913823/receipt.json
+        generation_preflight: territorios/congreso_cantabria/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_segovia
   name: Congreso Segovia
