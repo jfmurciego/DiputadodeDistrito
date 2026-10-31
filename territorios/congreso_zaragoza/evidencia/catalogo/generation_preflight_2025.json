@@ -5,10 +5,12 @@
   "territory_name": "Congreso Zaragoza",
   "edition": "2025",
   "run_id": 41243577758,
-  "source_commit": "db3372318217b7d8a2b57356f177f5956faf0264",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "a666d00351aaddcde4ca7a32d418857df9f43ec7",
+  "artifact_name": "ddd-state-41243577758-M03U",
+  "artifact_sha256": "6e045f1a17adcf7294c3d276eb501f4965d4ee8d26f647f2de2386c7a180c9ea",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41243577758,
     "artifact_name": "ddd-source-package-congreso_zaragoza-2025-41243577758",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41243577758-M03",
+    "artifact_sha256": "61ae7ccfdf041b461307fe4d84e10d2ff6f90bb5239e83ef55317c52a1e8ab71",
+    "module_version": "7.5.0",
+    "nodes": 884,
+    "edges": 2424,
+    "population": 979365,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41243577758",
+    "job_artifact_sha256": "38a2dbba21d920e331423bf231d6a8a49d49fa76349fa932ffacf241d29f8970",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/congreso_zaragoza_2025/congreso_zaragoza_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 979365,
+      "target_section_count": 884,
+      "package_sha256": "164b80ccbdc6dc82f1ceb1fe496d185b555dd461d64b2173447fca3adde21b46",
+      "compatibility_report_sha256": "9cca76f8da296db30788d3011de560a20fcf90d14bdfdc8b5182d3db33542f9b",
+      "compatibility_identity_sha256": "61641be304697538b7edafa7415eedf3d814428b5df37b53d7acb54286058a9c"
+    },
+    "topology_accreditation": null,
+    "k_districts": 8,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_zaragoza/.cache/ddd/preparacion/{run_name}/congreso_zaragoza_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 8,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

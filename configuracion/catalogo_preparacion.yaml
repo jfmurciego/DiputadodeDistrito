@@ -2431,7 +2431,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_zaragoza/evidencia/fuentes_electorales/2025/c47b71a53a40450fd33bcb29d4a30190970e1b31806e26b4891b59db7b0943b6/41239953681/receipt.json
         generation_preflight: territorios/congreso_zaragoza/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_ceuta
   name: Congreso Ceuta
   editions:
