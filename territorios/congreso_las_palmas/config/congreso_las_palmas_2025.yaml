@@ -21,10 +21,13 @@ io:
       path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -36,6 +39,10 @@ io:
         edad_total_values:
         - Todas las edades
         year_value: 2023
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}
   runs:
@@ -72,7 +79,7 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  population_floor_exempt_partitions: &id002
+  population_floor_exempt_partitions:
   - 35-C02
   small_component_exception_policy: one_contiguous_district_floor_exception
   status: source_prepared_pending_pre_m04
@@ -180,9 +187,9 @@ validation:
   require_one_graph_component_per_province: false
   require_connected_municipalities: false
   partition_populations:
-    35-C01: 958538
-    35-C02: 90119
-    35-G01: 122890
+    35-C01: 862893
+    35-C02: 124152
+    35-G01: 158798
   expected_districts: 10
   population_floor_ratio: 0.85
   population_cap_ratio: 1.4
@@ -199,33 +206,33 @@ validation:
   max_mixed_districts_per_split_municipality: 1
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
-  population_floor_exempt_partitions: *id002
+  population_floor_exempt_partitions: []
   partition_apportionment_audit:
     35-C01:
-      population: 958538
+      population: 862893
       districts: 8
-      target_population: 117154.7
-      average_population_per_district: 119817.25
-      relative_deviation_from_target: 0.022726788
-      population_floor: 99581.495
+      target_population: 114584.3
+      average_population_per_district: 107861.625
+      relative_deviation_from_target: -0.058670123
+      population_floor: 97396.655
       floor_exception_required: false
       floor_exception_governed: true
     35-C02:
-      population: 90119
+      population: 124152
       districts: 1
-      target_population: 117154.7
-      average_population_per_district: 90119.0
-      relative_deviation_from_target: -0.230769231
-      population_floor: 99581.495
-      floor_exception_required: true
+      target_population: 114584.3
+      average_population_per_district: 124152.0
+      relative_deviation_from_target: 0.083499223
+      population_floor: 97396.655
+      floor_exception_required: false
       floor_exception_governed: true
     35-G01:
-      population: 122890
+      population: 158798
       districts: 1
-      target_population: 117154.7
-      average_population_per_district: 122890.0
-      relative_deviation_from_target: 0.048954929
-      population_floor: 99581.495
+      target_population: 114584.3
+      average_population_per_district: 158798.0
+      relative_deviation_from_target: 0.385861763
+      population_floor: 97396.655
       floor_exception_required: false
       floor_exception_governed: true
   hard_partition_mode: physical_components
@@ -235,37 +242,133 @@ validation:
     edition: '2025'
     population_year: 2023
     section_year: 2023
-    population_total: 1171547
-    target_section_count: 3
-    package_sha256: 6e620fc8c28a5f27030e324334270ca44111ad5712ab450a78af74fb53ca934f
-    compatibility_report_sha256: e999b41081adc49d350a1d6ed6a68c181263d2b7a53581692b3f24d7eef9f3b6
-    compatibility_identity_sha256: 7695ac7c00050e0470ec9167640f070cc3fa6fa15f406bef1967da88e7eb35bf
+    population_total: 1145843
+    target_section_count: 715
+    package_sha256: 24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f
+    compatibility_report_sha256: f66a2549941e0706ddd8ec12019f7cf96f36d4fceed8a05274f0d7b40039becb
+    compatibility_identity_sha256: 2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af
 resolved_source_contract:
-  schema: ddd.resolved-source-contract/legacy-bridge
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: congreso_las_palmas
+    territory_name: Congreso Las Palmas
+    project_edition: '2025'
   temporal:
     population_year: 2023
     section_year: 2023
   sources:
-    population: null
-    sectioning: null
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: f4c1e225aa971fc200427e812a2e1588aa322ffdb604487e80100be416a5fd60
+        bytes: 7852
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2023.zip
+        sha256: 1acd945969f466ae02a732cc2e32f3a8e5eb1db41c1717e9615a6251a1072630
+        bytes: 4277544
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
     province_field: DDD_PARTITION
     municipality_field: DDD_MUNICIPALITY_PARTITION
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: 7bf98ec20cddd0a36ed33fde086f1bdee4919547bf99a4b11632057bfe314501
 generation_state:
   source_prepared: true
   generation_enabled: false
-  package_sha256: 6e620fc8c28a5f27030e324334270ca44111ad5712ab450a78af74fb53ca934f
-  compatibility_identity_sha256: 7695ac7c00050e0470ec9167640f070cc3fa6fa15f406bef1967da88e7eb35bf
+  package_sha256: 24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f
+  compatibility_identity_sha256: 2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af
   source_inputs:
   - path: inputs/65034.csv.zip
-    sha256: 32162621babc8910861bad7c500075ce882ba3c78a762666a86f60833b5b9269
+    sha256: f4c1e225aa971fc200427e812a2e1588aa322ffdb604487e80100be416a5fd60
     role: population
-    source_id: synthetic_population
-    consumer_contract: null
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 4436f3e7dc85e0a539b770b4ef2d26904ecd5152bf5a1ad03bc0ef03bf0bc663
+    sha256: 1acd945969f466ae02a732cc2e32f3a8e5eb1db41c1717e9615a6251a1072630
     role: target_sectioning
-    source_id: synthetic_sectioning
-    consumer_contract: null
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO

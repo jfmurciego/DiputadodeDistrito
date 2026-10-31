@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_las_palmas",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41250283081,
+  "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41250283081",
+  "artifact_sha256": "08dcb79aad9562bc174e1c4356ae2761e475502ce79191e54dd0e2377c33d49d",
+  "package_sha256": "24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f",
+  "source_commit": "fefd290ad115cc651b46bbf39a33ac45d83b7ae7",
+  "source_declaration": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7/41250283081/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "f66a2549941e0706ddd8ec12019f7cf96f36d4fceed8a05274f0d7b40039becb",
+  "compatibility_identity_sha256": "2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af"
+}
