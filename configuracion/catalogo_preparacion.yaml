@@ -1731,6 +1731,7 @@ territories:
         electoral_source: territorios/congreso_soria/evidencia/fuentes_electorales/2025/7a4b0bacfa1c54d0992d1947112cb6676d0edb1b48ea152d8fadce98b5cd7b3b/41235804865/receipt.json
         generation_preflight: territorios/congreso_soria/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_soria/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_soria/evidencia/pares_fuentes/2025/b73e7070cb80f9db457a63722fa4bdfc0f6d6a4a369eba0588a25e0357c02ed6.json
       generation_enabled: true
 - territory_id: congreso_tarragona
   name: Congreso Tarragona
