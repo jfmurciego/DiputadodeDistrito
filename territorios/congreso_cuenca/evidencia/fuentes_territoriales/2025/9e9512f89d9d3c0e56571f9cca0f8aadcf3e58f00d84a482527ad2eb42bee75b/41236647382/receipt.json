@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_cuenca",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41236647382,
+  "artifact_name": "ddd-source-package-congreso_cuenca-2025-41236647382",
+  "artifact_sha256": "c5a7b2b573565cced64673bbf1e95a701570c9e739a2184a594e076eb9105dc6",
+  "package_sha256": "8325bca5fc3bc8170e644e6aea14fecc5325d19de22e0b48b268624e3f47a38d",
+  "source_commit": "09a4aeb9f22ae68bb252ffad76303ebd8fd0f02e",
+  "source_declaration": "territorios/congreso_cuenca/evidencia/fuentes_territoriales/2025/9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b/41236647382/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "9e9512f89d9d3c0e56571f9cca0f8aadcf3e58f00d84a482527ad2eb42bee75b",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "f352e16942a83cff09f8382aeb720bc23a7f477d2bae1accbb6c0c0e6700b3f2",
+  "compatibility_identity_sha256": "565d33955eb045149f067be0454fa73727cca4e73043a469cdd12d3c560d114a"
+}
