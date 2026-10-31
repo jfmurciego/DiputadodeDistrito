@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_valladolid",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41241636977,
+  "artifact_name": "ddd-source-package-congreso_valladolid-2025-41241636977",
+  "artifact_sha256": "3b2eb406674cd312f2d773cd8e1ef9cc73e0ff4bee7eb942f1870ba63eca256e",
+  "package_sha256": "0610fead09f31539765564f296cd88ef48abbee60d35b63d8449748e8d7ca685",
+  "source_commit": "a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2",
+  "source_declaration": "territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/faec2ecf38915f2301b66cdf0e2ffd9fd5b4a09d476f58e09a2d7ac3b4012ed5/41241636977/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "faec2ecf38915f2301b66cdf0e2ffd9fd5b4a09d476f58e09a2d7ac3b4012ed5",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "e3e8d02d619f4f652bfc31e1a166f36b05ded487a3e256c7806559d3b6a925c5",
+  "compatibility_identity_sha256": "9266f1b6652407bf8bbaf5eb1174f8f5a231ab62263d62f37b3debeec70ce374"
+}
