@@ -1126,20 +1126,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_cordoba/config/congreso_cordoba_2025.yaml
       territorial_source_declaration: territorios/congreso_cordoba/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41242424551
+        artifact_name: ddd-source-package-congreso_cordoba-2025-41242424551
+        artifact_sha256: e5d35701bc33a7dd3dd81ae3dd5a5b3f990ba1882eb322595d86a85940d542e6
+        package_sha256: ec7faa59e58c97237304ebdcd482ae6f79c89373a9a5dc4c105b0036bfc850ad
+        receipt_path: territorios/congreso_cordoba/evidencia/fuentes_territoriales/2025/1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a/41242424551/receipt.json
+        territorial_identity_sha256: 1cc0c1c99ea2414f971682afd838add438493bf11d16e3ed3080f71f9bd8435a
+        compatibility_report_sha256: f3d7da890d4ebfd8c51d801958df7fbc47f9007e84a38494bf6f7aff4eeaca08
+        compatibility_identity_sha256: 2e3ac2d972cdfb374547fdd2b2fba0b8cf9796898bc43ed060b5874efae31020
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 3c8987226976760910b7711b660979a7f5f84c78
       evidence:
         electoral_source: territorios/congreso_cordoba/evidencia/fuentes_electorales/2025/2c6b84f7b0ff5317d3c12aa8b7b195332e8b2d282a460a20241fbb4d6a3fa3bd/41239809492/receipt.json
+      generation_enabled: false
 - territory_id: congreso_la_coruna
   name: Congreso La Coruña
   editions:
