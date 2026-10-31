@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_vizcaya",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41243819237,
+  "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41243819237",
+  "artifact_sha256": "26246b1bcda37f4e5349840737b6bf4d70ce2324de0e37fc5d7e2e0187d5a5fe",
+  "package_sha256": "430d424507c2d9cccca6f53593767216ea4471fe23bbf032ef92b9e79b229704",
+  "source_commit": "342876ca35767ec5fc616e2b0522633c14dd94d6",
+  "source_declaration": "territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/5a3ead98520ee90fba1cdf83045a4ddd7a2ef3c4765cfc55b9db4eeb0c7bb7f5/41243819237/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "5a3ead98520ee90fba1cdf83045a4ddd7a2ef3c4765cfc55b9db4eeb0c7bb7f5",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "d9a7e841839bc0a542c8b4dd005285cf6744c863bde0f784ff6dcdfa1cb0bc82",
+  "compatibility_identity_sha256": "f4ccab6d249626e7e4cfde799730e688dba5f23ba8abb594d0619e95e614ccef"
+}
