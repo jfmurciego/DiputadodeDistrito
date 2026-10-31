@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T23:17:53.298861+00:00",
+  "generated_at": "2026-10-31T23:18:27.415838+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5398,14 +5398,14 @@
       "territory_id": "congreso_la_coruna",
       "name": "Congreso La Coruña",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41243697404,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5416,13 +5416,26 @@
           "artifact_sha256": "c3e29f26b8c080248e37f94449ab610d6bec2423f02b77f3256de09080bef3a3",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_la_coruna",
+          "territory_name": "Congreso La Coruña",
+          "edition": "2025",
+          "run_id": 41243697404,
+          "artifact_name": "ddd-state-41243697404-M06",
+          "artifact_sha256": "04aa79ca58db2fadd09204a7ce168163891558c7347243f7e274365728d26b4d",
+          "source_commit": "2c2fc2e4182f1c65d8d3e2d38187d0180e7bf36a",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_la_coruna/evidencia/generaciones_m06/41243697404.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C15",
       "display_name": "Congreso La Coruña",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_cuenca",
@@ -7061,7 +7074,7 @@
       "Congreso Huesca",
       "Congreso Segovia"
     ],
-    "territorial_validated": 44,
+    "territorial_validated": 45,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7087,6 +7100,7 @@
       "Congreso Cáceres",
       "Congreso Castellón",
       "Congreso Córdoba",
+      "Congreso La Coruña",
       "Congreso Cuenca",
       "Congreso Granada",
       "Congreso Guadalajara",
@@ -7108,7 +7122,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 44,
+    "validated": 45,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7134,6 +7148,7 @@
       "Congreso Cáceres",
       "Congreso Castellón",
       "Congreso Córdoba",
+      "Congreso La Coruña",
       "Congreso Cuenca",
       "Congreso Granada",
       "Congreso Guadalajara",
@@ -7155,7 +7170,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 23,
+    "ready": 22,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7165,7 +7180,6 @@
       "Congreso Burgos",
       "Congreso Cádiz",
       "Congreso Ciudad Real",
-      "Congreso La Coruña",
       "Congreso Gerona",
       "Congreso Guipúzcoa",
       "Congreso Lérida",
