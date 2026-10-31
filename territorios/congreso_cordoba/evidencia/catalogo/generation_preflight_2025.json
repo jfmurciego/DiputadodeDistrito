@@ -5,10 +5,12 @@
   "territory_name": "Congreso Córdoba",
   "edition": "2025",
   "run_id": 41242424551,
-  "source_commit": "a8a3427638556ccc87c61b7e8315a09b6434ecc0",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "64bbc3322c14d549bbf767151ad132a03d811396",
+  "artifact_name": "ddd-state-41242424551-M03U",
+  "artifact_sha256": "85acb01b1a19b5ff5b966602bbcb8a639f82aff24960e4b4068ffad42d58f75b",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41242424551,
     "artifact_name": "ddd-source-package-congreso_cordoba-2025-41242424551",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41242424551-M03",
+    "artifact_sha256": "bbf5822610f47205725f0d114964ce93e156c0fe0a082134bc4daa192a5ed9fc",
+    "module_version": "7.5.0",
+    "nodes": 621,
+    "edges": 1665,
+    "population": 775002,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41242424551",
+    "job_artifact_sha256": "3c63abbc64200009262b7730173b4d05574ee905376181ce88bba2fffae9c84b",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/congreso_cordoba_2025/congreso_cordoba_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 775002,
+      "target_section_count": 621,
+      "package_sha256": "ec7faa59e58c97237304ebdcd482ae6f79c89373a9a5dc4c105b0036bfc850ad",
+      "compatibility_report_sha256": "f3d7da890d4ebfd8c51d801958df7fbc47f9007e84a38494bf6f7aff4eeaca08",
+      "compatibility_identity_sha256": "2e3ac2d972cdfb374547fdd2b2fba0b8cf9796898bc43ed060b5874efae31020"
+    },
+    "topology_accreditation": null,
+    "k_districts": 6,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_cordoba/.cache/ddd/preparacion/{run_name}/congreso_cordoba_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 6,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
