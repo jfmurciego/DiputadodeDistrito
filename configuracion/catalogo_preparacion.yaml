@@ -1635,11 +1635,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_tarragona/evidencia/fuentes_electorales/2025/05ee98c2e9f9e0e4d18c306351f5d35c701d2074bd7c0d061e5c07817e95d22b/41239925359/receipt.json
 - territory_id: congreso_teruel
   name: Congreso Teruel
   editions:
