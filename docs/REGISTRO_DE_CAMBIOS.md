@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.59
+Versión: 1.0.60
 Fecha: 2026-10-31
-Alcance: Congreso — Baleares y Las Palmas con islas agrupadas
+Alcance: Congreso — puentes topológicos heredados en provincias con enclaves
 Estado: candidato
-Cambios/motivo: decisión del propietario (31-10-2026): Mallorca 7 e Ibiza+Formentera 2; Lanzarote solo
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.58_baleares_20261031.md
+Cambios/motivo: Palencia (run 41235453115) falló: «grafo territorial no supera conectividad administrativa»
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.59_puentes_20261031.md
 -->
+
+## 2026-10-31 — Congreso — puentes heredados de los contratos autonómicos
+
+- El pre-M04 exige un grafo provincial conexo. Sin los puentes gobernados de los contratos autonómicos, las provincias con enclaves fallan, como Palencia (run 41235453115).
+- `generar_provincias_congreso.py` 1.2.0: `inherit_bridges` copia a cada contrato provincial los puentes autonómicos cuyo ámbito cae en esa provincia. La componente administrativa de Tremp pasa a puente municipal. Un puente sólo se copia si sus secciones existen en 2023.
+- 17 provincias reciben puentes: Alicante, Badajoz, Burgos, Ciudad Real, Gerona, Guipúzcoa, Huelva, Lérida, Málaga, Murcia, Navarra, Palencia, Pontevedra, Cantabria, Valencia, Valladolid y Vizcaya.
+- Se omite el puente municipal 47175 de Valladolid (secciones de 2025 que no existen en 2023).
+- Test: Palencia, Burgos, Valencia, Gerona y Navarra llevan sus puentes provinciales.
 
 ## 2026-10-31 — Congreso — Baleares y Las Palmas
 

@@ -98,7 +98,27 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: 0910901001
+      v: 0921904001
+      admin_scope: province:09
+      edge_type: administrative_enclave
+      reason: Enclave de Treviño enlazado al cuerpo principal de Burgos por la sección
+        burgalesa más próxima (Miranda de Ebro).
+      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+    - u: 0922301001
+      v: 0941401001
+      admin_scope: province:09
+      edge_type: cartographic_gap
+      reason: 'Monasterio de la Sierra: hueco de 758 m en el seccionado hasta Valle
+        de Valdelaguna.'
+      source: CYL-02 geometry audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+    - u: 0915401001
+      v: 0933001001
+      admin_scope: province:09
+      edge_type: cartographic_gap
+      reason: 'Hacinas: hueco de 622 m en el seccionado hasta Salas de los Infantes.'
+      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_burgos/.cache/ddd/preparacion/{run_name}/congreso_burgos_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_burgos/.cache/ddd/preparacion/{run_name}/congreso_burgos_2025_m02_adyacencias.jsonl

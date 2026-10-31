@@ -98,7 +98,14 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '3910101001'
+      v: '3903001001'
+      admin_scope: province:39
+      edge_type: administrative_exclave
+      reason: 'Valle de Villaverde: componente cántabra separada; enlace mínimo auditado
+        a Guriezo (~2702 m).'
+      source: R023 run 34688393979; heredado de territorios/cantabria/config/cantabria_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_cantabria/.cache/ddd/preparacion/{run_name}/congreso_cantabria_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_cantabria/.cache/ddd/preparacion/{run_name}/congreso_cantabria_2025_m02_adyacencias.jsonl

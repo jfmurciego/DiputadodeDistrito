@@ -98,7 +98,20 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '3403201001'
+      v: '3413501001'
+      admin_scope: province:34
+      edge_type: administrative_exclave
+      reason: 'Berzosilla: exclave palentino; enlace mínimo al cuerpo principal de
+        Palencia (Pomar de Valdivia).'
+      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+    - u: '3424201001'
+      v: '3412101001'
+      admin_scope: province:34
+      edge_type: administrative_exclave
+      reason: 'Villodrigo: exclave palentino dentro de Burgos; enlace mínimo a Palenzuela.'
+      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m02_adyacencias.jsonl

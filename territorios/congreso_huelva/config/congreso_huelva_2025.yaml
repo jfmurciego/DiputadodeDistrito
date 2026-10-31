@@ -91,7 +91,14 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '2102502002'
+      v: '2102502001'
+      admin_scope: municipality:21025
+      edge_type: administrative_bridge
+      reason: Componente censal físicamente separada de Cortegana; enlace al nodo
+        del mismo municipio más próximo auditado (~3064 m).
+      source: AND-02 auditoría geométrica reproducible; heredado de territorios/andalucia/config/andalucia_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m02_adyacencias.jsonl

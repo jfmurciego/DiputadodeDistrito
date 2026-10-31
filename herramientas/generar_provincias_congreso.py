@@ -2,7 +2,7 @@
 """Alta de las provincias del Congreso como territorios del flujo 00, con Huesca como plantilla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-10-31 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-10-31 · ESTADO: candidato
 QUÉ HACE: para cada provincia del reparto N06 (K aprobado, 407 escaños) que aún no exista, añade la
   entrada en el catálogo maestro (pilot_territories, con número INE y letras de matrícula), la política,
   la matriz de legislatura, el registro electoral, las fuentes territoriales, el catálogo de preparación,
@@ -11,7 +11,10 @@ QUÉ HACE: para cada provincia del reparto N06 (K aprobado, 407 escaños) que a�
 CAMBIOS 1.1.0: una provincia insular entra cuando su partición por islas está declarada en
   configuracion/particiones_insulares_2025.json (reparto Hamilton por componentes).
 NO HACE: provincias insulares sin partición declarada; ni lanzar ejecuciones.
-ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.0.0_20261031.py
+CAMBIOS 1.2.0: hereda de los contratos autonómicos los puentes topológicos gobernados de cada provincia
+  (enclaves como Treviño, Llívia, Rincón de Ademuz o Petilla) y las componentes administrativas como
+  puentes municipales; sólo si sus secciones existen en 2023. Palencia (run 41235453115) falló sin ellos.
+ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.1.0_20261031.py
 """
 from __future__ import annotations
 
@@ -231,6 +234,70 @@ def sort_by_province_code(root: Path) -> None:
         path.write_text(text, encoding="utf-8")
 
 
+def sections_2023(zip_path: Path) -> set[str]:
+    """CUSEC de 2023 con mesa (sin CERA); coinciden con el seccionado INE 2023 acreditado."""
+    out = set()
+    with zipfile.ZipFile(zip_path) as archive, archive.open("09022307.DAT") as fh:
+        for raw in fh:
+            line = raw.decode("iso-8859-1")
+            if line.startswith(ELECTION_PREFIX) and line[13:16] != "999":
+                out.add(line[11:13] + line[13:16] + line[16:18] + line[18:22].strip().zfill(3))
+    return out
+
+
+def _scope_province(scope: str) -> str:
+    kind, _, value = scope.partition(":")
+    return value.zfill(2) if kind == "province" else value[:2]
+
+
+def regional_bridges(root: Path, code: str) -> list[dict]:
+    """Puentes gobernados en los contratos autonómicos cuyo ámbito cae en la provincia `code`."""
+    master = yaml.safe_load((root / "configuracion/catalogo_territorios_espana_2025.yaml").read_text(encoding="utf-8"))
+    found: list[dict] = []
+    for row in master["territories"]:
+        tid = row["territory_id"]
+        path = root / f"territorios/{tid}/config/{tid}_2025.yaml"
+        if code not in [str(c).zfill(2) for c in row.get("province_codes") or []] or not path.is_file():
+            continue
+        cfg = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        for bridge in ((cfg.get("modulos") or {}).get("modulo_02_construir_adyacencias") or {}).get("topology_bridges") or []:
+            if _scope_province(str(bridge.get("admin_scope") or "")) == code:
+                found.append({**bridge, "source": f"{bridge.get('source')}; heredado de territorios/{tid}/config/{tid}_2025.yaml"})
+        accreditation = ((cfg.get("validation") or {}).get("topology_accreditation") or {})
+        for item in accreditation.get("administrative_components") or []:
+            scope = str(item.get("admin_scope") or "")
+            if _scope_province(scope) != code:
+                continue
+            contact = (item.get("evidence") or {}).get("point_contact") or {}
+            comps = item.get("components") or []
+            u, v = (contact.get("u"), contact.get("v")) if contact else (comps[0][0], comps[1][0])
+            found.append({"u": str(u), "v": str(v), "admin_scope": scope, "edge_type": "administrative_component",
+                          "reason": item.get("reason"),
+                          "source": f"componente administrativa acreditada en territorios/{tid}/config/{tid}_2025.yaml"})
+    return found
+
+
+def inherit_bridges(root: Path, zip_path: Path) -> dict[str, list[str]]:
+    """Copia los puentes autonómicos a cada contrato provincial sin puentes propios."""
+    known = sections_2023(zip_path)
+    report: dict[str, list[str]] = {}
+    for p in provinces(root):
+        path = root / f"territorios/{p['territory_id']}/config/{p['territory_id']}_2025.yaml"
+        if p["code"] in INSULAR or not path.is_file():
+            continue
+        bridges = [b for b in regional_bridges(root, p["code"]) if b["u"] in known and b["v"] in known]
+        skipped = [f"{b['u']}-{b['v']}" for b in regional_bridges(root, p["code"]) if b not in bridges]
+        cfg = yaml.safe_load(path.read_text(encoding="utf-8"))
+        m02 = cfg["modulos"]["modulo_02_construir_adyacencias"]
+        if not bridges or m02.get("topology_bridges"):
+            continue
+        m02["topology_bridges"] = bridges
+        header = "".join(l for l in path.read_text(encoding="utf-8").splitlines(keepends=True) if l.startswith("#"))
+        path.write_text(header + yaml.safe_dump(cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
+        report[p["territory_id"]] = [f"{b['admin_scope']} {b['u']}-{b['v']}" for b in bridges] + [f"OMITIDO {x}" for x in skipped]
+    return report
+
+
 def generate(root: Path, zip_path: Path) -> list[str]:
     master_path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
     existing = {row["territory_id"] for row in yaml.safe_load(master_path.read_text(encoding="utf-8")).get("pilot_territories") or []}
@@ -346,6 +413,8 @@ def main() -> None:
     args = parser.parse_args()
     added = generate(args.root_dir, args.zip)
     print(f"{len(added)} provincias dadas de alta: {', '.join(added)}")
+    for tid, lines in inherit_bridges(args.root_dir, args.zip).items():
+        print(tid, "·", "; ".join(lines))
 
 
 if __name__ == "__main__":

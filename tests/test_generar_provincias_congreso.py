@@ -1,4 +1,4 @@
-"""Versión 1.2.0; 2026-10-31; candidato. 1.2.0: Baleares y Las Palmas con reparto fijado. 1.1.0: provincias insulares con partición declarada. Coherencia del alta de las provincias del Congreso.
+"""Versión 1.3.0; 2026-10-31; candidato. 1.3.0: puentes heredados de los contratos autonómicos. 1.2.0: Baleares y Las Palmas con reparto fijado. 1.1.0: provincias insulares con partición declarada. Coherencia del alta de las provincias del Congreso.
 Origen: nuevo, sin predecesor. Cada provincia dada de alta por generar_provincias_congreso.py debe estar
 declarada igual en catálogo, política, matriz, registro, contrato Infoelectoral y contrato M01–M06.
 """
@@ -90,6 +90,15 @@ class CongressProvincesTests(unittest.TestCase):
         baleares = _load("territorios/congreso_baleares/config/congreso_baleares_2025.yaml")["validation"]
         self.assertEqual(["07-C02", "07-G01"], baleares["population_floor_exempt_partitions"])
         self.assertEqual(1.4, _load("territorios/congreso_las_palmas/config/congreso_las_palmas_2025.yaml")["validation"]["population_cap_ratio"])
+
+    def test_enclaves_inherit_governed_regional_bridges(self):
+        # Palencia (run 41235453115) falló sin ellos: «grafo territorial no supera conectividad administrativa».
+        for tid, scope in (("congreso_palencia", "province:34"), ("congreso_burgos", "province:09"),
+                           ("congreso_valencia", "province:46"), ("congreso_gerona", "province:17"),
+                           ("congreso_navarra", "province:31")):
+            bridges = _load(f"territorios/{tid}/config/{tid}_2025.yaml")["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"]
+            self.assertIn(scope, {b["admin_scope"] for b in bridges}, tid)
+            self.assertTrue(all(b["admin_scope"].split(":")[1].startswith(scope.split(":")[1]) for b in bridges))
 
     def test_spanish_toponyms_only(self):
         names = {name for name, _ in PROVINCES.values()}

@@ -98,7 +98,14 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '4713401001'
+      v: '4718301001'
+      admin_scope: province:47
+      edge_type: administrative_exclave
+      reason: 'Roales de Campos + Quintanilla del Molar: exclave vallisoletano; enlace
+        mínimo a Valdunquillo.'
+      source: CYL-02 audit; heredado de territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_valladolid/.cache/ddd/preparacion/{run_name}/congreso_valladolid_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_valladolid/.cache/ddd/preparacion/{run_name}/congreso_valladolid_2025_m02_adyacencias.jsonl
