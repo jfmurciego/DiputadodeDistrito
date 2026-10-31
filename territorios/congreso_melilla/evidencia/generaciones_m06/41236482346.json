@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13057399563,
+      "artifact_name": "ddd-audit-41236482346",
+      "artifact_sha256": "de7b5e7406130581cb05d3de925570acd2955d0f7a852d363bc2ab32e2906686",
+      "run_id": 41236482346,
+      "size_in_bytes": 2406
+    },
+    "m04": {
+      "artifact_id": 13057907331,
+      "artifact_name": "ddd-state-41236482346-M04",
+      "artifact_sha256": "88d218bf009eed715b48d841d0509233ac270778312aec5e0faa54f339b9a6ae",
+      "run_id": 41236482346,
+      "size_in_bytes": 74808131
+    },
+    "m05": {
+      "artifact_id": 13058365957,
+      "artifact_name": "ddd-state-41236482346-M05",
+      "artifact_sha256": "520f743f063a57b8e4e9493db0eb301d8aa2dff0e630e2c60bd2d759be577522",
+      "run_id": 41236482346,
+      "size_in_bytes": 74970881
+    },
+    "m06": {
+      "artifact_id": 13058381421,
+      "artifact_name": "ddd-state-41236482346-M06",
+      "artifact_sha256": "e13d18b3bddb993b1cf68eef202bcad76cb629c2c36d6b14422fba96ea43ab24",
+      "run_id": 41236482346,
+      "size_in_bytes": 75225270
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "6e0ea1533091bb02070d0d6ffad556be0efd7095894cf54e8eba9c6c92c8fa08",
+        "size_in_bytes": 446
+      },
+      "congreso_melilla_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "6941aef41b882375398e7e1b52c4a37bb51141c81fec38aa14ef59c6da4eac18",
+        "size_in_bytes": 1672
+      },
+      "optimization_execution.json": {
+        "sha256": "8c3932ca05b9cf9426209a94d609c8397eba674af643ce5017b5ff5462f39e19",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "fb16da3db85c34fb432be05b04420863ad413db8eb2f30535ed0cc2a258b6dab",
+        "size_in_bytes": 1242
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "fb16da3db85c34fb432be05b04420863ad413db8eb2f30535ed0cc2a258b6dab",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_melilla/config/congreso_melilla_2025.yaml",
+    "sha256": "12b99064a4a6e43277d2b15d12e94d259276bd642e57c5ff3ca9ab42b1ffcfeb"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9f54e4171706ad9b3d7c7f954b1175b25ef3f7378c24ba8b6635edebaac9ff7f",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "c638f777105d3eec526b2a11dc77ac539b4a591e",
+    "edition": "2025",
+    "territory_id": "congreso_melilla",
+    "territory_name": "Congreso Melilla",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41236482346,
+    "workflow_sha": "e5904c8fc26e7ce4a80b14c7620cbde126579072"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13057907331,
+      "artifact_name": "ddd-state-41236482346-M04",
+      "artifact_sha256": "88d218bf009eed715b48d841d0509233ac270778312aec5e0faa54f339b9a6ae",
+      "run_id": 41236482346,
+      "size_in_bytes": 74808131
+    },
+    "source_manifest_sha256": "340929a318bcdea5b9830df42fb11d5d6c428ec05866de2c21f52ba0c620f1e9",
+    "source_package_artifact": {
+      "artifact_id": 13055984427,
+      "artifact_name": "ddd-source-package-congreso_melilla-2025-41236482346",
+      "artifact_sha256": "24dddfcf1da318e310e2128223720a597b4e1e97a50780e64ce0d076a8ab4857",
+      "run_id": 41236482346,
+      "size_in_bytes": 74480432
+    }
+  },
+  "manifest_sha256": "3be9cd12b6d5f6cae9efcab4581497b1391c7144e13ca879619deb6f0db7a3f8",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
