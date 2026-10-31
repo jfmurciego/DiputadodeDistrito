@@ -26,6 +26,7 @@ territories:
   congreso_almeria: {pilot_code: C04, name: Congreso Almería, election_id: congreso_almeria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Almería}
   congreso_avila: {pilot_code: C05, name: Congreso Ávila, election_id: congreso_avila_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Ávila}
   congreso_badajoz: {pilot_code: C06, name: Congreso Badajoz, election_id: congreso_badajoz_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Badajoz}
+  congreso_baleares: {pilot_code: C07, name: Congreso Baleares, election_id: congreso_baleares_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Baleares}
   congreso_barcelona: {pilot_code: C08, name: Congreso Barcelona, election_id: congreso_barcelona_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Barcelona}
   congreso_burgos: {pilot_code: C09, name: Congreso Burgos, election_id: congreso_burgos_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Burgos}
   congreso_caceres: {pilot_code: C10, name: Congreso Cáceres, election_id: congreso_caceres_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cáceres}
@@ -53,6 +54,7 @@ territories:
   congreso_orense: {pilot_code: C32, name: Congreso Orense, election_id: congreso_orense_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Orense}
   congreso_asturias: {pilot_code: C33, name: Congreso Asturias, election_id: congreso_asturias_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Asturias}
   congreso_palencia: {pilot_code: C34, name: Congreso Palencia, election_id: congreso_palencia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Palencia}
+  congreso_las_palmas: {pilot_code: C35, name: Congreso Las Palmas, election_id: congreso_las_palmas_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Las Palmas}
   congreso_pontevedra: {pilot_code: C36, name: Congreso Pontevedra, election_id: congreso_pontevedra_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Pontevedra}
   congreso_salamanca: {pilot_code: C37, name: Congreso Salamanca, election_id: congreso_salamanca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Salamanca}
   congreso_santa_cruz_de_tenerife: {pilot_code: C38, name: Congreso Santa Cruz de Tenerife, election_id: congreso_santa_cruz_de_tenerife_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Santa Cruz de Tenerife}

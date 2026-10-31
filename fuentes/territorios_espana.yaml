@@ -1,11 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: registro administrativo mínimo para pruebas de fuentes
-# VERSIÓN: 1.2.1
+# VERSIÓN: 1.2.2
 # FECHA: 2026-10-30
 # CAMBIOS: 1.1.0: piloto Congreso Huesca (provincia 22).
 # CAMBIOS 1.2.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.2.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# ANTERIOR: legacy/fuentes/territorios_espana_v1.2.0.yaml
+# CAMBIOS 1.2.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
+# ANTERIOR: legacy/fuentes/territorios_espana_v1.2.1_islas_20261031.yaml
 # ESTADO: candidato
 # FUNCIÓN: permitir probar fuentes oficiales para cualquier territorio sin exigir preparación previa.
 schema: ddd-territory-source-test-registry/1.0
@@ -36,6 +37,7 @@ territories:
   - {id: congreso_almeria, name: Congreso Almería, province_codes: ['04']}
   - {id: congreso_avila, name: Congreso Ávila, province_codes: ['05']}
   - {id: congreso_badajoz, name: Congreso Badajoz, province_codes: ['06']}
+  - {id: congreso_baleares, name: Congreso Baleares, province_codes: ['07']}
   - {id: congreso_barcelona, name: Congreso Barcelona, province_codes: ['08']}
   - {id: congreso_burgos, name: Congreso Burgos, province_codes: ['09']}
   - {id: congreso_caceres, name: Congreso Cáceres, province_codes: ['10']}
@@ -63,6 +65,7 @@ territories:
   - {id: congreso_orense, name: Congreso Orense, province_codes: ['32']}
   - {id: congreso_asturias, name: Congreso Asturias, province_codes: ['33']}
   - {id: congreso_palencia, name: Congreso Palencia, province_codes: ['34']}
+  - {id: congreso_las_palmas, name: Congreso Las Palmas, province_codes: ['35']}
   - {id: congreso_pontevedra, name: Congreso Pontevedra, province_codes: ['36']}
   - {id: congreso_salamanca, name: Congreso Salamanca, province_codes: ['37']}
   - {id: congreso_santa_cruz_de_tenerife, name: Congreso Santa Cruz de Tenerife, province_codes: ['38']}

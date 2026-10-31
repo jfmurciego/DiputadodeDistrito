@@ -1,0 +1,500 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz de negocio — Diseño A
+# VERSIÓN: 1.4.5
+# NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
+# FECHA: 2026-10-28
+# ESTADO: candidato
+# CAMBIOS: en reutilización ordinaria, si el artefacto registrado caducó o fue eliminado, vuelve a adquirir la fuente oficial en vez de fallar (la recuperación exacta sigue bloqueando); el aviso de PENDING solo se emite si la preparación tuvo éxito.
+# MOTIVO: los artefactos de Actions caducan y bloqueaban "Reutilizar progreso existente" (Andalucía, run 40604585745; Comunidad Valenciana, run 40604791319).
+# CAMBIOS 1.4.3: opción del territorio piloto «Congreso Huesca».
+# CAMBIOS 1.4.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
+# CAMBIOS 1.4.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.4_20261031.yml
+name: 01 Preparación de Datos Territoriales
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      source_year: {required: false, type: string, default: ''}
+      population_year: {required: false, type: string, default: ''}
+      section_year: {required: false, type: string, default: ''}
+      reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
+      recover_run_id: {required: false, type: string, default: ''}
+      recover_artifact_sha256: {required: false, type: string, default: ''}
+    outputs:
+      territory_id:
+        value: ${{ jobs.resolver.outputs.territory_id }}
+      edition:
+        value: ${{ jobs.resolver.outputs.edition }}
+      artifact_name:
+        value: ${{ jobs.territoriales.outputs.artifact_name }}
+      artifact_digest:
+        value: ${{ jobs.territoriales.outputs.artifact_digest }}
+      prepared_source_ref:
+        value: ${{ jobs.generation_pending.outputs.prepared_source_ref }}
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio
+        required: true
+        type: choice
+        options:
+          - 01 Andalucía
+          - 02 Aragón
+          - 03 Principado de Asturias
+          - 04 Islas Baleares
+          - 05 Canarias
+          - 06 Cantabria
+          - 07 Castilla y León
+          - 08 Castilla-La Mancha
+          - 09 Cataluña
+          - 10 Comunidad Valenciana
+          - 11 Extremadura
+          - 12 Galicia
+          - 13 Comunidad de Madrid
+          - 14 Región de Murcia
+          - 15 Comunidad Foral de Navarra
+          - 16 País Vasco
+          - 17 La Rioja
+          - 18 Ceuta
+          - 19 Melilla
+          - Congreso Álava
+          - Congreso Albacete
+          - Congreso Alicante
+          - Congreso Almería
+          - Congreso Ávila
+          - Congreso Badajoz
+          - Congreso Barcelona
+          - Congreso Burgos
+          - Congreso Cáceres
+          - Congreso Cádiz
+          - Congreso Castellón
+          - Congreso Ciudad Real
+          - Congreso Córdoba
+          - Congreso La Coruña
+          - Congreso Cuenca
+          - Congreso Gerona
+          - Congreso Granada
+          - Congreso Guadalajara
+          - Congreso Guipúzcoa
+          - Congreso Huelva
+          - Congreso Huesca
+          - Congreso Jaén
+          - Congreso León
+          - Congreso Lérida
+          - Congreso La Rioja
+          - Congreso Lugo
+          - Congreso Madrid
+          - Congreso Málaga
+          - Congreso Murcia
+          - Congreso Navarra
+          - Congreso Orense
+          - Congreso Asturias
+          - Congreso Palencia
+          - Congreso Pontevedra
+          - Congreso Salamanca
+          - Congreso Santa Cruz de Tenerife
+          - Congreso Cantabria
+          - Congreso Segovia
+          - Congreso Sevilla
+          - Congreso Soria
+          - Congreso Tarragona
+          - Congreso Teruel
+          - Congreso Toledo
+          - Congreso Valencia
+          - Congreso Valladolid
+          - Congreso Vizcaya
+          - Congreso Zamora
+          - Congreso Zaragoza
+          - Congreso Ceuta
+          - Congreso Melilla
+concurrency:
+  group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}
+  cancel-in-progress: false
+  queue: max
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  resolver:
+    name: Resolver preparación desde catálogo
+    runs-on: ubuntu-24.04
+    outputs:
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      edition: ${{ steps.resolve.outputs.edition }}
+      reuse_enabled: ${{ steps.resolve.outputs.reuse_enabled }}
+      registered_run_id: ${{ steps.resolve.outputs.registered_run_id }}
+      registered_artifact_name: ${{ steps.resolve.outputs.registered_artifact_name }}
+      registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
+      explicit_recovery: ${{ steps.resolve.outputs.explicit_recovery }}
+      source_year: ${{ steps.resolve.outputs.source_year }}
+      population_year: ${{ steps.resolve.outputs.population_year }}
+      section_year: ${{ steps.resolve.outputs.section_year }}
+      persist_state: ${{ steps.resolve.outputs.persist_state }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: resolve
+        env:
+          TERRITORY: ${{ inputs.territory_id }}
+          EDITION_INPUT: ${{ inputs.data_edition || '' }}
+          SOURCE_YEAR_INPUT: ${{ inputs.source_year || '' }}
+          POPULATION_YEAR_INPUT: ${{ inputs.population_year || '' }}
+          SECTION_YEAR_INPUT: ${{ inputs.section_year || '' }}
+          REUSE_INPUT: ${{ toJSON(inputs.reutilizar_si_ya_preparada) }}
+          PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
+          RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
+          RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
+        run: |
+          set -euo pipefail
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+
+          # workflow_call hereda el evento del caller; no usar github.event_name para
+          # distinguir una ejecución manual directa de una llamada reutilizable.
+          # data_edition es obligatoria en workflow_call y no existe en workflow_dispatch.
+          if [[ -z "$EDITION_INPUT" ]]; then
+            current="$(python herramientas/resolver_preparacion_legislatura.py --root-dir . --territory "$TERRITORY")"
+            plan="$(jq -ce '.plans | if length == 1 then .[0] else error("La preparación manual exige exactamente un territorio") end' <<<"$current")"
+            EDITION="$(jq -r .project_edition <<<"$plan")"
+            population_year="$(jq -r .population_year_selected <<<"$plan")"
+            section_year="$(jq -r .section_year_selected <<<"$plan")"
+            TERRITORY="$(jq -r .territory_id <<<"$plan")"
+            reuse_enabled=true
+            persist_requested=true
+            RECOVERY_RUN_ID=""
+            RECOVERY_SHA256=""
+          else
+            EDITION="$EDITION_INPUT"
+            legacy_year="$SOURCE_YEAR_INPUT"
+            population_year="$POPULATION_YEAR_INPUT"
+            section_year="$SECTION_YEAR_INPUT"
+            [[ -n "$population_year" ]] || population_year="$legacy_year"
+            [[ -n "$section_year" ]] || section_year="$legacy_year"
+            reuse_enabled="$REUSE_INPUT"
+            persist_requested="$PERSIST_INPUT"
+          fi
+
+          [[ -n "$EDITION" ]] || { echo "::error::Edición interna no resuelta."; exit 40; }
+          [[ -n "$population_year" && -n "$section_year" ]] || {
+            echo "::error::Contrato temporal incompleto: faltan años de población o seccionado."
+            exit 40
+          }
+          persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$persist_requested")"
+          echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
+          echo "edition=$EDITION" >> "$GITHUB_OUTPUT"
+          echo "reuse_enabled=$reuse_enabled" >> "$GITHUB_OUTPUT"
+          [[ "$population_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de población inválido: $population_year"; exit 40; }
+          [[ "$section_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de seccionado inválido: $section_year"; exit 40; }
+          echo "population_year=$population_year" >> "$GITHUB_OUTPUT"
+          echo "section_year=$section_year" >> "$GITHUB_OUTPUT"
+          if [[ "$population_year" == "$section_year" ]]; then echo "source_year=$population_year" >> "$GITHUB_OUTPUT"; else echo "source_year=" >> "$GITHUB_OUTPUT"; fi
+          row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
+          TERRITORY="$(jq -r .territory_id <<<"$row")"
+          python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" --population-year "$population_year" --section-year "$section_year" >/dev/null
+          preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY" --edition "$EDITION")"
+          echo "territory_id=$TERRITORY" >> "$GITHUB_OUTPUT"
+          if [[ -n "$RECOVERY_RUN_ID" || -n "$RECOVERY_SHA256" ]]; then
+            echo "explicit_recovery=true" >> "$GITHUB_OUTPUT"
+            [[ "$(jq -r '.persist_state|tostring' <<<"$persist_json")" == true ]] || { echo "::error::La recuperación durable exige persist_state=true."; exit 41; }
+            [[ "$GITHUB_REF_NAME" == main ]] || { echo "::error::La recuperación durable solo se permite en main."; exit 41; }
+            [[ "$reuse_enabled" == true ]] || { echo "::error::La recuperación exige reutilización habilitada."; exit 41; }
+            [[ -n "$RECOVERY_RUN_ID" && -n "$RECOVERY_SHA256" ]] || { echo "::error::Recuperación requiere run y SHA-256 juntos."; exit 41; }
+            [[ "$RECOVERY_RUN_ID" =~ ^[1-9][0-9]*$ ]] || { echo "::error::Run de recuperación inválido."; exit 41; }
+            RECOVERY_SHA256="${RECOVERY_SHA256#sha256:}"
+            [[ "$RECOVERY_SHA256" =~ ^[a-fA-F0-9]{64}$ ]] || { echo "::error::SHA-256 de recuperación inválido."; exit 41; }
+            [[ "$(jq -r '.registered' <<<"$preflight")" == false ]] || { echo "::error::La fuente ya tiene registro durable; se rechaza la recuperación explícita."; exit 41; }
+            echo "registered_run_id=$RECOVERY_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "registered_artifact_name=ddd-source-package-$(jq -r .territory_id <<<"$row")-$EDITION-$RECOVERY_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "registered_artifact_sha256=${RECOVERY_SHA256,,}" >> "$GITHUB_OUTPUT"
+          else
+            echo "explicit_recovery=false" >> "$GITHUB_OUTPUT"
+            registered_population_year="$(jq -r '.population_year // .source_year // empty' <<<"$preflight")"
+            registered_section_year="$(jq -r '.section_year // .source_year // empty' <<<"$preflight")"
+            if [[ "$(jq -r '.registered|tostring' <<<"$preflight")" == true && "$registered_population_year" == "$population_year" && "$registered_section_year" == "$section_year" ]]; then
+              echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+            else
+              echo "registered_run_id=" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_name=" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_sha256=" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+  territoriales:
+    name: Preparar fuentes territoriales
+    needs: resolver
+    runs-on: ubuntu-24.04
+    outputs:
+      artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
+      artifact_name: ${{ steps.meta.outputs.artifact_name }}
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY: ${{ inputs.territory_id }}
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
+      POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
+      SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
+      SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
+      EVIDENCE_DIR: .ddd-sources
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+          token: ${{ github.token }}
+      - name: Instalar dependencias de resolución territorial
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Instalar entorno geoespacial para reutilización
+        if: ${{ needs.resolver.outputs.reuse_enabled == 'true' && needs.resolver.outputs.registered_run_id != '' }}
+        run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Verificar entorno geoespacial para reutilización
+        if: ${{ needs.resolver.outputs.reuse_enabled == 'true' && needs.resolver.outputs.registered_run_id != '' }}
+        run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
+      - name: Generar declaración territorial desde fuentes oficiales
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$SOURCE_DECLARATION")"
+          python herramientas/resolver_fuentes_territorio.py declaration \
+            --territory "$TERRITORY" \
+            --edition "$EDITION" \
+            --population-year "$POPULATION_YEAR" \
+            --section-year "$SECTION_YEAR" \
+            --output "$SOURCE_DECLARATION"
+          test -s "$SOURCE_DECLARATION"
+      - id: previous
+        name: Recuperar fuente territorial registrada
+        if: ${{ needs.resolver.outputs.reuse_enabled == 'true' && needs.resolver.outputs.registered_run_id != '' }}
+        shell: bash
+        env:
+          REGISTERED_RUN_ID: ${{ needs.resolver.outputs.registered_run_id }}
+          REGISTERED_ARTIFACT_NAME: ${{ needs.resolver.outputs.registered_artifact_name }}
+          REGISTERED_ARTIFACT_SHA256: ${{ needs.resolver.outputs.registered_artifact_sha256 }}
+          EXPLICIT_RECOVERY: ${{ needs.resolver.outputs.explicit_recovery }}
+        run: |
+          set -euo pipefail
+          arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"
+          named="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '[.artifacts[]|select(.name==$n)]' <<<"$arts")"
+          [[ "$(jq 'length' <<<"$named")" -le 1 ]] || { echo "::error::Artefacto territorial registrado ambiguo: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
+          match="$(jq -c '[.[]|select(.expired|not)] | if length==1 then .[0] else empty end' <<<"$named")"
+          if [[ -z "$match" ]]; then
+            # La recuperación exacta solo admite esos bytes. En la reutilización ordinaria,
+            # caducado o eliminado no contradice la identidad registrada: se vuelve a adquirir
+            # desde la fuente oficial y el registro apuntará al paquete nuevo.
+            [[ "$EXPLICIT_RECOVERY" != true ]] || { echo "::error::Artefacto territorial registrado no disponible: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
+            echo "::warning::Artefacto territorial registrado no disponible (caducado o eliminado): $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID); se prepara de nuevo desde la fuente oficial."
+            echo "reused_candidate=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          actual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"
+          [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto territorial no coincide con el registro."; exit 45; }
+          rm -rf .ddd-source-package
+          gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-source-package
+          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-source-package             --territory-id "$TERRITORY_ID"             --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR"
+          echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+          echo "reused_candidate=true" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+        if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-source-preparation:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-source-preparation-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-source-preparation-${{ github.sha }}
+      - id: mode
+        if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
+        run: |
+          mode="$(docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA} - "$SOURCE_DECLARATION" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          d=yaml.safe_load((Path('/app')/sys.argv[1]).read_text(encoding='utf-8')) or {}
+          print((d.get('default_mode') or {}).get('production') or '')
+          PY
+          )"
+          case "$mode" in official_live|verified_snapshot) ;; *) echo "::error::Modo productivo inválido: $mode"; exit 40;; esac
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+      - if: ${{ steps.previous.outputs.reused_candidate != 'true' && steps.mode.outputs.mode == 'verified_snapshot' }}
+        run: bash inputs/partes/reconstruir_fuentes.sh
+      - id: acquire
+        name: Adquirir y congelar fuentes
+        if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             -m herramientas.ejecutar_fuentes_workflow             --declaration "/app/$SOURCE_DECLARATION" --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production --acquisition-mode '${{ steps.mode.outputs.mode }}' --root-dir /app
+      - name: Publicar diagnóstico de adquisición fallida
+        if: ${{ failure() && steps.acquire.outcome == 'failure' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-source-diagnostics-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
+          path: ${{ env.EVIDENCE_DIR }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - id: meta
+        name: Identificar paquete territorial
+        run: echo "artifact_name=ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
+      - id: upload
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
+          path: .ddd-source-package
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  registrar:
+    name: Registrar fuentes territoriales preparadas
+    needs: [resolver, territoriales]
+    outputs:
+      artifact_sha256: ${{ steps.register.outputs.artifact_sha256 }}
+      package_sha256: ${{ steps.register.outputs.package_sha256 }}
+      promotion_sha: ${{ steps.register.outputs.promotion_sha }}
+    if: ${{ needs.territoriales.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+      queue: max
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY: ${{ inputs.territory_id }}
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
+      POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
+      SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
+      ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
+      ARTIFACT_SHA256: ${{ needs.territoriales.outputs.artifact_digest }}
+      TARGET_BRANCH: ${{ github.ref_name }}
+      SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Instalar entorno geoespacial de registro
+        run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Verificar entorno geoespacial de registro
+        run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
+          path: .ddd-source-package
+      - id: register
+        name: Registrar preparación territorial
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$SOURCE_DECLARATION")"
+          python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" --output "$SOURCE_DECLARATION"
+          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --package .ddd-source-package             --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID"             --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256"             --source-commit "$GITHUB_SHA"             --persist             --target-branch "$TARGET_BRANCH"             --max-attempts 4 > .ddd-catalog-promotion.json
+          echo "artifact_sha256=$(jq -r .artifact_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
+          echo "package_sha256=$(jq -r .package_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY_ID" --edition "$EDITION")"
+          [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" ]] || { echo "::error::El registro territorial durable no apunta al run actual."; exit 48; }
+          [[ "$(jq -r .artifact_name <<<"$durable")" == "$ARTIFACT_NAME" ]] || { echo "::error::El registro territorial durable no conserva el artefacto esperado."; exit 49; }
+          [[ "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_SHA256#sha256:}" ]] || { echo "::error::El registro territorial durable no conserva el SHA-256 esperado."; exit 50; }
+          promotion_sha="$(jq -r .promotion_sha .ddd-catalog-promotion.json)"
+          [[ "$promotion_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit de promoción inválido."; exit 51; }
+          [[ "$(git rev-parse HEAD)" == "$promotion_sha" ]] || { echo "::error::El checkout final no coincide con la promoción durable."; exit 52; }
+          echo "promotion_sha=$promotion_sha" >> "$GITHUB_OUTPUT"
+
+  generation_pending:
+    name: Registrar evaluación de generación pendiente
+    needs: [resolver, registrar]
+    if: ${{ always() && needs.resolver.result == 'success' && needs.registrar.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      prepared_source_ref: ${{ steps.persist.outputs.prepared_source_ref }}
+    env:
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
+      RUN_ID: ${{ github.run_id }}
+      TARGET_BRANCH: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.registrar.outputs.promotion_sha }}
+          token: ${{ github.token }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: candidate
+        name: Materializar estado PENDING ligado a la fuente acreditada
+        shell: bash
+        run: |
+          set -euo pipefail
+          contract_path="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$EDITION" | jq -r '.contract_path')"
+          [[ -n "$contract_path" && "$contract_path" != null ]] || {
+            echo "::error::La fuente acreditada no tiene contrato territorial efectivo."
+            exit 56
+          }
+          python - "$TERRITORY_ID" "$EDITION" "$RUN_ID" "$contract_path" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from herramientas.materializar_evidencia_pre_m04 import build_generation_evaluation
+          territory_id,edition,run_id,contract_path=sys.argv[1:]
+          payload=build_generation_evaluation(
+              root_dir=Path("."),
+              territory_id=territory_id,
+              edition=edition,
+              run_id=int(run_id),
+              status="PENDING",
+              stage="SOURCE_PREPARED",
+              reason="Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+          )
+          Path(".ddd-generation-pending.json").write_text(
+              json.dumps(payload,ensure_ascii=False,indent=2)+"\n",
+              encoding="utf-8",
+          )
+          PY
+          echo "contract_path=$contract_path" >> "$GITHUB_OUTPUT"
+          echo "source_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - id: persist
+        name: Persistir diagnóstico con el escritor concurrente común
+        env:
+          CONTRACT_PATH: ${{ steps.candidate.outputs.contract_path }}
+          SOURCE_COMMIT: ${{ steps.candidate.outputs.source_commit }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$RUN_ID"             --contract-path "$CONTRACT_PATH"             --candidate-evidence .ddd-generation-pending.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$TARGET_BRANCH"             --result-json .ddd-generation-pending-persistence.json)"
+          [[ "$source_ref" =~ ^[0-9a-f]{40}$ ]] || {
+            echo "::error::Persistencia PENDING no devolvió un commit durable."
+            exit 57
+          }
+          echo "prepared_source_ref=$source_ref" >> "$GITHUB_OUTPUT"
+
+  resultado:
+    name: Verificar resultado durable de preparación
+    needs: [resolver, territoriales, registrar, generation_pending]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - name: Exigir registro cuando la persistencia es obligatoria
+        env:
+          PREPARATION_RESULT: ${{ needs.territoriales.result }}
+          REGISTRATION_RESULT: ${{ needs.registrar.result }}
+          PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
+          GENERATION_PENDING_RESULT: ${{ needs.generation_pending.result }}
+        run: |
+          if [[ "$PERSIST_STATE" == true && "$PREPARATION_RESULT" == success && "$GENERATION_PENDING_RESULT" != success ]]; then
+            echo "::error::La fuente fue preparada, pero no quedó persistido su estado PENDING de generación: $GENERATION_PENDING_RESULT"
+            exit 56
+          fi
+          python herramientas/evaluar_persistencia_preparacion.py terminal \
+            --preparation-result "$PREPARATION_RESULT" \
+            --registration-result "$REGISTRATION_RESULT" \
+            --persist-state "$PERSIST_STATE"
+

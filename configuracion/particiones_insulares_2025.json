@@ -1,5 +1,5 @@
 {
-  "schema": "ddd-archipelago-partitions/1.3",
+  "schema": "ddd-archipelago-partitions/1.4",
   "territories": {
     "illes_balears": {
       "partition_mode": "physical_components",
@@ -447,6 +447,209 @@
           "component_cusec_set_sha256": {
             "38-C01": "764660e1935a2bc50b71083baa054d3b18938c8476405fe5c749ebbda2b463ce",
             "38-G01": "11b7debcdd208866a45bbf77618c792dc617c1737f7c55cb73dc7b949f770fc6"
+          }
+        }
+      ]
+    },
+    "congreso_baleares": {
+      "partition_mode": "physical_components",
+      "components": {
+        "07-C01": {
+          "province_code": "07",
+          "name": "Mallorca"
+        },
+        "07-C02": {
+          "province_code": "07",
+          "name": "Menorca"
+        },
+        "07-G01": {
+          "province_code": "07",
+          "name": "Ibiza y Formentera"
+        }
+      },
+      "municipality_to_partition": {
+        "07001": "07-C01",
+        "07002": "07-C02",
+        "07003": "07-C01",
+        "07004": "07-C01",
+        "07005": "07-C01",
+        "07006": "07-C01",
+        "07007": "07-C01",
+        "07008": "07-C01",
+        "07009": "07-C01",
+        "07010": "07-C01",
+        "07011": "07-C01",
+        "07012": "07-C01",
+        "07013": "07-C01",
+        "07014": "07-C01",
+        "07015": "07-C02",
+        "07016": "07-C01",
+        "07017": "07-C01",
+        "07018": "07-C01",
+        "07019": "07-C01",
+        "07020": "07-C01",
+        "07021": "07-C01",
+        "07022": "07-C01",
+        "07023": "07-C02",
+        "07024": "07-G01",
+        "07025": "07-C01",
+        "07026": "07-G01",
+        "07027": "07-C01",
+        "07028": "07-C01",
+        "07029": "07-C01",
+        "07030": "07-C01",
+        "07031": "07-C01",
+        "07032": "07-C02",
+        "07033": "07-C01",
+        "07034": "07-C01",
+        "07035": "07-C01",
+        "07036": "07-C01",
+        "07037": "07-C02",
+        "07038": "07-C01",
+        "07039": "07-C01",
+        "07040": "07-C01",
+        "07041": "07-C01",
+        "07042": "07-C01",
+        "07043": "07-C01",
+        "07044": "07-C01",
+        "07045": "07-C01",
+        "07046": "07-G01",
+        "07047": "07-C01",
+        "07048": "07-G01",
+        "07049": "07-C01",
+        "07050": "07-G01",
+        "07051": "07-C01",
+        "07052": "07-C02",
+        "07053": "07-C01",
+        "07054": "07-G01",
+        "07055": "07-C01",
+        "07056": "07-C01",
+        "07057": "07-C01",
+        "07058": "07-C01",
+        "07059": "07-C01",
+        "07060": "07-C01",
+        "07061": "07-C01",
+        "07062": "07-C01",
+        "07063": "07-C01",
+        "07064": "07-C02",
+        "07065": "07-C01",
+        "07901": "07-C01",
+        "07902": "07-C02"
+      },
+      "section_overrides": {},
+      "physical_component_count": 3,
+      "bridges": [
+        {
+          "u": "0702401001",
+          "v": "0702602001",
+          "admin_scope": "province:07",
+          "edge_type": "maritime_group",
+          "reason": "Formentera e Ibiza en un mismo distrito del Congreso; decisión del propietario 31-10-2026",
+          "source": "configuracion/particiones_insulares_2025.json#congreso_baleares"
+        }
+      ],
+      "inventories": [
+        {
+          "inventory_id": "secciones_2023",
+          "section_year": 2023,
+          "population_year": 2023,
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 07; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de illes_balears",
+          "universe_section_count": 670,
+          "universe_cusec_set_sha256": "9360343a8c2a5d7b1e6fa167155d001a652bbab42df66c70be405052f52bbd2a",
+          "component_sections": {
+            "07-C01": 532,
+            "07-C02": 56,
+            "07-G01": 82
+          },
+          "component_cusec_set_sha256": {
+            "07-C01": "c0398f331f91e66336cb3da29088e6d93a5f3e160d78f46b1a04fac4d9865558",
+            "07-C02": "7d0f1842fc102e74aa795ef8e0e6d7235bc3c2a218402988422706da088374a8",
+            "07-G01": "da20518baae015853444a2f647a9fed6217f0e3ff32d0a178e5513cb4cb02426"
+          }
+        }
+      ]
+    },
+    "congreso_las_palmas": {
+      "partition_mode": "physical_components",
+      "components": {
+        "35-C01": {
+          "province_code": "35",
+          "name": "Gran Canaria"
+        },
+        "35-C02": {
+          "province_code": "35",
+          "name": "Fuerteventura"
+        },
+        "35-G01": {
+          "province_code": "35",
+          "name": "Lanzarote y La Graciosa"
+        }
+      },
+      "municipality_to_partition": {
+        "35001": "35-C01",
+        "35002": "35-C01",
+        "35003": "35-C02",
+        "35004": "35-G01",
+        "35005": "35-C01",
+        "35006": "35-C01",
+        "35007": "35-C02",
+        "35008": "35-C01",
+        "35009": "35-C01",
+        "35010": "35-G01",
+        "35011": "35-C01",
+        "35012": "35-C01",
+        "35013": "35-C01",
+        "35014": "35-C02",
+        "35015": "35-C02",
+        "35016": "35-C01",
+        "35017": "35-C02",
+        "35018": "35-G01",
+        "35019": "35-C01",
+        "35020": "35-C01",
+        "35021": "35-C01",
+        "35022": "35-C01",
+        "35023": "35-C01",
+        "35024": "35-G01",
+        "35025": "35-C01",
+        "35026": "35-C01",
+        "35027": "35-C01",
+        "35028": "35-G01",
+        "35029": "35-G01",
+        "35030": "35-C02",
+        "35031": "35-C01",
+        "35032": "35-C01",
+        "35033": "35-C01",
+        "35034": "35-G01"
+      },
+      "section_overrides": {},
+      "physical_component_count": 3,
+      "bridges": [
+        {
+          "u": "3502401010",
+          "v": "3502401001",
+          "admin_scope": "province:35",
+          "edge_type": "maritime_group",
+          "reason": "La Graciosa y Lanzarote (municipio de Teguise) en un mismo distrito del Congreso; decisión del propietario 31-10-2026",
+          "source": "configuracion/particiones_insulares_2025.json#congreso_las_palmas"
+        }
+      ],
+      "inventories": [
+        {
+          "inventory_id": "secciones_2023",
+          "section_year": 2023,
+          "population_year": 2023,
+          "source": "Infoelectoral 02202307_MESA.zip: secciones con mesa de la provincia 35; cada isla coincide en conjunto CUSEC con el inventario INE 2023 acreditado de canarias",
+          "universe_section_count": 715,
+          "universe_cusec_set_sha256": "a5b7dd13da9f10241a9370a0034896b3a7fc365062e56f898990acff959620a0",
+          "component_sections": {
+            "35-C01": 585,
+            "35-C02": 55,
+            "35-G01": 75
+          },
+          "component_cusec_set_sha256": {
+            "35-C01": "a4f61a58f817e95f8f64d6f91ef010d8e24b03647632de01be603e70c5fff4b9",
+            "35-C02": "57378924a829dcb9b22f58f6ba32c2767b74e3a1a27cd036846d7b19e5cf2008",
+            "35-G01": "a38af98ea54921a1fd4d4ee4eda95b2e8586b21cc14147087112f50742f8a3fa"
           }
         }
       ]

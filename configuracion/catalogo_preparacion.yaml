@@ -947,6 +947,23 @@ territories:
         electoral_source: territorios/congreso_badajoz/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json
         generation_preflight: territorios/congreso_badajoz/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
+- territory_id: congreso_baleares
+  name: Congreso Baleares
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_baleares/config/congreso_baleares_2025.yaml
+      territorial_source_declaration: territorios/congreso_baleares/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
 - territory_id: congreso_barcelona
   name: Congreso Barcelona
   editions:
@@ -1845,6 +1862,23 @@ territories:
         electoral_source: territorios/congreso_palencia/evidencia/fuentes_electorales/2025/835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a/41235462609/receipt.json
         generation_preflight: territorios/congreso_palencia/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
+- territory_id: congreso_las_palmas
+  name: Congreso Las Palmas
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso_las_palmas/config/congreso_las_palmas_2025.yaml
+      territorial_source_declaration: territorios/congreso_las_palmas/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
 - territory_id: congreso_pontevedra
   name: Congreso Pontevedra
   editions:

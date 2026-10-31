@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.7.1
+# VERSIÓN: 1.7.2
 # FECHA: 2026-10-30
 # CAMBIOS: 1.6.0: piloto Congreso Huesca (K=2, límites ±15 %, municipios indivisibles hasta el techo).
 #   1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
@@ -11,7 +11,8 @@
 #   1.2.0: admite population_limits por territorio.
 # CAMBIOS 1.7.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.7.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.0.yaml
+# CAMBIOS 1.7.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.1_islas_20261031.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -832,6 +833,45 @@ territories:
       decided_at: "2026-10-31"
       evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
       rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso_baleares:
+    k: 10
+    k_source: formula
+    partition_mode: physical_components_hamilton
+    component_districts: {07-C01: 7, 07-C02: 1, 07-G01: 2}
+    structural_floor_exemptions:
+      07-C02:
+        decided_at: "2026-10-31"
+        evidence: "configuracion/particiones_insulares_2025.json#congreso_baleares"
+        rationale: "Menorca forma un distrito propio con 0,82 de la media provincial; decisión del propietario 31-10-2026."
+      07-G01:
+        decided_at: "2026-10-31"
+        evidence: "configuracion/particiones_insulares_2025.json#congreso_baleares"
+        rationale: "Ibiza y Formentera reciben 2 distritos (0,70 de la media) en lugar de 1 (1,41); decisión del propietario 31-10-2026."
+    rationale: "Congreso: K=10 es la cuota de Baleares (CPRO 07) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso_las_palmas:
+    k: 10
+    k_source: formula
+    partition_mode: physical_components_hamilton
+    component_districts: {35-C01: 8, 35-C02: 1, 35-G01: 1}
+    rationale: "Congreso: K=10 es la cuota de Las Palmas (CPRO 35) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.40
+      target_tolerance_ratio: 0.40
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Decisión del propietario 31-10-2026: Lanzarote y La Graciosa forman un solo distrito (1,38 de la media), así que el techo provincial sube a 1,40; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
 archipelago:
   partition_lookup: configuracion/particiones_insulares_2025.json

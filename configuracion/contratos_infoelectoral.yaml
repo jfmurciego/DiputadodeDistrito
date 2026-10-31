@@ -1,13 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: contratos de fuentes oficiales Infoelectoral (Ministerio del Interior) por mesa
-# VERSIÓN: 1.2.1 · FECHA: 2026-10-31 · ESTADO: candidato
+# VERSIÓN: 1.2.2 · FECHA: 2026-10-31 · ESTADO: candidato
 # FUNCIÓN: fija URL, huella, ficheros, provincia y totales de control de cada elección adquirida del
 #   ZIP oficial por mesa. Los totales sin CERA se verificaron sobre el ZIP real el 30-10-2026 y cuadran
 #   con la Resolución de la JEC de 30-08-2023 (BOE) menos el CERA publicado por la JEC.
 # CAMBIOS 1.1.0: espejo en release del repositorio (mismo ZIP, misma huella); Interior rechaza a los runners.
 # CAMBIOS 1.2.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.2.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
-# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.2.0_20261031.yaml
+# CAMBIOS 1.2.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
+# ANTERIOR: legacy/configuracion/contratos_infoelectoral_v1.2.1_islas_20261031.yaml
 schema: ddd-infoelectoral-contracts/1.0
 contracts:
   congreso_huesca_2023-07-23:
@@ -1267,4 +1268,54 @@ contracts:
       blank_votes: 5060
       null_votes: 6224
       voters: 496119
+      cera_records: 1
+  congreso_baleares_2023-07-23:
+    territory_id: congreso_baleares
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '07'
+    expected:
+      ccaa: '04'
+      sections: 670
+      polling_stations: 1249
+      parties: 8
+      candidate_votes: 496245
+      blank_votes: 4689
+      null_votes: 4917
+      voters: 505851
+      cera_records: 1
+  congreso_las_palmas_2023-07-23:
+    territory_id: congreso_las_palmas
+    election_date: '2023-07-23'
+    publisher: Ministerio del Interior — Infoelectoral
+    license: 'CC BY 4.0 (datos.gob.es); cita obligatoria: «Origen de los datos: Ministerio del Interior»'
+    source_url: https://infoelectoral.interior.gob.es/estaticos/docxl/apliextr/02202307_MESA.zip
+    source_sha256: e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8
+    source_bytes: 4578794
+    mirror: {release_tag: fuente-infoelectoral-02202307, asset: 02202307_MESA.zip}
+    election_prefix: '02202307'
+    files:
+      mesas: 09022307.DAT
+      candidaturas_mesa: 10022307.DAT
+      candidaturas: 03022307.DAT
+    province: '35'
+    expected:
+      ccaa: '05'
+      sections: 715
+      polling_stations: 1564
+      parties: 11
+      candidate_votes: 523753
+      blank_votes: 3051
+      null_votes: 5481
+      voters: 532285
       cera_records: 1

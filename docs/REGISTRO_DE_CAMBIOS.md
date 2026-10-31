@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.58
+Versión: 1.0.59
 Fecha: 2026-10-31
-Alcance: Congreso — Santa Cruz de Tenerife con islas agrupadas
+Alcance: Congreso — Baleares y Las Palmas con islas agrupadas
 Estado: candidato
-Cambios/motivo: decisión del propietario (31-10-2026, opción B): agrupar islas en un distrito, empezando por Tenerife
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.57_islas_20261031.md
+Cambios/motivo: decisión del propietario (31-10-2026): Mallorca 7 e Ibiza+Formentera 2; Lanzarote solo
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.58_baleares_20261031.md
 -->
+
+## 2026-10-31 — Congreso — Baleares y Las Palmas
+
+- Baleares (K=10): Mallorca 7 (1,11 de la media), Menorca 1 (0,82) e Ibiza + Formentera 2 (0,70). Menorca y el grupo de Ibiza y Formentera quedan como exenciones estructurales de suelo. Un puente une Formentera e Ibiza.
+- Las Palmas (K=10): Gran Canaria 8 (0,94), Fuerteventura 1 (1,08) y Lanzarote con La Graciosa 1 (1,38). El techo provincial sube a 1,40 y la tolerancia a 0,40. Un puente une La Graciosa con Teguise, su municipio.
+- `particiones_insulares_2025.json` (esquema 1.4): congreso_baleares y congreso_las_palmas. Sus inventarios 2023 salen del ZIP de Interior; cada isla coincide en hash CUSEC con los inventarios INE 2023 acreditados.
+- `materializar_contrato_generacion.py`: `component_districts` en la política fija el reparto por componentes (si no hay, Hamilton). Una componente de un distrito bajo el suelo queda declarada como excepción, igual que con Hamilton.
+- Tests: reparto fijado, puentes y techo de Las Palmas.
 
 ## 2026-10-31 — Congreso — Santa Cruz de Tenerife: islas agrupadas
 

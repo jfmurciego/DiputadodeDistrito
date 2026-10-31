@@ -661,7 +661,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
     def test_archipelago_registry_is_explicit_and_has_no_marine_edges(self):
         data = json.loads(PARTITIONS.read_text(encoding="utf-8"))
-        self.assertEqual(set(data["territories"]), {"illes_balears", "canarias", "congreso_santa_cruz_de_tenerife"})
+        self.assertEqual(set(data["territories"]), {"illes_balears", "canarias", "congreso_santa_cruz_de_tenerife", "congreso_baleares", "congreso_las_palmas"})
         # Las autonómicas no tienen aristas marinas; sólo un grupo de islas del Congreso declara puentes.
         self.assertFalse(data["territories"]["illes_balears"].get("bridges"))
         self.assertFalse(data["territories"]["canarias"].get("bridges"))
