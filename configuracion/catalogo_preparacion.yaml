@@ -865,6 +865,7 @@ territories:
         electoral_source: territorios/congreso_avila/evidencia/fuentes_electorales/2025/26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae/41235288504/receipt.json
         generation_preflight: territorios/congreso_avila/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_avila/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_avila/evidencia/pares_fuentes/2025/0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b.json
       generation_enabled: true
 - territory_id: congreso_badajoz
   name: Congreso Badajoz

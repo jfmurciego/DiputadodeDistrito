@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_avila",
+  "territory_name": "Congreso Ávila",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_avila_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41235278274,
+    "artifact_name": "ddd-source-package-congreso_avila-2025-41235278274",
+    "artifact_sha256": "64e0326c45cda0e0f8ca06b547eb479cbdcd9129af1fbe6f0c3eb38351cc3f3b",
+    "package_sha256": "376536b60057625e599290c8b5173c1157eed276f0afed65062f2791c9f8dfef",
+    "source_commit": "f893b44ad3da0966cf862f9da0b1fee88a0e5454",
+    "source_declaration": "territorios/congreso_avila/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_avila/evidencia/fuentes_territoriales/2025/a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5/41235278274/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "5fffeebaed84490a5944cbc76398ea5b5faba04d6d36e5f9e8f66f7074758323",
+    "compatibility_identity_sha256": "38ab5e1aa0d487449ead173192a13e6dc15fa7eb78ef1941f7ca7d815f3ea517",
+    "remote_verification": {
+      "run_id": 41235278274,
+      "artifact_id": 13055894438,
+      "artifact_name": "ddd-source-package-congreso_avila-2025-41235278274",
+      "artifact_sha256": "64e0326c45cda0e0f8ca06b547eb479cbdcd9129af1fbe6f0c3eb38351cc3f3b",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41235288504,
+    "artifact_name": "ddd-electoral-package-congreso_avila-2025-41235288504",
+    "artifact_sha256": "466f8b71e13f631cb8d8361ad5ce73bb08a68ceaf58b7055ea1297d77d2b7df3",
+    "source_commit": "f893b44ad3da0966cf862f9da0b1fee88a0e5454",
+    "receipt_path": "territorios/congreso_avila/evidencia/fuentes_electorales/2025/26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae/41235288504/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_avila_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae",
+    "remote_verification": {
+      "run_id": 41235288504,
+      "artifact_id": 13054334611,
+      "artifact_name": "ddd-electoral-package-congreso_avila-2025-41235288504",
+      "artifact_sha256": "466f8b71e13f631cb8d8361ad5ce73bb08a68ceaf58b7055ea1297d77d2b7df3",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "a0b9ab3437a6af111dba6feb60b106d14ac82880b8281d50f155766ef5dc66d5",
+  "electoral_compatibility_key": "26cdfa3cc8b521adf3c49682e08a5b5db4469afe373d7030586082a5cc8b7dae",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_avila/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "0d49207a4ae0e8b29eb5c4e899693aab77b8b49230f8efff5e1bf55afc76bd9b"
+}
