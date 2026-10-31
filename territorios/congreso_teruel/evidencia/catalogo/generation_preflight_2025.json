@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_teruel",
+  "territory_name": "Congreso Teruel",
+  "edition": "2025",
+  "run_id": 41235966858,
+  "source_commit": "18f7e2f5bdf4c2a51af2c9f56ad7102c7e4c1591",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41235966858,
+    "artifact_name": "ddd-source-package-congreso_teruel-2025-41235966858",
+    "artifact_sha256": "bf78bc22524148b7cd586655cedc3e5550dbd2dcda4cd57ccfbb79f7427805af",
+    "package_sha256": "4591f4d0469002e5a529466dbb69270e8cd1e3ebcd8595f2f3f8063e8c874243",
+    "compatibility_identity_sha256": "123b6939aff888648d4f6ea2a72304255736e6cd79430415a6c21316a07ea228",
+    "territorial_identity_sha256": "6c57be66bbebad6e6dd53561a12ba0e313081566511acd3b0f9bb370db898edc",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
