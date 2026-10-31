@@ -1055,6 +1055,7 @@ territories:
         source_commit: a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2
       evidence:
         electoral_source: territorios/congreso_castellon/evidencia/fuentes_electorales/2025/edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1/41239799217/receipt.json
+        generation_preflight: territorios/congreso_castellon/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_ciudad_real
   name: Congreso Ciudad Real
