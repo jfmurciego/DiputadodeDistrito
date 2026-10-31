@@ -1324,11 +1324,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_madrid/evidencia/fuentes_electorales/2025/c6978e2a5cb956599067eeb70492424862f94a8275616611bd65fc95b9fb9586/41239871833/receipt.json
 - territory_id: congreso_malaga
   name: Congreso Málaga
   editions:
