@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_soria",
+  "territory_name": "Congreso Soria",
+  "edition": "2025",
+  "run_id": 41250310066,
+  "artifact_name": "ddd-state-41250310066-M08",
+  "artifact_sha256": "145cfa680ce7afcc14167699ee11ae7c0e63719f3aca33f4638bf30a8bd85f61",
+  "source_commit": "8e1ecdad578c2a39b30391b79fb10b59120241ad",
+  "stage": "M08"
+}
