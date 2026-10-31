@@ -1235,20 +1235,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_granada/config/congreso_granada_2025.yaml
       territorial_source_declaration: territorios/congreso_granada/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41243199582
+        artifact_name: ddd-source-package-congreso_granada-2025-41243199582
+        artifact_sha256: 094fb840cd04e2e88639ee37848937610b5a530fb8d27f7a19bcae9b0d12d881
+        package_sha256: f070e55093e12331f96971fc1cf739d192d36cbeff619f8772f5feb3e2fd8daf
+        receipt_path: territorios/congreso_granada/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/receipt.json
+        territorial_identity_sha256: 6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f
+        compatibility_report_sha256: 3ed0866b466e84f80a209b1563e62b0032648c99f635b532fea92eeebd35bbd8
+        compatibility_identity_sha256: eeba10b2a057c1a9dcf1c7cc4ff3f5efb42981e210c5254e367e8361e67fd12a
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 6ff6532547597b240f067c72fa651388868d1ca4
       evidence:
         electoral_source: territorios/congreso_granada/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json
+      generation_enabled: false
 - territory_id: congreso_guadalajara
   name: Congreso Guadalajara
   editions:

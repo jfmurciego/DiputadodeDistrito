@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_granada",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41243199582,
+  "artifact_name": "ddd-source-package-congreso_granada-2025-41243199582",
+  "artifact_sha256": "094fb840cd04e2e88639ee37848937610b5a530fb8d27f7a19bcae9b0d12d881",
+  "package_sha256": "f070e55093e12331f96971fc1cf739d192d36cbeff619f8772f5feb3e2fd8daf",
+  "source_commit": "6ff6532547597b240f067c72fa651388868d1ca4",
+  "source_declaration": "territorios/congreso_granada/evidencia/fuentes_territoriales/2025/6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f/41243199582/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "6351b9e49ad71cc78b9c73dd13e052ca955555c85b2d7125d3067a3b55579b3f",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "3ed0866b466e84f80a209b1563e62b0032648c99f635b532fea92eeebd35bbd8",
+  "compatibility_identity_sha256": "eeba10b2a057c1a9dcf1c7cc4ff3f5efb42981e210c5254e367e8361e67fd12a"
+}
