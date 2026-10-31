@@ -1001,7 +1001,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_baleares/evidencia/fuentes_electorales/2025/affe7b19fb8d79d5c23dff92d589467fb7e5d3c79cf584d68cc90e3380883460/41250238804/receipt.json
         generation_preflight: territorios/congreso_baleares/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_barcelona
   name: Congreso Barcelona
   editions:
