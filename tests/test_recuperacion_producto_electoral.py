@@ -245,5 +245,13 @@ class DurableElectoralProductRecoveryCasTests(unittest.TestCase):
             self.assertEqual(payload["status"], "CONCURRENT_PRODUCT_CHANGED")
 
 
+class RecoveryWorkflowDeclaredReceiptTests(unittest.TestCase):
+    def test_identity_check_uses_catalog_declared_electoral_source(self):
+        # Cantabria y Extremadura (31-10-2026): el legacy evidencia/catalogo/electoral_source_* era obsoleto o no existía.
+        wf = (Path(__file__).resolve().parents[1] / ".github/workflows/recuperar-producto-electoral-durable.yml").read_text(encoding="utf-8")
+        self.assertIn('_receipt(root,territory,edition,"electoral_source")', wf)
+        self.assertNotIn("evidencia/catalogo/electoral_source_", wf)
+
+
 if __name__ == "__main__":
     unittest.main()

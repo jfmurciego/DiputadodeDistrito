@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: recuperación operativa manual
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
 # QUÉ HACE: acredita y registra un M08 durable ya producido sin ejecutar fases territoriales/electorales ni publicar.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/recuperar-producto-electoral-durable.pre-p0.yml (versión 1.0.0 conservada)
+# ANTERIOR: legacy/workflows/recuperar-producto-electoral-durable_v1.0.1_20261031.yml
+# CAMBIOS 1.0.2: la verificación lee la fuente electoral del receipt declarado en el catálogo (mismo criterio
+#   que el detector desde #360); el legacy de evidencia/catalogo/ estaba obsoleto (Cantabria) o ausente (Extremadura).
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 # FECHA: 2026-10-25
@@ -201,7 +203,8 @@ jobs:
           def load_json(path):
               return json.loads(Path(path).read_text(encoding="utf-8"))
           territorial=load_json(root/f"territorios/{territory}/evidencia/catalogo/territorial_product_{edition}.json")
-          electoral_source=load_json(root/f"territorios/{territory}/evidencia/catalogo/electoral_source_{edition}.json")
+          from herramientas.detectar_producto_electoral_huerfano import _receipt
+          electoral_source=_receipt(root,territory,edition,"electoral_source")
           report=load_json(os.environ["REPORT"])
           validation=load_json(os.environ["VALIDATION"])
           audit=load_json(os.environ["AUDIT_STATUS"])
