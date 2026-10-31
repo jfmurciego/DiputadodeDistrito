@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-31T20:59:12.044255+00:00",
+  "generated_at": "2026-10-31T21:00:03.343286+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5046,7 +5046,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS",
       "run_id": 41235278274,
-      "last_run": {},
+      "last_run": {
+        "run_id": 41235278274,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -5898,14 +5905,14 @@
       "territory_id": "congreso_segovia",
       "name": "Congreso Segovia",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 41235620157,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5916,13 +5923,26 @@
           "artifact_sha256": "69095d26e3c0e80f7156162c014d97b8c7b99f5f60475c30d5caf9350359c40f",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_segovia",
+          "territory_name": "Congreso Segovia",
+          "edition": "2025",
+          "run_id": 41235620157,
+          "artifact_name": "ddd-state-41235620157-M06",
+          "artifact_sha256": "c3132b494ba3bd5be207cf333509a8e919173199595ab810f767c13406bcbc8b",
+          "source_commit": "34cc85a48c41914efaf540666e802eae606eb60b",
+          "decision": "PASS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_segovia/evidencia/generaciones_m06/41235620157.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C40",
       "display_name": "Congreso Segovia",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_sevilla",
@@ -6285,7 +6305,7 @@
       "19 Melilla",
       "Congreso Huesca"
     ],
-    "territorial_validated": 23,
+    "territorial_validated": 24,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6308,10 +6328,11 @@
       "Congreso Ávila",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso Segovia",
       "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "validated": 23,
+    "validated": 24,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -6334,15 +6355,15 @@
       "Congreso Ávila",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso Segovia",
       "Congreso Teruel",
       "Congreso Zamora"
     ],
-    "ready": 7,
+    "ready": 6,
     "ready_names": [
       "01 Andalucía",
       "Congreso Cuenca",
       "Congreso Palencia",
-      "Congreso Segovia",
       "Congreso Soria",
       "Congreso Ceuta",
       "Congreso Melilla"
@@ -6487,7 +6508,7 @@
       "territory": "Congreso Segovia",
       "territory_id": "congreso_segovia",
       "autonomous_community_code_ine": "C40",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Congreso Soria",
