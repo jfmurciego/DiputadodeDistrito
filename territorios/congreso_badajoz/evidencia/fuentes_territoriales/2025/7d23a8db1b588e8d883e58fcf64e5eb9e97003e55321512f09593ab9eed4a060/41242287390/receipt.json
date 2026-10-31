@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_badajoz",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41242287390,
+  "artifact_name": "ddd-source-package-congreso_badajoz-2025-41242287390",
+  "artifact_sha256": "4b3979dd3b1ee529ae31148790b9dbe08a279565a11a34397a861f97dd620ad2",
+  "package_sha256": "c74486d0e177d8d79800cf7181776af4d6a574feb4d0f8659fb4de342d1d10d3",
+  "source_commit": "b53dd1af35d21917f0218e3c9a04756b4da50292",
+  "source_declaration": "territorios/congreso_badajoz/evidencia/fuentes_territoriales/2025/7d23a8db1b588e8d883e58fcf64e5eb9e97003e55321512f09593ab9eed4a060/41242287390/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "7d23a8db1b588e8d883e58fcf64e5eb9e97003e55321512f09593ab9eed4a060",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "6b98eaeebe23f0bdaa8a87769c439928d303bc2f2ac7309ece3ecc7bee3cb2c8",
+  "compatibility_identity_sha256": "308a8c5df2aaacfd39976f1782de289360052c79ed460164053a996f1ad596e9"
+}
