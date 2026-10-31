@@ -1537,6 +1537,7 @@ territories:
         source_commit: ed9b20f03c521f2dc5129ee731c9c3b96d3fbaad
       evidence:
         electoral_source: territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_electorales/2025/a990a414e34865c72ba8902ce6f691e48970933f793c8ab38796093676c6f536/41239515252/receipt.json
+        generation_preflight: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_cantabria
   name: Congreso Cantabria
