@@ -1341,11 +1341,13 @@ territories:
       territorial_sources_prepared: false
       territorial_contract_complete: false
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/810ba9d1ea413302b78cf21a46cec0a52bfcfaade3bb7ec8595759c011a50357/41239877192/receipt.json
 - territory_id: congreso_murcia
   name: Congreso Murcia
   editions:
