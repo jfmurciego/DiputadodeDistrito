@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_granada",
+  "territory_name": "Congreso Granada",
+  "edition": "2025",
+  "run_id": 41243199582,
+  "artifact_name": "ddd-state-41243199582-M06",
+  "artifact_sha256": "3f806f9d18cc89cdb059e9efbaf0d8024aaee15d9ddce105296e1982983b0b90",
+  "source_commit": "558bbabfff67deac13d2eb1c849d7a47e0c8fc52",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_granada/evidencia/generaciones_m06/41243199582.json"
+}
