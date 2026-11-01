@@ -1,0 +1,106 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_las_palmas",
+  "territory_name": "Congreso Las Palmas",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 41358199178,
+  "source_sha": "b9cf13c2f4bead13f138df715316404b911bd57d",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": {
+    "kind": "durable_electoral_product",
+    "status": "NO_RECOVERY",
+    "result": "skipped",
+    "reason": "M08_ABSENT",
+    "origin_run_id": null,
+    "origin_manifest": null,
+    "artifact": null,
+    "artifact_digest": null,
+    "source_commit": null,
+    "registration_status": null,
+    "receipt_accredited": false,
+    "catalog_accredited": false
+  },
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales",
+    "Reanudación de producto electoral durable"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41336103808,
+      "artifact": "ddd-source-package-congreso_las_palmas-2025-41336103808",
+      "artifact_digest": "sha256:e24534fb9f56c89dde9956e40a31b14e70dbeb33c65c12f7fd35e6ce5c626fe4",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41336103808,
+      "artifact": "ddd-state-41336103808-M06",
+      "artifact_digest": "sha256:be0c8799f296a695170b713881e3a907e4131f486ec5ebccde4c5440c882d5d4",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41250292326,
+      "artifact": "ddd-electoral-package-congreso_las_palmas-2025-41250292326",
+      "artifact_digest": "sha256:5abadfca67cd921a55b21bc446c5cfbdb9420869b39cf5fe31cdb51a5410d49d",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-01T22:46:11.067038+00:00"
+}
