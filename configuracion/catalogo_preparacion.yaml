@@ -1466,6 +1466,7 @@ territories:
         source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_guipuzcoa/evidencia/fuentes_electorales/2025/d1051888a14ed29231c3a98cc0b7c5c77cfc90599ef0417b00fcb7336b114b88/41239830502/receipt.json
+        generation_preflight: territorios/congreso_guipuzcoa/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_huelva
   name: Congreso Huelva
