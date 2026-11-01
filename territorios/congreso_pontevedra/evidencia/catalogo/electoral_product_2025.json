@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_pontevedra",
+  "territory_name": "Congreso Pontevedra",
+  "edition": "2025",
+  "run_id": 41353894475,
+  "artifact_name": "ddd-state-41353894475-M08",
+  "artifact_sha256": "70a4d9357128080f272e2fb4ded8c1b722b133b396da609fbbcf16934ce53bc7",
+  "source_commit": "1bce451601cb6e63ecb82553d4b3831c0b4215b1",
+  "stage": "M08"
+}

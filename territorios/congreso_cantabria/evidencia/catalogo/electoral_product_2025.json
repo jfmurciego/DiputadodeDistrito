@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_cantabria",
+  "territory_name": "Congreso Cantabria",
+  "edition": "2025",
+  "run_id": 41356175674,
+  "artifact_name": "ddd-state-41356175674-M08",
+  "artifact_sha256": "08d9d06841987d4636f13e674ddeb38766da9ff949d06b631578d9b464c02efe",
+  "source_commit": "f62c2453c81eb8bb10657ecd25ccd17b956bae07",
+  "stage": "M08"
+}

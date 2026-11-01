@@ -60,6 +60,11 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - Estructural sin palanca de contrato: municipio atómico rodeado de municipios que solo lindan con él (Lorca+Águilas+
   Puerto Lumbreras) o enclaves dentro de un municipio con núcleos cerrados (Alcantarilla y Beniel en Murcia).
   Comprueba vecinos municipales en el grafo M03 antes de proponer ajustes.
+- La exención municipal va en `validation` del contrato (el materializador no la toca) y la valida el motor; el techo por
+  territorio, en la política (`population_cap_ratio` y `target_tolerance_ratio` = techo−1; la atomicidad no puede pasarlo).
+  `population_repair` (profundidad 6, conjunto 3, 500.000 candidatos) no mejoró ningún exceso estructural el 01-11.
+- En el informe M05, `population_status_by_district` es un dict y `final_hard_population_violations` cuenta también los
+  distritos exentos: mira los no-PASS, no ese contador.
 
 ## Diagnóstico local (sin descargar artefactos: desde la sesión cloud dan 403)
 - El propietario sube con un script desde su Mac el grafo M03 y el M01 del run a la rama `diagnostico/poblacion-20261028`.
@@ -67,6 +72,11 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
   `python -m ddd_core.m04_seed_engine --params territorios/<t>/config/<t>_2025.yaml` y
   `python modulos/05_optimizar_distritos.py --params …`. Las rutas se resuelven respecto al contrato: las copias
   temporales del contrato van en `territorios/<t>/config/`, nunca fuera.
+- Antes de gastar una 00, prueba el cambio en local (M04+M05 tardan ~15 s) con el contrato temporal: el volcado de la
+  rama `diagnostico/t02-20261101` trae M01 y M03 grafo, pero no `*_m03_particiones*` (las islas no corren).
+- `ddd-audit-<run>` (KB) trae `block_causes.json`; el informe M05 está en `ddd-state-<run>-M05` (~80 MB).
+- Pytest no viene instalado: `pip install -r requirements.lock pytest==8.4.2`. La suite entera pasa de 10 min; la CI usa
+  `unittest` por módulos, y en local basta con los ficheros de materialización, política, gobernanza y contratos.
 - Los logs de jobs se leen con la herramienta MCP `get_job_logs`; los grandes se guardan en fichero y se filtran.
 - Para T-02 y siguientes: `lanzadores/subir_diagnostico_t02.sh` (rama `lanzadores-mac`) sube M01+M03 a
   `diagnostico/<rama>`; acepta `ddd-state-<run>-M03` o `-M03U` y reintenta pushes (HTTP 408 desde el Mac).
@@ -82,6 +92,9 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 ## Sesión cloud, Mac del propietario y lanzamientos
 - En la sesión cloud `gh workflow run` falla (GraphQL bloqueado): lanza con REST,
   `gh api -X POST repos/<r>/actions/workflows/<f>.yml/dispatches -f ref=main -f "inputs[k]=v"`.
+- Identifica cada run por su territorio (`TERRITORY:` en el log del job «Planificar»), nunca por el orden: toda 00 que
+  llega a M06 encadena sola «Activación de Legislatura» y otra 00 «Reutilizar» como `github-actions[bot]`, y se cuelan.
+- Tras un rebase, la rama remota diverge y el reset/force push se deniega: fusiona `origin/main` o usa `git revert`.
 - Los procesos en segundo plano (nohup/setsid) mueren al terminar el turno. Las cadenas largas
   (00 → legislatura → 00 electoral) corren en el Mac del propietario: script en la rama `lanzadores-mac`,
   descargado con `gh api ".../contents/<ruta>?ref=lanzadores-mac" -H "Accept: application/vnd.github.raw"`.
@@ -110,3 +123,4 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - 2026-10-31 · Congreso: piloto Huesca 01→05, 50 provincias generadas, islas agrupadas, puentes heredados, Infoelectoral por espejo, lanzamientos REST/Mac · #362 #363 #364 #367 #368 #369 #370 #371.
 - 2026-11-01 · T-02: CRS 25830 (Huelva, Valencia), M04 7.6.0 multisección (Álava), dedupe de manifiesto al reanudar
   desde M05, encadenado solo con puerta 02, PARADA de visor = marcador; Murcia bloqueada estructural · #374 #383 #387 #389.
+- 2026-11-01 · Bloqueos de población de provincias: exención municipal en el contrato, techo por territorio en la política, reparación profunda inútil si es estructural, validación local y runs por territorio · #380 #384 #391.

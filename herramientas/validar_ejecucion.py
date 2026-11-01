@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Validación de ejecución
-VERSIÓN: 1.3.2
+VERSIÓN: 1.3.3
 NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal — Gobernanza R015
 FECHA: 2026-09-11
 QUÉ HACE: valida cardinalidad, unicidad, población, contigüidad, integridad provincial y disciplina de división municipal.
@@ -11,6 +11,9 @@ ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
 CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
 MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
 ANTERIOR: legacy/herramientas/validar_ejecucion_v1.3.1.py
+CAMBIO 1.3.3 (T-13): el suelo por distrito aplica también las exenciones del contrato sobre las secciones
+(municipio «35012» o «35012:35-C01» y partición), aunque el resumen M06 se generase sin reconocerlas.
+ANTERIOR 1.3.2: legacy/herramientas/validar_ejecucion_v1.3.2_20261101.py
 CAMBIO 1.3.2: el suelo por distrito sale de la columna population_floor del resumen M06 cuando existe (exenciones por partición o municipio).
 """
 from __future__ import annotations
@@ -23,6 +26,7 @@ import geopandas as gpd
 import pandas as pd
 from ddd_core.config import load_params_yaml,module_cfg, hard_limits
 from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
+from ddd_core.population_floor_exemptions import exempt_municipalities, municipalities_touch_exempt
 
 def read_geo(path:Path):
     return gpd.read_file(f"zip://{path}" if path.suffix==".zip" else path)
@@ -36,6 +40,21 @@ def components(nodes,adj):
             for v in adj.get(u,()):
                 if v in rem:rem.remove(v);q.append(v)
     return n
+
+def floor_exempt_districts(cfg,s6,val,sec,did):
+    """Distritos exentos de suelo por el contrato, recalculados sobre las secciones (igual que M06)."""
+    mun_field=s6.get('municipality_field',val.get('municipality_field','CUMUN'))
+    prov_field=s6.get('province_field',val.get('province_field','CPRO'))
+    exempt_muns=exempt_municipalities(cfg)
+    exempt_parts={str(x) for x in (val.get('population_floor_exempt_partitions') or [])}
+    out=set()
+    for district_id,g in sec.groupby(did):
+        if exempt_muns and mun_field in g.columns and municipalities_touch_exempt(g[mun_field].astype(str),exempt_muns):
+            out.add(str(district_id))
+        elif exempt_parts and prov_field in g.columns:
+            parts=sorted({str(v).zfill(2) for v in g[prov_field].dropna()})
+            if parts and parts[0] in exempt_parts:out.add(str(district_id))
+    return out
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--params',required=True);ap.add_argument('--run-id',default=os.getenv('DDD_RUN_ID'));a=ap.parse_args()
@@ -98,7 +117,10 @@ def main():
 
     target,floor,cap,_=hard_limits(cfg,k=expected,total_pop=section_pop)
     pops=pd.to_numeric(summ[pop_col],errors='coerce') if pop_col else pd.Series(dtype=float)
-    district_floor=pd.to_numeric(summ['population_floor'],errors='coerce').fillna(floor) if 'population_floor' in summ.columns else floor
+    district_floor=pd.to_numeric(summ['population_floor'],errors='coerce').fillna(floor) if 'population_floor' in summ.columns else pd.Series(floor,index=summ.index)
+    exempt_ids=floor_exempt_districts(cfg,s6,val,sec,did)
+    if exempt_ids:
+        district_floor=district_floor.where(~summ['district_id'].astype(str).isin(exempt_ids),0.0)
     below=summ.loc[pops<district_floor,['district_id',pop_col]].to_dict('records') if pop_col else []
     above=summ.loc[pops>cap,['district_id',pop_col]].to_dict('records') if pop_col else []
     if below:fails.append(f'distritos bajo límite poblacional={len(below)}')

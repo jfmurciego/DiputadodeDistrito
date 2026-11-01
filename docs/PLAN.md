@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.6
+Versión: 1.0.7
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-02b documentada: bloqueos de población M05 de Madrid, Málaga, Alicante y Barcelona
-Anterior: legacy/docs/PLAN_v1.0.5_20261101.md
+Cambios/motivo: T-14, chat operador, reglas de lanzamiento, propuestas y tareas cerradas del 01-11 (T-02, T-05, T-06, T-08 a T-12)
+Anterior: legacy/docs/PLAN_v1.0.6_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -23,6 +23,16 @@ Anterior: legacy/docs/PLAN_v1.0.5_20261101.md
   avisa antes de tocar ficheros compartidos (workflows, política, catálogo, `herramientas/`, `modulos/`,
   `ddd_core/`, este plan). Antes de lanzar, preguntar si otro chat ya lo hizo (01-11: Huelva/Valencia duplicadas).
 - Las órdenes de lanzar o fusionar las confirma el propietario en el chat que ejecuta, no por mensaje entre sesiones.
+- Chat operador único: es el único que lanza ejecuciones (00, activaciones, publicaciones). Los implementadores no
+  lanzan; piden el lanzamiento al planificador, que lo pasa al operador. El propietario da permiso por lote, una vez,
+  en el chat operador.
+- El operador identifica cada run por su territorio (entrada TERRITORY del job «Planificar»), nunca por el orden
+  de lanzamiento, y cuenta también los encadenados de github-actions[bot]. No relanza un territorio con un run en curso.
+- Primero en local: ninguna 00 sin evidencia del motor en local (o del diagnóstico automático de T-14). En un lote,
+  primero un territorio de prueba y luego el resto.
+- Infraestructura (workflows, ruleset, credenciales): se valida con una sola ejecución antes de abrir paso al resto.
+- `docs/PLAN.md` solo lo edita el planificador; el número de `REGISTRO_DE_CAMBIOS.md` lo asigna el planificador al
+  abrir la PR. Los chats le mandan su cierre de tarea y él lo anota.
 
 ## 1. Estado (2026-11-01 15:40)
 - Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
@@ -39,6 +49,11 @@ Anterior: legacy/docs/PLAN_v1.0.5_20261101.md
 | T-01 | T-02b · PARADA por población M05 | Cádiz, Barcelona, Madrid, Málaga, Alicante, Pontevedra, Baleares, Las Palmas | Cádiz/Barcelona lanzadas; resto espera diagnóstico local; todo en contratos (no toca la política) |
 | T-02 | T-02 · resto de PARADA | Huelva, Valencia, Murcia, Álava + script `subir_diagnostico_t02.sh` | M04 7.6.0 multisección (Álava) y CRS Murcia en rama, sin PR; espera diagnóstico local |
 | T-03 | PR, fusiones y T-10 | Fusionar con `pruebas` en verde; robots con app propia | #381 abierta; espera que el propietario cree la app y los secretos |
+
+### Chat operador (nuevo, 02-11)
+- Rol: operador. Modelo: Sonnet. Alcance: lanzar por REST, inventario de runs por territorio (incluidos los del bot),
+  resultado de cada run (paso y mensaje con `check-runs/<job>/annotations` o `get_job_logs`) y una línea al
+  planificador por run terminado. No edita código ni el plan.
 
 ### Ficheros con turno exclusivo
 - `modulos/04_generar_semillas.py`, `ddd_core/m04_seed_engine.py`: chat T-02 (M04 multisección).
@@ -68,6 +83,20 @@ Anterior: legacy/docs/PLAN_v1.0.5_20261101.md
 
 ## 3. Cola de tareas
 T-08 y T-09 se numeran al final pero van en la posición de la cola que les corresponde por prioridad.
+
+### T-14 · Diagnóstico automático sin el Mac (máxima prioridad tras T-13)
+- Objetivo: cuando una 00 falla en M04, M05 o en la puerta de certificación, el propio workflow sube a la rama
+  `diagnostico/auto` (carpeta `<territorio>/<run>/`) el M01, el grafo M03 (gz) y el informe M05, para que los
+  chats ejecuten el motor en local sin descargar artefactos (403 desde la nube) ni depender del Mac.
+- Rol: implementador. Modelo: Opus.
+- Ficheros afectados: `_reutilizable-generacion-territorial.yml` (paso `if: failure()` tras M04/M05/certificación),
+  herramienta nueva en `herramientas/` para empaquetar y publicar con la credencial de registro (#386), test.
+  Workflow compartido: turno del planificador.
+- Criterio de aceptación: una 00 que falle en M05 deja en `diagnostico/auto` los tres ficheros en menos de 5 minutos;
+  con ellos `python -m ddd_core.m04_seed_engine` y `modulos/05_optimizar_distritos.py` reproducen el fallo en local;
+  una 00 correcta no sube nada; tamaño por territorio < 50 MB.
+- Prueba local exigida: suite completa + test del empaquetado + una 00 de prueba que falle a propósito (con permiso).
+- Dependencias: ninguna. Sustituye a `lanzadores/subir_diagnostico_t02.sh`.
 
 ### T-08 · Proteger `main` con CI obligatoria
 - Objetivo: impedir fusionar sin «pruebas» en verde y con la rama al día con `main` (lo que ocurrió con #374).
@@ -206,7 +235,40 @@ Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, pol
 
 ## 4. Tareas hechas
 <!-- Formato: T-xx · resumen · PR #nnn / run nnnnnnnnnn · fecha -->
+- T-02 · Huelva y Valencia (CRS 25830, #374) y Álava (M04 7.6.0 multisección, #383; 00 41346917857) completas.
+  Murcia BLOQUEADA por estructura (objetivo 119.361, suelo 101.457, techo 137.265): Lorca 97.904 + Águilas 36.684 +
+  Puerto Lumbreras 17.507 = 152.095 (Águilas y Puerto Lumbreras solo lindan con Lorca; atomicidad 0,80 aborta M04);
+  residual de Murcia 116.508 + Alcantarilla 43.040 + Beniel 11.462 = 171.010 (1,43), enclaves sin cabida en núcleos
+  cerrados exclusivos. Pasa al estudio de motor (sección 5) · PR #374 #383 · 2026-11-01
+- T-08 · Ruleset `proteger-main` activo (PR obligatoria, check `pruebas`, rama al día; exentos administrador y app `ddd-registro`) · ajuste del propietario · 2026-11-01
+- T-05 · Nombres visibles «Nacional …» en estado operativo, dashboard y visor; identificadores sin cambios · PR #385 · 2026-11-01
+- T-06 · Gestor de Campañas con «Nacional 2023» (52 provincias por INE, matrícula o nombre) · PR #388 · 2026-11-01
+- T-09 · Comprobación de puentes heredados antes de M02 (28 puentes en 20 provincias, válidos) · PR #390 · 2026-11-01
+- T-10 · Robots de registro con app propia `ddd-registro` (exenta en el ruleset); probado en Baleares 41339398026 · PR #381 + #386 · 2026-11-01
+- T-11 · Dashboard sin PARADA falsas y reintentos del estado compartido; arreglo del manifiesto al reanudar desde M05 · PR #387 · 2026-11-01
+- T-12 · El encadenado par+04 exige la 02 en success · PR #389 · 2026-11-01
 - T-01 · Clasificación de las 52 provincias y causas de PARADA (tabla antes de T-02) · 2026-11-01
 - T-03 · Activación por elección: clave `ES-NAC|AUT-[unidad-]AAAAMMDD` (INE canónico, matrícula alias; D-2 según
   recomendación), workflow «Activación por Elección» (plan/activar/electoral/completa, filtro `solo`) y 00 v1.4.6
   con `lanzado_por_eleccion` · PR #376 · 2026-11-01
+
+## 5. Propuestas sin asignar (planificador, 01-11)
+### Operación
+- Fusión automática: activar «Allow auto-merge» en el repositorio; cada PR se fusiona sola con `pruebas` en verde
+  (ruleset activo). Reduce las fusiones manuales del propietario.
+- Reactivar `proteger-main` en cuanto no haya 00 en curso (app de registro ya exenta y probada, T-10).
+- Estudio de motor para provincias BLOQUEADAS por estructura (Madrid, Málaga, Alicante, Barcelona, Murcia; enclaves en núcleos cerrados): M04/M05 capaces de
+  reorganizar distritos alrededor de municipios grandes sin partir los que caben bajo el techo. Opus, tras T-14.
+
+### Extensiones (tras cerrar la elección nacional 2023)
+- Histórico de legislaturas: generales 2019-11, 2019-04 y 2016 con la clave por elección (T-03); autonómicas del
+  ciclo anterior; inventario municipal y espejo de Interior por año.
+- Comparador entre legislaturas en el visor (cambios de distritos y resultados).
+- Europeas: solo como agregación de resultados sobre los distritos existentes.
+- Municipales en ciudades grandes (Madrid, Barcelona, Valencia, Sevilla): distritos por sección censal; cambia la
+  unidad atómica de M04 (Opus, largo).
+- Senado: simulación del voto limitado sobre las provincias existentes.
+- Ensembles con GerryChain (`docs/ENSEMBLES_GERRYCHAIN.md`) para medir el sesgo de cada plan.
+- Simulación de escaños: uninominal frente a D'Hondt real, por provincia y agregado nacional.
+- Comunidades de interés y nombres de distrito para el nacional (auditorías C12/C13).
+- Ficha pública por distrito y datos abiertos (GeoJSON/CSV con licencia y huella).
