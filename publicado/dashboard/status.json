@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T21:46:37.957890+00:00",
+  "generated_at": "2026-11-01T21:57:17.745879+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 65,
-      "activable": 6,
+      "activated": 66,
+      "activable": 5,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 65
+      "durable_pair": 66
     },
     "territories": [
       {
@@ -2832,12 +2832,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_pontevedra/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json",
+            "pair_sha256": "da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5165,7 +5165,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41339504894,
+        "run_id": 41351970046,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5361,7 +5361,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41322925944,
+        "run_id": 41351957938,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -6791,11 +6791,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41351964088,
       "last_run": {
-        "run_id": 41293311168,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41351964088,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Pontevedra edición 2025; complete la preparación conjunta antes de ejecutar",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -6824,11 +6824,22 @@
           "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/41351964088.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_pontevedra",
+          "territory_name": "Congreso Pontevedra",
+          "edition": "2025",
+          "run_id": 41353894475,
+          "artifact_name": "ddd-state-41353894475-M08",
+          "artifact_sha256": "70a4d9357128080f272e2fb4ded8c1b722b133b396da609fbbcf16934ce53bc7",
+          "source_commit": "1bce451601cb6e63ecb82553d4b3831c0b4215b1",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C36",
       "display_name": "Nacional Pontevedra",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_salamanca",
