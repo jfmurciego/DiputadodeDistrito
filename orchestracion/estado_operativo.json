@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:30:48.988920+00:00",
+  "generated_at": "2026-11-01T10:31:16.590740+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5392,12 +5392,12 @@
       "territory_id": "congreso_ciudad_real",
       "name": "Congreso Ciudad Real",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41291967967,
       "last_run": {
         "run_id": 41241133485,
         "status": "FAILED",
@@ -5406,7 +5406,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5417,13 +5417,26 @@
           "artifact_sha256": "9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_ciudad_real",
+          "territory_name": "Congreso Ciudad Real",
+          "edition": "2025",
+          "run_id": 41291967967,
+          "artifact_name": "ddd-state-41291967967-M06",
+          "artifact_sha256": "e88160db8162166c0b92f3ba962f532abf30f5b7945cfaf14a5c869831a1ef3c",
+          "source_commit": "3eb5fecfa151eed489acfff55adcc2c0a70cee16",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_ciudad_real/evidencia/generaciones_m06/41291967967.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C13",
       "display_name": "Congreso Ciudad Real",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_cordoba",
@@ -7501,7 +7514,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 49,
+    "territorial_validated": 50,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7526,6 +7539,7 @@
       "Congreso Ávila",
       "Congreso Cáceres",
       "Congreso Castellón",
+      "Congreso Ciudad Real",
       "Congreso Córdoba",
       "Congreso La Coruña",
       "Congreso Cuenca",
@@ -7553,7 +7567,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 49,
+    "validated": 50,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7578,6 +7592,7 @@
       "Congreso Ávila",
       "Congreso Cáceres",
       "Congreso Castellón",
+      "Congreso Ciudad Real",
       "Congreso Córdoba",
       "Congreso La Coruña",
       "Congreso Cuenca",
@@ -7605,7 +7620,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 20,
+    "ready": 19,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7615,7 +7630,6 @@
       "Congreso Barcelona",
       "Congreso Burgos",
       "Congreso Cádiz",
-      "Congreso Ciudad Real",
       "Congreso Gerona",
       "Congreso Lérida",
       "Congreso Madrid",
