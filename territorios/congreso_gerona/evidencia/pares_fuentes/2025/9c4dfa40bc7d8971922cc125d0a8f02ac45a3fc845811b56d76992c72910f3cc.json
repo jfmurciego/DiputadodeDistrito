@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_gerona",
+  "territory_name": "Congreso Gerona",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_gerona_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41292216676,
+    "artifact_name": "ddd-source-package-congreso_gerona-2025-41292216676",
+    "artifact_sha256": "ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6",
+    "package_sha256": "cffe40478cfeec3bd2bf3eb8b3bfe47391ee9c6a95d945d89276cdd0c9df9cde",
+    "source_commit": "d73703d1c87a46762a874f2b3e4a008649963349",
+    "source_declaration": "territorios/congreso_gerona/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_gerona/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "4990515e234bd5c5dc7aca4d4763e787fa6b1442ed55b2e821ec0775d570e06d",
+    "compatibility_identity_sha256": "43150bc97a6b9317867d6ea161cec81ae5765ae49bb749f25745e1869af092b0",
+    "remote_verification": {
+      "run_id": 41292216676,
+      "artifact_id": 13078853372,
+      "artifact_name": "ddd-source-package-congreso_gerona-2025-41292216676",
+      "artifact_sha256": "ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239820081,
+    "artifact_name": "ddd-electoral-package-congreso_gerona-2025-41239820081",
+    "artifact_sha256": "b37c83cf3ee39ee827bc4d4d6bd7fa36fe0e2b1013a9b67d198cf9d29e06b8a5",
+    "source_commit": "79e943d21c6e1210b4390185ddd8b0245012209b",
+    "receipt_path": "territorios/congreso_gerona/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_gerona_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f",
+    "remote_verification": {
+      "run_id": 41239820081,
+      "artifact_id": 13056892577,
+      "artifact_name": "ddd-electoral-package-congreso_gerona-2025-41239820081",
+      "artifact_sha256": "b37c83cf3ee39ee827bc4d4d6bd7fa36fe0e2b1013a9b67d198cf9d29e06b8a5",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688",
+  "electoral_compatibility_key": "a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_gerona/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "9c4dfa40bc7d8971922cc125d0a8f02ac45a3fc845811b56d76992c72910f3cc"
+}
