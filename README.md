@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-01T22:12:07.162391+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-01T22:13:11.762781+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -94,7 +94,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Toledo** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296268720 · SUCCESS | — | — | — |
 | **Nacional Valencia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41335936727 · SUCCESS | — | — | — |
 | **Nacional Valladolid** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299313598 · SUCCESS | — | — | — |
-| **Nacional Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41293083498 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41355664800 · SUCCESS | 03/04 · rama electoral omitida | PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Vizcaya edición 2025; complete la preparación conjunta antes de ejecutar | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **Nacional Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250479211 · SUCCESS | — | — | — |
 | **Nacional Zaragoza** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296815536 · SUCCESS | — | — | — |
 | **Nacional Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250564472 · SUCCESS | — | — | — |
