@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.0
+Versión: 1.0.1
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: Alta del plan (sesión planificadora)
-Anterior: —
+Cambios/motivo: Añadidas T-08 (protección de main) y T-09 (huella de puentes)
+Anterior: legacy/docs/PLAN_v1.0.0_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -34,6 +34,20 @@ Anterior: —
 - D-3. Publicación en el visor de las 27 provincias completas además de Huesca: ¿ahora o al cerrar la elección entera?
 
 ## 3. Cola de tareas
+T-08 y T-09 se numeran al final pero van en la posición de la cola que les corresponde por prioridad.
+
+### T-08 · Proteger `main` con CI obligatoria
+- Objetivo: impedir fusionar sin «pruebas» en verde y con la rama al día con `main` (lo que ocurrió con #374).
+- Rol: operador (lo aplica el propietario: requiere permisos de administrador). Modelo: Haiku.
+- Ficheros afectados: ninguno; ajuste del repositorio (Settings → Branches o ruleset sobre `main`):
+  check obligatorio `pruebas`, «Require branches to be up to date», sin push directo. Comprobar antes que
+  los robots de registro (catálogo, `estado_operativo.json`, activos del visor) que escriben en `main`
+  quedan exentos o pasan por PR; si no, la protección los bloquea.
+- Criterio de aceptación: una PR con «pruebas» en rojo o pendiente no se puede fusionar; los robots siguen
+  registrando sin fallos durante una ejecución 00.
+- Prueba local exigida: ninguna; verificación con `gh api repos/jfmurciego/DiputadodeDistrito/branches/main/protection`
+  (o rulesets) y una ejecución 00 posterior con registro correcto.
+- Dependencias: ninguna. Máxima prioridad.
 
 ### T-01 · Revisar el log del Mac y el estado de las 51 provincias
 - Objetivo: tabla única provincia → último run 00, fase alcanzada, PARADA sí/no y causa (anotaciones del check-run).
@@ -58,6 +72,20 @@ Anterior: —
 - Prueba local exigida: suite completa + diagnóstico local de M02/M04/M05 por provincia afectada con el grafo
   subido a `diagnostico/…` (ver `CLAUDE.md`, «Diagnóstico local»).
 - Dependencias: T-01. Una PR por causa, no por provincia.
+
+### T-09 · Huella de puentes heredados antes de M02
+- Objetivo: comprobación previa que detecte puentes municipales heredados de 2024/2025 que ya no casan con el
+  inventario municipal y la geometría vigentes, y bloquee con mensaje claro antes de lanzar M02 (evita PARADA).
+- Rol: implementador. Modelo: Opus.
+- Ficheros afectados: `herramientas/generar_provincias_congreso.py` (o nueva herramienta de comprobación en
+  `herramientas/`), paso previo del workflow que lanza M02, tests nuevos en `tests/`. Avisar antes de tocar
+  `herramientas/` y workflows.
+- Criterio de aceptación: para cada provincia nacional, informe de puentes (válido / municipio inexistente /
+  municipios no colindantes ni enlazables / código INE cambiado); las provincias que pararon en M02 por
+  puentes (T-01/T-02) salen marcadas; las 28 completas salen limpias.
+- Prueba local exigida: suite completa + ejecución de la comprobación sobre todos los contratos
+  `territorios/congreso_*` + test con un puente roto sintético.
+- Dependencias: T-01 (causas de PARADA). Va detrás de T-02 en prioridad; si T-02 corrige puentes, se apoya en ello.
 
 ### T-03 · PR de activación por elección
 - Objetivo: activar, preparar electoral (03) y ejecutar 00 por elección entera, no por provincia. Clave
