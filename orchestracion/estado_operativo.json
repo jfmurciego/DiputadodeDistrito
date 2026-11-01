@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:48:25.826975+00:00",
+  "generated_at": "2026-11-01T10:51:42.674443+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 53,
-      "activable": 16,
+      "activated": 56,
+      "activable": 13,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 53
+      "durable_pair": 56
     },
     "territories": [
       {
@@ -1455,12 +1455,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_burgos/evidencia/pares_fuentes/2025/5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a.json",
+            "pair_sha256": "5175fb880e69682661a5473eca370a452b728d3cae86ba0ced4399baac993b3a",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2583,12 +2583,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_navarra/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json",
+            "pair_sha256": "a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3405,12 +3405,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_valladolid/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json",
+            "pair_sha256": "7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5085,12 +5085,12 @@
       "territory_id": "congreso_badajoz",
       "name": "Congreso Badajoz",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41293199718,
       "last_run": {
         "run_id": 41242287390,
         "status": "FAILED",
@@ -5099,7 +5099,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5110,13 +5110,26 @@
           "artifact_sha256": "c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_badajoz",
+          "territory_name": "Congreso Badajoz",
+          "edition": "2025",
+          "run_id": 41293199718,
+          "artifact_name": "ddd-state-41293199718-M06",
+          "artifact_sha256": "d7535c738bf20ae206d2dfdbb72272fb90d8c99ce8cd1d277f84c4771fb409aa",
+          "source_commit": "0a2cae4a3706c9d94d639f8066c2cacdc4cd73d2",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/41293199718.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C06",
       "display_name": "Congreso Badajoz",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_baleares",
@@ -5203,11 +5216,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41292846877,
       "last_run": {
-        "run_id": 41240386898,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41292846877,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -5445,7 +5458,18 @@
           "producer_manifest_path": "territorios/congreso_ciudad_real/evidencia/generaciones_m06/41291967967.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_ciudad_real",
+          "territory_name": "Congreso Ciudad Real",
+          "edition": "2025",
+          "run_id": 41298749455,
+          "artifact_name": "ddd-state-41298749455-M08",
+          "artifact_sha256": "bbe2b61152ca2c50c7f7bc7261355fe42a5a823c028b1f3b80e2f63fec650e72",
+          "source_commit": "9280b238f188ecd1d6960fd8454b55ec80506a49",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C13",
       "display_name": "Congreso Ciudad Real",
@@ -6568,7 +6592,18 @@
           "producer_manifest_path": "territorios/congreso_palencia/evidencia/generaciones_m06/41291833956.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_palencia",
+          "territory_name": "Congreso Palencia",
+          "edition": "2025",
+          "run_id": 41298660623,
+          "artifact_name": "ddd-state-41298660623-M08",
+          "artifact_sha256": "99e8224ea2be0fba141a6a88b32ba31cedda40c897dd84b4854694ff4e5d408e",
+          "source_commit": "45406b5aacaa62634b33124d468308d20cd2de0a",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C34",
       "display_name": "Congreso Palencia",
@@ -6886,20 +6921,20 @@
       "name": "Congreso Sevilla",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41244347546,
+      "run_id": 41297168461,
       "last_run": {
-        "run_id": 41244347546,
+        "run_id": 41297168461,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6940,7 +6975,7 @@
       },
       "autonomous_community_code_ine": "C41",
       "display_name": "Congreso Sevilla",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_soria",
@@ -7227,11 +7262,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41292964287,
       "last_run": {
-        "run_id": 41241636977,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41292964287,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7562,7 +7597,7 @@
     }
   ],
   "kpis": {
-    "complete": 46,
+    "complete": 47,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7602,6 +7637,7 @@
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
+      "Congreso Sevilla",
       "Congreso Soria",
       "Congreso Tarragona",
       "Congreso Teruel",
@@ -7611,7 +7647,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 57,
+    "territorial_validated": 58,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7634,6 +7670,7 @@
       "Congreso Albacete",
       "Congreso Almería",
       "Congreso Ávila",
+      "Congreso Badajoz",
       "Congreso Burgos",
       "Congreso Cáceres",
       "Congreso Castellón",
@@ -7671,7 +7708,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 57,
+    "validated": 58,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7694,6 +7731,7 @@
       "Congreso Albacete",
       "Congreso Almería",
       "Congreso Ávila",
+      "Congreso Badajoz",
       "Congreso Burgos",
       "Congreso Cáceres",
       "Congreso Castellón",
@@ -7731,12 +7769,11 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 12,
+    "ready": 11,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
       "Congreso Alicante",
-      "Congreso Badajoz",
       "Congreso Baleares",
       "Congreso Barcelona",
       "Congreso Cádiz",
@@ -7755,11 +7792,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_la_coruna",
-    "name": "Congreso La Coruña",
-    "display_name": "Congreso La Coruña",
-    "autonomous_community_code_ine": "C15",
-    "run_id": 41296991598,
+    "territory_id": "congreso_sevilla",
+    "name": "Congreso Sevilla",
+    "display_name": "Congreso Sevilla",
+    "autonomous_community_code_ine": "C41",
+    "run_id": 41297168461,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -7787,7 +7824,7 @@
       "territory": "Congreso Badajoz",
       "territory_id": "congreso_badajoz",
       "autonomous_community_code_ine": "C06",
-      "action": "completar puerta de validación territorial"
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Congreso Baleares",
@@ -7837,7 +7874,7 @@
       "territory": "Congreso Badajoz",
       "territory_id": "congreso_badajoz",
       "autonomous_community_code_ine": "C06",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Congreso Baleares",
