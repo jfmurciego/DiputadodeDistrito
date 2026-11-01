@@ -1513,20 +1513,35 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso_huelva/config/congreso_huelva_2025.yaml
       territorial_source_declaration: territorios/congreso_huelva/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 41318125504
+        artifact_name: ddd-source-package-congreso_huelva-2025-41318125504
+        artifact_sha256: af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e
+        package_sha256: da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9
+        receipt_path: territorios/congreso_huelva/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json
+        territorial_identity_sha256: 2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42
+        compatibility_report_sha256: ab60b5ba58663b29e1f07461362db19fa8b25d6a9cbecda81f2972b2a9cef111
+        compatibility_identity_sha256: 49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 03b39710d99d8cce48c5a16d80c61f348fc9a514
       evidence:
         electoral_source: territorios/congreso_huelva/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json
+        generation_preflight: territorios/congreso_huelva/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: congreso_huesca
   name: Congreso Huesca
   editions:

@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_huelva",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41318125504,
+  "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
+  "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
+  "package_sha256": "da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9",
+  "source_commit": "03b39710d99d8cce48c5a16d80c61f348fc9a514",
+  "source_declaration": "territorios/congreso_huelva/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "ab60b5ba58663b29e1f07461362db19fa8b25d6a9cbecda81f2972b2a9cef111",
+  "compatibility_identity_sha256": "49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357"
+}
