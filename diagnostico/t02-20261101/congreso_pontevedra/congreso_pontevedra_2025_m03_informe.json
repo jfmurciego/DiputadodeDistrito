@@ -1,0 +1,569 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 727,
+  "edges": 1923,
+  "isolated": 0,
+  "total_pop": 946710,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_pontevedra/.cache/ddd/preparacion/congreso_pontevedra_2025/congreso_pontevedra_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 1,
+    "component_sizes": [
+      727
+    ],
+    "component_samples": [
+      [
+        "3600101001",
+        "3600102001",
+        "3600103001",
+        "3600201001",
+        "3600201002",
+        "3600202001",
+        "3600202002",
+        "3600301001",
+        "3600301002",
+        "3600301003",
+        "3600301004",
+        "3600302001"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "4e13f876c3f05ab4ec56cb108e5584c0e12bf70bcded26d0a1f167a11a41bc20",
+      "compatibility_identity_sha256": "d04f2c4aa902f8e08be7e83972f4512167721524b4f05bff3493e6906de21c54"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "36": {
+        "nodes": 727,
+        "components": 1,
+        "component_sizes": [
+          727
+        ]
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 61,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "36/36001": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Arbo"
+      },
+      "36/36002": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Barro"
+      },
+      "36/36003": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Baiona"
+      },
+      "36/36004": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Bueu"
+      },
+      "36/36005": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Caldas de Reis"
+      },
+      "36/36006": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Cambados"
+      },
+      "36/36007": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Campo Lameiro"
+      },
+      "36/36008": {
+        "nodes": 18,
+        "components": 1,
+        "component_sizes": [
+          18
+        ],
+        "name": "Cangas"
+      },
+      "36/36009": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Cañiza, A"
+      },
+      "36/36010": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Catoira"
+      },
+      "36/36013": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Covelo"
+      },
+      "36/36014": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Crecente"
+      },
+      "36/36015": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Cuntis"
+      },
+      "36/36016": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Dozón"
+      },
+      "36/36017": {
+        "nodes": 18,
+        "components": 1,
+        "component_sizes": [
+          18
+        ],
+        "name": "Estrada, A"
+      },
+      "36/36018": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Forcarei"
+      },
+      "36/36019": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Fornelos de Montes"
+      },
+      "36/36020": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Agolada"
+      },
+      "36/36021": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Gondomar"
+      },
+      "36/36022": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Grove, O"
+      },
+      "36/36023": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Guarda, A"
+      },
+      "36/36024": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Lalín"
+      },
+      "36/36025": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Lama, A"
+      },
+      "36/36026": {
+        "nodes": 16,
+        "components": 1,
+        "component_sizes": [
+          16
+        ],
+        "name": "Marín"
+      },
+      "36/36027": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Meaño"
+      },
+      "36/36028": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Meis"
+      },
+      "36/36029": {
+        "nodes": 15,
+        "components": 1,
+        "component_sizes": [
+          15
+        ],
+        "name": "Moaña"
+      },
+      "36/36030": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Mondariz"
+      },
+      "36/36031": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Mondariz-Balneario"
+      },
+      "36/36032": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Moraña"
+      },
+      "36/36033": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Mos"
+      },
+      "36/36034": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Neves, As"
+      },
+      "36/36035": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Nigrán"
+      },
+      "36/36036": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Oia"
+      },
+      "36/36037": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Pazos de Borbén"
+      },
+      "36/36038": {
+        "nodes": 62,
+        "components": 1,
+        "component_sizes": [
+          62
+        ],
+        "name": "Pontevedra"
+      },
+      "36/36039": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Porriño, O"
+      },
+      "36/36040": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Portas"
+      },
+      "36/36041": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Poio"
+      },
+      "36/36042": {
+        "nodes": 17,
+        "components": 1,
+        "component_sizes": [
+          17
+        ],
+        "name": "Ponteareas"
+      },
+      "36/36043": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Ponte Caldelas"
+      },
+      "36/36044": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Pontecesures"
+      },
+      "36/36045": {
+        "nodes": 20,
+        "components": 1,
+        "component_sizes": [
+          20
+        ],
+        "name": "Redondela"
+      },
+      "36/36046": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Ribadumia"
+      },
+      "36/36047": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Rodeiro"
+      },
+      "36/36048": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Rosal, O"
+      },
+      "36/36049": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Salceda de Caselas"
+      },
+      "36/36050": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Salvaterra de Miño"
+      },
+      "36/36051": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Sanxenxo"
+      },
+      "36/36052": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Silleda"
+      },
+      "36/36053": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Soutomaior"
+      },
+      "36/36054": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Tomiño"
+      },
+      "36/36055": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Tui"
+      },
+      "36/36056": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Valga"
+      },
+      "36/36057": {
+        "nodes": 241,
+        "components": 1,
+        "component_sizes": [
+          241
+        ],
+        "name": "Vigo"
+      },
+      "36/36058": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Vilaboa"
+      },
+      "36/36059": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Vila de Cruces"
+      },
+      "36/36060": {
+        "nodes": 26,
+        "components": 1,
+        "component_sizes": [
+          26
+        ],
+        "name": "Vilagarcía de Arousa"
+      },
+      "36/36061": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Vilanova de Arousa"
+      },
+      "36/36901": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Illa de Arousa, A"
+      },
+      "36/36902": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Cerdedo-Cotobade"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
