@@ -35,6 +35,9 @@ class CredencialRegistro(unittest.TestCase):
                 self.assertEqual(cred["env"]["APP_KEY"], "${{ secrets.DDD_REGISTRO_APP_KEY }}")
                 self.assertIn("exit 0", cred["run"].split("\n")[1])  # sin secretos sigue con github.token
                 self.assertIn("::add-mask::", cred["run"])
+                # actions/checkout v6 guarda su credencial en un include: hay que quitarlo o van dos Authorization.
+                self.assertIn("^includeIf\\.gitdir:", cred["run"])
+                self.assertLess(cred["run"].index("includeIf"), cred["run"].index('extraheader "AUTHORIZATION'))
                 subprocess.run(["bash", "-n"], input=cred["run"], text=True, check=True)
 
 

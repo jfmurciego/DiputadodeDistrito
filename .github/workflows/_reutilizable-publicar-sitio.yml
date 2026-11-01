@@ -1,12 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.0.4
+# VERSIÓN: 3.0.5
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
 # CAMBIOS 3.0.4: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.0.3_20261101.yml
+# CAMBIOS 3.0.5: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
+#   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.0.4_20261101b.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
 # FECHA: 2026-10-27
@@ -84,6 +86,7 @@ jobs:
           [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
           echo "::add-mask::$token"
           git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - name: Sincronizar registro durable actual

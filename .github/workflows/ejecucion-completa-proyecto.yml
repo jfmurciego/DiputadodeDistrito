@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.4.7
+# VERSIÓN: 1.4.8
 # NOMBRE DE VERSIÓN: Encadenado también lanzado por elección
 # ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
@@ -14,7 +14,9 @@
 #   github-actions[bot] y, con ella, el encadenado par→04 sigue ocurriendo una vez (el relanzamiento no la pasa).
 # CAMBIOS 1.4.7: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.6_20261101.yml
+# CAMBIOS 1.4.8: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
+#   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.7_20261101b.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -816,6 +818,7 @@ jobs:
           [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
           echo "::add-mask::$token"
           git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -1210,6 +1213,7 @@ jobs:
           [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
           echo "::add-mask::$token"
           git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -1443,6 +1447,7 @@ jobs:
           [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
           echo "::add-mask::$token"
           git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - name: Recuperar evidencia de optimización efectiva
