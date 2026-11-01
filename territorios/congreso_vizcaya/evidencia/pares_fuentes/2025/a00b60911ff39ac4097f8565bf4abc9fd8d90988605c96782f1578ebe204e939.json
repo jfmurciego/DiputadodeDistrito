@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_vizcaya",
+  "territory_name": "Congreso Vizcaya",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_vizcaya_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41293083498,
+    "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41293083498",
+    "artifact_sha256": "d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f",
+    "package_sha256": "f2735556ec3e819fcf833dd36f5111d4f8f1a4a3ef39ce3119f702a526f170da",
+    "source_commit": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8",
+    "source_declaration": "territorios/congreso_vizcaya/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "988612974772ea0e9600b78024eae5328d931059b889b90c9a90709df80ac53b",
+    "compatibility_identity_sha256": "a1826fb60e8ed52a908fc0f210e4409e6dbde8878f5ff33ba79e8a686ba6bf55",
+    "remote_verification": {
+      "run_id": 41293083498,
+      "artifact_id": 13078064295,
+      "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41293083498",
+      "artifact_sha256": "d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239947749,
+    "artifact_name": "ddd-electoral-package-congreso_vizcaya-2025-41239947749",
+    "artifact_sha256": "b38f79afe0e11cc600eaa9ff9fc1c04d5bab2a2d5fe3a4b4705011567fe95fa0",
+    "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+    "receipt_path": "territorios/congreso_vizcaya/evidencia/fuentes_electorales/2025/4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b/41239947749/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_vizcaya_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b",
+    "remote_verification": {
+      "run_id": 41239947749,
+      "artifact_id": 13057216539,
+      "artifact_name": "ddd-electoral-package-congreso_vizcaya-2025-41239947749",
+      "artifact_sha256": "b38f79afe0e11cc600eaa9ff9fc1c04d5bab2a2d5fe3a4b4705011567fe95fa0",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68",
+  "electoral_compatibility_key": "4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_vizcaya/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939"
+}
