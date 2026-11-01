@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_albacete",
+  "territory_name": "Congreso Albacete",
+  "edition": "2025",
+  "run_id": 41294417893,
+  "artifact_name": "ddd-state-41294417893-M08",
+  "artifact_sha256": "c35e1ec6dd91056d4ece05fa8cce8dd7fdd9b890567026812a2aec6c9d6c2d79",
+  "source_commit": "b1bbdaba6a646b6c5124a2b2aeec3d0afb9bea45",
+  "stage": "M08"
+}
