@@ -5,10 +5,10 @@
   "territory_name": "Congreso Murcia",
   "edition": "2025",
   "run_id": 41293548832,
-  "source_commit": "d239c29f136ba74dd35b0976874135dd1db1ad80",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "1bcb40992f7f033ace90b53ab0be58de88823d36",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 41293548832,
     "artifact_name": "ddd-source-package-congreso_murcia-2025-41293548832",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
