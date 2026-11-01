@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_valladolid",
+  "territory_name": "Congreso Valladolid",
+  "edition": "2025",
+  "run_id": 41292964287,
+  "artifact_name": "ddd-state-41292964287-M06",
+  "artifact_sha256": "1bb6a2106e3411aa9b6c2d9abbb8021b14f54d6d22924241ab05bd633557d28c",
+  "source_commit": "889c33321e348f485c8f57b7c5569f53740d2c2e",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_valladolid/evidencia/generaciones_m06/41292964287.json"
+}

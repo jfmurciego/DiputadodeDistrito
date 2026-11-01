@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13080885429,
+      "artifact_name": "ddd-audit-41292964287",
+      "artifact_sha256": "f07f5d5dd6b6645618a0f844f958ae723ce8fa2209cd365ae4c6daaa65ba68d7",
+      "run_id": 41292964287,
+      "size_in_bytes": 3797
+    },
+    "m04": {
+      "artifact_id": 13080366549,
+      "artifact_name": "ddd-state-41292964287-M04",
+      "artifact_sha256": "c8e7ed2e9514c6c1d77bcf366fc2a244ca6140263d6f0cd937618eb021042a33",
+      "run_id": 41292964287,
+      "size_in_bytes": 76836780
+    },
+    "m05": {
+      "artifact_id": 13080401634,
+      "artifact_name": "ddd-state-41292964287-M05",
+      "artifact_sha256": "c29f775b49ad223dc47e921c80165e9ce59b7ee9c1af7aa94f36e433a2f72128",
+      "run_id": 41292964287,
+      "size_in_bytes": 77367387
+    },
+    "m06": {
+      "artifact_id": 13079958111,
+      "artifact_name": "ddd-state-41292964287-M06",
+      "artifact_sha256": "1bb6a2106e3411aa9b6c2d9abbb8021b14f54d6d22924241ab05bd633557d28c",
+      "run_id": 41292964287,
+      "size_in_bytes": 77996318
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "9c9d6c61c07f5d5b193bc4689c107cd5f62e19770fc579d8f7ee6c645f0179aa",
+        "size_in_bytes": 487
+      },
+      "congreso_valladolid_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "93e656d0c73defb1d30adcfdce422c0f3c1f9d2209ad6763c3c79baa7ae16f2d",
+        "size_in_bytes": 8415
+      },
+      "optimization_execution.json": {
+        "sha256": "5be5e0459d4577e391386291fe3378584126474ea64d46175b325150df64e3e7",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "c8710f4c52b770a8565dae204c9b1c94de633d1067e4c0770e4907d3bfe5c3ad",
+        "size_in_bytes": 1330
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "c8710f4c52b770a8565dae204c9b1c94de633d1067e4c0770e4907d3bfe5c3ad",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_valladolid/config/congreso_valladolid_2025.yaml",
+    "sha256": "5409a9db12e77e7640290e8fdf095a74eb9989685f34c814eb513111ccd5ff88"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "7c6fc2524d5b0c5f6f7b26df345f6ba6b73a14fb0c95900633bee0e81e77f4af",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "889c33321e348f485c8f57b7c5569f53740d2c2e",
+    "edition": "2025",
+    "territory_id": "congreso_valladolid",
+    "territory_name": "Congreso Valladolid",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41292964287,
+    "workflow_sha": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13080366549,
+      "artifact_name": "ddd-state-41292964287-M04",
+      "artifact_sha256": "c8e7ed2e9514c6c1d77bcf366fc2a244ca6140263d6f0cd937618eb021042a33",
+      "run_id": 41292964287,
+      "size_in_bytes": 76836780
+    },
+    "source_manifest_sha256": "5f008de516286f808bd60cde6386f46a5e04cbdd59016a44eb1167e8240d7561",
+    "source_package_artifact": {
+      "artifact_id": 13078568583,
+      "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
+      "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
+      "run_id": 41292964287,
+      "size_in_bytes": 75758777
+    }
+  },
+  "manifest_sha256": "10fca0d729f969032a34eeb461e7fea44b534211402649f7f0d01b258366d51b",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
