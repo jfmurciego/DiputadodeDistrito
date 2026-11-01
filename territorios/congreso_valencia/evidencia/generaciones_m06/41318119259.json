@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13089903221,
+      "artifact_name": "ddd-audit-41318119259",
+      "artifact_sha256": "95c9981bdf62b8751d052c15c2bb0ad21efd135ddb6d083c22dab2c75084b736",
+      "run_id": 41318119259,
+      "size_in_bytes": 11943
+    },
+    "m04": {
+      "artifact_id": 13090756227,
+      "artifact_name": "ddd-state-41318119259-M04",
+      "artifact_sha256": "8d7526d8cf51376b4e565c8691996d40c8b372a11d9ae5ab63f7ab3d8e9fd5fa",
+      "run_id": 41318119259,
+      "size_in_bytes": 81859517
+    },
+    "m05": {
+      "artifact_id": 13090458157,
+      "artifact_name": "ddd-state-41318119259-M05",
+      "artifact_sha256": "8d726407d07c70b40c72b4e1ef49f0b3d8fbae66b357927a8e690d5511546da4",
+      "run_id": 41318119259,
+      "size_in_bytes": 83325200
+    },
+    "m06": {
+      "artifact_id": 13090871984,
+      "artifact_name": "ddd-state-41318119259-M06",
+      "artifact_sha256": "76d5e9a19058d3003daa83cebcd4056d1c078d5fce718a8b14e6d6ec258fc2c4",
+      "run_id": 41318119259,
+      "size_in_bytes": 85205083
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "0a5ea57711a3ef69b8bf04c71cbae5be74ba52549db98dffa89ad914f41db21b",
+        "size_in_bytes": 481
+      },
+      "congreso_valencia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "cafc8c20c3587b7f602b4a1fa544dbd4cbfce0e82edec3bb3a5e91316495b1ba",
+        "size_in_bytes": 98503
+      },
+      "optimization_execution.json": {
+        "sha256": "005905b5f889e15cb3434b78c6465283b2143dde5e37284d7e2a0f524451260b",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "678bd432ba56effcb889073a5d271530b9686ea256a7575bc5ecd95525c5bcc5",
+        "size_in_bytes": 1318
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "678bd432ba56effcb889073a5d271530b9686ea256a7575bc5ecd95525c5bcc5",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_valencia/config/congreso_valencia_2025.yaml",
+    "sha256": "e50489c7e7e9311a64a42e1cbe17fee10af47d13b9d3d3d1030760833e8eb70a"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "c869cd499dd482d29e203aba9774da525f6b6301115ae1250924111557603e5e",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "1029a38fe8302cda682107026a6db48df3f99df5",
+    "edition": "2025",
+    "territory_id": "congreso_valencia",
+    "territory_name": "Congreso Valencia",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41318119259,
+    "workflow_sha": "03b39710d99d8cce48c5a16d80c61f348fc9a514"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13090756227,
+      "artifact_name": "ddd-state-41318119259-M04",
+      "artifact_sha256": "8d7526d8cf51376b4e565c8691996d40c8b372a11d9ae5ab63f7ab3d8e9fd5fa",
+      "run_id": 41318119259,
+      "size_in_bytes": 81859517
+    },
+    "source_manifest_sha256": "5f66d6cd6eaf198504720cf162a73be12e21b6e7681386999811bfaa7defae84",
+    "source_package_artifact": {
+      "artifact_id": 13089458466,
+      "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
+      "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
+      "run_id": 41318119259,
+      "size_in_bytes": 78881686
+    }
+  },
+  "manifest_sha256": "95ce92d7c1224618f3f4f5f114574a1228d427d8a34f785a245bfb946d8239d7",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

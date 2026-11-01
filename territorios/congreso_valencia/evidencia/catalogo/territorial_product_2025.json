@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_valencia",
+  "territory_name": "Congreso Valencia",
+  "edition": "2025",
+  "run_id": 41318119259,
+  "artifact_name": "ddd-state-41318119259-M06",
+  "artifact_sha256": "76d5e9a19058d3003daa83cebcd4056d1c078d5fce718a8b14e6d6ec258fc2c4",
+  "source_commit": "1029a38fe8302cda682107026a6db48df3f99df5",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/41318119259.json"
+}
