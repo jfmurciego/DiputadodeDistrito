@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:40:53.881927+00:00",
+  "generated_at": "2026-11-01T10:42:20.283004+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 48,
-      "activable": 21,
+      "activated": 49,
+      "activable": 20,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 48
+      "durable_pair": 49
     },
     "territories": [
       {
@@ -2736,12 +2736,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_palencia/evidencia/pares_fuentes/2025/001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18.json",
+            "pair_sha256": "001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5625,12 +5625,12 @@
       "territory_id": "congreso_gerona",
       "name": "Congreso Gerona",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41292216676,
       "last_run": {
         "run_id": 41242933360,
         "status": "FAILED",
@@ -5639,7 +5639,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5650,13 +5650,26 @@
           "artifact_sha256": "ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_gerona",
+          "territory_name": "Congreso Gerona",
+          "edition": "2025",
+          "run_id": 41292216676,
+          "artifact_name": "ddd-state-41292216676-M06",
+          "artifact_sha256": "8882628212a85a18246da7a8665ef4c83137b0048571e9ea04c4358e9a72bd50",
+          "source_commit": "a12191afc1904c7f180b928c4fc4db9478c18d50",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_gerona/evidencia/generaciones_m06/41292216676.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C17",
       "display_name": "Congreso Gerona",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_granada",
@@ -6054,11 +6067,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41292591493,
       "last_run": {
-        "run_id": 41241496894,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41292591493,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7557,7 +7570,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 53,
+    "territorial_validated": 54,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7586,6 +7599,7 @@
       "Congreso Córdoba",
       "Congreso La Coruña",
       "Congreso Cuenca",
+      "Congreso Gerona",
       "Congreso Granada",
       "Congreso Guadalajara",
       "Congreso Guipúzcoa",
@@ -7613,7 +7627,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 53,
+    "validated": 54,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7642,6 +7656,7 @@
       "Congreso Córdoba",
       "Congreso La Coruña",
       "Congreso Cuenca",
+      "Congreso Gerona",
       "Congreso Granada",
       "Congreso Guadalajara",
       "Congreso Guipúzcoa",
@@ -7669,7 +7684,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 16,
+    "ready": 15,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7679,7 +7694,6 @@
       "Congreso Barcelona",
       "Congreso Burgos",
       "Congreso Cádiz",
-      "Congreso Gerona",
       "Congreso Madrid",
       "Congreso Málaga",
       "Congreso Murcia",
