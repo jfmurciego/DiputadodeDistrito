@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_la_rioja",
+  "territory_name": "Congreso La Rioja",
+  "edition": "2025",
+  "run_id": 41294822309,
+  "artifact_name": "ddd-state-41294822309-M08",
+  "artifact_sha256": "7dcb4bc1f5bc239e617ec01c309df292c27a2196302e73d3a4625b6b4adc78f2",
+  "source_commit": "8284cef381e9fdb7d2c7131a629efea0d6afbafe",
+  "stage": "M08"
+}
