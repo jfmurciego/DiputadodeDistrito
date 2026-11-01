@@ -2493,6 +2493,7 @@ territories:
         electoral_source: territorios/congreso_valencia/evidencia/fuentes_electorales/2025/6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc/41239936932/receipt.json
         generation_preflight: territorios/congreso_valencia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_valencia/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_valencia/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json
       generation_enabled: true
 - territory_id: congreso_valladolid
   name: Congreso Valladolid

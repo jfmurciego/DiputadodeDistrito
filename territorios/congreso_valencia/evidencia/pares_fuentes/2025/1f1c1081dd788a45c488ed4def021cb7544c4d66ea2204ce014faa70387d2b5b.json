@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_valencia",
+  "territory_name": "Congreso Valencia",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_valencia_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41318119259,
+    "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
+    "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
+    "package_sha256": "f4e8cbac64633ffda5221e09a54723e06e5eba406c550034a46421e1b836ff6f",
+    "source_commit": "03b39710d99d8cce48c5a16d80c61f348fc9a514",
+    "source_declaration": "territorios/congreso_valencia/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_valencia/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "b295c6a095820c0273cf0b9d827c0968813b38b38df24a975649fa975e524a34",
+    "compatibility_identity_sha256": "717862af12db6f4224135c7bca931febf43b478b6d2c6d2045ccf4f57d1c42b2",
+    "remote_verification": {
+      "run_id": 41318119259,
+      "artifact_id": 13089458466,
+      "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
+      "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239936932,
+    "artifact_name": "ddd-electoral-package-congreso_valencia-2025-41239936932",
+    "artifact_sha256": "a5266ec7f483a3686cd54308e5118fc0c42bc23ecc9d4922eca3302b5997c534",
+    "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+    "receipt_path": "territorios/congreso_valencia/evidencia/fuentes_electorales/2025/6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc/41239936932/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_valencia_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc",
+    "remote_verification": {
+      "run_id": 41239936932,
+      "artifact_id": 13056543934,
+      "artifact_name": "ddd-electoral-package-congreso_valencia-2025-41239936932",
+      "artifact_sha256": "a5266ec7f483a3686cd54308e5118fc0c42bc23ecc9d4922eca3302b5997c534",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f",
+  "electoral_compatibility_key": "6bd17d9ab40a695c5a622d5fe90ca0e988c35b0221bd04f87509d9bb947aaacc",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_valencia/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b"
+}
