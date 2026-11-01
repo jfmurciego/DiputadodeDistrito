@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_gerona",
+  "territory_name": "Congreso Gerona",
+  "edition": "2025",
+  "run_id": 41298839274,
+  "artifact_name": "ddd-state-41298839274-M08",
+  "artifact_sha256": "2e4618fa71df3cd8b01be40dff7fa0771e200d229821cdfb025d26678d3bc606",
+  "source_commit": "49cad9db4805601c6fc1a485f8f415d85fa3f603",
+  "stage": "M08"
+}
