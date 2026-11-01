@@ -1159,12 +1159,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41241768943
-        stage: M06
+        run_id: 41295629673
+        stage: M08
       preparation_evidence:
         run_id: 41241768943
         artifact_name: ddd-source-package-congreso_castellon-2025-41241768943
@@ -1183,6 +1183,7 @@ territories:
         generation_preflight: territorios/congreso_castellon/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_castellon/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_castellon/evidencia/pares_fuentes/2025/8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6.json
+        electoral_product: territorios/congreso_castellon/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_ciudad_real
   name: Congreso Ciudad Real
