@@ -60,7 +60,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         data = load(ORCH)
         self.assertEqual(data["name"], "00 Ejecución Completa del Proyecto")
         inputs = triggers(ORCH)["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(inputs), ["territory_id", "data_edition", "execution_mode", "optimization_algorithm", "publication_mode", "publish_result"])
+        self.assertEqual(list(inputs), ["territory_id", "data_edition", "execution_mode", "optimization_algorithm", "publication_mode", "publish_result", "lanzado_por_eleccion"])
         self.assertEqual(
             inputs["execution_mode"]["options"],
             [

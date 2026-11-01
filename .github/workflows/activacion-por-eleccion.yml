@@ -1,0 +1,111 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: activacion-por-eleccion.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Activación, 03 y 00 por elección entera
+# FECHA: 2026-11-01
+# ESTADO: candidato
+# QUÉ HACE: resuelve una clave de elección (herramientas/clave_eleccion.py) en sus territorios y lanza, para
+#   todos ellos, una fase: activación del par (prepare_one), 03 o 00. «plan» es la simulación en seco.
+#   Clave: ES-NAC-20230723 (elección entera), ES-NAC-22-20230723 o ES-NAC-HU-20230723 (una provincia),
+#   ES-AUT-02-20260208 (Aragón) o ES-AUT-20230528 (autonómicas de esa fecha).
+# NO HACE: esperar a los runs lanzados; cada territorio conserva su cola (concurrency por territorio).
+# MOTIVO: T-03; una sola activación, una 03 y un 00 por elección en lugar de 52 lanzamientos manuales.
+# ANTERIOR: —
+name: '- Activación por Elección'
+run-name: "Activación por Elección · ${{ inputs.eleccion }} · ${{ inputs.fase }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      eleccion:
+        description: Clave de elección (ES-NAC-20230723, ES-NAC-HU-20230723, ES-AUT-02-20260208…)
+        required: true
+        default: ES-NAC-20230723
+        type: string
+      fase:
+        description: Fase que se lanza para toda la elección (plan = simulación en seco)
+        required: true
+        default: plan
+        type: choice
+        options: [plan, activar, electoral, completa]
+      solo:
+        description: Opcional, limitar a estos territorios (INE, matrícula o nombre, separados por comas)
+        required: false
+        default: ''
+        type: string
+      execution_mode:
+        description: Modo del 00 (fase completa)
+        required: true
+        default: Reutilizar progreso existente
+        type: choice
+        options:
+          - Reutilizar progreso existente
+          - Generar desde fuente territorial acreditada
+          - Ejecutar desde el principio
+      reutilizar_electoral:
+        description: 03 reutiliza resultados ya preparados (fase electoral)
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: ddd-activacion-eleccion-${{ inputs.eleccion }}-${{ inputs.fase }}
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  lanzar:
+    name: Resolver elección y lanzar fase
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ELECCION: ${{ inputs.eleccion }}
+      FASE: ${{ inputs.fase }}
+      SOLO: ${{ inputs.solo }}
+      EXECUTION_MODE: ${{ inputs.execution_mode }}
+      REUTILIZAR: ${{ inputs.reutilizar_electoral }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Resolver territorios de la elección
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/clave_eleccion.py validar
+          phase="$FASE"; extra=()
+          case "$FASE" in
+            plan) phase=completa; extra=(--input "execution_mode=$EXECUTION_MODE") ;;
+            completa) extra=(--input "execution_mode=$EXECUTION_MODE") ;;
+            electoral) extra=(--input "reutilizar_si_ya_preparada=$REUTILIZAR") ;;
+          esac
+          python herramientas/clave_eleccion.py plan --clave "$ELECCION" --fase "$phase" --solo "$SOLO" "${extra[@]}" > plan.json
+          {
+            echo "### $(jq -r .election plan.json) · $FASE · $(jq -r .count plan.json) territorios"
+            echo "| Clave | Territorio | Workflow |"; echo "|---|---|---|"
+            jq -r '.dispatches[] | "| \(.key) | \(.territory_id) | \(.workflow) |"' plan.json
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Lanzar la fase en cada territorio
+        if: ${{ inputs.fase != 'plan' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="repos/$GITHUB_REPOSITORY/actions/workflows"
+          failed=0
+          while IFS= read -r d; do
+            wf="$(jq -r .workflow <<<"$d")"; key="$(jq -r .key <<<"$d")"
+            args=()
+            while IFS= read -r kv; do args+=(-f "inputs[${kv%%=*}]=${kv#*=}"); done \
+              < <(jq -r '.inputs | to_entries[] | "\(.key)=\(.value)"' <<<"$d")
+            if gh api -X POST "$api/$wf/dispatches" -f ref=main "${args[@]}" >/dev/null; then
+              echo "Lanzado $wf · $key"
+            else
+              echo "::error::No se pudo lanzar $wf para $key"; failed=$((failed+1))
+            fi
+            sleep 2
+          done < <(jq -c '.dispatches[]' plan.json)
+          [[ "$failed" == 0 ]] || exit 1

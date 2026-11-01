@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.4.5
-# NOMBRE DE VERSIÓN: Encadenado también en modo reutilizar
+# VERSIÓN: 1.4.6
+# NOMBRE DE VERSIÓN: Encadenado también lanzado por elección
 # ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
 # conserva un manifiesto único y permite publicar el producto territorial certificado aunque no exista producto electoral.
@@ -10,7 +10,9 @@
 # CAMBIOS 1.4.3: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.4.4: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.4.5: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.4_islas_20261031.yml
+# CAMBIOS 1.4.6: entrada lanzado_por_eleccion; la «Activación por Elección» lanza el 00 como
+#   github-actions[bot] y, con ella, el encadenado par→04 sigue ocurriendo una vez (el relanzamiento no la pasa).
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.5_islas_20261031.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -198,6 +200,11 @@ on:
       publish_result:
         description: Publicar el visor al terminar
         required: true
+        default: false
+        type: boolean
+      lanzado_por_eleccion:
+        description: Uso interno de la Activación por Elección (permite encadenar par y 04)
+        required: false
         default: false
         type: boolean
 
@@ -1438,7 +1445,7 @@ jobs:
     # github-actions[bot] y no vuelve a encadenar, de modo que el encadenado ocurre como mucho una vez.
     name: Encadenar par de fuentes y 04
     needs: [planificar, clasificar_electoral, manifestar]
-    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && github.actor != 'github-actions[bot]' && needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' }}
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && (github.actor != 'github-actions[bot]' || inputs.lanzado_por_eleccion) && needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     permissions:

@@ -157,6 +157,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
         self.assertEqual(
             manual,
             [
+                "activacion-por-eleccion.yml",
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
                 "gestor-campanas.yml",
