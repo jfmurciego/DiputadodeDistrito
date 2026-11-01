@@ -2441,7 +2441,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_valladolid/evidencia/fuentes_electorales/2025/bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc/41239942087/receipt.json
         generation_preflight: territorios/congreso_valladolid/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_vizcaya
   name: Congreso Vizcaya
   editions:
