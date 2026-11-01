@@ -1057,21 +1057,20 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41240386898
-        artifact_name: ddd-source-package-congreso_burgos-2025-41240386898
-        artifact_sha256: 2983e9f346d89f6e19073cec9561d0df367e525ddc8a653795faa3d6949fe832
-        package_sha256: 45f4b6c363cbf43ddd61bb8d93d934b345b4059fb5a9c569f9e448530fb25107
-        receipt_path: territorios/congreso_burgos/evidencia/fuentes_territoriales/2025/db4c26b9b2b86c014d3d912b397167f3d46eb00a5016bb33d9d56d566f6224c8/41240386898/receipt.json
-        territorial_identity_sha256: db4c26b9b2b86c014d3d912b397167f3d46eb00a5016bb33d9d56d566f6224c8
-        compatibility_report_sha256: 8e25a5ecf706a6ac5cf24fc8c2ac944fe1e3064deaa3baaaaa7d6af1712f25fa
-        compatibility_identity_sha256: 34c9efdf7594bb9aa8e4aace6fd8133fbd5b587e854ac165154c37d0e2f47d6e
+        run_id: 41292846877
+        artifact_name: ddd-source-package-congreso_burgos-2025-41292846877
+        artifact_sha256: e5d3c35b2797e0df1cf95fcc46f836ec52085873f53a4444b88c2231d57bbccb
+        package_sha256: fc4dce453d673054e5d7d74fdaa3b8f4d59fbec3496b3c150fbfa28809d5278a
+        receipt_path: territorios/congreso_burgos/evidencia/fuentes_territoriales/2025/55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5/41292846877/receipt.json
+        territorial_identity_sha256: 55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5
+        compatibility_report_sha256: dbc5a7ea6faf07970af08623a10234ce1771ff7deeee61cfdf67e20ab8e583f9
+        compatibility_identity_sha256: 8a6b121127a1b7edcc0943feb6dd79b3e6e62189b14503698f548e3282fe5c1a
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 17ea4efd4fefef5b393e4446b783ca11d89e0a3b
+        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_burgos/evidencia/fuentes_electorales/2025/3048f185c01af3e5a400066e7aba00671de47b42042b2471c2bebee097cb291a/41239782586/receipt.json
-        generation_preflight: territorios/congreso_burgos/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_caceres
   name: Congreso Cáceres
