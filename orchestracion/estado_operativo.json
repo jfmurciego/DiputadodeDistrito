@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:53:25.637027+00:00",
+  "generated_at": "2026-11-01T10:54:03.540458+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 56,
-      "activable": 13,
+      "activated": 57,
+      "activable": 12,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 56
+      "durable_pair": 57
     },
     "territories": [
       {
@@ -1302,12 +1302,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_badajoz/evidencia/pares_fuentes/2025/5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48.json",
+            "pair_sha256": "5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5885,7 +5885,18 @@
           "producer_manifest_path": "territorios/congreso_guipuzcoa/evidencia/generaciones_m06/41292345223.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_guipuzcoa",
+          "territory_name": "Congreso Guipúzcoa",
+          "edition": "2025",
+          "run_id": 41298935355,
+          "artifact_name": "ddd-state-41298935355-M08",
+          "artifact_sha256": "407bc7f93288969c1864ed0d7860b201adc48971cb53f57317cb3f4daabff089",
+          "source_commit": "9d3658915ca68c5337d9dc73e6eef56214f2ebe2",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C20",
       "display_name": "Congreso Guipúzcoa",
