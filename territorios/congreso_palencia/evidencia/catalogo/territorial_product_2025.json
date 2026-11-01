@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_palencia",
+  "territory_name": "Congreso Palencia",
+  "edition": "2025",
+  "run_id": 41291833956,
+  "artifact_name": "ddd-state-41291833956-M06",
+  "artifact_sha256": "369db8a40faf06ef742443f1c3f7b17dfc7476d3614a5431b217d709658f4a5a",
+  "source_commit": "d36384b2a4b55254a9f205d38defbcefa2991b90",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_palencia/evidencia/generaciones_m06/41291833956.json"
+}
