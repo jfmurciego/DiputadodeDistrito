@@ -1222,6 +1222,7 @@ territories:
         electoral_source: territorios/congreso_ciudad_real/evidencia/fuentes_electorales/2025/630a53d22aa8839036f217167de1fced81ae36f4aaca31cd8a1f3d2aadc1888d/41239804426/receipt.json
         generation_preflight: territorios/congreso_ciudad_real/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_ciudad_real/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_ciudad_real/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json
       generation_enabled: true
 - territory_id: congreso_cordoba
   name: Congreso Córdoba
