@@ -823,6 +823,7 @@ territories:
         electoral_source: territorios/congreso_albacete/evidencia/fuentes_electorales/2025/024e50f3973fbd525d3a3bd3f2e0fb20d1f0edd510eea1af15b9b8b3811cfe02/41239755540/receipt.json
         generation_preflight: territorios/congreso_albacete/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_albacete/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_albacete/evidencia/pares_fuentes/2025/cab052dbdcaf36b292acc9769ee1c419978d21d0fc0252cf73854bc251af7dc8.json
       generation_enabled: true
 - territory_id: congreso_alicante
   name: Congreso Alicante
