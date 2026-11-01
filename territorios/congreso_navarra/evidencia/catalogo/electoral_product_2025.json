@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_navarra",
+  "territory_name": "Congreso Navarra",
+  "edition": "2025",
+  "run_id": 41299128213,
+  "artifact_name": "ddd-state-41299128213-M08",
+  "artifact_sha256": "33ff4f2922093e5aa9d959150b1f9a2e75be37dcdaca05fb01c2ec6f57576bfd",
+  "source_commit": "4ca61af3441e97a0c2984f8ac5496c9fdf9a470c",
+  "stage": "M08"
+}
