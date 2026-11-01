@@ -1,0 +1,1209 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 1236,
+  "edges": 3348,
+  "isolated": 0,
+  "total_pop": 1955268,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_alicante/.cache/ddd/preparacion/congreso_alicante_2025/congreso_alicante_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 1,
+    "component_sizes": [
+      1236
+    ],
+    "component_samples": [
+      [
+        "0300101001",
+        "0300201001",
+        "0300201002",
+        "0300201003",
+        "0300301001",
+        "0300401001",
+        "0300501001",
+        "0300501002",
+        "0300501003",
+        "0300501004",
+        "0300502001",
+        "0300502002"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "6f824f3c1a8c73742b5a14a11c0a7cfea29b92637ef920066a0da82537b1c27e",
+      "compatibility_identity_sha256": "23c7207fc2f1b41c29e688a0e66975a7d32087e4d86f1e1fe53ac273c8c0a60a"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "03": {
+        "nodes": 1236,
+        "components": 1,
+        "component_sizes": [
+          1236
+        ]
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 141,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "03/03001": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Atzúbia, l'"
+      },
+      "03/03002": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Agost"
+      },
+      "03/03003": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Agres"
+      },
+      "03/03004": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Aigües"
+      },
+      "03/03005": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Albatera"
+      },
+      "03/03006": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alcalalí"
+      },
+      "03/03007": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alcosser"
+      },
+      "03/03008": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alcoleja"
+      },
+      "03/03009": {
+        "nodes": 48,
+        "components": 1,
+        "component_sizes": [
+          48
+        ],
+        "name": "Alcoi/Alcoy"
+      },
+      "03/03010": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alfafara"
+      },
+      "03/03011": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Alfàs del Pi, l'"
+      },
+      "03/03012": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Algorfa"
+      },
+      "03/03013": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Algueña"
+      },
+      "03/03014": {
+        "nodes": 246,
+        "components": 1,
+        "component_sizes": [
+          246
+        ],
+        "name": "Alacant/Alicante"
+      },
+      "03/03015": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Almoradí"
+      },
+      "03/03016": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Almudaina"
+      },
+      "03/03017": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alqueria d'Asnar, l'"
+      },
+      "03/03018": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Altea"
+      },
+      "03/03019": {
+        "nodes": 20,
+        "components": 1,
+        "component_sizes": [
+          20
+        ],
+        "name": "Aspe"
+      },
+      "03/03020": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Balones"
+      },
+      "03/03021": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Banyeres de Mariola"
+      },
+      "03/03022": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benasau"
+      },
+      "03/03023": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Beneixama"
+      },
+      "03/03024": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Benejúzar"
+      },
+      "03/03025": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benferri"
+      },
+      "03/03026": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Beniarbeig"
+      },
+      "03/03027": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Beniardà"
+      },
+      "03/03028": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Beniarrés"
+      },
+      "03/03029": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benigembla"
+      },
+      "03/03030": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benidoleig"
+      },
+      "03/03031": {
+        "nodes": 45,
+        "components": 1,
+        "component_sizes": [
+          45
+        ],
+        "name": "Benidorm"
+      },
+      "03/03032": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benifallim"
+      },
+      "03/03033": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benifato"
+      },
+      "03/03034": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benijófar"
+      },
+      "03/03035": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benilloba"
+      },
+      "03/03036": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benillup"
+      },
+      "03/03037": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benimantell"
+      },
+      "03/03038": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benimarfull"
+      },
+      "03/03039": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benimassot"
+      },
+      "03/03040": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benimeli"
+      },
+      "03/03041": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Benissa"
+      },
+      "03/03042": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Poble Nou de Benitatxell, el/Benitachell"
+      },
+      "03/03043": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Biar"
+      },
+      "03/03044": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Bigastro"
+      },
+      "03/03045": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Bolulla"
+      },
+      "03/03046": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Busot"
+      },
+      "03/03047": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Calp"
+      },
+      "03/03048": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Callosa d'en Sarrià"
+      },
+      "03/03049": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Callosa de Segura"
+      },
+      "03/03050": {
+        "nodes": 15,
+        "components": 1,
+        "component_sizes": [
+          15
+        ],
+        "name": "Campello, el"
+      },
+      "03/03051": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Camp de Mirra, el/Campo de Mirra"
+      },
+      "03/03052": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cañada"
+      },
+      "03/03053": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Castalla"
+      },
+      "03/03054": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Castell de Castells"
+      },
+      "03/03055": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Catral"
+      },
+      "03/03056": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Cocentaina"
+      },
+      "03/03057": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Confrides"
+      },
+      "03/03058": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Cox"
+      },
+      "03/03059": {
+        "nodes": 21,
+        "components": 1,
+        "component_sizes": [
+          21
+        ],
+        "name": "Crevillent"
+      },
+      "03/03060": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Quatretondeta"
+      },
+      "03/03061": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Daya Nueva"
+      },
+      "03/03062": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Daya Vieja"
+      },
+      "03/03063": {
+        "nodes": 25,
+        "components": 1,
+        "component_sizes": [
+          25
+        ],
+        "name": "Dénia"
+      },
+      "03/03064": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Dolores"
+      },
+      "03/03065": {
+        "nodes": 173,
+        "components": 1,
+        "component_sizes": [
+          173
+        ],
+        "name": "Elx/Elche"
+      },
+      "03/03066": {
+        "nodes": 41,
+        "components": 1,
+        "component_sizes": [
+          41
+        ],
+        "name": "Elda"
+      },
+      "03/03067": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Fageca"
+      },
+      "03/03068": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Famorca"
+      },
+      "03/03069": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Finestrat"
+      },
+      "03/03070": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Formentera del Segura"
+      },
+      "03/03071": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Gata de Gorgos"
+      },
+      "03/03072": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Gaianes"
+      },
+      "03/03073": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Gorga"
+      },
+      "03/03074": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Granja de Rocamora"
+      },
+      "03/03075": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Castell de Guadalest, el"
+      },
+      "03/03076": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Guardamar del Segura"
+      },
+      "03/03077": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Fondó de les Neus, el/Hondón de las Nieves"
+      },
+      "03/03078": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Hondón de los Frailes"
+      },
+      "03/03079": {
+        "nodes": 19,
+        "components": 1,
+        "component_sizes": [
+          19
+        ],
+        "name": "Ibi"
+      },
+      "03/03080": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Jacarilla"
+      },
+      "03/03081": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Xaló"
+      },
+      "03/03082": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Xàbia/Jávea"
+      },
+      "03/03083": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Xixona/Jijona"
+      },
+      "03/03084": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Orxa, l'/Lorcha"
+      },
+      "03/03085": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Llíber"
+      },
+      "03/03086": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Millena"
+      },
+      "03/03088": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Monforte del Cid"
+      },
+      "03/03089": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Monòver/Monóvar"
+      },
+      "03/03090": {
+        "nodes": 16,
+        "components": 1,
+        "component_sizes": [
+          16
+        ],
+        "name": "Mutxamel"
+      },
+      "03/03091": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Murla"
+      },
+      "03/03092": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Muro de Alcoy"
+      },
+      "03/03093": {
+        "nodes": 22,
+        "components": 1,
+        "component_sizes": [
+          22
+        ],
+        "name": "Novelda"
+      },
+      "03/03094": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Nucia, la"
+      },
+      "03/03095": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Ondara"
+      },
+      "03/03096": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Onil"
+      },
+      "03/03097": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Orba"
+      },
+      "03/03098": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Orxeta"
+      },
+      "03/03099": {
+        "nodes": 42,
+        "components": 1,
+        "component_sizes": [
+          42
+        ],
+        "name": "Orihuela"
+      },
+      "03/03100": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Parcent"
+      },
+      "03/03101": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Pedreguer"
+      },
+      "03/03102": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Pego"
+      },
+      "03/03103": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Penàguila"
+      },
+      "03/03104": {
+        "nodes": 26,
+        "components": 1,
+        "component_sizes": [
+          26
+        ],
+        "name": "Petrer"
+      },
+      "03/03105": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Pinós, el/Pinoso"
+      },
+      "03/03106": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Planes"
+      },
+      "03/03107": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Polop"
+      },
+      "03/03109": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Rafal"
+      },
+      "03/03110": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Ràfol d'Almúnia, el"
+      },
+      "03/03111": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Redován"
+      },
+      "03/03112": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Relleu"
+      },
+      "03/03113": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Rojales"
+      },
+      "03/03114": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Romana, la"
+      },
+      "03/03115": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Sagra"
+      },
+      "03/03116": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Salinas"
+      },
+      "03/03117": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Sanet y Negrals"
+      },
+      "03/03118": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "San Fulgencio"
+      },
+      "03/03119": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Sant Joan d'Alacant"
+      },
+      "03/03120": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "San Miguel de Salinas"
+      },
+      "03/03121": {
+        "nodes": 19,
+        "components": 1,
+        "component_sizes": [
+          19
+        ],
+        "name": "Santa Pola"
+      },
+      "03/03122": {
+        "nodes": 34,
+        "components": 1,
+        "component_sizes": [
+          34
+        ],
+        "name": "Sant Vicent del Raspeig/San Vicente del Raspeig"
+      },
+      "03/03123": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Sax"
+      },
+      "03/03124": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Sella"
+      },
+      "03/03125": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Senija"
+      },
+      "03/03127": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Tàrbena"
+      },
+      "03/03128": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Teulada"
+      },
+      "03/03129": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Tibi"
+      },
+      "03/03130": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Tollos"
+      },
+      "03/03131": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Tormos"
+      },
+      "03/03132": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Torre de les Maçanes, la/Torremanzanas"
+      },
+      "03/03133": {
+        "nodes": 33,
+        "components": 1,
+        "component_sizes": [
+          33
+        ],
+        "name": "Torrevieja"
+      },
+      "03/03134": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Vall d'Alcalà, la"
+      },
+      "03/03135": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Vall d'Ebo, la"
+      },
+      "03/03136": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Vall de Gallinera, la"
+      },
+      "03/03137": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Vall de Laguar, la"
+      },
+      "03/03138": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Verger, el"
+      },
+      "03/03139": {
+        "nodes": 19,
+        "components": 1,
+        "component_sizes": [
+          19
+        ],
+        "name": "Vila Joiosa, la/Villajoyosa"
+      },
+      "03/03140": {
+        "nodes": 23,
+        "components": 1,
+        "component_sizes": [
+          23
+        ],
+        "name": "Villena"
+      },
+      "03/03901": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Poblets, els"
+      },
+      "03/03902": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Pilar de la Horadada"
+      },
+      "03/03903": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Montesinos, Los"
+      },
+      "03/03904": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "San Isidro"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
