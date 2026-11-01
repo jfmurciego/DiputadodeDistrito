@@ -2407,21 +2407,20 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41241636977
-        artifact_name: ddd-source-package-congreso_valladolid-2025-41241636977
-        artifact_sha256: 3b2eb406674cd312f2d773cd8e1ef9cc73e0ff4bee7eb942f1870ba63eca256e
-        package_sha256: 0610fead09f31539765564f296cd88ef48abbee60d35b63d8449748e8d7ca685
-        receipt_path: territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/faec2ecf38915f2301b66cdf0e2ffd9fd5b4a09d476f58e09a2d7ac3b4012ed5/41241636977/receipt.json
-        territorial_identity_sha256: faec2ecf38915f2301b66cdf0e2ffd9fd5b4a09d476f58e09a2d7ac3b4012ed5
-        compatibility_report_sha256: e3e8d02d619f4f652bfc31e1a166f36b05ded487a3e256c7806559d3b6a925c5
-        compatibility_identity_sha256: 9266f1b6652407bf8bbaf5eb1174f8f5a231ab62263d62f37b3debeec70ce374
+        run_id: 41292964287
+        artifact_name: ddd-source-package-congreso_valladolid-2025-41292964287
+        artifact_sha256: 5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4
+        package_sha256: 0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e
+        receipt_path: territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json
+        territorial_identity_sha256: b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47
+        compatibility_report_sha256: f058e27bc50d694c93b370637c9d33a5f7d1347e345e4fbcf376bc73537eab1a
+        compatibility_identity_sha256: 99cc6da37feb11c9672c9d0326f6458fafe5e45646a240d090c599a7283dfb04
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2
+        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_valladolid/evidencia/fuentes_electorales/2025/bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc/41239942087/receipt.json
-        generation_preflight: territorios/congreso_valladolid/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_vizcaya
   name: Congreso Vizcaya
