@@ -1,0 +1,441 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 926,
+  "edges": 2476,
+  "isolated": 0,
+  "total_pop": 1254866,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_cadiz/.cache/ddd/preparacion/congreso_cadiz_2025/congreso_cadiz_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 1,
+    "component_sizes": [
+      926
+    ],
+    "component_samples": [
+      [
+        "1100101001",
+        "1100101002",
+        "1100102001",
+        "1100102002",
+        "1100201001",
+        "1100201002",
+        "1100201003",
+        "1100201004",
+        "1100301001",
+        "1100401001",
+        "1100401002",
+        "1100401003"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "8b2418be9e8c392dbb0b3f2e493947e10200e7e5a22e831b8438aec4163a85fc",
+      "compatibility_identity_sha256": "a8853cf0b212d90f709cadc67112904e5e263e462ec9d46fb8b8ecfb63879dfb"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "11": {
+        "nodes": 926,
+        "components": 1,
+        "component_sizes": [
+          926
+        ]
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 45,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "11/11001": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Alcalá de los Gazules"
+      },
+      "11/11002": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Alcalá del Valle"
+      },
+      "11/11003": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Algar"
+      },
+      "11/11004": {
+        "nodes": 87,
+        "components": 1,
+        "component_sizes": [
+          87
+        ],
+        "name": "Algeciras"
+      },
+      "11/11005": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Algodonales"
+      },
+      "11/11006": {
+        "nodes": 23,
+        "components": 1,
+        "component_sizes": [
+          23
+        ],
+        "name": "Arcos de la Frontera"
+      },
+      "11/11007": {
+        "nodes": 16,
+        "components": 1,
+        "component_sizes": [
+          16
+        ],
+        "name": "Barbate"
+      },
+      "11/11008": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Barrios, Los"
+      },
+      "11/11009": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benaocaz"
+      },
+      "11/11010": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Bornos"
+      },
+      "11/11011": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Bosque, El"
+      },
+      "11/11012": {
+        "nodes": 107,
+        "components": 1,
+        "component_sizes": [
+          107
+        ],
+        "name": "Cádiz"
+      },
+      "11/11013": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Castellar de la Frontera"
+      },
+      "11/11014": {
+        "nodes": 16,
+        "components": 1,
+        "component_sizes": [
+          16
+        ],
+        "name": "Conil de la Frontera"
+      },
+      "11/11015": {
+        "nodes": 56,
+        "components": 1,
+        "component_sizes": [
+          56
+        ],
+        "name": "Chiclana de la Frontera"
+      },
+      "11/11016": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Chipiona"
+      },
+      "11/11017": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Espera"
+      },
+      "11/11018": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Gastor, El"
+      },
+      "11/11019": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Grazalema"
+      },
+      "11/11020": {
+        "nodes": 166,
+        "components": 1,
+        "component_sizes": [
+          166
+        ],
+        "name": "Jerez de la Frontera"
+      },
+      "11/11021": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Jimena de la Frontera"
+      },
+      "11/11022": {
+        "nodes": 49,
+        "components": 1,
+        "component_sizes": [
+          49
+        ],
+        "name": "Línea de la Concepción, La"
+      },
+      "11/11023": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Medina Sidonia"
+      },
+      "11/11024": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Olvera"
+      },
+      "11/11025": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Paterna de Rivera"
+      },
+      "11/11026": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Prado del Rey"
+      },
+      "11/11027": {
+        "nodes": 65,
+        "components": 1,
+        "component_sizes": [
+          65
+        ],
+        "name": "Puerto de Santa María, El"
+      },
+      "11/11028": {
+        "nodes": 30,
+        "components": 1,
+        "component_sizes": [
+          30
+        ],
+        "name": "Puerto Real"
+      },
+      "11/11029": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Puerto Serrano"
+      },
+      "11/11030": {
+        "nodes": 21,
+        "components": 1,
+        "component_sizes": [
+          21
+        ],
+        "name": "Rota"
+      },
+      "11/11031": {
+        "nodes": 70,
+        "components": 1,
+        "component_sizes": [
+          70
+        ],
+        "name": "San Fernando"
+      },
+      "11/11032": {
+        "nodes": 46,
+        "components": 1,
+        "component_sizes": [
+          46
+        ],
+        "name": "Sanlúcar de Barrameda"
+      },
+      "11/11033": {
+        "nodes": 19,
+        "components": 1,
+        "component_sizes": [
+          19
+        ],
+        "name": "San Roque"
+      },
+      "11/11034": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Setenil de las Bodegas"
+      },
+      "11/11035": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Tarifa"
+      },
+      "11/11036": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Torre Alháquime"
+      },
+      "11/11037": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Trebujena"
+      },
+      "11/11038": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Ubrique"
+      },
+      "11/11039": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Vejer de la Frontera"
+      },
+      "11/11040": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villaluenga del Rosario"
+      },
+      "11/11041": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Villamartín"
+      },
+      "11/11042": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Zahara"
+      },
+      "11/11901": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Benalup-Casas Viejas"
+      },
+      "11/11902": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "San José del Valle"
+      },
+      "11/11903": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "San Martín del Tesorillo"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
