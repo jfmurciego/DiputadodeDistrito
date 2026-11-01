@@ -1431,6 +1431,7 @@ territories:
         electoral_source: territorios/congreso_guadalajara/evidencia/fuentes_electorales/2025/f421d566485bcdc53d2c1f281efbb5210e1a5df8af79b7dc00a03cdfdf055d03/41236827273/receipt.json
         generation_preflight: territorios/congreso_guadalajara/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_guadalajara/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_guadalajara/evidencia/pares_fuentes/2025/8e2ca58bb58ccfa32fd273ffc148de7417903eb55be4c99f088f26625449b5c1.json
       generation_enabled: true
 - territory_id: congreso_guipuzcoa
   name: Congreso Guipúzcoa
