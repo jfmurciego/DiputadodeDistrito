@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_almeria",
+  "territory_name": "Congreso Almería",
+  "edition": "2025",
+  "run_id": 41295979497,
+  "artifact_name": "ddd-state-41295979497-M08",
+  "artifact_sha256": "ae8b4d64ca14b860dd818a5a3759ccf536398e5ce174ac921a759a7102ddd97c",
+  "source_commit": "babbe148dc42c6a06dbf9e7a0c6f4617db3b748a",
+  "stage": "M08"
+}
