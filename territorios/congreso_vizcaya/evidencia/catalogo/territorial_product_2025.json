@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_vizcaya",
+  "territory_name": "Congreso Vizcaya",
+  "edition": "2025",
+  "run_id": 41293083498,
+  "artifact_name": "ddd-state-41293083498-M06",
+  "artifact_sha256": "a3ed8bb08005fff6aaa8b231a7140b73b57679d559107cff606680fa93ec3312",
+  "source_commit": "5c2f90fa3f52fcbecfd804b7d7c5e1cf48736322",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_vizcaya/evidencia/generaciones_m06/41293083498.json"
+}

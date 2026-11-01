@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13080262454,
+      "artifact_name": "ddd-audit-41293083498",
+      "artifact_sha256": "0919ecb3e6eb01c7aa8796c37a6fb41042b152dc755be969fb64f6e271f65a02",
+      "run_id": 41293083498,
+      "size_in_bytes": 5174
+    },
+    "m04": {
+      "artifact_id": 13079804233,
+      "artifact_name": "ddd-state-41293083498-M04",
+      "artifact_sha256": "22e8a842e3366f10ef0793021a77061acdd2fa3497eed54e0e651aab608bbe98",
+      "run_id": 41293083498,
+      "size_in_bytes": 80133355
+    },
+    "m05": {
+      "artifact_id": 13079844245,
+      "artifact_name": "ddd-state-41293083498-M05",
+      "artifact_sha256": "8d36400b440d6b27b05a4b1e704cb200904832a64ba2a61e66cb9b6061c3c28e",
+      "run_id": 41293083498,
+      "size_in_bytes": 81267988
+    },
+    "m06": {
+      "artifact_id": 13080213762,
+      "artifact_name": "ddd-state-41293083498-M06",
+      "artifact_sha256": "a3ed8bb08005fff6aaa8b231a7140b73b57679d559107cff606680fa93ec3312",
+      "run_id": 41293083498,
+      "size_in_bytes": 82880062
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "d13086a857992371fbead300b7813499e2d8b6ac82bcd7bc2b346d139a950b77",
+        "size_in_bytes": 478
+      },
+      "congreso_vizcaya_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f43bf5381174c51e5ced2189021b0b8bc2530788d351ac96fa7322121d2d5b04",
+        "size_in_bytes": 18460
+      },
+      "optimization_execution.json": {
+        "sha256": "b75231a87cda0359c5f4e4611a8196e8207e0a47248da9392b5da1d0e1f91ac1",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "bc7f356ebdb894daf785042f2615da0142e2a559f9cd6e6bd699f21bc436fa2e",
+        "size_in_bytes": 1312
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "bc7f356ebdb894daf785042f2615da0142e2a559f9cd6e6bd699f21bc436fa2e",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_vizcaya/config/congreso_vizcaya_2025.yaml",
+    "sha256": "e058d72873310957074aa820b924d43d4bc2c180675bdef1df07d937c40624af"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "d393ab1ef03cfa52f15514a0df991653db24faaa0cbec9c288a79513bd88762c",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "5c2f90fa3f52fcbecfd804b7d7c5e1cf48736322",
+    "edition": "2025",
+    "territory_id": "congreso_vizcaya",
+    "territory_name": "Congreso Vizcaya",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41293083498,
+    "workflow_sha": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13079804233,
+      "artifact_name": "ddd-state-41293083498-M04",
+      "artifact_sha256": "22e8a842e3366f10ef0793021a77061acdd2fa3497eed54e0e651aab608bbe98",
+      "run_id": 41293083498,
+      "size_in_bytes": 80133355
+    },
+    "source_manifest_sha256": "76ecb26044c92a9d0a0f00f79f143122fa810f063b39b13c3601a5f8edf08bd3",
+    "source_package_artifact": {
+      "artifact_id": 13078064295,
+      "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41293083498",
+      "artifact_sha256": "d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f",
+      "run_id": 41293083498,
+      "size_in_bytes": 77843794
+    }
+  },
+  "manifest_sha256": "ca400b712618af8efd398682dcd315ec73fcdf947fd5ac03909ff03aeb33bcb0",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
