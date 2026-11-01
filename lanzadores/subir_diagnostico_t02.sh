@@ -33,7 +33,7 @@ congreso_pontevedra|41293311168
 congreso_baleares|41250230577
 congreso_las_palmas|41250283081
 congreso_alava|41240137880
-congreso_murcia|41293548832"
+congreso_murcia|41335095516"
 
 for LINEA in ${(f)LISTA}; do
   T=${LINEA%%|*}; RUN=${LINEA##*|}
