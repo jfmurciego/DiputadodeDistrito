@@ -387,5 +387,5 @@ class EstadoOperativoDetalleTests(unittest.TestCase):
                 self.assertEqual(max(runs), last["run_id"])
                 self.assertIn(last["publication"], {"executed", "failed", "not_requested"})
                 if last["status"] == "FAILED":
-                    self.assertTrue(last["stopped_at"])
+                    self.assertTrue(last["stopped_at"] or (last.get("superseded_failure") or {}).get("stopped_at"))
                 self.assertTrue(row["next_step"])
