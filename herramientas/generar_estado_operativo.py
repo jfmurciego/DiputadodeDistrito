@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.4 · FECHA: 2026-11-01 · ESTADO: candidato
-CAMBIOS: 2.3.4: name y display_name públicos («Nacional Huesca», T-05); territory_id no cambia.
+VERSIÓN: 2.3.5 · FECHA: 2026-11-01 · ESTADO: candidato
+CAMBIOS: 2.3.5: T-11, un fallo solo en la 05 (o en pasos posteriores sin fase) no cuenta como «parada» si la
+  cadena está completa y el territorio ya figura en publicaciones_visor.json; queda en last_run.superseded_failure.
+  2.3.4: name y display_name públicos («Nacional Huesca», T-05); territory_id no cambia.
   2.3.3: los territorios piloto (pilot_territories) entran en el estado con su pilot_code.
   2.3.2: un M08 de otro run cuenta si el manifiesto de ese run acredita que su 04 consumió el
   M06 vigente (fase 02 con el mismo run_id); 00 en reutilización nunca comparte run entre M06 y M08.
@@ -11,7 +13,7 @@ CAMBIOS: 2.3.4: name y display_name públicos («Nacional Huesca», T-05); terri
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.3_20261101.py
+ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.4_20261101.py
 """
 from __future__ import annotations
 
@@ -441,6 +443,27 @@ def _latest_run(root: Path, tid: str, edition: str) -> dict:
     }
 
 
+def _published_territories(root: Path) -> set[str]:
+    """Territorios con algún producto en el registro de publicaciones del visor."""
+    try:
+        registry = json.loads((root / "orchestracion" / "publicaciones_visor.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    return {str(p.get("territory_id")) for p in registry.get("products") or [] if p.get("territory_id")}
+
+
+def _clear_publication_only_stop(last_run: dict, complete: bool, published: bool) -> dict:
+    """Una cadena completa y publicada no está parada aunque su último run fallara solo en la 05."""
+    stopped = str(last_run.get("stopped_at") or "")
+    if not (complete and published and stopped.startswith("05")):
+        return last_run
+    cleared = dict(last_run)
+    cleared["superseded_failure"] = {"stopped_at": stopped, "reason": last_run.get("reason")}
+    cleared["stopped_at"] = None
+    cleared["reason"] = None
+    return cleared
+
+
 def _m08_consumed_current_m06(root: Path, tid: str, electoral_run: object, territorial_run: object) -> bool:
     """El manifiesto del run M08 acredita que su 04 terminó consumiendo el M06 vigente."""
     path = root / "territorios" / tid / "evidencia" / "ejecuciones_completas" / f"{electoral_run}.json"
@@ -526,7 +549,11 @@ def derive(root: Path, row: dict, edition: str) -> dict:
     return {
         "territory_id": tid, "name": name, "ft": ft, "g": g, "fe": fe, "re": re_state,
         "status": status, "certification": cert or "NOT_CERTIFIED", "run_id": run_id,
-        "last_run": _latest_run(root, tid, edition),
+        "last_run": _clear_publication_only_stop(
+            _latest_run(root, tid, edition),
+            status == "Cadena completa validada",
+            tid in _published_territories(root),
+        ),
         "stage": stage, "edition": edition,
         "phase_evidence": {
             "territorial_source": source or None,
