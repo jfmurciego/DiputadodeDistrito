@@ -1655,12 +1655,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41292591493
-        stage: M06
+        run_id: 41299033915
+        stage: M08
       preparation_evidence:
         run_id: 41292591493
         artifact_name: ddd-source-package-congreso_lerida-2025-41292591493
@@ -1679,6 +1679,7 @@ territories:
         generation_preflight: territorios/congreso_lerida/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_lerida/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_lerida/evidencia/pares_fuentes/2025/ce3113b33666b565750fee12fc6fdc256cb80fde01b3ed4dc5aadd65ae5b2df2.json
+        electoral_product: territorios/congreso_lerida/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_la_rioja
   name: Congreso La Rioja
