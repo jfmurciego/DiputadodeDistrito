@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T20:44:02.744615+00:00",
+  "generated_at": "2026-11-01T21:46:37.957890+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -4823,11 +4823,11 @@
       "certification": "PASS",
       "run_id": 41346917857,
       "last_run": {
-        "run_id": 41336108228,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41346917857,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -6784,12 +6784,12 @@
       "territory_id": "congreso_pontevedra",
       "name": "Nacional Pontevedra",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41351964088,
       "last_run": {
         "run_id": 41293311168,
         "status": "FAILED",
@@ -6798,7 +6798,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6809,13 +6809,26 @@
           "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_pontevedra",
+          "territory_name": "Congreso Pontevedra",
+          "edition": "2025",
+          "run_id": 41351964088,
+          "artifact_name": "ddd-state-41351964088-M06",
+          "artifact_sha256": "e5090f653f98261b4285e02501211f5db0a4208d956f688639790d8c95249969",
+          "source_commit": "7776b312e3413794f270c820598028ebc6b545da",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/41351964088.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C36",
       "display_name": "Nacional Pontevedra",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_salamanca",
@@ -7843,7 +7856,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "territorial_validated": 62,
+    "territorial_validated": 63,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7891,6 +7904,7 @@
       "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Las Palmas",
+      "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -7908,7 +7922,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "validated": 62,
+    "validated": 63,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7956,6 +7970,7 @@
       "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Las Palmas",
+      "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -7973,7 +7988,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 9,
+    "ready": 8,
     "ready_names": [
       "01 Andalucía",
       "Nacional Alicante",
@@ -7982,8 +7997,7 @@
       "Nacional Cádiz",
       "Nacional Madrid",
       "Nacional Málaga",
-      "Nacional Murcia",
-      "Nacional Pontevedra"
+      "Nacional Murcia"
     ],
     "pending": 0,
     "pending_names": [],

@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_pontevedra",
+  "territory_name": "Congreso Pontevedra",
+  "edition": "2025",
+  "run_id": 41351964088,
+  "artifact_name": "ddd-state-41351964088-M06",
+  "artifact_sha256": "e5090f653f98261b4285e02501211f5db0a4208d956f688639790d8c95249969",
+  "source_commit": "7776b312e3413794f270c820598028ebc6b545da",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/41351964088.json"
+}
