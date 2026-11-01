@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_valladolid",
+  "territory_name": "Congreso Valladolid",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_valladolid_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41292964287,
+    "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
+    "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
+    "package_sha256": "0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e",
+    "source_commit": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8",
+    "source_declaration": "territorios/congreso_valladolid/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "f058e27bc50d694c93b370637c9d33a5f7d1347e345e4fbcf376bc73537eab1a",
+    "compatibility_identity_sha256": "99cc6da37feb11c9672c9d0326f6458fafe5e45646a240d090c599a7283dfb04",
+    "remote_verification": {
+      "run_id": 41292964287,
+      "artifact_id": 13078568583,
+      "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
+      "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239942087,
+    "artifact_name": "ddd-electoral-package-congreso_valladolid-2025-41239942087",
+    "artifact_sha256": "bf2e33fb4fc4dd1299b34ada92e1c2cdd00c9548fd4bc767d64f56d3a07e3950",
+    "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+    "receipt_path": "territorios/congreso_valladolid/evidencia/fuentes_electorales/2025/bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc/41239942087/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_valladolid_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc",
+    "remote_verification": {
+      "run_id": 41239942087,
+      "artifact_id": 13057470384,
+      "artifact_name": "ddd-electoral-package-congreso_valladolid-2025-41239942087",
+      "artifact_sha256": "bf2e33fb4fc4dd1299b34ada92e1c2cdd00c9548fd4bc767d64f56d3a07e3950",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47",
+  "electoral_compatibility_key": "bf1518a803f3c17f7a49bde54c860ef9818e66d31788de2135100b351bbbcefc",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_valladolid/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837"
+}
