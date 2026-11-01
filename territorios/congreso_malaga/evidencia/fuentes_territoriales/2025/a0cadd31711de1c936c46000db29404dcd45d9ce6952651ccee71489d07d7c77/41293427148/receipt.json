@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_malaga",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41293427148,
+  "artifact_name": "ddd-source-package-congreso_malaga-2025-41293427148",
+  "artifact_sha256": "3fe59ed95de917d6ed5c86e3b9313cfa7bf4c292a4e57739e5db1383b085a453",
+  "package_sha256": "e04b39ca3442995c4adc86f8eb31892ec2bd9279579bca4df90cf036f34331cd",
+  "source_commit": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8",
+  "source_declaration": "territorios/congreso_malaga/evidencia/fuentes_territoriales/2025/a0cadd31711de1c936c46000db29404dcd45d9ce6952651ccee71489d07d7c77/41293427148/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "a0cadd31711de1c936c46000db29404dcd45d9ce6952651ccee71489d07d7c77",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "4b9529e3be2feaaaddb6d30851a26db62a7bc917ee553396a6a178b5c4ed3287",
+  "compatibility_identity_sha256": "70454b014ea055b4324a2a129684b6dc1a54ed6bd58992cd2b35d404dc63b267"
+}
