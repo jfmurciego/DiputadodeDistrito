@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T14:58:57.354108+00:00",
+  "generated_at": "2026-11-01T16:00:14.594245+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,13 +22,13 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 69,
-      "action_required": 2,
+      "admissible": 71,
+      "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 57,
+      "activated": 59,
       "activable": 12,
-      "territorial_pending": 2,
+      "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
       "recent_activity": 0
@@ -37,9 +37,9 @@
       "total": 71,
       "legislature_resolved": 71,
       "years_resolved": 71,
-      "territorial_source": 69,
+      "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 57
+      "durable_pair": 59
     },
     "territories": [
       {
@@ -1404,12 +1404,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_barcelona/evidencia/pares_fuentes/2025/99df15eb1c2be5635c810501b052244781a6936c9029d0717b607fe9f8b2f486.json",
+            "pair_sha256": "99df15eb1c2be5635c810501b052244781a6936c9029d0717b607fe9f8b2f486",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1557,12 +1557,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_cadiz/evidencia/pares_fuentes/2025/48d4fd2e76575dfc2819474cb991f7f223efcff071423217200f934a68e3b788.json",
+            "pair_sha256": "48d4fd2e76575dfc2819474cb991f7f223efcff071423217200f934a68e3b788",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2040,9 +2040,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -2052,10 +2052,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41318125504,
+            "receipt_path": "territorios/congreso_huelva/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json"
           }
         },
         "electoral": {
@@ -2065,9 +2065,9 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -2080,13 +2080,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso_huesca",
@@ -3321,9 +3315,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -3333,10 +3327,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 41318119259,
+            "receipt_path": "territorios/congreso_valencia/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/receipt.json"
           }
         },
         "electoral": {
@@ -3346,9 +3340,9 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -3361,13 +3355,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso_valladolid",
@@ -5190,7 +5178,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41244711464,
+        "run_id": 41323024014,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5349,7 +5337,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41243953699,
+        "run_id": 41322925944,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5927,13 +5915,13 @@
     {
       "territory_id": "congreso_huelva",
       "name": "Congreso Huelva",
-      "ft": "yellow",
-      "g": "yellow",
+      "ft": "green",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Validación pendiente",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41318125504,
       "last_run": {
         "run_id": 41292468775,
         "status": "FAILED",
@@ -5942,17 +5930,37 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
-        "territorial_product": null,
+        "territorial_source": {
+          "territory_id": "congreso_huelva",
+          "edition": "2025",
+          "run_id": 41318125504,
+          "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
+          "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
+          "decision": "VALIDADO"
+        },
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_huelva",
+          "territory_name": "Congreso Huelva",
+          "edition": "2025",
+          "run_id": 41318125504,
+          "artifact_name": "ddd-state-41318125504-M06",
+          "artifact_sha256": "990a7e135c59e1fe0d96e674b0d5006d30335d55d7c7f90e704abe3e86e8b28d",
+          "source_commit": "78cb29d391a037179be24c4fec3138ce6347ebff",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_huelva/evidencia/generaciones_m06/41318125504.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C21",
       "display_name": "Congreso Huelva",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_huesca",
@@ -7290,11 +7298,11 @@
     {
       "territory_id": "congreso_valencia",
       "name": "Congreso Valencia",
-      "ft": "yellow",
+      "ft": "green",
       "g": "yellow",
       "fe": "yellow",
       "re": "gray",
-      "status": "Validación pendiente",
+      "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
@@ -7308,14 +7316,21 @@
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "congreso_valencia",
+          "edition": "2025",
+          "run_id": 41318119259,
+          "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
+          "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C46",
       "display_name": "Congreso Valencia",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_valladolid",
@@ -7733,7 +7748,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 58,
+    "territorial_validated": 59,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7768,6 +7783,7 @@
       "Congreso Granada",
       "Congreso Guadalajara",
       "Congreso Guipúzcoa",
+      "Congreso Huelva",
       "Congreso Huesca",
       "Congreso Jaén",
       "Congreso León",
@@ -7794,7 +7810,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 58,
+    "validated": 59,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7829,6 +7845,7 @@
       "Congreso Granada",
       "Congreso Guadalajara",
       "Congreso Guipúzcoa",
+      "Congreso Huelva",
       "Congreso Huesca",
       "Congreso Jaén",
       "Congreso León",
@@ -7855,7 +7872,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 11,
+    "ready": 12,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7867,13 +7884,11 @@
       "Congreso Málaga",
       "Congreso Murcia",
       "Congreso Las Palmas",
-      "Congreso Pontevedra"
-    ],
-    "pending": 2,
-    "pending_names": [
-      "Congreso Huelva",
+      "Congreso Pontevedra",
       "Congreso Valencia"
     ],
+    "pending": 0,
+    "pending_names": [],
     "blocked": 0,
     "blocked_names": []
   },
@@ -7928,7 +7943,7 @@
       "territory": "Congreso Huelva",
       "territory_id": "congreso_huelva",
       "autonomous_community_code_ine": "C21",
-      "action": "completar puerta de validación territorial"
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Congreso Madrid",
@@ -7975,15 +7990,15 @@
       "action": "generar y validar distritos"
     },
     {
+      "territory": "Congreso Huelva",
+      "territory_id": "congreso_huelva",
+      "autonomous_community_code_ine": "C21",
+      "action": "preparar fuentes electorales"
+    },
+    {
       "territory": "Congreso Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
-      "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Congreso Málaga",
-      "territory_id": "congreso_malaga",
-      "autonomous_community_code_ine": "C29",
       "action": "generar y validar distritos"
     }
   ]
