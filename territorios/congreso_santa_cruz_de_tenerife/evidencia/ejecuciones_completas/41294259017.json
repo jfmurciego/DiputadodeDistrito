@@ -1,0 +1,90 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_santa_cruz_de_tenerife",
+  "territory_name": "Congreso Santa Cruz de Tenerife",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 41294259017,
+  "source_sha": "24b1104b3c7849bc80bf2c61b72aedd0701e56cc",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "failed_phases": [
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41239505387,
+      "artifact": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-41239505387",
+      "artifact_digest": "sha256:92a3d4728c6ccd3acf30392e1448c8a3e7b456862fdbaab4d05fc8ad8e2f423b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41239505387,
+      "artifact": "ddd-state-41239505387-M06",
+      "artifact_digest": "sha256:bcac28237c78a78dc29ce9638755acf74b8c884b3afdfd27f248acd11a99b5e7",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41239515252,
+      "artifact": "ddd-electoral-package-congreso_santa_cruz_de_tenerife-2025-41239515252",
+      "artifact_digest": "sha256:e219b97086882dfe61201e2e1a6e4b6bb3c6522f1c79aa52511fb1080d5db40e",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 41294259017,
+      "artifact": "ddd-state-41294259017-M08",
+      "artifact_digest": "sha256:721c8cd51caf909d3528397492e9e8f520fa1852b49345568dd7aa90c60579c5",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 41294259017,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-01T09:58:29.717863+00:00"
+}
