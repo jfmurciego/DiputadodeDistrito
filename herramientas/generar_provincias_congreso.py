@@ -2,7 +2,7 @@
 """Alta de las provincias del Congreso como territorios del flujo 00, con Huesca como plantilla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-10-31 · ESTADO: candidato
+VERSIÓN: 1.2.1 · FECHA: 2026-11-01 · ESTADO: candidato
 QUÉ HACE: para cada provincia del reparto N06 (K aprobado, 407 escaños) que aún no exista, añade la
   entrada en el catálogo maestro (pilot_territories, con número INE y letras de matrícula), la política,
   la matriz de legislatura, el registro electoral, las fuentes territoriales, el catálogo de preparación,
@@ -14,7 +14,8 @@ NO HACE: provincias insulares sin partición declarada; ni lanzar ejecuciones.
 CAMBIOS 1.2.0: hereda de los contratos autonómicos los puentes topológicos gobernados de cada provincia
   (enclaves como Treviño, Llívia, Rincón de Ademuz o Petilla) y las componentes administrativas como
   puentes municipales; sólo si sus secciones existen en 2023. Palencia (run 41235453115) falló sin ellos.
-ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.1.0_20261031.py
+CAMBIOS 1.2.1: matrículas en español (Baleares PM, Gerona GE, Orense OR), decisión del propietario.
+ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.2.0_20261101.py
 """
 from __future__ import annotations
 
@@ -49,13 +50,13 @@ TEMPLATE = "congreso_huesca"
 # Nombre en español y letras de la matrícula provincial (último sistema provincial).
 PROVINCES = {
     "01": ("Álava", "VI"), "02": ("Albacete", "AB"), "03": ("Alicante", "A"), "04": ("Almería", "AL"),
-    "05": ("Ávila", "AV"), "06": ("Badajoz", "BA"), "07": ("Baleares", "IB"), "08": ("Barcelona", "B"),
+    "05": ("Ávila", "AV"), "06": ("Badajoz", "BA"), "07": ("Baleares", "PM"), "08": ("Barcelona", "B"),
     "09": ("Burgos", "BU"), "10": ("Cáceres", "CC"), "11": ("Cádiz", "CA"), "12": ("Castellón", "CS"),
     "13": ("Ciudad Real", "CR"), "14": ("Córdoba", "CO"), "15": ("La Coruña", "C"), "16": ("Cuenca", "CU"),
-    "17": ("Gerona", "GI"), "18": ("Granada", "GR"), "19": ("Guadalajara", "GU"), "20": ("Guipúzcoa", "SS"),
+    "17": ("Gerona", "GE"), "18": ("Granada", "GR"), "19": ("Guadalajara", "GU"), "20": ("Guipúzcoa", "SS"),
     "21": ("Huelva", "H"), "22": ("Huesca", "HU"), "23": ("Jaén", "J"), "24": ("León", "LE"),
     "25": ("Lérida", "L"), "26": ("La Rioja", "LO"), "27": ("Lugo", "LU"), "28": ("Madrid", "M"),
-    "29": ("Málaga", "MA"), "30": ("Murcia", "MU"), "31": ("Navarra", "NA"), "32": ("Orense", "OU"),
+    "29": ("Málaga", "MA"), "30": ("Murcia", "MU"), "31": ("Navarra", "NA"), "32": ("Orense", "OR"),
     "33": ("Asturias", "O"), "34": ("Palencia", "P"), "35": ("Las Palmas", "GC"), "36": ("Pontevedra", "PO"),
     "37": ("Salamanca", "SA"), "38": ("Santa Cruz de Tenerife", "TF"), "39": ("Cantabria", "S"),
     "40": ("Segovia", "SG"), "41": ("Sevilla", "SE"), "42": ("Soria", "SO"), "43": ("Tarragona", "T"),
