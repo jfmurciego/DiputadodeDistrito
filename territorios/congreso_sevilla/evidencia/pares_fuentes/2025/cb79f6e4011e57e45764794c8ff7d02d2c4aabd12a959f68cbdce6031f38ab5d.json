@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_sevilla",
+  "territory_name": "Congreso Sevilla",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_sevilla_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41244347546,
+    "artifact_name": "ddd-source-package-congreso_sevilla-2025-41244347546",
+    "artifact_sha256": "6fd8bcb16093981d226efd2e99093d58a0f6b40812cc3479db9ce9131317ec5d",
+    "package_sha256": "eeba098cfec6ff30d4819eecd360c9d5970f0a0e1716eba841dc6b2a2dbc2059",
+    "source_commit": "29a950d4971e20d0fde57a6ff1b822fb9692d899",
+    "source_declaration": "territorios/congreso_sevilla/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_sevilla/evidencia/fuentes_territoriales/2025/2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d/41244347546/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "b408f2d40dd3e82fd4dbdc1b1387a6a70bf3cbd424a4dd5256129c0f79f02c4f",
+    "compatibility_identity_sha256": "ce8dbfbc378f5e7864ef6876c7134cd89e209a11eb29ba2bdd1beb29ce433e94",
+    "remote_verification": {
+      "run_id": 41244347546,
+      "artifact_id": 13060060353,
+      "artifact_name": "ddd-source-package-congreso_sevilla-2025-41244347546",
+      "artifact_sha256": "6fd8bcb16093981d226efd2e99093d58a0f6b40812cc3479db9ce9131317ec5d",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239919571,
+    "artifact_name": "ddd-electoral-package-congreso_sevilla-2025-41239919571",
+    "artifact_sha256": "29be9cb1075de7a9a034192718f68baafd5d51fa0a1f6fc7b4ef2ff7d136d8fa",
+    "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+    "receipt_path": "territorios/congreso_sevilla/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_sevilla_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041",
+    "remote_verification": {
+      "run_id": 41239919571,
+      "artifact_id": 13057151717,
+      "artifact_name": "ddd-electoral-package-congreso_sevilla-2025-41239919571",
+      "artifact_sha256": "29be9cb1075de7a9a034192718f68baafd5d51fa0a1f6fc7b4ef2ff7d136d8fa",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "2c2e556fef696b19f0d228f3008e198a71358b4c09997648777274cfedc0175d",
+  "electoral_compatibility_key": "e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_sevilla/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d"
+}

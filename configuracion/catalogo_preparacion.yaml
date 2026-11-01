@@ -2231,6 +2231,7 @@ territories:
         electoral_source: territorios/congreso_sevilla/evidencia/fuentes_electorales/2025/e621f70cd455325efd4d5718605b3085764905e4a6549006aa6ec556534b3041/41239919571/receipt.json
         generation_preflight: territorios/congreso_sevilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_sevilla/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_sevilla/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json
       generation_enabled: true
 - territory_id: congreso_soria
   name: Congreso Soria
