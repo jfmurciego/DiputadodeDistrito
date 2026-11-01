@@ -2112,21 +2112,20 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41242029481
-        artifact_name: ddd-source-package-congreso_cantabria-2025-41242029481
-        artifact_sha256: b8c41bf9858659137e084ba29082f153df558e5437508884d9754dcd91a6f77b
-        package_sha256: 0a0e3a80c12f87090414914faac98f9ee3f87319d103087f51564d31bf8dffa6
-        receipt_path: territorios/congreso_cantabria/evidencia/fuentes_territoriales/2025/bb8bbc1ec2e459c4c9b50ddb8f0132ff3be0c53fd21d0979aa1437f820e6bb3f/41242029481/receipt.json
-        territorial_identity_sha256: bb8bbc1ec2e459c4c9b50ddb8f0132ff3be0c53fd21d0979aa1437f820e6bb3f
-        compatibility_report_sha256: 02abf72c833a82a277b4111072e318ad50c7c78437a2936e2449ec6edbf94fe4
-        compatibility_identity_sha256: f13113a3c37f70987b701cc703f2be54ccaa5f8bed20bab8f047f7be466e12eb
+        run_id: 41292096436
+        artifact_name: ddd-source-package-congreso_cantabria-2025-41292096436
+        artifact_sha256: 15cfb2b9e93cbea92b2b45a8f6dafdbd411d44cf8556fff7b221cf9f8cfbd84b
+        package_sha256: 5c407f04024738615754b0ddce90a7607e3bb068916e327ceee1df12f97c4abc
+        receipt_path: territorios/congreso_cantabria/evidencia/fuentes_territoriales/2025/c8fced560af34ec53d3ace309ad57edf2ab96592a873ae915fcfe966045e2290/41292096436/receipt.json
+        territorial_identity_sha256: c8fced560af34ec53d3ace309ad57edf2ab96592a873ae915fcfe966045e2290
+        compatibility_report_sha256: 930be7a37cbf7bb9dba5ab65bedc960a5d28e8c338982371d2962897f02c67b1
+        compatibility_identity_sha256: 452dea7fbdf82ee9fe48745c7a971db5cfaa908449713c8f669e0444673f52c2
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: b53dd1af35d21917f0218e3c9a04756b4da50292
+        source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_cantabria/evidencia/fuentes_electorales/2025/3f5b23bf3ad78e674bf020c29906afbbabd0706248dc410502069d8bb4acaf1b/41239913823/receipt.json
-        generation_preflight: territorios/congreso_cantabria/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_segovia
   name: Congreso Segovia
