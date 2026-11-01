@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-01T09:48:18.491049+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-01T09:49:22.217317+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -67,7 +67,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Granada** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41243199582 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Guadalajara** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41236816482 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Guipúzcoa** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41242557327 · FAILED | 02 · Generación de Distritos Autonómicos | Fuente territorial acreditada; habilitación de generación todavía no evaluada. | generar y validar distritos |
-| **Congreso Huelva** | 🟡 | 🟡 | 🟡 | ⚪ | ⚪ | Validación pendiente | 41241257412 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes territoriales |
+| **Congreso Huelva** | 🟡 | 🟡 | 🟡 | ⚪ | ⚪ | Validación pendiente | 41292468775 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes territoriales |
 | **Congreso Huesca** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41194447427 · FAILED | 05 · Publicación del Visor | ver log del run | — |
 | **Congreso Jaén** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41241896061 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41241377284 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
