@@ -1,12 +1,18 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.67
+Versión: 1.0.68
 Fecha: 2026-11-01
-Alcance: T-09 — huella de puentes antes de M02
+Alcance: T-02b — bloqueos de población M05 en provincias
 Estado: candidato
-Cambios/motivo: un puente heredado que no casa con las secciones vigentes paraba la cadena en M02 sin causa clara
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.66_t06_20261101.md
+Cambios/motivo: Cádiz techo 116 %, Baleares techo 127 %, exención municipal en Pontevedra y Las Palmas, reparación profunda en siete contratos
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.67_t02b_20261101.md
 -->
+
+## 2026-11-01 — T-02b — bloqueos de población M05 en provincias
+
+- Política 1.7.3: `population_cap_ratio` 1,27 (tolerancia 0,27) solo en `congreso_baleares` (distrito 5 de Mallorca, 152.621 hab., a 1,261 de la media) y 1,16 (tolerancia 0,16) solo en `congreso_cadiz`; el distrito 8 (El Puerto + Puerto Real enteros, 132.239 hab.) queda a 1,159 de la media.
+- Contratos: exención de suelo municipal en Cádiz (11031), Barcelona (08073), Las Palmas (35012) y Pontevedra (36008); `population_repair` más profundo (profundidad 6, conjunto 3, 500.000 candidatos, 300 s) en Madrid, Málaga, Alicante, Pontevedra, Baleares, Cádiz y Barcelona. La reparación profunda no mejoró ningún exceso.
+- Madrid, Málaga, Alicante y Barcelona (distrito 31) quedan BLOQUEADAS por estructura; cifras en `docs/PLAN.md`, sección T-02b.
 
 ## 2026-11-01 — T-09 — huella de puentes antes de M02
 
