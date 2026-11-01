@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_salamanca",
+  "territory_name": "Congreso Salamanca",
+  "edition": "2025",
+  "run_id": 41295298674,
+  "artifact_name": "ddd-state-41295298674-M08",
+  "artifact_sha256": "556e20e7d494c487c4175f78cefcf4f254073480af10a24e4403818e80ea732f",
+  "source_commit": "2b1ca758149dbcdca12347b6556d1eea84f3147c",
+  "stage": "M08"
+}
