@@ -4,25 +4,25 @@
   "territory_id": "congreso_pontevedra",
   "territory_name": "Congreso Pontevedra",
   "edition": "2025",
-  "run_id": 41243452235,
-  "source_commit": "25f960bf13b4c2d0cb0704a1934eb835e18dc12c",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 41293311168,
+  "source_commit": "1073661ca0dfeb4aa1972371a6db2dc9396d74c9",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 41243452235,
-    "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41243452235",
-    "artifact_sha256": "f3eaba8553bbf031bb407e1c6e849bc1742fabc3a5f4d26cbb0a258d19827959",
-    "package_sha256": "9b43e320e1feb06b939d2677c92e6e9c96de6acf3c7c5c8ba84523c14e28f239",
-    "compatibility_identity_sha256": "cf50180054c031970d5a3462036e893198fba0560442d64f9f7323cfd4fd16b4",
-    "territorial_identity_sha256": "ab9b76b86732abf7ae39e98472393160b4c0c85d6b2411f82ea17a6d3932bdba",
+    "run_id": 41293311168,
+    "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41293311168",
+    "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
+    "package_sha256": "4e13f876c3f05ab4ec56cb108e5584c0e12bf70bcded26d0a1f167a11a41bc20",
+    "compatibility_identity_sha256": "d04f2c4aa902f8e08be7e83972f4512167721524b4f05bff3493e6906de21c54",
+    "territorial_identity_sha256": "de7f566b987acc70e29452af77aeb1504a934991c6c4c028dc41a7013512e9ca",
     "population_year": 2023,
     "section_year": 2023
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
