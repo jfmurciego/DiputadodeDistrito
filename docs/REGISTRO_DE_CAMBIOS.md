@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.68
+Versión: 1.0.69
 Fecha: 2026-11-01
-Alcance: T-02b — bloqueos de población M05 en provincias
+Alcance: T-13 — exención de suelo en provincias con islas
 Estado: candidato
-Cambios/motivo: Cádiz techo 116 %, Baleares techo 127 %, exención municipal en Pontevedra y Las Palmas, reparación profunda en siete contratos
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.67_t02b_20261101.md
+Cambios/motivo: Las Palmas pasaba la 02 con la exención de 35012 pero la 04 la rechazaba (run 41339428006)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.68_t02b_20261101.md
 -->
+
+## 2026-11-01 — T-13 — exención de suelo con el campo «municipio:partición»
+
+- En los contratos con particiones físicas (islas) el campo municipal de M05/M06 es `DDD_MUNICIPALITY_PARTITION` («35012:35-C01»). `municipalities_touch_exempt` comparaba la cadena entera con «35012» y no casaba, así que el resumen M06 dejaba el suelo al distrito exento y el validador de la 04 lo rechazaba. Beniel (Murcia) pasaba porque Murcia usa `CUMUN`.
+- `ddd_core/population_floor_exemptions.py` 1.0.1: compara solo el código de municipio.
+- `herramientas/validar_ejecucion.py` 1.3.3: recalcula las exenciones del contrato (municipio y partición) sobre las secciones, así las 04 de M06 ya generados pasan sin regenerar la 02.
+- Test: `tests/test_exencion_suelo_islas.py`.
+
 
 ## 2026-11-01 — T-02b — bloqueos de población M05 en provincias
 
