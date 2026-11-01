@@ -1,11 +1,12 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.6
+Versión: 1.0.7
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-02b documentada: bloqueos de población M05 de Madrid, Málaga, Alicante y Barcelona
-Anterior: legacy/docs/PLAN_v1.0.5_20261101.md
+Cambios/motivo: 1.0.7: T-02 cierra Huelva y Valencia (Tareas hechas); Murcia y Álava siguen en curso.
+  1.0.6: T-02b documentada: bloqueos de población M05 de Madrid, Málaga, Alicante y Barcelona
+Anterior: legacy/docs/PLAN_v1.0.6_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -37,7 +38,7 @@ Anterior: legacy/docs/PLAN_v1.0.5_20261101.md
 | Chat | Tarea | Alcance | Situación |
 |---|---|---|---|
 | T-01 | T-02b · PARADA por población M05 | Cádiz, Barcelona, Madrid, Málaga, Alicante, Pontevedra, Baleares, Las Palmas | Cádiz/Barcelona lanzadas; resto espera diagnóstico local; todo en contratos (no toca la política) |
-| T-02 | T-02 · resto de PARADA | Huelva, Valencia, Murcia, Álava + script `subir_diagnostico_t02.sh` | M04 7.6.0 multisección (Álava) y CRS Murcia en rama, sin PR; espera diagnóstico local |
+| T-02 | T-02 · resto de PARADA | Murcia, Álava (Huelva y Valencia hechas) + script `subir_diagnostico_t02.sh` | Álava: 00 «Reutilizar» 41346917857 con M04 7.6.0 (#383) y #387; Murcia: M04 aísla Yecla (30043), espera grafo del Mac |
 | T-03 | PR, fusiones y T-10 | Fusionar con `pruebas` en verde; robots con app propia | #381 abierta; espera que el propietario cree la app y los secretos |
 
 ### Ficheros con turno exclusivo
@@ -207,6 +208,9 @@ Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, pol
 ## 4. Tareas hechas
 <!-- Formato: T-xx · resumen · PR #nnn / run nnnnnnnnnn · fecha -->
 - T-01 · Clasificación de las 52 provincias y causas de PARADA (tabla antes de T-02) · 2026-11-01
+- T-02 (Huelva y Valencia) · CRS de M02 EPSG:25830 como el autonómico; Huelva además solape 2 m². Cadena
+  completa 01→04: Huelva 41318125504 (02) + par 41335075779 + 00 41335929678; Valencia 41318119259 (02) + par
+  41335082275 + 00 41335936727 · PR #374 · 2026-11-01
 - T-03 · Activación por elección: clave `ES-NAC|AUT-[unidad-]AAAAMMDD` (INE canónico, matrícula alias; D-2 según
   recomendación), workflow «Activación por Elección» (plan/activar/electoral/completa, filtro `solo`) y 00 v1.4.6
   con `lanzado_por_eleccion` · PR #376 · 2026-11-01
