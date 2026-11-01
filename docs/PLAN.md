@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.2
+Versión: 1.0.3
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-03 hecha (#376)
-Anterior: legacy/docs/PLAN_v1.0.1_20261101.md
+Cambios/motivo: D-2 confirmada (matrículas en español); T-01 hecha con tabla de PARADA
+Anterior: legacy/docs/PLAN_v1.0.2_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -31,7 +31,7 @@ Anterior: legacy/docs/PLAN_v1.0.1_20261101.md
   activación por elección (T-03)? Recomendación: esperar a T-03 para no rehacer 03/00 por duplicado.
 - D-2. Formato canónico de la clave de elección: número INE (`ES-NAC-22-20230723`) o matrícula (`ES-NAC-HU-20230723`).
   Recomendación: número INE como canónico y matrícula solo como alias de presentación.
-  D-2 aplicada según recomendación, pendiente de confirmar (T-03, #376).
+  D-2 confirmada por el propietario: INE canónico; matrículas solo en español (PM, GE, OR…).
 - D-3. Publicación en el visor de las 27 provincias completas además de Huesca: ¿ahora o al cerrar la elección entera?
 
 ## 3. Cola de tareas
@@ -50,15 +50,31 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
   (o rulesets) y una ejecución 00 posterior con registro correcto.
 - Dependencias: ninguna. Máxima prioridad.
 
-### T-01 · Revisar el log del Mac y el estado de las 51 provincias
-- Objetivo: tabla única provincia → último run 00, fase alcanzada, PARADA sí/no y causa (anotaciones del check-run).
-- Rol: operador. Modelo: Sonnet.
-- Ficheros afectados: solo este `docs/PLAN.md` (tabla en T-02); ninguno de código.
-- Entrada: el propietario pega `grep -E "PARADA|ERROR|OK" ~/lanzar_resto.log` en el chat.
-- Criterio de aceptación: las 51 clasificadas en {completa, M06 sin electoral, PARADA con causa, sin lanzar};
-  causas agrupadas (M02 puentes, población, conectividad, otro); coincide con `estado_operativo.json`.
-- Prueba local exigida: ninguna (solo lectura con `gh api .../check-runs/<job>/annotations`).
-- Dependencias: ninguna.
+
+### Resultado de T-01 (2026-11-01, `estado_operativo.json` de las 11:06 + anotaciones y logs de los jobs)
+- Completas (32): Albacete, Almería, Ávila, Cáceres, Castellón, Ciudad Real, Córdoba, La Coruña, Cuenca, Gerona,
+  Granada, Guadalajara, Huesca, Jaén, León, La Rioja, Lugo, Orense, Asturias, Palencia, Salamanca,
+  Santa Cruz de Tenerife, Segovia, Sevilla, Soria, Tarragona, Teruel, Toledo, Zamora, Zaragoza, Ceuta, Melilla.
+  En Huesca, La Rioja, Lugo, Santa Cruz de Tenerife y Tarragona el último run falló solo en 05 (visor), sin efecto en M08.
+- M06 sin electoral (8): Badajoz, Burgos, Guipúzcoa, Lérida, Navarra, Cantabria, Valladolid, Vizcaya
+  (lanzadas con alcance territorial; `main` registra después ejecuciones completas de Badajoz, Burgos, Lérida,
+  Navarra y Valladolid: confirmar en el próximo estado operativo).
+- PARADA (12), por causa:
+
+| Causa | Provincia | Run | Detalle |
+|---|---|---|---|
+| Población (M05 `POPULATION_HARD_BLOCK`) | Alicante | 41293667422 | hard=1, desviación máx. 0,36 |
+| | Barcelona | 41244711464 | hard=2, 0,30 |
+| | Cádiz | 41243953699 | hard=2, 0,18 |
+| | Madrid | 41244835816 | hard=1, 0,56 |
+| | Málaga | 41293427148 | hard=1, 0,38 |
+| | Pontevedra | 41293311168 | hard=1, 0,25 |
+| | Baleares | 41250230577 | hard=2, 0,67 (con #370; revisar `component_districts`/exenciones) |
+| | Las Palmas | 41250283081 | hard=1, 0,46 (con #370; techo 1,40 insuficiente o reparto no aplicado) |
+| Población (M04, estructural) | Álava | 41240137880 | residual de Vitoria (01059) 0,72 bajo suelo; sin sección transferible |
+| Conectividad (pre-M04) | Murcia | 41293548832 | «grafo territorial no supera conectividad administrativa», ya con #371 |
+| Geometría fuente (01) | Huelva | 41292468775 | `GEOMETRY_INVALID_AUDITED`: secciones INE con huecos interiores sin máscara de cobertura |
+| | Valencia | 41293787892 | ídem |
 
 ### T-02 · Diagnosticar y relanzar las PARADA
 - Objetivo: corregir la causa de cada grupo de PARADA (empezando por M02 con puentes heredados 2024/2025,
@@ -126,6 +142,7 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 
 ## 4. Tareas hechas
 <!-- Formato: T-xx · resumen · PR #nnn / run nnnnnnnnnn · fecha -->
+- T-01 · Clasificación de las 52 provincias y causas de PARADA (tabla antes de T-02) · 2026-11-01
 - T-03 · Activación por elección: clave `ES-NAC|AUT-[unidad-]AAAAMMDD` (INE canónico, matrícula alias; D-2 según
   recomendación), workflow «Activación por Elección» (plan/activar/electoral/completa, filtro `solo`) y 00 v1.4.6
   con `lanzado_por_eleccion` · PR #376 · 2026-11-01

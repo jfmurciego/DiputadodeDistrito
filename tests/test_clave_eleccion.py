@@ -28,7 +28,11 @@ class ClaveEleccion(unittest.TestCase):
         for key in ("ES-NAC-22-20230723", "ES-NAC-HU-20230723", "es/nac/hu/2023-07-23", "ES NAC 22 20230723"):
             self.assertEqual(ce.canonical(key, self.units), "ES-NAC-22-20230723")
         self.assertEqual(ce.canonical("ES-NAC-PM-20230723", self.units), "ES-NAC-07-20230723")
-        self.assertEqual(ce.canonical("ES-NAC-IB-20230723", self.units), "ES-NAC-07-20230723")
+        self.assertEqual(ce.canonical("ES-NAC-GE-20230723", self.units), "ES-NAC-17-20230723")
+        self.assertEqual(ce.canonical("ES-NAC-OR-20230723", self.units), "ES-NAC-32-20230723")
+        for foreign in ("IB", "GI", "OU"):
+            with self.assertRaises(ce.ClaveError):
+                ce.canonical(f"ES-NAC-{foreign}-20230723", self.units)
         self.assertEqual(ce.canonical("ES-NAC-BI-20230723", self.units), "ES-NAC-48-20230723")
         self.assertEqual(ce.canonical("ES-NAC-9-20230723", self.units), "ES-NAC-09-20230723")
         rows = ce.expand("ES-NAC-HU-20230723", self.units)

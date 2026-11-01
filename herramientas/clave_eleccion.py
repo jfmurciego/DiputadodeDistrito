@@ -2,7 +2,7 @@
 """Clave de elección y expansión elección → territorios.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-01 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-01 · ESTADO: candidato
 QUÉ HACE: define la clave `ES-<ámbito>-[<unidad>-]<AAAAMMDD>` y la resuelve contra el registro electoral.
   - Ámbito NAC (Congreso): unidad = número INE de provincia (canónico, D-2) o letras de matrícula (alias).
     `ES-NAC-20230723` es la elección entera (todas sus provincias); `ES-NAC-22-20230723` = `ES-NAC-HU-20230723`.
@@ -12,7 +12,9 @@ QUÉ HACE: define la clave `ES-<ámbito>-[<unidad>-]<AAAAMMDD>` y la resuelve co
   elección histórica necesita su propio territory_id (catálogo, checkpoints y artefactos van por territory_id).
   `validar` comprueba que ninguna clave canónica ni territory_id se repite en el registro.
 NO HACE: lanzar ejecuciones. El plan que imprime lo consume `.github/workflows/activacion-por-eleccion.yml`.
-ANTERIOR: —
+CAMBIOS 1.0.1: D-2 confirmada (INE canónico); solo matrículas en español, las del catálogo maestro
+  (PM, GE, OR…); IB, GI u OU se rechazan.
+ANTERIOR: legacy/herramientas/clave_eleccion_v1.0.0_20261101.py
 """
 from __future__ import annotations
 
@@ -28,8 +30,6 @@ import yaml
 REGISTRY = Path("configuracion/registro_electoral.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
 
-# Matrículas provinciales que no figuran (o figuran con otra grafía) en el catálogo maestro.
-PLATE_ALIASES = {"22": ["HU"], "07": ["PM"], "17": ["GE"], "32": ["OR"]}
 
 # Workflow, input del territorio y entradas fijas de cada fase.
 PHASES = {
@@ -82,7 +82,7 @@ def load_units(root: Path = Path(".")) -> list[dict]:
         pilot = str(row.get("pilot_code") or "")
         if re.fullmatch(r"C\d{2}", pilot):
             scope, code = "NAC", pilot[1:]
-            aliases = [a for a in [plates.get(str(tid), "")] + PLATE_ALIASES.get(code, []) if a]
+            aliases = [a for a in [plates.get(str(tid), "")] if a]
             dispatch = str(row["name"])
         elif re.fullmatch(r"\d{2}", str(row.get("codauto") or "")):
             scope, code, aliases = "AUT", str(row["codauto"]), []
@@ -105,10 +105,6 @@ def _unit_code(scope: str, unit: str, units: list[dict]) -> str:
     for u in units:
         if u["scope"] == scope and any(a.split("-")[2] == unit for a in u["aliases"]):
             return u["code"]
-    if scope == "NAC":
-        for code, alias in PLATE_ALIASES.items():
-            if unit in alias:
-                return code
     raise ClaveError(f"Matrícula desconocida: {unit}")
 
 
