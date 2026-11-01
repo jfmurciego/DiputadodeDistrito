@@ -2441,21 +2441,20 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41243819237
-        artifact_name: ddd-source-package-congreso_vizcaya-2025-41243819237
-        artifact_sha256: 26246b1bcda37f4e5349840737b6bf4d70ce2324de0e37fc5d7e2e0187d5a5fe
-        package_sha256: 430d424507c2d9cccca6f53593767216ea4471fe23bbf032ef92b9e79b229704
-        receipt_path: territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/5a3ead98520ee90fba1cdf83045a4ddd7a2ef3c4765cfc55b9db4eeb0c7bb7f5/41243819237/receipt.json
-        territorial_identity_sha256: 5a3ead98520ee90fba1cdf83045a4ddd7a2ef3c4765cfc55b9db4eeb0c7bb7f5
-        compatibility_report_sha256: d9a7e841839bc0a542c8b4dd005285cf6744c863bde0f784ff6dcdfa1cb0bc82
-        compatibility_identity_sha256: f4ccab6d249626e7e4cfde799730e688dba5f23ba8abb594d0619e95e614ccef
+        run_id: 41293083498
+        artifact_name: ddd-source-package-congreso_vizcaya-2025-41293083498
+        artifact_sha256: d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f
+        package_sha256: f2735556ec3e819fcf833dd36f5111d4f8f1a4a3ef39ce3119f702a526f170da
+        receipt_path: territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json
+        territorial_identity_sha256: 19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68
+        compatibility_report_sha256: 988612974772ea0e9600b78024eae5328d931059b889b90c9a90709df80ac53b
+        compatibility_identity_sha256: a1826fb60e8ed52a908fc0f210e4409e6dbde8878f5ff33ba79e8a686ba6bf55
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 342876ca35767ec5fc616e2b0522633c14dd94d6
+        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_vizcaya/evidencia/fuentes_electorales/2025/4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b/41239947749/receipt.json
-        generation_preflight: territorios/congreso_vizcaya/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_zamora
   name: Congreso Zamora
