@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_guadalajara",
+  "territory_name": "Congreso Guadalajara",
+  "edition": "2025",
+  "run_id": 41294169221,
+  "artifact_name": "ddd-state-41294169221-M08",
+  "artifact_sha256": "301f00af873a74915cc51a709e35cf00684381ff5de72c3db281a1da9b1c8ba8",
+  "source_commit": "0e3c8b8a2195d53d948b89bfbf1646b8ab0d86bf",
+  "stage": "M08"
+}
