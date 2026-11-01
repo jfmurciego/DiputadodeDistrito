@@ -1403,6 +1403,7 @@ territories:
         electoral_source: territorios/congreso_granada/evidencia/fuentes_electorales/2025/dd0dd9e03aa8c8f9c39bb8dde4b95e3c2822a6e1491b91f3a0e99ee7b62de4d5/41239825488/receipt.json
         generation_preflight: territorios/congreso_granada/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_granada/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_granada/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json
       generation_enabled: true
 - territory_id: congreso_guadalajara
   name: Congreso Guadalajara
