@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.5.1
+VERSIÓN: 1.5.2
+CAMBIOS 1.5.2: nombres públicos «Nacional …» en el visor (T-05); territory_id no cambia.
 CAMBIOS 1.5.1: las provincias del Congreso (pilot_territories) no tienen CODAUTO; se ordenan por su
   pilot_code (C22) detrás de las 19 autonómicas. Run 41194447427 (Huesca): KeyError en _decorate_and_sort.
-ANTERIOR: legacy/herramientas/preparar_visor_ejecucion_v1.5.0_20261031.py
+ANTERIOR: legacy/herramientas/preparar_visor_ejecucion_v1.5.1_20261101.py
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
 Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.
@@ -27,6 +28,8 @@ from herramientas.catalogo_territorios import (
     format_country_label,
     format_territory_label,
     master_index,
+    visible_label,
+    visible_name,
 )
 
 
@@ -359,8 +362,8 @@ def _decorate_and_sort(results: list[dict], repository_root: Path) -> list[dict]
             item.setdefault("territory_display_name", item["territory_name"])
             item.setdefault("autonomous_community_code_ine", "99")
         else:
-            item["territory_name"] = canonical["name"]
-            item["territory_label"] = format_territory_label(canonical)
+            item["territory_name"] = visible_name(canonical)
+            item["territory_label"] = visible_label(canonical)
             item["territory_display_name"] = item["territory_label"]
             item["autonomous_community_code_ine"] = str(
                 canonical.get("autonomous_community_code_ine") or canonical.get("pilot_code") or "99"

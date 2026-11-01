@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.64
+Versión: 1.0.65
 Fecha: 2026-11-01
 Alcance: T-10 — corrección de la credencial de registro
 Estado: candidato
 Cambios/motivo: con los secretos creados, git enviaba dos Authorization (HTTP 400, run 41324108794)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.63_20261101b.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.64_t05_20261101.md
 -->
 
 ## 2026-11-01 — T-10 — credencial de registro sin cabecera duplicada
@@ -13,6 +13,13 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.63_20261101b.md
 - `actions/checkout` v6 guarda su token en un fichero aparte enlazado con `includeIf.gitdir:…`; el paso solo borraba `http.extraheader` local y git enviaba las dos cabeceras («Duplicate header: Authorization», HTTP 400).
 - El paso «Credencial de registro» borra también esas entradas `includeIf` antes de poner el token de la app (14 jobs, 10 workflows). Reproducido y comprobado en local con la configuración de checkout v6.
 - Test: `test_credencial_registro` exige el borrado de `includeIf` antes de la nueva cabecera.
+
+## 2026-11-01 — T-05 — nombres visibles «nacional»
+
+- `catalogo_territorios.py`: `visible_name`/`visible_label` dan «Nacional Huesca»; `format_territory_label` sigue dando «Congreso Huesca», que es el valor de los selectores de los workflows.
+- Estado operativo 2.3.4 y dashboard: `name`, `display_name` y listas de nombres sin «Congreso» (comprobado regenerando el estado en local). `territory_id` (`congreso_*`) no cambia.
+- Visor 1.5.2: `territory_name`, `territory_label` y `territory_display_name` públicos con «Nacional». Textos de la página analítica `visor/congreso/` en «nacional» (la ruta no cambia).
+- Test: `tests/test_nombres_visibles_nacional.py`.
 
 ## 2026-11-01 — T-10 — robots de registro con app propia
 
