@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.65
+Versión: 1.0.66
 Fecha: 2026-11-01
-Alcance: T-10 — corrección de la credencial de registro
+Alcance: T-06 — Gestor de Campañas con provincias
 Estado: candidato
-Cambios/motivo: con los secretos creados, git enviaba dos Authorization (HTTP 400, run 41324108794)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.64_t05_20261101.md
+Cambios/motivo: el Gestor solo admitía las 19 autonómicas
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.65_t10fix_20261101.md
 -->
+
+## 2026-11-01 — T-06 — Gestor de Campañas con provincias nacionales
+
+- Gestor de Campañas 1.2.0: campaña «Nacional 2023». Territorios: «todos» (52 provincias), número INE (22), matrícula en español (HU, GE, PM…) o nombre (Huesca, Nacional Huesca). IB, GI u OU no se aceptan.
+- `gestor_campana_nacional.py` 0.2.0: hasta 52 provincias (19 en la autonómica), sin mezclar ámbitos; slot = código piloto (C22); `territory_display_name` «Nacional …» en el manifiesto y el resumen. Al 00 se le sigue pasando el nombre interno.
+- Huesca (completa) planifica como `PRODUCT_REUSE_READY`: la campaña carga sus distritos y resultados.
+- Test: `tests/test_gestor_campana_provincias.py`.
 
 ## 2026-11-01 — T-10 — credencial de registro sin cabecera duplicada
 
