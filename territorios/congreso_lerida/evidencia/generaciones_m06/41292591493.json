@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13080710210,
+      "artifact_name": "ddd-audit-41292591493",
+      "artifact_sha256": "10bb3fa504a98ae27f0948eb259aee0a465b82b9ee43a572a3c91323895604f9",
+      "run_id": 41292591493,
+      "size_in_bytes": 4708
+    },
+    "m04": {
+      "artifact_id": 13080061984,
+      "artifact_name": "ddd-state-41292591493-M04",
+      "artifact_sha256": "31c8a5a42c9ff0b47d528053aff0b4123996345436cddacd74d8ef3eb83a0118",
+      "run_id": 41292591493,
+      "size_in_bytes": 77406561
+    },
+    "m05": {
+      "artifact_id": 13079614305,
+      "artifact_name": "ddd-state-41292591493-M05",
+      "artifact_sha256": "b7662a02bd3b3daa8c5fb2ce6388dc1adced4947e82793f55eedc0f524a20b08",
+      "run_id": 41292591493,
+      "size_in_bytes": 78037603
+    },
+    "m06": {
+      "artifact_id": 13080148209,
+      "artifact_name": "ddd-state-41292591493-M06",
+      "artifact_sha256": "b0306f093dbd68d80e58ba20b4b8dda8ae36cee75cfa8e5c64ba7d9cbb928db4",
+      "run_id": 41292591493,
+      "size_in_bytes": 78843416
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "5f520a600100355a814501592313106a2cc06f748e615452b316e5034d2cb75a",
+        "size_in_bytes": 475
+      },
+      "congreso_lerida_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "98ed6c3ab34700ada158221954270606da7d1c96689eacb32dabb29fdb0cc44a",
+        "size_in_bytes": 15171
+      },
+      "optimization_execution.json": {
+        "sha256": "6d93c9f641bf17abc1c86c5532135d32b8f4113e1416cdcc44795e4513a8007a",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "a6a397a3eee09591e24b8167027eccdaca3302cdf4b592b95436b5f93ab6d2c7",
+        "size_in_bytes": 1306
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "a6a397a3eee09591e24b8167027eccdaca3302cdf4b592b95436b5f93ab6d2c7",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_lerida/config/congreso_lerida_2025.yaml",
+    "sha256": "9843b8dc6bc757c55cdcfe8468cff42e72b739086165b5f19aedf2048c777003"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "67604fad719f550c5eb9b87796bdee1f98e77b528d8da4a2fb4415f42da6c70e",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "b3899d1bda1519b147a0c34642eec79f074d8ff8",
+    "edition": "2025",
+    "territory_id": "congreso_lerida",
+    "territory_name": "Congreso Lérida",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41292591493,
+    "workflow_sha": "d73703d1c87a46762a874f2b3e4a008649963349"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13080061984,
+      "artifact_name": "ddd-state-41292591493-M04",
+      "artifact_sha256": "31c8a5a42c9ff0b47d528053aff0b4123996345436cddacd74d8ef3eb83a0118",
+      "run_id": 41292591493,
+      "size_in_bytes": 77406561
+    },
+    "source_manifest_sha256": "b0022a312a3f3a4f5549834f2c345d8788284099efad103c3e260cd247498c44",
+    "source_package_artifact": {
+      "artifact_id": 13079180723,
+      "artifact_name": "ddd-source-package-congreso_lerida-2025-41292591493",
+      "artifact_sha256": "f8985da3a5cb1c33d05f464d09a19fe849b2426725914c570239be701db2b705",
+      "run_id": 41292591493,
+      "size_in_bytes": 76131059
+    }
+  },
+  "manifest_sha256": "d95d7d1037304e6776aa40a4bc410fa8c51e06762e3420c45288a9197f6e6db3",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
