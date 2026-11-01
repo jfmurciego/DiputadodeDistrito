@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:12:20.442115+00:00",
+  "generated_at": "2026-11-01T10:13:57.785501+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 43,
-      "activable": 26,
+      "activated": 44,
+      "activable": 25,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 43
+      "durable_pair": 44
     },
     "territories": [
       {
@@ -1914,12 +1914,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_granada/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json",
+            "pair_sha256": "94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5085,7 +5085,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -5360,7 +5360,18 @@
           "producer_manifest_path": "territorios/congreso_castellon/evidencia/generaciones_m06/41241768943.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_castellon",
+          "territory_name": "Congreso Castellón",
+          "edition": "2025",
+          "run_id": 41295629673,
+          "artifact_name": "ddd-state-41295629673-M08",
+          "artifact_sha256": "a765d8861651de563bb8ebf3200d2666ef03357b6e7c37740285d7d10165c4f9",
+          "source_commit": "c9406033181dad1a5a2ed2b0b5975ee6a514065d",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C12",
       "display_name": "Congreso Castellón",
@@ -5884,7 +5895,18 @@
           "producer_manifest_path": "territorios/congreso_jaen/evidencia/generaciones_m06/41241896061.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_jaen",
+          "territory_name": "Congreso Jaén",
+          "edition": "2025",
+          "run_id": 41295799269,
+          "artifact_name": "ddd-state-41295799269-M08",
+          "artifact_sha256": "721dcd5d5b012ffd08b5d67a17c1b86887d21384df28c49099db92cfafeacddb",
+          "source_commit": "2dfed5103dee3c56a836344c7166c112d631e39e",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C23",
       "display_name": "Congreso Jaén",
@@ -6054,20 +6076,20 @@
       "name": "Congreso Lugo",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41240766116,
+      "run_id": 41294985244,
       "last_run": {
-        "run_id": 41240766116,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "run_id": 41294985244,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "05 · Publicación del Visor",
+        "reason": "ver log del run",
+        "publication": "failed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6108,7 +6130,7 @@
       },
       "autonomous_community_code_ine": "C27",
       "display_name": "Congreso Lugo",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_madrid",
@@ -6263,20 +6285,20 @@
       "name": "Congreso Orense",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 41240887712,
+      "run_id": 41295142111,
       "last_run": {
-        "run_id": 41240887712,
+        "run_id": 41295142111,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6317,7 +6339,7 @@
       },
       "autonomous_community_code_ine": "C32",
       "display_name": "Congreso Orense",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_asturias",
@@ -7311,7 +7333,7 @@
     }
   ],
   "kpis": {
-    "complete": 32,
+    "complete": 34,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7338,6 +7360,8 @@
       "Congreso Guadalajara",
       "Congreso Huesca",
       "Congreso La Rioja",
+      "Congreso Lugo",
+      "Congreso Orense",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
@@ -7480,13 +7504,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_la_rioja",
-    "name": "Congreso La Rioja",
-    "display_name": "Congreso La Rioja",
-    "autonomous_community_code_ine": "C26",
-    "run_id": 41294822309,
+    "territory_id": "congreso_orense",
+    "name": "Congreso Orense",
+    "display_name": "Congreso Orense",
+    "autonomous_community_code_ine": "C32",
+    "run_id": 41295142111,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
