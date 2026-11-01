@@ -2097,12 +2097,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41351964088
+        stage: M06
       preparation_evidence:
         run_id: 41293311168
         artifact_name: ddd-source-package-congreso_pontevedra-2025-41293311168
@@ -2119,6 +2121,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_pontevedra/evidencia/fuentes_electorales/2025/308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db/41239903028/receipt.json
         generation_preflight: territorios/congreso_pontevedra/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_pontevedra/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_salamanca
   name: Congreso Salamanca
