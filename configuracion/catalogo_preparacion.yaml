@@ -2216,12 +2216,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41292096436
-        stage: M06
+        run_id: 41356175674
+        stage: M08
       preparation_evidence:
         run_id: 41292096436
         artifact_name: ddd-source-package-congreso_cantabria-2025-41292096436
@@ -2240,6 +2240,7 @@ territories:
         generation_preflight: territorios/congreso_cantabria/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_cantabria/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_cantabria/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json
+        electoral_product: territorios/congreso_cantabria/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_segovia
   name: Congreso Segovia
