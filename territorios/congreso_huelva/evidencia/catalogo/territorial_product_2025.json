@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_huelva",
+  "territory_name": "Congreso Huelva",
+  "edition": "2025",
+  "run_id": 41318125504,
+  "artifact_name": "ddd-state-41318125504-M06",
+  "artifact_sha256": "990a7e135c59e1fe0d96e674b0d5006d30335d55d7c7f90e704abe3e86e8b28d",
+  "source_commit": "78cb29d391a037179be24c4fec3138ce6347ebff",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_huelva/evidencia/generaciones_m06/41318125504.json"
+}
