@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_huelva",
+  "territory_name": "Congreso Huelva",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_huelva_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41318125504,
+    "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
+    "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
+    "package_sha256": "da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9",
+    "source_commit": "03b39710d99d8cce48c5a16d80c61f348fc9a514",
+    "source_declaration": "territorios/congreso_huelva/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_huelva/evidencia/fuentes_territoriales/2025/2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42/41318125504/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "ab60b5ba58663b29e1f07461362db19fa8b25d6a9cbecda81f2972b2a9cef111",
+    "compatibility_identity_sha256": "49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357",
+    "remote_verification": {
+      "run_id": 41318125504,
+      "artifact_id": 13089067127,
+      "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
+      "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239835955,
+    "artifact_name": "ddd-electoral-package-congreso_huelva-2025-41239835955",
+    "artifact_sha256": "066fc38cbde511e7db0c76113f19bc00ebf4e0e2f11dcf8c694329adceef0069",
+    "source_commit": "79e943d21c6e1210b4390185ddd8b0245012209b",
+    "receipt_path": "territorios/congreso_huelva/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_huelva_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a",
+    "remote_verification": {
+      "run_id": 41239835955,
+      "artifact_id": 13057145896,
+      "artifact_name": "ddd-electoral-package-congreso_huelva-2025-41239835955",
+      "artifact_sha256": "066fc38cbde511e7db0c76113f19bc00ebf4e0e2f11dcf8c694329adceef0069",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42",
+  "electoral_compatibility_key": "deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_huelva/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14"
+}

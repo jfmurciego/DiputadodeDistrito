@@ -1546,6 +1546,7 @@ territories:
         electoral_source: territorios/congreso_huelva/evidencia/fuentes_electorales/2025/deb0fbf1e626ccccc6a1e0f0420f93779e92be4da48d4f6e58e8dd1b9bd9d99a/41239835955/receipt.json
         generation_preflight: territorios/congreso_huelva/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_huelva/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_huelva/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json
       generation_enabled: true
 - territory_id: congreso_huesca
   name: Congreso Huesca
