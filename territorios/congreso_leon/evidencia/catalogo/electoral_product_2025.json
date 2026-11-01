@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_leon",
+  "territory_name": "Congreso León",
+  "edition": "2025",
+  "run_id": 41295452035,
+  "artifact_name": "ddd-state-41295452035-M08",
+  "artifact_sha256": "7f4b688f28b879e3a75cab6754e7121c0f0b06c34bf3bdb3b961e12dd3f0e075",
+  "source_commit": "4b47cc40e6228c26f4c26619c5791d05d66615df",
+  "stage": "M08"
+}

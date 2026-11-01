@@ -1585,12 +1585,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41241377284
-        stage: M06
+        run_id: 41295452035
+        stage: M08
       preparation_evidence:
         run_id: 41241377284
         artifact_name: ddd-source-package-congreso_leon-2025-41241377284
@@ -1609,6 +1609,7 @@ territories:
         generation_preflight: territorios/congreso_leon/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_leon/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_leon/evidencia/pares_fuentes/2025/ec2b27c201a17fceca9b44d38785522c8676e1b0018c7aa2cbb6ce967b5f5f46.json
+        electoral_product: territorios/congreso_leon/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_lerida
   name: Congreso Lérida
