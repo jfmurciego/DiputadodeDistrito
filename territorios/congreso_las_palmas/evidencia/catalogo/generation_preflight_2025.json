@@ -5,10 +5,12 @@
   "territory_name": "Congreso Las Palmas",
   "edition": "2025",
   "run_id": 41336103808,
-  "source_commit": "85d4af6116e1c53ea9cbf83c3c2a71ebd71cbc79",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "8aed8fd3088b42ee23b08973e1644befa4fef018",
+  "artifact_name": "ddd-state-41336103808-M03U",
+  "artifact_sha256": "0430ef61b973e46f714a56c36970d0f59a56b44558159eb151be4cf09aaf52ea",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41336103808,
     "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41336103808",
@@ -19,10 +21,189 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb",
+    "physical_partition_preparer_git_blob_sha1": "1e1d197ddc8e41e0bf05505e6c22bbb70fa557ef",
+    "m04_entrypoint_git_blob_sha1": "d9dde5b8c538f281e162e396cceb679bbaac8112"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "3502401010",
+        "v": "3502401001",
+        "admin_scope": "province:35",
+        "edge_type": "maritime_group"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41336103808-M03",
+    "artifact_sha256": "cbd6bc3d6d5f092ffb69c8faa914df503d30a619fa14cd0b6072faf8a2b24175",
+    "module_version": "7.5.0",
+    "nodes": 715,
+    "edges": 1877,
+    "population": 1145843,
+    "isolated": 0,
+    "global_components": 3,
+    "province_disconnected": 1,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41336103808",
+    "job_artifact_sha256": "bfb5f4855e07197c8a641724dc5bba93555db19be898264057051fb72ab77c4c",
+    "status": "PREPARED",
+    "strategy": "physical_components",
+    "contract_output_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m03_particiones.geojson.zip",
+    "resolved_output_geojson": "/app/territorios/congreso_las_palmas/.cache/ddd/preparacion/congreso_las_palmas_2025/congreso_las_palmas_2025_m03_particiones.geojson.zip",
+    "hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
+    "hard_partition_lookup_sha256": "160e7ecbef7cbd7f0262c4d9b3c713c319e9fff07668a1405305c5e2d5cf3407",
+    "inventory_id": "secciones_2023",
+    "source_identity": {
+      "territory_id": "congreso_las_palmas",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "package_sha256": "24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f",
+      "compatibility_identity_sha256": "2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af",
+      "sectioning_sha256": "1acd945969f466ae02a732cc2e32f3a8e5eb1db41c1717e9615a6251a1072630",
+      "territorial_identity_sha256": "d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7"
+    },
+    "partition_field": "DDD_PARTITION",
+    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "input_section_count": 715,
+    "output_section_count": 715,
+    "input_output_cusec_equal": true,
+    "universe_cusec_set_sha256": "a5b7dd13da9f10241a9370a0034896b3a7fc365062e56f898990acff959620a0",
+    "component_sections": {
+      "35-C01": 585,
+      "35-C02": 55,
+      "35-G01": 75
+    },
+    "component_cusec_set_sha256": {
+      "35-C01": "a4f61a58f817e95f8f64d6f91ef010d8e24b03647632de01be603e70c5fff4b9",
+      "35-C02": "57378924a829dcb9b22f58f6ba32c2767b74e3a1a27cd036846d7b19e5cf2008",
+      "35-G01": "a38af98ea54921a1fd4d4ee4eda95b2e8586b21cc14147087112f50742f8a3fa"
+    },
+    "component_districts": {
+      "35-C01": 8,
+      "35-C02": 1,
+      "35-G01": 1
+    }
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 1145843,
+      "target_section_count": 715,
+      "package_sha256": "24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f",
+      "compatibility_report_sha256": "f66a2549941e0706ddd8ec12019f7cf96f36d4fceed8a05274f0d7b40039becb",
+      "compatibility_identity_sha256": "2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af"
+    },
+    "topology_accreditation": null,
+    "k_districts": 10,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.4,
+    "target_tolerance_ratio": 0.4,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m03_particiones.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "m05_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "m06_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "validation_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "expected_districts": 10,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true,
+    "hard_partition_input": {
+      "mode": "physical_components",
+      "lookup": "configuracion/particiones_insulares_2025.json",
+      "partition_populations": {
+        "35-C01": 862893,
+        "35-C02": 124152,
+        "35-G01": 158798
+      },
+      "component_districts": {
+        "35-C01": 8,
+        "35-C02": 1,
+        "35-G01": 1
+      },
+      "partition_apportionment_audit": {
+        "35-C01": {
+          "population": 862893,
+          "districts": 8,
+          "target_population": 114584.3,
+          "average_population_per_district": 107861.625,
+          "relative_deviation_from_target": -0.058670123,
+          "population_floor": 97396.655,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        },
+        "35-C02": {
+          "population": 124152,
+          "districts": 1,
+          "target_population": 114584.3,
+          "average_population_per_district": 124152.0,
+          "relative_deviation_from_target": 0.083499223,
+          "population_floor": 97396.655,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        },
+        "35-G01": {
+          "population": 158798,
+          "districts": 1,
+          "target_population": 114584.3,
+          "average_population_per_district": 158798.0,
+          "relative_deviation_from_target": 0.385861763,
+          "population_floor": 97396.655,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        }
+      },
+      "population_floor_exempt_partitions": [],
+      "source_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m01_secciones_poblacion.geojson.zip",
+      "input_geojson": "territorios/congreso_las_palmas/.cache/ddd/preparacion/{run_name}/congreso_las_palmas_2025_m03_particiones.geojson.zip",
+      "partition_field": "DDD_PARTITION",
+      "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+      "district_apportionment": "hamilton_components",
+      "hard_partition_territory_id": "congreso_las_palmas"
+    }
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
