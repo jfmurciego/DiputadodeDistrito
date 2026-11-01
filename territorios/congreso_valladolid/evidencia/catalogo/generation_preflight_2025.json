@@ -4,25 +4,25 @@
   "territory_id": "congreso_valladolid",
   "territory_name": "Congreso Valladolid",
   "edition": "2025",
-  "run_id": 41241636977,
-  "source_commit": "61845b8be794cb21bb3ddee498fc1994c2b3439d",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 41292964287,
+  "source_commit": "98995ec6a2fb6d77938027a1f88f4055d39b9ddf",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 41241636977,
-    "artifact_name": "ddd-source-package-congreso_valladolid-2025-41241636977",
-    "artifact_sha256": "3b2eb406674cd312f2d773cd8e1ef9cc73e0ff4bee7eb942f1870ba63eca256e",
-    "package_sha256": "0610fead09f31539765564f296cd88ef48abbee60d35b63d8449748e8d7ca685",
-    "compatibility_identity_sha256": "9266f1b6652407bf8bbaf5eb1174f8f5a231ab62263d62f37b3debeec70ce374",
-    "territorial_identity_sha256": "faec2ecf38915f2301b66cdf0e2ffd9fd5b4a09d476f58e09a2d7ac3b4012ed5",
+    "run_id": 41292964287,
+    "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
+    "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
+    "package_sha256": "0192eb0046a947d131012375e7d0d5585af948102a3b1f07188b4bfdc650d38e",
+    "compatibility_identity_sha256": "99cc6da37feb11c9672c9d0326f6458fafe5e45646a240d090c599a7283dfb04",
+    "territorial_identity_sha256": "b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47",
     "population_year": 2023,
     "section_year": 2023
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
