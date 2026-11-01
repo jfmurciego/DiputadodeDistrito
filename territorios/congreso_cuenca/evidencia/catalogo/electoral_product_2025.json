@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_cuenca",
+  "territory_name": "Congreso Cuenca",
+  "edition": "2025",
+  "run_id": 41294075778,
+  "artifact_name": "ddd-state-41294075778-M08",
+  "artifact_sha256": "45b111cd3cf5e6af86c0ddd151742681f4a79930273e964b6e059510ec0bad64",
+  "source_commit": "5201250f03b365e59a8f0af38fbddd94ca0b0edc",
+  "stage": "M08"
+}
