@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_las_palmas",
+  "territory_name": "Congreso Las Palmas",
+  "edition": "2025",
+  "run_id": 41336103808,
+  "artifact_name": "ddd-state-41336103808-M06",
+  "artifact_sha256": "be0c8799f296a695170b713881e3a907e4131f486ec5ebccde4c5440c882d5d4",
+  "source_commit": "3e4691d6e495ea7351313f82e18dd995bb19ee75",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/41336103808.json"
+}
