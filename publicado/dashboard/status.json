@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T18:27:49.926120+00:00",
+  "generated_at": "2026-11-01T18:57:57.854240+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 62,
-      "activable": 9,
+      "activated": 63,
+      "activable": 8,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 62
+      "durable_pair": 63
     },
     "territories": [
       {
@@ -2526,12 +2526,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_murcia/evidencia/pares_fuentes/2025/5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51.json",
+            "pair_sha256": "5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -4823,7 +4823,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41335088773,
+        "run_id": 41336108228,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5145,7 +5145,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -5917,20 +5917,20 @@
       "name": "Nacional Huelva",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41318125504,
+      "run_id": 41335929678,
       "last_run": {
-        "run_id": 41318125504,
+        "run_id": 41335929678,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "no existe prepared_source_pair acreditado para la entrada electoral",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5971,7 +5971,7 @@
       },
       "autonomous_community_code_ine": "C21",
       "display_name": "Nacional Huelva",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_huesca",
@@ -6424,7 +6424,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41293548832,
+        "run_id": 41337086027,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -6698,21 +6698,21 @@
       "territory_id": "congreso_las_palmas",
       "name": "Nacional Las Palmas",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41336103808,
       "last_run": {
         "run_id": 41250283081,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6723,13 +6723,26 @@
           "artifact_sha256": "e24534fb9f56c89dde9956e40a31b14e70dbeb33c65c12f7fd35e6ce5c626fe4",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_las_palmas",
+          "territory_name": "Congreso Las Palmas",
+          "edition": "2025",
+          "run_id": 41336103808,
+          "artifact_name": "ddd-state-41336103808-M06",
+          "artifact_sha256": "be0c8799f296a695170b713881e3a907e4131f486ec5ebccde4c5440c882d5d4",
+          "source_commit": "3e4691d6e495ea7351313f82e18dd995bb19ee75",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/41336103808.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C35",
       "display_name": "Nacional Las Palmas",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_pontevedra",
@@ -7724,7 +7737,7 @@
     }
   ],
   "kpis": {
-    "complete": 57,
+    "complete": 58,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7759,6 +7772,7 @@
       "Nacional Granada",
       "Nacional Guadalajara",
       "Nacional Guipúzcoa",
+      "Nacional Huelva",
       "Nacional Huesca",
       "Nacional Jaén",
       "Nacional León",
@@ -7784,7 +7798,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "territorial_validated": 60,
+    "territorial_validated": 61,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7830,6 +7844,7 @@
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
+      "Nacional Las Palmas",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -7847,7 +7862,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "validated": 60,
+    "validated": 61,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7893,6 +7908,7 @@
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
+      "Nacional Las Palmas",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -7910,7 +7926,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 11,
+    "ready": 10,
     "ready_names": [
       "01 Andalucía",
       "Nacional Álava",
@@ -7921,7 +7937,6 @@
       "Nacional Madrid",
       "Nacional Málaga",
       "Nacional Murcia",
-      "Nacional Las Palmas",
       "Nacional Pontevedra"
     ],
     "pending": 0,
@@ -7977,15 +7992,15 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Nacional Huelva",
-      "territory_id": "congreso_huelva",
-      "autonomous_community_code_ine": "C21",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional Málaga",
+      "territory_id": "congreso_malaga",
+      "autonomous_community_code_ine": "C29",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -8027,15 +8042,15 @@
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Nacional Huelva",
-      "territory_id": "congreso_huelva",
-      "autonomous_community_code_ine": "C21",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Nacional Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "Nacional Málaga",
+      "territory_id": "congreso_malaga",
+      "autonomous_community_code_ine": "C29",
       "action": "generar y validar distritos"
     }
   ]
