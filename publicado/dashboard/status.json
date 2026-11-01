@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:29:38.647361+00:00",
+  "generated_at": "2026-11-01T10:30:48.988920+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6278,7 +6278,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6847,7 +6847,18 @@
           "producer_manifest_path": "territorios/congreso_sevilla/evidencia/generaciones_m06/41244347546.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_sevilla",
+          "territory_name": "Congreso Sevilla",
+          "edition": "2025",
+          "run_id": 41297168461,
+          "artifact_name": "ddd-state-41297168461-M08",
+          "artifact_sha256": "3b1995be0504d511fea547ca9d27b8956848bd5cd450854aeaca1606b18427c1",
+          "source_commit": "01b23ba1f4d097482d5ccc23379dbfe5158ef77a",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C41",
       "display_name": "Congreso Sevilla",
