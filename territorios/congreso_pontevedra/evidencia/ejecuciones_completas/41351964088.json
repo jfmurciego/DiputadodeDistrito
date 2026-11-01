@@ -1,0 +1,91 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_pontevedra",
+  "territory_name": "Congreso Pontevedra",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 41351964088,
+  "source_sha": "7776b312e3413794f270c820598028ebc6b545da",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "TERRITORIAL_COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "SKIPPED_NO_ACCREDITED_PAIR",
+  "electoral_activation_status": "TERRITORIAL_READY_ELECTORAL_PENDING",
+  "electoral_skip_reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Pontevedra edición 2025; complete la preparación conjunta antes de ejecutar",
+  "resumption": null,
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41293311168,
+      "artifact": "ddd-source-package-congreso_pontevedra-2025-41293311168",
+      "artifact_digest": "sha256:d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 41351964088,
+      "artifact": "ddd-state-41351964088-M06",
+      "artifact_digest": "sha256:e5090f653f98261b4285e02501211f5db0a4208d956f688639790d8c95249969",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-01T21:47:00.627818+00:00"
+}

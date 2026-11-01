@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13101908244,
+      "artifact_name": "ddd-audit-41351964088",
+      "artifact_sha256": "1339aa6daac4a8c662d698185ffb90faece73d037fc0e0bcdb7f82b3f382c7c1",
+      "run_id": 41351964088,
+      "size_in_bytes": 4864
+    },
+    "m04": {
+      "artifact_id": 13102121877,
+      "artifact_name": "ddd-state-41351964088-M04",
+      "artifact_sha256": "cc98692f93bfd000c988aa109017ac9665a141a853d04133b41e267bf3d23de5",
+      "run_id": 41351964088,
+      "size_in_bytes": 77894292
+    },
+    "m05": {
+      "artifact_id": 13101992419,
+      "artifact_name": "ddd-state-41351964088-M05",
+      "artifact_sha256": "8dda4bcf75a08efbef90a3f1aae8a425c60db0b468ae8175059cb804fd77022b",
+      "run_id": 41351964088,
+      "size_in_bytes": 78652688
+    },
+    "m06": {
+      "artifact_id": 13102855336,
+      "artifact_name": "ddd-state-41351964088-M06",
+      "artifact_sha256": "e5090f653f98261b4285e02501211f5db0a4208d956f688639790d8c95249969",
+      "run_id": 41351964088,
+      "size_in_bytes": 79649333
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "a04d654b4d185c61f767259688a9fb6a03409a8a1ca5e0202771a6339004b415",
+        "size_in_bytes": 491
+      },
+      "congreso_pontevedra_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "8885124d6144312cc467372fddcc5de6829b119f910cf18f51cfe9a5dfa60cce",
+        "size_in_bytes": 17180
+      },
+      "optimization_execution.json": {
+        "sha256": "44e2c5fad243eee21e9344d1a0a4fdb1349f2bf994d779ed213e85bea485e28e",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "622055146a28b55dc48f465e3497cb4251c58784a4978dda58a2b314cb255d39",
+        "size_in_bytes": 1334
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "622055146a28b55dc48f465e3497cb4251c58784a4978dda58a2b314cb255d39",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_pontevedra/config/congreso_pontevedra_2025.yaml",
+    "sha256": "51ea652970b8cd26927fe42a7c9169376c1e9c55b173356cef9175734e881080"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "0b428ce4f4becef3a910c87901c9070afe68fdb41878cea76350aef55603c5ed",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "7776b312e3413794f270c820598028ebc6b545da",
+    "edition": "2025",
+    "territory_id": "congreso_pontevedra",
+    "territory_name": "Congreso Pontevedra",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41351964088,
+    "workflow_sha": "7776b312e3413794f270c820598028ebc6b545da"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13102121877,
+      "artifact_name": "ddd-state-41351964088-M04",
+      "artifact_sha256": "cc98692f93bfd000c988aa109017ac9665a141a853d04133b41e267bf3d23de5",
+      "run_id": 41351964088,
+      "size_in_bytes": 77894292
+    },
+    "source_manifest_sha256": "e676a8d5c0e6f03750c5777f1c103919e51c7b4123c69d3bad522c288202d0db",
+    "source_package_artifact": {
+      "artifact_id": 13079108135,
+      "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41293311168",
+      "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
+      "run_id": 41293311168,
+      "size_in_bytes": 76358962
+    }
+  },
+  "manifest_sha256": "d96df6d3553134de8816020ab7de9eda50984b697fdcd139f819b6bf6fa9fe49",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

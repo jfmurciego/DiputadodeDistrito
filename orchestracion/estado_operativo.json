@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T20:44:02.744615+00:00",
+  "generated_at": "2026-11-01T22:23:42.208962+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 65,
-      "activable": 6,
+      "activated": 68,
+      "activable": 3,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 65
+      "durable_pair": 68
     },
     "territories": [
       {
@@ -2832,12 +2832,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_pontevedra/evidencia/pares_fuentes/2025/da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388.json",
+            "pair_sha256": "da60eabd85abcd684d6c2927b643b5ca77563b2a0a9a71feb494d905669d0388",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2985,12 +2985,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_cantabria/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json",
+            "pair_sha256": "158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3444,12 +3444,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_vizcaya/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json",
+            "pair_sha256": "a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -4823,11 +4823,11 @@
       "certification": "PASS",
       "run_id": 41346917857,
       "last_run": {
-        "run_id": 41336108228,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41346917857,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -5165,7 +5165,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41339504894,
+        "run_id": 41351970046,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5361,7 +5361,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41322925944,
+        "run_id": 41351957938,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -6784,21 +6784,21 @@
       "territory_id": "congreso_pontevedra",
       "name": "Nacional Pontevedra",
       "ft": "green",
-      "g": "yellow",
-      "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "g": "green",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41353894475,
       "last_run": {
-        "run_id": 41293311168,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41353894475,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6809,13 +6809,37 @@
           "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_pontevedra",
+          "territory_name": "Congreso Pontevedra",
+          "edition": "2025",
+          "run_id": 41351964088,
+          "artifact_name": "ddd-state-41351964088-M06",
+          "artifact_sha256": "e5090f653f98261b4285e02501211f5db0a4208d956f688639790d8c95249969",
+          "source_commit": "7776b312e3413794f270c820598028ebc6b545da",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_pontevedra/evidencia/generaciones_m06/41351964088.json"
+        },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_pontevedra",
+          "territory_name": "Congreso Pontevedra",
+          "edition": "2025",
+          "run_id": 41353894475,
+          "artifact_name": "ddd-state-41353894475-M08",
+          "artifact_sha256": "70a4d9357128080f272e2fb4ded8c1b722b133b396da609fbbcf16934ce53bc7",
+          "source_commit": "1bce451601cb6e63ecb82553d4b3831c0b4215b1",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C36",
       "display_name": "Nacional Pontevedra",
-      "next_step": "generar y validar distritos"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_salamanca",
@@ -6954,11 +6978,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41292096436,
       "last_run": {
-        "run_id": 41292096436,
+        "run_id": 41355659591,
         "status": "SUCCESS",
-        "completion_status": "COMPLETE",
+        "completion_status": "TERRITORIAL_COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Cantabria edición 2025; complete la preparación conjunta antes de ejecutar",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -6987,11 +7011,22 @@
           "producer_manifest_path": "territorios/congreso_cantabria/evidencia/generaciones_m06/41292096436.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_cantabria",
+          "territory_name": "Congreso Cantabria",
+          "edition": "2025",
+          "run_id": 41356175674,
+          "artifact_name": "ddd-state-41356175674-M08",
+          "artifact_sha256": "08d9d06841987d4636f13e674ddeb38766da9ff949d06b631578d9b464c02efe",
+          "source_commit": "f62c2453c81eb8bb10657ecd25ccd17b956bae07",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Nacional Cantabria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_segovia",
@@ -7490,20 +7525,20 @@
       "name": "Nacional Vizcaya",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41293083498,
+      "run_id": 41356074013,
       "last_run": {
-        "run_id": 41293083498,
+        "run_id": 41356074013,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7529,11 +7564,22 @@
           "producer_manifest_path": "territorios/congreso_vizcaya/evidencia/generaciones_m06/41293083498.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_vizcaya",
+          "territory_name": "Congreso Vizcaya",
+          "edition": "2025",
+          "run_id": 41356074013,
+          "artifact_name": "ddd-state-41356074013-M08",
+          "artifact_sha256": "7b785eeab04e8b5549ca40d0a6344faba5919bd80caa55052b5fbb741e831b2f",
+          "source_commit": "6e9b204e74067a88696a77f9668dc1238ef922da",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C48",
       "display_name": "Nacional Vizcaya",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_zamora",
@@ -7781,7 +7827,7 @@
     }
   ],
   "kpis": {
-    "complete": 59,
+    "complete": 61,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7828,6 +7874,7 @@
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
+      "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Segovia",
@@ -7838,12 +7885,13 @@
       "Nacional Toledo",
       "Nacional Valencia",
       "Nacional Valladolid",
+      "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "territorial_validated": 62,
+    "territorial_validated": 63,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7891,6 +7939,7 @@
       "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Las Palmas",
+      "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -7908,7 +7957,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "validated": 62,
+    "validated": 63,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7956,6 +8005,7 @@
       "Nacional Asturias",
       "Nacional Palencia",
       "Nacional Las Palmas",
+      "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
@@ -7973,7 +8023,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 9,
+    "ready": 8,
     "ready_names": [
       "01 Andalucía",
       "Nacional Alicante",
@@ -7982,8 +8032,7 @@
       "Nacional Cádiz",
       "Nacional Madrid",
       "Nacional Málaga",
-      "Nacional Murcia",
-      "Nacional Pontevedra"
+      "Nacional Murcia"
     ],
     "pending": 0,
     "pending_names": [],
@@ -7991,13 +8040,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_alava",
-    "name": "Nacional Álava",
-    "display_name": "Nacional Álava",
-    "autonomous_community_code_ine": "C01",
-    "run_id": 41346917857,
+    "territory_id": "congreso_vizcaya",
+    "name": "Nacional Vizcaya",
+    "display_name": "Nacional Vizcaya",
+    "autonomous_community_code_ine": "C48",
+    "run_id": 41356074013,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
