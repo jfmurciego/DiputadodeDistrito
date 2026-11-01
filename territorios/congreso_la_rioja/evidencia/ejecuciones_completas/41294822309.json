@@ -1,0 +1,90 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_la_rioja",
+  "territory_name": "Congreso La Rioja",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 41294822309,
+  "source_sha": "8284cef381e9fdb7d2c7131a629efea0d6afbafe",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "failed_phases": [
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41240637295,
+      "artifact": "ddd-source-package-congreso_la_rioja-2025-41240637295",
+      "artifact_digest": "sha256:cbb9e9fbfba6bfbf5b3e5502712e14e6f11a6e54ecc3ca228b3d32199af882f0",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41240637295,
+      "artifact": "ddd-state-41240637295-M06",
+      "artifact_digest": "sha256:131edf85a6971ac19919e338ba427f61f6a32854a10bfa3b1cb670843fbb921c",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41239859752,
+      "artifact": "ddd-electoral-package-congreso_la_rioja-2025-41239859752",
+      "artifact_digest": "sha256:9def3fad97dfff0a6450f747981caa2fbf8f883b5bc7d1db389a52d4c0f27b26",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 41294822309,
+      "artifact": "ddd-state-41294822309-M08",
+      "artifact_digest": "sha256:7dcb4bc1f5bc239e617ec01c309df292c27a2196302e73d3a4625b6b4adc78f2",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 41294822309,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-01T10:07:33.215678+00:00"
+}
