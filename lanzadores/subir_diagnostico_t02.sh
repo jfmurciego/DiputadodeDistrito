@@ -23,6 +23,21 @@ else
   git fetch --quiet --depth 1 origin main && git checkout --quiet -B "$RAMA" origin/main
 fi
 
+# Pushes grandes por HTTP: buffer amplio, HTTP/1.1 y sin límite de velocidad baja.
+git config http.postBuffer 524288000
+git config http.version HTTP/1.1
+git config http.lowSpeedLimit 0
+git config http.lowSpeedTime 999999
+
+empujar() {
+  local i
+  for i in 1 2 3 4; do
+    git push --quiet origin "HEAD:refs/heads/$RAMA" && return 0
+    echo "AVISO: push falló (intento $i); reintento en $((i*15)) s"; sleep $((i*15))
+  done
+  return 1
+}
+
 # territorio|run
 LISTA="congreso_alicante|41293667422
 congreso_barcelona|41244711464
@@ -38,8 +53,15 @@ congreso_murcia|41335095516"
 for LINEA in ${(f)LISTA}; do
   T=${LINEA%%|*}; RUN=${LINEA##*|}
   DEST="diagnostico/t02-20261101/$T"
-  if [ -f "$DEST/${T}_2025_m03_grafo.json.gz" ] && [ -f "$DEST/${T}_2025_m01_secciones_poblacion.geojson.zip" ]; then
+  if git ls-remote --exit-code --heads origin "$RAMA" >/dev/null 2>&1 \
+     && git fetch --quiet --depth 1 origin "$RAMA" \
+     && git cat-file -e "FETCH_HEAD:$DEST/${T}_2025_m03_grafo.json.gz" 2>/dev/null; then
     echo "OK (ya subido) $T"; YA=$((YA+1)); continue
+  fi
+  if [ -f "$DEST/${T}_2025_m03_grafo.json.gz" ]; then
+    echo "$T: ya descargado en local, falta subirlo"
+    if empujar; then echo "SUBIDO $T"; SUBIDOS=$((SUBIDOS+1)); else echo "AVISO: $T sigue sin subir"; fi
+    continue
   fi
   AID=""
   for SUF in M03 M03U; do
@@ -64,7 +86,7 @@ for LINEA in ${(f)LISTA}; do
   rm -rf "$TMP"
   if [ ! -f "$DEST/${T}_2025_m03_grafo.json.gz" ]; then echo "AVISO: $T sin grafo M03; no se sube"; continue; fi
   git add "$DEST" && git commit --quiet -m "diagnóstico T-02: M01 y M03 de $T (run $RUN)" || { echo "ERROR: commit de $T"; continue; }
-  if git push --quiet origin "$RAMA"; then echo "SUBIDO $T"; SUBIDOS=$((SUBIDOS+1)); else echo "AVISO: push de $T falló; vuelve a ejecutar el script"; fi
+  if empujar; then echo "SUBIDO $T"; SUBIDOS=$((SUBIDOS+1)); else echo "AVISO: push de $T falló; vuelve a ejecutar el script"; fi
 done
 echo "FIN: rama $RAMA · subidos=$SUBIDOS · ya estaban=$YA"
 [ $((SUBIDOS+YA)) -gt 0 ] || { echo "ERROR: no se ha subido nada"; exit 1; }
