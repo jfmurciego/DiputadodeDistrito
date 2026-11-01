@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T22:13:11.762781+00:00",
+  "generated_at": "2026-11-01T22:21:42.216089+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 66,
-      "activable": 5,
+      "activated": 68,
+      "activable": 3,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 66
+      "durable_pair": 68
     },
     "territories": [
       {
@@ -2985,12 +2985,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_cantabria/evidencia/pares_fuentes/2025/158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7.json",
+            "pair_sha256": "158e44483cc28908fc6b242781c20b4a58d6755d7a8e6306969cad6611dae2e7",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3444,12 +3444,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_vizcaya/evidencia/pares_fuentes/2025/a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939.json",
+            "pair_sha256": "a00b60911ff39ac4097f8565bf4abc9fd8d90988605c96782f1578ebe204e939",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -6978,11 +6978,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41292096436,
       "last_run": {
-        "run_id": 41292096436,
+        "run_id": 41355659591,
         "status": "SUCCESS",
-        "completion_status": "COMPLETE",
+        "completion_status": "TERRITORIAL_COMPLETE",
         "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Cantabria edición 2025; complete la preparación conjunta antes de ejecutar",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7015,7 +7015,7 @@
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Nacional Cantabria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_segovia",
@@ -7553,7 +7553,18 @@
           "producer_manifest_path": "territorios/congreso_vizcaya/evidencia/generaciones_m06/41293083498.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_vizcaya",
+          "territory_name": "Congreso Vizcaya",
+          "edition": "2025",
+          "run_id": 41356074013,
+          "artifact_name": "ddd-state-41356074013-M08",
+          "artifact_sha256": "7b785eeab04e8b5549ca40d0a6344faba5919bd80caa55052b5fbb741e831b2f",
+          "source_commit": "6e9b204e74067a88696a77f9668dc1238ef922da",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C48",
       "display_name": "Nacional Vizcaya",
