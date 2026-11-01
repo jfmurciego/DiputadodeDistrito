@@ -1524,12 +1524,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41318125504
-        stage: M06
+        run_id: 41335929678
+        stage: M08
       preparation_evidence:
         run_id: 41318125504
         artifact_name: ddd-source-package-congreso_huelva-2025-41318125504
@@ -1548,6 +1548,7 @@ territories:
         generation_preflight: territorios/congreso_huelva/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_huelva/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_huelva/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json
+        electoral_product: territorios/congreso_huelva/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_huesca
   name: Congreso Huesca
