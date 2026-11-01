@@ -2467,12 +2467,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41292964287
-        stage: M06
+        run_id: 41299313598
+        stage: M08
       preparation_evidence:
         run_id: 41292964287
         artifact_name: ddd-source-package-congreso_valladolid-2025-41292964287
@@ -2491,6 +2491,7 @@ territories:
         generation_preflight: territorios/congreso_valladolid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_valladolid/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_valladolid/evidencia/pares_fuentes/2025/7c5b5b5ecaec174567226bd6517407999711274dd44a35b8fbf5730dba678837.json
+        electoral_product: territorios/congreso_valladolid/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_vizcaya
   name: Congreso Vizcaya

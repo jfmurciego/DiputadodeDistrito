@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_valladolid",
+  "territory_name": "Congreso Valladolid",
+  "edition": "2025",
+  "run_id": 41299313598,
+  "artifact_name": "ddd-state-41299313598-M08",
+  "artifact_sha256": "3a3c60aff6ea372b9856e0cbff915e420699956b6d96a03897cdc0eb2a8e9885",
+  "source_commit": "e668c443aec82f2612b5a9e7e757bfdb0e295717",
+  "stage": "M08"
+}
