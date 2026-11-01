@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_lerida",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41292591493,
+  "artifact_name": "ddd-source-package-congreso_lerida-2025-41292591493",
+  "artifact_sha256": "f8985da3a5cb1c33d05f464d09a19fe849b2426725914c570239be701db2b705",
+  "package_sha256": "a0631d2459fe65c441770adcb7a9e9eb88806d3aafa5b68321c88069930e9b96",
+  "source_commit": "d73703d1c87a46762a874f2b3e4a008649963349",
+  "source_declaration": "territorios/congreso_lerida/evidencia/fuentes_territoriales/2025/8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f/41292591493/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "8a9e4d81a7c6a489b6cab098e79a2e55bc8b35ff25c0d0c1fc12c55ef46cee3f",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "88a5314ed02083be7596d03588555656128bc4ca916e732f9e656fcaf928b0c0",
+  "compatibility_identity_sha256": "9b2d4d5e684a2fbc13fcbfc2dd5b38dbda2dc83edfb9e42f184e7f53c2a01332"
+}
