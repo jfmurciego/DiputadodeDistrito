@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.65
+Versión: 1.0.66
 Fecha: 2026-11-01
-Alcance: T-10 — corrección de la credencial de registro
+Alcance: T-09 — huella de puentes antes de M02
 Estado: candidato
-Cambios/motivo: con los secretos creados, git enviaba dos Authorization (HTTP 400, run 41324108794)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.64_t05_20261101.md
+Cambios/motivo: un puente heredado que no casa con las secciones vigentes paraba la cadena en M02 sin causa clara
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.65_t10fix_20261101.md
 -->
+
+## 2026-11-01 — T-09 — huella de puentes antes de M02
+
+- `herramientas/verificar_puentes_congreso.py` 1.0.0: clasifica cada `topology_bridges` de M02 (válido, municipio inexistente, código de sección cambiado, fuera de ámbito, fuera de provincia, extremos iguales, campos incompletos) contra el ZIP oficial de Interior (secciones 2023) o contra el M01 del run.
+- Sobre los 52 contratos nacionales: 28 puentes en 20 provincias, todos válidos. Ninguna PARADA de T-01 era por puentes rotos (Murcia es un puente que falta, no uno roto; eso lo valida M02 con las aristas).
+- Generación territorial 1.2.6: paso «Huella de puentes antes de M02», solo en ámbitos nacionales y solo cuando corre M02 (si M02 se reutiliza por checkpoint, no corre); bloquea con el puente y la causa.
+- Test: `tests/test_verificar_puentes_congreso.py` con puentes rotos sintéticos y el paso del workflow.
 
 ## 2026-11-01 — T-10 — credencial de registro sin cabecera duplicada
 

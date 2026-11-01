@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.2.5
+# VERSIÓN: 1.2.6
 # NOMBRE DE VERSIÓN: Log de etapa al fallar M04/M05
 # FECHA: 2026-10-29
 # ESTADO: candidato
@@ -15,7 +15,9 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.2.5: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.4_20261101b.yml
+# CAMBIOS 1.2.6: T-09, «Huella de puentes antes de M02» en los ámbitos nacionales: los topology_bridges
+#   deben casar con las secciones de M01; si no, se bloquea con el puente y la causa.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.5_20261101.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -430,6 +432,17 @@ jobs:
           missing=[p for p in paths if p and not Path(p).is_file()]
           if missing: raise SystemExit('Fuentes aprobadas no llegaron a rutas M01: '+', '.join(missing))
           PY
+      - name: Huella de puentes antes de M02
+        if: ${{ env.STAGE == 'M02' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$PARAMS" in territorios/congreso_*) ;; *) echo "Sin huella de puentes: no es un ámbito nacional."; exit 0 ;; esac
+          m01="$(find "$CACHE_DIR" -maxdepth 1 -name '*_m01_secciones_poblacion.geojson.zip' | head -1)"
+          [[ -n "$m01" ]] || { echo "::warning::Sin M01 en $CACHE_DIR; la huella de puentes no se comprueba."; exit 0; }
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            herramientas/verificar_puentes_congreso.py --params "$PARAMS" --sections-geojson "$m01" \
+            || { echo "::error::Puentes de M02 que no casan con las secciones de M01 (ver arriba); corrige el contrato antes de relanzar."; exit 1; }
       - name: Ejecutar módulo
         shell: bash
         run: >-
