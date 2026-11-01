@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.3
+Versión: 1.0.4
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-2 confirmada (matrículas en español); T-01 hecha con tabla de PARADA
-Anterior: legacy/docs/PLAN_v1.0.2_20261101.md
+Cambios/motivo: T-08 en pausa (ruleset desactivado) y nueva T-10 (robots con token propio)
+Anterior: legacy/docs/PLAN_v1.0.3_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -48,8 +48,26 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
   registrando sin fallos durante una ejecución 00.
 - Prueba local exigida: ninguna; verificación con `gh api repos/jfmurciego/DiputadodeDistrito/branches/main/protection`
   (o rulesets) y una ejecución 00 posterior con registro correcto.
-- Dependencias: ninguna. Máxima prioridad.
+- Dependencias: T-10 para reactivar. Máxima prioridad.
+- Estado (2026-11-01): ruleset `proteger-main` (id 26311854) creado con PR obligatoria, check `pruebas` y rama
+  al día (`puerta_admision` retirado: solo corre si la PR toca contratos y dejaba las demás en espera eterna).
+  **Desactivado**: la app GitHub Actions no se puede añadir a los exentos y los robots de registro
+  (`git push origin main` en 00, generación, operación, publicación del sitio y orquestación) quedarían bloqueados.
+  Se reactiva al cerrar T-10.
 
+
+### T-10 · Robots de registro con token propio (desbloquea T-08)
+- Objetivo: que los workflows que hacen `git push origin main` lo hagan con un token de GitHub App propia
+  (o PAT de grano fino) que pueda figurar como exenta en el ruleset, para reactivar `proteger-main`.
+- Rol: implementador (workflows) + propietario (crear la app o el PAT y el secreto). Modelo: Opus.
+- Ficheros afectados: `.github/workflows/ejecucion-completa-proyecto.yml`, `orquestacion-durable.yml`,
+  `_reutilizable-generacion-territorial.yml`, `_reutilizable-operacion-territorial.yml`,
+  `_reutilizable-publicar-sitio.yml` (paso de checkout/push con el token del secreto). Workflows compartidos:
+  avisar a las demás sesiones antes.
+- Criterio de aceptación: con el ruleset activo y la app exenta, una 00 registra en `main` sin
+  «rule violations»; una PR sin `pruebas` en verde no se puede fusionar.
+- Prueba local exigida: suite completa (incluye tests de gobernanza de workflows) + `actionlint` si está disponible.
+- Dependencias: el propietario crea la GitHub App o PAT y el secreto. No reactivar el ruleset con 00 en curso.
 
 ### Resultado de T-01 (2026-11-01, `estado_operativo.json` de las 11:06 + anotaciones y logs de los jobs)
 - Completas (32): Albacete, Almería, Ávila, Cáceres, Castellón, Ciudad Real, Córdoba, La Coruña, Cuenca, Gerona,
