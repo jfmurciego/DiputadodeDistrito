@@ -1,0 +1,489 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 240,
+  "edges": 625,
+  "isolated": 0,
+  "total_pop": 336308,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_alava/.cache/ddd/preparacion/congreso_alava_2025/congreso_alava_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 1,
+    "component_sizes": [
+      240
+    ],
+    "component_samples": [
+      [
+        "0100101001",
+        "0100101002",
+        "0100201001",
+        "0100201002",
+        "0100201003",
+        "0100201004",
+        "0100201005",
+        "0100201006",
+        "0100201007",
+        "0100301001",
+        "0100401001",
+        "0100601001"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "cad80db926a5783f220748226415da98777ed5f4d912e56164961ee8c1d3f7d9",
+      "compatibility_identity_sha256": "57a0d1cd652493de2c435be0a5f2fbd5a39fdf6ed4425fa503774a95ff52f619"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "01": {
+        "nodes": 240,
+        "components": 1,
+        "component_sizes": [
+          240
+        ]
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 51,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "01/01001": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Alegría-Dulantzi"
+      },
+      "01/01002": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Amurrio"
+      },
+      "01/01003": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Aramaio"
+      },
+      "01/01004": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Artziniega"
+      },
+      "01/01006": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Armiñón"
+      },
+      "01/01008": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Arratzua-Ubarrundia"
+      },
+      "01/01009": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Asparrena"
+      },
+      "01/01010": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Ayala/Aiara"
+      },
+      "01/01011": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Baños de Ebro/Mañueta"
+      },
+      "01/01013": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Barrundia"
+      },
+      "01/01014": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Berantevilla"
+      },
+      "01/01016": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Bernedo"
+      },
+      "01/01017": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Campezo/Kanpezu"
+      },
+      "01/01018": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Zigoitia"
+      },
+      "01/01019": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Kripan"
+      },
+      "01/01020": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Kuartango"
+      },
+      "01/01021": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Elburgo/Burgelu"
+      },
+      "01/01022": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Elciego"
+      },
+      "01/01023": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Elvillar/Bilar"
+      },
+      "01/01027": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Iruraiz-Gauna"
+      },
+      "01/01028": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Labastida/Bastida"
+      },
+      "01/01030": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Lagrán"
+      },
+      "01/01031": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Laguardia"
+      },
+      "01/01032": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Lanciego/Lantziego"
+      },
+      "01/01033": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Lapuebla de Labarca"
+      },
+      "01/01034": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Leza"
+      },
+      "01/01036": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Laudio/Llodio"
+      },
+      "01/01037": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Arraia-Maeztu"
+      },
+      "01/01039": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Moreda de Álava/Moreda Araba"
+      },
+      "01/01041": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Navaridas"
+      },
+      "01/01042": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Okondo"
+      },
+      "01/01043": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Oyón-Oion"
+      },
+      "01/01044": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Peñacerrada-Urizaharra"
+      },
+      "01/01046": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Erriberagoitia/Ribera Alta"
+      },
+      "01/01047": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Erriberabeitia"
+      },
+      "01/01049": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Añana"
+      },
+      "01/01051": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Agurain/Salvatierra"
+      },
+      "01/01052": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Samaniego"
+      },
+      "01/01053": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "San Millán/Donemiliaga"
+      },
+      "01/01054": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Urkabustaiz"
+      },
+      "01/01055": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdegovía/Gaubea"
+      },
+      "01/01056": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Harana/Valle de Arana"
+      },
+      "01/01057": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villabuena de Álava/Eskuernaga"
+      },
+      "01/01058": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Legutio"
+      },
+      "01/01059": {
+        "nodes": 166,
+        "components": 1,
+        "component_sizes": [
+          166
+        ],
+        "name": "Vitoria-Gasteiz"
+      },
+      "01/01060": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Yécora/Iekora"
+      },
+      "01/01061": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Zalduondo"
+      },
+      "01/01062": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Zambrana"
+      },
+      "01/01063": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Zuia"
+      },
+      "01/01901": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Iruña Oka/Iruña de Oca"
+      },
+      "01/01902": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Lantarón"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
