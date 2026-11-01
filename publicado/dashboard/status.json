@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:06:38.078978+00:00",
+  "generated_at": "2026-11-01T10:08:38.501356+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 40,
-      "activable": 29,
+      "activated": 41,
+      "activable": 28,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 40
+      "durable_pair": 41
     },
     "territories": [
       {
@@ -1442,8 +1442,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41240386898,
-            "receipt_path": "territorios/congreso_burgos/evidencia/fuentes_territoriales/2025/db4c26b9b2b86c014d3d912b397167f3d46eb00a5016bb33d9d56d566f6224c8/41240386898/receipt.json"
+            "run_id": 41292846877,
+            "receipt_path": "territorios/congreso_burgos/evidencia/fuentes_territoriales/2025/55262e61bfc140b4e4fe289374c2e1c065b823515feff5a554406717175974f5/41292846877/receipt.json"
           }
         },
         "electoral": {
@@ -1710,12 +1710,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_cordoba/evidencia/pares_fuentes/2025/96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e.json",
+            "pair_sha256": "96d55857b5d52415c7d3731cfe24e4483768767e0c8ae53f51f3a172a079cc6e",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -4866,20 +4866,20 @@
       "name": "Congreso Albacete",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41240260992,
+      "run_id": 41294417893,
       "last_run": {
-        "run_id": 41240260992,
+        "run_id": 41294417893,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -4920,7 +4920,7 @@
       },
       "autonomous_community_code_ine": "C02",
       "display_name": "Congreso Albacete",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_alicante",
@@ -5196,7 +5196,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -5205,9 +5205,9 @@
         "territorial_source": {
           "territory_id": "congreso_burgos",
           "edition": "2025",
-          "run_id": 41240386898,
-          "artifact_name": "ddd-source-package-congreso_burgos-2025-41240386898",
-          "artifact_sha256": "2983e9f346d89f6e19073cec9561d0df367e525ddc8a653795faa3d6949fe832",
+          "run_id": 41292846877,
+          "artifact_name": "ddd-source-package-congreso_burgos-2025-41292846877",
+          "artifact_sha256": "e5d3c35b2797e0df1cf95fcc46f836ec52085873f53a4444b88c2231d57bbccb",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -5381,7 +5381,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -5982,20 +5982,20 @@
       "name": "Congreso La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41240637295,
+      "run_id": 41294822309,
       "last_run": {
-        "run_id": 41240637295,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "run_id": 41294822309,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "05 · Publicación del Visor",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6036,7 +6036,7 @@
       },
       "autonomous_community_code_ine": "C26",
       "display_name": "Congreso La Rioja",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_lugo",
@@ -7289,7 +7289,7 @@
     }
   ],
   "kpis": {
-    "complete": 29,
+    "complete": 31,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7309,10 +7309,12 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Congreso Albacete",
       "Congreso Ávila",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso La Rioja",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
@@ -7455,11 +7457,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_santa_cruz_de_tenerife",
-    "name": "Congreso Santa Cruz de Tenerife",
-    "display_name": "Congreso Santa Cruz de Tenerife",
-    "autonomous_community_code_ine": "C38",
-    "run_id": 41294259017,
+    "territory_id": "congreso_la_rioja",
+    "name": "Congreso La Rioja",
+    "display_name": "Congreso La Rioja",
+    "autonomous_community_code_ine": "C26",
+    "run_id": 41294822309,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -7478,12 +7480,6 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Albacete",
-      "territory_id": "congreso_albacete",
-      "autonomous_community_code_ine": "C02",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Congreso Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
@@ -7511,6 +7507,12 @@
       "territory": "Congreso Barcelona",
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Congreso Burgos",
+      "territory_id": "congreso_burgos",
+      "autonomous_community_code_ine": "C09",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -7528,12 +7530,6 @@
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Albacete",
-      "territory_id": "congreso_albacete",
-      "autonomous_community_code_ine": "C02",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Congreso Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
@@ -7561,6 +7557,12 @@
       "territory": "Congreso Barcelona",
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "Congreso Burgos",
+      "territory_id": "congreso_burgos",
+      "autonomous_community_code_ine": "C09",
       "action": "generar y validar distritos"
     }
   ]
