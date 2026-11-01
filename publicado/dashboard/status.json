@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T09:59:12.457899+00:00",
+  "generated_at": "2026-11-01T10:00:34.747648+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5656,20 +5656,20 @@
       "name": "Congreso Guadalajara",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41236816482,
+      "run_id": 41294169221,
       "last_run": {
-        "run_id": 41236816482,
+        "run_id": 41294169221,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5710,7 +5710,7 @@
       },
       "autonomous_community_code_ine": "C19",
       "display_name": "Congreso Guadalajara",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_guipuzcoa",
@@ -6021,7 +6021,18 @@
           "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/41240637295.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_la_rioja",
+          "territory_name": "Congreso La Rioja",
+          "edition": "2025",
+          "run_id": 41294822309,
+          "artifact_name": "ddd-state-41294822309-M08",
+          "artifact_sha256": "7dcb4bc1f5bc239e617ec01c309df292c27a2196302e73d3a4625b6b4adc78f2",
+          "source_commit": "8284cef381e9fdb7d2c7131a629efea0d6afbafe",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C26",
       "display_name": "Congreso La Rioja",
@@ -6562,7 +6573,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -7256,7 +7267,7 @@
     }
   ],
   "kpis": {
-    "complete": 28,
+    "complete": 29,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7278,6 +7289,7 @@
       "19 Melilla",
       "Congreso Ávila",
       "Congreso Cuenca",
+      "Congreso Guadalajara",
       "Congreso Huesca",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
