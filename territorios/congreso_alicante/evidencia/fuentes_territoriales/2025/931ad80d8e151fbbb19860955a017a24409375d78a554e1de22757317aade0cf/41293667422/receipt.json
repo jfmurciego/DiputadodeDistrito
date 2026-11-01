@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_alicante",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41293667422,
+  "artifact_name": "ddd-source-package-congreso_alicante-2025-41293667422",
+  "artifact_sha256": "90611e4837cf8f4be7af05481daee4d4241d20e0c9473e189e3260ccc8ed9c38",
+  "package_sha256": "6f824f3c1a8c73742b5a14a11c0a7cfea29b92637ef920066a0da82537b1c27e",
+  "source_commit": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8",
+  "source_declaration": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/931ad80d8e151fbbb19860955a017a24409375d78a554e1de22757317aade0cf/41293667422/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "931ad80d8e151fbbb19860955a017a24409375d78a554e1de22757317aade0cf",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "0ee5616a2a6fd5f4e2ebbc6b1c47bbf8e4f57196acbf882902e14e03d0ea8e82",
+  "compatibility_identity_sha256": "23c7207fc2f1b41c29e688a0e66975a7d32087e4d86f1e1fe53ac273c8c0a60a"
+}
