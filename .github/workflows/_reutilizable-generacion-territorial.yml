@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.2.6
-# NOMBRE DE VERSIÓN: Log de etapa al fallar M04/M05
-# FECHA: 2026-10-29
+# VERSIÓN: 1.2.7
+# NOMBRE DE VERSIÓN: Diagnóstico automático a diagnostico/auto
+# FECHA: 2026-11-01
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
 # CAMBIOS: 1.2.3: la salida de la etapa se guarda en .ddd-logs y, si falla, sus 40 últimas líneas
@@ -17,7 +17,9 @@
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # CAMBIOS 1.2.6: T-09, «Huella de puentes antes de M02» en los ámbitos nacionales: los topology_bridges
 #   deben casar con las secciones de M01; si no, se bloquea con el puente y la causa.
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.5_20261101.yml
+# CAMBIOS 1.2.7: T-14, si M04, M05 o la puerta de certificación fallan, herramientas/publicar_diagnostico_auto.py
+#   sube M01, grafo M03 (gz) e informe M05 a la rama diagnostico/auto (<territorio>/<run>/); best-effort.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.6_20261101.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -482,6 +484,12 @@ jobs:
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 30
+      - name: Publicar diagnóstico automático (M01, grafo M03 e informe M05)
+        if: ${{ failure() && (env.STAGE == 'M04' || env.STAGE == 'M05') }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 herramientas/publicar_diagnostico_auto.py --params "$PARAMS" --cache-dir "$CACHE_DIR" --run-id "$GITHUB_RUN_ID"
       - name: Conservar fallo explícito de GerryChain 50
         if: ${{ failure() && env.STAGE == 'M05' && inputs.optimization_algorithm == 'GerryChain 50' }}
         shell: bash
@@ -1229,6 +1237,12 @@ jobs:
             PASS|PASS_WITH_EXCEPTIONS) ;;
             *) echo "::error::Certificación territorial bloqueada: $decision" >&2; exit 32 ;;
           esac
+      - name: Publicar diagnóstico automático (certificación)
+        if: ${{ failure() }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 herramientas/publicar_diagnostico_auto.py --params "$PARAMS" --cache-dir "$CACHE_DIR" --run-id "$GITHUB_RUN_ID"
 
   registrar:
     name: Registrar producto territorial
