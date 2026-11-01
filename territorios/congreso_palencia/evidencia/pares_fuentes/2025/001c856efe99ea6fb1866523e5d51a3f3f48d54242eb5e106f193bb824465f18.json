@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_palencia",
+  "territory_name": "Congreso Palencia",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_palencia_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41291833956,
+    "artifact_name": "ddd-source-package-congreso_palencia-2025-41291833956",
+    "artifact_sha256": "0e91e7936db7665b77d9ee5a75b93d550115adaffb3581193c259df02af5912d",
+    "package_sha256": "23bee297123bdc1bc7753f0cea66a6278da9598c0c6b23f21a6854aeff322210",
+    "source_commit": "d73703d1c87a46762a874f2b3e4a008649963349",
+    "source_declaration": "territorios/congreso_palencia/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_palencia/evidencia/fuentes_territoriales/2025/45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0/41291833956/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "e7a3ef72372012e1ef6c654a309f404846db374a9ce427c8f82d9a8b5e819834",
+    "compatibility_identity_sha256": "0b95d59cd41eeda9be1d3c088a2385f5e53b9610214a6744d7d0c4c9da3d7519",
+    "remote_verification": {
+      "run_id": 41291833956,
+      "artifact_id": 13078099563,
+      "artifact_name": "ddd-source-package-congreso_palencia-2025-41291833956",
+      "artifact_sha256": "0e91e7936db7665b77d9ee5a75b93d550115adaffb3581193c259df02af5912d",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41235462609,
+    "artifact_name": "ddd-electoral-package-congreso_palencia-2025-41235462609",
+    "artifact_sha256": "fa6944c23ab39a045172bbd07aeeb4522df5e57c97ad658be00167c393cf4f76",
+    "source_commit": "41cce822d769c04abe5e32fc6f3edb4a12d5e460",
+    "receipt_path": "territorios/congreso_palencia/evidencia/fuentes_electorales/2025/835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a/41235462609/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_palencia_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a",
+    "remote_verification": {
+      "run_id": 41235462609,
+      "artifact_id": 13055495739,
+      "artifact_name": "ddd-electoral-package-congreso_palencia-2025-41235462609",
+      "artifact_sha256": "fa6944c23ab39a045172bbd07aeeb4522df5e57c97ad658be00167c393cf4f76",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "45c88d0f94d0ba8e0aab081102ba295ebf74122e203016ced7d47ddb0a5aabe0",
+  "electoral_compatibility_key": "835619e9c7233e0ccc6c9cacd8f18bcaa5c26e73dc4013c30e2f555b6b628c9a",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_palencia/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "001c856efe99ea6fb1866523e5d51a3f3f48d54242eb5e106f193bb824465f18"
+}
