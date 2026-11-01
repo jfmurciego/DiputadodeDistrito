@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T09:50:27.100890+00:00",
+  "generated_at": "2026-11-01T09:51:11.847746+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1646,8 +1646,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41241133485,
-            "receipt_path": "territorios/congreso_ciudad_real/evidencia/fuentes_territoriales/2025/f0a8b7a4debed55d0ca32ee64b8531def34e67dfefa08d3313eb6d10a108a8a7/41241133485/receipt.json"
+            "run_id": 41291967967,
+            "receipt_path": "territorios/congreso_ciudad_real/evidencia/fuentes_territoriales/2025/386ebde0e1022c0d9422c22b18559e5548dd8c117d92115088e96455e3c00163/41291967967/receipt.json"
           }
         },
         "electoral": {
@@ -5368,9 +5368,9 @@
         "territorial_source": {
           "territory_id": "congreso_ciudad_real",
           "edition": "2025",
-          "run_id": 41241133485,
-          "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41241133485",
-          "artifact_sha256": "67da31185cefa495e45795789dc87a47ddd1863e55c5c4d0b9a03638bcb69f10",
+          "run_id": 41291967967,
+          "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41291967967",
+          "artifact_sha256": "9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
