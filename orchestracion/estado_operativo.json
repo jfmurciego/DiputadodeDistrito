@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:38:00.915944+00:00",
+  "generated_at": "2026-11-01T10:39:03.585251+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6047,12 +6047,12 @@
       "territory_id": "congreso_lerida",
       "name": "Congreso Lérida",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41292591493,
       "last_run": {
         "run_id": 41241496894,
         "status": "FAILED",
@@ -6061,7 +6061,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6072,13 +6072,26 @@
           "artifact_sha256": "f8985da3a5cb1c33d05f464d09a19fe849b2426725914c570239be701db2b705",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_lerida",
+          "territory_name": "Congreso Lérida",
+          "edition": "2025",
+          "run_id": 41292591493,
+          "artifact_name": "ddd-state-41292591493-M06",
+          "artifact_sha256": "b0306f093dbd68d80e58ba20b4b8dda8ae36cee75cfa8e5c64ba7d9cbb928db4",
+          "source_commit": "b3899d1bda1519b147a0c34642eec79f074d8ff8",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_lerida/evidencia/generaciones_m06/41292591493.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C25",
       "display_name": "Congreso Lérida",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_la_rioja",
@@ -7543,7 +7556,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 52,
+    "territorial_validated": 53,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7578,6 +7591,7 @@
       "Congreso Huesca",
       "Congreso Jaén",
       "Congreso León",
+      "Congreso Lérida",
       "Congreso La Rioja",
       "Congreso Lugo",
       "Congreso Navarra",
@@ -7598,7 +7612,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 52,
+    "validated": 53,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7633,6 +7647,7 @@
       "Congreso Huesca",
       "Congreso Jaén",
       "Congreso León",
+      "Congreso Lérida",
       "Congreso La Rioja",
       "Congreso Lugo",
       "Congreso Navarra",
@@ -7653,7 +7668,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 17,
+    "ready": 16,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7664,7 +7679,6 @@
       "Congreso Burgos",
       "Congreso Cádiz",
       "Congreso Gerona",
-      "Congreso Lérida",
       "Congreso Madrid",
       "Congreso Málaga",
       "Congreso Murcia",
