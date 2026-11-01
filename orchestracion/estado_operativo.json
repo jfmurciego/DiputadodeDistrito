@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T16:00:14.594245+00:00",
+  "generated_at": "2026-11-01T16:07:25.875687+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5923,11 +5923,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41318125504,
       "last_run": {
-        "run_id": 41292468775,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "01 · Preparación de Datos Territoriales",
-        "reason": "ver log del run",
+        "run_id": 41318125504,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "no existe prepared_source_pair acreditado para la entrada electoral",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -5960,7 +5960,7 @@
       },
       "autonomous_community_code_ine": "C21",
       "display_name": "Congreso Huelva",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_huesca",
@@ -7299,12 +7299,12 @@
       "territory_id": "congreso_valencia",
       "name": "Congreso Valencia",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41318119259,
       "last_run": {
         "run_id": 41293787892,
         "status": "FAILED",
@@ -7313,7 +7313,7 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7324,13 +7324,26 @@
           "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_valencia",
+          "territory_name": "Congreso Valencia",
+          "edition": "2025",
+          "run_id": 41318119259,
+          "artifact_name": "ddd-state-41318119259-M06",
+          "artifact_sha256": "76d5e9a19058d3003daa83cebcd4056d1c078d5fce718a8b14e6d6ec258fc2c4",
+          "source_commit": "1029a38fe8302cda682107026a6db48df3f99df5",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/41318119259.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C46",
       "display_name": "Congreso Valencia",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_valladolid",
@@ -7748,7 +7761,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 59,
+    "territorial_validated": 60,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7803,6 +7816,7 @@
       "Congreso Tarragona",
       "Congreso Teruel",
       "Congreso Toledo",
+      "Congreso Valencia",
       "Congreso Valladolid",
       "Congreso Vizcaya",
       "Congreso Zamora",
@@ -7810,7 +7824,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 59,
+    "validated": 60,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7865,6 +7879,7 @@
       "Congreso Tarragona",
       "Congreso Teruel",
       "Congreso Toledo",
+      "Congreso Valencia",
       "Congreso Valladolid",
       "Congreso Vizcaya",
       "Congreso Zamora",
@@ -7872,7 +7887,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 12,
+    "ready": 11,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7884,8 +7899,7 @@
       "Congreso Málaga",
       "Congreso Murcia",
       "Congreso Las Palmas",
-      "Congreso Pontevedra",
-      "Congreso Valencia"
+      "Congreso Pontevedra"
     ],
     "pending": 0,
     "pending_names": [],
