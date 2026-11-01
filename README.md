@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-01T10:35:34.569892+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-01T10:36:40.839893+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -59,7 +59,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294658600 · SUCCESS | — | — | — |
 | **Congreso Cádiz** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243953699 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Castellón** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295629673 · SUCCESS | — | — | — |
-| **Congreso Ciudad Real** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41241133485 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
+| **Congreso Ciudad Real** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41291967967 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Córdoba** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296161083 · SUCCESS | — | — | — |
 | **Congreso La Coruña** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41243697404 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Cuenca** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294075778 · SUCCESS | — | — | — |
