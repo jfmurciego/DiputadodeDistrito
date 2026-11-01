@@ -786,6 +786,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_alava/evidencia/fuentes_electorales/2025/4f920eb6eba9ea922f3007b741ced4e85036efae35088e17836aadbb5b31e4ae/41239750223/receipt.json
         generation_preflight: territorios/congreso_alava/evidencia/catalogo/generation_preflight_2025.json
+        prepared_source_pair: territorios/congreso_alava/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json
       generation_enabled: true
 - territory_id: congreso_albacete
   name: Congreso Albacete
