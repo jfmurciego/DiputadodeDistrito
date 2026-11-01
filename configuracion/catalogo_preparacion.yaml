@@ -1548,12 +1548,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41241896061
-        stage: M06
+        run_id: 41295799269
+        stage: M08
       preparation_evidence:
         run_id: 41241896061
         artifact_name: ddd-source-package-congreso_jaen-2025-41241896061
@@ -1572,6 +1572,7 @@ territories:
         generation_preflight: territorios/congreso_jaen/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_jaen/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_jaen/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json
+        electoral_product: territorios/congreso_jaen/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_leon
   name: Congreso León

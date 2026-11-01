@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_jaen",
+  "territory_name": "Congreso Jaén",
+  "edition": "2025",
+  "run_id": 41295799269,
+  "artifact_name": "ddd-state-41295799269-M08",
+  "artifact_sha256": "721dcd5d5b012ffd08b5d67a17c1b86887d21384df28c49099db92cfafeacddb",
+  "source_commit": "2dfed5103dee3c56a836344c7166c112d631e39e",
+  "stage": "M08"
+}
