@@ -5,10 +5,12 @@
   "territory_name": "Congreso Pontevedra",
   "edition": "2025",
   "run_id": 41293311168,
-  "source_commit": "1073661ca0dfeb4aa1972371a6db2dc9396d74c9",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "51a7d9dda837c38a0b8bbda36ca1809674e71c0b",
+  "artifact_name": "ddd-state-41293311168-M03U",
+  "artifact_sha256": "b05076f78c0fb23be5ff2120a760c98503b3d46d567785e94830dff9b00cbcc5",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41293311168,
     "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41293311168",
@@ -19,10 +21,106 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "3690101003",
+        "v": "3606103002",
+        "admin_scope": "province:36",
+        "edge_type": "island_administrative_bridge"
+      },
+      {
+        "u": "3600601002",
+        "v": "3600601001",
+        "admin_scope": "municipality:36006",
+        "edge_type": "municipal_discontinuity"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41293311168-M03",
+    "artifact_sha256": "adcf37e8693cc6c8efda124e9bb2132b9ea30e014670ad86b671de215fe95881",
+    "module_version": "7.5.0",
+    "nodes": 727,
+    "edges": 1923,
+    "population": 946710,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41293311168",
+    "job_artifact_sha256": "802c75eb3d00aee44a53e8cdeb764e2aea9ebecd3013d80977521a05b0237982",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/congreso_pontevedra_2025/congreso_pontevedra_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 946710,
+      "target_section_count": 727,
+      "package_sha256": "4e13f876c3f05ab4ec56cb108e5584c0e12bf70bcded26d0a1f167a11a41bc20",
+      "compatibility_report_sha256": "af45753069ea0401012a79cd7d7d951fe89c985504950fe627c8f71a471a49fb",
+      "compatibility_identity_sha256": "d04f2c4aa902f8e08be7e83972f4512167721524b4f05bff3493e6906de21c54"
+    },
+    "topology_accreditation": null,
+    "k_districts": 8,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_pontevedra/.cache/ddd/preparacion/{run_name}/congreso_pontevedra_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 8,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

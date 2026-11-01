@@ -2043,7 +2043,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_pontevedra/evidencia/fuentes_electorales/2025/308c2da9a4d943a975a9bddfce3ab8c4548386719c447394ae6e827c4cc3f7db/41239903028/receipt.json
         generation_preflight: territorios/congreso_pontevedra/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_salamanca
   name: Congreso Salamanca
   editions:
