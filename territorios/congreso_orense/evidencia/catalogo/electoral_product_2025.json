@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_orense",
+  "territory_name": "Congreso Orense",
+  "edition": "2025",
+  "run_id": 41295142111,
+  "artifact_name": "ddd-state-41295142111-M08",
+  "artifact_sha256": "458e2a9e4b29f2a292470743b1cdd4be0afc63f69f77cc25eaac8a96bf1e9f34",
+  "source_commit": "7dbb22ed37014234fd39fe0d534a9b602a5fc914",
+  "stage": "M08"
+}
