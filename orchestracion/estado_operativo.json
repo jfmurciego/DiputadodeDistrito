@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:14:24.134488+00:00",
+  "generated_at": "2026-11-01T10:15:23.728825+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 44,
-      "activable": 25,
+      "activated": 45,
+      "activable": 24,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 44
+      "durable_pair": 45
     },
     "territories": [
       {
@@ -2519,8 +2519,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41244085018,
-            "receipt_path": "territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/ee7045ec34eaff6d206f74c18d00c65f98c924c94e90813477ffb12e21a848ac/41244085018/receipt.json"
+            "run_id": 41293548832,
+            "receipt_path": "territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a/41293548832/receipt.json"
           }
         },
         "electoral": {
@@ -2685,12 +2685,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_asturias/evidencia/pares_fuentes/2025/c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d.json",
+            "pair_sha256": "c37c091cfaa3abf417bfc1151a0f74b8eaa924fa5966bac616449d6b18e8901d",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -6184,7 +6184,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6230,9 +6230,9 @@
         "territorial_source": {
           "territory_id": "congreso_murcia",
           "edition": "2025",
-          "run_id": 41244085018,
-          "artifact_name": "ddd-source-package-congreso_murcia-2025-41244085018",
-          "artifact_sha256": "70e60aef285fefa6d0841206feaed75ca6d0692aa67dae4885487fec3d609a08",
+          "run_id": 41293548832,
+          "artifact_name": "ddd-source-package-congreso_murcia-2025-41293548832",
+          "artifact_sha256": "19411df3c4ebe9135d18e6d29d4902eb472d174274a5af09c2baa6f1ec345cc6",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
