@@ -1,0 +1,803 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 670,
+  "edges": 1717,
+  "isolated": 0,
+  "total_pop": 1209906,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_baleares/.cache/ddd/preparacion/congreso_baleares_2025/congreso_baleares_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 3,
+    "component_sizes": [
+      532,
+      82,
+      56
+    ],
+    "component_samples": [
+      [
+        "0700101001",
+        "0700101002",
+        "0700102001",
+        "0700301001",
+        "0700301002",
+        "0700301003",
+        "0700301004",
+        "0700302001",
+        "0700303001",
+        "0700303002",
+        "0700303003",
+        "0700304001"
+      ],
+      [
+        "0702401001",
+        "0702401002",
+        "0702401003",
+        "0702402001",
+        "0702402002",
+        "0702403001",
+        "0702602001",
+        "0702603001",
+        "0702603002",
+        "0702603003",
+        "0702604001",
+        "0702604002"
+      ],
+      [
+        "0700201001",
+        "0700201002",
+        "0700202001",
+        "0700202002",
+        "0700202003",
+        "0701501001",
+        "0701501002",
+        "0701501003",
+        "0701501004",
+        "0701501005",
+        "0701502001",
+        "0701502002"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "4be23c377d470b6bcb25c97e019173088c3e0e0e4df608886422582ac303d447",
+      "compatibility_identity_sha256": "66c208080d9a2d651188e663843114db0aa4449c34956f9fd68083aba75eebd0"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 1,
+    "admitted_disconnected": 0,
+    "unresolved": 1,
+    "details": {
+      "07": {
+        "nodes": 670,
+        "components": 3,
+        "component_sizes": [
+          532,
+          82,
+          56
+        ],
+        "component_samples": [
+          [
+            "0700101001",
+            "0700101002",
+            "0700102001",
+            "0700301001",
+            "0700301002",
+            "0700301003",
+            "0700301004",
+            "0700302001",
+            "0700303001",
+            "0700303002",
+            "0700303003",
+            "0700304001"
+          ],
+          [
+            "0702401001",
+            "0702401002",
+            "0702401003",
+            "0702402001",
+            "0702402002",
+            "0702403001",
+            "0702602001",
+            "0702603001",
+            "0702603002",
+            "0702603003",
+            "0702604001",
+            "0702604002"
+          ],
+          [
+            "0700201001",
+            "0700201002",
+            "0700202001",
+            "0700202002",
+            "0700202003",
+            "0701501001",
+            "0701501002",
+            "0701501003",
+            "0701501004",
+            "0701501005",
+            "0701502001",
+            "0701502002"
+          ]
+        ]
+      }
+    },
+    "violations": [
+      {
+        "key": "07",
+        "nodes": 670,
+        "components": 3,
+        "component_sizes": [
+          532,
+          82,
+          56
+        ],
+        "component_samples": [
+          [
+            "0700101001",
+            "0700101002",
+            "0700102001",
+            "0700301001",
+            "0700301002",
+            "0700301003",
+            "0700301004",
+            "0700302001",
+            "0700303001",
+            "0700303002",
+            "0700303003",
+            "0700304001"
+          ],
+          [
+            "0702401001",
+            "0702401002",
+            "0702401003",
+            "0702402001",
+            "0702402002",
+            "0702403001",
+            "0702602001",
+            "0702603001",
+            "0702603002",
+            "0702603003",
+            "0702604001",
+            "0702604002"
+          ],
+          [
+            "0700201001",
+            "0700201002",
+            "0700202001",
+            "0700202002",
+            "0700202003",
+            "0701501001",
+            "0701501002",
+            "0701501003",
+            "0701501004",
+            "0701501005",
+            "0701502001",
+            "0701502002"
+          ]
+        ]
+      }
+    ],
+    "unresolved_violations": [
+      {
+        "key": "07",
+        "nodes": 670,
+        "components": 3,
+        "component_sizes": [
+          532,
+          82,
+          56
+        ],
+        "component_samples": [
+          [
+            "0700101001",
+            "0700101002",
+            "0700102001",
+            "0700301001",
+            "0700301002",
+            "0700301003",
+            "0700301004",
+            "0700302001",
+            "0700303001",
+            "0700303002",
+            "0700303003",
+            "0700304001"
+          ],
+          [
+            "0702401001",
+            "0702401002",
+            "0702401003",
+            "0702402001",
+            "0702402002",
+            "0702403001",
+            "0702602001",
+            "0702603001",
+            "0702603002",
+            "0702603003",
+            "0702604001",
+            "0702604002"
+          ],
+          [
+            "0700201001",
+            "0700201002",
+            "0700202001",
+            "0700202002",
+            "0700202003",
+            "0701501001",
+            "0701501002",
+            "0701501003",
+            "0701501004",
+            "0701501005",
+            "0701502001",
+            "0701502002"
+          ]
+        ]
+      }
+    ]
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 67,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "07/07001": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Alaró"
+      },
+      "07/07002": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Alaior"
+      },
+      "07/07003": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Alcúdia"
+      },
+      "07/07004": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Algaida"
+      },
+      "07/07005": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Andratx"
+      },
+      "07/07006": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Artà"
+      },
+      "07/07007": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Banyalbufar"
+      },
+      "07/07008": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Binissalem"
+      },
+      "07/07009": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Búger"
+      },
+      "07/07010": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Bunyola"
+      },
+      "07/07011": {
+        "nodes": 25,
+        "components": 1,
+        "component_sizes": [
+          25
+        ],
+        "name": "Calvià"
+      },
+      "07/07012": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Campanet"
+      },
+      "07/07013": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Campos"
+      },
+      "07/07014": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Capdepera"
+      },
+      "07/07015": {
+        "nodes": 17,
+        "components": 1,
+        "component_sizes": [
+          17
+        ],
+        "name": "Ciutadella de Menorca"
+      },
+      "07/07016": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Consell"
+      },
+      "07/07017": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Costitx"
+      },
+      "07/07018": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Deià"
+      },
+      "07/07019": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Escorca"
+      },
+      "07/07020": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Esporles"
+      },
+      "07/07021": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Estellencs"
+      },
+      "07/07022": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Felanitx"
+      },
+      "07/07023": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Ferreries"
+      },
+      "07/07024": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Formentera"
+      },
+      "07/07025": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Fornalutx"
+      },
+      "07/07026": {
+        "nodes": 29,
+        "components": 1,
+        "component_sizes": [
+          29
+        ],
+        "name": "Eivissa"
+      },
+      "07/07027": {
+        "nodes": 18,
+        "components": 1,
+        "component_sizes": [
+          18
+        ],
+        "name": "Inca"
+      },
+      "07/07028": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Lloret de Vistalegre"
+      },
+      "07/07029": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Lloseta"
+      },
+      "07/07030": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Llubí"
+      },
+      "07/07031": {
+        "nodes": 23,
+        "components": 1,
+        "component_sizes": [
+          23
+        ],
+        "name": "Llucmajor"
+      },
+      "07/07032": {
+        "nodes": 16,
+        "components": 1,
+        "component_sizes": [
+          16
+        ],
+        "name": "Maó"
+      },
+      "07/07033": {
+        "nodes": 24,
+        "components": 1,
+        "component_sizes": [
+          24
+        ],
+        "name": "Manacor"
+      },
+      "07/07034": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Mancor de la Vall"
+      },
+      "07/07035": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Maria de la Salut"
+      },
+      "07/07036": {
+        "nodes": 23,
+        "components": 1,
+        "component_sizes": [
+          23
+        ],
+        "name": "Marratxí"
+      },
+      "07/07037": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Mercadal, Es"
+      },
+      "07/07038": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Montuïri"
+      },
+      "07/07039": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Muro"
+      },
+      "07/07040": {
+        "nodes": 253,
+        "components": 1,
+        "component_sizes": [
+          253
+        ],
+        "name": "Palma"
+      },
+      "07/07041": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Petra"
+      },
+      "07/07042": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Pollença"
+      },
+      "07/07043": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Porreres"
+      },
+      "07/07044": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Pobla, Sa"
+      },
+      "07/07045": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Puigpunyent"
+      },
+      "07/07046": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Sant Antoni de Portmany"
+      },
+      "07/07047": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Sencelles"
+      },
+      "07/07048": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Sant Josep de sa Talaia"
+      },
+      "07/07049": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Sant Joan"
+      },
+      "07/07050": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Sant Joan de Labritja"
+      },
+      "07/07051": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Sant Llorenç des Cardassar"
+      },
+      "07/07052": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Sant Lluís"
+      },
+      "07/07053": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Santa Eugènia"
+      },
+      "07/07054": {
+        "nodes": 18,
+        "components": 1,
+        "component_sizes": [
+          18
+        ],
+        "name": "Santa Eulària des Riu"
+      },
+      "07/07055": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Santa Margalida"
+      },
+      "07/07056": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Santa María del Camí"
+      },
+      "07/07057": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Santanyí"
+      },
+      "07/07058": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Selva"
+      },
+      "07/07059": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Salines, Ses"
+      },
+      "07/07060": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Sineu"
+      },
+      "07/07061": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Sóller"
+      },
+      "07/07062": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Son Servera"
+      },
+      "07/07063": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valldemossa"
+      },
+      "07/07064": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Castell, Es"
+      },
+      "07/07065": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Vilafranca de Bonany"
+      },
+      "07/07901": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Ariany"
+      },
+      "07/07902": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Migjorn Gran, Es"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}

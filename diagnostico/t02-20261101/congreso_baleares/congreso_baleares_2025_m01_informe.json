@@ -1,0 +1,22 @@
+{
+  "module": "01",
+  "version": "7.2.0",
+  "rows_out": 670,
+  "missing_population_rows": 0,
+  "require_non_null_population": true,
+  "province_codes": [
+    "07"
+  ],
+  "edition": 2025,
+  "population_year": 2023,
+  "section_year": 2023,
+  "section_id_field": "CUSEC_KEY",
+  "population_field": "POP_2023",
+  "comarcas": {
+    "enabled": false,
+    "municipalities_total": 67,
+    "municipalities_matched": 0,
+    "municipalities_missing": [],
+    "coverage_ratio": null
+  }
+}
