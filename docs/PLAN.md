@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.5
+Versión: 1.0.6
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: Foto global 01-11 15:40, protocolo de coordinación, asignaciones y decisiones del propietario
-Anterior: legacy/docs/PLAN_v1.0.4_20261101.md
+Cambios/motivo: T-02b documentada: bloqueos de población M05 de Madrid, Málaga, Alicante y Barcelona
+Anterior: legacy/docs/PLAN_v1.0.5_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -139,6 +139,20 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 - Prueba local exigida: suite completa + diagnóstico local de M02/M04/M05 por provincia afectada con el grafo
   subido a `diagnostico/…` (ver `CLAUDE.md`, «Diagnóstico local»).
 - Dependencias: T-01. Una PR por causa, no por provincia.
+
+### T-02b · Bloqueos de población M05 (2026-11-01)
+Runs 00 de las 16:40 (reparación profunda: profundidad 6, conjunto 3, 500.000 candidatos, 300 s). La reparación no mejoró ningún exceso: el bloqueo es estructural (municipios enteros indivisibles bajo el techo, regla del propietario).
+
+| Provincia | Run | Distrito | Población | Límite | Exceso | Municipios enteros |
+|---|---|---|---|---|---|---|
+| Madrid | 41327479240 | 52 | 181.853 | techo 133.943 | +47.909 | Pozuelo (28115, 88.504), Boadilla (28022, 64.635) y 28181 (28.714) |
+| Málaga | 41327483858 | 10 | 161.454 | techo 134.376 | +27.078 | 29054 (85.136) y 29025 (76.318) |
+| Alicante | 41327488604 | 12 | 156.889 | techo 132.268 | +24.620 | trozo de 03065 (119.050) y 03121 (37.839) |
+| Barcelona | 41327510776 | 31 | 150.148 | techo 133.339 | +16.809 | 08015 (112.242) y 08194 (37.906); el distrito 40 (08073) va exento del suelo |
+
+**Estado: BLOQUEADAS por estructura.** Quedan para un futuro estudio de motor. Palancas descartadas: bajar `municipality_atomicity_limit_ratio` (contradice la regla de no partir un municipio que cabe bajo el techo) y subir el techo (Barcelona 31 está a 1,29 de la media).
+
+Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, política 1.7.3, distrito 8 a 1,159 de la media), Pontevedra (exención municipal 36008), Las Palmas (exención municipal 35012). Baleares: reparación profunda en el contrato, a la espera de resultado.
 
 ### T-09 · Huella de puentes heredados antes de M02
 - Objetivo: comprobación previa que detecte puentes municipales heredados de 2024/2025 que ya no casan con el
