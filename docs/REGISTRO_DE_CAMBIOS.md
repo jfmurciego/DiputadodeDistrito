@@ -1,12 +1,18 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.63
+Versión: 1.0.64
 Fecha: 2026-11-01
-Alcance: T-10 — robots de registro con app propia
+Alcance: T-10 — corrección de la credencial de registro
 Estado: candidato
-Cambios/motivo: el ruleset proteger-main rechazó los push de los robots (GH013) y tuvo que desactivarse
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.62_d2_20261101.md
+Cambios/motivo: con los secretos creados, git enviaba dos Authorization (HTTP 400, run 41324108794)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.63_20261101b.md
 -->
+
+## 2026-11-01 — T-10 — credencial de registro sin cabecera duplicada
+
+- `actions/checkout` v6 guarda su token en un fichero aparte enlazado con `includeIf.gitdir:…`; el paso solo borraba `http.extraheader` local y git enviaba las dos cabeceras («Duplicate header: Authorization», HTTP 400).
+- El paso «Credencial de registro» borra también esas entradas `includeIf` antes de poner el token de la app (14 jobs, 10 workflows). Reproducido y comprobado en local con la configuración de checkout v6.
+- Test: `test_credencial_registro` exige el borrado de `includeIf` antes de la nueva cabecera.
 
 ## 2026-11-01 — T-10 — robots de registro con app propia
 

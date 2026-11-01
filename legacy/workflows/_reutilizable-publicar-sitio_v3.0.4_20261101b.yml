@@ -1,0 +1,443 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: reutilizable interno
+# VERSIÓN: 3.0.4
+# NOMBRE: Publicador interno multiterritorio de GitHub Pages
+# ESTADO: candidato
+# QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
+# CAMBIOS 3.0.4: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
+#   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.0.3_20261101.yml
+# CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
+# MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
+# FECHA: 2026-10-27
+name: _Publicador Interno del Sitio
+
+on:
+  workflow_call:
+    inputs:
+      production_run_id:
+        required: false
+        type: string
+      ensemble_release_tag:
+        required: false
+        type: string
+      ensemble_sha256:
+        required: false
+        type: string
+      source_ref:
+        required: false
+        type: string
+      target_page:
+        required: false
+        type: string
+        default: Visor territorial
+      include_congreso_analytical_preview:
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ddd-pages-prod
+  cancel-in-progress: false
+  queue: max
+jobs:
+  publicar:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PRODUCTION_RUN_ID: ${{ inputs.production_run_id || '' }}
+      ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
+      ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}
+      TARGET_PAGE: ${{ inputs.target_page || 'Visor territorial' }}
+      PYTHONPATH: ${{ github.workspace }}
+      PUBLICATION_REGISTRY: orchestracion/publicaciones_visor.json
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+          token: ${{ github.token }}
+
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Sincronizar registro durable actual
+        if: ${{ github.ref_name == 'main' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+
+      - name: Preparar dependencias y materializador verificable
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
+          node --check visor/app.js
+          test -f publicado/dashboard/index.html
+          test -f publicado/dashboard/app.js
+          test -f publicado/dashboard/styles.css
+          test -f publicado/dashboard/status.json
+          test -f "$PUBLICATION_REGISTRY"
+          python -m py_compile herramientas/preparar_visor_ejecucion.py herramientas/evaluar_publicacion_visor.py herramientas/registro_publicaciones_visor.py
+          mkdir -p .ddd-publication
+          cat > .ddd-publication/materializar_registro.sh <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          registry="$1"
+          target="$2"
+          rm -rf "$target"
+          mkdir -p "$target"
+          python herramientas/registro_publicaciones_visor.py validate --registry "$registry"
+          while IFS= read -r row; do
+            [[ -n "$row" ]] || continue
+            id="$(jq -r '.id' <<<"$row")"
+            source_type="$(jq -r '.source_type' <<<"$row")"
+            mkdir -p "$target/$id"
+            case "$source_type" in
+              release_asset)
+                asset_id="$(jq -r '.asset_id' <<<"$row")"
+                [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: asset_id inválido"; exit 51; }
+                gh api -H 'Accept: application/octet-stream'                   "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$target/$id/asset"
+                ;;
+              repository_blob)
+                blob_sha="$(jq -r '.blob_sha' <<<"$row")"
+                gh api "repos/$GITHUB_REPOSITORY/git/blobs/$blob_sha" > "$target/$id/blob.json"
+                [[ "$(jq -r '.encoding' "$target/$id/blob.json")" == "base64" ]] || {
+                  echo "::error::$id: blob sin codificación base64"; exit 52;
+                }
+                jq -r '.content' "$target/$id/blob.json" | tr -d '\n' | base64 --decode > "$target/$id/asset"
+                rm "$target/$id/blob.json"
+                ;;
+              *)
+                echo "::error::$id: fuente definitiva no permitida: $source_type"
+                exit 53
+                ;;
+            esac
+          done < <(jq -c '.products[]?, .ensembles[]?' "$registry")
+          python herramientas/registro_publicaciones_visor.py verify             --registry "$registry" --materialized-root "$target"
+          SH
+          chmod +x .ddd-publication/materializar_registro.sh
+
+      - name: Preflight completo del registro vigente
+        shell: bash
+        run: |
+          set -euo pipefail
+          .ddd-publication/materializar_registro.sh "$PUBLICATION_REGISTRY" /tmp/publications-current
+
+      - name: Recuperar ejecución solicitada como fuente transitoria
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/production && mkdir -p /tmp/production
+          gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
+          test -n "$(find /tmp/production -type f -print -quit)" || {
+            echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43;
+          }
+
+      - name: Acreditar identidad de la ejecución descargada
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/evaluar_publicacion_visor.py             --requested-run-id "$PRODUCTION_RUN_ID"             --production-root /tmp/production             --phase source             --output .ddd-publication/publicacion_visor.json             --strict-request
+
+      - name: Promover productos a blob persistente verificable
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID"             --output /tmp/product-descriptors.json
+
+          printf '[]\n' > /tmp/new-entries.json
+          mkdir -p /tmp/promotion-verify
+          while IFS= read -r row; do
+            [[ -n "$row" ]] || continue
+            id="$(jq -r '.id' <<<"$row")"
+            source="$(jq -r '.local_source' <<<"$row")"
+            sha="$(sha256sum "$source" | awk '{print $1}')"
+
+            # El registro ya admite repository_blob como fuente durable. Usarlo evita
+            # depender de api.uploads.github.com y mantiene el activo inmutable por SHA.
+            blob_request="/tmp/$id-blob-request.json"
+            python -c 'import base64,json,sys; from pathlib import Path; source=Path(sys.argv[1]); target=Path(sys.argv[2]); target.write_text(json.dumps({"content":base64.b64encode(source.read_bytes()).decode("ascii"),"encoding":"base64"}), encoding="utf-8")' "$source" "$blob_request"
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/blobs" --input "$blob_request" > "/tmp/$id-blob.json"
+            blob_sha="$(jq -r '.sha' "/tmp/$id-blob.json")"
+            [[ "$blob_sha" =~ ^[0-9a-f]{40}$ ]] || {
+              echo "::error::$id: blob_sha persistente inválido"; exit 54;
+            }
+
+            persisted="/tmp/promotion-verify/$id"
+            gh api "repos/$GITHUB_REPOSITORY/git/blobs/$blob_sha" > "/tmp/$id-blob-verify.json"
+            [[ "$(jq -r '.encoding' "/tmp/$id-blob-verify.json")" == "base64" ]] || {
+              echo "::error::$id: blob persistente sin codificación base64"; exit 55;
+            }
+            jq -r '.content' "/tmp/$id-blob-verify.json" | tr -d '\n' | base64 --decode > "$persisted"
+            persisted_sha="$(sha256sum "$persisted" | awk '{print $1}')"
+            [[ "$persisted_sha" == "$sha" ]] || {
+              echo "::error::$id: SHA-256 del blob persistente no coincide"; exit 55;
+            }
+
+            entry="$(jq               --arg repository "$GITHUB_REPOSITORY"               --arg blob_sha "$blob_sha"               --arg sha256 "$sha"               '. | del(.local_source,.stage) + {
+                source_type:"repository_blob",
+                repository:$repository,
+                blob_sha:$blob_sha,
+                sha256:$sha256,
+                immutable_location:("github-git-blob://" + $repository + "/" + $blob_sha)
+              }' <<<"$row")"
+            tmp="$(mktemp)"
+            jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
+            mv "$tmp" /tmp/new-entries.json
+          done < <(jq -c '.[]' /tmp/product-descriptors.json)
+
+      - name: Resolver ensemble persistente solicitado
+        if: ${{ inputs.ensemble_release_tag != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
+          tag="$ENSEMBLE_RELEASE_TAG"
+          asset_name="$tag.zip"
+          expected_sha="$ENSEMBLE_SHA256"
+          [[ -n "$expected_sha" ]] || {
+            echo "::error::Ensemble $tag sin ensemble_sha256 acreditado"; exit 56;
+          }
+          [[ "$expected_sha" =~ ^[0-9a-f]{64}$ ]] || {
+            echo "::error::ensemble_sha256 mal formado para $tag"; exit 56;
+          }
+          mkdir -p /tmp/release-resolution
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > /tmp/release-resolution/ensemble-releases.json
+          python herramientas/resolver_release_asset.py release \
+            --releases /tmp/release-resolution/ensemble-releases.json --tag "$tag" \
+            > /tmp/release-resolution/ensemble-release.json || {
+              echo "::error::Ensemble requiere exactamente un release, draft o publicado: $tag"; exit 56;
+            }
+          release_id="$(jq -r '.id' /tmp/release-resolution/ensemble-release.json)"
+          gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > /tmp/release-resolution/ensemble-release-current.json
+          python herramientas/resolver_release_asset.py asset \
+            --release /tmp/release-resolution/ensemble-release-current.json --name "$asset_name" \
+            > /tmp/release-resolution/ensemble-asset.json || {
+              echo "::error::Ensemble requiere exactamente un release asset: $tag/$asset_name"; exit 56;
+            }
+          asset_id="$(jq -r '.id' /tmp/release-resolution/ensemble-asset.json)"
+          [[ "$asset_id" =~ ^[0-9]+$ ]] || {
+            echo "::error::Ensemble sin asset_id persistente: $tag/$asset_name"; exit 56;
+          }
+          rm -rf /tmp/ensemble
+          mkdir -p /tmp/ensemble/unpacked
+          gh api -H 'Accept: application/octet-stream'             "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > /tmp/ensemble/asset
+          sha="$(sha256sum /tmp/ensemble/asset | awk '{print $1}')"
+          [[ "$sha" == "$expected_sha" ]] || {
+            echo "::error::Ensemble $tag: SHA-256 observado $sha != acreditado $expected_sha"; exit 57;
+          }
+          unzip -q /tmp/ensemble/asset -d /tmp/ensemble/unpacked
+          python herramientas/registro_publicaciones_visor.py describe-ensemble             --ensemble-root /tmp/ensemble/unpacked             --release-tag "$tag"             --output /tmp/ensemble-descriptor.json
+          entry="$(jq             --arg repository "$GITHUB_REPOSITORY"             --arg release_tag "$tag"             --arg asset_name "$asset_name"             --arg asset_id "$asset_id"             --arg sha256 "$sha"             '. + {
+              source_type:"release_asset",
+              repository:$repository,
+              release_tag:$release_tag,
+              asset_name:$asset_name,
+              asset_id:($asset_id|tonumber),
+              sha256:$sha256,
+              immutable_location:("github-release-asset://" + $repository + "/" + $asset_id)
+            }' /tmp/ensemble-descriptor.json)"
+          tmp="$(mktemp)"
+          jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
+          mv "$tmp" /tmp/new-entries.json
+
+      - name: Construir candidato sin tocar el registro durable
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
+          python herramientas/registro_publicaciones_visor.py candidate             --registry "$PUBLICATION_REGISTRY"             --entries /tmp/new-entries.json             --output /tmp/publicaciones_visor.candidate.json
+
+      - name: Preflight completo del registro candidato
+        shell: bash
+        run: |
+          set -euo pipefail
+          .ddd-publication/materializar_registro.sh             /tmp/publicaciones_visor.candidate.json             /tmp/publications-candidate
+
+      - name: Construir sitio candidato completo
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard
+          cp visor/index.html visor/app.js visor/styles.css /tmp/site-candidate/
+          cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
+          python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
+
+      - name: Preparar visor analítico Congreso opt-in
+        if: ${{ inputs.include_congreso_analytical_preview }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/site-candidate/congreso/data
+          cp visor/congreso/index.html visor/congreso/congreso.js visor/congreso/styles.css /tmp/site-candidate/congreso/
+          python -m pip install --disable-pip-version-check -r requirements-congreso-piloto.lock
+          python -m herramientas.preparar_visor_congreso_leon \
+            --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/LEON/leon-corrected.json \
+            --execution-id "$GITHUB_RUN_ID" \
+            --output /tmp/site-candidate/congreso/data/24.geojson
+          python -m herramientas.preparar_visor_congreso_leon \
+            --candidate docs/ESTUDIOS/N08_PILOTO_PROVINCIAL_20261026/CACERES/caceres-3-alternativa-degree-asc.json \
+            --execution-id "$GITHUB_RUN_ID" \
+            --output /tmp/site-candidate/congreso/data/10.geojson \
+            --split-output /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("/tmp/site-candidate/index.html")
+          page = path.read_text(encoding="utf-8")
+          marker = '<a class="dashboard-link" href="dashboard/">Dashboard operativo</a>'
+          link = '<a class="dashboard-link" href="congreso/">Congreso — pilotos analíticos no certificados</a>'
+          if marker not in page or 'href="congreso/"' in page:
+              raise SystemExit("CONGRESS_NAV_INJECTION_PRECONDITION_FAILED")
+          path.write_text(page.replace(marker, marker + " " + link, 1), encoding="utf-8")
+          PY
+
+      - name: Validar sitio candidato completo
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s /tmp/site-candidate/data/viewer-results.json
+          if [[ "${{ inputs.include_congreso_analytical_preview }}" == "true" ]]; then
+            test -s /tmp/site-candidate/congreso/data/24.geojson
+            test -s /tmp/site-candidate/congreso/data/10.geojson
+            test -s /tmp/site-candidate/congreso/data/10-municipios-divididos.geojson
+            grep -q 'href="congreso/"' /tmp/site-candidate/index.html
+            node --check /tmp/site-candidate/congreso/congreso.js
+          else
+            test ! -e /tmp/site-candidate/congreso
+            if grep -q 'href="congreso/"' /tmp/site-candidate/index.html; then echo "::error::Enlace Congreso presente sin opt-in"; exit 1; fi
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          registry = json.loads(Path("/tmp/publicaciones_visor.candidate.json").read_text(encoding="utf-8"))
+          viewer = json.loads(Path("/tmp/site-candidate/data/viewer-results.json").read_text(encoding="utf-8"))
+          if viewer.get("schema") != "ddd.viewer-results/1.1":
+              raise SystemExit("viewer-results.json: schema inesperado")
+          expected_products = {row["id"] for row in registry.get("products", [])}
+          observed_products = {
+              row["id"] for row in viewer.get("results", [])
+              if row.get("kind") in {"static", "canonical_m06", "canonical_m08"}
+          }
+          if observed_products != expected_products:
+              raise SystemExit(
+                  f"viewer/registro inconsistentes: products expected={sorted(expected_products)} observed={sorted(observed_products)}"
+              )
+          for row in viewer.get("results", []):
+              path = row.get("viewer_path")
+              if not path:
+                  raise SystemExit(f"{row.get('id')}: viewer_path ausente")
+              payload_path = Path("/tmp/site-candidate") / path
+              payload = json.loads(payload_path.read_text(encoding="utf-8"))
+              if payload.get("type") != "FeatureCollection":
+                  raise SystemExit(f"{row.get('id')}: GeoJSON no es FeatureCollection")
+              expected = int(row.get("expected_districts") or 0)
+              observed = len(payload.get("features", []))
+              if expected and observed != expected:
+                  raise SystemExit(f"{row.get('id')}: distritos observados {observed} != {expected}")
+          PY
+          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --phase prepared --output .ddd-publication/publicacion_visor.json)
+          [[ -n "$PRODUCTION_RUN_ID" ]] && args+=(--production-root /tmp/production --strict-request)
+          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+
+      - name: Verificar Pages habilitado para GitHub Actions
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! gh api "repos/$GITHUB_REPOSITORY/pages" > /tmp/pages-site.json; then
+            echo "::error::GitHub Pages no está habilitado para este repositorio. Debe habilitarse una sola vez en Settings > Pages con Source = GitHub Actions; el GITHUB_TOKEN no puede crear el sitio."
+            exit 58
+          fi
+          build_type="$(jq -r '.build_type // empty' /tmp/pages-site.json)"
+          [[ "$build_type" == "workflow" ]] || {
+            echo "::error::GitHub Pages está configurado con build_type=$build_type; se requiere Source = GitHub Actions."
+            exit 58
+          }
+
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with: {path: /tmp/site-candidate}
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+      - name: Persistir registro sólo después del despliegue
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "${{ steps.deployment.outcome }}" == "success" ]] || {
+            echo "::error::No se persiste el registro porque Pages no se desplegó correctamente."; exit 49;
+          }
+          cmp -s "$PUBLICATION_REGISTRY" /tmp/publicaciones_visor.candidate.json && exit 0
+          [[ "$GITHUB_REF_NAME" == "main" ]] || {
+            echo "::error::Las promociones publicables sólo pueden persistirse desde main."; exit 45;
+          }
+          cp /tmp/publicaciones_visor.candidate.json "$PUBLICATION_REGISTRY"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add "$PUBLICATION_REGISTRY"
+          git commit -m "chore: registrar activos persistentes del visor"
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              break
+            fi
+            git rebase --abort >/dev/null 2>&1 || true
+            [[ "$attempt" == 3 ]] && {
+              echo "::error::No se pudo persistir el registro de publicaciones."; exit 48;
+            }
+            sleep $((attempt * 2))
+          done
+
+      - name: Registrar evidencia
+        if: always()
+        shell: bash
+        env:
+          DEPLOYMENT_OUTCOME: ${{ steps.deployment.outcome }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-publication
+          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
+          [[ -n "$PRODUCTION_RUN_ID" && -d /tmp/production ]] && args+=(--production-root /tmp/production)
+          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+          case "$TARGET_PAGE" in "Dashboard operativo") rel="dashboard/";; *) rel="";; esac
+          jq -n --arg pagina "$TARGET_PAGE" --arg url "$PAGE_URL$rel" --arg pages_root "$PAGE_URL" --arg run_id "$GITHUB_RUN_ID"             '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id}'             > .ddd-publication/pagina_publicada.json
+
+      - name: Publicar evidencia
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-publication-${{ github.run_id }}
+          path: .ddd-publication
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

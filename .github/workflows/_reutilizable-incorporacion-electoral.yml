@@ -1,13 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — incorporación electoral
-# VERSIÓN: 1.1.5
+# VERSIÓN: 1.1.6
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y un paquete electoral preparado,
 # agrega los resultados, genera el producto electoral y registra su disponibilidad.
 # NO HACE: preparación territorial, generación de distritos, auditoría geométrica ni publicación web. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
 # CAMBIOS 1.1.5: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
-# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.1.4_20261101.yml
+# CAMBIOS 1.1.6: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
+#   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
+# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.1.5_20261101b.yml
 # CAMBIOS: 1.1.4: VALIDACION.json se busca también en ejecuciones/<RUN_ID>/ (donde lo escribe validar_ejecucion).
 #   1.1.3: el diagnóstico añade DIAG_VALIDACION con fallos y municipios de VALIDACION.json.
 #   1.1.2: la salida de M07/M08 se guarda en .ddd-logs y, si fallan, sus últimas líneas se
@@ -365,6 +367,7 @@ jobs:
           [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
           echo "::add-mask::$token"
           git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2

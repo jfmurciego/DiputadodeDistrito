@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.7
+# VERSIÓN: 1.4.8
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-10-28
 # ESTADO: candidato
@@ -12,7 +12,9 @@
 # CAMBIOS 1.4.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
 # CAMBIOS 1.4.7: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.6_20261101.yml
+# CAMBIOS 1.4.8: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
+#   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.7_20261101b.yml
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -403,6 +405,7 @@ jobs:
           [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
           echo "::add-mask::$token"
           git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - name: Instalar entorno geoespacial de registro
