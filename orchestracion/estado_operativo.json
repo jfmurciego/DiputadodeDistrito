@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:20:08.084157+00:00",
+  "generated_at": "2026-11-01T10:20:52.748778+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6502,7 +6502,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,

@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-01T10:20:08.084157+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-01T10:20:52.748778+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -82,7 +82,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Asturias** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41243326722 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Palencia** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41235453115 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Las Palmas** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41250283081 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
-| **Congreso Pontevedra** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243452235 · FAILED | 02 · Generación de Distritos Autonómicos | Fuente territorial acreditada; habilitación de generación todavía no evaluada. | generar y validar distritos |
+| **Congreso Pontevedra** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243452235 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Salamanca** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41241010241 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294259017 · FAILED | 05 · Publicación del Visor | ver log del run | — |
 | **Congreso Cantabria** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41242029481 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
