@@ -1,12 +1,18 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.61
+Versión: 1.0.62
 Fecha: 2026-11-01
-Alcance: T-03 — activación por elección
+Alcance: D-2 confirmada — matrículas en español
 Estado: candidato
-Cambios/motivo: una sola activación, una 03 y un 00 por elección entera (PR #376)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.60_puentes_20261031.md
+Cambios/motivo: el propietario confirma INE canónico y exige matrículas solo en español
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.61_t03_20261101.md
 -->
+
+## 2026-11-01 — D-2 confirmada — matrículas en español
+
+- Clave de elección: número INE canónico; matrícula como alias, solo en español: Baleares PM, Gerona GE, Orense OR y Huesca HU. IB, GI y OU se rechazan.
+- Catálogo maestro 1.7.3, `generar_provincias_congreso.py` 1.2.1 y `clave_eleccion.py` 1.0.1 con esas matrículas.
+- `docs/PLAN.md` 1.0.3: D-2 confirmada y resultado de T-01 (52 provincias clasificadas, 12 PARADA con causa).
 
 ## 2026-11-01 — T-03 — Activación por elección
 
