@@ -31,6 +31,7 @@ Anterior: legacy/docs/PLAN_v1.0.1_20261101.md
   activación por elección (T-03)? Recomendación: esperar a T-03 para no rehacer 03/00 por duplicado.
 - D-2. Formato canónico de la clave de elección: número INE (`ES-NAC-22-20230723`) o matrícula (`ES-NAC-HU-20230723`).
   Recomendación: número INE como canónico y matrícula solo como alias de presentación.
+  D-2 aplicada según recomendación, pendiente de confirmar (T-03, #376).
 - D-3. Publicación en el visor de las 27 provincias completas además de Huesca: ¿ahora o al cerrar la elección entera?
 
 ## 3. Cola de tareas

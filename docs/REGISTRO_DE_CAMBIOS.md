@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.60
-Fecha: 2026-10-31
-Alcance: Congreso — puentes topológicos heredados en provincias con enclaves
+Versión: 1.0.61
+Fecha: 2026-11-01
+Alcance: T-03 — activación por elección
 Estado: candidato
-Cambios/motivo: Palencia (run 41235453115) falló: «grafo territorial no supera conectividad administrativa»
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.59_puentes_20261031.md
+Cambios/motivo: una sola activación, una 03 y un 00 por elección entera (PR #376)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.60_puentes_20261031.md
 -->
+
+## 2026-11-01 — T-03 — Activación por elección
+
+- `herramientas/clave_eleccion.py` 1.0.0: clave `ES-<NAC|AUT>-[unidad-]AAAAMMDD`. Nacional: número INE canónico y matrícula como alias (`ES-NAC-HU-20230723` → `ES-NAC-22-20230723`); `ES-NAC-20230723` expande a las 52 provincias. Autonómicas: `ES-AUT-02-20260208` (Aragón), `ES-AUT-20230528` (todas las de esa fecha). D-2 aplicada según la recomendación, pendiente de confirmar.
+- La fecha forma parte de la clave: una fecha no registrada no resuelve a la elección vigente. `validar` rechaza claves o `territory_id` repetidos; cada elección histórica lleva su propio `territory_id`.
+- Workflow «Activación por Elección» 1.0.0: fases `plan` (simulación en seco), `activar` (prepare_one), `electoral` (03) y `completa` (00) para todos los territorios; filtro `solo`.
+- 00 1.4.6: entrada `lanzado_por_eleccion`; el encadenado par→04 se mantiene cuando lo lanza el bot, una sola vez.
+- Tests: `tests/test_clave_eleccion.py` y listas de workflows visibles.
 
 ## 2026-10-31 — Congreso — puentes heredados de los contratos autonómicos
 
