@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import random
 import shutil
 import subprocess
 import time
@@ -46,6 +47,7 @@ def persist_rederived_tree(
     max_attempts: int = 4,
     before_push: Callable[[int], None] | None = None,
     exhausted_message: str | None = None,
+    backoff: Callable[[int], float] | None = None,
 ) -> PersistenceResult:
     """Persist a semantic operation by re-deriving it from current remote HEAD.
 
@@ -104,7 +106,7 @@ def persist_rederived_tree(
                     f"{prefix}: el remoto avanzó durante la validación NO_OP "
                     f"(validado={validated_head}, remoto={remote_head or 'desconocido'})"
                 )
-            time.sleep(min(attempt * 0.2, 1.0))
+            time.sleep(backoff(attempt) if backoff else min(attempt * 0.2, 1.0))
             continue
 
         _git(root, "commit", "-m", commit_message)
@@ -131,7 +133,7 @@ def persist_rederived_tree(
                 f"{max_attempts} derivaciones desde el HEAD vigente"
             )
             raise RuntimeError(f"{prefix}: {pushed.stderr.strip()}")
-        time.sleep(min(attempt * 0.2, 1.0))
+        time.sleep(backoff(attempt) if backoff else min(attempt * 0.2, 1.0))
 
     raise AssertionError("bucle de persistencia inalcanzable")
 
@@ -155,13 +157,21 @@ def _regenerate(root: Path, edition: str, *, sync_dashboard_assets: bool) -> Non
             shutil.copy2(root / "dashboard" / name, target / name)
 
 
+SHARED_STATE_MAX_ATTEMPTS = 10
+
+
+def shared_state_backoff(attempt: int) -> float:
+    """Espera exponencial con jitter (2, 4, 8… s, tope 30): regenerar tarda segundos y varios robots empujan a la vez."""
+    return min(2.0 ** attempt, 30.0) * random.uniform(0.5, 1.0)
+
+
 def persist_shared_state(
     *,
     root_dir: Path,
     edition: str,
     target_branch: str = "main",
     sync_dashboard_assets: bool = False,
-    max_attempts: int = 4,
+    max_attempts: int = SHARED_STATE_MAX_ATTEMPTS,
     before_push: Callable[[int], None] | None = None,
 ) -> str:
     """
@@ -187,6 +197,7 @@ def persist_shared_state(
         ),
         max_attempts=max_attempts,
         before_push=before_push,
+        backoff=shared_state_backoff,
         exhausted_message=(
             "No se pudo persistir el estado operativo compartido tras "
             f"{max_attempts} regeneraciones desde el HEAD vigente"
@@ -201,7 +212,7 @@ def main() -> int:
     ap.add_argument("--edition", default="2025")
     ap.add_argument("--target-branch", default="main")
     ap.add_argument("--sync-dashboard-assets", action="store_true")
-    ap.add_argument("--max-attempts", type=int, default=4)
+    ap.add_argument("--max-attempts", type=int, default=SHARED_STATE_MAX_ATTEMPTS)
     args = ap.parse_args()
     sha = persist_shared_state(
         root_dir=args.root_dir,

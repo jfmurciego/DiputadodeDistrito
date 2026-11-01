@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.66
+Versión: 1.0.67
 Fecha: 2026-11-01
 Alcance: T-09 — huella de puentes antes de M02
 Estado: candidato
 Cambios/motivo: un puente heredado que no casa con las secciones vigentes paraba la cadena en M02 sin causa clara
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.65_t10fix_20261101.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.66_t06_20261101.md
 -->
 
 ## 2026-11-01 — T-09 — huella de puentes antes de M02
@@ -14,6 +14,14 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.65_t10fix_20261101.md
 - Sobre los 52 contratos nacionales: 28 puentes en 20 provincias, todos válidos. Ninguna PARADA de T-01 era por puentes rotos (Murcia es un puente que falta, no uno roto; eso lo valida M02 con las aristas).
 - Generación territorial 1.2.6: paso «Huella de puentes antes de M02», solo en ámbitos nacionales y solo cuando corre M02 (si M02 se reutiliza por checkpoint, no corre); bloquea con el puente y la causa.
 - Test: `tests/test_verificar_puentes_congreso.py` con puentes rotos sintéticos y el paso del workflow.
+
+
+## 2026-11-01 — T-06 — Gestor de Campañas con provincias nacionales
+
+- Gestor de Campañas 1.2.0: campaña «Nacional 2023». Territorios: «todos» (52 provincias), número INE (22), matrícula en español (HU, GE, PM…) o nombre (Huesca, Nacional Huesca). IB, GI u OU no se aceptan.
+- `gestor_campana_nacional.py` 0.2.0: hasta 52 provincias (19 en la autonómica), sin mezclar ámbitos; slot = código piloto (C22); `territory_display_name` «Nacional …» en el manifiesto y el resumen. Al 00 se le sigue pasando el nombre interno.
+- Huesca (completa) planifica como `PRODUCT_REUSE_READY`: la campaña carga sus distritos y resultados.
+- Test: `tests/test_gestor_campana_provincias.py`.
 
 ## 2026-11-01 — T-10 — credencial de registro sin cabecera duplicada
 

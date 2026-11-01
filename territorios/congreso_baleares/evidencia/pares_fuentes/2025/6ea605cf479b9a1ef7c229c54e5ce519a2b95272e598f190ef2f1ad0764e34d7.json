@@ -1,0 +1,76 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_baleares",
+  "territory_name": "Congreso Baleares",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_baleares_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41336112319,
+    "artifact_name": "ddd-source-package-congreso_baleares-2025-41336112319",
+    "artifact_sha256": "d0376964326a879ee41fd2aec6f2bc85c75657dfbe5aa84b5aac6e9fbd6010f4",
+    "package_sha256": "4be23c377d470b6bcb25c97e019173088c3e0e0e4df608886422582ac303d447",
+    "source_commit": "0fa0c023b85a23d48086d32e0892762c0d795347",
+    "source_declaration": "territorios/congreso_baleares/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4/41336112319/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "98be98692655bd101714a35db18d49c719ed38684392ac2448d2a50b293068c5",
+    "compatibility_identity_sha256": "66c208080d9a2d651188e663843114db0aa4449c34956f9fd68083aba75eebd0",
+    "remote_verification": {
+      "run_id": 41336112319,
+      "artifact_id": 13095122747,
+      "artifact_name": "ddd-source-package-congreso_baleares-2025-41336112319",
+      "artifact_sha256": "d0376964326a879ee41fd2aec6f2bc85c75657dfbe5aa84b5aac6e9fbd6010f4",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41250238804,
+    "artifact_name": "ddd-electoral-package-congreso_baleares-2025-41250238804",
+    "artifact_sha256": "3847c850baee5140168cdb286a52b36b4949c88c744382703de56df1fd7b0f44",
+    "source_commit": "fefd290ad115cc651b46bbf39a33ac45d83b7ae7",
+    "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_electorales/2025/affe7b19fb8d79d5c23dff92d589467fb7e5d3c79cf584d68cc90e3380883460/41250238804/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_baleares_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "affe7b19fb8d79d5c23dff92d589467fb7e5d3c79cf584d68cc90e3380883460",
+    "remote_verification": {
+      "run_id": 41250238804,
+      "artifact_id": 13061106325,
+      "artifact_name": "ddd-electoral-package-congreso_baleares-2025-41250238804",
+      "artifact_sha256": "3847c850baee5140168cdb286a52b36b4949c88c744382703de56df1fd7b0f44",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4",
+  "electoral_compatibility_key": "affe7b19fb8d79d5c23dff92d589467fb7e5d3c79cf584d68cc90e3380883460",
+  "territorial_product_reuse": {
+    "available": false,
+    "geometric_reuse_compatible": false,
+    "reason": "NO_TERRITORIAL_PRODUCT"
+  },
+  "pair_sha256": "6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7"
+}
