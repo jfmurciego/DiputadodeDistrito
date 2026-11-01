@@ -1,0 +1,539 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 715,
+  "edges": 1877,
+  "isolated": 0,
+  "total_pop": 1145843,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_las_palmas/.cache/ddd/preparacion/congreso_las_palmas_2025/congreso_las_palmas_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 3,
+    "component_sizes": [
+      585,
+      75,
+      55
+    ],
+    "component_samples": [
+      [
+        "3500101001",
+        "3500101002",
+        "3500101003",
+        "3500101004",
+        "3500101005",
+        "3500201001",
+        "3500201002",
+        "3500201003",
+        "3500201004",
+        "3500201005",
+        "3500201006",
+        "3500201007"
+      ],
+      [
+        "3500401001",
+        "3500401002",
+        "3500401003",
+        "3500401004",
+        "3500401005",
+        "3500401006",
+        "3500401007",
+        "3500401008",
+        "3500401009",
+        "3500401010",
+        "3500401011",
+        "3500401012"
+      ],
+      [
+        "3500301001",
+        "3500301002",
+        "3500301003",
+        "3500301004",
+        "3500301005",
+        "3500701001",
+        "3501401001",
+        "3501401002",
+        "3501401003",
+        "3501401004",
+        "3501401005",
+        "3501401006"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f",
+      "compatibility_identity_sha256": "2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 1,
+    "admitted_disconnected": 0,
+    "unresolved": 1,
+    "details": {
+      "35": {
+        "nodes": 715,
+        "components": 3,
+        "component_sizes": [
+          585,
+          75,
+          55
+        ],
+        "component_samples": [
+          [
+            "3500101001",
+            "3500101002",
+            "3500101003",
+            "3500101004",
+            "3500101005",
+            "3500201001",
+            "3500201002",
+            "3500201003",
+            "3500201004",
+            "3500201005",
+            "3500201006",
+            "3500201007"
+          ],
+          [
+            "3500401001",
+            "3500401002",
+            "3500401003",
+            "3500401004",
+            "3500401005",
+            "3500401006",
+            "3500401007",
+            "3500401008",
+            "3500401009",
+            "3500401010",
+            "3500401011",
+            "3500401012"
+          ],
+          [
+            "3500301001",
+            "3500301002",
+            "3500301003",
+            "3500301004",
+            "3500301005",
+            "3500701001",
+            "3501401001",
+            "3501401002",
+            "3501401003",
+            "3501401004",
+            "3501401005",
+            "3501401006"
+          ]
+        ]
+      }
+    },
+    "violations": [
+      {
+        "key": "35",
+        "nodes": 715,
+        "components": 3,
+        "component_sizes": [
+          585,
+          75,
+          55
+        ],
+        "component_samples": [
+          [
+            "3500101001",
+            "3500101002",
+            "3500101003",
+            "3500101004",
+            "3500101005",
+            "3500201001",
+            "3500201002",
+            "3500201003",
+            "3500201004",
+            "3500201005",
+            "3500201006",
+            "3500201007"
+          ],
+          [
+            "3500401001",
+            "3500401002",
+            "3500401003",
+            "3500401004",
+            "3500401005",
+            "3500401006",
+            "3500401007",
+            "3500401008",
+            "3500401009",
+            "3500401010",
+            "3500401011",
+            "3500401012"
+          ],
+          [
+            "3500301001",
+            "3500301002",
+            "3500301003",
+            "3500301004",
+            "3500301005",
+            "3500701001",
+            "3501401001",
+            "3501401002",
+            "3501401003",
+            "3501401004",
+            "3501401005",
+            "3501401006"
+          ]
+        ]
+      }
+    ],
+    "unresolved_violations": [
+      {
+        "key": "35",
+        "nodes": 715,
+        "components": 3,
+        "component_sizes": [
+          585,
+          75,
+          55
+        ],
+        "component_samples": [
+          [
+            "3500101001",
+            "3500101002",
+            "3500101003",
+            "3500101004",
+            "3500101005",
+            "3500201001",
+            "3500201002",
+            "3500201003",
+            "3500201004",
+            "3500201005",
+            "3500201006",
+            "3500201007"
+          ],
+          [
+            "3500401001",
+            "3500401002",
+            "3500401003",
+            "3500401004",
+            "3500401005",
+            "3500401006",
+            "3500401007",
+            "3500401008",
+            "3500401009",
+            "3500401010",
+            "3500401011",
+            "3500401012"
+          ],
+          [
+            "3500301001",
+            "3500301002",
+            "3500301003",
+            "3500301004",
+            "3500301005",
+            "3500701001",
+            "3501401001",
+            "3501401002",
+            "3501401003",
+            "3501401004",
+            "3501401005",
+            "3501401006"
+          ]
+        ]
+      }
+    ]
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 34,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "35/35001": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Agaete"
+      },
+      "35/35002": {
+        "nodes": 23,
+        "components": 1,
+        "component_sizes": [
+          23
+        ],
+        "name": "Agüimes"
+      },
+      "35/35003": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Antigua"
+      },
+      "35/35004": {
+        "nodes": 32,
+        "components": 1,
+        "component_sizes": [
+          32
+        ],
+        "name": "Arrecife"
+      },
+      "35/35005": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Artenara"
+      },
+      "35/35006": {
+        "nodes": 27,
+        "components": 1,
+        "component_sizes": [
+          27
+        ],
+        "name": "Arucas"
+      },
+      "35/35007": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Betancuria"
+      },
+      "35/35008": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Firgas"
+      },
+      "35/35009": {
+        "nodes": 16,
+        "components": 1,
+        "component_sizes": [
+          16
+        ],
+        "name": "Gáldar"
+      },
+      "35/35010": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Haría"
+      },
+      "35/35011": {
+        "nodes": 19,
+        "components": 1,
+        "component_sizes": [
+          19
+        ],
+        "name": "Ingenio"
+      },
+      "35/35012": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Mogán"
+      },
+      "35/35013": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Moya"
+      },
+      "35/35014": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Oliva, La"
+      },
+      "35/35015": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Pájara"
+      },
+      "35/35016": {
+        "nodes": 277,
+        "components": 1,
+        "component_sizes": [
+          277
+        ],
+        "name": "Palmas de Gran Canaria, Las"
+      },
+      "35/35017": {
+        "nodes": 22,
+        "components": 1,
+        "component_sizes": [
+          22
+        ],
+        "name": "Puerto del Rosario"
+      },
+      "35/35018": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "San Bartolomé"
+      },
+      "35/35019": {
+        "nodes": 28,
+        "components": 1,
+        "component_sizes": [
+          28
+        ],
+        "name": "San Bartolomé de Tirajana"
+      },
+      "35/35020": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Aldea de San Nicolás, La"
+      },
+      "35/35021": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Santa Brígida"
+      },
+      "35/35022": {
+        "nodes": 39,
+        "components": 1,
+        "component_sizes": [
+          39
+        ],
+        "name": "Santa Lucía de Tirajana"
+      },
+      "35/35023": {
+        "nodes": 12,
+        "components": 1,
+        "component_sizes": [
+          12
+        ],
+        "name": "Santa María de Guía de Gran Canaria"
+      },
+      "35/35024": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Teguise"
+      },
+      "35/35025": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Tejeda"
+      },
+      "35/35026": {
+        "nodes": 67,
+        "components": 1,
+        "component_sizes": [
+          67
+        ],
+        "name": "Telde"
+      },
+      "35/35027": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Teror"
+      },
+      "35/35028": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Tías"
+      },
+      "35/35029": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Tinajo"
+      },
+      "35/35030": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Tuineje"
+      },
+      "35/35031": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Valsequillo de Gran Canaria"
+      },
+      "35/35032": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Valleseco"
+      },
+      "35/35033": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Vega de San Mateo"
+      },
+      "35/35034": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Yaiza"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
