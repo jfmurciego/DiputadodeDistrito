@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_vizcaya",
+  "territory_name": "Congreso Vizcaya",
+  "edition": "2025",
+  "run_id": 41356074013,
+  "artifact_name": "ddd-state-41356074013-M08",
+  "artifact_sha256": "7b785eeab04e8b5549ca40d0a6344faba5919bd80caa55052b5fbb741e831b2f",
+  "source_commit": "6e9b204e74067a88696a77f9668dc1238ef922da",
+  "stage": "M08"
+}
