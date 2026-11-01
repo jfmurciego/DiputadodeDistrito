@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13079646857,
+      "artifact_name": "ddd-audit-41292345223",
+      "artifact_sha256": "9a93db4fb71d57507426dd50e390de10a8e50d67e24b47677349acf2b21a777c",
+      "run_id": 41292345223,
+      "size_in_bytes": 4897
+    },
+    "m04": {
+      "artifact_id": 13079890657,
+      "artifact_name": "ddd-state-41292345223-M04",
+      "artifact_sha256": "5b95dc3824a6da1450426b1075b07a818d5223a4c3c064fb16f4c6c6007a5b06",
+      "run_id": 41292345223,
+      "size_in_bytes": 79626690
+    },
+    "m05": {
+      "artifact_id": 13079253474,
+      "artifact_name": "ddd-state-41292345223-M05",
+      "artifact_sha256": "c6b6d5cd340f0cb8fce9218b4872172ead5dce78f3b2a84bba5ee88a9c91d948",
+      "run_id": 41292345223,
+      "size_in_bytes": 80669350
+    },
+    "m06": {
+      "artifact_id": 13079358423,
+      "artifact_name": "ddd-state-41292345223-M06",
+      "artifact_sha256": "fbad9de7d0e745ca1bb38acaf4d3bb3f45ae58fd0df32ecabd904e1623839368",
+      "run_id": 41292345223,
+      "size_in_bytes": 82246598
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "f8efb61cc92a01bbe55fe4a4d6869aea778683c127ee378644e88a7bbe1e9eea",
+        "size_in_bytes": 484
+      },
+      "congreso_guipuzcoa_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "fb321f7f89b1a2dde77b93153de74c7eebf43967b0b073ce17a2c635bb0b2bee",
+        "size_in_bytes": 16658
+      },
+      "optimization_execution.json": {
+        "sha256": "48448da850178a657b9cd8477ed554801c348be9547a48941036e8956659ecb4",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "0003b383423a31f6d18b7fa7ec7ac26e178de37cdb6dc17c716d29f2566f015e",
+        "size_in_bytes": 1324
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "0003b383423a31f6d18b7fa7ec7ac26e178de37cdb6dc17c716d29f2566f015e",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_guipuzcoa/config/congreso_guipuzcoa_2025.yaml",
+    "sha256": "631c3396d04d68ab6e53d22a99c40d86dab27f72dcfc25dbba75b0d3221bc518"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "90511980a72646502c00141533b29c4ad95484935fe50a303ff05b6e24d3c7d6",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "c9406033181dad1a5a2ed2b0b5975ee6a514065d",
+    "edition": "2025",
+    "territory_id": "congreso_guipuzcoa",
+    "territory_name": "Congreso Guipúzcoa",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41292345223,
+    "workflow_sha": "d73703d1c87a46762a874f2b3e4a008649963349"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13079890657,
+      "artifact_name": "ddd-state-41292345223-M04",
+      "artifact_sha256": "5b95dc3824a6da1450426b1075b07a818d5223a4c3c064fb16f4c6c6007a5b06",
+      "run_id": 41292345223,
+      "size_in_bytes": 79626690
+    },
+    "source_manifest_sha256": "6512cf3833ec4397979815d61b1ef581b4068c3839f002170f00a6d566c99988",
+    "source_package_artifact": {
+      "artifact_id": 13079046130,
+      "artifact_name": "ddd-source-package-congreso_guipuzcoa-2025-41292345223",
+      "artifact_sha256": "a976165325eab1d3c50f8679127478846dd4d974d87cd51b49ac27361cdfa39e",
+      "run_id": 41292345223,
+      "size_in_bytes": 77526801
+    }
+  },
+  "manifest_sha256": "aabe388b63d4652459f9754ff060240e21d824af6bff31743ad92279e5441050",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

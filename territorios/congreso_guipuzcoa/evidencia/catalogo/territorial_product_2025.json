@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_guipuzcoa",
+  "territory_name": "Congreso Guipúzcoa",
+  "edition": "2025",
+  "run_id": 41292345223,
+  "artifact_name": "ddd-state-41292345223-M06",
+  "artifact_sha256": "fbad9de7d0e745ca1bb38acaf4d3bb3f45ae58fd0df32ecabd904e1623839368",
+  "source_commit": "c9406033181dad1a5a2ed2b0b5975ee6a514065d",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_guipuzcoa/evidencia/generaciones_m06/41292345223.json"
+}
