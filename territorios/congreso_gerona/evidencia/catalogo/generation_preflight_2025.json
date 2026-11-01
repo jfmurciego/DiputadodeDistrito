@@ -4,25 +4,25 @@
   "territory_id": "congreso_gerona",
   "territory_name": "Congreso Gerona",
   "edition": "2025",
-  "run_id": 41242933360,
-  "source_commit": "29869f55061c57f5127702c16bd7180210e0c334",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 41292216676,
+  "source_commit": "2ac8b6d1c72709dac75960e220c67d135e995932",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 41242933360,
-    "artifact_name": "ddd-source-package-congreso_gerona-2025-41242933360",
-    "artifact_sha256": "9ed0bd2c7b13a2f7d41a76c7e389ccb90601148fed2d5082668eb724cc436ab2",
-    "package_sha256": "b26ca924f1cca32b33970b388e90bdf07acc0b455ad9e102ab88510435d9d7c6",
-    "compatibility_identity_sha256": "c5dca2b209481d06b58241e506b4109b30cd47fbc42276db402c86e98e100539",
-    "territorial_identity_sha256": "55c6f417fd9a4d828f67f26108ae05f6310cac7279a9df599ec6da3091179807",
+    "run_id": 41292216676,
+    "artifact_name": "ddd-source-package-congreso_gerona-2025-41292216676",
+    "artifact_sha256": "ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6",
+    "package_sha256": "cffe40478cfeec3bd2bf3eb8b3bfe47391ee9c6a95d945d89276cdd0c9df9cde",
+    "compatibility_identity_sha256": "43150bc97a6b9317867d6ea161cec81ae5765ae49bb749f25745e1869af092b0",
+    "territorial_identity_sha256": "d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688",
     "population_year": 2023,
     "section_year": 2023
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
