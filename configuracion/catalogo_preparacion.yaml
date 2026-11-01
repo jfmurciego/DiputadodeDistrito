@@ -1345,21 +1345,20 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41242933360
-        artifact_name: ddd-source-package-congreso_gerona-2025-41242933360
-        artifact_sha256: 9ed0bd2c7b13a2f7d41a76c7e389ccb90601148fed2d5082668eb724cc436ab2
-        package_sha256: b26ca924f1cca32b33970b388e90bdf07acc0b455ad9e102ab88510435d9d7c6
-        receipt_path: territorios/congreso_gerona/evidencia/fuentes_territoriales/2025/55c6f417fd9a4d828f67f26108ae05f6310cac7279a9df599ec6da3091179807/41242933360/receipt.json
-        territorial_identity_sha256: 55c6f417fd9a4d828f67f26108ae05f6310cac7279a9df599ec6da3091179807
-        compatibility_report_sha256: 0878785776ea8a0e4093fc05151be9b0e1657b0676c2ae41227c062af7655d19
-        compatibility_identity_sha256: c5dca2b209481d06b58241e506b4109b30cd47fbc42276db402c86e98e100539
+        run_id: 41292216676
+        artifact_name: ddd-source-package-congreso_gerona-2025-41292216676
+        artifact_sha256: ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6
+        package_sha256: cffe40478cfeec3bd2bf3eb8b3bfe47391ee9c6a95d945d89276cdd0c9df9cde
+        receipt_path: territorios/congreso_gerona/evidencia/fuentes_territoriales/2025/d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688/41292216676/receipt.json
+        territorial_identity_sha256: d99151ad23417e0967accbf3fb95e519aadc10cf416fb982173c57dbcfc81688
+        compatibility_report_sha256: 4990515e234bd5c5dc7aca4d4763e787fa6b1442ed55b2e821ec0775d570e06d
+        compatibility_identity_sha256: 43150bc97a6b9317867d6ea161cec81ae5765ae49bb749f25745e1869af092b0
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 9b09962dd870eb500567df49959e2f7d12f0caec
+        source_commit: d73703d1c87a46762a874f2b3e4a008649963349
       evidence:
         electoral_source: territorios/congreso_gerona/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json
-        generation_preflight: territorios/congreso_gerona/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_granada
   name: Congreso Granada
