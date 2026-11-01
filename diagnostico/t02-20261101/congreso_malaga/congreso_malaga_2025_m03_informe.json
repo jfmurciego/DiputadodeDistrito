@@ -1,0 +1,905 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 1084,
+  "edges": 2955,
+  "isolated": 0,
+  "total_pop": 1752728,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_malaga/.cache/ddd/preparacion/congreso_malaga_2025/congreso_malaga_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 1,
+    "component_sizes": [
+      1084
+    ],
+    "component_samples": [
+      [
+        "2900101001",
+        "2900101002",
+        "2900101003",
+        "2900101004",
+        "2900201001",
+        "2900301001",
+        "2900401001",
+        "2900501001",
+        "2900501002",
+        "2900501003",
+        "2900501004",
+        "2900601001"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "e04b39ca3442995c4adc86f8eb31892ec2bd9279579bca4df90cf036f34331cd",
+      "compatibility_identity_sha256": "70454b014ea055b4324a2a129684b6dc1a54ed6bd58992cd2b35d404dc63b267"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "29": {
+        "nodes": 1084,
+        "components": 1,
+        "component_sizes": [
+          1084
+        ]
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 103,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "29/29001": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Alameda"
+      },
+      "29/29002": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alcaucín"
+      },
+      "29/29003": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alfarnate"
+      },
+      "29/29004": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alfarnatejo"
+      },
+      "29/29005": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Algarrobo"
+      },
+      "29/29006": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Algatocín"
+      },
+      "29/29007": {
+        "nodes": 21,
+        "components": 1,
+        "component_sizes": [
+          21
+        ],
+        "name": "Alhaurín de la Torre"
+      },
+      "29/29008": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Alhaurín el Grande"
+      },
+      "29/29009": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Almáchar"
+      },
+      "29/29010": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Almargen"
+      },
+      "29/29011": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Almogía"
+      },
+      "29/29012": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Álora"
+      },
+      "29/29013": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Alozaina"
+      },
+      "29/29014": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alpandeire"
+      },
+      "29/29015": {
+        "nodes": 30,
+        "components": 1,
+        "component_sizes": [
+          30
+        ],
+        "name": "Antequera"
+      },
+      "29/29016": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Árchez"
+      },
+      "29/29017": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Archidona"
+      },
+      "29/29018": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Ardales"
+      },
+      "29/29019": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Arenas"
+      },
+      "29/29020": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Arriate"
+      },
+      "29/29021": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Atajate"
+      },
+      "29/29022": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benadalid"
+      },
+      "29/29023": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Benahavís"
+      },
+      "29/29024": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benalauría"
+      },
+      "29/29025": {
+        "nodes": 37,
+        "components": 1,
+        "component_sizes": [
+          37
+        ],
+        "name": "Benalmádena"
+      },
+      "29/29026": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benamargosa"
+      },
+      "29/29027": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Benamocarra"
+      },
+      "29/29028": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benaoján"
+      },
+      "29/29029": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Benarrabá"
+      },
+      "29/29030": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Borge, El"
+      },
+      "29/29031": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Burgo, El"
+      },
+      "29/29032": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Campillos"
+      },
+      "29/29033": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Canillas de Aceituno"
+      },
+      "29/29034": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Canillas de Albaida"
+      },
+      "29/29035": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Cañete la Real"
+      },
+      "29/29036": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Carratraca"
+      },
+      "29/29037": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cartajima"
+      },
+      "29/29038": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Cártama"
+      },
+      "29/29039": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Casabermeja"
+      },
+      "29/29040": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Casarabonela"
+      },
+      "29/29041": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Casares"
+      },
+      "29/29042": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Coín"
+      },
+      "29/29043": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Colmenar"
+      },
+      "29/29044": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Comares"
+      },
+      "29/29045": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Cómpeta"
+      },
+      "29/29046": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Cortes de la Frontera"
+      },
+      "29/29047": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cuevas Bajas"
+      },
+      "29/29048": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cuevas del Becerro"
+      },
+      "29/29049": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Cuevas de San Marcos"
+      },
+      "29/29050": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cútar"
+      },
+      "29/29051": {
+        "nodes": 36,
+        "components": 1,
+        "component_sizes": [
+          36
+        ],
+        "name": "Estepona"
+      },
+      "29/29052": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Faraján"
+      },
+      "29/29053": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Frigiliana"
+      },
+      "29/29054": {
+        "nodes": 39,
+        "components": 1,
+        "component_sizes": [
+          39
+        ],
+        "name": "Fuengirola"
+      },
+      "29/29055": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Fuente de Piedra"
+      },
+      "29/29056": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Gaucín"
+      },
+      "29/29057": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Genalguacil"
+      },
+      "29/29058": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Guaro"
+      },
+      "29/29059": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Humilladero"
+      },
+      "29/29060": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Igualeja"
+      },
+      "29/29061": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Istán"
+      },
+      "29/29062": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Iznate"
+      },
+      "29/29063": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Jimera de Líbar"
+      },
+      "29/29064": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Jubrique"
+      },
+      "29/29065": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Júzcar"
+      },
+      "29/29066": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Macharaviaya"
+      },
+      "29/29067": {
+        "nodes": 435,
+        "components": 1,
+        "component_sizes": [
+          435
+        ],
+        "name": "Málaga"
+      },
+      "29/29068": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Manilva"
+      },
+      "29/29069": {
+        "nodes": 79,
+        "components": 1,
+        "component_sizes": [
+          79
+        ],
+        "name": "Marbella"
+      },
+      "29/29070": {
+        "nodes": 37,
+        "components": 1,
+        "component_sizes": [
+          37
+        ],
+        "name": "Mijas"
+      },
+      "29/29071": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Moclinejo"
+      },
+      "29/29072": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Mollina"
+      },
+      "29/29073": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Monda"
+      },
+      "29/29074": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Montejaque"
+      },
+      "29/29075": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Nerja"
+      },
+      "29/29076": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Ojén"
+      },
+      "29/29077": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Parauta"
+      },
+      "29/29079": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Periana"
+      },
+      "29/29080": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Pizarra"
+      },
+      "29/29081": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Pujerra"
+      },
+      "29/29082": {
+        "nodes": 28,
+        "components": 1,
+        "component_sizes": [
+          28
+        ],
+        "name": "Rincón de la Victoria"
+      },
+      "29/29083": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Riogordo"
+      },
+      "29/29084": {
+        "nodes": 27,
+        "components": 1,
+        "component_sizes": [
+          27
+        ],
+        "name": "Ronda"
+      },
+      "29/29085": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Salares"
+      },
+      "29/29086": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Sayalonga"
+      },
+      "29/29087": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Sedella"
+      },
+      "29/29088": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Sierra de Yeguas"
+      },
+      "29/29089": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Teba"
+      },
+      "29/29090": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Tolox"
+      },
+      "29/29091": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Torrox"
+      },
+      "29/29092": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Totalán"
+      },
+      "29/29093": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Valle de Abdalajís"
+      },
+      "29/29094": {
+        "nodes": 50,
+        "components": 1,
+        "component_sizes": [
+          50
+        ],
+        "name": "Vélez-Málaga"
+      },
+      "29/29095": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Villanueva de Algaidas"
+      },
+      "29/29096": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Villanueva del Rosario"
+      },
+      "29/29097": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Villanueva del Trabuco"
+      },
+      "29/29098": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villanueva de Tapia"
+      },
+      "29/29099": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Viñuela"
+      },
+      "29/29100": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Yunquera"
+      },
+      "29/29901": {
+        "nodes": 43,
+        "components": 1,
+        "component_sizes": [
+          43
+        ],
+        "name": "Torremolinos"
+      },
+      "29/29902": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Villanueva de la Concepción"
+      },
+      "29/29903": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Montecorto"
+      },
+      "29/29904": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Serrato"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
