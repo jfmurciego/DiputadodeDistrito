@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T09:49:22.217317+00:00",
+  "generated_at": "2026-11-01T09:50:27.100890+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 32,
-      "activable": 37,
+      "activated": 33,
+      "activable": 36,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 32
+      "durable_pair": 33
     },
     "territories": [
       {
@@ -2328,12 +2328,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_la_rioja/evidencia/pares_fuentes/2025/d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc.json",
+            "pair_sha256": "d7f15db5d44606c008e0a56058ee782a8c526d63d160a528be837a66bb79eafc",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
