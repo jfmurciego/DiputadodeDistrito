@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:22:42.318753+00:00",
+  "generated_at": "2026-11-01T10:23:21.779984+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6650,12 +6650,12 @@
       "territory_id": "congreso_cantabria",
       "name": "Congreso Cantabria",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41292096436,
       "last_run": {
         "run_id": 41242029481,
         "status": "FAILED",
@@ -6664,7 +6664,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6675,13 +6675,26 @@
           "artifact_sha256": "15cfb2b9e93cbea92b2b45a8f6dafdbd411d44cf8556fff7b221cf9f8cfbd84b",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_cantabria",
+          "territory_name": "Congreso Cantabria",
+          "edition": "2025",
+          "run_id": 41292096436,
+          "artifact_name": "ddd-state-41292096436-M06",
+          "artifact_sha256": "70ba8432504825aa52466804a63f35d2feca5d6215c8f3ef49bc7bc653a5cfae",
+          "source_commit": "8bb57b3991dd84c9b6a47e48aa02b2309237744e",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_cantabria/evidencia/generaciones_m06/41292096436.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Congreso Cantabria",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_segovia",
@@ -7416,7 +7429,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 47,
+    "territorial_validated": 48,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7455,6 +7468,7 @@
       "Congreso Asturias",
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
+      "Congreso Cantabria",
       "Congreso Segovia",
       "Congreso Sevilla",
       "Congreso Soria",
@@ -7466,7 +7480,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 47,
+    "validated": 48,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7505,6 +7519,7 @@
       "Congreso Asturias",
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
+      "Congreso Cantabria",
       "Congreso Segovia",
       "Congreso Sevilla",
       "Congreso Soria",
@@ -7516,7 +7531,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 22,
+    "ready": 21,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7537,7 +7552,6 @@
       "Congreso Palencia",
       "Congreso Las Palmas",
       "Congreso Pontevedra",
-      "Congreso Cantabria",
       "Congreso Valladolid",
       "Congreso Vizcaya"
     ],
