@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:58:18.196875+00:00",
+  "generated_at": "2026-11-01T10:58:56.625829+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7350,7 +7350,18 @@
           "producer_manifest_path": "territorios/congreso_valladolid/evidencia/generaciones_m06/41292964287.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_valladolid",
+          "territory_name": "Congreso Valladolid",
+          "edition": "2025",
+          "run_id": 41299313598,
+          "artifact_name": "ddd-state-41299313598-M08",
+          "artifact_sha256": "3a3c60aff6ea372b9856e0cbff915e420699956b6d96a03897cdc0eb2a8e9885",
+          "source_commit": "e668c443aec82f2612b5a9e7e757bfdb0e295717",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C47",
       "display_name": "Congreso Valladolid",
