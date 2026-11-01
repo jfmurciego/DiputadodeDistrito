@@ -1885,6 +1885,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_murcia/evidencia/fuentes_electorales/2025/eda6e4cc001fbf5c746bd5d96871da57fc2176f2ef062e05e9f622b52d7a0f10/41239882418/receipt.json
         generation_preflight: territorios/congreso_murcia/evidencia/catalogo/generation_preflight_2025.json
+        prepared_source_pair: territorios/congreso_murcia/evidencia/pares_fuentes/2025/5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51.json
       generation_enabled: true
 - territory_id: congreso_navarra
   name: Congreso Navarra
