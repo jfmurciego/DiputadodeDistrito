@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.1
+Versión: 1.0.2
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: Añadidas T-08 (protección de main) y T-09 (huella de puentes)
-Anterior: legacy/docs/PLAN_v1.0.0_20261101.md
+Cambios/motivo: T-03 hecha (#376)
+Anterior: legacy/docs/PLAN_v1.0.1_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -87,21 +87,6 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
   `territorios/congreso_*` + test con un puente roto sintético.
 - Dependencias: T-01 (causas de PARADA). Va detrás de T-02 en prioridad; si T-02 corrige puentes, se apoya en ello.
 
-### T-03 · PR de activación por elección
-- Objetivo: activar, preparar electoral (03) y ejecutar 00 por elección entera, no por provincia. Clave
-  `ES / nacional / provincia (INE o matrícula) / fecha`, preparada para el histórico de legislaturas
-  (varias elecciones nacionales y autonómicas coexistiendo).
-- Rol: implementador. Modelo: Opus.
-- Ficheros afectados: `preparacion-legislatura-vigente.yml`, `preparacion-resultados-electorales.yml`,
-  `ejecucion-completa-proyecto.yml`, catálogo de preparación/maestro, `herramientas/` de activación,
-  esquema de clave y sus tests. Coordinar con cualquier sesión que toque workflows o catálogo.
-- Criterio de aceptación: una sola activación + una 03 + un 00 cubren las 52 provincias de la elección
-  2023-07-23; las autonómicas siguen funcionando con la misma clave; la clave admite INE y matrícula y
-  resuelve a un único canónico (D-2); dos elecciones distintas no colisionan en catálogo ni checkpoints.
-- Prueba local exigida: suite completa + test nuevo de resolución de claves (INE ↔ matrícula) y de
-  expansión elección → provincias + simulación en seco del 00 por elección.
-- Dependencias: D-2. Puede avanzar en paralelo a T-02 (sin lanzar).
-
 ### T-04 · Completar electoral de las provincias con M06
 - Objetivo: llevar las 11 provincias con M06 (y las que salgan de T-02) a M08 con la activación por elección.
 - Rol: operador. Modelo: Sonnet.
@@ -140,3 +125,6 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 
 ## 4. Tareas hechas
 <!-- Formato: T-xx · resumen · PR #nnn / run nnnnnnnnnn · fecha -->
+- T-03 · Activación por elección: clave `ES-NAC|AUT-[unidad-]AAAAMMDD` (INE canónico, matrícula alias; D-2 según
+  recomendación), workflow «Activación por Elección» (plan/activar/electoral/completa, filtro `solo`) y 00 v1.4.6
+  con `lanzado_por_eleccion` · PR #376 · 2026-11-01
