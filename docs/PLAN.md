@@ -152,7 +152,7 @@ Runs 00 de las 16:40 (reparación profunda: profundidad 6, conjunto 3, 500.000 c
 
 **Estado: BLOQUEADAS por estructura.** Quedan para un futuro estudio de motor. Palancas descartadas: bajar `municipality_atomicity_limit_ratio` (contradice la regla de no partir un municipio que cabe bajo el techo) y subir el techo (Barcelona 31 está a 1,29 de la media).
 
-Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, política 1.7.3, distrito 8 a 1,159 de la media), Pontevedra (exención municipal 36008), Las Palmas (exención municipal 35012). Baleares: reparación profunda en el contrato, a la espera de resultado.
+Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, política 1.7.3, distrito 8 a 1,159 de la media), Pontevedra (exención municipal 36008), Las Palmas (exención municipal 35012). Baleares: techo 127 % solo en Baleares (política 1.7.3; distrito 5 de Mallorca a 1,261 de la media, la reparación profunda no lo mejoró).
 
 ### T-09 · Huella de puentes heredados antes de M02
 - Objetivo: comprobación previa que detecte puentes municipales heredados de 2024/2025 que ya no casan con el
