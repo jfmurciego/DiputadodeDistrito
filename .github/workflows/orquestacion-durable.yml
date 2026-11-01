@@ -1,12 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.1.2
 # NOMBRE: O02 resolución de reutilización y estado durable
 # FECHA: 2026-10-25
 # ESTADO: candidato
 # QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado durable.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/orquestacion-durable.pre-p0.yml (versión 1.1.0 conservada)
+# CAMBIOS 1.1.2: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
+#   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
+# ANTERIOR: legacy/workflows/orquestacion-durable_v1.1.1_20261101.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: Resolver Reutilización y Estado Durable
 on:
@@ -94,6 +96,26 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: g10-tarea-*
