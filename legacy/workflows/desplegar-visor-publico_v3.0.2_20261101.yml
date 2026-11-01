@@ -1,0 +1,95 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz humana de publicación
+# VERSIÓN: 3.0.2
+# NOMBRE: Publicación manual desacoplada del cálculo territorial
+# ESTADO: candidato
+# QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.0.1_20261029.yml
+# CAMBIOS: sin run explícito, solo promueve latest_validated si conserva artefactos ddd-*; si caducaron publica el registro durable.
+# MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
+# FECHA: 2026-10-29
+name: 05 Publicación del Visor
+
+on:
+  workflow_call:
+    inputs:
+      pagina_publicar: {required: false, type: string, default: Sitio completo}
+      production_run_id: {required: false, type: string, default: ''}
+  workflow_dispatch:
+    inputs:
+      pagina_publicar:
+        description: Página a publicar
+        required: true
+        default: Dashboard operativo
+        type: choice
+        options:
+          - Dashboard operativo
+          - Visor territorial
+          - Sitio completo
+      production_run_id:
+        description: Run territorial certificado a promover sin recalcular
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+
+jobs:
+  preparar_publicacion:
+    name: Preparar promoción web
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-shared-operational-state
+      cancel-in-progress: false
+      queue: max
+    outputs:
+      source_ref: ${{ steps.resolve.outputs.source_ref }}
+      production_run_id: ${{ steps.resolve.outputs.production_run_id }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          token: ${{ github.token }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: resolve
+        name: Regenerar promoción compartida desde el HEAD vigente
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_PAGE: ${{ inputs.pagina_publicar }}
+          PRODUCTION_RUN_ID_OVERRIDE: ${{ inputs.production_run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-publication
+          source_ref="$(python -m herramientas.persistir_estado_operativo_compartido \
+            --root-dir . --edition 2025 --target-branch main --sync-dashboard-assets)"
+          cp orchestracion/estado_operativo.json .ddd-publication/status.json
+          production_run_id="$PRODUCTION_RUN_ID_OVERRIDE"
+          if [[ -z "$production_run_id" ]]; then
+            production_run_id="$(jq -r '.latest_validated.run_id // empty' .ddd-publication/status.json)"
+            if [[ -n "$production_run_id" ]]; then
+              live="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$production_run_id/artifacts?per_page=100" \
+                --jq '[.artifacts[] | select(.expired == false and (.name | startswith("ddd-")))] | length' 2>/dev/null || echo 0)"
+              if [[ "$live" == "0" ]]; then
+                echo "::warning::latest_validated $production_run_id sin artefactos vivos; se publica solo el registro durable."
+                production_run_id=""
+              fi
+            fi
+          fi
+          echo "source_ref=$source_ref" >> "$GITHUB_OUTPUT"
+          echo "production_run_id=$production_run_id" >> "$GITHUB_OUTPUT"
+
+  publicar:
+    name: Desplegar página seleccionada
+    needs: preparar_publicacion
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    secrets: inherit
+    with:
+      source_ref: ${{ needs.preparar_publicacion.outputs.source_ref }}
+      production_run_id: ${{ needs.preparar_publicacion.outputs.production_run_id }}
+      ensemble_release_tag: ''
+      target_page: ${{ inputs.pagina_publicar }}
