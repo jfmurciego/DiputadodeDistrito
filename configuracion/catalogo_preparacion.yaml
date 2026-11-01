@@ -2074,12 +2074,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41239505387
-        stage: M06
+        run_id: 41294259017
+        stage: M08
       preparation_evidence:
         run_id: 41239505387
         artifact_name: ddd-source-package-congreso_santa_cruz_de_tenerife-2025-41239505387
@@ -2098,6 +2098,7 @@ territories:
         generation_preflight: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_santa_cruz_de_tenerife/evidencia/pares_fuentes/2025/227459b241272cdf816f9f85b3a442b120b35254457dd41b739e7baf386af3a9.json
+        electoral_product: territorios/congreso_santa_cruz_de_tenerife/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_cantabria
   name: Congreso Cantabria
