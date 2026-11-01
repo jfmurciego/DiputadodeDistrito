@@ -2375,6 +2375,7 @@ territories:
         electoral_source: territorios/congreso_toledo/evidencia/fuentes_electorales/2025/4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a/41239931236/receipt.json
         generation_preflight: territorios/congreso_toledo/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_toledo/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_toledo/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json
       generation_enabled: true
 - territory_id: congreso_valencia
   name: Congreso Valencia

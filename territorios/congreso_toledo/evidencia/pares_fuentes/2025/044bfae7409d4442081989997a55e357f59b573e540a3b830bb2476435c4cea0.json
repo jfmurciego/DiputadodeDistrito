@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_toledo",
+  "territory_name": "Congreso Toledo",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_toledo_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41242809451,
+    "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
+    "artifact_sha256": "71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465",
+    "package_sha256": "fd2fa7a4c735b1ccd07b09f9a80b893af0c777a1e6589645703fff43efd73c20",
+    "source_commit": "9b09962dd870eb500567df49959e2f7d12f0caec",
+    "source_declaration": "territorios/congreso_toledo/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_toledo/evidencia/fuentes_territoriales/2025/44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37/41242809451/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "a035d589f3d43c84754a6ea84628bbeeac1ca21209d6f281ceb0b3c9584c2e4b",
+    "compatibility_identity_sha256": "80923df35b4801e2ea66ef2d0dd84500b6257dd7030aafd5695ccb180329bfbe",
+    "remote_verification": {
+      "run_id": 41242809451,
+      "artifact_id": 13059053517,
+      "artifact_name": "ddd-source-package-congreso_toledo-2025-41242809451",
+      "artifact_sha256": "71f31e9845cf1cc6d6072b0ed5d3248502320699c6665548ebde86604e3db465",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239931236,
+    "artifact_name": "ddd-electoral-package-congreso_toledo-2025-41239931236",
+    "artifact_sha256": "9e3b09c045191c683a2ddb34984f6b3ce77720c6d1209245be76380b4be89678",
+    "source_commit": "39d0b486fe985b786a70fe63e2adafaf183e9f55",
+    "receipt_path": "territorios/congreso_toledo/evidencia/fuentes_electorales/2025/4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a/41239931236/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_toledo_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a",
+    "remote_verification": {
+      "run_id": 41239931236,
+      "artifact_id": 13056608589,
+      "artifact_name": "ddd-electoral-package-congreso_toledo-2025-41239931236",
+      "artifact_sha256": "9e3b09c045191c683a2ddb34984f6b3ce77720c6d1209245be76380b4be89678",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "44e0ffd995e8c26c58961c48dfb2ee31c76eaa577439e67964098d7995ee4a37",
+  "electoral_compatibility_key": "4dd57830c9af64008f2ab76d1c4e53e64902ba3ae3a1b7a8f7700c93d1876b7a",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_toledo/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0"
+}
