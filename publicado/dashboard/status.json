@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:56:34.806566+00:00",
+  "generated_at": "2026-11-01T10:58:18.196875+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5249,7 +5249,18 @@
           "producer_manifest_path": "territorios/congreso_burgos/evidencia/generaciones_m06/41292846877.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_burgos",
+          "territory_name": "Congreso Burgos",
+          "edition": "2025",
+          "run_id": 41299221887,
+          "artifact_name": "ddd-state-41299221887-M08",
+          "artifact_sha256": "ef2091c0a186232f93aa50e6eca6911ae1edc19a05205a447e7d077807089f46",
+          "source_commit": "71da6315254ea9d9849b93baffb08b147f88b49d",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C09",
       "display_name": "Congreso Burgos",
@@ -6597,20 +6608,20 @@
       "name": "Congreso Palencia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41291833956,
+      "run_id": 41298660623,
       "last_run": {
-        "run_id": 41291833956,
+        "run_id": 41298660623,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6651,7 +6662,7 @@
       },
       "autonomous_community_code_ine": "C34",
       "display_name": "Congreso Palencia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_las_palmas",
@@ -7641,7 +7652,7 @@
     }
   ],
   "kpis": {
-    "complete": 47,
+    "complete": 48,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7678,6 +7689,7 @@
       "Congreso Lugo",
       "Congreso Orense",
       "Congreso Asturias",
+      "Congreso Palencia",
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
@@ -7836,11 +7848,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_sevilla",
-    "name": "Congreso Sevilla",
-    "display_name": "Congreso Sevilla",
-    "autonomous_community_code_ine": "C41",
-    "run_id": 41297168461,
+    "territory_id": "congreso_palencia",
+    "name": "Congreso Palencia",
+    "display_name": "Congreso Palencia",
+    "autonomous_community_code_ine": "C34",
+    "run_id": 41298660623,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
