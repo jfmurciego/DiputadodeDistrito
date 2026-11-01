@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T18:57:57.854240+00:00",
+  "generated_at": "2026-11-01T20:44:02.744615+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 63,
-      "activable": 8,
+      "activated": 65,
+      "activable": 6,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 63
+      "durable_pair": 65
     },
     "territories": [
       {
@@ -1353,12 +1353,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_baleares/evidencia/pares_fuentes/2025/6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7.json",
+            "pair_sha256": "6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2781,12 +2781,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/34c754b87560cb906f465fb1379dfb83522b2fd305aaa9d9915b5fc2d867284c.json",
+            "pair_sha256": "34c754b87560cb906f465fb1379dfb83522b2fd305aaa9d9915b5fc2d867284c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -4816,12 +4816,12 @@
       "territory_id": "congreso_alava",
       "name": "Nacional Álava",
       "ft": "green",
-      "g": "yellow",
-      "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "g": "green",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS",
+      "run_id": 41346917857,
       "last_run": {
         "run_id": 41336108228,
         "status": "FAILED",
@@ -4830,7 +4830,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -4841,13 +4841,37 @@
           "artifact_sha256": "7d101c7cd9dee73eeb7b7a09936c7e41456b58c3daab81532f02c5823fbe9448",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_alava",
+          "territory_name": "Congreso Álava",
+          "edition": "2025",
+          "run_id": 41346917857,
+          "artifact_name": "ddd-state-41346917857-M06",
+          "artifact_sha256": "1cb2f5758fbf033b00e301bab7c0e7bdbb5e61d0fe367cdb5e2388ab13a99128",
+          "source_commit": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+          "decision": "PASS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_alava/evidencia/generaciones_m06/41346917857.json"
+        },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_alava",
+          "territory_name": "Congreso Álava",
+          "edition": "2025",
+          "run_id": 41346917857,
+          "artifact_name": "ddd-state-41346917857-M08",
+          "artifact_sha256": "97a26dcb63315c3d8a380b48ff6dee95b854b56b842f719e95db7262a3e2c89e",
+          "source_commit": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C01",
       "display_name": "Nacional Álava",
-      "next_step": "generar y validar distritos"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_albacete",
@@ -5141,7 +5165,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41250230577,
+        "run_id": 41339504894,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5987,9 +6011,13 @@
         "run_id": 41194447427,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "05 · Publicación del Visor",
-        "reason": "ver log del run",
-        "publication": "failed"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "failed",
+        "superseded_failure": {
+          "stopped_at": "05 · Publicación del Visor",
+          "reason": "ver log del run"
+        }
       },
       "stage": "M08",
       "edition": "2025",
@@ -6231,9 +6259,13 @@
         "run_id": 41294822309,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "05 · Publicación del Visor",
-        "reason": "ver log del run",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "not_requested",
+        "superseded_failure": {
+          "stopped_at": "05 · Publicación del Visor",
+          "reason": "ver log del run"
+        }
       },
       "stage": "M08",
       "edition": "2025",
@@ -6292,9 +6324,13 @@
         "run_id": 41294985244,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "05 · Publicación del Visor",
-        "reason": "ver log del run",
-        "publication": "failed"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "failed",
+        "superseded_failure": {
+          "stopped_at": "05 · Publicación del Visor",
+          "reason": "ver log del run"
+        }
       },
       "stage": "M08",
       "edition": "2025",
@@ -6705,11 +6741,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41336103808,
       "last_run": {
-        "run_id": 41250283081,
+        "run_id": 41339428006,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -6856,9 +6892,13 @@
         "run_id": 41294259017,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "05 · Publicación del Visor",
-        "reason": "ver log del run",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "not_requested",
+        "superseded_failure": {
+          "stopped_at": "05 · Publicación del Visor",
+          "reason": "ver log del run"
+        }
       },
       "stage": "M08",
       "edition": "2025",
@@ -7150,9 +7190,13 @@
         "run_id": 41296449975,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "05 · Publicación del Visor",
-        "reason": "ver log del run",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "not_requested",
+        "superseded_failure": {
+          "stopped_at": "05 · Publicación del Visor",
+          "reason": "ver log del run"
+        }
       },
       "stage": "M08",
       "edition": "2025",
@@ -7737,7 +7781,7 @@
     }
   ],
   "kpis": {
-    "complete": 58,
+    "complete": 59,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7757,6 +7801,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Nacional Álava",
       "Nacional Albacete",
       "Nacional Almería",
       "Nacional Ávila",
@@ -7798,7 +7843,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "territorial_validated": 61,
+    "territorial_validated": 62,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7818,6 +7863,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Nacional Álava",
       "Nacional Albacete",
       "Nacional Almería",
       "Nacional Ávila",
@@ -7862,7 +7908,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "validated": 61,
+    "validated": 62,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7882,6 +7928,7 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
+      "Nacional Álava",
       "Nacional Albacete",
       "Nacional Almería",
       "Nacional Ávila",
@@ -7926,10 +7973,9 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 10,
+    "ready": 9,
     "ready_names": [
       "01 Andalucía",
-      "Nacional Álava",
       "Nacional Alicante",
       "Nacional Baleares",
       "Nacional Barcelona",
@@ -7945,13 +7991,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_valencia",
-    "name": "Nacional Valencia",
-    "display_name": "Nacional Valencia",
-    "autonomous_community_code_ine": "C46",
-    "run_id": 41335936727,
+    "territory_id": "congreso_alava",
+    "name": "Nacional Álava",
+    "display_name": "Nacional Álava",
+    "autonomous_community_code_ine": "C01",
+    "run_id": 41346917857,
     "stage": "M08",
-    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "certification": "PASS",
     "edition": "2025"
   },
   "alerts": [
@@ -7959,12 +8005,6 @@
       "territory": "01 Andalucía",
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional Álava",
-      "territory_id": "congreso_alava",
-      "autonomous_community_code_ine": "C01",
       "action": "completar puerta de validación territorial"
     },
     {
@@ -8001,6 +8041,12 @@
       "territory": "Nacional Málaga",
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional Murcia",
+      "territory_id": "congreso_murcia",
+      "autonomous_community_code_ine": "C30",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -8012,12 +8058,6 @@
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Nacional Álava",
-      "territory_id": "congreso_alava",
-      "autonomous_community_code_ine": "C01",
-      "action": "generar y validar distritos"
-    },
-    {
       "territory": "Nacional Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
@@ -8051,6 +8091,12 @@
       "territory": "Nacional Málaga",
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "Nacional Murcia",
+      "territory_id": "congreso_murcia",
+      "autonomous_community_code_ine": "C30",
       "action": "generar y validar distritos"
     }
   ]
