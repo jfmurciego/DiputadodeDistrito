@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:08:38.501356+00:00",
+  "generated_at": "2026-11-01T10:11:42.219286+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 41,
-      "activable": 28,
+      "activated": 43,
+      "activable": 26,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 41
+      "durable_pair": 43
     },
     "territories": [
       {
@@ -3195,12 +3195,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_tarragona/evidencia/pares_fuentes/2025/40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e.json",
+            "pair_sha256": "40740f8c1f08ee810e1b3efa102fb98d93a447732332f99f8e356db93322ea7e",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3297,12 +3297,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_toledo/evidencia/pares_fuentes/2025/044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0.json",
+            "pair_sha256": "044bfae7409d4442081989997a55e357f59b573e540a3b830bb2476435c4cea0",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5223,20 +5223,20 @@
       "name": "Congreso Cáceres",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41240512324,
+      "run_id": 41294658600,
       "last_run": {
-        "run_id": 41240512324,
+        "run_id": 41294658600,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5277,7 +5277,7 @@
       },
       "autonomous_community_code_ine": "C10",
       "display_name": "Congreso Cáceres",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_cadiz",
@@ -5934,7 +5934,18 @@
           "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/41241377284.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_leon",
+          "territory_name": "Congreso León",
+          "edition": "2025",
+          "run_id": 41295452035,
+          "artifact_name": "ddd-state-41295452035-M08",
+          "artifact_sha256": "7f4b688f28b879e3a75cab6754e7121c0f0b06c34bf3bdb3b961e12dd3f0e075",
+          "source_commit": "4b47cc40e6228c26f4c26619c5791d05d66615df",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C24",
       "display_name": "Congreso León",
@@ -6225,7 +6236,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6373,7 +6384,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6513,7 +6524,18 @@
           "producer_manifest_path": "territorios/congreso_salamanca/evidencia/generaciones_m06/41241010241.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_salamanca",
+          "territory_name": "Congreso Salamanca",
+          "edition": "2025",
+          "run_id": 41295298674,
+          "artifact_name": "ddd-state-41295298674-M08",
+          "artifact_sha256": "556e20e7d494c487c4175f78cefcf4f254073480af10a24e4403818e80ea732f",
+          "source_commit": "2b1ca758149dbcdca12347b6556d1eea84f3147c",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C37",
       "display_name": "Congreso Salamanca",
@@ -7289,7 +7311,7 @@
     }
   ],
   "kpis": {
-    "complete": 31,
+    "complete": 32,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7311,6 +7333,7 @@
       "19 Melilla",
       "Congreso Albacete",
       "Congreso Ávila",
+      "Congreso Cáceres",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
