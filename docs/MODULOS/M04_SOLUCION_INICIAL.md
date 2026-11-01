@@ -31,3 +31,8 @@ Grafo M03, geometría M01, población, provincia, municipio, K, método de appor
 
 ## Interpretación
 Una desviación poblacional inicial puede ser reparada por M05. Una violación provincial o una fragmentación municipal indebida no es reparable aceptablemente a posteriori: M04 debe impedir que nazca.
+
+## Unidad flexible del residual (entrada 7.6.0)
+Cuando un distrito es solo el residual monolítico de un municipio dividido (`<municipio>:R`) y los demás distritos abiertos de la provincia quedan bajo el suelo, M04 expone una unidad flexible `:F` en la frontera del residual para que M05 pueda moverla. La unidad no cambia la asignación de M04.
+
+Desde 7.6.0, si ninguna sección fronteriza individual cubre el déficit, la unidad `:F` puede ser un bloque conexo de secciones del residual, adyacente al receptor, que cubra el déficit sin desconectar al donante, sin superar el slack del donante ni el techo del receptor y sin usar secciones de puentes topológicos. Si basta una sección, el resultado es idéntico a 7.5.9. Caso que lo motivó: Congreso Álava (residual de Vitoria, 01059:R, déficit de 14.402 habitantes).

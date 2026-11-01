@@ -3,18 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.9
-NOMBRE DE VERSIÓN: Entrada canónica con closed target cores estrictos
-FECHA: 2026-10-06
+VERSIÓN: 7.6.0
+NOMBRE DE VERSIÓN: Frontera flexible multisección para residuales monolíticos
+FECHA: 2026-11-01
 ESTADO: activo; default nacional y regresiones certificadas sobre Aragón y Castilla y León.
-FUNCIÓN: ejecutar el motor M04 canónico con preflight atómico, política de puertas dependientes y closed target cores conformes antes de exponer una micro-unidad residual flexible para M05.
+FUNCIÓN: ejecutar el motor M04 canónico con preflight atómico, política de puertas dependientes y closed target cores conformes antes de exponer una unidad residual flexible para M05.
 ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
-REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
-COMPATIBILIDAD: sin `gateway_policy`, el motor preserva puertas sólo para componentes exteriores realmente dependientes; `preserve_component_gateways` y `legacy` siguen disponibles si se declaran explícitamente.
-CAMBIOS: conserva el preflight y añade la semántica estricta closed_target_cores_plus_open_residual del motor 7.6.4; el residual provisional puede quedar bajo floor sin convertirlo en core cerrado.
-MOTIVO: impedir que un outlier quede marcado ddd_closed_urban y se vuelva inmutable en M05, sin relajar tolerancias ni reglas territoriales.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.7.py
+REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la unidad :F no cambia asignación M04.
+COMPATIBILIDAD: sin `gateway_policy`, el motor preserva puertas sólo para componentes exteriores realmente dependientes; `preserve_component_gateways` y `legacy` siguen disponibles si se declaran explícitamente. Si existe una sección fronteriza individual que cubre el déficit, el resultado es idéntico a 7.5.9.
+CAMBIOS: cuando ninguna sección fronteriza individual cubre el déficit del residual, la unidad :F puede ser un conjunto conexo de secciones fronterizas del residual, adyacente al receptor, que cubra el déficit sin desconectar al donante ni superar el slack del donante ni el techo del receptor.
+MOTIVO: Congreso Álava (T-02): el residual de Vitoria (01059:R) debía ceder 14.402 habitantes y ninguna sección individual llega a esa población, por lo que M04 abortaba antes de M05.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.9.py
 """
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ if str(ROOT) not in sys.path:
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 from ddd_core import m04_seed_engine
 
-ENTRYPOINT_VERSION = "7.5.9"
+ENTRYPOINT_VERSION = "7.6.0"
 
 
 def load_geo(path):
@@ -78,6 +78,50 @@ def connected(nodes, adj):
             if v in nodes and v not in seen:
                 seen.add(v); stack.append(v)
     return len(seen) == len(nodes)
+
+
+def _connected_frontier_block(donor_nodes, bridge_nodes, receivers, dnodes, dpop, pop, adj, deficit, donor_slack, hi):
+    """Menor bloque conexo de secciones del donante, adyacente a un receptor, que cubre el déficit.
+
+    Crecimiento determinista desde cada sección fronteriza: se añade primero la vecina
+    que también toca al receptor y, a igualdad, la de menor población e identificador.
+    Ninguna adición puede desconectar el resto del donante. Devuelve la candidata con
+    menor exceso sobre el déficit (y menos secciones) o None.
+    """
+    best = None
+    for q in receivers:
+        recv_nodes = dnodes(q)
+        room = min(donor_slack, hi - dpop(q))
+        if room + 1e-9 < deficit:
+            continue
+        touches_q = {n for n in donor_nodes if any(nb in recv_nodes for nb in adj.get(n, set()))}
+        for seed in sorted(touches_q - bridge_nodes):
+            block = {seed}
+            total = pop[seed]
+            if total > room + 1e-9 or not connected(donor_nodes - block, adj):
+                continue
+            while total < deficit - 1e-9:
+                frontier = sorted(
+                    {nb for b in block for nb in adj.get(b, set())
+                     if nb in donor_nodes and nb not in block and nb not in bridge_nodes},
+                    key=lambda nb: (nb not in touches_q, pop[nb], str(nb)),
+                )
+                added = False
+                for nb in frontier:
+                    if total + pop[nb] > room + 1e-9:
+                        continue
+                    if not connected(donor_nodes - block - {nb}, adj):
+                        continue
+                    block.add(nb); total += pop[nb]; added = True
+                    break
+                if not added:
+                    break
+            if total + 1e-9 < deficit:
+                continue
+            score = (total - deficit, len(block), str(min(block)), int(q))
+            if best is None or score < best[0]:
+                best = (score, frozenset(block), q, total)
+    return best
 
 
 def expose_flexible_residual_units(params_path):
@@ -159,21 +203,28 @@ def expose_flexible_residual_units(params_path):
                     score = (pn - deficit, pn, str(n), int(q))
                     candidates.append((score, n, q, pn))
             if not candidates:
+                multi = _connected_frontier_block(
+                    donor_nodes, bridge_nodes, other, dnodes, dpop, pop, adj, deficit, donor_slack, hi
+                )
+                if multi is not None:
+                    candidates.append(multi)
+            if not candidates:
                 raise SystemExit(
                     f"M04 {ENTRYPOINT_VERSION}: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
-                    f"pero no existe sección fronteriza individual transferible"
+                    f"pero no existe frontera conexa transferible"
                 )
             _, n, q, pn = min(candidates, key=lambda z: z[0])
+            block = sorted(n) if isinstance(n, frozenset) else [str(n)]
             base = rid[:-2] if rid.endswith(":R") else rid
             seq = 1
             fid = f"{base}:F{seq}"
             existing = set(g["ddd_unit_id"])
             while fid in existing:
                 seq += 1; fid = f"{base}:F{seq}"
-            g.loc[g[idf] == n, "ddd_unit_id"] = fid
+            g.loc[g[idf].isin(block), "ddd_unit_id"] = fid
             created.append({
                 "province": prov, "source_district": int(d), "candidate_receiver": int(q),
-                "residual_unit": rid, "flex_unit": fid, "sections": [str(n)],
+                "residual_unit": rid, "flex_unit": fid, "sections": block,
                 "population": int(pn), "locked_remainder_deficit": float(deficit),
                 "donor_population_if_moved": int(donor_pop - pn),
                 "receiver_population_if_moved": int(dpop(q) + pn)
