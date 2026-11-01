@@ -1,0 +1,1513 @@
+{
+  "module": "03",
+  "version": "7.5.0",
+  "nodes": 4479,
+  "edges": 12244,
+  "isolated": 0,
+  "total_pop": 6871903,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2023",
+  "optional_node_fields": [],
+  "out_graph_json": "/app/territorios/congreso_madrid/.cache/ddd/preparacion/congreso_madrid_2025/congreso_madrid_2025_m03_grafo.json",
+  "global_component_audit": {
+    "enabled": true,
+    "components": 1,
+    "component_sizes": [
+      4479
+    ],
+    "component_samples": [
+      [
+        "2800101001",
+        "2800201001",
+        "2800201002",
+        "2800301001",
+        "2800401001",
+        "2800401002",
+        "2800401003",
+        "2800401004",
+        "2800501001",
+        "2800501002",
+        "2800501003",
+        "2800501004"
+      ]
+    ]
+  },
+  "topology_accreditation": {
+    "present": false,
+    "valid": true,
+    "declared": null,
+    "current": {
+      "edition": "2025",
+      "section_year": 2023,
+      "package_sha256": "d9ba7fdb4684c53feadb15392aa96986e9d0675e8bc08d4c6a60f66e2b63feef",
+      "compatibility_identity_sha256": "3b26dbaff94f8beb869d6e2a1cbef489558e133f03c70e4eb4aa9a3d6c4c06b4"
+    },
+    "administrative_components": {
+      "accepted": [],
+      "rejected": []
+    }
+  },
+  "province_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 1,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "28": {
+        "nodes": 4479,
+        "components": 1,
+        "component_sizes": [
+          4479
+        ]
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  },
+  "municipality_component_audit": {
+    "enabled": true,
+    "enforced": false,
+    "groups": 179,
+    "disconnected": 0,
+    "admitted_disconnected": 0,
+    "unresolved": 0,
+    "details": {
+      "28/28001": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Acebeda, La"
+      },
+      "28/28002": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Ajalvir"
+      },
+      "28/28003": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Alameda del Valle"
+      },
+      "28/28004": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Álamo, El"
+      },
+      "28/28005": {
+        "nodes": 129,
+        "components": 1,
+        "component_sizes": [
+          129
+        ],
+        "name": "Alcalá de Henares"
+      },
+      "28/28006": {
+        "nodes": 66,
+        "components": 1,
+        "component_sizes": [
+          66
+        ],
+        "name": "Alcobendas"
+      },
+      "28/28007": {
+        "nodes": 119,
+        "components": 1,
+        "component_sizes": [
+          119
+        ],
+        "name": "Alcorcón"
+      },
+      "28/28008": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Aldea del Fresno"
+      },
+      "28/28009": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Algete"
+      },
+      "28/28010": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Alpedrete"
+      },
+      "28/28011": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Ambite"
+      },
+      "28/28012": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Anchuelo"
+      },
+      "28/28013": {
+        "nodes": 33,
+        "components": 1,
+        "component_sizes": [
+          33
+        ],
+        "name": "Aranjuez"
+      },
+      "28/28014": {
+        "nodes": 27,
+        "components": 1,
+        "component_sizes": [
+          27
+        ],
+        "name": "Arganda del Rey"
+      },
+      "28/28015": {
+        "nodes": 17,
+        "components": 1,
+        "component_sizes": [
+          17
+        ],
+        "name": "Arroyomolinos"
+      },
+      "28/28016": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Atazar, El"
+      },
+      "28/28017": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Batres"
+      },
+      "28/28018": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Becerril de la Sierra"
+      },
+      "28/28019": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Belmonte de Tajo"
+      },
+      "28/28020": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Berzosa del Lozoya"
+      },
+      "28/28021": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Berrueco, El"
+      },
+      "28/28022": {
+        "nodes": 32,
+        "components": 1,
+        "component_sizes": [
+          32
+        ],
+        "name": "Boadilla del Monte"
+      },
+      "28/28023": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Boalo, El"
+      },
+      "28/28024": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Braojos"
+      },
+      "28/28025": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Brea de Tajo"
+      },
+      "28/28026": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Brunete"
+      },
+      "28/28027": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Buitrago del Lozoya"
+      },
+      "28/28028": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Bustarviejo"
+      },
+      "28/28029": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cabanillas de la Sierra"
+      },
+      "28/28030": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cabrera, La"
+      },
+      "28/28031": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Cadalso de los Vidrios"
+      },
+      "28/28032": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Camarma de Esteruelas"
+      },
+      "28/28033": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Campo Real"
+      },
+      "28/28034": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Canencia"
+      },
+      "28/28035": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Carabaña"
+      },
+      "28/28036": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Casarrubuelos"
+      },
+      "28/28037": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Cenicientos"
+      },
+      "28/28038": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Cercedilla"
+      },
+      "28/28039": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Cervera de Buitrago"
+      },
+      "28/28040": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Ciempozuelos"
+      },
+      "28/28041": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Cobeña"
+      },
+      "28/28042": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Colmenar del Arroyo"
+      },
+      "28/28043": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Colmenar de Oreja"
+      },
+      "28/28044": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Colmenarejo"
+      },
+      "28/28045": {
+        "nodes": 26,
+        "components": 1,
+        "component_sizes": [
+          26
+        ],
+        "name": "Colmenar Viejo"
+      },
+      "28/28046": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Collado Mediano"
+      },
+      "28/28047": {
+        "nodes": 33,
+        "components": 1,
+        "component_sizes": [
+          33
+        ],
+        "name": "Collado Villalba"
+      },
+      "28/28048": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Corpa"
+      },
+      "28/28049": {
+        "nodes": 50,
+        "components": 1,
+        "component_sizes": [
+          50
+        ],
+        "name": "Coslada"
+      },
+      "28/28050": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Cubas de la Sagra"
+      },
+      "28/28051": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Chapinería"
+      },
+      "28/28052": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Chinchón"
+      },
+      "28/28053": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Daganzo de Arriba"
+      },
+      "28/28054": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "Escorial, El"
+      },
+      "28/28055": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Estremera"
+      },
+      "28/28056": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Fresnedillas de la Oliva"
+      },
+      "28/28057": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Fresno de Torote"
+      },
+      "28/28058": {
+        "nodes": 119,
+        "components": 1,
+        "component_sizes": [
+          119
+        ],
+        "name": "Fuenlabrada"
+      },
+      "28/28059": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Fuente el Saz de Jarama"
+      },
+      "28/28060": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Fuentidueña de Tajo"
+      },
+      "28/28061": {
+        "nodes": 13,
+        "components": 1,
+        "component_sizes": [
+          13
+        ],
+        "name": "Galapagar"
+      },
+      "28/28062": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Garganta de los Montes"
+      },
+      "28/28063": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Gargantilla del Lozoya y Pinilla de Buitrago"
+      },
+      "28/28064": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Gascones"
+      },
+      "28/28065": {
+        "nodes": 122,
+        "components": 1,
+        "component_sizes": [
+          122
+        ],
+        "name": "Getafe"
+      },
+      "28/28066": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Griñón"
+      },
+      "28/28067": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Guadalix de la Sierra"
+      },
+      "28/28068": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Guadarrama"
+      },
+      "28/28069": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Hiruela, La"
+      },
+      "28/28070": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Horcajo de la Sierra-Aoslos"
+      },
+      "28/28071": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Horcajuelo de la Sierra"
+      },
+      "28/28072": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Hoyo de Manzanares"
+      },
+      "28/28073": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Humanes de Madrid"
+      },
+      "28/28074": {
+        "nodes": 142,
+        "components": 1,
+        "component_sizes": [
+          142
+        ],
+        "name": "Leganés"
+      },
+      "28/28075": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Loeches"
+      },
+      "28/28076": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Lozoya"
+      },
+      "28/28078": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Madarcos"
+      },
+      "28/28079": {
+        "nodes": 2450,
+        "components": 1,
+        "component_sizes": [
+          2450
+        ],
+        "name": "Madrid"
+      },
+      "28/28080": {
+        "nodes": 45,
+        "components": 1,
+        "component_sizes": [
+          45
+        ],
+        "name": "Majadahonda"
+      },
+      "28/28082": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Manzanares el Real"
+      },
+      "28/28083": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Meco"
+      },
+      "28/28084": {
+        "nodes": 11,
+        "components": 1,
+        "component_sizes": [
+          11
+        ],
+        "name": "Mejorada del Campo"
+      },
+      "28/28085": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Miraflores de la Sierra"
+      },
+      "28/28086": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Molar, El"
+      },
+      "28/28087": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Molinos, Los"
+      },
+      "28/28088": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Montejo de la Sierra"
+      },
+      "28/28089": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Moraleja de Enmedio"
+      },
+      "28/28090": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "Moralzarzal"
+      },
+      "28/28091": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Morata de Tajuña"
+      },
+      "28/28092": {
+        "nodes": 139,
+        "components": 1,
+        "component_sizes": [
+          139
+        ],
+        "name": "Móstoles"
+      },
+      "28/28093": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Navacerrada"
+      },
+      "28/28094": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Navalafuente"
+      },
+      "28/28095": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Navalagamella"
+      },
+      "28/28096": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Navalcarnero"
+      },
+      "28/28097": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Navarredonda y San Mamés"
+      },
+      "28/28099": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Navas del Rey"
+      },
+      "28/28100": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Nuevo Baztán"
+      },
+      "28/28101": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Olmeda de las Fuentes"
+      },
+      "28/28102": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Orusco de Tajuña"
+      },
+      "28/28104": {
+        "nodes": 14,
+        "components": 1,
+        "component_sizes": [
+          14
+        ],
+        "name": "Paracuellos de Jarama"
+      },
+      "28/28106": {
+        "nodes": 67,
+        "components": 1,
+        "component_sizes": [
+          67
+        ],
+        "name": "Parla"
+      },
+      "28/28107": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Patones"
+      },
+      "28/28108": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Pedrezuela"
+      },
+      "28/28109": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Pelayos de la Presa"
+      },
+      "28/28110": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Perales de Tajuña"
+      },
+      "28/28111": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Pezuela de las Torres"
+      },
+      "28/28112": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Pinilla del Valle"
+      },
+      "28/28113": {
+        "nodes": 31,
+        "components": 1,
+        "component_sizes": [
+          31
+        ],
+        "name": "Pinto"
+      },
+      "28/28114": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Piñuécar-Gandullas"
+      },
+      "28/28115": {
+        "nodes": 56,
+        "components": 1,
+        "component_sizes": [
+          56
+        ],
+        "name": "Pozuelo de Alarcón"
+      },
+      "28/28116": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Pozuelo del Rey"
+      },
+      "28/28117": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Prádena del Rincón"
+      },
+      "28/28118": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Puebla de la Sierra"
+      },
+      "28/28119": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Quijorna"
+      },
+      "28/28120": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Rascafría"
+      },
+      "28/28121": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Redueña"
+      },
+      "28/28122": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Ribatejada"
+      },
+      "28/28123": {
+        "nodes": 55,
+        "components": 1,
+        "component_sizes": [
+          55
+        ],
+        "name": "Rivas-Vaciamadrid"
+      },
+      "28/28124": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Robledillo de la Jara"
+      },
+      "28/28125": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Robledo de Chavela"
+      },
+      "28/28126": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Robregordo"
+      },
+      "28/28127": {
+        "nodes": 50,
+        "components": 1,
+        "component_sizes": [
+          50
+        ],
+        "name": "Rozas de Madrid, Las"
+      },
+      "28/28128": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Rozas de Puerto Real"
+      },
+      "28/28129": {
+        "nodes": 6,
+        "components": 1,
+        "component_sizes": [
+          6
+        ],
+        "name": "San Agustín del Guadalix"
+      },
+      "28/28130": {
+        "nodes": 23,
+        "components": 1,
+        "component_sizes": [
+          23
+        ],
+        "name": "San Fernando de Henares"
+      },
+      "28/28131": {
+        "nodes": 9,
+        "components": 1,
+        "component_sizes": [
+          9
+        ],
+        "name": "San Lorenzo de El Escorial"
+      },
+      "28/28132": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "San Martín de la Vega"
+      },
+      "28/28133": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "San Martín de Valdeiglesias"
+      },
+      "28/28134": {
+        "nodes": 54,
+        "components": 1,
+        "component_sizes": [
+          54
+        ],
+        "name": "San Sebastián de los Reyes"
+      },
+      "28/28135": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Santa María de la Alameda"
+      },
+      "28/28136": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Santorcaz"
+      },
+      "28/28137": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Santos de la Humosa, Los"
+      },
+      "28/28138": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Serna del Monte, La"
+      },
+      "28/28140": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Serranillos del Valle"
+      },
+      "28/28141": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Sevilla la Nueva"
+      },
+      "28/28143": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Somosierra"
+      },
+      "28/28144": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Soto del Real"
+      },
+      "28/28145": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Talamanca de Jarama"
+      },
+      "28/28146": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Tielmes"
+      },
+      "28/28147": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Titulcia"
+      },
+      "28/28148": {
+        "nodes": 81,
+        "components": 1,
+        "component_sizes": [
+          81
+        ],
+        "name": "Torrejón de Ardoz"
+      },
+      "28/28149": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Torrejón de la Calzada"
+      },
+      "28/28150": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Torrejón de Velasco"
+      },
+      "28/28151": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Torrelaguna"
+      },
+      "28/28152": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Torrelodones"
+      },
+      "28/28153": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Torremocha de Jarama"
+      },
+      "28/28154": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Torres de la Alameda"
+      },
+      "28/28155": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdaracete"
+      },
+      "28/28156": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdeavero"
+      },
+      "28/28157": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdelaguna"
+      },
+      "28/28158": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdemanco"
+      },
+      "28/28159": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdemaqueda"
+      },
+      "28/28160": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Valdemorillo"
+      },
+      "28/28161": {
+        "nodes": 42,
+        "components": 1,
+        "component_sizes": [
+          42
+        ],
+        "name": "Valdemoro"
+      },
+      "28/28162": {
+        "nodes": 3,
+        "components": 1,
+        "component_sizes": [
+          3
+        ],
+        "name": "Valdeolmos-Alalpardo"
+      },
+      "28/28163": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdepiélagos"
+      },
+      "28/28164": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Valdetorres de Jarama"
+      },
+      "28/28165": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valdilecha"
+      },
+      "28/28166": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Valverde de Alcalá"
+      },
+      "28/28167": {
+        "nodes": 7,
+        "components": 1,
+        "component_sizes": [
+          7
+        ],
+        "name": "Velilla de San Antonio"
+      },
+      "28/28168": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Vellón, El"
+      },
+      "28/28169": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Venturada"
+      },
+      "28/28170": {
+        "nodes": 2,
+        "components": 1,
+        "component_sizes": [
+          2
+        ],
+        "name": "Villaconejos"
+      },
+      "28/28171": {
+        "nodes": 4,
+        "components": 1,
+        "component_sizes": [
+          4
+        ],
+        "name": "Villa del Prado"
+      },
+      "28/28172": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Villalbilla"
+      },
+      "28/28173": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villamanrique de Tajo"
+      },
+      "28/28174": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villamanta"
+      },
+      "28/28175": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villamantilla"
+      },
+      "28/28176": {
+        "nodes": 10,
+        "components": 1,
+        "component_sizes": [
+          10
+        ],
+        "name": "Villanueva de la Cañada"
+      },
+      "28/28177": {
+        "nodes": 8,
+        "components": 1,
+        "component_sizes": [
+          8
+        ],
+        "name": "Villanueva del Pardillo"
+      },
+      "28/28178": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villanueva de Perales"
+      },
+      "28/28179": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villar del Olmo"
+      },
+      "28/28180": {
+        "nodes": 5,
+        "components": 1,
+        "component_sizes": [
+          5
+        ],
+        "name": "Villarejo de Salvanés"
+      },
+      "28/28181": {
+        "nodes": 16,
+        "components": 1,
+        "component_sizes": [
+          16
+        ],
+        "name": "Villaviciosa de Odón"
+      },
+      "28/28182": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Villavieja del Lozoya"
+      },
+      "28/28183": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Zarzalejo"
+      },
+      "28/28901": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Lozoyuela-Navas-Sieteiglesias"
+      },
+      "28/28902": {
+        "nodes": 1,
+        "components": 1,
+        "component_sizes": [
+          1
+        ],
+        "name": "Puentes Viejas"
+      },
+      "28/28903": {
+        "nodes": 27,
+        "components": 1,
+        "component_sizes": [
+          27
+        ],
+        "name": "Tres Cantos"
+      }
+    },
+    "violations": [],
+    "unresolved_violations": []
+  }
+}
