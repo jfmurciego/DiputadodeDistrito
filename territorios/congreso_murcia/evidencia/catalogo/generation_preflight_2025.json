@@ -4,25 +4,25 @@
   "territory_id": "congreso_murcia",
   "territory_name": "Congreso Murcia",
   "edition": "2025",
-  "run_id": 41244085018,
-  "source_commit": "31a3fb1b2b4404bc346a94ffe2e203aea1a09dab",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 41293548832,
+  "source_commit": "d239c29f136ba74dd35b0976874135dd1db1ad80",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 41244085018,
-    "artifact_name": "ddd-source-package-congreso_murcia-2025-41244085018",
-    "artifact_sha256": "70e60aef285fefa6d0841206feaed75ca6d0692aa67dae4885487fec3d609a08",
-    "package_sha256": "9f86c2577b6fdd69639a9b438bde785273d3819bede871ee79254b70111852be",
-    "compatibility_identity_sha256": "86cebb1dbd6ff1ab71b55e911cee6d4e50b328c57a9ca5a2a356702c92eb408c",
-    "territorial_identity_sha256": "ee7045ec34eaff6d206f74c18d00c65f98c924c94e90813477ffb12e21a848ac",
+    "run_id": 41293548832,
+    "artifact_name": "ddd-source-package-congreso_murcia-2025-41293548832",
+    "artifact_sha256": "19411df3c4ebe9135d18e6d29d4902eb472d174274a5af09c2baa6f1ec345cc6",
+    "package_sha256": "fb7f6046fdfa26839483d04c0c74564d9b7196f495805c797e28355dfffbd757",
+    "compatibility_identity_sha256": "365fb95eed56785fe3f8e2cc462eba63ede3564d9d3856d04d8be7cb946008e4",
+    "territorial_identity_sha256": "f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a",
     "population_year": 2023,
     "section_year": 2023
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
