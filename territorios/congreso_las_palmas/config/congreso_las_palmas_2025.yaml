@@ -207,6 +207,10 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  # Diagnóstico M05 del 01-11-2026 (run 00 41250283081, POPULATION_HARD_BLOCK): el distrito 5 de Gran Canaria
+  # (66.538 hab., 7 municipios) queda bajo el suelo (97.397); decisión del propietario: exención municipal.
+  population_floor_exempt_municipalities:
+  - '35012'
   partition_apportionment_audit:
     35-C01:
       population: 862893
