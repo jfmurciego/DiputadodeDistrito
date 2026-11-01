@@ -2573,12 +2573,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41236482346
-        stage: M06
+        run_id: 41293988485
+        stage: M08
       preparation_evidence:
         run_id: 41236482346
         artifact_name: ddd-source-package-congreso_melilla-2025-41236482346
@@ -2597,4 +2597,5 @@ territories:
         generation_preflight: territorios/congreso_melilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_melilla/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_melilla/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json
+        electoral_product: territorios/congreso_melilla/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
