@@ -39,7 +39,8 @@ empujar() {
 }
 
 # territorio|run
-LISTA="congreso_alicante|41293667422
+LISTA="congreso_murcia|41335095516
+congreso_alicante|41293667422
 congreso_barcelona|41244711464
 congreso_cadiz|41243953699
 congreso_madrid|41244835816
@@ -47,8 +48,7 @@ congreso_malaga|41293427148
 congreso_pontevedra|41293311168
 congreso_baleares|41250230577
 congreso_las_palmas|41250283081
-congreso_alava|41240137880
-congreso_murcia|41335095516"
+congreso_alava|41240137880"
 
 for LINEA in ${(f)LISTA}; do
   T=${LINEA%%|*}; RUN=${LINEA##*|}
