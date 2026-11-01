@@ -5,10 +5,12 @@
   "territory_name": "Congreso Badajoz",
   "edition": "2025",
   "run_id": 41293199718,
-  "source_commit": "cd5f17789246500785d546decbc9e6d4805765b1",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "928295cff3b9ffa982e456eef0047db5ba8ad416",
+  "artifact_name": "ddd-state-41293199718-M03U",
+  "artifact_sha256": "aac44942467f1a5e0c855ccafbcb0f514c9998d63185d75e2de83e3f520760aa",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41293199718,
     "artifact_name": "ddd-source-package-congreso_badajoz-2025-41293199718",
@@ -19,10 +21,106 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "0604405005",
+        "v": "0604405003",
+        "admin_scope": "municipality:06044",
+        "edge_type": "same_municipality_exclave"
+      },
+      {
+        "u": "0604405006",
+        "v": "0604405004",
+        "admin_scope": "municipality:06044",
+        "edge_type": "same_municipality_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41293199718-M03",
+    "artifact_sha256": "8158933c5621e60a7e3502ad19edf6d18b7a15f4a82a9a71ebbe303b29f52daf",
+    "module_version": "7.5.0",
+    "nodes": 553,
+    "edges": 1443,
+    "population": 666049,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41293199718",
+    "job_artifact_sha256": "ea54b398efcbf10400f1ae8866658ca80db9c7b008652c9c002c385b768a016c",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/congreso_badajoz_2025/congreso_badajoz_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 666049,
+      "target_section_count": 553,
+      "package_sha256": "5af705a4eab716266cafaadf48800e0cc1ad056d64f3f22d18683bbb24785ff9",
+      "compatibility_report_sha256": "f45c13e8ffeb0746715f68f92ba09c4c5587e67a5e63268bc699931ffa8649b5",
+      "compatibility_identity_sha256": "7b51b17caed01ea4022fbeb7841abbf52db25f1dda73992c8c0ad3bc4c4111e7"
+    },
+    "topology_accreditation": null,
+    "k_districts": 6,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 6,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

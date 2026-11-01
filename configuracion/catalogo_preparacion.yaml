@@ -971,7 +971,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_badajoz/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json
         generation_preflight: territorios/congreso_badajoz/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_baleares
   name: Congreso Baleares
   editions:
