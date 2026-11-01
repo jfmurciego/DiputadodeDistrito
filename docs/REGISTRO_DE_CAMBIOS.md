@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.63
+Versión: 1.0.64
 Fecha: 2026-11-01
-Alcance: T-10 — robots de registro con app propia
+Alcance: T-05 — nombres visibles «nacional»
 Estado: candidato
-Cambios/motivo: el ruleset proteger-main rechazó los push de los robots (GH013) y tuvo que desactivarse
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.62_d2_20261101.md
+Cambios/motivo: en lo público los ámbitos del Congreso se muestran como «nacional»
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.63_t10_20261101.md
 -->
+
+## 2026-11-01 — T-05 — nombres visibles «nacional»
+
+- `catalogo_territorios.py`: `visible_name`/`visible_label` dan «Nacional Huesca»; `format_territory_label` sigue dando «Congreso Huesca», que es el valor de los selectores de los workflows.
+- Estado operativo 2.3.4 y dashboard: `name`, `display_name` y listas de nombres sin «Congreso» (comprobado regenerando el estado en local). `territory_id` (`congreso_*`) no cambia.
+- Visor 1.5.2: `territory_name`, `territory_label` y `territory_display_name` públicos con «Nacional». Textos de la página analítica `visor/congreso/` en «nacional» (la ruta no cambia).
+- Test: `tests/test_nombres_visibles_nacional.py`.
 
 ## 2026-11-01 — T-10 — robots de registro con app propia
 

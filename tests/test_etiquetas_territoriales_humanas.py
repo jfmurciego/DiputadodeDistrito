@@ -29,6 +29,8 @@ CATALOG = ROOT / "configuracion" / "catalogo_preparacion.yaml"
 
 # Territorios piloto (no autonómicos) que los selectores ofrecen tras las 19 etiquetas CODAUTO.
 PILOTS = [row["name"] for row in load_pilot_territories(ROOT / "configuracion/catalogo_territorios_espana_2025.yaml")]
+# T-05: lo visible dice «Nacional …»; los selectores de los workflows siguen con el nombre interno.
+VISIBLE_PILOTS = ["Nacional " + name.removeprefix("Congreso ") for name in PILOTS]
 EXPECTED = [
     "01 Andalucía",
     "02 Aragón",
@@ -172,7 +174,7 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         self.assertEqual(state["country_display_name"], "ES · España")
         self.assertEqual(
             [row["display_name"] for row in state["territories"]],
-            [*EXPECTED, *PILOTS],
+            [*EXPECTED, *VISIBLE_PILOTS],
         )
         balears = next(row for row in state["territories"] if row["territory_id"] == "illes_balears")
         self.assertEqual(balears["name"], "Islas Baleares")
@@ -203,7 +205,7 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         decorated = _decorate_and_sort(rows, ROOT)
         self.assertEqual([row["id"] for row in decorated], ["m08-melilla", "m08-huesca"])
         self.assertEqual(decorated[1]["autonomous_community_code_ine"], "C22")
-        self.assertEqual(decorated[1]["territory_label"], "Congreso Huesca")
+        self.assertEqual(decorated[1]["territory_label"], "Nacional Huesca")
 
     def test_dashboard_and_viewer_consume_central_display_fields(self):
         dashboard = (ROOT / "dashboard" / "app.js").read_text(encoding="utf-8")
