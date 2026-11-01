@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_castellon",
+  "territory_name": "Congreso Castellón",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_castellon_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41241768943,
+    "artifact_name": "ddd-source-package-congreso_castellon-2025-41241768943",
+    "artifact_sha256": "a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b",
+    "package_sha256": "2fb73fe7f4cd3909b739a94e2ca9d66bcfac872448f966e4db000a9431c36fa0",
+    "source_commit": "a1e2f698a41d04dc9e34ddf640b8d8aaf804e0a2",
+    "source_declaration": "territorios/congreso_castellon/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_castellon/evidencia/fuentes_territoriales/2025/521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8/41241768943/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "964e8886a176c85c38f933e8abf6ca5e63399490dd7caaf0cf955309ad3a8851",
+    "compatibility_identity_sha256": "96afbcc041a7e07087ae7e18017cacb90c15477876a74a67fee4acae903abfdd",
+    "remote_verification": {
+      "run_id": 41241768943,
+      "artifact_id": 13059075349,
+      "artifact_name": "ddd-source-package-congreso_castellon-2025-41241768943",
+      "artifact_sha256": "a6af0b7655a6a5e72d00d2c6a2cf575999cffb03ef8f2ebd4de8f75f1946368b",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239799217,
+    "artifact_name": "ddd-electoral-package-congreso_castellon-2025-41239799217",
+    "artifact_sha256": "3396ed62a22a29d0e89179d8caa2895f7d03c650f0b8bd8a76d710052b15d6f5",
+    "source_commit": "5218c0e9d47db27ed3ea8c937f8606c967225833",
+    "receipt_path": "territorios/congreso_castellon/evidencia/fuentes_electorales/2025/edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1/41239799217/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_castellon_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1",
+    "remote_verification": {
+      "run_id": 41239799217,
+      "artifact_id": 13057151462,
+      "artifact_name": "ddd-electoral-package-congreso_castellon-2025-41239799217",
+      "artifact_sha256": "3396ed62a22a29d0e89179d8caa2895f7d03c650f0b8bd8a76d710052b15d6f5",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "521843ff70d449199d943dedad2f09b1cfe0274e5b1a57534021247b0048bcd8",
+  "electoral_compatibility_key": "edc1431446e17982e9143687d587d8ab6c7a468907295f7be0f207c812bce6d1",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_castellon/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "8bbe77deb9c92332e6b8b61310217afa1d5be4d24eb252319b98f2943a3406c6"
+}
