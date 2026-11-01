@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-01T10:01:59.175885+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-01T10:03:27.989308+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -94,7 +94,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Toledo** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41242809451 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Valencia** | 🟡 | 🟡 | 🟡 | ⚪ | ⚪ | Validación pendiente | 41244586540 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes territoriales |
 | **Congreso Valladolid** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41241636977 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
-| **Congreso Vizcaya** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243819237 · FAILED | 02 · Generación de Distritos Autonómicos | La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente. | generar y validar distritos |
+| **Congreso Vizcaya** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243819237 · FAILED | 02 · Generación de Distritos Autonómicos | Fuente territorial acreditada; habilitación de generación todavía no evaluada. | generar y validar distritos |
 | **Congreso Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250479211 · SUCCESS | — | — | — |
 | **Congreso Zaragoza** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41243577758 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250564472 · SUCCESS | — | — | — |

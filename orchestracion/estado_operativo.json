@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:01:59.175885+00:00",
+  "generated_at": "2026-11-01T10:03:27.989308+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 38,
-      "activable": 31,
+      "activated": 39,
+      "activable": 30,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 38
+      "durable_pair": 39
     },
     "territories": [
       {
@@ -1136,8 +1136,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41244466642,
-            "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/60e7748d678fc96fe5f0e2864facd79c7b4e4032736dc746c9a83597e6ba2649/41244466642/receipt.json"
+            "run_id": 41293667422,
+            "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/931ad80d8e151fbbb19860955a017a24409375d78a554e1de22757317aade0cf/41293667422/receipt.json"
           }
         },
         "electoral": {
@@ -2175,12 +2175,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_jaen/evidencia/pares_fuentes/2025/6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21.json",
+            "pair_sha256": "6a04a5cdb0ca79f5630ff6f104162cd194b78192f08c046eec86daf681a98a21",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3443,8 +3443,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243819237,
-            "receipt_path": "territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/5a3ead98520ee90fba1cdf83045a4ddd7a2ef3c4765cfc55b9db4eeb0c7bb7f5/41243819237/receipt.json"
+            "run_id": 41293083498,
+            "receipt_path": "territorios/congreso_vizcaya/evidencia/fuentes_territoriales/2025/19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68/41293083498/receipt.json"
           }
         },
         "electoral": {
@@ -4946,9 +4946,9 @@
         "territorial_source": {
           "territory_id": "congreso_alicante",
           "edition": "2025",
-          "run_id": 41244466642,
-          "artifact_name": "ddd-source-package-congreso_alicante-2025-41244466642",
-          "artifact_sha256": "6c3cb0855e1192c0814fde3cd9eef1b757f6e41d669f878dc001d59c34f0b24f",
+          "run_id": 41293667422,
+          "artifact_name": "ddd-source-package-congreso_alicante-2025-41293667422",
+          "artifact_sha256": "90611e4837cf8f4be7af05481daee4d4241d20e0c9473e189e3260ccc8ed9c38",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -7010,7 +7010,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -7019,9 +7019,9 @@
         "territorial_source": {
           "territory_id": "congreso_vizcaya",
           "edition": "2025",
-          "run_id": 41243819237,
-          "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41243819237",
-          "artifact_sha256": "26246b1bcda37f4e5349840737b6bf4d70ce2324de0e37fc5d7e2e0187d5a5fe",
+          "run_id": 41293083498,
+          "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41293083498",
+          "artifact_sha256": "d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
