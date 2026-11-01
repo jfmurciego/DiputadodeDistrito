@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:51:42.674443+00:00",
+  "generated_at": "2026-11-01T10:53:25.637027+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5092,11 +5092,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41293199718,
       "last_run": {
-        "run_id": 41242287390,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41293199718,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -5702,7 +5702,18 @@
           "producer_manifest_path": "territorios/congreso_gerona/evidencia/generaciones_m06/41292216676.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_gerona",
+          "territory_name": "Congreso Gerona",
+          "edition": "2025",
+          "run_id": 41298839274,
+          "artifact_name": "ddd-state-41298839274-M08",
+          "artifact_sha256": "2e4618fa71df3cd8b01be40dff7fa0771e200d229821cdfb025d26678d3bc606",
+          "source_commit": "49cad9db4805601c6fc1a485f8f415d85fa3f603",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C17",
       "display_name": "Congreso Gerona",
@@ -6313,7 +6324,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41244216073,
+        "run_id": 41293427148,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
