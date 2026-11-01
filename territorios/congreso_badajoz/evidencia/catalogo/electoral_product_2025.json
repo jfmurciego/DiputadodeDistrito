@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_badajoz",
+  "territory_name": "Congreso Badajoz",
+  "edition": "2025",
+  "run_id": 41299475924,
+  "artifact_name": "ddd-state-41299475924-M08",
+  "artifact_sha256": "d43dd31879919bec675394cc4570f4da3a3267f2341cc682017c29002f6ac8ea",
+  "source_commit": "a099545f649b03f51c9a91f3d1187c223dad12e4",
+  "stage": "M08"
+}
