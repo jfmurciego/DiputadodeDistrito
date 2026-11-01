@@ -1383,12 +1383,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41243199582
-        stage: M06
+        run_id: 41296546816
+        stage: M08
       preparation_evidence:
         run_id: 41243199582
         artifact_name: ddd-source-package-congreso_granada-2025-41243199582
@@ -1407,6 +1407,7 @@ territories:
         generation_preflight: territorios/congreso_granada/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_granada/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_granada/evidencia/pares_fuentes/2025/94c196621c8f37380c8ba79069268acec8873d0321045136cd248b622bd37a7e.json
+        electoral_product: territorios/congreso_granada/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_guadalajara
   name: Congreso Guadalajara
