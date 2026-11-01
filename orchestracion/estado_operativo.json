@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T21:57:17.745879+00:00",
+  "generated_at": "2026-11-01T22:12:07.162391+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6785,20 +6785,20 @@
       "name": "Nacional Pontevedra",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41351964088,
+      "run_id": 41353894475,
       "last_run": {
-        "run_id": 41351964088,
+        "run_id": 41353894475,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Pontevedra edición 2025; complete la preparación conjunta antes de ejecutar",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6839,7 +6839,7 @@
       },
       "autonomous_community_code_ine": "C36",
       "display_name": "Nacional Pontevedra",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_salamanca",
@@ -7805,7 +7805,7 @@
     }
   ],
   "kpis": {
-    "complete": 59,
+    "complete": 60,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7852,6 +7852,7 @@
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
+      "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
       "Nacional Segovia",
@@ -8016,13 +8017,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_alava",
-    "name": "Nacional Álava",
-    "display_name": "Nacional Álava",
-    "autonomous_community_code_ine": "C01",
-    "run_id": 41346917857,
+    "territory_id": "congreso_pontevedra",
+    "name": "Nacional Pontevedra",
+    "display_name": "Nacional Pontevedra",
+    "autonomous_community_code_ine": "C36",
+    "run_id": 41353894475,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
