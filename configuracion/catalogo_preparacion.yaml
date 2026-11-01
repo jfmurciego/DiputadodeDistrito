@@ -2217,12 +2217,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41244347546
-        stage: M06
+        run_id: 41297168461
+        stage: M08
       preparation_evidence:
         run_id: 41244347546
         artifact_name: ddd-source-package-congreso_sevilla-2025-41244347546
@@ -2241,6 +2241,7 @@ territories:
         generation_preflight: territorios/congreso_sevilla/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_sevilla/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_sevilla/evidencia/pares_fuentes/2025/cb79f6e4011e57e45764794c8ff7d02d2c4aabd12a959f68cbdce6031f38ab5d.json
+        electoral_product: territorios/congreso_sevilla/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_soria
   name: Congreso Soria

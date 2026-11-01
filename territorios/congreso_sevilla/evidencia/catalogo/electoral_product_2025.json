@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_sevilla",
+  "territory_name": "Congreso Sevilla",
+  "edition": "2025",
+  "run_id": 41297168461,
+  "artifact_name": "ddd-state-41297168461-M08",
+  "artifact_sha256": "3b1995be0504d511fea547ca9d27b8956848bd5cd450854aeaca1606b18427c1",
+  "source_commit": "01b23ba1f4d097482d5ccc23379dbfe5158ef77a",
+  "stage": "M08"
+}
