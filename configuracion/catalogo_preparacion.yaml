@@ -859,7 +859,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_alicante/evidencia/fuentes_electorales/2025/600f053e186d955a62ff161b71725e160ba01932f57ed5a8af715476156830ec/41239760809/receipt.json
         generation_preflight: territorios/congreso_alicante/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_almeria
   name: Congreso Almería
   editions:
