@@ -9,6 +9,7 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - No lanzar ejecuciones productivas ni publicar (visor, releases) sin permiso explícito en ese mensaje.
 - Sin vigilantes ni revisiones programadas salvo que se pidan.
 - Respuestas cortas, en español.
+- No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main`.
 
 ## Coordinación entre sesiones
 - Suele haber varias sesiones en paralelo con territorios repartidos. Antes de tocar ficheros compartidos
@@ -26,6 +27,10 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - `TERRITORIAL_REPLAN_BLOCK: fuente elegida difiere del catálogo`: la fila del catálogo apunta a un receipt antiguo
   (`territorial_source_declaration` / `independent_source_evidence`); alinéala con `preparation_evidence` (#338, #352).
 - Los artefactos de Actions caducan; un producto viejo puede ser válido en el catálogo y no descargable.
+- «Reutilizar» restaura el último checkpoint REGISTRADO: si el run bueno no llegó a registrar (fallo de push), toma uno
+  anterior (Murcia volvió al M03 en 3035, `CHECKPOINT_RUN_ID` en el log del paso M04). Mira ese valor antes de concluir.
+- La 00 encadena sola par (`prepare_one`) y otra 00 como github-actions[bot] si la 04 se salta por falta de par;
+  desde #389 solo si la puerta 02 pasó.
 
 ## Ficheros con efectos ocultos
 - `modulos/05_optimizar_distritos.py` está en la huella M05 (`huella_checkpoint_m05.ENGINE_FILES`): tocarlo
@@ -36,6 +41,8 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - Las evidencias N08 (`docs/ESTUDIOS/N08_*`) fijan hashes de ficheros activos; si cambias uno, monta la copia
   archivada en `herramientas/verificar_evidencia_n08_readonly.py` y en `tests/test_preflight_caceres_n08.py`.
 - Gobernanza: cada cambio de fichero versionado sube su cabecera VERSIÓN y deja copia en `legacy/` con ANTERIOR.
+- `modulos/04_generar_semillas.py` entra en la evidencia pre-M04 de los contratos `physical_components` (Canarias,
+  Baleares, Las Palmas, Santa Cruz de Tenerife): cambiarlo los obliga a «Generar desde fuente territorial acreditada».
 
 ## Contratos, política y población
 - El materializador sobrescribe en el contrato los umbrales con los de la política: cualquier ajuste por territorio
@@ -46,6 +53,13 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - Bloqueo por población: suele ser estructural (municipios indivisibles o núcleos cerrados que encajonan distritos
   pequeños). Palancas: `municipality_atomicity_limit_ratio` más bajo, `population_repair` (private_annealing),
   exención de suelo. Más presupuesto de reparación no ayuda si es estructural.
+- CRS de M02 en provincias del Congreso: el generador pone EPSG:3035; donde el autonómico usa 25830 (Comunidad
+  Valenciana, Región de Murcia) cópialo. En 3035 los solapes INE crecen (0,19 → 11,8 m²) y fallan la admisibilidad
+  de 01 (`GEOMETRY_INVALID_AUDITED`) o la conectividad pre-M04 (#374, #383). Los parámetros de M02 viven en el
+  contrato; la política solo sobrescribe población; `population_repair` va en `modulo_05` del contrato.
+- Estructural sin palanca de contrato: municipio atómico rodeado de municipios que solo lindan con él (Lorca+Águilas+
+  Puerto Lumbreras) o enclaves dentro de un municipio con núcleos cerrados (Alcantarilla y Beniel en Murcia).
+  Comprueba vecinos municipales en el grafo M03 antes de proponer ajustes.
 
 ## Diagnóstico local (sin descargar artefactos: desde la sesión cloud dan 403)
 - El propietario sube con un script desde su Mac el grafo M03 y el M01 del run a la rama `diagnostico/poblacion-20261028`.
@@ -54,6 +68,10 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
   `python modulos/05_optimizar_distritos.py --params …`. Las rutas se resuelven respecto al contrato: las copias
   temporales del contrato van en `territorios/<t>/config/`, nunca fuera.
 - Los logs de jobs se leen con la herramienta MCP `get_job_logs`; los grandes se guardan en fichero y se filtran.
+- Para T-02 y siguientes: `lanzadores/subir_diagnostico_t02.sh` (rama `lanzadores-mac`) sube M01+M03 a
+  `diagnostico/<rama>`; acepta `ddd-state-<run>-M03` o `-M03U` y reintenta pushes (HTTP 408 desde el Mac).
+- Suite completa local ~15 min: en segundo plano. `test_pipeline_adversarial_c07` y `test_pipeline_sintetico_m01_m06`
+  fallan en local también en `main` (entorno); en CI pasan.
 
 ## Visor y dashboard
 - El visor solo muestra lo que está en `orchestracion/publicaciones_visor.json`. Publica con
@@ -75,6 +93,8 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
   `fuente-infoelectoral-02202307` y la 03 lo usa como espejo con la misma huella.
 - Los robots de registro reescriben `catalogo_preparacion.yaml` y el catálogo maestro mientras corren
   ejecuciones: una PR que los toca choca enseguida. Rebasa tomando `main` y reinserta solo lo tuyo; fusiona rápido.
+- Un ruleset que exige PR en `main` rechaza los registros de los robots (`GH013`) y las 00 fallan al registrar;
+  `Duplicate header: "Authorization"` (HTTP 400) = credencial de registro mal combinada con actions/checkout (#381→#386).
 
 ## Congreso / nacional (provincias)
 - `herramientas/generar_provincias_congreso.py` (idempotente) da de alta provincias desde el reparto N06 y hereda
@@ -88,3 +108,5 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 <!-- /cierre-sesion añade aquí una línea por lección nueva: fecha · lección · PR o run de evidencia. -->
 - 2026-10-29 · Murcia/Valencia: M04 7.4.15–7.4.18 (reintentos solo en la ruta de agotamiento), exención de Beniel, umbral 1,5 en Valencia · #324 #327 #332 #343 #336 #345 #352 #354.
 - 2026-10-31 · Congreso: piloto Huesca 01→05, 50 provincias generadas, islas agrupadas, puentes heredados, Infoelectoral por espejo, lanzamientos REST/Mac · #362 #363 #364 #367 #368 #369 #370 #371.
+- 2026-11-01 · T-02: CRS 25830 (Huelva, Valencia), M04 7.6.0 multisección (Álava), dedupe de manifiesto al reanudar
+  desde M05, encadenado solo con puerta 02, PARADA de visor = marcador; Murcia bloqueada estructural · #374 #383 #387 #389.
