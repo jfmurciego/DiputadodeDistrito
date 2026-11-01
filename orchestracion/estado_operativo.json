@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T18:26:45.876420+00:00",
+  "generated_at": "2026-11-01T18:27:49.926120+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7311,20 +7311,20 @@
       "name": "Nacional Valencia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41318119259,
+      "run_id": 41335936727,
       "last_run": {
-        "run_id": 41318119259,
+        "run_id": 41335936727,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "no existe prepared_source_pair acreditado para la entrada electoral",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7365,7 +7365,7 @@
       },
       "autonomous_community_code_ine": "C46",
       "display_name": "Nacional Valencia",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_valladolid",
@@ -7724,7 +7724,7 @@
     }
   ],
   "kpis": {
-    "complete": 56,
+    "complete": 57,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7777,6 +7777,7 @@
       "Nacional Tarragona",
       "Nacional Teruel",
       "Nacional Toledo",
+      "Nacional Valencia",
       "Nacional Valladolid",
       "Nacional Zamora",
       "Nacional Zaragoza",
@@ -7929,11 +7930,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_badajoz",
-    "name": "Nacional Badajoz",
-    "display_name": "Nacional Badajoz",
-    "autonomous_community_code_ine": "C06",
-    "run_id": 41299475924,
+    "territory_id": "congreso_valencia",
+    "name": "Nacional Valencia",
+    "display_name": "Nacional Valencia",
+    "autonomous_community_code_ine": "C46",
+    "run_id": 41335936727,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
