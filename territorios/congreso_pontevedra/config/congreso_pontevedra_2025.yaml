@@ -207,6 +207,10 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  # Run 00 41327494461 (reparación profunda sin mejora): distrito 7 con 88.197 hab. (5 municipios) bajo el suelo (100.588).
+  # Exención municipal acordada si la reparación no bastaba.
+  population_floor_exempt_municipalities:
+  - '36008'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0

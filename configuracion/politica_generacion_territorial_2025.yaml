@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.7.2
-# FECHA: 2026-10-30
+# VERSIÓN: 1.7.3
+# FECHA: 2026-11-01
 # CAMBIOS: 1.6.0: piloto Congreso Huesca (K=2, límites ±15 %, municipios indivisibles hasta el techo).
 #   1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
 #   1.5.1: umbral de atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña.
@@ -12,7 +12,8 @@
 # CAMBIOS 1.7.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.7.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.7.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.1_islas_20261031.yaml
+# CAMBIOS 1.7.3: techo 116 % en Congreso Cádiz y 127 % en Congreso Baleares (decisión del propietario, 01-11-2026).
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.2_cadiz_20261101.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -281,12 +282,12 @@ territories:
     rationale: "Congreso: K=11 es la cuota de Cádiz (CPRO 11) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
     population_limits:
       population_floor_ratio: 0.85
-      population_cap_ratio: 1.15
-      target_tolerance_ratio: 0.15
+      population_cap_ratio: 1.16
+      target_tolerance_ratio: 0.16
       municipality_atomicity_limit_ratio: 1.15
-      decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
-      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+      decided_at: "2026-11-01"
+      evidence: "run 00 41327505480: M05 distrito 8 = 132.239 hab. (El Puerto de Santa María 11027 y Puerto Real 11028 enteros) frente a un techo de 131.190; la reparación profunda no lo mejoró"
+      rationale: "Decisión del propietario (01-11-2026): techo 116 % solo en Cádiz, porque dos municipios enteros dan un distrito 1,159 veces la media; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
   congreso_castellon:
     k: 5
@@ -851,12 +852,12 @@ territories:
     rationale: "Congreso: K=10 es la cuota de Baleares (CPRO 07) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
     population_limits:
       population_floor_ratio: 0.85
-      population_cap_ratio: 1.15
-      target_tolerance_ratio: 0.15
+      population_cap_ratio: 1.27
+      target_tolerance_ratio: 0.27
       municipality_atomicity_limit_ratio: 1.15
-      decided_at: "2026-10-31"
-      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
-      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+      decided_at: "2026-11-01"
+      evidence: "runs 00 41327500079 y 41336112319: M05 distrito 5 de Mallorca = 152.621 hab. (a 1,261 de la media 120.991) frente a un techo de 139.139; la reparación profunda no lo mejoró y el reparto 7/1/2 por isla no tiene alternativa"
+      rationale: "Decisión del propietario (01-11-2026): techo 127 % solo en Baleares; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
   congreso_las_palmas:
     k: 10

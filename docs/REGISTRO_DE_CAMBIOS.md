@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.68
+Versión: 1.0.69
 Fecha: 2026-11-01
 Alcance: T-13 — exención de suelo en provincias con islas
 Estado: candidato
 Cambios/motivo: Las Palmas pasaba la 02 con la exención de 35012 pero la 04 la rechazaba (run 41339428006)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.67_t09_20261101.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.68_t02b_20261101.md
 -->
 
 ## 2026-11-01 — T-13 — exención de suelo con el campo «municipio:partición»
@@ -14,6 +14,13 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.67_t09_20261101.md
 - `ddd_core/population_floor_exemptions.py` 1.0.1: compara solo el código de municipio.
 - `herramientas/validar_ejecucion.py` 1.3.3: recalcula las exenciones del contrato (municipio y partición) sobre las secciones, así las 04 de M06 ya generados pasan sin regenerar la 02.
 - Test: `tests/test_exencion_suelo_islas.py`.
+
+
+## 2026-11-01 — T-02b — bloqueos de población M05 en provincias
+
+- Política 1.7.3: `population_cap_ratio` 1,27 (tolerancia 0,27) solo en `congreso_baleares` (distrito 5 de Mallorca, 152.621 hab., a 1,261 de la media) y 1,16 (tolerancia 0,16) solo en `congreso_cadiz`; el distrito 8 (El Puerto + Puerto Real enteros, 132.239 hab.) queda a 1,159 de la media.
+- Contratos: exención de suelo municipal en Cádiz (11031), Barcelona (08073), Las Palmas (35012) y Pontevedra (36008); `population_repair` más profundo (profundidad 6, conjunto 3, 500.000 candidatos, 300 s) en Madrid, Málaga, Alicante, Pontevedra, Baleares, Cádiz y Barcelona. La reparación profunda no mejoró ningún exceso.
+- Madrid, Málaga, Alicante y Barcelona (distrito 31) quedan BLOQUEADAS por estructura; cifras en `docs/PLAN.md`, sección T-02b.
 
 ## 2026-11-01 — T-09 — huella de puentes antes de M02
 
