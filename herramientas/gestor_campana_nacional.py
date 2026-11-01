@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Gestor de campaña nacional — versión 0.1.0, 2026-10-31.
+"""Gestor de campaña nacional — versión 0.2.0, 2026-11-01.
 Alcance: preflight local; estado: candidato.
-Cambio/motivo: 0.1.0 parse_selection acepta «todos», números o nombres (sin tildes ni mayúsculas);
+Cambio/motivo: 0.2.0 (T-06) campaña «Nacional 2023»: provincias por «todos», número INE, matrícula o nombre;
+  hasta 52 territorios; nombre visible «Nacional …» en el manifiesto y el resumen.
+  0.1.0 parse_selection acepta «todos», números o nombres (sin tildes ni mayúsculas);
   0.0.1 consumir el plan común y distinguir reuso, generación y preparación.
-Anterior: legacy/herramientas/gestor_campana_nacional_v0.0.1_20261031.py
+Anterior: legacy/herramientas/gestor_campana_nacional_v0.1.0_20261101.py
 """
 from __future__ import annotations
 import argparse, hashlib, json
@@ -11,9 +13,9 @@ from pathlib import Path
 from typing import Any
 import yaml
 try:
-    from herramientas.catalogo_territorios import load_master
+    from herramientas.catalogo_territorios import load_master, load_pilot_territories, visible_name
 except ModuleNotFoundError:
-    from catalogo_territorios import load_master
+    from catalogo_territorios import load_master, load_pilot_territories, visible_name
 try:
     from herramientas.resolver_ejecucion_completa import generation_ready_contract, build_plan
 except ModuleNotFoundError:
@@ -22,6 +24,17 @@ except ModuleNotFoundError:
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 CONFIRMATION="EXECUTE_CAMPAIGN_CONFIRMED"
+CAMPAIGNS={"Autonómica 2025":"AUT","Nacional 2023":"NAC"}
+MAX_TERRITORIES=52
+
+def _provinces(root:Path)->list[dict[str,Any]]:
+    return [r for r in load_pilot_territories(root/MASTER) if r.get("scope")=="congreso"]
+
+def _known(root:Path)->list[dict[str,Any]]:
+    return load_master(root/MASTER)+_provinces(root)
+
+def _code(row:dict[str,Any])->str:
+    return str(row.get("autonomous_community_code_ine") or row.get("pilot_code") or "")
 MODES={"electoral","territorial_only"}
 STRATEGIES={
  "Canónico":("",0,False),
@@ -183,18 +196,28 @@ def _norm(text:str)->str:
     plain=unicodedata.normalize("NFKD",str(text)).encode("ascii","ignore").decode()
     return " ".join(plain.lower().replace("_"," ").replace("-"," ").split())
 
-def parse_selection(raw:str,root:Path=Path("."))->list[str]:
-    """«todos», números de comunidad (3, 03) o nombres (Cantabria, comunidad valenciana), separados por coma."""
-    master=load_master(root/MASTER)
+def parse_selection(raw:str,root:Path=Path("."),campaign:str="Autonómica 2025")->list[str]:
+    """«todos», números o nombres separados por coma. Autonómica: CODAUTO (3, 03) o nombre (Cantabria).
+    Nacional: número INE de provincia (22), matrícula en español (HU) o nombre (Huesca)."""
+    scope=CAMPAIGNS.get(campaign)
+    if scope is None: raise ValueError(f"Campaña desconocida: {campaign}")
+    rows=load_master(root/MASTER) if scope=="AUT" else _provinces(root)
     items=[x.strip() for x in str(raw or "").split(",") if x.strip()]
     if not items: raise ValueError("Indica territorios: todos, números (03,06) o nombres (Cantabria, Galicia)")
     if len(items)==1 and _norm(items[0])=="todos":
-        return [str(r["territory_id"]) for r in master]
+        return [str(r["territory_id"]) for r in rows]
     index:dict[str,str]={}
-    for r in master:
-        tid=str(r["territory_id"]); code=str(r["autonomous_community_code_ine"])
-        for key in (code,str(int(code)),tid,r.get("name") or "",f"{code} {r.get('name') or ''}"):
-            index[_norm(key)]=tid
+    for r in rows:
+        tid=str(r["territory_id"]); name=str(r.get("name") or "")
+        if scope=="AUT":
+            code=str(r["autonomous_community_code_ine"])
+            keys=(code,str(int(code)),tid,name,f"{code} {name}")
+        else:
+            cpro=str((r.get("province_codes") or [""])[0])
+            keys=(cpro,str(int(cpro)),str(r.get("plate_code") or ""),tid,name,visible_name(r),
+                  name.removeprefix("Congreso "))
+        for key in keys:
+            if key: index[_norm(key)]=tid
     selected:list[str]=[]; unknown:list[str]=[]
     for item in items:
         tid=index.get(_norm(item))
@@ -204,13 +227,16 @@ def parse_selection(raw:str,root:Path=Path("."))->list[str]:
     return selected
 
 def canonical_selection(selected:list[str],root:Path=Path("."))->list[dict[str,Any]]:
-    master=load_master(root/MASTER)
+    every=_known(root)
     wanted=set(selected)
-    known={str(r["territory_id"]) for r in master}
+    known={str(r["territory_id"]) for r in every}
     unknown=sorted(wanted-known)
     if unknown: raise ValueError("Territorios no registrados: "+", ".join(unknown))
-    rows=[r for r in master if str(r["territory_id"]) in wanted]
-    if not 1<=len(rows)<=19: raise ValueError("La campaña debe seleccionar entre 1 y 19 territorios")
+    rows=[r for r in every if str(r["territory_id"]) in wanted]
+    if len({bool(r.get("pilot_code")) for r in rows})>1:
+        raise ValueError("Una campaña no mezcla autonómicas y provincias nacionales")
+    limit=MAX_TERRITORIES if rows and rows[0].get("pilot_code") else 19
+    if not 1<=len(rows)<=limit: raise ValueError(f"La campaña debe seleccionar entre 1 y {limit} territorios")
     return rows
 
 def _expected_k(root:Path,contract_path:str)->int:
@@ -286,7 +312,7 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
     catalog=_catalog_index(root)
     territories=[]
     for master in canonical_selection(selected,root):
-        tid=str(master["territory_id"]); code=str(master["autonomous_community_code_ine"])
+        tid=str(master["territory_id"]); code=_code(master)
         cat=catalog.get(tid) or {}
         state=(cat.get("editions") or {}).get(edition) or {}
         contract=str(state.get("contract_path") or "")
@@ -310,6 +336,7 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
             status="BLOCKED"
         territories.append({
           "slot":code,"codauto":code,"territory_id":tid,"territory_name":str(master["name"]),
+          "territory_display_name":visible_name(master),
           "publication_mode":publication_mode,"contract_path":contract,
           "evidence":evidence,
           "generation_contract":generation,
@@ -429,7 +456,7 @@ def validate_campaign_summary_for_promotion(summary:dict[str,Any])->list[dict[st
     rows=summary.get("territories")
     expected=int(summary.get("territory_count_expected") or 0)
     if summary.get("status")!="PASS": raise ValueError("La campaña no está en PASS")
-    if not isinstance(rows,list) or not 1<=expected<=19 or len(rows)!=expected:
+    if not isinstance(rows,list) or not 1<=expected<=MAX_TERRITORIES or len(rows)!=expected:
         raise ValueError("Cardinalidad territorial inconsistente")
     seen=set()
     for row in rows:
@@ -441,7 +468,7 @@ def validate_campaign_summary_for_promotion(summary:dict[str,Any])->list[dict[st
 
 def publication_matrix(releases:list[dict[str,Any]],expected_count:int|None=None,
                        expected_territories:list[str]|None=None)->dict[str,Any]:
-    if not 1<=len(releases)<=19: raise ValueError("La publicación exige entre 1 y 19 releases")
+    if not 1<=len(releases)<=MAX_TERRITORIES: raise ValueError(f"La publicación exige entre 1 y {MAX_TERRITORIES} releases")
     if expected_count is not None and len(releases)!=expected_count:
         raise ValueError("No se publican resultados parciales")
     for key in ("release_tag","namespace","territory_id"):
@@ -483,7 +510,7 @@ def main()->None:
     lines=["# Campaña "+summary["campaign_instance"],"","- estado: "+summary["status"],"",
            "| Slot | Territorio | Estado |","|---|---|---|"]
     for row in summary["territories"]:
-        lines.append(f"| {row.get('slot','')} | {row.get('territory_name',row.get('territory_id',''))} | {row.get('status','')} |")
+        lines.append(f"| {row.get('slot','')} | {row.get('territory_display_name') or row.get('territory_name',row.get('territory_id',''))} | {row.get('status','')} |")
     a.output_md.write_text("\n".join(lines)+"\n",encoding="utf-8")
     print(json.dumps(summary,ensure_ascii=False))
     # El resultado territorial no altera la integridad del resumen.

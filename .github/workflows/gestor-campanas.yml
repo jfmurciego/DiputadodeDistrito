@@ -1,9 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# VERSIÓN: 1.1.0 · FECHA: 2026-10-31 · ESTADO: candidato
+# VERSIÓN: 1.2.0 · FECHA: 2026-11-01 · ESTADO: candidato
+# CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
 # CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
 #   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
-# ANTERIOR: legacy/workflows/gestor-campanas_sin_version_20261031.yml
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.1.0_20261101.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: 0 Gestor de Campañas
@@ -18,6 +19,7 @@ on:
         default: Autonómica 2025
         options:
           - Autonómica 2025
+          - Nacional 2023
       estrategia:
         description: Estrategia territorial
         required: true
@@ -37,7 +39,7 @@ on:
           - electoral
           - territorial_only
       territorios:
-        description: 'Territorios separados por coma: todos, números (3,6,11) o nombres (Cantabria, Extremadura)'
+        description: 'Separados por coma: todos, números (autonómica 3,6; nacional INE 22 o matrícula HU) o nombres (Cantabria, Huesca)'
         required: true
         type: string
         default: ''
@@ -96,7 +98,7 @@ jobs:
           from herramientas.gestor_campana_nacional import parse_selection
           inputs=json.loads(os.environ["INPUTS_JSON"])
           try:
-              print(json.dumps(parse_selection(str(inputs.get("territorios") or ""))))
+              print(json.dumps(parse_selection(str(inputs.get("territorios") or ""),campaign=str(inputs.get("campana") or "Autonómica 2025"))))
           except ValueError as exc:
               raise SystemExit(f"::error::{exc}")
           PY
