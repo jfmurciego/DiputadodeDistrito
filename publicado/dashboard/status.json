@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:03:27.989308+00:00",
+  "generated_at": "2026-11-01T10:06:10.078837+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 39,
-      "activable": 30,
+      "activated": 40,
+      "activable": 29,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 39
+      "durable_pair": 40
     },
     "territories": [
       {
@@ -1200,12 +1200,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_almeria/evidencia/pares_fuentes/2025/a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c.json",
+            "pair_sha256": "a94d24b963d41e3585e0650658db7f7406b53d5ce2755546fd698a6a82221e2c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2825,8 +2825,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243452235,
-            "receipt_path": "territorios/congreso_pontevedra/evidencia/fuentes_territoriales/2025/ab9b76b86732abf7ae39e98472393160b4c0c85d6b2411f82ea17a6d3932bdba/41243452235/receipt.json"
+            "run_id": 41293311168,
+            "receipt_path": "territorios/congreso_pontevedra/evidencia/fuentes_territoriales/2025/de7f566b987acc70e29452af77aeb1504a934991c6c4c028dc41a7013512e9ca/41293311168/receipt.json"
           }
         },
         "electoral": {
@@ -3392,8 +3392,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41241636977,
-            "receipt_path": "territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/faec2ecf38915f2301b66cdf0e2ffd9fd5b4a09d476f58e09a2d7ac3b4012ed5/41241636977/receipt.json"
+            "run_id": 41292964287,
+            "receipt_path": "territorios/congreso_valladolid/evidencia/fuentes_territoriales/2025/b99d15245eebefbbf4daf9a600fb389395cc770e17cc543fd449e7dddb9a7b47/41292964287/receipt.json"
           }
         },
         "electoral": {
@@ -4937,7 +4937,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6082,7 +6082,18 @@
           "producer_manifest_path": "territorios/congreso_lugo/evidencia/generaciones_m06/41240766116.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_lugo",
+          "territory_name": "Congreso Lugo",
+          "edition": "2025",
+          "run_id": 41294985244,
+          "artifact_name": "ddd-state-41294985244-M08",
+          "artifact_sha256": "4f16eb1e578a4ff4c4937f3a7750576e7f2456a21f4fb906e2d3a5a2ae9931b2",
+          "source_commit": "da085b8b9801466b25574bb61d4dbc97f8c8579f",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C27",
       "display_name": "Congreso Lugo",
@@ -6280,7 +6291,18 @@
           "producer_manifest_path": "territorios/congreso_orense/evidencia/generaciones_m06/41240887712.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_orense",
+          "territory_name": "Congreso Orense",
+          "edition": "2025",
+          "run_id": 41295142111,
+          "artifact_name": "ddd-state-41295142111-M08",
+          "artifact_sha256": "458e2a9e4b29f2a292470743b1cdd4be0afc63f69f77cc25eaac8a96bf1e9f34",
+          "source_commit": "7dbb22ed37014234fd39fe0d534a9b602a5fc914",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C32",
       "display_name": "Congreso Orense",
@@ -6425,7 +6447,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6434,9 +6456,9 @@
         "territorial_source": {
           "territory_id": "congreso_pontevedra",
           "edition": "2025",
-          "run_id": 41243452235,
-          "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41243452235",
-          "artifact_sha256": "f3eaba8553bbf031bb407e1c6e849bc1742fabc3a5f4d26cbb0a258d19827959",
+          "run_id": 41293311168,
+          "artifact_name": "ddd-source-package-congreso_pontevedra-2025-41293311168",
+          "artifact_sha256": "d46399f01897467aac660383677d13e2980443f5001311b53b35fb5b9972b91b",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -6939,7 +6961,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41244586540,
+        "run_id": 41293787892,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "01 · Preparación de Datos Territoriales",
@@ -6973,7 +6995,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6982,9 +7004,9 @@
         "territorial_source": {
           "territory_id": "congreso_valladolid",
           "edition": "2025",
-          "run_id": 41241636977,
-          "artifact_name": "ddd-source-package-congreso_valladolid-2025-41241636977",
-          "artifact_sha256": "3b2eb406674cd312f2d773cd8e1ef9cc73e0ff4bee7eb942f1870ba63eca256e",
+          "run_id": 41292964287,
+          "artifact_name": "ddd-source-package-congreso_valladolid-2025-41292964287",
+          "artifact_sha256": "5339f65d92d46db779652724e1689d5ff51830896eca9295fcd8a3ce30688ff4",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
