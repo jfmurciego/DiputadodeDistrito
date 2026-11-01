@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:16:04.442812+00:00",
+  "generated_at": "2026-11-01T10:17:38.493055+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 45,
-      "activable": 24,
+      "activated": 46,
+      "activable": 23,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 45
+      "durable_pair": 46
     },
     "territories": [
       {
@@ -3558,12 +3558,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_zaragoza/evidencia/pares_fuentes/2025/1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631.json",
+            "pair_sha256": "1c7a2bca176538bb2bd05dc7c947f2e3beb817bf019718d8962d761ebdc9b631",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5003,7 +5003,18 @@
           "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/41242160179.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_almeria",
+          "territory_name": "Congreso Almería",
+          "edition": "2025",
+          "run_id": 41295979497,
+          "artifact_name": "ddd-state-41295979497-M08",
+          "artifact_sha256": "ae8b4d64ca14b860dd818a5a3759ccf536398e5ce174ac921a759a7102ddd97c",
+          "source_commit": "babbe148dc42c6a06dbf9e7a0c6f4617db3b748a",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C04",
       "display_name": "Congreso Almería",
@@ -5458,7 +5469,18 @@
           "producer_manifest_path": "territorios/congreso_cordoba/evidencia/generaciones_m06/41242424551.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_cordoba",
+          "territory_name": "Congreso Córdoba",
+          "edition": "2025",
+          "run_id": 41296161083,
+          "artifact_name": "ddd-state-41296161083-M08",
+          "artifact_sha256": "d63b784edc0238bf7e96bfd0c81407da2c416088b4b4f36e20cc154c5d5a8f0d",
+          "source_commit": "350f7376b59e8e0a760cfdb3dde3ef37cbdd3169",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C14",
       "display_name": "Congreso Córdoba",
@@ -5988,7 +6010,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
