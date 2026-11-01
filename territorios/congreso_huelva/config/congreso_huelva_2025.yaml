@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -79,7 +79,7 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -277,7 +277,7 @@ resolved_source_contract:
   contract_sha256: 546d2346dfcad7c52d96227c5ab0bcf01c3452f5c97c3a5ffde60e743f2d528f
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9
   compatibility_identity_sha256: 49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357
   source_inputs:
@@ -329,3 +329,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 41318125504
+  pre_m04_source_commit: 247e2cf03cd5d64c053f39dbdec5e16dfa676968
+  pre_m04_artifact_sha256: 41b11a04dfef17d80f96554261e47a2fe3527f9b740cdcb25c8d9b3261711f1e
