@@ -1073,7 +1073,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_burgos/evidencia/fuentes_electorales/2025/3048f185c01af3e5a400066e7aba00671de47b42042b2471c2bebee097cb291a/41239782586/receipt.json
         generation_preflight: territorios/congreso_burgos/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: congreso_caceres
   name: Congreso Cáceres
   editions:
