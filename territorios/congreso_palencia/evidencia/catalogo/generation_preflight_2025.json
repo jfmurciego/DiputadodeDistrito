@@ -5,10 +5,12 @@
   "territory_name": "Congreso Palencia",
   "edition": "2025",
   "run_id": 41291833956,
-  "source_commit": "faf5d040bd36f5d6f3d160ef64acd888aa6225cd",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "da085b8b9801466b25574bb61d4dbc97f8c8579f",
+  "artifact_name": "ddd-state-41291833956-M03U",
+  "artifact_sha256": "413b4418e923c773c566eb8998096d8fd5955f43cb43aaf8ff27b1813cf6ea2a",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 41291833956,
     "artifact_name": "ddd-source-package-congreso_palencia-2025-41291833956",
@@ -19,10 +21,106 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "3403201001",
+        "v": "3413501001",
+        "admin_scope": "province:34",
+        "edge_type": "administrative_exclave"
+      },
+      {
+        "u": "3424201001",
+        "v": "3412101001",
+        "admin_scope": "province:34",
+        "edge_type": "administrative_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41291833956-M03",
+    "artifact_sha256": "5725204b52e470efaeba9077a5106cadfce5d79f2925ed7f408f82fdac9e28f3",
+    "module_version": "7.5.0",
+    "nodes": 275,
+    "edges": 748,
+    "population": 157787,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41291833956",
+    "job_artifact_sha256": "b1e5306ebb23e36f8ecf2b7fb7019f991470136669d0bfcb1b5b02fe2e351935",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/congreso_palencia_2025/congreso_palencia_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 157787,
+      "target_section_count": 275,
+      "package_sha256": "23bee297123bdc1bc7753f0cea66a6278da9598c0c6b23f21a6854aeff322210",
+      "compatibility_report_sha256": "e7a3ef72372012e1ef6c654a309f404846db374a9ce427c8f82d9a8b5e819834",
+      "compatibility_identity_sha256": "0b95d59cd41eeda9be1d3c088a2385f5e53b9610214a6744d7d0c4c9da3d7519"
+    },
+    "topology_accreditation": null,
+    "k_districts": 1,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_palencia/.cache/ddd/preparacion/{run_name}/congreso_palencia_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 1,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
