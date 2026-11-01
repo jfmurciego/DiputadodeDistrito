@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_tarragona",
+  "territory_name": "Congreso Tarragona",
+  "edition": "2025",
+  "run_id": 41296449975,
+  "artifact_name": "ddd-state-41296449975-M08",
+  "artifact_sha256": "8b3e7dbcd13897f6d1a62fed60953399d1b63f20e09e97692748d1b2e00e1399",
+  "source_commit": "dba2187c62cf24624b56e9ef3670dfd007ad8f09",
+  "stage": "M08"
+}
