@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.67
+Versión: 1.0.68
 Fecha: 2026-11-01
 Alcance: T-02b — bloqueos de población M05 en provincias
 Estado: candidato
-Cambios/motivo: Cádiz techo 116 %, Baleares techo 127 %, exención municipal en Pontevedra y Las Palmas, reparación profunda en cinco contratos
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.66_t02b_20261101.md
+Cambios/motivo: Cádiz techo 116 %, Baleares techo 127 %, exención municipal en Pontevedra y Las Palmas, reparación profunda en siete contratos
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.67_t02b_20261101.md
 -->
 
 ## 2026-11-01 — T-02b — bloqueos de población M05 en provincias
@@ -13,6 +13,14 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.66_t02b_20261101.md
 - Política 1.7.3: `population_cap_ratio` 1,27 (tolerancia 0,27) solo en `congreso_baleares` (distrito 5 de Mallorca, 152.621 hab., a 1,261 de la media) y 1,16 (tolerancia 0,16) solo en `congreso_cadiz`; el distrito 8 (El Puerto + Puerto Real enteros, 132.239 hab.) queda a 1,159 de la media.
 - Contratos: exención de suelo municipal en Cádiz (11031), Barcelona (08073), Las Palmas (35012) y Pontevedra (36008); `population_repair` más profundo (profundidad 6, conjunto 3, 500.000 candidatos, 300 s) en Madrid, Málaga, Alicante, Pontevedra, Baleares, Cádiz y Barcelona. La reparación profunda no mejoró ningún exceso.
 - Madrid, Málaga, Alicante y Barcelona (distrito 31) quedan BLOQUEADAS por estructura; cifras en `docs/PLAN.md`, sección T-02b.
+
+## 2026-11-01 — T-09 — huella de puentes antes de M02
+
+- `herramientas/verificar_puentes_congreso.py` 1.0.0: clasifica cada `topology_bridges` de M02 (válido, municipio inexistente, código de sección cambiado, fuera de ámbito, fuera de provincia, extremos iguales, campos incompletos) contra el ZIP oficial de Interior (secciones 2023) o contra el M01 del run.
+- Sobre los 52 contratos nacionales: 28 puentes en 20 provincias, todos válidos. Ninguna PARADA de T-01 era por puentes rotos (Murcia es un puente que falta, no uno roto; eso lo valida M02 con las aristas).
+- Generación territorial 1.2.6: paso «Huella de puentes antes de M02», solo en ámbitos nacionales y solo cuando corre M02 (si M02 se reutiliza por checkpoint, no corre); bloquea con el puente y la causa.
+- Test: `tests/test_verificar_puentes_congreso.py` con puentes rotos sintéticos y el paso del workflow.
+
 
 ## 2026-11-01 — T-06 — Gestor de Campañas con provincias nacionales
 

@@ -1,6 +1,7 @@
-"""Versión 1.0.1; 2026-10-29; candidato. Encadenado automático del par de fuentes hasta la 04 en el 00.
-Cambios: el encadenado también aplica en modo reutilizar; el bucle se evita porque el relanzamiento lo dispara github-actions[bot].
-Anterior: legacy/tests/test_00_encadenado_par_v1.0.0_20261029.py
+"""Versión 1.0.2; 2026-11-01; candidato. Encadenado automático del par de fuentes hasta la 04 en el 00.
+Cambios: 1.0.2 (T-12) el encadenado exige la puerta 02 en success (sin M06 registrado no se encadena).
+  1.0.1 el encadenado también aplica en modo reutilizar; el bucle se evita porque el relanzamiento lo dispara github-actions[bot].
+Anterior: legacy/tests/test_00_encadenado_par_v1.0.1_20261101.py
 """
 from __future__ import annotations
 
@@ -29,7 +30,12 @@ class EncadenadoParTests(unittest.TestCase):
         self.assertIn("github.event_name == 'workflow_dispatch'", cond)
         self.assertIn("github.ref_name == 'main'", cond)
         self.assertIn("needs.manifestar.result == 'success'", cond)
-        self.assertEqual({"planificar", "clasificar_electoral", "manifestar"}, set(self.job["needs"]))
+        self.assertEqual({"planificar", "puerta_02", "clasificar_electoral", "manifestar"}, set(self.job["needs"]))
+
+    def test_requires_registered_territorial_product(self):
+        # T-12: Congreso Álava 41335088773 encadenó con «Registrar producto territorial» en failure
+        # y la puerta 02 en skipped; sin M06 registrado no se activa el par ni se relanza el 00.
+        self.assertIn("needs.puerta_02.result == 'success'", self.job["if"])
 
     def test_minimal_permissions_and_relaunch_in_reuse_mode(self):
         self.assertEqual({"actions": "write", "contents": "read"}, self.job["permissions"])

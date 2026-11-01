@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.4.8
+# VERSIÓN: 1.4.9
 # NOMBRE DE VERSIÓN: Encadenado también lanzado por elección
 # ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
@@ -16,7 +16,9 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.4.8: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.7_20261101b.yml
+# CAMBIOS 1.4.9: T-12, «Encadenar par de fuentes y 04» exige la puerta 02 en success: si la 02 no registró el
+#   producto M06 (Congreso Álava 41335088773) no se activa el par ni se relanza el 00.
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.8_20261101.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -1510,9 +1512,10 @@ jobs:
     # Si esta ejecución dejó 01–03 válidas y saltó la 04 por falta de par, se activa el par y se
     # relanza el 00 en modo reutilizar para completar la 04. El relanzamiento lo dispara
     # github-actions[bot] y no vuelve a encadenar, de modo que el encadenado ocurre como mucho una vez.
+    # Solo si la puerta 02 pasó: sin producto M06 registrado el par y la 04 no tienen sobre qué trabajar.
     name: Encadenar par de fuentes y 04
-    needs: [planificar, clasificar_electoral, manifestar]
-    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && (github.actor != 'github-actions[bot]' || inputs.lanzado_por_eleccion) && needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' }}
+    needs: [planificar, puerta_02, clasificar_electoral, manifestar]
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && needs.puerta_02.result == 'success' && (github.actor != 'github-actions[bot]' || inputs.lanzado_por_eleccion) && needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     permissions:
