@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.3 · FECHA: 2026-10-30 · ESTADO: candidato
-CAMBIOS: 2.3.3: los territorios piloto (pilot_territories) entran en el estado con su pilot_code.
+VERSIÓN: 2.3.4 · FECHA: 2026-11-01 · ESTADO: candidato
+CAMBIOS: 2.3.4: name y display_name públicos («Nacional Huesca», T-05); territory_id no cambia.
+  2.3.3: los territorios piloto (pilot_territories) entran en el estado con su pilot_code.
   2.3.2: un M08 de otro run cuenta si el manifiesto de ese run acredita que su 04 consumió el
   M06 vigente (fase 02 con el mismo run_id); 00 en reutilización nunca comparte run entre M06 y M08.
   2.3.1: "parado en" usa la fase fallida aunque no esté numerada (p. ej. reanudación M08).
@@ -10,7 +11,7 @@ CAMBIOS: 2.3.3: los territorios piloto (pilot_territories) entran en el estado c
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_pre_pilotos_20261030.py
+ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.3_20261101.py
 """
 from __future__ import annotations
 
@@ -29,6 +30,8 @@ try:
         format_country_label,
         format_territory_label,
         master_index,
+        visible_label,
+        visible_name,
     )
     from herramientas.resolver_preparacion_legislatura import (
         resolve as resolve_current_legislature,
@@ -41,6 +44,8 @@ except ModuleNotFoundError:  # ejecución directa como script
         format_country_label,
         format_territory_label,
         master_index,
+        visible_label,
+        visible_name,
     )
     from resolver_preparacion_legislatura import (
         resolve as resolve_current_legislature,
@@ -201,7 +206,7 @@ def _source_readiness_row(
     activation = activation or _activation_snapshot(plan)
     return {
         "territory_id": plan["territory_id"],
-        "name": plan["name"],
+        "name": display_name if plan["territory_id"].startswith("congreso_") else plan["name"],
         "display_name": display_name,
         "election": {
             "election_id": plan["election_id"],
@@ -306,7 +311,7 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
         rows.append(
             _source_readiness_row(
                 plan,
-                format_territory_label(canonical),
+                visible_label(canonical),
                 _activation_snapshot(plan, pair),
             )
         )
@@ -554,12 +559,12 @@ def build(root: Path, edition: str) -> dict:
         canonical = master.get(source_row["territory_id"])
         if canonical is None:
             raise ValueError(f"{source_row['territory_id']}: ausente del catálogo territorial maestro")
-        row = derive(root, {**source_row, "name": canonical["name"]}, edition)
+        row = derive(root, {**source_row, "name": visible_name(canonical)}, edition)
         row["autonomous_community_code_ine"] = (
             canonical.get("autonomous_community_code_ine") or canonical.get("pilot_code")
         )
         row["display_name"] = (
-            format_territory_label(canonical) if use_canonical_display else canonical["name"]
+            visible_label(canonical) if use_canonical_display else visible_name(canonical)
         )
         rows.append(row)
     rows.sort(key=lambda r: (r["autonomous_community_code_ine"], r["name"].casefold()))

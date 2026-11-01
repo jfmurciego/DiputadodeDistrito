@@ -3,7 +3,9 @@
 CAMBIOS 2026-10-30: ``load_all_territories`` añade a las 19 comunidades y ciudades autónomas los
 ``pilot_territories`` (ámbitos no autonómicos, p. ej. el piloto Congreso Huesca); ``load_master``
 sigue exigiendo exactamente las 19 con CODAUTO 01–19.
-ANTERIOR: legacy/herramientas/catalogo_territorios_pre_pilotos_20261030.py
+CAMBIOS 2026-11-01 (T-05): ``visible_name`` y ``visible_label`` dan el nombre público («Nacional Huesca»);
+``format_territory_label`` conserva el nombre interno («Congreso Huesca»), que es el valor de los selectores.
+ANTERIOR: legacy/herramientas/catalogo_territorios_pre_t05_20261101.py
 """
 from __future__ import annotations
 
@@ -91,6 +93,20 @@ def format_territory_label(row: dict) -> str:
     if row.get("pilot_code"):
         return str(row["name"])
     return f"{row['autonomous_community_code_ine']} {row['name']}"
+
+
+def visible_name(row: dict) -> str:
+    """Nombre público: los ámbitos del Congreso se muestran como «nacional»; el interno no cambia."""
+    name = str(row["name"])
+    if row.get("scope") == "congreso" or str(row.get("territory_id") or "").startswith("congreso_"):
+        return "Nacional " + name.removeprefix("Congreso ").strip()
+    return name
+
+
+def visible_label(row: dict) -> str:
+    if row.get("pilot_code"):
+        return visible_name(row)
+    return format_territory_label(row)
 
 
 def selector_labels(path: Path = MASTER) -> list[str]:

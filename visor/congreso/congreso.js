@@ -1,10 +1,10 @@
 /*
  * Proyecto: Diputado de Distrito
- * Versión: 1.1.0 | Nombre: visor analítico Congreso
+ * Versión: 1.1.1 | Nombre: visor analítico nacional (T-05: textos públicos «nacional»)
  * Fecha: 2026-10-27 | Alcance: pilotos no certificados de León y Cáceres
  * Estado: candidato no productivo
  * Cambios/motivo: validar y mostrar SHA del candidato y run de materialización.
- * Anterior: legacy/n08_pilot_pages_gate_20261027/current/visor/congreso/congreso.js
+ * Anterior: legacy/visor/congreso_pre_t05_20261101/congreso.js
  */
 "use strict";
 const palette=["#2a6fbd","#e88c40","#209779","#aa69bd"];

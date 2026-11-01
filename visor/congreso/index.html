@@ -1,8 +1,8 @@
 <!doctype html>
-<!-- DDD Congreso: visor de candidatos provinciales analíticos, nunca certificados. -->
+<!-- DDD nacional (anterior: legacy/visor/congreso_pre_t05_20261101/index.html): visor de candidatos provinciales analíticos, nunca certificados. -->
 <html lang="es">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DDD · Visor Congreso · Pilotos León y Cáceres</title>
+<title>DDD · Visor nacional · Pilotos León y Cáceres</title>
 <link href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css" rel="stylesheet">
 <link href="styles.css" rel="stylesheet">
 <style>
@@ -12,16 +12,16 @@
 .pilotinfo{font-size:13px;color:#52606d}.source-details{font-size:12px;overflow-wrap:anywhere}
 </style></head>
 <body><header class="topbar"><div>
-<p class="eyebrow">Diputado de Distrito · Congreso</p><h1>Visor nacional — Pilotos provinciales</h1>
-<nav class="tabnav"><a href="../">Distritos autonómicos</a><a href="./" aria-current="page">Congreso</a></nav>
+<p class="eyebrow">Diputado de Distrito · Nacional</p><h1>Visor nacional — Pilotos provinciales</h1>
+<nav class="tabnav"><a href="../">Distritos autonómicos</a><a href="./" aria-current="page">Nacional</a></nav>
 </div><div class="selectors">
-<label class="selector">Provincia<select id="province-select" class="pick" aria-label="Provincia del Congreso">
+<label class="selector">Provincia<select id="province-select" class="pick" aria-label="Provincia (nacional)">
 <option value="24">León — 4 distritos</option>
 <option value="10">Cáceres — 3 distritos</option>
 </select></label>
 <label class="selector">GeoJSON alternativo<input id="geojson-file" class="pick" type="file" accept=".json,.geojson,application/json"></label>
 </div></header><main>
-<section id="map" aria-label="Mapa de distritos candidatos del Congreso"></section>
+<section id="map" aria-label="Mapa de distritos candidatos nacionales"></section>
 <aside class="panel">
 <p class="pilot-badge">PILOTO ANALÍTICO · NO CERTIFICADO · NO AUTORIZADO PARA PRODUCCIÓN</p>
 <p class="status" id="status" aria-live="polite">Cargando cartografía provincial…</p>
