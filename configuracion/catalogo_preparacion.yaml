@@ -2455,6 +2455,7 @@ territories:
         source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
       evidence:
         electoral_source: territorios/congreso_vizcaya/evidencia/fuentes_electorales/2025/4011658bdfb867288263aab9cc7621a987b1b569a1e3bdfc71d60a733d8fea6b/41239947749/receipt.json
+        generation_preflight: territorios/congreso_vizcaya/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_zamora
   name: Congreso Zamora

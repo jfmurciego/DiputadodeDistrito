@@ -4,25 +4,25 @@
   "territory_id": "congreso_vizcaya",
   "territory_name": "Congreso Vizcaya",
   "edition": "2025",
-  "run_id": 41243819237,
-  "source_commit": "ffa9e04e43424053b889b048003a0047a41b2456",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 41293083498,
+  "source_commit": "bbf3ff9f011e3f15559b7bc1f03164052dddfc03",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 41243819237,
-    "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41243819237",
-    "artifact_sha256": "26246b1bcda37f4e5349840737b6bf4d70ce2324de0e37fc5d7e2e0187d5a5fe",
-    "package_sha256": "430d424507c2d9cccca6f53593767216ea4471fe23bbf032ef92b9e79b229704",
-    "compatibility_identity_sha256": "f4ccab6d249626e7e4cfde799730e688dba5f23ba8abb594d0619e95e614ccef",
-    "territorial_identity_sha256": "5a3ead98520ee90fba1cdf83045a4ddd7a2ef3c4765cfc55b9db4eeb0c7bb7f5",
+    "run_id": 41293083498,
+    "artifact_name": "ddd-source-package-congreso_vizcaya-2025-41293083498",
+    "artifact_sha256": "d62c95ac6b4adf8e15b569cfb0a4d779c08bd94e3c2474c04d4a31f9b5c1878f",
+    "package_sha256": "f2735556ec3e819fcf833dd36f5111d4f8f1a4a3ef39ce3119f702a526f170da",
+    "compatibility_identity_sha256": "a1826fb60e8ed52a908fc0f210e4409e6dbde8878f5ff33ba79e8a686ba6bf55",
+    "territorial_identity_sha256": "19f133150426f9c3519a3dfc3ac8c53ca539337bacbca8d00f9909e3e332ff68",
     "population_year": 2023,
     "section_year": 2023
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
