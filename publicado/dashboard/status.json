@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:32:52.028158+00:00",
+  "generated_at": "2026-11-01T10:33:25.449058+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6317,12 +6317,12 @@
       "territory_id": "congreso_navarra",
       "name": "Congreso Navarra",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41292721581,
       "last_run": {
         "run_id": 41242678275,
         "status": "FAILED",
@@ -6331,7 +6331,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6342,13 +6342,26 @@
           "artifact_sha256": "ed6564695ea6f9ba3c2c7f1e0b177608c2704fe2a1d4b5b58ab95fdfaed3d9ac",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_navarra",
+          "territory_name": "Congreso Navarra",
+          "edition": "2025",
+          "run_id": 41292721581,
+          "artifact_name": "ddd-state-41292721581-M06",
+          "artifact_sha256": "7402db8c693ad24041843f1402898b326fcf55bf4e66fd449303c9ae5ea76a89",
+          "source_commit": "c6f4e96198e1c10e7acf1b9ecd7739e380cd8b53",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_navarra/evidencia/generaciones_m06/41292721581.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C31",
       "display_name": "Congreso Navarra",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_orense",
@@ -7515,7 +7528,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 50,
+    "territorial_validated": 51,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7552,6 +7565,7 @@
       "Congreso León",
       "Congreso La Rioja",
       "Congreso Lugo",
+      "Congreso Navarra",
       "Congreso Orense",
       "Congreso Asturias",
       "Congreso Salamanca",
@@ -7568,7 +7582,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 50,
+    "validated": 51,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7605,6 +7619,7 @@
       "Congreso León",
       "Congreso La Rioja",
       "Congreso Lugo",
+      "Congreso Navarra",
       "Congreso Orense",
       "Congreso Asturias",
       "Congreso Salamanca",
@@ -7621,7 +7636,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 19,
+    "ready": 18,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7636,7 +7651,6 @@
       "Congreso Madrid",
       "Congreso Málaga",
       "Congreso Murcia",
-      "Congreso Navarra",
       "Congreso Palencia",
       "Congreso Las Palmas",
       "Congreso Pontevedra",
