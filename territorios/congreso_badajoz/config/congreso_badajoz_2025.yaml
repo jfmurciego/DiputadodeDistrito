@@ -98,7 +98,21 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '0604405005'
+      v: '0604405003'
+      admin_scope: municipality:06044
+      edge_type: same_municipality_exclave
+      reason: Componente censal físicamente separada de Don Benito; enlace al nodo
+        del mismo municipio más próximo auditado (~2074 m).
+      source: EXT-02 auditoría geométrica reproducible; heredado de territorios/extremadura/config/extremadura_2025.yaml
+    - u: '0604405006'
+      v: '0604405004'
+      admin_scope: municipality:06044
+      edge_type: same_municipality_exclave
+      reason: Componente censal físicamente separada de Don Benito; enlace al nodo
+        del mismo municipio más próximo auditado (~869 m).
+      source: EXT-02 auditoría geométrica reproducible; heredado de territorios/extremadura/config/extremadura_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_badajoz/.cache/ddd/preparacion/{run_name}/congreso_badajoz_2025_m02_adyacencias.jsonl

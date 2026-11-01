@@ -98,7 +98,21 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '3003008005'
+      v: '3003008002'
+      admin_scope: municipality:30030
+      edge_type: municipal_discontinuity
+      reason: 'Murcia: componente censal municipal separada; enlace intramunicipal
+        mínimo auditado (~1698 m).'
+      source: R023 run 34688393979; heredado de territorios/region_de_murcia/config/region_de_murcia_2025.yaml
+    - u: '3003501007'
+      v: '3003501005'
+      admin_scope: municipality:30035
+      edge_type: municipal_discontinuity
+      reason: 'San Javier: componente municipal separada; enlace intramunicipal mínimo
+        auditado (~3179 m).'
+      source: R023 run 34688393979; heredado de territorios/region_de_murcia/config/region_de_murcia_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m02_adyacencias.jsonl

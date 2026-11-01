@@ -98,7 +98,14 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '1301701001'
+      v: '1304901001'
+      admin_scope: province:13
+      edge_type: administrative_exclave
+      reason: Componente de Ciudad Real físicamente separada; enlace mínimo auditado
+        a Horcajo de los Montes (~4619 m).
+      source: R023 run 34688393979; heredado de territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_ciudad_real/.cache/ddd/preparacion/{run_name}/congreso_ciudad_real_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_ciudad_real/.cache/ddd/preparacion/{run_name}/congreso_ciudad_real_2025_m02_adyacencias.jsonl

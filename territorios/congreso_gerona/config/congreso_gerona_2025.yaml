@@ -98,7 +98,15 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+    - u: '1709401001'
+      v: '1714101003'
+      admin_scope: province:17
+      edge_type: administrative_enclave
+      reason: Llívia es un enclave español separado del cuerpo principal de Girona;
+        enlace a la sección española más próxima en Puigcerdà (~1636 m).
+      source: CAT-02 run 34688104014; revalidado geométricamente contra ddd-source-package-cataluna-2025-37215025861;
+        heredado de territorios/cataluna/config/cataluna_2025.yaml
   modulo_03_construir_grafo:
     in_geojson: territorios/congreso_gerona/.cache/ddd/preparacion/{run_name}/congreso_gerona_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/congreso_gerona/.cache/ddd/preparacion/{run_name}/congreso_gerona_2025_m02_adyacencias.jsonl
