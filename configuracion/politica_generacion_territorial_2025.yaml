@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.7.3
-# FECHA: 2026-11-01
+# VERSIÓN: 1.7.2
+# FECHA: 2026-10-30
 # CAMBIOS: 1.6.0: piloto Congreso Huesca (K=2, límites ±15 %, municipios indivisibles hasta el techo).
 #   1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
 #   1.5.1: umbral de atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña.
@@ -12,8 +12,7 @@
 # CAMBIOS 1.7.0: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 1.7.1: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 1.7.2: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# CAMBIOS 1.7.3: Las Palmas exenta del suelo en Gran Canaria (35-C01), decisión del propietario.
-# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.2_islas_20261101.yaml
+# ANTERIOR: legacy/configuracion/politica_generacion_territorial_2025_v1.7.1_islas_20261031.yaml
 # ESTADO: candidato
 # FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
@@ -864,11 +863,6 @@ territories:
     k_source: formula
     partition_mode: physical_components_hamilton
     component_districts: {35-C01: 8, 35-C02: 1, 35-G01: 1}
-    structural_floor_exemptions:
-      35-C01:
-        decided_at: "2026-11-01"
-        evidence: "run 00 41250283081: POPULATION_HARD_BLOCK; M05 distrito 5 = 66.538 hab. (7 municipios, 35012 35021 35027 35020…) frente a un suelo de 97.397"
-        rationale: "Decisión del propietario (01-11-2026): Gran Canaria deja un distrito residual por debajo del suelo que M05 no puede reparar con municipios indivisibles; la exención alcanza a toda la partición."
     rationale: "Congreso: K=10 es la cuota de Las Palmas (CPRO 35) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
     population_limits:
       population_floor_ratio: 0.85
