@@ -61,6 +61,30 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - El dashboard (`herramientas/generar_estado_operativo.py`) acepta un M08 de otro run si el manifiesto de ese run
   acredita la 02 con el M06 vigente y la 04 en success (#354).
 
+## Sesión cloud, Mac del propietario y lanzamientos
+- En la sesión cloud `gh workflow run` falla (GraphQL bloqueado): lanza con REST,
+  `gh api -X POST repos/<r>/actions/workflows/<f>.yml/dispatches -f ref=main -f "inputs[k]=v"`.
+- Los procesos en segundo plano (nohup/setsid) mueren al terminar el turno. Las cadenas largas
+  (00 → legislatura → 00 electoral) corren en el Mac del propietario: script en la rama `lanzadores-mac`,
+  descargado con `gh api ".../contents/<ruta>?ref=lanzadores-mac" -H "Accept: application/vnd.github.raw"`.
+- Errores de un run sin descargar logs: `gh api repos/<r>/check-runs/<job_id>/annotations`. Si hace falta el log,
+  pide `gh run view <id> --log-failed | grep -E "::error|Traceback|Error"` (con `tail` solo sale la limpieza).
+- Mac (zsh): nunca uses `path` como variable (es `PATH`); los scripts van a un fichero (`pbpaste > f.sh`), no
+  pegados (`!` da «event not found»); `gh` está en `~/.local/bin`; sin rutas con `<…>` ni globs sin coincidencia.
+- Interior (Infoelectoral) rechaza runners y sesión cloud: el ZIP nacional por mesa está en el release
+  `fuente-infoelectoral-02202307` y la 03 lo usa como espejo con la misma huella.
+- Los robots de registro reescriben `catalogo_preparacion.yaml` y el catálogo maestro mientras corren
+  ejecuciones: una PR que los toca choca enseguida. Rebasa tomando `main` y reinserta solo lo tuyo; fusiona rápido.
+
+## Congreso / nacional (provincias)
+- `herramientas/generar_provincias_congreso.py` (idempotente) da de alta provincias desde el reparto N06 y hereda
+  los puentes de enclaves de los contratos autonómicos: sin ellos el pre-M04 falla con «grafo territorial no
+  supera conectividad administrativa» (Palencia, #371).
+- Islas: componentes agrupadas y `bridges` en `particiones_insulares_2025.json`; inventario 2023 sacado del ZIP de
+  Interior (coincide en hash con el INE 2023); `component_districts` en la política fija el reparto (#369 #370).
+- Ámbitos sin CODAUTO usan `pilot_code` (C+CPRO) para ordenar en dashboard y visor (#367).
+
 ## Historial de lecciones
 <!-- /cierre-sesion añade aquí una línea por lección nueva: fecha · lección · PR o run de evidencia. -->
 - 2026-10-29 · Murcia/Valencia: M04 7.4.15–7.4.18 (reintentos solo en la ruta de agotamiento), exención de Beniel, umbral 1,5 en Valencia · #324 #327 #332 #343 #336 #345 #352 #354.
+- 2026-10-31 · Congreso: piloto Huesca 01→05, 50 provincias generadas, islas agrupadas, puentes heredados, Infoelectoral por espejo, lanzamientos REST/Mac · #362 #363 #364 #367 #368 #369 #370 #371.
