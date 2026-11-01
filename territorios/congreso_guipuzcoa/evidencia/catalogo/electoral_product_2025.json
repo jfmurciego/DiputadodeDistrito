@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_guipuzcoa",
+  "territory_name": "Congreso Guipúzcoa",
+  "edition": "2025",
+  "run_id": 41298935355,
+  "artifact_name": "ddd-state-41298935355-M08",
+  "artifact_sha256": "407bc7f93288969c1864ed0d7860b201adc48971cb53f57317cb3f4daabff089",
+  "source_commit": "9d3658915ca68c5337d9dc73e6eef56214f2ebe2",
+  "stage": "M08"
+}
