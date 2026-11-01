@@ -1850,12 +1850,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41292721581
+        stage: M06
       preparation_evidence:
         run_id: 41292721581
         artifact_name: ddd-source-package-congreso_navarra-2025-41292721581
@@ -1872,6 +1874,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_navarra/evidencia/fuentes_electorales/2025/4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3/41239887617/receipt.json
         generation_preflight: territorios/congreso_navarra/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_navarra/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_orense
   name: Congreso Orense
