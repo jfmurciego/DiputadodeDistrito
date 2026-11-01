@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T09:53:46.437374+00:00",
+  "generated_at": "2026-11-01T09:54:58.322956+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 2,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 34,
-      "activable": 35,
+      "activated": 35,
+      "activable": 34,
       "territorial_pending": 2,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 69,
       "electoral_source": 71,
-      "durable_pair": 34
+      "durable_pair": 35
     },
     "territories": [
       {
@@ -2634,12 +2634,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_orense/evidencia/pares_fuentes/2025/69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696.json",
+            "pair_sha256": "69a968f6d481afaf7e7fea8e02c8ab42a0dc33fb79727d84cb27bc5c41ff6696",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -7176,20 +7176,20 @@
       "name": "Congreso Melilla",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 41236482346,
+      "run_id": 41293988485,
       "last_run": {
-        "run_id": 41236482346,
+        "run_id": 41293988485,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7230,11 +7230,11 @@
       },
       "autonomous_community_code_ine": "C52",
       "display_name": "Congreso Melilla",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     }
   ],
   "kpis": {
-    "complete": 25,
+    "complete": 26,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7260,7 +7260,8 @@
       "Congreso Soria",
       "Congreso Teruel",
       "Congreso Zamora",
-      "Congreso Ceuta"
+      "Congreso Ceuta",
+      "Congreso Melilla"
     ],
     "territorial_validated": 47,
     "territorial_validated_names": [
@@ -7396,11 +7397,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_ceuta",
-    "name": "Congreso Ceuta",
-    "display_name": "Congreso Ceuta",
-    "autonomous_community_code_ine": "C51",
-    "run_id": 41250564472,
+    "territory_id": "congreso_melilla",
+    "name": "Congreso Melilla",
+    "display_name": "Congreso Melilla",
+    "autonomous_community_code_ine": "C52",
+    "run_id": 41293988485,
     "stage": "M08",
     "certification": "PASS",
     "edition": "2025"

@@ -10,13 +10,13 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-01T09:53:46.437374+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-01T09:54:58.322956+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **25** | 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Congreso Ávila · Congreso Huesca · Congreso Segovia · Congreso Soria · Congreso Teruel · Congreso Zamora · Congreso Ceuta |
+| **Cadena completa validada** | 🟢 **26** | 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Congreso Ávila · Congreso Huesca · Congreso Segovia · Congreso Soria · Congreso Teruel · Congreso Zamora · Congreso Ceuta · Congreso Melilla |
 | **Generación territorial validada** | 🟢 **47** | 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Congreso Albacete · Congreso Almería · Congreso Ávila · Congreso Cáceres · Congreso Castellón · Congreso Córdoba · Congreso La Coruña · Congreso Cuenca · Congreso Granada · Congreso Guadalajara · Congreso Huesca · Congreso Jaén · Congreso León · Congreso La Rioja · Congreso Lugo · Congreso Orense · Congreso Asturias · Congreso Salamanca · Congreso Santa Cruz de Tenerife · Congreso Segovia · Congreso Sevilla · Congreso Soria · Congreso Tarragona · Congreso Teruel · Congreso Toledo · Congreso Zamora · Congreso Zaragoza · Congreso Ceuta · Congreso Melilla |
 | **Preparados para continuar** | 🔵 **22** | 01 Andalucía · Congreso Álava · Congreso Alicante · Congreso Badajoz · Congreso Baleares · Congreso Barcelona · Congreso Burgos · Congreso Cádiz · Congreso Ciudad Real · Congreso Gerona · Congreso Guipúzcoa · Congreso Lérida · Congreso Madrid · Congreso Málaga · Congreso Murcia · Congreso Navarra · Congreso Palencia · Congreso Las Palmas · Congreso Pontevedra · Congreso Cantabria · Congreso Valladolid · Congreso Vizcaya |
 | **Validación pendiente** | 🟡 **2** | Congreso Huelva · Congreso Valencia |
@@ -98,7 +98,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250479211 · SUCCESS | — | — | — |
 | **Congreso Zaragoza** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41243577758 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250564472 · SUCCESS | — | — | — |
-| **Congreso Melilla** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41236482346 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Congreso Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41293988485 · SUCCESS | — | — | — |
 
 ## Cadena automática
 
