@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.4
+Versión: 1.0.5
 Fecha: 2026-11-01
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-08 en pausa (ruleset desactivado) y nueva T-10 (robots con token propio)
-Anterior: legacy/docs/PLAN_v1.0.3_20261101.md
+Cambios/motivo: Foto global 01-11 15:40, protocolo de coordinación, asignaciones y decisiones del propietario
+Anterior: legacy/docs/PLAN_v1.0.4_20261101.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -18,21 +18,53 @@ Anterior: legacy/docs/PLAN_v1.0.3_20261101.md
 - Nada de vigilar runs en el chat: los lanzamientos largos se hacen con scripts en el Mac del propietario
   (rama `lanzadores-mac`).
 - Al terminar: mover la tarea a «Tareas hechas» con su PR o run y, si hubo lección cara, `/cierre-sesion`.
+- Coordinación: el chat planificador («DDD Plan») lista, describe y asigna; no implementa. Cada chat le manda una
+  línea (`send_message`) al abrir PR, lanzar run o cerrar tarea: «T-xx · qué · PR/run · siguiente · bloqueo», y le
+  avisa antes de tocar ficheros compartidos (workflows, política, catálogo, `herramientas/`, `modulos/`,
+  `ddd_core/`, este plan). Antes de lanzar, preguntar si otro chat ya lo hizo (01-11: Huelva/Valencia duplicadas).
+- Las órdenes de lanzar o fusionar las confirma el propietario en el chat que ejecuta, no por mensaje entre sesiones.
 
-## 1. Estado (2026-11-01, `orchestracion/estado_operativo.json`)
-- Autonómicas: 18/19 con cadena completa (M08); Andalucía aparcada (fuentes preparadas, sin generar).
-- Nacional: 52 ámbitos en el estado (51 lanzados el 31-10 + Huesca, completa y publicada en el visor).
-- Nacional completas (28): Albacete, Almería, Ávila, Cáceres, Castellón, Córdoba, La Coruña, Cuenca, Granada, Guadalajara, Huesca, Jaén, León, La Rioja, Lugo, Orense, Asturias, Salamanca, Santa Cruz de Tenerife, Segovia, Soria, Tarragona, Teruel, Toledo, Zamora, Zaragoza, Ceuta, Melilla.
-- Nacional con M06 y sin electoral (11): Burgos, Ciudad Real, Gerona, Guipúzcoa, Lérida, Navarra, Palencia, Cantabria, Sevilla, Valladolid, Vizcaya. Sin generar (11): Álava, Alicante, Badajoz, Baleares, Barcelona, Cádiz, Madrid, Málaga, Murcia, Las Palmas, Pontevedra. Validación pendiente (2): Huelva, Valencia.
-- No hay PR abiertas. Riesgo conocido: puentes municipales heredados 2024/2025 pueden romper M02 en algunas provincias.
+## 1. Estado (2026-11-01 15:40)
+- Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
+- Nacional (52): 38 completas (34 en el visor; La Rioja, Lugo, Santa Cruz de Tenerife y Tarragona republicándose,
+  runs 41318666109/41318670798/41318675299/41318679581). Cantabria y Vizcaya con M06, sin electoral (T-04).
+  12 PARADA en curso de resolución (T-02 y T-02b, abajo).
+- 00 en curso: Valencia 41318119259, Huelva 41318125504 (CRS #374), Cádiz 41321082489, Barcelona 41321084407
+  (exención municipal #380). No reactivar el ruleset con 00 en marcha.
+- PR abiertas: #381 (T-10). Ruleset `proteger-main` desactivado hasta cerrar T-10.
 
-## 2. Decisiones pendientes del propietario
-- D-1. ¿Las 11 provincias con M06 sin electoral se completan ya por provincia (vía actual) o esperan a la
-  activación por elección (T-03)? Recomendación: esperar a T-03 para no rehacer 03/00 por duplicado.
-- D-2. Formato canónico de la clave de elección: número INE (`ES-NAC-22-20230723`) o matrícula (`ES-NAC-HU-20230723`).
-  Recomendación: número INE como canónico y matrícula solo como alias de presentación.
-  D-2 confirmada por el propietario: INE canónico; matrículas solo en español (PM, GE, OR…).
-- D-3. Publicación en el visor de las 27 provincias completas además de Huesca: ¿ahora o al cerrar la elección entera?
+### Asignaciones vigentes
+| Chat | Tarea | Alcance | Situación |
+|---|---|---|---|
+| T-01 | T-02b · PARADA por población M05 | Cádiz, Barcelona, Madrid, Málaga, Alicante, Pontevedra, Baleares, Las Palmas | Cádiz/Barcelona lanzadas; resto espera diagnóstico local; todo en contratos (no toca la política) |
+| T-02 | T-02 · resto de PARADA | Huelva, Valencia, Murcia, Álava + script `subir_diagnostico_t02.sh` | M04 7.6.0 multisección (Álava) y CRS Murcia en rama, sin PR; espera diagnóstico local |
+| T-03 | PR, fusiones y T-10 | Fusionar con `pruebas` en verde; robots con app propia | #381 abierta; espera que el propietario cree la app y los secretos |
+
+### Ficheros con turno exclusivo
+- `modulos/04_generar_semillas.py`, `ddd_core/m04_seed_engine.py`: chat T-02 (M04 multisección).
+- 10 workflows de registro: chat T-03 (#381).
+- `configuracion/politica_generacion_territorial_2025.yaml`: libre (nadie la necesita ahora).
+
+## 2. Decisiones del propietario
+### Pendientes
+- D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
+- D-3. Publicación en el visor del resto de provincias completas: por lotes o al cerrar la elección.
+- D-4. El cambio de M04 (T-02) invalida los checkpoints pre-M04 de los contratos con islas (Canarias, Islas
+  Baleares, nacional Baleares, Las Palmas, Santa Cruz de Tenerife): las próximas 00 de esos territorios empiezan de cero.
+  Visto bueno antes de que T-02 abra la PR.
+- Crear la GitHub App `ddd-registro` y los secretos `DDD_REGISTRO_APP_ID`/`DDD_REGISTRO_APP_KEY` (pasos en T-10).
+
+### Tomadas (01-11)
+- D-2: INE canónico; matrículas como alias, en español.
+- #380 Cádiz y Barcelona: exención municipal en contrato y lanzamiento de 00.
+- Álava: arreglar M04 para transferir varias secciones fronterizas (no exención ni aparcar).
+- Madrid y Málaga: se mantiene la regla «un municipio que cabe bajo el techo no se divide»; reparación de población
+  más profunda en contrato; si no basta, documentar como bloqueadas.
+- Alicante: reparación más profunda (contrato). Pontevedra: reparación más profunda; si no basta, exención municipal.
+- Las Palmas: exención municipal en contrato (no de toda Gran Canaria, 35-C01).
+- Baleares: reparación más profunda (el reparto por islas no es viable: Ibiza+Formentera 1,41 de la media).
+- Republicar en el visor La Rioja, Lugo, Santa Cruz de Tenerife y Tarragona.
+- Ruleset: `puerta_admision` fuera de checks obligatorios (solo corre si la PR toca contratos).
 
 ## 3. Cola de tareas
 T-08 y T-09 se numeran al final pero van en la posición de la cola que les corresponde por prioridad.
