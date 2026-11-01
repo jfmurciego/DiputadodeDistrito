@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.0.2
+# VERSIÓN: 3.0.3
 # NOMBRE: Publicación manual desacoplada del cálculo territorial
 # ESTADO: candidato
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
-# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.0.1_20261029.yml
+# CAMBIOS 3.0.3: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
+#   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.0.2_20261101.yml
 # CAMBIOS: sin run explícito, solo promueve latest_validated si conserva artefactos ddd-*; si caducaron publica el registro durable.
 # MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
 # FECHA: 2026-10-29
@@ -54,6 +56,26 @@ jobs:
         with:
           ref: main
           token: ${{ github.token }}
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
         name: Regenerar promoción compartida desde el HEAD vigente

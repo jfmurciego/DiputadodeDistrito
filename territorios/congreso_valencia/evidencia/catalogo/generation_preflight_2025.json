@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_valencia",
+  "territory_name": "Congreso Valencia",
+  "edition": "2025",
+  "run_id": 41318119259,
+  "source_commit": "9427d8e4f92c686e08ed07988c2228268fc3e837",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 41318119259,
+    "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
+    "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
+    "package_sha256": "f4e8cbac64633ffda5221e09a54723e06e5eba406c550034a46421e1b836ff6f",
+    "compatibility_identity_sha256": "717862af12db6f4224135c7bca931febf43b478b6d2c6d2045ccf4f57d1c42b2",
+    "territorial_identity_sha256": "4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}

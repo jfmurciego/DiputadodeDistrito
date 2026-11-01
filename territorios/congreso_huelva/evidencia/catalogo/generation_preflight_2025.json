@@ -1,0 +1,120 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso_huelva",
+  "territory_name": "Congreso Huelva",
+  "edition": "2025",
+  "run_id": 41318125504,
+  "source_commit": "247e2cf03cd5d64c053f39dbdec5e16dfa676968",
+  "artifact_name": "ddd-state-41318125504-M03U",
+  "artifact_sha256": "41b11a04dfef17d80f96554261e47a2fe3527f9b740cdcb25c8d9b3261711f1e",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
+  "source": {
+    "run_id": 41318125504,
+    "artifact_name": "ddd-source-package-congreso_huelva-2025-41318125504",
+    "artifact_sha256": "af27ee7ec5b03e6ceda550072fa8d0a5e06d87708eed74fc20f584064a39340e",
+    "package_sha256": "da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9",
+    "compatibility_identity_sha256": "49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357",
+    "territorial_identity_sha256": "2ebbb0d0ac2e1d475e6ac34800908b6b16c6167208b643dedcf57167f6b18c42",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:25830",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 2.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "2102502002",
+        "v": "2102502001",
+        "admin_scope": "municipality:21025",
+        "edge_type": "administrative_bridge"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41318125504-M03",
+    "artifact_sha256": "e1b21e87f3dc6e7573c8fb7d62335eee069b0dcbe7537aa0f76137eeda75d50c",
+    "module_version": "7.5.0",
+    "nodes": 371,
+    "edges": 1011,
+    "population": 534084,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41318125504",
+    "job_artifact_sha256": "fdad56d82c7912aed882255ebfc6c0d20d469cf1e9ec29d6db72a391d485ea0f",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/congreso_huelva_2025/congreso_huelva_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 534084,
+      "target_section_count": 371,
+      "package_sha256": "da4daaccb0afc09768c583e23b634cba5affbd7eb039be46bb52e938acbe90d9",
+      "compatibility_report_sha256": "ab60b5ba58663b29e1f07461362db19fa8b25d6a9cbecda81f2972b2a9cef111",
+      "compatibility_identity_sha256": "49c5f6bc7f595886506cd0077a7f06a5399f9a572df547779a3ca144cbb6a357"
+    },
+    "topology_accreditation": null,
+    "k_districts": 4,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_huelva/.cache/ddd/preparacion/{run_name}/congreso_huelva_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 4,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
+  "effective_gate": {
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
+  }
+}

@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.62
+Versión: 1.0.63
 Fecha: 2026-11-01
-Alcance: D-2 confirmada — matrículas en español
+Alcance: T-10 — robots de registro con app propia
 Estado: candidato
-Cambios/motivo: el propietario confirma INE canónico y exige matrículas solo en español
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.61_t03_20261101.md
+Cambios/motivo: el ruleset proteger-main rechazó los push de los robots (GH013) y tuvo que desactivarse
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.62_d2_20261101.md
 -->
+
+## 2026-11-01 — T-10 — robots de registro con app propia
+
+- Los 14 jobs que registran en `main` (10 workflows) llevan el paso «Credencial de registro» justo después del checkout. Con los secretos `DDD_REGISTRO_APP_ID` y `DDD_REGISTRO_APP_KEY` firma un JWT con openssl, pide un token de instalación y sustituye la credencial del checkout; los `git push` y las herramientas de registro empujan como la app, que puede quedar exenta en el ruleset.
+- Sin secretos el paso no hace nada y todo sigue con `github.token`, como hasta ahora.
+- Sin acciones externas: el paso es bash en línea, así que funciona aunque el checkout sea de un commit anterior.
+- Test: `tests/test_credencial_registro.py` exige el paso en todo job que registra.
 
 ## 2026-11-01 — D-2 confirmada — matrículas en español
 

@@ -86,7 +86,7 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
         )
         self.assertIn(
             '--source-sha "${{ needs.planificar.outputs.source_sha }}"',
-            jobs["manifestar"]["steps"][2]["run"],
+            jobs["manifestar"]["steps"][3]["run"],
         )
 
         for name in ("campaign_status", "manifestar"):

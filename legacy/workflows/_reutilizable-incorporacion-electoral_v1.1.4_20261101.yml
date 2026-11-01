@@ -1,0 +1,369 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: reutilizable interno — incorporación electoral
+# VERSIÓN: 1.1.4
+# ESTADO: candidato
+# QUÉ HACE: consume un producto territorial certificado y un paquete electoral preparado,
+# agrega los resultados, genera el producto electoral y registra su disponibilidad.
+# NO HACE: preparación territorial, generación de distritos, auditoría geométrica ni publicación web. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
+# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.1.3_20261029.yml
+# CAMBIOS: 1.1.4: VALIDACION.json se busca también en ejecuciones/<RUN_ID>/ (donde lo escribe validar_ejecucion).
+#   1.1.3: el diagnóstico añade DIAG_VALIDACION con fallos y municipios de VALIDACION.json.
+#   1.1.2: la salida de M07/M08 se guarda en .ddd-logs y, si fallan, sus últimas líneas se
+#   publican como anotación DIAG_M07/DIAG_M08 (los logs de Actions no son legibles desde fuera).
+# MOTIVO: Castilla y León y Extremadura fallan en M07/M08 sin más detalle que el código de salida.
+# FECHA: 2026-10-29
+name: Reutilizable — Incorporación Electoral
+
+on:
+  workflow_call:
+    inputs:
+      params: {required: true, type: string}
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      territorial_run_id: {required: true, type: string}
+      electoral_package_run_id: {required: true, type: string}
+      electoral_package_artifact_name: {required: true, type: string}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
+      territorial_product_artifact_name: {required: false, type: string, default: ''}
+      territorial_audit_artifact_name: {required: false, type: string, default: ''}
+      artifact_namespace: {required: false, type: string, default: ''}
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  incorporar:
+    name: Incorporar resultados electorales
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    outputs:
+      product_digest: ${{ steps.upload_product.outputs.artifact-digest }}
+      source_commit: ${{ steps.capture_source.outputs.source_commit }}
+    env:
+      PARAMS: ${{ inputs.params }}
+      TERRITORY_ID: ${{ inputs.territory_id }}
+      EDITION: ${{ inputs.data_edition }}
+      TERRITORIAL_RUN_ID: ${{ inputs.territorial_run_id }}
+      ELECTORAL_PACKAGE_RUN_ID: ${{ inputs.electoral_package_run_id }}
+      ELECTORAL_PACKAGE_ARTIFACT_NAME: ${{ inputs.electoral_package_artifact_name }}
+      RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - id: capture_source
+        name: Acreditar SHA efectivo del checkout de incorporación M08
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_commit="$(git rev-parse HEAD)"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
+
+      - name: Preparar herramientas ligeras de validación
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+
+      - name: Recuperar producto territorial consolidado
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.territorial_product_artifact_name != '' && inputs.territorial_product_artifact_name || format('ddd-state-{0}-M06', inputs.territorial_run_id) }}
+          path: .ddd-territorial-product
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.territorial_run_id }}
+
+      - name: Recuperar certificación territorial existente
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.territorial_audit_artifact_name != '' && inputs.territorial_audit_artifact_name || format('ddd-audit-{0}', inputs.territorial_run_id) }}
+          path: .ddd-territorial-certification
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.territorial_run_id }}
+
+      - name: Verificar producto territorial certificado
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(find .ddd-territorial-certification -name production_status.json -type f -print -quit)"
+          test -n "$status" || { echo "::error::El producto territorial no transporta certificación."; exit 44; }
+          decision="$(jq -r '.decision // empty' "$status")"
+          certified_territory="$(jq -r '.territory_id // empty' "$status")"
+          case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) echo "::error::Producto territorial no certificado: $decision"; exit 44;; esac
+          test "$certified_territory" = "$TERRITORY_ID" || { echo "::error::La certificación pertenece a otro territorio."; exit 44; }
+          test -d .ddd-territorial-product/cache
+          test -d .ddd-territorial-product/run
+          test -d .ddd-territorial-product/sources
+          test -f .ddd-territorial-product/run/CHAIN_STATE.json
+          completed="$(jq -r '.completed_stage // 0' .ddd-territorial-product/run/CHAIN_STATE.json)"
+          test "$completed" -ge 6 || { echo "::error::El producto territorial no alcanza la consolidación territorial."; exit 44; }
+
+      - name: Recuperar resultados electorales preparados
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.electoral_package_artifact_name }}
+          path: .ddd-electoral-package
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.electoral_package_run_id }}
+
+      - name: Verificar resultados electorales preparados
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-electoral-evidence
+          python herramientas/validar_paquete_electoral.py             --package .ddd-electoral-package             --params "$PARAMS"             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --root-dir .             --materialize             --output .ddd-electoral-evidence/validacion_paquete_electoral.json
+          test "$(jq -r '.decision' .ddd-electoral-evidence/validacion_paquete_electoral.json)" = READY_PACKAGE
+
+      - name: Materializar contrato electoral de ejecución
+        shell: bash
+        run: |
+          set -euo pipefail
+          runtime_params="$(python herramientas/materializar_contrato_electoral_runtime.py             --params "$PARAMS"             --validation .ddd-electoral-evidence/validacion_paquete_electoral.json             --output .ddd-electoral-runtime/params.yaml)"
+          echo "PARAMS=$runtime_params" >> "$GITHUB_ENV"
+          echo "Contrato electoral de ejecución: $runtime_params"
+
+      - name: Restaurar producto territorial como entrada
+        shell: bash
+        run: |
+          set -euo pipefail
+          readarray -t dirs < <(python - "$PARAMS" "$RUN_ID" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
+          io=cfg.get("io") or {}
+          vals={"run_name":(cfg.get("meta") or {}).get("run_name",Path(sys.argv[1]).stem),
+                "run_id":sys.argv[2],"year":(cfg.get("meta") or {}).get("year","")}
+          print(str(((io.get("cache") or {}).get("dir") or ".cache/ddd/preparacion/{run_name}")).format(**vals))
+          print(str(((io.get("runs") or {}).get("dir") or "ejecuciones/{run_id}")).format(**vals))
+          PY
+          )
+          CACHE_DIR="${dirs[0]}"; RUNS_DIR="${dirs[1]}"
+          echo "CACHE_DIR=$CACHE_DIR" >> "$GITHUB_ENV"
+          echo "RUNS_DIR=$RUNS_DIR" >> "$GITHUB_ENV"
+          rm -rf "$CACHE_DIR" "$RUNS_DIR" .ddd-source-package
+          mkdir -p "$CACHE_DIR" "$RUNS_DIR" .ddd-source-package
+          cp -a .ddd-territorial-product/cache/. "$CACHE_DIR/"
+          cp -a .ddd-territorial-product/run/. "$RUNS_DIR/"
+          cp -a .ddd-territorial-product/sources/. .ddd-source-package/
+          test -f "$RUNS_DIR/CHAIN_STATE.json"
+          test -f .ddd-source-package/manifest.json
+          # El overlay sólo añade M07/M08 al mismo contrato territorial. Registrar
+          # explícitamente la transición para que el encadenamiento mantenga trazabilidad
+          # y no confunda el path del contrato M01–M06 con el contrato runtime electoral.
+          python - "$RUNS_DIR/CHAIN_STATE.json" "$PARAMS" <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path(sys.argv[1]); runtime=sys.argv[2]
+          state=json.loads(p.read_text(encoding="utf-8"))
+          previous=state.get("params")
+          if previous != runtime:
+              state["territorial_params"]=previous
+              state["params"]=runtime
+              state["electoral_runtime_overlay"]=True
+              p.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Preparar entorno reproducible una sola vez
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-electoral:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-electoral-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-electoral-${{ github.sha }}
+
+      - name: Agregar resultados electorales a los distritos
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-logs
+          docker run --rm -v "$PWD:/app" -w /app             -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID"             -e DDD_FROM_STAGE=M07 -e DDD_TO_STAGE=M07             -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"             --entrypoint /bin/bash ddd-electoral:${GITHUB_SHA} /app/procedimiento.sh 2>&1 | tee .ddd-logs/M07.log
+          rm -rf .ddd-state-electoral
+          mkdir -p .ddd-state-electoral/cache .ddd-state-electoral/run .ddd-state-electoral/sources
+          cp -a "$CACHE_DIR/." .ddd-state-electoral/cache/
+          cp -a "$RUNS_DIR/." .ddd-state-electoral/run/
+          cp -a .ddd-source-package/. .ddd-state-electoral/sources/
+
+      - name: Conservar resultado agregado
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-state-${{ github.run_id }}-M07${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: .ddd-state-electoral
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Generar producto electoral territorial
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app             -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID"             -e DDD_FROM_STAGE=M08 -e DDD_TO_STAGE=M08             -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"             --entrypoint /bin/bash ddd-electoral:${GITHUB_SHA} /app/procedimiento.sh 2>&1 | tee .ddd-logs/M08.log
+          rm -rf .ddd-state-product
+          mkdir -p .ddd-state-product/cache .ddd-state-product/run .ddd-state-product/sources
+          cp -a "$CACHE_DIR/." .ddd-state-product/cache/
+          cp -a "$RUNS_DIR/." .ddd-state-product/run/
+          cp -a .ddd-source-package/. .ddd-state-product/sources/
+
+      - name: Diagnosticar fallo de M07/M08
+        if: failure()
+        shell: bash
+        run: |
+          # Publica el final de la salida de M07/M08 como anotación; no oculta el fallo.
+          for log in .ddd-logs/M07.log .ddd-logs/M08.log; do
+            [[ -s "$log" ]] || continue
+            stage="$(basename "$log" .log)"
+            body="$(tail -n 40 "$log" | cut -c1-300 | sed -e 's/%/%25/g' -e 's/\r//g' | awk 'BEGIN{ORS=""} {print (NR>1?"%0A":"") $0}')"
+            echo "::error title=DIAG_${stage}::${body}"
+          done
+          report=""
+          for candidate in "ejecuciones/${RUN_ID:-}/VALIDACION.json" "${RUNS_DIR:-.}/VALIDACION.json"; do
+            [[ -s "$candidate" ]] && { report="$candidate"; break; }
+          done
+          if [[ -n "$report" ]]; then
+            body="$(jq -c '{estado,failures,municipality_violations:((.municipality_violations // [])[:10])}' "$report" | cut -c1-6000 | sed -e 's/%/%25/g')"
+            echo "::error title=DIAG_VALIDACION::${body}"
+          fi
+
+      - id: upload_product
+        name: Conservar producto electoral territorial
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-state-${{ github.run_id }}-M08${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: .ddd-state-product
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Preservar certificación para publicación posterior
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-audit
+          mkdir -p .ddd-audit
+          source_status="$(find .ddd-territorial-certification -name production_status.json -type f -print -quit)"
+          test -n "$source_status" || { echo "::error::Falta production_status.json de la certificación territorial."; exit 46; }
+          cp -a .ddd-territorial-certification/. .ddd-audit/
+          python - "$source_status" ".ddd-audit/production_status.json" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          src,dst,run_id,attempt=sys.argv[1:]
+          payload=json.loads(Path(src).read_text(encoding="utf-8"))
+          payload["run_id"]=f"production-{run_id}-{attempt}"
+          payload["workflow_run_id"]=int(run_id)
+          payload["source_territorial_run_id"]=int(__import__("os").environ["TERRITORIAL_RUN_ID"])
+          payload["electoral_application"]=True
+          Path(dst).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        name: Conservar certificación consumible por publicación
+        with:
+          name: ddd-audit-electoral-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: .ddd-audit
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Generar informe de incorporación
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-electoral-report
+          python - "$PARAMS" "$TERRITORY_ID" "$TERRITORIAL_RUN_ID" "$ELECTORAL_PACKAGE_RUN_ID" "$RUN_ID" <<'PY'
+          import json,sys,yaml
+          from pathlib import Path
+          params,territory,territorial_run,electoral_run,internal_run=sys.argv[1:]
+          cfg=yaml.safe_load(Path(params).read_text(encoding="utf-8")) or {}
+          m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+          m08=(cfg.get("modulos") or {}).get("modulo_08_integrar_resultados") or {}
+          vals={"run_name":(cfg.get("meta") or {}).get("run_name",""),"run_id":internal_run,"year":(cfg.get("meta") or {}).get("year","")}
+          def fmt(v): return str(v).format(**vals) if v else None
+          reconciliation_path=fmt(m07.get("out_reconciliation_report"))
+          if not reconciliation_path or not Path(reconciliation_path).is_file():
+              raise SystemExit("Falta informe M07 de reconciliación electoral")
+          reconciliation=json.loads(Path(reconciliation_path).read_text(encoding="utf-8"))
+          accounting_keys=(
+              "population_total",
+              "source_votes",
+              "incorporated_votes",
+              "ddd_unassigned_votes",
+              "ddd_loss_ratio",
+              "max_ddd_loss_ratio",
+              "source_gap_to_definitive_votes",
+              "source_gap_to_definitive_ratio",
+              "unassigned_votes_breakdown",
+          )
+          payload={
+            "schema":"ddd.electoral-application-report/2.0",
+            "territory_id":territory,
+            "territorial_source_run_id":int(territorial_run),
+            "electoral_package_run_id":int(electoral_run),
+            "workflow_run_id":int(__import__("os").environ["GITHUB_RUN_ID"]),
+            "aggregation_output":fmt(m07.get("out_district_summary_csv")),
+            "reconciliation_output":reconciliation_path,
+            "product_output":fmt(m08.get("out_districts_with_results_geojson")),
+            "electoral_accounting":{key:reconciliation.get(key) for key in accounting_keys},
+            "status":"SUCCESS",
+          }
+          Path(".ddd-electoral-report/report.json").write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ddd-electoral-application-report-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: |
+            .ddd-electoral-report
+            .ddd-electoral-evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+  registrar:
+    name: Registrar producto electoral
+    needs: incorporar
+    if: ${{ needs.incorporar.result == 'success' && inputs.persist_state }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+      queue: max
+    env:
+      TERRITORY_ID: ${{ inputs.territory_id }}
+      EDITION: ${{ inputs.data_edition }}
+      PRODUCT_DIGEST: ${{ needs.incorporar.outputs.product_digest }}
+      ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
+    steps:
+      - name: Cargar persistidor vigente compatible con main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Registrar disponibilidad del producto electoral
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$PRODUCT_DIGEST" || { echo "::error::El producto electoral no tiene digest."; exit 49; }
+          suffix=''
+          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
+          # El SHA procede del checkout REAL del job incorporar (antes de M08).
+          # El checkout de main en este job sólo aporta el persistidor compatible.
+          source_commit="${{ needs.incorporar.outputs.source_commit }}"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
+          python -m herramientas.persistir_producto_electoral_operacional \
+            --root-dir . \
+            --territory-id "$TERRITORY_ID" \
+            --edition "$EDITION" \
+            --run-id "$GITHUB_RUN_ID" \
+            --artifact-name "$artifact_name" \
+            --artifact-sha256 "$PRODUCT_DIGEST" \
+            --source-commit "$source_commit" \
+            --target-branch main

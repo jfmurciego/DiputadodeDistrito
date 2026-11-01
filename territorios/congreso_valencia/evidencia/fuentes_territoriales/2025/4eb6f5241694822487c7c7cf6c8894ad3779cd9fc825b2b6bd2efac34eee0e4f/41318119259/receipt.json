@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_valencia",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41318119259,
+  "artifact_name": "ddd-source-package-congreso_valencia-2025-41318119259",
+  "artifact_sha256": "5315962cbf6c6db3e683cebf71dd01802d657f561d4277340910cf83412b04c2",
+  "package_sha256": "f4e8cbac64633ffda5221e09a54723e06e5eba406c550034a46421e1b836ff6f",
+  "source_commit": "03b39710d99d8cce48c5a16d80c61f348fc9a514",
+  "source_declaration": "territorios/congreso_valencia/evidencia/fuentes_territoriales/2025/4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f/41318119259/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "4eb6f5241694822487c7c7cf6c8894ad3779cd9fc825b2b6bd2efac34eee0e4f",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "b295c6a095820c0273cf0b9d827c0968813b38b38df24a975649fa975e524a34",
+  "compatibility_identity_sha256": "717862af12db6f4224135c7bca931febf43b478b6d2c6d2045ccf4f57d1c42b2"
+}

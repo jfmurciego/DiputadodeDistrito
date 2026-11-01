@@ -186,6 +186,9 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  # Diagnóstico M05 del 01-11-2026 (run 00 anterior, POPULATION_HARD_BLOCK): San Fernando (94.072 hab.) es un municipio entero por debajo del suelo (96.967) y no puede completarse sin partirlo; su distrito queda exento del suelo.
+  population_floor_exempt_municipalities:
+  - '11031'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
