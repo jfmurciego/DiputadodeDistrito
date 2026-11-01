@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_badajoz",
+  "territory_name": "Congreso Badajoz",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_badajoz_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41293199718,
+    "artifact_name": "ddd-source-package-congreso_badajoz-2025-41293199718",
+    "artifact_sha256": "c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509",
+    "package_sha256": "5af705a4eab716266cafaadf48800e0cc1ad056d64f3f22d18683bbb24785ff9",
+    "source_commit": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8",
+    "source_declaration": "territorios/congreso_badajoz/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_badajoz/evidencia/fuentes_territoriales/2025/d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1/41293199718/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "f45c13e8ffeb0746715f68f92ba09c4c5587e67a5e63268bc699931ffa8649b5",
+    "compatibility_identity_sha256": "7b51b17caed01ea4022fbeb7841abbf52db25f1dda73992c8c0ad3bc4c4111e7",
+    "remote_verification": {
+      "run_id": 41293199718,
+      "artifact_id": 13079340736,
+      "artifact_name": "ddd-source-package-congreso_badajoz-2025-41293199718",
+      "artifact_sha256": "c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239771818,
+    "artifact_name": "ddd-electoral-package-congreso_badajoz-2025-41239771818",
+    "artifact_sha256": "5276949f7f6790f02475219dd2d0bdaab40fed84068d9e19164df8f8cc7bb3e0",
+    "source_commit": "5218c0e9d47db27ed3ea8c937f8606c967225833",
+    "receipt_path": "territorios/congreso_badajoz/evidencia/fuentes_electorales/2025/cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183/41239771818/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_badajoz_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183",
+    "remote_verification": {
+      "run_id": 41239771818,
+      "artifact_id": 13056687961,
+      "artifact_name": "ddd-electoral-package-congreso_badajoz-2025-41239771818",
+      "artifact_sha256": "5276949f7f6790f02475219dd2d0bdaab40fed84068d9e19164df8f8cc7bb3e0",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "d799e5a446392a54654b45d84a13669e067fb3ea330bbeda46f4ae96590606a1",
+  "electoral_compatibility_key": "cb1dfe01a462d120c8f9f8dd9d3139d2a4a726a1fefae57a5e2ff7dab6915183",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_badajoz/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "5ce0eb79edc0b1e055267eade402ad81bdeb78598ae9298138c923d132db4d48"
+}
