@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:31:16.590740+00:00",
+  "generated_at": "2026-11-01T10:32:15.483400+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5443,20 +5443,20 @@
       "name": "Congreso Córdoba",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41242424551,
+      "run_id": 41296161083,
       "last_run": {
-        "run_id": 41242424551,
+        "run_id": 41296161083,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5497,7 +5497,7 @@
       },
       "autonomous_community_code_ine": "C14",
       "display_name": "Congreso Córdoba",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_la_coruna",
@@ -6287,7 +6287,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41244085018,
+        "run_id": 41293548832,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -7471,7 +7471,7 @@
     }
   ],
   "kpis": {
-    "complete": 40,
+    "complete": 41,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7496,6 +7496,7 @@
       "Congreso Ávila",
       "Congreso Cáceres",
       "Congreso Castellón",
+      "Congreso Córdoba",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
