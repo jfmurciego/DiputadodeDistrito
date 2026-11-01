@@ -138,6 +138,13 @@ modulos:
     hard_partition_lookup: configuracion/particiones_insulares_2025.json
     hard_partition_territory_id: congreso_baleares
   modulo_05_optimizar_distritos:
+    population_repair:
+      enabled: true
+      max_depth: 6
+      max_transfer_set: 3
+      max_candidates: 500000
+      max_seconds: 300
+      seed: 0
     in_graph_json: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_grafo.json
     in_geojson: territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
