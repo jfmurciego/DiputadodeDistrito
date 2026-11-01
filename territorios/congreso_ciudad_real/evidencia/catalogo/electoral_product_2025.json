@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_ciudad_real",
+  "territory_name": "Congreso Ciudad Real",
+  "edition": "2025",
+  "run_id": 41298749455,
+  "artifact_name": "ddd-state-41298749455-M08",
+  "artifact_sha256": "bbe2b61152ca2c50c7f7bc7261355fe42a5a823c028b1f3b80e2f63fec650e72",
+  "source_commit": "9280b238f188ecd1d6960fd8454b55ec80506a49",
+  "stage": "M08"
+}

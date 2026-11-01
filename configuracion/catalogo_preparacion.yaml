@@ -1206,12 +1206,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41291967967
-        stage: M06
+        run_id: 41298749455
+        stage: M08
       preparation_evidence:
         run_id: 41291967967
         artifact_name: ddd-source-package-congreso_ciudad_real-2025-41291967967
@@ -1230,6 +1230,7 @@ territories:
         generation_preflight: territorios/congreso_ciudad_real/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_ciudad_real/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_ciudad_real/evidencia/pares_fuentes/2025/8f01feca87df2adb0ec5b49a6f7ad3167f25b0c6439508202d19654e6cfcc015.json
+        electoral_product: territorios/congreso_ciudad_real/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_cordoba
   name: Congreso Córdoba
