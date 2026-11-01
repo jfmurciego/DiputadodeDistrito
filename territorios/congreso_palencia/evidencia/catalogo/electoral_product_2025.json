@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_palencia",
+  "territory_name": "Congreso Palencia",
+  "edition": "2025",
+  "run_id": 41298660623,
+  "artifact_name": "ddd-state-41298660623-M08",
+  "artifact_sha256": "99e8224ea2be0fba141a6a88b32ba31cedda40c897dd84b4854694ff4e5d408e",
+  "source_commit": "45406b5aacaa62634b33124d468308d20cd2de0a",
+  "stage": "M08"
+}
