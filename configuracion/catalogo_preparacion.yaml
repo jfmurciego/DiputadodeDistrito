@@ -1888,6 +1888,7 @@ territories:
         electoral_source: territorios/congreso_navarra/evidencia/fuentes_electorales/2025/4394ab125b595f91a5d69069b0276e322ba6af2ca3bbd2acb16bc595bb13b9d3/41239887617/receipt.json
         generation_preflight: territorios/congreso_navarra/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_navarra/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_navarra/evidencia/pares_fuentes/2025/a84c449cfcfdc7148141e0692a4eae91d9aa3ef842b5e0eec5fca6dbfd0f458d.json
       generation_enabled: true
 - territory_id: congreso_orense
   name: Congreso Orense
