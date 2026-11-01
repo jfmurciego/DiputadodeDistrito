@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T22:21:42.216089+00:00",
+  "generated_at": "2026-11-01T22:23:42.208962+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7011,7 +7011,18 @@
           "producer_manifest_path": "territorios/congreso_cantabria/evidencia/generaciones_m06/41292096436.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_cantabria",
+          "territory_name": "Congreso Cantabria",
+          "edition": "2025",
+          "run_id": 41356175674,
+          "artifact_name": "ddd-state-41356175674-M08",
+          "artifact_sha256": "08d9d06841987d4636f13e674ddeb38766da9ff949d06b631578d9b464c02efe",
+          "source_commit": "f62c2453c81eb8bb10657ecd25ccd17b956bae07",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Nacional Cantabria",
@@ -7514,20 +7525,20 @@
       "name": "Nacional Vizcaya",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41293083498,
+      "run_id": 41356074013,
       "last_run": {
-        "run_id": 41355664800,
+        "run_id": 41356074013,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Vizcaya edición 2025; complete la preparación conjunta antes de ejecutar",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7568,7 +7579,7 @@
       },
       "autonomous_community_code_ine": "C48",
       "display_name": "Nacional Vizcaya",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_zamora",
@@ -7816,7 +7827,7 @@
     }
   ],
   "kpis": {
-    "complete": 60,
+    "complete": 61,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7874,6 +7885,7 @@
       "Nacional Toledo",
       "Nacional Valencia",
       "Nacional Valladolid",
+      "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
       "Nacional Ceuta",
@@ -8028,11 +8040,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_pontevedra",
-    "name": "Nacional Pontevedra",
-    "display_name": "Nacional Pontevedra",
-    "autonomous_community_code_ine": "C36",
-    "run_id": 41353894475,
+    "territory_id": "congreso_vizcaya",
+    "name": "Nacional Vizcaya",
+    "display_name": "Nacional Vizcaya",
+    "autonomous_community_code_ine": "C48",
+    "run_id": 41356074013,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
