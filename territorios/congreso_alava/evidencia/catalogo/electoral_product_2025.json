@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_alava",
+  "territory_name": "Congreso Álava",
+  "edition": "2025",
+  "run_id": 41346917857,
+  "artifact_name": "ddd-state-41346917857-M08",
+  "artifact_sha256": "97a26dcb63315c3d8a380b48ff6dee95b854b56b842f719e95db7262a3e2c89e",
+  "source_commit": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+  "stage": "M08"
+}

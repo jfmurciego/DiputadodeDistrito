@@ -766,12 +766,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 41346917857
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 41240137880
         artifact_name: ddd-source-package-congreso_alava-2025-41240137880
@@ -790,6 +790,7 @@ territories:
         generation_preflight: territorios/congreso_alava/evidencia/catalogo/generation_preflight_2025.json
         prepared_source_pair: territorios/congreso_alava/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json
         territorial_product: territorios/congreso_alava/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/congreso_alava/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_albacete
   name: Congreso Albacete
