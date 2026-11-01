@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_baleares",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41336112319,
+  "artifact_name": "ddd-source-package-congreso_baleares-2025-41336112319",
+  "artifact_sha256": "d0376964326a879ee41fd2aec6f2bc85c75657dfbe5aa84b5aac6e9fbd6010f4",
+  "package_sha256": "4be23c377d470b6bcb25c97e019173088c3e0e0e4df608886422582ac303d447",
+  "source_commit": "0fa0c023b85a23d48086d32e0892762c0d795347",
+  "source_declaration": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4/41336112319/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "98be98692655bd101714a35db18d49c719ed38684392ac2448d2a50b293068c5",
+  "compatibility_identity_sha256": "66c208080d9a2d651188e663843114db0aa4449c34956f9fd68083aba75eebd0"
+}

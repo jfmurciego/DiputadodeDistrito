@@ -4,25 +4,123 @@
   "territory_id": "congreso_murcia",
   "territory_name": "Congreso Murcia",
   "edition": "2025",
-  "run_id": 41293548832,
-  "source_commit": "1bcb40992f7f033ace90b53ab0be58de88823d36",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 41335095516,
+  "source_commit": "8a14e0e670e508f817c8a1976bed8738daac2dfe",
+  "artifact_name": "ddd-state-41335095516-M03U",
+  "artifact_sha256": "5205300e1388ff87481b243a9fe02bfee0a30daef9a1800bdac67f16c236d31b",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
-    "run_id": 41293548832,
-    "artifact_name": "ddd-source-package-congreso_murcia-2025-41293548832",
-    "artifact_sha256": "19411df3c4ebe9135d18e6d29d4902eb472d174274a5af09c2baa6f1ec345cc6",
+    "run_id": 41335095516,
+    "artifact_name": "ddd-source-package-congreso_murcia-2025-41335095516",
+    "artifact_sha256": "2ea974b9c2ed1ba65c1b5ea0b4925764a7328ba1715a6a87cd40c1d6bf50bab1",
     "package_sha256": "fb7f6046fdfa26839483d04c0c74564d9b7196f495805c797e28355dfffbd757",
     "compatibility_identity_sha256": "365fb95eed56785fe3f8e2cc462eba63ede3564d9d3856d04d8be7cb946008e4",
     "territorial_identity_sha256": "f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a",
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:25830",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "3003008005",
+        "v": "3003008002",
+        "admin_scope": "municipality:30030",
+        "edge_type": "municipal_discontinuity"
+      },
+      {
+        "u": "3003501007",
+        "v": "3003501005",
+        "admin_scope": "municipality:30035",
+        "edge_type": "municipal_discontinuity"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-41335095516-M03",
+    "artifact_sha256": "6dfd1fb630ec1f2dec5d4a112d6df3a68aad00f529c1e921974d42efc9e331b2",
+    "module_version": "7.5.0",
+    "nodes": 1223,
+    "edges": 3420,
+    "population": 1551692,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-41335095516",
+    "job_artifact_sha256": "2de1ff8a1d3679823964dcaf8503d8303c40fe3b6b2c9ab462e18fa41b1830f8",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/congreso_murcia_2025/congreso_murcia_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 1551692,
+      "target_section_count": 1223,
+      "package_sha256": "fb7f6046fdfa26839483d04c0c74564d9b7196f495805c797e28355dfffbd757",
+      "compatibility_report_sha256": "4846ba2292595f7bb7ddd3acfedba7cd7847d771531964ee2812777df942366b",
+      "compatibility_identity_sha256": "365fb95eed56785fe3f8e2cc462eba63ede3564d9d3856d04d8be7cb946008e4"
+    },
+    "topology_accreditation": null,
+    "k_districts": 13,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_murcia/.cache/ddd/preparacion/{run_name}/congreso_murcia_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 13,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "ERROR_TECHNICAL",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T16:07:25.875687+00:00",
+  "generated_at": "2026-11-01T18:27:49.926120+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 59,
-      "activable": 12,
+      "activated": 62,
+      "activable": 9,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 59
+      "durable_pair": 62
     },
     "territories": [
       {
@@ -1013,8 +1013,8 @@
       },
       {
         "territory_id": "congreso_alava",
-        "name": "Congreso Álava",
-        "display_name": "Congreso Álava",
+        "name": "Nacional Álava",
+        "display_name": "Nacional Álava",
         "election": {
           "election_id": "congreso_alava_2023-07-23",
           "election_date": "2023-07-23"
@@ -1047,12 +1047,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_alava/evidencia/pares_fuentes/2025/29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b.json",
+            "pair_sha256": "29577f2efcc4d643fc6a1b7c5c88313ecdc936fe32bee397f971f1b5dfd49d0b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1064,8 +1064,8 @@
       },
       {
         "territory_id": "congreso_albacete",
-        "name": "Congreso Albacete",
-        "display_name": "Congreso Albacete",
+        "name": "Nacional Albacete",
+        "display_name": "Nacional Albacete",
         "election": {
           "election_id": "congreso_albacete_2023-07-23",
           "election_date": "2023-07-23"
@@ -1115,8 +1115,8 @@
       },
       {
         "territory_id": "congreso_alicante",
-        "name": "Congreso Alicante",
-        "display_name": "Congreso Alicante",
+        "name": "Nacional Alicante",
+        "display_name": "Nacional Alicante",
         "election": {
           "election_id": "congreso_alicante_2023-07-23",
           "election_date": "2023-07-23"
@@ -1166,8 +1166,8 @@
       },
       {
         "territory_id": "congreso_almeria",
-        "name": "Congreso Almería",
-        "display_name": "Congreso Almería",
+        "name": "Nacional Almería",
+        "display_name": "Nacional Almería",
         "election": {
           "election_id": "congreso_almeria_2023-07-23",
           "election_date": "2023-07-23"
@@ -1217,8 +1217,8 @@
       },
       {
         "territory_id": "congreso_avila",
-        "name": "Congreso Ávila",
-        "display_name": "Congreso Ávila",
+        "name": "Nacional Ávila",
+        "display_name": "Nacional Ávila",
         "election": {
           "election_id": "congreso_avila_2023-07-23",
           "election_date": "2023-07-23"
@@ -1268,8 +1268,8 @@
       },
       {
         "territory_id": "congreso_badajoz",
-        "name": "Congreso Badajoz",
-        "display_name": "Congreso Badajoz",
+        "name": "Nacional Badajoz",
+        "display_name": "Nacional Badajoz",
         "election": {
           "election_id": "congreso_badajoz_2023-07-23",
           "election_date": "2023-07-23"
@@ -1319,8 +1319,8 @@
       },
       {
         "territory_id": "congreso_baleares",
-        "name": "Congreso Baleares",
-        "display_name": "Congreso Baleares",
+        "name": "Nacional Baleares",
+        "display_name": "Nacional Baleares",
         "election": {
           "election_id": "congreso_baleares_2023-07-23",
           "election_date": "2023-07-23"
@@ -1340,8 +1340,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41250230577,
-            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4/41250230577/receipt.json"
+            "run_id": 41336112319,
+            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4/41336112319/receipt.json"
           }
         },
         "electoral": {
@@ -1370,8 +1370,8 @@
       },
       {
         "territory_id": "congreso_barcelona",
-        "name": "Congreso Barcelona",
-        "display_name": "Congreso Barcelona",
+        "name": "Nacional Barcelona",
+        "display_name": "Nacional Barcelona",
         "election": {
           "election_id": "congreso_barcelona_2023-07-23",
           "election_date": "2023-07-23"
@@ -1421,8 +1421,8 @@
       },
       {
         "territory_id": "congreso_burgos",
-        "name": "Congreso Burgos",
-        "display_name": "Congreso Burgos",
+        "name": "Nacional Burgos",
+        "display_name": "Nacional Burgos",
         "election": {
           "election_id": "congreso_burgos_2023-07-23",
           "election_date": "2023-07-23"
@@ -1472,8 +1472,8 @@
       },
       {
         "territory_id": "congreso_caceres",
-        "name": "Congreso Cáceres",
-        "display_name": "Congreso Cáceres",
+        "name": "Nacional Cáceres",
+        "display_name": "Nacional Cáceres",
         "election": {
           "election_id": "congreso_caceres_2023-07-23",
           "election_date": "2023-07-23"
@@ -1523,8 +1523,8 @@
       },
       {
         "territory_id": "congreso_cadiz",
-        "name": "Congreso Cádiz",
-        "display_name": "Congreso Cádiz",
+        "name": "Nacional Cádiz",
+        "display_name": "Nacional Cádiz",
         "election": {
           "election_id": "congreso_cadiz_2023-07-23",
           "election_date": "2023-07-23"
@@ -1574,8 +1574,8 @@
       },
       {
         "territory_id": "congreso_castellon",
-        "name": "Congreso Castellón",
-        "display_name": "Congreso Castellón",
+        "name": "Nacional Castellón",
+        "display_name": "Nacional Castellón",
         "election": {
           "election_id": "congreso_castellon_2023-07-23",
           "election_date": "2023-07-23"
@@ -1625,8 +1625,8 @@
       },
       {
         "territory_id": "congreso_ciudad_real",
-        "name": "Congreso Ciudad Real",
-        "display_name": "Congreso Ciudad Real",
+        "name": "Nacional Ciudad Real",
+        "display_name": "Nacional Ciudad Real",
         "election": {
           "election_id": "congreso_ciudad_real_2023-07-23",
           "election_date": "2023-07-23"
@@ -1676,8 +1676,8 @@
       },
       {
         "territory_id": "congreso_cordoba",
-        "name": "Congreso Córdoba",
-        "display_name": "Congreso Córdoba",
+        "name": "Nacional Córdoba",
+        "display_name": "Nacional Córdoba",
         "election": {
           "election_id": "congreso_cordoba_2023-07-23",
           "election_date": "2023-07-23"
@@ -1727,8 +1727,8 @@
       },
       {
         "territory_id": "congreso_la_coruna",
-        "name": "Congreso La Coruña",
-        "display_name": "Congreso La Coruña",
+        "name": "Nacional La Coruña",
+        "display_name": "Nacional La Coruña",
         "election": {
           "election_id": "congreso_la_coruna_2023-07-23",
           "election_date": "2023-07-23"
@@ -1778,8 +1778,8 @@
       },
       {
         "territory_id": "congreso_cuenca",
-        "name": "Congreso Cuenca",
-        "display_name": "Congreso Cuenca",
+        "name": "Nacional Cuenca",
+        "display_name": "Nacional Cuenca",
         "election": {
           "election_id": "congreso_cuenca_2023-07-23",
           "election_date": "2023-07-23"
@@ -1829,8 +1829,8 @@
       },
       {
         "territory_id": "congreso_gerona",
-        "name": "Congreso Gerona",
-        "display_name": "Congreso Gerona",
+        "name": "Nacional Gerona",
+        "display_name": "Nacional Gerona",
         "election": {
           "election_id": "congreso_gerona_2023-07-23",
           "election_date": "2023-07-23"
@@ -1880,8 +1880,8 @@
       },
       {
         "territory_id": "congreso_granada",
-        "name": "Congreso Granada",
-        "display_name": "Congreso Granada",
+        "name": "Nacional Granada",
+        "display_name": "Nacional Granada",
         "election": {
           "election_id": "congreso_granada_2023-07-23",
           "election_date": "2023-07-23"
@@ -1931,8 +1931,8 @@
       },
       {
         "territory_id": "congreso_guadalajara",
-        "name": "Congreso Guadalajara",
-        "display_name": "Congreso Guadalajara",
+        "name": "Nacional Guadalajara",
+        "display_name": "Nacional Guadalajara",
         "election": {
           "election_id": "congreso_guadalajara_2023-07-23",
           "election_date": "2023-07-23"
@@ -1982,8 +1982,8 @@
       },
       {
         "territory_id": "congreso_guipuzcoa",
-        "name": "Congreso Guipúzcoa",
-        "display_name": "Congreso Guipúzcoa",
+        "name": "Nacional Guipúzcoa",
+        "display_name": "Nacional Guipúzcoa",
         "election": {
           "election_id": "congreso_guipuzcoa_2023-07-23",
           "election_date": "2023-07-23"
@@ -2033,8 +2033,8 @@
       },
       {
         "territory_id": "congreso_huelva",
-        "name": "Congreso Huelva",
-        "display_name": "Congreso Huelva",
+        "name": "Nacional Huelva",
+        "display_name": "Nacional Huelva",
         "election": {
           "election_id": "congreso_huelva_2023-07-23",
           "election_date": "2023-07-23"
@@ -2067,12 +2067,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_huelva/evidencia/pares_fuentes/2025/bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14.json",
+            "pair_sha256": "bf33d2ba8fd21650e79feaf4905b3c2873e4580e28939d0eb96e83ba3310de14",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2084,8 +2084,8 @@
       },
       {
         "territory_id": "congreso_huesca",
-        "name": "Congreso Huesca",
-        "display_name": "Congreso Huesca",
+        "name": "Nacional Huesca",
+        "display_name": "Nacional Huesca",
         "election": {
           "election_id": "congreso_huesca_2023-07-23",
           "election_date": "2023-07-23"
@@ -2135,8 +2135,8 @@
       },
       {
         "territory_id": "congreso_jaen",
-        "name": "Congreso Jaén",
-        "display_name": "Congreso Jaén",
+        "name": "Nacional Jaén",
+        "display_name": "Nacional Jaén",
         "election": {
           "election_id": "congreso_jaen_2023-07-23",
           "election_date": "2023-07-23"
@@ -2186,8 +2186,8 @@
       },
       {
         "territory_id": "congreso_leon",
-        "name": "Congreso León",
-        "display_name": "Congreso León",
+        "name": "Nacional León",
+        "display_name": "Nacional León",
         "election": {
           "election_id": "congreso_leon_2023-07-23",
           "election_date": "2023-07-23"
@@ -2237,8 +2237,8 @@
       },
       {
         "territory_id": "congreso_lerida",
-        "name": "Congreso Lérida",
-        "display_name": "Congreso Lérida",
+        "name": "Nacional Lérida",
+        "display_name": "Nacional Lérida",
         "election": {
           "election_id": "congreso_lerida_2023-07-23",
           "election_date": "2023-07-23"
@@ -2288,8 +2288,8 @@
       },
       {
         "territory_id": "congreso_la_rioja",
-        "name": "Congreso La Rioja",
-        "display_name": "Congreso La Rioja",
+        "name": "Nacional La Rioja",
+        "display_name": "Nacional La Rioja",
         "election": {
           "election_id": "congreso_la_rioja_2023-07-23",
           "election_date": "2023-07-23"
@@ -2339,8 +2339,8 @@
       },
       {
         "territory_id": "congreso_lugo",
-        "name": "Congreso Lugo",
-        "display_name": "Congreso Lugo",
+        "name": "Nacional Lugo",
+        "display_name": "Nacional Lugo",
         "election": {
           "election_id": "congreso_lugo_2023-07-23",
           "election_date": "2023-07-23"
@@ -2390,8 +2390,8 @@
       },
       {
         "territory_id": "congreso_madrid",
-        "name": "Congreso Madrid",
-        "display_name": "Congreso Madrid",
+        "name": "Nacional Madrid",
+        "display_name": "Nacional Madrid",
         "election": {
           "election_id": "congreso_madrid_2023-07-23",
           "election_date": "2023-07-23"
@@ -2441,8 +2441,8 @@
       },
       {
         "territory_id": "congreso_malaga",
-        "name": "Congreso Málaga",
-        "display_name": "Congreso Málaga",
+        "name": "Nacional Málaga",
+        "display_name": "Nacional Málaga",
         "election": {
           "election_id": "congreso_malaga_2023-07-23",
           "election_date": "2023-07-23"
@@ -2492,8 +2492,8 @@
       },
       {
         "territory_id": "congreso_murcia",
-        "name": "Congreso Murcia",
-        "display_name": "Congreso Murcia",
+        "name": "Nacional Murcia",
+        "display_name": "Nacional Murcia",
         "election": {
           "election_id": "congreso_murcia_2023-07-23",
           "election_date": "2023-07-23"
@@ -2513,8 +2513,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41293548832,
-            "receipt_path": "territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a/41293548832/receipt.json"
+            "run_id": 41335095516,
+            "receipt_path": "territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a/41335095516/receipt.json"
           }
         },
         "electoral": {
@@ -2543,8 +2543,8 @@
       },
       {
         "territory_id": "congreso_navarra",
-        "name": "Congreso Navarra",
-        "display_name": "Congreso Navarra",
+        "name": "Nacional Navarra",
+        "display_name": "Nacional Navarra",
         "election": {
           "election_id": "congreso_navarra_2023-07-23",
           "election_date": "2023-07-23"
@@ -2594,8 +2594,8 @@
       },
       {
         "territory_id": "congreso_orense",
-        "name": "Congreso Orense",
-        "display_name": "Congreso Orense",
+        "name": "Nacional Orense",
+        "display_name": "Nacional Orense",
         "election": {
           "election_id": "congreso_orense_2023-07-23",
           "election_date": "2023-07-23"
@@ -2645,8 +2645,8 @@
       },
       {
         "territory_id": "congreso_asturias",
-        "name": "Congreso Asturias",
-        "display_name": "Congreso Asturias",
+        "name": "Nacional Asturias",
+        "display_name": "Nacional Asturias",
         "election": {
           "election_id": "congreso_asturias_2023-07-23",
           "election_date": "2023-07-23"
@@ -2696,8 +2696,8 @@
       },
       {
         "territory_id": "congreso_palencia",
-        "name": "Congreso Palencia",
-        "display_name": "Congreso Palencia",
+        "name": "Nacional Palencia",
+        "display_name": "Nacional Palencia",
         "election": {
           "election_id": "congreso_palencia_2023-07-23",
           "election_date": "2023-07-23"
@@ -2747,8 +2747,8 @@
       },
       {
         "territory_id": "congreso_las_palmas",
-        "name": "Congreso Las Palmas",
-        "display_name": "Congreso Las Palmas",
+        "name": "Nacional Las Palmas",
+        "display_name": "Nacional Las Palmas",
         "election": {
           "election_id": "congreso_las_palmas_2023-07-23",
           "election_date": "2023-07-23"
@@ -2768,8 +2768,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41250283081,
-            "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7/41250283081/receipt.json"
+            "run_id": 41336103808,
+            "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7/41336103808/receipt.json"
           }
         },
         "electoral": {
@@ -2798,8 +2798,8 @@
       },
       {
         "territory_id": "congreso_pontevedra",
-        "name": "Congreso Pontevedra",
-        "display_name": "Congreso Pontevedra",
+        "name": "Nacional Pontevedra",
+        "display_name": "Nacional Pontevedra",
         "election": {
           "election_id": "congreso_pontevedra_2023-07-23",
           "election_date": "2023-07-23"
@@ -2849,8 +2849,8 @@
       },
       {
         "territory_id": "congreso_salamanca",
-        "name": "Congreso Salamanca",
-        "display_name": "Congreso Salamanca",
+        "name": "Nacional Salamanca",
+        "display_name": "Nacional Salamanca",
         "election": {
           "election_id": "congreso_salamanca_2023-07-23",
           "election_date": "2023-07-23"
@@ -2900,8 +2900,8 @@
       },
       {
         "territory_id": "congreso_santa_cruz_de_tenerife",
-        "name": "Congreso Santa Cruz de Tenerife",
-        "display_name": "Congreso Santa Cruz de Tenerife",
+        "name": "Nacional Santa Cruz de Tenerife",
+        "display_name": "Nacional Santa Cruz de Tenerife",
         "election": {
           "election_id": "congreso_santa_cruz_de_tenerife_2023-07-23",
           "election_date": "2023-07-23"
@@ -2951,8 +2951,8 @@
       },
       {
         "territory_id": "congreso_cantabria",
-        "name": "Congreso Cantabria",
-        "display_name": "Congreso Cantabria",
+        "name": "Nacional Cantabria",
+        "display_name": "Nacional Cantabria",
         "election": {
           "election_id": "congreso_cantabria_2023-07-23",
           "election_date": "2023-07-23"
@@ -3002,8 +3002,8 @@
       },
       {
         "territory_id": "congreso_segovia",
-        "name": "Congreso Segovia",
-        "display_name": "Congreso Segovia",
+        "name": "Nacional Segovia",
+        "display_name": "Nacional Segovia",
         "election": {
           "election_id": "congreso_segovia_2023-07-23",
           "election_date": "2023-07-23"
@@ -3053,8 +3053,8 @@
       },
       {
         "territory_id": "congreso_sevilla",
-        "name": "Congreso Sevilla",
-        "display_name": "Congreso Sevilla",
+        "name": "Nacional Sevilla",
+        "display_name": "Nacional Sevilla",
         "election": {
           "election_id": "congreso_sevilla_2023-07-23",
           "election_date": "2023-07-23"
@@ -3104,8 +3104,8 @@
       },
       {
         "territory_id": "congreso_soria",
-        "name": "Congreso Soria",
-        "display_name": "Congreso Soria",
+        "name": "Nacional Soria",
+        "display_name": "Nacional Soria",
         "election": {
           "election_id": "congreso_soria_2023-07-23",
           "election_date": "2023-07-23"
@@ -3155,8 +3155,8 @@
       },
       {
         "territory_id": "congreso_tarragona",
-        "name": "Congreso Tarragona",
-        "display_name": "Congreso Tarragona",
+        "name": "Nacional Tarragona",
+        "display_name": "Nacional Tarragona",
         "election": {
           "election_id": "congreso_tarragona_2023-07-23",
           "election_date": "2023-07-23"
@@ -3206,8 +3206,8 @@
       },
       {
         "territory_id": "congreso_teruel",
-        "name": "Congreso Teruel",
-        "display_name": "Congreso Teruel",
+        "name": "Nacional Teruel",
+        "display_name": "Nacional Teruel",
         "election": {
           "election_id": "congreso_teruel_2023-07-23",
           "election_date": "2023-07-23"
@@ -3257,8 +3257,8 @@
       },
       {
         "territory_id": "congreso_toledo",
-        "name": "Congreso Toledo",
-        "display_name": "Congreso Toledo",
+        "name": "Nacional Toledo",
+        "display_name": "Nacional Toledo",
         "election": {
           "election_id": "congreso_toledo_2023-07-23",
           "election_date": "2023-07-23"
@@ -3308,8 +3308,8 @@
       },
       {
         "territory_id": "congreso_valencia",
-        "name": "Congreso Valencia",
-        "display_name": "Congreso Valencia",
+        "name": "Nacional Valencia",
+        "display_name": "Nacional Valencia",
         "election": {
           "election_id": "congreso_valencia_2023-07-23",
           "election_date": "2023-07-23"
@@ -3342,12 +3342,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_valencia/evidencia/pares_fuentes/2025/1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b.json",
+            "pair_sha256": "1f1c1081dd788a45c488ed4def021cb7544c4d66ea2204ce014faa70387d2b5b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3359,8 +3359,8 @@
       },
       {
         "territory_id": "congreso_valladolid",
-        "name": "Congreso Valladolid",
-        "display_name": "Congreso Valladolid",
+        "name": "Nacional Valladolid",
+        "display_name": "Nacional Valladolid",
         "election": {
           "election_id": "congreso_valladolid_2023-07-23",
           "election_date": "2023-07-23"
@@ -3410,8 +3410,8 @@
       },
       {
         "territory_id": "congreso_vizcaya",
-        "name": "Congreso Vizcaya",
-        "display_name": "Congreso Vizcaya",
+        "name": "Nacional Vizcaya",
+        "display_name": "Nacional Vizcaya",
         "election": {
           "election_id": "congreso_vizcaya_2023-07-23",
           "election_date": "2023-07-23"
@@ -3461,8 +3461,8 @@
       },
       {
         "territory_id": "congreso_zamora",
-        "name": "Congreso Zamora",
-        "display_name": "Congreso Zamora",
+        "name": "Nacional Zamora",
+        "display_name": "Nacional Zamora",
         "election": {
           "election_id": "congreso_zamora_2023-07-23",
           "election_date": "2023-07-23"
@@ -3512,8 +3512,8 @@
       },
       {
         "territory_id": "congreso_zaragoza",
-        "name": "Congreso Zaragoza",
-        "display_name": "Congreso Zaragoza",
+        "name": "Nacional Zaragoza",
+        "display_name": "Nacional Zaragoza",
         "election": {
           "election_id": "congreso_zaragoza_2023-07-23",
           "election_date": "2023-07-23"
@@ -3563,8 +3563,8 @@
       },
       {
         "territory_id": "congreso_ceuta",
-        "name": "Congreso Ceuta",
-        "display_name": "Congreso Ceuta",
+        "name": "Nacional Ceuta",
+        "display_name": "Nacional Ceuta",
         "election": {
           "election_id": "congreso_ceuta_2023-07-23",
           "election_date": "2023-07-23"
@@ -3614,8 +3614,8 @@
       },
       {
         "territory_id": "congreso_melilla",
-        "name": "Congreso Melilla",
-        "display_name": "Congreso Melilla",
+        "name": "Nacional Melilla",
+        "display_name": "Nacional Melilla",
         "election": {
           "election_id": "congreso_melilla_2023-07-23",
           "election_date": "2023-07-23"
@@ -4814,7 +4814,7 @@
     },
     {
       "territory_id": "congreso_alava",
-      "name": "Congreso Álava",
+      "name": "Nacional Álava",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -4823,7 +4823,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41240137880,
+        "run_id": 41335088773,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -4846,12 +4846,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C01",
-      "display_name": "Congreso Álava",
+      "display_name": "Nacional Álava",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_albacete",
-      "name": "Congreso Albacete",
+      "name": "Nacional Albacete",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -4907,12 +4907,12 @@
         }
       },
       "autonomous_community_code_ine": "C02",
-      "display_name": "Congreso Albacete",
+      "display_name": "Nacional Albacete",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_alicante",
-      "name": "Congreso Alicante",
+      "name": "Nacional Alicante",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -4944,12 +4944,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C03",
-      "display_name": "Congreso Alicante",
+      "display_name": "Nacional Alicante",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_almeria",
-      "name": "Congreso Almería",
+      "name": "Nacional Almería",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5005,12 +5005,12 @@
         }
       },
       "autonomous_community_code_ine": "C04",
-      "display_name": "Congreso Almería",
+      "display_name": "Nacional Almería",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_avila",
-      "name": "Congreso Ávila",
+      "name": "Nacional Ávila",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5066,12 +5066,12 @@
         }
       },
       "autonomous_community_code_ine": "C05",
-      "display_name": "Congreso Ávila",
+      "display_name": "Nacional Ávila",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_badajoz",
-      "name": "Congreso Badajoz",
+      "name": "Nacional Badajoz",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5127,12 +5127,12 @@
         }
       },
       "autonomous_community_code_ine": "C06",
-      "display_name": "Congreso Badajoz",
+      "display_name": "Nacional Badajoz",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_baleares",
-      "name": "Congreso Baleares",
+      "name": "Nacional Baleares",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -5145,7 +5145,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -5154,9 +5154,9 @@
         "territorial_source": {
           "territory_id": "congreso_baleares",
           "edition": "2025",
-          "run_id": 41250230577,
-          "artifact_name": "ddd-source-package-congreso_baleares-2025-41250230577",
-          "artifact_sha256": "5460968a2be9a135f7bad62a38d6b85d2e2a1c789848c6a2182251c06faa5aaa",
+          "run_id": 41336112319,
+          "artifact_name": "ddd-source-package-congreso_baleares-2025-41336112319",
+          "artifact_sha256": "d0376964326a879ee41fd2aec6f2bc85c75657dfbe5aa84b5aac6e9fbd6010f4",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -5164,12 +5164,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C07",
-      "display_name": "Congreso Baleares",
+      "display_name": "Nacional Baleares",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_barcelona",
-      "name": "Congreso Barcelona",
+      "name": "Nacional Barcelona",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -5201,12 +5201,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C08",
-      "display_name": "Congreso Barcelona",
+      "display_name": "Nacional Barcelona",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_burgos",
-      "name": "Congreso Burgos",
+      "name": "Nacional Burgos",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5262,12 +5262,12 @@
         }
       },
       "autonomous_community_code_ine": "C09",
-      "display_name": "Congreso Burgos",
+      "display_name": "Nacional Burgos",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_caceres",
-      "name": "Congreso Cáceres",
+      "name": "Nacional Cáceres",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5323,12 +5323,12 @@
         }
       },
       "autonomous_community_code_ine": "C10",
-      "display_name": "Congreso Cáceres",
+      "display_name": "Nacional Cáceres",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_cadiz",
-      "name": "Congreso Cádiz",
+      "name": "Nacional Cádiz",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -5360,12 +5360,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C11",
-      "display_name": "Congreso Cádiz",
+      "display_name": "Nacional Cádiz",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_castellon",
-      "name": "Congreso Castellón",
+      "name": "Nacional Castellón",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5421,12 +5421,12 @@
         }
       },
       "autonomous_community_code_ine": "C12",
-      "display_name": "Congreso Castellón",
+      "display_name": "Nacional Castellón",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_ciudad_real",
-      "name": "Congreso Ciudad Real",
+      "name": "Nacional Ciudad Real",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5482,12 +5482,12 @@
         }
       },
       "autonomous_community_code_ine": "C13",
-      "display_name": "Congreso Ciudad Real",
+      "display_name": "Nacional Ciudad Real",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_cordoba",
-      "name": "Congreso Córdoba",
+      "name": "Nacional Córdoba",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5543,12 +5543,12 @@
         }
       },
       "autonomous_community_code_ine": "C14",
-      "display_name": "Congreso Córdoba",
+      "display_name": "Nacional Córdoba",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_la_coruna",
-      "name": "Congreso La Coruña",
+      "name": "Nacional La Coruña",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5604,12 +5604,12 @@
         }
       },
       "autonomous_community_code_ine": "C15",
-      "display_name": "Congreso La Coruña",
+      "display_name": "Nacional La Coruña",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_cuenca",
-      "name": "Congreso Cuenca",
+      "name": "Nacional Cuenca",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5665,12 +5665,12 @@
         }
       },
       "autonomous_community_code_ine": "C16",
-      "display_name": "Congreso Cuenca",
+      "display_name": "Nacional Cuenca",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_gerona",
-      "name": "Congreso Gerona",
+      "name": "Nacional Gerona",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5726,12 +5726,12 @@
         }
       },
       "autonomous_community_code_ine": "C17",
-      "display_name": "Congreso Gerona",
+      "display_name": "Nacional Gerona",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_granada",
-      "name": "Congreso Granada",
+      "name": "Nacional Granada",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5787,12 +5787,12 @@
         }
       },
       "autonomous_community_code_ine": "C18",
-      "display_name": "Congreso Granada",
+      "display_name": "Nacional Granada",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_guadalajara",
-      "name": "Congreso Guadalajara",
+      "name": "Nacional Guadalajara",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5848,12 +5848,12 @@
         }
       },
       "autonomous_community_code_ine": "C19",
-      "display_name": "Congreso Guadalajara",
+      "display_name": "Nacional Guadalajara",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_guipuzcoa",
-      "name": "Congreso Guipúzcoa",
+      "name": "Nacional Guipúzcoa",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -5909,12 +5909,12 @@
         }
       },
       "autonomous_community_code_ine": "C20",
-      "display_name": "Congreso Guipúzcoa",
+      "display_name": "Nacional Guipúzcoa",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_huelva",
-      "name": "Congreso Huelva",
+      "name": "Nacional Huelva",
       "ft": "green",
       "g": "green",
       "fe": "yellow",
@@ -5956,15 +5956,26 @@
           "producer_manifest_path": "territorios/congreso_huelva/evidencia/generaciones_m06/41318125504.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_huelva",
+          "territory_name": "Congreso Huelva",
+          "edition": "2025",
+          "run_id": 41335929678,
+          "artifact_name": "ddd-state-41335929678-M08",
+          "artifact_sha256": "571a1603f7e46bd6656b9763bc50f32183dce520372bd14098e5fda646af63e6",
+          "source_commit": "8a14e0e670e508f817c8a1976bed8738daac2dfe",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C21",
-      "display_name": "Congreso Huelva",
+      "display_name": "Nacional Huelva",
       "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_huesca",
-      "name": "Congreso Huesca",
+      "name": "Nacional Huesca",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6020,12 +6031,12 @@
         }
       },
       "autonomous_community_code_ine": "C22",
-      "display_name": "Congreso Huesca",
+      "display_name": "Nacional Huesca",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_jaen",
-      "name": "Congreso Jaén",
+      "name": "Nacional Jaén",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6081,12 +6092,12 @@
         }
       },
       "autonomous_community_code_ine": "C23",
-      "display_name": "Congreso Jaén",
+      "display_name": "Nacional Jaén",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_leon",
-      "name": "Congreso León",
+      "name": "Nacional León",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6142,12 +6153,12 @@
         }
       },
       "autonomous_community_code_ine": "C24",
-      "display_name": "Congreso León",
+      "display_name": "Nacional León",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_lerida",
-      "name": "Congreso Lérida",
+      "name": "Nacional Lérida",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6203,12 +6214,12 @@
         }
       },
       "autonomous_community_code_ine": "C25",
-      "display_name": "Congreso Lérida",
+      "display_name": "Nacional Lérida",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_la_rioja",
-      "name": "Congreso La Rioja",
+      "name": "Nacional La Rioja",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6264,12 +6275,12 @@
         }
       },
       "autonomous_community_code_ine": "C26",
-      "display_name": "Congreso La Rioja",
+      "display_name": "Nacional La Rioja",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_lugo",
-      "name": "Congreso Lugo",
+      "name": "Nacional Lugo",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6325,12 +6336,12 @@
         }
       },
       "autonomous_community_code_ine": "C27",
-      "display_name": "Congreso Lugo",
+      "display_name": "Nacional Lugo",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_madrid",
-      "name": "Congreso Madrid",
+      "name": "Nacional Madrid",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -6362,12 +6373,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C28",
-      "display_name": "Congreso Madrid",
+      "display_name": "Nacional Madrid",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_malaga",
-      "name": "Congreso Málaga",
+      "name": "Nacional Málaga",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -6399,12 +6410,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C29",
-      "display_name": "Congreso Málaga",
+      "display_name": "Nacional Málaga",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_murcia",
-      "name": "Congreso Murcia",
+      "name": "Nacional Murcia",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -6417,7 +6428,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6426,9 +6437,9 @@
         "territorial_source": {
           "territory_id": "congreso_murcia",
           "edition": "2025",
-          "run_id": 41293548832,
-          "artifact_name": "ddd-source-package-congreso_murcia-2025-41293548832",
-          "artifact_sha256": "19411df3c4ebe9135d18e6d29d4902eb472d174274a5af09c2baa6f1ec345cc6",
+          "run_id": 41335095516,
+          "artifact_name": "ddd-source-package-congreso_murcia-2025-41335095516",
+          "artifact_sha256": "2ea974b9c2ed1ba65c1b5ea0b4925764a7328ba1715a6a87cd40c1d6bf50bab1",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -6436,12 +6447,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C30",
-      "display_name": "Congreso Murcia",
+      "display_name": "Nacional Murcia",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_navarra",
-      "name": "Congreso Navarra",
+      "name": "Nacional Navarra",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6497,12 +6508,12 @@
         }
       },
       "autonomous_community_code_ine": "C31",
-      "display_name": "Congreso Navarra",
+      "display_name": "Nacional Navarra",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_orense",
-      "name": "Congreso Orense",
+      "name": "Nacional Orense",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6558,12 +6569,12 @@
         }
       },
       "autonomous_community_code_ine": "C32",
-      "display_name": "Congreso Orense",
+      "display_name": "Nacional Orense",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_asturias",
-      "name": "Congreso Asturias",
+      "name": "Nacional Asturias",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6619,12 +6630,12 @@
         }
       },
       "autonomous_community_code_ine": "C33",
-      "display_name": "Congreso Asturias",
+      "display_name": "Nacional Asturias",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_palencia",
-      "name": "Congreso Palencia",
+      "name": "Nacional Palencia",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6680,12 +6691,12 @@
         }
       },
       "autonomous_community_code_ine": "C34",
-      "display_name": "Congreso Palencia",
+      "display_name": "Nacional Palencia",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_las_palmas",
-      "name": "Congreso Las Palmas",
+      "name": "Nacional Las Palmas",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -6698,7 +6709,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
         "publication": "not_requested"
       },
       "stage": null,
@@ -6707,9 +6718,9 @@
         "territorial_source": {
           "territory_id": "congreso_las_palmas",
           "edition": "2025",
-          "run_id": 41250283081,
-          "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41250283081",
-          "artifact_sha256": "08dcb79aad9562bc174e1c4356ae2761e475502ce79191e54dd0e2377c33d49d",
+          "run_id": 41336103808,
+          "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41336103808",
+          "artifact_sha256": "e24534fb9f56c89dde9956e40a31b14e70dbeb33c65c12f7fd35e6ce5c626fe4",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -6717,12 +6728,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C35",
-      "display_name": "Congreso Las Palmas",
+      "display_name": "Nacional Las Palmas",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_pontevedra",
-      "name": "Congreso Pontevedra",
+      "name": "Nacional Pontevedra",
       "ft": "green",
       "g": "yellow",
       "fe": "yellow",
@@ -6754,12 +6765,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C36",
-      "display_name": "Congreso Pontevedra",
+      "display_name": "Nacional Pontevedra",
       "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso_salamanca",
-      "name": "Congreso Salamanca",
+      "name": "Nacional Salamanca",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6815,12 +6826,12 @@
         }
       },
       "autonomous_community_code_ine": "C37",
-      "display_name": "Congreso Salamanca",
+      "display_name": "Nacional Salamanca",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_santa_cruz_de_tenerife",
-      "name": "Congreso Santa Cruz de Tenerife",
+      "name": "Nacional Santa Cruz de Tenerife",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6876,12 +6887,12 @@
         }
       },
       "autonomous_community_code_ine": "C38",
-      "display_name": "Congreso Santa Cruz de Tenerife",
+      "display_name": "Nacional Santa Cruz de Tenerife",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_cantabria",
-      "name": "Congreso Cantabria",
+      "name": "Nacional Cantabria",
       "ft": "green",
       "g": "green",
       "fe": "yellow",
@@ -6926,12 +6937,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C39",
-      "display_name": "Congreso Cantabria",
+      "display_name": "Nacional Cantabria",
       "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_segovia",
-      "name": "Congreso Segovia",
+      "name": "Nacional Segovia",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -6987,12 +6998,12 @@
         }
       },
       "autonomous_community_code_ine": "C40",
-      "display_name": "Congreso Segovia",
+      "display_name": "Nacional Segovia",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_sevilla",
-      "name": "Congreso Sevilla",
+      "name": "Nacional Sevilla",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7048,12 +7059,12 @@
         }
       },
       "autonomous_community_code_ine": "C41",
-      "display_name": "Congreso Sevilla",
+      "display_name": "Nacional Sevilla",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_soria",
-      "name": "Congreso Soria",
+      "name": "Nacional Soria",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7109,12 +7120,12 @@
         }
       },
       "autonomous_community_code_ine": "C42",
-      "display_name": "Congreso Soria",
+      "display_name": "Nacional Soria",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_tarragona",
-      "name": "Congreso Tarragona",
+      "name": "Nacional Tarragona",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7170,12 +7181,12 @@
         }
       },
       "autonomous_community_code_ine": "C43",
-      "display_name": "Congreso Tarragona",
+      "display_name": "Nacional Tarragona",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_teruel",
-      "name": "Congreso Teruel",
+      "name": "Nacional Teruel",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7231,12 +7242,12 @@
         }
       },
       "autonomous_community_code_ine": "C44",
-      "display_name": "Congreso Teruel",
+      "display_name": "Nacional Teruel",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_toledo",
-      "name": "Congreso Toledo",
+      "name": "Nacional Toledo",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7292,28 +7303,28 @@
         }
       },
       "autonomous_community_code_ine": "C45",
-      "display_name": "Congreso Toledo",
+      "display_name": "Nacional Toledo",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_valencia",
-      "name": "Congreso Valencia",
+      "name": "Nacional Valencia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41318119259,
+      "run_id": 41335936727,
       "last_run": {
-        "run_id": 41293787892,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "01 · Preparación de Datos Territoriales",
-        "reason": "ver log del run",
+        "run_id": 41335936727,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7339,15 +7350,26 @@
           "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/41318119259.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_valencia",
+          "territory_name": "Congreso Valencia",
+          "edition": "2025",
+          "run_id": 41335936727,
+          "artifact_name": "ddd-state-41335936727-M08",
+          "artifact_sha256": "ddd68e64e8dc8bdb943fab0711e6abca544b7a3edcbbff79bbca8678351cef94",
+          "source_commit": "8a14e0e670e508f817c8a1976bed8738daac2dfe",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C46",
-      "display_name": "Congreso Valencia",
-      "next_step": "preparar fuentes electorales"
+      "display_name": "Nacional Valencia",
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_valladolid",
-      "name": "Congreso Valladolid",
+      "name": "Nacional Valladolid",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7403,12 +7425,12 @@
         }
       },
       "autonomous_community_code_ine": "C47",
-      "display_name": "Congreso Valladolid",
+      "display_name": "Nacional Valladolid",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_vizcaya",
-      "name": "Congreso Vizcaya",
+      "name": "Nacional Vizcaya",
       "ft": "green",
       "g": "green",
       "fe": "yellow",
@@ -7453,12 +7475,12 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C48",
-      "display_name": "Congreso Vizcaya",
+      "display_name": "Nacional Vizcaya",
       "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_zamora",
-      "name": "Congreso Zamora",
+      "name": "Nacional Zamora",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7514,12 +7536,12 @@
         }
       },
       "autonomous_community_code_ine": "C49",
-      "display_name": "Congreso Zamora",
+      "display_name": "Nacional Zamora",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_zaragoza",
-      "name": "Congreso Zaragoza",
+      "name": "Nacional Zaragoza",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7575,12 +7597,12 @@
         }
       },
       "autonomous_community_code_ine": "C50",
-      "display_name": "Congreso Zaragoza",
+      "display_name": "Nacional Zaragoza",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_ceuta",
-      "name": "Congreso Ceuta",
+      "name": "Nacional Ceuta",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7636,12 +7658,12 @@
         }
       },
       "autonomous_community_code_ine": "C51",
-      "display_name": "Congreso Ceuta",
+      "display_name": "Nacional Ceuta",
       "next_step": "—"
     },
     {
       "territory_id": "congreso_melilla",
-      "name": "Congreso Melilla",
+      "name": "Nacional Melilla",
       "ft": "green",
       "g": "green",
       "fe": "green",
@@ -7697,12 +7719,12 @@
         }
       },
       "autonomous_community_code_ine": "C52",
-      "display_name": "Congreso Melilla",
+      "display_name": "Nacional Melilla",
       "next_step": "—"
     }
   ],
   "kpis": {
-    "complete": 56,
+    "complete": 57,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7722,44 +7744,45 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
-      "Congreso Albacete",
-      "Congreso Almería",
-      "Congreso Ávila",
-      "Congreso Badajoz",
-      "Congreso Burgos",
-      "Congreso Cáceres",
-      "Congreso Castellón",
-      "Congreso Ciudad Real",
-      "Congreso Córdoba",
-      "Congreso La Coruña",
-      "Congreso Cuenca",
-      "Congreso Gerona",
-      "Congreso Granada",
-      "Congreso Guadalajara",
-      "Congreso Guipúzcoa",
-      "Congreso Huesca",
-      "Congreso Jaén",
-      "Congreso León",
-      "Congreso Lérida",
-      "Congreso La Rioja",
-      "Congreso Lugo",
-      "Congreso Navarra",
-      "Congreso Orense",
-      "Congreso Asturias",
-      "Congreso Palencia",
-      "Congreso Salamanca",
-      "Congreso Santa Cruz de Tenerife",
-      "Congreso Segovia",
-      "Congreso Sevilla",
-      "Congreso Soria",
-      "Congreso Tarragona",
-      "Congreso Teruel",
-      "Congreso Toledo",
-      "Congreso Valladolid",
-      "Congreso Zamora",
-      "Congreso Zaragoza",
-      "Congreso Ceuta",
-      "Congreso Melilla"
+      "Nacional Albacete",
+      "Nacional Almería",
+      "Nacional Ávila",
+      "Nacional Badajoz",
+      "Nacional Burgos",
+      "Nacional Cáceres",
+      "Nacional Castellón",
+      "Nacional Ciudad Real",
+      "Nacional Córdoba",
+      "Nacional La Coruña",
+      "Nacional Cuenca",
+      "Nacional Gerona",
+      "Nacional Granada",
+      "Nacional Guadalajara",
+      "Nacional Guipúzcoa",
+      "Nacional Huesca",
+      "Nacional Jaén",
+      "Nacional León",
+      "Nacional Lérida",
+      "Nacional La Rioja",
+      "Nacional Lugo",
+      "Nacional Navarra",
+      "Nacional Orense",
+      "Nacional Asturias",
+      "Nacional Palencia",
+      "Nacional Salamanca",
+      "Nacional Santa Cruz de Tenerife",
+      "Nacional Segovia",
+      "Nacional Sevilla",
+      "Nacional Soria",
+      "Nacional Tarragona",
+      "Nacional Teruel",
+      "Nacional Toledo",
+      "Nacional Valencia",
+      "Nacional Valladolid",
+      "Nacional Zamora",
+      "Nacional Zaragoza",
+      "Nacional Ceuta",
+      "Nacional Melilla"
     ],
     "territorial_validated": 60,
     "territorial_validated_names": [
@@ -7781,48 +7804,48 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
-      "Congreso Albacete",
-      "Congreso Almería",
-      "Congreso Ávila",
-      "Congreso Badajoz",
-      "Congreso Burgos",
-      "Congreso Cáceres",
-      "Congreso Castellón",
-      "Congreso Ciudad Real",
-      "Congreso Córdoba",
-      "Congreso La Coruña",
-      "Congreso Cuenca",
-      "Congreso Gerona",
-      "Congreso Granada",
-      "Congreso Guadalajara",
-      "Congreso Guipúzcoa",
-      "Congreso Huelva",
-      "Congreso Huesca",
-      "Congreso Jaén",
-      "Congreso León",
-      "Congreso Lérida",
-      "Congreso La Rioja",
-      "Congreso Lugo",
-      "Congreso Navarra",
-      "Congreso Orense",
-      "Congreso Asturias",
-      "Congreso Palencia",
-      "Congreso Salamanca",
-      "Congreso Santa Cruz de Tenerife",
-      "Congreso Cantabria",
-      "Congreso Segovia",
-      "Congreso Sevilla",
-      "Congreso Soria",
-      "Congreso Tarragona",
-      "Congreso Teruel",
-      "Congreso Toledo",
-      "Congreso Valencia",
-      "Congreso Valladolid",
-      "Congreso Vizcaya",
-      "Congreso Zamora",
-      "Congreso Zaragoza",
-      "Congreso Ceuta",
-      "Congreso Melilla"
+      "Nacional Albacete",
+      "Nacional Almería",
+      "Nacional Ávila",
+      "Nacional Badajoz",
+      "Nacional Burgos",
+      "Nacional Cáceres",
+      "Nacional Castellón",
+      "Nacional Ciudad Real",
+      "Nacional Córdoba",
+      "Nacional La Coruña",
+      "Nacional Cuenca",
+      "Nacional Gerona",
+      "Nacional Granada",
+      "Nacional Guadalajara",
+      "Nacional Guipúzcoa",
+      "Nacional Huelva",
+      "Nacional Huesca",
+      "Nacional Jaén",
+      "Nacional León",
+      "Nacional Lérida",
+      "Nacional La Rioja",
+      "Nacional Lugo",
+      "Nacional Navarra",
+      "Nacional Orense",
+      "Nacional Asturias",
+      "Nacional Palencia",
+      "Nacional Salamanca",
+      "Nacional Santa Cruz de Tenerife",
+      "Nacional Cantabria",
+      "Nacional Segovia",
+      "Nacional Sevilla",
+      "Nacional Soria",
+      "Nacional Tarragona",
+      "Nacional Teruel",
+      "Nacional Toledo",
+      "Nacional Valencia",
+      "Nacional Valladolid",
+      "Nacional Vizcaya",
+      "Nacional Zamora",
+      "Nacional Zaragoza",
+      "Nacional Ceuta",
+      "Nacional Melilla"
     ],
     "validated": 60,
     "validated_names": [
@@ -7844,62 +7867,62 @@
       "17 La Rioja",
       "18 Ceuta",
       "19 Melilla",
-      "Congreso Albacete",
-      "Congreso Almería",
-      "Congreso Ávila",
-      "Congreso Badajoz",
-      "Congreso Burgos",
-      "Congreso Cáceres",
-      "Congreso Castellón",
-      "Congreso Ciudad Real",
-      "Congreso Córdoba",
-      "Congreso La Coruña",
-      "Congreso Cuenca",
-      "Congreso Gerona",
-      "Congreso Granada",
-      "Congreso Guadalajara",
-      "Congreso Guipúzcoa",
-      "Congreso Huelva",
-      "Congreso Huesca",
-      "Congreso Jaén",
-      "Congreso León",
-      "Congreso Lérida",
-      "Congreso La Rioja",
-      "Congreso Lugo",
-      "Congreso Navarra",
-      "Congreso Orense",
-      "Congreso Asturias",
-      "Congreso Palencia",
-      "Congreso Salamanca",
-      "Congreso Santa Cruz de Tenerife",
-      "Congreso Cantabria",
-      "Congreso Segovia",
-      "Congreso Sevilla",
-      "Congreso Soria",
-      "Congreso Tarragona",
-      "Congreso Teruel",
-      "Congreso Toledo",
-      "Congreso Valencia",
-      "Congreso Valladolid",
-      "Congreso Vizcaya",
-      "Congreso Zamora",
-      "Congreso Zaragoza",
-      "Congreso Ceuta",
-      "Congreso Melilla"
+      "Nacional Albacete",
+      "Nacional Almería",
+      "Nacional Ávila",
+      "Nacional Badajoz",
+      "Nacional Burgos",
+      "Nacional Cáceres",
+      "Nacional Castellón",
+      "Nacional Ciudad Real",
+      "Nacional Córdoba",
+      "Nacional La Coruña",
+      "Nacional Cuenca",
+      "Nacional Gerona",
+      "Nacional Granada",
+      "Nacional Guadalajara",
+      "Nacional Guipúzcoa",
+      "Nacional Huelva",
+      "Nacional Huesca",
+      "Nacional Jaén",
+      "Nacional León",
+      "Nacional Lérida",
+      "Nacional La Rioja",
+      "Nacional Lugo",
+      "Nacional Navarra",
+      "Nacional Orense",
+      "Nacional Asturias",
+      "Nacional Palencia",
+      "Nacional Salamanca",
+      "Nacional Santa Cruz de Tenerife",
+      "Nacional Cantabria",
+      "Nacional Segovia",
+      "Nacional Sevilla",
+      "Nacional Soria",
+      "Nacional Tarragona",
+      "Nacional Teruel",
+      "Nacional Toledo",
+      "Nacional Valencia",
+      "Nacional Valladolid",
+      "Nacional Vizcaya",
+      "Nacional Zamora",
+      "Nacional Zaragoza",
+      "Nacional Ceuta",
+      "Nacional Melilla"
     ],
     "ready": 11,
     "ready_names": [
       "01 Andalucía",
-      "Congreso Álava",
-      "Congreso Alicante",
-      "Congreso Baleares",
-      "Congreso Barcelona",
-      "Congreso Cádiz",
-      "Congreso Madrid",
-      "Congreso Málaga",
-      "Congreso Murcia",
-      "Congreso Las Palmas",
-      "Congreso Pontevedra"
+      "Nacional Álava",
+      "Nacional Alicante",
+      "Nacional Baleares",
+      "Nacional Barcelona",
+      "Nacional Cádiz",
+      "Nacional Madrid",
+      "Nacional Málaga",
+      "Nacional Murcia",
+      "Nacional Las Palmas",
+      "Nacional Pontevedra"
     ],
     "pending": 0,
     "pending_names": [],
@@ -7907,11 +7930,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_badajoz",
-    "name": "Congreso Badajoz",
-    "display_name": "Congreso Badajoz",
-    "autonomous_community_code_ine": "C06",
-    "run_id": 41299475924,
+    "territory_id": "congreso_valencia",
+    "name": "Nacional Valencia",
+    "display_name": "Nacional Valencia",
+    "autonomous_community_code_ine": "C46",
+    "run_id": 41335936727,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -7924,43 +7947,43 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Álava",
+      "territory": "Nacional Álava",
       "territory_id": "congreso_alava",
       "autonomous_community_code_ine": "C01",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Alicante",
+      "territory": "Nacional Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Baleares",
+      "territory": "Nacional Baleares",
       "territory_id": "congreso_baleares",
       "autonomous_community_code_ine": "C07",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Barcelona",
+      "territory": "Nacional Barcelona",
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Cádiz",
+      "territory": "Nacional Cádiz",
       "territory_id": "congreso_cadiz",
       "autonomous_community_code_ine": "C11",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Congreso Huelva",
+      "territory": "Nacional Huelva",
       "territory_id": "congreso_huelva",
       "autonomous_community_code_ine": "C21",
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "Congreso Madrid",
+      "territory": "Nacional Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
       "action": "completar puerta de validación territorial"
@@ -7974,43 +7997,43 @@
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Álava",
+      "territory": "Nacional Álava",
       "territory_id": "congreso_alava",
       "autonomous_community_code_ine": "C01",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Alicante",
+      "territory": "Nacional Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Baleares",
+      "territory": "Nacional Baleares",
       "territory_id": "congreso_baleares",
       "autonomous_community_code_ine": "C07",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Barcelona",
+      "territory": "Nacional Barcelona",
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Cádiz",
+      "territory": "Nacional Cádiz",
       "territory_id": "congreso_cadiz",
       "autonomous_community_code_ine": "C11",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Huelva",
+      "territory": "Nacional Huelva",
       "territory_id": "congreso_huelva",
       "autonomous_community_code_ine": "C21",
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "Congreso Madrid",
+      "territory": "Nacional Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
       "action": "generar y validar distritos"
