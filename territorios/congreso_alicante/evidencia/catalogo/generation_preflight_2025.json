@@ -4,25 +4,25 @@
   "territory_id": "congreso_alicante",
   "territory_name": "Congreso Alicante",
   "edition": "2025",
-  "run_id": 41244466642,
-  "source_commit": "c355a50dd1800f9b9963a3a0c8bf226268a23b0f",
-  "decision": "ERROR_TECHNICAL",
-  "evaluation_status": "ERROR_TECHNICAL",
-  "stage": "PRE_GENERATION_PERSISTENCE",
+  "run_id": 41293667422,
+  "source_commit": "c0481c7cb4680c6632fcb81b1188656c12f76966",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 41244466642,
-    "artifact_name": "ddd-source-package-congreso_alicante-2025-41244466642",
-    "artifact_sha256": "6c3cb0855e1192c0814fde3cd9eef1b757f6e41d669f878dc001d59c34f0b24f",
-    "package_sha256": "ce58c01024304c9fcc95ddc21adbfae53c11a2557b67e420c6ff36e22e34b6ff",
-    "compatibility_identity_sha256": "242fe1010fe6594910fcc2c6e504060209e8a9aa07d0ec7a8e7e5e1875fb1e07",
-    "territorial_identity_sha256": "60e7748d678fc96fe5f0e2864facd79c7b4e4032736dc746c9a83597e6ba2649",
+    "run_id": 41293667422,
+    "artifact_name": "ddd-source-package-congreso_alicante-2025-41293667422",
+    "artifact_sha256": "90611e4837cf8f4be7af05481daee4d4241d20e0c9473e189e3260ccc8ed9c38",
+    "package_sha256": "6f824f3c1a8c73742b5a14a11c0a7cfea29b92637ef920066a0da82537b1c27e",
+    "compatibility_identity_sha256": "23c7207fc2f1b41c29e688a0e66975a7d32087e4d86f1e1fe53ac273c8c0a60a",
+    "territorial_identity_sha256": "931ad80d8e151fbbb19860955a017a24409375d78a554e1de22757317aade0cf",
     "population_year": 2023,
     "section_year": 2023
   },
   "effective_gate": {
     "allowed": false,
-    "status": "ERROR_TECHNICAL",
+    "status": "PENDING",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
