@@ -10,15 +10,15 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-01T10:42:20.283004+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-01T10:47:58.786632+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **44** | 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Congreso Albacete · Congreso Almería · Congreso Ávila · Congreso Cáceres · Congreso Castellón · Congreso Córdoba · Congreso Cuenca · Congreso Granada · Congreso Guadalajara · Congreso Huesca · Congreso Jaén · Congreso León · Congreso La Rioja · Congreso Lugo · Congreso Orense · Congreso Asturias · Congreso Salamanca · Congreso Santa Cruz de Tenerife · Congreso Segovia · Congreso Soria · Congreso Tarragona · Congreso Teruel · Congreso Toledo · Congreso Zamora · Congreso Ceuta · Congreso Melilla |
-| **Generación territorial validada** | 🟢 **54** | 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Congreso Albacete · Congreso Almería · Congreso Ávila · Congreso Cáceres · Congreso Castellón · Congreso Ciudad Real · Congreso Córdoba · Congreso La Coruña · Congreso Cuenca · Congreso Gerona · Congreso Granada · Congreso Guadalajara · Congreso Guipúzcoa · Congreso Huesca · Congreso Jaén · Congreso León · Congreso Lérida · Congreso La Rioja · Congreso Lugo · Congreso Navarra · Congreso Orense · Congreso Asturias · Congreso Palencia · Congreso Salamanca · Congreso Santa Cruz de Tenerife · Congreso Cantabria · Congreso Segovia · Congreso Sevilla · Congreso Soria · Congreso Tarragona · Congreso Teruel · Congreso Toledo · Congreso Zamora · Congreso Zaragoza · Congreso Ceuta · Congreso Melilla |
-| **Preparados para continuar** | 🔵 **15** | 01 Andalucía · Congreso Álava · Congreso Alicante · Congreso Badajoz · Congreso Baleares · Congreso Barcelona · Congreso Burgos · Congreso Cádiz · Congreso Madrid · Congreso Málaga · Congreso Murcia · Congreso Las Palmas · Congreso Pontevedra · Congreso Valladolid · Congreso Vizcaya |
+| **Cadena completa validada** | 🟢 **46** | 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Congreso Albacete · Congreso Almería · Congreso Ávila · Congreso Cáceres · Congreso Castellón · Congreso Córdoba · Congreso La Coruña · Congreso Cuenca · Congreso Granada · Congreso Guadalajara · Congreso Huesca · Congreso Jaén · Congreso León · Congreso La Rioja · Congreso Lugo · Congreso Orense · Congreso Asturias · Congreso Salamanca · Congreso Santa Cruz de Tenerife · Congreso Segovia · Congreso Soria · Congreso Tarragona · Congreso Teruel · Congreso Toledo · Congreso Zamora · Congreso Zaragoza · Congreso Ceuta · Congreso Melilla |
+| **Generación territorial validada** | 🟢 **57** | 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Congreso Albacete · Congreso Almería · Congreso Ávila · Congreso Burgos · Congreso Cáceres · Congreso Castellón · Congreso Ciudad Real · Congreso Córdoba · Congreso La Coruña · Congreso Cuenca · Congreso Gerona · Congreso Granada · Congreso Guadalajara · Congreso Guipúzcoa · Congreso Huesca · Congreso Jaén · Congreso León · Congreso Lérida · Congreso La Rioja · Congreso Lugo · Congreso Navarra · Congreso Orense · Congreso Asturias · Congreso Palencia · Congreso Salamanca · Congreso Santa Cruz de Tenerife · Congreso Cantabria · Congreso Segovia · Congreso Sevilla · Congreso Soria · Congreso Tarragona · Congreso Teruel · Congreso Toledo · Congreso Valladolid · Congreso Vizcaya · Congreso Zamora · Congreso Zaragoza · Congreso Ceuta · Congreso Melilla |
+| **Preparados para continuar** | 🔵 **12** | 01 Andalucía · Congreso Álava · Congreso Alicante · Congreso Badajoz · Congreso Baleares · Congreso Barcelona · Congreso Cádiz · Congreso Madrid · Congreso Málaga · Congreso Murcia · Congreso Las Palmas · Congreso Pontevedra |
 | **Validación pendiente** | 🟡 **2** | Congreso Huelva · Congreso Valencia |
 | **Pendientes o no incorporados** | ⚪/🔴 **0** | — |
 
@@ -49,21 +49,21 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062581404 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
 | **Congreso Álava** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41240137880 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294417893 · SUCCESS | — | — | — |
-| **Congreso Alicante** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41244466642 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **Congreso Alicante** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41293667422 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Almería** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295979497 · SUCCESS | — | — | — |
 | **Congreso Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41241662219 · SUCCESS | — | — | — |
 | **Congreso Badajoz** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41242287390 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Baleares** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41250230577 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Barcelona** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41244711464 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
-| **Congreso Burgos** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41240386898 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **Congreso Burgos** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41240386898 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
 | **Congreso Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294658600 · SUCCESS | — | — | — |
 | **Congreso Cádiz** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243953699 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Castellón** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295629673 · SUCCESS | — | — | — |
 | **Congreso Ciudad Real** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41291967967 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Córdoba** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296161083 · SUCCESS | — | — | — |
-| **Congreso La Coruña** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41243697404 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Congreso La Coruña** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296991598 · SUCCESS | — | — | — |
 | **Congreso Cuenca** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294075778 · SUCCESS | — | — | — |
-| **Congreso Gerona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41242933360 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
+| **Congreso Gerona** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41292216676 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Granada** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296546816 · SUCCESS | — | — | — |
 | **Congreso Guadalajara** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294169221 · SUCCESS | — | — | — |
 | **Congreso Guipúzcoa** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41292345223 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
@@ -82,7 +82,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296638877 · SUCCESS | — | — | — |
 | **Congreso Palencia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41291833956 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Las Palmas** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41250283081 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
-| **Congreso Pontevedra** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243452235 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **Congreso Pontevedra** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41293311168 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Congreso Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295298674 · SUCCESS | — | — | — |
 | **Congreso Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294259017 · FAILED | 05 · Publicación del Visor | ver log del run | — |
 | **Congreso Cantabria** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41292096436 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
@@ -93,10 +93,10 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Congreso Teruel** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250394074 · SUCCESS | — | — | — |
 | **Congreso Toledo** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296268720 · SUCCESS | — | — | — |
 | **Congreso Valencia** | 🟡 | 🟡 | 🟡 | ⚪ | ⚪ | Validación pendiente | 41293787892 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes territoriales |
-| **Congreso Valladolid** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41241636977 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
-| **Congreso Vizcaya** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41243819237 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **Congreso Valladolid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41241636977 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
+| **Congreso Vizcaya** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41293083498 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
 | **Congreso Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250479211 · SUCCESS | — | — | — |
-| **Congreso Zaragoza** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41243577758 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Congreso Zaragoza** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296815536 · SUCCESS | — | — | — |
 | **Congreso Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250564472 · SUCCESS | — | — | — |
 | **Congreso Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41293988485 · SUCCESS | — | — | — |
 
