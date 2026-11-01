@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:33:25.449058+00:00",
+  "generated_at": "2026-11-01T10:34:14.872307+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6489,12 +6489,12 @@
       "territory_id": "congreso_palencia",
       "name": "Congreso Palencia",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41291833956,
       "last_run": {
         "run_id": 41235453115,
         "status": "FAILED",
@@ -6503,7 +6503,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6514,13 +6514,26 @@
           "artifact_sha256": "0e91e7936db7665b77d9ee5a75b93d550115adaffb3581193c259df02af5912d",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_palencia",
+          "territory_name": "Congreso Palencia",
+          "edition": "2025",
+          "run_id": 41291833956,
+          "artifact_name": "ddd-state-41291833956-M06",
+          "artifact_sha256": "369db8a40faf06ef742443f1c3f7b17dfc7476d3614a5431b217d709658f4a5a",
+          "source_commit": "d36384b2a4b55254a9f205d38defbcefa2991b90",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_palencia/evidencia/generaciones_m06/41291833956.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C34",
       "display_name": "Congreso Palencia",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_las_palmas",
@@ -7528,7 +7541,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 51,
+    "territorial_validated": 52,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7568,6 +7581,7 @@
       "Congreso Navarra",
       "Congreso Orense",
       "Congreso Asturias",
+      "Congreso Palencia",
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Cantabria",
@@ -7582,7 +7596,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 51,
+    "validated": 52,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7622,6 +7636,7 @@
       "Congreso Navarra",
       "Congreso Orense",
       "Congreso Asturias",
+      "Congreso Palencia",
       "Congreso Salamanca",
       "Congreso Santa Cruz de Tenerife",
       "Congreso Cantabria",
@@ -7636,7 +7651,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 18,
+    "ready": 17,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7651,7 +7666,6 @@
       "Congreso Madrid",
       "Congreso Málaga",
       "Congreso Murcia",
-      "Congreso Palencia",
       "Congreso Las Palmas",
       "Congreso Pontevedra",
       "Congreso Valladolid",
