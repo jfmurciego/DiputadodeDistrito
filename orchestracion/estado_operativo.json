@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T10:23:49.581054+00:00",
+  "generated_at": "2026-11-01T10:28:55.607479+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -4964,20 +4964,20 @@
       "name": "Congreso Almería",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41242160179,
+      "run_id": 41295979497,
       "last_run": {
-        "run_id": 41242160179,
+        "run_id": 41295979497,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5018,7 +5018,7 @@
       },
       "autonomous_community_code_ine": "C04",
       "display_name": "Congreso Almería",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_avila",
@@ -5096,7 +5096,7 @@
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
       "stage": null,
@@ -5332,20 +5332,20 @@
       "name": "Congreso Castellón",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41241768943,
+      "run_id": 41295629673,
       "last_run": {
-        "run_id": 41241768943,
+        "run_id": 41295629673,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5386,7 +5386,7 @@
       },
       "autonomous_community_code_ine": "C12",
       "display_name": "Congreso Castellón",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_ciudad_real",
@@ -5530,7 +5530,18 @@
           "producer_manifest_path": "territorios/congreso_la_coruna/evidencia/generaciones_m06/41243697404.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_la_coruna",
+          "territory_name": "Congreso La Coruña",
+          "edition": "2025",
+          "run_id": 41296991598,
+          "artifact_name": "ddd-state-41296991598-M08",
+          "artifact_sha256": "5627622d20e08f4841eeb0504413d23903fc65d7e49fffd312e1222a25065dd6",
+          "source_commit": "9bf68825125d71234f1aef60dac452643f8eda1b",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C15",
       "display_name": "Congreso La Coruña",
@@ -5678,7 +5689,18 @@
           "producer_manifest_path": "territorios/congreso_granada/evidencia/generaciones_m06/41243199582.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_granada",
+          "territory_name": "Congreso Granada",
+          "edition": "2025",
+          "run_id": 41296546816,
+          "artifact_name": "ddd-state-41296546816-M08",
+          "artifact_sha256": "8c11f8c0f0d601e7bf990095840eec832aacdc875ec35ee38a9e47061eacef8b",
+          "source_commit": "ab674fb46fbf021b83a6101a9374907f6a6b53d5",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C18",
       "display_name": "Congreso Granada",
@@ -5749,12 +5771,12 @@
       "territory_id": "congreso_guipuzcoa",
       "name": "Congreso Guipúzcoa",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41292345223,
       "last_run": {
         "run_id": 41242557327,
         "status": "FAILED",
@@ -5763,7 +5785,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5774,13 +5796,26 @@
           "artifact_sha256": "a976165325eab1d3c50f8679127478846dd4d974d87cd51b49ac27361cdfa39e",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_guipuzcoa",
+          "territory_name": "Congreso Guipúzcoa",
+          "edition": "2025",
+          "run_id": 41292345223,
+          "artifact_name": "ddd-state-41292345223-M06",
+          "artifact_sha256": "fbad9de7d0e745ca1bb38acaf4d3bb3f45ae58fd0df32ecabd904e1623839368",
+          "source_commit": "c9406033181dad1a5a2ed2b0b5975ee6a514065d",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_guipuzcoa/evidencia/generaciones_m06/41292345223.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C20",
       "display_name": "Congreso Guipúzcoa",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_huelva",
@@ -5878,20 +5913,20 @@
       "name": "Congreso Jaén",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41241896061,
+      "run_id": 41295799269,
       "last_run": {
-        "run_id": 41241896061,
+        "run_id": 41295799269,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "executed"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5932,7 +5967,7 @@
       },
       "autonomous_community_code_ine": "C23",
       "display_name": "Congreso Jaén",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_leon",
@@ -6407,7 +6442,18 @@
           "producer_manifest_path": "territorios/congreso_asturias/evidencia/generaciones_m06/41243326722.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_asturias",
+          "territory_name": "Congreso Asturias",
+          "edition": "2025",
+          "run_id": 41296638877,
+          "artifact_name": "ddd-state-41296638877-M08",
+          "artifact_sha256": "c4338b5ecf023e36149ed065c1937d74bdb410baeb57976eadc80d33ad16825f",
+          "source_commit": "a04dfd2cfd7639e8878e5d05bf29ee289df44c6a",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C33",
       "display_name": "Congreso Asturias",
@@ -6657,11 +6703,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41292096436,
       "last_run": {
-        "run_id": 41242029481,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41292096436,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "alcance territorial solicitado",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -6873,20 +6919,20 @@
       "name": "Congreso Tarragona",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41243062797,
+      "run_id": 41296449975,
       "last_run": {
-        "run_id": 41243062797,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "alcance territorial solicitado",
+        "run_id": 41296449975,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "05 · Publicación del Visor",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6927,7 +6973,7 @@
       },
       "autonomous_community_code_ine": "C43",
       "display_name": "Congreso Tarragona",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_teruel",
@@ -7260,7 +7306,18 @@
           "producer_manifest_path": "territorios/congreso_zaragoza/evidencia/generaciones_m06/41243577758.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_zaragoza",
+          "territory_name": "Congreso Zaragoza",
+          "edition": "2025",
+          "run_id": 41296815536,
+          "artifact_name": "ddd-state-41296815536-M08",
+          "artifact_sha256": "753bc5a67e0ef638b4b39d9c188d18d61571cde4d4a704d4db1011dca0bda5f7",
+          "source_commit": "b3899d1bda1519b147a0c34642eec79f074d8ff8",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C50",
       "display_name": "Congreso Zaragoza",
@@ -7390,7 +7447,7 @@
     }
   ],
   "kpis": {
-    "complete": 36,
+    "complete": 40,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7411,11 +7468,14 @@
       "18 Ceuta",
       "19 Melilla",
       "Congreso Albacete",
+      "Congreso Almería",
       "Congreso Ávila",
       "Congreso Cáceres",
+      "Congreso Castellón",
       "Congreso Cuenca",
       "Congreso Guadalajara",
       "Congreso Huesca",
+      "Congreso Jaén",
       "Congreso León",
       "Congreso La Rioja",
       "Congreso Lugo",
@@ -7424,12 +7484,13 @@
       "Congreso Santa Cruz de Tenerife",
       "Congreso Segovia",
       "Congreso Soria",
+      "Congreso Tarragona",
       "Congreso Teruel",
       "Congreso Zamora",
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "territorial_validated": 48,
+    "territorial_validated": 49,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7459,6 +7520,7 @@
       "Congreso Cuenca",
       "Congreso Granada",
       "Congreso Guadalajara",
+      "Congreso Guipúzcoa",
       "Congreso Huesca",
       "Congreso Jaén",
       "Congreso León",
@@ -7480,7 +7542,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "validated": 48,
+    "validated": 49,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7510,6 +7572,7 @@
       "Congreso Cuenca",
       "Congreso Granada",
       "Congreso Guadalajara",
+      "Congreso Guipúzcoa",
       "Congreso Huesca",
       "Congreso Jaén",
       "Congreso León",
@@ -7531,7 +7594,7 @@
       "Congreso Ceuta",
       "Congreso Melilla"
     ],
-    "ready": 21,
+    "ready": 20,
     "ready_names": [
       "01 Andalucía",
       "Congreso Álava",
@@ -7543,7 +7606,6 @@
       "Congreso Cádiz",
       "Congreso Ciudad Real",
       "Congreso Gerona",
-      "Congreso Guipúzcoa",
       "Congreso Lérida",
       "Congreso Madrid",
       "Congreso Málaga",
@@ -7564,13 +7626,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_leon",
-    "name": "Congreso León",
-    "display_name": "Congreso León",
-    "autonomous_community_code_ine": "C24",
-    "run_id": 41295452035,
+    "territory_id": "congreso_tarragona",
+    "name": "Congreso Tarragona",
+    "display_name": "Congreso Tarragona",
+    "autonomous_community_code_ine": "C43",
+    "run_id": 41296449975,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -7591,12 +7653,6 @@
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Congreso Almería",
-      "territory_id": "congreso_almeria",
-      "autonomous_community_code_ine": "C04",
-      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Congreso Badajoz",
@@ -7620,6 +7676,12 @@
       "territory": "Congreso Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Congreso Cádiz",
+      "territory_id": "congreso_cadiz",
+      "autonomous_community_code_ine": "C11",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -7643,12 +7705,6 @@
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Congreso Almería",
-      "territory_id": "congreso_almeria",
-      "autonomous_community_code_ine": "C04",
-      "action": "preparar fuentes electorales"
-    },
-    {
       "territory": "Congreso Badajoz",
       "territory_id": "congreso_badajoz",
       "autonomous_community_code_ine": "C06",
@@ -7670,6 +7726,12 @@
       "territory": "Congreso Burgos",
       "territory_id": "congreso_burgos",
       "autonomous_community_code_ine": "C09",
+      "action": "generar y validar distritos"
+    },
+    {
+      "territory": "Congreso Cádiz",
+      "territory_id": "congreso_cadiz",
+      "autonomous_community_code_ine": "C11",
       "action": "generar y validar distritos"
     }
   ]
