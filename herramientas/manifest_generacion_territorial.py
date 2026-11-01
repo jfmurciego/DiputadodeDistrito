@@ -2,14 +2,16 @@
 """Serializa y verifica linaje durable de un M06 emitido por el workflow 02.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Manifiesto durable M06 independiente
-FECHA: 2026-10-26
+FECHA: 2026-11-01
 ESTADO: candidato
 QUÉ HACE: enlaza contrato, ejecución, inputs, M05, certificación M06 y referencias de artefactos.
-CAMBIOS: añade un manifiesto M06 posterior al empaquetado, sin incluirlo en el artefacto que acredita.
+CAMBIOS: 1.0.1: artifact_ref deduplica por id; al reanudar desde M05 el índice trae el mismo artefacto M04 como
+  «checkpoint» y como «m04» (Congreso Álava, run 41335088773). Ids distintos con el mismo nombre siguen fallando.
+  1.0.0: añade un manifiesto M06 posterior al empaquetado, sin incluirlo en el artefacto que acredita.
 MOTIVO: conservar linaje durable cuando la generación se ejecuta por 02 y no por 00.
-ANTERIOR: herramienta nueva; predecesor histórico no recuperado.
+ANTERIOR: legacy/herramientas/manifest_generacion_territorial_v1.0.0_20261101.py
 """
 from __future__ import annotations
 
@@ -84,6 +86,13 @@ def artifact_ref(index: dict[str, Any], *, run_id: int, name: str) -> dict[str, 
         and int(item.get("workflow_run_id") or item.get("run_id") or 0) == run_id
         and str(item.get("name") or "") == name
     ]
+    unique: dict[str, dict[str, Any]] = {}
+    for item in matches:
+        key = str(item.get("id") or item.get("artifact_id") or "")
+        if key and key in unique and unique[key] != item:
+            raise GenerationManifestError(f"Artefacto {name} en run {run_id}: id {key} repetido con datos distintos")
+        unique.setdefault(key or f"sin-id-{len(unique)}", item)
+    matches = list(unique.values())
     if len(matches) != 1:
         raise GenerationManifestError(f"Artefacto {name} en run {run_id}: se esperaba una coincidencia, hay {len(matches)}")
     item = matches[0]
