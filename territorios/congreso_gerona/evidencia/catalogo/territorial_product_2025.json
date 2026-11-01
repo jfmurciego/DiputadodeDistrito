@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_gerona",
+  "territory_name": "Congreso Gerona",
+  "edition": "2025",
+  "run_id": 41292216676,
+  "artifact_name": "ddd-state-41292216676-M06",
+  "artifact_sha256": "8882628212a85a18246da7a8665ef4c83137b0048571e9ea04c4358e9a72bd50",
+  "source_commit": "a12191afc1904c7f180b928c4fc4db9478c18d50",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_gerona/evidencia/generaciones_m06/41292216676.json"
+}

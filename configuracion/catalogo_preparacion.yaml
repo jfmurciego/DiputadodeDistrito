@@ -1351,12 +1351,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41292216676
+        stage: M06
       preparation_evidence:
         run_id: 41292216676
         artifact_name: ddd-source-package-congreso_gerona-2025-41292216676
@@ -1373,6 +1375,7 @@ territories:
       evidence:
         electoral_source: territorios/congreso_gerona/evidencia/fuentes_electorales/2025/a03b34676e4217823ee656f307a84c832a305ab6db19461e28c043a60e80bc8f/41239820081/receipt.json
         generation_preflight: territorios/congreso_gerona/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_gerona/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_granada
   name: Congreso Granada

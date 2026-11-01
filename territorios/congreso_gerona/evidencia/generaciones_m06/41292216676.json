@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13080386535,
+      "artifact_name": "ddd-audit-41292216676",
+      "artifact_sha256": "ae3da7200439597ff542a482646692cbc5b869327e9fa9f901b711f045b16625",
+      "run_id": 41292216676,
+      "size_in_bytes": 13609
+    },
+    "m04": {
+      "artifact_id": 13079289939,
+      "artifact_name": "ddd-state-41292216676-M04",
+      "artifact_sha256": "ef26a014a03b32c6d0b22f69ddffb9dcc9d1a227e10012619c09265b245ee845",
+      "run_id": 41292216676,
+      "size_in_bytes": 79281594
+    },
+    "m05": {
+      "artifact_id": 13079709109,
+      "artifact_name": "ddd-state-41292216676-M05",
+      "artifact_sha256": "8026dc3d63e0bd7dd0e6d51b0e3ed829da5b0918ada76c61e832fffd6767ab35",
+      "run_id": 41292216676,
+      "size_in_bytes": 80300767
+    },
+    "m06": {
+      "artifact_id": 13079703028,
+      "artifact_name": "ddd-state-41292216676-M06",
+      "artifact_sha256": "8882628212a85a18246da7a8665ef4c83137b0048571e9ea04c4358e9a72bd50",
+      "run_id": 41292216676,
+      "size_in_bytes": 81586266
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "eb430c98a48080c9d3174fca7242e216ad0ff1d1871938885ae399a8fccaa8be",
+        "size_in_bytes": 475
+      },
+      "congreso_gerona_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "480375263d15193dff65c606d59fa96a23e247eff82346b1e3b6883855ea6792",
+        "size_in_bytes": 182393
+      },
+      "optimization_execution.json": {
+        "sha256": "3384882b0b2ce11ec1941ed41b2cc8a67060354850d1dd5af822c1505b34e6e2",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "3fe61fbe9b4eac5534757aaffba094b03f7b12cd971c8afb9d74a7a4ffbff901",
+        "size_in_bytes": 1306
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "3fe61fbe9b4eac5534757aaffba094b03f7b12cd971c8afb9d74a7a4ffbff901",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_gerona/config/congreso_gerona_2025.yaml",
+    "sha256": "80d603c85017286016559249365edd7691b205d6c8eac7a3ed992f61c4f22c05"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "b28e877841ac5634d3c0553cc2d454382d31cc98f671a51c9be8f02fe6a0a275",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "a12191afc1904c7f180b928c4fc4db9478c18d50",
+    "edition": "2025",
+    "territory_id": "congreso_gerona",
+    "territory_name": "Congreso Gerona",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41292216676,
+    "workflow_sha": "d73703d1c87a46762a874f2b3e4a008649963349"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13079289939,
+      "artifact_name": "ddd-state-41292216676-M04",
+      "artifact_sha256": "ef26a014a03b32c6d0b22f69ddffb9dcc9d1a227e10012619c09265b245ee845",
+      "run_id": 41292216676,
+      "size_in_bytes": 79281594
+    },
+    "source_manifest_sha256": "be426b33eccba05b8fd5de3b3b6d762641af8b7338ad4c650edc6e594bc83d33",
+    "source_package_artifact": {
+      "artifact_id": 13078853372,
+      "artifact_name": "ddd-source-package-congreso_gerona-2025-41292216676",
+      "artifact_sha256": "ca048f3a17c35e0bd7c58b57957eee38d9a58b9df34fc7f868cd15523c7915e6",
+      "run_id": 41292216676,
+      "size_in_bytes": 77228269
+    }
+  },
+  "manifest_sha256": "e3baeb0601484cb2e3172dd53fc9b14b6e91e89f85a209d521d114ed89b0ec23",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
