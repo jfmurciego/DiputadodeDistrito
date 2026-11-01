@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13079639267,
+      "artifact_name": "ddd-audit-41293199718",
+      "artifact_sha256": "aa4e1b8308ea5bbe5461a070d10050d0737b8012336a6444c87d7439ea71be1a",
+      "run_id": 41293199718,
+      "size_in_bytes": 3821
+    },
+    "m04": {
+      "artifact_id": 13080601148,
+      "artifact_name": "ddd-state-41293199718-M04",
+      "artifact_sha256": "43fe632ea57b9011ae95cc1d4e873bd1355963ab391bda770696c84cb2e60afc",
+      "run_id": 41293199718,
+      "size_in_bytes": 79354293
+    },
+    "m05": {
+      "artifact_id": 13080750956,
+      "artifact_name": "ddd-state-41293199718-M05",
+      "artifact_sha256": "34f7f8a372a875f28771397bd14ddf9d0f6d19a6cc1ce64f6031355c0e60afa9",
+      "run_id": 41293199718,
+      "size_in_bytes": 80368057
+    },
+    "m06": {
+      "artifact_id": 13079988396,
+      "artifact_name": "ddd-state-41293199718-M06",
+      "artifact_sha256": "d7535c738bf20ae206d2dfdbb72272fb90d8c99ce8cd1d277f84c4771fb409aa",
+      "run_id": 41293199718,
+      "size_in_bytes": 81682813
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "68d68b178440d02f89c53edcfe427ee6f04f3864948b3954a4dc8531280eff4e",
+        "size_in_bytes": 478
+      },
+      "congreso_badajoz_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "458501fd41090484d37e734a453d9a98b8f6a833300ff0618f3990bed6d38add",
+        "size_in_bytes": 9694
+      },
+      "optimization_execution.json": {
+        "sha256": "79cc33736334d096c20e07b1bcefd7d1da3e59b8ad10b2eed16522092a654972",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "485d02a63ee69da8dfd0773e04e5f76eb52e8c9677829c8d29aa92f755d7175a",
+        "size_in_bytes": 1312
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "485d02a63ee69da8dfd0773e04e5f76eb52e8c9677829c8d29aa92f755d7175a",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_badajoz/config/congreso_badajoz_2025.yaml",
+    "sha256": "bd34b5eea795abec7dc1ba4c133b88ad648059154eda66d6936d91b197686ee6"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "21730d930087c426d995fdcac01f98c4a4dc8236c42c7678afc1e9d49512373b",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "0a2cae4a3706c9d94d639f8066c2cacdc4cd73d2",
+    "edition": "2025",
+    "territory_id": "congreso_badajoz",
+    "territory_name": "Congreso Badajoz",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41293199718,
+    "workflow_sha": "ef2db7b883cadb5675ccd98429cbf1a4e1c781b8"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13080601148,
+      "artifact_name": "ddd-state-41293199718-M04",
+      "artifact_sha256": "43fe632ea57b9011ae95cc1d4e873bd1355963ab391bda770696c84cb2e60afc",
+      "run_id": 41293199718,
+      "size_in_bytes": 79354293
+    },
+    "source_manifest_sha256": "2a5fa60647f92deb8942c582661305c202a73f69eaef06e51ab8f5666d9a2725",
+    "source_package_artifact": {
+      "artifact_id": 13079340736,
+      "artifact_name": "ddd-source-package-congreso_badajoz-2025-41293199718",
+      "artifact_sha256": "c50556594ac26817c48ec99121976fd46f0149812e5399dae465f996457c4509",
+      "run_id": 41293199718,
+      "size_in_bytes": 77311879
+    }
+  },
+  "manifest_sha256": "5abf0395dd07a57959450a3208fdebd697a36fa0dca4a14cc2ebacc1aa7cfaa5",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
