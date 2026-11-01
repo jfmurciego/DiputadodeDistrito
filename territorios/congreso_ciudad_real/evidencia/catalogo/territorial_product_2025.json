@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_ciudad_real",
+  "territory_name": "Congreso Ciudad Real",
+  "edition": "2025",
+  "run_id": 41291967967,
+  "artifact_name": "ddd-state-41291967967-M06",
+  "artifact_sha256": "e88160db8162166c0b92f3ba962f532abf30f5b7945cfaf14a5c869831a1ef3c",
+  "source_commit": "3eb5fecfa151eed489acfff55adcc2c0a70cee16",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_ciudad_real/evidencia/generaciones_m06/41291967967.json"
+}

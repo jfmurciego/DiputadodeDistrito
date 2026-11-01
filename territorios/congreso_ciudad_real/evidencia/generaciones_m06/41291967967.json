@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13080385103,
+      "artifact_name": "ddd-audit-41291967967",
+      "artifact_sha256": "b83755277c78dbdbfc60fe6386e52c16e2a5cf132d2eb7ffd0c7c607e5193eda",
+      "run_id": 41291967967,
+      "size_in_bytes": 3322
+    },
+    "m04": {
+      "artifact_id": 13079985960,
+      "artifact_name": "ddd-state-41291967967-M04",
+      "artifact_sha256": "fc435d9e5fba7c5b76b76161425911805e1a73cf2c398ad0b8e6bb91b9d5b31a",
+      "run_id": 41291967967,
+      "size_in_bytes": 78563356
+    },
+    "m05": {
+      "artifact_id": 13080031044,
+      "artifact_name": "ddd-state-41291967967-M05",
+      "artifact_sha256": "158710c77907ad6ed8bb539ecdc858943f87c05be812f1f3e9bf179b41c3f535",
+      "run_id": 41291967967,
+      "size_in_bytes": 79462272
+    },
+    "m06": {
+      "artifact_id": 13079309460,
+      "artifact_name": "ddd-state-41291967967-M06",
+      "artifact_sha256": "e88160db8162166c0b92f3ba962f532abf30f5b7945cfaf14a5c869831a1ef3c",
+      "run_id": 41291967967,
+      "size_in_bytes": 80529573
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "9472d747d0db84fd6aa69a27d6a654c239d4627655b5441d961848425c2c2072",
+        "size_in_bytes": 490
+      },
+      "congreso_ciudad_real_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "f9b690e6041d91e33ab8f726e7a969eb0cbc1c5fdbe850e56c4e2b05d6663c85",
+        "size_in_bytes": 5367
+      },
+      "optimization_execution.json": {
+        "sha256": "11771032a9eb43be98414db064d4cf35b7a84ee824bdacb78569ce4e67403271",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "02cf78f23d7e9fe53a7fc32e690ccf6abda4ef9cc13d281d92223a11a6f36356",
+        "size_in_bytes": 1336
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "02cf78f23d7e9fe53a7fc32e690ccf6abda4ef9cc13d281d92223a11a6f36356",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_ciudad_real/config/congreso_ciudad_real_2025.yaml",
+    "sha256": "6925d4ed1a5c9f5e53d7b74dff9f920bac262e041cf79f0d2b0456cd416bbfab"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "468e7dc086f5f2adebd55435b4dd9e7de73624e9b3e33a3cfbc36ce93b01c1e6",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "3eb5fecfa151eed489acfff55adcc2c0a70cee16",
+    "edition": "2025",
+    "territory_id": "congreso_ciudad_real",
+    "territory_name": "Congreso Ciudad Real",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41291967967,
+    "workflow_sha": "d73703d1c87a46762a874f2b3e4a008649963349"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13079985960,
+      "artifact_name": "ddd-state-41291967967-M04",
+      "artifact_sha256": "fc435d9e5fba7c5b76b76161425911805e1a73cf2c398ad0b8e6bb91b9d5b31a",
+      "run_id": 41291967967,
+      "size_in_bytes": 78563356
+    },
+    "source_manifest_sha256": "bf8a0c448e104ce511f962ee14ae213e790e6b4ce38658ebc18ea30dfdff8abb",
+    "source_package_artifact": {
+      "artifact_id": 13078932537,
+      "artifact_name": "ddd-source-package-congreso_ciudad_real-2025-41291967967",
+      "artifact_sha256": "9214781fd49abe2893797b721cf53f5b09de138a7fc327eb9f10086a22bca558",
+      "run_id": 41291967967,
+      "size_in_bytes": 76753560
+    }
+  },
+  "manifest_sha256": "d12b5f6381577f2be0480948fe68810bd9c4a0595ce6027117f2016504d6dcb5",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
