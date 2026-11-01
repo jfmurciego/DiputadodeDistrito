@@ -1,0 +1,90 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_lugo",
+  "territory_name": "Congreso Lugo",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+  "workflow_run_id": 41294985244,
+  "source_sha": "da085b8b9801466b25574bb61d4dbc97f8c8579f",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "failed_phases": [
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41240766116,
+      "artifact": "ddd-source-package-congreso_lugo-2025-41240766116",
+      "artifact_digest": "sha256:e28b6ebf05ebae54196f3f44e8eb2d0d10c0efb7ed035cedc4f559bb83f6ea65",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41240766116,
+      "artifact": "ddd-state-41240766116-M06",
+      "artifact_digest": "sha256:5333bbf941e9eeb1185142bc6df04a8f2c569ab720c6a525c4880a398a409f50",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41239865976,
+      "artifact": "ddd-electoral-package-congreso_lugo-2025-41239865976",
+      "artifact_digest": "sha256:8120a098312129999bfd1bd7c0d6bb6618f36dbf106c2490edb14b90be003af3",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 41294985244,
+      "artifact": "ddd-state-41294985244-M08",
+      "artifact_digest": "sha256:4f16eb1e578a4ff4c4937f3a7750576e7f2456a21f4fb906e2d3a5a2ae9931b2",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": 41294985244,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-01T10:12:12.822575+00:00"
+}
