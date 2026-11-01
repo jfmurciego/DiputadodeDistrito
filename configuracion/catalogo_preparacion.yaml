@@ -1868,21 +1868,20 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41293548832
-        artifact_name: ddd-source-package-congreso_murcia-2025-41293548832
-        artifact_sha256: 19411df3c4ebe9135d18e6d29d4902eb472d174274a5af09c2baa6f1ec345cc6
+        run_id: 41335095516
+        artifact_name: ddd-source-package-congreso_murcia-2025-41335095516
+        artifact_sha256: 2ea974b9c2ed1ba65c1b5ea0b4925764a7328ba1715a6a87cd40c1d6bf50bab1
         package_sha256: fb7f6046fdfa26839483d04c0c74564d9b7196f495805c797e28355dfffbd757
-        receipt_path: territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a/41293548832/receipt.json
+        receipt_path: territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a/41335095516/receipt.json
         territorial_identity_sha256: f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a
         compatibility_report_sha256: 4846ba2292595f7bb7ddd3acfedba7cd7847d771531964ee2812777df942366b
         compatibility_identity_sha256: 365fb95eed56785fe3f8e2cc462eba63ede3564d9d3856d04d8be7cb946008e4
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
+        source_commit: f0444e2d77fcf7182b9f6b45624c0c2e839d01dd
       evidence:
         electoral_source: territorios/congreso_murcia/evidencia/fuentes_electorales/2025/eda6e4cc001fbf5c746bd5d96871da57fc2176f2ef062e05e9f622b52d7a0f10/41239882418/receipt.json
-        generation_preflight: territorios/congreso_murcia/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: congreso_navarra
   name: Congreso Navarra
