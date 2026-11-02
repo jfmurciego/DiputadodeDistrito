@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.79
+Versión: 1.0.80
 Fecha: 2026-11-02
-Alcance: T-29 — ensemble: aristas por esquina fuera del grafo de ReCom
+Alcance: T-31 — ensemble mide fronteras en metros
 Estado: candidato
-Cambios/motivo: ddd_ensemble.graph_preparation y topology.prune_weak_adjacencies (Salamanca)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.78_t29_20261102.md
+Cambios/motivo: geometrías en grados reproyectadas a topology.working_crs antes de medir shared_border_m
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.79_t31_20261102.md
 -->
+
+## 2026-11-02 — T-31 — Ensemble: fronteras medidas en metros
+
+Causa del fallo del piloto de Salamanca (intentos 1 y 2): M01 y el M05 de los contratos Congreso están en EPSG:4326 (grados) y el ensemble medía `shared_border_m`
+en las unidades del archivo, así que el 100 % de las aristas parecía <1 m (medido en Madrid, Málaga, Murcia, Barcelona y Alicante: reproyectadas, solo 0–0,07 % caen
+bajo 1 m). `m05_gerrychain_engine` 1.2.0: `adapt_inputs(working_crs=…)` reproyecta a metros cuando el GeoJSON es geográfico (un GeoJSON sin `crs` con coordenadas fuera de
+rango geográfico, o con CRS proyectado, no se toca: Aragón idéntico); `graph_preparation` 1.1.0 y `runner.adapt` pasan `topology.working_crs`. Se mantiene el umbral de 1 m y la guarda
+de componentes. Pruebas en `tests/test_ensemble_grafo_aristas_debiles.py` (rojo en grados, verde en metros, datos proyectados idénticos, working_crs geográfico rechazado).
 
 ## 2026-11-02 — T-29 — Ensemble: aristas por esquina fuera del grafo de ReCom
 
