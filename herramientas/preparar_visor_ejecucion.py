@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.5.2
+VERSIÓN: 1.6.0
+CAMBIOS 1.6.0 (T-27 fase a): productos registrados `scenario_m06`/`scenario_m08` (escenarios de otro algoritmo) se materializan en data/results/<territorio>/<scenario_id>/ y se ordenan tras los canónicos.
+ANTERIOR 1.5.2: legacy/herramientas/preparar_visor_ejecucion_v1.5.2_20261102.py
 CAMBIOS 1.5.2: nombres públicos «Nacional …» en el visor (T-05); territory_id no cambia.
 CAMBIOS 1.5.1: las provincias del Congreso (pilot_territories) no tienen CODAUTO; se ordenan por su
   pilot_code (C22) detrás de las 19 autonómicas. Run 41194447427 (Huesca): KeyError en _decorate_and_sort.
@@ -317,6 +319,11 @@ def add_registered_product(entry: dict, repository_root: Path, materialized_root
         stage = "m06" if kind == "canonical_m06" else "m08"
         dst = site / "data" / "results" / territory_id / run_id / f"{stage}.geojson"
         observed = write_geojson_from_zip(src, dst)
+    elif kind in {"scenario_m06", "scenario_m08"}:
+        scenario_id = str(entry["scenario_id"])
+        stage = "m06" if kind == "scenario_m06" else "m08"
+        dst = site / "data" / "results" / territory_id / f"scenario-{scenario_id}" / f"{stage}.geojson"
+        observed = write_geojson_from_zip(src, dst)
     else:
         raise ValueError(f"{entry['id']}: kind no soportado para producto: {kind}")
 
@@ -353,7 +360,7 @@ def add_registered_ensemble(entry: dict, materialized_root: Path, site: Path, re
 
 def _decorate_and_sort(results: list[dict], repository_root: Path) -> list[dict]:
     catalog = master_index(repository_root / "configuracion/catalogo_territorios_espana_2025.yaml")
-    priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
+    priority = {"canonical_m08": 0, "canonical_m06": 1, "scenario_m08": 2, "scenario_m06": 3, "ensemble_candidate": 4, "static": 5}
     for item in results:
         canonical = catalog.get(str(item.get("territory_id") or ""))
         if canonical is None:

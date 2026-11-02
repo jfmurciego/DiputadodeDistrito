@@ -1,17 +1,25 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.86
+Versión: 1.0.84
 Fecha: 2026-11-02
-Alcance: PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-33
+Alcance: PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-34
 Estado: candidato
 Cambios/motivo: solo documentación
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.82_plan10_20261102.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.83_plan10_20261102.md
 -->
 
 ## 2026-11-02 — PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-33
 
 Solo documentación. `docs/PLAN.md`: estado 47/52 (Cádiz, Baleares y Las Palmas completas), Murcia con contradicción probada y la exención de Águilas (30003) aprobada pero no aplicada hasta que el chat de
 motor resuelva Alcantarilla/Beniel, Madrid, Málaga, Barcelona y Alicante como fallo de búsqueda del motor, T-20 resuelta, tareas T-21 a T-34 (T-27 a, b y c con sus PR #413 a #415) y piloto de ensemble de Salamanca.
+
+## 2026-11-02 — T-27 (a) — Registro del visor: escenarios no canónicos
+
+`registro_publicaciones_visor` 1.1.0 y `preparar_visor_ejecucion` 1.6.0. Kinds nuevos `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy` (Canónico, GerryChain, GerryChain 25,
+GerryChain 50), `scenario_kind: alternative` y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, solo true). A lo sumo una entrada `canonical: true` por territorio y
+familia; un `scenario_m08` exige el `scenario_m06` del mismo `scenario_id`; la identidad de un escenario es territorio+kind+scenario_id (no se sobrescriben). El preparador
+materializa los escenarios en `data/results/<territorio>/scenario-<scenario_id>/` y los ordena tras los canónicos. Pruebas: `tests/test_registro_escenarios.py` (6). El
+registro vigente `orchestracion/publicaciones_visor.json` valida sin cambios. Sigue la fase (b), el selector de `app.js`.
 
 ## 2026-11-02 — T-33 — Ensemble de Salamanca: piezas de secciones MultiPolygon
 
