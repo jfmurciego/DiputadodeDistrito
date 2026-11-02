@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.80
+Versión: 1.0.81
 Fecha: 2026-11-02
-Alcance: T-31 — ensemble mide fronteras en metros
+Alcance: T-33 — Salamanca une las piezas de secciones MultiPolygon en el ensemble
 Estado: candidato
-Cambios/motivo: geometrías en grados reproyectadas a topology.working_crs antes de medir shared_border_m
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.79_t31_20261102.md
+Cambios/motivo: preserve_atomic_multipart_sections=true en configuracion/ensemble/congreso_salamanca.json
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.80_t33_20261102.md
 -->
+
+## 2026-11-02 — T-33 — Ensemble de Salamanca: piezas de secciones MultiPolygon
+
+Intento 3 del piloto (run 41518377027): los 10 perfiles fallaban con `geometric_contiguity:1, geometric_contiguity:2`. La auditoría M06 acepta dos enlaces entre
+componentes de un distrito (ATOMIC_MULTIPART y GOVERNED_BRIDGE) y Salamanca no tiene puentes (`topology_bridges: []`); la configuración del ensemble llevaba
+`preserve_atomic_multipart_sections: false` (Aragón: true), de modo que las piezas de una misma sección MultiPolygon quedaban como componentes sueltas. Ahora es `true`:
+el ensemble aplica la misma regla que M06. Pruebas en `tests/test_ensemble_multipart_salamanca.py` (sin la opción, la pieza suelta rompe la contigüidad geométrica; con ella no).
 
 ## 2026-11-02 — T-31 — Ensemble: fronteras medidas en metros
 
