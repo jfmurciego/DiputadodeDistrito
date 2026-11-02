@@ -4,6 +4,13 @@
 Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
+
+VERSIÓN: 1.1.0 · FECHA: 2026-11-02 · ESTADO: candidato
+CAMBIOS 1.1.0 (T-27 fase a): escenarios no canónicos. Kinds `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy`,
+  `scenario_kind` ("alternative") y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, debe ser true).
+  A lo sumo una entrada `canonical: true` por territorio y familia (m06/m08); un `scenario_m08` exige el `scenario_m06`
+  del mismo `scenario_id`. El registro es de solo adición: la identidad de un escenario es territorio+kind+scenario_id.
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.0.0_20261102.py
 """
 from __future__ import annotations
 
@@ -25,7 +32,10 @@ from herramientas.preparar_visor_ejecucion import (
 SCHEMA = "ddd.viewer-publication-registry/2.0"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 ALLOWED_SOURCES = {"release_asset", "repository_blob"}
-PRODUCT_KINDS = {"static", "canonical_m06", "canonical_m08"}
+SCENARIO_KINDS = {"scenario_m06", "scenario_m08"}
+CANONICAL_KINDS = {"canonical_m06", "canonical_m08"}
+PRODUCT_KINDS = {"static"} | CANONICAL_KINDS | SCENARIO_KINDS
+STRATEGIES = {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}
 
 
 def safe_id(value: str) -> str:
@@ -60,6 +70,8 @@ def identity_key(entry: dict) -> tuple[str, str, str]:
     kind = str(entry.get("kind") or "")
     if kind == "ensemble":
         identity = str(entry.get("ensemble_id") or "")
+    elif kind in SCENARIO_KINDS:
+        identity = str(entry.get("scenario_id") or "")
     else:
         identity = str(entry.get("run_id") or entry.get("execution_id") or "")
     return territory, kind, identity
@@ -93,6 +105,17 @@ def _validate_entry(entry: dict) -> None:
     elif kind in PRODUCT_KINDS:
         if not (entry.get("run_id") or entry.get("execution_id")):
             raise ValueError(f"{entry['id']}: ejecución obligatoria")
+        if kind in SCENARIO_KINDS:
+            if not entry.get("scenario_id"):
+                raise ValueError(f"{entry['id']}: scenario_id obligatorio")
+            if entry.get("strategy") not in STRATEGIES:
+                raise ValueError(f"{entry['id']}: strategy no admitida: {entry.get('strategy')}")
+            if entry.get("scenario_kind") != "alternative":
+                raise ValueError(f"{entry['id']}: scenario_kind debe ser alternative")
+            if entry.get("canonical") not in (None, False):
+                raise ValueError(f"{entry['id']}: un escenario no puede ser canónico")
+        elif entry.get("canonical") not in (None, True):
+            raise ValueError(f"{entry['id']}: canonical solo puede ser true en los kinds canónicos")
     else:
         raise ValueError(f"{entry['id']}: kind no soportado: {kind}")
 
@@ -143,6 +166,21 @@ def validate_registry(registry: dict) -> None:
             raise ValueError(f"Activo inmutable duplicado en varias entradas: {location}")
         locations.add(location)
 
+    canonical_marked: set[tuple[str, str]] = set()
+    scenario_m06: set[tuple[str, str]] = set()
+    for entry in registry.get("products", []):
+        territory = str(entry.get("territory_id") or "")
+        if entry.get("canonical") is True:
+            family = str(entry["kind"]).rsplit("_", 1)[-1]
+            if (territory, family) in canonical_marked:
+                raise ValueError(f"{territory}: más de una entrada canonical=true para {family}")
+            canonical_marked.add((territory, family))
+        if entry.get("kind") == "scenario_m06":
+            scenario_m06.add((territory, str(entry["scenario_id"])))
+    for entry in registry.get("products", []):
+        if entry.get("kind") == "scenario_m08" and (str(entry["territory_id"]), str(entry["scenario_id"])) not in scenario_m06:
+            raise ValueError(f"{entry['id']}: scenario_m08 sin scenario_m06 del mismo scenario_id")
+
 
 def _sorted_registry(registry: dict) -> dict:
     registry = copy.deepcopy(registry)
@@ -151,7 +189,7 @@ def _sorted_registry(registry: dict) -> dict:
         key=lambda item: (
             item.get("territory_id", ""),
             item.get("kind", ""),
-            str(item.get("run_id") or item.get("execution_id") or ""),
+            str(item.get("scenario_id") or item.get("run_id") or item.get("execution_id") or ""),
             item.get("id", ""),
         ),
     )

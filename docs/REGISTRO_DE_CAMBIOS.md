@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.82
+Versión: 1.0.83
 Fecha: 2026-11-02
-Alcance: T-33 — Salamanca une las piezas de secciones MultiPolygon en el ensemble
+Alcance: T-27 fase (a) — registro del visor con escenarios no canónicos
 Estado: candidato
-Cambios/motivo: preserve_atomic_multipart_sections=true en configuracion/ensemble/congreso_salamanca.json
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.81_t33_20261102.md
+Cambios/motivo: kinds scenario_m06/scenario_m08 con scenario_id, strategy, scenario_kind y canonical
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.82_t27a_20261102.md
 -->
+
+## 2026-11-02 — T-27 (a) — Registro del visor: escenarios no canónicos
+
+`registro_publicaciones_visor` 1.1.0 y `preparar_visor_ejecucion` 1.6.0. Kinds nuevos `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy` (Canónico, GerryChain, GerryChain 25,
+GerryChain 50), `scenario_kind: alternative` y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, solo true). A lo sumo una entrada `canonical: true` por territorio y
+familia; un `scenario_m08` exige el `scenario_m06` del mismo `scenario_id`; la identidad de un escenario es territorio+kind+scenario_id (no se sobrescriben). El preparador
+materializa los escenarios en `data/results/<territorio>/scenario-<scenario_id>/` y los ordena tras los canónicos. Pruebas: `tests/test_registro_escenarios.py` (6). El
+registro vigente `orchestracion/publicaciones_visor.json` valida sin cambios. Sigue la fase (b), el selector de `app.js`.
 
 ## 2026-11-02 — T-33 — Ensemble de Salamanca: piezas de secciones MultiPolygon
 
