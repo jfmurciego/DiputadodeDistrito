@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_baleares",
+  "territory_name": "Congreso Baleares",
+  "edition": "2025",
+  "run_id": 41481449507,
+  "artifact_name": "ddd-state-41481449507-M08",
+  "artifact_sha256": "9824a5c23e324287374d740dcf375e3fee1a3cd2c0c2b053349239ddbf679ee3",
+  "source_commit": "49f01f011962a0d2248a7286c322077f8de6103f",
+  "stage": "M08"
+}

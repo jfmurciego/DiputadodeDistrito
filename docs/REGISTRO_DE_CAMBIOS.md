@@ -2,10 +2,10 @@
 Nombre: Registro de cambios DDD
 Versión: 1.0.77
 Fecha: 2026-11-02
-Alcance: T-26 — ensemble GerryChain genérico por territorio (piloto Salamanca)
+Alcance: T-26 — ensemble GerryChain genérico por territorio y entrada «06 Escenarios y Ensembles»
 Estado: candidato
-Cambios/motivo: workflow de ensemble 2.1.0, configuracion/ensemble/congreso_salamanca.json y leer_config_ensemble.py
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.75_t26_20261102.md
+Cambios/motivo: workflow de ensemble 2.1.0, configuración de Salamanca, leer_config_ensemble.py y disparador manual
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.76_t26_20261102.md
 -->
 
 ## 2026-11-02 — T-26 — Ensemble GerryChain por territorio (piloto Salamanca)
@@ -16,6 +16,17 @@ Aragón conserva su circuito (pasos con `kind == aragon`, fases `aragon_10`/`ara
 catálogo ni en el estado operativo, y ejecutan el ensemble sobre ese M05 sin sustituir el canónico. Fase `ensemble_10`; el lote de 50
 sigue bloqueado. Piloto: `congreso_salamanca` (K=3). Pruebas estáticas: `tests/test_ensemble_workflow_generico.py` (7). La primera ejecución
 real valida el circuito de fuentes (no probable en local: sin M01/M03 de Salamanca).
+Entrada visible «06 Escenarios y Ensembles» (workflow_dispatch) en la lista de lanzables del diseño A, con sus tres pruebas adaptadas; deploy_pages por defecto en falso al lanzar a mano.
+
+## 2026-11-02 — T-24 — Las Palmas: tests negativos y decisión de la exención 35012
+
+Tests: `test_negativo_distrito_exento_pasa_y_no_exento_bajo_suelo_bloquea` y `test_negativo_con_cumun_y_cusec_sin_campo_municipal`
+(validador: 35012 con «35012:35-C01», con CUMUN y con CUSEC queda exento; otro municipio bajo suelo sigue bloqueando) y
+`test_las_palmas_island_format_exempts_mogan_and_blocks_other_municipality` (M05 con `DDD_MUNICIPALITY_PARTITION`). El validador
+extrae `districts_below_floor` (1.3.5) sin cambiar el criterio, para poder probarlo. Decisión de la exención de suelo municipal de
+Mogán (35012): decisión del propietario del 01-11-2026, recogida en `docs/PLAN.md` 1.0.7 («Decisiones del propietario → Tomadas
+(01-11)»: «Las Palmas: exención municipal en contrato, no de toda Gran Canaria, 35-C01»), en la PR #384 (fusionada, `6466afc6`) y en
+la entrada T-02b de este registro. Contrato y política siguen sin campo `decided_at`/evidencia para las exenciones municipales.
 
 ## 2026-11-02 — T-24 — Baleares techo 1,28 y gate de Cádiz
 

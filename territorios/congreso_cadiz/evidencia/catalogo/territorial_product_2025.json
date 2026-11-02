@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_cadiz",
+  "territory_name": "Congreso Cádiz",
+  "edition": "2025",
+  "run_id": 41465820761,
+  "artifact_name": "ddd-state-41465820761-M06",
+  "artifact_sha256": "d4b878f9b69668ea18f508aad674909a678fa51bb435e3d916d19c1312b4d6eb",
+  "source_commit": "7c44fdeb094a29a5b67aef23f5636c6fca6e7ed9",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_cadiz/evidencia/generaciones_m06/41465820761.json"
+}

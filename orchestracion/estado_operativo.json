@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-02T15:10:08.263869+00:00",
+  "generated_at": "2026-11-02T16:39:10.089969+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 66,
-      "activable": 5,
+      "activated": 68,
+      "activable": 3,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 66
+      "durable_pair": 68
     },
     "territories": [
       {
@@ -1340,8 +1340,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41444676996,
-            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/8a13d27f23a8c5970df32698e2f31bf46920bfe31f52130aca48fe6af44ecdb3/41444676996/receipt.json"
+            "run_id": 41465837048,
+            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/e28eb8bb058052cc4af599d41d91927b8c6bfc66d91e8ebb0720a227607d5d30/41465837048/receipt.json"
           }
         },
         "electoral": {
@@ -1353,12 +1353,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_baleares/evidencia/pares_fuentes/2025/6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7.json",
-            "pair_sha256": "6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_baleares/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json",
+            "pair_sha256": "61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1544,8 +1544,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41444664023,
-            "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/e472817c43c90daf59da73c183aa15f9c45b02eeba0c44f0f63b26800b79ca52/41444664023/receipt.json"
+            "run_id": 41465820761,
+            "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/3729f923549f454621c4bc7a8564aee79d8961c502779e1cfb32666f81fd0e25/41465820761/receipt.json"
           }
         },
         "electoral": {
@@ -1557,12 +1557,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_cadiz/evidencia/pares_fuentes/2025/48d4fd2e76575dfc2819474cb991f7f223efcff071423217200f934a68e3b788.json",
-            "pair_sha256": "48d4fd2e76575dfc2819474cb991f7f223efcff071423217200f934a68e3b788",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_cadiz/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json",
+            "pair_sha256": "c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5158,38 +5158,62 @@
       "territory_id": "congreso_baleares",
       "name": "Nacional Baleares",
       "ft": "green",
-      "g": "yellow",
-      "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "g": "green",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41481449507,
       "last_run": {
-        "run_id": 41444676996,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41481449507,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "congreso_baleares",
           "edition": "2025",
-          "run_id": 41444676996,
-          "artifact_name": "ddd-source-package-congreso_baleares-2025-41444676996",
-          "artifact_sha256": "61a6b5cbbea8abb8567bb060ce39dc50e156c74d3d5ad4d5df865d339215cf8d",
+          "run_id": 41465837048,
+          "artifact_name": "ddd-source-package-congreso_baleares-2025-41465837048",
+          "artifact_sha256": "80f99d710a25f5d0b81496c3db929ee5c48a56e7422784e518702c90b020c5c1",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_baleares",
+          "territory_name": "Congreso Baleares",
+          "edition": "2025",
+          "run_id": 41465837048,
+          "artifact_name": "ddd-state-41465837048-M06",
+          "artifact_sha256": "41a8b13f9f18a40a2efb52e015ba927e9a3632d8a83d8c4407c545136cf1053c",
+          "source_commit": "3cfa615e184fe46635c4d0294de129fed0d4dd03",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/41465837048.json"
+        },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_baleares",
+          "territory_name": "Congreso Baleares",
+          "edition": "2025",
+          "run_id": 41481449507,
+          "artifact_name": "ddd-state-41481449507-M08",
+          "artifact_sha256": "9824a5c23e324287374d740dcf375e3fee1a3cd2c0c2b053349239ddbf679ee3",
+          "source_commit": "49f01f011962a0d2248a7286c322077f8de6103f",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C07",
       "display_name": "Nacional Baleares",
-      "next_step": "generar y validar distritos"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_barcelona",
@@ -5354,38 +5378,62 @@
       "territory_id": "congreso_cadiz",
       "name": "Nacional Cádiz",
       "ft": "green",
-      "g": "yellow",
-      "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "g": "green",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41480150601,
       "last_run": {
-        "run_id": 41444664023,
+        "run_id": 41480150601,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "congreso_cadiz",
           "edition": "2025",
-          "run_id": 41444664023,
-          "artifact_name": "ddd-source-package-congreso_cadiz-2025-41444664023",
-          "artifact_sha256": "bd5dad06efbe50f7143a89a1a0619537e51453b3bfb47268212fb30aa25a9bd2",
+          "run_id": 41465820761,
+          "artifact_name": "ddd-source-package-congreso_cadiz-2025-41465820761",
+          "artifact_sha256": "39e612f105e899cfff0b4a89b3692a1097f595fdc385806e27b91389660cd875",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_cadiz",
+          "territory_name": "Congreso Cádiz",
+          "edition": "2025",
+          "run_id": 41465820761,
+          "artifact_name": "ddd-state-41465820761-M06",
+          "artifact_sha256": "d4b878f9b69668ea18f508aad674909a678fa51bb435e3d916d19c1312b4d6eb",
+          "source_commit": "7c44fdeb094a29a5b67aef23f5636c6fca6e7ed9",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_cadiz/evidencia/generaciones_m06/41465820761.json"
+        },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_cadiz",
+          "territory_name": "Congreso Cádiz",
+          "edition": "2025",
+          "run_id": 41480150601,
+          "artifact_name": "ddd-state-41480150601-M08",
+          "artifact_sha256": "517feeaafec8583228b36d6d2a794f219f13f17f18fe516ae91956b76371608f",
+          "source_commit": "74695d9f9489ed061b862f6352f9af9c32e0311a",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C11",
       "display_name": "Nacional Cádiz",
-      "next_step": "generar y validar distritos"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_castellon",
@@ -7838,7 +7886,7 @@
     }
   ],
   "kpis": {
-    "complete": 63,
+    "complete": 65,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7863,8 +7911,10 @@
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
+      "Nacional Baleares",
       "Nacional Burgos",
       "Nacional Cáceres",
+      "Nacional Cádiz",
       "Nacional Castellón",
       "Nacional Ciudad Real",
       "Nacional Córdoba",
@@ -7904,7 +7954,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "territorial_validated": 63,
+    "territorial_validated": 65,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7929,8 +7979,10 @@
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
+      "Nacional Baleares",
       "Nacional Burgos",
       "Nacional Cáceres",
+      "Nacional Cádiz",
       "Nacional Castellón",
       "Nacional Ciudad Real",
       "Nacional Córdoba",
@@ -7970,7 +8022,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "validated": 63,
+    "validated": 65,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7995,8 +8047,10 @@
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
+      "Nacional Baleares",
       "Nacional Burgos",
       "Nacional Cáceres",
+      "Nacional Cádiz",
       "Nacional Castellón",
       "Nacional Ciudad Real",
       "Nacional Córdoba",
@@ -8036,13 +8090,11 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 8,
+    "ready": 6,
     "ready_names": [
       "01 Andalucía",
       "Nacional Alicante",
-      "Nacional Baleares",
       "Nacional Barcelona",
-      "Nacional Cádiz",
       "Nacional Madrid",
       "Nacional Málaga",
       "Nacional Murcia"
@@ -8053,11 +8105,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_las_palmas",
-    "name": "Nacional Las Palmas",
-    "display_name": "Nacional Las Palmas",
-    "autonomous_community_code_ine": "C35",
-    "run_id": 41442913288,
+    "territory_id": "congreso_baleares",
+    "name": "Nacional Baleares",
+    "display_name": "Nacional Baleares",
+    "autonomous_community_code_ine": "C07",
+    "run_id": 41481449507,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -8076,21 +8128,9 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Nacional Baleares",
-      "territory_id": "congreso_baleares",
-      "autonomous_community_code_ine": "C07",
-      "action": "completar puerta de validación territorial"
-    },
-    {
       "territory": "Nacional Barcelona",
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional Cádiz",
-      "territory_id": "congreso_cadiz",
-      "autonomous_community_code_ine": "C11",
       "action": "completar puerta de validación territorial"
     },
     {
@@ -8126,21 +8166,9 @@
       "action": "generar y validar distritos"
     },
     {
-      "territory": "Nacional Baleares",
-      "territory_id": "congreso_baleares",
-      "autonomous_community_code_ine": "C07",
-      "action": "generar y validar distritos"
-    },
-    {
       "territory": "Nacional Barcelona",
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
-      "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Nacional Cádiz",
-      "territory_id": "congreso_cadiz",
-      "autonomous_community_code_ine": "C11",
       "action": "generar y validar distritos"
     },
     {

@@ -993,12 +993,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41481449507
+        stage: M08
       preparation_evidence:
         run_id: 41465837048
         artifact_name: ddd-source-package-congreso_baleares-2025-41465837048
@@ -1013,9 +1015,11 @@ territories:
         section_year: 2023
         source_commit: 09f8f61161a9e9c2188261e0ba60d52a018b04ba
       evidence:
-        electoral_source: territorios/congreso_baleares/evidencia/fuentes_electorales/2025/affe7b19fb8d79d5c23dff92d589467fb7e5d3c79cf584d68cc90e3380883460/41250238804/receipt.json
-        prepared_source_pair: territorios/congreso_baleares/evidencia/pares_fuentes/2025/6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7.json
+        electoral_source: territorios/congreso_baleares/evidencia/fuentes_electorales/2025/595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867/41465837048/receipt.json
+        prepared_source_pair: territorios/congreso_baleares/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json
         generation_preflight: territorios/congreso_baleares/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_baleares/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/congreso_baleares/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_barcelona
   name: Congreso Barcelona
@@ -1141,12 +1145,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41480150601
+        stage: M08
       preparation_evidence:
         run_id: 41465820761
         artifact_name: ddd-source-package-congreso_cadiz-2025-41465820761
@@ -1161,9 +1167,11 @@ territories:
         section_year: 2023
         source_commit: 09f8f61161a9e9c2188261e0ba60d52a018b04ba
       evidence:
-        electoral_source: territorios/congreso_cadiz/evidencia/fuentes_electorales/2025/688db9735cc06c9385f1dcca17e123a2df2ba1b7d015d58ff9842bcc845535c8/41239793930/receipt.json
-        prepared_source_pair: territorios/congreso_cadiz/evidencia/pares_fuentes/2025/48d4fd2e76575dfc2819474cb991f7f223efcff071423217200f934a68e3b788.json
+        electoral_source: territorios/congreso_cadiz/evidencia/fuentes_electorales/2025/e7bad8cb9552ba46cc1ce96c9b06c0021fb6848a5bf8e946c931b9cf3f4029d9/41465820761/receipt.json
+        prepared_source_pair: territorios/congreso_cadiz/evidencia/pares_fuentes/2025/c61f13ea3804251c5ea9fa39b7d4d8272df1e4e5d5807a914d1de9c6ef9b4182.json
         generation_preflight: territorios/congreso_cadiz/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_cadiz/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/congreso_cadiz/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_castellon
   name: Congreso Castellón
