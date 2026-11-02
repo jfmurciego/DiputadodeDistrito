@@ -45,7 +45,7 @@ jobs:
           python herramientas/g10_orquestar.py validate-plan --plan "$PLAN_PATH"
           python herramientas/g10_orquestar.py admit --plan "$PLAN_PATH" --state "$STATE_PATH" --root . > admission.json
           echo "matrix=$(jq -c '{include:.include}' admission.json)" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: g10-admision-${{ github.run_id }}
           path: admission.json
@@ -88,7 +88,7 @@ jobs:
           python -c 'import json,os; o=os.environ["out"]; c=int(open(o+"/exit_code").read()); a=os.environ["ADMISSION"]; json.dump({"schema_version":"1.1","task_id":os.environ["TASK_ID"],"territory":os.environ["TERRITORY"],"stage_id":os.environ["STAGE_ID"],"stage_name":os.environ["STAGE_NAME"],"legacy_module":os.environ["LEGACY_MODULE"] or None,"fingerprint":os.environ["FINGERPRINT"],"attempt":1,"status":"REUSED" if a=="REUSED" else ("SUCCESS" if c==0 else "REQUIRES_AGENT"),"artifacts":["task.log","evidence.json"]},open(o+"/resumen.json","w"),ensure_ascii=False)'
           exit "$code"
       - if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: g10-tarea-${{ matrix.task_id }}
           path: g10-out/${{ matrix.task_id }}/
@@ -148,7 +148,7 @@ jobs:
           git commit -m "orquestacion: registrar estado e informe $GITHUB_RUN_ID"
           git pull --rebase origin main
           git push origin HEAD:main
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: g10-lote-${{ github.run_id }}
           path: |
