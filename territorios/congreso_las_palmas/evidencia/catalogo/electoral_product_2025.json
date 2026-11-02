@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_las_palmas",
+  "territory_name": "Congreso Las Palmas",
+  "edition": "2025",
+  "run_id": 41442913288,
+  "artifact_name": "ddd-state-41442913288-M08",
+  "artifact_sha256": "02aa077a57a11236bb8911838cb9f03ba74b7dc1b94c217ed4c4113fe8f7782c",
+  "source_commit": "9dcf48d16cf7bc23c34b40a6fd25244d25929f5c",
+  "stage": "M08"
+}

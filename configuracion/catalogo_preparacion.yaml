@@ -2061,12 +2061,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41432561787
-        stage: M06
+        run_id: 41442913288
+        stage: M08
       preparation_evidence:
         run_id: 41432561787
         artifact_name: ddd-source-package-congreso_las_palmas-2025-41432561787
@@ -2085,6 +2085,7 @@ territories:
         territorial_product: territorios/congreso_las_palmas/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/edb3ada24e33cf8ac32756ad61bff42bcd8d822a8923e88467b67ca2f56942eb.json
         generation_preflight: territorios/congreso_las_palmas/evidencia/catalogo/generation_preflight_2025.json
+        electoral_product: territorios/congreso_las_palmas/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_pontevedra
   name: Congreso Pontevedra
