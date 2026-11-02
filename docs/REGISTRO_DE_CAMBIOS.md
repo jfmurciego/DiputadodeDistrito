@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.77
+Versión: 1.0.78
 Fecha: 2026-11-02
-Alcance: T-26 — ensemble GerryChain genérico por territorio y entrada «06 Escenarios y Ensembles»
+Alcance: T-28 — Cádiz: receipt electoral inválido fuera del catálogo
 Estado: candidato
-Cambios/motivo: workflow de ensemble 2.1.0, configuración de Salamanca, leer_config_ensemble.py y disparador manual
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.76_t26_20261102.md
+Cambios/motivo: electoral_product_available=false en congreso_cadiz para que la 00 rehaga 03/04 sobre el M06 vigente
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.77_t28_20261102.md
 -->
+
+## 2026-11-02 — T-28 — Cádiz: retirada del receipt electoral inválido
+
+La 00 «Reutilizar» 41491527658 bloqueaba en Planificar con `DURABLE_LINEAGE_INCOMPATIBLE: electoral_product`: el manifiesto del run 41480150601 tiene la
+fase 04 con `artifact_digest` vacío y `validation_decision` BLOQUEADO (la puerta final no pudo descargar el M08, que nunca se validó). No se edita el
+manifiesto (sería fabricar una validación). `configuracion/catalogo_preparacion.yaml`: `electoral_product_available: false` solo en `congreso_cadiz`. Verificado
+en local con `build_plan` (modo reutilizar): con el catálogo anterior bloquea; con el cambio no regenera M06 (`run_generate` falso, M06 41465820761),
+no vuelve a preparar el electoral (`run_prepare_electoral` falso) y ejecuta la 04 (`run_incorporate` verdadero). Paquete electoral vigente hasta 2026-12-02
+y M06 hasta 2026-11-16. Después, la 00 en «Reutilizar progreso existente» de Cádiz escribe un manifiesto limpio.
 
 ## 2026-11-02 — T-26 — Ensemble GerryChain por territorio (piloto Salamanca)
 
