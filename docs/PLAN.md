@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.7
-Fecha: 2026-11-01
+Versión: 1.0.8
+Fecha: 2026-11-02
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-14, chat operador, reglas de lanzamiento, propuestas y tareas cerradas del 01-11 (T-02, T-05, T-06, T-08 a T-12)
-Anterior: legacy/docs/PLAN_v1.0.6_20261101.md
+Cambios/motivo: tareas T-15 a T-20 del 02-11 (Las Palmas M08, endurecer T-14, tabla de provincias, Cádiz y Baleares, Madrid y Málaga) y T-14 cerrada
+Anterior: legacy/docs/PLAN_v1.0.7_20261102.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -83,6 +83,31 @@ Anterior: legacy/docs/PLAN_v1.0.6_20261101.md
 
 ## 3. Cola de tareas
 T-08 y T-09 se numeran al final pero van en la posición de la cola que les corresponde por prioridad.
+
+### T-15 · Las Palmas falla en M08 tras #394 (P0, BUG)
+- Run 00 41358199178: reutiliza el M06 de 41336103808, M07 queda OK y la validación da «distritos bajo límite poblacional=1» (exit 3).
+- Causa 1: las secciones M06 de Mogán (35012) no traen `DDD_MUNICIPALITY_PARTITION`; el validador lo resuelve con respaldo a CUMUN/CUSEC · PR #398 · registro 1.0.70.
+- Causa 2 (reproducida en local con M01/M03 del run): la reparación M05 movía Mogán (exento) al distrito deficitario y dejaba sin exención al que lo perdía. Las unidades de municipios exentos quedan ancladas · PR #399 (fusionada) · registro 1.0.71.
+- #398 y #399 fusionadas; Las Palmas relanzada con la 00 «Ejecutar desde el principio» (M05 está en la huella).
+
+### T-16 · Endurecer el diagnóstico automático de T-14 (P1)
+- T14-01 linaje por rutas del contrato (sin mtime) · T14-02 paquete PARTIAL · T14-03 `MANIFEST.json` con sha256 · T14-04 resultado del rebase · T14-05 `DIAG_PUBLISH_FAILED` · PR #401 (fusionada) · registro 1.0.72.
+- Pendiente: una 00 de prueba que falle a propósito (permiso del propietario).
+
+### T-17 · Tabla de las 52 provincias (operador, solo lectura)
+- Estado por provincia (M06, electoral, visor, causa de PARADA) a partir de `estado_operativo.json` y los manifiestos de ejecución. Sin lanzar nada.
+
+### T-18 · Causa de Cádiz y Baleares (operador)
+- Runs 41417528357 (Cádiz) y 41417532454 (Baleares): `POPULATION_HARD_BLOCK` con techo 1,15 en lugar del de la política. Se leen los informes M05 de `diagnostico/auto/<territorio>/<run>/`.
+- Resuelta por T-20.
+
+### T-19 · Factibilidad de Madrid y Málaga (solo lectura)
+- Calcular si existe alguna partición sin partir municipios enteros bajo el techo (distritos 52 y 10 de T-02b). Sin 00. Alimenta el estudio de motor (sección 5).
+
+### T-20 · Techo de Cádiz y Baleares (resuelta)
+- Causa: los contratos de Cádiz y Baleares se materializaron antes de #391 (techo 1,16 y 1,27 en la política). `prepare_one` entra por `territorial_action=REUSE` (la clave de preparación no incluye la política de generación) y no re-materializa; `territory_population_limits` ya devuelve los valores correctos y `congreso_contract.py:200` es política N08, no la ruta del generador.
+- Arreglo: 00 «Ejecutar desde el principio», que re-materializa el contrato. Runs: Cádiz 41427993423, Baleares 41428008130 (pendientes de resultado). Las Palmas relanzada tras #399.
+- Pregunta de diseño al propietario: bloqueo `CONTRACT_POLICY_STALE` en la 00 si el techo del contrato difiere de la política (fichero compartido; no hecho).
 
 ### T-14 · Diagnóstico automático sin el Mac (máxima prioridad tras T-13)
 - Objetivo: cuando una 00 falla en M04, M05 o en la puerta de certificación, el propio workflow sube a la rama
@@ -179,7 +204,7 @@ Runs 00 de las 16:40 (reparación profunda: profundidad 6, conjunto 3, 500.000 c
 | Alicante | 41327488604 | 12 | 156.889 | techo 132.268 | +24.620 | trozo de 03065 (119.050) y 03121 (37.839) |
 | Barcelona | 41327510776 | 31 | 150.148 | techo 133.339 | +16.809 | 08015 (112.242) y 08194 (37.906); el distrito 40 (08073) va exento del suelo |
 
-**Estado: BLOQUEADAS por estructura.** Quedan para un futuro estudio de motor. Palancas descartadas: bajar `municipality_atomicity_limit_ratio` (contradice la regla de no partir un municipio que cabe bajo el techo) y subir el techo (Barcelona 31 está a 1,29 de la media).
+**Estado: BLOQUEADAS por estructura (Madrid, Málaga, Alicante, Barcelona y Murcia).** Quedan para un futuro estudio de motor. Palancas descartadas: bajar `municipality_atomicity_limit_ratio` (contradice la regla de no partir un municipio que cabe bajo el techo) y subir el techo (Barcelona 31 está a 1,29 de la media).
 
 Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, política 1.7.3, distrito 8 a 1,159 de la media), Pontevedra (exención municipal 36008), Las Palmas (exención municipal 35012). Baleares: techo 127 % solo en Baleares (política 1.7.3; distrito 5 de Mallorca a 1,261 de la media, la reparación profunda no lo mejoró).
 
@@ -235,6 +260,7 @@ Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, pol
 
 ## 4. Tareas hechas
 <!-- Formato: T-xx · resumen · PR #nnn / run nnnnnnnnnn · fecha -->
+- T-14 · Diagnóstico automático: M01, grafo M03 e informe M05 a `diagnostico/auto/<territorio>/<run>/` si falla M04, M05 o la certificación · PR #397 · 2026-11-01
 - T-02 · Huelva y Valencia (CRS 25830, #374) y Álava (M04 7.6.0 multisección, #383; 00 41346917857) completas.
   Murcia BLOQUEADA por estructura (objetivo 119.361, suelo 101.457, techo 137.265): Lorca 97.904 + Águilas 36.684 +
   Puerto Lumbreras 17.507 = 152.095 (Águilas y Puerto Lumbreras solo lindan con Lorca; atomicidad 0,80 aborta M04);

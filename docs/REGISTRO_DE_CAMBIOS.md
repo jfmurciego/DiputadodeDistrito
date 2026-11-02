@@ -1,12 +1,16 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.72
+Versión: 1.0.73
 Fecha: 2026-11-02
-Alcance: T-16 — endurecer el diagnóstico automático de T-14
+Alcance: PLAN 1.0.8 — tareas T-15 a T-20
 Estado: candidato
-Cambios/motivo: linaje por rutas del contrato, paquete PARTIAL, manifiesto con hashes, rebase comprobado y DIAG_PUBLISH_FAILED
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.71_t16_20261102.md
+Cambios/motivo: alta de T-15 a T-20 y cierre de T-14 en docs/PLAN.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.72_plan_20261102.md
 -->
+
+## 2026-11-02 — PLAN 1.0.8 — tareas T-15 a T-20
+
+Solo documentación. `docs/PLAN.md` añade T-15 (Las Palmas M08, #398 y #399), T-16 (#401), T-17, T-18, T-19 y T-20 (Cádiz y Baleares, resuelta sin código: contratos anteriores a #391), cierra T-14 (#397) y marca Madrid, Málaga, Alicante, Barcelona y Murcia como bloqueadas por estructura.
 
 ## 2026-11-02 — T-16 — Diagnóstico automático endurecido (T14-01 a T14-05)
 
