@@ -1,0 +1,2589 @@
+{
+  "module": "05",
+  "version": "7.4.1",
+  "K": 11,
+  "total_pop": 1254866,
+  "target": 114078.72727272728,
+  "population_floor": 96966.91818181818,
+  "population_cap": 132331.32363636364,
+  "tolerance_absolute": 18252.596363636367,
+  "objective_start": [
+    1,
+    0.025376494383,
+    1,
+    0.175376494383,
+    0.069336197929
+  ],
+  "objective_after_greedy": [
+    1,
+    0.025376494383,
+    1,
+    0.175376494383,
+    0.069336197929
+  ],
+  "objective_final": [
+    0,
+    0.0,
+    1,
+    0.175376494383,
+    0.069336197929
+  ],
+  "population_baseline_status": "PASS",
+  "population_status_by_district": {
+    "0": {
+      "population": 114044,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "1": {
+      "population": 113850,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "10": {
+      "population": 119294,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "2": {
+      "population": 112478,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "3": {
+      "population": 112077,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "4": {
+      "population": 113197,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "5": {
+      "population": 123943,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "6": {
+      "population": 111314,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "7": {
+      "population": 94072,
+      "floor": 0.0,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "8": {
+      "population": 132239,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    },
+    "9": {
+      "population": 108358,
+      "floor": 96966.91818181818,
+      "cap": 132331.32363636364,
+      "population_status": "PASS"
+    }
+  },
+  "districts_below_floor": 0,
+  "population_floor_exempt_partitions": [],
+  "districts_above_cap": 0,
+  "districts_outside_tolerance": 1,
+  "best_max_rel_dev": 0.175376494383,
+  "accepted_unit_moves": 561,
+  "accepted_greedy_moves": 0,
+  "accepted_annealing_moves": 561,
+  "final_changed_units": 0,
+  "atomic_units": 46,
+  "initial_candidate_relations": 40,
+  "active_provinces": [
+    "11"
+  ],
+  "anneal_iterations_executed": 20000,
+  "first_feasible_iteration": null,
+  "objective_first_feasible": null,
+  "post_feasible_iterations": 0,
+  "anneal_start_objective": [
+    1,
+    0.025376494383,
+    1,
+    0.175376494383,
+    0.069336197929
+  ],
+  "anneal_start_energy": 0.0881050226485699,
+  "anneal_best_energy": 0.0881050226485699,
+  "anneal_parameters": {
+    "outside_penalty": 0.01,
+    "maxdev_weight": 0.05,
+    "churn_weight": 0.0016,
+    "temp_start": 0.02,
+    "temp_end": 0.0005,
+    "seed": 12345,
+    "iters": 20000
+  },
+  "province_violations": [],
+  "seed": 12345,
+  "wrapper_version": "7.8.4",
+  "swap_polish": {
+    "enabled": false,
+    "max_swaps": 0,
+    "accepted_swaps": 0
+  },
+  "population_repair": {
+    "schema": "ddd.m05-population-repair/1.6",
+    "result": "NO_FEASIBLE_REPAIR_FOUND",
+    "limits": {
+      "max_depth": 6,
+      "max_transfer_set": 3,
+      "max_candidates": 500000,
+      "max_seconds": 300.0,
+      "seed": 0
+    },
+    "municipality_policy": "indivisible",
+    "municipality_splits": [],
+    "hard_population_floor": 96966.91818181818,
+    "hard_population_cap": 132331.32363636364,
+    "district_floor_overrides": {},
+    "candidates_examined": 13968,
+    "primary_candidates_examined": 13944,
+    "primary_candidate_budget": 125000,
+    "primary_transitions_evaluated": 305010,
+    "transitions_evaluated": 305234,
+    "termination_reason": "QUEUE_EMPTY",
+    "elapsed_seconds": 10.23426,
+    "queue_states_created": 3535,
+    "queue_states_examined": 13944,
+    "primary_improvement_found": false,
+    "secondary_only_candidates": 0,
+    "baseline_restored": true,
+    "objective_hierarchy": [
+      "hard_violation_count",
+      "outliers",
+      "max_deviation",
+      "total_deviation",
+      "cohesion"
+    ],
+    "queue_priority": [
+      "hard_violation_count",
+      "hard_violation_magnitude",
+      "necessary_municipal_fragmentation",
+      "outliers",
+      "max_deviation",
+      "outlier_distance_to_tolerance",
+      "total_deviation",
+      "cohesion",
+      "units_moved",
+      "districts_affected",
+      "chain_length",
+      "depth",
+      "deterministic_key"
+    ],
+    "objective_before": [
+      1,
+      1,
+      0.175376494383,
+      0.582752261995,
+      28
+    ],
+    "objective_after": [
+      1,
+      1,
+      0.175376494383,
+      0.582752261995,
+      28
+    ],
+    "hard_signature_before": [
+      1,
+      2894
+    ],
+    "hard_signature_after": [
+      1,
+      2894
+    ],
+    "hard_violation_magnitude_before": 2894,
+    "hard_violation_magnitude_after": 2894,
+    "territorial_metrics_before": {
+      "cut_boundary_edges": 28,
+      "boundary_units_moved": 0,
+      "corridor_penalty": null,
+      "base_compactness": null
+    },
+    "territorial_metrics_after": {
+      "cut_boundary_edges": 28,
+      "boundary_units_moved": 0,
+      "corridor_penalty": null,
+      "base_compactness": null
+    },
+    "population_before": {
+      "9": 108358,
+      "1": 113850,
+      "3": 112077,
+      "6": 111314,
+      "2": 112478,
+      "10": 119294,
+      "4": 113197,
+      "0": 114044,
+      "8": 132239,
+      "7": 94072,
+      "5": 123943
+    },
+    "population_after": {
+      "9": 108358,
+      "1": 113850,
+      "3": 112077,
+      "6": 111314,
+      "2": 112478,
+      "10": 119294,
+      "4": 113197,
+      "0": 114044,
+      "8": 132239,
+      "7": 94072,
+      "5": 123943
+    },
+    "populations_before": {
+      "9": 108358,
+      "1": 113850,
+      "3": 112077,
+      "6": 111314,
+      "2": 112478,
+      "10": 119294,
+      "4": 113197,
+      "0": 114044,
+      "8": 132239,
+      "7": 94072,
+      "5": 123943
+    },
+    "populations_after": {
+      "9": 108358,
+      "1": 113850,
+      "3": 112077,
+      "6": 111314,
+      "2": 112478,
+      "10": 119294,
+      "4": 113197,
+      "0": 114044,
+      "8": 132239,
+      "7": 94072,
+      "5": 123943
+    },
+    "assignments": {
+      "1": 9,
+      "10": 1,
+      "11": 1,
+      "12": 3,
+      "13": 6,
+      "14": 2,
+      "15": 2,
+      "16": 10,
+      "17": 1,
+      "18": 1,
+      "19": 1,
+      "2": 1,
+      "20": 4,
+      "21": 0,
+      "22": 6,
+      "23": 6,
+      "24": 9,
+      "25": 1,
+      "26": 9,
+      "27": 1,
+      "28": 8,
+      "29": 8,
+      "3": 4,
+      "30": 1,
+      "31": 10,
+      "32": 7,
+      "33": 10,
+      "34": 6,
+      "35": 1,
+      "36": 9,
+      "37": 1,
+      "38": 4,
+      "39": 1,
+      "4": 5,
+      "40": 9,
+      "41": 1,
+      "42": 1,
+      "43": 1,
+      "44": 9,
+      "45": 4,
+      "46": 6,
+      "5": 1,
+      "6": 1,
+      "7": 9,
+      "8": 9,
+      "9": 1
+    },
+    "hard_limits_met": false,
+    "final_hard_population_violations": 1,
+    "final_hard_violation_magnitude": 2894,
+    "controlled_improvement_verified": true,
+    "repairs": [],
+    "districts_affected": [],
+    "constraints_checked": [
+      "EXACT_DISTRICT_COUNT",
+      "PROVINCE",
+      "CONTIGUITY",
+      "ATOMIC_UNITS",
+      "MUNICIPAL_INTEGRITY",
+      "HARD_POPULATION_LIMITS_FINAL"
+    ],
+    "constraints_verified": [
+      "EXACT_DISTRICT_COUNT",
+      "PROVINCE",
+      "CONTIGUITY",
+      "ATOMIC_UNITS",
+      "MUNICIPAL_INTEGRITY"
+    ],
+    "territorial_metric_availability": {
+      "cut_boundary_edges": true,
+      "boundary_units_moved": true,
+      "corridor_penalty": false,
+      "base_compactness": false
+    },
+    "focal_search": {
+      "enabled": true,
+      "complete": false,
+      "completion_target": "HARD_POPULATION_LIMITS",
+      "candidate_budget": 486056,
+      "candidate_attempts": 24,
+      "transitions_evaluated": 224,
+      "states_explored": 8,
+      "termination_reason": "QUEUE_EMPTY",
+      "elapsed_seconds": 0.0032,
+      "provinces": [
+        {
+          "province": "11",
+          "outliers_before": 1,
+          "hard_districts_before": 1,
+          "preparatory_districts": [
+            10,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9
+          ],
+          "depth_limit": 9,
+          "beam_width": 24,
+          "states_explored": 8,
+          "depth_exhausted_states": 0,
+          "repaired": false,
+          "outliers_after": 1
+        }
+      ],
+      "rejection_counts": {
+        "DONOR_CONTIGUITY": 73,
+        "POPULATION_REGRESSION": 127,
+        "DEPTH_EXHAUSTED": 0
+      },
+      "rejection_classification": {
+        "contiguity": 73,
+        "population_limit": 127,
+        "cross_province": 0,
+        "municipal_integrity": 0,
+        "depth_exhaustion": 0
+      }
+    },
+    "rejection_counts": {
+      "POPULATION_REGRESSION": 104831,
+      "DONOR_CONTIGUITY": 186435,
+      "DEPTH_EXHAUSTED": 0
+    },
+    "rejection_classification": {
+      "contiguity": 186435,
+      "population_limit": 104831,
+      "cross_province": 0,
+      "municipal_integrity": 0,
+      "depth_exhaustion": 0
+    },
+    "rejections": [
+      {
+        "units": [
+          "15"
+        ],
+        "districts": [
+          2,
+          7
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          2,
+          123769
+        ]
+      },
+      {
+        "units": [
+          "14",
+          "15"
+        ],
+        "districts": [
+          2,
+          7
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "12"
+        ],
+        "districts": [
+          3,
+          7
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "32"
+        ],
+        "districts": [
+          7,
+          2
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "32"
+        ],
+        "districts": [
+          7,
+          3
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "32"
+        ],
+        "districts": [
+          7,
+          8
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "29"
+        ],
+        "districts": [
+          8,
+          7
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          2,
+          10552
+        ]
+      },
+      {
+        "units": [
+          "28",
+          "29"
+        ],
+        "districts": [
+          8,
+          7
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          28805
+        ]
+      },
+      {
+        "units": [
+          "10",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          43923
+        ]
+      },
+      {
+        "units": [
+          "11",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          33259
+        ]
+      },
+      {
+        "units": [
+          "17",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          36403
+        ]
+      },
+      {
+        "units": [
+          "27",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          40149
+        ]
+      },
+      {
+        "units": [
+          "39",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          61509
+        ]
+      },
+      {
+        "units": [
+          "39",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          2,
+          3079
+        ]
+      },
+      {
+        "units": [
+          "42",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          30237
+        ]
+      },
+      {
+        "units": [
+          "10",
+          "11",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          48377
+        ]
+      },
+      {
+        "units": [
+          "10",
+          "17",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          51521
+        ]
+      },
+      {
+        "units": [
+          "10",
+          "27",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          55267
+        ]
+      },
+      {
+        "units": [
+          "10",
+          "39",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          76627
+        ]
+      },
+      {
+        "units": [
+          "10",
+          "42",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "10",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          45355
+        ]
+      },
+      {
+        "units": [
+          "11",
+          "17",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          40857
+        ]
+      },
+      {
+        "units": [
+          "11",
+          "19",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "11",
+          "27",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          44603
+        ]
+      },
+      {
+        "units": [
+          "11",
+          "39",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          65963
+        ]
+      },
+      {
+        "units": [
+          "11",
+          "39",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          5467
+        ]
+      },
+      {
+        "units": [
+          "11",
+          "42",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "11",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          34691
+        ]
+      },
+      {
+        "units": [
+          "17",
+          "27",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          47747
+        ]
+      },
+      {
+        "units": [
+          "17",
+          "39",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          69107
+        ]
+      },
+      {
+        "units": [
+          "17",
+          "42",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "17",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          37835
+        ]
+      },
+      {
+        "units": [
+          "19",
+          "39",
+          "41"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          2,
+          4852
+        ]
+      },
+      {
+        "units": [
+          "19",
+          "39",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "19",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "27",
+          "39",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          72853
+        ]
+      },
+      {
+        "units": [
+          "27",
+          "42",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "27",
+          "43",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          42875
+        ]
+      },
+      {
+        "units": [
+          "27",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          41581
+        ]
+      },
+      {
+        "units": [
+          "39",
+          "41",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          62469
+        ]
+      },
+      {
+        "units": [
+          "39",
+          "41",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          2,
+          3559
+        ]
+      },
+      {
+        "units": [
+          "39",
+          "42",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "39",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          62941
+        ]
+      },
+      {
+        "units": [
+          "41",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "42",
+          "5",
+          "6"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "42",
+          "6",
+          "9"
+        ],
+        "districts": [
+          1,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "33"
+        ],
+        "districts": [
+          10,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          101071
+        ]
+      },
+      {
+        "units": [
+          "16",
+          "33"
+        ],
+        "districts": [
+          10,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          140395
+        ]
+      },
+      {
+        "units": [
+          "31",
+          "33"
+        ],
+        "districts": [
+          10,
+          4
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          160697
+        ]
+      },
+      {
+        "units": [
+          "16",
+          "31",
+          "33"
+        ],
+        "districts": [
+          10,
+          4
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "31"
+        ],
+        "districts": [
+          10,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          40101
+        ]
+      },
+      {
+        "units": [
+          "33"
+        ],
+        "districts": [
+          10,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          120113
+        ]
+      },
+      {
+        "units": [
+          "16",
+          "31"
+        ],
+        "districts": [
+          10,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          79425
+        ]
+      },
+      {
+        "units": [
+          "16",
+          "33"
+        ],
+        "districts": [
+          10,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          159437
+        ]
+      },
+      {
+        "units": [
+          "31",
+          "33"
+        ],
+        "districts": [
+          10,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          179739
+        ]
+      },
+      {
+        "units": [
+          "16",
+          "31",
+          "33"
+        ],
+        "districts": [
+          10,
+          8
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "15"
+        ],
+        "districts": [
+          2,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          164831
+        ]
+      },
+      {
+        "units": [
+          "14",
+          "15"
+        ],
+        "districts": [
+          2,
+          8
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "14"
+        ],
+        "districts": [
+          2,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          2,
+          11091
+        ]
+      },
+      {
+        "units": [
+          "15"
+        ],
+        "districts": [
+          2,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          140950
+        ]
+      },
+      {
+        "units": [
+          "14",
+          "15"
+        ],
+        "districts": [
+          2,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20"
+        ],
+        "districts": [
+          4,
+          1
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3"
+        ],
+        "districts": [
+          4,
+          1
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "38"
+        ],
+        "districts": [
+          4,
+          1
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          182711
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "45"
+        ],
+        "districts": [
+          4,
+          1
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "38"
+        ],
+        "districts": [
+          4,
+          1
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          185605
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "45"
+        ],
+        "districts": [
+          4,
+          1
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          180549
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "38",
+          "45"
+        ],
+        "districts": [
+          4,
+          1
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          191683
+        ]
+      },
+      {
+        "units": [
+          "20"
+        ],
+        "districts": [
+          4,
+          10
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3"
+        ],
+        "districts": [
+          4,
+          10
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "38"
+        ],
+        "districts": [
+          4,
+          10
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          188155
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "45"
+        ],
+        "districts": [
+          4,
+          10
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "38"
+        ],
+        "districts": [
+          4,
+          10
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          191049
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "45"
+        ],
+        "districts": [
+          4,
+          10
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          185993
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "38",
+          "45"
+        ],
+        "districts": [
+          4,
+          10
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          197127
+        ]
+      },
+      {
+        "units": [
+          "20"
+        ],
+        "districts": [
+          4,
+          8
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3"
+        ],
+        "districts": [
+          4,
+          8
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "38"
+        ],
+        "districts": [
+          4,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          201100
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "45"
+        ],
+        "districts": [
+          4,
+          8
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "38"
+        ],
+        "districts": [
+          4,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          203994
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "45"
+        ],
+        "districts": [
+          4,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          198938
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "38",
+          "45"
+        ],
+        "districts": [
+          4,
+          8
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          210072
+        ]
+      },
+      {
+        "units": [
+          "20"
+        ],
+        "districts": [
+          4,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3"
+        ],
+        "districts": [
+          4,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "38"
+        ],
+        "districts": [
+          4,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          177219
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "45"
+        ],
+        "districts": [
+          4,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "38"
+        ],
+        "districts": [
+          4,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          180113
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "3",
+          "45"
+        ],
+        "districts": [
+          4,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          175057
+        ]
+      },
+      {
+        "units": [
+          "20",
+          "38",
+          "45"
+        ],
+        "districts": [
+          4,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          186191
+        ]
+      },
+      {
+        "units": [
+          "4"
+        ],
+        "districts": [
+          5,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "34"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "13",
+          "34"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "13",
+          "46"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "23",
+          "34"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          162192
+        ]
+      },
+      {
+        "units": [
+          "34",
+          "46"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "13",
+          "22",
+          "34"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "13",
+          "23",
+          "34"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          1,
+          2894
+        ],
+        "hard_signature_after": [
+          3,
+          168258
+        ]
+      },
+      {
+        "units": [
+          "13",
+          "34",
+          "46"
+        ],
+        "districts": [
+          6,
+          9
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      }
+    ],
+    "baseline_preserved": true,
+    "enabled": true,
+    "activation": "EXPLICITLY_ENABLED",
+    "hard_population_violations_before": 1,
+    "population_floor_exempt_partitions": [],
+    "frozen_districts": [
+      0
+    ],
+    "frozen_units": 1
+  },
+  "unit_id_normalization": {
+    "applied": true,
+    "units": 46
+  }
+}
