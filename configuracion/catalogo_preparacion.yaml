@@ -2068,24 +2068,23 @@ territories:
         run_id: 41336103808
         stage: M06
       preparation_evidence:
-        run_id: 41336103808
-        artifact_name: ddd-source-package-congreso_las_palmas-2025-41336103808
-        artifact_sha256: e24534fb9f56c89dde9956e40a31b14e70dbeb33c65c12f7fd35e6ce5c626fe4
-        package_sha256: 24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f
-        receipt_path: territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7/41336103808/receipt.json
-        territorial_identity_sha256: d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7
-        compatibility_report_sha256: f66a2549941e0706ddd8ec12019f7cf96f36d4fceed8a05274f0d7b40039becb
-        compatibility_identity_sha256: 2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af
+        run_id: 41432561787
+        artifact_name: ddd-source-package-congreso_las_palmas-2025-41432561787
+        artifact_sha256: 482b1e9c4ddb5ef7ef449ed2fef52747ef97b207cafa8eb3d17505ae25623d72
+        package_sha256: 1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a
+        receipt_path: territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/41432561787/receipt.json
+        territorial_identity_sha256: bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a
+        compatibility_report_sha256: ea25cea0ec79802b8a1d3b911668e57a26cd1c290121b3e72f4abdd842e8621c
+        compatibility_identity_sha256: 5e9fc62b1cda6a22f4a2d4656e269634f37a3cf8edba21463198d3928be7ec64
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 0fa0c023b85a23d48086d32e0892762c0d795347
+        source_commit: ded2bd76a318022caf3ca8dc356036f39d8c31f0
       evidence:
         electoral_source: territorios/congreso_las_palmas/evidencia/fuentes_electorales/2025/9c71936cebbe0ab9047846f3333b0565fa15f14bfaa03bbc258c440417299397/41250292326/receipt.json
-        generation_preflight: territorios/congreso_las_palmas/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_las_palmas/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/34c754b87560cb906f465fb1379dfb83522b2fd305aaa9d9915b5fc2d867284c.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: congreso_pontevedra
   name: Congreso Pontevedra
   editions:

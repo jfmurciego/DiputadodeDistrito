@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -82,7 +82,7 @@ territory_contract:
   population_floor_exempt_partitions:
   - 35-C02
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -246,9 +246,9 @@ validation:
     section_year: 2023
     population_total: 1145843
     target_section_count: 715
-    package_sha256: 24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f
-    compatibility_report_sha256: f66a2549941e0706ddd8ec12019f7cf96f36d4fceed8a05274f0d7b40039becb
-    compatibility_identity_sha256: 2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af
+    package_sha256: 1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a
+    compatibility_report_sha256: ea25cea0ec79802b8a1d3b911668e57a26cd1c290121b3e72f4abdd842e8621c
+    compatibility_identity_sha256: 5e9fc62b1cda6a22f4a2d4656e269634f37a3cf8edba21463198d3928be7ec64
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -305,8 +305,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 1acd945969f466ae02a732cc2e32f3a8e5eb1db41c1717e9615a6251a1072630
-        bytes: 4277544
+        sha256: 433a1d8cf960911cbf92a9a9972ce7f25cc2a5dca8355fa1900b5e2e5c04eb59
+        bytes: 4277543
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -319,12 +319,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 7bf98ec20cddd0a36ed33fde086f1bdee4919547bf99a4b11632057bfe314501
+  contract_sha256: 7383f0b1edf9a569244243a2a4b772d65ea3ccd2e23343cb86611c9b6fd419b4
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: 24497572052b13a3b5f4d6b9fc45c2ab3bfd5b65b562922350f4cd32210e462f
-  compatibility_identity_sha256: 2422e0c17c73259769925725e48f816e2f9334d0499e8172135d116ee3ffa5af
+  generation_enabled: false
+  package_sha256: 1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a
+  compatibility_identity_sha256: 5e9fc62b1cda6a22f4a2d4656e269634f37a3cf8edba21463198d3928be7ec64
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: f4c1e225aa971fc200427e812a2e1588aa322ffdb604487e80100be416a5fd60
@@ -356,7 +356,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 1acd945969f466ae02a732cc2e32f3a8e5eb1db41c1717e9615a6251a1072630
+    sha256: 433a1d8cf960911cbf92a9a9972ce7f25cc2a5dca8355fa1900b5e2e5c04eb59
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -374,6 +374,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41336103808
-  pre_m04_source_commit: 8aed8fd3088b42ee23b08973e1644befa4fef018
-  pre_m04_artifact_sha256: 0430ef61b973e46f714a56c36970d0f59a56b44558159eb151be4cf09aaf52ea
