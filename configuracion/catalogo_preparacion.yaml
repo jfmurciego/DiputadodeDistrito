@@ -1016,7 +1016,7 @@ territories:
         source_commit: 09f8f61161a9e9c2188261e0ba60d52a018b04ba
       evidence:
         electoral_source: territorios/congreso_baleares/evidencia/fuentes_electorales/2025/595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867/41465837048/receipt.json
-        prepared_source_pair: territorios/congreso_baleares/evidencia/pares_fuentes/2025/6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7.json
+        prepared_source_pair: territorios/congreso_baleares/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json
         generation_preflight: territorios/congreso_baleares/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_baleares/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
