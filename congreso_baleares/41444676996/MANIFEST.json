@@ -1,0 +1,36 @@
+{
+  "schema": "ddd.diagnostico-auto/1.0",
+  "status": "COMPLETE",
+  "missing": [],
+  "files": [
+    {
+      "kind": "m01",
+      "file": "congreso_baleares_2025_m01_secciones_poblacion.geojson.zip",
+      "source": "territorios/congreso_baleares/.cache/ddd/preparacion/congreso_baleares_2025/congreso_baleares_2025_m01_secciones_poblacion.geojson.zip",
+      "bytes": 2401011,
+      "sha256": "c31ef8d1fea1821d672687a623748c2cdd173c17b1d8c376f0084c092084e946",
+      "source_sha256": "c31ef8d1fea1821d672687a623748c2cdd173c17b1d8c376f0084c092084e946"
+    },
+    {
+      "kind": "m03",
+      "file": "congreso_baleares_2025_m03_grafo.json.gz",
+      "source": "territorios/congreso_baleares/.cache/ddd/preparacion/congreso_baleares_2025/congreso_baleares_2025_m03_grafo.json",
+      "bytes": 10416,
+      "sha256": "57bc0e2b240e97d88d484c1175879394f0395ea2006f7ced8b39ffdcebb886af",
+      "source_sha256": "09da204cf9df5f2f2df31f0691a1680b81cb1765a16b5269c9d58b6692da0862"
+    },
+    {
+      "kind": "m05",
+      "file": "congreso_baleares_2025_m05_informe.json",
+      "source": "territorios/congreso_baleares/.cache/ddd/preparacion/congreso_baleares_2025/congreso_baleares_2025_m05_informe.json",
+      "bytes": 63988,
+      "sha256": "e659c113d726a844aab850922ae43061436dad057943b41942741b649c13eba3",
+      "source_sha256": "e659c113d726a844aab850922ae43061436dad057943b41942741b649c13eba3"
+    }
+  ],
+  "territory": "congreso_baleares",
+  "run_id": "41444676996",
+  "checkpoint_run_id": null,
+  "stage": "CERTIFICACION",
+  "params": "territorios/congreso_baleares/config/congreso_baleares_2025.yaml"
+}
