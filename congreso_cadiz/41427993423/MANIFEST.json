@@ -1,0 +1,36 @@
+{
+  "schema": "ddd.diagnostico-auto/1.0",
+  "status": "COMPLETE",
+  "missing": [],
+  "files": [
+    {
+      "kind": "m01",
+      "file": "congreso_cadiz_2025_m01_secciones_poblacion.geojson.zip",
+      "source": "territorios/congreso_cadiz/.cache/ddd/preparacion/congreso_cadiz_2025/congreso_cadiz_2025_m01_secciones_poblacion.geojson.zip",
+      "bytes": 1231047,
+      "sha256": "e1df232c971f7f465b7a3da8bfe898ac1a3952714f04b2b3acff5d3a5ea3095c",
+      "source_sha256": "e1df232c971f7f465b7a3da8bfe898ac1a3952714f04b2b3acff5d3a5ea3095c"
+    },
+    {
+      "kind": "m03",
+      "file": "congreso_cadiz_2025_m03_grafo.json.gz",
+      "source": "territorios/congreso_cadiz/.cache/ddd/preparacion/congreso_cadiz_2025/congreso_cadiz_2025_m03_grafo.json",
+      "bytes": 14096,
+      "sha256": "d9d9a4c557a2026a9f40e575ee2528093363bab89f1bb8de98fecaabddd31db0",
+      "source_sha256": "b3abe5fe2af6a82d24885d174873501e8cba8641b75e862323ba39af4d82ef20"
+    },
+    {
+      "kind": "m05",
+      "file": "congreso_cadiz_2025_m05_informe.json",
+      "source": "territorios/congreso_cadiz/.cache/ddd/preparacion/congreso_cadiz_2025/congreso_cadiz_2025_m05_informe.json",
+      "bytes": 60076,
+      "sha256": "c14b8ce186f1f2279d171f9c730087584a32a8bcf118f4273b1ea77587ac1380",
+      "source_sha256": "c14b8ce186f1f2279d171f9c730087584a32a8bcf118f4273b1ea77587ac1380"
+    }
+  ],
+  "territory": "congreso_cadiz",
+  "run_id": "41427993423",
+  "checkpoint_run_id": null,
+  "stage": "CERTIFICACION",
+  "params": "territorios/congreso_cadiz/config/congreso_cadiz_2025.yaml"
+}
