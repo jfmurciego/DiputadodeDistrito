@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.71
+Versión: 1.0.72
 Fecha: 2026-11-02
-Alcance: T-15 — Las Palmas M08, municipio exento anclado en la reparación M05
+Alcance: T-16 — endurecer el diagnóstico automático de T-14
 Estado: candidato
-Cambios/motivo: la reparación M05 movía Mogán (35012, exento) al distrito deficitario y dejaba bajo suelo al que lo perdía
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.70_t15_20261102.md
+Cambios/motivo: linaje por rutas del contrato, paquete PARTIAL, manifiesto con hashes, rebase comprobado y DIAG_PUBLISH_FAILED
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.71_t16_20261102.md
 -->
+
+## 2026-11-02 — T-16 — Diagnóstico automático endurecido (T14-01 a T14-05)
+
+`herramientas/publicar_diagnostico_auto.py` 1.1.0 y workflow reutilizable 1.2.8. T14-01: M01, grafo M03 e informe M05
+salen de las rutas que declara el contrato del run, ya no del fichero más reciente de la caché. T14-02: si falta
+alguno el paquete se publica marcado PARTIAL. T14-03: `MANIFEST.json` con sha256, tamaño, etapa, run y checkpoint.
+T14-04: se comprueba el resultado del rebase (aborta y falla con causa). T14-05: un fallo de publicación se anuncia
+como `DIAG_PUBLISH_FAILED` (anotación y resumen del paso) sin ocultar el fallo original. Pruebas:
+`tests/test_publicar_diagnostico_auto.py` (9).
 
 ## 2026-11-02 — T-15 — Las Palmas M08: el municipio exento no se mueve en la reparación M05
 
