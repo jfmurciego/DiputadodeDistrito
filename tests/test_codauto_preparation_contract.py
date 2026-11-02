@@ -160,6 +160,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "activacion-por-eleccion.yml",
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
+                "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
                 "preparacion-fuentes.yml",

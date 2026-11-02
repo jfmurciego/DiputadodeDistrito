@@ -31,6 +31,7 @@ class DesignA(unittest.TestCase):
                 if "territory_id" in inputs: manual.append(path.name)
         self.assertEqual(sorted(manual),[
             "ejecucion-completa-proyecto.yml",
+            "generar-alternativas-territoriales.yml",
             "incorporacion-resultados-electorales.yml",
             "preparacion-fuentes.yml",
             "preparacion-resultados-electorales.yml",

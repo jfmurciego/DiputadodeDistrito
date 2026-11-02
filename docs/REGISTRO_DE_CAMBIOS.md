@@ -1,12 +1,22 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.76
+Versión: 1.0.77
 Fecha: 2026-11-02
-Alcance: T-24 — cierre del expediente de Las Palmas (criterio 3.5)
+Alcance: T-26 — ensemble GerryChain genérico por territorio y entrada «06 Escenarios y Ensembles»
 Estado: candidato
-Cambios/motivo: tests negativos de la exención 35012 y vínculo de la decisión que la autorizó
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.75_t24b_20261102.md
+Cambios/motivo: workflow de ensemble 2.1.0, configuración de Salamanca, leer_config_ensemble.py y disparador manual
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.76_t26_20261102.md
 -->
+
+## 2026-11-02 — T-26 — Ensemble GerryChain por territorio (piloto Salamanca)
+
+`generar-alternativas-territoriales.yml` 2.1.0: la config sale de `configuracion/ensemble/<territorio>.json` (`herramientas/leer_config_ensemble.py`).
+Aragón conserva su circuito (pasos con `kind == aragon`, fases `aragon_10`/`aragon_50`). Los demás territorios obtienen M01–M05 llamando a
+`_reutilizable-generacion-territorial.yml` con `persist_state: false` y `artifact_namespace: ensemble-<territorio>`, sin registrar nada en el
+catálogo ni en el estado operativo, y ejecutan el ensemble sobre ese M05 sin sustituir el canónico. Fase `ensemble_10`; el lote de 50
+sigue bloqueado. Piloto: `congreso_salamanca` (K=3). Pruebas estáticas: `tests/test_ensemble_workflow_generico.py` (7). La primera ejecución
+real valida el circuito de fuentes (no probable en local: sin M01/M03 de Salamanca).
+Entrada visible «06 Escenarios y Ensembles» (workflow_dispatch) en la lista de lanzables del diseño A, con sus tres pruebas adaptadas; deploy_pages por defecto en falso al lanzar a mano.
 
 ## 2026-11-02 — T-24 — Las Palmas: tests negativos y decisión de la exención 35012
 
