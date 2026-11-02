@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.1.0
+# VERSIÓN: 3.2.0
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
@@ -9,7 +9,8 @@
 # CAMBIOS 3.0.5: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # CAMBIOS 3.1.0: T-27 fase b, el visor publica también escenarios.js (agrupación por escenario) y lo valida con node --check.
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.0.5_20261102.yml
+# CAMBIOS 3.2.0: T-27 fase c, scenario_id/scenario_strategy opcionales: describe la ejecución como scenario_m06/m08 (solo adición).
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.1.0_20261102.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
 # FECHA: 2026-10-27
@@ -19,6 +20,12 @@ on:
   workflow_call:
     inputs:
       production_run_id:
+        required: false
+        type: string
+      scenario_id:
+        required: false
+        type: string
+      scenario_strategy:
         required: false
         type: string
       ensemble_release_tag:
@@ -58,6 +65,8 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       PRODUCTION_RUN_ID: ${{ inputs.production_run_id || '' }}
+      SCENARIO_ID: ${{ inputs.scenario_id || '' }}
+      SCENARIO_STRATEGY: ${{ inputs.scenario_strategy || '' }}
       ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
       ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}
       TARGET_PAGE: ${{ inputs.target_page || 'Visor territorial' }}
@@ -179,7 +188,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID"             --output /tmp/product-descriptors.json
+          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output /tmp/product-descriptors.json
 
           printf '[]\n' > /tmp/new-entries.json
           mkdir -p /tmp/promotion-verify

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Gestor de campaña nacional — versión 0.2.0, 2026-11-01.
+"""Gestor de campaña nacional — versión 0.3.0, 2026-11-02.
 Alcance: preflight local; estado: candidato.
-Cambio/motivo: 0.2.0 (T-06) campaña «Nacional 2023»: provincias por «todos», número INE, matrícula o nombre;
+Cambio/motivo: 0.3.0 (T-27 fase c) las campañas con algoritmo distinto de Canónico sobre un territorio con producto territorial certificado
+  son escenarios: persist_state falso, así que ni el catálogo ni el estado operativo cambian (solo se registra, aparte, un escenario del visor).
+  0.2.0 (T-06) campaña «Nacional 2023»: provincias por «todos», número INE, matrícula o nombre;
   hasta 52 territorios; nombre visible «Nacional …» en el manifiesto y el resumen.
   0.1.0 parse_selection acepta «todos», números o nombres (sin tildes ni mayúsculas);
   0.0.1 consumir el plan común y distinguir reuso, generación y preparación.
-Anterior: legacy/herramientas/gestor_campana_nacional_v0.1.0_20261101.py
+Anterior: legacy/herramientas/gestor_campana_nacional_v0.2.0_20261102.py
 """
 from __future__ import annotations
 import argparse, hashlib, json
@@ -58,6 +60,16 @@ def validate_manifest_digest(manifest:dict[str,Any],expected_sha:str|None=None)-
     if manifest.get("manifest_sha256")!=digest or (expected_sha is not None and expected_sha!=digest):
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: manifest_sha256")
 
+PASS_DECISIONS={"PASS","PASS_WITH_EXCEPTIONS","PASS_WITH_GOVERNED_EXCEPTIONS"}
+
+def persist_state_for(row:dict[str,Any],strategy:str)->bool:
+    """Una campaña de otro algoritmo sobre un territorio ya certificado es un escenario: no registra nada (T-27 c)."""
+    plan=row.get("execution_plan") or {}
+    if (strategy!="Canónico" and not plan.get("pre_m04_accreditation_planned")
+            and str((row.get("territorial_product") or {}).get("decision") or "") in PASS_DECISIONS):
+        return False
+    return any(plan.get(k) for k in ("pre_m04_accreditation_planned","run_prepare_electoral","run_incorporate"))
+
 def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Path,
                             expected_sha:str,source_sha:str,slot:str,campaign_instance:str,
                             frozen_inputs:dict[str,str]|None=None)->None:
@@ -78,7 +90,7 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
     if plan.get("publication_mode_effective")!=row["publication_mode"]:
         raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: publication_mode")
     if frozen_inputs is not None:
-        expected_persist="true" if any(row["execution_plan"].get(k) for k in ("pre_m04_accreditation_planned","run_prepare_electoral","run_incorporate")) else "false"
+        expected_persist="true" if persist_state_for(row,str(plan.get("optimization_algorithm") or manifest.get("optimization_algorithm") or "Canónico")) else "false"
         if str(frozen_inputs.get("PERSIST_INPUT") or "").lower()!=expected_persist:
             raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: persist_state")
         refs=row["generation_contract"]
@@ -392,7 +404,7 @@ def build_matrix(manifest:dict[str,Any],confirmation:str)->dict[str,Any]:
           "data_edition":manifest["data_edition"],"execution_mode":manifest["execution_mode"],
           "optimization_algorithm":manifest["optimization_algorithm"],"entrypoint":entrypoint,
           "candidate_count":count,"require_unique_hashes":unique,"retry_failed":False,
-          "persist_state":any(row["execution_plan"].get(k) for k in ("pre_m04_accreditation_planned","run_prepare_electoral","run_incorporate")),
+          "persist_state":persist_state_for(row,manifest["optimization_algorithm"]),
         })
     return {"include":include}
 

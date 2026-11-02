@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.0.4
+# VERSIÓN: 3.1.0
 # NOMBRE: Publicación manual desacoplada del cálculo territorial
 # ESTADO: candidato
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
@@ -8,7 +8,8 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 3.0.4: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.0.3_20261101b.yml
+# CAMBIOS 3.1.0: T-27 fase c, `scenario_id` y `scenario_strategy` opcionales: la ejecución se promueve como escenario no canónico (solo adición).
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.0.4_20261102.yml
 # CAMBIOS: sin run explícito, solo promueve latest_validated si conserva artefactos ddd-*; si caducaron publica el registro durable.
 # MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
 # FECHA: 2026-10-29
@@ -19,6 +20,8 @@ on:
     inputs:
       pagina_publicar: {required: false, type: string, default: Sitio completo}
       production_run_id: {required: false, type: string, default: ''}
+      scenario_id: {required: false, type: string, default: ''}
+      scenario_strategy: {required: false, type: string, default: ''}
   workflow_dispatch:
     inputs:
       pagina_publicar:
@@ -32,6 +35,16 @@ on:
           - Sitio completo
       production_run_id:
         description: Run territorial certificado a promover sin recalcular
+        required: false
+        default: ''
+        type: string
+      scenario_id:
+        description: Opcional. Promueve el run como escenario no canónico con este identificador (p. ej. gerrychain-50-<run>)
+        required: false
+        default: ''
+        type: string
+      scenario_strategy:
+        description: Opcional, junto con scenario_id. Canónico, GerryChain, GerryChain 25 o GerryChain 50
         required: false
         default: ''
         type: string
@@ -116,5 +129,7 @@ jobs:
     with:
       source_ref: ${{ needs.preparar_publicacion.outputs.source_ref }}
       production_run_id: ${{ needs.preparar_publicacion.outputs.production_run_id }}
+      scenario_id: ${{ inputs.scenario_id }}
+      scenario_strategy: ${{ inputs.scenario_strategy }}
       ensemble_release_tag: ''
       target_page: ${{ inputs.pagina_publicar }}

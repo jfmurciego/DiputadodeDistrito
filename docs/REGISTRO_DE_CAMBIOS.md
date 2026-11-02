@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.84
+Versión: 1.0.85
 Fecha: 2026-11-02
-Alcance: T-27 fase (b) — selector del visor por escenario
+Alcance: T-27 fase (c) — escenarios no canónicos sin registrar en el catálogo
 Estado: candidato
-Cambios/motivo: optgroups por escenario y conmutador Territorial/Electoral en el visor
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.83_t27b_20261102.md
+Cambios/motivo: persist_state falso en campañas de otro algoritmo sobre territorio certificado y promoción como scenario_m06/m08
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.84_t27c_20261102.md
 -->
+
+## 2026-11-02 — T-27 (c) — Escenarios de otro algoritmo: sin catálogo, solo adición
+
+`gestor_campana_nacional` 0.3.0: una campaña con algoritmo distinto de Canónico sobre un territorio con producto territorial certificado (PASS) y sin acreditación pre-M04 es un
+escenario: `persist_state` falso (también en la comprobación del manifiesto), así que el `registrar` de la 02 y el de la 04 no escriben el catálogo ni el estado operativo;
+la 04 ya admitía M06/auditoría por run y nombre de artefacto con `artifact_namespace`. Primera generación o producto no certificado siguen registrando. `registro_publicaciones_visor`
+1.2.0: `describe-production --scenario-id --strategy` describe M06/M08 como `scenario_m06/m08` (id con el scenario_id, `canonical` falso). `desplegar-visor-publico` 3.1.0 y
+`_reutilizable-publicar-sitio` 3.2.0 aceptan `scenario_id` y `scenario_strategy` opcionales y los pasan; vacíos, todo igual que antes. Los activos quedan en blob/release inmutable
+y el registro solo añade (la identidad es territorio+kind+scenario_id). Pruebas: `tests/test_escenarios_fase_c.py` (persistencia, descriptores, cableado) y gestor/diseño A/R015 en verde.
 
 ## 2026-11-02 — T-27 (b) — Visor: selector por escenario
 
