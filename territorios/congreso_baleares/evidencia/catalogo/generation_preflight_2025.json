@@ -4,209 +4,25 @@
   "territory_id": "congreso_baleares",
   "territory_name": "Congreso Baleares",
   "edition": "2025",
-  "run_id": 41428008130,
-  "source_commit": "66d6f8a1a290b1d5d3c3357593f29b74db8b18ee",
-  "artifact_name": "ddd-state-41428008130-M03U",
-  "artifact_sha256": "a716ce9e03ad1178779f7306fedee76dd3470da21c4fb1c265d872998da887c6",
-  "decision": "READY_FOR_FIRST_GENERATION",
-  "evaluation_status": "ENABLED",
-  "stage": "M03U",
+  "run_id": 41444676996,
+  "source_commit": "e79d2a09a13f3a08ef88cfa34d54c4e1121d7c04",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 41428008130,
-    "artifact_name": "ddd-source-package-congreso_baleares-2025-41428008130",
-    "artifact_sha256": "70bd5bd36cd7d05c33e9f9d0de7ef436d9168b30f2dc9222ec0020793e0a0b7a",
-    "package_sha256": "5e78bc1121a6b4f7add5abd5932984160a61e50095d75766a614e7dae76ea10a",
-    "compatibility_identity_sha256": "be1a852a257f2c50dc36aaa7ba08cc1f2632402c054b4675ce66db5ea2b75db7",
-    "territorial_identity_sha256": "b2f76b65b6e382415d92e01ffc6c815b3269551b843159b5cd5959f5bd650845",
+    "run_id": 41444676996,
+    "artifact_name": "ddd-source-package-congreso_baleares-2025-41444676996",
+    "artifact_sha256": "61a6b5cbbea8abb8567bb060ce39dc50e156c74d3d5ad4d5df865d339215cf8d",
+    "package_sha256": "36d13304d07963cf01f47df0f06dcc117cc6650a28558f50d22d869067a8feb5",
+    "compatibility_identity_sha256": "cdbf16da008fd22937de1e4eb73357efc4352b143809f8bad447c776308c1579",
+    "territorial_identity_sha256": "8a13d27f23a8c5970df32698e2f31bf46920bfe31f52130aca48fe6af44ecdb3",
     "population_year": 2023,
     "section_year": 2023
   },
-  "implementation": {
-    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
-    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
-    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
-    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
-    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb",
-    "physical_partition_preparer_git_blob_sha1": "1e1d197ddc8e41e0bf05505e6c22bbb70fa557ef",
-    "m04_entrypoint_git_blob_sha1": "d9dde5b8c538f281e162e396cceb679bbaac8112"
-  },
-  "adjacency": {
-    "predicate": "contact",
-    "working_crs": "EPSG:3035",
-    "min_shared_border_m": 1.0,
-    "max_precision_overlap_area_m2": 1.0,
-    "buffer_m": 0.0,
-    "simplify_m": 0.0,
-    "topology_bridges": [
-      {
-        "u": "0702401001",
-        "v": "0702602001",
-        "admin_scope": "province:07",
-        "edge_type": "maritime_group"
-      }
-    ]
-  },
-  "graph": {
-    "artifact_name": "ddd-state-41428008130-M03",
-    "artifact_sha256": "08d837a744662ae71d6894670fb5eee3917f36ef1325e9432aaaa141c8044b77",
-    "module_version": "7.5.0",
-    "nodes": 670,
-    "edges": 1717,
-    "population": 1209906,
-    "isolated": 0,
-    "global_components": 3,
-    "province_disconnected": 1,
-    "municipality_disconnected": 0,
-    "municipality_admitted_disconnected": 0,
-    "municipality_unresolved": 0,
-    "topology_accreditation": {
-      "valid": true,
-      "administrative_components": {
-        "accepted": [],
-        "rejected": []
-      }
-    }
-  },
-  "partitioning": {
-    "job_artifact_name": "ddd-internal-units-41428008130",
-    "job_artifact_sha256": "e1bb02baa8d57ef38c5d2fdb429efef28cbe6e4fbb765f0dea121ec8ab1b3a58",
-    "status": "PREPARED",
-    "strategy": "physical_components",
-    "contract_output_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_particiones.geojson.zip",
-    "resolved_output_geojson": "/app/territorios/congreso_baleares/.cache/ddd/preparacion/congreso_baleares_2025/congreso_baleares_2025_m03_particiones.geojson.zip",
-    "hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
-    "hard_partition_lookup_sha256": "160e7ecbef7cbd7f0262c4d9b3c713c319e9fff07668a1405305c5e2d5cf3407",
-    "inventory_id": "secciones_2023",
-    "source_identity": {
-      "territory_id": "congreso_baleares",
-      "edition": "2025",
-      "population_year": 2023,
-      "section_year": 2023,
-      "package_sha256": "5e78bc1121a6b4f7add5abd5932984160a61e50095d75766a614e7dae76ea10a",
-      "compatibility_identity_sha256": "be1a852a257f2c50dc36aaa7ba08cc1f2632402c054b4675ce66db5ea2b75db7",
-      "sectioning_sha256": "b4045e119891a61d3b5d5a4500f4b7281d56fdbb47bc055ea10abfd21abc63ce",
-      "territorial_identity_sha256": "b2f76b65b6e382415d92e01ffc6c815b3269551b843159b5cd5959f5bd650845"
-    },
-    "partition_field": "DDD_PARTITION",
-    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "input_section_count": 670,
-    "output_section_count": 670,
-    "input_output_cusec_equal": true,
-    "universe_cusec_set_sha256": "9360343a8c2a5d7b1e6fa167155d001a652bbab42df66c70be405052f52bbd2a",
-    "component_sections": {
-      "07-C01": 532,
-      "07-C02": 56,
-      "07-G01": 82
-    },
-    "component_cusec_set_sha256": {
-      "07-C01": "c0398f331f91e66336cb3da29088e6d93a5f3e160d78f46b1a04fac4d9865558",
-      "07-C02": "7d0f1842fc102e74aa795ef8e0e6d7235bc3c2a218402988422706da088374a8",
-      "07-G01": "da20518baae015853444a2f647a9fed6217f0e3ff32d0a178e5513cb4cb02426"
-    },
-    "component_districts": {
-      "07-C01": 7,
-      "07-C02": 1,
-      "07-G01": 2
-    }
-  },
-  "contract_binding": {
-    "contract_level": "production_m01_m06",
-    "edition": 2025,
-    "population_year": 2023,
-    "section_year": 2023,
-    "source_baseline": {
-      "schema": "ddd.source-baseline/1.0",
-      "edition": "2025",
-      "population_year": 2023,
-      "section_year": 2023,
-      "population_total": 1209906,
-      "target_section_count": 670,
-      "package_sha256": "5e78bc1121a6b4f7add5abd5932984160a61e50095d75766a614e7dae76ea10a",
-      "compatibility_report_sha256": "dbc93c0a0a83e30800949d2bef0a9c75fc170e3e60194290d9789a069f0a825d",
-      "compatibility_identity_sha256": "be1a852a257f2c50dc36aaa7ba08cc1f2632402c054b4675ce66db5ea2b75db7"
-    },
-    "topology_accreditation": null,
-    "k_districts": 10,
-    "population_floor_ratio": 0.85,
-    "population_cap_ratio": 1.15,
-    "target_tolerance_ratio": 0.15,
-    "oversized_municipality_rule": "split_only_above_hard_cap",
-    "municipality_atomicity_limit_ratio": 1.15,
-    "m01_output_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m01_secciones_poblacion.geojson.zip",
-    "m03_output_graph_json": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_grafo.json",
-    "m04_input_graph_json": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_grafo.json",
-    "m04_input_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_particiones.geojson.zip",
-    "m04_output_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m04_semillas.geojson.zip",
-    "m05_input_graph_json": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_grafo.json",
-    "m05_input_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m04_semillas.geojson.zip",
-    "m05_output_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m05_distritos_optimizados.geojson.zip",
-    "m06_input_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m05_distritos_optimizados.geojson.zip",
-    "m04_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "m05_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "m06_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "validation_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "expected_districts": 10,
-    "require_graph_contiguity": true,
-    "require_municipality_discipline": true,
-    "hard_partition_input": {
-      "mode": "physical_components",
-      "lookup": "configuracion/particiones_insulares_2025.json",
-      "partition_populations": {
-        "07-C01": 940332,
-        "07-C02": 99005,
-        "07-G01": 170569
-      },
-      "component_districts": {
-        "07-C01": 7,
-        "07-C02": 1,
-        "07-G01": 2
-      },
-      "partition_apportionment_audit": {
-        "07-C01": {
-          "population": 940332,
-          "districts": 7,
-          "target_population": 120990.6,
-          "average_population_per_district": 134333.142857,
-          "relative_deviation_from_target": 0.110277516,
-          "population_floor": 102842.01,
-          "floor_exception_required": false,
-          "floor_exception_governed": true
-        },
-        "07-C02": {
-          "population": 99005,
-          "districts": 1,
-          "target_population": 120990.6,
-          "average_population_per_district": 99005.0,
-          "relative_deviation_from_target": -0.18171329,
-          "population_floor": 102842.01,
-          "floor_exception_required": true,
-          "floor_exception_governed": true
-        },
-        "07-G01": {
-          "population": 170569,
-          "districts": 2,
-          "target_population": 120990.6,
-          "average_population_per_district": 85284.5,
-          "relative_deviation_from_target": -0.295114662,
-          "population_floor": 102842.01,
-          "floor_exception_required": true,
-          "floor_exception_governed": true
-        }
-      },
-      "population_floor_exempt_partitions": [
-        "07-C02",
-        "07-G01"
-      ],
-      "source_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m01_secciones_poblacion.geojson.zip",
-      "input_geojson": "territorios/congreso_baleares/.cache/ddd/preparacion/{run_name}/congreso_baleares_2025_m03_particiones.geojson.zip",
-      "partition_field": "DDD_PARTITION",
-      "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-      "district_apportionment": "hamilton_components",
-      "hard_partition_territory_id": "congreso_baleares"
-    }
-  },
   "effective_gate": {
-    "allowed": true,
-    "route": "validated_pre_m04_topology"
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
