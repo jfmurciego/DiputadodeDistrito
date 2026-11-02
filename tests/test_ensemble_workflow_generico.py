@@ -80,6 +80,11 @@ class EnsembleWorkflowGenericoTests(unittest.TestCase):
             plan = ensure_plan(config, Path(td), count_override=10)
         self.assertEqual((plan["territory_id"], plan["candidate_count"], len(plan["shards"])), ("congreso_salamanca", 10, 5))
 
+    def test_tiene_disparador_manual_con_las_mismas_entradas(self):
+        on = DOC.get("on") or DOC.get(True)
+        self.assertEqual(set(on["workflow_dispatch"]["inputs"]), set(on["workflow_call"]["inputs"]))
+        self.assertIs(on["workflow_dispatch"]["inputs"]["deploy_pages"]["default"], False)
+
     def test_aragon_conserva_su_configuracion(self):
         config, _ = load_config(str(ROOT / "configuracion/ensemble/aragon.json"))
         self.assertEqual(config["contract"]["k"], 67)
