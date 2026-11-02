@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -79,7 +79,7 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -193,7 +193,6 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
-  # Diagnóstico M05 del 01-11-2026 (run 00 anterior, POPULATION_HARD_BLOCK): San Fernando (94.072 hab.) es un municipio entero por debajo del suelo (96.967) y no puede completarse sin partirlo; su distrito queda exento del suelo.
   population_floor_exempt_municipalities:
   - '11031'
   partition_apportionment_audit: {}
@@ -204,9 +203,9 @@ validation:
     section_year: 2023
     population_total: 1254866
     target_section_count: 926
-    package_sha256: 8b2418be9e8c392dbb0b3f2e493947e10200e7e5a22e831b8438aec4163a85fc
-    compatibility_report_sha256: f51efdee2040fa43b748d289d35b731bdec60947aad057a6b8e935c16e4d7555
-    compatibility_identity_sha256: a8853cf0b212d90f709cadc67112904e5e263e462ec9d46fb8b8ecfb63879dfb
+    package_sha256: f7dfb76bce3e2f2c243090b6b02f6aa796b5c02d69b08b94b43201d8b652c7d3
+    compatibility_report_sha256: 21bbf5e9bc9b9d80fe66282eae6bf223912599e0265f064dd63cb7b18d890998
+    compatibility_identity_sha256: 560b989dea320275889ba9f16de1e81fb9f8c26ddb9a4f5852a83af9fdbdb24f
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -263,8 +262,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 630207a5ae4447656e4be8894ce22fb11102bafb9777aaab44e64f856375d7a8
-        bytes: 1591979
+        sha256: 9dac622d4e7849895bd0dd7b2bc95b835d96f81de5879e325c312ef503e95f5d
+        bytes: 1591978
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -277,12 +276,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: b5302345fca154e9b2d1772fa31484d77f1fb0738b48b1d86b8501da0bafe10f
+  contract_sha256: 1dc9cc3305dff0b9dec395b37d00714ce715fb5ceeebf81effab3b922ff50a09
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: 8b2418be9e8c392dbb0b3f2e493947e10200e7e5a22e831b8438aec4163a85fc
-  compatibility_identity_sha256: a8853cf0b212d90f709cadc67112904e5e263e462ec9d46fb8b8ecfb63879dfb
+  generation_enabled: false
+  package_sha256: f7dfb76bce3e2f2c243090b6b02f6aa796b5c02d69b08b94b43201d8b652c7d3
+  compatibility_identity_sha256: 560b989dea320275889ba9f16de1e81fb9f8c26ddb9a4f5852a83af9fdbdb24f
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: af594651d3c603ef61acea97299cfdab14c0cb429de1153104e35b7b4d21da71
@@ -314,7 +313,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 630207a5ae4447656e4be8894ce22fb11102bafb9777aaab44e64f856375d7a8
+    sha256: 9dac622d4e7849895bd0dd7b2bc95b835d96f81de5879e325c312ef503e95f5d
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -332,6 +331,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41243953699
-  pre_m04_source_commit: 90ba282f5d17efe0118fb0f701aba18fec61ccdc
-  pre_m04_artifact_sha256: f4a7c01aaaddd5527dd4783e1c5995ced90492c25dde598b4cd07b0f9554fed4

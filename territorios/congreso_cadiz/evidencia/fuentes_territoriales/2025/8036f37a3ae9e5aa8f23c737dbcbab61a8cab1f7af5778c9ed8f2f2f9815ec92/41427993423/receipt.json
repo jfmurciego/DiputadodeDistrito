@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_cadiz",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41427993423,
+  "artifact_name": "ddd-source-package-congreso_cadiz-2025-41427993423",
+  "artifact_sha256": "2fa45c5dfab68b2b997c233799fa8cb6bd8d2f069a5ca297924239398410d63f",
+  "package_sha256": "f7dfb76bce3e2f2c243090b6b02f6aa796b5c02d69b08b94b43201d8b652c7d3",
+  "source_commit": "3e1e6c5f527cf84027c96e9fc6aca588b4ee85a3",
+  "source_declaration": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/8036f37a3ae9e5aa8f23c737dbcbab61a8cab1f7af5778c9ed8f2f2f9815ec92/41427993423/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "8036f37a3ae9e5aa8f23c737dbcbab61a8cab1f7af5778c9ed8f2f2f9815ec92",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "21bbf5e9bc9b9d80fe66282eae6bf223912599e0265f064dd63cb7b18d890998",
+  "compatibility_identity_sha256": "560b989dea320275889ba9f16de1e81fb9f8c26ddb9a4f5852a83af9fdbdb24f"
+}
