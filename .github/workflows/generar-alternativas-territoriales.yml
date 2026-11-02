@@ -9,7 +9,7 @@
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
 # ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.0.1_20261102.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-name: Ensemble Territorial GerryChain
+name: 06 Escenarios y Ensembles
 
 on:
   workflow_call:

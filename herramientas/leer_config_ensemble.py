@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Resuelve la configuración de ensemble de un territorio para el workflow «Ensemble Territorial GerryChain».
+"""Resuelve la configuración de ensemble de un territorio para el workflow «06 Escenarios y Ensembles».
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-02 · ESTADO: candidato
