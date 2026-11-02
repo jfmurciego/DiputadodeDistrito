@@ -5,12 +5,21 @@ Fecha: 2026-11-02
 Alcance: PLAN 1.0.8 — tareas T-15 a T-20
 Estado: candidato
 Cambios/motivo: alta de T-15 a T-20 y cierre de T-14 en docs/PLAN.md
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.71_plan_20261102.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.72_plan_20261102.md
 -->
 
 ## 2026-11-02 — PLAN 1.0.8 — tareas T-15 a T-20
 
 Solo documentación. `docs/PLAN.md` añade T-15 (Las Palmas M08, #398 y #399), T-16 (#401), T-17, T-18, T-19 y T-20 (Cádiz y Baleares, resuelta sin código: contratos anteriores a #391), cierra T-14 (#397) y marca Madrid, Málaga, Alicante, Barcelona y Murcia como bloqueadas por estructura.
+
+## 2026-11-02 — T-16 — Diagnóstico automático endurecido (T14-01 a T14-05)
+
+`herramientas/publicar_diagnostico_auto.py` 1.1.0 y workflow reutilizable 1.2.8. T14-01: M01, grafo M03 e informe M05
+salen de las rutas que declara el contrato del run, ya no del fichero más reciente de la caché. T14-02: si falta
+alguno el paquete se publica marcado PARTIAL. T14-03: `MANIFEST.json` con sha256, tamaño, etapa, run y checkpoint.
+T14-04: se comprueba el resultado del rebase (aborta y falla con causa). T14-05: un fallo de publicación se anuncia
+como `DIAG_PUBLISH_FAILED` (anotación y resumen del paso) sin ocultar el fallo original. Pruebas:
+`tests/test_publicar_diagnostico_auto.py` (9).
 
 ## 2026-11-02 — T-15 — Las Palmas M08: el municipio exento no se mueve en la reparación M05
 

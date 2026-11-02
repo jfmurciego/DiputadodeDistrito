@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.2.7
-# NOMBRE DE VERSIÓN: Diagnóstico automático a diagnostico/auto
-# FECHA: 2026-11-01
+# VERSIÓN: 1.2.8
+# NOMBRE DE VERSIÓN: Diagnóstico automático con linaje y manifiesto
+# FECHA: 2026-11-02
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
 # CAMBIOS: 1.2.3: la salida de la etapa se guarda en .ddd-logs y, si falla, sus 40 últimas líneas
@@ -19,7 +19,9 @@
 #   deben casar con las secciones de M01; si no, se bloquea con el puente y la causa.
 # CAMBIOS 1.2.7: T-14, si M04, M05 o la puerta de certificación fallan, herramientas/publicar_diagnostico_auto.py
 #   sube M01, grafo M03 (gz) e informe M05 a la rama diagnostico/auto (<territorio>/<run>/); best-effort.
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.6_20261101.yml
+# CAMBIOS 1.2.8: T-16, el diagnóstico automático toma los ficheros de las rutas del contrato (sin fecha de modificación),
+#   pasa etapa y checkpoint, y publica MANIFEST.json; el fallo se anuncia como DIAG_PUBLISH_FAILED.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.7_20261102.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -489,7 +491,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 herramientas/publicar_diagnostico_auto.py --params "$PARAMS" --cache-dir "$CACHE_DIR" --run-id "$GITHUB_RUN_ID"
+        run: python3 herramientas/publicar_diagnostico_auto.py --params "$PARAMS" --run-id "$GITHUB_RUN_ID" --stage "$STAGE" --checkpoint-run-id "$CHECKPOINT_RUN_ID"
       - name: Conservar fallo explícito de GerryChain 50
         if: ${{ failure() && env.STAGE == 'M05' && inputs.optimization_algorithm == 'GerryChain 50' }}
         shell: bash
@@ -1242,7 +1244,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 herramientas/publicar_diagnostico_auto.py --params "$PARAMS" --cache-dir "$CACHE_DIR" --run-id "$GITHUB_RUN_ID"
+        run: python3 herramientas/publicar_diagnostico_auto.py --params "$PARAMS" --run-id "$GITHUB_RUN_ID" --stage CERTIFICACION --checkpoint-run-id "$CHECKPOINT_RUN_ID"
 
   registrar:
     name: Registrar producto territorial
