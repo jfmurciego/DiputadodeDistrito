@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-02T16:36:45.550004+00:00",
+  "generated_at": "2026-11-02T16:39:10.089969+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5159,20 +5159,20 @@
       "name": "Nacional Baleares",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41465837048,
+      "run_id": 41481449507,
       "last_run": {
-        "run_id": 41465837048,
+        "run_id": 41481449507,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5213,7 +5213,7 @@
       },
       "autonomous_community_code_ine": "C07",
       "display_name": "Nacional Baleares",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_barcelona",
@@ -7886,7 +7886,7 @@
     }
   ],
   "kpis": {
-    "complete": 64,
+    "complete": 65,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7911,6 +7911,7 @@
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
+      "Nacional Baleares",
       "Nacional Burgos",
       "Nacional Cáceres",
       "Nacional Cádiz",
@@ -8104,11 +8105,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_cadiz",
-    "name": "Nacional Cádiz",
-    "display_name": "Nacional Cádiz",
-    "autonomous_community_code_ine": "C11",
-    "run_id": 41480150601,
+    "territory_id": "congreso_baleares",
+    "name": "Nacional Baleares",
+    "display_name": "Nacional Baleares",
+    "autonomous_community_code_ine": "C07",
+    "run_id": 41481449507,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -8125,12 +8126,6 @@
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional Baleares",
-      "territory_id": "congreso_baleares",
-      "autonomous_community_code_ine": "C07",
-      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Nacional Barcelona",
@@ -8169,12 +8164,6 @@
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
       "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Nacional Baleares",
-      "territory_id": "congreso_baleares",
-      "autonomous_community_code_ine": "C07",
-      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Nacional Barcelona",
