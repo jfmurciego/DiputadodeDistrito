@@ -1,12 +1,26 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.70
+Versión: 1.0.71
 Fecha: 2026-11-02
-Alcance: T-13 — exención de suelo sin campo municipal en las secciones M06
+Alcance: T-15 — Las Palmas M08, municipio exento anclado en la reparación M05
 Estado: candidato
-Cambios/motivo: la 04 de Las Palmas siguió fallando tras #394 (run 41358199178)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.69_t13_20261102.md
+Cambios/motivo: la reparación M05 movía Mogán (35012, exento) al distrito deficitario y dejaba bajo suelo al que lo perdía
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.70_t15_20261102.md
 -->
+
+## 2026-11-02 — T-15 — Las Palmas M08: el municipio exento no se mueve en la reparación M05
+
+Causa raíz (reproducida en local con M01/M03 del run, M04→M06 y `validar_ejecucion.py`, sin relanzar la 00):
+el suelo 0 de la reparación va por número de distrito (`district_floor_overrides: {"5": 0.0}`), calculado con
+Mogán (35012) en el distrito 5. La reparación pasaba Mogán al distrito deficitario (7), lo dejaba en 97.562 y el
+5 caía a 73.478; M06 y el validador recalculan la exención con la composición final (exento = distrito 7), así
+que el 5 quedaba bajo suelo: «distritos bajo límite poblacional=1». Las exenciones de partición
+(`territory_contract` 35-C02 frente a `validation` vacío) no intervienen: 35-C02 tiene 124.152 hab.
+Corrección mínima: las unidades de municipios exentos llevan `floor_exempt_anchor` y no se mueven
+(`m05_population_repair` 1.8.1, `05_optimizar_distritos` 7.8.6). Resultado local: 10 distritos, el exento
+(66.538) queda en 35-C01 y el validador da OK. Prueba: `tests/test_m05_population_repair.py`
+(`test_exempt_municipality_units_are_anchored_to_their_district`, falla sin el cambio). El motor M05 está en la
+huella M05: los M06 previos dejan de valer para la 04.
 
 ## 2026-11-02 — T-13 — exención de suelo sin campo municipal en M06
 

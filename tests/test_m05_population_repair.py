@@ -1,3 +1,4 @@
+"""Versión 1.1.0; 2026-11-02; candidato. T-15: anclaje de municipios exentos. Anterior: legacy/tests/test_m05_population_repair_v1.0.0_20261102.py"""
 import unittest
 from unittest.mock import patch
 from pathlib import Path
@@ -598,6 +599,17 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
                                                  municipality_policy=self.policy)
         self.assertTrue(checked["valid"])
         self.assertFalse(checked["hard_limits_met"])
+
+    def test_exempt_municipality_units_are_anchored_to_their_district(self):
+        # T-15 (Las Palmas): el suelo 0 va por distrito; si la reparación movía el municipio exento
+        # al distrito deficitario, el que lo perdía quedaba bajo suelo sin exención (M08 fallaba).
+        units={"a":U(79),"x":U(21),"b":U(77)}; units["x"]["floor_exempt_anchor"]=True
+        ass={"a":"A","x":"A","b":"B"}; adj=A(("a","x"),("x","b"))
+        x=r.repair(assignments=ass,units=units,adjacency=adj,target=100,tolerance=40,floor=97,cap=150,
+            district_floors={"A":0.0},limits=r.SearchLimits(max_depth=2,max_transfer_set=2,max_candidates=200,max_seconds=2,seed=1))
+        self.assertEqual(x["assignments"]["x"],"A")
+        self.assertNotEqual(x["result"],r.RESULT_REPAIRED)
+        self.assertIn("EXEMPT_ANCHOR",x["rejection_counts"])
 
 
 if __name__=="__main__": unittest.main()
