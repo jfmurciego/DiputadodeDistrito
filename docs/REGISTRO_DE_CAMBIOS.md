@@ -1,6 +1,6 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.81
+Versión: 1.0.82
 Fecha: 2026-11-02
 Alcance: T-33 — Salamanca une las piezas de secciones MultiPolygon en el ensemble
 Estado: candidato
