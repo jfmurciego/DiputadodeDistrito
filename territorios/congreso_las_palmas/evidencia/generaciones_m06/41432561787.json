@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13140406780,
+      "artifact_name": "ddd-audit-41432561787",
+      "artifact_sha256": "cd6813166933fd79f0d34d1ea5bba549760e4857732f7c1f4806b137b380ba60",
+      "run_id": 41432561787,
+      "size_in_bytes": 4292
+    },
+    "m04": {
+      "artifact_id": 13140806177,
+      "artifact_name": "ddd-state-41432561787-M04",
+      "artifact_sha256": "7522407ecd24aa1669643d334c87e95665891050750f798d8af07ab783b326df",
+      "run_id": 41432561787,
+      "size_in_bytes": 92653268
+    },
+    "m05": {
+      "artifact_id": 13140756619,
+      "artifact_name": "ddd-state-41432561787-M05",
+      "artifact_sha256": "d08c214dbdefb933d8b4651ce7dca3083704c4eaa4b5917e506caa12ec0d2cff",
+      "run_id": 41432561787,
+      "size_in_bytes": 95744672
+    },
+    "m06": {
+      "artifact_id": 13141221654,
+      "artifact_name": "ddd-state-41432561787-M06",
+      "artifact_sha256": "8e630bb7d596cbe361149c4a2e51f27325036b9331e7559e68c8801f6159ad7a",
+      "run_id": 41432561787,
+      "size_in_bytes": 100278909
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "ece09cd740b8338133d535c5573de06b170bebc58dc64649ecbc0a88f08d11b7",
+        "size_in_bytes": 500
+      },
+      "congreso_las_palmas_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "fbda1a8aadf45d0b045ce51389a8889a0b3c8e4d444cb98dc4e64ef91d6a2fe3",
+        "size_in_bytes": 11094
+      },
+      "optimization_execution.json": {
+        "sha256": "b9540575ffd3e138ee36c64c7ef9f6324f23763afb4c8e96f22886587c6b060f",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "39615152a44bff6629bf82f0bdcd8f911f5455f3ce2a4c49b8d09e350c65cbfb",
+        "size_in_bytes": 1383
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "39615152a44bff6629bf82f0bdcd8f911f5455f3ce2a4c49b8d09e350c65cbfb",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_las_palmas/config/congreso_las_palmas_2025.yaml",
+    "sha256": "677a12a5dd27f48655dfaad2b925227662491f98c72d5902292c26c8d69cc7b7"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "e52d40f1bb1ccd6c91a6c4ec6af05f1fd1507f782aeed02076d859a78d841a85",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "0b6469ab4d63e540be7b1439c081b7b915c498a8",
+    "edition": "2025",
+    "territory_id": "congreso_las_palmas",
+    "territory_name": "Congreso Las Palmas",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41432561787,
+    "workflow_sha": "ded2bd76a318022caf3ca8dc356036f39d8c31f0"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13140806177,
+      "artifact_name": "ddd-state-41432561787-M04",
+      "artifact_sha256": "7522407ecd24aa1669643d334c87e95665891050750f798d8af07ab783b326df",
+      "run_id": 41432561787,
+      "size_in_bytes": 92653268
+    },
+    "source_manifest_sha256": "5f316a0bd2c91c2e4f750dab3fee8df771edd587562564d4a0a1067b3a140b34",
+    "source_package_artifact": {
+      "artifact_id": 13137192173,
+      "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41432561787",
+      "artifact_sha256": "482b1e9c4ddb5ef7ef449ed2fef52747ef97b207cafa8eb3d17505ae25623d72",
+      "run_id": 41432561787,
+      "size_in_bytes": 83407036
+    }
+  },
+  "manifest_sha256": "29dc44f91740659621928020f93a8c2b65bfffcc8624bddd15cb305ca3b4945b",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
