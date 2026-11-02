@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-02T12:10:55.133395+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-02T12:22:24.063566+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -81,7 +81,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295142111 · SUCCESS | — | — | — |
 | **Nacional Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296638877 · SUCCESS | — | — | — |
 | **Nacional Palencia** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41298660623 · SUCCESS | — | — | — |
-| **Nacional Las Palmas** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41429872062 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
+| **Nacional Las Palmas** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41432561787 · SUCCESS | 03/04 · rama electoral omitida | 03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08 | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **Nacional Pontevedra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41353894475 · SUCCESS | — | — | — |
 | **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295298674 · SUCCESS | — | — | — |
 | **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294259017 · FAILED | — | — | — |
