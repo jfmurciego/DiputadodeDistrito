@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -73,7 +73,7 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Decisión del propietario (01-11-2026): techo 116 %
     solo en Cádiz, porque dos municipios enteros dan un distrito 1,159 veces la media;
@@ -281,7 +281,7 @@ resolved_source_contract:
   contract_sha256: 1dc9cc3305dff0b9dec395b37d00714ce715fb5ceeebf81effab3b922ff50a09
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 331574c39ce4b6751fdd5e215abf585f32266a3340f5b5b975c3a7b2094dc476
   compatibility_identity_sha256: cb6393ddd14eccf6990999cc24121bc84428a80288298422aa84c4436e8ca54f
   source_inputs:
@@ -333,3 +333,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 41444664023
+  pre_m04_source_commit: 6c02f69dc3e24dc5bd75912bea893cb63d33b7db
+  pre_m04_artifact_sha256: ccbbec3e67f7252389216d8947222b12499a061108192109e1dd220ae363cd1b
