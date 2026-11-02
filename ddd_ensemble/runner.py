@@ -159,7 +159,7 @@ def ensure_plan(
     return expected
 
 
-def adapt(config: dict[str, Any], base: Path):
+def adapt(config: dict[str, Any], base: Path, report_path: Path | None = None):
     inputs, fields = config["inputs"], config["fields"]
     topology = config.get("topology", {})
     comarca_lookup = None
@@ -171,9 +171,9 @@ def adapt(config: dict[str, Any], base: Path):
             comarca_code_col=columns.get("comarca_code", "Comarca código"),
             comarca_name_col=columns.get("comarca_name", "Comarca nombre"),
         )
-    return adapt_files(
-        _path(base, inputs["m03_graph"]),
-        _path(base, inputs[_initial_geojson_key(inputs)]),
+    graph_path = _path(base, inputs["m03_graph"])
+    geojson_path = _path(base, inputs[_initial_geojson_key(inputs)])
+    kwargs = dict(
         section_field=fields["section"],
         district_field=fields["district"],
         municipality_field=fields["municipality"],
@@ -190,6 +190,19 @@ def adapt(config: dict[str, Any], base: Path):
             topology.get("preserve_atomic_multipart_sections", False)
         ),
     )
+    if topology.get("prune_weak_adjacencies"):
+        # T-29: adyacencias por esquina fuera del grafo de ReCom (informe y conexidad comprobada); el motor no se relaja.
+        from ddd_core.m05_gerrychain_engine import _read_json_or_zip, adapt_inputs
+        from .graph_preparation import prune_weak_adjacencies
+
+        geojson_data = _read_json_or_zip(geojson_path)
+        graph_data, report = prune_weak_adjacencies(
+            _read_json_or_zip(graph_path), geojson_data, kwargs["min_shared_border_m"], fields["section"],
+        )
+        if report_path is not None:
+            _write(report_path, report)
+        return adapt_inputs(graph_data, geojson_data, **kwargs)
+    return adapt_files(graph_path, geojson_path, **kwargs)
 
 
 def contract(config: dict[str, Any]) -> Contract:
@@ -262,7 +275,7 @@ def run_candidates(
 ) -> dict[str, int]:
     if profile and profile not in PROFILES:
         raise ValueError(f"Perfil desconocido: {profile}")
-    data = adapt(config, base)
+    data = adapt(config, base, output / "telemetry" / "graph-preparation.json")
     ddd_contract = contract(config)
     fields = config["fields"]
     steps = int(config["engine"].get("steps", 1000))

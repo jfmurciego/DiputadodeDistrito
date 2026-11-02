@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.78
+Versión: 1.0.79
 Fecha: 2026-11-02
-Alcance: T-28 — Cádiz: receipt electoral inválido fuera del catálogo
+Alcance: T-29 — ensemble: aristas por esquina fuera del grafo de ReCom
 Estado: candidato
-Cambios/motivo: electoral_product_available=false en congreso_cadiz para que la 00 rehaga 03/04 sobre el M06 vigente
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.77_t28_20261102.md
+Cambios/motivo: ddd_ensemble.graph_preparation y topology.prune_weak_adjacencies (Salamanca)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.78_t29_20261102.md
 -->
+
+## 2026-11-02 — T-29 — Ensemble: aristas por esquina fuera del grafo de ReCom
+
+El piloto de Salamanca (run 41496526571) fallaba en los 5 perfiles con `InputContractError: Arista sin frontera métrica suficiente: ('3700101001','3706801001'),
+shared_border_m=0.043930 < 1.000000`: una adyacencia por esquina del grafo M03. El contrato del motor no se relaja. Nuevo `ddd_ensemble/graph_preparation.py`: con
+`topology.prune_weak_adjacencies` (solo `congreso_salamanca`; Aragón no cambia), el runner descarta de la entrada de ReCom las aristas con frontera < `min_shared_border_m`,
+comprueba que el número de componentes del grafo no cambia (si cambia, se detiene) y deja `telemetry/graph-preparation.json` (aristas, longitudes, componentes).
+Pruebas: `tests/test_ensemble_grafo_aristas_debiles.py` (el motor sigue rechazando la arista; con la preparación pasa; un grafo que se desconecta para; sin la opción nada cambia).
 
 ## 2026-11-02 — T-28 — Cádiz: retirada del receipt electoral inválido
 
