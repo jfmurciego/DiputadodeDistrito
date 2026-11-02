@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_las_palmas",
+  "territory_name": "Congreso Las Palmas",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_las_palmas_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41432561787,
+    "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41432561787",
+    "artifact_sha256": "482b1e9c4ddb5ef7ef449ed2fef52747ef97b207cafa8eb3d17505ae25623d72",
+    "package_sha256": "1a9afa6371abbff01b01921916e75bd95b0b75f97efd6b6471e5d31c4064344a",
+    "source_commit": "ded2bd76a318022caf3ca8dc356036f39d8c31f0",
+    "source_declaration": "territorios/congreso_las_palmas/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/41432561787/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "ea25cea0ec79802b8a1d3b911668e57a26cd1c290121b3e72f4abdd842e8621c",
+    "compatibility_identity_sha256": "5e9fc62b1cda6a22f4a2d4656e269634f37a3cf8edba21463198d3928be7ec64",
+    "remote_verification": {
+      "run_id": 41432561787,
+      "artifact_id": 13137192173,
+      "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41432561787",
+      "artifact_sha256": "482b1e9c4ddb5ef7ef449ed2fef52747ef97b207cafa8eb3d17505ae25623d72",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41432561787,
+    "artifact_name": "ddd-electoral-package-congreso_las_palmas-2025-41432561787",
+    "artifact_sha256": "0478e7f64998649a07ede2711a20650f0b4b40efab292dd9b3be877d699e72f8",
+    "source_commit": "ded2bd76a318022caf3ca8dc356036f39d8c31f0",
+    "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_electorales/2025/291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b/41432561787/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_las_palmas_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b",
+    "remote_verification": {
+      "run_id": 41432561787,
+      "artifact_id": 13140532662,
+      "artifact_name": "ddd-electoral-package-congreso_las_palmas-2025-41432561787",
+      "artifact_sha256": "0478e7f64998649a07ede2711a20650f0b4b40efab292dd9b3be877d699e72f8",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a",
+  "electoral_compatibility_key": "291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_las_palmas/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "edb3ada24e33cf8ac32756ad61bff42bcd8d822a8923e88467b67ca2f56942eb"
+}
