@@ -3,7 +3,7 @@
 # VERSIÓN: 2.1.0
 # FECHA: 2026-11-02
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
-# CAMBIOS 2.1.0: T-26, disparador workflow_dispatch propio (el workflow solo tenía workflow_call y ningún caller), genérico por territorio (configuracion/ensemble/<territorio>.json). Aragón conserva su circuito;
+# CAMBIOS 2.1.0: T-26, genérico por territorio (configuracion/ensemble/<territorio>.json). Aragón conserva su circuito;
 #   los demás territorios obtienen M01–M05 con _reutilizable-generacion-territorial.yml (persist_state=false, namespace
 #   ensemble-<territorio>) y NO registran nada en el catálogo ni en el estado operativo. Fase ensemble_10; el lote de 50 sigue bloqueado.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
@@ -20,14 +20,6 @@ on:
       promotion_confirmed: {required: false, type: boolean, default: false}
       deploy_pages: {required: false, type: boolean, default: true}
       republish_source_run_id: {required: false, type: string, default: ''}
-  workflow_dispatch:
-    inputs:
-      territory_id: {description: 'Territorio con configuracion/ensemble/<territorio>.json (piloto: congreso_salamanca)', required: true, type: string}
-      stage: {description: 'ensemble_10 (territorios), aragon_10/aragon_50 (Aragón) o synthetic', required: true, type: string, default: synthetic}
-      execution_confirmed: {description: 'Confirma la ejecución (coste de Actions)', required: false, type: boolean, default: false}
-      promotion_confirmed: {description: 'Solo Aragón-50', required: false, type: boolean, default: false}
-      deploy_pages: {description: 'Publicar la galería en el visor (dejar en falso en el piloto)', required: false, type: boolean, default: false}
-      republish_source_run_id: {description: 'Solo Aragón-10: run fuente a republicar', required: false, type: string, default: ''}
 
 permissions:
   contents: write
