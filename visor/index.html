@@ -21,6 +21,7 @@ Anterior: legacy/n08_pilot_pages_gate_20261027/current/visor/index.html
     <div class="selectors">
       <label class="selector">Territorio<select id="territory-select" aria-label="Seleccionar territorio"></select></label>
       <label class="selector result-selector">Resultado<select id="result-select" aria-label="Seleccionar resultado o alternativa"></select></label>
+      <div class="stage-toggle" id="stage-toggle" role="group" aria-label="Familia del resultado"><button type="button" data-stage="territorial" aria-pressed="false">Territorial</button><button type="button" data-stage="electoral" aria-pressed="true">Electoral</button></div>
     </div>
   </header>
   <main>
@@ -35,6 +36,7 @@ Anterior: legacy/n08_pilot_pages_gate_20261027/current/visor/index.html
     </aside>
   </main>
   <script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+  <script src="escenarios.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
