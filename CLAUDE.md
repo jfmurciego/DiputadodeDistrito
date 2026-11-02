@@ -50,6 +50,8 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
   no solo en el contrato.
 - Exenciones de suelo: por partición (isla/provincia, `population_floor_exempt_partitions`) o por municipio
   (`population_floor_exempt_municipalities`, código INE de 5 cifras; Beniel en Murcia).
+- En contratos con islas el campo municipal es `DDD_MUNICIPALITY_PARTITION` («35012:35-C01») y las secciones M06
+  pueden no traerlo: las exenciones municipales comparan solo el municipio y caen a `CUMUN` o CUSEC[:5] (#394 #398).
 - Bloqueo por población: suele ser estructural (municipios indivisibles o núcleos cerrados que encajonan distritos
   pequeños). Palancas: `municipality_atomicity_limit_ratio` más bajo, `population_repair` (private_annealing),
   exención de suelo. Más presupuesto de reparación no ayuda si es estructural.
@@ -107,7 +109,10 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - Los robots de registro reescriben `catalogo_preparacion.yaml` y el catálogo maestro mientras corren
   ejecuciones: una PR que los toca choca enseguida. Rebasa tomando `main` y reinserta solo lo tuyo; fusiona rápido.
 - Un ruleset que exige PR en `main` rechaza los registros de los robots (`GH013`) y las 00 fallan al registrar;
-  `Duplicate header: "Authorization"` (HTTP 400) = credencial de registro mal combinada con actions/checkout (#381→#386).
+  `Duplicate header: "Authorization"` (HTTP 400) = credencial de registro mal combinada con actions/checkout (#381→#386):
+  checkout v6 guarda su token en un include (`includeIf.gitdir:`), no en `http.extraheader`; hay que quitar ambos.
+- Con robots registrando en `main`, «Require branches to be up to date» en el ruleset bloquea toda PR mientras haya
+  00 en marcha (cada registro la deja «behind»): el ruleset solo exige `pruebas` (01-11).
 
 ## Congreso / nacional (provincias)
 - `herramientas/generar_provincias_congreso.py` (idempotente) da de alta provincias desde el reparto N06 y hereda
@@ -124,3 +129,5 @@ aquí lo aprendido. Solo lecciones que hayan costado tiempo descubrir; nada que 
 - 2026-11-01 · T-02: CRS 25830 (Huelva, Valencia), M04 7.6.0 multisección (Álava), dedupe de manifiesto al reanudar
   desde M05, encadenado solo con puerta 02, PARADA de visor = marcador; Murcia bloqueada estructural · #374 #383 #387 #389.
 - 2026-11-01 · Bloqueos de población de provincias: exención municipal en el contrato, techo por territorio en la política, reparación profunda inútil si es estructural, validación local y runs por territorio · #380 #384 #391.
+- 2026-11-02 · Activación por elección (T-03), nombres «nacional», Gestor con provincias, huella de puentes, robots con
+  app propia y exención de suelo en islas · #376 #379 #381 #385 #386 #388 #390 #394 #398.
