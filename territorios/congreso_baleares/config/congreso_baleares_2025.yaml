@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -77,7 +77,7 @@ territory_contract:
   - 07-C02
   - 07-G01
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Decisión del propietario (01-11-2026): techo 127 %
     solo en Baleares; suelo 85 % y municipios indivisibles bajo el techo como en el
@@ -332,7 +332,7 @@ resolved_source_contract:
   contract_sha256: 7446e4192e92c9ad62cd3338de464cfd46d78f9c9acdfd4c2f99cd54fc0ec6e7
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 36d13304d07963cf01f47df0f06dcc117cc6650a28558f50d22d869067a8feb5
   compatibility_identity_sha256: cdbf16da008fd22937de1e4eb73357efc4352b143809f8bad447c776308c1579
   source_inputs:
@@ -384,3 +384,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 41444676996
+  pre_m04_source_commit: cf5cf178c0f7a48a823b10a3ec6219c46f1cf78c
+  pre_m04_artifact_sha256: 119b6086b6c826dd28fc96eff009218e902dce43b0411e19bbcb9e1fb72c9693
