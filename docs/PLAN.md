@@ -4,7 +4,7 @@ Versión: 1.0.10
 Fecha: 2026-11-02
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: estado 47/52, T-21 a T-33 y escenarios del visor (T-27); Cádiz, Baleares y Las Palmas completas; Murcia, Madrid, Málaga, Barcelona y Alicante bloqueadas por el motor
+Cambios/motivo: estado 47/52, T-21 a T-34 con T-27 (a, b, c) y sus PR #413 a #415; Cádiz, Baleares y Las Palmas completas; Murcia, Madrid, Málaga, Barcelona y Alicante bloqueadas por el motor
 Anterior: legacy/docs/PLAN_v1.0.9_20261102.md
 -->
 
@@ -127,10 +127,26 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 ### T-24 · Baleares 1,28, gate de Cádiz y cierre de Las Palmas (hecha)
 - Baleares techo 1,28 (política 1.7.4) y M05 7.8.7 (exención municipal por el campo de municipio, Cádiz) · PR #404; tests negativos de Las Palmas y decisión de 35012 · PR #405.
 
-### T-25 a T-33 · Ensemble y escenarios
-- T-25 lectura: el Gestor con otro algoritmo registraba sobre el canónico. T-26 ensemble genérico por territorio y entrada «06 Escenarios y Ensembles» (#406). T-29/T-31 poda de aristas débiles medidas en metros (#408, #409). T-32 el runner ya no sale en verde con fallos (#410). T-33 piezas de secciones MultiPolygon (#411). T-28 Cádiz: receipt electoral sin linaje retirado del catálogo (#407).
-- T-27 escenarios en el visor: (a) registro con `scenario_m06/m08` (#413), (b) selector por escenario y conmutador Territorial/Electoral (#414), (c) campañas de otro algoritmo sin registrar en el catálogo y promovidas como escenario (#415).
-- Piloto Salamanca: relanzamiento por orden del planificador tras fusionar #411.
+### T-25 · Escenarios de otro algoritmo: lectura (hecha)
+- Una 00 del Gestor con otro algoritmo sobre una provincia completa registraba su producto como el canónico (`persist_state` verdadero). Recomendación: ensemble por territorio (vía A) y escenarios que no registran.
+
+### T-26 · Ensemble genérico por territorio (hecha, #406)
+- «06 Escenarios y Ensembles» (workflow_dispatch) con configuración por territorio; Aragón idéntico; el resto obtiene M01–M05 sin registrar; fase `ensemble_10`, el 50 sigue bloqueado.
+
+### T-27 · Todos los escenarios en el visor (en curso, 3 fases)
+- **(a) Registro** con `scenario_m06/m08`, `scenario_id`, `strategy`, `scenario_kind`, `canonical` · PR #413 · **fusionada**.
+- **(b) Selector** con `optgroup` por escenario y conmutador Territorial/Electoral · PR #414 · CI en curso.
+- **(c) Escenarios sin catálogo**: `persist_state` falso en campañas de otro algoritmo sobre territorio certificado y promoción como escenario (`scenario_id`, `scenario_strategy`) · PR #415 · CI en curso.
+- Pendiente tras las tres: una ejecución real de un escenario completo (territorial y electoral) y su publicación en el visor.
+
+### T-28 · Cádiz: receipt electoral sin linaje (hecha, #407)
+- `electoral_product_available: false`; la 00 «Reutilizar» rehace 03/04 sobre el M06 vigente.
+
+### T-29 a T-33 · Piloto de ensemble de Salamanca (hechas)
+- T-29 poda de aristas débiles (#408); T-30 lectura: las geometrías del Congreso están en grados; T-31 medir la frontera compartida en metros (#409); T-32 el runner del ensemble ya no sale en verde con fallos (#410); T-33 unir las piezas de secciones MultiPolygon como M06 (#411). Resultado: Salamanca ensemble_10, 10/10 candidatos (run 41543954069).
+
+### T-34 · Ensemble en La Rioja y Sevilla (en curso)
+- `configuracion/ensemble/congreso_la_rioja.json` (K=3) y `congreso_sevilla.json` (K=16; Valencia descartada por su puente gobernado) · PR #417 · tras #414, #415 y #416.
 
 ### T-14 · Diagnóstico automático sin el Mac (máxima prioridad tras T-13)
 - Objetivo: cuando una 00 falla en M04, M05 o en la puerta de certificación, el propio workflow sube a la rama
