@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -65,14 +65,8 @@ territory_contract:
   legal_apportionment_context: null
   district_apportionment: hamilton_components
   population_floor_ratio: 0.85
-  population_cap_ratio: 1.15
-  target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
-  limits_exception_decided_at: '2026-10-31'
+  population_cap_ratio: 1.27
+  target_tolerance_ratio: 0.27
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
@@ -83,7 +77,15 @@ territory_contract:
   - 07-C02
   - 07-G01
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
+  limits_profile: exception
+  limits_exception_rationale: 'Decisión del propietario (01-11-2026): techo 127 %
+    solo en Baleares; suelo 85 % y municipios indivisibles bajo el techo como en el
+    resto.'
+  limits_exception_evidence: 'runs 00 41327500079 y 41336112319: M05 distrito 5 de
+    Mallorca = 152.621 hab. (a 1,261 de la media 120.991) frente a un techo de 139.139;
+    la reparación profunda no lo mejoró y el reparto 7/1/2 por isla no tiene alternativa'
+  limits_exception_decided_at: '2026-11-01'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -200,8 +202,8 @@ validation:
     07-G01: 170569
   expected_districts: 10
   population_floor_ratio: 0.85
-  population_cap_ratio: 1.15
-  target_tolerance_ratio: 0.15
+  population_cap_ratio: 1.27
+  target_tolerance_ratio: 0.27
   province_apportionment: hamilton_components
   province_districts:
     07-C01: 7
@@ -254,9 +256,9 @@ validation:
     section_year: 2023
     population_total: 1209906
     target_section_count: 670
-    package_sha256: 5e78bc1121a6b4f7add5abd5932984160a61e50095d75766a614e7dae76ea10a
-    compatibility_report_sha256: dbc93c0a0a83e30800949d2bef0a9c75fc170e3e60194290d9789a069f0a825d
-    compatibility_identity_sha256: be1a852a257f2c50dc36aaa7ba08cc1f2632402c054b4675ce66db5ea2b75db7
+    package_sha256: 36d13304d07963cf01f47df0f06dcc117cc6650a28558f50d22d869067a8feb5
+    compatibility_report_sha256: fd9ee219e323ccb6ab0a58d1bef64f15f38b08d85824f58763df4965b39dbb44
+    compatibility_identity_sha256: cdbf16da008fd22937de1e4eb73357efc4352b143809f8bad447c776308c1579
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -330,9 +332,9 @@ resolved_source_contract:
   contract_sha256: 7446e4192e92c9ad62cd3338de464cfd46d78f9c9acdfd4c2f99cd54fc0ec6e7
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: 5e78bc1121a6b4f7add5abd5932984160a61e50095d75766a614e7dae76ea10a
-  compatibility_identity_sha256: be1a852a257f2c50dc36aaa7ba08cc1f2632402c054b4675ce66db5ea2b75db7
+  generation_enabled: false
+  package_sha256: 36d13304d07963cf01f47df0f06dcc117cc6650a28558f50d22d869067a8feb5
+  compatibility_identity_sha256: cdbf16da008fd22937de1e4eb73357efc4352b143809f8bad447c776308c1579
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b
@@ -382,6 +384,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41428008130
-  pre_m04_source_commit: 66d6f8a1a290b1d5d3c3357593f29b74db8b18ee
-  pre_m04_artifact_sha256: a716ce9e03ad1178779f7306fedee76dd3470da21c4fb1c265d872998da887c6
