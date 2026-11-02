@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.83
+Versión: 1.0.84
 Fecha: 2026-11-02
-Alcance: T-27 fase (a) — registro del visor con escenarios no canónicos
+Alcance: T-27 fase (b) — selector del visor por escenario
 Estado: candidato
-Cambios/motivo: kinds scenario_m06/scenario_m08 con scenario_id, strategy, scenario_kind y canonical
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.82_t27a_20261102.md
+Cambios/motivo: optgroups por escenario y conmutador Territorial/Electoral en el visor
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.83_t27b_20261102.md
 -->
+
+## 2026-11-02 — T-27 (b) — Visor: selector por escenario
+
+`visor/escenarios.js` (nuevo, funciones puras) agrupa los resultados de un territorio en «Canónico», un grupo por escenario («<strategy> · <scenario_id>») y un grupo por ensemble;
+`app.js` construye el selector con `optgroup` y añade el conmutador Territorial/Electoral (por defecto Electoral si existe; al conmutar se conserva el grupo). Los resultados
+canónicos y las entradas históricas siguen apareciendo como antes y nada se pierde ni se mezcla entre grupos. `_reutilizable-publicar-sitio.yml` 3.1.0 publica también
+`escenarios.js` y lo valida con `node --check`. Pruebas: `tests/test_visor_escenarios.py` (agrupación y conmutador con node, cableado). Sigue la fase (c).
 
 ## 2026-11-02 — T-27 (a) — Registro del visor: escenarios no canónicos
 
