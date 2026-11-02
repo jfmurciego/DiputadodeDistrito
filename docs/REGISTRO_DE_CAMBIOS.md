@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.80
+Versión: 1.0.81
 Fecha: 2026-11-02
-Alcance: T-31 — ensemble mide fronteras en metros
+Alcance: T-32 — el runner del ensemble ya no sale en verde con fallos
 Estado: candidato
-Cambios/motivo: geometrías en grados reproyectadas a topology.working_crs antes de medir shared_border_m
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.79_t31_20261102.md
+Cambios/motivo: exit_code_for: 3 con candidatos fallidos, 4 con 0 válidos, 2 incompleto sin --allow-partial
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.80_t32_20261102.md
 -->
+
+## 2026-11-02 — T-32 — Ensemble: falso verde del runner
+
+El piloto de Salamanca (run 41518377027) terminó en SUCCESS con 0 de 10 candidatos válidos: `ddd_ensemble.runner` salía con código 0 aunque `run.failed` fuese 2 por perfil.
+`exit_code_for`: 3 si hay candidatos fallidos en la ejecución, 4 si al ensamblar no hay ningún candidato válido (aunque se use `--allow-partial`), 2 si está incompleto sin
+`--allow-partial`; un ensamblado parcial con candidatos válidos y `--allow-partial` sigue siendo reanudable (0). Los jobs `generate` fallidos no bloquean `publish` (`always()`
+y `upload-artifact` con `if: always()`). Pruebas en `tests/test_ensemble_codigo_de_salida.py` (rojas sin el cambio).
 
 ## 2026-11-02 — T-31 — Ensemble: fronteras medidas en metros
 

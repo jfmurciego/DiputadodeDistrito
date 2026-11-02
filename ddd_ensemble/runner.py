@@ -428,8 +428,25 @@ def main() -> None:
         result["summary"] = finish(output, int(config.get("ensemble", {}).get("shortlist_size", 10)))
     _write(output / "last-run.json", result)
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    if result.get("summary", {}).get("complete") is False and not args.allow_partial:
-        raise SystemExit(2)
+    code = exit_code_for(result, args.allow_partial)
+    if code:
+        raise SystemExit(code)
+
+
+def exit_code_for(result: dict[str, Any], allow_partial: bool) -> int:
+    """T-32: un candidato fallido o un ensemble sin candidatos válidos ya no sale en verde.
+
+    3 = hubo candidatos fallidos en la ejecución; 4 = 0 candidatos válidos al ensamblar (aunque se permita lo parcial);
+    2 = ensemble incompleto sin --allow-partial.
+    """
+    if int((result.get("run") or {}).get("failed", 0)) > 0:
+        return 3
+    summary = result.get("summary")
+    if summary is not None and int(summary.get("candidate_count_valid", 0)) == 0:
+        return 4
+    if (summary or {}).get("complete") is False and not allow_partial:
+        return 2
+    return 0
 
 
 if __name__ == "__main__":
