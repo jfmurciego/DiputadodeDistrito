@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_las_palmas",
+  "territory_name": "Congreso Las Palmas",
+  "edition": "2025",
+  "run_id": 41432561787,
+  "artifact_name": "ddd-electoral-package-congreso_las_palmas-2025-41432561787",
+  "artifact_sha256": "0478e7f64998649a07ede2711a20650f0b4b40efab292dd9b3be877d699e72f8",
+  "source_commit": "ded2bd76a318022caf3ca8dc356036f39d8c31f0",
+  "election_id": "congreso_las_palmas_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b"
+}

@@ -2081,7 +2081,7 @@ territories:
         section_year: 2023
         source_commit: ded2bd76a318022caf3ca8dc356036f39d8c31f0
       evidence:
-        electoral_source: territorios/congreso_las_palmas/evidencia/fuentes_electorales/2025/9c71936cebbe0ab9047846f3333b0565fa15f14bfaa03bbc258c440417299397/41250292326/receipt.json
+        electoral_source: territorios/congreso_las_palmas/evidencia/fuentes_electorales/2025/291e65f01ed409290cd8c685c8f80e14414edbd37e2ffa574a7862e9a2ecfd4b/41432561787/receipt.json
         territorial_product: territorios/congreso_las_palmas/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/34c754b87560cb906f465fb1379dfb83522b2fd305aaa9d9915b5fc2d867284c.json
         generation_preflight: territorios/congreso_las_palmas/evidencia/catalogo/generation_preflight_2025.json
