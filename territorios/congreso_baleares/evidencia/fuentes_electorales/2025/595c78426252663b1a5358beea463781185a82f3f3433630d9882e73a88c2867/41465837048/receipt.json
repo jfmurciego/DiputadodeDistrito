@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_baleares",
+  "territory_name": "Congreso Baleares",
+  "edition": "2025",
+  "run_id": 41465837048,
+  "artifact_name": "ddd-electoral-package-congreso_baleares-2025-41465837048",
+  "artifact_sha256": "8e4d735e8690294200418c404af3e2819e52b96d7f2941bb1b5d5d02c689a97a",
+  "source_commit": "09f8f61161a9e9c2188261e0ba60d52a018b04ba",
+  "election_id": "congreso_baleares_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "595c78426252663b1a5358beea463781185a82f3f3433630d9882e73a88c2867"
+}
