@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-02T16:20:49.666194+00:00",
+  "generated_at": "2026-11-02T16:36:45.550004+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 67,
-      "activable": 4,
+      "activated": 68,
+      "activable": 3,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 67
+      "durable_pair": 68
     },
     "territories": [
       {
@@ -1353,12 +1353,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_baleares/evidencia/pares_fuentes/2025/6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7.json",
-            "pair_sha256": "6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_baleares/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json",
+            "pair_sha256": "61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -5165,11 +5165,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41465837048,
       "last_run": {
-        "run_id": 41444676996,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41465837048,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -5198,11 +5198,22 @@
           "producer_manifest_path": "territorios/congreso_baleares/evidencia/generaciones_m06/41465837048.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_baleares",
+          "territory_name": "Congreso Baleares",
+          "edition": "2025",
+          "run_id": 41481449507,
+          "artifact_name": "ddd-state-41481449507-M08",
+          "artifact_sha256": "9824a5c23e324287374d740dcf375e3fee1a3cd2c0c2b053349239ddbf679ee3",
+          "source_commit": "49f01f011962a0d2248a7286c322077f8de6103f",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C07",
       "display_name": "Nacional Baleares",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_barcelona",
@@ -5368,20 +5379,20 @@
       "name": "Nacional Cádiz",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41465820761,
+      "run_id": 41480150601,
       "last_run": {
-        "run_id": 41465820761,
-        "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "run_id": 41480150601,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5407,11 +5418,22 @@
           "producer_manifest_path": "territorios/congreso_cadiz/evidencia/generaciones_m06/41465820761.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_cadiz",
+          "territory_name": "Congreso Cádiz",
+          "edition": "2025",
+          "run_id": 41480150601,
+          "artifact_name": "ddd-state-41480150601-M08",
+          "artifact_sha256": "517feeaafec8583228b36d6d2a794f219f13f17f18fe516ae91956b76371608f",
+          "source_commit": "74695d9f9489ed061b862f6352f9af9c32e0311a",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C11",
       "display_name": "Nacional Cádiz",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_castellon",
@@ -7864,7 +7886,7 @@
     }
   ],
   "kpis": {
-    "complete": 63,
+    "complete": 64,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7891,6 +7913,7 @@
       "Nacional Badajoz",
       "Nacional Burgos",
       "Nacional Cáceres",
+      "Nacional Cádiz",
       "Nacional Castellón",
       "Nacional Ciudad Real",
       "Nacional Córdoba",
@@ -8081,11 +8104,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_las_palmas",
-    "name": "Nacional Las Palmas",
-    "display_name": "Nacional Las Palmas",
-    "autonomous_community_code_ine": "C35",
-    "run_id": 41442913288,
+    "territory_id": "congreso_cadiz",
+    "name": "Nacional Cádiz",
+    "display_name": "Nacional Cádiz",
+    "autonomous_community_code_ine": "C11",
+    "run_id": 41480150601,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -8114,12 +8137,6 @@
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional Cádiz",
-      "territory_id": "congreso_cadiz",
-      "autonomous_community_code_ine": "C11",
-      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Nacional Madrid",
@@ -8164,12 +8181,6 @@
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
       "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Nacional Cádiz",
-      "territory_id": "congreso_cadiz",
-      "autonomous_community_code_ine": "C11",
-      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Nacional Madrid",
