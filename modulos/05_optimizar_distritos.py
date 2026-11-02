@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.8.6
+VERSIÓN: 7.8.7
 NOMBRE DE VERSIÓN: Estados poblacionales finales y staging completo de M06
 FECHA: 2026-11-02
 ESTADO: candidato; reparación focal por defecto y estrategia privada experimental optativa con validación oficial obligatoria.
@@ -15,8 +15,9 @@ REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; una desactivación e
 automática solo ocurre ante violaciones duras sobre una partición estructuralmente válida.
 CAMBIOS: reconstruye estados poblacionales y reporte desde asignaciones finales; dirige todas las salidas M06 de la puerta privada a staging y limpia el informe operativo temporal del validador.
 MOTIVO: impedir atributos y diagnósticos obsoletos y proteger productos duraderos mientras se valida una candidata privada.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.5_2026-11-02.py
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.6_2026-11-02.py
 CAMBIO 7.8.5: un distrito que contiene un municipio de validation.population_floor_exempt_municipalities queda exento del suelo (Beniel, Murcia).
+CAMBIO 7.8.7 (T-24): la exención municipal de la reparación se detecta por el campo de municipio de las secciones, no por el formato del id de unidad (Cádiz: distrito 7 contado como violación dura).
 CAMBIO 7.8.6 (T-15): las unidades de esos municipios quedan ancladas a su distrito en la reparación (floor_exempt_anchor y frozen_units).
 """
 from __future__ import annotations
@@ -249,7 +250,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
     idf=s5.get("id_field","CUSEC_KEY"); did=s5.get("district_field","district_id"); provf=s5.get("province_field","CPRO")
     g[idf]=g[idf].astype(str); g["ddd_unit_id"]=g["ddd_unit_id"].astype(str); g[provf]=g[provf].astype(str).str.zfill(2)
     pop={str(n["id"]):int(n.get("pop",0)) for n in graph["nodes"]}; sec_unit=dict(zip(g[idf],g["ddd_unit_id"]))
-    exempt_muns_anchor=exempt_municipalities(cfg)
+    exempt_muns_anchor=exempt_municipalities(cfg); munf=s5.get("municipality_field","CUMUN")
     units={}; assignments={}
     for u,x in g.groupby("ddd_unit_id"):
         ds=set(x[did])
@@ -259,7 +260,10 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
             "province":str(x[provf].iloc[0]).zfill(2),
             "municipality_group":u if str(u).endswith(":M") else None,
         }
-        if units_touch_exempt([u],exempt_muns_anchor): units[u]["floor_exempt_anchor"]=True
+        # T-24: el id de unidad solo lleva el municipio en algunos contratos (Cádiz usa números sueltos);
+        # el campo de municipio de las secciones es la fuente fiable de la exención.
+        if units_touch_exempt([u],exempt_muns_anchor) or (munf in x.columns and municipalities_touch_exempt(x[munf].astype(str),exempt_muns_anchor)):
+            units[u]["floor_exempt_anchor"]=True
         assignments[u]=next(iter(ds))
     adj={u:set() for u in units}
     for e in graph["edges"]:
@@ -287,7 +291,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
         if len(provinces)==1:
             province=next(iter(provinces))
             members=[u for u,d in assignments.items() if d==district]
-            district_floors[district]=0.0 if province in floor_exempt or units_touch_exempt(members,exempt_muns) else floor
+            district_floors[district]=0.0 if province in floor_exempt or any(units[m].get("floor_exempt_anchor") for m in members) else floor
 
     baseline_check=verify_partition_constraints(
         assignments,units,adj,floor=floor,cap=cap,district_floors=district_floors

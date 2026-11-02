@@ -1,13 +1,13 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.4.5
+**Versión documental:** 1.4.6
 **Nombre de versión:** Estrategia privada experimental v7.8.4
 **Fecha:** 2026-11-02
-**Código activo:** M05 v7.8.6
+**Código activo:** M05 v7.8.7
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.4.md`
-**Cambio:** 1.4.5 (T-15): wrapper v7.8.6; la reparación no mueve unidades de municipios exentos de suelo (el suelo 0 va por distrito y debe seguir al municipio; Las Palmas, M08). 1.4.4: wrapper v7.8.5 con exención de suelo por municipio. 1.4.3: documenta el wrapper v7.8.4 y `private_annealing` como estrategia experimental privada, opt-in y desactivada por defecto. El camino de reparación previo y sus parámetros predeterminados se conservan; los resultados privados solo se promueven tras validación oficial atómica.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.5.md`
+**Cambio:** 1.4.6 (T-24): wrapper v7.8.7; la exención municipal de la reparación se lee del campo de municipio de las secciones, no del formato del id de unidad (Cádiz). 1.4.5 (T-15): wrapper v7.8.6; la reparación no mueve unidades de municipios exentos de suelo (el suelo 0 va por distrito y debe seguir al municipio; Las Palmas, M08). 1.4.4: wrapper v7.8.5 con exención de suelo por municipio. 1.4.3: documenta el wrapper v7.8.4 y `private_annealing` como estrategia experimental privada, opt-in y desactivada por defecto. El camino de reparación previo y sus parámetros predeterminados se conservan; los resultados privados solo se promueven tras validación oficial atómica.
 **Motivo:** reflejar la implementación experimental aprobada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.
 
 ## Propósito

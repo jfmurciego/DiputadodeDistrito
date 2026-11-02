@@ -104,6 +104,42 @@ class AutoPopulationRepairActivationTests(unittest.TestCase):
             saved = json.loads(report.read_text(encoding="utf-8"))["population_repair"]
             self.assertEqual(saved["activation"], "AUTO_HARD_VIOLATIONS")
 
+    def test_municipal_floor_exemption_is_read_from_municipality_field_not_unit_id(self):
+        # T-24 (Cádiz): ids de unidad numéricos; el distrito exento no debe contar como violación dura.
+        def geo():
+            df = frame([160, 40])
+            df["CUMUN"] = ["11001", "11031"]
+            return df
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            graph, report, out = self.make_files(root, [160, 40])
+            cfg = {"validation": {"population_floor_exempt_municipalities": ["11031"]}}
+            with (
+                patch.object(m05, "load_geo", return_value=geo()),
+                patch.object(m05, "write_geo"),
+                patch.object(m05, "hard_limits", return_value=(100, 50, 200, 10)),
+            ):
+                result = m05._apply_population_repair(cfg, self.s5(graph), out, report)
+            self.assertEqual(result["hard_population_violations_before"], 0)
+            self.assertEqual(result["district_floor_overrides"], {"2": 0.0})
+
+    def test_non_exempt_district_below_floor_still_blocks(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            graph, report, out = self.make_files(root, [160, 40])
+            df = frame([160, 40])
+            df["CUMUN"] = ["11001", "11031"]
+            cfg = {"validation": {"population_floor_exempt_municipalities": ["11999"]}}
+            with (
+                patch.object(m05, "load_geo", return_value=df),
+                patch.object(m05, "write_geo"),
+                patch.object(m05, "hard_limits", return_value=(100, 50, 200, 10)),
+                patch.object(m05, "repair", return_value={"result": "NO_FEASIBLE_REPAIR_FOUND", "assignments": {"u1": 1, "u2": 2}}) as repair_mock,
+            ):
+                result = m05._apply_population_repair(cfg, self.s5(graph), out, report)
+            self.assertEqual(result["hard_population_violations_before"], 1)
+            repair_mock.assert_called_once()
+
     def test_explicit_false_wins_and_reports_disabled_without_search(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

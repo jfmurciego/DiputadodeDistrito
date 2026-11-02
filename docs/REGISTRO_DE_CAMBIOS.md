@@ -1,12 +1,23 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.74
+Versión: 1.0.75
 Fecha: 2026-11-02
-Alcance: T-20 — límites de población de la política en contratos ya completos
+Alcance: T-24 — Baleares techo 1,28 y exención municipal en la reparación M05 (Cádiz)
 Estado: candidato
-Cambios/motivo: el materializador conservaba el techo antiguo de los contratos completos (Cádiz 1,15 en vez de 1,16)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.73_t20_20261102.md
+Cambios/motivo: política 1.7.4 y M05 7.8.7
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.74_t24_20261102.md
 -->
+
+## 2026-11-02 — T-24 — Baleares techo 1,28 y gate de Cádiz
+
+Baleares: política 1.7.4, `population_cap_ratio` 1,27 → 1,28 y tolerancia 0,28 (decisión del propietario de hoy): el distrito 5 de
+Mallorca pesa 154.049 hab. frente a 153.658 con 1,27. M05 local sobre el grafo de `diagnostico/auto/congreso_baleares/41444676996`:
+0 violaciones duras. Cádiz: M05 7.8.7. La reparación detectaba la exención municipal por el formato del id de unidad
+(`prov:mun:…`), pero en Cádiz las unidades son números sueltos, así que no veía la exención de San Fernando (11031), contaba el
+distrito 7 (94.072) como violación dura y la certificación daba HARD_BLOCK aunque M06 daba hard=0. Ahora usa el campo de municipio
+de las secciones. Pruebas: `test_municipal_floor_exemption_is_read_from_municipality_field_not_unit_id` (falla sin el cambio) y
+`test_non_exempt_district_below_floor_still_blocks`. No se tocan umbrales. M05 está en la huella: Cádiz y Baleares necesitan la 00
+desde el principio.
 
 ## 2026-11-02 — T-20 — Techo de Cádiz y Baleares: el materializador no reaplicaba la política
 

@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.7.3
-# FECHA: 2026-11-01
+# VERSIÓN: 1.7.4
+# FECHA: 2026-11-02
+# CAMBIOS 1.7.4: Baleares techo 1,28 (decisión del propietario 02-11-2026; distrito 5 de Mallorca = 154.049 hab., hace falta ≥1,2736).
 # CAMBIOS: 1.6.0: piloto Congreso Huesca (K=2, límites ±15 %, municipios indivisibles hasta el techo).
 #   1.5.2: umbral de atomicidad municipal 1,5 en la Comunidad Valenciana (antes solo en su contrato, #336).
 #   1.5.1: umbral de atomicidad municipal 1,25 en Andalucía, País Vasco y Cataluña.
@@ -852,12 +853,12 @@ territories:
     rationale: "Congreso: K=10 es la cuota de Baleares (CPRO 07) en N06-OWNER-20261012-K, con K_i igual al mayor entre 1 y la parte entera de (P_i + 60.000) entre 120.000, y K2025 = 407."
     population_limits:
       population_floor_ratio: 0.85
-      population_cap_ratio: 1.27
-      target_tolerance_ratio: 0.27
+      population_cap_ratio: 1.28
+      target_tolerance_ratio: 0.28
       municipality_atomicity_limit_ratio: 1.15
-      decided_at: "2026-11-01"
-      evidence: "runs 00 41327500079 y 41336112319: M05 distrito 5 de Mallorca = 152.621 hab. (a 1,261 de la media 120.991) frente a un techo de 139.139; la reparación profunda no lo mejoró y el reparto 7/1/2 por isla no tiene alternativa"
-      rationale: "Decisión del propietario (01-11-2026): techo 127 % solo en Baleares; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
+      decided_at: "2026-11-02"
+      evidence: "run 00 41444676996: M05 distrito 5 de Mallorca = 154.049 hab. frente a un techo de 153.658 con 1,27 (excede por 391 hab.); con 1,28 el M05 local sobre el grafo de diagnostico/auto/congreso_baleares/41444676996 da 0 violaciones duras"
+      rationale: "Decisión del propietario (02-11-2026): techo 128 % solo en Baleares (antes 127 %); suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
   congreso_las_palmas:
     k: 10
