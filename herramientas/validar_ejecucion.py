@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Validación de ejecución
-VERSIÓN: 1.3.3
+VERSIÓN: 1.3.4
 NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal — Gobernanza R015
 FECHA: 2026-09-11
 QUÉ HACE: valida cardinalidad, unicidad, población, contigüidad, integridad provincial y disciplina de división municipal.
@@ -11,6 +11,9 @@ ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
 CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
 MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
 ANTERIOR: legacy/herramientas/validar_ejecucion_v1.3.1.py
+CAMBIO 1.3.4 (T-13): si las secciones M06 no traen el campo municipal del contrato (Las Palmas: sin
+DDD_MUNICIPALITY_PARTITION, run 41358199178), el municipio sale de CUMUN o de las 5 primeras cifras del CUSEC.
+ANTERIOR 1.3.3: legacy/herramientas/validar_ejecucion_v1.3.3_20261102.py
 CAMBIO 1.3.3 (T-13): el suelo por distrito aplica también las exenciones del contrato sobre las secciones
 (municipio «35012» o «35012:35-C01» y partición), aunque el resumen M06 se generase sin reconocerlas.
 ANTERIOR 1.3.2: legacy/herramientas/validar_ejecucion_v1.3.2_20261101.py
@@ -44,12 +47,17 @@ def components(nodes,adj):
 def floor_exempt_districts(cfg,s6,val,sec,did):
     """Distritos exentos de suelo por el contrato, recalculados sobre las secciones (igual que M06)."""
     mun_field=s6.get('municipality_field',val.get('municipality_field','CUMUN'))
+    id_field=s6.get('id_field','CUSEC')
     prov_field=s6.get('province_field',val.get('province_field','CPRO'))
     exempt_muns=exempt_municipalities(cfg)
     exempt_parts={str(x) for x in (val.get('population_floor_exempt_partitions') or [])}
     out=set()
     for district_id,g in sec.groupby(did):
-        if exempt_muns and mun_field in g.columns and municipalities_touch_exempt(g[mun_field].astype(str),exempt_muns):
+        if mun_field in g.columns:muns=g[mun_field].astype(str)
+        elif 'CUMUN' in g.columns:muns=g['CUMUN'].astype(str).str.zfill(5)
+        elif id_field in g.columns:muns=g[id_field].astype(str).str[:5]
+        else:muns=pd.Series(dtype=str)
+        if exempt_muns and municipalities_touch_exempt(muns,exempt_muns):
             out.add(str(district_id))
         elif exempt_parts and prov_field in g.columns:
             parts=sorted({str(v).zfill(2) for v in g[prov_field].dropna()})

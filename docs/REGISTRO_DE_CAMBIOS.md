@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.70
+Versión: 1.0.71
 Fecha: 2026-11-02
 Alcance: T-15 — Las Palmas M08, municipio exento anclado en la reparación M05
 Estado: candidato
 Cambios/motivo: la reparación M05 movía Mogán (35012, exento) al distrito deficitario y dejaba bajo suelo al que lo perdía
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.69_t13_20261102.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.70_t15_20261102.md
 -->
 
 ## 2026-11-02 — T-15 — Las Palmas M08: el municipio exento no se mueve en la reparación M05
@@ -21,6 +21,12 @@ Corrección mínima: las unidades de municipios exentos llevan `floor_exempt_anc
 (66.538) queda en 35-C01 y el validador da OK. Prueba: `tests/test_m05_population_repair.py`
 (`test_exempt_municipality_units_are_anchored_to_their_district`, falla sin el cambio). El motor M05 está en la
 huella M05: los M06 previos dejan de valer para la 04.
+
+## 2026-11-02 — T-13 — exención de suelo sin campo municipal en M06
+
+- Las secciones M06 de Las Palmas no traen `DDD_MUNICIPALITY_PARTITION` (el campo del contrato), así que ni M06 ni el validador de la 04 veían el municipio: el distrito de Mogán (62.453 hab., 0,55) seguía sin exención.
+- `herramientas/validar_ejecucion.py` 1.3.4: si falta el campo municipal del contrato, toma `CUMUN` o, en su defecto, las 5 primeras cifras del CUSEC.
+- Test: `tests/test_exencion_suelo_islas.py` cubre los dos respaldos.
 
 ## 2026-11-01 — T-13 — exención de suelo con el campo «municipio:partición»
 

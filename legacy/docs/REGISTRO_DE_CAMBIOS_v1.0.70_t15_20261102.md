@@ -1,12 +1,18 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.69
-Fecha: 2026-11-01
-Alcance: T-13 — exención de suelo en provincias con islas
+Versión: 1.0.70
+Fecha: 2026-11-02
+Alcance: T-13 — exención de suelo sin campo municipal en las secciones M06
 Estado: candidato
-Cambios/motivo: Las Palmas pasaba la 02 con la exención de 35012 pero la 04 la rechazaba (run 41339428006)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.68_t02b_20261101.md
+Cambios/motivo: la 04 de Las Palmas siguió fallando tras #394 (run 41358199178)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.69_t13_20261102.md
 -->
+
+## 2026-11-02 — T-13 — exención de suelo sin campo municipal en M06
+
+- Las secciones M06 de Las Palmas no traen `DDD_MUNICIPALITY_PARTITION` (el campo del contrato), así que ni M06 ni el validador de la 04 veían el municipio: el distrito de Mogán (62.453 hab., 0,55) seguía sin exención.
+- `herramientas/validar_ejecucion.py` 1.3.4: si falta el campo municipal del contrato, toma `CUMUN` o, en su defecto, las 5 primeras cifras del CUSEC.
+- Test: `tests/test_exencion_suelo_islas.py` cubre los dos respaldos.
 
 ## 2026-11-01 — T-13 — exención de suelo con el campo «municipio:partición»
 
