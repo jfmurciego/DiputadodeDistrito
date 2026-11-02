@@ -87,11 +87,11 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 ### T-15 · Las Palmas falla en M08 tras #394 (P0, BUG)
 - Run 00 41358199178: reutiliza el M06 de 41336103808, M07 queda OK y la validación da «distritos bajo límite poblacional=1» (exit 3).
 - Causa 1: las secciones M06 de Mogán (35012) no traen `DDD_MUNICIPALITY_PARTITION`; el validador lo resuelve con respaldo a CUMUN/CUSEC · PR #398 · registro 1.0.70.
-- Causa 2 (reproducida en local con M01/M03 del run): la reparación M05 movía Mogán (exento) al distrito deficitario y dejaba sin exención al que lo perdía. Las unidades de municipios exentos quedan ancladas · PR #399 · registro 1.0.71.
-- Siguiente: el operador relanza la 00 «Ejecutar desde el principio» de Las Palmas, con permiso del propietario, tras fusionar (M05 está en la huella).
+- Causa 2 (reproducida en local con M01/M03 del run): la reparación M05 movía Mogán (exento) al distrito deficitario y dejaba sin exención al que lo perdía. Las unidades de municipios exentos quedan ancladas · PR #399 (fusionada) · registro 1.0.71.
+- #398 y #399 fusionadas; Las Palmas relanzada con la 00 «Ejecutar desde el principio» (M05 está en la huella).
 
 ### T-16 · Endurecer el diagnóstico automático de T-14 (P1)
-- T14-01 linaje por rutas del contrato (sin mtime) · T14-02 paquete PARTIAL · T14-03 `MANIFEST.json` con sha256 · T14-04 resultado del rebase · T14-05 `DIAG_PUBLISH_FAILED` · PR #401 · registro 1.0.72.
+- T14-01 linaje por rutas del contrato (sin mtime) · T14-02 paquete PARTIAL · T14-03 `MANIFEST.json` con sha256 · T14-04 resultado del rebase · T14-05 `DIAG_PUBLISH_FAILED` · PR #401 (fusionada) · registro 1.0.72.
 - Pendiente: una 00 de prueba que falle a propósito (permiso del propietario).
 
 ### T-17 · Tabla de las 52 provincias (operador, solo lectura)
@@ -104,9 +104,10 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 ### T-19 · Factibilidad de Madrid y Málaga (solo lectura)
 - Calcular si existe alguna partición sin partir municipios enteros bajo el techo (distritos 52 y 10 de T-02b). Sin 00. Alimenta el estudio de motor (sección 5).
 
-### T-20 · Techo de Cádiz y Baleares (resuelta sin código)
-- Los contratos de Cádiz y Baleares se materializaron antes de #391 (techo 1,16 y 1,27 en la política); `territory_population_limits` ya devuelve los valores correctos. `congreso_contract.py:200` es política N08, no la ruta del generador.
-- Falta: `preparacion-legislatura-vigente.yml` `prepare_one` de ambos y luego la 00 en «Reutilizar progreso existente». Lo lanza el operador con permiso del propietario.
+### T-20 · Techo de Cádiz y Baleares (resuelta)
+- Causa: los contratos de Cádiz y Baleares se materializaron antes de #391 (techo 1,16 y 1,27 en la política). `prepare_one` entra por `territorial_action=REUSE` (la clave de preparación no incluye la política de generación) y no re-materializa; `territory_population_limits` ya devuelve los valores correctos y `congreso_contract.py:200` es política N08, no la ruta del generador.
+- Arreglo: 00 «Ejecutar desde el principio», que re-materializa el contrato. Runs: Cádiz 41427993423, Baleares 41428008130 (pendientes de resultado). Las Palmas relanzada tras #399.
+- Pregunta de diseño al propietario: bloqueo `CONTRACT_POLICY_STALE` en la 00 si el techo del contrato difiere de la política (fichero compartido; no hecho).
 
 ### T-14 · Diagnóstico automático sin el Mac (máxima prioridad tras T-13)
 - Objetivo: cuando una 00 falla en M04, M05 o en la puerta de certificación, el propio workflow sube a la rama
