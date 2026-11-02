@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-02T16:39:10.089969+00:00",
+  "generated_at": "2026-11-02T18:35:05.928987+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5379,11 +5379,11 @@
       "name": "Nacional Cádiz",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41480150601,
+      "run_id": 41465820761,
       "last_run": {
         "run_id": 41480150601,
         "status": "FAILED",
@@ -5392,7 +5392,7 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5424,16 +5424,16 @@
           "territory_id": "congreso_cadiz",
           "territory_name": "Congreso Cádiz",
           "edition": "2025",
-          "run_id": 41480150601,
-          "artifact_name": "ddd-state-41480150601-M08",
-          "artifact_sha256": "517feeaafec8583228b36d6d2a794f219f13f17f18fe516ae91956b76371608f",
-          "source_commit": "74695d9f9489ed061b862f6352f9af9c32e0311a",
+          "run_id": 41500124775,
+          "artifact_name": "ddd-state-41500124775-M08",
+          "artifact_sha256": "036e0dc515372ddbb91e7e8ec93b3613105d8da6b2d4580dc3323b58a84a67c6",
+          "source_commit": "f732d8193dbff286650d4e859a6c992fd04d8c7d",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C11",
       "display_name": "Nacional Cádiz",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_castellon",
@@ -7886,7 +7886,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 64,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7914,7 +7914,6 @@
       "Nacional Baleares",
       "Nacional Burgos",
       "Nacional Cáceres",
-      "Nacional Cádiz",
       "Nacional Castellón",
       "Nacional Ciudad Real",
       "Nacional Córdoba",
@@ -8134,6 +8133,12 @@
       "action": "completar puerta de validación territorial"
     },
     {
+      "territory": "Nacional Cádiz",
+      "territory_id": "congreso_cadiz",
+      "autonomous_community_code_ine": "C11",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional Madrid",
       "territory_id": "congreso_madrid",
       "autonomous_community_code_ine": "C28",
@@ -8170,6 +8175,12 @@
       "territory_id": "congreso_barcelona",
       "autonomous_community_code_ine": "C08",
       "action": "generar y validar distritos"
+    },
+    {
+      "territory": "Nacional Cádiz",
+      "territory_id": "congreso_cadiz",
+      "autonomous_community_code_ine": "C11",
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Nacional Madrid",
