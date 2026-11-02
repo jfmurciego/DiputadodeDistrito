@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-02T09:05:54.998021+00:00",
+  "generated_at": "2026-11-02T12:10:55.133395+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 68,
-      "activable": 3,
+      "activated": 65,
+      "activable": 6,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 68
+      "durable_pair": 65
     },
     "territories": [
       {
@@ -1340,8 +1340,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41336112319,
-            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/1537fcacdfe8a1399271c44e93fca78456ae6693b2a2ffd129e9b94488a185e4/41336112319/receipt.json"
+            "run_id": 41428008130,
+            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/b2f76b65b6e382415d92e01ffc6c815b3269551b843159b5cd5959f5bd650845/41428008130/receipt.json"
           }
         },
         "electoral": {
@@ -1353,12 +1353,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/congreso_baleares/evidencia/pares_fuentes/2025/6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7.json",
             "pair_sha256": "6ea605cf479b9a1ef7c229c54e5ce519a2b95272e598f190ef2f1ad0764e34d7",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1544,8 +1544,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41243953699,
-            "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/bc377900209d3c581a73dd890f41d33ed7e862d961e82f8c019017272f610bce/41243953699/receipt.json"
+            "run_id": 41427993423,
+            "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/8036f37a3ae9e5aa8f23c737dbcbab61a8cab1f7af5778c9ed8f2f2f9815ec92/41427993423/receipt.json"
           }
         },
         "electoral": {
@@ -1557,12 +1557,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/congreso_cadiz/evidencia/pares_fuentes/2025/48d4fd2e76575dfc2819474cb991f7f223efcff071423217200f934a68e3b788.json",
             "pair_sha256": "48d4fd2e76575dfc2819474cb991f7f223efcff071423217200f934a68e3b788",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2768,8 +2768,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41336103808,
-            "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/d59285f96505e3ad14c487357d71b371ff5b9b5b49c727c92c005de4b8572ff7/41336103808/receipt.json"
+            "run_id": 41432561787,
+            "receipt_path": "territorios/congreso_las_palmas/evidencia/fuentes_territoriales/2025/bcb96124f12a9b949a47865172b66f142acc5b29e77ee3dab05680276dc8118a/41432561787/receipt.json"
           }
         },
         "electoral": {
@@ -2781,12 +2781,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/congreso_las_palmas/evidencia/pares_fuentes/2025/34c754b87560cb906f465fb1379dfb83522b2fd305aaa9d9915b5fc2d867284c.json",
             "pair_sha256": "34c754b87560cb906f465fb1379dfb83522b2fd305aaa9d9915b5fc2d867284c",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -5165,7 +5165,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41351970046,
+        "run_id": 41428008130,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5178,9 +5178,9 @@
         "territorial_source": {
           "territory_id": "congreso_baleares",
           "edition": "2025",
-          "run_id": 41336112319,
-          "artifact_name": "ddd-source-package-congreso_baleares-2025-41336112319",
-          "artifact_sha256": "d0376964326a879ee41fd2aec6f2bc85c75657dfbe5aa84b5aac6e9fbd6010f4",
+          "run_id": 41428008130,
+          "artifact_name": "ddd-source-package-congreso_baleares-2025-41428008130",
+          "artifact_sha256": "70bd5bd36cd7d05c33e9f9d0de7ef436d9168b30f2dc9222ec0020793e0a0b7a",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -5361,7 +5361,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41351957938,
+        "run_id": 41427993423,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5374,9 +5374,9 @@
         "territorial_source": {
           "territory_id": "congreso_cadiz",
           "edition": "2025",
-          "run_id": 41243953699,
-          "artifact_name": "ddd-source-package-congreso_cadiz-2025-41243953699",
-          "artifact_sha256": "5ceed3cb4057812ba68ca2970a3d0e04ac5697ae8a80f60c766b4803637cf105",
+          "run_id": 41427993423,
+          "artifact_name": "ddd-source-package-congreso_cadiz-2025-41427993423",
+          "artifact_sha256": "2fa45c5dfab68b2b997c233799fa8cb6bd8d2f069a5ca297924239398410d63f",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -6739,9 +6739,9 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41336103808,
+      "run_id": 41432561787,
       "last_run": {
-        "run_id": 41358199178,
+        "run_id": 41429872062,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "04 · Incorporación de Resultados Electorales",
@@ -6754,9 +6754,9 @@
         "territorial_source": {
           "territory_id": "congreso_las_palmas",
           "edition": "2025",
-          "run_id": 41336103808,
-          "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41336103808",
-          "artifact_sha256": "e24534fb9f56c89dde9956e40a31b14e70dbeb33c65c12f7fd35e6ce5c626fe4",
+          "run_id": 41432561787,
+          "artifact_name": "ddd-source-package-congreso_las_palmas-2025-41432561787",
+          "artifact_sha256": "482b1e9c4ddb5ef7ef449ed2fef52747ef97b207cafa8eb3d17505ae25623d72",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -6765,13 +6765,13 @@
           "territory_id": "congreso_las_palmas",
           "territory_name": "Congreso Las Palmas",
           "edition": "2025",
-          "run_id": 41336103808,
-          "artifact_name": "ddd-state-41336103808-M06",
-          "artifact_sha256": "be0c8799f296a695170b713881e3a907e4131f486ec5ebccde4c5440c882d5d4",
-          "source_commit": "3e4691d6e495ea7351313f82e18dd995bb19ee75",
+          "run_id": 41432561787,
+          "artifact_name": "ddd-state-41432561787-M06",
+          "artifact_sha256": "8e630bb7d596cbe361149c4a2e51f27325036b9331e7559e68c8801f6159ad7a",
+          "source_commit": "0b6469ab4d63e540be7b1439c081b7b915c498a8",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/41336103808.json"
+          "producer_manifest_path": "territorios/congreso_las_palmas/evidencia/generaciones_m06/41432561787.json"
         },
         "electoral_source": null,
         "electoral_product": null

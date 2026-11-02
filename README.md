@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-02T09:05:54.998021+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-02T12:10:55.133395+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -53,11 +53,11 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295979497 · SUCCESS | — | — | — |
 | **Nacional Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41241662219 · SUCCESS | — | — | — |
 | **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299475924 · SUCCESS | — | — | — |
-| **Nacional Baleares** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41351970046 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **Nacional Baleares** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41428008130 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Nacional Barcelona** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41323024014 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Nacional Burgos** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299221887 · SUCCESS | — | — | — |
 | **Nacional Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294658600 · SUCCESS | — | — | — |
-| **Nacional Cádiz** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41351957938 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
+| **Nacional Cádiz** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41427993423 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
 | **Nacional Castellón** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295629673 · SUCCESS | — | — | — |
 | **Nacional Ciudad Real** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41298749455 · SUCCESS | — | — | — |
 | **Nacional Córdoba** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296161083 · SUCCESS | — | — | — |
@@ -81,7 +81,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295142111 · SUCCESS | — | — | — |
 | **Nacional Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296638877 · SUCCESS | — | — | — |
 | **Nacional Palencia** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41298660623 · SUCCESS | — | — | — |
-| **Nacional Las Palmas** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41358199178 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
+| **Nacional Las Palmas** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41429872062 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
 | **Nacional Pontevedra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41353894475 · SUCCESS | — | — | — |
 | **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295298674 · SUCCESS | — | — | — |
 | **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294259017 · FAILED | — | — | — |
