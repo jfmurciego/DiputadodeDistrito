@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-01T22:23:42.208962+00:00",
+  "generated_at": "2026-11-02T09:02:55.594859+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6741,7 +6741,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41336103808,
       "last_run": {
-        "run_id": 41339428006,
+        "run_id": 41358199178,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "04 · Incorporación de Resultados Electorales",
@@ -6972,20 +6972,20 @@
       "name": "Nacional Cantabria",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41292096436,
+      "run_id": 41356175674,
       "last_run": {
-        "run_id": 41355659591,
+        "run_id": 41356175674,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Congreso Cantabria edición 2025; complete la preparación conjunta antes de ejecutar",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7026,7 +7026,7 @@
       },
       "autonomous_community_code_ine": "C39",
       "display_name": "Nacional Cantabria",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_segovia",
@@ -7827,7 +7827,7 @@
     }
   ],
   "kpis": {
-    "complete": 61,
+    "complete": 62,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7877,6 +7877,7 @@
       "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
+      "Nacional Cantabria",
       "Nacional Segovia",
       "Nacional Sevilla",
       "Nacional Soria",
@@ -8040,11 +8041,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_vizcaya",
-    "name": "Nacional Vizcaya",
-    "display_name": "Nacional Vizcaya",
-    "autonomous_community_code_ine": "C48",
-    "run_id": 41356074013,
+    "territory_id": "congreso_cantabria",
+    "name": "Nacional Cantabria",
+    "display_name": "Nacional Cantabria",
+    "autonomous_community_code_ine": "C39",
+    "run_id": 41356175674,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
