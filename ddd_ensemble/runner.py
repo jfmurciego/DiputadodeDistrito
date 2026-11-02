@@ -189,6 +189,7 @@ def adapt(config: dict[str, Any], base: Path, report_path: Path | None = None):
         preserve_atomic_multipart_sections=bool(
             topology.get("preserve_atomic_multipart_sections", False)
         ),
+        working_crs=topology.get("working_crs"),
     )
     if topology.get("prune_weak_adjacencies"):
         # T-29: adyacencias por esquina fuera del grafo de ReCom (informe y conexidad comprobada); el motor no se relaja.
@@ -198,6 +199,7 @@ def adapt(config: dict[str, Any], base: Path, report_path: Path | None = None):
         geojson_data = _read_json_or_zip(geojson_path)
         graph_data, report = prune_weak_adjacencies(
             _read_json_or_zip(graph_path), geojson_data, kwargs["min_shared_border_m"], fields["section"],
+            topology.get("working_crs"),
         )
         if report_path is not None:
             _write(report_path, report)

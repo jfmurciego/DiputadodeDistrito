@@ -1,10 +1,11 @@
 """Preparación del grafo M03 para ReCom: aristas con frontera métrica insuficiente.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-02 · ESTADO: candidato
+VERSIÓN: 1.1.0 · FECHA: 2026-11-02 · ESTADO: candidato
 QUÉ HACE: antes de entregar el grafo al motor, descarta las aristas cuya frontera compartida mide menos de
   `min_shared_border_m` (adyacencias por esquina del grafo de contigüidad) y deja un informe con cuáles y cuántas.
   Si al descartarlas el grafo pierde conexidad, se detiene (pregunta de diseño); nunca relaja el contrato del motor.
+CAMBIO 1.1.0 (T-31): mide en metros (`working_crs`) cuando el GeoJSON viene en grados; antes todas las aristas parecían <1 m.
 MOTIVO: T-29, el piloto de Salamanca falló en los 5 perfiles con «Arista sin frontera métrica suficiente»
   ('3700101001','3706801001'), shared_border_m=0,044 < 1,0. Es opt-in (`topology.prune_weak_adjacencies`): Aragón no cambia.
 """
@@ -39,15 +40,20 @@ def prune_weak_adjacencies(
     geojson: Mapping[str, Any],
     min_shared_border_m: float,
     section_field: str = "CUSEC_KEY",
+    working_crs: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Devuelve (grafo sin aristas débiles, informe). Falla si el grafo deja de ser conexo igual que el original."""
     from shapely.geometry import shape
+    from ddd_core.m05_gerrychain_engine import geometry_projector
 
+    project = geometry_projector(geojson, working_crs)
     geometries = {}
     for feature in geojson.get("features") or []:
         key = str((feature.get("properties") or {}).get(section_field) or "")
         if key and feature.get("geometry") is not None:
             geometries[key] = shape(feature["geometry"])
+            if project is not None:
+                geometries[key] = project(geometries[key])
     node_ids = [str(n.get("id")) for n in graph_data.get("nodes") or []]
     raw_edges = graph_data.get("edges") or []
     kept, weak, seen = [], [], set()

@@ -1,6 +1,7 @@
 """Laboratorio M05 para GerryChain/ReCom, sin dependencias del repositorio DDD.
 
-VERSIÓN DEL ADAPTADOR: 1.1.0. La continuidad se valida tanto sobre secciones
+VERSIÓN DEL ADAPTADOR: 1.2.0 (T-31: `working_crs` reproyecta geometrías geográficas a metros antes de medir fronteras;
+anterior: legacy/ddd_core/m05_gerrychain_engine_v1.1.0_20261102.py). La continuidad se valida tanto sobre secciones
 como sobre cada componente poligonal, incluidas las secciones MultiPolygon.
 
 La frontera correcta es sección censal: el ``id`` del grafo M03 se une con
@@ -150,6 +151,38 @@ def _polygon_components(geometry: Any) -> list[Any]:
     return [geometry]
 
 
+def geometry_projector(geojson: Mapping[str, Any], working_crs: str | None):
+    """Función que reproyecta geometrías a `working_crs` si el GeoJSON está en coordenadas geográficas (grados).
+
+    Devuelve None cuando no hay `working_crs` o los datos ya vienen en una proyección métrica (nada cambia).
+    Un GeoJSON sin miembro `crs` es WGS84 (RFC 7946).
+    """
+    if not working_crs:
+        return None
+    from pyproj import CRS, Transformer
+    from shapely.ops import transform
+
+    declared = ((geojson.get("crs") or {}).get("properties") or {}).get("name")
+    source = CRS.from_user_input(declared) if declared else CRS.from_epsg(4326)
+    if not source.is_geographic:
+        return None
+    if not declared:
+        # Sin miembro crs no se puede distinguir grados de metros por el nombre: si las coordenadas salen del rango
+        # geográfico, los datos ya están proyectados y no se tocan.
+        from shapely.geometry import shape as _shape
+
+        for feature in list(geojson.get("features") or [])[:50]:
+            if feature.get("geometry") is not None:
+                minx, miny, maxx, maxy = _shape(feature["geometry"]).bounds
+                if max(abs(minx), abs(maxx)) > 180 or max(abs(miny), abs(maxy)) > 90:
+                    return None
+    target = CRS.from_user_input(working_crs)
+    if target.is_geographic:
+        raise InputContractError(f"working_crs debe ser métrico, no geográfico: {working_crs}")
+    transformer = Transformer.from_crs(source, target, always_xy=True)
+    return lambda geometry: transform(transformer.transform, geometry)
+
+
 def adapt_inputs(
     graph_data: Mapping[str, Any],
     geojson: Mapping[str, Any],
@@ -167,9 +200,11 @@ def adapt_inputs(
     comarca_enabled: bool = False,
     min_shared_border_m: float = 0.0,
     preserve_atomic_multipart_sections: bool = False,
+    working_crs: str | None = None,
 ) -> AdaptedInputs:
     """Adapta M03/M04 usando sección como clave y ddd_unit_id como atomicidad."""
     features = _feature_index(geojson, section_field)
+    project = geometry_projector(geojson, working_crs)
     raw_nodes = graph_data.get("nodes")
     raw_edges = graph_data.get("edges")
     if not isinstance(raw_nodes, list) or not isinstance(raw_edges, list):
@@ -250,6 +285,8 @@ def adapt_inputs(
             except ImportError as exc:
                 raise RuntimeError("Shapely 2.x es necesario para validar la topología") from exc
             geometry = shape(raw_geometry)
+            if project is not None:
+                geometry = project(geometry)
             if geometry.is_empty or not geometry.is_valid:
                 raise InputContractError(f"Geometría inválida en {section_id}")
             geometries[section_id] = geometry

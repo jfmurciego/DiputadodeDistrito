@@ -87,3 +87,62 @@ class AristasDebilesTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ---- T-31: las geometrías de los contratos Congreso vienen en grados (CRS84); se mide en metros -----------------
+def geo_case(crs_member=None, scale=1.0):
+    x0, y0, s, eps = -5.66, 40.97, 0.001, 5e-7  # ≈ 84 m de lado; eps ≈ 0,04 m
+    f = [square("3700101001", x0, y0, x0 + s, y0 + s, 1), square("3700201001", x0 + s, y0, x0 + 2 * s, y0 + s, 1),
+         square("3700301001", x0 + 2 * s, y0, x0 + 3 * s, y0 + s, 2),
+         square("3706801001", x0 + 2 * s - eps, y0 + s, x0 + 3 * s, y0 + 2 * s, 2)]
+    # Las secciones reales comparten vértices: D lleva el vértice de la esquina de C para que la frontera proyecte igual.
+    ring = f[3]["geometry"]["coordinates"][0]
+    ring.insert(1, [x0 + 2 * s, y0 + s])
+    geo = {"type": "FeatureCollection", "features": f}
+    if crs_member:
+        geo["crs"] = {"type": "name", "properties": {"name": crs_member}}
+    edges = [("3700101001", "3700201001"), ("3700201001", "3700301001"), ("3700301001", "3706801001"),
+             ("3700201001", "3706801001")]
+    graph = {"nodes": [{"id": x["properties"]["CUSEC_KEY"], "pop": 100} for x in f],
+             "edges": [{"u": u, "v": v} for u, v in edges]}
+    return graph, geo
+
+
+class MedirEnMetrosTests(unittest.TestCase):
+    def test_rojo_en_grados_todas_las_aristas_parecen_debiles(self):
+        graph, geo = geo_case()
+        with self.assertRaises(GraphPreparationError):  # sin reproyectar: 4 aristas «<1» y el grafo se desconecta
+            prune_weak_adjacencies(graph, geo, 1.0)
+        with self.assertRaises(InputContractError):
+            adapt_inputs(graph, geo, **FIELDS)
+
+    def test_verde_reproyectado_solo_cae_la_arista_de_esquina(self):
+        graph, geo = geo_case()
+        prepared, report = prune_weak_adjacencies(graph, geo, 1.0, "CUSEC_KEY", "EPSG:3035")
+        self.assertEqual(report["edges_pruned"], 1)
+        self.assertEqual(report["pruned"][0]["edge"], ["3700201001", "3706801001"])
+        self.assertLess(report["pruned"][0]["shared_border_m"], 1.0)
+        data = adapt_inputs(prepared, geo, working_crs="EPSG:3035", **FIELDS)
+        self.assertEqual(len(data.edges), 3)
+        lengths = [v for v in data.shared_border_lengths.values()]
+        self.assertTrue(all(60 < v < 120 for v in lengths), lengths)  # metros reales (84–111 m)
+
+    def test_datos_ya_proyectados_quedan_identicos(self):
+        # Coordenadas métricas (UTM 30N, valores de cientos de miles) sin y con miembro crs: working_crs no cambia nada.
+        graph, geo = case()
+        for feature in geo["features"]:
+            ring = feature["geometry"]["coordinates"][0]
+            feature["geometry"]["coordinates"][0] = [[x + 700000.0, y + 4500000.0] for x, y in ring]
+        opts = {**FIELDS, "min_shared_border_m": 0.0}
+        base = adapt_inputs(graph, geo, **opts)
+        con = adapt_inputs(graph, geo, working_crs="EPSG:25830", **opts)
+        self.assertEqual(base.shared_border_lengths, con.shared_border_lengths)
+        self.assertEqual(base.section_areas, con.section_areas)
+        geo["crs"] = {"type": "name", "properties": {"name": "urn:ogc:def:crs:EPSG::25830"}}
+        explicit = adapt_inputs(graph, geo, working_crs="EPSG:25830", **opts)
+        self.assertEqual(base.shared_border_lengths, explicit.shared_border_lengths)
+
+    def test_working_crs_geografico_se_rechaza(self):
+        graph, geo = geo_case()
+        with self.assertRaises(InputContractError):
+            adapt_inputs(graph, geo, working_crs="EPSG:4326", **FIELDS)
