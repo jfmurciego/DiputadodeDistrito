@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Versión 1.8.0; nombre M05 population repair; fecha 2026-10-13.
+"""Versión 1.8.1; nombre M05 population repair; fecha 2026-11-02.
+T-15: las unidades con floor_exempt_anchor (municipio exento de suelo) no se mueven: el suelo 0 de district_floors
+va por número de distrito y, si el municipio cambiaba de distrito, el distrito que lo perdía quedaba bajo suelo.
 Alcance: reparación genérica y certificado topológico municipal N08 para Congreso.
 Estado: candidato; cambios: fragmentación mínima con prueba de conectividad y cotas.
 Motivo: admitir cortes necesarios preservando la disciplina autonómica por defecto.
-Anterior: legacy/n08_caceres_20261012/m05_population_repair_v1_6.py.
+Anterior: legacy/ddd_core/m05_population_repair_v1.8.0_20261102.py.
 """
 from __future__ import annotations
 
@@ -361,6 +363,7 @@ def _valid_transfer(
     moved=set(moved); checks={"province_verified":False,"donor_contiguity_verified":False,
         "receiver_contiguity_verified":False,"atomic_units_verified":False,"municipal_integrity_verified":False}
     if not moved or any(state.get(u)!=donor for u in moved): return False,"NOT_OWNED",checks
+    if any(units[u].get("floor_exempt_anchor") for u in moved): return False,"EXEMPT_ANCHOR",checks
     checks["atomic_units_verified"]=True
     provinces={units[u].get("province") for u in moved}; receiver_provinces={units[v].get("province") for v in state if state[v]==receiver}
     if len(provinces)!=1 or len(receiver_provinces)!=1 or provinces!=receiver_provinces: return False,"CROSS_PROVINCE",checks
@@ -492,6 +495,7 @@ def _focal_single_transfer(
 ):
     checks={"province_verified":True,"donor_contiguity_verified":False,
         "receiver_contiguity_verified":True,"atomic_units_verified":True,"municipal_integrity_verified":False}
+    if units[u].get("floor_exempt_anchor"): return False,"EXEMPT_ANCHOR",checks
     group=units[u].get("municipality_group")
     if group:
         owned={v for v in province_units if state[v]==donor and units[v].get("municipality_group")==group}

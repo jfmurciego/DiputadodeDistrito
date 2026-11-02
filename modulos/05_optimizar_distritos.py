@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.8.5
+VERSIÓN: 7.8.6
 NOMBRE DE VERSIÓN: Estados poblacionales finales y staging completo de M06
-FECHA: 2026-10-12
+FECHA: 2026-11-02
 ESTADO: candidato; reparación focal por defecto y estrategia privada experimental optativa con validación oficial obligatoria.
 FUNCIÓN: ejecutar el motor base M05 v7.4.1, aplicar pulido determinista y reparar violaciones duras; la estrategia
 private_annealing explora copias privadas y solo promueve una candidata tras validación final oficial.
@@ -15,8 +15,9 @@ REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; una desactivación e
 automática solo ocurre ante violaciones duras sobre una partición estructuralmente válida.
 CAMBIOS: reconstruye estados poblacionales y reporte desde asignaciones finales; dirige todas las salidas M06 de la puerta privada a staging y limpia el informe operativo temporal del validador.
 MOTIVO: impedir atributos y diagnósticos obsoletos y proteger productos duraderos mientras se valida una candidata privada.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.4_2026-10-29.py
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.8.5_2026-11-02.py
 CAMBIO 7.8.5: un distrito que contiene un municipio de validation.population_floor_exempt_municipalities queda exento del suelo (Beniel, Murcia).
+CAMBIO 7.8.6 (T-15): las unidades de esos municipios quedan ancladas a su distrito en la reparación (floor_exempt_anchor y frozen_units).
 """
 from __future__ import annotations
 import argparse, copy, importlib.util, io, json, os, shutil, subprocess, sys, tempfile, uuid, zipfile
@@ -248,6 +249,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
     idf=s5.get("id_field","CUSEC_KEY"); did=s5.get("district_field","district_id"); provf=s5.get("province_field","CPRO")
     g[idf]=g[idf].astype(str); g["ddd_unit_id"]=g["ddd_unit_id"].astype(str); g[provf]=g[provf].astype(str).str.zfill(2)
     pop={str(n["id"]):int(n.get("pop",0)) for n in graph["nodes"]}; sec_unit=dict(zip(g[idf],g["ddd_unit_id"]))
+    exempt_muns_anchor=exempt_municipalities(cfg)
     units={}; assignments={}
     for u,x in g.groupby("ddd_unit_id"):
         ds=set(x[did])
@@ -257,6 +259,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
             "province":str(x[provf].iloc[0]).zfill(2),
             "municipality_group":u if str(u).endswith(":M") else None,
         }
+        if units_touch_exempt([u],exempt_muns_anchor): units[u]["floor_exempt_anchor"]=True
         assignments[u]=next(iter(ds))
     adj={u:set() for u in units}
     for e in graph["edges"]:
@@ -267,6 +270,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
     # El motor base ya los congela; la reparación posterior debe conservar exactamente
     # la misma frontera y no puede usarlos como donante ni receptor.
     adj,frozen_districts,frozen_units,baseline_frozen=_protect_closed_urban_districts(g,did,assignments,adj)
+    frozen_units=set(frozen_units)|{u for u,row in units.items() if row.get("floor_exempt_anchor")}
     total=sum(pop.values()); target,floor,cap,tol=hard_limits(cfg,k=len(set(assignments.values())),total_pop=total)
     floor_exempt={
         str(value).zfill(2)
