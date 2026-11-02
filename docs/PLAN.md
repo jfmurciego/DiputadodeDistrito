@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.8
+Versión: 1.0.9
 Fecha: 2026-11-02
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: tareas T-15 a T-20 del 02-11 (Las Palmas M08, endurecer T-14, tabla de provincias, Cádiz y Baleares, Madrid y Málaga) y T-14 cerrada
-Anterior: legacy/docs/PLAN_v1.0.7_20261102.md
+Cambios/motivo: T-20 corregida (abierta: el materializador no reaplica la política a contratos completos, PR #403); tareas T-15 a T-20 del 02-11 (Las Palmas M08, endurecer T-14, tabla de provincias, Cádiz y Baleares, Madrid y Málaga) y T-14 cerrada
+Anterior: legacy/docs/PLAN_v1.0.8_20261102.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -104,10 +104,11 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 ### T-19 · Factibilidad de Madrid y Málaga (solo lectura)
 - Calcular si existe alguna partición sin partir municipios enteros bajo el techo (distritos 52 y 10 de T-02b). Sin 00. Alimenta el estudio de motor (sección 5).
 
-### T-20 · Techo de Cádiz y Baleares (resuelta)
-- Causa: los contratos de Cádiz y Baleares se materializaron antes de #391 (techo 1,16 y 1,27 en la política). `prepare_one` entra por `territorial_action=REUSE` (la clave de preparación no incluye la política de generación) y no re-materializa; `territory_population_limits` ya devuelve los valores correctos y `congreso_contract.py:200` es política N08, no la ruta del generador.
-- Arreglo: 00 «Ejecutar desde el principio», que re-materializa el contrato. Runs: Cádiz 41427993423, Baleares 41428008130 (pendientes de resultado). Las Palmas relanzada tras #399.
-- Pregunta de diseño al propietario: bloqueo `CONTRACT_POLICY_STALE` en la 00 si el techo del contrato difiere de la política (fichero compartido; no hecho).
+### T-20 · Techo de Cádiz y Baleares (ABIERTA)
+- Síntoma: las 00 de Cádiz (41427993423) y Baleares (41428008130), con la 01 rehecha, siguen con techo 1,15 en el M05, aunque la política dice 1,16 y 1,27.
+- Causa (logs de la 01): `materialize` trata como `already_complete` los contratos con M01–M06 y K y solo normaliza fuente y estado; no reaplica `population_limits` de la política. La 01 sí rematerializa (commit `32915f61`), pero el contrato conserva 1,15. Descartado: `prepare_one`/REUSE (solo explicaba el primer intento), `congreso_contract.py:200` (política N08) y la 00.
+- Arreglo: `apply_policy_population_limits` en el materializador · PR #403 · registro 1.0.74. Pendiente de fusionar; después, 00 «Ejecutar desde el principio» de Cádiz y Baleares (el operador, con permiso del propietario).
+- Pregunta de diseño al propietario: bloqueo `CONTRACT_POLICY_STALE` en la 00 si el techo del contrato difiere de la política (fichero compartido; no aprobado).
 
 ### T-14 · Diagnóstico automático sin el Mac (máxima prioridad tras T-13)
 - Objetivo: cuando una 00 falla en M04, M05 o en la puerta de certificación, el propio workflow sube a la rama

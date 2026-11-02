@@ -17,7 +17,7 @@ Huesca) y el M05 leyó 1,15 en la 00. Mi prueba local con contrato nuevo daba 1,
 Corrección mínima: `apply_policy_population_limits` reescribe, solo si la política declara `population_limits` para el
 territorio, techo, suelo, tolerancia, atomicidad y perfil de excepción en `territory_contract`, `validation` y M04.
 Prueba: `test_existing_contract_gets_policy_population_limits_reapplied` (falla sin el cambio: 1,15 ≠ 1,16). Tras fusionar,
-Cádiz y Baleares necesitan la 01 de nuevo (00 «Ejecutar desde el principio»).
+Cádiz y Baleares necesitan la 01 de nuevo (00 «Ejecutar desde el principio»). PLAN 1.0.9 corrige T-20: abierta hasta fusionar.
 
 ## 2026-11-02 — PLAN 1.0.8 — tareas T-15 a T-20
 
