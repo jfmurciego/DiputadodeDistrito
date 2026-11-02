@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-02T12:22:24.063566+00:00",
+  "generated_at": "2026-11-02T15:10:08.263869+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -1340,8 +1340,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41428008130,
-            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/b2f76b65b6e382415d92e01ffc6c815b3269551b843159b5cd5959f5bd650845/41428008130/receipt.json"
+            "run_id": 41444676996,
+            "receipt_path": "territorios/congreso_baleares/evidencia/fuentes_territoriales/2025/8a13d27f23a8c5970df32698e2f31bf46920bfe31f52130aca48fe6af44ecdb3/41444676996/receipt.json"
           }
         },
         "electoral": {
@@ -1544,8 +1544,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 41427993423,
-            "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/8036f37a3ae9e5aa8f23c737dbcbab61a8cab1f7af5778c9ed8f2f2f9815ec92/41427993423/receipt.json"
+            "run_id": 41444664023,
+            "receipt_path": "territorios/congreso_cadiz/evidencia/fuentes_territoriales/2025/e472817c43c90daf59da73c183aa15f9c45b02eeba0c44f0f63b26800b79ca52/41444664023/receipt.json"
           }
         },
         "electoral": {
@@ -5165,7 +5165,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41428008130,
+        "run_id": 41444676996,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5178,9 +5178,9 @@
         "territorial_source": {
           "territory_id": "congreso_baleares",
           "edition": "2025",
-          "run_id": 41428008130,
-          "artifact_name": "ddd-source-package-congreso_baleares-2025-41428008130",
-          "artifact_sha256": "70bd5bd36cd7d05c33e9f9d0de7ef436d9168b30f2dc9222ec0020793e0a0b7a",
+          "run_id": 41444676996,
+          "artifact_name": "ddd-source-package-congreso_baleares-2025-41444676996",
+          "artifact_sha256": "61a6b5cbbea8abb8567bb060ce39dc50e156c74d3d5ad4d5df865d339215cf8d",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -5361,7 +5361,7 @@
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {
-        "run_id": 41427993423,
+        "run_id": 41444664023,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
         "stopped_at": "02 · Generación de Distritos Autonómicos",
@@ -5374,9 +5374,9 @@
         "territorial_source": {
           "territory_id": "congreso_cadiz",
           "edition": "2025",
-          "run_id": 41427993423,
-          "artifact_name": "ddd-source-package-congreso_cadiz-2025-41427993423",
-          "artifact_sha256": "2fa45c5dfab68b2b997c233799fa8cb6bd8d2f069a5ca297924239398410d63f",
+          "run_id": 41444664023,
+          "artifact_name": "ddd-source-package-congreso_cadiz-2025-41444664023",
+          "artifact_sha256": "bd5dad06efbe50f7143a89a1a0619537e51453b3bfb47268212fb30aa25a9bd2",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -6735,20 +6735,20 @@
       "name": "Nacional Las Palmas",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41432561787,
+      "run_id": 41442913288,
       "last_run": {
-        "run_id": 41432561787,
+        "run_id": 41442913288,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6789,7 +6789,7 @@
       },
       "autonomous_community_code_ine": "C35",
       "display_name": "Nacional Las Palmas",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_pontevedra",
@@ -7838,7 +7838,7 @@
     }
   ],
   "kpis": {
-    "complete": 62,
+    "complete": 63,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7885,6 +7885,7 @@
       "Nacional Orense",
       "Nacional Asturias",
       "Nacional Palencia",
+      "Nacional Las Palmas",
       "Nacional Pontevedra",
       "Nacional Salamanca",
       "Nacional Santa Cruz de Tenerife",
@@ -8052,11 +8053,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_cantabria",
-    "name": "Nacional Cantabria",
-    "display_name": "Nacional Cantabria",
-    "autonomous_community_code_ine": "C39",
-    "run_id": 41356175674,
+    "territory_id": "congreso_las_palmas",
+    "name": "Nacional Las Palmas",
+    "display_name": "Nacional Las Palmas",
+    "autonomous_community_code_ine": "C35",
+    "run_id": 41442913288,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
