@@ -1147,11 +1147,11 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41480150601
+        run_id: 41500124775
         stage: M08
       preparation_evidence:
         run_id: 41465820761
