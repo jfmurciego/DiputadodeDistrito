@@ -6,6 +6,9 @@ La puerta contractual se conserva como validación estructural, pero deja de exi
 industrialización manual territorio a territorio. 01 prepara fuentes y este
 materializador completa automáticamente el contrato que 02 necesita.
 
+CAMBIOS 2026-11-02 (f): T-20, un contrato ya completo recibe de nuevo los límites de población que la política declara
+  para su territorio (techo, tolerancia, atomicidad, perfil de excepción); antes conservaba los de su creación.
+ANTERIOR (f): legacy/herramientas/materializar_contrato_generacion_pre_limites_politica_20261102.py
 CAMBIOS 2026-10-31 (e): component_districts en la política fija el reparto por componentes decidido por
   el propietario (Baleares: Mallorca 7, Menorca 1, Ibiza y Formentera 2) en lugar de Hamilton.
 ANTERIOR (e): legacy/herramientas/materializar_contrato_generacion_pre_reparto_fijo_20261031.py
@@ -894,6 +897,25 @@ def territory_population_limits(defaults: dict, pentry: dict, territory_id: str)
     return merged
 
 
+def apply_policy_population_limits(cfg: dict, defaults: dict) -> None:
+    """Reaplica a un contrato ya completo los límites de población propios de su territorio en la política.
+
+    T-20: sin esto el contrato conservaba el techo con el que se creó (Cádiz 1,15) aunque la política
+    dijera 1,16 y la 00 leía el valor antiguo. Solo se llama si la política declara population_limits.
+    """
+    contract = cfg.setdefault("territory_contract", {})
+    val = cfg.setdefault("validation", {})
+    for section in (contract, val):
+        for key in (*LIMIT_KEYS, ATOMICITY_KEY):
+            section[key] = float(defaults[key])
+    for key in ("limits_profile", "limits_exception_rationale", "limits_exception_evidence", "limits_exception_decided_at"):
+        contract.pop(key, None)
+    contract.update(defaults.get("limits_exception") or {"limits_profile": "standard-1.0.0"})
+    m04 = (cfg.get("modulos") or {}).get("modulo_04_generar_semillas")
+    if isinstance(m04, dict):
+        m04[ATOMICITY_KEY] = float(defaults[ATOMICITY_KEY])
+
+
 def materialize(
     root: Path,
     territory_id: str,
@@ -978,6 +1000,8 @@ def materialize(
             source_inputs=source_inputs,
             resolved_contract=resolved_contract,
         )
+        if pentry.get("population_limits"):
+            apply_policy_population_limits(cfg, defaults)
         current_k = int((cfg.get("territory_contract") or {})["k_districts"])
         if current_k != k:
             raise ValueError(f"K vigente {current_k} no coincide con política nacional {k}")

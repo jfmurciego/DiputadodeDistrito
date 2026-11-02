@@ -525,6 +525,29 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             section_year=2026,
         )
 
+    def test_existing_contract_gets_policy_population_limits_reapplied(self):
+        # T-20: un contrato ya completo conservaba el techo antiguo (Cádiz 1,15) aunque la política dijera 1,16.
+        with temp_root("congreso_cadiz", "Congreso Cádiz", ["11"]) as td:
+            root = Path(td)
+            package = population_package(root, [("1112501001", 1_245_000)], population_year=2023, section_year=2023)
+            first = materialize(root, "congreso_cadiz", "2025", package, population_year="2023", section_year="2023")
+            self.assertNotEqual(first.get("partition_mode"), "existing_contract")
+            path = root / first["contract_path"]
+            cfg = yaml.safe_load(path.read_text(encoding="utf-8"))
+            for section in (cfg["territory_contract"], cfg["validation"]):
+                section["population_cap_ratio"] = 1.15
+                section["target_tolerance_ratio"] = 0.15
+            cfg["territory_contract"]["limits_profile"] = "exception"
+            cfg["territory_contract"]["limits_exception_rationale"] = "antiguo"
+            path.write_text(yaml.safe_dump(cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
+            second = materialize(root, "congreso_cadiz", "2025", package, population_year="2023", section_year="2023")
+            self.assertEqual(second["partition_mode"], "existing_contract")
+            out = yaml.safe_load(path.read_text(encoding="utf-8"))
+            self.assertEqual(out["territory_contract"]["population_cap_ratio"], 1.16)
+            self.assertEqual(out["validation"]["population_cap_ratio"], 1.16)
+            self.assertEqual(out["validation"]["target_tolerance_ratio"], 0.16)
+            self.assertNotEqual(out["territory_contract"]["limits_exception_rationale"], "antiguo")
+
     def test_cross_year_geometry_derivations_are_materially_bound(self):
         td = temp_root(
             "principado_de_asturias",

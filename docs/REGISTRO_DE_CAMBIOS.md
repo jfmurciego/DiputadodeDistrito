@@ -1,12 +1,23 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.73
+Versión: 1.0.74
 Fecha: 2026-11-02
-Alcance: PLAN 1.0.8 — tareas T-15 a T-20
+Alcance: T-20 — límites de población de la política en contratos ya completos
 Estado: candidato
-Cambios/motivo: alta de T-15 a T-20 y cierre de T-14 en docs/PLAN.md
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.72_plan_20261102.md
+Cambios/motivo: el materializador conservaba el techo antiguo de los contratos completos (Cádiz 1,15 en vez de 1,16)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.73_t20_20261102.md
 -->
+
+## 2026-11-02 — T-20 — Techo de Cádiz y Baleares: el materializador no reaplicaba la política
+
+Causa (logs de 41427993423): «01 Preparar datos territoriales» sí rematerializó Cádiz (commit 32915f61), pero
+`materialize` trata como `already_complete` los contratos con M01–M06 y K y solo normaliza fuente y estado: no
+reaplicaba `population_limits` de la política, así que el contrato siguió en 1,15 (con la justificación del piloto
+Huesca) y el M05 leyó 1,15 en la 00. Mi prueba local con contrato nuevo daba 1,16 porque ese camino sí lee la política.
+Corrección mínima: `apply_policy_population_limits` reescribe, solo si la política declara `population_limits` para el
+territorio, techo, suelo, tolerancia, atomicidad y perfil de excepción en `territory_contract`, `validation` y M04.
+Prueba: `test_existing_contract_gets_policy_population_limits_reapplied` (falla sin el cambio: 1,15 ≠ 1,16). Tras fusionar,
+Cádiz y Baleares necesitan la 01 de nuevo (00 «Ejecutar desde el principio»). PLAN 1.0.9 corrige T-20: abierta hasta fusionar.
 
 ## 2026-11-02 — PLAN 1.0.8 — tareas T-15 a T-20
 
