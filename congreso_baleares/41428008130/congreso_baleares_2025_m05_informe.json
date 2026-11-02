@@ -1,0 +1,2783 @@
+{
+  "module": "05",
+  "version": "7.4.1",
+  "K": 10,
+  "total_pop": 1209906,
+  "target": 120990.6,
+  "population_floor": 102842.01000000001,
+  "population_cap": 139139.19,
+  "tolerance_absolute": 18148.59,
+  "objective_start": [
+    2,
+    0.623807304038,
+    4,
+    0.666732787506,
+    0.838256295455
+  ],
+  "objective_after_greedy": [
+    2,
+    0.623807304038,
+    4,
+    0.666732787506,
+    0.838256295455
+  ],
+  "objective_final": [
+    1,
+    0.109659841343,
+    3,
+    0.456982608566,
+    0.417559140567
+  ],
+  "population_baseline_status": "PASS_WITH_EXCEPTIONS",
+  "population_status_by_district": {
+    "0": {
+      "population": 115043,
+      "floor": 102842.01000000001,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "1": {
+      "population": 117460,
+      "floor": 102842.01000000001,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "2": {
+      "population": 139098,
+      "floor": 102842.01000000001,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "3": {
+      "population": 139139,
+      "floor": 102842.01000000001,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "4": {
+      "population": 139085,
+      "floor": 102842.01000000001,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "5": {
+      "population": 152407,
+      "floor": 102842.01000000001,
+      "cap": 139139.19,
+      "population_status": "ABOVE_CEILING"
+    },
+    "6": {
+      "population": 138100,
+      "floor": 102842.01000000001,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "7": {
+      "population": 99005,
+      "floor": 0.0,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "8": {
+      "population": 104869,
+      "floor": 0.0,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    },
+    "9": {
+      "population": 65700,
+      "floor": 0.0,
+      "cap": 139139.19,
+      "population_status": "PASS"
+    }
+  },
+  "districts_below_floor": 0,
+  "population_floor_exempt_partitions": [
+    "07-C02",
+    "07-G01"
+  ],
+  "districts_above_cap": 1,
+  "districts_outside_tolerance": 3,
+  "best_max_rel_dev": 0.456982608566,
+  "accepted_unit_moves": 4,
+  "accepted_greedy_moves": 0,
+  "accepted_annealing_moves": 4,
+  "final_changed_units": 0,
+  "atomic_units": 70,
+  "initial_candidate_relations": 49,
+  "active_provinces": [
+    "07-C01",
+    "07-C02",
+    "07-G01"
+  ],
+  "anneal_iterations_executed": 20000,
+  "first_feasible_iteration": null,
+  "objective_first_feasible": null,
+  "post_feasible_iterations": 0,
+  "anneal_start_objective": [
+    2,
+    0.623807304038,
+    4,
+    0.666732787506,
+    0.838256295455
+  ],
+  "anneal_start_energy": 0.9115929348300114,
+  "anneal_best_energy": 0.8818399506313139,
+  "anneal_parameters": {
+    "outside_penalty": 0.01,
+    "maxdev_weight": 0.05,
+    "churn_weight": 0.0016,
+    "temp_start": 0.02,
+    "temp_end": 0.0005,
+    "seed": 12345,
+    "iters": 20000
+  },
+  "province_violations": [],
+  "seed": 12345,
+  "wrapper_version": "7.8.4",
+  "swap_polish": {
+    "enabled": false,
+    "max_swaps": 0,
+    "accepted_swaps": 0
+  },
+  "population_repair": {
+    "schema": "ddd.m05-population-repair/1.6",
+    "result": "IMPROVED_NOT_REPAIRED",
+    "limits": {
+      "max_depth": 6,
+      "max_transfer_set": 3,
+      "max_candidates": 500000,
+      "max_seconds": 300.0,
+      "seed": 0
+    },
+    "municipality_policy": "indivisible",
+    "municipality_splits": [],
+    "hard_population_floor": 102842.01000000001,
+    "hard_population_cap": 139139.19,
+    "district_floor_overrides": {
+      "7": 0.0,
+      "8": 0.0,
+      "9": 0.0
+    },
+    "candidates_examined": 68395,
+    "primary_candidates_examined": 68395,
+    "primary_candidate_budget": 125000,
+    "primary_transitions_evaluated": 1210517,
+    "transitions_evaluated": 1210564,
+    "termination_reason": "QUEUE_EMPTY",
+    "elapsed_seconds": 75.001811,
+    "queue_states_created": 30028,
+    "queue_states_examined": 68395,
+    "primary_improvement_found": true,
+    "secondary_only_candidates": 1,
+    "baseline_restored": false,
+    "objective_hierarchy": [
+      "hard_violation_count",
+      "outliers",
+      "max_deviation",
+      "total_deviation",
+      "cohesion"
+    ],
+    "queue_priority": [
+      "hard_violation_count",
+      "hard_violation_magnitude",
+      "necessary_municipal_fragmentation",
+      "outliers",
+      "max_deviation",
+      "outlier_distance_to_tolerance",
+      "total_deviation",
+      "cohesion",
+      "units_moved",
+      "districts_affected",
+      "chain_length",
+      "depth",
+      "deterministic_key"
+    ],
+    "objective_before": [
+      2,
+      4,
+      0.666732787506,
+      2.214710894896,
+      46
+    ],
+    "objective_after": [
+      1,
+      3,
+      0.456982608566,
+      1.700561861831,
+      50
+    ],
+    "hard_signature_before": [
+      2,
+      75474
+    ],
+    "hard_signature_after": [
+      1,
+      13267
+    ],
+    "hard_violation_magnitude_before": 75474,
+    "hard_violation_magnitude_after": 13267,
+    "territorial_metrics_before": {
+      "cut_boundary_edges": 46,
+      "boundary_units_moved": 0,
+      "corridor_penalty": null,
+      "base_compactness": null
+    },
+    "territorial_metrics_after": {
+      "cut_boundary_edges": 50,
+      "boundary_units_moved": 5,
+      "corridor_penalty": null,
+      "base_compactness": null
+    },
+    "population_before": {
+      "3": 89887,
+      "4": 139085,
+      "5": 201659,
+      "6": 138100,
+      "0": 115043,
+      "1": 117460,
+      "2": 139098,
+      "7": 99005,
+      "8": 104869,
+      "9": 65700
+    },
+    "population_after": {
+      "3": 139139,
+      "4": 139085,
+      "5": 152407,
+      "6": 138100,
+      "0": 115043,
+      "1": 117460,
+      "2": 139098,
+      "7": 99005,
+      "8": 104869,
+      "9": 65700
+    },
+    "populations_before": {
+      "3": 89887,
+      "4": 139085,
+      "5": 201659,
+      "6": 138100,
+      "0": 115043,
+      "1": 117460,
+      "2": 139098,
+      "7": 99005,
+      "8": 104869,
+      "9": 65700
+    },
+    "populations_after": {
+      "3": 139139,
+      "4": 139085,
+      "5": 152407,
+      "6": 138100,
+      "0": 115043,
+      "1": 117460,
+      "2": 139098,
+      "7": 99005,
+      "8": 104869,
+      "9": 65700
+    },
+    "assignments": {
+      "07-C01:07001:07-C01:M": 3,
+      "07-C01:07003:07-C01:M": 4,
+      "07-C01:07004:07-C01:M": 5,
+      "07-C01:07005:07-C01:M": 6,
+      "07-C01:07006:07-C01:M": 4,
+      "07-C01:07007:07-C01:M": 6,
+      "07-C01:07008:07-C01:M": 3,
+      "07-C01:07009:07-C01:M": 3,
+      "07-C01:07010:07-C01:M": 6,
+      "07-C01:07011:07-C01:M": 6,
+      "07-C01:07012:07-C01:M": 3,
+      "07-C01:07013:07-C01:M": 5,
+      "07-C01:07014:07-C01:M": 4,
+      "07-C01:07016:07-C01:M": 5,
+      "07-C01:07017:07-C01:M": 4,
+      "07-C01:07018:07-C01:M": 6,
+      "07-C01:07019:07-C01:M": 6,
+      "07-C01:07020:07-C01:M": 6,
+      "07-C01:07021:07-C01:M": 6,
+      "07-C01:07022:07-C01:M": 5,
+      "07-C01:07025:07-C01:M": 6,
+      "07-C01:07027:07-C01:M": 5,
+      "07-C01:07028:07-C01:M": 4,
+      "07-C01:07029:07-C01:M": 3,
+      "07-C01:07030:07-C01:M": 4,
+      "07-C01:07031:07-C01:M": 3,
+      "07-C01:07033:07-C01:M": 5,
+      "07-C01:07034:07-C01:M": 3,
+      "07-C01:07035:07-C01:M": 4,
+      "07-C01:07036:07-C01:M": 6,
+      "07-C01:07038:07-C01:M": 5,
+      "07-C01:07039:07-C01:M": 4,
+      "07-C01:07040:07-C01:R": 3,
+      "07-C01:07040:07-C01:U1": 0,
+      "07-C01:07040:07-C01:U2": 1,
+      "07-C01:07040:07-C01:U3": 2,
+      "07-C01:07041:07-C01:M": 4,
+      "07-C01:07042:07-C01:M": 4,
+      "07-C01:07043:07-C01:M": 5,
+      "07-C01:07044:07-C01:M": 4,
+      "07-C01:07045:07-C01:M": 6,
+      "07-C01:07047:07-C01:M": 5,
+      "07-C01:07049:07-C01:M": 4,
+      "07-C01:07051:07-C01:M": 4,
+      "07-C01:07053:07-C01:M": 3,
+      "07-C01:07055:07-C01:M": 4,
+      "07-C01:07056:07-C01:M": 3,
+      "07-C01:07057:07-C01:M": 5,
+      "07-C01:07058:07-C01:M": 3,
+      "07-C01:07059:07-C01:M": 5,
+      "07-C01:07060:07-C01:M": 4,
+      "07-C01:07061:07-C01:M": 6,
+      "07-C01:07062:07-C01:M": 4,
+      "07-C01:07063:07-C01:M": 6,
+      "07-C01:07065:07-C01:M": 4,
+      "07-C01:07901:07-C01:M": 4,
+      "07-C02:07002:07-C02:M": 7,
+      "07-C02:07015:07-C02:M": 7,
+      "07-C02:07023:07-C02:M": 7,
+      "07-C02:07032:07-C02:M": 7,
+      "07-C02:07037:07-C02:M": 7,
+      "07-C02:07052:07-C02:M": 7,
+      "07-C02:07064:07-C02:M": 7,
+      "07-C02:07902:07-C02:M": 7,
+      "07-G01:07024:07-G01:M": 8,
+      "07-G01:07026:07-G01:M": 8,
+      "07-G01:07046:07-G01:M": 9,
+      "07-G01:07048:07-G01:M": 9,
+      "07-G01:07050:07-G01:M": 9,
+      "07-G01:07054:07-G01:M": 8
+    },
+    "hard_limits_met": false,
+    "final_hard_population_violations": 1,
+    "final_hard_violation_magnitude": 13267,
+    "controlled_improvement_verified": true,
+    "repairs": [
+      {
+        "units": [
+          "07-C01:07031:07-C01:M"
+        ],
+        "donor": 5,
+        "receiver": 3,
+        "population_before": {
+          "3": 89887,
+          "4": 139085,
+          "5": 201659,
+          "6": 138100,
+          "0": 115043,
+          "1": 117460,
+          "2": 139098,
+          "7": 99005,
+          "8": 104869,
+          "9": 65700
+        },
+        "population_after": {
+          "3": 129043,
+          "4": 139085,
+          "5": 162503,
+          "6": 138100,
+          "0": 115043,
+          "1": 117460,
+          "2": 139098,
+          "7": 99005,
+          "8": 104869,
+          "9": 65700
+        },
+        "deviation_before": {
+          "3": -0.257074516533,
+          "4": 0.149552113966,
+          "5": 0.666732787506,
+          "6": 0.141410985647,
+          "0": -0.049157537858,
+          "1": -0.029180779333,
+          "2": 0.149659560329,
+          "7": -0.181713290123,
+          "8": -0.133246715034,
+          "9": -0.456982608566
+        },
+        "deviation_after": {
+          "3": 0.066553930636,
+          "4": 0.149552113966,
+          "5": 0.343104340337,
+          "6": 0.141410985647,
+          "0": -0.049157537858,
+          "1": -0.029180779333,
+          "2": 0.149659560329,
+          "7": -0.181713290123,
+          "8": -0.133246715034,
+          "9": -0.456982608566
+        },
+        "objective_after_step": [
+          1,
+          3,
+          0.456982608566,
+          1.700561861831,
+          49
+        ],
+        "territorial_metrics": {
+          "cut_boundary_edges": 49,
+          "boundary_units_moved": 1,
+          "corridor_penalty": null,
+          "base_compactness": null
+        },
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          1,
+          23363
+        ],
+        "reason": "ACCEPTED_VALID_CANDIDATE"
+      },
+      {
+        "units": [
+          "07-C01:07009:07-C01:M",
+          "07-C01:07012:07-C01:M",
+          "07-C01:07058:07-C01:M"
+        ],
+        "donor": 5,
+        "receiver": 3,
+        "population_before": {
+          "3": 129043,
+          "4": 139085,
+          "5": 162503,
+          "6": 138100,
+          "0": 115043,
+          "1": 117460,
+          "2": 139098,
+          "7": 99005,
+          "8": 104869,
+          "9": 65700
+        },
+        "population_after": {
+          "3": 137269,
+          "4": 139085,
+          "5": 154277,
+          "6": 138100,
+          "0": 115043,
+          "1": 117460,
+          "2": 139098,
+          "7": 99005,
+          "8": 104869,
+          "9": 65700
+        },
+        "deviation_before": {
+          "3": 0.066553930636,
+          "4": 0.149552113966,
+          "5": 0.343104340337,
+          "6": 0.141410985647,
+          "0": -0.049157537858,
+          "1": -0.029180779333,
+          "2": 0.149659560329,
+          "7": -0.181713290123,
+          "8": -0.133246715034,
+          "9": -0.456982608566
+        },
+        "deviation_after": {
+          "3": 0.134542683481,
+          "4": 0.149552113966,
+          "5": 0.275115587492,
+          "6": 0.141410985647,
+          "0": -0.049157537858,
+          "1": -0.029180779333,
+          "2": 0.149659560329,
+          "7": -0.181713290123,
+          "8": -0.133246715034,
+          "9": -0.456982608566
+        },
+        "objective_after_step": [
+          1,
+          3,
+          0.456982608566,
+          1.700561861831,
+          49
+        ],
+        "territorial_metrics": {
+          "cut_boundary_edges": 49,
+          "boundary_units_moved": 3,
+          "corridor_penalty": null,
+          "base_compactness": null
+        },
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          1,
+          23363
+        ],
+        "hard_signature_after": [
+          1,
+          15137
+        ],
+        "reason": "ACCEPTED_VALID_CANDIDATE"
+      },
+      {
+        "units": [
+          "07-C01:07053:07-C01:M"
+        ],
+        "donor": 5,
+        "receiver": 3,
+        "population_before": {
+          "3": 137269,
+          "4": 139085,
+          "5": 154277,
+          "6": 138100,
+          "0": 115043,
+          "1": 117460,
+          "2": 139098,
+          "7": 99005,
+          "8": 104869,
+          "9": 65700
+        },
+        "population_after": {
+          "3": 139139,
+          "4": 139085,
+          "5": 152407,
+          "6": 138100,
+          "0": 115043,
+          "1": 117460,
+          "2": 139098,
+          "7": 99005,
+          "8": 104869,
+          "9": 65700
+        },
+        "deviation_before": {
+          "3": 0.134542683481,
+          "4": 0.149552113966,
+          "5": 0.275115587492,
+          "6": 0.141410985647,
+          "0": -0.049157537858,
+          "1": -0.029180779333,
+          "2": 0.149659560329,
+          "7": -0.181713290123,
+          "8": -0.133246715034,
+          "9": -0.456982608566
+        },
+        "deviation_after": {
+          "3": 0.14999842963,
+          "4": 0.149552113966,
+          "5": 0.259659841343,
+          "6": 0.141410985647,
+          "0": -0.049157537858,
+          "1": -0.029180779333,
+          "2": 0.149659560329,
+          "7": -0.181713290123,
+          "8": -0.133246715034,
+          "9": -0.456982608566
+        },
+        "objective_after_step": [
+          1,
+          3,
+          0.456982608566,
+          1.700561861831,
+          50
+        ],
+        "territorial_metrics": {
+          "cut_boundary_edges": 50,
+          "boundary_units_moved": 1,
+          "corridor_penalty": null,
+          "base_compactness": null
+        },
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": true,
+        "hard_signature_before": [
+          1,
+          15137
+        ],
+        "hard_signature_after": [
+          1,
+          13267
+        ],
+        "reason": "ACCEPTED_VALID_CANDIDATE"
+      }
+    ],
+    "districts_affected": [
+      3,
+      5
+    ],
+    "constraints_checked": [
+      "EXACT_DISTRICT_COUNT",
+      "PROVINCE",
+      "CONTIGUITY",
+      "ATOMIC_UNITS",
+      "MUNICIPAL_INTEGRITY",
+      "HARD_POPULATION_LIMITS_FINAL"
+    ],
+    "constraints_verified": [
+      "EXACT_DISTRICT_COUNT",
+      "PROVINCE",
+      "CONTIGUITY",
+      "ATOMIC_UNITS",
+      "MUNICIPAL_INTEGRITY"
+    ],
+    "territorial_metric_availability": {
+      "cut_boundary_edges": true,
+      "boundary_units_moved": true,
+      "corridor_penalty": false,
+      "base_compactness": false
+    },
+    "focal_search": {
+      "enabled": true,
+      "complete": false,
+      "completion_target": "HARD_POPULATION_LIMITS",
+      "candidate_budget": 431605,
+      "candidate_attempts": 0,
+      "transitions_evaluated": 47,
+      "states_explored": 3,
+      "termination_reason": "QUEUE_EMPTY",
+      "elapsed_seconds": 0.001268,
+      "provinces": [
+        {
+          "province": "07-C01",
+          "outliers_before": 1,
+          "hard_districts_before": 1,
+          "preparatory_districts": [
+            3,
+            4,
+            5,
+            6
+          ],
+          "depth_limit": 9,
+          "beam_width": 24,
+          "states_explored": 1,
+          "depth_exhausted_states": 0,
+          "repaired": false,
+          "outliers_after": 1
+        },
+        {
+          "province": "07-C02",
+          "outliers_before": 1,
+          "hard_districts_before": 0,
+          "preparatory_districts": [],
+          "depth_limit": 9,
+          "beam_width": 24,
+          "states_explored": 1,
+          "depth_exhausted_states": 0,
+          "repaired": true,
+          "outliers_after": 1
+        },
+        {
+          "province": "07-G01",
+          "outliers_before": 1,
+          "hard_districts_before": 0,
+          "preparatory_districts": [],
+          "depth_limit": 9,
+          "beam_width": 24,
+          "states_explored": 1,
+          "depth_exhausted_states": 0,
+          "repaired": true,
+          "outliers_after": 1
+        }
+      ],
+      "rejection_counts": {
+        "DONOR_CONTIGUITY": 18,
+        "POPULATION_REGRESSION": 29,
+        "DEPTH_EXHAUSTED": 0
+      },
+      "rejection_classification": {
+        "contiguity": 18,
+        "population_limit": 29,
+        "cross_province": 0,
+        "municipal_integrity": 0,
+        "depth_exhaustion": 0
+      }
+    },
+    "rejection_counts": {
+      "DONOR_CONTIGUITY": 864703,
+      "POPULATION_REGRESSION": 277466,
+      "DEPTH_EXHAUSTED": 0
+    },
+    "rejection_classification": {
+      "contiguity": 864703,
+      "population_limit": 277466,
+      "cross_province": 0,
+      "municipal_integrity": 0,
+      "depth_exhaustion": 0
+    },
+    "rejections": [
+      {
+        "units": [
+          "07-C01:07001:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07008:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          93924
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07029:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          88380
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          78760
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07040:07-C01:R"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          193552
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07029:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07008:07-C01:M",
+          "07-C01:07029:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          106830
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07029:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          91666
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07040:07-C01:R",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          208710
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M",
+          "07-C01:07029:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07029:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07029:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07034:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07040:07-C01:R",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          220606
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07008:07-C01:M",
+          "07-C01:07029:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          110116
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          77721
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07040:07-C01:R"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          192513
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07029:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07029:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          90627
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07040:07-C01:R",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          207671
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M",
+          "07-C01:07029:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07008:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07029:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07029:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07034:07-C01:M",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07001:07-C01:M",
+          "07-C01:07040:07-C01:R",
+          "07-C01:07056:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          219567
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07008:07-C01:M",
+          "07-C01:07029:07-C01:M",
+          "07-C01:07034:07-C01:M"
+        ],
+        "districts": [
+          3,
+          6
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          109077
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          76994
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07028:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          77065
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07030:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          77936
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07041:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          78625
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07042:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          92734
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          89770
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07049:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          77678
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07051:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          84852
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          79861
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07065:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          79165
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07003:07-C01:M",
+          "07-C01:07042:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          117201
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07003:07-C01:M",
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07051:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07028:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          78585
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          81381
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07028:07-C01:M",
+          "07-C01:07049:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          79269
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07028:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07030:07-C01:M",
+          "07-C01:07035:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          80269
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07030:07-C01:M",
+          "07-C01:07039:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07030:07-C01:M",
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          92232
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07030:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          82323
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07035:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          82194
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07039:07-C01:M",
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07041:07-C01:M",
+          "07-C01:07049:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07041:07-C01:M",
+          "07-C01:07051:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          88003
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07041:07-C01:M",
+          "07-C01:07055:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07041:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07041:07-C01:M",
+          "07-C01:07065:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          82316
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07041:07-C01:M",
+          "07-C01:07901:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          79601
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07042:07-C01:M",
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          107030
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07049:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07049:07-C01:M",
+          "07-C01:07065:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          81369
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07051:07-C01:M",
+          "07-C01:07062:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          96981
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07060:07-C01:M",
+          "07-C01:07901:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          80837
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07003:07-C01:M",
+          "07-C01:07030:07-C01:M",
+          "07-C01:07039:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07003:07-C01:M",
+          "07-C01:07030:07-C01:M",
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07003:07-C01:M",
+          "07-C01:07039:07-C01:M",
+          "07-C01:07042:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          132885
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07003:07-C01:M",
+          "07-C01:07039:07-C01:M",
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07003:07-C01:M",
+          "07-C01:07042:07-C01:M",
+          "07-C01:07044:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          3,
+          145793
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07014:07-C01:M",
+          "07-C01:07041:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07014:07-C01:M",
+          "07-C01:07051:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07049:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07051:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07055:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07062:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07065:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07901:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07051:07-C01:M",
+          "07-C01:07055:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07006:07-C01:M",
+          "07-C01:07051:07-C01:M",
+          "07-C01:07062:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07014:07-C01:M",
+          "07-C01:07051:07-C01:M",
+          "07-C01:07062:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          109566
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07028:07-C01:M",
+          "07-C01:07049:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          80789
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07028:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          82972
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07030:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          83843
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07035:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          83714
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07041:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07049:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07017:07-C01:M",
+          "07-C01:07060:07-C01:M",
+          "07-C01:07901:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "POPULATION_REGRESSION",
+        "province_verified": true,
+        "donor_contiguity_verified": true,
+        "receiver_contiguity_verified": true,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true,
+        "population_transition_verified": false,
+        "hard_signature_before": [
+          2,
+          75474
+        ],
+        "hard_signature_after": [
+          2,
+          82357
+        ]
+      },
+      {
+        "units": [
+          "07-C01:07028:07-C01:M",
+          "07-C01:07030:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      },
+      {
+        "units": [
+          "07-C01:07028:07-C01:M",
+          "07-C01:07035:07-C01:M",
+          "07-C01:07060:07-C01:M"
+        ],
+        "districts": [
+          4,
+          5
+        ],
+        "reason": "DONOR_CONTIGUITY",
+        "province_verified": true,
+        "donor_contiguity_verified": false,
+        "receiver_contiguity_verified": false,
+        "atomic_units_verified": true,
+        "municipal_integrity_verified": true
+      }
+    ],
+    "baseline_preserved": false,
+    "enabled": true,
+    "activation": "EXPLICITLY_ENABLED",
+    "hard_population_violations_before": 2,
+    "population_floor_exempt_partitions": [
+      "07-C02",
+      "07-G01"
+    ],
+    "frozen_districts": [
+      0,
+      1,
+      2
+    ],
+    "frozen_units": 3
+  }
+}
