@@ -25,6 +25,14 @@ class ExencionSueloIslas(unittest.TestCase):
         self.assertEqual(floor_exempt_districts(cfg, s6, cfg["validation"], sec, "district_id"), {"1", "3"})
         self.assertEqual(floor_exempt_districts({"validation": {}}, s6, {}, sec, "district_id"), set())
 
+    def test_sin_campo_municipal_usa_cumun_o_cusec(self):
+        cfg = {"validation": {"population_floor_exempt_municipalities": ["35012"]}}
+        s6 = {"municipality_field": "DDD_MUNICIPALITY_PARTITION", "id_field": "CUSEC_KEY"}
+        by_cusec = pd.DataFrame({"district_id": [1, 2], "CUSEC_KEY": ["3501201001", "3501601001"]})
+        self.assertEqual(floor_exempt_districts(cfg, s6, cfg["validation"], by_cusec, "district_id"), {"1"})
+        by_cumun = by_cusec.assign(CUMUN=["35012", "35016"])
+        self.assertEqual(floor_exempt_districts(cfg, s6, cfg["validation"], by_cumun, "district_id"), {"1"})
+
 
 if __name__ == "__main__":
     unittest.main()
