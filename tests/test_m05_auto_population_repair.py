@@ -140,6 +140,27 @@ class AutoPopulationRepairActivationTests(unittest.TestCase):
             self.assertEqual(result["hard_population_violations_before"], 1)
             repair_mock.assert_called_once()
 
+    def test_las_palmas_island_format_exempts_mogan_and_blocks_other_municipality(self):
+        # T-24: campo DDD_MUNICIPALITY_PARTITION («35012:35-C01»); 35012 exento, 35016 no.
+        def run(municipality):
+            df = frame([160, 40])
+            df["DDD_MUNICIPALITY_PARTITION"] = ["35003:35-C01", f"{municipality}:35-C01"]
+            with tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                graph, report, out = self.make_files(root, [160, 40])
+                s5 = self.s5(graph)
+                s5["municipality_field"] = "DDD_MUNICIPALITY_PARTITION"
+                cfg = {"validation": {"population_floor_exempt_municipalities": ["35012"]}}
+                with (
+                    patch.object(m05, "load_geo", return_value=df),
+                    patch.object(m05, "write_geo"),
+                    patch.object(m05, "hard_limits", return_value=(100, 50, 200, 10)),
+                    patch.object(m05, "repair", return_value={"result": "NO_FEASIBLE_REPAIR_FOUND", "assignments": {"u1": 1, "u2": 2}}),
+                ):
+                    return m05._apply_population_repair(cfg, s5, out, report)
+        self.assertEqual(run("35012")["hard_population_violations_before"], 0)
+        self.assertEqual(run("35016")["hard_population_violations_before"], 1)
+
     def test_explicit_false_wins_and_reports_disabled_without_search(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

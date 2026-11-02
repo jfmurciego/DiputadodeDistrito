@@ -1,12 +1,22 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.75
+Versión: 1.0.76
 Fecha: 2026-11-02
-Alcance: T-24 — Baleares techo 1,28 y exención municipal en la reparación M05 (Cádiz)
+Alcance: T-24 — cierre del expediente de Las Palmas (criterio 3.5)
 Estado: candidato
-Cambios/motivo: política 1.7.4 y M05 7.8.7
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.74_t24_20261102.md
+Cambios/motivo: tests negativos de la exención 35012 y vínculo de la decisión que la autorizó
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.75_t24b_20261102.md
 -->
+
+## 2026-11-02 — T-24 — Las Palmas: tests negativos y decisión de la exención 35012
+
+Tests: `test_negativo_distrito_exento_pasa_y_no_exento_bajo_suelo_bloquea` y `test_negativo_con_cumun_y_cusec_sin_campo_municipal`
+(validador: 35012 con «35012:35-C01», con CUMUN y con CUSEC queda exento; otro municipio bajo suelo sigue bloqueando) y
+`test_las_palmas_island_format_exempts_mogan_and_blocks_other_municipality` (M05 con `DDD_MUNICIPALITY_PARTITION`). El validador
+extrae `districts_below_floor` (1.3.5) sin cambiar el criterio, para poder probarlo. Decisión de la exención de suelo municipal de
+Mogán (35012): decisión del propietario del 01-11-2026, recogida en `docs/PLAN.md` 1.0.7 («Decisiones del propietario → Tomadas
+(01-11)»: «Las Palmas: exención municipal en contrato, no de toda Gran Canaria, 35-C01»), en la PR #384 (fusionada, `6466afc6`) y en
+la entrada T-02b de este registro. Contrato y política siguen sin campo `decided_at`/evidencia para las exenciones municipales.
 
 ## 2026-11-02 — T-24 — Baleares techo 1,28 y gate de Cádiz
 

@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Validación de ejecución
-VERSIÓN: 1.3.4
+VERSIÓN: 1.3.5
 NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal — Gobernanza R015
 FECHA: 2026-09-11
 QUÉ HACE: valida cardinalidad, unicidad, población, contigüidad, integridad provincial y disciplina de división municipal.
@@ -11,6 +11,8 @@ ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
 CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
 MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
 ANTERIOR: legacy/herramientas/validar_ejecucion_v1.3.1.py
+CAMBIO 1.3.5 (T-24): districts_below_floor extrae la comprobación de suelo por distrito (sin cambiar el criterio) para probarla con exención y sin ella.
+ANTERIOR 1.3.4: legacy/herramientas/validar_ejecucion_v1.3.4_20261102.py
 CAMBIO 1.3.4 (T-13): si las secciones M06 no traen el campo municipal del contrato (Las Palmas: sin
 DDD_MUNICIPALITY_PARTITION, run 41358199178), el municipio sale de CUMUN o de las 5 primeras cifras del CUSEC.
 ANTERIOR 1.3.3: legacy/herramientas/validar_ejecucion_v1.3.3_20261102.py
@@ -63,6 +65,14 @@ def floor_exempt_districts(cfg,s6,val,sec,did):
             parts=sorted({str(v).zfill(2) for v in g[prov_field].dropna()})
             if parts and parts[0] in exempt_parts:out.add(str(district_id))
     return out
+
+def districts_below_floor(summ,pop_col,floor,exempt_ids):
+    """Distritos del resumen M06 bajo su suelo; los exentos (municipio o partición del contrato) tienen suelo 0."""
+    pops=pd.to_numeric(summ[pop_col],errors='coerce')
+    district_floor=pd.to_numeric(summ['population_floor'],errors='coerce').fillna(floor) if 'population_floor' in summ.columns else pd.Series(floor,index=summ.index)
+    if exempt_ids:
+        district_floor=district_floor.where(~summ['district_id'].astype(str).isin(exempt_ids),0.0)
+    return summ.loc[pops<district_floor,['district_id',pop_col]].to_dict('records')
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--params',required=True);ap.add_argument('--run-id',default=os.getenv('DDD_RUN_ID'));a=ap.parse_args()
@@ -125,11 +135,8 @@ def main():
 
     target,floor,cap,_=hard_limits(cfg,k=expected,total_pop=section_pop)
     pops=pd.to_numeric(summ[pop_col],errors='coerce') if pop_col else pd.Series(dtype=float)
-    district_floor=pd.to_numeric(summ['population_floor'],errors='coerce').fillna(floor) if 'population_floor' in summ.columns else pd.Series(floor,index=summ.index)
     exempt_ids=floor_exempt_districts(cfg,s6,val,sec,did)
-    if exempt_ids:
-        district_floor=district_floor.where(~summ['district_id'].astype(str).isin(exempt_ids),0.0)
-    below=summ.loc[pops<district_floor,['district_id',pop_col]].to_dict('records') if pop_col else []
+    below=districts_below_floor(summ,pop_col,floor,exempt_ids) if pop_col else []
     above=summ.loc[pops>cap,['district_id',pop_col]].to_dict('records') if pop_col else []
     if below:fails.append(f'distritos bajo límite poblacional={len(below)}')
     if above:fails.append(f'distritos sobre límite poblacional={len(above)}')
