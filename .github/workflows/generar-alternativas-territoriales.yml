@@ -1,10 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 2.0.1
-# FECHA: 2026-10-25
+# VERSIÓN: 2.1.0
+# FECHA: 2026-11-02
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
+# CAMBIOS 2.1.0: T-26, genérico por territorio (configuracion/ensemble/<territorio>.json). Aragón conserva su circuito;
+#   los demás territorios obtienen M01–M05 con _reutilizable-generacion-territorial.yml (persist_state=false, namespace
+#   ensemble-<territorio>) y NO registran nada en el catálogo ni en el estado operativo. Fase ensemble_10; el lote de 50 sigue bloqueado.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# ANTERIOR: legacy/workflows/p0_operational_repair_20261025/generar-alternativas-territoriales.pre-p0.yml (versión 2.0.0 conservada)
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.0.1_20261102.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: Ensemble Territorial GerryChain
 
@@ -48,9 +51,46 @@ jobs:
           python -m unittest discover -s tests -p 'test_ensemble_toolkit.py' -v
           python -m unittest discover -s tests -p 'test_ensemble_integration.py' -v
 
-  base:
+  config:
+    name: Resolver configuración del ensemble
     if: ${{ inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' }}
-    needs: synthetic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      kind: ${{ steps.cfg.outputs.kind }}
+      contract: ${{ steps.cfg.outputs.contract }}
+      cache_dir: ${{ steps.cfg.outputs.cache_dir }}
+      expected_districts: ${{ steps.cfg.outputs.expected_districts }}
+      working_crs: ${{ steps.cfg.outputs.working_crs }}
+      source_package_run_id: ${{ steps.cfg.outputs.source_package_run_id }}
+      source_package_artifact_name: ${{ steps.cfg.outputs.source_package_artifact_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: python3 -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: cfg
+        run: python3 herramientas/leer_config_ensemble.py --territory "${{ inputs.territory_id }}" --stage "${{ inputs.stage }}" >> "$GITHUB_OUTPUT"
+
+  base_territorial:
+    name: Base territorial M01–M05 sin registro
+    needs: [synthetic, config]
+    if: ${{ inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' && inputs.execution_confirmed && needs.config.outputs.kind == 'territorial' }}
+    uses: ./.github/workflows/_reutilizable-generacion-territorial.yml
+    secrets: inherit
+    with:
+      params: ${{ needs.config.outputs.contract }}
+      mode: execute
+      from_stage: M01
+      to_stage: M05
+      source_package_run_id: ${{ needs.config.outputs.source_package_run_id }}
+      source_package_artifact_name: ${{ needs.config.outputs.source_package_artifact_name }}
+      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+      source_ref: ${{ github.sha }}
+      persist_state: false
+      artifact_namespace: ensemble-${{ inputs.territory_id }}
+
+  base:
+    if: ${{ always() && inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' && needs.synthetic.result == 'success' && needs.config.result == 'success' && (needs.config.outputs.kind == 'aragon' || needs.base_territorial.result == 'success') }}
+    needs: [synthetic, config, base_territorial]
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     outputs:
@@ -59,6 +99,11 @@ jobs:
       candidate_count: ${{ steps.gate.outputs.candidate_count }}
     env:
       GH_TOKEN: ${{ github.token }}
+      KIND: ${{ needs.config.outputs.kind }}
+      CACHE_DIR: ${{ needs.config.outputs.cache_dir }}
+      CONTRACT: ${{ needs.config.outputs.contract }}
+      WORKING_CRS: ${{ needs.config.outputs.working_crs }}
+      EXPECTED_DISTRICTS: ${{ needs.config.outputs.expected_districts }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - id: gate
@@ -66,11 +111,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "${{ inputs.territory_id }}" = aragon
           test "${{ inputs.execution_confirmed }}" = true
           case "${{ inputs.stage }}" in
-            aragon_10) count=10 ;;
+            ensemble_10) test "$KIND" = territorial; count=10 ;;
+            aragon_10) test "$KIND" = aragon; count=10 ;;
             aragon_50)
+              test "$KIND" = aragon
               test "${{ inputs.promotion_confirmed }}" = true || {
                 echo 'El lote de 50 exige confirmación expresa de coste.' >&2
                 exit 21
@@ -94,8 +140,10 @@ jobs:
           esac
           echo "candidate_count=$count" >> "$GITHUB_OUTPUT"
       - name: Reconstruir fuentes canónicas
+        if: ${{ env.KIND == 'aragon' }}
         run: bash inputs/partes/reconstruir_fuentes.sh
       - name: Preparar M01–M05 una sola vez con topología métrica
+        if: ${{ env.KIND == 'aragon' }}
         run: |
           set -euo pipefail
           docker build --pull -t ddd-ensemble-base:${GITHUB_SHA} .
@@ -110,7 +158,37 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ensemble.lock
       - run: python -m pip install --requirement requirements-ensemble.lock
+      - name: Recuperar base territorial M01–M05
+        if: ${{ env.KIND == 'territorial' }}
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ddd-state-${{ github.run_id }}-M05-ensemble-${{ inputs.territory_id }}
+          path: .ddd-ensemble-state
+      - name: Restaurar base territorial en su caché contractual
+        if: ${{ env.KIND == 'territorial' }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$CACHE_DIR"
+          cp -a .ddd-ensemble-state/cache/. "$CACHE_DIR/"
+          ls "$CACHE_DIR" | grep -E '_m03_grafo\.json$|_m05_distritos_optimizados\.geojson\.zip$'
+      - name: Bloquear topología o partición inicial no defendibles (territorio)
+        if: ${{ env.KIND == 'territorial' }}
+        run: |
+          set -euo pipefail
+          sections="$(ls "$CACHE_DIR"/*_m01_secciones_poblacion.geojson.zip)"
+          graph="$(ls "$CACHE_DIR"/*_m03_grafo.json)"
+          assignment="$(ls "$CACHE_DIR"/*_m05_distritos_optimizados.geojson.zip)"
+          python herramientas/auditar_topologia_geometrica.py \
+            --sections "$sections" --graph "$graph" --assignment "$assignment" \
+            --output work/ensemble/base-topology-preflight.json \
+            --min-shared-border-m 1 --working-crs "$WORKING_CRS"
+          python herramientas/auditar_componentes_geometricos.py \
+            --sections "$assignment" --section-field CUSEC_KEY --district-field district_id \
+            --working-crs "$WORKING_CRS" --expected-districts "$EXPECTED_DISTRICTS" \
+            --contract "$CONTRACT" \
+            --output work/ensemble/base-geometric-components-preflight.json
       - name: Bloquear topología o partición inicial no defendibles
+        if: ${{ env.KIND == 'aragon' }}
         run: |
           set -euo pipefail
           python herramientas/auditar_topologia_geometrica.py \
@@ -130,7 +208,7 @@ jobs:
       - name: Crear plan determinista
         run: |
           python -m ddd_ensemble.runner \
-            --config configuracion/ensemble/aragon.json --mode plan \
+            --config configuracion/ensemble/${{ inputs.territory_id }}.json --mode plan \
             --count '${{ steps.gate.outputs.candidate_count }}' --output work/ensemble
       - id: matrix
         run: python herramientas/exportar_matriz_ensemble.py work/ensemble/plan.json >> "$GITHUB_OUTPUT"
@@ -147,6 +225,7 @@ jobs:
             unzip -qo "work/prior/$tag.zip" -d work/ensemble
           fi
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ env.KIND == 'aragon' }}
         with:
           name: ensemble-base-${{ steps.key.outputs.value }}
           retention-days: 7
@@ -154,6 +233,15 @@ jobs:
             .cache/ddd/preparacion/aragon_2025
             ejecuciones/ensemble-aragon-base
             inputs/COMARCAS.csv
+            work/ensemble
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: ${{ env.KIND == 'territorial' }}
+        with:
+          name: ensemble-base-${{ steps.key.outputs.value }}
+          retention-days: 7
+          include-hidden-files: true
+          path: |
+            ${{ needs.config.outputs.cache_dir }}
             work/ensemble
 
   generate:
@@ -182,7 +270,7 @@ jobs:
           mkdir -p work/ensemble/telemetry
           /usr/bin/time -v -o "work/ensemble/telemetry/${{ matrix.profile }}.txt" \
             python -m ddd_ensemble.runner \
-              --config configuracion/ensemble/aragon.json --mode run \
+              --config configuracion/ensemble/${{ inputs.territory_id }}.json --mode run \
               --profile '${{ matrix.profile }}' \
               --count '${{ needs.base.outputs.candidate_count }}' --output work/ensemble
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -225,7 +313,7 @@ jobs:
       - name: Ensamblar evidencia y matriz de reintento
         run: |
           python -m ddd_ensemble.runner \
-            --config configuracion/ensemble/aragon.json --mode assemble \
+            --config configuracion/ensemble/${{ inputs.territory_id }}.json --mode assemble \
             --count '${{ needs.base.outputs.candidate_count }}' \
             --output work/ensemble --allow-partial
       - id: status

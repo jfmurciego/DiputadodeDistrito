@@ -246,7 +246,7 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("aragon_10_certificacion_run_35035474687.json", workflow)
         self.assertNotIn("PROMOVER_ARAGON_50", workflow)
         self.assertIn("artifact-manifest.json", workflow)
-        self.assertIn("needs: synthetic", workflow)
+        self.assertIn("needs: [synthetic, config, base_territorial]", workflow)  # T-26: base genérica por territorio
         self.assertIn("DDD_TO_STAGE=M05", workflow)
         self.assertIn("--entrypoint /bin/bash", workflow)
         self.assertIn("auditar_topologia_geometrica.py", workflow)
