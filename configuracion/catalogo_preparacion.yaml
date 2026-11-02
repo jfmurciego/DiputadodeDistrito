@@ -995,12 +995,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41465837048
-        stage: M06
+        run_id: 41481449507
+        stage: M08
       preparation_evidence:
         run_id: 41465837048
         artifact_name: ddd-source-package-congreso_baleares-2025-41465837048
@@ -1019,6 +1019,7 @@ territories:
         prepared_source_pair: territorios/congreso_baleares/evidencia/pares_fuentes/2025/61ff422e7d315ed96f2726e58a6e7e47681d3ec0022b7cbd4e6a0b5a9426913e.json
         generation_preflight: territorios/congreso_baleares/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_baleares/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/congreso_baleares/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_barcelona
   name: Congreso Barcelona
