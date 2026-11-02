@@ -19,7 +19,7 @@
   "topology": {
     "working_crs": "EPSG:3035",
     "min_shared_border_m": 1.0,
-    "preserve_atomic_multipart_sections": false,
+    "preserve_atomic_multipart_sections": true,
     "prune_weak_adjacencies": true
   },
   "contract": {

@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.81
+Versión: 1.0.82
 Fecha: 2026-11-02
-Alcance: T-32 — el runner del ensemble ya no sale en verde con fallos
+Alcance: T-33 — Salamanca une las piezas de secciones MultiPolygon en el ensemble
 Estado: candidato
-Cambios/motivo: exit_code_for: 3 con candidatos fallidos, 4 con 0 válidos, 2 incompleto sin --allow-partial
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.80_t32_20261102.md
+Cambios/motivo: preserve_atomic_multipart_sections=true en configuracion/ensemble/congreso_salamanca.json
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.81_t33_20261102.md
 -->
+
+## 2026-11-02 — T-33 — Ensemble de Salamanca: piezas de secciones MultiPolygon
+
+Intento 3 del piloto (run 41518377027): los 10 perfiles fallaban con `geometric_contiguity:1, geometric_contiguity:2`. La auditoría M06 acepta dos enlaces entre
+componentes de un distrito (ATOMIC_MULTIPART y GOVERNED_BRIDGE) y Salamanca no tiene puentes (`topology_bridges: []`); la configuración del ensemble llevaba
+`preserve_atomic_multipart_sections: false` (Aragón: true), de modo que las piezas de una misma sección MultiPolygon quedaban como componentes sueltas. Ahora es `true`:
+el ensemble aplica la misma regla que M06. Pruebas en `tests/test_ensemble_multipart_salamanca.py` (sin la opción, la pieza suelta rompe la contigüidad geométrica; con ella no).
 
 ## 2026-11-02 — T-32 — Ensemble: falso verde del runner
 
