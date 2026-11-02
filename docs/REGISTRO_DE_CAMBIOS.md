@@ -1,17 +1,24 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.84
+Versión: 1.0.85
 Fecha: 2026-11-02
 Alcance: PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-34
 Estado: candidato
 Cambios/motivo: solo documentación
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.83_plan10_20261102.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.84_plan10_20261102.md
 -->
 
 ## 2026-11-02 — PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-33
 
 Solo documentación. `docs/PLAN.md`: estado 47/52 (Cádiz, Baleares y Las Palmas completas), Murcia con contradicción probada y la exención de Águilas (30003) aprobada pero no aplicada hasta que el chat de
 motor resuelva Alcantarilla/Beniel, Madrid, Málaga, Barcelona y Alicante como fallo de búsqueda del motor, T-20 resuelta, tareas T-21 a T-34 (T-27 a, b y c con sus PR #413 a #415) y piloto de ensemble de Salamanca.
+
+## 2026-11-02 — T-27 (b) — Visor: selector por escenario
+
+`visor/escenarios.js` (nuevo, funciones puras) agrupa los resultados de un territorio en «Canónico», un grupo por escenario («<strategy> · <scenario_id>») y un grupo por ensemble;
+`app.js` construye el selector con `optgroup` y añade el conmutador Territorial/Electoral (por defecto Electoral si existe; al conmutar se conserva el grupo). Los resultados
+canónicos y las entradas históricas siguen apareciendo como antes y nada se pierde ni se mezcla entre grupos. `_reutilizable-publicar-sitio.yml` 3.1.0 publica también
+`escenarios.js` y lo valida con `node --check`. Pruebas: `tests/test_visor_escenarios.py` (agrupación y conmutador con node, cableado). Sigue la fase (c).
 
 ## 2026-11-02 — T-27 (a) — Registro del visor: escenarios no canónicos
 

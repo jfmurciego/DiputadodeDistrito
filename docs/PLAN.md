@@ -135,7 +135,7 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 
 ### T-27 · Todos los escenarios en el visor (en curso, 3 fases)
 - **(a) Registro** con `scenario_m06/m08`, `scenario_id`, `strategy`, `scenario_kind`, `canonical` · PR #413 · **fusionada**.
-- **(b) Selector** con `optgroup` por escenario y conmutador Territorial/Electoral · PR #414 · CI en curso.
+- **(b) Selector** con `optgroup` por escenario y conmutador Territorial/Electoral · PR #414 · **fusionada**.
 - **(c) Escenarios sin catálogo**: `persist_state` falso en campañas de otro algoritmo sobre territorio certificado y promoción como escenario (`scenario_id`, `scenario_strategy`) · PR #415 · CI en curso.
 - Pendiente tras las tres: una ejecución real de un escenario completo (territorial y electoral) y su publicación en el visor.
 
