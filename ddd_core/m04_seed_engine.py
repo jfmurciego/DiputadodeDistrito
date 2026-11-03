@@ -4,14 +4,15 @@
 
 PROYECTO: Diputado de Distrito
 Módulo 04 — Motor canónico de semillas
-VERSIÓN: 7.6.5
-NOMBRE DE VERSIÓN: Closed target cores conformes antes de congelar
-FECHA: 2026-10-26
+VERSIÓN: 7.6.6
+NOMBRE DE VERSIÓN: Alivio de residuos municipales sobre el techo
+FECHA: 2026-11-03
 FUNCIÓN: ejecutar el núcleo 7.4.13 con preflight atómico fail-closed, puertas de componentes y reparación genérica de closed target cores.
 CAMBIOS: para closed_target_cores_plus_open_residual exige que todo core inmutable quede dentro de la tolerancia objetivo; permite residual provisional bajo floor, conserva cap/gateways y bloquea explícitamente si no encuentra una partición conforme.
 MOTIVO: evitar que M04 congele outliers que M05 no puede reparar, sin relajar K, provincia, contigüidad, disciplina municipal, tolerancia ni límites duros.
-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.4.py
+ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.5.py
 CAMBIO 7.6.5: reutiliza la solución conexa hard demostrada en preflight para Formación inicial monomunicipal y preserva cardinalidad residual.
+CAMBIO 7.6.6: si el residuo R de un municipio dividido deja su distrito sobre el techo (enclaves que solo lindan con él), cede secciones fronterizas de R a los núcleos U del mismo municipio con margen; M05 no puede hacerlo porque mueve unidades enteras (T-22, Murcia).
 """
 from __future__ import annotations
 
@@ -24,9 +25,10 @@ from ddd_core import m04_seed_engine_v7412 as core
 from ddd_core import m04_seed_engine_v7411 as postprocess_engine
 from ddd_core.config import hard_limits, load_params_yaml, module_cfg, require
 from ddd_core.m04_closed_target_cores import repair_closed_target_cores
+from ddd_core.m04_overcap_residual_relief import relieve_overcap_residuals
 
 ENGINE_ID = "ddd_core.m04_seed_engine"
-ENGINE_VERSION = "7.6.5"
+ENGINE_VERSION = "7.6.6"
 partition_oversized_municipality = core.partition_oversized_municipality
 _BASE_PARTITION_OVERSIZED_MUNICIPALITY = partition_oversized_municipality
 
@@ -498,6 +500,55 @@ def _normalize_unit_property_for_ogr(path):
     return changed
 
 
+def _relieve_overcap_residuals(cfg, step, protected_nodes):
+    """Cede secciones de R a núcleos U del mismo municipio si su distrito supera el techo."""
+    output = require(step.get("out_geojson"), "Falta salida M04")
+    graph_path = require(step.get("in_graph_json"), "Falta M04 grafo")
+    id_field = require(step.get("id_field"), "Falta id")
+    municipality_field = step.get("municipality_field", "CUMUN")
+    graph = json.loads(Path(graph_path).read_text(encoding="utf-8"))
+    pop = {str(n["id"]): int(n.get("pop", 0)) for n in graph["nodes"]}
+    adjacency = {node: set() for node in pop}
+    for edge in graph["edges"]:
+        left, right = str(edge["u"]), str(edge["v"])
+        if left in adjacency and right in adjacency:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+    geo = postprocess_engine.load_geo(output)
+    if "ddd_unit_id" not in geo.columns:
+        return []
+    geo[id_field] = geo[id_field].astype(str)
+    k = int(geo["district_id"].nunique())
+    target, _floor, cap, tolerance = hard_limits(cfg, k=k, total_pop=sum(pop.values()))
+    s2 = module_cfg(cfg, "modulo_02_construir_adyacencias", "step2_export_edges")
+    protected = set(protected_nodes or ())
+    for bridge in s2.get("topology_bridges", []) or []:
+        protected.update(str(x) for x in (bridge.get("u"), bridge.get("v")) if x is not None)
+    moves = relieve_overcap_residuals(
+        geo,
+        pop=pop,
+        adj=adjacency,
+        cap=cap,
+        core_low=target - tolerance,
+        core_high=min(target + tolerance, cap),
+        id_field=id_field,
+        municipality_field=municipality_field,
+        protected=protected,
+    )
+    if moves:
+        postprocess_engine.write_geo(geo, output)
+        print(f"[Módulo 4] alivio de residuos sobre techo: movimientos={len(moves)}")
+    return moves
+
+
+def _record_overcap_relief(report_path, moves):
+    if not moves or not report_path or not Path(report_path).exists():
+        return
+    report = json.loads(Path(report_path).read_text(encoding="utf-8"))
+    report["overcap_residual_relief"] = moves
+    Path(report_path).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--params", required=True)
@@ -620,10 +671,12 @@ def main():
     changed = _normalize_unit_property_for_ogr(output)
     if changed:
         print(f"[Módulo 4] normalizados ddd_unit_id OGR-safe={changed}")
+    relief = _relieve_overcap_residuals(cfg, step, protected_component_nodes)
     postprocess_engine.postprocess(
         args.params,
         additional_protected_nodes=protected_component_nodes,
     )
+    _record_overcap_relief(step.get("out_report", ""), relief)
     if strict_closed_target:
         _assert_closed_target_report(step.get("out_report", ""))
     print(

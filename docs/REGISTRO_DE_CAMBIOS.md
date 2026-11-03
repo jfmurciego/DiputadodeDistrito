@@ -5,7 +5,7 @@ Fecha: 2026-11-03
 Alcance: T-23 — exención de suelo de Águilas (30003) en el contrato de Murcia
 Estado: candidato
 Cambios/motivo: population_floor_exempt_municipalities 30003 con decisión del propietario del 02-11
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.91_murcia_20261103.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.92_murcia_20261102.md
 -->
 
 ## 2026-11-03 — T-23 — Murcia: exención de suelo de Águilas (30003)
@@ -14,6 +14,15 @@ Decisión del propietario del 02-11-2026 (contradicción probada: Lorca indivisi
 `validation.population_floor_exempt_municipalities: ['30003']` y, para que la decisión sobreviva a una rematerialización (que borra los comentarios), `population_floor_exempt_decisions` con fecha, autor,
 motivo y evidencia. Contrato admitido por `validate_production_contract`. Copia anterior en `legacy/territorios/congreso_murcia/`. Prueba local sobre el grafo de `diagnostico/t02-20261101/congreso_murcia` con
 M04 7.6.6 (rama de #419): M05 hard=0, M06 hard=0 y `validar_ejecucion` OK (13 distritos, en [101.457, 137.265]). Sin la 7.6.6 sigue bloqueado el distrito 4 (Alcantarilla + Beniel + Murcia residual). No cambia política ni código.
+
+## 2026-11-03 — T-22 — M04 7.6.6: alivio de residuos sobre el techo
+
+M05 mueve unidades enteras (`ddd_unit_id`) y no puede redibujar las piezas internas de un municipio dividido, así que un distrito sobre el techo
+causado por el tamaño del residual `:R` no tenía arreglo. M04 7.6.6 cede secciones fronterizas del residual a núcleos `:U` del mismo municipio
+con margen; si el distrito no tiene residual, traslada un municipio entero al distrito del residual vecino de otro municipio dividido y cede el
+exceso; si los núcleos están llenos, pasa una sección de núcleo a núcleo. Sin cambios de suelo, techo, K ni atomicidad. Murcia (con Águilas exenta,
+fuera de esta PR): 171.010 → 13 distritos PASS; Madrid: 181.853 → 59 distritos PASS (M05 y M06 locales). Sin alivio activo, la salida es idéntica
+a 7.6.5. Cambiar M04 invalida los checkpoints M04 previos.
 
 ## 2026-11-03 — T-36 — Republicación de ensembles con candidatos en WGS84
 
