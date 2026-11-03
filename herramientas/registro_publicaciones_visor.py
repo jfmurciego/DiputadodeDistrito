@@ -5,12 +5,13 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-02 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-02 · ESTADO: candidato
+CAMBIOS 1.2.0 (T-27 fase c): `describe-production --scenario-id --strategy` describe M06/M08 de una ejecución como `scenario_m06/m08` (solo adición, sin tocar canónicos).
 CAMBIOS 1.1.0 (T-27 fase a): escenarios no canónicos. Kinds `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy`,
   `scenario_kind` ("alternative") y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, debe ser true).
   A lo sumo una entrada `canonical: true` por territorio y familia (m06/m08); un `scenario_m08` exige el `scenario_m06`
   del mismo `scenario_id`. El registro es de solo adición: la identidad de un escenario es territorio+kind+scenario_id.
-ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.0.0_20261102.py
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.1.0_20261102.py
 """
 from __future__ import annotations
 
@@ -276,7 +277,9 @@ def verify_materialized_registry(registry: dict, materialized_root: Path) -> lis
     return verified
 
 
-def production_descriptors(production_root: Path, run_id: str) -> list[dict]:
+def production_descriptors(
+    production_root: Path, run_id: str, scenario_id: str | None = None, strategy: str | None = None
+) -> list[dict]:
     metadata = production_metadata(production_root)
     audit_path = first(production_root, "*_m06_contiguedad_geometrica.json")
     audit = read_json(audit_path)
@@ -299,8 +302,10 @@ def production_descriptors(production_root: Path, run_id: str) -> list[dict]:
                 f"No se promueve M06 no certificado: territorio={metadata['territory_id']} "
                 f"run={run_id} technical={technical_status} geometric={geometric_status}"
             )
-        descriptors.append({
-            "id": f"{stage.lower()}-{safe_id(metadata['territory_id'])}-{safe_id(run_id)}",
+        if scenario_id:
+            kind = kind.replace("canonical_", "scenario_")
+        descriptor = {
+            "id": f"{stage.lower()}-{safe_id(metadata['territory_id'])}-{safe_id(scenario_id or run_id)}",
             "asset_type": asset_type,
             "kind": kind,
             "stage": stage,
@@ -314,9 +319,12 @@ def production_descriptors(production_root: Path, run_id: str) -> list[dict]:
             "publication_status": "PUBLICABLE",
             "geometric_status": geometric_status,
             "geometric_gate": audit.get("gate_statement"),
-            "label": f"{label} · run {run_id}",
+            "label": f"{label} · {strategy} · {scenario_id}" if scenario_id else f"{label} · run {run_id}",
             "local_source": str(source),
-        })
+        }
+        if scenario_id:
+            descriptor.update(scenario_id=scenario_id, strategy=strategy, scenario_kind="alternative", canonical=False)
+        descriptors.append(descriptor)
     if not descriptors:
         raise ValueError(f"La ejecución {run_id} no contiene M06 ni M08 publicable")
     return descriptors
@@ -367,6 +375,8 @@ def main() -> None:
     describe_product = sub.add_parser("describe-production")
     describe_product.add_argument("--production-root", type=Path, required=True)
     describe_product.add_argument("--run-id", required=True)
+    describe_product.add_argument("--scenario-id", help="Registra la ejecución como escenario no canónico (con --strategy)")
+    describe_product.add_argument("--strategy", choices=sorted(STRATEGIES))
     describe_product.add_argument("--output", type=Path, required=True)
 
     describe_ens = sub.add_parser("describe-ensemble")
@@ -397,7 +407,11 @@ def main() -> None:
         return
 
     if args.command == "describe-production":
-        payload = production_descriptors(args.production_root, args.run_id)
+        if bool(args.scenario_id) != bool(args.strategy):
+            raise SystemExit("--scenario-id y --strategy van juntos")
+        if args.scenario_id and not re.fullmatch(r"[a-z0-9][a-z0-9._-]{2,80}", args.scenario_id):
+            raise SystemExit("--scenario-id inválido (minúsculas, cifras, punto, guion)")
+        payload = production_descriptors(args.production_root, args.run_id, args.scenario_id, args.strategy)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return
