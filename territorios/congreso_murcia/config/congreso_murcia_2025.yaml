@@ -200,6 +200,17 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  # Decisión del propietario (02-11-2026): Lorca es indivisible (97.904) y Águilas (36.684) y Puerto Lumbreras (17.507)
+  # solo lindan con Lorca; juntos suman 152.095, por encima del techo (137.265). El distrito de Águilas queda exento del suelo.
+  population_floor_exempt_municipalities:
+  - '30003'
+  population_floor_exempt_decisions:
+    '30003':
+      municipality: Águilas
+      decided_at: '2026-11-02'
+      decided_by: propietario
+      rationale: Contradicción probada con las reglas actuales (Lorca indivisible + Águilas + Puerto Lumbreras = 152.095 > techo 137.265); se exime del suelo el distrito de Águilas (0,31 de la media) y Lorca + Puerto Lumbreras suman 115.411.
+      evidence: docs/PLAN.md T-23 y mensaje del planificador del 02-11-2026 (decisión del propietario)
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
