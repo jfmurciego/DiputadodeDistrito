@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13223139979,
+      "artifact_name": "ddd-audit-41611821388",
+      "artifact_sha256": "0c2d3dac65106e80d69aa858f568b9a0a6877ce973ea2e507d5e9b804bdef11b",
+      "run_id": 41611821388,
+      "size_in_bytes": 9545
+    },
+    "m04": {
+      "artifact_id": 13222913312,
+      "artifact_name": "ddd-state-41611821388-M04",
+      "artifact_sha256": "d773795b36d72042b9110b33914b576be5b5f3b4c8c41bba83ad75e76a650e02",
+      "run_id": 41611821388,
+      "size_in_bytes": 90125404
+    },
+    "m05": {
+      "artifact_id": 13223164402,
+      "artifact_name": "ddd-state-41611821388-M05",
+      "artifact_sha256": "7af80692a4047fa4950d8a284a8ce428cbf7d1bd586cedc8f5294bf8129a56c8",
+      "run_id": 41611821388,
+      "size_in_bytes": 93147172
+    },
+    "m06": {
+      "artifact_id": 13223961140,
+      "artifact_name": "ddd-state-41611821388-M06",
+      "artifact_sha256": "8870381a142c9d32496a4377521c981a4ac208329a5a5b3e5ae6b72b89a1f155",
+      "run_id": 41611821388,
+      "size_in_bytes": 97188642
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "82be693ea3c344edbcd6a64b804bd23ab244e3614c0cf89c8499ea2a2fdf48e3",
+        "size_in_bytes": 475
+      },
+      "congreso_madrid_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "5419fd74edda9affa36cb5897e3e6bd9ecbd25a4d248ea4ef8ff88709db466f1",
+        "size_in_bytes": 51218
+      },
+      "optimization_execution.json": {
+        "sha256": "fc5c69d5ddaa22fffd98646ca6af539ce97457a736dfbb3f3751b4d5440cc370",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "0c37bf62f90d6d10d5c457eb2e2b098f94b3ce4d92d672d3f32b9716569239e4",
+        "size_in_bytes": 1306
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "0c37bf62f90d6d10d5c457eb2e2b098f94b3ce4d92d672d3f32b9716569239e4",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_madrid/config/congreso_madrid_2025.yaml",
+    "sha256": "57aca507bf6228c7349973576e35be540994b912d4da534bebbc61b8218b9952"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "a37895a33fa77ab89cb4c890cfff8d4c0b2bf5da65714cdf16eba17701e79891",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "59f4a56ee37d3af3e2a2125bf965139ce45b5650",
+    "edition": "2025",
+    "territory_id": "congreso_madrid",
+    "territory_name": "Congreso Madrid",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41611821388,
+    "workflow_sha": "c993d2286e020dcc0cded5328e410722bb5803e8"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13222913312,
+      "artifact_name": "ddd-state-41611821388-M04",
+      "artifact_sha256": "d773795b36d72042b9110b33914b576be5b5f3b4c8c41bba83ad75e76a650e02",
+      "run_id": 41611821388,
+      "size_in_bytes": 90125404
+    },
+    "source_manifest_sha256": "3e5fe53eaad0cd31c9d79c1b46cf7b2e10bb79471d9c190769351aaa523b58ad",
+    "source_package_artifact": {
+      "artifact_id": 13221243143,
+      "artifact_name": "ddd-source-package-congreso_madrid-2025-41611821388",
+      "artifact_sha256": "a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0",
+      "run_id": 41611821388,
+      "size_in_bytes": 83988210
+    }
+  },
+  "manifest_sha256": "e3bf89a342b4d01b416d2799fcc27f164975b354d082d36e04d4986469c99bed",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

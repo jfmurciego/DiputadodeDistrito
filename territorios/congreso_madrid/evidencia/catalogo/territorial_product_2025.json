@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_madrid",
+  "territory_name": "Congreso Madrid",
+  "edition": "2025",
+  "run_id": 41611821388,
+  "artifact_name": "ddd-state-41611821388-M06",
+  "artifact_sha256": "8870381a142c9d32496a4377521c981a4ac208329a5a5b3e5ae6b72b89a1f155",
+  "source_commit": "59f4a56ee37d3af3e2a2125bf965139ce45b5650",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_madrid/evidencia/generaciones_m06/41611821388.json"
+}
