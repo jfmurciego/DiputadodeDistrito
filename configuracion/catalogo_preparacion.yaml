@@ -1815,22 +1815,21 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41244835816
-        artifact_name: ddd-source-package-congreso_madrid-2025-41244835816
-        artifact_sha256: 27e42f529e0967c1e6b5b1975fe0526385e07e9279612c2674c878c0a8b72dbe
-        package_sha256: d9ba7fdb4684c53feadb15392aa96986e9d0675e8bc08d4c6a60f66e2b63feef
-        receipt_path: territorios/congreso_madrid/evidencia/fuentes_territoriales/2025/d1601961220191226b90af97e5124402486aa3d6a0475d12bbe93aecff143d97/41244835816/receipt.json
-        territorial_identity_sha256: d1601961220191226b90af97e5124402486aa3d6a0475d12bbe93aecff143d97
-        compatibility_report_sha256: 7e8dbf28708c2cd11cc81262d001107fb9db2b337c444051046fca86c6a7e966
-        compatibility_identity_sha256: 3b26dbaff94f8beb869d6e2a1cbef489558e133f03c70e4eb4aa9a3d6c4c06b4
+        run_id: 41611821388
+        artifact_name: ddd-source-package-congreso_madrid-2025-41611821388
+        artifact_sha256: a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0
+        package_sha256: d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd
+        receipt_path: territorios/congreso_madrid/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/receipt.json
+        territorial_identity_sha256: 90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99
+        compatibility_report_sha256: cfbbd7c75e222084781fd3ee765a72f22edc6d57d9df1ae68e5b3fed965ba336
+        compatibility_identity_sha256: c462f25392436bd7bf14f13b5f6d29dc6543c8ca0b5e92bab5f67d9a6ac38307
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 19ca8fade9b8034a5a228cae1acc29731aa4d828
+        source_commit: c993d2286e020dcc0cded5328e410722bb5803e8
       evidence:
         electoral_source: territorios/congreso_madrid/evidencia/fuentes_electorales/2025/c6978e2a5cb956599067eeb70492424862f94a8275616611bd65fc95b9fb9586/41239871833/receipt.json
-        generation_preflight: territorios/congreso_madrid/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: congreso_malaga
   name: Congreso Málaga
   editions:

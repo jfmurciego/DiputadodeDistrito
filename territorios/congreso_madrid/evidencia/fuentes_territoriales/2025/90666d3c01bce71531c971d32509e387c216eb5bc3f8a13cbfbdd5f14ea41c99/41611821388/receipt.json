@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_madrid",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 41611821388,
+  "artifact_name": "ddd-source-package-congreso_madrid-2025-41611821388",
+  "artifact_sha256": "a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0",
+  "package_sha256": "d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd",
+  "source_commit": "c993d2286e020dcc0cded5328e410722bb5803e8",
+  "source_declaration": "territorios/congreso_madrid/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "cfbbd7c75e222084781fd3ee765a72f22edc6d57d9df1ae68e5b3fed965ba336",
+  "compatibility_identity_sha256": "c462f25392436bd7bf14f13b5f6d29dc6543c8ca0b5e92bab5f67d9a6ac38307"
+}
