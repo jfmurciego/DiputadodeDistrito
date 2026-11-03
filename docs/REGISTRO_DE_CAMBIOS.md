@@ -1,12 +1,17 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.84
+Versión: 1.0.85
 Fecha: 2026-11-02
-Alcance: T-27 fase (b) — selector del visor por escenario
+Alcance: PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-34
 Estado: candidato
-Cambios/motivo: optgroups por escenario y conmutador Territorial/Electoral en el visor
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.83_t27b_20261102.md
+Cambios/motivo: solo documentación
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.84_plan10_20261102.md
 -->
+
+## 2026-11-02 — PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-33
+
+Solo documentación. `docs/PLAN.md`: estado 47/52 (Cádiz, Baleares y Las Palmas completas), Murcia con contradicción probada y la exención de Águilas (30003) aprobada pero no aplicada hasta que el chat de
+motor resuelva Alcantarilla/Beniel, Madrid, Málaga, Barcelona y Alicante como fallo de búsqueda del motor, T-20 resuelta, tareas T-21 a T-34 (T-27 a, b y c con sus PR #413 a #415) y piloto de ensemble de Salamanca.
 
 ## 2026-11-02 — T-27 (b) — Visor: selector por escenario
 
