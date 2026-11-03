@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-03T11:00:49.022111+00:00",
+  "generated_at": "2026-11-03T11:01:33.700004+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6526,20 +6526,20 @@
       "name": "Nacional Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41613691816,
+      "run_id": 41622862185,
       "last_run": {
-        "run_id": 41613691816,
+        "run_id": 41622862185,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -6580,7 +6580,7 @@
       },
       "autonomous_community_code_ine": "C30",
       "display_name": "Nacional Murcia",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_navarra",
@@ -7934,7 +7934,7 @@
     }
   ],
   "kpis": {
-    "complete": 65,
+    "complete": 66,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -7979,6 +7979,7 @@
       "Nacional Lérida",
       "Nacional La Rioja",
       "Nacional Lugo",
+      "Nacional Murcia",
       "Nacional Navarra",
       "Nacional Orense",
       "Nacional Asturias",
@@ -8155,11 +8156,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_cadiz",
-    "name": "Nacional Cádiz",
-    "display_name": "Nacional Cádiz",
-    "autonomous_community_code_ine": "C11",
-    "run_id": 41500124775,
+    "territory_id": "congreso_murcia",
+    "name": "Nacional Murcia",
+    "display_name": "Nacional Murcia",
+    "autonomous_community_code_ine": "C30",
+    "run_id": 41622862185,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -8194,12 +8195,6 @@
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional Murcia",
-      "territory_id": "congreso_murcia",
-      "autonomous_community_code_ine": "C30",
-      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -8232,12 +8227,6 @@
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
       "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Nacional Murcia",
-      "territory_id": "congreso_murcia",
-      "autonomous_community_code_ine": "C30",
-      "action": "preparar fuentes electorales"
     }
   ]
 }
