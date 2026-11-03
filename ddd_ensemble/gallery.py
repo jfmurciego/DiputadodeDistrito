@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import shutil
 from pathlib import Path
 
 from pyproj import Transformer
@@ -49,23 +48,50 @@ def _transform_coordinates(value, transformer: Transformer):
     return value
 
 
-def _write_web_geojson(source: Path, destination: Path) -> None:
+def dissolve_by_district(data: dict, district_field: str = "district_id") -> dict:
+    """Una feature por distrito (T-37): el candidato analítico tiene una por sección y el visor espera K.
+
+    Idempotente: si ya hay una feature por distrito, o falta el campo de distrito, devuelve los datos tal cual.
+    """
+    features = data.get("features") or []
+    keys = [(feature.get("properties") or {}).get(district_field) for feature in features]
+    if not features or any(key is None for key in keys) or len(set(map(str, keys))) == len(features):
+        return data
+    from shapely.geometry import mapping, shape
+    from shapely.ops import unary_union
+
+    groups: dict[str, list[dict]] = {}
+    for feature, key in zip(features, keys):
+        groups.setdefault(str(key), []).append(feature)
+    dissolved = []
+    for key in sorted(groups, key=lambda value: (len(value), value)):
+        members = groups[key]
+        properties = {district_field: (members[0].get("properties") or {}).get(district_field), "sections": len(members)}
+        population_field = next((name for name in (members[0].get("properties") or {}) if str(name).upper().startswith("POP")), None)
+        if population_field:
+            properties[population_field] = sum(float((m.get("properties") or {}).get(population_field) or 0) for m in members)
+        geometry = unary_union([shape(m["geometry"]) for m in members if m.get("geometry")])
+        dissolved.append({"type": "Feature", "properties": properties, "geometry": mapping(geometry)})
+    result = {k: v for k, v in data.items() if k != "features"}
+    result["features"] = dissolved
+    return result
+
+
+def _write_web_geojson(source: Path, destination: Path, district_field: str = "district_id") -> None:
     data = json.loads(source.read_text(encoding="utf-8"))
     source_epsg = _epsg_from_geojson(data)
-    if source_epsg in (None, 4326):
-        shutil.copy2(source, destination)
-        return
-
-    transformer = Transformer.from_crs(f"EPSG:{source_epsg}", "EPSG:4326", always_xy=True)
-    for feature in data.get("features", []):
-        geometry = feature.get("geometry") or {}
-        if "coordinates" in geometry:
-            geometry["coordinates"] = _transform_coordinates(geometry["coordinates"], transformer)
-        elif geometry.get("type") == "GeometryCollection":
-            for child in geometry.get("geometries", []):
-                if "coordinates" in child:
-                    child["coordinates"] = _transform_coordinates(child["coordinates"], transformer)
-    data.pop("crs", None)
+    if source_epsg not in (None, 4326):
+        transformer = Transformer.from_crs(f"EPSG:{source_epsg}", "EPSG:4326", always_xy=True)
+        for feature in data.get("features", []):
+            geometry = feature.get("geometry") or {}
+            if "coordinates" in geometry:
+                geometry["coordinates"] = _transform_coordinates(geometry["coordinates"], transformer)
+            elif geometry.get("type") == "GeometryCollection":
+                for child in geometry.get("geometries", []):
+                    if "coordinates" in child:
+                        child["coordinates"] = _transform_coordinates(child["coordinates"], transformer)
+    data.pop("crs", None)  # copia web: WGS84 implícito (RFC 7946)
+    data = dissolve_by_district(data, district_field)
     destination.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 

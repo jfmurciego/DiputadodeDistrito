@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.92
+Versión: 1.0.94
 Fecha: 2026-11-03
-Alcance: T-22 — M04 7.6.6: alivio de residuos municipales sobre el techo
+Alcance: T-37 — copia web de ensembles con una feature por distrito
 Estado: candidato
-Cambios/motivo: ddd_core/m04_overcap_residual_relief.py y llamada desde ddd_core/m04_seed_engine.py antes del postproceso
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.91_t22_20261103.md
+Cambios/motivo: dissolve_by_district en la galería y validación de la republicación por distrito
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.92_t37_20261103.md
 -->
+
+## 2026-11-03 — T-37 — Ensemble: la copia web lleva una feature por distrito
+
+La republicación de Salamanca (run 41609529760) fallaba en «Validar sitio candidato completo»: `ensemble-congreso_salamanca-…-balanced-01: distritos observados 532 != 3`. El candidato analítico
+tiene una feature por sección y la copia web era una copia (o reproyección) del mismo fichero, así que el visor recibía 532 features en vez de K=3. `ddd_ensemble/gallery.py`: `dissolve_by_district`
+(idempotente; una feature por `district_id` con `sections` y la suma del campo `POP*`) se aplica al generar la copia web, que además sale sin miembro `crs` (WGS84 implícito, RFC 7946).
+`herramientas/validar_republicacion_ensemble.py` 1.1.0: la web debe tener una feature por distrito del candidato y los mismos `district_id`; si el analítico ya está en WGS84, se compara con su disolución
+(bounds y área por distrito) para no confundir canónico y web. Aragón (analíticos proyectados) sigue pasando la transformación a WGS84. Pruebas: `tests/test_ensemble_web_distritos.py` (5; 532 secciones → K=3,
+idempotencia, grados y proyectado, validación) y las de T-36 en verde.
 
 ## 2026-11-03 — T-22 — M04 7.6.6: alivio de residuos sobre el techo
 
