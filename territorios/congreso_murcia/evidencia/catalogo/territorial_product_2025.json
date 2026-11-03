@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso_murcia",
+  "territory_name": "Congreso Murcia",
+  "edition": "2025",
+  "run_id": 41613691816,
+  "artifact_name": "ddd-state-41613691816-M06",
+  "artifact_sha256": "b7997dce55fc944f020470ba6f9ed11415adc9283b36b874e27f69cda40c8ed8",
+  "source_commit": "0aef0523e55674817219100f5fa6f1e7cdfdc1b5",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso_murcia/evidencia/generaciones_m06/41613691816.json"
+}

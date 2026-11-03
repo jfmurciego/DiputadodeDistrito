@@ -1879,12 +1879,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 41613691816
+        stage: M06
       preparation_evidence:
         run_id: 41613691816
         artifact_name: ddd-source-package-congreso_murcia-2025-41613691816
@@ -1902,6 +1904,7 @@ territories:
         electoral_source: territorios/congreso_murcia/evidencia/fuentes_electorales/2025/eda6e4cc001fbf5c746bd5d96871da57fc2176f2ef062e05e9f622b52d7a0f10/41239882418/receipt.json
         prepared_source_pair: territorios/congreso_murcia/evidencia/pares_fuentes/2025/5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51.json
         generation_preflight: territorios/congreso_murcia/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_murcia/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: congreso_navarra
   name: Congreso Navarra
