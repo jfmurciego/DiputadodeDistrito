@@ -1810,12 +1810,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41611821388
-        stage: M06
+        run_id: 41622703086
+        stage: M08
       preparation_evidence:
         run_id: 41611821388
         artifact_name: ddd-source-package-congreso_madrid-2025-41611821388
@@ -1834,6 +1834,7 @@ territories:
         generation_preflight: territorios/congreso_madrid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_madrid/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_madrid/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json
+        electoral_product: territorios/congreso_madrid/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_malaga
   name: Congreso Málaga
