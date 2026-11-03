@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.87
-Fecha: 2026-11-02
-Alcance: T-34 — configuraciones de ensemble de La Rioja y Sevilla
+Versión: 1.0.89
+Fecha: 2026-11-03
+Alcance: T-35 — publicación de ensembles con ensemble_sha256
 Estado: candidato
-Cambios/motivo: configuracion/ensemble/congreso_la_rioja.json y congreso_sevilla.json con prueba de coherencia con el contrato
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.86_t34_20261102.md
+Cambios/motivo: generar-alternativas-territoriales 2.2.0 pasa el sha256 del zip al publicador único; republicación genérica
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.87_t35_20261103.md
 -->
+
+## 2026-11-03 — T-35 — Ensemble: el publicador único recibe el sha256 del zip
+
+La publicación del ensemble de Salamanca (run 41592019959) fallaba en «Resolver ensemble persistente solicitado» con exit 56: «Ensemble … sin ensemble_sha256 acreditado». El publicador
+(`_reutilizable-publicar-sitio.yml`) exige `ensemble_sha256` (64 hex minúsculas, hash del zip del release) y `desplegar_publish` solo pasaba `ensemble_release_tag` y `target_page`.
+`generar-alternativas-territoriales.yml` 2.2.0: `publish` y `republish` calculan `sha256sum` del zip que suben al release, lo exponen como output `ensemble_sha256` y los dos despliegues
+lo pasan. La republicación sin recalcular (`republish_source_run_id`) vale ahora para cualquier territorio con configuración (`ensemble_10`) además de Aragón-10; el lote de 50 sigue bloqueado.
+Solo se añade en `ensembles`: catálogo, estado operativo y canónico intactos. Pruebas: `tests/test_ensemble_publicacion_sha256.py` (5).
 
 ## 2026-11-02 — T-34 — Ensemble: La Rioja y Sevilla
 
