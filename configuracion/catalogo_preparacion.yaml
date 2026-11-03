@@ -1883,23 +1883,22 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41335095516
-        artifact_name: ddd-source-package-congreso_murcia-2025-41335095516
-        artifact_sha256: 2ea974b9c2ed1ba65c1b5ea0b4925764a7328ba1715a6a87cd40c1d6bf50bab1
-        package_sha256: fb7f6046fdfa26839483d04c0c74564d9b7196f495805c797e28355dfffbd757
-        receipt_path: territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a/41335095516/receipt.json
-        territorial_identity_sha256: f079e7361d8b68e2e68aa2a363174a75ece3bd144f2c2a65fd5ece40789e1f1a
-        compatibility_report_sha256: 4846ba2292595f7bb7ddd3acfedba7cd7847d771531964ee2812777df942366b
-        compatibility_identity_sha256: 365fb95eed56785fe3f8e2cc462eba63ede3564d9d3856d04d8be7cb946008e4
+        run_id: 41613691816
+        artifact_name: ddd-source-package-congreso_murcia-2025-41613691816
+        artifact_sha256: ff7c08e78d611563cad03de2f46ab3a02b69656d20796fbab14468026e720cfb
+        package_sha256: 55f457c9486913ac56078a2ffe99d2bc1010e81e2683d4b76095b6b2b5768224
+        receipt_path: territorios/congreso_murcia/evidencia/fuentes_territoriales/2025/1af735c25b69fb0992d25d5406fc622b3347a1a73c14176998a216ddb5fb545a/41613691816/receipt.json
+        territorial_identity_sha256: 1af735c25b69fb0992d25d5406fc622b3347a1a73c14176998a216ddb5fb545a
+        compatibility_report_sha256: 1d7b89e091f4863c02133729c056506a5c1c96edd2e1d71508770027c83361d2
+        compatibility_identity_sha256: 160a2fd62b660bb8b914cfde2d5f483b8d06b00d924b4ff2674862c308ffb27a
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: f0444e2d77fcf7182b9f6b45624c0c2e839d01dd
+        source_commit: 47dae384b27e7adf19bc1943e45e9e46a8c2bf23
       evidence:
         electoral_source: territorios/congreso_murcia/evidencia/fuentes_electorales/2025/eda6e4cc001fbf5c746bd5d96871da57fc2176f2ef062e05e9f622b52d7a0f10/41239882418/receipt.json
-        generation_preflight: territorios/congreso_murcia/evidencia/catalogo/generation_preflight_2025.json
         prepared_source_pair: territorios/congreso_murcia/evidencia/pares_fuentes/2025/5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: congreso_navarra
   name: Congreso Navarra
   editions:
