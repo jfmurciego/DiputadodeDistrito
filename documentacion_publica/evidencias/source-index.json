@@ -1,0 +1,228 @@
+{
+  "schema": "ddd.audit-source-index/1.0",
+  "date": "2026-11-03",
+  "repository": "jfmurciego/DiputadodeDistrito",
+  "commit": "11f0ba2b775a889f2316e31ebdbd859cbc50ab13",
+  "files": [
+    {
+      "path": ".github/workflows/_reutilizable-generacion-territorial.yml",
+      "sha256": "c2feaf704bd778ffe2cf50a725535217ebc66d4650f7c8c3173c3953cfd31e8c",
+      "bytes": 84169
+    },
+    {
+      "path": ".github/workflows/_reutilizable-incorporacion-electoral.yml",
+      "sha256": "b5f81b2e7621cc52bbaf70ac2ddbae86c30c8d44dea81d422ba6db2340316b81",
+      "bytes": 21785
+    },
+    {
+      "path": ".github/workflows/_reutilizable-publicar-sitio.yml",
+      "sha256": "92b43b3d524993558664d161211b4d4874281bf8019e3b6d80e66a952544436a",
+      "bytes": 24842
+    },
+    {
+      "path": ".github/workflows/desplegar-visor-publico.yml",
+      "sha256": "23922ef7aafd314ba016e7d2055fa1153487195b7d5c49293cce4588e5bab5e5",
+      "bytes": 6788
+    },
+    {
+      "path": ".github/workflows/ejecucion-completa-proyecto.yml",
+      "sha256": "7a3c3067a7a22248891af383e4c4617006cca03132e4138096b31750bca61f52",
+      "bytes": 101694
+    },
+    {
+      "path": ".github/workflows/generar-alternativas-territoriales.yml",
+      "sha256": "5fe31dbfa434dec5bc72c485a64d3406b9494fc3a7b8dfa1c9658f32e9f06a64",
+      "bytes": 26617
+    },
+    {
+      "path": ".github/workflows/preparacion-fuentes.yml",
+      "sha256": "0ceed81740ea6e33f2faad0e7022b00fe05d8fe457cd600295823ccc153e1b00",
+      "bytes": 31254
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha256": "70ac22969f0aef54bc0c9782e78de3f8ff362d0c8e37f1d64431421f7f7f20a0",
+      "bytes": 12377
+    },
+    {
+      "path": "README.md",
+      "sha256": "ac41dc4a3b85231bda6344931cefb4409dd915696793ec5851cfa123c8101841",
+      "bytes": 15861
+    },
+    {
+      "path": "configuracion/catalogo_preparacion.yaml",
+      "sha256": "490ea02b0065ce103c234abd18b47ab2d8589b9ed9d8be77487e22ba6fc17158",
+      "bytes": 173271
+    },
+    {
+      "path": "ddd_core/m05_gerrychain_engine.py",
+      "sha256": "d76cdb2507f0b5b9f83423bf525102032c2adcb2d4ca2eda9ce140e97b415d10",
+      "bytes": 35288
+    },
+    {
+      "path": "ddd_core/m05_gerrychain_strategy.py",
+      "sha256": "8770b04ab2fc5cb0665a69378d2063484e808d089f9383305a263a86465055bf",
+      "bytes": 60089
+    },
+    {
+      "path": "docs/ARQUITECTURA_DEL_PROCEDIMIENTO.md",
+      "sha256": "d2bbec1a517cd89ed48540db2274420d76e70b734c22a5fc8dd3498686fb8eab",
+      "bytes": 6259
+    },
+    {
+      "path": "docs/INVENTARIO_OPERATIVO.md",
+      "sha256": "3340b3f9fba19290c88ad8c61c81820d27c56dd91ca6467d8fecaefa6d0c0ec0",
+      "bytes": 4130
+    },
+    {
+      "path": "docs/MODULOS/M01_BASE_TERRITORIAL.md",
+      "sha256": "c82163ed12c77f6e0bf9291e44f4e57d2a0d7d3cbbe420f56876496ffada32bd",
+      "bytes": 2122
+    },
+    {
+      "path": "docs/MODULOS/M02_ADYACENCIAS.md",
+      "sha256": "9602fefe965bc43e7276e8eb2bd17615296df33356b1306fe697a27584ea8bcf",
+      "bytes": 1583
+    },
+    {
+      "path": "docs/MODULOS/M03_GRAFO_TERRITORIAL.md",
+      "sha256": "876d631b69768344409f1bc9aaa5c3226aeb40692ca0179e5d3ec6dfe47baca5",
+      "bytes": 1144
+    },
+    {
+      "path": "docs/MODULOS/M04_SOLUCION_INICIAL.md",
+      "sha256": "980a716423c8824f5511787455131b0621e2a8e6ca0cff049ec54d18af9bbc08",
+      "bytes": 4508
+    },
+    {
+      "path": "docs/MODULOS/M05_OPTIMIZACION.md",
+      "sha256": "da4de256b66be1353418353d827b831ab6086c828c1a4afab08ccb0ac90d12cf",
+      "bytes": 8918
+    },
+    {
+      "path": "docs/MODULOS/M05_REPARACION_POBLACIONAL_GENERICA.md",
+      "sha256": "e174214b9434ac56ff2736220eb4e1c878a81075443ae7209dcfcb454902d106",
+      "bytes": 7380
+    },
+    {
+      "path": "docs/MODULOS/M06_CONSOLIDACION_TERRITORIAL.md",
+      "sha256": "c5eafb3e5a6559c8456af99be0abe731ad99c8c800680aae246b2b312932f7a0",
+      "bytes": 4040
+    },
+    {
+      "path": "docs/MODULOS/M07_AGREGACION_ELECTORAL.md",
+      "sha256": "68581cb4ac9043e288628f553f26b41ed34fedc3a3748b0e07b2732fadf5bd88",
+      "bytes": 2101
+    },
+    {
+      "path": "docs/MODULOS/M08_PRODUCTO_FINAL.md",
+      "sha256": "645ae4ef7dee801e8e703761e798de401040a0ca0f5406929c84954c85eaf4e6",
+      "bytes": 986
+    },
+    {
+      "path": "docs/MODULOS/README.md",
+      "sha256": "87590f1f51ae3eaa98d58cf0b41e18ac4a8b626ebf93ff9e416fa5f22d6031a5",
+      "bytes": 2452
+    },
+    {
+      "path": "fuentes/catalogo_oficial.yaml",
+      "sha256": "e303174953e8c98a21f472ed1a555e7186520e82d15541a671701e5015859b83",
+      "bytes": 1824
+    },
+    {
+      "path": "herramientas/almacen_fuentes_local.py",
+      "sha256": "6fd4584af55f21efbfaee845aa59419d342f28328acf6b7186cfbb38d2d049ec",
+      "bytes": 14956
+    },
+    {
+      "path": "herramientas/escribir_manifest_ejecucion_completa.py",
+      "sha256": "4ee0dad243813de6a903d5f1c82a0fad1cfe8ba5a82c3faedbc242eebb9eb4aa",
+      "bytes": 15125
+    },
+    {
+      "path": "herramientas/huella_checkpoint_m05.py",
+      "sha256": "a68467cb34dda3f4f37805cf1302d76a990367e0fcbf396a9bcbf5aed9816918",
+      "bytes": 2159
+    },
+    {
+      "path": "herramientas/localizar_artefacto_durable.py",
+      "sha256": "7c0fb5d7b05655798ea78aae1656ada7be2c9123c8e31046919f4b95234fc849",
+      "bytes": 7752
+    },
+    {
+      "path": "herramientas/manifest_generacion_territorial.py",
+      "sha256": "0108e914ebd254702564c4c73d19550d8cc0aeeacaf60b608d5f78446fdf8d9a",
+      "bytes": 25516
+    },
+    {
+      "path": "herramientas/persistir_producto_electoral_operacional.py",
+      "sha256": "303700e6cda172784641c16a5d3a8ceb0d822435726ab4c877d3582949a5bb1a",
+      "bytes": 15847
+    },
+    {
+      "path": "herramientas/registro_publicaciones_visor.py",
+      "sha256": "164dd1f1ed8338a68e554ba342278a0a21d1ed1da2b95a14f90648594b56f139",
+      "bytes": 19582
+    },
+    {
+      "path": "herramientas/resolver_activos_durables.py",
+      "sha256": "a0dd151b0c088c06b267b50e1662ff661b1f98a4d9a90879b4bfad94c34e9d27",
+      "bytes": 28298
+    },
+    {
+      "path": "herramientas/resolver_release_asset.py",
+      "sha256": "93307fdc473c6783aeb95766a6cca15604f561c29bb15791a9b1fcee3b0e0366",
+      "bytes": 3927
+    },
+    {
+      "path": "herramientas/validar_portfolio_gerrychain50.py",
+      "sha256": "0c234476744c462e9e399f46636e02de45dd5cd65351b2eac2027560d4ef04f1",
+      "bytes": 4137
+    },
+    {
+      "path": "herramientas/validar_republicacion_ensemble.py",
+      "sha256": "293f128927578c702a36cd0357fecddf8b3f9a9455f3c88681c39f01cbfc8711",
+      "bytes": 6024
+    },
+    {
+      "path": "modulos/01_preparar_base_territorial.py",
+      "sha256": "77c507823f70d76ce7db3204e1603399cc05480ef7ec7416ac141ddcc1c8a422",
+      "bytes": 18243
+    },
+    {
+      "path": "modulos/02_construir_adyacencias.py",
+      "sha256": "aa7784f306bf91d1f47024ae59aabce83a98d93452ccee5f5af866bb5248c4a7",
+      "bytes": 9659
+    },
+    {
+      "path": "modulos/03_construir_grafo.py",
+      "sha256": "69673f457a63707caf38fef20d8cb8626b7ef5a24743abcb4221b2abba827daf",
+      "bytes": 13467
+    },
+    {
+      "path": "modulos/04_generar_semillas.py",
+      "sha256": "ace92f4f50775e232a754d16996ce460b808ed4811ceea4216b7395017ad7428",
+      "bytes": 16164
+    },
+    {
+      "path": "modulos/05_optimizar_distritos.py",
+      "sha256": "d52dbc6bbe9c102371700ca7d35fd2f41b9d68f56ede02c8efc21898b25529aa",
+      "bytes": 28896
+    },
+    {
+      "path": "modulos/06_consolidar_distritos.py",
+      "sha256": "9eb22787d88f9572ea5da292072902e74e31637479c95c2ec004f8f403deca1e",
+      "bytes": 14646
+    },
+    {
+      "path": "modulos/07_agregar_resultados_electorales.py",
+      "sha256": "1b8f0c3c0961dd4a6ec19d498464887990bd88c357f8e387617a0f38cc753479",
+      "bytes": 63611
+    },
+    {
+      "path": "modulos/08_integrar_resultados.py",
+      "sha256": "d074743fc6951bdb28ca6a162ede3d68dbaa97530034e2ece36388c1c6eb69c2",
+      "bytes": 9124
+    }
+  ]
+}
