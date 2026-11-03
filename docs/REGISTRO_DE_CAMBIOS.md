@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.91
+Versión: 1.0.93
 Fecha: 2026-11-03
-Alcance: T-36 — republicación de ensembles con candidatos en WGS84
+Alcance: T-23 — exención de suelo de Águilas (30003) en el contrato de Murcia
 Estado: candidato
-Cambios/motivo: validar_republicacion_ensemble.py (candidatos proyectados o ya en grados) en generar-alternativas-territoriales 2.3.0
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.90_t36_20261102.md
+Cambios/motivo: population_floor_exempt_municipalities 30003 con decisión del propietario del 02-11
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.91_murcia_20261103.md
 -->
+
+## 2026-11-03 — T-23 — Murcia: exención de suelo de Águilas (30003)
+
+Decisión del propietario del 02-11-2026 (contradicción probada: Lorca indivisible 97.904 + Águilas 36.684 + Puerto Lumbreras 17.507 = 152.095 > techo 137.265). `territorios/congreso_murcia/config/congreso_murcia_2025.yaml`:
+`validation.population_floor_exempt_municipalities: ['30003']` y, para que la decisión sobreviva a una rematerialización (que borra los comentarios), `population_floor_exempt_decisions` con fecha, autor,
+motivo y evidencia. Contrato admitido por `validate_production_contract`. Copia anterior en `legacy/territorios/congreso_murcia/`. Prueba local sobre el grafo de `diagnostico/t02-20261101/congreso_murcia` con
+M04 7.6.6 (rama de #419): M05 hard=0, M06 hard=0 y `validar_ejecucion` OK (13 distritos, en [101.457, 137.265]). Sin la 7.6.6 sigue bloqueado el distrito 4 (Alcantarilla + Beniel + Murcia residual). No cambia política ni código.
 
 ## 2026-11-03 — T-36 — Republicación de ensembles con candidatos en WGS84
 
