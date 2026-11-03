@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.0.5
+# VERSIÓN: 3.2.0
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
@@ -8,7 +8,9 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 3.0.5: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.0.4_20261101b.yml
+# CAMBIOS 3.1.0: T-27 fase b, el visor publica también escenarios.js (agrupación por escenario) y lo valida con node --check.
+# CAMBIOS 3.2.0: T-27 fase c, scenario_id/scenario_strategy opcionales: describe la ejecución como scenario_m06/m08 (solo adición).
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.1.0_20261102.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
 # FECHA: 2026-10-27
@@ -18,6 +20,12 @@ on:
   workflow_call:
     inputs:
       production_run_id:
+        required: false
+        type: string
+      scenario_id:
+        required: false
+        type: string
+      scenario_strategy:
         required: false
         type: string
       ensemble_release_tag:
@@ -57,6 +65,8 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       PRODUCTION_RUN_ID: ${{ inputs.production_run_id || '' }}
+      SCENARIO_ID: ${{ inputs.scenario_id || '' }}
+      SCENARIO_STRATEGY: ${{ inputs.scenario_strategy || '' }}
       ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
       ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}
       TARGET_PAGE: ${{ inputs.target_page || 'Visor territorial' }}
@@ -103,6 +113,7 @@ jobs:
           set -euo pipefail
           python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
           node --check visor/app.js
+          node --check visor/escenarios.js
           test -f publicado/dashboard/index.html
           test -f publicado/dashboard/app.js
           test -f publicado/dashboard/styles.css
@@ -177,7 +188,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID"             --output /tmp/product-descriptors.json
+          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID" ${SCENARIO_ID:+--scenario-id "$SCENARIO_ID" --strategy "$SCENARIO_STRATEGY"}             --output /tmp/product-descriptors.json
 
           printf '[]\n' > /tmp/new-entries.json
           mkdir -p /tmp/promotion-verify
@@ -293,7 +304,7 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard
-          cp visor/index.html visor/app.js visor/styles.css /tmp/site-candidate/
+          cp visor/index.html visor/app.js visor/escenarios.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
           python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
 
@@ -437,7 +448,7 @@ jobs:
 
       - name: Publicar evidencia
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-publication-${{ github.run_id }}
           path: .ddd-publication

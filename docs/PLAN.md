@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.9
+Versión: 1.0.10
 Fecha: 2026-11-02
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-20 corregida (abierta: el materializador no reaplica la política a contratos completos, PR #403); tareas T-15 a T-20 del 02-11 (Las Palmas M08, endurecer T-14, tabla de provincias, Cádiz y Baleares, Madrid y Málaga) y T-14 cerrada
-Anterior: legacy/docs/PLAN_v1.0.8_20261102.md
+Cambios/motivo: estado 47/52, T-21 a T-34 con T-27 (a, b, c) y sus PR #413 a #415; Cádiz, Baleares y Las Palmas completas; Murcia, Madrid, Málaga, Barcelona y Alicante bloqueadas por el motor
+Anterior: legacy/docs/PLAN_v1.0.9_20261102.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -34,7 +34,15 @@ Anterior: legacy/docs/PLAN_v1.0.8_20261102.md
 - `docs/PLAN.md` solo lo edita el planificador; el número de `REGISTRO_DE_CAMBIOS.md` lo asigna el planificador al
   abrir la PR. Los chats le mandan su cierre de tarea y él lo anota.
 
-## 1. Estado (2026-11-01 15:40)
+## 1. Estado (2026-11-02)
+- Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
+- Nacional (52): **47 completas**. Cádiz, Baleares y Las Palmas hechas (T-15, T-20, T-24, T-28). Cinco provincias bloqueadas:
+  - **Murcia**: contradicción probada con las reglas actuales (Lorca indivisible + Águilas y Puerto Lumbreras = 152.095 > techo 137.265). Exención de suelo de Águilas (30003) aprobada, **no aplicada en `main`** hasta que el chat de motor resuelva Alcantarilla/Beniel (distrito 4 = 171.010 > techo, T-22/T-23).
+  - **Madrid, Málaga, Barcelona y Alicante**: fallo de búsqueda del motor, no contradicción (T-22).
+- Piloto de ensemble: **Salamanca** (T-26 a T-33); el ensemble es un escenario adicional que no sustituye al canónico.
+- Las notas de abajo hasta «Asignaciones vigentes» son del 01-11 y quedan como histórico.
+
+## 1b. Estado (2026-11-01 15:40, histórico)
 - Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
 - Nacional (52): 38 completas (34 en el visor; La Rioja, Lugo, Santa Cruz de Tenerife y Tarragona republicándose,
   runs 41318666109/41318670798/41318675299/41318679581). Cantabria y Vizcaya con M06, sin electoral (T-04).
@@ -104,11 +112,41 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 ### T-19 · Factibilidad de Madrid y Málaga (solo lectura)
 - Calcular si existe alguna partición sin partir municipios enteros bajo el techo (distritos 52 y 10 de T-02b). Sin 00. Alimenta el estudio de motor (sección 5).
 
-### T-20 · Techo de Cádiz y Baleares (ABIERTA)
-- Síntoma: las 00 de Cádiz (41427993423) y Baleares (41428008130), con la 01 rehecha, siguen con techo 1,15 en el M05, aunque la política dice 1,16 y 1,27.
-- Causa (logs de la 01): `materialize` trata como `already_complete` los contratos con M01–M06 y K y solo normaliza fuente y estado; no reaplica `population_limits` de la política. La 01 sí rematerializa (commit `32915f61`), pero el contrato conserva 1,15. Descartado: `prepare_one`/REUSE (solo explicaba el primer intento), `congreso_contract.py:200` (política N08) y la 00.
-- Arreglo: `apply_policy_population_limits` en el materializador · PR #403 · registro 1.0.74. Pendiente de fusionar; después, 00 «Ejecutar desde el principio» de Cádiz y Baleares (el operador, con permiso del propietario).
-- Pregunta de diseño al propietario: bloqueo `CONTRACT_POLICY_STALE` en la 00 si el techo del contrato difiere de la política (fichero compartido; no aprobado).
+### T-20 · Techo de Cádiz y Baleares (RESUELTA)
+- Causa: `materialize` trataba como `already_complete` los contratos con M01–M06 y no reaplicaba `population_limits` de la política (el contrato conservaba 1,15). Arreglo: `apply_policy_population_limits` · PR #403 · registro 1.0.74. Baleares pasa a 1,28 (T-24).
+
+### T-21 · Inventario de excepciones gobernadas (solo lectura, hecha)
+- 71 contratos, 165 entradas. `limits_profile: exception` marca en 53 territorios la regla del Congreso (1,15) y no una desviación real; desviaciones reales: techos de Cádiz, Baleares y Las Palmas; atomicidad de Andalucía, Cataluña, País Vasco y Valencia; suelo de Melilla. Las 9 exenciones municipales de suelo no tienen `decided_at`/evidencia estructurada (pendiente de prioridad baja: moverlas a la política).
+
+### T-22 · Estudio de motor (abierta)
+- Murcia (enclaves de Alcantarilla y Beniel en núcleos cerrados), Madrid, Málaga, Barcelona y Alicante. Un chat de motor; M04/M05 capaces de reorganizar distritos alrededor de municipios grandes sin partir los que caben bajo el techo.
+
+### T-23 · Murcia (hecha, sin PR)
+- INE: Águilas 30003, Puerto Lumbreras 30033. Con la exención de Águilas desaparece el bloqueo de Lorca; queda el distrito 4 (Murcia residual + Alcantarilla + Beniel = 171.010 > 137.265): bloqueo del motor → T-22.
+
+### T-24 · Baleares 1,28, gate de Cádiz y cierre de Las Palmas (hecha)
+- Baleares techo 1,28 (política 1.7.4) y M05 7.8.7 (exención municipal por el campo de municipio, Cádiz) · PR #404; tests negativos de Las Palmas y decisión de 35012 · PR #405.
+
+### T-25 · Escenarios de otro algoritmo: lectura (hecha)
+- Una 00 del Gestor con otro algoritmo sobre una provincia completa registraba su producto como el canónico (`persist_state` verdadero). Recomendación: ensemble por territorio (vía A) y escenarios que no registran.
+
+### T-26 · Ensemble genérico por territorio (hecha, #406)
+- «06 Escenarios y Ensembles» (workflow_dispatch) con configuración por territorio; Aragón idéntico; el resto obtiene M01–M05 sin registrar; fase `ensemble_10`, el 50 sigue bloqueado.
+
+### T-27 · Todos los escenarios en el visor (en curso, 3 fases)
+- **(a) Registro** con `scenario_m06/m08`, `scenario_id`, `strategy`, `scenario_kind`, `canonical` · PR #413 · **fusionada**.
+- **(b) Selector** con `optgroup` por escenario y conmutador Territorial/Electoral · PR #414 · **fusionada**.
+- **(c) Escenarios sin catálogo**: `persist_state` falso en campañas de otro algoritmo sobre territorio certificado y promoción como escenario (`scenario_id`, `scenario_strategy`) · PR #415 · **fusionada**.
+- Pendiente tras las tres: una ejecución real de un escenario completo (territorial y electoral) y su publicación en el visor.
+
+### T-28 · Cádiz: receipt electoral sin linaje (hecha, #407)
+- `electoral_product_available: false`; la 00 «Reutilizar» rehace 03/04 sobre el M06 vigente.
+
+### T-29 a T-33 · Piloto de ensemble de Salamanca (hechas)
+- T-29 poda de aristas débiles (#408); T-30 lectura: las geometrías del Congreso están en grados; T-31 medir la frontera compartida en metros (#409); T-32 el runner del ensemble ya no sale en verde con fallos (#410); T-33 unir las piezas de secciones MultiPolygon como M06 (#411). Resultado: Salamanca ensemble_10, 10/10 candidatos (run 41543954069).
+
+### T-34 · Ensemble en La Rioja y Sevilla (en curso)
+- `configuracion/ensemble/congreso_la_rioja.json` (K=3) y `congreso_sevilla.json` (K=16; Valencia descartada por su puente gobernado) · PR #417 · tras #414, #415 y #416.
 
 ### T-14 · Diagnóstico automático sin el Mac (máxima prioridad tras T-13)
 - Objetivo: cuando una 00 falla en M04, M05 o en la puerta de certificación, el propio workflow sube a la rama

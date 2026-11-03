@@ -5,7 +5,7 @@ Fecha: 2026-11-02
 Alcance: T-34 — configuraciones de ensemble de La Rioja y Sevilla
 Estado: candidato
 Cambios/motivo: configuracion/ensemble/congreso_la_rioja.json y congreso_sevilla.json con prueba de coherencia con el contrato
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.82_t34_20261102.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.86_t34_20261102.md
 -->
 
 ## 2026-11-02 — T-34 — Ensemble: La Rioja y Sevilla
@@ -14,6 +14,35 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.82_t34_20261102.md
 gobernado que el motor del ensemble no modela y daría el fallo de contigüidad geométrica de Salamanca). Misma plantilla que Salamanca (metros, poda de aristas débiles, piezas de secciones MultiPolygon unidas).
 `tests/test_ensemble_configs_territorios.py` comprueba para cada config: coherencia con el contrato (K, reparto, umbrales, CRS, campo de población, rutas del run), que el contrato no dependa de exenciones ni puentes
 (que el ensemble no sabe aplicar), plan de 10 candidatos/5 perfiles y lote de 50 bloqueado. Fase `ensemble_10`; las usará el operador si Salamanca produce candidatos.
+
+## 2026-11-02 — T-27 (c) — Escenarios de otro algoritmo: sin catálogo, solo adición
+
+`gestor_campana_nacional` 0.3.0: una campaña con algoritmo distinto de Canónico sobre un territorio con producto territorial certificado (PASS) y sin acreditación pre-M04 es un
+escenario: `persist_state` falso (también en la comprobación del manifiesto), así que el `registrar` de la 02 y el de la 04 no escriben el catálogo ni el estado operativo;
+la 04 ya admitía M06/auditoría por run y nombre de artefacto con `artifact_namespace`. Primera generación o producto no certificado siguen registrando. `registro_publicaciones_visor`
+1.2.0: `describe-production --scenario-id --strategy` describe M06/M08 como `scenario_m06/m08` (id con el scenario_id, `canonical` falso). `desplegar-visor-publico` 3.1.0 y
+`_reutilizable-publicar-sitio` 3.2.0 aceptan `scenario_id` y `scenario_strategy` opcionales y los pasan; vacíos, todo igual que antes. Los activos quedan en blob/release inmutable
+y el registro solo añade (la identidad es territorio+kind+scenario_id). Pruebas: `tests/test_escenarios_fase_c.py` (persistencia, descriptores, cableado) y gestor/diseño A/R015 en verde.
+
+## 2026-11-02 — PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-33
+
+Solo documentación. `docs/PLAN.md`: estado 47/52 (Cádiz, Baleares y Las Palmas completas), Murcia con contradicción probada y la exención de Águilas (30003) aprobada pero no aplicada hasta que el chat de
+motor resuelva Alcantarilla/Beniel, Madrid, Málaga, Barcelona y Alicante como fallo de búsqueda del motor, T-20 resuelta, tareas T-21 a T-34 (T-27 a, b y c con sus PR #413 a #415) y piloto de ensemble de Salamanca.
+
+## 2026-11-02 — T-27 (b) — Visor: selector por escenario
+
+`visor/escenarios.js` (nuevo, funciones puras) agrupa los resultados de un territorio en «Canónico», un grupo por escenario («<strategy> · <scenario_id>») y un grupo por ensemble;
+`app.js` construye el selector con `optgroup` y añade el conmutador Territorial/Electoral (por defecto Electoral si existe; al conmutar se conserva el grupo). Los resultados
+canónicos y las entradas históricas siguen apareciendo como antes y nada se pierde ni se mezcla entre grupos. `_reutilizable-publicar-sitio.yml` 3.1.0 publica también
+`escenarios.js` y lo valida con `node --check`. Pruebas: `tests/test_visor_escenarios.py` (agrupación y conmutador con node, cableado). Sigue la fase (c).
+
+## 2026-11-02 — T-27 (a) — Registro del visor: escenarios no canónicos
+
+`registro_publicaciones_visor` 1.1.0 y `preparar_visor_ejecucion` 1.6.0. Kinds nuevos `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy` (Canónico, GerryChain, GerryChain 25,
+GerryChain 50), `scenario_kind: alternative` y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, solo true). A lo sumo una entrada `canonical: true` por territorio y
+familia; un `scenario_m08` exige el `scenario_m06` del mismo `scenario_id`; la identidad de un escenario es territorio+kind+scenario_id (no se sobrescriben). El preparador
+materializa los escenarios en `data/results/<territorio>/scenario-<scenario_id>/` y los ordena tras los canónicos. Pruebas: `tests/test_registro_escenarios.py` (6). El
+registro vigente `orchestracion/publicaciones_visor.json` valida sin cambios. Sigue la fase (b), el selector de `app.js`.
 
 ## 2026-11-02 — T-33 — Ensemble de Salamanca: piezas de secciones MultiPolygon
 
