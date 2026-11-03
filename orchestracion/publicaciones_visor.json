@@ -3169,5 +3169,24 @@
       "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/278a4ee50d621c4363422aa36f0741d455c59c8d"
     }
   ],
-  "ensembles": []
+  "ensembles": [
+    {
+      "id": "ensemble-congreso_salamanca-ensemble-congreso-salamanca-2b68dd0a396a",
+      "asset_type": "ensemble_archive",
+      "kind": "ensemble",
+      "territory_id": "congreso_salamanca",
+      "territory_label": "congreso_salamanca",
+      "ensemble_id": "ensemble-congreso-salamanca-2b68dd0a396a",
+      "candidate_count_expected": 10,
+      "candidate_count_valid": 10,
+      "publication_status": "PUBLICABLE",
+      "source_type": "release_asset",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "release_tag": "ensemble-congreso-salamanca-2b68dd0a396a",
+      "asset_name": "ensemble-congreso-salamanca-2b68dd0a396a.zip",
+      "asset_id": 705100902,
+      "sha256": "a707ede7eb4ecf5318a0fbbb90728f09d60c9dabb6d23f366b3723fa72511295",
+      "immutable_location": "github-release-asset://jfmurciego/DiputadodeDistrito/705100902"
+    }
+  ]
 }
