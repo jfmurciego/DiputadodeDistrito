@@ -1830,7 +1830,7 @@ territories:
         section_year: 2023
         source_commit: c993d2286e020dcc0cded5328e410722bb5803e8
       evidence:
-        electoral_source: territorios/congreso_madrid/evidencia/fuentes_electorales/2025/c6978e2a5cb956599067eeb70492424862f94a8275616611bd65fc95b9fb9586/41239871833/receipt.json
+        electoral_source: territorios/congreso_madrid/evidencia/fuentes_electorales/2025/faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179/41611821388/receipt.json
         generation_preflight: territorios/congreso_madrid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_madrid/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
