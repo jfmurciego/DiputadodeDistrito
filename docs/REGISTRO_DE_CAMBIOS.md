@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.88
+Versión: 1.0.92
 Fecha: 2026-11-03
 Alcance: T-22 — M04 7.6.6: alivio de residuos municipales sobre el techo
 Estado: candidato
 Cambios/motivo: ddd_core/m04_overcap_residual_relief.py y llamada desde ddd_core/m04_seed_engine.py antes del postproceso
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.87_t22_20261103.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.91_t22_20261103.md
 -->
 
 ## 2026-11-03 — T-22 — M04 7.6.6: alivio de residuos sobre el techo
@@ -16,6 +16,29 @@ con margen; si el distrito no tiene residual, traslada un municipio entero al di
 exceso; si los núcleos están llenos, pasa una sección de núcleo a núcleo. Sin cambios de suelo, techo, K ni atomicidad. Murcia (con Águilas exenta,
 fuera de esta PR): 171.010 → 13 distritos PASS; Madrid: 181.853 → 59 distritos PASS (M05 y M06 locales). Sin alivio activo, la salida es idéntica
 a 7.6.5. Cambiar M04 invalida los checkpoints M04 previos.
+
+## 2026-11-03 — T-36 — Republicación de ensembles con candidatos en WGS84
+
+La republicación de Salamanca (run 41603638308, con #418) abortaba en «Validar 10 candidatos y copias web WGS84» con «No se reconoce la copia analítica proyectada esperada»:
+la guarda exigía algún candidato analítico proyectado (Aragón) y los de Salamanca ya vienen en grados (T-31). La validación sale del workflow a `herramientas/validar_republicacion_ensemble.py`
+(1.0.0) y se empareja por candidato: si el analítico está proyectado, la web debe ser su transformación a WGS84 (en rango y sin CRS proyectado); si ya está en grados, la web debe coincidir
+byte a byte (así no se confunden canónico y web). Se mantiene exigir 10 candidatos válidos, 10 assets web y su correspondencia, y se acepta un miembro `crs` que sea CRS84/4326.
+`generar-alternativas-territoriales` 2.3.0. Pruebas: `tests/test_validar_republicacion_ensemble.py` (7: proyectados como Aragón, grados como Salamanca, web distinta, web proyectada o con CRS
+proyectado, recuentos, mezcla, cableado). Solo afecta a la validación; la publicación sigue siendo solo adición en `ensembles`.
+
+## 2026-11-03 — PLAN 1.0.11 — T-35, T-22 y piloto de ensemble
+
+Solo documentación. `docs/PLAN.md`: estado 03-11 con el efecto de M04 7.6.6 (PR #419, abierta) sobre Murcia (con la exención de Águilas, aún no aplicada en `main`) y Madrid (resueltas en local),
+Alicante y Barcelona (mejoran sin cerrarse) y Málaga (sin cambio); T-22 en curso; T-34 hecha (La Rioja y Sevilla 10/10); T-35 hecha (#418); piloto de ensemble de Salamanca 10/10 con
+publicación como escenario en curso.
+
+## 2026-11-03 — T-35 — Ensemble: el publicador único recibe el sha256 del zip
+
+La publicación del ensemble de Salamanca (run 41592019959) fallaba en «Resolver ensemble persistente solicitado» con exit 56: «Ensemble … sin ensemble_sha256 acreditado». El publicador
+(`_reutilizable-publicar-sitio.yml`) exige `ensemble_sha256` (64 hex minúsculas, hash del zip del release) y `desplegar_publish` solo pasaba `ensemble_release_tag` y `target_page`.
+`generar-alternativas-territoriales.yml` 2.2.0: `publish` y `republish` calculan `sha256sum` del zip que suben al release, lo exponen como output `ensemble_sha256` y los dos despliegues
+lo pasan. La republicación sin recalcular (`republish_source_run_id`) vale ahora para cualquier territorio con configuración (`ensemble_10`) además de Aragón-10; el lote de 50 sigue bloqueado.
+Solo se añade en `ensembles`: catálogo, estado operativo y canónico intactos. Pruebas: `tests/test_ensemble_publicacion_sha256.py` (5).
 
 ## 2026-11-02 — T-34 — Ensemble: La Rioja y Sevilla
 
