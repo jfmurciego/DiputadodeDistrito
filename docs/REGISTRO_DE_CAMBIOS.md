@@ -5,7 +5,7 @@ Fecha: 2026-11-03
 Alcance: T-37 — copia web de ensembles con una feature por distrito
 Estado: candidato
 Cambios/motivo: dissolve_by_district en la galería y validación de la republicación por distrito
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.92_t37_20261103.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.93_t37_20261103.md
 -->
 
 ## 2026-11-03 — T-37 — Ensemble: la copia web lleva una feature por distrito
@@ -16,6 +16,13 @@ tiene una feature por sección y la copia web era una copia (o reproyección) de
 `herramientas/validar_republicacion_ensemble.py` 1.1.0: la web debe tener una feature por distrito del candidato y los mismos `district_id`; si el analítico ya está en WGS84, se compara con su disolución
 (bounds y área por distrito) para no confundir canónico y web. Aragón (analíticos proyectados) sigue pasando la transformación a WGS84. Pruebas: `tests/test_ensemble_web_distritos.py` (5; 532 secciones → K=3,
 idempotencia, grados y proyectado, validación) y las de T-36 en verde.
+
+## 2026-11-03 — T-23 — Murcia: exención de suelo de Águilas (30003)
+
+Decisión del propietario del 02-11-2026 (contradicción probada: Lorca indivisible 97.904 + Águilas 36.684 + Puerto Lumbreras 17.507 = 152.095 > techo 137.265). `territorios/congreso_murcia/config/congreso_murcia_2025.yaml`:
+`validation.population_floor_exempt_municipalities: ['30003']` y, para que la decisión sobreviva a una rematerialización (que borra los comentarios), `population_floor_exempt_decisions` con fecha, autor,
+motivo y evidencia. Contrato admitido por `validate_production_contract`. Copia anterior en `legacy/territorios/congreso_murcia/`. Prueba local sobre el grafo de `diagnostico/t02-20261101/congreso_murcia` con
+M04 7.6.6 (rama de #419): M05 hard=0, M06 hard=0 y `validar_ejecucion` OK (13 distritos, en [101.457, 137.265]). Sin la 7.6.6 sigue bloqueado el distrito 4 (Alcantarilla + Beniel + Murcia residual). No cambia política ni código.
 
 ## 2026-11-03 — T-22 — M04 7.6.6: alivio de residuos sobre el techo
 
