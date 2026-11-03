@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.85
+Versión: 1.0.86
 Fecha: 2026-11-02
 Alcance: T-27 fase (c) — escenarios no canónicos sin registrar en el catálogo
 Estado: candidato
 Cambios/motivo: persist_state falso en campañas de otro algoritmo sobre territorio certificado y promoción como scenario_m06/m08
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.84_t27c_20261102.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.85_t27c_20261102.md
 -->
 
 ## 2026-11-02 — T-27 (c) — Escenarios de otro algoritmo: sin catálogo, solo adición
@@ -16,6 +16,11 @@ la 04 ya admitía M06/auditoría por run y nombre de artefacto con `artifact_nam
 1.2.0: `describe-production --scenario-id --strategy` describe M06/M08 como `scenario_m06/m08` (id con el scenario_id, `canonical` falso). `desplegar-visor-publico` 3.1.0 y
 `_reutilizable-publicar-sitio` 3.2.0 aceptan `scenario_id` y `scenario_strategy` opcionales y los pasan; vacíos, todo igual que antes. Los activos quedan en blob/release inmutable
 y el registro solo añade (la identidad es territorio+kind+scenario_id). Pruebas: `tests/test_escenarios_fase_c.py` (persistencia, descriptores, cableado) y gestor/diseño A/R015 en verde.
+
+## 2026-11-02 — PLAN 1.0.10 — estado 47/52 y tareas T-21 a T-33
+
+Solo documentación. `docs/PLAN.md`: estado 47/52 (Cádiz, Baleares y Las Palmas completas), Murcia con contradicción probada y la exención de Águilas (30003) aprobada pero no aplicada hasta que el chat de
+motor resuelva Alcantarilla/Beniel, Madrid, Málaga, Barcelona y Alicante como fallo de búsqueda del motor, T-20 resuelta, tareas T-21 a T-34 (T-27 a, b y c con sus PR #413 a #415) y piloto de ensemble de Salamanca.
 
 ## 2026-11-02 — T-27 (b) — Visor: selector por escenario
 

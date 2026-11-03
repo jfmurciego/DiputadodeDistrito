@@ -113,7 +113,7 @@ jobs:
             echo "from_num=$from_num"
             echo "to_num=$to_num"
           } >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: ddd-decision-${{ github.run_id }}
@@ -249,7 +249,7 @@ jobs:
             --root-dir /app
       - name: Publicar evidencia de preparación
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-fuentes-${{ github.run_id }}
           path: |
@@ -264,7 +264,7 @@ jobs:
           retention-days: 14
       - name: Publicar entradas consumibles
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-official-inputs-${{ github.run_id }}
           path: .ddd-sources/materialized
@@ -273,7 +273,7 @@ jobs:
           retention-days: 14
       - name: Publicar paquete durable de fuentes
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-source-package-${{ github.run_id }}
           path: .ddd-source-package
@@ -421,7 +421,7 @@ jobs:
             python herramientas/huella_checkpoint_m05.py --params "$PARAMS" --root-dir . \
               --output .ddd-state/out/compatibility/m05.json
           fi
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}
           path: .ddd-state/out
@@ -528,7 +528,7 @@ jobs:
           cp -a "$CACHE_DIR/." .ddd-state/out/cache/
           cp -a "$RUNS_DIR/." .ddd-state/out/run/
           cp -a .ddd-source-package/. .ddd-state/out/sources/
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-state-${{ github.run_id }}-M03U
           path: .ddd-state/out
@@ -537,7 +537,7 @@ jobs:
           retention-days: 14
       - name: Publicar preparación de unidades internas
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-internal-units-${{ github.run_id }}
           path: .ddd-internal-units
@@ -704,7 +704,7 @@ jobs:
             --geometric-audit "$audit" \
             --output .ddd-audit/production_status.json
           cp "$audit" .ddd-audit/
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: ddd-audit-${{ github.run_id }}
@@ -783,7 +783,7 @@ jobs:
           PY
       - name: Publicar decisión y procedencia electoral
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-electoral-source-${{ github.run_id }}
           path: .ddd-electoral-source

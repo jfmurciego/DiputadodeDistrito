@@ -232,7 +232,7 @@ jobs:
             gh release download "$tag" --pattern "$tag.zip" --dir work/prior
             unzip -qo "work/prior/$tag.zip" -d work/ensemble
           fi
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ env.KIND == 'aragon' }}
         with:
           name: ensemble-base-${{ steps.key.outputs.value }}
@@ -242,7 +242,7 @@ jobs:
             ejecuciones/ensemble-aragon-base
             inputs/COMARCAS.csv
             work/ensemble
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ env.KIND == 'territorial' }}
         with:
           name: ensemble-base-${{ steps.key.outputs.value }}
@@ -281,7 +281,7 @@ jobs:
               --config configuracion/ensemble/${{ inputs.territory_id }}.json --mode run \
               --profile '${{ matrix.profile }}' \
               --count '${{ needs.base.outputs.candidate_count }}' --output work/ensemble
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: ensemble-${{ needs.base.outputs.run_key }}-${{ matrix.profile }}
@@ -373,7 +373,7 @@ jobs:
               --notes 'Ensemble DDD: evidencia, métricas, galería y matriz de reintento.'
           fi
           echo "release_tag=$tag" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ steps.status.outputs.complete == 'true' }}
         with:
           name: ensemble-site-${{ needs.base.outputs.run_key }}
@@ -550,7 +550,7 @@ jobs:
               --notes 'Ensemble DDD republicado desde artefactos existentes; sin recálculo GerryChain.'
           fi
           echo "release_tag=$tag" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ensemble-site-${{ steps.source.outputs.run_key }}
           retention-days: 14
