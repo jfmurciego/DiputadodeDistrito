@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-03T11:34:34.299388+00:00",
+  "generated_at": "2026-11-03T12:25:12.578205+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -6179,8 +6179,8 @@
       "fe": "green",
       "re": "green",
       "status": "Cadena completa validada",
-      "certification": "PASS",
-      "run_id": 41295452035,
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 41629735636,
       "last_run": {
         "run_id": 41295452035,
         "status": "SUCCESS",
@@ -6206,13 +6206,13 @@
           "territory_id": "congreso_leon",
           "territory_name": "Congreso León",
           "edition": "2025",
-          "run_id": 41241377284,
-          "artifact_name": "ddd-state-41241377284-M06",
-          "artifact_sha256": "b27e555cbcaefd665c5b4e4dc6ebb3b7f19353969e6ab550cf764a2635fc45b1",
-          "source_commit": "578feafe11c0208a29bff29a18dd0ff8f6b69273",
-          "decision": "PASS",
+          "run_id": 41629735636,
+          "artifact_name": "ddd-state-41629735636-M06",
+          "artifact_sha256": "b6ca00d6531c5d576f008d102fa2543170db2a6032fa5e27352e4643ea2ddb02",
+          "source_commit": "4c63a0d5000e7f819b00779811ac66bd076246af",
+          "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/41241377284.json"
+          "producer_manifest_path": "territorios/congreso_leon/evidencia/generaciones_m06/41629735636.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6221,10 +6221,10 @@
           "territory_id": "congreso_leon",
           "territory_name": "Congreso León",
           "edition": "2025",
-          "run_id": 41295452035,
-          "artifact_name": "ddd-state-41295452035-M08",
-          "artifact_sha256": "7f4b688f28b879e3a75cab6754e7121c0f0b06c34bf3bdb3b961e12dd3f0e075",
-          "source_commit": "4b47cc40e6228c26f4c26619c5791d05d66615df",
+          "run_id": 41629735636,
+          "artifact_name": "ddd-state-41629735636-M08",
+          "artifact_sha256": "104575863c280a1ce2e8d96e1ab5c95f33c5018e83be32fc87a29ef2c21ab7cf",
+          "source_commit": "4c63a0d5000e7f819b00779811ac66bd076246af",
           "stage": "M08"
         }
       },
@@ -8157,11 +8157,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_murcia",
-    "name": "Nacional Murcia",
-    "display_name": "Nacional Murcia",
-    "autonomous_community_code_ine": "C30",
-    "run_id": 41622862185,
+    "territory_id": "congreso_leon",
+    "name": "Nacional León",
+    "display_name": "Nacional León",
+    "autonomous_community_code_ine": "C24",
+    "run_id": 41629735636,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
