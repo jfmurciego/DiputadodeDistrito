@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_murcia",
+  "territory_name": "Congreso Murcia",
+  "edition": "2025",
+  "run_id": 41622862185,
+  "artifact_name": "ddd-state-41622862185-M08",
+  "artifact_sha256": "bbca845e0f54cf4cdae7d51689bc2a958868b59386d75285357e48bed1664da9",
+  "source_commit": "ce7ee797bbb5eddb818bb7bbf8d55385ca32d6c1",
+  "stage": "M08"
+}
