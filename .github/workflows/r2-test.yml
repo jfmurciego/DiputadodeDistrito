@@ -1,0 +1,38 @@
+
+name: Verify Cloudflare R2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-r2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          set -euo pipefail
+          ENDPOINT="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          KEY="connection-tests/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt"
+
+          echo "DDD R2 connectivity test" > test.txt
+
+          aws s3 cp test.txt \
+            "s3://${R2_BUCKET}/${KEY}" \
+            --endpoint-url "$ENDPOINT"
+
+          aws s3 cp \
+            "s3://${R2_BUCKET}/${KEY}" \
+            downloaded.txt \
+            --endpoint-url "$ENDPOINT"
+
+          cmp test.txt downloaded.txt
+          echo "R2 upload and download verified"
