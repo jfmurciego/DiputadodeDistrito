@@ -1,12 +1,18 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.89
+Versión: 1.0.90
 Fecha: 2026-11-03
-Alcance: T-35 — publicación de ensembles con ensemble_sha256
+Alcance: PLAN 1.0.11 — T-35, T-22 y piloto de ensemble
 Estado: candidato
-Cambios/motivo: generar-alternativas-territoriales 2.2.0 pasa el sha256 del zip al publicador único; republicación genérica
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.87_t35_20261103.md
+Cambios/motivo: solo documentación
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.89_plan11_20261103.md
 -->
+
+## 2026-11-03 — PLAN 1.0.11 — T-35, T-22 y piloto de ensemble
+
+Solo documentación. `docs/PLAN.md`: estado 03-11 con el efecto de M04 7.6.6 (PR #419, abierta) sobre Murcia (con la exención de Águilas, aún no aplicada en `main`) y Madrid (resueltas en local),
+Alicante y Barcelona (mejoran sin cerrarse) y Málaga (sin cambio); T-22 en curso; T-34 hecha (La Rioja y Sevilla 10/10); T-35 hecha (#418); piloto de ensemble de Salamanca 10/10 con
+publicación como escenario en curso.
 
 ## 2026-11-03 — T-35 — Ensemble: el publicador único recibe el sha256 del zip
 
