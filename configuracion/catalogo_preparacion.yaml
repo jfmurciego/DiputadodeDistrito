@@ -1655,11 +1655,11 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: true
-      territorial_certification: PASS
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41295452035
-        stage: M08
+        run_id: 41629735636
+        stage: M06
       preparation_evidence:
         run_id: 41241377284
         artifact_name: ddd-source-package-congreso_leon-2025-41241377284

@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13229353405,
+      "artifact_name": "ddd-audit-41629735636",
+      "artifact_sha256": "00973f92c502ac5deb13446fec93561753a0d72f74d378e1e2d921bfbd834351",
+      "run_id": 41629735636,
+      "size_in_bytes": 3269
+    },
+    "m04": {
+      "artifact_id": 13227319810,
+      "artifact_name": "ddd-state-41629735636-M04",
+      "artifact_sha256": "d6c83366a4e34a92eea3af9fc41fdc4ac9d450cd42cd0cedd54444f6a3426b11",
+      "run_id": 41629735636,
+      "size_in_bytes": 77722539
+    },
+    "m05": {
+      "artifact_id": 13229317803,
+      "artifact_name": "ddd-state-41629735636-M05",
+      "artifact_sha256": "e6b16b79dcfd61611c7717887db2b8b028711fd55d3872b5f1c8c2cc78551c8c",
+      "run_id": 41629735636,
+      "size_in_bytes": 112519040
+    },
+    "m06": {
+      "artifact_id": 13230300812,
+      "artifact_name": "ddd-state-41629735636-M06",
+      "artifact_sha256": "b6ca00d6531c5d576f008d102fa2543170db2a6032fa5e27352e4643ea2ddb02",
+      "run_id": 41629735636,
+      "size_in_bytes": 113348808
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "9c8a2bcf0c0d4b246b0085011b3d743d81bf7ee557a3f5b81cff99a8accfda55",
+        "size_in_bytes": 469
+      },
+      "congreso_leon_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "8bac4288b207c8a360d7fa2e70b4c3a1c10dad7c567a75b33e47603f941ed3e8",
+        "size_in_bytes": 6316
+      },
+      "optimization_execution.json": {
+        "sha256": "7333210e0719bcd7af89a522cb04f2b1bf407fd5eabeab121fa59797860a4a1e",
+        "size_in_bytes": 673
+      },
+      "production_status.json": {
+        "sha256": "158f46f93cdda17d501977e428b0d56a7773aad8feb224d892067b5508e86b93",
+        "size_in_bytes": 1300
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "158f46f93cdda17d501977e428b0d56a7773aad8feb224d892067b5508e86b93",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_leon/config/congreso_leon_2025.yaml",
+    "sha256": "eb956efff0cc7d680e9b4f06ffc38e7eb44f6cfd882bda2d78892e23a1202f83"
+  },
+  "execution": {
+    "candidate_count": 50,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": "gerrychain_50",
+    "mode": "execute",
+    "optimization_algorithm_effective": "GerryChain 50",
+    "optimization_algorithm_requested": "GerryChain 50",
+    "optimization_evidence_sha256": "1db1524feee81094f3a1b15757bbe0405f83607a8432d809cd26767dfd2b84fe",
+    "portfolio_proof": {
+      "assignment_hashes": [
+        "bbced1d6a1d7e0ee487aa98c4c5de27f5df5f0af10d2dbcf87ff8be2fe768fde",
+        "5e238976ba35b3926e704225c001c01d4d074c26c81d663a551cf11339ca21a4",
+        "477459575a5af130cf74d1dbd7245254fa8032882323e3e834c4e8137b946c82",
+        "b487e12f7cc82e7f0057ec7bf36ff760d30ad975b36fbac71162c62194092df8",
+        "52ee5af2cd4e1ba4675ebfff33a8963b137aa68b9dc76bd0928d286994fe33fe",
+        "1dfecac987c1c1ab22ce58cc831ea3153399724976e8b20bfa4a417e05476638",
+        "63ea827102fa3e4ce39f78b7a16b8a93a91eb005c6de06d103696f7f9315305b",
+        "550c8bbe80ac523f73a6a315a7b2a39bb299e3a16e6df05b4683c2f449713f18",
+        "3dc2a713f1f0ee02a95ed44f77e2fb4defbeda06c608d3ddab77ec8838c5199a",
+        "d42c4d8242cfe82d45982942bcf0bc74f6198dbf0e6e133e7c006ca871b5a1aa",
+        "96634fca8a9c3650efb309e1a17467d867a2feb91d872c7742136ebed43a9d54",
+        "8faff5ce82bbff086d1d803a2c1bfee51f31514f281393ff553ae461edf431e8",
+        "1e34ed7740e5288d20fb2e2ee45d842d0b37e00d1761a3c4bcbd29c60bdad0df",
+        "49b90439683ff07144616a4051ed69944b567743ba7f1d574ff5bea52e27a95f",
+        "0f30b3b7fa1814ea4810a2aa23f524ee6cbd110b078e1ad5586e0aa5380497f7",
+        "4c875e4bc0e2482d7842f89b88c72298112d387d4ef184fc9b21a185092fbc2b",
+        "821e6477db09ec38e4a48e0395433522de855cbfc5f5c09dee22571ea5a8f9e3",
+        "bb8d45878dec5141577c3203c7dcf8b27e743826d9a698cfdbc2b8539cd2d0ab",
+        "2ceb33a7a3093b9cd1fad063f482e6f12d7567dae8f45c4c1983d761be3eafee",
+        "4f4e318cfc2476790da354f6e28cf834acecf3f6dc4b3eb8efb2b4c58600ad27",
+        "687e64892a06d3328953ebd60281189a69bd68000040c3f262400147f1f39a18",
+        "2c2be2cd36aad56aad7955061adbe3f01ea02f23554cc1bd78d6b7186d63feae",
+        "f1cc1ecc5f6635590fcd667c1df68fee65f0b7fb8715a5ca378f4b5f43277775",
+        "23d3e2282f4a1b5c51f86ae1abdab1481cb216562bc09964f3e2af8e26847177",
+        "9b0d50c5a335b6b70283762b97b206d58ac0da266f2db435ba3cbaf21a385b69",
+        "a3b58974351e43307d0f9c306900ade1ae73c43d9787e9ec730b84b2b3bfff4d",
+        "29d132e3e285cd2f0088a747fc6f7228106429522ee2c9b05e9412ea59bcc611",
+        "5e53c30a8a4470d40c03621d57491bec052160cd3f2660293ea161e2c673a647",
+        "c71bb66773171c43194c7b126b552f0640616481a84535267e50eca126ffb4ef",
+        "9b4db3b7ced77cc0caeb8ecf24c087d331e33fd5c668e9124ad16fe93b95f5b9",
+        "56850f1903da9cbd041420de8ed72bc07f4964530805cbb8fdd3fb3689fa13c9",
+        "e2aa860cb56b9a0e63bc10f2cc033edf1c949604399adda2f7aa200faef79268",
+        "f8ae0324c71e38d8b3d9c2745fcaa9a53e927e8c1cbceb8ffd832eabda665355",
+        "bae7df0549d3a6a9ba9d7645ec752b43e02cefba42d4c7292d44c5942b6b946b",
+        "41e6591311299ffdef7da22052ac6298674715e33c87fbe57d6213e891d2822b",
+        "51a8156f9e24304b8fa6dbc05de08b1257e3d9204f174b793e7ba88cca0da6d8",
+        "8fc8eba79c32c33816320d6d35acd0bf197c5be6194dbc330f447ec12b1c68d1",
+        "43bf451a6539724b99a3566faf60c793a02d6f923f8b7ad7f5f41ef6a93234df",
+        "b73f88370902891600f0e30c42bb8d7efd7a0aefb4ffb673102200263d66144d",
+        "631be7cad55d58175a46c22e54707a90c973aed79f17c547a915beaf95b105f9",
+        "b0bd9502a19687496837d8b0de9927122d883b536c229ac938f6f9c43a4f07fa",
+        "ed9595825aacb8a393eac1153c4f74dfe0301cab9a74e9ba8b69690b7947284e",
+        "a232d2669969d720d2cbb2415ecad7e36ccbefc82a20b93d7b0eb958ea6e189d",
+        "5ef8cba74057900cfa1fea8a2af17b47fb43fe9fabfa261205f291ed5668a0a6",
+        "90ca91e9a381837a3f03e4fc47214ff32d597aca36b986c1d6cd07c63b3f82ec",
+        "be35bc2b92e610b60911eff1e57bf5f850013ef89643f84fbd438bc709fc3a66",
+        "823ad7c7d468452ea1c1a360614cd2f251cf127a245b116f088a67b0eb179533",
+        "7f363a2a0c3ee6f96af29cf0ccf34e4eb46b8604d7a3ef27b490233b89d1c517",
+        "4b9dcbac8171587eba7e69c37a98c28c6d2164054c81393c615fff4a80483247",
+        "9054539f81215831f2de7a9340f6585976e53a15862d460296f59718b6f24c2e"
+      ],
+      "candidate_count": 50,
+      "report_relative_path": "cache/congreso_leon_2025_m05_informe.json",
+      "report_sha256": "3a7d68d46592f1f65390e09ce913d248933cf7c25f6f8c375a26e4bb490d3622",
+      "selected_artifact_content_sha256": "795eeec70bc87b7ae6d1fdfd0e92a8a396f315e1e60aeba87fa243e4ba13eb2e",
+      "selected_artifact_sha256": "72495a78ff3f75e8627e39e464927c2f141fb6072d0c08bcb980247b5df3cdb2",
+      "selected_assignment_hash": "9054539f81215831f2de7a9340f6585976e53a15862d460296f59718b6f24c2e",
+      "selected_output_content_sha256": "795eeec70bc87b7ae6d1fdfd0e92a8a396f315e1e60aeba87fa243e4ba13eb2e",
+      "selected_output_sha256": "99d93238c90fb464c13117ed20a14161a43b7abaead0ffdafb84cc92c80547e6",
+      "unique_assignment_hash_count": 50
+    },
+    "require_unique_hashes": true,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "4c63a0d5000e7f819b00779811ac66bd076246af",
+    "edition": "2025",
+    "territory_id": "congreso_leon",
+    "territory_name": "Congreso León",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 41629735636,
+    "workflow_sha": "4c63a0d5000e7f819b00779811ac66bd076246af"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13227319810,
+      "artifact_name": "ddd-state-41629735636-M04",
+      "artifact_sha256": "d6c83366a4e34a92eea3af9fc41fdc4ac9d450cd42cd0cedd54444f6a3426b11",
+      "run_id": 41629735636,
+      "size_in_bytes": 77722539
+    },
+    "source_manifest_sha256": "c8614bce89e1728099a129c13c0b79c56acac8e1f2d97943f2a27c365063ab7f",
+    "source_package_artifact": {
+      "artifact_id": 13057834839,
+      "artifact_name": "ddd-source-package-congreso_leon-2025-41241377284",
+      "artifact_sha256": "e576851afca31bc07379759546812488a830c35634ac15c2fc91361d31fd13ad",
+      "run_id": 41241377284,
+      "size_in_bytes": 76304582
+    }
+  },
+  "manifest_sha256": "1133ebfff8870d086b7367acbc968bb8ad66ad92b99292ac6c2fbcda68193e5d",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
