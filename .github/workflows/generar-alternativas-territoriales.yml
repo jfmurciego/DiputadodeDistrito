@@ -1,15 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 2.2.0
+# VERSIÓN: 2.3.0
 # FECHA: 2026-11-03
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
+# CAMBIOS 2.3.0: T-36, la validación de la republicación sale a herramientas/validar_republicacion_ensemble.py y admite candidatos ya en WGS84 (la web debe coincidir con la analítica) además de proyectados.
 # CAMBIOS 2.2.0: T-35, `publish` y `republish` exponen `ensemble_sha256` (hash del zip del release) y se lo pasan al publicador único, que lo exige
 #   (exit 56 «sin ensemble_sha256 acreditado», run 41592019959); la republicación sin recalcular vale para cualquier territorio con configuración (ensemble_10) además de Aragón-10.
 # CAMBIOS 2.1.0: T-26, disparador workflow_dispatch propio (el workflow solo tenía workflow_call y ningún caller), genérico por territorio (configuracion/ensemble/<territorio>.json). Aragón conserva su circuito;
 #   los demás territorios obtienen M01–M05 con _reutilizable-generacion-territorial.yml (persist_state=false, namespace
 #   ensemble-<territorio>) y NO registran nada en el catálogo ni en el estado operativo. Fase ensemble_10; el lote de 50 sigue bloqueado.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.1.0_20261103.yml
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.2.0_20261103.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: 06 Escenarios y Ensembles
 
@@ -468,56 +469,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-          from pathlib import Path
-
-          summary=json.load(open('work/ensemble/analysis/summary.json',encoding='utf-8'))
-          if not summary.get('complete') or summary.get('candidate_count_valid') != 10:
-              raise SystemExit(f"Ensemble incompleto: {summary.get('candidate_count_valid')}/10")
-          assets=sorted(Path('work/ensemble/site/assets').glob('*.geojson'))
-          analytical=sorted(Path('work/ensemble/results').glob('*/candidate.geojson'))
-          if len(assets) != 10 or len(analytical) != 10:
-              raise SystemExit(f'Esperaba 10 assets web y 10 analíticos; hay {len(assets)} y {len(analytical)}')
-
-          def pairs(value):
-              if isinstance(value, list):
-                  if len(value) >= 2 and all(isinstance(v, (int,float)) for v in value[:2]):
-                      yield value[0], value[1]
-                  else:
-                      for item in value:
-                          yield from pairs(item)
-
-          projected_seen=False
-          for path in analytical:
-              payload=json.load(open(path,encoding='utf-8'))
-              for feature in payload.get('features',[]):
-                  for x,y in pairs((feature.get('geometry') or {}).get('coordinates')):
-                      if abs(x) > 180 or abs(y) > 90:
-                          projected_seen=True
-                          break
-                  if projected_seen:
-                      break
-              if projected_seen:
-                  break
-          if not projected_seen:
-              raise SystemExit('No se reconoce la copia analítica proyectada esperada; se aborta para no confundir canónico y web.')
-
-          for path in assets:
-              payload=json.load(open(path,encoding='utf-8'))
-              if 'crs' in payload:
-                  raise SystemExit(f'{path}: la copia web conserva CRS proyectado')
-              count=0
-              for feature in payload.get('features',[]):
-                  for lon,lat in pairs((feature.get('geometry') or {}).get('coordinates')):
-                      count += 1
-                      if not (-180 <= lon <= 180 and -90 <= lat <= 90):
-                          raise SystemExit(f'{path}: coordenada fuera de WGS84: {lon}, {lat}')
-              if count == 0:
-                  raise SystemExit(f'{path}: sin coordenadas')
-          print('complete=true')
-          print('web_asset_count=10')
-          PY
+          python herramientas/validar_republicacion_ensemble.py --root work/ensemble --expected 10 >> "$GITHUB_OUTPUT"
       - name: Empaquetar evidencia republicada con procedencia
         run: |
           python - <<'PY'
