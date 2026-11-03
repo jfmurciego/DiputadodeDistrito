@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.86
+Versión: 1.0.87
 Fecha: 2026-11-02
-Alcance: T-27 fase (c) — escenarios no canónicos sin registrar en el catálogo
+Alcance: T-34 — configuraciones de ensemble de La Rioja y Sevilla
 Estado: candidato
-Cambios/motivo: persist_state falso en campañas de otro algoritmo sobre territorio certificado y promoción como scenario_m06/m08
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.85_t27c_20261102.md
+Cambios/motivo: configuracion/ensemble/congreso_la_rioja.json y congreso_sevilla.json con prueba de coherencia con el contrato
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.86_t34_20261102.md
 -->
+
+## 2026-11-02 — T-34 — Ensemble: La Rioja y Sevilla
+
+`configuracion/ensemble/congreso_la_rioja.json` (K=3) y `congreso_sevilla.json` (K=16, la mayor provincia sin islas, con M06+M08 completos, sin exenciones de suelo ni puentes: Valencia, K=23, tiene un puente
+gobernado que el motor del ensemble no modela y daría el fallo de contigüidad geométrica de Salamanca). Misma plantilla que Salamanca (metros, poda de aristas débiles, piezas de secciones MultiPolygon unidas).
+`tests/test_ensemble_configs_territorios.py` comprueba para cada config: coherencia con el contrato (K, reparto, umbrales, CRS, campo de población, rutas del run), que el contrato no dependa de exenciones ni puentes
+(que el ensemble no sabe aplicar), plan de 10 candidatos/5 perfiles y lote de 50 bloqueado. Fase `ensemble_10`; las usará el operador si Salamanca produce candidatos.
 
 ## 2026-11-02 — T-27 (c) — Escenarios de otro algoritmo: sin catálogo, solo adición
 
