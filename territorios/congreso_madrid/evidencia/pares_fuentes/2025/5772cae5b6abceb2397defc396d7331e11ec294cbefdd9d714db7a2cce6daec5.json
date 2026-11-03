@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_madrid",
+  "territory_name": "Congreso Madrid",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_madrid_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 41611821388,
+    "artifact_name": "ddd-source-package-congreso_madrid-2025-41611821388",
+    "artifact_sha256": "a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0",
+    "package_sha256": "d6d75f5700c2ccef64103a4d434bf938f9bd6de6fff4dd248e3175e0b405cccd",
+    "source_commit": "c993d2286e020dcc0cded5328e410722bb5803e8",
+    "source_declaration": "territorios/congreso_madrid/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_madrid/evidencia/fuentes_territoriales/2025/90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99/41611821388/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "cfbbd7c75e222084781fd3ee765a72f22edc6d57d9df1ae68e5b3fed965ba336",
+    "compatibility_identity_sha256": "c462f25392436bd7bf14f13b5f6d29dc6543c8ca0b5e92bab5f67d9a6ac38307",
+    "remote_verification": {
+      "run_id": 41611821388,
+      "artifact_id": 13221243143,
+      "artifact_name": "ddd-source-package-congreso_madrid-2025-41611821388",
+      "artifact_sha256": "a141e422444585aaeb6127a6a9a651add60034e04cf1f75f4ea20287caee08a0",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41611821388,
+    "artifact_name": "ddd-electoral-package-congreso_madrid-2025-41611821388",
+    "artifact_sha256": "b4be5db7ad6c538845a291061d75726e8cbea8750bd8d0bc23e966c58707549d",
+    "source_commit": "c993d2286e020dcc0cded5328e410722bb5803e8",
+    "receipt_path": "territorios/congreso_madrid/evidencia/fuentes_electorales/2025/faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179/41611821388/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_madrid_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179",
+    "remote_verification": {
+      "run_id": 41611821388,
+      "artifact_id": 13224196492,
+      "artifact_name": "ddd-electoral-package-congreso_madrid-2025-41611821388",
+      "artifact_sha256": "b4be5db7ad6c538845a291061d75726e8cbea8750bd8d0bc23e966c58707549d",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "90666d3c01bce71531c971d32509e387c216eb5bc3f8a13cbfbdd5f14ea41c99",
+  "electoral_compatibility_key": "faa3ecb7c23a9be27c8e636b44e5a04d708f12e2ac9d40e235311a1bdbd72179",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_madrid/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5"
+}
