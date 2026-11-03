@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.10
-Fecha: 2026-11-02
+Versión: 1.0.11
+Fecha: 2026-11-03
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: estado 47/52, T-21 a T-34 con T-27 (a, b, c) y sus PR #413 a #415; Cádiz, Baleares y Las Palmas completas; Murcia, Madrid, Málaga, Barcelona y Alicante bloqueadas por el motor
-Anterior: legacy/docs/PLAN_v1.0.9_20261102.md
+Cambios/motivo: T-35, T-22 (M04 7.6.6, PR #419), piloto de ensemble 10/10 en Salamanca, La Rioja y Sevilla y estado de Murcia, Madrid, Alicante, Barcelona y Málaga tras el chat de motor
+Anterior: legacy/docs/PLAN_v1.0.10_20261103.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -34,12 +34,14 @@ Anterior: legacy/docs/PLAN_v1.0.9_20261102.md
 - `docs/PLAN.md` solo lo edita el planificador; el número de `REGISTRO_DE_CAMBIOS.md` lo asigna el planificador al
   abrir la PR. Los chats le mandan su cierre de tarea y él lo anota.
 
-## 1. Estado (2026-11-02)
+## 1. Estado (2026-11-03)
 - Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
-- Nacional (52): **47 completas**. Cádiz, Baleares y Las Palmas hechas (T-15, T-20, T-24, T-28). Cinco provincias bloqueadas:
-  - **Murcia**: contradicción probada con las reglas actuales (Lorca indivisible + Águilas y Puerto Lumbreras = 152.095 > techo 137.265). Exención de suelo de Águilas (30003) aprobada, **no aplicada en `main`** hasta que el chat de motor resuelva Alcantarilla/Beniel (distrito 4 = 171.010 > techo, T-22/T-23).
-  - **Madrid, Málaga, Barcelona y Alicante**: fallo de búsqueda del motor, no contradicción (T-22).
-- Piloto de ensemble: **Salamanca** (T-26 a T-33); el ensemble es un escenario adicional que no sustituye al canónico.
+- Nacional (52): **47 completas**. Cinco provincias bloqueadas; el chat de motor (T-22, PR #419, M04 7.6.6, abierta) cambia el cuadro:
+  - **Murcia**: con M04 7.6.6 y la exención de suelo de Águilas (30003), probada en un contrato temporal, M05 da hard=0 y M06 OK (13 distritos PASS). La exención sigue **sin aplicarse en `main`**: se aplica cuando se fusione #419.
+  - **Madrid**: con 7.6.6, M05 hard=0 y M06 OK (59 distritos PASS), sin tocar reglas.
+  - **Alicante**: el máximo baja de 156.889 a 144.394, todavía sobre el techo (6 movimientos). **Barcelona**: M04 pasa de hard=2 a hard=1 (10 movimientos). **Málaga**: sin cambio con 7.6.6. Las tres siguen bloqueadas (fallo de búsqueda del motor, no contradicción).
+  - Provincias ya completas (Pontevedra, Álava, Cádiz): GeoJSON e informe idénticos con 7.6.5 y 7.6.6; Baleares y Las Palmas no son ejecutables en local. 7.6.6 cambia el motor M04: los checkpoints M04 previos dejan de valer donde el alivio actúa.
+- Piloto de ensemble: **Salamanca, La Rioja y Sevilla 10/10 candidatos** (Sevilla con 4 hashes únicos). La publicación de Salamanca como escenario está en curso; el ensemble es un escenario adicional que no sustituye al canónico.
 - Las notas de abajo hasta «Asignaciones vigentes» son del 01-11 y quedan como histórico.
 
 ## 1b. Estado (2026-11-01 15:40, histórico)
@@ -118,8 +120,8 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 ### T-21 · Inventario de excepciones gobernadas (solo lectura, hecha)
 - 71 contratos, 165 entradas. `limits_profile: exception` marca en 53 territorios la regla del Congreso (1,15) y no una desviación real; desviaciones reales: techos de Cádiz, Baleares y Las Palmas; atomicidad de Andalucía, Cataluña, País Vasco y Valencia; suelo de Melilla. Las 9 exenciones municipales de suelo no tienen `decided_at`/evidencia estructurada (pendiente de prioridad baja: moverlas a la política).
 
-### T-22 · Estudio de motor (abierta)
-- Murcia (enclaves de Alcantarilla y Beniel en núcleos cerrados), Madrid, Málaga, Barcelona y Alicante. Un chat de motor; M04/M05 capaces de reorganizar distritos alrededor de municipios grandes sin partir los que caben bajo el techo.
+### T-22 · Estudio de motor (en curso, PR #419)
+- M04 7.6.6, alivio de residuos municipales sobre el techo (`m04_overcap_residual_relief`): residual → núcleo, municipio entero → distrito del residual vecino y núcleo → núcleo, siempre dentro del mismo municipio dividido y con conexidad comprobada. No cambia suelo, techo, K ni atomicidad; no toca M05. Resuelve Murcia (con la exención de Águilas) y Madrid en local; mejora Alicante y Barcelona sin cerrarlas; Málaga queda igual.
 
 ### T-23 · Murcia (hecha, sin PR)
 - INE: Águilas 30003, Puerto Lumbreras 30033. Con la exención de Águilas desaparece el bloqueo de Lorca; queda el distrito 4 (Murcia residual + Alcantarilla + Beniel = 171.010 > 137.265): bloqueo del motor → T-22.
@@ -145,8 +147,11 @@ T-08 y T-09 se numeran al final pero van en la posición de la cola que les corr
 ### T-29 a T-33 · Piloto de ensemble de Salamanca (hechas)
 - T-29 poda de aristas débiles (#408); T-30 lectura: las geometrías del Congreso están en grados; T-31 medir la frontera compartida en metros (#409); T-32 el runner del ensemble ya no sale en verde con fallos (#410); T-33 unir las piezas de secciones MultiPolygon como M06 (#411). Resultado: Salamanca ensemble_10, 10/10 candidatos (run 41543954069).
 
-### T-34 · Ensemble en La Rioja y Sevilla (en curso)
-- `configuracion/ensemble/congreso_la_rioja.json` (K=3) y `congreso_sevilla.json` (K=16; Valencia descartada por su puente gobernado) · PR #417 · tras #414, #415 y #416.
+### T-34 · Ensemble en La Rioja y Sevilla (hecha, #417)
+- `configuracion/ensemble/congreso_la_rioja.json` (K=3) y `congreso_sevilla.json` (K=16; Valencia descartada por su puente gobernado). Resultado: 10/10 candidatos en las dos (Sevilla con 4 hashes únicos).
+
+### T-35 · Publicación de ensembles con `ensemble_sha256` (hecha, #418)
+- El publicador único exige el hash del zip del release; `publish` y `republish` lo calculan, lo exponen y los despliegues lo pasan. La publicación de Salamanca (run 41592019959) fallaba con exit 56. La republicación sin recalcular vale para cualquier territorio con configuración (ensemble_10), no solo Aragón-10; el 50 sigue bloqueado. Solo añade en `ensembles`.
 
 ### T-14 · Diagnóstico automático sin el Mac (máxima prioridad tras T-13)
 - Objetivo: cuando una 00 falla en M04, M05 o en la puerta de certificación, el propio workflow sube a la rama
