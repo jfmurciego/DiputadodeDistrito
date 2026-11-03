@@ -1903,7 +1903,7 @@ territories:
         source_commit: 47dae384b27e7adf19bc1943e45e9e46a8c2bf23
       evidence:
         electoral_source: territorios/congreso_murcia/evidencia/fuentes_electorales/2025/da89a45a5d057341a6cdeedda30754bd23c97cc15397c1dbca88e6dac41f6ac7/41613691816/receipt.json
-        prepared_source_pair: territorios/congreso_murcia/evidencia/pares_fuentes/2025/5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51.json
+        prepared_source_pair: territorios/congreso_murcia/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json
         generation_preflight: territorios/congreso_murcia/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_murcia/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
