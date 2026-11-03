@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-03T10:50:36.596462+00:00",
+  "generated_at": "2026-11-03T11:00:49.022111+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 67,
-      "activable": 4,
+      "activated": 69,
+      "activable": 2,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 67
+      "durable_pair": 69
     },
     "territories": [
       {
@@ -2424,12 +2424,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso_madrid/evidencia/pares_fuentes/2025/5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5.json",
+            "pair_sha256": "5772cae5b6abceb2397defc396d7331e11ec294cbefdd9d714db7a2cce6daec5",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -2526,12 +2526,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_murcia/evidencia/pares_fuentes/2025/5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51.json",
-            "pair_sha256": "5ee9a3ad75f537e93a0bff980ba1835d0acbf4482ff57fa9af6a7bd2a76b6b51",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_murcia/evidencia/pares_fuentes/2025/ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630.json",
+            "pair_sha256": "ed71f8585afa9479bad225100308e55ea745b39721b3dd1068e34561ab5ee630",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -6467,7 +6467,18 @@
           "producer_manifest_path": "territorios/congreso_madrid/evidencia/generaciones_m06/41611821388.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_madrid",
+          "territory_name": "Congreso Madrid",
+          "edition": "2025",
+          "run_id": 41622703086,
+          "artifact_name": "ddd-state-41622703086-M08",
+          "artifact_sha256": "91a6403de439cbbf4fe2b4a4db1a4a93a615bdf815bc39d884979f325d6b84c8",
+          "source_commit": "b3f8dab26ed13474b9ebb9627023697464fe2b45",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C28",
       "display_name": "Nacional Madrid",
@@ -6521,11 +6532,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41613691816,
       "last_run": {
-        "run_id": 41337086027,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 41613691816,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -6554,11 +6565,22 @@
           "producer_manifest_path": "territorios/congreso_murcia/evidencia/generaciones_m06/41613691816.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_murcia",
+          "territory_name": "Congreso Murcia",
+          "edition": "2025",
+          "run_id": 41622862185,
+          "artifact_name": "ddd-state-41622862185-M08",
+          "artifact_sha256": "bbca845e0f54cf4cdae7d51689bc2a958868b59386d75285357e48bed1664da9",
+          "source_commit": "ce7ee797bbb5eddb818bb7bbf8d55385ca32d6c1",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C30",
       "display_name": "Nacional Murcia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_navarra",

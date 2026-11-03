@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-03T10:50:36.596462+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-03T11:00:49.022111+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -76,7 +76,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41294985244 · FAILED | — | — | — |
 | **Nacional Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41611821388 · SUCCESS | 03/04 · rama electoral omitida | 03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08 | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **Nacional Málaga** | 🟢 | 🟡 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas | 41293427148 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | generar y validar distritos |
-| **Nacional Murcia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41337086027 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
+| **Nacional Murcia** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41613691816 · SUCCESS | 03/04 · rama electoral omitida | 03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08 | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **Nacional Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299128213 · SUCCESS | — | — | — |
 | **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295142111 · SUCCESS | — | — | — |
 | **Nacional Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296638877 · SUCCESS | — | — | — |
