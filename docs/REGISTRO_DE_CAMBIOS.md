@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.91
+Versión: 1.0.92
 Fecha: 2026-11-03
-Alcance: T-36 — republicación de ensembles con candidatos en WGS84
+Alcance: T-22 — M04 7.6.6: alivio de residuos municipales sobre el techo
 Estado: candidato
-Cambios/motivo: validar_republicacion_ensemble.py (candidatos proyectados o ya en grados) en generar-alternativas-territoriales 2.3.0
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.90_t36_20261102.md
+Cambios/motivo: ddd_core/m04_overcap_residual_relief.py y llamada desde ddd_core/m04_seed_engine.py antes del postproceso
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.91_t22_20261103.md
 -->
+
+## 2026-11-03 — T-22 — M04 7.6.6: alivio de residuos sobre el techo
+
+M05 mueve unidades enteras (`ddd_unit_id`) y no puede redibujar las piezas internas de un municipio dividido, así que un distrito sobre el techo
+causado por el tamaño del residual `:R` no tenía arreglo. M04 7.6.6 cede secciones fronterizas del residual a núcleos `:U` del mismo municipio
+con margen; si el distrito no tiene residual, traslada un municipio entero al distrito del residual vecino de otro municipio dividido y cede el
+exceso; si los núcleos están llenos, pasa una sección de núcleo a núcleo. Sin cambios de suelo, techo, K ni atomicidad. Murcia (con Águilas exenta,
+fuera de esta PR): 171.010 → 13 distritos PASS; Madrid: 181.853 → 59 distritos PASS (M05 y M06 locales). Sin alivio activo, la salida es idéntica
+a 7.6.5. Cambiar M04 invalida los checkpoints M04 previos.
 
 ## 2026-11-03 — T-36 — Republicación de ensembles con candidatos en WGS84
 
