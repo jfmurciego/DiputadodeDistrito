@@ -202,6 +202,12 @@ validation:
   population_floor_exempt_partitions: []
   population_floor_exempt_municipalities:
   - '29054'
+  population_floor_exempt_decisions:
+    '29054':
+      decided_at: '2026-11-07'
+      decided_by: propietario
+      reason: 'D-6: Fuengirola (85.136) solo linda con Mijas y Benalmádena, atómicos; sola queda bajo el suelo y con cualquiera supera el techo'
+      evidence: 'PR #436'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
