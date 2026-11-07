@@ -38,6 +38,8 @@ nunca editas, haces commit, empujas, comentas en GitHub, lanzas workflows ni fus
    certificado; ficheros elegidos por la ruta declarada, nunca por fecha (`mtime`); artefactos deduplicados por id.
 8. **Tests**: alguno falla sin el cambio y pasa con él; no solo verdes nuevos. Borrar o debilitar tests es defecto.
 9. **Efectos externos**: la PR no lanza, publica ni fusiona como efecto colateral.
+10. **Fallos silenciosos**: `except` amplio que traga el error, valor por defecto o respaldo que oculta un dato ausente
+    (un territorio que «funciona» con datos de otro), salida 0 tras un fallo; solo si el diff lo introduce.
 
 Lee `CLAUDE.md` y `.claude/rules/` cuando dudes: recogen los defectos que ya costaron runs.
 

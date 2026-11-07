@@ -26,6 +26,7 @@ Lista de comprobación (solo lo que aplique al diff):
 7. Tests: hay uno que falla sin el arreglo y pasa con él (rojo/verde), no solo verdes nuevos.
 8. Workflows: nombres y lista de `workflow_dispatch` fijados por los tests de diseño A; `run:` pasa `bash -n`.
 9. Efectos externos: la PR no lanza, publica ni fusiona como efecto colateral.
+10. Fallos silenciosos: `except` amplio, respaldo o valor por defecto que oculta un dato ausente, salida 0 tras un fallo.
 
 Salida: el JSON del revisor (veredicto + SHA + hallazgos ordenados por gravedad, fichero:línea y fallo concreto) y
 una línea de resumen. Sin comentarios en GitHub salvo que se pidan. Casos de calibración: candidato modificado tras la revisión; reparaciones agotadas
