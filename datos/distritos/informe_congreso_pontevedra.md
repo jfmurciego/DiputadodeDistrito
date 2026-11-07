@@ -1,14 +1,28 @@
 # Nombres y comunidades de interés — congreso_pontevedra
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 8 (nombres únicos: 8)
 - Reglas: MUNICIPIO 2, PRINCIPAL_Y_ENTORNO 6
 - Municipios divididos entre distritos (suma por distrito): 3
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 13
+- Partidos partidos entre distritos: 8
+- Cobertura: 96.7% de los municipios, 98.9% de la población (sin partido: 2, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 36-01 | 3, 4 |
+| 36-03 | 0, 1, 5 |
+| 36-04 | 2, 4 |
+| 36-05 | 4, 6 |
+| 36-08 | 4, 6 |
+| 36-09 | 2, 6 |
+| 36-11 | 3, 5 |
+| 36-12 | 4, 6 |
 
 ## Distritos
 

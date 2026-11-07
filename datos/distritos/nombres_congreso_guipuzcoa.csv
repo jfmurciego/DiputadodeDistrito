@@ -1,7 +1,7 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_guipuzcoa,0,San Sebastián,MUNICIPIO,,20069,San Sebastián,1,1,121468,,0,NOT_EVALUABLE,
-congreso_guipuzcoa,1,Zarauz y entorno,PRINCIPAL_Y_ENTORNO,,20079,Zarauz,22,0,118857,,0,NOT_EVALUABLE,
-congreso_guipuzcoa,2,Mondragón y entorno,PRINCIPAL_Y_ENTORNO,,20055,Mondragón,45,0,118821,,0,NOT_EVALUABLE,
-congreso_guipuzcoa,3,Irún y entorno,PRINCIPAL_Y_ENTORNO,,20045,Irún,5,0,112137,,0,NOT_EVALUABLE,
-congreso_guipuzcoa,4,Eibar y entorno,PRINCIPAL_Y_ENTORNO,,20030,Eibar,12,0,121543,,0,NOT_EVALUABLE,
-congreso_guipuzcoa,5,San Sebastián y entorno,PRINCIPAL_Y_ENTORNO,,20069,San Sebastián,4,1,133886,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_guipuzcoa,0,San Sebastián,MUNICIPIO,,20069,San Sebastián,1,1,121468,,0,1,EVALUADO,
+congreso_guipuzcoa,1,Zarauz y entorno,PRINCIPAL_Y_ENTORNO,,20079,Zarauz,22,0,118857,,0,3,EVALUADO,
+congreso_guipuzcoa,2,Mondragón y entorno,PRINCIPAL_Y_ENTORNO,,20055,Mondragón,45,0,118821,,0,3,EVALUADO,
+congreso_guipuzcoa,3,Irún y entorno,PRINCIPAL_Y_ENTORNO,,20045,Irún,5,0,112137,,0,2,EVALUADO,
+congreso_guipuzcoa,4,Eibar y entorno,PRINCIPAL_Y_ENTORNO,,20030,Eibar,12,0,121543,,0,4,EVALUADO,
+congreso_guipuzcoa,5,San Sebastián y entorno,PRINCIPAL_Y_ENTORNO,,20069,San Sebastián,4,1,133886,,0,1,EVALUADO,

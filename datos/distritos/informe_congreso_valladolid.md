@@ -1,14 +1,22 @@
 # Nombres y comunidades de interés — congreso_valladolid
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 4 (nombres únicos: 4)
 - Reglas: MUNICIPIO 2, PRINCIPAL_Y_ENTORNO 2
 - Municipios divididos entre distritos (suma por distrito): 2
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 3
+- Partidos partidos entre distritos: 2
+- Cobertura: 100.0% de los municipios, 100.0% de la población (sin partido: 0, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 47-01 | 0, 1, 2, 3 |
+| 47-02 | 2, 3 |
 
 ## Distritos
 
