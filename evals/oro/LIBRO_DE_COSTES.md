@@ -19,7 +19,7 @@ forense ≥ 10 de las 12 causas del §9 en ≤ 5 líneas.
   Causas del §9: 12/12; runs adicionales 6/6; calibración 2/2 (CAL-02 BLOQUEADO; CAL-03 sin acciones). Todas en
   5 líneas. Límite: el catálogo de la memoria y los síntomas del oro salen de las mismas fuentes (§9, `CLAUDE.md`,
   PR correctivas), así que mide que el forense reconoce causas conocidas a partir del síntoma, no que descubre
-  causas nuevas; la memoria incluye 9 causas sin caso en el oro como distractores. Salidas en
+  causas nuevas; la memoria incluye 8 causas sin caso CR en el oro como distractores. Salidas en
   `resultados/forense_v1_20261107.json`.
 
 | Fecha | Agente | Modelo | Etiqueta | Casos | Aciertos | % | Tokens | A la primera |
