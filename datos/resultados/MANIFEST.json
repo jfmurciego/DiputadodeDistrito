@@ -401,6 +401,13 @@
    "distritos": 75,
    "sha256_csv": "4c22e78216221b7f5ed0f2fd9297d554f8752f613a50e2c20c400acbef91b0bf"
   },
+  "illes_balears": {
+   "run_id": "41033500476",
+   "blob_sha": "2a401f219d9abc8971682bf4449778a6cf71b36d",
+   "sha256_origen": "2c12e458d542a818f4cbdbc5bea4dd78cabee1fd2ee9e6f1f88e0edce157ec70",
+   "distritos": 59,
+   "sha256_csv": "bb7ab2499967a9d1fa33362bd8e55bfed47fa21beb945f7b7124f89dfd09583d"
+  },
   "la_rioja": {
    "run_id": "40867456776",
    "blob_sha": "59036b15bee424b56959125d1b2a082c0c5c4ae9",
