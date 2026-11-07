@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.95
+Versión: 1.0.96
 Fecha: 2026-11-07
-Alcance: Paso 0 — framework de agentes y arquitectura P00-P60
+Alcance: Paso 1 (bloque 1) — guardián de main en CI
 Estado: candidato
-Cambios/motivo: documento de referencia del plan de agentes (solo documentación)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.94_t37_20261103.md
+Cambios/motivo: marcas de conflicto y numeración del registro en el job pruebas
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.95_paso0_20261107.md
 -->
+
+## 2026-11-07 — Paso 1 (bloque 1) — CI: guardián de main
+
+Las marcas de conflicto en el registro rompieron `main` (hotfix #422). `herramientas/comprobar_guardian_main.py` 1.0.0 (solo biblioteca estándar):
+`marcas` revisa los ficheros de `git ls-files` (`<<<<<<<`, `|||||||`, `>>>>>>>`; `=======` solo dentro de un bloque abierto) y `registro` exige
+Versión = Anterior + 1 con el predecesor en `legacy/` y su cabecera coherente con su nombre. `pruebas-plataforma.yml` 1.5.0 los ejecuta al inicio del job
+`pruebas` (el que exige el ruleset); copia en `legacy/workflows/pruebas-plataforma_v1.4.0.yml`. Pruebas: `tests/test_comprobar_guardian_main.py` (10) y
+casos negativos manuales (marcas en `README.md`, versión saltada) · PR #428.
+
 
 ## 2026-11-07 — Paso 0 — Framework de agentes y arquitectura P00-P60
 
