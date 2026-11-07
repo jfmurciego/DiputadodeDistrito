@@ -13,7 +13,7 @@ Estudio, no implantación. Decide el propietario. Fecha 2026-11-07. Datos y huel
 | Comarcas de Aragón (`inputs/COMARCAS.csv`, repo) | Gobierno de Aragón | Aragón, 731 municipios | del repo | Sí | **Usada** (referencia) |
 | Comarcas ganaderas / agrarias del MAPA (capas IDE) | MAPA | España | — | No comprobado | `www.mapa.gob.es` corta la conexión (reset) aunque la red está abierta. **No obtenida** |
 | Comarcas estadísticas autonómicas (IGE Galicia, Eustat, SADEI, Generalitat Valenciana…) | institutos autonómicos | cada comunidad | — | No comprobado | Hosts no pedidos. **No obtenidas** |
-| INE | — | — | — | El INE no publica relación municipio→comarca nacional (solo códigos de municipio y provincia, `ine.es` responde) | — |
+| INE | — | — | — | No hallada en `ine.es` (responde) ninguna relación municipio→comarca nacional; solo códigos de municipio y provincia | — |
 
 Limitación: sin los hosts autonómicos, solo hay una fuente no oficial de cobertura nacional (la agraria). Las comarcas agrarias salen del BOE, no de `mapa.gob.es`.
 
