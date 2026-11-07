@@ -1,12 +1,22 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.101
+Versión: 1.0.102
 Fecha: 2026-11-07
-Alcance: T-39 — subagente revisor independiente
+Alcance: T-40 — subagente forense de runs
 Estado: candidato
-Cambios/motivo: .claude/agents/revisor.md, skill revisar-pr delega en él; evaluación en el oro y primera revisión real (#425)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.100_t38_20261107.md
+Cambios/motivo: .claude/agents/forense.md, memoria con el catálogo de causas y skill diagnosticar-run; evaluación en el oro
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.101_t39_20261107.md
 -->
+
+## 2026-11-07 — T-40 — Subagente forense de runs
+
+`.claude/agents/forense.md` (Sonnet, solo lectura): dado un run o un síntoma, da la causa en cinco líneas (territorio y
+run, paso, mensaje, causa, siguiente acción y quién) con `causa_id` del catálogo; lee anotaciones de `check-runs`,
+`TERRITORY:` del job «Planificar» y `diagnostico/auto/`, nunca artefactos; no lanza ni relanza. Memoria
+`.claude/agent-memory/forense/MEMORY.md`: 27 causas con id estable (§9 del framework y `CLAUDE.md`), por familias.
+`.claude/skills/diagnosticar-run` delega en él y deja el catálogo en la memoria. Conjunto de oro (T-38): 20/20; 12/12
+causas del §9 y 6/6 runs adicionales en ≤ 5 líneas, 2/2 de calibración; 168.568 tokens en 2 lotes
+(`evals/oro/LIBRO_DE_COSTES.md`). Sin lanzamientos · encadenada tras #433.
 
 ## 2026-11-07 — T-39 — Subagente revisor independiente
 
