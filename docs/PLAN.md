@@ -39,7 +39,7 @@ Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 - Nacional (52): **49 completas** (del 02 al 03-11 cerraron Las Palmas, Baleares, Cádiz, Madrid y Murcia; #419, M04 7.6.6,
   fusionada; Madrid y Murcia en el visor). **Bloqueadas: Málaga, Barcelona y Alicante** (M04 7.6.6 no las cierra; sin
   contradicción aritmética probada) → T-44.
-- Ensembles: Salamanca 10/10 publicada como escenario (run 41614546499); La Rioja y Sevilla 10/10 sin publicar → T-43.
+- Ensembles publicados como escenario: Salamanca (run 41614546499), La Rioja (42384534739) y Sevilla (42385012998) (T-43).
 - Arquitectura de agentes (`docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md`, §11 y §12):
   - **Paso 0** (framework P00-P60) · PR #427 · registro 1.0.95 · fusionada.
   - **Paso 1** · bloque 1 CI guardián de `main` · PR #428 · 1.0.96 · bloque 2 `CLAUDE.md`, `rules/` y hook de git ·
@@ -58,7 +58,7 @@ Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 | «Implementador nuevo» | constructor de agentes (Opus) | cadena #429-#430 al día; T-38 hecha en rama (PR tras #431) | T-39 + T-40 |
 | «Implementador Motor» | ingeniero de motor (Opus) | **en pausa** (T-44) | — |
 | «Implementador» | implementador (Sonnet) | **en pausa** (T-42), sesión inactiva | T-41 Environments |
-| «Operador» | operador único (Sonnet) | **en pausa** (T-43) | 00 de T-44, prueba de T-41 |
+| «Operador» | operador único (Sonnet) | T-43 hecha; **en pausa** | 00 de T-44, prueba de T-41 |
 | «Paso 1 agentes DDD» | — | sesión inactiva; T-38 a T-40 pasan a «Implementador nuevo» | — |
 | «DDD Plan» (este) | planificador | cola, registro, `PLAN.md` | — |
 
@@ -406,6 +406,7 @@ Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, pol
 
 ## 4. Tareas hechas
 <!-- Formato: T-xx · resumen · PR #nnn / run nnnnnnnnnn · fecha -->
+- T-43 · Ensembles de La Rioja y Sevilla publicados como escenario (`ensembles=3`, 157 productos, canónicos intactos) · runs 42384534739 42385012998 · 2026-11-07
 - Paso 0 y Paso 1 (bloques 1-3) · framework, guardián de `main`, `CLAUDE.md`/`rules/`/hook y skills de rol · PR #427 #428 #429 #430 · 2026-11-07 (pendientes de fusión)
 - T-22 · M04 7.6.6, alivio de residuos sobre el techo; cierra Madrid y Murcia · PR #419 · 2026-11-03
 - T-23 · Murcia: exención de suelo de Águilas (30003) · 2026-11-03
