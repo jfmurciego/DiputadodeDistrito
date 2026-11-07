@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.20
+Versión: 1.0.21
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: decisión D-8 (Observatorio Electoral de las Naciones como fuente secundaria) y T-89 (espejo), contraste en T-71
-Anterior: legacy/docs/PLAN_v1.0.19_20261107.md
+Cambios/motivo: T-88 ampliada a los plugins oficiales de Anthropic (revisión de PR y desarrollo por fases)
+Anterior: legacy/docs/PLAN_v1.0.20_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -285,7 +285,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-77 | Incorporar T-75: estado de tarea y de efecto externo, línea de cierre ampliada, ficha del ingeniero de motor, topes y libro de costes por chat | session_01KQDtFsDv6WYYdvBHC1Ji7t (Sonnet) | Skills y fichas coherentes; PR con registro |
 | T-78 | Gobierno de agentes en runtime: allowlist por rol y revisor como check obligatorio (JSON del ruleset, lo aplica el propietario) | session_01KQDtFru1JVfTuBosCwaVsu (Opus) | Herramienta denegada se bloquea; PR no-automerge |
 | T-87 | Cadena de publicación con una sola aprobación: al cerrar la puerta 04 de una 00, un job en el entorno `produccion` (aprobación del propietario) dispara juntos la 05 del visor con `production_run_id` de esa 00 y `publicar-version-mapa.yml` (Release, Zenodo); el archivo R2 lo cubre T-72 y los resultados ligeros ya se encadenan con `publicaciones_visor.json`. Toca workflows compartidos: avisar al Coordinador | por abrir (Opus), después de la 00 de prueba de T-72 | PR no-automerge; sin aprobación no publica nada; probado con un territorio y sin publicar hasta el permiso del propietario |
-| T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | por abrir (Sonnet), después de T-77 | Una PR con la comparación (qué se toma, qué no y por qué) y las skills ajustadas; sin aumentar el contexto cargado por defecto |
+| T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y, ampliada (07-11), los plugins oficiales de revisión de PR y de desarrollo por fases de `anthropics/claude-code` frente a `revisar-pr`, el revisor de CI e `implementador`; llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | por abrir (Sonnet), después de T-77 | Una PR con la comparación (qué se toma, qué no y por qué) y las skills ajustadas; sin aumentar el contexto cargado por defecto |
 | T-89 | Espejo del Observatorio Electoral de las Naciones (D-8): bajar `data/index.json`, `data/{k}/sekzioa/{cpro}.json` de las 6 generales y `geo/sekzioak/{año}/{cpro}.json` de sus 6 seccionados, con fecha, URL y sha256 por fichero, a R2 (no a git); entrada en el catálogo de procedencia; contraste por muestreo (3 provincias × 2 elecciones) con Infoelectoral 2023 del release espejo y un lector Python del formato compacto (`s`,`k`,`f`,`b`,`r`) | por abrir (Sonnet) | Espejo completo y verificable; informe del contraste; sin publicar ni tocar el visor |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
