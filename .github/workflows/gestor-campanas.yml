@@ -118,6 +118,7 @@ jobs:
     concurrency:
       group: ${{ (github.event_name == 'workflow_dispatch' && inputs.modo != 'plan') && 'ddd-gestor-legislatura' || format('ddd-gestor-plan-{0}', github.run_id) }}
       cancel-in-progress: false
+      queue: max
     env:
       GH_TOKEN: ${{ github.token }}
       MODO: ${{ inputs.modo || 'plan' }}
