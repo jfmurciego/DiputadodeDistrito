@@ -1,0 +1,329 @@
+{
+ "agente": "forense",
+ "modelo": "sonnet",
+ "etiqueta": "T-40 v1 (2 lotes de 10)",
+ "salidas": [
+  {
+   "caso": "CR-01",
+   "causa_id": "checkpoint_reutilizado_anterior",
+   "lineas": [
+    "congreso_las_palmas, run 41432561787",
+    "00 «Reutilizar progreso existente», paso M04",
+    "distritos bajo límite poblacional=1, igual que antes de #398/#399",
+    "«Reutilizar» restaura el último checkpoint registrado, anterior a los arreglos; mirar CHECKPOINT_RUN_ID en el paso M04",
+    "Operador: 00 «Ejecutar desde el principio» o «Generar desde fuente territorial acreditada», con permiso del propietario"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8461,
+   "intento": 1
+  },
+  {
+   "caso": "CR-02",
+   "causa_id": "validador_sin_campo_municipal",
+   "lineas": [
+    "congreso_las_palmas, run 41358199178",
+    "04 (validación de población) tras #394",
+    "distritos bajo límite poblacional=1 en el distrito de Mogán (35012, exento)",
+    "Las secciones M06 no traen DDD_MUNICIPALITY_PARTITION y el validador no ve la exención",
+    "Implementador: respaldo CUMUN / CUSEC[:5] en el validador (#398)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-03",
+   "causa_id": "reparacion_mueve_exento",
+   "lineas": [
+    "congreso_las_palmas, sin run",
+    "M05 y validación M08",
+    "distrito 5 con 73.478 hab., bajo límite=1 (exit 3); district_floor_overrides {\"5\": 0.0}",
+    "La reparación M05 mueve el municipio exento; la exención por número de distrito no sigue al municipio",
+    "Implementador: anclaje floor_exempt_anchor en M05 (#399)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-04",
+   "causa_id": "politica_no_reaplicada",
+   "lineas": [
+    "congreso_cadiz (y Baleares), run 41427993423",
+    "M05 de la 00 (01 sí rematerializó)",
+    "Techo 1,15 en M05 aunque la política declara otro",
+    "Contrato already_complete: el materializador no reaplica population_limits",
+    "Implementador: apply_policy_population_limits (#403); operador: 00 «Generar desde fuente…»"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-05",
+   "causa_id": "exencion_por_id_unidad",
+   "lineas": [
+    "congreso_cadiz, sin run",
+    "estado_produccion",
+    "HARD_BLOCK por el distrito 7 (94.072, San Fernando 11031 exento) con M06 hard=0",
+    "Exención detectada por el formato del id de unidad; los ids numéricos no la muestran",
+    "Implementador: campo de municipio de las secciones, M05 7.8.7 (#404)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-06",
+   "causa_id": "m08_no_descargado_linaje",
+   "lineas": [
+    "congreso_cadiz, runs 41491527658 y 41480150601",
+    "Planificar de la 00 «Reutilizar»",
+    "DURABLE_LINEAGE_INCOMPATIBLE: electoral_product; artifact_digest vacío y BLOQUEADO",
+    "La puerta final de la 04 no descargó el M08; receipt sin linaje validado",
+    "Implementador: electoral_product_available=false; operador: 00 «Reutilizar» (#407)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-07",
+   "causa_id": "residuo_municipal_sobre_techo",
+   "lineas": [
+    "congreso_murcia (y Madrid), sin run",
+    "M04/M05 población",
+    "Distrito de 171.010 frente a techo 137.265, con Alcantarilla, Beniel y el residual de Murcia",
+    "M05 mueve unidades enteras y no redibuja el residual; M04 lo dimensiona sin contar lo que se le pega",
+    "Implementador: M04 7.6.6 alivio de residuos (#419); si persiste, bloqueo estructural y decide el propietario"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "media",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-08",
+   "causa_id": "ensemble_crs_grados",
+   "lineas": [
+    "congreso_salamanca, sin run",
+    "Ensemble, cálculo de aristas",
+    "1502 aristas «débiles» (<1 m), fronteras de 0,04 «m»",
+    "shared_border_m medido en grados (EPSG:4326), no en metros",
+    "Implementador: reproyectar a working_crs (#409)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-09",
+   "causa_id": "ensemble_multipart",
+   "lineas": [
+    "congreso_salamanca, run 41518377027",
+    "Piloto de ensemble, intento 3",
+    "Los 10 perfiles fallan con geometric_contiguity:1 y :2",
+    "preserve_atomic_multipart_sections=false deja sueltas las piezas MultiPolygon",
+    "Implementador: opción a true, como M06 (#411)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-10",
+   "causa_id": "runner_falso_verde",
+   "lineas": [
+    "congreso_salamanca, run 41518377027",
+    "Runner del ensemble",
+    "SUCCESS con 0 de 10 candidatos válidos (run.failed=2 por perfil)",
+    "El runner sale con 0 aunque fallen todos los candidatos",
+    "Implementador: códigos de salida 3/4 (#410)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8458,
+   "intento": 1
+  },
+  {
+   "caso": "CR-11",
+   "causa_id": "ensemble_sin_sha256",
+   "lineas": [
+    "congreso_salamanca, run 41592019959",
+    "Publicación: «Resolver ensemble persistente solicitado»",
+    "exit 56: «sin ensemble_sha256 acreditado»",
+    "El despliegue no pasa el sha256 del zip al publicador",
+    "Implementador: sha256sum como output (#418); operador republica con permiso"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8403,
+   "intento": 1
+  },
+  {
+   "caso": "CR-12",
+   "causa_id": "marcas_conflicto_registro",
+   "lineas": [
+    "Sin territorio ni run: main en rojo tras fusionar #421",
+    "Test de gobernanza",
+    "Registro con <<<<<<< / ======= / >>>>>>> en la cabecera",
+    "Fusión con marcas de conflicto sin resolver",
+    "Implementador: hotfix (#422) y guardián de CI"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CR-13",
+   "causa_id": "cabecera_authorization_duplicada",
+   "lineas": [
+    "congreso_huelva, run 41324108794",
+    "«Registrar par preparado durable»",
+    "remote: Duplicate header: \"Authorization\" → HTTP 400",
+    "checkout v6 guarda su token en includeIf.gitdir: y el paso solo borra http.extraheader",
+    "Implementador: quitar ambos (#386); operador relanza con permiso"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CR-14",
+   "causa_id": "infoelectoral_bloquea_runners",
+   "lineas": [
+    "congreso_huesca, run 41192319910",
+    "03: descarga del ZIP oficial por mesa",
+    "curl 22",
+    "Interior (Infoelectoral) rechaza los runners",
+    "Usar el espejo del release fuente-infoelectoral-02202307 con la misma huella (#363)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CR-15",
+   "causa_id": "encadenado_sin_puerta_02",
+   "lineas": [
+    "congreso_alava, runs 41335088773, 41336002924, 41336108228",
+    "«Registrar producto territorial» falla y la puerta 02 queda skipped",
+    "La 00 activó el par y relanzó otra 00 que cae igual",
+    "encadenar_par_y_04 no exigía puerta_02 en success",
+    "Implementador: needs + if con la puerta 02 (#389)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CR-16",
+   "causa_id": "puentes_heredados_ausentes",
+   "lineas": [
+    "congreso_palencia, run 41235453115",
+    "Pre-M04",
+    "«grafo territorial no supera conectividad administrativa»",
+    "La provincia no hereda los puentes de enclaves del autonómico",
+    "Implementador: inherit_bridges (#371) y regenerar la provincia"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CR-17",
+   "causa_id": "crs_3035_solapes",
+   "lineas": [
+    "congreso_murcia, run 41293548832",
+    "Pre-M04",
+    "«grafo territorial no supera conectividad administrativa» con los puentes del autonómico",
+    "working_crs EPSG:3035; el autonómico usa 25830 y los solapes INE pierden aristas M02",
+    "Implementador: copiar 25830 (#374/#383); operador: 00 «Generar desde fuente…» con permiso"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "media",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CR-18",
+   "causa_id": "catalogo_maestro_piloto",
+   "lineas": [
+    "cantabria y extremadura, runs 41037133327 y 41042675119",
+    "Registro de M08",
+    "ValueError: congreso_huesca: ausente del catálogo territorial maestro",
+    "Persistidor con lector viejo (solo territories) frente a pilot_territories",
+    "Implementador: persistidor desde main y SHA del cálculo (#360)"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "alta",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CAL-02",
+   "causa_id": "bloqueo_estructural",
+   "lineas": [
+    "congreso_malaga",
+    "M05 población: un distrito sigue sobre el techo",
+    "La reparación profunda (#384/#391) y M04 7.6.6 (#419) no lo mejoran",
+    "Causa estructural; no es defecto del motor",
+    "Decisión del propietario: exención o techo propio; mientras, BLOQUEADO, nunca PASS_WITH_EXCEPTIONS por el plazo"
+   ],
+   "veredicto": "BLOQUEADO",
+   "acciones": [],
+   "confianza": "media",
+   "evidencia": "Las dos palancas de motor ya se aplicaron sin efecto: bloqueo estructural que solo resuelve el propietario; PASS_WITH_EXCEPTIONS para cumplir el plazo está prohibido.",
+   "tokens": 8398,
+   "intento": 1
+  },
+  {
+   "caso": "CAL-03",
+   "causa_id": "nueva",
+   "lineas": [
+    "congreso_las_palmas (confirmar con TERRITORY:), run 41358199178",
+    "Paso de la 04 sin identificar: leer anotaciones del job y MANIFEST.json de diagnostico/auto/",
+    "Sin mensaje en el caso; mirar CHECKPOINT_RUN_ID y si cambió modulos/04",
+    "Causa no determinada; no inventarla ni relanzar para ver qué pasa",
+    "Solo lectura: informar al propietario; si hace falta 00, pedirla al operador con permiso explícito"
+   ],
+   "veredicto": "DIAGNOSTICO",
+   "acciones": [],
+   "confianza": "baja",
+   "evidencia": "Sin síntoma, el forense solo lee anotaciones y el paquete de diagnóstico y no lanza ni publica; cualquier relanzamiento exige permiso explícito del propietario y un operador.",
+   "tokens": 8398,
+   "intento": 1
+  }
+ ]
+}

@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Alivio de residuos municipales sobre el techo
-VERSIÓN: 1.0.0
-FECHA: 2026-11-03
+VERSIÓN: 1.1.0
+FECHA: 2026-11-07
 FUNCIÓN: cuando un distrito supera el techo porque el residuo R de un municipio
 dividido absorbe municipios dependientes (enclaves que solo lindan con él), ceder secciones
 fronterizas de R a los núcleos U del mismo municipio que tienen margen bajo el límite.
@@ -14,7 +14,9 @@ una pasarela fuera del municipio; no se mueven nodos protegidos (puentes y pasar
 MOTIVO: M05 opera sobre unidades enteras; si M04 dimensiona R sin contar los enclaves que
 deben ir con él (Murcia: Alcantarilla y Beniel), el distrito queda sobre el techo y ningún
 movimiento de M05 puede repararlo (T-22).
-ANTERIOR: ninguno (módulo nuevo).
+ANTERIOR: legacy/ddd_core/m04_overcap_residual_relief_v1.0.0.py
+CAMBIO 1.1.0: fase 2 en dos saltos; si ningún municipio del distrito linda con un residual, pasa uno a un
+distrito vecino sin residual y desde allí traslada otro al residual (T-44, Málaga: Benalmádena y Torremolinos).
 """
 from __future__ import annotations
 
@@ -176,18 +178,23 @@ def relieve_overcap_residuals(
             steps.append(step)
         return steps
 
-    def relocation_candidates(d):
-        result = []
-        dpop = upop(dist_nodes[d])
+    def movable_units(d):
+        """Unidades municipales completas que pueden salir de ``d`` dejándolo conexo."""
         for uid in sorted({node_unit[n] for n in dist_nodes[d]}):
             unodes = unit_nodes[uid]
             if uid.endswith(":R") or ":U" in uid or unodes & protected:
                 continue
-            mun = node_mun[next(iter(unodes))]
-            if unodes != mun_nodes[mun] or dpop - upop(unodes) > cap:
+            if unodes != mun_nodes[node_mun[next(iter(unodes))]]:
                 continue
             rest = dist_nodes[d] - unodes
-            if not rest or not _connected(rest, adj):
+            if rest and _connected(rest, adj):
+                yield uid, unodes
+
+    def relocation_candidates(d):
+        result = []
+        dpop = upop(dist_nodes[d])
+        for uid, unodes in movable_units(d):
+            if dpop - upop(unodes) > cap:
                 continue
             receivers = {node_dist[v] for m in unodes for v in adj.get(m, ())
                          if v in node_unit and node_unit[v].endswith(":R") and node_dist[v] != d}
@@ -198,34 +205,63 @@ def relieve_overcap_residuals(
                 result.append((need, abs(dpop - upop(unodes) - (core_low + core_high) / 2), uid, rd))
         return sorted(result)
 
+    def move_unit(uid, src, dst):
+        unodes = set(unit_nodes[uid])
+        dist_nodes[src] -= unodes
+        dist_nodes[dst] |= unodes
+        for n in unodes:
+            node_dist[n] = dst
+        return {"kind": "unit_to_residual_district", "unit": uid, "population": int(upop(unodes)),
+                "from_district": int(src), "to_district": int(dst)}
+
+    def relocate(d, budget):
+        """Fase 2: unidad completa de ``d`` al distrito de un residual vecino."""
+        for _need, _dev, uid, rd in relocation_candidates(d):
+            state = snapshot()
+            move = move_unit(uid, d, rd)
+            steps = cede_until_cap(rd, budget - 1)
+            if upop(dist_nodes[rd]) <= cap:
+                return [move] + steps
+            restore(state)
+        return []
+
+    def relocate_chain(d, budget):
+        """Fase 2 en dos saltos: X de ``d`` a un distrito vecino d2 sin residual, e Y de d2 a un residual."""
+        dpop = upop(dist_nodes[d])
+        for uid, unodes in list(movable_units(d)):
+            if dpop - upop(unodes) > cap:
+                continue
+            neighbours = sorted({node_dist[v] for m in unodes for v in adj.get(m, ())
+                                 if v in node_dist and node_dist[v] != d})
+            for d2 in neighbours:
+                if any(node_unit[n].endswith(":R") for n in dist_nodes[d2]):
+                    continue
+                state = snapshot()
+                first = move_unit(uid, d, d2)
+                first["kind"] = "unit_to_neighbour_district"
+                for _need, _dev, uid2, rd in relocation_candidates(d2):
+                    if uid2 == uid:
+                        continue
+                    inner = snapshot()
+                    second = move_unit(uid2, d2, rd)
+                    steps = cede_until_cap(rd, budget - 2)
+                    if upop(dist_nodes[rd]) <= cap and upop(dist_nodes[d2]) <= cap:
+                        return [first, second] + steps
+                    restore(inner)
+                restore(state)
+        return []
+
     moves = []
     while len(moves) < max_moves:
         over = sorted((d for d in dist_nodes if upop(dist_nodes[d]) > cap),
                       key=lambda d: upop(dist_nodes[d]), reverse=True)
         progressed = False
         for d in over:
-            steps = cede_until_cap(d, max_moves - len(moves))
+            budget = max_moves - len(moves)
+            steps = (cede_until_cap(d, budget) or relocate(d, budget) or relocate_chain(d, budget))
             if steps:
                 moves.extend(steps)
                 progressed = True
-                break
-            for _need, _dev, uid, rd in relocation_candidates(d):
-                state = snapshot()
-                unodes = set(unit_nodes[uid])
-                dist_nodes[d] -= unodes
-                dist_nodes[rd] |= unodes
-                for n in unodes:
-                    node_dist[n] = rd
-                steps = cede_until_cap(rd, max_moves - len(moves) - 1)
-                if upop(dist_nodes[rd]) <= cap:
-                    moves.append({"kind": "unit_to_residual_district", "unit": uid,
-                                  "population": int(upop(unodes)), "from_district": int(d),
-                                  "to_district": int(rd)})
-                    moves.extend(steps)
-                    progressed = True
-                    break
-                restore(state)
-            if progressed:
                 break
         if not progressed:
             break

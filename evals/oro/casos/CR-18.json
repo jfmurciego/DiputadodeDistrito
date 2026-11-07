@@ -1,0 +1,43 @@
+{
+  "id": "CR-18",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Piloto ausente del catálogo maestro al registrar M08",
+  "causa": "El persistidor del M08 usaba el lector viejo del catálogo (solo territories) sobre un catálogo con pilot_territories.",
+  "origen": {
+    "prs": [
+      360
+    ],
+    "runs": [
+      41037133327,
+      41042675119
+    ],
+    "pr_introductora": null,
+    "referencia": "PR #360"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41037133327,
+      41042675119
+    ],
+    "sintoma": "Cantabria y Extremadura superan M05-M08 pero fallan al registrar M08: ValueError: congreso_huesca: ausente del catálogo territorial maestro.",
+    "territorio": "cantabria"
+  },
+  "esperado": {
+    "causa_id": "catalogo_maestro_piloto",
+    "claves": [
+      "pilot_territories",
+      "catalogo",
+      "lector",
+      "huesca"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "PR #360",
+    "verificado": "#360 fusionada, squash be3c8c927d sobre 355dff1177 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

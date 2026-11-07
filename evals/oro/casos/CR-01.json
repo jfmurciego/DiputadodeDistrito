@@ -1,0 +1,41 @@
+{
+  "id": "CR-01",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Reutilizar restaura un M06 anterior a los arreglos",
+  "causa": "«Reutilizar» restaura el último checkpoint registrado, previo a los arreglos; hay que ejecutar desde el principio.",
+  "origen": {
+    "prs": [
+      398,
+      399
+    ],
+    "runs": [
+      41432561787
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41432561787
+    ],
+    "sintoma": "Las Palmas: la 00 en «Reutilizar progreso existente» falla igual que antes de #398/#399 con el código nuevo («distritos bajo límite poblacional=1»).",
+    "territorio": "congreso_las_palmas"
+  },
+  "esperado": {
+    "causa_id": "checkpoint_reutilizado_anterior",
+    "claves": [
+      "reutiliz",
+      "checkpoint",
+      "desde el principio"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#398 fusionada, squash 623b0f68af sobre 6c1e875f01; #399 fusionada, squash 1beaa838b4 sobre 8ae77f0b20 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

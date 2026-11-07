@@ -21,5 +21,7 @@ Objetivo: que la próxima sesión no repita los tropiezos de esta. Mínimo consu
    - añade una línea al «Historial de lecciones»: `AAAA-MM-DD · lección breve · PR/run de evidencia`.
    `CLAUDE.md` no pasa de 100 líneas: si se acerca, condensa entradas antiguas o muévelas a una regla.
 4. Rama `docs/experiencia-<fecha>` desde `origin/main`, commit, push y PR con título
-   `docs: experiencia de sesión <fecha>`. No toques otros ficheros que `CLAUDE.md` y `.claude/rules/`.
+   `docs: experiencia de sesión <fecha>`. Añade su entrada en `docs/registro/<fecha>_docs-experiencia-<fecha>.md`
+   (sin número; formato en `docs/registro/README.md`). No toques otros ficheros que `CLAUDE.md`, `.claude/rules/` y
+   esa entrada.
 5. Dile al propietario en dos líneas qué has añadido y el enlace de la PR. Si no hay nada nuevo, dilo y no abras PR.

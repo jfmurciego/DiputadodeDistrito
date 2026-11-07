@@ -1,0 +1,46 @@
+{
+  "id": "REV-17",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "M05 ancla la exención por el id de unidad",
+  "causa": "La exención de la reparación se detecta con units_touch_exempt sobre el id de unidad; en contratos con ids numéricos no se ve (Cádiz, #404).",
+  "origen": {
+    "prs": [
+      399,
+      404
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "Historia de PR (introductora → correctiva)"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 399,
+    "sha_desde": "8ae77f0b20bb3bd5c7054829865c9cb3847e5d8a",
+    "sha_candidato": "1beaa838b4c8c2929976861e2cba927af2be1c20",
+    "ficheros": [
+      "modulos/05_optimizar_distritos.py"
+    ],
+    "comando": "git diff 8ae77f0b20bb3bd5c7054829865c9cb3847e5d8a 1beaa838b4c8c2929976861e2cba927af2be1c20 -- modulos/05_optimizar_distritos.py"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "exencion_por_id_unidad"
+    ],
+    "ficheros": [
+      "modulos/05_optimizar_distritos.py"
+    ],
+    "claves": [
+      "id de unidad",
+      "units_touch_exempt",
+      "campo de municipio",
+      "formato"
+    ]
+  },
+  "procedencia": {
+    "fuente": "Historia de PR (introductora → correctiva)",
+    "verificado": "#399 fusionada, squash 1beaa838b4 sobre 8ae77f0b20; #404 fusionada, squash 09f8f61161 sobre 3c76b043d0 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "CTRL-01",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Control limpio: encadenado con puerta 02",
+  "causa": "PR correctiva pequeña con VERSIÓN, copia en legacy/ y test; no debe bloquearse.",
+  "origen": {
+    "prs": [
+      389
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "Historia de PR (introductora → correctiva)"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 389,
+    "sha_desde": "358f5b5063007388c073a3dafbc971f130d8a2d2",
+    "sha_candidato": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+    "ficheros": [
+      ".github/workflows/ejecucion-completa-proyecto.yml",
+      "tests/test_00_encadenado_par.py"
+    ],
+    "comando": "git diff 358f5b5063007388c073a3dafbc971f130d8a2d2 dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd -- .github/workflows/ejecucion-completa-proyecto.yml tests/test_00_encadenado_par.py",
+    "contexto": "Fusionada con CI verde; sin PR correctiva posterior sobre el encadenado en #390-#427."
+  },
+  "esperado": {
+    "veredicto": "APROBAR",
+    "clases": [],
+    "ficheros": [],
+    "claves": [
+      "puerta_02"
+    ]
+  },
+  "procedencia": {
+    "fuente": "Historia de PR (introductora → correctiva)",
+    "verificado": "#389 fusionada, squash dc9f5c7a0f sobre 358f5b5063 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

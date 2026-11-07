@@ -1,12 +1,86 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.98
+Versión: 1.0.105
 Fecha: 2026-11-07
-Alcance: Paso 1 (bloque 3) — skills de rol y procedimiento
+Alcance: T-46 — registro sin conflictos: entradas por fichero y numeración automática al fusionar
 Estado: candidato
-Cambios/motivo: nueve skills en .claude/skills
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.97_paso1reglas_20261107.md
+Cambios/motivo: última entrada con número manual; desde aquí cada PR deja su entrada en docs/registro/
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.104_t44_20261107.md
 -->
+
+## 2026-11-07 — T-46 — Registro sin conflictos: entradas por fichero y numeración al fusionar
+
+Causa: cada PR editaba la cabecera de este registro con un número pedido al planificador; dos PR abiertas chocaban
+siempre (conflictos y renumeraciones en #429-#436). Cambio: cada PR deja su entrada en
+`docs/registro/AAAA-MM-DD_<rama>.md`, sin número (`docs/registro/README.md`). `herramientas/numerar_registro.py` 1.0.0
+numera las pendientes en orden (copia en `legacy/docs/`, cabecera `Versión` = `Anterior` + 1 e índice arriba del
+registro) y el workflow nuevo «Numeración del Registro» (`numerar-registro.yml`, push a `main` en `docs/registro/**`,
+app de registro, sin botón manual) lo ejecuta y empuja con reintentos. `herramientas/comprobar_guardian_main.py` 1.1.0:
+`registro` comprueba además el formato de las entradas y el índice. Reglas `registro` y `gobernanza`, skills
+`implementador`, `planificador`, `revisar-pr` y `cierre-sesion`, el revisor y `CLAUDE.md` dicen cómo. Pruebas:
+`tests/test_numerar_registro.py` (6) y `tests/test_comprobar_guardian_main.py`; credencial, sintaxis, concurrencia y
+diseño A de workflows en verde. Esta es la última entrada con número manual · encadenada tras #436.
+
+## 2026-11-07 — T-44 — M04 7.6.7: enclaves dependientes, cadena de dos saltos y Fuengirola
+
+- **Alicante.** M04 partía Elche (238.285) en dos piezas sin contar a Santa Pola (37.839), que solo linda con Elche: residual + Santa Pola =
+  144.394 > techo 132.268. Desde 7.6.7, si residual + enclaves dependientes supera el techo, M04 reintenta con un núcleo cerrado más (solo fuera de
+  `closed_target_cores_plus_open_residual`). M05 PASS y M06 hard=0 en local.
+- **Málaga.** Fuengirola (85.136) solo linda con Mijas y Benalmádena, ambos atómicos: imposible estructural sin exención. Decisión D-6 del
+  propietario: exención de suelo municipal 29054 en `validation` de `congreso_malaga` (techo y atomicidad intactos). El alivio de residuos 1.1.0
+  añade una cadena de dos saltos (Benalmádena con Alhaurín de la Torre; Torremolinos al residual de Málaga). M05 PASS y M06 hard=0 en local.
+- **Barcelona.** Ya resuelta con 7.6.6 (M05 PASS, M06 hard=0).
+- **Regresión:** Pontevedra, Álava y Cádiz dan GeoJSON e informe M04 idénticos a 7.6.6; Murcia, Madrid y Barcelona siguen con M05 hard=0.
+  Cambiar M04 invalida los checkpoints M04 previos donde actúa.
+
+## 2026-11-07 — T-42 — Hemiciclo nacional: tres sumas de escaños
+
+`herramientas/generar_hemiciclo.py` 1.0.0 (fichero nuevo). M08: blobs inmutables de `publicaciones_visor.json` (49 `congreso_*`, el run más reciente, sha256 verificado). Oficial 2023: ZIP por mesa del release
+`fuente-infoelectoral-02202307` (huella del contrato). Suma escaños por partido: (a) reparto real 2023, D'Hondt con barrera del 3 % sobre votos válidos; (b) generales 2019-11, «sin fuente» (el repositorio no
+tiene esos resultados; subtarea abierta); (c) uninominal propio, un escaño por distrito. PSOE agrupa sus federadas (PSC, PSE-EE, PSN, PSIB, PSdeG) y SUMAR sus marcas. Salida `hemiciclo.json`/`.csv` con el total
+«Nacional» y las provincias que faltan calculadas de los datos (hoy Alicante, Barcelona y Málaga). `dashboard/hemiciclo.html` (+ `hemiciclo.json`): hemiciclo SVG y tabla con conmutador entre las tres sumas.
+Pruebas: `tests/test_generar_hemiciclo.py` (5; Soria y Teruel sintéticas y, con `DDD_MESA_ZIP`, las 52 circunscripciones reales contra el BOE). **(a) coincide escaño a escaño en las 52 circunscripciones** con el resultado oficial del BOE (Resolución de 30-08-2023 de la Presidencia de la JEC, BOE-A-2023-18907, 01-09-2023), guardado como dato en `configuracion/resultados_oficiales_congreso_2023.csv` (+ `.json` con URL, fecha y sha256; regenerable con `--extraer-boe`). El desajuste de 1 escaño PSOE/PP que se veía antes no era del CERA: venía de una tabla de escaños por provincia puesta a mano (Badajoz 6 en vez de 5); ahora los escaños salen del BOE. Una diferencia con el oficial falla, salvo un único cambio PSOE→PP en una provincia (CERA final), que sale como nota. No toca workflows, `modulos/` ni `ddd_core/`; no publica.
+
+## 2026-11-07 — T-40 — Subagente forense de runs
+
+`.claude/agents/forense.md` (Sonnet, solo lectura): dado un run o un síntoma, da la causa en cinco líneas (territorio y
+run, paso, mensaje, causa, siguiente acción y quién) con `causa_id` del catálogo; lee anotaciones de `check-runs`,
+`TERRITORY:` del job «Planificar» y `diagnostico/auto/`, nunca artefactos; no lanza ni relanza. Memoria
+`.claude/agent-memory/forense/MEMORY.md`: 26 causas con id estable (§9 del framework y `CLAUDE.md`), por familias.
+`.claude/skills/diagnosticar-run` delega en él y deja el catálogo en la memoria. Conjunto de oro (T-38): 20/20; 12/12
+causas del §9 y 6/6 runs adicionales en ≤ 5 líneas, 2/2 de calibración; 168.568 tokens en 2 lotes
+(`evals/oro/LIBRO_DE_COSTES.md`). Sin lanzamientos · encadenada tras #433.
+
+## 2026-11-07 — T-39 — Subagente revisor independiente
+
+`.claude/agents/revisor.md` (Sonnet, solo lectura): revisa una PR o un diff y devuelve un JSON con veredicto
+(`PASS`, `PASS_WITH_EXCEPTIONS`, `FAIL`, `BLOCKED`) ligado al SHA del HEAD y defectos con fichero, línea y dato; comprueba
+defecto funcional, unidades y CRS, población (suelo, techo, exenciones), huellas M04/M05/N08, gobernanza VERSIÓN/legacy,
+registro y marcas de conflicto, workflows y robots, identidad y estado de producto, tests rojo/verde y efectos externos.
+`.claude/skills/revisar-pr` delega en él. Conjunto de oro (T-38): 23/24 (95,8 %); 17/18 defectos cazados sobre el diff
+original, 0/4 controles limpios bloqueados y 2/2 de calibración; 306.539 tokens en 3 lotes (`evals/oro/LIBRO_DE_COSTES.md`,
+`evals/oro/resultados/revisor_v1_20261107.json`). Primera revisión real: #425, PASS_WITH_EXCEPTIONS con dos hallazgos
+menores (`evals/revisiones/PR-425_2d1b9f42.json`). Sin lanzamientos · encadenada tras #432.
+
+## 2026-11-07 — T-38 — Conjunto de oro para revisor y forense
+
+`evals/oro/casos/`: 43 casos con esquema común (id, causa, PR/run de origen, entrada, esperado, procedencia): las 12 causas
+raíz del §9 del framework y 6 runs más con causa cerrada (forense, CR-01 a CR-18); ADV-01 a ADV-16 de la auditoría §7.2,
+3 diffs originales con defecto probado (#399, #421, #406) y 3 controles limpios (#389, #410, #411) para el revisor; 3 casos
+de calibración del §29E. Entradas por SHA de 40 (diff original o diff que revierte el arreglo) y síntomas de run; sin
+artefactos. `herramientas/evaluar_oro.py` 1.0.0 (biblioteca estándar, determinista) valida los casos, puntúa la salida JSON
+de un agente (SHA del candidato, veredicto y defecto; causa en ≤ 5 líneas; veredictos prohibidos) y anota
+`evals/oro/LIBRO_DE_COSTES.md`. Pruebas: `tests/test_evaluar_oro.py` (13; 100 % con la salida ideal, 0 % vacía). Sin
+lanzamientos · encadenada tras #431.
+
+## 2026-11-07 — PLAN 1.0.12 — Estado a 07-11 y cola T-38 a T-44
+
+`docs/PLAN.md` 1.0.12: estado a 07-11 (49/52 provincias; Paso 0 y Paso 1 hechos, pendientes de fusión #427 → #430) y cola
+del §12 del framework: T-38 conjunto de oro, T-39 revisor, T-40 forense, T-41 Environments con aprobación; producto en
+paralelo y con tope: T-42 hemiciclo (tres sumas sobre 49 provincias, alcance confirmado), T-43 ensembles de La Rioja y
+Sevilla, T-44 Málaga, Barcelona y Alicante (dos ciclos por provincia). Asigna los cuatro chats y los turnos exclusivos;
+decisiones D-5 a D-7. Solo documentación · PR de este plan.
+
 
 ## 2026-11-07 — Paso 1 (bloque 3) — Skills de rol y procedimiento
 
