@@ -1,0 +1,41 @@
+{
+  "id": "CR-02",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Validador de la 04 sin campo municipal",
+  "causa": "Las secciones M06 no traen DDD_MUNICIPALITY_PARTITION y el validador no ve el municipio exento; falta respaldo CUMUN/CUSEC.",
+  "origen": {
+    "prs": [
+      398
+    ],
+    "runs": [
+      41358199178
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41358199178
+    ],
+    "sintoma": "Las Palmas, 04 tras #394: «distritos bajo límite poblacional=1»; el distrito de Mogán (35012, exento, 62.453 hab.) no se ve exento.",
+    "territorio": "congreso_las_palmas"
+  },
+  "esperado": {
+    "causa_id": "validador_sin_campo_municipal",
+    "claves": [
+      "CUMUN",
+      "CUSEC",
+      "DDD_MUNICIPALITY_PARTITION",
+      "campo municipal"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#398 fusionada, squash 623b0f68af sobre 6c1e875f01 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

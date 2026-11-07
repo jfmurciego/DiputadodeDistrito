@@ -1,0 +1,41 @@
+{
+  "id": "CR-17",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "CRS 3035 en Murcia",
+  "causa": "El contrato de Congreso Murcia usa EPSG:3035; los solapes INE >1 m² sin contacto pierden la arista M02. El autonómico usa 25830.",
+  "origen": {
+    "prs": [
+      383
+    ],
+    "runs": [
+      41293548832
+    ],
+    "pr_introductora": null,
+    "referencia": "CLAUDE.md (CRS de M02) y PR #383"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41293548832
+    ],
+    "sintoma": "Congreso Murcia falla en pre-M04 con «grafo territorial no supera conectividad administrativa» con los mismos puentes que el autonómico, que pasa.",
+    "territorio": "congreso_murcia"
+  },
+  "esperado": {
+    "causa_id": "crs_3035_solapes",
+    "claves": [
+      "3035",
+      "25830",
+      "crs",
+      "solape"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "CLAUDE.md (CRS de M02) y PR #383",
+    "verificado": "#383 fusionada, squash 0296136e2f sobre 23ab67d208 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

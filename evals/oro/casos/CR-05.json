@@ -1,0 +1,37 @@
+{
+  "id": "CR-05",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Exención detectada por el formato del id de unidad",
+  "causa": "La reparación M05 detecta la exención por el formato del id de unidad (prov:mun:…); en Cádiz los ids son números sueltos.",
+  "origen": {
+    "prs": [
+      404
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [],
+    "sintoma": "Cádiz: estado_produccion HARD_BLOCK porque cuenta como violación dura el distrito 7 (94.072, San Fernando 11031 exento) aunque M06 da hard=0.",
+    "territorio": "congreso_cadiz"
+  },
+  "esperado": {
+    "causa_id": "exencion_por_id_unidad",
+    "claves": [
+      "id de unidad",
+      "formato",
+      "campo de municipio",
+      "11031"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#404 fusionada, squash 09f8f61161 sobre 3c76b043d0 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

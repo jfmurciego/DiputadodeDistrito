@@ -1,0 +1,45 @@
+{
+  "id": "CAL-01",
+  "tipo": "calibracion",
+  "agente": "cualquiera",
+  "titulo": "Candidato modificado tras la revisión",
+  "causa": "Un veredicto ligado a un SHA no autoriza otro candidato: se invalida y se vuelve a revisar.",
+  "origen": {
+    "prs": [
+      421,
+      422
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/META_AGENTE_ARQUITECTO_CONSTRUCTOR_v1.0.md §29E"
+  },
+  "entrada": {
+    "modo": "escenario",
+    "pr": 421,
+    "sha_revisado": "9b0d2860dec654724dd6fe3cc5fd3e271077eebc",
+    "sha_candidato": "297e1a3be83bebc8358a94f5c92e411167b15cbb",
+    "escenario": "La revisión y la CI aprobaron el HEAD de la rama; el candidato que se fusiona es otro SHA que recoge un commit posterior (en #421 traía marcas de conflicto en el registro, #422). ¿Se puede fusionar con la aprobación anterior?"
+  },
+  "esperado": {
+    "veredictos_aceptados": [
+      "REEVALUAR",
+      "BLOQUEAR"
+    ],
+    "veredictos_prohibidos": [
+      "APROBAR",
+      "PASS",
+      "PASS_WITH_EXCEPTIONS"
+    ],
+    "claves": [
+      "sha",
+      "revis",
+      "candidato"
+    ],
+    "min_claves": 1
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/META_AGENTE_ARQUITECTO_CONSTRUCTOR_v1.0.md §29E",
+    "verificado": "#421 fusionada, squash 297e1a3be8 sobre af88a6f8f6; #422 fusionada, squash 621d5596bf sobre 297e1a3be8 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

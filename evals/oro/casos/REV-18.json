@@ -1,0 +1,46 @@
+{
+  "id": "REV-18",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Fusión con marcas de conflicto en el registro",
+  "causa": "La fusión deja <<<<<<< ======= >>>>>>> en la cabecera de docs/REGISTRO_DE_CAMBIOS.md (#422).",
+  "origen": {
+    "prs": [
+      421,
+      422
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "Historia de PR (introductora → correctiva)"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 421,
+    "sha_desde": "af88a6f8f643c2171866103c7a41ed2186c680f3",
+    "sha_candidato": "297e1a3be83bebc8358a94f5c92e411167b15cbb",
+    "ficheros": [
+      "docs/REGISTRO_DE_CAMBIOS.md"
+    ],
+    "comando": "git diff af88a6f8f643c2171866103c7a41ed2186c680f3 297e1a3be83bebc8358a94f5c92e411167b15cbb -- docs/REGISTRO_DE_CAMBIOS.md"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "marcas_conflicto"
+    ],
+    "ficheros": [
+      "docs/REGISTRO_DE_CAMBIOS.md"
+    ],
+    "claves": [
+      "<<<<<<<",
+      ">>>>>>>",
+      "marcas de conflicto",
+      "conflict"
+    ]
+  },
+  "procedencia": {
+    "fuente": "Historia de PR (introductora → correctiva)",
+    "verificado": "#421 fusionada, squash 297e1a3be8 sobre af88a6f8f6; #422 fusionada, squash 621d5596bf sobre 297e1a3be8 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

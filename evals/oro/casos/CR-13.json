@@ -1,0 +1,41 @@
+{
+  "id": "CR-13",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Registro con cabecera Authorization duplicada",
+  "causa": "actions/checkout v6 guarda su token en un include (includeIf.gitdir:) que el paso de credencial no borraba; git envía dos Authorization.",
+  "origen": {
+    "prs": [
+      386
+    ],
+    "runs": [
+      41324108794
+    ],
+    "pr_introductora": null,
+    "referencia": "CLAUDE.md (robots de registro) y PR #386"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41324108794
+    ],
+    "sintoma": "Huelva, «Registrar par preparado durable»: remote: Duplicate header: \"Authorization\" → HTTP 400.",
+    "territorio": "congreso_huelva"
+  },
+  "esperado": {
+    "causa_id": "cabecera_authorization_duplicada",
+    "claves": [
+      "includeif",
+      "extraheader",
+      "checkout",
+      "duplicad"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "CLAUDE.md (robots de registro) y PR #386",
+    "verificado": "#386 fusionada, squash f0444e2d77 sobre ecff95c715 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}
