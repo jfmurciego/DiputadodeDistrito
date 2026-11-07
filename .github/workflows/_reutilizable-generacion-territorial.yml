@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.2.8
+# VERSIÓN: 1.2.9
 # NOMBRE DE VERSIÓN: Diagnóstico automático con linaje y manifiesto
 # FECHA: 2026-11-02
 # ESTADO: candidato
@@ -21,7 +21,10 @@
 #   sube M01, grafo M03 (gz) e informe M05 a la rama diagnostico/auto (<territorio>/<run>/); best-effort.
 # CAMBIOS 1.2.8: T-16, el diagnóstico automático toma los ficheros de las rutas del contrato (sin fecha de modificación),
 #   pasa etapa y checkpoint, y publica MANIFEST.json; el fallo se anuncia como DIAG_PUBLISH_FAILED.
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.7_20261102.yml
+# CAMBIOS 1.2.9: T-51, los checkpoints M04, M05 y M06 guardan compatibility/motor.json (huella de motor M04/M05,
+#   contrato materializado y population_limits de la política, herramientas/huella_checkpoint_motor.py); al
+#   reutilizar, seleccionar_checkpoint_productivo.py rechaza con CHECKPOINT_ENGINE_MISMATCH lo hecho con otro motor.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.8_20261107.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -606,6 +609,10 @@ jobs:
           if [[ "$STAGE" == M05 || "$STAGE" == M06 ]]; then
             python herramientas/huella_checkpoint_m05.py --params "$PARAMS" --root-dir . \
               --output .ddd-state/out/compatibility/m05.json
+          fi
+          if [[ "$STAGE" == M04 || "$STAGE" == M05 || "$STAGE" == M06 ]]; then
+            python -m herramientas.huella_checkpoint_motor --params "$PARAMS" --root-dir . \
+              --output .ddd-state/out/compatibility/motor.json
           fi
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
