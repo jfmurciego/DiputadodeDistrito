@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.2.9
+# VERSIÓN: 1.3.0
 # NOMBRE DE VERSIÓN: Diagnóstico automático con linaje y manifiesto
-# FECHA: 2026-11-02
+# FECHA: 2026-11-07
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
 # CAMBIOS: 1.2.3: la salida de la etapa se guarda en .ddd-logs y, si falla, sus 40 últimas líneas
@@ -24,7 +24,11 @@
 # CAMBIOS 1.2.9: T-51, los checkpoints M04, M05 y M06 guardan compatibility/motor.json (huella de motor M04/M05,
 #   contrato materializado y population_limits de la política, herramientas/huella_checkpoint_motor.py); al
 #   reutilizar, seleccionar_checkpoint_productivo.py rechaza con CHECKPOINT_ENGINE_MISMATCH lo hecho con otro motor.
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.8_20261107.yml
+# CAMBIOS 1.3.0: T-72, archivo en origen: tras registrar, el job «registrar» sube ddd-state-<run>-M06 a R2 con sha256
+#   (herramientas/archivo_origen.py r2; si falla, ARCHIVO_R2_FAILED y el run no queda verde) y escribe en git la
+#   composición sección→distrito del run (datos/composicion/runs/) y la entrada de orchestracion/archivo_r2.json.
+# MOTIVO 1.3.0: los artefactos caducan a los 14 días y el archivista llegó tarde a los 49 M06 provinciales.
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.9_20261107.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -1274,6 +1278,11 @@ jobs:
       SOURCE_EVIDENCE_RUN_ID: ${{ inputs.source_evidence_run_id }}
       SOURCE_EVIDENCE_ARTIFACT_NAME: ${{ inputs.source_evidence_artifact_name }}
       SOURCE_EVIDENCE_ARTIFACT_SHA256: ${{ inputs.source_evidence_artifact_sha256 }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -1477,3 +1486,26 @@ jobs:
             git rebase --abort >/dev/null 2>&1 || true; sleep $((attempt * 2))
           done
           echo '::error::No se pudo registrar el producto territorial tras tres intentos.'; exit 48
+      - name: Archivo en origen — M06 a R2 y composición a git
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          t0=$(date +%s)
+          suffix=''; [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M06$suffix"
+          python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID"
+          t1=$(date +%s)
+          python herramientas/archivo_origen.py composicion --estado .ddd-m06-state --territorio "$TERRITORY_ID" --run-id "$GITHUB_RUN_ID"
+          echo "ARCHIVO_ORIGEN_TIEMPOS: r2=$((t1-t0))s composicion=$(( $(date +%s)-t1 ))s"
+          git config user.name github-actions; git config user.email github-actions@github.com
+          git add orchestracion/archivo_r2.json datos/composicion/MANIFEST.json datos/composicion/runs
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(archivo): M06 de $TERRITORY_ID en R2 y composición del run $GITHUB_RUN_ID"
+          target_branch="$GITHUB_REF_NAME"
+          for attempt in 1 2 3 4; do
+            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
+            git rebase --abort >/dev/null 2>&1 || true; sleep $((attempt * 3))
+          done
+          echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1
