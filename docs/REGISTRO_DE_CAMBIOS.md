@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.115
+Versión: 1.0.116
 Fecha: 2026-11-07
-Alcance: T-47 (b) — Archivista R2: reintentos ante fallos transitorios
+Alcance: T-52 — Cadenas 00 territorial → Activación → 00 electoral en GitHub, sin el Mac
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t-47b-reintentos-r2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.114_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-t52-cadenas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.115_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.114_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.116 · [2026-11-07 — T-52 — Cadenas 00 territorial → Activación → 00 electoral en GitHub, sin el Mac](registro/2026-11-07_claude-t52-cadenas.md)
 - 1.0.115 · [2026-11-07 — T-47 (b) — Archivista R2: reintentos ante fallos transitorios](registro/2026-11-07_claude-t-47b-reintentos-r2.md)
 - 1.0.114 · [2026-11-07 — T-53 — Resultados electorales ligeros en git](registro/2026-11-07_claude-t53-resultados-ligeros.md)
 - 1.0.113 · [2026-11-07 — T-49 — Exenciones de suelo gobernadas](registro/2026-11-07_t49-exenciones-gobernadas.md)
