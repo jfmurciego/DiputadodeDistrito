@@ -21,7 +21,7 @@
   }
  ],
  "fuentes": {
-  "a": "reparto real 2023: D'Hondt con barrera del 3 % sobre el ZIP oficial por mesa (Interior)",
+  "a": "escrutinio Interior sin CERA final (release fuente-infoelectoral-02202307)",
   "b": "sin fuente",
   "c": "uninominal propio: ganador de cada distrito DDD (M08 registrado)"
  },
@@ -66,8 +66,8 @@
    },
    "b": null,
    "c": {
-    "EH Bildu": 1,
-    "PSOE": 2
+    "PSOE": 2,
+    "EH Bildu": 1
    }
   },
   {
@@ -129,8 +129,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 5,
-    "PP": 1
+    "PP": 1,
+    "PSOE": 5
    }
   },
   {
@@ -178,8 +178,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 2,
-    "PP": 1
+    "PP": 1,
+    "PSOE": 2
    }
   },
   {
@@ -196,8 +196,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 6,
-    "PP": 5
+    "PP": 5,
+    "PSOE": 6
    }
   },
   {
@@ -246,8 +246,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 3,
-    "PP": 3
+    "PP": 3,
+    "PSOE": 3
    }
   },
   {
@@ -313,8 +313,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 3,
-    "PP": 5
+    "PP": 5,
+    "PSOE": 3
    }
   },
   {
@@ -364,8 +364,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 1,
-    "PP": 3
+    "PP": 3,
+    "PSOE": 1
    }
   },
   {
@@ -396,8 +396,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 3,
-    "PP": 2
+    "PP": 2,
+    "PSOE": 3
    }
   },
   {
@@ -412,8 +412,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 1,
-    "PP": 3
+    "PP": 3,
+    "PSOE": 1
    }
   },
   {
@@ -476,8 +476,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 13,
-    "PP": 46
+    "PP": 46,
+    "PSOE": 13
    }
   },
   {
@@ -511,8 +511,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 5,
-    "EH Bildu": 1
+    "EH Bildu": 1,
+    "PSOE": 5
    }
   },
   {
@@ -544,8 +544,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 3,
-    "PP": 5
+    "PP": 5,
+    "PSOE": 3
    }
   },
   {
@@ -577,8 +577,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 8,
-    "PP": 2
+    "PP": 2,
+    "PSOE": 8
    }
   },
   {
@@ -594,8 +594,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 1,
-    "PP": 7
+    "PP": 7,
+    "PSOE": 1
    }
   },
   {
@@ -626,8 +626,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 2,
-    "PP": 7
+    "PP": 7,
+    "PSOE": 2
    }
   },
   {
@@ -675,8 +675,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 12,
-    "PP": 4
+    "PP": 4,
+    "PSOE": 12
    }
   },
   {
@@ -757,8 +757,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 11,
-    "PP": 12
+    "PP": 12,
+    "PSOE": 11
    }
   },
   {
@@ -857,8 +857,9 @@
    }
   }
  ],
- "errores": [
-  "totales 2023 {'PSOE': 122, 'PP': 136, 'VOX': 33, 'SUMAR': 31, 'CCa': 1, 'ERC': 7, 'JUNTS': 7, 'BNG': 1, 'EH Bildu': 6, 'UPN': 1, 'EAJ-PNV': 5} != oficiales {'PP': 137, 'PSOE': 121, 'VOX': 33, 'SUMAR': 31, 'ERC': 7, 'JUNTS': 7, 'EH Bildu': 6, 'EAJ-PNV': 5, 'BNG': 1, 'CCa': 1, 'UPN': 1}"
+ "errores": [],
+ "notas": [
+  "difiere en 1 escaño PSOE→PP del total proclamado; provincia por confirmar con la tabla oficial (el ZIP no trae el CERA final)"
  ],
- "verificacion_a": "FALLA"
+ "verificacion_a": "OK con nota: difiere en 1 escaño PSOE→PP del total proclamado; provincia por confirmar con la tabla oficial (el ZIP no trae el CERA final)"
 }

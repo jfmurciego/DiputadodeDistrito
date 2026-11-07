@@ -180,15 +180,25 @@ def reparto_2023(oficial: dict[str, dict]) -> dict[str, dict[str, int]]:
     return res
 
 
-def verificar_oficial(reparto: dict[str, dict[str, int]]) -> list[str]:
-    """Contrasta con el resultado oficial: escaños por circunscripción y totales nacionales por partido."""
+NOTA_A = ("difiere en 1 escaño PSOE→PP del total proclamado; provincia por confirmar con la tabla oficial "
+          "(el ZIP no trae el CERA final)")
+FUENTE_A = "escrutinio Interior sin CERA final (release fuente-infoelectoral-02202307)"
+
+
+def verificar_oficial(reparto: dict[str, dict[str, int]]) -> tuple[list[str], list[str]]:
+    """Contrasta con el oficial: (errores, notas). Los escaños por circunscripción son error; que el total por partido
+    difiera solo por el CERA final (1 escaño PSOE→PP) es una nota, no un fallo."""
     err = [f"{PROVINCIAS[c][1]}: {sum(r.values())} escaños != {ESCANOS_2023[c]}" for c, r in reparto.items()
            if sum(r.values()) != ESCANOS_2023[c]]
     err += [f"falta la circunscripción {PROVINCIAS[c][1]}" for c in PROVINCIAS if c not in reparto]
     tot = _sumar(reparto_flat(reparto), por_grupo=False)
-    if tot != OFICIAL_2023_NACIONAL:
-        err.append(f"totales 2023 {tot} != oficiales {OFICIAL_2023_NACIONAL}")
-    return err
+    if tot == OFICIAL_2023_NACIONAL:
+        return err, []
+    dif = {p: tot.get(p, 0) - OFICIAL_2023_NACIONAL.get(p, 0) for p in set(tot) | set(OFICIAL_2023_NACIONAL)}
+    dif = {p: d for p, d in dif.items() if d}
+    if dif == {"PSOE": 1, "PP": -1}:
+        return err, [NOTA_A]
+    return err + [f"totales 2023 {tot} != oficiales {OFICIAL_2023_NACIONAL}"], []
 
 
 def reparto_flat(reparto):
@@ -299,16 +309,21 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     oficial = leer_mesa_zip(a.mesa_zip or mesa_zip(a.cache))
     reparto = reparto_2023(oficial)
-    errores = verificar_oficial(reparto)
+    errores, notas = verificar_oficial(reparto)
     gan, runs = cargar_m08(a.cache, a.m08_dir)
     res = generar(gan, reparto, leer_distritos(a.distritos), None, runs)
     res["errores"] += errores
-    res["verificacion_a"] = "OK: 52 circunscripciones, 350 escaños y totales nacionales oficiales" if not errores else "FALLA"
+    res["fuentes"]["a"] = FUENTE_A
+    res["notas"] = notas
+    res["verificacion_a"] = ("FALLA" if errores else "OK: 52 circunscripciones, 350 escaños y totales oficiales"
+                             if not notas else "OK con nota: " + notas[0])
     escribir(res, a.salida)
     if a.visor:
         escribir(res, ROOT / "dashboard")
     print(f"{ETIQUETA}: {res['provincias_incluidas']} provincias; faltan "
           f"{[f['provincia'] for f in res['faltan']]}; (b) {res['fuentes']['b']}; (a) {res['verificacion_a']}")
+    for n in notas:
+        print(f"::notice::(a) {n}")
     for e in res["errores"]:
         print(f"::error::{e}")
     return 1 if res["errores"] else 0

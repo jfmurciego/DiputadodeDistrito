@@ -30,6 +30,7 @@ th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}th:fi
 <button data-k="c" aria-pressed="false">Uninominal propio</button></div>
 <svg id="hemi" viewBox="0 0 400 215" role="img" aria-label="Hemiciclo"></svg>
 <div id="aviso" hidden></div>
+<p class="mut" id="nota" hidden></p>
 <table><thead><tr><th>Partido</th><th>Escaños</th><th>%</th></tr></thead><tbody id="tb"></tbody></table>
 <p class="mut" id="faltan"></p>
 </main>
@@ -48,6 +49,7 @@ function draw(){
   const t=D.totales[K],av=document.getElementById("aviso"),tb=document.getElementById("tb"),sv=document.getElementById("hemi");
   sv.innerHTML="";tb.innerHTML="";
   if(!t){av.hidden=false;av.textContent="Generales 2019-11: "+D.fuentes.b+". No hay resultados de esa elección en el repositorio.";return}
+  const nt=document.getElementById("nota");nt.hidden=K!=="a"||!(D.notas&&D.notas.length);nt.textContent="Fuente: "+D.fuentes[K]+". "+((D.notas||[]).join(" "));
   av.hidden=true;const ent=Object.entries(t),n=ent.reduce((s,e)=>s+e[1],0),pts=seats(n);let k=0;
   ent.forEach(([p,c],i)=>{for(let j=0;j<c;j++){const s=pts[k++],e=document.createElementNS("http://www.w3.org/2000/svg","circle");
     e.setAttribute("cx",s.x.toFixed(1));e.setAttribute("cy",s.y.toFixed(1));e.setAttribute("r",(n>300?4.6:6.2));e.setAttribute("fill",col(p,i));

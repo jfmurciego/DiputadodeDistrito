@@ -14,9 +14,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.102_t40_20261107.md
 `fuente-infoelectoral-02202307` (huella del contrato). Suma escaños por partido: (a) reparto real 2023, D'Hondt con barrera del 3 % sobre votos válidos; (b) generales 2019-11, «sin fuente» (el repositorio no
 tiene esos resultados; subtarea abierta); (c) uninominal propio, un escaño por distrito. PSOE agrupa sus federadas (PSC, PSE-EE, PSN, PSIB, PSdeG) y SUMAR sus marcas. Salida `hemiciclo.json`/`.csv` con el total
 «Nacional» y las provincias que faltan calculadas de los datos (hoy Alicante, Barcelona y Málaga). `dashboard/hemiciclo.html` (+ `hemiciclo.json`): hemiciclo SVG y tabla con conmutador entre las tres sumas.
-Pruebas: `tests/test_generar_hemiciclo.py` (5; Soria y Teruel sintéticas y, con `DDD_MESA_ZIP`, las reales: Soria PP 1 PSOE 1, Teruel PP 2 PSOE 1, escaños por circunscripción). **Desviación abierta de (a)**: sobre las 52
-circunscripciones sale PP 136 / PSOE 122, y el oficial es PP 137 / PSOE 121; el ZIP solo trae el CERA previo al escrutinio (p. ej. Murcia 3.442 votos; la candidata a cambiar es Murcia, margen 2,3 %) y el CERA final por
-partido no está en el repositorio. Por eso el script sale con 1 y marca `verificacion_a: FALLA` hasta tener ese dato. No toca workflows, `modulos/` ni `ddd_core/`; no publica.
+Pruebas: `tests/test_generar_hemiciclo.py` (5; Soria y Teruel sintéticas y, con `DDD_MESA_ZIP`, las reales: Soria PP 1 PSOE 1, Teruel PP 2 PSOE 1, escaños por circunscripción). **(a) etiquetada «escrutinio Interior sin CERA final»**: sobre las 52 circunscripciones sale PP 136 / PSOE 122 y el proclamado es PP 137 / PSOE 121 (el ZIP solo trae el CERA previo); la salida y la página llevan la nota «difiere en 1 escaño PSOE→PP del total proclamado; provincia por confirmar con la tabla oficial», sin salida 1 (cualquier otra diferencia sí falla). Tabla oficial por provincia y partido: subtarea T-45. No toca workflows, `modulos/` ni `ddd_core/`; no publica.
 
 ## 2026-11-07 — T-40 — Subagente forense de runs
 
