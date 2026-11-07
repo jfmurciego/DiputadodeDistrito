@@ -1,14 +1,29 @@
 # Nombres y comunidades de interés — congreso_ciudad_real
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 4 (nombres únicos: 4)
 - Reglas: PRINCIPAL_Y_ENTORNO 4
 - Municipios divididos entre distritos (suma por distrito): 0
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 10
+- Partidos partidos entre distritos: 9
+- Cobertura: 97.1% de los municipios, 97.8% de la población (sin partido: 3, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 13-01 | 1, 3 |
+| 13-02 | 0, 2 |
+| 13-03 | 2, 3 |
+| 13-04 | 1, 3 |
+| 13-05 | 2, 3 |
+| 13-06 | 1, 3 |
+| 13-07 | 0, 2, 3 |
+| 13-09 | 0, 2, 3 |
+| 13-10 | 0, 2 |
 
 ## Distritos
 

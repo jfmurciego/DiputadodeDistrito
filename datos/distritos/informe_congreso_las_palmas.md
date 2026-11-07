@@ -1,14 +1,26 @@
 # Nombres y comunidades de interés — congreso_las_palmas
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 10 (nombres únicos: 10)
 - Reglas: MUNICIPIO 4, PRINCIPAL_Y_ENTORNO 6
 - Municipios divididos entre distritos (suma por distrito): 3
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 7
+- Partidos partidos entre distritos: 6
+- Cobertura: 97.1% de los municipios, 98.3% de la población (sin partido: 1, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 35-01 | 7, 9 |
+| 35-02 | 0, 1, 2, 5, 7 |
+| 35-04 | 5, 6 |
+| 35-05 | 3, 4, 7 |
+| 35-06 | 3, 5 |
+| 35-07 | 5, 6 |
 
 ## Distritos
 

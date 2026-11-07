@@ -1,12 +1,12 @@
 # Nombres de distrito y comarcas partidas — Nacional (T-59)
 
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Nombres y comarcas nacionales
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Nombres, comarcas y partidos judiciales
 FECHA: 2026-11-07
 ESTADO: activo
-CAMBIOS: documento nuevo.
+CAMBIOS: C-13 con partidos judiciales en toda España (T-64).
 MOTIVO: documentar la definición de T-59 (en el repo C-12 = nombres, C-13 = comunidades de interés).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/2026-11-07_nombres_comunidades_v1.0.0/NOMBRES_Y_COMUNIDADES_NACIONAL_v1.0.0.md
 
 ## Qué hay
 - `herramientas/generar_nombres_comunidades_nacional.py` (1.0.0) lee los M06 publicados
@@ -32,3 +32,13 @@ Fuentes en el repo: solo `inputs/COMARCAS.csv` (Aragón: Huesca, Teruel, Zaragoz
 tienen comarcas ni partidos judiciales: `NOT_EVALUABLE` (no se infieren, según `AUDITORIA_C13`). Una comarca está
 partida si sus municipios tocan más de un distrito; un municipio dividido cuenta en todos sus distritos. No se
 asigna población por debajo del municipio, así que no hay retención poblacional.
+
+## Partidos judiciales (T-64)
+`configuracion/partidos_judiciales.csv` (`herramientas/generar_partidos_judiciales.py`) sale del Anexo I de la Ley 38/1988
+(BOE-A-1988-29622; texto original del 30-12-1988, sha256 en la cabecera del CSV). El texto consolidado del BOE
+(2026-07-09) omite los anexos, así que es la relación original de 1988: no recoge partidos creados después. Casa con el
+INE por código+nombre (7.416), nombre parcial (246), nombre (35) o código solo (329, nombre en otra lengua; columna
+`conciliacion`). Sin partido: 106 municipios del INE (creados o fusionados después de 1988) y 20 filas del anexo, en
+`configuracion/partidos_judiciales_no_conciliados.csv`. C-13 evalúa las 49 provincias con partidos (cobertura en cada
+informe); las comarcas siguen solo en Aragón: no hay otra fuente oficial con hash en el repo (Cataluña, El Bierzo
+pendientes de una norma del BOE con la relación municipal).

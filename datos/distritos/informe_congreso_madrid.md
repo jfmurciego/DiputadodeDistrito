@@ -1,14 +1,39 @@
 # Nombres y comunidades de interés — congreso_madrid
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 59 (nombres únicos: 59)
 - Reglas: MUNICIPIO 38, PRINCIPAL_Y_ENTORNO 21
 - Municipios divididos entre distritos (suma por distrito): 43
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 19
+- Partidos partidos entre distritos: 19
+- Cobertura: 99.4% de los municipios, 99.2% de la población (sin partido: 1, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 28-01 | 39, 42 |
+| 28-02 | 34, 39, 40, 41, 42 |
+| 28-03 | 38, 58 |
+| 28-04 | 0, 41, 42, 54 |
+| 28-05 | 37, 39, 40, 42 |
+| 28-06 | 33, 48, 52, 53 |
+| 28-07 | 38, 47, 48 |
+| 28-08 | 36, 50, 54, 58 |
+| 28-09 | 4, 49 |
+| 28-10 | 3, 36 |
+| 28-11 | 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 43 |
+| 28-12 | 43, 44, 48 |
+| 28-13 | 35, 55, 57 |
+| 28-14 | 36, 42, 54, 55, 57 |
+| 28-15 | 44, 46, 47 |
+| 28-16 | 51, 56 |
+| 28-17 | 1, 49 |
+| 28-18 | 2, 56, 58 |
+| 28-19 | 39, 45, 46 |
 
 ## Distritos
 

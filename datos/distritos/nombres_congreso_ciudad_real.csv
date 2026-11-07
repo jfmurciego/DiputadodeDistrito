@@ -1,5 +1,5 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_ciudad_real,0,Ciudad Real y entorno,PRINCIPAL_Y_ENTORNO,,13034,Ciudad Real,19,0,125201,,0,NOT_EVALUABLE,
-congreso_ciudad_real,1,Tomelloso y entorno,PRINCIPAL_Y_ENTORNO,,13082,Tomelloso,25,0,117009,,0,NOT_EVALUABLE,
-congreso_ciudad_real,2,Puertollano y entorno,PRINCIPAL_Y_ENTORNO,,13071,Puertollano,38,0,125227,,0,NOT_EVALUABLE,
-congreso_ciudad_real,3,Alcázar de San Juan y entorno,PRINCIPAL_Y_ENTORNO,,13005,Alcázar de San Juan,20,0,124490,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_ciudad_real,0,Ciudad Real y entorno,PRINCIPAL_Y_ENTORNO,,13034,Ciudad Real,19,0,125201,,0,4,EVALUADO,
+congreso_ciudad_real,1,Tomelloso y entorno,PRINCIPAL_Y_ENTORNO,,13082,Tomelloso,25,0,117009,,0,4,EVALUADO,
+congreso_ciudad_real,2,Puertollano y entorno,PRINCIPAL_Y_ENTORNO,,13071,Puertollano,38,0,125227,,0,6,EVALUADO,
+congreso_ciudad_real,3,Alcázar de San Juan y entorno,PRINCIPAL_Y_ENTORNO,,13005,Alcázar de San Juan,20,0,124490,,0,7,EVALUADO,

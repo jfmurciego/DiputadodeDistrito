@@ -1,5 +1,5 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_huelva,0,Huelva,MUNICIPIO,,21041,Huelva,1,0,142968,,0,NOT_EVALUABLE,
-congreso_huelva,1,Almonte y entorno,PRINCIPAL_Y_ENTORNO,,21005,Almonte,26,0,130337,,0,NOT_EVALUABLE,
-congreso_huelva,2,Aljaraque y entorno,PRINCIPAL_Y_ENTORNO,,21002,Aljaraque,25,0,130484,,0,NOT_EVALUABLE,
-congreso_huelva,3,Lepe y entorno,PRINCIPAL_Y_ENTORNO,,21044,Lepe,28,0,130295,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_huelva,0,Huelva,MUNICIPIO,,21041,Huelva,1,0,142968,,0,1,EVALUADO,
+congreso_huelva,1,Almonte y entorno,PRINCIPAL_Y_ENTORNO,,21005,Almonte,26,0,130337,,0,5,EVALUADO,
+congreso_huelva,2,Aljaraque y entorno,PRINCIPAL_Y_ENTORNO,,21002,Aljaraque,25,0,130484,,0,5,EVALUADO,
+congreso_huelva,3,Lepe y entorno,PRINCIPAL_Y_ENTORNO,,21044,Lepe,28,0,130295,,0,4,EVALUADO,
