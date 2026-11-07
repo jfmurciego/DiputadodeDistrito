@@ -53,8 +53,7 @@ Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 - PR abierta sin tarea: #425 (portal Zensical y auditoría de archivo, Cantabria 50 verificado). Se revisa con T-39
   cuando exista; no se fusiona antes.
 - Registro: 1.0.95 en `main` (#427); 1.0.96-1.0.98 en la cadena; 1.0.99 este plan; reservados 1.0.100 (T-38),
-  1.0.101 (T-39) y 1.0.102 (T-40), 1.0.103 (T-44: M04 7.6.7 y exención de Fuengirola, una PR) y 1.0.104 (T-42);
-  **siguiente libre 1.0.105**.
+  1.0.101 (T-39) y 1.0.102 (T-40), 1.0.103 (T-42, #435), 1.0.104 (T-44, #436) y 1.0.105 (T-46, último manual).
 
 ### Asignaciones vigentes (07-11)
 | Chat | Rol | Tarea | Siguiente |
@@ -205,6 +204,24 @@ T-41 va después. Las dudas de los chats van al planificador, no al propietario.
 - Hecho: por provincia, M05 hard=0 y M06 OK en local con el motor nuevo, o informe de factibilidad para D-6; sin
   regresión (GeoJSON e informe idénticos en Pontevedra, Álava y Cádiz); suite completa en local; una PR por causa.
   Luego la 00 «Ejecutar desde el principio» la pide al planificador (lanza el operador con permiso, un territorio de prueba primero).
+
+### Lote del 07-11 (tarde) · autorizado por el propietario; sin intervenir hasta el final
+Orden de fusión (Operador): #430 → #436, luego T-46 y el resto según lleguen. Al final, una sola lista para el
+propietario: ajustes de Settings y permiso de las 00.
+
+| Id | Objetivo | Chat | Turno exclusivo | Hecho |
+|---|---|---|---|---|
+| T-46 | Registro por ficheros (`docs/registro/`, número asignado por la CI al fusionar) y delegación del qué en el planificador dentro de `CLAUDE.md` | «Implementador nuevo» (Opus) | guardián, reglas y skills de registro, `CLAUDE.md` | Dos PR en paralelo no chocan en el registro; última PR con número manual (1.0.105) |
+| T-48 | Revisor en cada PR y forense en cada 00 fallida, en CI (`claude-code-action`) | «Implementador nuevo» | dos workflows nuevos | Sin secreto se saltan limpiamente; con él, veredicto en la PR e issue con la causa |
+| T-47 | Archivista R2: copia con sha256 de los artefactos antes de caducar, manifiesto `orchestracion/archivo_r2.json` | «T-47 Archivista R2» (Sonnet) | `archivar-artefactos-r2.yml`, herramienta nueva | Idempotente y con tests; una ejecución tras fusionar (permiso dado) |
+| T-41 | Environments con aprobación solo en el dispatch manual | «T-42 Hemiciclo» (Sonnet), tras T-45 | workflows lanzables y de publicación | Los encadenados del bot no esperan; gobernanza de workflows en verde |
+| T-45 | Proclamación oficial de 2023 (BOE) como dato para el hemiciclo | «T-42 Hemiciclo» | datos del hemiciclo | Contraste por provincia; diferencia CERA ubicada |
+| T-49 | `decided_at`, `reason` y `evidence` en las 17 exenciones, comprobador en CI y `CONTRACT_POLICY_STALE` | «T-49 Exenciones gobernadas» (Sonnet) | política y contratos (salvo Málaga hasta #436) | Exención sin metadatos = CI en rojo |
+| T-07 | Andalucía en local (motor) | «Implementador Motor» (Opus), tras #436 | motor | M05 hard=0 y M06 OK en local o evidencia para decisión |
+
+Pendiente para la lista final del propietario: «Allow auto-merge» (P2), entorno `produccion` con revisor (D-5),
+secreto `CLAUDE_CODE_OAUTH_TOKEN` (T-48) y permiso de las 00 de Barcelona, Alicante, Málaga y Andalucía.
+La red del entorno Default ya permite `www.boe.es` y `boe.es` (07-11).
 
 ## 3b. Histórico de la cola (01 a 03-11)
 
