@@ -2,7 +2,7 @@
 """Archivista: copia a Cloudflare R2 los artefactos de Actions referenciados antes de que caduquen.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 NOMBRE DE VERSIÓN: Archivista R2 solo de productos finales
 FECHA: 2026-11-07
 ESTADO: candidato
@@ -13,7 +13,9 @@ QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y or
   la entrada en orchestracion/archivo_r2.json (URL R2, sha256, tamaño, caducidad original, fecha de archivado).
 IDEMPOTENTE: no vuelve a descargar un artefacto (mismo id) ya archivado, y no vuelve a subir si R2 ya tiene
   la misma clave con el mismo sha256. Un artefacto caducado y no archivado se informa como «perdido».
-CAMBIOS: 1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<run>-M06/M08) y las auditorías
+CAMBIOS: 1.1.1 (T-90): el paquete mínimo acepta los GeoJSON comprimidos *.geojson.zip, que es como los
+  escriben M01-M08 (sin ellos el M08 de Barcelona, run 42416213698, falló con «ningún GeoJSON distrital»).
+  1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<run>-M06/M08) y las auditorías
   (KB); nunca los estados intermedios M01-M05 ni los paquetes fuente. Si el run tiene vivo su M08, no copia su M06:
   el estado M08 es acumulativo (lleva cache/run del M06; M08 = M06 + 1-10 MB). Tampoco sube el ZIP de estado
   completo: sube un paquete mínimo ddd-minimo-<run>-M0x.zip (GeoJSON distritales, CSV/JSON de M06-M08, VALIDACION,
@@ -24,7 +26,7 @@ CAMBIOS: 1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<ru
   1.0.0: fichero nuevo (T-47).
 MOTIVO: los artefactos caducan a los 14 días y con ellos productos registrados en el catálogo (p. ej. M05 de
   Cantabria, run 41037133327).
-ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.0.1_20261107.py
+ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.1.0_20261107.py
 Uso: python herramientas/archivar_artefactos_r2.py [--root-dir .] [--caduca-antes AAAA-MM-DD] [--max N] [--simular]
 Entorno: GITHUB_TOKEN, GITHUB_REPOSITORY; R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_* (aws cli) salvo --simular.
 Salida: 0 si todo lo archivable quedó archivado; 1 si hubo errores de copia.
@@ -42,6 +44,7 @@ import tempfile
 import time
 import urllib.error
 import urllib.request
+import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Optional
@@ -265,12 +268,27 @@ _FECHA_ZIP = (2020, 1, 1, 0, 0, 0)
 _CLAVES_SECCION = {"CUSEC", "CUSEC_KEY", "section_id", "cusec"}
 
 
+def es_geojson(ruta: Path) -> bool:
+    """``*.geojson`` o ``*.geojson.zip`` (los módulos escriben el GeoJSON comprimido)."""
+    return ruta.name.lower().endswith((".geojson", ".geojson.zip"))
+
+
+def leer_geojson(ruta: Path) -> dict:
+    """Lee un ``*.geojson`` o el primer GeoJSON de un ``*.geojson.zip``."""
+    if ruta.name.lower().endswith(".zip"):
+        import zipfile
+        with zipfile.ZipFile(ruta) as z:
+            nombre = next(n for n in z.namelist() if n.lower().endswith((".geojson", ".json")) and not n.endswith("/"))
+            return json.loads(z.read(nombre))
+    return json.loads(ruta.read_bytes())
+
+
 def _geojson_distrital(ruta: Path) -> bool:
     """GeoJSON de distritos: pocas features y ninguna con clave de sección (la asignación va en la composición)."""
     try:
-        fs = json.loads(ruta.read_bytes()).get("features", [])
+        fs = leer_geojson(ruta).get("features", [])
         return 0 < len(fs) <= MAX_FEATURES_PAQUETE and not any(_CLAVES_SECCION & set(f.get("properties") or {}) for f in fs)
-    except (ValueError, OSError, AttributeError):
+    except (ValueError, OSError, AttributeError, StopIteration, zipfile.BadZipFile):
         return False
 
 
@@ -279,9 +297,9 @@ def seleccionar_paquete(base: Path) -> list[Path]:
     (composición sección→distrito, resúmenes, resultados, reconciliación), VALIDACION, CHAIN_STATE y manifiestos."""
     out = []
     for f in sorted(base.rglob("*")):
-        if not f.is_file() or f.suffix.lower() not in _PAQ_EXT or not _PAQ_NOMBRE.search(f.name):
+        if not f.is_file() or not (f.suffix.lower() in _PAQ_EXT or es_geojson(f)) or not _PAQ_NOMBRE.search(f.name):
             continue
-        if f.suffix.lower() == ".geojson" and not _geojson_distrital(f):
+        if es_geojson(f) and not _geojson_distrital(f):
             continue
         out.append(f)
     return out
@@ -302,7 +320,7 @@ def empaquetar_minimo(extras: tuple = ()) -> Callable[[dict, Path, Path], Path]:
                 ficheros += [(f"extra/{x.name}/{f.relative_to(x).as_posix()}", f) for f in sorted(x.rglob("*")) if f.is_file()]
             elif x.is_file():
                 ficheros.append((f"extra/{x.name}", x))
-        if not any(r.endswith(".geojson") for r, _ in ficheros):
+        if not any(es_geojson(Path(r)) for r, _ in ficheros):
             raise ValueError(f"{a['name']}: el paquete mínimo no tendría ningún GeoJSON distrital")
         man = {"schema": PAQUETE_SCHEMA, "artefacto_origen": a["name"], "run_id": str(a.get("run", "")),
                "sha256_estado_original": sha256_fichero(zip_estado),

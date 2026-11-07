@@ -198,6 +198,26 @@ class PaqueteMinimo(unittest.TestCase):
         with self.assertRaises(ValueError):
             arc.empaquetar_minimo()(self.a, self.d / "e2.zip", self.d / "p")
 
+    def test_geojson_zip_del_estado_real(self):
+        """T-90: los módulos escriben *.geojson.zip (sin .geojson suelto); el M08 de Barcelona falló así."""
+        import io
+        import zipfile
+
+        def gz(nombre, gj):
+            b = io.BytesIO()
+            with zipfile.ZipFile(b, "w") as z:
+                z.writestr(nombre, json.dumps(gj))
+            return b.getvalue()
+        dist = {"features": [{"properties": {"district_id": 0, "winner_party": "PP"}}]}
+        secc = {"features": [{"properties": {"CUSEC": i}} for i in range(3)]}
+        with zipfile.ZipFile(self.d / "e3.zip", "w") as z:
+            z.writestr("cache/t_m08_distritos_resultados.geojson.zip", gz("t_m08_distritos_resultados.geojson", dist))
+            z.writestr("cache/t_m06_secciones.geojson.zip", gz("t_m06_secciones.geojson", secc))
+        (self.d / "p").mkdir()
+        zf = zipfile.ZipFile(arc.empaquetar_minimo()(self.a, self.d / "e3.zip", self.d / "p"))
+        self.assertIn("estado/cache/t_m08_distritos_resultados.geojson.zip", zf.namelist())
+        self.assertNotIn("estado/cache/t_m06_secciones.geojson.zip", zf.namelist())
+
     def test_archivar_con_paquete(self):
         r2 = R2Falso()
         man = {"artefactos": {}}

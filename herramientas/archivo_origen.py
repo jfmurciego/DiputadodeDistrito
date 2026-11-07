@@ -3,13 +3,15 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 NOMBRE DE VERSIÓN: Archivo en origen
 FECHA: 2026-11-07
 ESTADO: candidato
-CAMBIOS: 1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
+CAMBIOS: 1.0.2 (T-90): composicion y partidos leen también los GeoJSON *.geojson.zip del estado (así los escriben
+  M06 y M08; antes solo veían *.geojson sueltos).
+  1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
   que contiene el M06 publicado.
-ANTERIOR: legacy/herramientas/archivo_origen_v1.0.0_20261107.py
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.1_20261107.py
 QUÉ HACE: cuatro subcomandos.
   r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
               VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del
@@ -149,11 +151,11 @@ def cmd_r2(a) -> int:
 
 def _geojsons(estado: Path, campos: tuple[str, ...]):
     """GeoJSON del estado cuyas features traen ``campos`` (bytes)."""
-    for f in sorted(estado.rglob("*.geojson")):
+    for f in sorted(x for x in estado.rglob("*") if x.is_file() and ar.es_geojson(x)):
         try:
-            gj = json.loads(f.read_bytes())
+            gj = ar.leer_geojson(f)
             props = gj["features"][0]["properties"]
-        except (ValueError, KeyError, IndexError, TypeError):
+        except (ValueError, KeyError, IndexError, TypeError, StopIteration, OSError, zipfile.BadZipFile):
             continue
         if all(c in props for c in campos):
             yield f, gj
