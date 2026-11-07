@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.128
+Versión: 1.0.130
 Fecha: 2026-11-07
-Alcance: T-59 — Nombres de distrito y comarcas partidas de las 49 provincias
+Alcance: T-58 — Álava: artefacto local, regla de diagnóstico corregida
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t59-nombres-comunidades.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.127_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_t-58-diagnostico-local.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.129_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.127_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.130 · [2026-11-07 — T-58 — Álava: artefacto local, regla de diagnóstico corregida](registro/2026-11-07_t-58-diagnostico-local.md)
+- 1.0.129 · [2026-11-07 — T-54c — Fusión automática ligada a la suite de CI que la dispara; causa de #458](registro/2026-11-07_claude-t54c-auto-merge-suite.md)
 - 1.0.128 · [2026-11-07 — T-59 — Nombres de distrito y comarcas partidas de las 49 provincias](registro/2026-11-07_claude-t59-nombres-comunidades.md)
 - 1.0.127 · [2026-11-07 — Arreglo — main en rojo tras #458 (T-65)](registro/2026-11-07_claude-arreglo-main-t65.md)
 - 1.0.126 · [2026-11-07 — T-65 — Métricas automáticas del proceso](registro/2026-11-07_claude-t65-metricas-proceso.md)
