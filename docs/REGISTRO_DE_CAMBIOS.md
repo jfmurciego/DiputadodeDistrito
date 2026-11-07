@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.113
+Versión: 1.0.114
 Fecha: 2026-11-07
-Alcance: T-49 — Exenciones de suelo gobernadas
+Alcance: T-53 — Resultados electorales ligeros en git
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_t49-exenciones-gobernadas.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.112_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-t53-resultados-ligeros.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.113_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.112_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.114 · [2026-11-07 — T-53 — Resultados electorales ligeros en git](registro/2026-11-07_claude-t53-resultados-ligeros.md)
 - 1.0.113 · [2026-11-07 — T-49 — Exenciones de suelo gobernadas](registro/2026-11-07_t49-exenciones-gobernadas.md)
 - 1.0.112 · [2026-11-07 — T-51 — Huella de motor, contrato y política en los checkpoints](registro/2026-11-07_claude-t51-huella-checkpoint.md)
 - 1.0.111 · [2026-11-07 — T-48 — Revisor y forense en CI](registro/2026-11-07_claude-t48-agentes-ci.md)
