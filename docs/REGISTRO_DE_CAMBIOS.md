@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.117
+Versión: 1.0.119
 Fecha: 2026-11-07
-Alcance: Plan y lecciones — Estado al cierre del lote del 07-11
+Alcance: T-55 — Hemiciclo: columna (b) con el oficial de 2019-11
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-plan-lecciones-0711b.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.116_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-t55-hemiciclo-2019.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.118_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.116_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.119 · [2026-11-07 — T-55 — Hemiciclo: columna (b) con el oficial de 2019-11](registro/2026-11-07_claude-t55-hemiciclo-2019.md)
+- 1.0.118 · [2026-11-03 — Portal — Portal Zensical y auditoría de conservación con Cantabria 50 verificado](registro/2026-11-03_docs-zensical-auditoria-archivo-20261103.md)
 - 1.0.117 · [2026-11-07 — Plan y lecciones — Estado al cierre del lote del 07-11](registro/2026-11-07_claude-plan-lecciones-0711b.md)
 - 1.0.116 · [2026-11-07 — T-52 — Cadenas 00 territorial → Activación → 00 electoral en GitHub, sin el Mac](registro/2026-11-07_claude-t52-cadenas.md)
 - 1.0.115 · [2026-11-07 — T-47 (b) — Archivista R2: reintentos ante fallos transitorios](registro/2026-11-07_claude-t-47b-reintentos-r2.md)
