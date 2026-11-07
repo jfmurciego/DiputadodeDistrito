@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.18
+Versión: 1.0.19
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: ola 2 (completar territorios y Gestor listo), R2 sin poda, cola T-71 a T-86
-Anterior: legacy/docs/PLAN_v1.0.17_20261107.md
+Cambios/motivo: T-88 (skills externas: verificación de plan y TDD), encargada por el propietario
+Anterior: legacy/docs/PLAN_v1.0.18_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -263,7 +263,8 @@ sobrecoste es de unos 23 céntimos al mes; no se poda (T-76 cerrada, #480 sin fu
 |---|---|---|---|
 | T-79 | Nacional: Alicante y Málaga (00 en `produccion`; si fallan: forense, reparación con el tope de T-44 en chat Opus de motor); Barcelona: completar electoral; Ceuta: 00 según forense (pob. INE 3826 ≠ M06 3723). Cada uno se publica al terminar (D-3) | Coordinador + Operador | Barcelona territorial success; Alicante en curso; Málaga en cola |
 | T-80 | Andalucía autonómica: 03 falló por paquete electoral caducado (run 37150399030); preparar con `reutilizar=false`, `prepare_one`, 00 Reutilizar y publicar | Coordinador + Operador | Pendiente de permiso del propietario |
-| T-86 | Gestor listo para la legislatura vigente | chat Opus del planificador | En curso |
+| T-86 | Gestor listo para la legislatura vigente | chat Opus del planificador | PR #482 (no-automerge), pendiente de revisión |
+| T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | chat Sonnet por abrir | Skills coherentes; una PR con registro |
 
 ### Ola del 07-11 noche
 Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada chat.
