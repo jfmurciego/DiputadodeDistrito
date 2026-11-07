@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.142
+Versión: 1.0.143
 Fecha: 2026-11-07
-Alcance: T-75 — Aplicar el metaagente v1.0 a DDD (documentación)
+Alcance: Estudio — T-64 comarcas frente a partidos judiciales
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_t75-metaagente.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.141_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_t64-comarcas-partidos.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.142_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.141_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.143 · [2026-11-07 — Estudio — T-64 comarcas frente a partidos judiciales](registro/2026-11-07_t64-comarcas-partidos.md)
 - 1.0.142 · [2026-11-07 — T-75 — Aplicar el metaagente v1.0 a DDD (documentación)](registro/2026-11-07_t75-metaagente.md)
 - 1.0.141 · [2026-11-07 — T-74 — Catálogo de procedencia único](registro/2026-11-07_t74-catalogo-procedencia.md)
 - 1.0.140 · [2026-11-07 — Coordinador — PLAN 1.0.16: ola del 07-11 noche](registro/2026-11-07_plan-ola-0711-noche.md)
