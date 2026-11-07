@@ -1,0 +1,75 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Numeración automática del registro de cambios
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: al fusionar en main una PR con entradas nuevas en docs/registro/, les asigna el número consecutivo,
+#   regenera la cabecera y el índice de docs/REGISTRO_DE_CAMBIOS.md (con copia en legacy/docs/) y lo empuja con la
+#   app de registro. Sin botón manual.
+# CAMBIOS: versión inicial (T-46).
+# MOTIVO: el número pedido a mano hacía chocar todas las PR abiertas (#429-#436).
+# ANTERIOR: ninguna (fichero nuevo)
+name: Numeración del Registro
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/registro/**'
+permissions:
+  contents: write
+concurrency:
+  group: ddd-registro-numeracion
+  cancel-in-progress: false
+  queue: max
+jobs:
+  numerar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Numerar entradas pendientes y empujar
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          for intento in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            python herramientas/numerar_registro.py | tee .ddd-numeracion.txt
+            if git diff --quiet && [[ -z "$(git ls-files --others --exclude-standard legacy/docs)" ]]; then
+              echo "Sin entradas pendientes."; exit 0
+            fi
+            python herramientas/comprobar_guardian_main.py registro
+            git add docs/REGISTRO_DE_CAMBIOS.md legacy/docs
+            git commit -q -m "registro: numerar $(grep -c '^[0-9]' .ddd-numeracion.txt) entrada(s) de docs/registro"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::push rechazado (intento $intento); main avanzó, se renumera."
+            sleep $((intento * 5))
+          done
+          echo "::error::No se pudo empujar la numeración tras 5 intentos."; exit 1

@@ -23,9 +23,15 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 ## Coordinación entre sesiones
 - Suele haber varias sesiones en paralelo con territorios repartidos. Antes de tocar ficheros compartidos
   (workflows, catálogo, política, `herramientas/`, `modulos/`, `ddd_core/`), avisa a la otra sesión y pregunta.
-- `docs/REGISTRO_DE_CAMBIOS.md`: pregunta el último número antes de añadir entradas.
+- Registro: cada PR deja su entrada en `docs/registro/AAAA-MM-DD_<rama>.md`, sin número; no se edita
+  `docs/REGISTRO_DE_CAMBIOS.md` (lo numera el job «Numeración del Registro» al fusionar).
 - Si `main` está en rojo, comprueba si el fallo es tuyo (ejecuta los tests en `origin/main`) antes de tocar nada.
 - Un solo chat operador lanza. Tras un fallo, no relanzar: informar de la causa.
+- Delegación (propietario, 07-11): el propietario delega el qué en el planificador («DDD Plan»); sus órdenes de
+  tarea, prioridad y turno valen como del propietario. Solo lanzar ejecuciones y publicar exigen permiso del
+  propietario en el chat que ejecuta. Fusiona el Operador (o el auto-merge) con `pruebas` en verde.
+- Entre sesiones solo llega `send_message` del MCP `claude-code-remote` (con `session_id`); `SendMessage` por nombre no.
+- Datos oficiales nunca de memoria: de un fichero con fuente y sha256 (una tabla a mano dio Badajoz 6 y no 5).
 
 ## Ejecución 00 (`ejecucion-completa-proyecto.yml`)
 - «Reutilizar progreso existente» reutiliza checkpoints M04 aunque haya cambiado el contrato. Tras cambiar umbrales,
@@ -45,6 +51,8 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 ## Visor y dashboard
 - El visor solo muestra lo que está en `orchestracion/publicaciones_visor.json`. Publica con
   `production_run_id=<run 00 completo>` por cada territorio nuevo; con el campo vacío solo entra `latest_validated`.
+- Los M08 publicados están en git como blobs: `publicaciones_visor.json` (`kind=canonical_m08`, run más reciente) →
+  `gh api repos/<r>/git/blobs/<blob_sha> -H "Accept: application/vnd.github.raw"` (ZIP; comprobar el sha256).
 - El dashboard (`herramientas/generar_estado_operativo.py`) acepta un M08 de otro run si el manifiesto de ese run
   acredita la 02 con el M06 vigente y la 04 en success (#354).
 
@@ -61,7 +69,10 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Mac (zsh): nunca uses `path` como variable (es `PATH`); los scripts van a un fichero (`pbpaste > f.sh`), no
   pegados (`!` da «event not found»); `gh` está en `~/.local/bin`; sin rutas con `<…>` ni globs sin coincidencia.
 - Interior (Infoelectoral) rechaza runners y sesión cloud: el ZIP nacional por mesa está en el release
-  `fuente-infoelectoral-02202307` y la 03 lo usa como espejo con la misma huella.
+  `fuente-infoelectoral-02202307` y la 03 lo usa como espejo con la misma huella. Desde la nube se baja con
+  `gh api repos/<r>/releases/assets/<id> -H "Accept: application/octet-stream"` (`gh release download` usa GraphQL).
+- Escaños oficiales 2023: BOE-A-2023-18907 en `configuracion/resultados_oficiales_congreso_2023.csv`; la red del
+  entorno Default permite `boe.es`.
 
 ## Historial de lecciones
 - 2026-10-29 · Murcia/Valencia: M04 7.4.15–7.4.18, exención de Beniel, umbral 1,5 en Valencia · #324 #327 #332 #343 #336 #345 #352 #354.

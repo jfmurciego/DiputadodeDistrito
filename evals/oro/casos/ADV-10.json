@@ -1,0 +1,51 @@
+{
+  "id": "ADV-10",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Infoelectoral solo por URL oficial",
+  "causa": "La 03 descarga solo de la URL oficial de Interior, que rechaza a los runners; falta el espejo con la misma huella.",
+  "origen": {
+    "prs": [
+      362,
+      363
+    ],
+    "runs": [
+      41192319910
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 362,
+    "sha_desde": "9ccf8205185592dbaf889a288cb79f1a578edc2c",
+    "sha_candidato": "6444814df7742291ebbabbda2b4440aae68f52bc",
+    "ficheros": [
+      "configuracion/contratos_infoelectoral.yaml",
+      ".github/workflows/preparacion-resultados-electorales.yml"
+    ],
+    "comando": "git diff 9ccf8205185592dbaf889a288cb79f1a578edc2c 6444814df7742291ebbabbda2b4440aae68f52bc -- configuracion/contratos_infoelectoral.yaml .github/workflows/preparacion-resultados-electorales.yml"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "fuente_sin_espejo"
+    ],
+    "ficheros": [
+      "configuracion/contratos_infoelectoral.yaml",
+      ".github/workflows/preparacion-resultados-electorales.yml"
+    ],
+    "claves": [
+      "interior",
+      "espejo",
+      "runner",
+      "release",
+      "mirror"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#362 fusionada, squash 6444814df7 sobre 9ccf820518; #363 fusionada, squash c9b31cbb06 sobre 6444814df7 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "ADV-04",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Baleares: techo sin decisión del propietario",
+  "causa": "El candidato baja el techo de Baleares de 1,28 a 1,27 sin decisión del propietario; el distrito 5 de Mallorca (154.049) vuelve a pasarlo.",
+  "origen": {
+    "prs": [
+      370,
+      404
+    ],
+    "runs": [
+      41444676996
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 404,
+    "sha_desde": "09f8f61161a9e9c2188261e0ba60d52a018b04ba",
+    "sha_candidato": "3c76b043d0b446fc0b46ffedf736089911d4362d",
+    "ficheros": [
+      "configuracion/politica_generacion_territorial_2025.yaml"
+    ],
+    "comando": "git diff 09f8f61161a9e9c2188261e0ba60d52a018b04ba 3c76b043d0b446fc0b46ffedf736089911d4362d -- configuracion/politica_generacion_territorial_2025.yaml"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "techo_sin_decision"
+    ],
+    "ficheros": [
+      "configuracion/politica_generacion_territorial_2025.yaml"
+    ],
+    "claves": [
+      "population_cap_ratio",
+      "techo",
+      "1,28",
+      "1.28",
+      "baleares"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#370 fusionada, squash 6c3ba69e68 sobre bf11933fb3; #404 fusionada, squash 09f8f61161 sobre 3c76b043d0 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

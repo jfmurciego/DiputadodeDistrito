@@ -1,0 +1,48 @@
+{
+  "id": "ADV-06",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Palencia: provincias sin puentes heredados",
+  "causa": "El generador de provincias deja de heredar los puentes autonómicos y las provincias con enclaves no superan la conectividad pre-M04.",
+  "origen": {
+    "prs": [
+      371,
+      390
+    ],
+    "runs": [
+      41235453115
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 371,
+    "sha_desde": "d73703d1c87a46762a874f2b3e4a008649963349",
+    "sha_candidato": "6708c5964af8a2a19376f805777da21e6606b48d",
+    "ficheros": [
+      "herramientas/generar_provincias_congreso.py"
+    ],
+    "comando": "git diff d73703d1c87a46762a874f2b3e4a008649963349 6708c5964af8a2a19376f805777da21e6606b48d -- herramientas/generar_provincias_congreso.py"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "puentes_heredados_ausentes"
+    ],
+    "ficheros": [
+      "herramientas/generar_provincias_congreso.py"
+    ],
+    "claves": [
+      "inherit_bridges",
+      "puente",
+      "enclave",
+      "hered"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#371 fusionada, squash d73703d1c8 sobre 6708c5964a; #390 fusionada, squash ec0da12166 sobre c7a463ed36 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

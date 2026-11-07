@@ -1,0 +1,49 @@
+{
+  "id": "ADV-07",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Huesca: lector del catálogo sin pilot_territories",
+  "causa": "El catálogo de preparación no admite la ampliación de pilot_territories; el registro del M08 rechaza un piloto válido.",
+  "origen": {
+    "prs": [
+      356,
+      360
+    ],
+    "runs": [
+      41037133327,
+      41042675119
+    ],
+    "pr_introductora": 356,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 360,
+    "sha_desde": "be3c8c927da80f9017223184d35e11a260b147d7",
+    "sha_candidato": "355dff11776f75d440e5220b86937c19e92112a3",
+    "ficheros": [
+      "herramientas/catalogo_preparacion.py"
+    ],
+    "comando": "git diff be3c8c927da80f9017223184d35e11a260b147d7 355dff11776f75d440e5220b86937c19e92112a3 -- herramientas/catalogo_preparacion.py"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "catalogo_maestro_piloto"
+    ],
+    "ficheros": [
+      "herramientas/catalogo_preparacion.py"
+    ],
+    "claves": [
+      "pilot_territories",
+      "territories",
+      "piloto",
+      "catalogo"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#356 fusionada, squash a0c0f03c9b sobre 04da88c4a3; #360 fusionada, squash be3c8c927d sobre 355dff1177 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}
