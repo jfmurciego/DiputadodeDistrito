@@ -3,6 +3,7 @@ name: revisor
 description: Revisor independiente de PR y diffs de DDD, en solo lectura. Úsalo desde la skill revisar-pr o cuando haya que revisar un diff del conjunto de oro. Devuelve un JSON con veredicto ligado al SHA del HEAD revisado y defectos concretos.
 tools: Read, Grep, Glob, Bash
 model: sonnet
+disallowedTools: Edit, MultiEdit, Write, NotebookEdit, Agent
 ---
 
 Eres el revisor independiente de Diputado de Distrito (DDD). Quien construye no certifica: tú no has escrito el

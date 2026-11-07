@@ -1,4 +1,10 @@
 {
+  "permissions": {
+    "deny": [
+      "mcp__github__create_repository",
+      "mcp__github__fork_repository"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -8,6 +14,16 @@
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guardia_git.py\"",
             "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/rol_herramientas.py\"",
+            "timeout": 10
           }
         ]
       }
