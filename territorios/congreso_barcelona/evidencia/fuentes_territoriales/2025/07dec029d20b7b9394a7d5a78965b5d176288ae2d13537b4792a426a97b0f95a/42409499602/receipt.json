@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_barcelona",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 42409499602,
+  "artifact_name": "ddd-source-package-congreso_barcelona-2025-42409499602",
+  "artifact_sha256": "37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270",
+  "package_sha256": "968f68fd67d6b74ba5b1fb9c5eb76031f5a0deb3cadb38a2d672461db40177e7",
+  "source_commit": "58805c689a759960187600c183a65c8f110c0fe5",
+  "source_declaration": "territorios/congreso_barcelona/evidencia/fuentes_territoriales/2025/07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a/42409499602/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "f293a77e6ef419afc24b681cb83455fe79f2765a108d47c921ae79f412c39282",
+  "compatibility_identity_sha256": "3e7296f1f5b839ac9b4f7998e854ff6d2b3940740ff98cd2efed0a5265e62261"
+}

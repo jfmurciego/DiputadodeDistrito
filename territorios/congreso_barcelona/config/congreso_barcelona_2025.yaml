@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -67,19 +67,19 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
-  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
+  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -193,15 +193,17 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
-  # Diagnóstico M05 del 01-11-2026 (run 00 anterior, POPULATION_HARD_BLOCK): Cornellà de Llobregat (90.076 hab.) es un municipio entero por debajo del suelo (98.555) y no puede completarse sin partirlo; su distrito queda exento del suelo.
   population_floor_exempt_municipalities:
-  - '08073'
+  - 08073
   population_floor_exempt_decisions:
-    '08073':
+    08073:
       decided_at: '2026-11-01'
       decided_by: propietario
-      reason: 'Cornellà de Llobregat (90.076 hab.) es un municipio entero por debajo del suelo (98.555) y no puede completarse sin partirlo; su distrito queda exento del suelo.'
-      evidence: 'PR #380; run 00 41327510776 (POPULATION_HARD_BLOCK); docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b»; docs/PLAN.md T-02b'
+      reason: Cornellà de Llobregat (90.076 hab.) es un municipio entero por debajo
+        del suelo (98.555) y no puede completarse sin partirlo; su distrito queda
+        exento del suelo.
+      evidence: 'PR #380; run 00 41327510776 (POPULATION_HARD_BLOCK); docs/REGISTRO_DE_CAMBIOS.md
+        «2026-11-01 — T-02b»; docs/PLAN.md T-02b'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
@@ -210,9 +212,9 @@ validation:
     section_year: 2023
     population_total: 5797356
     target_section_count: 3642
-    package_sha256: c3c446cff78b033e4a201bf93e3c64be93144df5e1a6b1751514d21f40550536
-    compatibility_report_sha256: d473574c238111e57d53be4daad499aa765e1f7e407883b44ea89ec7dd240f3d
-    compatibility_identity_sha256: f42fb16acc812b3fcf934226c2a60f9319b4e6b0e1f29697c65f387129e67b20
+    package_sha256: 968f68fd67d6b74ba5b1fb9c5eb76031f5a0deb3cadb38a2d672461db40177e7
+    compatibility_report_sha256: f293a77e6ef419afc24b681cb83455fe79f2765a108d47c921ae79f412c39282
+    compatibility_identity_sha256: 3e7296f1f5b839ac9b4f7998e854ff6d2b3940740ff98cd2efed0a5265e62261
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -269,7 +271,7 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: 57cd92780e42a64ff08b29b745559de04fb0878eae0a969db745a3bad2d8d64f
+        sha256: cd164d76ce4e6896ed93f987215b9569eec8c15767dc952a1205784a7b2132e3
         bytes: 2921285
   runtime:
     section_id_field: CUSEC_KEY
@@ -283,12 +285,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: a9748463775f78c63b09d5c8ecca68bbddb3b14c2999c8862fbbc5c423027ded
+  contract_sha256: 1ed487939b78b97b053d6a7aa266107cb472e41e2bb78841c27458d74cae5bd3
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: c3c446cff78b033e4a201bf93e3c64be93144df5e1a6b1751514d21f40550536
-  compatibility_identity_sha256: f42fb16acc812b3fcf934226c2a60f9319b4e6b0e1f29697c65f387129e67b20
+  generation_enabled: false
+  package_sha256: 968f68fd67d6b74ba5b1fb9c5eb76031f5a0deb3cadb38a2d672461db40177e7
+  compatibility_identity_sha256: 3e7296f1f5b839ac9b4f7998e854ff6d2b3940740ff98cd2efed0a5265e62261
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: ff4f947c6d5384d8f5388dc12533462f0a64add48c49d29a58e30d9bbcf289c7
@@ -320,7 +322,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: 57cd92780e42a64ff08b29b745559de04fb0878eae0a969db745a3bad2d8d64f
+    sha256: cd164d76ce4e6896ed93f987215b9569eec8c15767dc952a1205784a7b2132e3
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -338,6 +340,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41244711464
-  pre_m04_source_commit: e1529d495ecf3ba6da5f7fc8f5b5919b4a2f68c3
-  pre_m04_artifact_sha256: 4395dbf3bbc5cd93027a06f20384abf33e2666763a3bc729dfc31a750ffb59f9
