@@ -23,7 +23,8 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 ## Coordinación entre sesiones
 - Suele haber varias sesiones en paralelo con territorios repartidos. Antes de tocar ficheros compartidos
   (workflows, catálogo, política, `herramientas/`, `modulos/`, `ddd_core/`), avisa a la otra sesión y pregunta.
-- `docs/REGISTRO_DE_CAMBIOS.md`: pregunta el último número antes de añadir entradas.
+- Registro: cada PR deja su entrada en `docs/registro/AAAA-MM-DD_<rama>.md`, sin número; no se edita
+  `docs/REGISTRO_DE_CAMBIOS.md` (lo numera el job «Numeración del Registro» al fusionar).
 - Si `main` está en rojo, comprueba si el fallo es tuyo (ejecuta los tests en `origin/main`) antes de tocar nada.
 - Un solo chat operador lanza. Tras un fallo, no relanzar: informar de la causa.
 

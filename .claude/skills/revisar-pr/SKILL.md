@@ -16,7 +16,8 @@ Lista de comprobación (solo lo que aplique al diff):
 1. CI: el job `pruebas` en verde en la PR (y `main` en verde) — sin eso, `BLOCKED`.
 2. Gobernanza: cada fichero versionado cambiado sube VERSIÓN y deja copia en `legacy/` con ANTERIOR existente;
    `docs/MODULOS/*.md` declara la versión activa si cambia un módulo.
-3. Registro: número = último de `main` + 1 y asignado por el planificador; sin marcas de conflicto.
+3. Registro: entrada nueva en `docs/registro/AAAA-MM-DD_<rama>.md` sin número y sin tocar
+   `docs/REGISTRO_DE_CAMBIOS.md` (lo numera el job de `main`); sin marcas de conflicto.
 4. Huellas: si toca `modulos/05*`, `modulos/04*` o ficheros con hash N08, ¿lo dice la PR y monta las copias
    archivadas? ¿Qué modo de 00 exige?
 5. Reglas del propietario: sin cambios de suelo, techo, K ni atomicidad sin decisión registrada; sin renombrar

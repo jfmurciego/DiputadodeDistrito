@@ -2,13 +2,17 @@
 """Guardián de main: comprobaciones mecánicas que antes rompieron main.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
+CAMBIOS 1.1.0 (T-46): `registro` comprueba también las entradas por fichero de docs/registro/ (nombre, título con
+  la fecha del nombre, sin número ni cabecera, con cuerpo) y que el índice del registro solo apunte a entradas
+  existentes, con números únicos y no mayores que la Versión de la cabecera.
+ANTERIOR: legacy/herramientas/comprobar_guardian_main_v1.0.0_20261107.py
 QUÉ HACE: dos comprobaciones deterministas, sin modelo y solo con la biblioteca estándar:
   - marcas: ningún fichero versionado (git ls-files) contiene marcas de conflicto de Git
     (líneas que empiezan por «<<<<<<<», «|||||||» o «>>>>>>>», o «=======» dentro de un bloque abierto).
   - registro: la cabecera de docs/REGISTRO_DE_CAMBIOS.md es consecutiva a su ANTERIOR: el predecesor existe,
-    su propia Versión es la que nombra el fichero y la Versión actual es la siguiente (último componente + 1).
+    su propia Versión es la que nombra el fichero y la Versión actual es la siguiente (último componente + 1);
+    y las entradas por fichero de docs/registro/ tienen el formato de herramientas/numerar_registro.py.
 MOTIVO: marcas de conflicto en el registro rompieron main (hotfix #422); el plan de agentes (paso 1,
   docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §12) pide estas dos comprobaciones en CI.
 Uso: python herramientas/comprobar_guardian_main.py {marcas,registro,todo} [--raiz RUTA]
@@ -116,8 +120,36 @@ def comprobar_registro(raiz: Path) -> list[str]:
     if actual != siguiente(previa):
         errores.append(
             f"::error file={REGISTRO}::numeración no consecutiva: Versión {actual} tras {previa} "
-            f"(se esperaba {siguiente(previa)}); pide el número al planificador"
+            f"(se esperaba {siguiente(previa)}); no edites el registro a mano: deja tu entrada en docs/registro/"
         )
+    return errores
+
+
+def comprobar_fragmentos(raiz: Path) -> list[str]:
+    """Entradas por fichero (T-46): formato de docs/registro/*.md e índice coherente."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import numerar_registro as nr  # noqa: E402
+
+    errores: list[str] = []
+    for f in nr.fragmentos(raiz):
+        try:
+            nr.leer_fragmento(f)
+        except nr.FormatoError as e:
+            errores.append(f"::error file={nr.FRAGMENTOS}/{f.name}::{e}")
+    ruta = raiz / REGISTRO
+    if not ruta.is_file():
+        return errores
+    texto = ruta.read_text(encoding="utf-8")
+    actual = _version(texto)
+    vistos: set[str] = set()
+    for version, rel in nr.indice(texto):
+        if version in vistos:
+            errores.append(f"::error file={REGISTRO}::número {version} repetido en el índice")
+        vistos.add(version)
+        if not (raiz / "docs" / rel).is_file():
+            errores.append(f"::error file={REGISTRO}::el índice apunta a docs/{rel}, que no existe")
+        if actual and tuple(map(int, version.split("."))) > tuple(map(int, actual.split("."))):
+            errores.append(f"::error file={REGISTRO}::el índice tiene {version}, mayor que la Versión {actual}")
     return errores
 
 
@@ -132,6 +164,7 @@ def main(argv: list[str] | None = None) -> int:
         errores += comprobar_marcas(ficheros_versionados(raiz), raiz)
     if args.comprobacion in ("registro", "todo"):
         errores += comprobar_registro(raiz)
+        errores += comprobar_fragmentos(raiz)
     for error in errores:
         print(error)
     if not errores:

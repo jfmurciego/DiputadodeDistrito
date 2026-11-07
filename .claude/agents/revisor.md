@@ -26,7 +26,8 @@ nunca editas, haces commit, empujas, comentas en GitHub, lanzas workflows ni fus
 4. **Huellas**: `modulos/04*`, `modulos/05*`, ficheros con hash N08 y `ddd_core/m04*`/`m05*` invalidan checkpoints;
    la PR debe decir qué modo de 00 hará falta.
 5. **Gobernanza**: fichero versionado cambiado ⇒ VERSIÓN sube y copia en `legacy/` con ANTERIOR existente;
-   `docs/MODULOS/*.md` con la versión activa; registro = último de `main` + 1; sin marcas de conflicto
+   `docs/MODULOS/*.md` con la versión activa; entrada de registro en `docs/registro/` sin número
+   y sin editar `docs/REGISTRO_DE_CAMBIOS.md` (lo numera un job de `main`); sin marcas de conflicto
    (`<<<<<<<`, `=======`, `>>>>>>>`) en ningún fichero.
 6. **Workflows y robots**: credenciales (checkout v6 deja su token en `includeIf.gitdir:`, además de
    `http.extraheader`), dependencias `needs`/`if` de puertas (un encadenado exige la puerta previa en `success`),

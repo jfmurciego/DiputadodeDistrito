@@ -1,12 +1,25 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.104
+Versión: 1.0.105
 Fecha: 2026-11-07
-Alcance: T-44 — M04 7.6.7 y exención de Fuengirola: Alicante y Málaga resueltos en local
+Alcance: T-46 — registro sin conflictos: entradas por fichero y numeración automática al fusionar
 Estado: candidato
-Cambios/motivo: ddd_core/m04_seed_engine.py 7.6.7, ddd_core/m04_overcap_residual_relief.py 1.1.0 y exención 29054 en congreso_malaga
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.103_t42_20261107.md
+Cambios/motivo: última entrada con número manual; desde aquí cada PR deja su entrada en docs/registro/
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.104_t44_20261107.md
 -->
+
+## 2026-11-07 — T-46 — Registro sin conflictos: entradas por fichero y numeración al fusionar
+
+Causa: cada PR editaba la cabecera de este registro con un número pedido al planificador; dos PR abiertas chocaban
+siempre (conflictos y renumeraciones en #429-#436). Cambio: cada PR deja su entrada en
+`docs/registro/AAAA-MM-DD_<rama>.md`, sin número (`docs/registro/README.md`). `herramientas/numerar_registro.py` 1.0.0
+numera las pendientes en orden (copia en `legacy/docs/`, cabecera `Versión` = `Anterior` + 1 e índice arriba del
+registro) y el workflow nuevo «Numeración del Registro» (`numerar-registro.yml`, push a `main` en `docs/registro/**`,
+app de registro, sin botón manual) lo ejecuta y empuja con reintentos. `herramientas/comprobar_guardian_main.py` 1.1.0:
+`registro` comprueba además el formato de las entradas y el índice. Reglas `registro` y `gobernanza`, skills
+`implementador`, `planificador`, `revisar-pr` y `cierre-sesion`, el revisor y `CLAUDE.md` dicen cómo. Pruebas:
+`tests/test_numerar_registro.py` (6) y `tests/test_comprobar_guardian_main.py`; credencial, sintaxis, concurrencia y
+diseño A de workflows en verde. Esta es la última entrada con número manual · encadenada tras #436.
 
 ## 2026-11-07 — T-44 — M04 7.6.7: enclaves dependientes, cadena de dos saltos y Fuengirola
 
