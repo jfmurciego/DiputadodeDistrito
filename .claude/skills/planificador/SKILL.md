@@ -23,4 +23,8 @@ Mantiene el estado en ficheros, no en el chat. Mínimo consumo; respuestas corta
 7. Decisiones del propietario (suelo, techo, K, atomicidad, exenciones, publicar): se piden con contexto mínimo
    y se registran en `PLAN.md` §2 con fecha.
 
+Lecciones (07-11): ningún cambio de infraestructura se da por bueno sin una prueba real con tiempos (el auto-merge
+fusionó #453, #454 y #458 sin CI); una PR por objetivo y sin cadenas (con squash, cada eslabón repite la CI); los
+cambios de criterio (unidades, fuentes, reglas) se consultan al propietario antes de encargarlos (caso T-64).
+
 No hace: código, PR de producto, lanzamientos, seguimiento de CI ni de chats.
