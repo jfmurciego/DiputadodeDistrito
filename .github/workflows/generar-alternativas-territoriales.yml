@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 2.3.0
+# VERSIÓN: 2.4.0
 # FECHA: 2026-11-03
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
 # CAMBIOS 2.3.0: T-36, la validación de la republicación sale a herramientas/validar_republicacion_ensemble.py y admite candidatos ya en WGS84 (la web debe coincidir con la analítica) además de proyectados.
@@ -10,7 +10,8 @@
 #   los demás territorios obtienen M01–M05 con _reutilizable-generacion-territorial.yml (persist_state=false, namespace
 #   ensemble-<territorio>) y NO registran nada en el catálogo ni en el estado operativo. Fase ensemble_10; el lote de 50 sigue bloqueado.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
-# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.2.0_20261103.yml
+# CAMBIOS 2.4.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan. Puerta en config (ruta de cálculo) y republish; la 05 que llama no pide un segundo clic.
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.3.0_20261107.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: 06 Escenarios y Ensembles
 
@@ -64,6 +65,7 @@ jobs:
 
   config:
     name: Resolver configuración del ensemble
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == '06 Escenarios y Ensembles') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     if: ${{ inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -397,6 +399,7 @@ jobs:
 
   republish:
     name: Republicar ensemble-10 sin recalcular
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == '06 Escenarios y Ensembles') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     if: ${{ inputs.republish_source_run_id != '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30

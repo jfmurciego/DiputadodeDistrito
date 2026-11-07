@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: activacion-por-eleccion.yml
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # NOMBRE DE VERSIÓN: Activación, 03 y 00 por elección entera
 # FECHA: 2026-11-01
 # ESTADO: candidato
@@ -10,7 +10,8 @@
 #   ES-AUT-02-20260208 (Aragón) o ES-AUT-20230528 (autonómicas de esa fecha).
 # NO HACE: esperar a los runs lanzados; cada territorio conserva su cola (concurrency por territorio).
 # MOTIVO: T-03; una sola activación, una 03 y un 00 por elección en lugar de 52 lanzamientos manuales.
-# ANTERIOR: —
+# CAMBIOS 1.1.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan.
+# ANTERIOR: legacy/workflows/activacion-por-eleccion_v1.0.0_20261107.yml
 name: '- Activación por Elección'
 run-name: "Activación por Elección · ${{ inputs.eleccion }} · ${{ inputs.fase }}"
 
@@ -60,6 +61,7 @@ concurrency:
 jobs:
   lanzar:
     name: Resolver elección y lanzar fase
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
