@@ -91,6 +91,20 @@ class OvercapAtomicBlock(unittest.TestCase):
         self.assertEqual([m["kind"] for m in moves], ["core_to_core", "residual_to_core"])
         self.assertEqual(dp, {1: 100, 2: 110, 4: 110})
 
+    def test_two_hop_chain_through_neighbour_district(self):
+        # Málaga: Benalmádena pasa al distrito vecino y Torremolinos al residual de Málaga.
+        pop = {"s1": 40, "s2": 35, "r1": 40, "r2": 40, "t": 50, "a": 50, "b": 60, "f": 60}
+        rows = [("s1", "S", "S:U1", 1, True), ("s2", "S", "S:U1", 1, True),
+                ("r1", "S", "S:R", 5, False), ("r2", "S", "S:R", 5, False),
+                ("t", "T", "T:M", 6, False), ("a", "A", "A:M", 6, False),
+                ("b", "B", "B:M", 10, False), ("f", "F", "F:M", 10, False)]
+        edges = [("s1", "s2"), ("s2", "r1"), ("r1", "r2"), ("r2", "t"), ("t", "a"), ("t", "b"),
+                 ("a", "b"), ("b", "f")]
+        g, moves, dp = _run(rows, pop, edges)
+        self.assertEqual([m["kind"] for m in moves],
+                         ["unit_to_neighbour_district", "unit_to_residual_district", "residual_to_core"])
+        self.assertEqual(dp, {1: 115, 5: 90, 6: 110, 10: 60})
+
 
 if __name__ == "__main__":
     unittest.main()

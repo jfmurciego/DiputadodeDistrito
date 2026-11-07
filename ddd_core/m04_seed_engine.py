@@ -13,7 +13,7 @@ MOTIVO: evitar que M04 congele outliers que M05 no puede reparar, sin relajar K,
 ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.6.py
 CAMBIO 7.6.5: reutiliza la solución conexa hard demostrada en preflight para Formación inicial monomunicipal y preserva cardinalidad residual.
 CAMBIO 7.6.6: si el residuo R de un municipio dividido deja su distrito sobre el techo (enclaves que solo lindan con él), cede secciones fronterizas de R a los núcleos U del mismo municipio con margen; M05 no puede hacerlo porque mueve unidades enteras (T-22, Murcia).
-CAMBIO 7.6.7: si el residual de un municipio dividido más los municipios vecinos que solo lindan con él (enclaves dependientes) supera el techo, reintenta la partición con un núcleo cerrado más; solo fuera de closed_target_cores (T-44, Elche + Santa Pola).
+CAMBIO 7.6.7: si el residual de un municipio dividido más los municipios vecinos que solo lindan con él (enclaves dependientes) supera el techo, reintenta la partición con un núcleo cerrado más; solo fuera de closed_target_cores (T-44, Elche + Santa Pola). El alivio de residuos (1.1.0) añade la cadena de dos saltos (T-44, Málaga).
 """
 from __future__ import annotations
 
