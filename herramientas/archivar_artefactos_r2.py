@@ -2,8 +2,8 @@
 """Archivista: copia a Cloudflare R2 los artefactos de Actions referenciados antes de que caduquen.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Archivista R2 con reintentos
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Archivista R2 solo de productos finales
 FECHA: 2026-11-07
 ESTADO: candidato
 QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y orchestracion/publicaciones_visor.json,
@@ -13,12 +13,18 @@ QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y or
   la entrada en orchestracion/archivo_r2.json (URL R2, sha256, tamaño, caducidad original, fecha de archivado).
 IDEMPOTENTE: no vuelve a descargar un artefacto (mismo id) ya archivado, y no vuelve a subir si R2 ya tiene
   la misma clave con el mismo sha256. Un artefacto caducado y no archivado se informa como «perdido».
-CAMBIOS: 1.0.1: reintentos con espera exponencial (2, 4, 8, 16, 32 s; 6 intentos) ante 5xx, 429 y errores de red
+CAMBIOS: 1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<run>-M06/M08) y las auditorías
+  (KB); nunca los estados intermedios M01-M05 ni los paquetes fuente. Si el run tiene vivo su M08, no copia su M06:
+  el estado M08 es acumulativo (lleva cache/run del M06; M08 = M06 + 1-10 MB). Tampoco sube el ZIP de estado
+  completo: sube un paquete mínimo ddd-minimo-<run>-M0x.zip (GeoJSON distritales, CSV/JSON de M06-M08, VALIDACION,
+  CHAIN_STATE y manifiestos, con MANIFEST_MINIMO.json: sha256 de cada fichero y del estado original). Decisión del
+  propietario: R2 total ≤ 8 GB.
+  1.0.1: reintentos con espera exponencial (2, 4, 8, 16, 32 s; 6 intentos) ante 5xx, 429 y errores de red
   en la API de GitHub y en R2, con registro de cada intento (run 42393003447: HTTP 500 al listar artefactos).
   1.0.0: fichero nuevo (T-47).
 MOTIVO: los artefactos caducan a los 14 días y con ellos productos registrados en el catálogo (p. ej. M05 de
   Cantabria, run 41037133327).
-ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.0.0_20261107.py
+ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.0.1_20261107.py
 Uso: python herramientas/archivar_artefactos_r2.py [--root-dir .] [--caduca-antes AAAA-MM-DD] [--max N] [--simular]
 Entorno: GITHUB_TOKEN, GITHUB_REPOSITORY; R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_* (aws cli) salvo --simular.
 Salida: 0 si todo lo archivable quedó archivado; 1 si hubo errores de copia.
@@ -47,6 +53,12 @@ MANIFIESTO = "orchestracion/archivo_r2.json"
 SCHEMA = "ddd.archivo-r2/1.0"
 
 _NOMBRE = re.compile(r"^ddd-(state|audit|source-package)-")
+_FINAL = re.compile(r"^ddd-(?:state|minimo)-(\d+)-M0([68])(?:-|$)")
+
+
+def es_final(nombre: str) -> bool:
+    """Producto final archivable: estado M06/M08 o auditoría (no M01-M05 ni paquetes fuente)."""
+    return bool(_FINAL.match(nombre)) or nombre.startswith("ddd-audit-")
 _RUN = re.compile(r"(?<!\d)(\d{8,})(?!\d)")
 
 
@@ -96,13 +108,29 @@ def referencias(root: Path) -> tuple[dict[str, str], dict[str, str]]:
     return nombres, runs
 
 
+def cubierto_por_m08(nombre: str, entradas: dict) -> bool:
+    """Un M06 está en R2 dentro del M08 acumulativo de su run o del M08 que lo declara (``incluye_m06_run``)."""
+    m = _FINAL.match(nombre)
+    if not m or m.group(2) != "6":
+        return False
+    for e in entradas.values():
+        f = _FINAL.match(str(e.get("artefacto", "")))
+        if f and f.group(2) == "8" and m.group(1) in (f.group(1), str(e.get("incluye_m06_run", ""))):
+            return True
+    return False
+
+
 def seleccionar(vivos: list[dict], nombres: dict[str, str], runs: dict[str, str]) -> list[dict]:
     """Artefactos vivos referenciados, con territorio y run, por caducidad ascendente."""
     out = []
+    con_m08 = {m.group(1) for a in vivos if not a.get("expired") and (m := _FINAL.match(a["name"])) and m.group(2) == "8"}
     for a in vivos:
         if a.get("expired"):
             continue
         nom = a["name"]
+        m = _FINAL.match(nom)
+        if not es_final(nom) or (m and m.group(2) == "6" and m.group(1) in con_m08):
+            continue
         run = str((a.get("workflow_run") or {}).get("id") or _run_de_nombre(nom) or "")
         if nom in nombres:
             terr = nombres[nom]
@@ -116,8 +144,14 @@ def seleccionar(vivos: list[dict], nombres: dict[str, str], runs: dict[str, str]
     return out
 
 
-def clave(a: dict) -> str:
-    return f"{a['territorio']}/{a['run']}/{a['name']}.zip"
+def nombre_paquete(nombre: str) -> str:
+    """ddd-state-<run>-M0x… → ddd-minimo-<run>-M0x… (el paquete mínimo que va a R2)."""
+    return nombre.replace("ddd-state-", "ddd-minimo-", 1) if nombre.startswith("ddd-state-") else nombre
+
+
+def clave(a: dict, empaquetado: bool = False) -> str:
+    nombre = nombre_paquete(a["name"]) if empaquetado else a["name"]
+    return f"{a['territorio']}/{a['run']}/{nombre}.zip"
 
 
 def sha256_fichero(ruta: Path) -> str:
@@ -140,14 +174,19 @@ def archivar(
     ahora: Callable[[], str] = _utcnow,
     caduca_antes: Optional[str] = None,
     maximo: Optional[int] = None,
+    empaquetar: Optional[Callable[[dict, Path, Path], Path]] = None,
 ) -> dict:
-    """Núcleo sin red: aplica la política y devuelve el resumen; muta `manifiesto`."""
+    """Núcleo sin red: aplica la política y devuelve el resumen; muta `manifiesto`.
+
+    Con ``empaquetar(a, zip_estado, dir_tmp) -> zip_paquete``, los estados ddd-state-* no se suben enteros: se sube el
+    paquete mínimo (clave ddd-minimo-…) y la entrada guarda el sha256 y el tamaño del estado original."""
     entradas = manifiesto.setdefault("artefactos", {})
     res = {"archivados": [], "ya_archivados": [], "sin_cambios_r2": [], "errores": [], "omitidos": []}
     ya_ids = {e.get("artifact_id") for e in entradas.values()}
     pendientes = seleccionar(vivos, nombres, runs)
     for a in pendientes:
-        k = clave(a)
+        emp = empaquetar is not None and a["name"].startswith("ddd-state-")
+        k = clave(a, emp)
         if caduca_antes and (a.get("expires_at") or "9999") >= caduca_antes:
             res["omitidos"].append(k)
             continue
@@ -161,6 +200,11 @@ def archivar(
             with tempfile.TemporaryDirectory() as td:
                 zip_ = Path(td) / "a.zip"
                 descargar(a, zip_)
+                origen = {}
+                if emp:
+                    origen = {"artefacto_origen": a["name"], "sha256_estado_original": sha256_fichero(zip_),
+                              "tamano_estado_original": zip_.stat().st_size}
+                    zip_ = empaquetar(a, zip_, Path(td))
                 sha, tam = sha256_fichero(zip_), zip_.stat().st_size
                 if r2_sha(k) == sha:
                     res["sin_cambios_r2"].append(k)
@@ -171,7 +215,8 @@ def archivar(
             res["errores"].append(f"{k}: {exc}")
             continue
         entradas[k] = {
-            "artefacto": a["name"],
+            **origen,
+            "artefacto": nombre_paquete(a["name"]) if emp else a["name"],
             "territorio": a["territorio"],
             "run_id": a["run"],
             "artifact_id": a["id"],
@@ -183,7 +228,8 @@ def archivar(
         }
     existentes = {a["name"] for a in vivos}
     res["perdidos"] = sorted(
-        n for n in nombres if n not in existentes and not any(e["artefacto"] == n for e in entradas.values())
+        n for n in nombres if es_final(n) and n not in existentes and not any(n in (e["artefacto"], e.get("artefacto_origen")) for e in entradas.values())
+        and not cubierto_por_m08(n, entradas)
     )
     manifiesto["schema"] = SCHEMA
     manifiesto["actualizado_en"] = ahora()
@@ -205,6 +251,72 @@ def guardar_manifiesto(ruta: Path, m: dict) -> bool:
     ruta.parent.mkdir(parents=True, exist_ok=True)
     ruta.write_text(json.dumps(m, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return True
+
+
+# --- Paquete mínimo -------------------------------------------------------------------------------
+
+PAQUETE_SCHEMA = "ddd.paquete-minimo/1.0"
+_PAQ_EXT = {".geojson", ".csv", ".json"}
+_PAQ_NOMBRE = re.compile(r"_m0[678]_|^(VALIDACION|CHAIN_STATE|production_status|manifest)\.json$", re.I)
+MAX_FEATURES_PAQUETE = 2000  # un GeoJSON con más features es de secciones, no de distritos
+_FECHA_ZIP = (2020, 1, 1, 0, 0, 0)
+
+
+_CLAVES_SECCION = {"CUSEC", "CUSEC_KEY", "section_id", "cusec"}
+
+
+def _geojson_distrital(ruta: Path) -> bool:
+    """GeoJSON de distritos: pocas features y ninguna con clave de sección (la asignación va en la composición)."""
+    try:
+        fs = json.loads(ruta.read_bytes()).get("features", [])
+        return 0 < len(fs) <= MAX_FEATURES_PAQUETE and not any(_CLAVES_SECCION & set(f.get("properties") or {}) for f in fs)
+    except (ValueError, OSError, AttributeError):
+        return False
+
+
+def seleccionar_paquete(base: Path) -> list[Path]:
+    """Ficheros del estado que reproducen y verifican lo publicado: GeoJSON distritales, CSV y JSON de M06-M08
+    (composición sección→distrito, resúmenes, resultados, reconciliación), VALIDACION, CHAIN_STATE y manifiestos."""
+    out = []
+    for f in sorted(base.rglob("*")):
+        if not f.is_file() or f.suffix.lower() not in _PAQ_EXT or not _PAQ_NOMBRE.search(f.name):
+            continue
+        if f.suffix.lower() == ".geojson" and not _geojson_distrital(f):
+            continue
+        out.append(f)
+    return out
+
+
+def empaquetar_minimo(extras: tuple = ()) -> Callable[[dict, Path, Path], Path]:
+    """Devuelve empaquetar(a, zip_estado, dir) → ZIP determinista con la selección, los ``extras`` (ficheros o
+    directorios locales, p. ej. la auditoría) y MANIFEST_MINIMO.json (sha256 de cada fichero y del estado original)."""
+    def _f(a: dict, zip_estado: Path, td: Path) -> Path:
+        import zipfile
+        ext = td / "estado"
+        with zipfile.ZipFile(zip_estado) as z:
+            z.extractall(ext)
+        ficheros = [(f"estado/{f.relative_to(ext).as_posix()}", f) for f in seleccionar_paquete(ext)]
+        for x in extras:
+            x = Path(x)
+            if x.is_dir():
+                ficheros += [(f"extra/{x.name}/{f.relative_to(x).as_posix()}", f) for f in sorted(x.rglob("*")) if f.is_file()]
+            elif x.is_file():
+                ficheros.append((f"extra/{x.name}", x))
+        if not any(r.endswith(".geojson") for r, _ in ficheros):
+            raise ValueError(f"{a['name']}: el paquete mínimo no tendría ningún GeoJSON distrital")
+        man = {"schema": PAQUETE_SCHEMA, "artefacto_origen": a["name"], "run_id": str(a.get("run", "")),
+               "sha256_estado_original": sha256_fichero(zip_estado),
+               "tamano_estado_original": zip_estado.stat().st_size,
+               "ficheros": {r: sha256_fichero(f) for r, f in ficheros}}
+        destino = td / f"{nombre_paquete(a['name'])}.zip"
+        with zipfile.ZipFile(destino, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+            for r, f in sorted(ficheros) + [("MANIFEST_MINIMO.json", None)]:
+                info = zipfile.ZipInfo(r, _FECHA_ZIP)
+                info.compress_type = zipfile.ZIP_DEFLATED
+                datos = f.read_bytes() if f else (json.dumps(man, ensure_ascii=False, indent=1, sort_keys=True) + "\n").encode()
+                z.writestr(info, datos)
+        return destino
+    return _f
 
 
 # --- Implementaciones reales (GitHub y R2) -------------------------------------------------------
@@ -331,7 +443,7 @@ def main(argv=None) -> int:
         return 1
     sha, subir = r2_cliente(bucket, cuenta)
     res = archivar(vivos, nombres, runs, man, descargar_gh(repo, token), sha, subir, bucket,
-                   caduca_antes=a.caduca_antes, maximo=a.max)
+                   caduca_antes=a.caduca_antes, maximo=a.max, empaquetar=empaquetar_minimo())
     cambio = guardar_manifiesto(root / MANIFIESTO, man)
     print(json.dumps({k: (len(v) if k != "errores" else v) for k, v in res.items()}, ensure_ascii=False))
     for p in res["perdidos"]:

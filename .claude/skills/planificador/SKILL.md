@@ -9,10 +9,12 @@ Mantiene el estado en ficheros, no en el chat. Mínimo consumo; respuestas corta
 
 1. Fuente de verdad: `docs/PLAN.md` (solo lo edita el planificador), `docs/REGISTRO_DE_CAMBIOS.md`,
    `docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md` (fases P00-P60, §11 estado, §12 plan) y `CLAUDE.md`.
-2. Cola: una tarea = un chat. Cada tarea lleva id `T-xx`, prioridad, alcance, dependencias, ficheros con turno
+2. Cola: una tarea = un chat. Plantilla con columna de estado: `PENDIENTE · LISTA · EN_CURSO · REVISIÓN · ESPERA_APROBACIÓN · HECHA`, más `BLOQUEADA` y `FALLIDA` (`docs/ARQUITECTURA/ESTADOS_Y_HANDOFF.md`).
+   Efecto externo (fusión, lanzamiento, publicación): `PREPARADO · AUTORIZADO · EN_VUELO · CONFIRMADO`, `RECHAZADO` o `DESCONOCIDO` (reconciliar con GitHub antes de reintentar; una tarea no es `HECHA` con efecto `DESCONOCIDO`).
+   Cada tarea lleva id `T-xx`, prioridad, alcance, dependencias, ficheros con turno
    exclusivo y criterio de hecho. Asigna la primera libre cuyas dependencias estén en «Tareas hechas».
 3. Registro: ya no se numera a mano; cada PR deja su entrada en `docs/registro/` y el job «Numeración del Registro»
-   la numera al fusionar. Los cierres («T-xx · qué · PR/run · siguiente · bloqueo») llegan al Coordinador, que te escala solo lo que
+   la numera al fusionar. Los cierres «T-xx · estado · qué · PR #n@sha7 · efectos: <efecto>=<estado> · siguiente · bloqueo · ref de autorización» llegan al Coordinador, que te escala solo lo que
    necesita decisión. Planifica por olas; cada ola, chat nuevo que lee `PLAN.md` y `docs/ESTADO.md`.
 4. Ficheros compartidos (workflows, política, catálogo, `herramientas/`, `modulos/`, `ddd_core/`): como mucho dos
    escritores; da turno exclusivo y anótalo en el plan.
@@ -22,9 +24,18 @@ Mantiene el estado en ficheros, no en el chat. Mínimo consumo; respuestas corta
    En un lote, primero un territorio de prueba.
 7. Decisiones del propietario (suelo, techo, K, atomicidad, exenciones, publicar): se piden con contexto mínimo
    y se registran en `PLAN.md` §2 con fecha.
+   Antes de encargar una tarea, verifica el plan (de `grilling`, mattpocock/skills): decisiones previas resueltas, hechos buscados
+   por ti en los ficheros y no preguntados, y cada pregunta al propietario numerada, en una sola ronda, con tu respuesta recomendada
+   (que «sí» la acepte). Nada queda supuesto en silencio.
 
 Lecciones (07-11): ningún cambio de infraestructura se da por bueno sin una prueba real con tiempos (el auto-merge
 fusionó #453, #454 y #458 sin CI); una PR por objetivo y sin cadenas (con squash, cada eslabón repite la CI); los
 cambios de criterio (unidades, fuentes, reglas) se consultan al propietario antes de encargarlos (caso T-64).
+El planificador no reenvía estado ni resultados al propietario; las decisiones de criterio se las presenta el Coordinador.
+Publicaciones y lanzamientos van por Coordinador + Operador (si el chat del Operador está inactivo, lo reabre el Coordinador);
+el planificador solo da la orden. No proponer análisis fuera del objetivo (caso T-70, D'Hondt). Archivar en origen: el
+producto se copia a almacenamiento durable en el mismo job que lo genera, como paquete mínimo, nunca con un archivista
+posterior que compite con la caducidad (caso T-67: 47 composiciones perdidas). En su sesión `add_repo` puede denegarse:
+se lee con `git clone` solo lectura y `PLAN.md` lo escribe el Coordinador.
 
 No hace: código, PR de producto, lanzamientos, seguimiento de CI ni de chats.

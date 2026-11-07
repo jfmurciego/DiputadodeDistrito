@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso_alicante",
+  "territory_name": "Congreso Alicante",
+  "edition": "2025",
+  "run_id": 42418334746,
+  "artifact_name": "ddd-state-42418334746-M08",
+  "artifact_sha256": "c200eaa23eeb1beba713d8f44fc373f2b87cf8fe7e354efdf82c6e872511ee45",
+  "source_commit": "de6971db9b31eea59993852b828a285b62d0c1e9",
+  "stage": "M08"
+}

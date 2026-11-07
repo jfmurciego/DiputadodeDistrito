@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.139
+Versión: 1.0.154
 Fecha: 2026-11-07
-Alcance: T-72 — Archivo en origen de M06/M08
+Alcance: T-88 — Plan: T-88 ampliada a los plugins oficiales de Anthropic
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t72-archivo-origen.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.138_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_plan-t88b.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.153_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,21 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.138_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.154 · [2026-11-07 — T-88 — Plan: T-88 ampliada a los plugins oficiales de Anthropic](registro/2026-11-07_plan-t88b.md)
+- 1.0.153 · [2026-11-07 — T-89 — Fuente secundaria del histórico de generales por sección (nazioenbehatokia.eus)](registro/2026-11-07_claude-t89-nazioenbehatokia.md)
+- 1.0.152 · [2026-11-07 — T-78 — Gobierno de agentes en runtime: allowlist por rol y revisor obligatorio](registro/2026-11-07_claude-t78-gobierno-runtime.md)
+- 1.0.151 · [2026-11-07 — T-89 — Plan: Observatorio Electoral de las Naciones como fuente secundaria (D-8) y su espejo](registro/2026-11-07_plan-observatorio.md)
+- 1.0.150 · [2026-11-07 — T-88 — Skills de verificación de plan y TDD incorporadas a implementador y planificador](registro/2026-11-07_t88-skills-verificacion-tdd.md)
+- 1.0.149 · [2026-11-07 — T-86 — Gestor de Campañas listo para la legislatura vigente](registro/2026-11-07_claude-t86-gestor-legislatura-vigente.md)
+- 1.0.148 · [2026-11-07 — T-87/T-88 — Plan: encargo de T-87 (publicación con una sola aprobación) y T-88 (skills externas)](registro/2026-11-07_plan-t88.md)
+- 1.0.147 · [2026-11-07 — Coordinador — PLAN 1.0.18 y lecciones del planificador (ola 2)](registro/2026-11-07_plan-1-0-18-ola2.md)
+- 1.0.146 · [2026-11-07 — T-77 — Incorporar T-75 en skills y fichas](registro/2026-11-07_t77-incorporar-t75.md)
+- 1.0.145 · [2026-11-07 — T-72 — Paquete mínimo por run en R2](registro/2026-11-07_claude-t72b-solo-producto-final.md)
+- 1.0.144 · [2026-11-07 — Coordinador — PLAN 1.0.17: R2, arquitectura de agentes y cola T-76 a T-78](registro/2026-11-07_plan-1-0-17.md)
+- 1.0.143 · [2026-11-07 — Estudio — T-64 comarcas frente a partidos judiciales](registro/2026-11-07_t64-comarcas-partidos.md)
+- 1.0.142 · [2026-11-07 — T-75 — Aplicar el metaagente v1.0 a DDD (documentación)](registro/2026-11-07_t75-metaagente.md)
+- 1.0.141 · [2026-11-07 — T-74 — Catálogo de procedencia único](registro/2026-11-07_t74-catalogo-procedencia.md)
+- 1.0.140 · [2026-11-07 — Coordinador — PLAN 1.0.16: ola del 07-11 noche](registro/2026-11-07_plan-ola-0711-noche.md)
 - 1.0.139 · [2026-11-07 — T-72 — Archivo en origen de M06/M08](registro/2026-11-07_claude-t72-archivo-origen.md)
 - 1.0.138 · [2026-11-07 — T-64 — reaplica #462 (partidos judiciales)](registro/2026-11-07_reaplica-t64-462.md)
 - 1.0.137 · [2026-11-07 — Coordinador — lecciones de la primera ola y tablero](registro/2026-11-07_coordinador-lecciones-ola1.md)

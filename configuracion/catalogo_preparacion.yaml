@@ -845,12 +845,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 42418334746
+        stage: M08
       preparation_evidence:
         run_id: 42409605030
         artifact_name: ddd-source-package-congreso_alicante-2025-42409605030
@@ -867,7 +869,10 @@ territories:
       evidence:
         electoral_source: territorios/congreso_alicante/evidencia/fuentes_electorales/2025/600f053e186d955a62ff161b71725e160ba01932f57ed5a8af715476156830ec/41239760809/receipt.json
         generation_preflight: territorios/congreso_alicante/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+        territorial_product: territorios/congreso_alicante/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_alicante/evidencia/pares_fuentes/2025/a15a905eafdabb7df54ebcd58b326c874fa91adc44bf70a9814a0fa7b4433d4d.json
+        electoral_product: territorios/congreso_alicante/evidencia/catalogo/electoral_product_2025.json
+      generation_enabled: true
 - territory_id: congreso_almeria
   name: Congreso Almería
   editions:
@@ -1035,12 +1040,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 42416213698
+        stage: M08
       preparation_evidence:
         run_id: 42409499602
         artifact_name: ddd-source-package-congreso_barcelona-2025-42409499602
@@ -1056,8 +1063,10 @@ territories:
         source_commit: 58805c689a759960187600c183a65c8f110c0fe5
       evidence:
         electoral_source: territorios/congreso_barcelona/evidencia/fuentes_electorales/2025/00a14eb290c463601d26aa2547e3af9a5a229c7d8b0fc92110f899c44592ff6b/41239777027/receipt.json
-        prepared_source_pair: territorios/congreso_barcelona/evidencia/pares_fuentes/2025/99df15eb1c2be5635c810501b052244781a6936c9029d0717b607fe9f8b2f486.json
+        prepared_source_pair: territorios/congreso_barcelona/evidencia/pares_fuentes/2025/c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f.json
         generation_preflight: territorios/congreso_barcelona/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso_barcelona/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/congreso_barcelona/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_burgos
   name: Congreso Burgos
@@ -1850,12 +1859,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 42418628975
+        stage: M08
       preparation_evidence:
         run_id: 42409615215
         artifact_name: ddd-source-package-congreso_malaga-2025-42409615215
@@ -1872,7 +1883,10 @@ territories:
       evidence:
         electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/810ba9d1ea413302b78cf21a46cec0a52bfcfaade3bb7ec8595759c011a50357/41239877192/receipt.json
         generation_preflight: territorios/congreso_malaga/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+        territorial_product: territorios/congreso_malaga/evidencia/catalogo/territorial_product_2025.json
+        prepared_source_pair: territorios/congreso_malaga/evidencia/pares_fuentes/2025/ffd60f7ceed7763841bb96ac9718b98cf2a133b925486f451405576f3bda614c.json
+        electoral_product: territorios/congreso_malaga/evidencia/catalogo/electoral_product_2025.json
+      generation_enabled: true
 - territory_id: congreso_murcia
   name: Congreso Murcia
   editions:

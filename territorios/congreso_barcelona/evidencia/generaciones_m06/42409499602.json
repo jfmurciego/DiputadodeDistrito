@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13591590398,
+      "artifact_name": "ddd-audit-42409499602",
+      "artifact_sha256": "c704f2d77719726200513dea32277b18c124321e0fab586b590dff6d49a5f9b9",
+      "run_id": 42409499602,
+      "size_in_bytes": 9872
+    },
+    "m04": {
+      "artifact_id": 13590694047,
+      "artifact_name": "ddd-state-42409499602-M04",
+      "artifact_sha256": "11bea239aded615a69a9f24900130359717859a61ea01ddd6f11d08a06d43cc2",
+      "run_id": 42409499602,
+      "size_in_bytes": 85892368
+    },
+    "m05": {
+      "artifact_id": 13590913491,
+      "artifact_name": "ddd-state-42409499602-M05",
+      "artifact_sha256": "1e897d5927c5d9f2fe48e744c6257a6fecbdf1336d13c6e665b92aa7a58bd9bb",
+      "run_id": 42409499602,
+      "size_in_bytes": 88049261
+    },
+    "m06": {
+      "artifact_id": 13591026995,
+      "artifact_name": "ddd-state-42409499602-M06",
+      "artifact_sha256": "9d21c845f7885d6e1b84f9d212baf995bc1ea2a6bc80a1f5e450f12f954b2300",
+      "run_id": 42409499602,
+      "size_in_bytes": 90850200
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "52c0b6d77b68621f4eb5d3bf16707dbe14bf11d96fb30a563bb85d5312715016",
+        "size_in_bytes": 488
+      },
+      "congreso_barcelona_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "05015f5f31f4ebb6be583c44a9d2f35ce42b8f97eea669ebf5daf469ca1c314f",
+        "size_in_bytes": 52369
+      },
+      "optimization_execution.json": {
+        "sha256": "a17e5c37206273d0d5ae7fa9a4e45f250c3461b63295f285b9ad75c9183f9f3b",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "ab93d20944ca43a53cb13152d225ead0701f87286ca5da718ef2b54c33c19246",
+        "size_in_bytes": 1328
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "ab93d20944ca43a53cb13152d225ead0701f87286ca5da718ef2b54c33c19246",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_barcelona/config/congreso_barcelona_2025.yaml",
+    "sha256": "7a3af93c5ff8d0ab19f9cc584b6eb43893ccec6bbd47f5de694c820b7eaae2dc"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "d7ddee51432363f9853f6b3a4a01cd8e79e65872875e864ab58b0299ac5c3600",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "57e8f90d2bd7b62f21048fedfbc12789599d8cfb",
+    "edition": "2025",
+    "territory_id": "congreso_barcelona",
+    "territory_name": "Congreso Barcelona",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42409499602,
+    "workflow_sha": "58805c689a759960187600c183a65c8f110c0fe5"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13590694047,
+      "artifact_name": "ddd-state-42409499602-M04",
+      "artifact_sha256": "11bea239aded615a69a9f24900130359717859a61ea01ddd6f11d08a06d43cc2",
+      "run_id": 42409499602,
+      "size_in_bytes": 85892368
+    },
+    "source_manifest_sha256": "061d7111e612bdde95fe9a68de12bdd881062bc0c8d5370e85937d1bc4a1b04b",
+    "source_package_artifact": {
+      "artifact_id": 13590555221,
+      "artifact_name": "ddd-source-package-congreso_barcelona-2025-42409499602",
+      "artifact_sha256": "37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270",
+      "run_id": 42409499602,
+      "size_in_bytes": 81486697
+    }
+  },
+  "manifest_sha256": "691f3bcb389b56a9eaddfc58b5e4d7ccd03d316d573128daf4ca981c680c9291",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

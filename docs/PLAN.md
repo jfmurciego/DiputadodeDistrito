@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.15
+Versión: 1.0.21
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: rol de Coordinador, planificador por olas, T-64 como estudio y regla de consultar cambios de criterio
-Anterior: legacy/docs/PLAN_v1.0.14_20261107.md
+Cambios/motivo: T-88 ampliada a los plugins oficiales de Anthropic (revisión de PR y desarrollo por fases)
+Anterior: legacy/docs/PLAN_v1.0.20_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -90,6 +90,12 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - `docs/PLAN.md`: planificador. `docs/REGISTRO_DE_CAMBIOS.md`: número lo asigna el planificador al abrir cada PR.
 
 ## 2. Decisiones del propietario
+### Tomadas (07-11 noche)
+- D-8. El Observatorio Electoral de las Naciones (`nazioenbehatokia.eus`; Ion Ansa, Nora Galparsoro) se acepta como
+  **fuente secundaria** para el histórico de generales (2011-2023, votos por partido y sección, seccionado INE de cada año),
+  con contraste por muestreo frente a Infoelectoral y espejo propio con sha256 en el catálogo de procedencia (T-89).
+  Se usa ya como contraste de T-71. Se pide permiso de reutilización a los autores (lo envía el propietario).
+  La red del entorno Default permite `nazioenbehatokia.eus` (07-11).
 ### Pendientes
 - D-5 (T-41). Crear en Settings → Environments el entorno `produccion` con el propietario como revisor requerido
   (repositorio público: disponible en cualquier plan). Sin él, T-41 se queda en el código.
@@ -97,10 +103,23 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   como bloqueada (con la evidencia de T-44 delante).
 - D-7 (T-42, T-43). Permiso de publicación en el visor del hemiciclo y de los ensembles de La Rioja y Sevilla
   (se da en el chat operador).
-- D-3. Publicación en el visor del resto de provincias completas: por lotes o al cerrar la elección.
 - D-4. Un cambio de M04 (T-44) invalida los checkpoints pre-M04 de los contratos con islas (Canarias, Islas Baleares,
   nacional Baleares, Las Palmas, Santa Cruz de Tenerife): visto bueno antes de que T-44 abra PR que toque M04.
 - D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
+
+### Tomadas (07-11 noche)
+- **R2:** se poda para quedar bajo los 10 GB gratuitos (T-76); el borrado solo con lista aprobada por el propietario.
+  T-72 archiva solo el producto final.
+- **Arquitectura de agentes (T-75, #474):** sí a los tres cambios: revisor obligatorio, allowlist de herramientas por rol en
+  runtime y medir al Coordinador durante dos olas (coste por ola y fallos de coordinación).
+- Red del entorno Default: `www.ine.es`, `www.mapa.gob.es`, `www.idescat.cat` (además de `boe.es`). `www.mapa.gob.es` resetea
+  la conexión desde el proxy.
+- **D-3:** se publica en el visor cada provincia al terminar su 00 (permiso por provincia en el chat del Operador).
+- Secreto `CLAUDE_CODE_OAUTH_TOKEN` actualizado por el propietario (comprobar que el revisor corre en la próxima PR).
+- Histórico 2019-11: todavía no. T-70 (D'Hondt): descartada.
+- Archivo: R2 para el archivo de trabajo y Zenodo para versiones cerradas. Portal Zensical publicado en `/docs` del sitio.
+- **T-64 (decisión del propietario):** nos quedamos con los partidos judiciales. #462 se reaplica en #470; la decisión de C-13
+  sigue pendiente (#469).
 
 ### Tomadas (07-11)
 - **Roles (07-11 noche):** el Coordinador (chat «Coordinador», Sonnet) es el socio operativo del propietario: recibe
@@ -108,7 +127,6 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   planifica, por olas: cada ola, un chat nuevo que lee `PLAN.md` y `ESTADO.md`.
 - **T-64 redefinida:** sin partidos judiciales de entrada. Estudio de comarcas no oficiales frente a partidos judiciales;
   si encajan razonablemente, se usan los partidos. #462 queda abierta sin fusionar hasta esa decisión.
-- **D-3:** pendiente (recomendación: publicar cada provincia al terminar su 00).
 - Cambios de criterio (unidades, fuentes, reglas): siempre se consultan al propietario antes de encargarlos.
 - **Senado: descartado.** No tiene sentido para el proyecto; no se planifica ni se dedica tiempo alguno a él.
 - D-4: visto bueno a M04 7.6.7 (Alicante); la próxima 00 de los territorios con islas empieza de cero.
@@ -241,6 +259,35 @@ propietario: ajustes de Settings y permiso de las 00.
 Pendiente para la lista final del propietario: «Allow auto-merge» (P2), entorno `produccion` con revisor (D-5),
 secreto `CLAUDE_CODE_OAUTH_TOKEN` (T-48) y permiso de las 00 de Barcelona, Alicante, Málaga y Andalucía.
 La red del entorno Default ya permite `www.boe.es` y `boe.es` (07-11).
+
+### Ola 2 (07-11 noche) · solo completar territorios y dejar el Gestor listo para la legislatura vigente
+Histórico aplazado hasta entonces (T-81 a T-85 no se encargan); los votos por partido de 19 provincias esperan. R2: el
+sobrecoste es de unos 23 céntimos al mes; no se poda (T-76 cerrada, #480 sin fusionar). Hecho de la ola: 52/52 y 19/19
+«Cadena completa validada» y en el visor.
+
+| Id | Objetivo | Quién | Estado |
+|---|---|---|---|
+| T-79 | Nacional: Alicante y Málaga (00 en `produccion`; si fallan: forense, reparación con el tope de T-44 en chat Opus de motor); Barcelona: completar electoral; Ceuta: 00 según forense (pob. INE 3826 ≠ M06 3723). Cada uno se publica al terminar (D-3) | Coordinador + Operador | Barcelona territorial success; Alicante en curso; Málaga en cola |
+| T-80 | Andalucía autonómica: 03 falló por paquete electoral caducado (run 37150399030); preparar con `reutilizar=false`, `prepare_one`, 00 Reutilizar y publicar | Coordinador + Operador | Pendiente de permiso del propietario |
+| T-86 | Gestor listo para la legislatura vigente | chat Opus del planificador | En curso |
+
+### Ola del 07-11 noche
+Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada chat.
+
+| Id | Objetivo | Chat | Hecho |
+|---|---|---|---|
+| T-72 | Archivo en origen: M06/M08 a R2 con sha256 en `registrar`, composición y votos por run | session_01KQDtFtH5s6XFb1sTEQE75B (Opus) | Fusionada (#471); falta una 00 de prueba (Operador, permiso del propietario) |
+| T-71 | Recuperar composición y votos por partido de las 47 provincias sin ejecuciones (centroides INE 2023 sobre el M06 publicado) | session_01KQDtFtsKtpcWSzdeGAmwMS (Sonnet) | ≥ 40 de 47 exactas; las que no cuadren, a 00 con motivo. Añadido (D-8): contrastar los votos por partido y sección de 2023 con `nazioenbehatokia.eus/data/202307/sekzioa/{cpro}.json` e informar de las discrepancias |
+| T-74 | Catálogo de procedencia único (`orchestracion/catalogo_procedencia.json`, derivado de 5 ficheros) | session_01KQDtFs6b53QY496wZn2gSX (Opus) | PR #473; check en CI |
+| T-73 | Portal Zensical público (P3) en `/docs` del sitio, dentro de `_reutilizable-publicar-sitio.yml` | por abrir, tras T-71 (Sonnet) | `zensical build --strict` en verde, enlaces comprobados; sin publicar |
+| T-75 | Aplicar el metaagente a DDD (solo documentación) | session_01KQDtFvFEZ1wPrxBQpGsj9w (Opus) | En curso |
+| T-76 | Podar R2 bajo 10 GB; borrado solo con lista aprobada | session_01KQDtFtGG21KnDVVU6JUnni | En curso |
+| T-77 | Incorporar T-75: estado de tarea y de efecto externo, línea de cierre ampliada, ficha del ingeniero de motor, topes y libro de costes por chat | session_01KQDtFsDv6WYYdvBHC1Ji7t (Sonnet) | Skills y fichas coherentes; PR con registro |
+| T-78 | Gobierno de agentes en runtime: allowlist por rol y revisor como check obligatorio (JSON del ruleset, lo aplica el propietario) | session_01KQDtFru1JVfTuBosCwaVsu (Opus) | Herramienta denegada se bloquea; PR no-automerge |
+| T-87 | Cadena de publicación con una sola aprobación: al cerrar la puerta 04 de una 00, un job en el entorno `produccion` (aprobación del propietario) dispara juntos la 05 del visor con `production_run_id` de esa 00 y `publicar-version-mapa.yml` (Release, Zenodo); el archivo R2 lo cubre T-72 y los resultados ligeros ya se encadenan con `publicaciones_visor.json`. Toca workflows compartidos: avisar al Coordinador | por abrir (Opus), después de la 00 de prueba de T-72 | PR no-automerge; sin aprobación no publica nada; probado con un territorio y sin publicar hasta el permiso del propietario |
+| T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y, ampliada (07-11), los plugins oficiales de revisión de PR y de desarrollo por fases de `anthropics/claude-code` frente a `revisar-pr`, el revisor de CI e `implementador`; llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | por abrir (Sonnet), después de T-77 | Una PR con la comparación (qué se toma, qué no y por qué) y las skills ajustadas; sin aumentar el contexto cargado por defecto |
+| T-89 | Espejo del Observatorio Electoral de las Naciones (D-8): bajar `data/index.json`, `data/{k}/sekzioa/{cpro}.json` de las 6 generales y `geo/sekzioak/{año}/{cpro}.json` de sus 6 seccionados, con fecha, URL y sha256 por fichero, a R2 (no a git); entrada en el catálogo de procedencia; contraste por muestreo (3 provincias × 2 elecciones) con Infoelectoral 2023 del release espejo y un lector Python del formato compacto (`s`,`k`,`f`,`b`,`r`) | por abrir (Sonnet) | Espejo completo y verificable; informe del contraste; sin publicar ni tocar el visor |
+| T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
 

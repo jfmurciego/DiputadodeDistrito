@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "congreso_alicante",
+  "territory_name": "Congreso Alicante",
+  "edition": "2025",
+  "election": {
+    "election_id": "congreso_alicante_2023-07-23",
+    "election_date": "2023-07-23"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 42409605030,
+    "artifact_name": "ddd-source-package-congreso_alicante-2025-42409605030",
+    "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
+    "package_sha256": "89012683d93b6426a51dbe26181f264e2e4c173bcfe90da44505634a79040eda",
+    "source_commit": "e802cb5939a7d729fce0a5ab2d4be23932883f37",
+    "source_declaration": "territorios/congreso_alicante/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2/42409605030/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "b7c9da310c1e3348a34f398049a8a2ff4baf2fb534f24c7985e61bc200a6d443",
+    "compatibility_identity_sha256": "54306f6ef1157ce055bed871c28d700405c5b2e1db9c98bf8ad163a575969e51",
+    "remote_verification": {
+      "run_id": 42409605030,
+      "artifact_id": 13590097360,
+      "artifact_name": "ddd-source-package-congreso_alicante-2025-42409605030",
+      "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 41239760809,
+    "artifact_name": "ddd-electoral-package-congreso_alicante-2025-41239760809",
+    "artifact_sha256": "228c7c2ea43ec6d5c46af84736223173b5446a3269a130942c8d08e6a5e83e6c",
+    "source_commit": "fe31ffdcd4bbb7a03c28915e3185f54c4b5cabf6",
+    "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_electorales/2025/600f053e186d955a62ff161b71725e160ba01932f57ed5a8af715476156830ec/41239760809/receipt.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "congreso_alicante_2023-07-23",
+    "election_date": "2023-07-23",
+    "electoral_identity_sha256": "600f053e186d955a62ff161b71725e160ba01932f57ed5a8af715476156830ec",
+    "remote_verification": {
+      "run_id": 41239760809,
+      "artifact_id": 13056887433,
+      "artifact_name": "ddd-electoral-package-congreso_alicante-2025-41239760809",
+      "artifact_sha256": "228c7c2ea43ec6d5c46af84736223173b5446a3269a130942c8d08e6a5e83e6c",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2",
+  "electoral_compatibility_key": "600f053e186d955a62ff161b71725e160ba01932f57ed5a8af715476156830ec",
+  "territorial_product_reuse": {
+    "available": true,
+    "geometric_reuse_compatible": false,
+    "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+    "product_receipt_path": "territorios/congreso_alicante/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "pair_sha256": "a15a905eafdabb7df54ebcd58b326c874fa91adc44bf70a9814a0fa7b4433d4d"
+}

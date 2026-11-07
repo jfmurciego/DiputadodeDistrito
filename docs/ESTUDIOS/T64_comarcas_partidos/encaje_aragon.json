@@ -1,0 +1,309 @@
+{
+ "cobertura_municipios_con_partido_y_comarca": 727,
+ "TOTAL": {
+  "n": 727,
+  "partidos": 16,
+  "comarcas": 33,
+  "ARI": 0.472,
+  "NMI": 0.76,
+  "pct_mun_en_partido_con_mayoria_unica": 55.6,
+  "pct_mun_en_comarca_mayoritaria_de_su_partido": 52.8
+ },
+ "provincias": {
+  "22": {
+   "n": 200,
+   "partidos": 6,
+   "comarcas": 10,
+   "ARI": 0.499,
+   "NMI": 0.693,
+   "pct_mun_en_partido_con_mayoria_unica": 86.5,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 56.5
+  },
+  "44": {
+   "n": 236,
+   "partidos": 3,
+   "comarcas": 10,
+   "ARI": 0.258,
+   "NMI": 0.463,
+   "pct_mun_en_partido_con_mayoria_unica": 26.3,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 40.3
+  },
+  "50": {
+   "n": 291,
+   "partidos": 7,
+   "comarcas": 17,
+   "ARI": 0.546,
+   "NMI": 0.717,
+   "pct_mun_en_partido_con_mayoria_unica": 58.1,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 60.5
+  }
+ },
+ "partidos_partidos_por_comarcas": [
+  [
+   "44-02",
+   62,
+   [
+    [
+     "Jiloca",
+     35
+    ],
+    [
+     "Cuencas Mineras",
+     20
+    ],
+    [
+     "Comunidad de Teruel",
+     6
+    ]
+   ]
+  ],
+  [
+   "22-04",
+   61,
+   [
+    [
+     "Hoya de Huesca / Plana de Uesca",
+     36
+    ],
+    [
+     "Los Monegros",
+     23
+    ],
+    [
+     "Somontano de Barbastro",
+     2
+    ]
+   ]
+  ],
+  [
+   "44-01",
+   59,
+   [
+    [
+     "Bajo Aragón",
+     20
+    ],
+    [
+     "Matarraña / Matarranya",
+     18
+    ],
+    [
+     "Bajo Martín",
+     9
+    ]
+   ]
+  ],
+  [
+   "22-01",
+   41,
+   [
+    [
+     "Ribagorza",
+     21
+    ],
+    [
+     "Somontano de Barbastro",
+     20
+    ]
+   ]
+  ],
+  [
+   "50-07",
+   38,
+   [
+    [
+     "Valdejalón",
+     17
+    ],
+    [
+     "Aranda",
+     13
+    ],
+    [
+     "Comunidad de Calatayud",
+     7
+    ]
+   ]
+  ],
+  [
+   "50-02",
+   31,
+   [
+    [
+     "Tarazona y el Moncayo",
+     16
+    ],
+    [
+     "Campo de Borja",
+     15
+    ]
+   ]
+  ],
+  [
+   "22-02",
+   30,
+   [
+    [
+     "Sobrarbe",
+     18
+    ],
+    [
+     "Ribagorza",
+     12
+    ]
+   ]
+  ],
+  [
+   "22-06",
+   27,
+   [
+    [
+     "La Litera / La Llitera",
+     12
+    ],
+    [
+     "Somontano de Barbastro",
+     7
+    ],
+    [
+     "Cinca Medio",
+     7
+    ]
+   ]
+  ],
+  [
+   "22-05",
+   26,
+   [
+    [
+     "La Jacetania",
+     16
+    ],
+    [
+     "Alto Gállego",
+     8
+    ],
+    [
+     "Hoya de Huesca / Plana de Uesca",
+     2
+    ]
+   ]
+  ],
+  [
+   "50-04",
+   16,
+   [
+    [
+     "Ribera Baja del Ebro",
+     7
+    ],
+    [
+     "Bajo Aragón-Caspe / Baix Aragó-Casp",
+     6
+    ],
+    [
+     "Los Monegros",
+     2
+    ]
+   ]
+  ]
+ ],
+ "comarcas_partidas_por_partidos": [
+  [
+   "Ribagorza",
+   34,
+   [
+    [
+     "22-01",
+     21
+    ],
+    [
+     "22-02",
+     12
+    ],
+    [
+     "22-06",
+     1
+    ]
+   ]
+  ],
+  [
+   "Cuencas Mineras",
+   30,
+   [
+    [
+     "44-02",
+     20
+    ],
+    [
+     "44-03",
+     10
+    ]
+   ]
+  ],
+  [
+   "Maestrazgo",
+   15,
+   [
+    [
+     "44-01",
+     8
+    ],
+    [
+     "44-03",
+     7
+    ]
+   ]
+  ],
+  [
+   "Campo de Cariñena",
+   14,
+   [
+    [
+     "50-06",
+     8
+    ],
+    [
+     "50-03",
+     5
+    ],
+    [
+     "50-07",
+     1
+    ]
+   ]
+  ],
+  [
+   "Ribera Baja del Ebro",
+   10,
+   [
+    [
+     "50-04",
+     7
+    ],
+    [
+     "50-03",
+     3
+    ]
+   ]
+  ],
+  [
+   "Andorra-Sierra de Arcos",
+   9,
+   [
+    [
+     "44-01",
+     4
+    ],
+    [
+     "44-03",
+     4
+    ],
+    [
+     "44-02",
+     1
+    ]
+   ]
+  ]
+ ]
+}

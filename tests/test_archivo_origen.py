@@ -73,6 +73,37 @@ class R2(unittest.TestCase):
         self.assertIn("ARCHIVO_R2_FAILED", out.getvalue())
 
 
+class SustituyeM06(unittest.TestCase):
+    def test_m08_retira_su_m06(self):
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root)
+        d = lambda a, p: p.write_bytes(a["name"].encode())
+        for n in ("ddd-state-555555555-M06", "ddd-state-666666666-M08"):
+            ao.archivar_uno({"id": n, "name": n, "workflow_run": {"id": int(n.split("-")[2])}}, "t", root, d,
+                            lambda k: None, lambda k, p, h: None, "b")
+        borrados = []
+        r = ao.retirar_m06("555555555", "t/666666666/ddd-state-666666666-M08.zip", root, borrados.append)
+        self.assertEqual(r, borrados)
+        self.assertEqual(borrados, ["t/555555555/ddd-state-555555555-M06.zip"])
+        man = json.loads((root / ar.MANIFIESTO).read_text())["artefactos"]
+        self.assertEqual(list(man), ["t/666666666/ddd-state-666666666-M08.zip"])
+        self.assertEqual(man["t/666666666/ddd-state-666666666-M08.zip"]["incluye_m06_run"], "555555555")
+
+    def test_fallo_al_retirar_conserva_entrada(self):
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root)
+        d = lambda a, p: p.write_bytes(a["name"].encode())
+        for n in ("ddd-state-555555555-M06", "ddd-state-666666666-M08"):
+            ao.archivar_uno({"id": n, "name": n, "workflow_run": {"id": int(n.split("-")[2])}}, "t", root, d,
+                            lambda k: None, lambda k, p, h: None, "b")
+
+        def falla(k):
+            raise RuntimeError("x")
+        with unittest.mock.patch("sys.stdout", new=io.StringIO()):
+            self.assertEqual(ao.retirar_m06("555555555", "t/666666666/ddd-state-666666666-M08.zip", root, falla), [])
+        self.assertEqual(len(json.loads((root / ar.MANIFIESTO).read_text())["artefactos"]), 2)
+
+
 class Composicion(unittest.TestCase):
     def setUp(self):
         self.root = Path(tempfile.mkdtemp())
@@ -118,11 +149,13 @@ class Comprobar(unittest.TestCase):
         self.addCleanup(shutil.rmtree, self.root)
         (self.root / "orchestracion").mkdir()
         prods = [{"kind": "canonical_m06", "territory_id": t, "run_id": r, "blob_sha": "b", "sha256": "s"}
-                 for t, r in (("a", "10"), ("b", "20"), ("c", "30"), ("c", "5"))]
+                 for t, r in (("a", "10"), ("b", "20"), ("c", "30"), ("c", "5"), ("d", "40"))]
         (self.root / "orchestracion/publicaciones_visor.json").write_text(json.dumps({"products": prods}))
         (self.root / "orchestracion/archivo_r2.json").write_text(json.dumps({"artefactos": {
             "a/10/ddd-state-10-M06.zip": {"artefacto": "ddd-state-10-M06", "territorio": "a", "run_id": "10"},
-            "c/5/ddd-state-5-M06.zip": {"artefacto": "ddd-state-5-M06", "territorio": "c", "run_id": "5"}}}))
+            "c/5/ddd-state-5-M06.zip": {"artefacto": "ddd-state-5-M06", "territorio": "c", "run_id": "5"},
+            "d/41/ddd-state-41-M08.zip": {"artefacto": "ddd-state-41-M08", "territorio": "d", "run_id": "41",
+                                          "incluye_m06_run": "40"}}}))
         (self.root / "datos/composicion/runs").mkdir(parents=True)
         (self.root / "datos/composicion/runs/b_20.csv").write_text("x")
         (self.root / "datos/composicion/MANIFEST.json").write_text(json.dumps({"territorios": {}, "runs": {
