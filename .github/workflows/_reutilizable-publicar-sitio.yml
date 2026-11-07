@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.2.0
+# VERSIÓN: 3.3.0
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
@@ -10,7 +10,9 @@
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # CAMBIOS 3.1.0: T-27 fase b, el visor publica también escenarios.js (agrupación por escenario) y lo valida con node --check.
 # CAMBIOS 3.2.0: T-27 fase c, scenario_id/scenario_strategy opcionales: describe la ejecución como scenario_m06/m08 (solo adición).
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.1.0_20261102.yml
+# CAMBIOS 3.3.0: T-56, el dashboard publicado incluye el hemiciclo nacional (dashboard/hemiciclo.html y hemiciclo.json,
+#   de herramientas/generar_hemiciclo.py), enlazado desde el índice del dashboard con ruta relativa.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.2.0_20261107.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
 # FECHA: 2026-10-27
@@ -118,6 +120,8 @@ jobs:
           test -f publicado/dashboard/app.js
           test -f publicado/dashboard/styles.css
           test -f publicado/dashboard/status.json
+          test -f dashboard/hemiciclo.html
+          python -c "import json,sys; json.load(open('dashboard/hemiciclo.json',encoding='utf-8'))"
           test -f "$PUBLICATION_REGISTRY"
           python -m py_compile herramientas/preparar_visor_ejecucion.py herramientas/evaluar_publicacion_visor.py herramientas/registro_publicaciones_visor.py
           mkdir -p .ddd-publication
@@ -306,6 +310,8 @@ jobs:
           rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard
           cp visor/index.html visor/app.js visor/escenarios.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
+          cp dashboard/hemiciclo.html dashboard/hemiciclo.json /tmp/site-candidate/dashboard/
+          grep -q 'href="hemiciclo.html"' /tmp/site-candidate/dashboard/index.html || { echo "::error::El dashboard no enlaza el hemiciclo."; exit 1; }
           python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
 
       - name: Preparar visor analítico Congreso opt-in
