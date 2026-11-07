@@ -12,6 +12,9 @@ Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 
 ## Reglas para todos los chats
 - Un chat = una tarea. Coge la primera tarea libre de la cola cuyas dependencias estén en «Tareas hechas».
+- **Una PR por objetivo, no por tarea** (07-11): las tareas de un mismo chat sobre ficheros propios van en una sola PR.
+  Se separa solo si toca ficheros compartidos (motor, workflows, política) o si debe poder revertirse sola. Evita
+  cadenas largas: con squash, cada fusión deja en conflicto a la siguiente y repite la CI (~15 min por eslabón).
 - Respeta `CLAUDE.md` (topónimos en español, mínimo consumo, coordinación entre sesiones, gobernanza VERSIÓN/legacy).
 - El implementador pasa la suite local completa (`python -m pytest -q`) antes de abrir la PR.
 - Fusiona el propietario. Nadie lanza ejecuciones productivas ni publica sin su permiso explícito.
@@ -50,14 +53,16 @@ Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 - PR abierta sin tarea: #425 (portal Zensical y auditoría de archivo, Cantabria 50 verificado). Se revisa con T-39
   cuando exista; no se fusiona antes.
 - Registro: 1.0.95 en `main` (#427); 1.0.96-1.0.98 en la cadena; 1.0.99 este plan; reservados 1.0.100 (T-38),
-  1.0.101 (T-39) y 1.0.102 (T-40); **siguiente libre 1.0.103**.
+  1.0.101 (T-39) y 1.0.102 (T-40), 1.0.103 (T-44: M04 7.6.7 y exención de Fuengirola, una PR) y 1.0.104 (T-42);
+  **siguiente libre 1.0.105**.
 
 ### Asignaciones vigentes (07-11)
 | Chat | Rol | Tarea | Siguiente |
 |---|---|---|---|
 | «Implementador nuevo» | constructor de agentes (Opus) | cadena #429-#430 al día; T-38 hecha en rama (PR tras #431) | T-39 + T-40 |
-| «Implementador Motor» | ingeniero de motor (Opus) | **en pausa** (T-44) | — |
-| «Implementador» | implementador (Sonnet) | **en pausa** (T-42), sesión inactiva | T-41 Environments |
+| «Implementador Motor» | ingeniero de motor (Opus) | T-44: Barcelona bien con `main`; Alicante (M04 7.6.7) y Málaga (exención) en una PR | 00 de las tres vía Operador |
+| «T-42 Hemiciclo» | implementador (Sonnet) | T-42 (M08 desde blobs de `publicaciones_visor.json`) | — |
+| «Implementador» | — | sesión inactiva | — |
 | «Operador» | operador único (Sonnet) | T-43 hecha; **en pausa** | 00 de T-44, prueba de T-41 |
 | «Paso 1 agentes DDD» | — | sesión inactiva; T-38 a T-40 pasan a «Implementador nuevo» | — |
 | «DDD Plan» (este) | planificador | cola, registro, `PLAN.md` | — |
@@ -88,6 +93,10 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
 
 ### Tomadas (07-11)
+- D-4: visto bueno a M04 7.6.7 (Alicante); la próxima 00 de los territorios con islas empieza de cero.
+- D-6 Málaga: exención de suelo municipal de Fuengirola (29054) en el contrato; techo y atomicidad sin cambios
+  (Fuengirola 85.136 solo linda con Mijas y Benalmádena, atómicos; con cualquiera supera el techo).
+- Una PR por objetivo, no por tarea (ver reglas).
 - Fusiones sin intervención del propietario: el Operador fusiona por squash cada PR con `pruebas` en verde en la PR y en
   `main`, en el orden de la cola, y pone al día la siguiente (merge de `main`, sin force). Fallo de CI: no relanza; informa al
   planificador.
