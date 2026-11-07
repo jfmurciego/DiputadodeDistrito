@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13592212036,
+      "artifact_name": "ddd-audit-42409605030",
+      "artifact_sha256": "cb3721cc94c31565db64bf283743e26a23c7a5c25291abd3bda5981a5f084939",
+      "run_id": 42409605030,
+      "size_in_bytes": 7643
+    },
+    "m04": {
+      "artifact_id": 13590854551,
+      "artifact_name": "ddd-state-42409605030-M04",
+      "artifact_sha256": "29f4229b9f257519334d5976e0b53bb56de3d327d951fea107a5a52fc8bc283c",
+      "run_id": 42409605030,
+      "size_in_bytes": 79616169
+    },
+    "m05": {
+      "artifact_id": 13591234919,
+      "artifact_name": "ddd-state-42409605030-M05",
+      "artifact_sha256": "d1ab7a3219f285e6203793a568c34a504c59e99ce46ca4bdc6521f0a68a9eb0e",
+      "run_id": 42409605030,
+      "size_in_bytes": 80646961
+    },
+    "m06": {
+      "artifact_id": 13591274901,
+      "artifact_name": "ddd-state-42409605030-M06",
+      "artifact_sha256": "ea0d29e63128c377fb309155c54b55f970fa173d14dcdc87ae028efbf42426e4",
+      "run_id": 42409605030,
+      "size_in_bytes": 82110335
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "a55014c3238afee9e1ec90233b16eb250abcd7b686c393156cfaaf1685e430fe",
+        "size_in_bytes": 481
+      },
+      "congreso_alicante_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "c4032dd0c42172b4907ba9317aeef2e5bd5c0baf37cd79d5ed3ff965d3504941",
+        "size_in_bytes": 37171
+      },
+      "optimization_execution.json": {
+        "sha256": "cb22665a5924240a474d3e8d759bc2876bbb8e5fd0113c941bf8db8b2e2f6c67",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "ba79193b410bb9acd86461af144f9156428c73268f1d2e19b43f7b5a531a547f",
+        "size_in_bytes": 1345
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "ba79193b410bb9acd86461af144f9156428c73268f1d2e19b43f7b5a531a547f",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_alicante/config/congreso_alicante_2025.yaml",
+    "sha256": "fbdab2531d8995daff11fa0baaceece3f7667dc72825001768dff604200fa61a"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9af6785a2b9b3badbb755fbe1cf561d8b515272cf7fa729ae00fcdd3a5c608cf",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "70fb22388ec2a5c1704b05b8c3c851683f58d62a",
+    "edition": "2025",
+    "territory_id": "congreso_alicante",
+    "territory_name": "Congreso Alicante",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42409605030,
+    "workflow_sha": "e802cb5939a7d729fce0a5ab2d4be23932883f37"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13590854551,
+      "artifact_name": "ddd-state-42409605030-M04",
+      "artifact_sha256": "29f4229b9f257519334d5976e0b53bb56de3d327d951fea107a5a52fc8bc283c",
+      "run_id": 42409605030,
+      "size_in_bytes": 79616169
+    },
+    "source_manifest_sha256": "1cd6e551c690e8bbfb8d54d7f608c903d4f588d3eb710c615ad2eded92e71c41",
+    "source_package_artifact": {
+      "artifact_id": 13590097360,
+      "artifact_name": "ddd-source-package-congreso_alicante-2025-42409605030",
+      "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
+      "run_id": 42409605030,
+      "size_in_bytes": 77528459
+    }
+  },
+  "manifest_sha256": "b2a91d6009a74648a4683754e6a21e23add4acce811c66b379763264c04ffc21",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
