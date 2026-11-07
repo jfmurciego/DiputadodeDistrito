@@ -1,12 +1,19 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.97
+Versión: 1.0.98
 Fecha: 2026-11-07
-Alcance: Paso 1 (bloque 2) — CLAUDE.md recortado, reglas y hook
+Alcance: Paso 1 (bloque 3) — skills de rol y procedimiento
 Estado: candidato
-Cambios/motivo: CLAUDE.md < 100 líneas, .claude/rules por ruta y hook de git
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.96_paso1ci_20261107.md
+Cambios/motivo: nueve skills en .claude/skills
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.97_paso1reglas_20261107.md
 -->
+
+## 2026-11-07 — Paso 1 (bloque 3) — Skills de rol y procedimiento
+
+Nueve skills en `.claude/skills/`, una página cada una: `planificador`, `operador`, `implementador`, `lanzar-00` (modos y dispatch REST con
+`publish_result=false` salvo permiso), `diagnosticar-run` (catálogo de causas raíz), `revisar-pr` (veredicto ligado al SHA), `publicar-visor`, `presupuesto`
+y `disenar-agente` (destilado del metaagente v1.0). Sin código, contratos ni workflows · PR #430.
+
 
 ## 2026-11-07 — Paso 1 (bloque 2) — CLAUDE.md recortado, reglas por ruta y hook de git
 
