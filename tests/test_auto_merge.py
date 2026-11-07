@@ -69,6 +69,49 @@ class Decision(unittest.TestCase):
             self.assertEqual(dam.decidir(p, verde, SHA, REPO)["decision"], "NO", p)
 
 
+class CasoPR458(unittest.TestCase):
+    """Datos reales de #458 (T-65): HEAD b833188c, fusionada a las 18:14:04 por la 1.0.0; su `pruebas` (suite
+    114870396227) empezó a las 18:14:09 y acabó en failure. Con 1.2.0 nunca se fusiona."""
+    HEAD = "b833188c433d8a735fb1291561693a3fca0d4ff7"
+    SUITE = 114870396227
+
+    def pr458(self):
+        return pr(head={"sha": self.HEAD, "repo": {"full_name": REPO}}, mergeable_state="clean")
+
+    def test_a_la_hora_de_la_fusion_no_habia_pruebas(self):
+        r = dam.decidir(self.pr458(), {"check_runs": []}, self.HEAD, REPO, self.SUITE)
+        self.assertEqual(r["decision"], "ESPERAR")
+
+    def test_el_pruebas_que_llego_despues_fallo(self):
+        real = {"check_runs": [{"id": 128486077717, "name": "pruebas", "head_sha": self.HEAD, "status": "completed",
+                                "conclusion": "failure", "started_at": "2026-11-07T18:14:09Z",
+                                "check_suite": {"id": self.SUITE}, "app": {"slug": "github-actions"}}]}
+        self.assertEqual(dam.decidir(self.pr458(), real, self.HEAD, REPO, self.SUITE)["decision"], "NO")
+
+    def test_un_pruebas_verde_de_otra_suite_no_vale(self):
+        otro = {"check_runs": [{"id": 1, "name": "pruebas", "head_sha": self.HEAD, "status": "completed",
+                                "conclusion": "success", "started_at": "2026-11-07T18:13:00Z",
+                                "check_suite": {"id": 999}}]}
+        self.assertEqual(dam.decidir(self.pr458(), otro, self.HEAD, REPO, self.SUITE)["decision"], "ESPERAR")
+        otro["check_runs"][0]["check_suite"]["id"] = self.SUITE
+        self.assertEqual(dam.decidir(self.pr458(), otro, self.HEAD, REPO, self.SUITE)["decision"], "FUSIONAR")
+
+    def test_ninguna_version_activa_puede_ejecutarse_por_pull_request_ni_activar_auto_merge_nativo(self):
+        # La 1.0.0 se ejecutó por `pull_request` con una referencia de merge anterior a #457 y activó el auto-merge
+        # nativo con la app exenta: GitHub fusionó sin `pruebas`. La 1.2.0 no tiene ninguno de los dos caminos.
+        d = yaml.safe_load(WF.read_text(encoding="utf-8"))
+        on = d.get("on") or d.get(True)
+        self.assertNotIn("pull_request", on)
+        self.assertNotIn("pull_request_target", on)
+        texto = WF.read_text(encoding="utf-8")
+        self.assertNotIn("--auto ", texto)
+        self.assertNotIn("enablePullRequestAutoMerge", texto)
+        job = d["jobs"]["fusionar"]
+        self.assertIn("workflow_run.path == '.github/workflows/pruebas-plataforma.yml'", job["if"])
+        self.assertIn('--suite "$SUITE"', job["steps"][1]["run"])
+        self.assertEqual(job["steps"][1]["env"]["SUITE"], "${{ github.event.workflow_run.check_suite_id }}")
+
+
 class Workflow(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
