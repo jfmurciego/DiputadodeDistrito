@@ -1,12 +1,21 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.99
+Versión: 1.0.105
 Fecha: 2026-11-07
-Alcance: PLAN 1.0.12 — estado a 07-11 y cola T-38 a T-44
+Alcance: T-42 — hemiciclo nacional con tres sumas de escaños
 Estado: candidato
-Cambios/motivo: plan tras el Paso 1; siguientes pasos del §12 y producto con tope
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.98_paso1skills_20261107.md
+Cambios/motivo: herramientas/generar_hemiciclo.py 1.0.0 y página dashboard/hemiciclo.html
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.104_motor_20261107.md
 -->
+
+## 2026-11-07 — T-42 — Hemiciclo nacional: tres sumas de escaños
+
+`herramientas/generar_hemiciclo.py` 1.0.0 (fichero nuevo) lee los M08 registrados (`distritos_resultados.csv`) de las provincias nacionales completas y suma escaños por partido:
+(a) reparto real 2023, D'Hondt con umbral del 3 % calculado desde los votos y contrastado escaño a escaño con el oficial (falla si difiere); (b) generales 2019-11, «sin fuente» mientras no se
+aporte `--generales-2019` (el repositorio no tiene esos resultados; subtarea abierta); (c) uninominal propio, un escaño por distrito. Salida `hemiciclo.json` y `hemiciclo.csv` con el total «Nacional» por partido
+y la lista de provincias que faltan calculada de los datos (sin M08, con distritos distintos de K o sin oficial 2023), no fija. `dashboard/hemiciclo.html`: hemiciclo SVG y tabla con conmutador entre las tres sumas,
+topónimos en español. Pruebas: `tests/test_generar_hemiciclo.py` (4; Soria y Teruel sintéticas). Pendiente: los M08 de las 49 provincias y el oficial 2023 no están en git (artefactos de Actions e
+Infoelectoral), así que (a) y (c) no se han contrastado con datos reales. No toca workflows, `modulos/` ni `ddd_core/`; no publica.
 
 ## 2026-11-07 — PLAN 1.0.12 — Estado a 07-11 y cola T-38 a T-44
 
