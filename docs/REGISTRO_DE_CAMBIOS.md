@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.146
+Versión: 1.0.147
 Fecha: 2026-11-07
-Alcance: T-77 — Incorporar T-75 en skills y fichas
+Alcance: Coordinador — PLAN 1.0.18 y lecciones del planificador (ola 2)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_t77-incorporar-t75.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.145_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_plan-1-0-18-ola2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.146_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.145_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.147 · [2026-11-07 — Coordinador — PLAN 1.0.18 y lecciones del planificador (ola 2)](registro/2026-11-07_plan-1-0-18-ola2.md)
 - 1.0.146 · [2026-11-07 — T-77 — Incorporar T-75 en skills y fichas](registro/2026-11-07_t77-incorporar-t75.md)
 - 1.0.145 · [2026-11-07 — T-72 — Paquete mínimo por run en R2](registro/2026-11-07_claude-t72b-solo-producto-final.md)
 - 1.0.144 · [2026-11-07 — Coordinador — PLAN 1.0.17: R2, arquitectura de agentes y cola T-76 a T-78](registro/2026-11-07_plan-1-0-17.md)
