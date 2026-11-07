@@ -57,12 +57,623 @@
    "secciones": 240,
    "sha256_csv": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195"
   },
+  "congreso_albacete": {
+   "run_id": "41294417893",
+   "blob_sha": "c3da7d6507dcadf40132cd1f442f2e9df49941aa",
+   "sha256_m06": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06",
+   "secciones": 294,
+   "sha256_csv": "e8f4c44ec891d4cc95a46fb15fd1c2f8cdf2edfccb6aa6adb04a48c26129a44c",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "807065cc931d276481beb43b9a2a1a9b438e76a340ceac154e0234cd5b83b09c",
+    "sha256_padron_65034": "e28815ee2a4d082f9d71cd41cd5b5857f928da6e8b83429e0a4326145e1439f5"
+   }
+  },
+  "congreso_almeria": {
+   "run_id": "41295979497",
+   "blob_sha": "373e5f1f840a032f8d3465afa250be2540ebaada",
+   "sha256_m06": "869fba8930ef436c53658fedf8d86a0da1068c941feac94652ef4e5155cffcde",
+   "secciones": 459,
+   "sha256_csv": "686b58aa44652658fbb091583ac070ee31e1fe836a0c6ec0da6903a0bd93d106",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "a8b6fb66351b4f343d7a9e0a4337bd0070a89b5e24531428d771e61a5812868f",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_asturias": {
+   "run_id": "41296638877",
+   "blob_sha": "f78afd6ad9243fc79c114e1eb1df83d39bb66c2c",
+   "sha256_m06": "26d9f1eef6f4fa0c46124d0bd90c02275f6d5fa352d7ebf35e2162987f48d5ab",
+   "secciones": 832,
+   "sha256_csv": "16a222a0928c730bfb7ddd60555f82b709a8fe0e34d4a545155fd6752d09d944",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "f950785c8fc1e8d4c89fdd0127b3ffd1b038a3d787b08ae9e38b76b883089bb2",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_avila": {
+   "run_id": "41241662219",
+   "blob_sha": "12b12913c997ab1b2672f9b64eb32aa048936486",
+   "sha256_m06": "1dbc9e4be04d22053d7d09cad006f9fbc57ca10874b499ebc5e18ecff1fdde86",
+   "secciones": 311,
+   "sha256_csv": "7635b7d07db46817242f602c92069657205bf1df4c865a91b9911ba40fea8b71",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "e761968798fed1a4cdee80449bc5f46b7954177132354a3afa9f55e1aec1d7ba",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_badajoz": {
+   "run_id": "41299475924",
+   "blob_sha": "3d0c756f9cd181dcd794a3c4f133439c8c736863",
+   "sha256_m06": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f",
+   "secciones": 553,
+   "sha256_csv": "fd29a7ec11fb021bb509eea661c7415ae99814c8cffd70725a7b5c5ce3c4de02",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "c184fc14e4cc5195420b4eae39ac565ce4b140850a7421838732e2008f6da247",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_baleares": {
+   "run_id": "41481449507",
+   "blob_sha": "14a348d64550231dd2a3eddaa662013ddf740ebe",
+   "sha256_m06": "dd5afe1a4ac150521efa0a18abe88d0b1850ece441f8c0d06e927d0a20849d72",
+   "secciones": 670,
+   "sha256_csv": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "6d7ef7f74b0d017e7ecf867d4725faf91c59d60e83d8f1f80419d0ea7e698abd",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_burgos": {
+   "run_id": "41299221887",
+   "blob_sha": "0a04c879067138b089f7243a51c3ee20f84d952e",
+   "sha256_m06": "b0251dbc3a45083701ea28895ed68acf4e29a9a12514b6c13a925997b2bd1d63",
+   "secciones": 582,
+   "sha256_csv": "75199071b7b9d2cc7607006c451c3b389fedc881bd3e52833a62198d87ef6214",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "1bc84989856c6fc1fc73ad3882c4f669231dacf19308b0b3c1631defe80836a7",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_caceres": {
+   "run_id": "41294658600",
+   "blob_sha": "169ddf46d52bc378f0f9f5d11a239e87d69af53d",
+   "sha256_m06": "74292d05558e5f07f44cf42cca4377d68f17eb193876cdad535444f9fabd1ea4",
+   "secciones": 412,
+   "sha256_csv": "ae940ce6be753eb7da27b2ce4d03b7134722e724e742eca4e2ea5be46e7a1bd1",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "a6e646cf88c1f962a74fd835b26455afc197705bc209017ee103566bcc28008e",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_cadiz": {
+   "run_id": "41500124775",
+   "blob_sha": "eafe4c846725dc28ff6321f4bcb7149fbeac1472",
+   "sha256_m06": "b394db0e089c1360ed02408c5ab5bb8aa8168ef32798982ad4f78e92cafa0587",
+   "secciones": 926,
+   "sha256_csv": "9efad3ca2d728627586a5eefbaf28a9b497f7cdcc48c44f01d64998cbe512c78",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "f3f44f5e004a1467bc8713e9fa53e4fc2913b24976182feb283ad059e02f6bf0",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_cantabria": {
+   "run_id": "41356175674",
+   "blob_sha": "591a9c54c496c1d04b322551c8992d480b72b353",
+   "sha256_m06": "5ca88b82e1e9addae247e6e078ad8c2f56b0e17220fa749aee11a2c136a9d87b",
+   "secciones": 460,
+   "sha256_csv": "7bf80faa7fa1423dfb2fa16e31b8e87b9a1b0ccee7cf3a105e7a73128c40af25",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "4cf1b8456977aec2b403a9746fe8de77744b86dd1739c4bfae3b36167ed2e940",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_castellon": {
+   "run_id": "41295629673",
+   "blob_sha": "f8cfc3a7e4af0e924261c7d25c9274678ae0650b",
+   "sha256_m06": "ba5921830ce016ec27a31b6ad4fb4fcc87c53761b702fb38ae926a07ac6f88f6",
+   "secciones": 444,
+   "sha256_csv": "faf0cd57d563c2a2ec22363f7dcd2b4cd88d21de8f16a345eb137a61a7f67ae9",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "927bb568414172ac5222f87fb3239718539aee8f1f46cb7c7248f2e85e2ecb84",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_ceuta": {
+   "run_id": "41250564472",
+   "blob_sha": "1be63fee48bf92fc8f5e3a6633afe2fa27c9b7ed",
+   "sha256_m06": "35a0976bb4aef886cd19778051f9d84d576e6f7e9c42d778ce0d8b9b2c5c4865",
+   "secciones": 56,
+   "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "45a6339eaa8fa95b281211d798657f28c5afd1b4935a53acf0f701b5bef63ac0",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_ciudad_real": {
+   "run_id": "41298749455",
+   "blob_sha": "1ad927a5686dfbd97ee8e9682118dc1495837f0a",
+   "sha256_m06": "0167a300e1a4df4f4c202e189bca38941b04d711fab72fc16e37294c8885f2d3",
+   "secciones": 420,
+   "sha256_csv": "f092ea34272c7bbce8cf28d7b3a85f9b1c2895a530751c123a03a4dc2375aa45",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "3dafa9d5097d6d15b7021db98236eff0e0d8f6607fe00436b78af2cbe320bf85",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_cordoba": {
+   "run_id": "41296161083",
+   "blob_sha": "663e0d09d85983b70d2a50d47e5a0b446e304feb",
+   "sha256_m06": "10a97db73caea16a250f2e485d5d0d1bb83008a0252a99803dea6953ba7ac8c2",
+   "secciones": 621,
+   "sha256_csv": "cbcd8d2a3383ae80d82830329ce6b47d83c5d08e4751c1c83369b366b8589c4f",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "8c613e71dfc75cbccef62d2dfcad017214204cf7b86ffa854b150a501e7f8794",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_cuenca": {
+   "run_id": "41294075778",
+   "blob_sha": "23e6a88cc3538afac3f92544faf1fd4455098fab",
+   "sha256_m06": "4746490207d3abd662af430dfa3a104456cd065c165b4645271170a006c004e0",
+   "secciones": 310,
+   "sha256_csv": "b742957de73b43e19db9512f9fdb686cfb731e7edb89ea62fef00b5b2dc14f1b",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "259212949f499deaae546e3b542cf9bd64ecaed9a72f8b3f9b182f11876556cb",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_gerona": {
+   "run_id": "41298839274",
+   "blob_sha": "4f8354e9752910baa53ea70f75604eba11d99bd3",
+   "sha256_m06": "cd4875419859e9ab2e079b4352e41271bcc501a9ad98b4c7f941d32d0022e2c7",
+   "secciones": 536,
+   "sha256_csv": "2b9e421dd8236727a42a2a2ca3fa77db5af10c41b4729a1fae2f5cdfc43f3a4c",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "f00136935c877c660c60f2acc047f508f7e67e2f9268081144eadeb35db8f4db",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_granada": {
+   "run_id": "41296546816",
+   "blob_sha": "611bf9348182615c952e6fa6b708bd60cd89905a",
+   "sha256_m06": "6eeb3324efed451f190cc4f2c7aeb1325c19783364a9f965a778d165ad52c1c6",
+   "secciones": 672,
+   "sha256_csv": "9cf457e6c2a8423fa78e429a7ec525191ce8270a7115019a503a483ee7109bcd",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "199868578f5eb6ab80815dfd2e5d9367e152ba8571dc0cd8522080043e2166a8",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_guadalajara": {
+   "run_id": "41294169221",
+   "blob_sha": "cecdd9f8b243296d1e43202b560ba9614cd08d2b",
+   "sha256_m06": "92cb51d9b623af9db3f703d87b1c488e59302c38c735a7033590fed2db871e21",
+   "secciones": 400,
+   "sha256_csv": "866af96d6725859c3839c3c789d5f743c13e218c182c2ca2a21e77e3e45f3145",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "b708b0ebf87339515aa4fc2de5fc759075341bf44fa125b57c3211fc69c4511b",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_guipuzcoa": {
+   "run_id": "41298935355",
+   "blob_sha": "16e92009efc458b946eb2fd4e163801d99045782",
+   "sha256_m06": "f6d52eb83af59f0d3e39c6154e6825a0b1ad6615bc6c9ad19fb5c881401159c2",
+   "secciones": 548,
+   "sha256_csv": "d565ff12461376768fb22453ac7018f2e58cbea2a3bcb863091ac9634fbc29b4",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "8759fc347b0f346d0cc2f655717dbefd8f2e376d655dd04497104ce303e07c7f",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_huelva": {
+   "run_id": "41335929678",
+   "blob_sha": "dcf873c77be2c95769c800bb9a3fd65c827fa735",
+   "sha256_m06": "c74b2145c223cf9a05e0e4d259e193950d07100e89c1c793537109340742db4e",
+   "secciones": 371,
+   "sha256_csv": "b6e79d7bd464a5587ca98663ec3a22729c116a62d6c37527fdae133ff5e2a917",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "3a574b20c3914aa2d21367c16024cc0ec2e6779677170fe82a1ae762c1522ba2",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_huesca": {
+   "run_id": "41194447427",
+   "blob_sha": "67fa2836faad2b4eff97aa9f220542acb60adb4e",
+   "sha256_m06": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1",
+   "secciones": 286,
+   "sha256_csv": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "47b15721efeb1460af33923e129a00b6873fdf6ce07ebd8a547ec415dc6c5305",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_jaen": {
+   "run_id": "41295799269",
+   "blob_sha": "b94f3a6ca6d1f1baac161fba38132ab6a6f6bd41",
+   "sha256_m06": "b13230763d2b9859ad314b379cf6250c615a757c0ef01f242270aa26eaee8a23",
+   "secciones": 507,
+   "sha256_csv": "9329c0c28a8c608908fe8c0096a71db852dccd4bee41bd450cf80814866fde0d",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "d2f1c2a59dc44696e45e625daf2db3ca2e89beb5728aadfac4bf509f1bbd89bc",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_la_coruna": {
+   "run_id": "41296991598",
+   "blob_sha": "58991b5796314eb5a9baf0ed6560f80209294806",
+   "sha256_m06": "4ad7c2aebcae10814e7c88492178abeb4f9633a0d48999714990d795940767cc",
+   "secciones": 886,
+   "sha256_csv": "dc1def47e9494d34af945cd844646be714854df34987e126c8aa8c71ad105240",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "723f793b15dba7ba3f3ea0fa57a896a6c3f06bcc793e95d03307df23285961de",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_la_rioja": {
+   "run_id": "41294822309",
+   "blob_sha": "9f87439598bc544feeaea72125cd3c504745befe",
+   "sha256_m06": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a",
+   "secciones": 343,
+   "sha256_csv": "5a096f13d2bcf57240777144222efc8e2f7557772cc22fb524195aec56f17fb3",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "e3fea19da800b12ffb903d2241beecb69441544e9c3d3beecd1ec77ee157da7c",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_las_palmas": {
+   "run_id": "41442913288",
+   "blob_sha": "fc8b114d71a67855b6f81d3f76f3ea0280f3825d",
+   "sha256_m06": "e1085a9d926a560620e68ed7999f033bd5323396a407b85751742c9658a83d87",
+   "secciones": 715,
+   "sha256_csv": "e817de3faad80aad9d78b2eeee006fcbdc96ba35789162c04b8894d3a6faf563",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "a6f2858b3bdd7f8df8da1a3aed39e6b7749fc98b67253814b9042f8d51be7e9f",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
   "congreso_leon": {
    "run_id": "41629735636",
    "blob_sha": "d3f23897b735597b20e0b4a3ae4d0acc8332ece2",
    "sha256_m06": "64e44b77dcd81fee3f82ee7698112ee038c54837652c805485c720c9b4fc1025",
    "secciones": 447,
    "sha256_csv": "295ee72e72479aa104d93d7f99b0e7d12fc72fd2835c025c74f8cac079dca9dd"
+  },
+  "congreso_lerida": {
+   "run_id": "41299033915",
+   "blob_sha": "1c7a7c7d4f77c71bc0a7ccd78a9eea630f3392e4",
+   "sha256_m06": "cc6ac03c68b83abe4c832a7d29f034522f690fa7480cce2752a74bc94d975af1",
+   "secciones": 388,
+   "sha256_csv": "c840bcd3261d9e18757b4184a8a7855eaaad57bd8e4eb0a4efadfe4882850707",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "64e8f25bfe3e0a49efc81f11574ebf72a6a0cedc27516847d91887567a338696",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_lugo": {
+   "run_id": "41294985244",
+   "blob_sha": "61baba86db0ee7f78ba5d54fd7c3d07f6da27a0c",
+   "sha256_m06": "fda0dda4b68a1a490af8f0f35489e3cb62eb2f77ddbcd7318e3c97c4a17abbd2",
+   "secciones": 279,
+   "sha256_csv": "b8872f3807facddb55074d8f9e60f77c2c1450c95e1f33a3f70fc96e808eee1c",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "32050180efc5418a736455d6dcc16af0d3a8d7920d0916bd0470e615fdcd766a",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_madrid": {
+   "run_id": "41622703086",
+   "blob_sha": "f58540de9091b77168047562c0a669cd68b20ef9",
+   "sha256_m06": "c0be80d0d15d89d9929c0400a278a9abcfe31131726fd870790984ab7c06b029",
+   "secciones": 4479,
+   "sha256_csv": "5b03e5b28ce9865b1ef9fd09df8330a17e90f18d6db283fb160fb129be2dc9bf",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "3c41fabdf69ffe4bc68a54ad43461d0468155f32dd58451be8f1a7aebd40631e",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_melilla": {
+   "run_id": "41293988485",
+   "blob_sha": "27815e9348d63f2ae831f1a60c8495a5f4fd3262",
+   "sha256_m06": "3788e954c96a750f6281f5bedd47436322858279fc3dc51d39b5c7d25ec0bb75",
+   "secciones": 44,
+   "sha256_csv": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "cf40dbfa4b2d9e0de90f577e295001df9d7b2b7c98598c61601da4ab9533eec3",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_murcia": {
+   "run_id": "41622862185",
+   "blob_sha": "d77418d6fba6f0b63785e21256215769714a3b05",
+   "sha256_m06": "8056c77be56654e0593941673245cb2cdbe2cd21a2d74d172faaeaafa825c4e4",
+   "secciones": 1223,
+   "sha256_csv": "e508964b031621bb1d80430ac4478b091f868be841cc42f4f39fa6936bff3d96",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "b78d0b7cbfe932a49cdfdb5336805dc44d66fc84bb01619a1cd3ed44b62b5fc5",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_navarra": {
+   "run_id": "41299128213",
+   "blob_sha": "f5587e91c557e43bb560f6f8d9a663c8d5c1f775",
+   "sha256_m06": "bdba8f82d8788453fce9274c84ccd82037c1088456979c44070aa857e84ef032",
+   "secciones": 578,
+   "sha256_csv": "fd0cf2bac1f6466b6f1d07ef04c3baa04abab73c1f2970720fdbd6614858d8d4",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "73dc060ed878e0080d374b88e5ebb3088943962a68cde9d27b615d6a7d2e1655",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_orense": {
+   "run_id": "41295142111",
+   "blob_sha": "ebd135b7019a015c6650cc3525b214f357d68a78",
+   "sha256_m06": "ae08e0c7068202deaaf3a04c0f7f4909a87ce039bb55d69633d074afd2740edb",
+   "secciones": 257,
+   "sha256_csv": "a8c192a962ebd0c22323f7a58a0bdd744a1c6038287381e9e36c4c20b555340d",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "abe037eccfca762df682381201761b2ec1553de8e72f693df78b05011fecddcc",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_palencia": {
+   "run_id": "41298660623",
+   "blob_sha": "36ceb7489e519793d385c8a9a723f9fc53b062c9",
+   "sha256_m06": "76e597dca654a53f5dfea12557bc8237e120e55e9d6dcf348f8d1408e904c547",
+   "secciones": 275,
+   "sha256_csv": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "a0712b726ae722ea570b5fa5e93d532ba9eb4d08a9f5e4713c7022972f4b2de1",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_pontevedra": {
+   "run_id": "41353894475",
+   "blob_sha": "7ba90d7878ea2b57d16d8bc7b3612bb7a3b2375f",
+   "sha256_m06": "e9ae99095a8da16629135ee476915bca1d405541f79656d055638e166c6ac294",
+   "secciones": 727,
+   "sha256_csv": "436958cdd9c0f183b10e2960c519db945eb37f135f3fdadc7c88e29eb932ee08",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "fae7a24d75929d5178a9fa88e01ac7b0934688fc67c34b0212fc2f94d82baa12",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_salamanca": {
+   "run_id": "41295298674",
+   "blob_sha": "519c279aea0d800bf26cbc681521eabf48e59caf",
+   "sha256_m06": "4daccc0e0011ab510156a94cd1330e02c9cc97fe6d17d8bb4b655b9325dc4da0",
+   "secciones": 532,
+   "sha256_csv": "58712daa22f577d69ab78947cd48f79afbd15092b42afdd93704a0885ce95b42",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "2fb7851983d07f21379f3a2aa051ed3570153f6480083d7002c2719fd63d3c6c",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_santa_cruz_de_tenerife": {
+   "run_id": "41294259017",
+   "blob_sha": "06790029108d506a62a7d65e853866b86041dddd",
+   "sha256_m06": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b",
+   "secciones": 681,
+   "sha256_csv": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "cbe8888954099bd6a09af1e4a5efa6d28a954d07963b528d850aa255a142a597",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_segovia": {
+   "run_id": "41241846017",
+   "blob_sha": "e26b2372cb2672d8e4d227d011a895c72c174b48",
+   "sha256_m06": "00d8ba468186219a10ae0821821862ae55426789f7a1d7e35fa896a9e5bf5638",
+   "secciones": 276,
+   "sha256_csv": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "f09e14876cca25c8ec0c7ba40a195c5b2b85e87f76a2d2c9ce6fccb922968319",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_sevilla": {
+   "run_id": "41297168461",
+   "blob_sha": "40fe1057d2f9cd5a9b7690c6ac1d931f2aa298d6",
+   "sha256_m06": "b8804062414795e12545ff69a42dcc0d09e9a98f713d2c7f5c7e630ba1902994",
+   "secciones": 1364,
+   "sha256_csv": "ee4d4ac1a5ea8a258f7fe2b5d463de764d12a52c304325c34bd5de8d01588661",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "07ce229279c01006741e13e372b011ac66cc0db93e5045a9ebaf7f10b9df5d52",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_soria": {
+   "run_id": "41250310066",
+   "blob_sha": "28635adcea450debbde9ff4c62ad99c754ae12c0",
+   "sha256_m06": "79155d841e6b6b713e9cbe9b387f3b4e927c7cb4a70ce935a01a8b90048935a1",
+   "secciones": 216,
+   "sha256_csv": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "d706ec8d82bfe983f4655a1daba72a204e75ea17d762cf30ece83d6cd12df66f",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_tarragona": {
+   "run_id": "41296449975",
+   "blob_sha": "94b8b2eea984649ef58d3cf6b0bb986a86f7d202",
+   "sha256_m06": "c097a2c9f1865a9225551549056159bc66f3811722f154d9a63cce7d4d597729",
+   "secciones": 542,
+   "sha256_csv": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "8a9f68ff73db39b93efd73422a0a7d48f9639f28cc55e4877b5f26a1da9cc1b2",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_teruel": {
+   "run_id": "41250394074",
+   "blob_sha": "aeac695056d49ce1ed4f7ac390cd913f57259ffd",
+   "sha256_m06": "f458afbf4549817ddc093bda229aebe8d14806ca83006d4f833e02388651c3cb",
+   "secciones": 284,
+   "sha256_csv": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "40eb0d422164182d4f624fcbef9739c72a6096d32fa7520986c903b1e074a5a7",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_toledo": {
+   "run_id": "41296268720",
+   "blob_sha": "3af235bd23d357673e5b9e1c0260a20c90d31ad1",
+   "sha256_m06": "438ab1ce7a80fdc8d9e2362aec6bd1a3947dd678c4fb7a7ddca588061a97d375",
+   "secciones": 530,
+   "sha256_csv": "ac5d174292bfac220083810c8f18e8a215901523f74d9e7ba7876583eb1e0612",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "071463b1e62def5c7a6cdae18516afe644a0e74b1aab8722d3939e2dfaa78b4b",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_valencia": {
+   "run_id": "41335936727",
+   "blob_sha": "d9dc71bc351a04e038be07d2037d5e721e25d8e8",
+   "sha256_m06": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6",
+   "secciones": 1823,
+   "sha256_csv": "012274d09dcb71b4b87b9b8e0e74ae89b886b33b3109c0c3ec913a33b91bf5a3",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "79a76b14d54f5f28abb11fdcd4d0240dea8ab565eb866eae308bfc1f75083c0f",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_valladolid": {
+   "run_id": "41299313598",
+   "blob_sha": "6c690bd9dd4072e776698eaca1fe4502b8a1f1a4",
+   "sha256_m06": "5c1183841e5307b49327fef4bb463049f8d22873352bbdba2917b4e858e2b9a1",
+   "secciones": 565,
+   "sha256_csv": "12fc9b06f9a02ebf981d637d6b8ba5fe70f061fb99e9c80a70a697dd5219c3cc",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "c4970c8784b684ac7ec5b3a2b36a7bb9fad0f3928b15f8fb1a5ebdec3429e67b",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_vizcaya": {
+   "run_id": "41356074013",
+   "blob_sha": "9ea873c8de3a6c57ed0b211014cf2e4ac88405a7",
+   "sha256_m06": "55a5bcab96db8190d4aac251b0d58e12703b80c915616d29cfe508a30370371c",
+   "secciones": 933,
+   "sha256_csv": "86a93f3be49060d315212b1e32847448388dd0b27038696afc1a6c3ca29dfceb",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "0bfda88273ca4d82e5c8dfb7d4af7ccb94361ba6e261723decc38e7d031b51ec",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_zamora": {
+   "run_id": "41250479211",
+   "blob_sha": "05c6845681eab342139cd0656d31f144091eae76",
+   "sha256_m06": "c6662aa8a98b3dc64c53e5f428201ba050ee936ea6c4ac767f8868b7ac5fccd2",
+   "secciones": 319,
+   "sha256_csv": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "afb7f17e32734c6c19822f7755a39957eff1db68dc354a0f6f3ae6478d1ee6ae",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
+  },
+  "congreso_zaragoza": {
+   "run_id": "41296815536",
+   "blob_sha": "a43219db6c4b467e8b8c59bd8f4b47e4e0d1a6b0",
+   "sha256_m06": "70a152960ebead39af5fc94fb739db0aeb169d336def2860c0656b5f9c07dd7c",
+   "secciones": 884,
+   "sha256_csv": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "744f47a38594e820abbed15cb8cb1fb3a239d9a04acacc2aca4afe707af679d6",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
   },
   "extremadura": {
    "run_id": "41042675119",
@@ -112,6 +723,19 @@
    "sha256_m06": "87f5e921b8ac3277c2488d4d44754a572542b2290ae620eafa01e74ca9be9a22",
    "secciones": 832,
    "sha256_csv": "b144af58354d0e0df866c340eb80ad463eb1e2dd33feeef64cba0b47774ef40e"
+  },
+  "region_de_murcia": {
+   "run_id": "40957577850",
+   "blob_sha": "19a0a695d71fff224815427fa7d5e92334d758ba",
+   "sha256_m06": "7dc200d1ce33f5c8198245488eb05526a9d92373c9bdcae2cf17bb4b61941a68",
+   "secciones": 1223,
+   "sha256_csv": "54411b654585273f9b3b8cef5ee8e01929999b7191a4a3d88ced7bf7b99ed260",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "b78d0b7cbfe932a49cdfdb5336805dc44d66fc84bb01619a1cd3ed44b62b5fc5",
+    "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
+   }
   }
  }
 }
