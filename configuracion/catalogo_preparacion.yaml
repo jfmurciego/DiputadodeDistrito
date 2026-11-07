@@ -1857,22 +1857,21 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 41293427148
-        artifact_name: ddd-source-package-congreso_malaga-2025-41293427148
-        artifact_sha256: 3fe59ed95de917d6ed5c86e3b9313cfa7bf4c292a4e57739e5db1383b085a453
-        package_sha256: e04b39ca3442995c4adc86f8eb31892ec2bd9279579bca4df90cf036f34331cd
-        receipt_path: territorios/congreso_malaga/evidencia/fuentes_territoriales/2025/a0cadd31711de1c936c46000db29404dcd45d9ce6952651ccee71489d07d7c77/41293427148/receipt.json
-        territorial_identity_sha256: a0cadd31711de1c936c46000db29404dcd45d9ce6952651ccee71489d07d7c77
-        compatibility_report_sha256: 4b9529e3be2feaaaddb6d30851a26db62a7bc917ee553396a6a178b5c4ed3287
-        compatibility_identity_sha256: 70454b014ea055b4324a2a129684b6dc1a54ed6bd58992cd2b35d404dc63b267
+        run_id: 42409615215
+        artifact_name: ddd-source-package-congreso_malaga-2025-42409615215
+        artifact_sha256: ee2301bea2c6cd972e433c1816e914bd900c09ecc3096756573d3fc9e975e5d3
+        package_sha256: 37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0
+        receipt_path: territorios/congreso_malaga/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json
+        territorial_identity_sha256: 8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3
+        compatibility_report_sha256: fb0863c8a8bbefdeb301780518591db412880bb4d40a454eb4139bca0d99ebcc
+        compatibility_identity_sha256: 901f9e2525caa2f26183b7c06e652a4da622ef3e3aab45e4194aae50f5db821c
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: ef2db7b883cadb5675ccd98429cbf1a4e1c781b8
+        source_commit: 0dd2df01eb8a60c4bc17243ca21197045c841951
       evidence:
         electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/810ba9d1ea413302b78cf21a46cec0a52bfcfaade3bb7ec8595759c011a50357/41239877192/receipt.json
-        generation_preflight: territorios/congreso_malaga/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: congreso_murcia
   name: Congreso Murcia
   editions:

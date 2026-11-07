@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -67,19 +67,19 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
-  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
+  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -206,7 +206,8 @@ validation:
     '29054':
       decided_at: '2026-11-07'
       decided_by: propietario
-      reason: 'D-6: Fuengirola (85.136) solo linda con Mijas y Benalmádena, atómicos; sola queda bajo el suelo y con cualquiera supera el techo'
+      reason: 'D-6: Fuengirola (85.136) solo linda con Mijas y Benalmádena, atómicos;
+        sola queda bajo el suelo y con cualquiera supera el techo'
       evidence: 'PR #436'
   partition_apportionment_audit: {}
   source_baseline:
@@ -216,9 +217,9 @@ validation:
     section_year: 2023
     population_total: 1752728
     target_section_count: 1084
-    package_sha256: e04b39ca3442995c4adc86f8eb31892ec2bd9279579bca4df90cf036f34331cd
-    compatibility_report_sha256: 4b9529e3be2feaaaddb6d30851a26db62a7bc917ee553396a6a178b5c4ed3287
-    compatibility_identity_sha256: 70454b014ea055b4324a2a129684b6dc1a54ed6bd58992cd2b35d404dc63b267
+    package_sha256: 37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0
+    compatibility_report_sha256: fb0863c8a8bbefdeb301780518591db412880bb4d40a454eb4139bca0d99ebcc
+    compatibility_identity_sha256: 901f9e2525caa2f26183b7c06e652a4da622ef3e3aab45e4194aae50f5db821c
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -275,8 +276,8 @@ resolved_source_contract:
         territorial_filter: CPRO
       artifact:
         path: inputs/seccionado_2023.zip
-        sha256: ca886c170a6396bcbe93754869bde54224340ed785fbc205aee900c40c0b9fda
-        bytes: 1962372
+        sha256: 23ae23014c198dc15f232efb675fbdc9afeba5fef14bb2cbd506bd1d7c7c9acf
+        bytes: 1962373
   runtime:
     section_id_field: CUSEC_KEY
     population_field: POP_2023
@@ -289,12 +290,12 @@ resolved_source_contract:
   - kind: attach_population
     source_field: sources.population.fields.population
     to: runtime.population_field
-  contract_sha256: 7764c7764003b96387af6ec6ea85ce304c2461e0e98c7ad13a271f2ee2847a29
+  contract_sha256: 4cb04d6f38ab18ef99ff68ac61bab899f778ec368ab45f002c7bb54bcad42223
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: e04b39ca3442995c4adc86f8eb31892ec2bd9279579bca4df90cf036f34331cd
-  compatibility_identity_sha256: 70454b014ea055b4324a2a129684b6dc1a54ed6bd58992cd2b35d404dc63b267
+  generation_enabled: false
+  package_sha256: 37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0
+  compatibility_identity_sha256: 901f9e2525caa2f26183b7c06e652a4da622ef3e3aab45e4194aae50f5db821c
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 3fa04c74ca6d336406fa01fe2b45740b7ac2306f09a081e6e451dca873958ebe
@@ -326,7 +327,7 @@ generation_state:
         age_total_values:
         - Todas las edades
   - path: inputs/seccionado_2023.zip
-    sha256: ca886c170a6396bcbe93754869bde54224340ed785fbc205aee900c40c0b9fda
+    sha256: 23ae23014c198dc15f232efb675fbdc9afeba5fef14bb2cbd506bd1d7c7c9acf
     role: target_sectioning
     source_id: secciones_censales
     consumer_contract:
@@ -344,6 +345,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41293427148
-  pre_m04_source_commit: a04dfd2cfd7639e8878e5d05bf29ee289df44c6a
-  pre_m04_artifact_sha256: 093b1d7f771d0456289c09debeed9f77d81818079aa64f97f27039417b185016
