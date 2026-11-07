@@ -1,0 +1,80 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Catálogo de procedencia
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: cuando cambia en main cualquiera de las entradas del catálogo de procedencia (visor, archivo R2, datos
+#   abiertos, productos públicos, catálogos de fuentes, preparación y publicaciones, MANIFEST de composición y
+#   resultados), regenera orchestracion/catalogo_procedencia.json con herramientas/catalogo_procedencia.py y lo empuja
+#   con la app de registro. Si no cambia, no hay commit.
+# CAMBIOS: 1.0.0: versión inicial (T-74).
+# MOTIVO: los escritores de esos registros no se migran; sin esto el catálogo versionado se desfasa y `pruebas` falla.
+# ANTERIOR: ninguna (fichero nuevo)
+name: Catálogo de procedencia
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'orchestracion/publicaciones_visor.json'
+      - 'orchestracion/archivo_r2.json'
+      - 'orchestracion/productos_publicos.json'
+      - 'datos_abiertos/INDEX.json'
+      - 'fuentes/catalogo_oficial.yaml'
+      - 'configuracion/catalogo_preparacion.yaml'
+      - 'configuracion/publicaciones.yaml'
+      - 'datos/composicion/MANIFEST.json'
+      - 'datos/resultados/MANIFEST.json'
+permissions:
+  contents: write
+concurrency:
+  group: ddd-catalogo-procedencia
+  cancel-in-progress: false
+  queue: max
+jobs:
+  regenerar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Regenerar y empujar
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -c 'import yaml' 2>/dev/null || pip install --break-system-packages pyyaml
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          for intento in 1 2 3; do
+            python herramientas/catalogo_procedencia.py --informe
+            git add orchestracion/catalogo_procedencia.json
+            if git diff --cached --quiet; then echo "Catálogo al día."; exit 0; fi
+            git commit -m "chore(procedencia): catálogo de procedencia regenerado"
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::push rechazado (intento $intento)"
+            git reset --hard -q origin/main
+            git pull -q origin main
+          done
+          exit 1

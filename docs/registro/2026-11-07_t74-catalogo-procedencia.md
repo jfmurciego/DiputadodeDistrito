@@ -13,5 +13,8 @@
   (sin `ddd-state-<run>-M0x` en R2) y 11 artefactos R2 de `illes_balears` sin producto en el visor.
 - Pruebas: test sintético (completo, ERROR por sha256 ausente, desfase detectado, determinismo), guardián y
   cabeceras de gobernanza.
-- Riesgo: los workflows que escriben estos registros no regeneran aún el catálogo; su próximo commit lo desfasa y
-  la suite falla hasta regenerarlo.
+- Workflow nuevo `catalogo-procedencia.yml` 1.0.0 (solo push a `main`, sin botón): cuando cambia cualquiera de las
+  entradas, regenera el catálogo y lo empuja con la app de registro (credencial tras el checkout, `queue: max`). Cubre a
+  todos los escritores (visor, archivista R2, resultados, composición, preparación) sin tocarlos.
+- Riesgo: el run de `pruebas` del commit del robot que cambia una entrada sale rojo hasta que entra el commit de
+  regeneración (segundos después), que deja `main` en verde.
