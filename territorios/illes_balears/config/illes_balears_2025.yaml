@@ -222,7 +222,7 @@ validation:
       evidence: 'PR #313; run 40847174556; configuracion/politica_generacion_territorial_2025.yaml#territories.illes_balears.structural_floor_exemptions'
     '07-C03':
       decided_at: '2026-10-28'
-      decided_by: propietario
+      decided_by: 'regla: componente pequeño'
       reason: 'Formentera: componente de un solo distrito bajo el suelo (regla de componente pequeño).'
       evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-28 — M05 — bloqueos de población de Madrid y Baleares»'
     '07-C04':

@@ -244,17 +244,17 @@ validation:
       evidence: 'run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions'
     '35-C04':
       decided_at: '2026-10-29'
-      decided_by: propietario
+      decided_by: 'regla: componente pequeño'
       reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
       evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
     '38-C02':
       decided_at: '2026-10-29'
-      decided_by: propietario
+      decided_by: 'regla: componente pequeño'
       reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
       evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
     '38-C04':
       decided_at: '2026-10-29'
-      decided_by: propietario
+      decided_by: 'regla: componente pequeño'
       reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
       evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
   partition_apportionment_audit:

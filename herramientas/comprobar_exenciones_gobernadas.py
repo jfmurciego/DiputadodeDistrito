@@ -21,6 +21,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 POLITICA = ROOT / "configuracion" / "politica_generacion_territorial_2025.yaml"
+AUTORES = ("propietario", "regla: componente pequeño")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 # (lista en validation, mapa de decisiones en validation)
 KINDS = (
@@ -36,8 +37,8 @@ def _entry_errors(where: str, entry) -> list[str]:
     date = str(entry.get("decided_at") or "")
     if not DATE.match(date):
         errs.append(f"{where}: decided_at ausente o no AAAA-MM-DD")
-    if entry.get("decided_by") != "propietario":
-        errs.append(f"{where}: decided_by debe ser «propietario»")
+    if entry.get("decided_by") not in AUTORES:
+        errs.append(f"{where}: decided_by debe ser «propietario» o «regla: componente pequeño»")
     for key in ("reason", "evidence"):
         if not str(entry.get(key) or "").strip():
             errs.append(f"{where}: {key} ausente")
