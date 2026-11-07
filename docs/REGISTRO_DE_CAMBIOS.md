@@ -1,12 +1,24 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.103
+Versión: 1.0.104
 Fecha: 2026-11-07
-Alcance: T-42 — hemiciclo nacional con tres sumas de escaños
+Alcance: T-44 — M04 7.6.7 y exención de Fuengirola: Alicante y Málaga resueltos en local
 Estado: candidato
-Cambios/motivo: herramientas/generar_hemiciclo.py 1.0.0 y página dashboard/hemiciclo.html
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.102_t40_20261107.md
+Cambios/motivo: ddd_core/m04_seed_engine.py 7.6.7, ddd_core/m04_overcap_residual_relief.py 1.1.0 y exención 29054 en congreso_malaga
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.103_t42_20261107.md
 -->
+
+## 2026-11-07 — T-44 — M04 7.6.7: enclaves dependientes, cadena de dos saltos y Fuengirola
+
+- **Alicante.** M04 partía Elche (238.285) en dos piezas sin contar a Santa Pola (37.839), que solo linda con Elche: residual + Santa Pola =
+  144.394 > techo 132.268. Desde 7.6.7, si residual + enclaves dependientes supera el techo, M04 reintenta con un núcleo cerrado más (solo fuera de
+  `closed_target_cores_plus_open_residual`). M05 PASS y M06 hard=0 en local.
+- **Málaga.** Fuengirola (85.136) solo linda con Mijas y Benalmádena, ambos atómicos: imposible estructural sin exención. Decisión D-6 del
+  propietario: exención de suelo municipal 29054 en `validation` de `congreso_malaga` (techo y atomicidad intactos). El alivio de residuos 1.1.0
+  añade una cadena de dos saltos (Benalmádena con Alhaurín de la Torre; Torremolinos al residual de Málaga). M05 PASS y M06 hard=0 en local.
+- **Barcelona.** Ya resuelta con 7.6.6 (M05 PASS, M06 hard=0).
+- **Regresión:** Pontevedra, Álava y Cádiz dan GeoJSON e informe M04 idénticos a 7.6.6; Murcia, Madrid y Barcelona siguen con M05 hard=0.
+  Cambiar M04 invalida los checkpoints M04 previos donde actúa.
 
 ## 2026-11-07 — T-42 — Hemiciclo nacional: tres sumas de escaños
 
