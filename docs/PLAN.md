@@ -4,7 +4,7 @@ Versión: 1.0.22
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: decisiones D-9 a D-11 del histórico; se encargan T-81 y T-85; T-82 aparcada
+Cambios/motivo: decisiones D-9 a D-12 del histórico; se encargan T-81 y T-85; T-83 en cola; T-82 aparcada
 Anterior: legacy/docs/PLAN_v1.0.21_20261107.md
 -->
 
@@ -100,6 +100,8 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-10. Método: votos de cada elección pasada trasladados a los distritos vigentes (sin redibujar distritos por elección).
 - D-11. T-81 y T-85 empiezan ya, sin esperar al cierre de la ola 2 (no lanzan ni tocan territorios); T-83 y T-84 después;
   T-82 (espejo de Infoelectoral desde el Mac) aparcada: solo si falla el contraste de T-89 o falta una elección.
+- D-12. T-83 en dos pasos: primero (B) herramienta fuera de línea, sin lanzar, validada con 3 provincias; para publicar,
+  (A) por la cadena M07/M08 con puerta 04, una elección por universo, lanzada por el Operador con permiso del propietario.
 ### Pendientes
 - D-5 (T-41). Crear en Settings → Environments el entorno `produccion` con el propietario como revisor requerido
   (repositorio público: disponible en cualquier plan). Sin él, T-41 se queda en el código.
@@ -293,6 +295,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-89 | Espejo del Observatorio Electoral de las Naciones (D-8): bajar `data/index.json`, `data/{k}/sekzioa/{cpro}.json` de las 6 generales y `geo/sekzioak/{año}/{cpro}.json` de sus 6 seccionados, con fecha, URL y sha256 por fichero, a R2 (no a git); entrada en el catálogo de procedencia; contraste por muestreo (3 provincias × 2 elecciones) con Infoelectoral 2023 del release espejo y un lector Python del formato compacto (`s`,`k`,`f`,`b`,`r`) | por abrir (Sonnet) | Espejo completo y verificable; informe del contraste; sin publicar ni tocar el visor |
 | T-85 | Equivalencia de secciones (D-9, D-10): tabla de cada seccionado de elección (INE 2012, 2015, 2016, 2019, 2020) al seccionado de los distritos vigentes, desde las geometrías del espejo T-89 o del INE (CC BY 4.0); 1:1 cuando código y geometría coinciden; si una sección se parte, pesos por área y, en paralelo, por población de la sección vigente; se informa del % de votos no 1:1 por provincia y elección. Elegir el peso es criterio: se presenta al propietario antes de fijarlo | por abrir (Opus), ya | Tabla versionada con sha256 y fuente; pesos que suman 1 por sección; tests; sin lanzar ni publicar |
 | T-81 | Inventario de fuentes del histórico (D-9): por elección y provincia, qué da el Observatorio (generales por sección; autonómicas por municipio y, donde existan, por sección), qué da Infoelectoral y el seccionado de cada una; huecos y discrepancias del contraste de T-89; propuesta de autonómicas para después | por abrir (Sonnet), ya | Documento en `docs/ESTUDIOS/` y JSON con fuente, fecha y sha256; sin datos de memoria |
+| T-83 | Reagregación (D-10, D-12): paso B, herramienta fuera de línea que lleva los votos de cada general 2011-2023 (espejo T-89) a los distritos vigentes con la tabla de T-85; ganador y votos por partido por distrito en `datos/resultados/historico/`; validada con 3 provincias (una con muchas secciones partidas) y cuadre de totales provinciales con Infoelectoral; el paso A (M07/M08, puerta 04) se encarga al validar B | por abrir (Sonnet), tras T-85 y la elección del peso | Totales provinciales cuadran al voto; tests; sin lanzar ni publicar |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
