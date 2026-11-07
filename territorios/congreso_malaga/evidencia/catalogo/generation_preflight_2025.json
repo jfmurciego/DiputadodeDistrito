@@ -5,10 +5,12 @@
   "territory_name": "Congreso Málaga",
   "edition": "2025",
   "run_id": 42409615215,
-  "source_commit": "d7f4ce1d4c82942db75c6bed6191e2c8a761ce41",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "646a9bb3bd62fcfc71e99070ef0116f1cf5f1205",
+  "artifact_name": "ddd-state-42409615215-M03U",
+  "artifact_sha256": "25fe096f057143c9231e447ff75d8e27a3467d6a5619fd9c235c97bec6f26383",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 42409615215,
     "artifact_name": "ddd-source-package-congreso_malaga-2025-42409615215",
@@ -19,10 +21,100 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "2909401015",
+        "v": "2909403005",
+        "admin_scope": "municipality:29094",
+        "edge_type": "administrative_bridge"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-42409615215-M03",
+    "artifact_sha256": "46abb3215f01ee1efac86a44b41536889cf00407460e47bcd7c3faf1b0e78d89",
+    "module_version": "7.5.0",
+    "nodes": 1084,
+    "edges": 2955,
+    "population": 1752728,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-42409615215",
+    "job_artifact_sha256": "638556d09179d7759d4eb077c3b9a466b7e1dd2ec8e0f05f8b7726d75d607b14",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/congreso_malaga_2025/congreso_malaga_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 1752728,
+      "target_section_count": 1084,
+      "package_sha256": "37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0",
+      "compatibility_report_sha256": "fb0863c8a8bbefdeb301780518591db412880bb4d40a454eb4139bca0d99ebcc",
+      "compatibility_identity_sha256": "901f9e2525caa2f26183b7c06e652a4da622ef3e3aab45e4194aae50f5db821c"
+    },
+    "topology_accreditation": null,
+    "k_districts": 15,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_malaga/.cache/ddd/preparacion/{run_name}/congreso_malaga_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 15,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
