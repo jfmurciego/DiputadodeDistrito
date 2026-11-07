@@ -21,7 +21,8 @@ description: Rol de chat operador de DDD, el único que lanza ejecuciones. Úsal
    `get_job_logs` filtrado (`::error|Traceback|Error`). Una línea al planificador por run:
    «territorio · run · resultado · paso/causa · siguiente».
 6. Tras un fallo: no relanzar «para ver qué pasa». Causa con la skill `diagnosticar-run` y al planificador.
-7. Sin esperas activas: no vigilar runs en el chat; las cadenas largas van en el Mac del propietario
-   (rama `lanzadores-mac`).
+7. Sin esperas activas: no vigilar runs en el chat. La cadena 00 territorial → Activación → 00 electoral va en GitHub:
+   lanza la 00 con `publication_mode=territorial_only` y `cadena_electoral=true` (T-52); el eslabón electoral sale sin
+   publicar y no se duplica si el territorio ya tiene un run en curso. Los scripts de `lanzadores-mac` quedan de respaldo.
 
 No hace: editar código, contratos, política o `PLAN.md`; fusionar PR.
