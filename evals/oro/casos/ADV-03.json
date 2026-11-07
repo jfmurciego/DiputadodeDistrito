@@ -1,0 +1,47 @@
+{
+  "id": "ADV-03",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Murcia: CRS 3035 en el contrato de Congreso",
+  "causa": "EPSG:3035 en Congreso Murcia hace perder aristas M02 por solapes; el autonómico acreditado usa 25830.",
+  "origen": {
+    "prs": [
+      383
+    ],
+    "runs": [
+      41293548832
+    ],
+    "pr_introductora": 368,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 383,
+    "sha_desde": "0296136e2fcfdbb469d93e3d48990ba79f9d29dd",
+    "sha_candidato": "23ab67d20871b59527ce8f2ff49f34ddc3f31b61",
+    "ficheros": [
+      "territorios/congreso_murcia/config/congreso_murcia_2025.yaml"
+    ],
+    "comando": "git diff 0296136e2fcfdbb469d93e3d48990ba79f9d29dd 23ab67d20871b59527ce8f2ff49f34ddc3f31b61 -- territorios/congreso_murcia/config/congreso_murcia_2025.yaml"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "crs_incorrecto"
+    ],
+    "ficheros": [
+      "territorios/congreso_murcia/config/congreso_murcia_2025.yaml"
+    ],
+    "claves": [
+      "3035",
+      "25830",
+      "working_crs",
+      "crs"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#383 fusionada, squash 0296136e2f sobre 23ab67d208 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

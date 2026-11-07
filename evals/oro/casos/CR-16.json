@@ -1,0 +1,41 @@
+{
+  "id": "CR-16",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Provincia con enclaves sin puentes heredados",
+  "causa": "El generador de provincias no heredaba los puentes gobernados de los contratos autonómicos (enclaves de Palencia, Treviño…).",
+  "origen": {
+    "prs": [
+      371
+    ],
+    "runs": [
+      41235453115
+    ],
+    "pr_introductora": null,
+    "referencia": "CLAUDE.md (Congreso) y PR #371"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41235453115
+    ],
+    "sintoma": "Palencia falla en pre-M04: «grafo territorial no supera conectividad administrativa».",
+    "territorio": "congreso_palencia"
+  },
+  "esperado": {
+    "causa_id": "puentes_heredados_ausentes",
+    "claves": [
+      "puente",
+      "hered",
+      "enclave",
+      "conectividad"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "CLAUDE.md (Congreso) y PR #371",
+    "verificado": "#371 fusionada, squash d73703d1c8 sobre 6708c5964a (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

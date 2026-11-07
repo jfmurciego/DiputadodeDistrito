@@ -1,0 +1,37 @@
+{
+  "id": "CR-07",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Residuo municipal sobre el techo que M05 no redibuja",
+  "causa": "M05 mueve unidades enteras y no redibuja el residual :R de un municipio dividido; M04 lo dimensiona sin contar lo que se le pega.",
+  "origen": {
+    "prs": [
+      419
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [],
+    "sintoma": "Murcia y Madrid bloqueadas: un distrito suma 171.010 frente a un techo de 137.265 (Alcantarilla y Beniel con el residual de Murcia).",
+    "territorio": "congreso_murcia"
+  },
+  "esperado": {
+    "causa_id": "residuo_municipal_sobre_techo",
+    "claves": [
+      "residu",
+      "M04",
+      "municipio dividido",
+      "techo"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#419 fusionada, squash c993d2286e sobre 621d5596bf (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

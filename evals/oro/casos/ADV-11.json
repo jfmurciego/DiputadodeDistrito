@@ -1,0 +1,49 @@
+{
+  "id": "ADV-11",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Robots de registro: cabecera Authorization duplicada",
+  "causa": "El paso de credencial borra solo http.extraheader; checkout v6 deja su token en includeIf.gitdir: y git envía dos Authorization.",
+  "origen": {
+    "prs": [
+      381,
+      386
+    ],
+    "runs": [
+      41324108794
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 381,
+    "sha_desde": "78cb29d391a037179be24c4fec3138ce6347ebff",
+    "sha_candidato": "0ce37c7f7fad1bcd0db6e3ec063ef6e701b9fac2",
+    "ficheros": [
+      ".github/workflows/preparacion-legislatura-vigente.yml"
+    ],
+    "comando": "git diff 78cb29d391a037179be24c4fec3138ce6347ebff 0ce37c7f7fad1bcd0db6e3ec063ef6e701b9fac2 -- .github/workflows/preparacion-legislatura-vigente.yml"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "cabecera_authorization_duplicada"
+    ],
+    "ficheros": [
+      ".github/workflows/preparacion-legislatura-vigente.yml"
+    ],
+    "claves": [
+      "includeif",
+      "extraheader",
+      "checkout",
+      "authorization",
+      "duplicad"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#381 fusionada, squash 0ce37c7f7f sobre 78cb29d391; #386 fusionada, squash f0444e2d77 sobre ecff95c715 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}
