@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 66,
-  "productos": 288,
+  "productos": 336,
   "errores": 0,
   "avisos": 117
  },
@@ -967,6 +967,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_albacete",
+     "run_id": "41294417893",
+     "vigente": true,
+     "sha256": "e8f4c44ec891d4cc95a46fb15fd1c2f8cdf2edfccb6aa6adb04a48c26129a44c",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_albacete.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_albacete",
      "run_id": "41294417893",
@@ -1037,6 +1051,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_almeria",
+     "run_id": "41295979497",
+     "vigente": true,
+     "sha256": "686b58aa44652658fbb091583ac070ee31e1fe836a0c6ec0da6903a0bd93d106",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_almeria.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "869fba8930ef436c53658fedf8d86a0da1068c941feac94652ef4e5155cffcde"
     },
     {
      "producto": "datos_abiertos",
@@ -1111,6 +1139,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_asturias",
+     "run_id": "41296638877",
+     "vigente": true,
+     "sha256": "16a222a0928c730bfb7ddd60555f82b709a8fe0e34d4a545155fd6752d09d944",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_asturias.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "26d9f1eef6f4fa0c46124d0bd90c02275f6d5fa352d7ebf35e2162987f48d5ab"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_asturias",
      "run_id": "41296638877",
@@ -1181,6 +1223,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_avila",
+     "run_id": "41241662219",
+     "vigente": true,
+     "sha256": "7635b7d07db46817242f602c92069657205bf1df4c865a91b9911ba40fea8b71",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_avila.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "1dbc9e4be04d22053d7d09cad006f9fbc57ca10874b499ebc5e18ecff1fdde86"
     },
     {
      "producto": "datos_abiertos",
@@ -1255,6 +1311,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_badajoz",
+     "run_id": "41299475924",
+     "vigente": true,
+     "sha256": "fd29a7ec11fb021bb509eea661c7415ae99814c8cffd70725a7b5c5ce3c4de02",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_badajoz.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_badajoz",
      "run_id": "41299475924",
@@ -1325,6 +1395,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_baleares",
+     "run_id": "41481449507",
+     "vigente": true,
+     "sha256": "bcdca9175ecaead38582a2dfe32f61b60e71b717145968a1382d326f3d7cb0c4",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_baleares.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "dd5afe1a4ac150521efa0a18abe88d0b1850ece441f8c0d06e927d0a20849d72"
     },
     {
      "producto": "datos_abiertos",
@@ -1399,6 +1483,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_burgos",
+     "run_id": "41299221887",
+     "vigente": true,
+     "sha256": "75199071b7b9d2cc7607006c451c3b389fedc881bd3e52833a62198d87ef6214",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_burgos.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "b0251dbc3a45083701ea28895ed68acf4e29a9a12514b6c13a925997b2bd1d63"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_burgos",
      "run_id": "41299221887",
@@ -1469,6 +1567,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_caceres",
+     "run_id": "41294658600",
+     "vigente": true,
+     "sha256": "ae940ce6be753eb7da27b2ce4d03b7134722e724e742eca4e2ea5be46e7a1bd1",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_caceres.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "74292d05558e5f07f44cf42cca4377d68f17eb193876cdad535444f9fabd1ea4"
     },
     {
      "producto": "datos_abiertos",
@@ -1543,6 +1655,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_cadiz",
+     "run_id": "41500124775",
+     "vigente": true,
+     "sha256": "9efad3ca2d728627586a5eefbaf28a9b497f7cdcc48c44f01d64998cbe512c78",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_cadiz.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "b394db0e089c1360ed02408c5ab5bb8aa8168ef32798982ad4f78e92cafa0587"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_cadiz",
      "run_id": "41500124775",
@@ -1613,6 +1739,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_cantabria",
+     "run_id": "41356175674",
+     "vigente": true,
+     "sha256": "7bf80faa7fa1423dfb2fa16e31b8e87b9a1b0ccee7cf3a105e7a73128c40af25",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_cantabria.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "5ca88b82e1e9addae247e6e078ad8c2f56b0e17220fa749aee11a2c136a9d87b"
     },
     {
      "producto": "datos_abiertos",
@@ -1687,6 +1827,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_castellon",
+     "run_id": "41295629673",
+     "vigente": true,
+     "sha256": "faf0cd57d563c2a2ec22363f7dcd2b4cd88d21de8f16a345eb137a61a7f67ae9",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_castellon.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "ba5921830ce016ec27a31b6ad4fb4fcc87c53761b702fb38ae926a07ac6f88f6"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_castellon",
      "run_id": "41295629673",
@@ -1757,6 +1911,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_ceuta",
+     "run_id": "41250564472",
+     "vigente": true,
+     "sha256": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_ceuta.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "35a0976bb4aef886cd19778051f9d84d576e6f7e9c42d778ce0d8b9b2c5c4865"
     },
     {
      "producto": "datos_abiertos",
@@ -1831,6 +1999,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_ciudad_real",
+     "run_id": "41298749455",
+     "vigente": true,
+     "sha256": "f092ea34272c7bbce8cf28d7b3a85f9b1c2895a530751c123a03a4dc2375aa45",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_ciudad_real.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "0167a300e1a4df4f4c202e189bca38941b04d711fab72fc16e37294c8885f2d3"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_ciudad_real",
      "run_id": "41298749455",
@@ -1901,6 +2083,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_cordoba",
+     "run_id": "41296161083",
+     "vigente": true,
+     "sha256": "cbcd8d2a3383ae80d82830329ce6b47d83c5d08e4751c1c83369b366b8589c4f",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_cordoba.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "10a97db73caea16a250f2e485d5d0d1bb83008a0252a99803dea6953ba7ac8c2"
     },
     {
      "producto": "datos_abiertos",
@@ -1975,6 +2171,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_cuenca",
+     "run_id": "41294075778",
+     "vigente": true,
+     "sha256": "b742957de73b43e19db9512f9fdb686cfb731e7edb89ea62fef00b5b2dc14f1b",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_cuenca.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "4746490207d3abd662af430dfa3a104456cd065c165b4645271170a006c004e0"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_cuenca",
      "run_id": "41294075778",
@@ -2045,6 +2255,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_gerona",
+     "run_id": "41298839274",
+     "vigente": true,
+     "sha256": "2b9e421dd8236727a42a2a2ca3fa77db5af10c41b4729a1fae2f5cdfc43f3a4c",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_gerona.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "cd4875419859e9ab2e079b4352e41271bcc501a9ad98b4c7f941d32d0022e2c7"
     },
     {
      "producto": "datos_abiertos",
@@ -2119,6 +2343,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_granada",
+     "run_id": "41296546816",
+     "vigente": true,
+     "sha256": "9cf457e6c2a8423fa78e429a7ec525191ce8270a7115019a503a483ee7109bcd",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_granada.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "6eeb3324efed451f190cc4f2c7aeb1325c19783364a9f965a778d165ad52c1c6"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_granada",
      "run_id": "41296546816",
@@ -2189,6 +2427,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_guadalajara",
+     "run_id": "41294169221",
+     "vigente": true,
+     "sha256": "866af96d6725859c3839c3c789d5f743c13e218c182c2ca2a21e77e3e45f3145",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_guadalajara.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "92cb51d9b623af9db3f703d87b1c488e59302c38c735a7033590fed2db871e21"
     },
     {
      "producto": "datos_abiertos",
@@ -2263,6 +2515,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_guipuzcoa",
+     "run_id": "41298935355",
+     "vigente": true,
+     "sha256": "d565ff12461376768fb22453ac7018f2e58cbea2a3bcb863091ac9634fbc29b4",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_guipuzcoa.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "f6d52eb83af59f0d3e39c6154e6825a0b1ad6615bc6c9ad19fb5c881401159c2"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_guipuzcoa",
      "run_id": "41298935355",
@@ -2333,6 +2599,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_huelva",
+     "run_id": "41335929678",
+     "vigente": true,
+     "sha256": "b6e79d7bd464a5587ca98663ec3a22729c116a62d6c37527fdae133ff5e2a917",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_huelva.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "c74b2145c223cf9a05e0e4d259e193950d07100e89c1c793537109340742db4e"
     },
     {
      "producto": "datos_abiertos",
@@ -2407,6 +2687,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_huesca",
+     "run_id": "41194447427",
+     "vigente": true,
+     "sha256": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_huesca.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_huesca",
      "run_id": "41194447427",
@@ -2477,6 +2771,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_jaen",
+     "run_id": "41295799269",
+     "vigente": true,
+     "sha256": "9329c0c28a8c608908fe8c0096a71db852dccd4bee41bd450cf80814866fde0d",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_jaen.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "b13230763d2b9859ad314b379cf6250c615a757c0ef01f242270aa26eaee8a23"
     },
     {
      "producto": "datos_abiertos",
@@ -2551,6 +2859,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_la_coruna",
+     "run_id": "41296991598",
+     "vigente": true,
+     "sha256": "dc1def47e9494d34af945cd844646be714854df34987e126c8aa8c71ad105240",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_la_coruna.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "4ad7c2aebcae10814e7c88492178abeb4f9633a0d48999714990d795940767cc"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_la_coruna",
      "run_id": "41296991598",
@@ -2621,6 +2943,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_la_rioja",
+     "run_id": "41294822309",
+     "vigente": true,
+     "sha256": "5a096f13d2bcf57240777144222efc8e2f7557772cc22fb524195aec56f17fb3",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_la_rioja.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a"
     },
     {
      "producto": "datos_abiertos",
@@ -2707,6 +3043,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_las_palmas",
+     "run_id": "41442913288",
+     "vigente": true,
+     "sha256": "e817de3faad80aad9d78b2eeee006fcbdc96ba35789162c04b8894d3a6faf563",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_las_palmas.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "e1085a9d926a560620e68ed7999f033bd5323396a407b85751742c9658a83d87"
     },
     {
      "producto": "datos_abiertos",
@@ -2893,6 +3243,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_lerida",
+     "run_id": "41299033915",
+     "vigente": true,
+     "sha256": "c840bcd3261d9e18757b4184a8a7855eaaad57bd8e4eb0a4efadfe4882850707",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_lerida.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "cc6ac03c68b83abe4c832a7d29f034522f690fa7480cce2752a74bc94d975af1"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_lerida",
      "run_id": "41299033915",
@@ -2963,6 +3327,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_lugo",
+     "run_id": "41294985244",
+     "vigente": true,
+     "sha256": "b8872f3807facddb55074d8f9e60f77c2c1450c95e1f33a3f70fc96e808eee1c",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_lugo.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "fda0dda4b68a1a490af8f0f35489e3cb62eb2f77ddbcd7318e3c97c4a17abbd2"
     },
     {
      "producto": "datos_abiertos",
@@ -3037,6 +3415,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_madrid",
+     "run_id": "41622703086",
+     "vigente": true,
+     "sha256": "5b03e5b28ce9865b1ef9fd09df8330a17e90f18d6db283fb160fb129be2dc9bf",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_madrid.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "c0be80d0d15d89d9929c0400a278a9abcfe31131726fd870790984ab7c06b029"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_madrid",
      "run_id": "41622703086",
@@ -3107,6 +3499,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_melilla",
+     "run_id": "41293988485",
+     "vigente": true,
+     "sha256": "fdc1449d7dfc6cb385cb29aff9fb238724ec4566bd8b22e8b768abf47b436d0d",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_melilla.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "3788e954c96a750f6281f5bedd47436322858279fc3dc51d39b5c7d25ec0bb75"
     },
     {
      "producto": "datos_abiertos",
@@ -3181,6 +3587,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_murcia",
+     "run_id": "41622862185",
+     "vigente": true,
+     "sha256": "e508964b031621bb1d80430ac4478b091f868be841cc42f4f39fa6936bff3d96",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_murcia.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "8056c77be56654e0593941673245cb2cdbe2cd21a2d74d172faaeaafa825c4e4"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_murcia",
      "run_id": "41622862185",
@@ -3251,6 +3671,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_navarra",
+     "run_id": "41299128213",
+     "vigente": true,
+     "sha256": "fd0cf2bac1f6466b6f1d07ef04c3baa04abab73c1f2970720fdbd6614858d8d4",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_navarra.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "bdba8f82d8788453fce9274c84ccd82037c1088456979c44070aa857e84ef032"
     },
     {
      "producto": "datos_abiertos",
@@ -3325,6 +3759,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_orense",
+     "run_id": "41295142111",
+     "vigente": true,
+     "sha256": "a8c192a962ebd0c22323f7a58a0bdd744a1c6038287381e9e36c4c20b555340d",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_orense.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "ae08e0c7068202deaaf3a04c0f7f4909a87ce039bb55d69633d074afd2740edb"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_orense",
      "run_id": "41295142111",
@@ -3395,6 +3843,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_palencia",
+     "run_id": "41298660623",
+     "vigente": true,
+     "sha256": "3a6ce8ce35cdcef4f375975954a5f97a536515b1b6381c0aa69ba79a98128159",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_palencia.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "76e597dca654a53f5dfea12557bc8237e120e55e9d6dcf348f8d1408e904c547"
     },
     {
      "producto": "datos_abiertos",
@@ -3469,6 +3931,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_pontevedra",
+     "run_id": "41353894475",
+     "vigente": true,
+     "sha256": "436958cdd9c0f183b10e2960c519db945eb37f135f3fdadc7c88e29eb932ee08",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_pontevedra.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "e9ae99095a8da16629135ee476915bca1d405541f79656d055638e166c6ac294"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_pontevedra",
      "run_id": "41353894475",
@@ -3539,6 +4015,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_salamanca",
+     "run_id": "41295298674",
+     "vigente": true,
+     "sha256": "58712daa22f577d69ab78947cd48f79afbd15092b42afdd93704a0885ce95b42",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_salamanca.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "4daccc0e0011ab510156a94cd1330e02c9cc97fe6d17d8bb4b655b9325dc4da0"
     },
     {
      "producto": "datos_abiertos",
@@ -3627,6 +4117,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_santa_cruz_de_tenerife",
+     "run_id": "41294259017",
+     "vigente": true,
+     "sha256": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_santa_cruz_de_tenerife.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_santa_cruz_de_tenerife",
      "run_id": "41294259017",
@@ -3699,6 +4203,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_segovia",
+     "run_id": "41241846017",
+     "vigente": true,
+     "sha256": "1e29a5b8abc3c4431e535ae5a00e0901c8fb6912899a3a1ea9cdc7bafa032d3e",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_segovia.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "00d8ba468186219a10ae0821821862ae55426789f7a1d7e35fa896a9e5bf5638"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_segovia",
      "run_id": "41241846017",
@@ -3769,6 +4287,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_sevilla",
+     "run_id": "41297168461",
+     "vigente": true,
+     "sha256": "ee4d4ac1a5ea8a258f7fe2b5d463de764d12a52c304325c34bd5de8d01588661",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_sevilla.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "b8804062414795e12545ff69a42dcc0d09e9a98f713d2c7f5c7e630ba1902994"
     },
     {
      "producto": "datos_abiertos",
@@ -3857,6 +4389,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_soria",
+     "run_id": "41250310066",
+     "vigente": true,
+     "sha256": "1921c37db90159bfbd5df9a8a025df33688ea1221515ecf2607147406f78fcac",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_soria.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "79155d841e6b6b713e9cbe9b387f3b4e927c7cb4a70ce935a01a8b90048935a1"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_soria",
      "run_id": "41250310066",
@@ -3927,6 +4473,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_tarragona",
+     "run_id": "41296449975",
+     "vigente": true,
+     "sha256": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_tarragona.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "c097a2c9f1865a9225551549056159bc66f3811722f154d9a63cce7d4d597729"
     },
     {
      "producto": "datos_abiertos",
@@ -4001,6 +4561,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_teruel",
+     "run_id": "41250394074",
+     "vigente": true,
+     "sha256": "ec2fc9c75b7532324f2440018a1afa4657c6a635197be05c7ddc12c2c4f504f1",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_teruel.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "f458afbf4549817ddc093bda229aebe8d14806ca83006d4f833e02388651c3cb"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_teruel",
      "run_id": "41250394074",
@@ -4071,6 +4645,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_toledo",
+     "run_id": "41296268720",
+     "vigente": true,
+     "sha256": "ac5d174292bfac220083810c8f18e8a215901523f74d9e7ba7876583eb1e0612",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_toledo.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "438ab1ce7a80fdc8d9e2362aec6bd1a3947dd678c4fb7a7ddca588061a97d375"
     },
     {
      "producto": "datos_abiertos",
@@ -4145,6 +4733,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_valencia",
+     "run_id": "41335936727",
+     "vigente": true,
+     "sha256": "012274d09dcb71b4b87b9b8e0e74ae89b886b33b3109c0c3ec913a33b91bf5a3",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_valencia.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_valencia",
      "run_id": "41335936727",
@@ -4215,6 +4817,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_valladolid",
+     "run_id": "41299313598",
+     "vigente": true,
+     "sha256": "12fc9b06f9a02ebf981d637d6b8ba5fe70f061fb99e9c80a70a697dd5219c3cc",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_valladolid.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "5c1183841e5307b49327fef4bb463049f8d22873352bbdba2917b4e858e2b9a1"
     },
     {
      "producto": "datos_abiertos",
@@ -4289,6 +4905,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_vizcaya",
+     "run_id": "41356074013",
+     "vigente": true,
+     "sha256": "86a93f3be49060d315212b1e32847448388dd0b27038696afc1a6c3ca29dfceb",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_vizcaya.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "55a5bcab96db8190d4aac251b0d58e12703b80c915616d29cfe508a30370371c"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_vizcaya",
      "run_id": "41356074013",
@@ -4361,6 +4991,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_zamora",
+     "run_id": "41250479211",
+     "vigente": true,
+     "sha256": "e7b4f3a71866478285c368f75714e812f736674e39215c14278b876a00831c15",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_zamora.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "c6662aa8a98b3dc64c53e5f428201ba050ee936ea6c4ac767f8868b7ac5fccd2"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_zamora",
      "run_id": "41250479211",
@@ -4431,6 +5075,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_zaragoza",
+     "run_id": "41296815536",
+     "vigente": true,
+     "sha256": "d5641387f11681c21e791140c98c0eb373aa1b50e6464e1bb9f0efd989d88ef9",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_zaragoza.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "70a152960ebead39af5fc94fb739db0aeb169d336def2860c0656b5f9c07dd7c"
     },
     {
      "producto": "datos_abiertos",
@@ -5264,6 +5922,20 @@
       }
      ],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-region_de_murcia",
+     "run_id": "40957577850",
+     "vigente": true,
+     "sha256": "54411b654585273f9b3b8cef5ee8e01929999b7191a4a3d88ced7bf7b99ed260",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/region_de_murcia.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "7dc200d1ce33f5c8198245488eb05526a9d92373c9bdcae2cf17bb4b61941a68"
     },
     {
      "producto": "resultados",
