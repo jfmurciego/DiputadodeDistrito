@@ -31,6 +31,10 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   tarea, prioridad y turno valen como del propietario. Solo lanzar ejecuciones y publicar exigen permiso del
   propietario en el chat que ejecuta. Fusiona el Operador (o el auto-merge) con `pruebas` en verde.
 - Entre sesiones solo llega `send_message` del MCP `claude-code-remote` (con `session_id`); `SendMessage` por nombre no.
+- Roles: propietario (permisos, decisiones) → planificador (qué, por olas) → Coordinador (recibe cierres, PR/CI, tablero
+  `docs/ESTADO.md`, lecciones) → Operador (único que lanza/publica) → implementadores (una tarea, una PR).
+- El control de seguridad bloquea ediciones que amplían la autoridad de otra sesión y mecanismos de fusión sin
+  revisión, aunque los pida el planificador: exige la autorización del propietario en el chat que ejecuta.
 - Datos oficiales nunca de memoria: de un fichero con fuente y sha256 (una tabla a mano dio Badajoz 6 y no 5).
 
 ## Ejecución 00 (`ejecucion-completa-proyecto.yml`)
@@ -45,6 +49,9 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   anterior (Murcia volvió al M03 en 3035, `CHECKPOINT_RUN_ID` en el log del paso M04). Mira ese valor antes de concluir.
 - La 00 encadena sola par (`prepare_one`) y otra 00 como github-actions[bot] si la 04 se salta por falta de par;
   desde #389 solo si la puerta 02 pasó.
+- Desde la 1.6.0 el run-name de la 00 lleva el territorio; en runs antiguos, `territorios/*/evidencia/ejecuciones_completas/<run>.json`
+  o `TERRITORY:` de «Planificar». `/timing` da 0 min facturables (repo público): usa la duración de los jobs. La API
+  resetea conexiones en lotes largos: reintentos y caché.
 - Identifica cada run por su territorio (`TERRITORY:` en el log del job «Planificar»), nunca por el orden: toda 00 que
   llega a M06 encadena sola «Activación de Legislatura» y otra 00 «Reutilizar» como `github-actions[bot]`, y se cuelan.
 
@@ -72,6 +79,11 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Interior (Infoelectoral) rechaza runners y sesión cloud: el ZIP nacional por mesa está en el release
   `fuente-infoelectoral-02202307` y la 03 lo usa como espejo con la misma huella. Desde la nube se baja con
   `gh api repos/<r>/releases/assets/<id> -H "Accept: application/octet-stream"` (`gh release download` usa GraphQL).
+- Los 49 GeoJSON M06 (~50 MB) no se versionan: el publicador los baja del blob y verifica el sha256 contra
+  `datos_abiertos/INDEX.json` (necesita GH_TOKEN). `gh api repos/<r>/actions/jobs/<id>/logs` funciona desde la nube
+  (los artefactos no); sus marcas de tiempo dan la duración por test.
+- Escaños 2019-11: BOE-A-2019-18147 (la corrección; BOE-A-2019-17344 solo remite a los cuadros). El XML de 2019 difiere
+  del de 2023: siglas en fila 1, datos desde fila 3, pares Votos/Escaños; siglas tal cual, homologación en HOMOLOGACION_2019.
 - Escaños oficiales 2023: BOE-A-2023-18907 en `configuracion/resultados_oficiales_congreso_2023.csv`; la red del
   entorno Default permite `boe.es`.
 

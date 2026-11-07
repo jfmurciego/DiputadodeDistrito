@@ -20,7 +20,7 @@ description: Rol de implementador de DDD. Úsala cuando el chat tenga asignada u
 7. Registro: añade tu entrada en `docs/registro/AAAA-MM-DD_<rama>.md`, sin número (lo pone el job de `main`;
    formato en `docs/registro/README.md`); no edites `docs/REGISTRO_DE_CAMBIOS.md`. Una PR por causa, con causa,
    cambio, pruebas y riesgos.
-8. Al abrir PR: una línea al planificador («T-xx · qué · PR · siguiente · bloqueo»). Si hace falta una 00, pídela al
-   planificador; no la lances.
+8. Al abrir PR: una línea de cierre al Coordinador («T-xx · qué · PR · siguiente · bloqueo»); las dudas, también a él
+   (`send_message` del MCP `claude-code-remote`). Si hace falta una 00, pídela al Coordinador; no la lances.
 
 Límite: como mucho dos ciclos de reparación por causa; después, informa con la evidencia.

@@ -68,3 +68,6 @@ python herramientas/evaluar_oro.py --salidas salidas.json --agente revisor --umb
 Solo con fuente verificable (PR fusionada, run o fichero en `main`). Copia un caso del mismo tipo, cambia el id
 (`CR|ADV|REV|CTRL|CAL-NN`, igual que el nombre del fichero) y pasa `--validar`. No ajustes las claves a la salida de
 un agente concreto: el conjunto mide, no se entrena.
+
+Nota: los `.claude/agents/*.md` nuevos no se cargan en una sesión ya abierta; evalúa con un agente genérico que lea
+la definición, o en una sesión nueva.

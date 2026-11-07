@@ -32,3 +32,6 @@ paths:
   las columnas `ddd_*` y `district_*`.
 - No hagas `git stash` ni edites `ddd_core/` con una regresión en segundo plano: los procesos que arrancan cargan
   código a medias. `/usr/bin/time` no existe en la sesión cloud.
+- En una sesión cloud limpia faltan pyproj, geopandas y gerrychain (y networkx, shapely, numpy, pandas): instálalos
+  con pip, versiones de `requirements.lock`, antes de los tests del ensemble o de R015. Los contratos con
+  `topology_bridges` o exenciones no valen para el ensemble.

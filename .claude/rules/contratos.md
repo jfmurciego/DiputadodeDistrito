@@ -46,3 +46,10 @@ paths:
   ejecuciones: una PR que los toca choca enseguida. Rebasa tomando `main` y reinserta solo lo tuyo; fusiona rápido.
 - `TERRITORIAL_REPLAN_BLOCK: fuente elegida difiere del catálogo`: la fila del catálogo apunta a un receipt antiguo
   (`territorial_source_declaration` / `independent_source_evidence`); alinéala con `preparation_evidence` (#338, #352).
+- M06: `municipality_names` va en orden alfabético y `municipality_codes` en numérico (desalineados, nombres
+  abreviados): el nombre se toma del INE por código. En el repo, C12 = nombres de distrito y C13 = comunidades de interés.
+- Toda exención de suelo nueva trae su decisión en `validation` (`population_floor_exempt_decisions` /
+  `_partition_decisions`: decided_at, decided_by, reason, evidence) o falla `comprobar_exenciones_gobernadas`.
+- Partidos judiciales (T-64): el BOE consolidado de la Ley 38/1988 omite los anexos; salen de la relación original de
+  1988 (98,7 % de los municipios; los 106 posteriores, sin partido y listados), en el XML original
+  (`diario_boe/xml.php?id=...`), no en `/texto` de la API. Casar con INE: código y nombre sin artículos, luego prefijo, luego código.
