@@ -33,8 +33,9 @@ defectos históricos sobre el diff original (framework §8). Un JSON por caso en
   `sha_candidato` = el squash.
 - `revertir_arreglo` (revisor): el candidato es el estado anterior al arreglo. `comando` =
   `git diff <squash del arreglo> <padre> -- <ficheros>` (diff que reintroduce el defecto); `sha_candidato` = el padre.
-  Los ficheros excluyen tests, `legacy/` y el registro para no regalar la pista. La bajada de VERSIÓN que trae el
-  diff inverso es ruido conocido: no cuenta como acierto (hay que nombrar el defecto).
+  Los ficheros excluyen tests, `legacy/` y el registro para no regalar la pista; `--preparar` omite además las líneas
+  de cabecera y de comentario que el diff inverso quita (explican el arreglo). Bloquear solo por la bajada de VERSIÓN
+  no cuenta como acierto: hay que nombrar el defecto.
 - `sintoma_run` (forense): runs y síntoma tal como se vieron (anotaciones o log). No se descargan artefactos.
 - `escenario` (calibración): situación y pregunta.
 
@@ -42,7 +43,7 @@ Los SHA son de 40 caracteres. En una sesión con clon superficial:
 `git fetch --depth=2 origin <sha>` antes de ejecutar `comando`.
 
 ### Salida que se puntúa (JSON del agente)
-- Revisor: `{"caso", "sha", "veredicto": "BLOQUEAR|APROBAR", "defectos": [{"clase", "fichero", "detalle"}], "tokens", "intento"}`.
+- Revisor: `{"caso", "sha", "veredicto": "BLOQUEAR|APROBAR" (o FAIL/BLOCKED y PASS/PASS_WITH_EXCEPTIONS de la skill), "defectos": [{"clase", "fichero", "detalle"}], "tokens", "intento"}`.
   Acierta si `sha` coincide con `sha_candidato` (prefijo ≥ 7), el veredicto es el esperado y, si es BLOQUEAR, algún
   defecto trae una de las `clases` esperadas o (uno de los `ficheros` y una de las `claves` en `detalle`).
 - Forense: `{"caso", "causa_id", "lineas": [≤ 5], "tokens", "intento"}` (o `diagnostico` en texto). Acierta si
@@ -57,6 +58,7 @@ Las claves se comparan sin tildes ni mayúsculas. Un caso sin salida es fallo.
 ```bash
 python herramientas/evaluar_oro.py --validar
 python herramientas/evaluar_oro.py --esperadas --agente revisor > /tmp/ideal.json
+python herramientas/evaluar_oro.py --preparar /tmp/entradas --agente revisor   # entrada de cada caso, sin respuesta
 python herramientas/evaluar_oro.py --salidas salidas.json --agente revisor --umbral 0.8 --anotar --modelo sonnet --etiqueta "T-39 v1"
 ```
 

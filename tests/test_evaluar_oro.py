@@ -119,6 +119,32 @@ class ConjuntoDeOro(unittest.TestCase):
             with contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(eo.main(["--salidas", str(out), "--umbral", "1.0"]), 0)
 
+    def test_veredictos_de_la_skill_equivalen(self):
+        c = self.por_id["ADV-11"]
+        s = eo.salida_ideal(c)
+        s["veredicto"] = "FAIL"
+        self.assertTrue(eo.puntuar_caso(c, s)["acierto"])
+        s["veredicto"] = "PASS_WITH_EXCEPTIONS"
+        self.assertFalse(eo.puntuar_caso(c, s)["acierto"])
+        ctrl = self.por_id["CTRL-02"]
+        s = eo.salida_ideal(ctrl)
+        s["veredicto"] = "PASS"
+        self.assertTrue(eo.puntuar_caso(ctrl, s)["acierto"])
+
+    def test_entrada_sin_respuesta(self):
+        for cid in ("CR-02", "CAL-01", "CAL-02"):
+            c = self.por_id[cid]
+            texto = eo.entrada_agente(c)
+            self.assertNotIn(c["causa"], texto)
+            self.assertNotIn(c["titulo"], texto)
+            for clave in ("causa_id", "veredictos_aceptados", "clases"):
+                self.assertNotIn(clave, texto)
+
+    def test_revertir_oculta_cabecera_y_comentarios_del_arreglo(self):
+        diff = "-# VERSIÓN: 1.7.4\n-# CAMBIOS 1.7.4: techo 1,28\n-    # por qué se arregla\n-      x: 1.28\n+      x: 1.27\n+# comentario viejo\n"
+        out = eo.ocultar_explicacion_del_arreglo(diff)
+        self.assertEqual(out, "-      x: 1.28\n+      x: 1.27\n+# comentario viejo\n")
+
     def test_libro_real_tiene_cabecera(self):
         self.assertIn(eo.CABECERA_TABLA, eo.LIBRO.read_text(encoding="utf-8"))
 

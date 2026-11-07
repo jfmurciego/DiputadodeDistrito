@@ -8,14 +8,16 @@ FECHA: 2026-11-07
 ESTADO: candidato
 CAMBIOS: versión inicial.
 MOTIVO: §8 del framework de agentes: un agente no se da por listo hasta cazar los defectos históricos.
-QUÉ HACE: valida los casos de `evals/oro/casos/*.json`, puntúa la salida JSON de un agente (revisor, forense o
-  calibración) contra lo esperado y, con `--anotar`, añade una fila a `evals/oro/LIBRO_DE_COSTES.md`.
+QUÉ HACE: valida los casos de `evals/oro/casos/*.json`, prepara la entrada de cada caso sin la respuesta
+  (`--preparar`), puntúa la salida JSON de un agente (revisor, forense o calibración) contra lo esperado y, con
+  `--anotar`, añade una fila a `evals/oro/LIBRO_DE_COSTES.md`.
 NO HACE: llamar a modelos, descargar artefactos ni leer la red. Solo biblioteca estándar.
-ANTERIOR: —
+ANTERIOR: ninguna (fichero nuevo)
 
 Uso:
   python herramientas/evaluar_oro.py --validar
   python herramientas/evaluar_oro.py --esperadas > salidas_ideales.json
+  python herramientas/evaluar_oro.py --preparar DIR [--agente revisor]   # una entrada por caso, sin respuesta
   python herramientas/evaluar_oro.py --salidas salidas.json [--agente revisor] [--umbral 0.8]
                                      [--anotar --modelo sonnet --etiqueta "T-39 v1"] [--json]
 """
@@ -37,6 +39,8 @@ ESQUEMA = "ddd.oro/1.0"
 TIPOS = {"revision": "revisor", "forense": "forense", "calibracion": "cualquiera"}
 MODOS = {"revision": {"diff_original", "revertir_arreglo"}, "forense": {"sintoma_run"}, "calibracion": {"escenario"}}
 VEREDICTOS_REVISION = {"BLOQUEAR", "APROBAR"}
+# Veredictos de la skill revisar-pr: FAIL/BLOCKED bloquean; PASS/PASS_WITH_EXCEPTIONS dejan fusionar.
+EQUIVALENTES = {"FAIL": "BLOQUEAR", "BLOCKED": "BLOQUEAR", "PASS": "APROBAR", "PASS_WITH_EXCEPTIONS": "APROBAR"}
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 ID_RE = re.compile(r"^(CR|ADV|REV|CTRL|CAL)-\d{2}$")
 
@@ -165,6 +169,51 @@ def salida_ideal(c: dict) -> dict:
     return s
 
 
+# --------------------------------------------------------------------------- entradas sin respuesta
+_CABECERA_RE = re.compile(r"^-\s*(#|//|\"\"\"|\*)?\s*(VERSIÓN|NOMBRE DE VERSIÓN|FECHA|ESTADO|CAMBIOS?\b|MOTIVO|ANTERIOR)")
+_COMENTARIO_RE = re.compile(r"^-\s*(#|//)")
+
+
+def ocultar_explicacion_del_arreglo(diff: str) -> str:
+    """En `revertir_arreglo` el diff quita la cabecera y los comentarios del arreglo, que lo explican: se omiten."""
+    return "\n".join(ln for ln in diff.splitlines()
+                     if not (_CABECERA_RE.match(ln) or _COMENTARIO_RE.match(ln))) + "\n"
+
+
+def entrada_agente(c: dict, raiz: Path = ROOT) -> str:
+    """Texto que recibe el agente: nunca lleva titulo, causa, esperado, origen ni contexto (darían la respuesta)."""
+    ent = c["entrada"]
+    if c["tipo"] == "revision":
+        import subprocess
+        diff = subprocess.run(ent["comando"], shell=True, cwd=raiz, capture_output=True, text=True)
+        if diff.returncode != 0 or not diff.stdout.strip():
+            raise RuntimeError(f"{c['id']}: no se pudo generar el diff ({diff.stderr.strip()[:200]}); "
+                               f"git fetch --depth=2 origin {ent['sha_desde']} {ent['sha_candidato']}")
+        texto = diff.stdout
+        if ent["modo"] == "revertir_arreglo":
+            texto = ocultar_explicacion_del_arreglo(texto)
+        return (f"# Caso {c['id']} · revisión\n\nCandidato (HEAD): `{ent['sha_candidato']}`\n"
+                f"Ficheros: {', '.join(ent['ficheros'])}\nCI: no aplica en modo oro (juzga solo el diff).\n\n"
+                f"```diff\n{texto}```\n")
+    if c["tipo"] == "forense":
+        runs = ", ".join(str(r) for r in ent.get("runs", [])) or "sin run (CI o main)"
+        terr = ent.get("territorio", "—")
+        return f"# Caso {c['id']} · diagnóstico\n\nTerritorio: {terr}\nRuns: {runs}\nSíntoma: {ent['sintoma']}\n"
+    datos = {k: v for k, v in ent.items() if k not in ("modo", "escenario")}
+    return (f"# Caso {c['id']} · calibración\n\n{ent['escenario']}\n\nDatos: "
+            f"{json.dumps(datos, ensure_ascii=False)}\n")
+
+
+def preparar(casos: list[dict], destino: Path, raiz: Path = ROOT) -> list[Path]:
+    destino.mkdir(parents=True, exist_ok=True)
+    escritos = []
+    for c in casos:
+        f = destino / f"{c['id']}.md"
+        f.write_text(entrada_agente(c, raiz), encoding="utf-8")
+        escritos.append(f)
+    return escritos
+
+
 # --------------------------------------------------------------------------- puntuación
 def _lineas(s: dict) -> list[str]:
     v = s.get("lineas")
@@ -188,6 +237,7 @@ def puntuar_caso(c: dict, s: dict | None) -> dict:
             r["motivo"] = "sha_distinto"
             return r
         ver = str(s.get("veredicto", "")).strip().upper()
+        ver = EQUIVALENTES.get(ver, ver)
         if ver != esp["veredicto"]:
             r["motivo"] = f"veredicto {ver or '∅'} != {esp['veredicto']}"
             return r
@@ -307,6 +357,7 @@ def main(argv=None) -> int:
     ap.add_argument("--casos-dir", type=Path, default=CASOS_DIR)
     ap.add_argument("--validar", action="store_true", help="solo valida los casos")
     ap.add_argument("--esperadas", action="store_true", help="imprime las salidas ideales")
+    ap.add_argument("--preparar", type=Path, help="escribe en DIR la entrada de cada caso, sin la respuesta")
     ap.add_argument("--salidas", type=Path, help="JSON con las salidas del agente")
     ap.add_argument("--agente", choices=["revisor", "forense", "cualquiera"])
     ap.add_argument("--casos", help="ids separados por comas")
@@ -326,6 +377,9 @@ def main(argv=None) -> int:
     sel = seleccionar(casos, a.agente, a.casos.split(",") if a.casos else None)
     if a.validar:
         print(f"{len(casos)} casos válidos")
+        return 0
+    if a.preparar:
+        print(f"{len(preparar(sel, a.preparar))} entradas en {a.preparar}")
         return 0
     if a.esperadas:
         print(json.dumps({"salidas": [salida_ideal(c) for c in sel]}, ensure_ascii=False, indent=2))
