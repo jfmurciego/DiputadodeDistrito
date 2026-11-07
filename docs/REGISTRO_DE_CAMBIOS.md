@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.135
+Versión: 1.0.136
 Fecha: 2026-11-07
-Alcance: T-64 — revierte #462 (partidos judiciales) hasta el estudio
+Alcance: Coordinador — rol, tablero y lecciones pendientes
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_revert-t64-462.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.134_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_coordinador-roles.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.135_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.134_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.136 · [2026-11-07 — Coordinador — rol, tablero y lecciones pendientes](registro/2026-11-07_coordinador-roles.md)
 - 1.0.135 · [2026-11-07 — T-64 — revierte #462 (partidos judiciales) hasta el estudio](registro/2026-11-07_revert-t64-462.md)
 - 1.0.134 · [2026-11-07 — Plan 1.0.15 — Coordinador, planificación por olas y T-64 como estudio](registro/2026-11-07_claude-plan-1-0-15.md)
 - 1.0.133 · [2026-11-07 — Coordinador — prueba de la fusión automática](registro/2026-11-07_coordinador-prueba-automerge.md)
