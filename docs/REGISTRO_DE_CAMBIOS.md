@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.131
+Versión: 1.0.132
 Fecha: 2026-11-07
-Alcance: T-64 — Partidos judiciales para C-13 en toda España
+Alcance: T-67 — Votos por partido y distrito en git
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t64-partidos-judiciales.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.130_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_t67-partidos.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.131_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.130_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.132 · [2026-11-07 — T-67 — Votos por partido y distrito en git](registro/2026-11-07_t67-partidos.md)
 - 1.0.131 · [2026-11-07 — T-64 — Partidos judiciales para C-13 en toda España](registro/2026-11-07_claude-t64-partidos-judiciales.md)
 - 1.0.130 · [2026-11-07 — T-58 — Álava: artefacto local, regla de diagnóstico corregida](registro/2026-11-07_t-58-diagnostico-local.md)
 - 1.0.129 · [2026-11-07 — T-54c — Fusión automática ligada a la suite de CI que la dispara; causa de #458](registro/2026-11-07_claude-t54c-auto-merge-suite.md)
