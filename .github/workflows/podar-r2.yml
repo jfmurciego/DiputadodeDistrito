@@ -1,0 +1,116 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: podar-r2.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Poda de R2
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: aplica la poda de R2 (política docs/POLITICA_RETENCION_R2.md) con la lista aprobada
+#   orchestracion/poda_r2_lista.json. Sin «borrar» solo simula. Con «borrar» exige el clic del propietario
+#   (environment produccion) y la huella sha256 de la lista; retira lo borrado de orchestracion/archivo_r2.json en main.
+# CAMBIOS: 1.0.0: fichero nuevo (T-76).
+# MOTIVO: reducir R2 bajo la capa gratuita de 10 GB (~28 GB al abrir T-76).
+# ANTERIOR: ninguna (fichero nuevo)
+name: '- Podar R2'
+run-name: "Podar R2 · ${{ inputs.borrar && 'borrado' || 'simulación' }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      borrar:
+        description: 'Borrado real (pide aprobación del propietario); desmarcado = simulación'
+        required: false
+        type: boolean
+        default: false
+      sha256_lista:
+        description: 'Huella sha256 de la lista aprobada (solo con borrado real)'
+        required: false
+        type: string
+        default: ''
+      conservar_m06:
+        description: 'Conservar también el M06 del run vigente (si los zip no fueran acumulativos)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: archivar-artefactos-r2
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  podar:
+    name: Podar y registrar manifiesto
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    environment: ${{ inputs.borrar && 'produccion' || '' }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+      BORRAR: ${{ inputs.borrar }}
+      SHA_LISTA: ${{ inputs.sha256_lista }}
+      CONSERVAR_M06: ${{ inputs.conservar_m06 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Simular poda
+        if: ${{ inputs.borrar != true }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          [[ "${CONSERVAR_M06:-}" != "true" ]] || args+=(--conservar-m06)
+          python3 herramientas/podar_r2.py "${args[@]}"
+      - name: Borrar en R2 con la lista aprobada
+        if: ${{ inputs.borrar == true }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET SHA_LISTA; do
+            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
+          done
+          python3 herramientas/podar_r2.py --borrar --lista orchestracion/poda_r2_lista.json --sha256 "$SHA_LISTA"
+      - name: Registrar manifiesto en main
+        if: ${{ inputs.borrar == true }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- orchestracion/archivo_r2.json; then echo "Manifiesto sin cambios."; exit 0; fi
+          git config user.name "ddd-registro"
+          git config user.email "ddd-registro@users.noreply.github.com"
+          git add orchestracion/archivo_r2.json
+          git commit -m "chore(archivo): poda de R2 según la lista aprobada"
+          for i in 1 2 3 4; do
+            git fetch origin main
+            git rebase origin/main && git push origin HEAD:main && exit 0
+            git rebase --abort || true
+            sleep $((i*3))
+          done
+          echo "::error::No se pudo registrar el manifiesto en main."; exit 1

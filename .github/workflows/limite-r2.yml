@@ -1,0 +1,36 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: limite-r2.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Límite de 9 GB en R2
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: falla si la suma de orchestracion/archivo_r2.json supera 9 GB (capa gratuita de R2: 10 GB). Se ejecuta
+#   solo cuando cambia el manifiesto (PR o push a main); no es un check obligatorio del ruleset, avisa.
+# CAMBIOS: 1.0.0: fichero nuevo (T-76).
+# MOTIVO: que el archivo no vuelva a crecer sin que se note.
+# ANTERIOR: ninguna (fichero nuevo)
+name: '- Límite de R2'
+run-name: "Límite de R2 · ${{ github.event_name }}"
+
+on:
+  pull_request:
+    paths:
+      - 'orchestracion/archivo_r2.json'
+  push:
+    branches: [main]
+    paths:
+      - 'orchestracion/archivo_r2.json'
+
+permissions:
+  contents: read
+
+jobs:
+  limite:
+    name: Suma del manifiesto bajo 9 GB
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Comprobar límite
+        shell: bash
+        run: python3 herramientas/podar_r2.py --comprobar-limite
