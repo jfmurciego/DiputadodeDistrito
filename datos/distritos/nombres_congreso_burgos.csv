@@ -1,4 +1,4 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_burgos,0,Burgos,MUNICIPIO,,09059,Burgos,1,1,119115,,0,1,EVALUADO,
-congreso_burgos,1,Burgos y entorno,PRINCIPAL_Y_ENTORNO,,09059,Burgos,101,1,119121,,0,5,EVALUADO,
-congreso_burgos,2,Miranda de Ebro y entorno,PRINCIPAL_Y_ENTORNO,,09219,Miranda de Ebro,270,0,119134,,0,7,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_burgos,0,Burgos,MUNICIPIO,,09059,Burgos,1,1,119115,,0,NOT_EVALUABLE,
+congreso_burgos,1,Burgos y entorno,PRINCIPAL_Y_ENTORNO,,09059,Burgos,101,1,119121,,0,NOT_EVALUABLE,
+congreso_burgos,2,Miranda de Ebro y entorno,PRINCIPAL_Y_ENTORNO,,09219,Miranda de Ebro,270,0,119134,,0,NOT_EVALUABLE,

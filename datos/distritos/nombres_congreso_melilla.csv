@@ -1,2 +1,2 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_melilla,0,Melilla,MUNICIPIO,,52001,Melilla,1,0,85493,,0,1,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_melilla,0,Melilla,MUNICIPIO,,52001,Melilla,1,0,85493,,0,NOT_EVALUABLE,

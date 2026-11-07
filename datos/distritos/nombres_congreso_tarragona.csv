@@ -1,8 +1,8 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_tarragona,0,Valls y entorno,PRINCIPAL_Y_ENTORNO,,43161,Valls,61,0,117877,,0,4,EVALUADO,
-congreso_tarragona,1,Tortosa y entorno,PRINCIPAL_Y_ENTORNO,,43155,Tortosa,37,0,117870,,0,6,EVALUADO,
-congreso_tarragona,2,El Vendrell y entorno,PRINCIPAL_Y_ENTORNO,,43163,El Vendrell,8,0,120921,,0,1,EVALUADO,
-congreso_tarragona,3,Tarragona,MUNICIPIO,,43148,Tarragona,1,0,138326,,0,1,EVALUADO,
-congreso_tarragona,4,Amposta y entorno,PRINCIPAL_Y_ENTORNO,,43014,Amposta,55,0,117892,,0,6,EVALUADO,
-congreso_tarragona,5,Cambrils y entorno,PRINCIPAL_Y_ENTORNO,,43038,Cambrils,17,0,117798,,0,3,EVALUADO,
-congreso_tarragona,6,Reus y entorno,PRINCIPAL_Y_ENTORNO,,43123,Reus,5,0,117908,,0,3,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_tarragona,0,Valls y entorno,PRINCIPAL_Y_ENTORNO,,43161,Valls,61,0,117877,,0,NOT_EVALUABLE,
+congreso_tarragona,1,Tortosa y entorno,PRINCIPAL_Y_ENTORNO,,43155,Tortosa,37,0,117870,,0,NOT_EVALUABLE,
+congreso_tarragona,2,El Vendrell y entorno,PRINCIPAL_Y_ENTORNO,,43163,El Vendrell,8,0,120921,,0,NOT_EVALUABLE,
+congreso_tarragona,3,Tarragona,MUNICIPIO,,43148,Tarragona,1,0,138326,,0,NOT_EVALUABLE,
+congreso_tarragona,4,Amposta y entorno,PRINCIPAL_Y_ENTORNO,,43014,Amposta,55,0,117892,,0,NOT_EVALUABLE,
+congreso_tarragona,5,Cambrils y entorno,PRINCIPAL_Y_ENTORNO,,43038,Cambrils,17,0,117798,,0,NOT_EVALUABLE,
+congreso_tarragona,6,Reus y entorno,PRINCIPAL_Y_ENTORNO,,43123,Reus,5,0,117908,,0,NOT_EVALUABLE,

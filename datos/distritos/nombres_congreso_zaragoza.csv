@@ -1,9 +1,9 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_zaragoza,0,Zaragoza 5,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,114305,Central,1,1,EVALUADO,Aragón: 33 comarcas
-congreso_zaragoza,1,Zaragoza 4,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,114172,Central,1,1,EVALUADO,Aragón: 33 comarcas
-congreso_zaragoza,2,Zaragoza 3,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,113741,Central,1,1,EVALUADO,Aragón: 33 comarcas
-congreso_zaragoza,3,Zaragoza 2,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,113865,Central,1,1,EVALUADO,Aragón: 33 comarcas
-congreso_zaragoza,4,Zaragoza 1,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,114051,Central,1,1,EVALUADO,Aragón: 33 comarcas
-congreso_zaragoza,5,Zaragoza y entorno,PRINCIPAL_Y_ENTORNO,,50297,Zaragoza,41,1,136422,Campo de Cariñena | Central | Cinco Villas | Hoya de Huesca | La Jacetania | Ribera Alta del Ebro | Valdejalón,7,3,EVALUADO,Aragón: 33 comarcas
-congreso_zaragoza,6,Calatayud y entorno,PRINCIPAL_Y_ENTORNO,,50067,Calatayud,143,0,136391,Bajo Aragón-Caspe | Bajo Cinca | Campo de Belchite | Campo de Cariñena | Campo de Daroca | Central | Comunidad de Calatayud | Los Monegros | Ribera Baja del Ebro | Valdejalón,10,5,EVALUADO,Aragón: 33 comarcas
-congreso_zaragoza,7,Utebo y entorno,PRINCIPAL_Y_ENTORNO,,50272,Utebo,109,0,136418,Aranda | Campo de Borja | Central | Cinco Villas | Comunidad de Calatayud | Ribera Alta del Ebro | Tarazona y el Moncayo | Valdejalón,8,5,EVALUADO,Aragón: 33 comarcas
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_zaragoza,0,Zaragoza 5,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,114305,Central,1,EVALUADO,Aragón: 33 comarcas
+congreso_zaragoza,1,Zaragoza 4,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,114172,Central,1,EVALUADO,Aragón: 33 comarcas
+congreso_zaragoza,2,Zaragoza 3,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,113741,Central,1,EVALUADO,Aragón: 33 comarcas
+congreso_zaragoza,3,Zaragoza 2,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,113865,Central,1,EVALUADO,Aragón: 33 comarcas
+congreso_zaragoza,4,Zaragoza 1,MUNICIPIO,POSICION_N_S_O_E,50297,Zaragoza,1,1,114051,Central,1,EVALUADO,Aragón: 33 comarcas
+congreso_zaragoza,5,Zaragoza y entorno,PRINCIPAL_Y_ENTORNO,,50297,Zaragoza,41,1,136422,Campo de Cariñena | Central | Cinco Villas | Hoya de Huesca | La Jacetania | Ribera Alta del Ebro | Valdejalón,7,EVALUADO,Aragón: 33 comarcas
+congreso_zaragoza,6,Calatayud y entorno,PRINCIPAL_Y_ENTORNO,,50067,Calatayud,143,0,136391,Bajo Aragón-Caspe | Bajo Cinca | Campo de Belchite | Campo de Cariñena | Campo de Daroca | Central | Comunidad de Calatayud | Los Monegros | Ribera Baja del Ebro | Valdejalón,10,EVALUADO,Aragón: 33 comarcas
+congreso_zaragoza,7,Utebo y entorno,PRINCIPAL_Y_ENTORNO,,50272,Utebo,109,0,136418,Aranda | Campo de Borja | Central | Cinco Villas | Comunidad de Calatayud | Ribera Alta del Ebro | Tarazona y el Moncayo | Valdejalón,8,EVALUADO,Aragón: 33 comarcas
