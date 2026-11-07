@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.105
+Versión: 1.0.106
 Fecha: 2026-11-07
-Alcance: T-46 — registro sin conflictos: entradas por fichero y numeración automática al fusionar
-Estado: candidato
-Cambios/motivo: última entrada con número manual; desde aquí cada PR deja su entrada en docs/registro/
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.104_t44_20261107.md
+Alcance: T-46 (b) — CLAUDE.md: delegación en el planificador y lecciones de T-42
+Estado: vigente
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-claude-md-delegacion-lecciones.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.105_registro_20261107.md
 -->
+
+## Índice de entradas por fichero (numeración automática)
+
+Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
+
+<!-- indice-registro:inicio -->
+- 1.0.106 · [2026-11-07 — T-46 (b) — CLAUDE.md: delegación en el planificador y lecciones de T-42](registro/2026-11-07_claude-claude-md-delegacion-lecciones.md)
+<!-- indice-registro:fin -->
 
 ## 2026-11-07 — T-46 — Registro sin conflictos: entradas por fichero y numeración al fusionar
 
@@ -39,9 +47,7 @@ diseño A de workflows en verde. Esta es la última entrada con número manual �
 `fuente-infoelectoral-02202307` (huella del contrato). Suma escaños por partido: (a) reparto real 2023, D'Hondt con barrera del 3 % sobre votos válidos; (b) generales 2019-11, «sin fuente» (el repositorio no
 tiene esos resultados; subtarea abierta); (c) uninominal propio, un escaño por distrito. PSOE agrupa sus federadas (PSC, PSE-EE, PSN, PSIB, PSdeG) y SUMAR sus marcas. Salida `hemiciclo.json`/`.csv` con el total
 «Nacional» y las provincias que faltan calculadas de los datos (hoy Alicante, Barcelona y Málaga). `dashboard/hemiciclo.html` (+ `hemiciclo.json`): hemiciclo SVG y tabla con conmutador entre las tres sumas.
-Pruebas: `tests/test_generar_hemiciclo.py` (5; Soria y Teruel sintéticas y, con `DDD_MESA_ZIP`, las reales: Soria PP 1 PSOE 1, Teruel PP 2 PSOE 1, escaños por circunscripción). **Desviación abierta de (a)**: sobre las 52
-circunscripciones sale PP 136 / PSOE 122, y el oficial es PP 137 / PSOE 121; el ZIP solo trae el CERA previo al escrutinio (p. ej. Murcia 3.442 votos; la candidata a cambiar es Murcia, margen 2,3 %) y el CERA final por
-partido no está en el repositorio. Por eso el script sale con 1 y marca `verificacion_a: FALLA` hasta tener ese dato. No toca workflows, `modulos/` ni `ddd_core/`; no publica.
+Pruebas: `tests/test_generar_hemiciclo.py` (5; Soria y Teruel sintéticas y, con `DDD_MESA_ZIP`, las 52 circunscripciones reales contra el BOE). **(a) coincide escaño a escaño en las 52 circunscripciones** con el resultado oficial del BOE (Resolución de 30-08-2023 de la Presidencia de la JEC, BOE-A-2023-18907, 01-09-2023), guardado como dato en `configuracion/resultados_oficiales_congreso_2023.csv` (+ `.json` con URL, fecha y sha256; regenerable con `--extraer-boe`). El desajuste de 1 escaño PSOE/PP que se veía antes no era del CERA: venía de una tabla de escaños por provincia puesta a mano (Badajoz 6 en vez de 5); ahora los escaños salen del BOE. Una diferencia con el oficial falla, salvo un único cambio PSOE→PP en una provincia (CERA final), que sale como nota. No toca workflows, `modulos/` ni `ddd_core/`; no publica.
 
 ## 2026-11-07 — T-40 — Subagente forense de runs
 

@@ -15,8 +15,9 @@ FUENTES: M08: blobs inmutables de orchestracion/publicaciones_visor.json (kind=c
   territorio congreso_*), bajados con `gh api .../git/blobs/<sha>` a una caché local y verificados con su sha256.
   Oficial 2023: ZIP por mesa del release fuente-infoelectoral-02202307 (huella de configuracion/contratos_infoelectoral.yaml),
   votos por candidatura con CERA y votos válidos (candidaturas + blancos) por provincia; el reparto es D'Hondt con barrera del 3 %.
-  Verificación de (a): los escaños de las 52 circunscripciones suman los 350 y los totales por partido igualan el resultado
-  oficial nacional (JEC, 30-08-2023); ver OFICIAL_2023_NACIONAL. Partidos: PSOE agrupa sus federadas (PSC, PSE-EE, PSN, PSIB, PSdeG)
+  Verificación de (a): el reparto de cada una de las 52 circunscripciones se contrasta, partido a partido, con el oficial del BOE
+  (configuracion/resultados_oficiales_congreso_2023.csv, con URL, fecha y sha256 en su .json); una diferencia falla, salvo un único
+  cambio PSOE→PP (CERA final) en una sola provincia, que sale como nota. Partidos: PSOE agrupa sus federadas (PSC, PSE-EE, PSN, PSIB, PSdeG)
   y SUMAR sus marcas territoriales.
 ENTRADAS: --cache DIR (por defecto .cache/ddd/hemiciclo); --m08-dir DIR y --mesa-zip ZIP para trabajar sin red;
           --generales-2019 ZIP o CSV (opcional); --distritos CSV (province_code,k_province; por defecto el reparto N06)
@@ -29,6 +30,7 @@ import argparse
 import csv
 import json
 import hashlib
+import re
 import io
 import subprocess
 import sys
@@ -44,16 +46,11 @@ MESA_RELEASE = "fuente-infoelectoral-02202307"
 MESA_PREFIJO = "02202307"
 UMBRAL = 0.03
 
-# Escaños por circunscripción en 2023 (350 en total) y resultado oficial nacional (JEC, resolución de 30-08-2023).
-ESCANOS_2023 = {
-    "01": 4, "02": 4, "03": 12, "04": 6, "05": 3, "06": 6, "07": 8, "08": 32, "09": 4, "10": 4, "11": 9, "12": 5,
-    "13": 5, "14": 6, "15": 8, "16": 3, "17": 6, "18": 7, "19": 3, "20": 6, "21": 5, "22": 3, "23": 5, "24": 4,
-    "25": 4, "26": 4, "27": 4, "28": 37, "29": 11, "30": 10, "31": 5, "32": 4, "33": 7, "34": 3, "35": 8, "36": 7,
-    "37": 4, "38": 7, "39": 5, "40": 3, "41": 12, "42": 2, "43": 6, "44": 3, "45": 6, "46": 15, "47": 5, "48": 8,
-    "49": 3, "50": 7, "51": 1, "52": 1,
-}
-OFICIAL_2023_NACIONAL = {"PP": 137, "PSOE": 121, "VOX": 33, "SUMAR": 31, "ERC": 7, "JUNTS": 7, "EH Bildu": 6,
-                         "EAJ-PNV": 5, "BNG": 1, "CCa": 1, "UPN": 1}
+# Resultado oficial: Resolución de 30-08-2023 de la Presidencia de la JEC (BOE núm. 210, 01-09-2023, BOE-A-2023-18907).
+OFICIAL_CSV = ROOT / "configuracion/resultados_oficiales_congreso_2023.csv"
+OFICIAL_META = ROOT / "configuracion/resultados_oficiales_congreso_2023.json"
+BOE_ID = "BOE-A-2023-18907"
+BOE_URL = f"https://www.boe.es/diario_boe/xml.php?id={BOE_ID}"
 ETIQUETA = "Nacional"
 
 # Código INE → (id de territorio, topónimo en español)
@@ -169,26 +166,104 @@ def etiqueta(clave: str) -> str:
     return clave.split("#")[0]
 
 
-def reparto_2023(oficial: dict[str, dict]) -> dict[str, dict[str, int]]:
+_ALIAS = {"Alicante/Alacant": "03", "Araba/Álava": "01", "Balears (Illes)": "07", "Bizkaia": "48", "Castellón/Castelló": "12",
+          "Coruña (A)": "15", "Gipuzkoa": "20", "Girona": "17", "Lleida": "25", "Ourense": "32", "Palmas (Las)": "35",
+          "Rioja (La)": "26", "Valencia/València": "46"}
+
+
+def _sigla(columna: str) -> str:
+    s = columna.replace("\xa0", " ").strip().rstrip(".")
+    return grupo(re.findall(r"\(([^()]*)\)\s*$", s)[-1].strip())
+
+
+def extraer_boe(xml: str) -> list[dict]:
+    """Escaños oficiales por circunscripción y partido de las tres primeras tablas del Congreso del BOE."""
+    i = xml.index("CONGRESO DE LOS DIPUTADOS")
+    tablas = re.findall(r"<table.*?</table>", xml[i:xml.index("SENADO", i)], re.S)[:3]
+    out = []
+    por_cod = {c: n for c, (_, n) in PROVINCIAS.items()}
+    for tb in tablas:
+        filas = [[re.sub(r"<[^>]+>", "", x).strip() for x in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", r, re.S)]
+                 for r in re.findall(r"<tr.*?</tr>", tb, re.S)]
+        partidos = [_sigla(x) for x in filas[0][2:]]
+        for f in filas[2:]:
+            nombre = f[0].rstrip(".").strip()
+            if nombre.startswith("Total"):
+                continue
+            cod = _ALIAS.get(nombre) or next((c for c, n in por_cod.items() if n == nombre), None)
+            if cod is None:
+                raise ValueError(f"circunscripción del BOE no reconocida: {nombre!r}")
+            for k, par in enumerate(partidos):
+                v, e = (f[2 + 2 * k:4 + 2 * k] + ["", ""])[:2]
+                if e.strip():
+                    out.append({"codigo": cod, "provincia": PROVINCIAS[cod][1], "escanos_circunscripcion": int(f[1]),
+                                "partido": par, "votos": int(v.replace(".", "") or 0), "escanos": int(e)})
+    return out
+
+
+def guardar_oficial(xml_ruta: Path, fecha_publicacion: str = "2023-09-01") -> None:
+    datos = extraer_boe(xml_ruta.read_text(encoding="utf-8"))
+    OFICIAL_CSV.parent.mkdir(parents=True, exist_ok=True)
+    with open(OFICIAL_CSV, "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(datos[0]))
+        w.writeheader()
+        w.writerows(datos)
+    meta = {"fuente": "Resolución de 30-08-2023 de la Presidencia de la Junta Electoral Central: resumen de resultados "
+                      "de las elecciones al Congreso y al Senado del 23-07-2023",
+            "boe": BOE_ID, "url": BOE_URL, "fecha_publicacion": fecha_publicacion,
+            "sha256_xml": _sha256(xml_ruta.read_bytes()), "sha256_csv": _sha256(OFICIAL_CSV.read_bytes())}
+    OFICIAL_META.write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
+def leer_oficial(ruta: Path = OFICIAL_CSV) -> tuple[dict[str, int], dict[str, dict[str, int]]]:
+    """(escaños por circunscripción, escaños por circunscripción y partido) del CSV oficial, verificando su hash."""
+    if ruta == OFICIAL_CSV and OFICIAL_META.exists():
+        if json.loads(OFICIAL_META.read_text(encoding="utf-8"))["sha256_csv"] != _sha256(ruta.read_bytes()):
+            raise ValueError("el CSV oficial no coincide con su sha256 registrado")
+    esc: dict[str, int] = {}
+    por: dict[str, dict[str, int]] = {}
+    with open(ruta, encoding="utf-8", newline="") as f:
+        for r in csv.DictReader(f):
+            esc[r["codigo"]] = int(r["escanos_circunscripcion"])
+            d = por.setdefault(r["codigo"], {})
+            if int(r["escanos"]):
+                d[grupo(r["partido"])] = d.get(grupo(r["partido"]), 0) + int(r["escanos"])
+    return esc, por
+
+
+def reparto_2023(oficial: dict[str, dict], escanos: dict[str, int]) -> dict[str, dict[str, int]]:
     """provincia → {partido nacional: escaños} (D'Hondt por candidatura, luego agrupado)."""
     res = {}
     for cod, d in oficial.items():
-        if cod not in ESCANOS_2023:  # filas de ámbito superior (p. ej. 99)
+        if cod not in escanos:  # filas de ámbito superior (p. ej. 99)
             continue
-        r = dhondt(d["votos"], ESCANOS_2023[cod], d["validos"])
+        r = dhondt(d["votos"], escanos[cod], d["validos"])
         res[cod] = _sumar({etiqueta(k): n for k, n in r.items()})
     return res
 
 
-def verificar_oficial(reparto: dict[str, dict[str, int]]) -> list[str]:
-    """Contrasta con el resultado oficial: escaños por circunscripción y totales nacionales por partido."""
-    err = [f"{PROVINCIAS[c][1]}: {sum(r.values())} escaños != {ESCANOS_2023[c]}" for c, r in reparto.items()
-           if sum(r.values()) != ESCANOS_2023[c]]
+NOTA_A = "difiere en 1 escaño PSOE→PP del oficial por el CERA final, que el ZIP no trae"
+FUENTE_A = "D'Hondt sobre el escrutinio de Interior (release fuente-infoelectoral-02202307), contrastado con el oficial BOE-A-2023-18907"
+
+
+def contrastar(reparto: dict[str, dict[str, int]], oficial: dict[str, dict[str, int]],
+               escanos: dict[str, int]) -> tuple[list[str], list[str], list[dict]]:
+    """Contraste por provincia con el oficial del BOE: (errores, notas, diferencias). Solo se admite como explicada
+    una diferencia de un escaño PSOE→PP en una única provincia (CERA final); cualquier otra falla."""
+    err = [f"{PROVINCIAS[c][1]}: {sum(r.values())} escaños != {escanos[c]}" for c, r in reparto.items()
+           if sum(r.values()) != escanos[c]]
     err += [f"falta la circunscripción {PROVINCIAS[c][1]}" for c in PROVINCIAS if c not in reparto]
-    tot = _sumar(reparto_flat(reparto), por_grupo=False)
-    if tot != OFICIAL_2023_NACIONAL:
-        err.append(f"totales 2023 {tot} != oficiales {OFICIAL_2023_NACIONAL}")
-    return err
+    difs = []
+    for c, mio in reparto.items():
+        of = oficial.get(c, {})
+        d = {p: mio.get(p, 0) - of.get(p, 0) for p in set(mio) | set(of) if mio.get(p, 0) != of.get(p, 0)}
+        if d:
+            difs.append({"codigo": c, "provincia": PROVINCIAS[c][1], "propio_menos_oficial": d})
+    if not difs:
+        return err, [], []
+    if len(difs) == 1 and difs[0]["propio_menos_oficial"] == {"PSOE": 1, "PP": -1}:
+        return err, [f"{NOTA_A}; provincia: {difs[0]['provincia']}"], difs
+    return err + [f"diferencias con el oficial: {difs}"], [], difs
 
 
 def reparto_flat(reparto):
@@ -294,21 +369,35 @@ def main(argv=None) -> int:
     ap.add_argument("--m08-dir", type=Path, help="ZIP <territorio>_<run>.zip ya descargados (sin red)")
     ap.add_argument("--mesa-zip", type=Path, help="ZIP oficial por mesa ya descargado (sin red)")
     ap.add_argument("--distritos", type=Path, default=N06)
-    ap.add_argument("--salida", required=True, type=Path)
+    ap.add_argument("--extraer-boe", type=Path, help="XML del BOE ya descargado: regenera el CSV oficial y sale")
+    ap.add_argument("--salida", type=Path)
     ap.add_argument("--visor", action="store_true", help="copia también hemiciclo.json a dashboard/")
     a = ap.parse_args(argv)
+    if a.extraer_boe:
+        guardar_oficial(a.extraer_boe)
+        print(f"escrito {OFICIAL_CSV.relative_to(ROOT)}")
+        return 0
+    if a.salida is None:
+        ap.error("--salida es obligatorio")
+    escanos, of_prov = leer_oficial()
     oficial = leer_mesa_zip(a.mesa_zip or mesa_zip(a.cache))
-    reparto = reparto_2023(oficial)
-    errores = verificar_oficial(reparto)
+    reparto = reparto_2023(oficial, escanos)
+    errores, notas, difs = contrastar(reparto, of_prov, escanos)
     gan, runs = cargar_m08(a.cache, a.m08_dir)
     res = generar(gan, reparto, leer_distritos(a.distritos), None, runs)
     res["errores"] += errores
-    res["verificacion_a"] = "OK: 52 circunscripciones, 350 escaños y totales nacionales oficiales" if not errores else "FALLA"
+    res["fuentes"]["a"] = FUENTE_A
+    res["notas"] = notas
+    res["contraste_oficial"] = {"fuente": json.loads(OFICIAL_META.read_text(encoding="utf-8")), "diferencias": difs}
+    res["verificacion_a"] = ("FALLA" if errores else "OK: 52 circunscripciones, 350 escaños y totales oficiales"
+                             if not notas else "OK con nota: " + notas[0])
     escribir(res, a.salida)
     if a.visor:
         escribir(res, ROOT / "dashboard")
     print(f"{ETIQUETA}: {res['provincias_incluidas']} provincias; faltan "
           f"{[f['provincia'] for f in res['faltan']]}; (b) {res['fuentes']['b']}; (a) {res['verificacion_a']}")
+    for n in notas:
+        print(f"::notice::(a) {n}")
     for e in res["errores"]:
         print(f"::error::{e}")
     return 1 if res["errores"] else 0
