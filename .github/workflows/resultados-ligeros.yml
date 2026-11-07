@@ -1,21 +1,22 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # NOMBRE DE VERSIÓN: Resultados ligeros en git
 # FECHA: 2026-11-07
 # ESTADO: candidato
 # QUÉ HACE: cuando cambia orchestracion/publicaciones_visor.json en main, regenera datos/resultados/ (CSV por territorio y
 #   MANIFEST.json) con herramientas/resultados_ligeros.py y lo empuja con la app de registro. Si ningún canonical_m08
 #   cambió, la herramienta no modifica nada y no hay commit.
-# CAMBIOS: versión inicial (T-53).
+# CAMBIOS: 1.1.0: también regenera los votos por partido (resultados_partidos.py) y se dispara al cambiar datos/composicion/MANIFEST.json (T-67). 1.0.0: versión inicial (T-53).
 # MOTIVO: los análisis no deben descargar los ZIP M08.
-# ANTERIOR: ninguna (fichero nuevo)
+# ANTERIOR: legacy/workflows/resultados-ligeros_v1.0.0_20261107.yml
 name: Resultados ligeros
 on:
   push:
     branches: [main]
     paths:
       - 'orchestracion/publicaciones_visor.json'
+      - 'datos/composicion/MANIFEST.json'
 permissions:
   contents: write
 concurrency:
@@ -57,11 +58,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          python -c 'import yaml' 2>/dev/null || pip install --break-system-packages pyyaml
           python herramientas/resultados_ligeros.py
+          python herramientas/resultados_partidos.py
           git config user.name "ddd-registro[bot]"
           git config user.email "ddd-registro[bot]@users.noreply.github.com"
           git add -A datos/resultados
-          if git diff --cached --quiet; then echo "Sin cambios en canonical_m08."; exit 0; fi
+          if git diff --cached --quiet; then echo "Sin cambios en resultados."; exit 0; fi
           git commit -m "datos: resultados ligeros desde canonical_m08"
           for intento in 1 2 3; do
             if git push origin HEAD:main; then exit 0; fi

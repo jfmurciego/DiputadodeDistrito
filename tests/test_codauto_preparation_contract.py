@@ -161,6 +161,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "archivar-artefactos-r2.yml",  # T-47 archivista R2
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
+                "extraer-composicion-m06.yml",  # T-67 composición sección→distrito
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
