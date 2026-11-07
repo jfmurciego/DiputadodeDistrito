@@ -212,6 +212,12 @@ validation:
   # la ciudad de Murcia, cuyos núcleos son cerrados; su distrito queda exento del suelo.
   population_floor_exempt_municipalities:
   - '30010'
+  population_floor_exempt_decisions:
+    '30010':
+      decided_at: '2026-10-29'
+      decided_by: propietario
+      reason: 'Beniel: enclave dentro de un municipio con núcleos cerrados; su distrito queda exento del suelo (Murcia, M05).'
+      evidence: 'PR #343; tests/test_exencion_suelo_municipal.py'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0

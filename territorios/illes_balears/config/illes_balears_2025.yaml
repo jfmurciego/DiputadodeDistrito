@@ -214,6 +214,22 @@ validation:
   - 07-C02
   - 07-C03
   - 07-C04
+  population_floor_exempt_partition_decisions:
+    '07-C02':
+      decided_at: '2026-10-28'
+      decided_by: propietario
+      reason: 'Menorca (5 distritos, 99.005 hab.) no admite partición sobre el suelo: Mahón y Ciudadela son indivisibles.'
+      evidence: 'PR #313; run 40847174556; configuracion/politica_generacion_territorial_2025.yaml#territories.illes_balears.structural_floor_exemptions'
+    '07-C03':
+      decided_at: '2026-10-28'
+      decided_by: propietario
+      reason: 'Formentera: componente de un solo distrito bajo el suelo (regla de componente pequeño).'
+      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-28 — M05 — bloqueos de población de Madrid y Baleares»'
+    '07-C04':
+      decided_at: '2026-10-29'
+      decided_by: propietario
+      reason: 'Ibiza (8 distritos, 159.180 hab.) no admite partición sobre el suelo con la disciplina municipal: Sant Josep y Sant Antoni son indivisibles (opción A).'
+      evidence: 'run 40891796781; configuracion/politica_generacion_territorial_2025.yaml#territories.illes_balears.structural_floor_exemptions'
   partition_apportionment_audit:
     07-C01:
       population: 940332

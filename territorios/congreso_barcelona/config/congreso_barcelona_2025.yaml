@@ -196,6 +196,12 @@ validation:
   # Diagnóstico M05 del 01-11-2026 (run 00 anterior, POPULATION_HARD_BLOCK): Cornellà de Llobregat (90.076 hab.) es un municipio entero por debajo del suelo (98.555) y no puede completarse sin partirlo; su distrito queda exento del suelo.
   population_floor_exempt_municipalities:
   - '08073'
+  population_floor_exempt_decisions:
+    '08073':
+      decided_at: '2026-11-01'
+      decided_by: propietario
+      reason: 'Cornellà de Llobregat (90.076 hab.) es un municipio entero por debajo del suelo (98.555) y no puede completarse sin partirlo; su distrito queda exento del suelo.'
+      evidence: 'PR #380; run 00 41327510776 (POPULATION_HARD_BLOCK); docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b»; docs/PLAN.md T-02b'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
