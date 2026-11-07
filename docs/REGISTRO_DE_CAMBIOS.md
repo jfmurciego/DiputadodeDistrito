@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.156
+Versión: 1.0.157
 Fecha: 2026-11-07
-Alcance: T-90 — Paquete mínimo y archivo en origen leen los GeoJSON *.geojson.zip
+Alcance: T-81/T-85 — Plan: decisiones del histórico (D-9 a D-11) y encargo de T-81 y T-85
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t90-paquete-minimo-geojson-zip.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.155_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_plan-historico.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.156_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.155_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.157 · [2026-11-07 — T-81/T-85 — Plan: decisiones del histórico (D-9 a D-11) y encargo de T-81 y T-85](registro/2026-11-07_plan-historico.md)
 - 1.0.156 · [2026-11-07 — T-90 — Paquete mínimo y archivo en origen leen los GeoJSON *.geojson.zip](registro/2026-11-07_claude-t90-paquete-minimo-geojson-zip.md)
 - 1.0.155 · [2026-11-07 — T-88 (ampliación) — Plugins oficiales de revisión y desarrollo frente a revisor e implementador](registro/2026-11-07_t88b-plugins-revision.md)
 - 1.0.154 · [2026-11-07 — T-88 — Plan: T-88 ampliada a los plugins oficiales de Anthropic](registro/2026-11-07_plan-t88b.md)
