@@ -443,5 +443,19 @@
    "distritos": 45,
    "sha256_csv": "d8d08cdcece10679ee2f53c65edb18f8820357273054e5faf31d534bd1245df3"
   }
+ },
+ "partidos": {
+  "congreso_alava": {
+   "blob_sha_m08": "d3fc88943f3b177aedc172a758785b7d9096c8e3",
+   "sha256_composicion": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "9d208c89b45c0ecf4f1994872f05a502b943fdd7cc8c62621df5489c4f26bf29"
+  },
+  "congreso_leon": {
+   "blob_sha_m08": "fb9b05561399abd89a4c06bb3251d5d28712acc4",
+   "sha256_composicion": "295ee72e72479aa104d93d7f99b0e7d12fc72fd2835c025c74f8cac079dca9dd",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a8460766899c79140e8ec6dfc9d7d2f4c9c5144d1fd24e82259c70945bd2d809"
+  }
  }
 }
