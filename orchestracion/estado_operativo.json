@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-07T21:24:46.498442+00:00",
+  "generated_at": "2026-11-07T21:53:06.623635+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 68,
-      "activable": 3,
+      "activated": 69,
+      "activable": 2,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 68
+      "durable_pair": 69
     },
     "territories": [
       {
@@ -1404,12 +1404,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_barcelona/evidencia/pares_fuentes/2025/99df15eb1c2be5635c810501b052244781a6936c9029d0717b607fe9f8b2f486.json",
-            "pair_sha256": "99df15eb1c2be5635c810501b052244781a6936c9029d0717b607fe9f8b2f486",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_barcelona/evidencia/pares_fuentes/2025/c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f.json",
+            "pair_sha256": "c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -4951,12 +4951,12 @@
       "territory_id": "congreso_alicante",
       "name": "Nacional Alicante",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 42409605030,
       "last_run": {
         "run_id": 41293667422,
         "status": "FAILED",
@@ -4965,7 +4965,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -4976,13 +4976,26 @@
           "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso_alicante",
+          "territory_name": "Congreso Alicante",
+          "edition": "2025",
+          "run_id": 42409605030,
+          "artifact_name": "ddd-state-42409605030-M06",
+          "artifact_sha256": "ea0d29e63128c377fb309155c54b55f970fa173d14dcdc87ae028efbf42426e4",
+          "source_commit": "70fb22388ec2a5c1704b05b8c3c851683f58d62a",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso_alicante/evidencia/generaciones_m06/42409605030.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "C03",
       "display_name": "Nacional Alicante",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_almeria",
@@ -5239,11 +5252,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42409499602,
       "last_run": {
-        "run_id": 41323024014,
+        "run_id": 42416213698,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -5272,7 +5285,18 @@
           "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42409499602.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso_barcelona",
+          "territory_name": "Congreso Barcelona",
+          "edition": "2025",
+          "run_id": 42416213698,
+          "artifact_name": "ddd-state-42416213698-M08",
+          "artifact_sha256": "7937fda7e1f9813185c3a1e6362b1362081f7b5a9dd23ccf6e4cbcfd6d85c112",
+          "source_commit": "e0fb1ae6c3ca25ef3f65fb702065c4ec857fcc96",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "C08",
       "display_name": "Nacional Barcelona",
@@ -8030,7 +8054,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "territorial_validated": 69,
+    "territorial_validated": 70,
     "territorial_validated_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -8053,6 +8077,7 @@
       "19 Melilla",
       "Nacional Álava",
       "Nacional Albacete",
+      "Nacional Alicante",
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
@@ -8102,7 +8127,7 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "validated": 69,
+    "validated": 70,
     "validated_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -8125,6 +8150,7 @@
       "19 Melilla",
       "Nacional Álava",
       "Nacional Albacete",
+      "Nacional Alicante",
       "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
@@ -8174,9 +8200,8 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 2,
+    "ready": 1,
     "ready_names": [
-      "Nacional Alicante",
       "Nacional Málaga"
     ],
     "pending": 0,
@@ -8205,7 +8230,7 @@
       "territory": "Nacional Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
-      "action": "completar puerta de validación territorial"
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Nacional Barcelona",
@@ -8231,7 +8256,7 @@
       "territory": "Nacional Alicante",
       "territory_id": "congreso_alicante",
       "autonomous_community_code_ine": "C03",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Nacional Barcelona",
