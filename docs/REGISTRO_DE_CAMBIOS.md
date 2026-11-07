@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.137
+Versión: 1.0.138
 Fecha: 2026-11-07
-Alcance: Coordinador — lecciones de la primera ola y tablero
+Alcance: T-64 — reaplica #462 (partidos judiciales)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_coordinador-lecciones-ola1.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.136_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_reaplica-t64-462.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.137_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.136_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.138 · [2026-11-07 — T-64 — reaplica #462 (partidos judiciales)](registro/2026-11-07_reaplica-t64-462.md)
 - 1.0.137 · [2026-11-07 — Coordinador — lecciones de la primera ola y tablero](registro/2026-11-07_coordinador-lecciones-ola1.md)
 - 1.0.136 · [2026-11-07 — Coordinador — rol, tablero y lecciones pendientes](registro/2026-11-07_coordinador-roles.md)
 - 1.0.135 · [2026-11-07 — T-64 — revierte #462 (partidos judiciales) hasta el estudio](registro/2026-11-07_revert-t64-462.md)
