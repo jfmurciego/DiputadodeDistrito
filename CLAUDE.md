@@ -53,6 +53,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   `production_run_id=<run 00 completo>` por cada territorio nuevo; con el campo vacío solo entra `latest_validated`.
 - Los M08 publicados están en git como blobs: `publicaciones_visor.json` (`kind=canonical_m08`, run más reciente) →
   `gh api repos/<r>/git/blobs/<blob_sha> -H "Accept: application/vnd.github.raw"` (ZIP; comprobar el sha256).
+  Solo traen el ganador por distrito (no votos por partido); versión ligera en `datos/resultados/` (#445).
 - El dashboard (`herramientas/generar_estado_operativo.py`) acepta un M08 de otro run si el manifiesto de ese run
   acredita la 02 con el M06 vigente y la 04 en success (#354).
 
@@ -61,8 +62,8 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   `gh api -X POST repos/<r>/actions/workflows/<f>.yml/dispatches -f ref=main -f "inputs[k]=v"`.
 - Tras un rebase, la rama remota diverge y el reset/force push se deniega: fusiona `origin/main` o usa `git revert`.
 - Los procesos en segundo plano (nohup/setsid) mueren al terminar el turno. Las cadenas largas
-  (00 → legislatura → 00 electoral) corren en el Mac del propietario: script en la rama `lanzadores-mac`,
-  descargado con `gh api ".../contents/<ruta>?ref=lanzadores-mac" -H "Accept: application/vnd.github.raw"`.
+  (00 → legislatura → 00 electoral) las encadena la propia 00: `territorial_only` con `cadena_electoral=true`
+  (#448; sin duplicados, estado en `chain` del manifiesto, el eslabón electoral no publica). Ya no hace falta el Mac.
 - Errores de un run sin descargar logs: `gh api repos/<r>/check-runs/<job_id>/annotations`. Si hace falta el log,
   pide `gh run view <id> --log-failed | grep -E "::error|Traceback|Error"` (con `tail` solo sale la limpieza).
   Los logs de jobs se leen con la herramienta MCP `get_job_logs`; los grandes se guardan en fichero y se filtran.
@@ -81,3 +82,4 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - 2026-11-01 · Bloqueos de población: exención municipal en contrato, techo en política, reparación inútil si estructural · #380 #384 #391.
 - 2026-11-02 · Activación por elección, Gestor con provincias, robots con app propia, exención en islas · #376–#398.
 - 2026-11-07 · Paso 1 de agentes: CLAUDE.md < 100 líneas, `.claude/rules/` por rutas y hooks de git · #427 #428.
+- 2026-11-07 · Agentes en uso, registro por ficheros, CI en 4 min, archivista R2, huella de checkpoint, cadenas sin Mac · #441–#448.

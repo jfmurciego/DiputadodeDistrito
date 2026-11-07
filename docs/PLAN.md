@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.12
+Versión: 1.0.13
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: estado a 07-11 (Paso 0 fusionado, Paso 1 pendiente), prioridad a los agentes con el producto en pausa, cola T-38 a T-44 (oro, revisor, forense, Environments, hemiciclo, ensembles, Málaga/Barcelona/Alicante), asignación de los cuatro chats y turnos
-Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
+Cambios/motivo: §0 estado al cierre del lote del 07-11 (PR #431–#448) y pendientes del propietario
+Anterior: legacy/docs/PLAN_v1.0.12_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -36,6 +36,17 @@ Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 - Infraestructura (workflows, ruleset, credenciales): se valida con una sola ejecución antes de abrir paso al resto.
 - `docs/PLAN.md` solo lo edita el planificador; el número de `REGISTRO_DE_CAMBIOS.md` lo asigna el planificador al
   abrir la PR. Los chats le mandan su cierre de tarea y él lo anota.
+
+## 0. Estado al cierre del 07-11 (17:15)
+- En `main`: agentes (oro, revisor, forense), registro por ficheros (T-46), delegación, CI en paralelo (4 min, T-50),
+  Environments (T-41), archivista R2 (T-47 + reintentos #447), revisor y forense en CI (T-48), exenciones gobernadas
+  (T-49), huella de checkpoint (T-51), cadenas sin Mac (T-52), resultados ligeros (T-53), motor 7.6.7 + Fuengirola
+  (T-44), hemiciclo con el BOE (T-42/T-45). PR #431 a #448 cerradas.
+- En curso: T-54 auto-merge (escrito; espera la autorización del propietario en «Implementador nuevo»), revisión de
+  #425 con el revisor, T-55 elección anterior del hemiciclo (BOE 2019-11), relanzamiento del archivista.
+- Pendiente del propietario: entorno `produccion` con revisor, secreto `CLAUDE_CODE_OAUTH_TOKEN`, permiso de las 00
+  de Barcelona, Alicante y Málaga («Ejecutar desde el principio») y Andalucía («Generar desde fuente territorial
+  acreditada»); con ellas, 52/52 provincias y 19/19 autonómicas.
 
 ## 1. Estado (2026-11-07)
 - Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
