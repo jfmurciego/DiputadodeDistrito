@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.106
+Versión: 1.0.107
 Fecha: 2026-11-07
-Alcance: T-46 (b) — CLAUDE.md: delegación en el planificador y lecciones de T-42
+Alcance: Lecciones — Cierre de los chats del motor (T-22, T-44, T-07)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-claude-md-delegacion-lecciones.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.105_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-lecciones-20261107.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.106_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.105_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.107 · [2026-11-07 — Lecciones — Cierre de los chats del motor (T-22, T-44, T-07)](registro/2026-11-07_claude-lecciones-20261107.md)
 - 1.0.106 · [2026-11-07 — T-46 (b) — CLAUDE.md: delegación en el planificador y lecciones de T-42](registro/2026-11-07_claude-claude-md-delegacion-lecciones.md)
 <!-- indice-registro:fin -->
 
