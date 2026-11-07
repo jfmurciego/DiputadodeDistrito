@@ -1,0 +1,104 @@
+# PROYECTO: Diputado de Distrito
+# FICHERO: archivar-artefactos-r2.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Archivista R2
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: copia a Cloudflare R2 los artefactos de Actions referenciados por el catálogo y el visor antes de que
+#   caduquen (14 días), priorizando los que caducan antes, y registra orchestracion/archivo_r2.json en main con la
+#   app ddd-registro (DDD_REGISTRO_APP_ID/KEY; sin ellos, github.token).
+# CAMBIOS: 1.0.0: fichero nuevo (T-47).
+# MOTIVO: el M05 de Cantabria (run 41037133327) caduca el 13-11 y otros productos registrados se perderían.
+# ANTERIOR: ninguna (fichero nuevo)
+name: '- Archivar artefactos en R2'
+run-name: "Archivar artefactos en R2 · ${{ inputs.caduca_antes || 'todo lo vivo' }}"
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+    inputs:
+      caduca_antes:
+        description: 'Solo lo que caduca antes de esta fecha (AAAA-MM-DD); vacío = todo lo vivo'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: archivar-artefactos-r2
+  cancel-in-progress: false
+
+jobs:
+  archivar:
+    name: Archivar y registrar manifiesto
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: auto
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || secrets.R2_ACCOUNT_ID }}
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+      CADUCA_ANTES: ${{ inputs.caduca_antes }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Validar configuración de R2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET; do
+            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
+          done
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Archivar artefactos
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          [[ -z "${CADUCA_ANTES:-}" ]] || args+=(--caduca-antes "$CADUCA_ANTES")
+          python3 herramientas/archivar_artefactos_r2.py "${args[@]}" | tee archivo.log
+      - name: Registrar manifiesto en main
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- orchestracion/archivo_r2.json && [[ -z "$(git ls-files -o --exclude-standard orchestracion/archivo_r2.json)" ]]; then
+            echo "Manifiesto sin cambios."; exit 0
+          fi
+          git config user.name "ddd-registro"
+          git config user.email "ddd-registro@users.noreply.github.com"
+          git add orchestracion/archivo_r2.json
+          git commit -m "chore(archivo): manifiesto R2 de artefactos archivados"
+          for i in 1 2 3 4; do
+            git fetch origin main
+            git rebase origin/main && git push origin HEAD:main && exit 0
+            git rebase --abort || true
+            sleep $((i*3))
+          done
+          echo "::error::No se pudo registrar el manifiesto en main."; exit 1

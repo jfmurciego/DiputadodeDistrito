@@ -158,6 +158,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
             manual,
             [
                 "activacion-por-eleccion.yml",
+                "archivar-artefactos-r2.yml",  # T-47 archivista R2
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
                 "generar-alternativas-territoriales.yml",
