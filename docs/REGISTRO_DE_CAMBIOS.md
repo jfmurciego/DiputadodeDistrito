@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.124
+Versión: 1.0.125
 Fecha: 2026-11-07
-Alcance: T-60 — Datos abiertos y fichas por distrito
+Alcance: T-54b — La fusión automática exige `pruebas` en success sobre el HEAD exacto
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t-60-datos-abiertos.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.123_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-t54b-auto-merge-pruebas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.124_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.123_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.125 · [2026-11-07 — T-54b — La fusión automática exige `pruebas` en success sobre el HEAD exacto](registro/2026-11-07_claude-t54b-auto-merge-pruebas.md)
 - 1.0.124 · [2026-11-07 — T-60 — Datos abiertos y fichas por distrito](registro/2026-11-07_claude-t-60-datos-abiertos.md)
 - 1.0.123 · [2026-11-07 — Plan 1.0.14 — Senado descartado](registro/2026-11-07_claude-plan-senado.md)
 - 1.0.122 · [2026-11-07 — T-61 — Configuraciones de ensemble para 10 provincias](registro/2026-11-07_claude-t61-ensembles-provincias.md)
