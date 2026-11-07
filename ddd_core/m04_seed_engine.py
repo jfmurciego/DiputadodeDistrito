@@ -4,15 +4,16 @@
 
 PROYECTO: Diputado de Distrito
 Módulo 04 — Motor canónico de semillas
-VERSIÓN: 7.6.6
-NOMBRE DE VERSIÓN: Alivio de residuos municipales sobre el techo
-FECHA: 2026-11-03
+VERSIÓN: 7.6.7
+NOMBRE DE VERSIÓN: Núcleo adicional por enclaves dependientes
+FECHA: 2026-11-07
 FUNCIÓN: ejecutar el núcleo 7.4.13 con preflight atómico fail-closed, puertas de componentes y reparación genérica de closed target cores.
 CAMBIOS: para closed_target_cores_plus_open_residual exige que todo core inmutable quede dentro de la tolerancia objetivo; permite residual provisional bajo floor, conserva cap/gateways y bloquea explícitamente si no encuentra una partición conforme.
 MOTIVO: evitar que M04 congele outliers que M05 no puede reparar, sin relajar K, provincia, contigüidad, disciplina municipal, tolerancia ni límites duros.
-ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.5.py
+ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.6.py
 CAMBIO 7.6.5: reutiliza la solución conexa hard demostrada en preflight para Formación inicial monomunicipal y preserva cardinalidad residual.
 CAMBIO 7.6.6: si el residuo R de un municipio dividido deja su distrito sobre el techo (enclaves que solo lindan con él), cede secciones fronterizas de R a los núcleos U del mismo municipio con margen; M05 no puede hacerlo porque mueve unidades enteras (T-22, Murcia).
+CAMBIO 7.6.7: si el residual de un municipio dividido más los municipios vecinos que solo lindan con él (enclaves dependientes) supera el techo, reintenta la partición con un núcleo cerrado más; solo fuera de closed_target_cores (T-44, Elche + Santa Pola). El alivio de residuos (1.1.0) añade la cadena de dos saltos (T-44, Málaga).
 """
 from __future__ import annotations
 
@@ -28,7 +29,7 @@ from ddd_core.m04_closed_target_cores import repair_closed_target_cores
 from ddd_core.m04_overcap_residual_relief import relieve_overcap_residuals
 
 ENGINE_ID = "ddd_core.m04_seed_engine"
-ENGINE_VERSION = "7.6.6"
+ENGINE_VERSION = "7.6.7"
 partition_oversized_municipality = core.partition_oversized_municipality
 _BASE_PARTITION_OVERSIZED_MUNICIPALITY = partition_oversized_municipality
 
@@ -549,6 +550,57 @@ def _record_overcap_relief(report_path, moves):
     Path(report_path).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def _municipality_index(step):
+    """Sección → municipio y municipio → secciones, para medir enclaves dependientes."""
+    geo = core.load_geo(require(step.get("in_geojson"), "Falta M04 geojson"))
+    id_field = require(step.get("id_field"), "Falta id")
+    municipality_field = step.get("municipality_field", "CUMUN")
+    node_municipality = dict(zip(geo[id_field].astype(str), geo[municipality_field].astype(str)))
+    municipality_nodes = {}
+    for node, municipality in node_municipality.items():
+        municipality_nodes.setdefault(municipality, set()).add(node)
+    return node_municipality, municipality_nodes
+
+
+def _dependent_enclave_population(nodes, adjacency, weights, municipality_index):
+    """Población de municipios vecinos que solo lindan con ``nodes`` (deben ir con su residual)."""
+    node_municipality, municipality_nodes = municipality_index
+    nodes = set(nodes)
+    neighbours = {
+        node_municipality[v]
+        for n in nodes for v in adjacency.get(n, ()) if v not in nodes and v in node_municipality
+    }
+    total = 0
+    for municipality in neighbours:
+        members = municipality_nodes[municipality]
+        external = {v for n in members for v in adjacency.get(n, ()) if v not in members}
+        if external and external <= nodes:
+            total += sum(weights.get(n, 0) for n in members)
+    return total
+
+
+def _with_dependent_enclaves(result, nodes, target, floor, cap, adjacency, weights, protected,
+                             municipality_index):
+    """Si residual + enclaves dependientes supera el techo, reintenta con un núcleo más."""
+    closed, residual, mode, gateways = result
+    dependent = _dependent_enclave_population(nodes, adjacency, weights, municipality_index)
+    if not dependent or sum(weights[n] for n in residual) + dependent <= cap:
+        return result
+    base = core.previous
+    for balanced, grow in ((False, False), (True, False), (False, True), (True, True)):
+        candidate, _reason = base._sequential_count(
+            set(nodes), len(closed) + 1, target, floor, cap, adjacency, weights,
+            set(protected or ()), set(gateways or ()), balanced=balanced, grow=grow,
+        )
+        if candidate is None:
+            continue
+        new_closed, new_residual, new_mode = candidate
+        if sum(weights[n] for n in new_residual) + dependent <= cap:
+            return ([set(p) for p in new_closed], set(new_residual),
+                    f"{mode}->{new_mode}+dependent_enclaves:{int(dependent)}", gateways)
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--params", required=True)
@@ -574,6 +626,7 @@ def main():
         if diagnostic.get("connected_partition")
     ]
     heuristic_partitioner = selected_partitioner
+    municipality_index = _municipality_index(step)
 
     def selected_partitioner(nodes, target, floor, cap, tolerance, adjacency, weights,
                              label="", protected=None):
@@ -588,8 +641,12 @@ def main():
                     residual = eligible[-1]
                     return ([set(part) for part in parts if part is not residual],
                             set(residual), "exact_connected_hard_partition", set())
-        return heuristic_partitioner(nodes, target, floor, cap, tolerance,
-                                     adjacency, weights, label=label, protected=protected)
+        result = heuristic_partitioner(nodes, target, floor, cap, tolerance,
+                                       adjacency, weights, label=label, protected=protected)
+        if strict_closed_target:
+            return result
+        return _with_dependent_enclaves(result, nodes, target, floor, cap, adjacency,
+                                        weights, protected, municipality_index)
     original = core.partition_oversized_municipality
     protected_component_nodes = set()
 

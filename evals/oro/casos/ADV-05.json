@@ -1,0 +1,40 @@
+{
+  "id": "ADV-05",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Santa Cruz de Tenerife: islas agrupadas con puentes declarados (control limpio)",
+  "causa": "Partición y puentes marítimos declarados por decisión del propietario; no hay defecto bloqueante conocido.",
+  "origen": {
+    "prs": [
+      369
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 369,
+    "sha_desde": "3606d7db4eb5433b4f1c3524976f734758e1d40c",
+    "sha_candidato": "ed9b20f03c521f2dc5129ee731c9c3b96d3fbaad",
+    "ficheros": [
+      "configuracion/particiones_insulares_2025.json"
+    ],
+    "comando": "git diff 3606d7db4eb5433b4f1c3524976f734758e1d40c ed9b20f03c521f2dc5129ee731c9c3b96d3fbaad -- configuracion/particiones_insulares_2025.json",
+    "contexto": "Control limpio: sin PR correctiva posterior sobre esta partición en #370-#427."
+  },
+  "esperado": {
+    "veredicto": "APROBAR",
+    "clases": [],
+    "ficheros": [],
+    "claves": [
+      "puente",
+      "la gomera"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#369 fusionada, squash ed9b20f03c sobre 3606d7db4e (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

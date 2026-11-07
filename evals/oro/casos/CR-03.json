@@ -1,0 +1,38 @@
+{
+  "id": "CR-03",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "La reparación M05 mueve el municipio exento",
+  "causa": "La reparación M05 mueve Mogán (exento) de distrito y el suelo 0 calculado por número de distrito deja otro distrito bajo suelo.",
+  "origen": {
+    "prs": [
+      399
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [],
+    "sintoma": "Las Palmas M08: tras M05 el distrito 5 cae a 73.478 hab. y el validador da «distritos bajo límite poblacional=1» (exit 3); district_floor_overrides {\"5\": 0.0}.",
+    "territorio": "congreso_las_palmas"
+  },
+  "esperado": {
+    "causa_id": "reparacion_mueve_exento",
+    "claves": [
+      "mueve",
+      "exento",
+      "reparaci",
+      "floor_exempt_anchor",
+      "district_floor_overrides"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#399 fusionada, squash 1beaa838b4 sobre 8ae77f0b20 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

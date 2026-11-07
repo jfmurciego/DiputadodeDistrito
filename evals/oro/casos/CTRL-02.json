@@ -1,0 +1,40 @@
+{
+  "id": "CTRL-02",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Control limpio: códigos de salida del runner",
+  "causa": "PR correctiva con test rojo/verde; runner.py no lleva cabecera VERSIÓN; no debe bloquearse.",
+  "origen": {
+    "prs": [
+      410
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "Historia de PR (introductora → correctiva)"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 410,
+    "sha_desde": "2bda35f617331e7e32010ecfba1508beaf24d076",
+    "sha_candidato": "919feacb83be71e91fadace738c4c2e5931d386e",
+    "ficheros": [
+      "ddd_ensemble/runner.py",
+      "tests/test_ensemble_codigo_de_salida.py"
+    ],
+    "comando": "git diff 2bda35f617331e7e32010ecfba1508beaf24d076 919feacb83be71e91fadace738c4c2e5931d386e -- ddd_ensemble/runner.py tests/test_ensemble_codigo_de_salida.py",
+    "contexto": "Fusionada con CI verde; sin PR correctiva posterior sobre exit_code_for en #411-#427."
+  },
+  "esperado": {
+    "veredicto": "APROBAR",
+    "clases": [],
+    "ficheros": [],
+    "claves": [
+      "exit_code_for"
+    ]
+  },
+  "procedencia": {
+    "fuente": "Historia de PR (introductora → correctiva)",
+    "verificado": "#410 fusionada, squash 919feacb83 sobre 2bda35f617 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

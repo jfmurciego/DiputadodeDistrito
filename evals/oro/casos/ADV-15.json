@@ -1,0 +1,48 @@
+{
+  "id": "ADV-15",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Techos particulares no reaplicados a contratos completos",
+  "causa": "Sin apply_policy_population_limits, un contrato already_complete conserva el techo antiguo aunque la política declare el suyo.",
+  "origen": {
+    "prs": [
+      391,
+      403
+    ],
+    "runs": [
+      41427993423
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 403,
+    "sha_desde": "92e213532e3d0908432fe5d74a0dde26cdd5a453",
+    "sha_candidato": "88625c40e0d8d1857fe337c4b405f1a180637ba8",
+    "ficheros": [
+      "herramientas/materializar_contrato_generacion.py"
+    ],
+    "comando": "git diff 92e213532e3d0908432fe5d74a0dde26cdd5a453 88625c40e0d8d1857fe337c4b405f1a180637ba8 -- herramientas/materializar_contrato_generacion.py"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "politica_no_reaplicada"
+    ],
+    "ficheros": [
+      "herramientas/materializar_contrato_generacion.py"
+    ],
+    "claves": [
+      "apply_policy_population_limits",
+      "already_complete",
+      "population_limits",
+      "reaplic"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#391 fusionada, squash 7776b312e3 sobre ec0da12166; #403 fusionada, squash 92e213532e sobre 88625c40e0 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

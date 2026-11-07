@@ -1,0 +1,47 @@
+{
+  "id": "ADV-13",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Diagnóstico automático elegido por fecha",
+  "causa": "El paquete de diagnóstico toma el fichero más reciente por mtime en vez de las rutas del contrato del run; puede mezclar runs.",
+  "origen": {
+    "prs": [
+      397,
+      401
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 397,
+    "sha_desde": "6bbb00bf82b07e7ebe58948f214a97e30743c338",
+    "sha_candidato": "92b221f28167cebcebf502d51d5a925bf78f93bb",
+    "ficheros": [
+      "herramientas/publicar_diagnostico_auto.py"
+    ],
+    "comando": "git diff 6bbb00bf82b07e7ebe58948f214a97e30743c338 92b221f28167cebcebf502d51d5a925bf78f93bb -- herramientas/publicar_diagnostico_auto.py"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "seleccion_por_mtime"
+    ],
+    "ficheros": [
+      "herramientas/publicar_diagnostico_auto.py"
+    ],
+    "claves": [
+      "mtime",
+      "mas reciente",
+      "fecha",
+      "contrato",
+      "mezcl"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#397 fusionada, squash 92b221f281 sobre 6bbb00bf82; #401 fusionada, squash 3e1e6c5f52 sobre e9853aa2be (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

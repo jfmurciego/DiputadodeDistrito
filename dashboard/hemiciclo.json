@@ -1,0 +1,874 @@
+{
+ "schema": "ddd.hemiciclo/1.0",
+ "version": "1.0.0",
+ "ambito": "Nacional",
+ "provincias_incluidas": 49,
+ "faltan": [
+  {
+   "codigo": "03",
+   "provincia": "Alicante",
+   "motivo": "sin M08 registrado"
+  },
+  {
+   "codigo": "08",
+   "provincia": "Barcelona",
+   "motivo": "sin M08 registrado"
+  },
+  {
+   "codigo": "29",
+   "provincia": "Málaga",
+   "motivo": "sin M08 registrado"
+  }
+ ],
+ "fuentes": {
+  "a": "D'Hondt sobre el escrutinio de Interior (release fuente-infoelectoral-02202307), contrastado con el oficial BOE-A-2023-18907",
+  "b": "sin fuente",
+  "c": "uninominal propio: ganador de cada distrito DDD (M08 registrado)"
+ },
+ "totales": {
+  "a": {
+   "PP": 122,
+   "PSOE": 101,
+   "VOX": 27,
+   "SUMAR": 24,
+   "EH Bildu": 6,
+   "EAJ-PNV": 5,
+   "JUNTS": 4,
+   "ERC": 3,
+   "BNG": 1,
+   "CCa": 1,
+   "UPN": 1
+  },
+  "b": null,
+  "c": {
+   "PP": 207,
+   "PSOE": 106,
+   "EAJ-PNV": 7,
+   "EH Bildu": 5
+  }
+ },
+ "escanos": {
+  "a": 295,
+  "c": 325
+ },
+ "provincias": [
+  {
+   "codigo": "01",
+   "provincia": "Álava",
+   "distritos": 3,
+   "run_m08": "41346917857",
+   "escanos_2023": 4,
+   "a": {
+    "PP": 1,
+    "EH Bildu": 1,
+    "EAJ-PNV": 1,
+    "PSOE": 1
+   },
+   "b": null,
+   "c": {
+    "EH Bildu": 1,
+    "PSOE": 2
+   }
+  },
+  {
+   "codigo": "02",
+   "provincia": "Albacete",
+   "distritos": 3,
+   "run_m08": "41294417893",
+   "escanos_2023": 4,
+   "a": {
+    "PSOE": 2,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 3
+   }
+  },
+  {
+   "codigo": "04",
+   "provincia": "Almería",
+   "distritos": 6,
+   "run_m08": "41295979497",
+   "escanos_2023": 6,
+   "a": {
+    "PSOE": 2,
+    "PP": 3,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 6
+   }
+  },
+  {
+   "codigo": "05",
+   "provincia": "Ávila",
+   "distritos": 1,
+   "run_m08": "41241662219",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  },
+  {
+   "codigo": "06",
+   "provincia": "Badajoz",
+   "distritos": 6,
+   "run_m08": "41299475924",
+   "escanos_2023": 5,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 1,
+    "PSOE": 5
+   }
+  },
+  {
+   "codigo": "07",
+   "provincia": "Baleares",
+   "distritos": 10,
+   "run_m08": "41481449507",
+   "escanos_2023": 8,
+   "a": {
+    "PP": 3,
+    "VOX": 1,
+    "PSOE": 3,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 9,
+    "PSOE": 1
+   }
+  },
+  {
+   "codigo": "09",
+   "provincia": "Burgos",
+   "distritos": 3,
+   "run_m08": "41299221887",
+   "escanos_2023": 4,
+   "a": {
+    "PSOE": 2,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 3
+   }
+  },
+  {
+   "codigo": "10",
+   "provincia": "Cáceres",
+   "distritos": 3,
+   "run_m08": "41294658600",
+   "escanos_2023": 4,
+   "a": {
+    "PSOE": 2,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 1,
+    "PSOE": 2
+   }
+  },
+  {
+   "codigo": "11",
+   "provincia": "Cádiz",
+   "distritos": 11,
+   "run_m08": "41500124775",
+   "escanos_2023": 9,
+   "a": {
+    "PSOE": 3,
+    "PP": 4,
+    "VOX": 1,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 5,
+    "PSOE": 6
+   }
+  },
+  {
+   "codigo": "12",
+   "provincia": "Castellón",
+   "distritos": 5,
+   "run_m08": "41295629673",
+   "escanos_2023": 5,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 5
+   }
+  },
+  {
+   "codigo": "13",
+   "provincia": "Ciudad Real",
+   "distritos": 4,
+   "run_m08": "41298749455",
+   "escanos_2023": 5,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 4
+   }
+  },
+  {
+   "codigo": "14",
+   "provincia": "Córdoba",
+   "distritos": 6,
+   "run_m08": "41296161083",
+   "escanos_2023": 6,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 3,
+    "PSOE": 3
+   }
+  },
+  {
+   "codigo": "15",
+   "provincia": "La Coruña",
+   "distritos": 9,
+   "run_m08": "41296991598",
+   "escanos_2023": 8,
+   "a": {
+    "PP": 4,
+    "PSOE": 2,
+    "BNG": 1,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 9
+   }
+  },
+  {
+   "codigo": "16",
+   "provincia": "Cuenca",
+   "distritos": 2,
+   "run_m08": "41294075778",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 2
+   }
+  },
+  {
+   "codigo": "17",
+   "provincia": "Gerona",
+   "distritos": 7,
+   "run_m08": "41298839274",
+   "escanos_2023": 6,
+   "a": {
+    "PSOE": 2,
+    "ERC": 1,
+    "SUMAR": 1,
+    "JUNTS": 2
+   },
+   "b": null,
+   "c": {
+    "PSOE": 7
+   }
+  },
+  {
+   "codigo": "18",
+   "provincia": "Granada",
+   "distritos": 8,
+   "run_m08": "41296546816",
+   "escanos_2023": 7,
+   "a": {
+    "PSOE": 2,
+    "PP": 3,
+    "VOX": 1,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 5,
+    "PSOE": 3
+   }
+  },
+  {
+   "codigo": "19",
+   "provincia": "Guadalajara",
+   "distritos": 2,
+   "run_m08": "41294169221",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 1,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 2
+   }
+  },
+  {
+   "codigo": "20",
+   "provincia": "Guipúzcoa",
+   "distritos": 6,
+   "run_m08": "41298935355",
+   "escanos_2023": 6,
+   "a": {
+    "EH Bildu": 2,
+    "EAJ-PNV": 2,
+    "PSOE": 2
+   },
+   "b": null,
+   "c": {
+    "EH Bildu": 3,
+    "PSOE": 2,
+    "EAJ-PNV": 1
+   }
+  },
+  {
+   "codigo": "21",
+   "provincia": "Huelva",
+   "distritos": 4,
+   "run_m08": "41335929678",
+   "escanos_2023": 5,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 3,
+    "PSOE": 1
+   }
+  },
+  {
+   "codigo": "22",
+   "provincia": "Huesca",
+   "distritos": 2,
+   "run_m08": "41194447427",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 2
+   }
+  },
+  {
+   "codigo": "23",
+   "provincia": "Jaén",
+   "distritos": 5,
+   "run_m08": "41295799269",
+   "escanos_2023": 5,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 2,
+    "PSOE": 3
+   }
+  },
+  {
+   "codigo": "24",
+   "provincia": "León",
+   "distritos": 4,
+   "run_m08": "41629735636",
+   "escanos_2023": 4,
+   "a": {
+    "PSOE": 2,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 3,
+    "PSOE": 1
+   }
+  },
+  {
+   "codigo": "25",
+   "provincia": "Lérida",
+   "distritos": 4,
+   "run_m08": "41299033915",
+   "escanos_2023": 4,
+   "a": {
+    "PSOE": 2,
+    "ERC": 1,
+    "JUNTS": 1
+   },
+   "b": null,
+   "c": {
+    "PSOE": 4
+   }
+  },
+  {
+   "codigo": "26",
+   "provincia": "La Rioja",
+   "distritos": 3,
+   "run_m08": "41294822309",
+   "escanos_2023": 4,
+   "a": {
+    "PSOE": 2,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 3
+   }
+  },
+  {
+   "codigo": "27",
+   "provincia": "Lugo",
+   "distritos": 3,
+   "run_m08": "41294985244",
+   "escanos_2023": 4,
+   "a": {
+    "PP": 3,
+    "PSOE": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 3
+   }
+  },
+  {
+   "codigo": "28",
+   "provincia": "Madrid",
+   "distritos": 59,
+   "run_m08": "41622703086",
+   "escanos_2023": 37,
+   "a": {
+    "PSOE": 10,
+    "PP": 16,
+    "VOX": 5,
+    "SUMAR": 6
+   },
+   "b": null,
+   "c": {
+    "PP": 46,
+    "PSOE": 13
+   }
+  },
+  {
+   "codigo": "30",
+   "provincia": "Murcia",
+   "distritos": 13,
+   "run_m08": "41622862185",
+   "escanos_2023": 10,
+   "a": {
+    "PSOE": 3,
+    "PP": 4,
+    "VOX": 2,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 13
+   }
+  },
+  {
+   "codigo": "31",
+   "provincia": "Navarra",
+   "distritos": 6,
+   "run_m08": "41299128213",
+   "escanos_2023": 5,
+   "a": {
+    "PP": 1,
+    "EH Bildu": 1,
+    "PSOE": 2,
+    "UPN": 1
+   },
+   "b": null,
+   "c": {
+    "PSOE": 5,
+    "EH Bildu": 1
+   }
+  },
+  {
+   "codigo": "32",
+   "provincia": "Orense",
+   "distritos": 3,
+   "run_m08": "41295142111",
+   "escanos_2023": 4,
+   "a": {
+    "PP": 3,
+    "PSOE": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 3
+   }
+  },
+  {
+   "codigo": "33",
+   "provincia": "Asturias",
+   "distritos": 8,
+   "run_m08": "41296638877",
+   "escanos_2023": 7,
+   "a": {
+    "PSOE": 2,
+    "PP": 3,
+    "VOX": 1,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 5,
+    "PSOE": 3
+   }
+  },
+  {
+   "codigo": "34",
+   "provincia": "Palencia",
+   "distritos": 1,
+   "run_m08": "41298660623",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  },
+  {
+   "codigo": "35",
+   "provincia": "Las Palmas",
+   "distritos": 10,
+   "run_m08": "41442913288",
+   "escanos_2023": 8,
+   "a": {
+    "PSOE": 3,
+    "PP": 3,
+    "VOX": 1,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 2,
+    "PSOE": 8
+   }
+  },
+  {
+   "codigo": "36",
+   "provincia": "Pontevedra",
+   "distritos": 8,
+   "run_m08": "41353894475",
+   "escanos_2023": 7,
+   "a": {
+    "PP": 3,
+    "PSOE": 3,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 7,
+    "PSOE": 1
+   }
+  },
+  {
+   "codigo": "37",
+   "provincia": "Salamanca",
+   "distritos": 3,
+   "run_m08": "41295298674",
+   "escanos_2023": 4,
+   "a": {
+    "PSOE": 1,
+    "PP": 3
+   },
+   "b": null,
+   "c": {
+    "PP": 3
+   }
+  },
+  {
+   "codigo": "38",
+   "provincia": "Santa Cruz de Tenerife",
+   "distritos": 9,
+   "run_m08": "41294259017",
+   "escanos_2023": 7,
+   "a": {
+    "PSOE": 3,
+    "PP": 3,
+    "CCa": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 7,
+    "PSOE": 2
+   }
+  },
+  {
+   "codigo": "39",
+   "provincia": "Cantabria",
+   "distritos": 5,
+   "run_m08": "41356175674",
+   "escanos_2023": 5,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 5
+   }
+  },
+  {
+   "codigo": "40",
+   "provincia": "Segovia",
+   "distritos": 1,
+   "run_m08": "41241846017",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  },
+  {
+   "codigo": "41",
+   "provincia": "Sevilla",
+   "distritos": 16,
+   "run_m08": "41297168461",
+   "escanos_2023": 12,
+   "a": {
+    "PSOE": 5,
+    "PP": 4,
+    "VOX": 1,
+    "SUMAR": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 4,
+    "PSOE": 12
+   }
+  },
+  {
+   "codigo": "42",
+   "provincia": "Soria",
+   "distritos": 1,
+   "run_m08": "41250310066",
+   "escanos_2023": 2,
+   "a": {
+    "PSOE": 1,
+    "PP": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  },
+  {
+   "codigo": "43",
+   "provincia": "Tarragona",
+   "distritos": 7,
+   "run_m08": "41296449975",
+   "escanos_2023": 6,
+   "a": {
+    "PSOE": 2,
+    "ERC": 1,
+    "SUMAR": 1,
+    "PP": 1,
+    "JUNTS": 1
+   },
+   "b": null,
+   "c": {
+    "PSOE": 7
+   }
+  },
+  {
+   "codigo": "44",
+   "provincia": "Teruel",
+   "distritos": 1,
+   "run_m08": "41250394074",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  },
+  {
+   "codigo": "45",
+   "provincia": "Toledo",
+   "distritos": 6,
+   "run_m08": "41296268720",
+   "escanos_2023": 6,
+   "a": {
+    "PSOE": 2,
+    "PP": 3,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 6
+   }
+  },
+  {
+   "codigo": "46",
+   "provincia": "Valencia",
+   "distritos": 23,
+   "run_m08": "41335936727",
+   "escanos_2023": 16,
+   "a": {
+    "PSOE": 5,
+    "PP": 6,
+    "VOX": 2,
+    "SUMAR": 3
+   },
+   "b": null,
+   "c": {
+    "PP": 12,
+    "PSOE": 11
+   }
+  },
+  {
+   "codigo": "47",
+   "provincia": "Valladolid",
+   "distritos": 4,
+   "run_m08": "41299313598",
+   "escanos_2023": 5,
+   "a": {
+    "PSOE": 2,
+    "PP": 2,
+    "VOX": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 4
+   }
+  },
+  {
+   "codigo": "48",
+   "provincia": "Vizcaya",
+   "distritos": 10,
+   "run_m08": "41356074013",
+   "escanos_2023": 8,
+   "a": {
+    "PP": 1,
+    "SUMAR": 1,
+    "EH Bildu": 2,
+    "EAJ-PNV": 2,
+    "PSOE": 2
+   },
+   "b": null,
+   "c": {
+    "PSOE": 4,
+    "EAJ-PNV": 6
+   }
+  },
+  {
+   "codigo": "49",
+   "provincia": "Zamora",
+   "distritos": 1,
+   "run_m08": "41250479211",
+   "escanos_2023": 3,
+   "a": {
+    "PSOE": 1,
+    "PP": 2
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  },
+  {
+   "codigo": "50",
+   "provincia": "Zaragoza",
+   "distritos": 8,
+   "run_m08": "41296815536",
+   "escanos_2023": 7,
+   "a": {
+    "PSOE": 2,
+    "PP": 3,
+    "VOX": 1,
+    "SUMAR": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 8
+   }
+  },
+  {
+   "codigo": "51",
+   "provincia": "Ceuta",
+   "distritos": 1,
+   "run_m08": "41250564472",
+   "escanos_2023": 1,
+   "a": {
+    "PP": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  },
+  {
+   "codigo": "52",
+   "provincia": "Melilla",
+   "distritos": 1,
+   "run_m08": "41293988485",
+   "escanos_2023": 1,
+   "a": {
+    "PP": 1
+   },
+   "b": null,
+   "c": {
+    "PP": 1
+   }
+  }
+ ],
+ "errores": [],
+ "notas": [],
+ "contraste_oficial": {
+  "fuente": {
+   "fuente": "Resolución de 30-08-2023 de la Presidencia de la Junta Electoral Central: resumen de resultados de las elecciones al Congreso y al Senado del 23-07-2023",
+   "boe": "BOE-A-2023-18907",
+   "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2023-18907",
+   "fecha_publicacion": "2023-09-01",
+   "sha256_xml": "15950447a4cfe1b07ed44ead8514ed83ed87d859b2dcd7c03a47fd6a00f40323",
+   "sha256_csv": "c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+  },
+  "diferencias": []
+ },
+ "verificacion_a": "OK: 52 circunscripciones, 350 escaños y totales oficiales"
+}

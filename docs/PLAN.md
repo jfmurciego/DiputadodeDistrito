@@ -1,17 +1,20 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.11
-Fecha: 2026-11-03
+Versión: 1.0.12
+Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-35, T-22 (M04 7.6.6, PR #419), piloto de ensemble 10/10 en Salamanca, La Rioja y Sevilla y estado de Murcia, Madrid, Alicante, Barcelona y Málaga tras el chat de motor
-Anterior: legacy/docs/PLAN_v1.0.10_20261103.md
+Cambios/motivo: estado a 07-11 (Paso 0 fusionado, Paso 1 pendiente), prioridad a los agentes con el producto en pausa, cola T-38 a T-44 (oro, revisor, forense, Environments, hemiciclo, ensembles, Málaga/Barcelona/Alicante), asignación de los cuatro chats y turnos
+Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
 
 ## Reglas para todos los chats
 - Un chat = una tarea. Coge la primera tarea libre de la cola cuyas dependencias estén en «Tareas hechas».
+- **Una PR por objetivo, no por tarea** (07-11): las tareas de un mismo chat sobre ficheros propios van en una sola PR.
+  Se separa solo si toca ficheros compartidos (motor, workflows, política) o si debe poder revertirse sola. Evita
+  cadenas largas: con squash, cada fusión deja en conflicto a la siguiente y repite la CI (~15 min por eslabón).
 - Respeta `CLAUDE.md` (topónimos en español, mínimo consumo, coordinación entre sesiones, gobernanza VERSIÓN/legacy).
 - El implementador pasa la suite local completa (`python -m pytest -q`) antes de abrir la PR.
 - Fusiona el propietario. Nadie lanza ejecuciones productivas ni publica sin su permiso explícito.
@@ -34,50 +37,72 @@ Anterior: legacy/docs/PLAN_v1.0.10_20261103.md
 - `docs/PLAN.md` solo lo edita el planificador; el número de `REGISTRO_DE_CAMBIOS.md` lo asigna el planificador al
   abrir la PR. Los chats le mandan su cierre de tarea y él lo anota.
 
-## 1. Estado (2026-11-03)
+## 1. Estado (2026-11-07)
 - Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
-- Nacional (52): **47 completas**. Cinco provincias bloqueadas; el chat de motor (T-22, PR #419, M04 7.6.6, abierta) cambia el cuadro:
-  - **Murcia**: con M04 7.6.6 y la exención de suelo de Águilas (30003), probada en un contrato temporal, M05 da hard=0 y M06 OK (13 distritos PASS). La exención sigue **sin aplicarse en `main`**: se aplica cuando se fusione #419.
-  - **Madrid**: con 7.6.6, M05 hard=0 y M06 OK (59 distritos PASS), sin tocar reglas.
-  - **Alicante**: el máximo baja de 156.889 a 144.394, todavía sobre el techo (6 movimientos). **Barcelona**: M04 pasa de hard=2 a hard=1 (10 movimientos). **Málaga**: sin cambio con 7.6.6. Las tres siguen bloqueadas (fallo de búsqueda del motor, no contradicción).
-  - Provincias ya completas (Pontevedra, Álava, Cádiz): GeoJSON e informe idénticos con 7.6.5 y 7.6.6; Baleares y Las Palmas no son ejecutables en local. 7.6.6 cambia el motor M04: los checkpoints M04 previos dejan de valer donde el alivio actúa.
-- Piloto de ensemble: **Salamanca, La Rioja y Sevilla 10/10 candidatos** (Sevilla con 4 hashes únicos). La publicación de Salamanca como escenario está en curso; el ensemble es un escenario adicional que no sustituye al canónico.
-- Las notas de abajo hasta «Asignaciones vigentes» son del 01-11 y quedan como histórico.
+- Nacional (52): **49 completas** (del 02 al 03-11 cerraron Las Palmas, Baleares, Cádiz, Madrid y Murcia; #419, M04 7.6.6,
+  fusionada; Madrid y Murcia en el visor). **Bloqueadas: Málaga, Barcelona y Alicante** (M04 7.6.6 no las cierra; sin
+  contradicción aritmética probada) → T-44.
+- Ensembles publicados como escenario: Salamanca (run 41614546499), La Rioja (42384534739) y Sevilla (42385012998) (T-43).
+- Arquitectura de agentes (`docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md`, §11 y §12):
+  - **Paso 0** (framework P00-P60) · PR #427 · registro 1.0.95 · fusionada.
+  - **Paso 1** · bloque 1 CI guardián de `main` · PR #428 · 1.0.96 · bloque 2 `CLAUDE.md`, `rules/` y hook de git ·
+    PR #429 · 1.0.97 · bloque 3 skills de rol · PR #430 · 1.0.98. Hechos, **pendientes de fusión en orden
+    #428 → #429 → #430** (encadenadas) y después la PR de este plan (1.0.99).
+  - Siguientes del §12: (4) conjunto de oro → T-38; (5) revisor y forense → T-39, T-40; (6) Environments con
+    aprobación → T-41.
+- PR abierta sin tarea: #425 (portal Zensical y auditoría de archivo, Cantabria 50 verificado). Se revisa con T-39
+  cuando exista; no se fusiona antes.
+- Registro: 1.0.95 en `main` (#427); 1.0.96-1.0.98 en la cadena; 1.0.99 este plan; reservados 1.0.100 (T-38),
+  1.0.101 (T-39) y 1.0.102 (T-40), 1.0.103 (T-42, #435), 1.0.104 (T-44, #436) y 1.0.105 (T-46, último manual).
 
-## 1b. Estado (2026-11-01 15:40, histórico)
-- Autonómicas: 18/19 completas; Andalucía aparcada (T-07).
-- Nacional (52): 38 completas (34 en el visor; La Rioja, Lugo, Santa Cruz de Tenerife y Tarragona republicándose,
-  runs 41318666109/41318670798/41318675299/41318679581). Cantabria y Vizcaya con M06, sin electoral (T-04).
-  12 PARADA en curso de resolución (T-02 y T-02b, abajo).
-- 00 en curso: Valencia 41318119259, Huelva 41318125504 (CRS #374), Cádiz 41321082489, Barcelona 41321084407
-  (exención municipal #380). No reactivar el ruleset con 00 en marcha.
-- PR abiertas: #381 (T-10). Ruleset `proteger-main` desactivado hasta cerrar T-10.
-
-### Asignaciones vigentes
-| Chat | Tarea | Alcance | Situación |
+### Asignaciones vigentes (07-11)
+| Chat | Rol | Tarea | Siguiente |
 |---|---|---|---|
-| T-01 | T-02b · PARADA por población M05 | Cádiz, Barcelona, Madrid, Málaga, Alicante, Pontevedra, Baleares, Las Palmas | Cádiz/Barcelona lanzadas; resto espera diagnóstico local; todo en contratos (no toca la política) |
-| T-02 | T-02 · resto de PARADA | Huelva, Valencia, Murcia, Álava + script `subir_diagnostico_t02.sh` | M04 7.6.0 multisección (Álava) y CRS Murcia en rama, sin PR; espera diagnóstico local |
-| T-03 | PR, fusiones y T-10 | Fusionar con `pruebas` en verde; robots con app propia | #381 abierta; espera que el propietario cree la app y los secretos |
+| «Implementador nuevo» | constructor de agentes (Opus) | cadena #429-#430 al día; T-38 hecha en rama (PR tras #431) | T-39 + T-40 |
+| «Implementador Motor» | ingeniero de motor (Opus) | T-44: Barcelona bien con `main`; Alicante (M04 7.6.7) y Málaga (exención) en una PR | 00 de las tres vía Operador |
+| «T-42 Hemiciclo» | implementador (Sonnet) | T-42 (M08 desde blobs de `publicaciones_visor.json`) | — |
+| «Implementador» | — | sesión inactiva | — |
+| «Operador» | operador único (Sonnet) | T-43 hecha; **en pausa** | 00 de T-44, prueba de T-41 |
+| «Paso 1 agentes DDD» | — | sesión inactiva; T-38 a T-40 pasan a «Implementador nuevo» | — |
+| «DDD Plan» (este) | planificador | cola, registro, `PLAN.md` | — |
 
-### Chat operador (nuevo, 02-11)
-- Rol: operador. Modelo: Sonnet. Alcance: lanzar por REST, inventario de runs por territorio (incluidos los del bot),
-  resultado de cada run (paso y mensaje con `check-runs/<job>/annotations` o `get_job_logs`) y una línea al
-  planificador por run terminado. No edita código ni el plan.
+El propietario habla solo con el planificador para el qué; los permisos de lanzar, publicar y fusionar los da en el chat
+que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planificador (`send_message`).
 
-### Ficheros con turno exclusivo
-- `modulos/04_generar_semillas.py`, `ddd_core/m04_seed_engine.py`: chat T-02 (M04 multisección).
-- 10 workflows de registro: chat T-03 (#381).
-- `configuracion/politica_generacion_territorial_2025.yaml`: libre (nadie la necesita ahora).
+### Ficheros con turno exclusivo (07-11)
+- `ddd_core/m04_seed_engine.py`, `modulos/04_generar_semillas.py`, `modulos/05_optimizar_distritos.py`: «Implementador Motor» (T-44).
+- `.claude/agents/`, `.claude/agent-memory/`, `evals/`: «Paso 1 agentes DDD» (T-38 a T-40).
+- `herramientas/generar_hemiciclo.py` (nuevo) y plantillas del visor: «Implementador» (T-42).
+- `.github/workflows/` lanzables y de publicación: «Implementador» solo para T-41, tras cerrar T-42; nadie más.
+- `configuracion/politica_generacion_territorial_2025.yaml` y contratos `territorios/congreso_*`: libres; T-44 los pide
+  al planificador si su tope agota el motor (decisión D-6).
+- `docs/PLAN.md`: planificador. `docs/REGISTRO_DE_CAMBIOS.md`: número lo asigna el planificador al abrir cada PR.
 
 ## 2. Decisiones del propietario
 ### Pendientes
-- D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
+- D-5 (T-41). Crear en Settings → Environments el entorno `produccion` con el propietario como revisor requerido
+  (repositorio público: disponible en cualquier plan). Sin él, T-41 se queda en el código.
+- D-6 (T-44). Si tras el tope el motor no cierra una provincia: exención municipal, techo propio o documentarla
+  como bloqueada (con la evidencia de T-44 delante).
+- D-7 (T-42, T-43). Permiso de publicación en el visor del hemiciclo y de los ensembles de La Rioja y Sevilla
+  (se da en el chat operador).
 - D-3. Publicación en el visor del resto de provincias completas: por lotes o al cerrar la elección.
-- D-4. El cambio de M04 (T-02) invalida los checkpoints pre-M04 de los contratos con islas (Canarias, Islas
-  Baleares, nacional Baleares, Las Palmas, Santa Cruz de Tenerife): las próximas 00 de esos territorios empiezan de cero.
-  Visto bueno antes de que T-02 abra la PR.
-- Crear la GitHub App `ddd-registro` y los secretos `DDD_REGISTRO_APP_ID`/`DDD_REGISTRO_APP_KEY` (pasos en T-10).
+- D-4. Un cambio de M04 (T-44) invalida los checkpoints pre-M04 de los contratos con islas (Canarias, Islas Baleares,
+  nacional Baleares, Las Palmas, Santa Cruz de Tenerife): visto bueno antes de que T-44 abra PR que toque M04.
+- D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
+
+### Tomadas (07-11)
+- D-4: visto bueno a M04 7.6.7 (Alicante); la próxima 00 de los territorios con islas empieza de cero.
+- D-6 Málaga: exención de suelo municipal de Fuengirola (29054) en el contrato; techo y atomicidad sin cambios
+  (Fuengirola 85.136 solo linda con Mijas y Benalmádena, atómicos; con cualquiera supera el techo).
+- Una PR por objetivo, no por tarea (ver reglas).
+- Fusiones sin intervención del propietario: el Operador fusiona por squash cada PR con `pruebas` en verde en la PR y en
+  `main`, en el orden de la cola, y pone al día la siguiente (merge de `main`, sin force). Fallo de CI: no relanza; informa al
+  planificador.
+- Hemiciclo: primera entrega con las tres sumas sobre las 49 provincias completas, marcando las tres que faltan, con
+  script y página en el visor (la publicación sigue necesitando permiso, D-7).
+- Plan inmediato: §12 del framework en orden (oro, revisor y forense, Environments); producto en paralelo, a demanda
+  y con tope.
 
 ### Tomadas (01-11)
 - D-2: INE canónico; matrículas como alias, en español.
@@ -91,8 +116,114 @@ Anterior: legacy/docs/PLAN_v1.0.10_20261103.md
 - Republicar en el visor La Rioja, Lugo, Santa Cruz de Tenerife y Tarragona.
 - Ruleset: `puerta_admision` fuera de checks obligatorios (solo corre si la PR toca contratos).
 
-## 3. Cola de tareas
-T-08 y T-09 se numeran al final pero van en la posición de la cola que les corresponde por prioridad.
+## 3. Cola de tareas (07-11)
+**Prioridad del propietario (07-11): poner en uso los agentes; nada le interrumpe hasta lograrlo.** Camino crítico:
+fusionar #428 → #429 → #430 → #431 → T-38 (1.0.100) → T-39 (1.0.101) y T-40 (1.0.102). Producto (T-42 a T-44) en
+pausa: sin PR, sin preguntas al propietario y sin lanzamientos hasta que el revisor y el forense estén en `main`.
+T-41 va después. Las dudas de los chats van al planificador, no al propietario.
+
+### T-38 · Conjunto de oro para revisor y forense (P1, §12 paso 4)
+- Alcance: casos de evaluación en `evals/oro/`: las 12 causas raíz del §9 del framework (run o PR de referencia,
+  síntoma, causa esperada en una línea) y ADV-01 a ADV-16 de `docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md`
+  §7.2 (diff o PR original, defecto esperado), más los casos de calibración 29E del metaagente («candidato modificado
+  tras la revisión», «reparaciones agotadas con criterio fallido»). Un JSON por caso con esquema común y
+  `herramientas/evaluar_oro.py` (biblioteca estándar) que puntúa una salida JSON de agente contra lo esperado y anota en
+  `evals/oro/LIBRO_DE_COSTES.md` tokens, acierto y si fue a la primera.
+- Fuera: crear agentes (T-39, T-40); lanzar nada; descargar artefactos (los casos citan PR, runs y `diagnostico/*`).
+- Dependencias: #427-#430 fusionadas.
+- Turno exclusivo: `evals/`, `herramientas/evaluar_oro.py` (nuevo).
+- Chat: «Paso 1 agentes DDD». Modelo: Opus.
+- Hecho: ≥ 30 casos con fuente verificable (PR, run o fichero en `main`); el evaluador da 100 % con la salida esperada y
+  0 % con una vacía (test en `tests/`); gobernanza R015 y guardián de `main` en verde; PR con su número de registro.
+
+### T-39 · Subagente revisor independiente (P1, §12 paso 5)
+- Alcance: `.claude/agents/revisor.md` (Sonnet, solo lectura, salida JSON con veredicto ligado al SHA del HEAD:
+  unidades y CRS, gobernanza VERSIÓN/legacy, huellas M05/N08, numeración del registro, tests rojo/verde); la skill
+  `revisar-pr` lo invoca.
+- Dependencias: T-38.
+- Turno exclusivo: `.claude/agents/revisor.md`, `.claude/skills/revisar-pr/`.
+- Chat: «Paso 1 agentes DDD».
+- Hecho: sobre el diff original de los casos de revisión del oro caza ≥ 80 % de los defectos y no bloquea ninguna de
+  tres PR limpias ya fusionadas; resultados y coste en el libro; primera revisión real: #425.
+
+### T-40 · Subagente forense de runs (P1, §12 paso 5)
+- Alcance: `.claude/agents/forense.md` (Sonnet, solo lectura; dado un run da la causa en cinco líneas) y
+  `.claude/agent-memory/forense/MEMORY.md` con el catálogo de causas del §9; la skill `diagnosticar-run` lo invoca.
+  Lee anotaciones (`check-runs/<job>/annotations`) y `diagnostico/auto/`, nunca artefactos.
+- Dependencias: T-38. En paralelo con T-39 (ficheros distintos).
+- Turno exclusivo: `.claude/agents/forense.md`, `.claude/agent-memory/forense/`, `.claude/skills/diagnosticar-run/`.
+- Chat: «Paso 1 agentes DDD».
+- Hecho: causa correcta en ≥ 10 de los 12 runs del oro, en ≤ 5 líneas; coste por diagnóstico anotado en el libro.
+
+### T-41 · Lanzamientos y publicaciones con Environments y aprobación (P2, §12 paso 6)
+- Alcance: los jobs con efecto (00 manual, «Activación por Elección», «05 Publicación del Visor», publicación de
+  ensembles) declaran `environment: produccion`, de modo que cada dispatch espera el clic del propietario en GitHub
+  (sin modelo). Los encadenados de `github-actions[bot]` y los registros con la app `ddd-registro` no deben quedar
+  esperando: el entorno se aplica solo al dispatch manual (expresión en `environment`) o se documenta la excepción.
+  Actualizar las skills `operador`, `lanzar-00` y `publicar-visor` (el operador pasa a preparar y verificar).
+- Dependencias: D-5; T-42 cerrada (mismo chat); Paso 1 fusionado.
+- Turno exclusivo: `.github/workflows/ejecucion-completa-proyecto.yml`, `activacion-*`, `desplegar-visor-publico.yml`,
+  `_reutilizable-publicar-sitio.yml`, workflow de escenarios/ensembles; skills citadas.
+- Chat: «Implementador» (código) + «Operador» (una sola prueba con permiso).
+- Hecho: un dispatch manual queda en «Waiting» hasta aprobar y corre tras el clic; una 00 encadenada por el bot no
+  espera; los robots registran en `main` sin `GH013`; suite de gobernanza de workflows en verde; validado con una sola
+  ejecución antes de abrir paso al resto (regla de infraestructura).
+
+### T-42 · Hemiciclo y tabla de resultados (P2, producto; alcance confirmado 07-11)
+- Alcance: `herramientas/generar_hemiciclo.py` lee los M08 registrados de las 49 provincias completas y suma escaños de
+  tres maneras: (a) reparto real 2023 (D'Hondt oficial), (b) elección anterior (generales 2019-11, si el repositorio
+  tiene sus resultados; si no, la columna queda marcada «sin fuente» y se abre subtarea), (c) uninominal propio
+  (ganador por distrito DDD). Salida JSON y CSV con totales de España por partido y lista de provincias que faltan
+  (Málaga, Barcelona, Alicante); página del visor con hemiciclo SVG y tabla, conmutando las tres sumas.
+- Fuera: publicar (D-7, chat operador); cambiar M08 o el motor.
+- Dependencias: ninguna de código (puede empezar ya; la PR va tras la cadena #427-#430).
+- Turno exclusivo: `herramientas/generar_hemiciclo.py`, plantilla/página nueva del visor.
+- Chat: «Implementador». Modelo: Sonnet.
+- Hecho: (a) en las 49 provincias coincide escaño a escaño con el oficial por provincia; (c) suma exactamente los
+  distritos de esas 49 (uno por distrito); test con dos provincias sintéticas; página revisada en local con captura;
+  topónimos en español y etiqueta «Nacional»; registro con su número.
+
+### T-43 · Publicar los ensembles de La Rioja y Sevilla (P3, operador)
+- Alcance: con la skill `publicar-visor`, republicación de ensemble con `ensemble_sha256` (#418, #421, #424) para
+  `congreso_la_rioja` y `congreso_sevilla`; primero La Rioja como prueba, luego Sevilla. Solo añade en `ensembles`.
+- Dependencias: D-7 (permiso en el chat operador). Sin código.
+- Turno exclusivo: ninguno (escribe el workflow en `orchestracion/publicaciones_visor.json`).
+- Chat: «Operador». Modelo: Sonnet.
+- Hecho: `publicaciones_visor.json` con las dos entradas de ensemble y el visor mostrando 10 candidatos en cada una;
+  línea de cierre al planificador con los runs.
+
+### T-44 · Málaga, Barcelona y Alicante: estudio de motor con tope (P2, producto)
+- Alcance: diagnóstico y arreglo del motor en local con los volcados de `diagnostico/auto/` (o pedir M01+M03 al Mac):
+  Barcelona primero (hard=1, la más cerca), luego Alicante y Málaga. Sin cambiar suelo, techo, K ni atomicidad.
+- **Tope**: dos ciclos de reparación por provincia (regla de la auditoría) y ninguna 00 sin M05 hard=0 y M06 OK en
+  local. Agotado el tope, informe de factibilidad (¿existe partición sin partir municipios que caben bajo el techo?)
+  y la provincia pasa a D-6.
+- Dependencias: ninguna; si toca M04, D-4 antes de la PR.
+- Turno exclusivo: `ddd_core/m04_seed_engine.py`, `modulos/04_generar_semillas.py`, `modulos/05_optimizar_distritos.py`.
+- Chat: «Implementador Motor». Modelo: Opus.
+- Hecho: por provincia, M05 hard=0 y M06 OK en local con el motor nuevo, o informe de factibilidad para D-6; sin
+  regresión (GeoJSON e informe idénticos en Pontevedra, Álava y Cádiz); suite completa en local; una PR por causa.
+  Luego la 00 «Ejecutar desde el principio» la pide al planificador (lanza el operador con permiso, un territorio de prueba primero).
+
+### Lote del 07-11 (tarde) · autorizado por el propietario; sin intervenir hasta el final
+Orden de fusión (Operador): #430 → #436, luego T-46 y el resto según lleguen. Al final, una sola lista para el
+propietario: ajustes de Settings y permiso de las 00.
+
+| Id | Objetivo | Chat | Turno exclusivo | Hecho |
+|---|---|---|---|---|
+| T-46 | Registro por ficheros (`docs/registro/`, número asignado por la CI al fusionar) y delegación del qué en el planificador dentro de `CLAUDE.md` | «Implementador nuevo» (Opus) | guardián, reglas y skills de registro, `CLAUDE.md` | Dos PR en paralelo no chocan en el registro; última PR con número manual (1.0.105) |
+| T-48 | Revisor en cada PR y forense en cada 00 fallida, en CI (`claude-code-action`) | «Implementador nuevo» | dos workflows nuevos | Sin secreto se saltan limpiamente; con él, veredicto en la PR e issue con la causa |
+| T-47 | Archivista R2: copia con sha256 de los artefactos antes de caducar, manifiesto `orchestracion/archivo_r2.json` | «T-47 Archivista R2» (Sonnet) | `archivar-artefactos-r2.yml`, herramienta nueva | Idempotente y con tests; una ejecución tras fusionar (permiso dado) |
+| T-41 | Environments con aprobación solo en el dispatch manual | «T-42 Hemiciclo» (Sonnet), tras T-45 | workflows lanzables y de publicación | Los encadenados del bot no esperan; gobernanza de workflows en verde |
+| T-45 | Proclamación oficial de 2023 (BOE) como dato para el hemiciclo | «T-42 Hemiciclo» | datos del hemiciclo | Contraste por provincia; diferencia CERA ubicada |
+| T-49 | `decided_at`, `reason` y `evidence` en las 17 exenciones, comprobador en CI y `CONTRACT_POLICY_STALE` | «T-49 Exenciones gobernadas» (Sonnet) | política y contratos (salvo Málaga hasta #436) | Exención sin metadatos = CI en rojo |
+| T-07 | Andalucía en local (motor) | «Implementador Motor» (Opus), tras #436 | motor | M05 hard=0 y M06 OK en local o evidencia para decisión |
+
+Pendiente para la lista final del propietario: «Allow auto-merge» (P2), entorno `produccion` con revisor (D-5),
+secreto `CLAUDE_CODE_OAUTH_TOKEN` (T-48) y permiso de las 00 de Barcelona, Alicante, Málaga y Andalucía.
+La red del entorno Default ya permite `www.boe.es` y `boe.es` (07-11).
+
+## 3b. Histórico de la cola (01 a 03-11)
 
 ### T-15 · Las Palmas falla en M08 tras #394 (P0, BUG)
 - Run 00 41358199178: reutiliza el M06 de 41336103808, M07 queda OK y la validación da «distritos bajo límite poblacional=1» (exit 3).
@@ -304,6 +435,11 @@ Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, pol
 
 ## 4. Tareas hechas
 <!-- Formato: T-xx · resumen · PR #nnn / run nnnnnnnnnn · fecha -->
+- T-43 · Ensembles de La Rioja y Sevilla publicados como escenario (`ensembles=3`, 157 productos, canónicos intactos) · runs 42384534739 42385012998 · 2026-11-07
+- Paso 0 y Paso 1 (bloques 1-3) · framework, guardián de `main`, `CLAUDE.md`/`rules/`/hook y skills de rol · PR #427 #428 #429 #430 · 2026-11-07 (pendientes de fusión)
+- T-22 · M04 7.6.6, alivio de residuos sobre el techo; cierra Madrid y Murcia · PR #419 · 2026-11-03
+- T-23 · Murcia: exención de suelo de Águilas (30003) · 2026-11-03
+- T-35, T-36, T-37 · publicación de ensembles: `ensemble_sha256`, candidatos en WGS84, una feature por distrito · PR #418 #421 #424 · 2026-11-03
 - T-14 · Diagnóstico automático: M01, grafo M03 e informe M05 a `diagnostico/auto/<territorio>/<run>/` si falla M04, M05 o la certificación · PR #397 · 2026-11-01
 - T-02 · Huelva y Valencia (CRS 25830, #374) y Álava (M04 7.6.0 multisección, #383; 00 41346917857) completas.
   Murcia BLOQUEADA por estructura (objetivo 119.361, suelo 101.457, techo 137.265): Lorca 97.904 + Águilas 36.684 +

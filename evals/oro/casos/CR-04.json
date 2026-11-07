@@ -1,0 +1,41 @@
+{
+  "id": "CR-04",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Contrato ya completo no reaplica la política",
+  "causa": "El materializador trata el contrato como already_complete y no reaplica population_limits de la política.",
+  "origen": {
+    "prs": [
+      403
+    ],
+    "runs": [
+      41427993423
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41427993423
+    ],
+    "sintoma": "Cádiz y Baleares siguen con techo 1,15 en el M05 de la 00 aunque la política ya declara otro techo; «01 Preparar datos territoriales» sí rematerializó.",
+    "territorio": "congreso_cadiz"
+  },
+  "esperado": {
+    "causa_id": "politica_no_reaplicada",
+    "claves": [
+      "already_complete",
+      "population_limits",
+      "materializ",
+      "reaplic"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#403 fusionada, squash 92e213532e sobre 88625c40e0 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}
