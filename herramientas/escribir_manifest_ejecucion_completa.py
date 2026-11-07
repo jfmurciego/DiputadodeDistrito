@@ -146,6 +146,8 @@ def main() -> None:
     ap.add_argument("--electoral-recovery-registration-status")
     ap.add_argument("--electoral-recovery-receipt-accredited", choices=["true", "false"], default="false")
     ap.add_argument("--electoral-recovery-catalog-accredited", choices=["true", "false"], default="false")
+    ap.add_argument("--chain-electoral-requested", choices=["true", "false"], default="false")
+    ap.add_argument("--chain-origin-run-id", default="")
     ap.add_argument("--output", required=True)
     ns = ap.parse_args()
 
@@ -316,6 +318,11 @@ def main() -> None:
         "electoral_activation_status": ns.electoral_activation_status or None,
         "electoral_skip_reason": ns.electoral_skip_reason or None,
         "resumption": resumption,
+        # T-52: cadena 00 territorial → Activación de Legislatura → 00 electoral «Reutilizar» (sin el Mac).
+        "chain": {
+            "electoral_chain_requested": ns.chain_electoral_requested == "true",
+            "origin_run_id": int(ns.chain_origin_run_id) if str(ns.chain_origin_run_id).isdigit() else None,
+        },
         "failed_phases": failed,
         "blocked_phases": blocked,
         "out_of_scope_phases": out_of_scope,
