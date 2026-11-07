@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.4.9
+# VERSIÓN: 1.5.0
 # NOMBRE DE VERSIÓN: Encadenado también lanzado por elección
 # ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
@@ -18,7 +18,8 @@
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # CAMBIOS 1.4.9: T-12, «Encadenar par de fuentes y 04» exige la puerta 02 en success: si la 02 no registró el
 #   producto M06 (Congreso Álava 41335088773) no se activa el par ni se relanza el 00.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.8_20261101.yml
+# CAMBIOS 1.5.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan.
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.9_20261107.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -228,6 +229,7 @@ concurrency:
 jobs:
   planificar:
     name: Planificar ejecución completa
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.plan.outputs.territory_id }}

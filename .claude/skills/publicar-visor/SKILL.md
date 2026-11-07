@@ -15,5 +15,7 @@ description: Procedimiento para publicar territorios o escenarios en el visor p�
    gh api -X POST repos/jfmurciego/DiputadodeDistrito/actions/workflows/desplegar-visor-publico.yml/dispatches \
      -f ref=main -f "inputs[pagina_publicar]=<opción>" -f "inputs[production_run_id]=<run>"
    ```
+3b. El dispatch (05 y 06) espera la aprobación del propietario en GitHub (entorno `produccion`); el operador solo
+   prepara y da el enlace del run. La 05 llamada desde la 00 no pide un segundo clic.
 4. Ensembles: el zip lleva `ensemble_sha256` y la copia web una feature por distrito (K), no por sección (#418 #424).
 5. Una línea al planificador por publicación: territorio · run publicado · resultado. Sin vigilar el despliegue.
