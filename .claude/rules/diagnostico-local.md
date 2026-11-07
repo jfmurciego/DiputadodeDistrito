@@ -11,12 +11,14 @@ paths:
 - El propietario sube con un script desde su Mac el grafo M03 y el M01 del run a una rama `diagnostico/*`
   (`lanzadores/subir_diagnostico_t02.sh` en la rama `lanzadores-mac`; acepta `ddd-state-<run>-M03` o `-M03U`).
 - Copia ambos a `territorios/<t>/.cache/ddd/preparacion/<t>_2025/` y ejecuta el motor real:
-  `python -m ddd_core.m04_seed_engine --params territorios/<t>/config/<t>_2025.yaml` y
+  `python modulos/04_generar_semillas.py --params territorios/<t>/config/<t>_2025.yaml` (no `ddd_core.m04_seed_engine`,
+  que omite la unidad flexible :F de 7.6.0) y
   `python modulos/05_optimizar_distritos.py --params …`. Las rutas se resuelven respecto al contrato: las copias
   temporales del contrato van en `territorios/<t>/config/`, nunca fuera.
 - Antes de gastar una 00, prueba el cambio en local (M04+M05 tardan ~15 s) con el contrato temporal. Los volcados
   `diagnostico/*` traen M01 y M03 grafo, pero no `*_m03_particiones*` (las islas no corren).
 - `ddd-audit-<run>` (KB) trae `block_causes.json`; el informe M05 está en `ddd-state-<run>-M05` (~80 MB).
+- Instala siempre con `requirements.lock`: pandas 3 / geopandas 1.2 rompen M05 con «unidad partida».
 - Pytest no viene instalado: `pip install -r requirements.lock pytest==8.4.2`. La suite entera pasa de 10 min
   (~15 min: en segundo plano); la CI usa `unittest` por módulos, y en local basta con los ficheros de materialización,
   política, gobernanza y contratos. `test_pipeline_adversarial_c07` y `test_pipeline_sintetico_m01_m06` fallan en

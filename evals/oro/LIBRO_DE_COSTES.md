@@ -25,6 +25,7 @@ forense ≥ 10 de las 12 causas del §9 en ≤ 5 líneas.
   revisión anterior (PASS_WITH_EXCEPTIONS, 92.390 tokens) y no se repite (0 tokens). Hallazgos menores: entrada de
   registro añadida en `docs/registro/`; el de las cifras no reproducibles ya lo declara la auditoría (corte fijado al SHA
   base, 70 assets por metadatos). El HEAD nuevo solo añade el merge de `main`, esta entrada y esta nota.
+- 2026-11-07 · forense · T-58 (Álava, run 41346917857): hecho en línea por el implementador, sin subagente; ~25 llamadas de herramienta, tokens no medidos. Resultado: artefacto local (entrada equivocada + pip sin fijar), producto publicado correcto.
 
 | Fecha | Agente | Modelo | Etiqueta | Casos | Aciertos | % | Tokens | A la primera |
 |---|---|---|---|---|---|---|---|---|
