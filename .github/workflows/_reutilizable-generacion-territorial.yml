@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.3.1
 # NOMBRE DE VERSIÓN: Diagnóstico automático con linaje y manifiesto
 # FECHA: 2026-11-07
 # ESTADO: candidato
@@ -28,7 +28,9 @@
 #   (herramientas/archivo_origen.py r2; si falla, ARCHIVO_R2_FAILED y el run no queda verde) y escribe en git la
 #   composición sección→distrito del run (datos/composicion/runs/) y la entrada de orchestracion/archivo_r2.json.
 # MOTIVO 1.3.0: los artefactos caducan a los 14 días y el archivista llegó tarde a los 49 M06 provinciales.
-# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.2.9_20261107.yml
+# CAMBIOS 1.3.1: T-72b, a R2 va el paquete mínimo ddd-minimo-<run>-M06 (GeoJSON distritales, composición, CSV/JSON
+#   de M06, auditoría y manifiesto de generación, con sha256 del estado original), no el ZIP de estado (R2 ≤ 8 GB).
+# ANTERIOR: legacy/workflows/_reutilizable-generacion-territorial_v1.3.0_20261107.yml
 name: Reutilizable — Generación Territorial
 
 on:
@@ -1495,7 +1497,8 @@ jobs:
           t0=$(date +%s)
           suffix=''; [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M06$suffix"
-          python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID"
+          python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID" \
+            --extra .ddd-m06-audit --extra "territorios/$TERRITORY_ID/evidencia/generaciones_m06/$GITHUB_RUN_ID.json"
           t1=$(date +%s)
           python herramientas/archivo_origen.py composicion --estado .ddd-m06-state --territorio "$TERRITORY_ID" --run-id "$GITHUB_RUN_ID"
           echo "ARCHIVO_ORIGEN_TIEMPOS: r2=$((t1-t0))s composicion=$(( $(date +%s)-t1 ))s"

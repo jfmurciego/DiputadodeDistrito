@@ -3,15 +3,22 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Archivo en origen
 FECHA: 2026-11-07
 ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS: 1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
+  que contiene el M06 publicado.
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.0_20261107.py
 QUÉ HACE: cuatro subcomandos.
-  r2          sube a R2 el artefacto ``ddd-state-<run>-M06`` (o M08) del run en curso con sha256 y lo anota en
+  r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
+              VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del
+              estado ``ddd-state-<run>-M06`` (o M08) del run en curso con sha256 y lo anota en
               orchestracion/archivo_r2.json (núcleo y clientes de herramientas/archivar_artefactos_r2.py, con sus
               reintentos). Si la copia falla, sale con 1 y ``::error::ARCHIVO_R2_FAILED``: el run no queda verde.
+              Con ``--sustituye-m06-run R`` (tras M08): el estado M08 es acumulativo (lleva cache/run del M06), así que
+              anota ``incluye_m06_run: R`` en la entrada M08 y retira de R2 y del manifiesto el M06 del run R
+              (R2 bajo 10 GB, decisión del propietario). Si la retirada falla, solo avisa.
   composicion toma ``*_m06_composicion_distritos.csv`` del estado M06 descargado, lo valida contra el GeoJSON M06 del
               mismo estado (validación de herramientas/composicion_m06.py) y escribe
               datos/composicion/runs/<territorio>_<run>.csv (seccion, distrito, poblacion) y la clave ``runs`` de
@@ -60,17 +67,51 @@ def _escribir(ruta: Path, datos: dict) -> None:
 
 # --- r2 --------------------------------------------------------------------------------------------
 
-def archivar_uno(artefacto: dict, territorio: str, root: Path, descargar, r2_sha, r2_subir, bucket: str) -> dict:
-    """Archiva un artefacto concreto con el núcleo del archivista; ValueError si no queda en R2."""
+def archivar_uno(artefacto: dict, territorio: str, root: Path, descargar, r2_sha, r2_subir, bucket: str,
+                 empaquetar=None) -> dict:
+    """Archiva un artefacto concreto con el núcleo del archivista (con ``empaquetar``, su paquete mínimo);
+    ValueError si no queda en R2."""
     man = ar.cargar_manifiesto(root / ar.MANIFIESTO)
-    res = ar.archivar([artefacto], {artefacto["name"]: territorio}, {}, man, descargar, r2_sha, r2_subir, bucket)
+    res = ar.archivar([artefacto], {artefacto["name"]: territorio}, {}, man, descargar, r2_sha, r2_subir, bucket,
+                      empaquetar=empaquetar)
     if res["errores"]:
         raise ValueError("; ".join(res["errores"]))
-    k = ar.clave({**artefacto, "territorio": ar._slug(territorio), "run": str(artefacto["workflow_run"]["id"])})
+    k = ar.clave({**artefacto, "territorio": ar._slug(territorio), "run": str(artefacto["workflow_run"]["id"])},
+                 empaquetar is not None and artefacto["name"].startswith("ddd-state-"))
     if k not in man["artefactos"]:
         raise ValueError(f"{artefacto['name']}: no quedó anotado en el manifiesto")
     ar.guardar_manifiesto(root / ar.MANIFIESTO, man)
     return man["artefactos"][k]
+
+
+def retirar_m06(run_m06: str, clave_m08: str, root: Path, r2_borrar) -> list[str]:
+    """Marca el M08 como contenedor del M06 del run y retira esas copias M06; devuelve las claves retiradas."""
+    ruta = root / ar.MANIFIESTO
+    man = ar.cargar_manifiesto(ruta)
+    man["artefactos"][clave_m08]["incluye_m06_run"] = str(run_m06)
+    retiradas = []
+    for k, e in list(man["artefactos"].items()):
+        if str(e.get("run_id")) == str(run_m06) and ar._FINAL.match(str(e.get("artefacto", ""))) \
+                and ar._FINAL.match(e["artefacto"]).group(2) == "6":
+            try:
+                r2_borrar(k)
+            except Exception as exc:  # noqa: BLE001 - ocupa espacio, pero no pierde datos
+                print(f"::warning::No se pudo retirar {k} de R2: {exc}")
+                continue
+            del man["artefactos"][k]
+            retiradas.append(k)
+    ar.guardar_manifiesto(ruta, man)
+    return retiradas
+
+
+def r2_borrador(bucket: str, cuenta: str):
+    ep = f"https://{cuenta}.r2.cloudflarestorage.com"
+
+    def borrar(k: str) -> None:
+        ar.con_reintentos(lambda: ar.subprocess.run(
+            ["aws", "s3", "rm", f"s3://{bucket}/{k}", "--endpoint-url", ep, "--only-show-errors"], check=True),
+            f"R2 borrado {k}")
+    return borrar
 
 
 def cmd_r2(a) -> int:
@@ -90,11 +131,17 @@ def cmd_r2(a) -> int:
             raise ValueError(f"esperado un artefacto {a.artefacto} en el run {a.run_id}, hay {len(cand)}")
         art = {**cand[0], "workflow_run": {"id": int(a.run_id)}}
         sha, subir = ar.r2_cliente(bucket, cuenta)
-        e = archivar_uno(art, a.territorio, root, ar.descargar_gh(repo, token), sha, subir, bucket)
+        e = archivar_uno(art, a.territorio, root, ar.descargar_gh(repo, token), sha, subir, bucket,
+                         empaquetar=ar.empaquetar_minimo(tuple(a.extra)))
     except Exception as exc:  # noqa: BLE001 - el paso debe fallar con mensaje claro
         print(f"::error title=ARCHIVO_R2_FAILED::{a.artefacto}: {exc}")
         return 1
-    print(f"R2: {e['url']} sha256={e['sha256']} {e['tamano_bytes']} B")
+    print(f"R2: {e['url']} sha256={e['sha256']} paquete={e['tamano_bytes']} B "
+          f"estado_original={e.get('tamano_estado_original')} B sha256_estado={e.get('sha256_estado_original')}")
+    if a.sustituye_m06_run:
+        k = e["url"].split("/", 3)[3]
+        for r in retirar_m06(a.sustituye_m06_run, k, root, r2_borrador(bucket, cuenta)):
+            print(f"R2: retirado {r} (contenido en {k})")
     return 0
 
 
@@ -219,8 +266,13 @@ def cmd_partidos(a) -> int:
 def comprobar(root: Path) -> dict:
     """{'faltan': [...], 'sobran_excepciones': [...]} para los M06 publicados en el visor."""
     vig = cm.m06_vigentes(root / cm.REGISTRO_VISOR.relative_to(cm.ROOT))
-    r2 = {(e.get("territorio"), str(e.get("run_id"))) for e in _json(root / ar.MANIFIESTO, {}).get("artefactos", {}).values()
-          if "-M06" in str(e.get("artefacto", ""))}
+    r2 = set()
+    for e in _json(root / ar.MANIFIESTO, {}).get("artefactos", {}).values():
+        m = ar._FINAL.match(str(e.get("artefacto", "")))
+        if m:  # M06 del run, o M08 acumulativo del mismo run o del que declara incluir el M06
+            r2.add((e.get("territorio"), str(e.get("run_id"))))
+            if e.get("incluye_m06_run"):
+                r2.add((e.get("territorio"), str(e["incluye_m06_run"])))
     man = _json(root / COMPOSICION / "MANIFEST.json", {})
     git = {(t, str(e.get("run_id"))) for t, e in man.get("territorios", {}).items() if (root / COMPOSICION / f"{t}.csv").is_file()}
     git |= {(e["territorio"], str(e["run_id"])) for e in man.get("runs", {}).values() if (root / e["ruta"]).is_file()}
@@ -246,6 +298,8 @@ def main(argv=None) -> int:
     p.add_argument("--run-id", required=True)
     p.add_argument("--artefacto", required=True)
     p.add_argument("--territorio", required=True)
+    p.add_argument("--sustituye-m06-run", default="")
+    p.add_argument("--extra", action="append", default=[], help="fichero o directorio local que entra en el paquete")
     p = sub.add_parser("composicion")
     p.add_argument("--estado", required=True)
     p.add_argument("--territorio", required=True)
