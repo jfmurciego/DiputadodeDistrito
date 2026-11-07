@@ -1,0 +1,2567 @@
+{
+ "schema": "ddd.fuente-secundaria/1.0",
+ "id": "nazioenbehatokia",
+ "proveedor": "Observatorio Electoral de las Naciones",
+ "url": "https://nazioenbehatokia.eus/",
+ "rol": "secundaria",
+ "contenido": "generales 2011-2023 por sección censal",
+ "elecciones": [
+  {
+   "clave": "201111",
+   "seccionado": 2012
+  },
+  {
+   "clave": "201512",
+   "seccionado": 2015
+  },
+  {
+   "clave": "201606",
+   "seccionado": 2016
+  },
+  {
+   "clave": "201904",
+   "seccionado": 2019
+  },
+  {
+   "clave": "201911",
+   "seccionado": 2020
+  },
+  {
+   "clave": "202307",
+   "seccionado": 2024
+  }
+ ],
+ "copia_r2_prefijo": "fuentes/nazioenbehatokia/",
+ "ficheros": {
+  "data/201111/sekzioa/01.json": {
+   "bytes": 29271,
+   "sha256": "d4cd5dfba24c516bb1223bc6516ee795c5ffdb295bd9d82349f22dc5b36e9e28"
+  },
+  "data/201111/sekzioa/02.json": {
+   "bytes": 29797,
+   "sha256": "20a929ae0103cc09ce94005cfcb759d3e791c1d32069df62eb123816a98aa09e"
+  },
+  "data/201111/sekzioa/03.json": {
+   "bytes": 120357,
+   "sha256": "da1a9680cb8c3d89c263ee840f2546929b21a541e7994c5e1fce1e9fd945fb8e"
+  },
+  "data/201111/sekzioa/04.json": {
+   "bytes": 38256,
+   "sha256": "ee76aae8acf03f01abbcfd584023c58d3b4760093261e45f5f64f9971e3cb17b"
+  },
+  "data/201111/sekzioa/05.json": {
+   "bytes": 25023,
+   "sha256": "7201316e11864dfa1bc7cee85ee2595942de56c43852b9720e430ef957df1230"
+  },
+  "data/201111/sekzioa/06.json": {
+   "bytes": 46943,
+   "sha256": "7b8a2e4b55b20a90c68690d70705a2f42ecbdbe5d546860a9fd4a049fd65bb00"
+  },
+  "data/201111/sekzioa/07.json": {
+   "bytes": 67061,
+   "sha256": "d574f5bfcfa81c1af4b75c4ce370c8509e397f4d930f1ed2046dd66a8e43d762"
+  },
+  "data/201111/sekzioa/08.json": {
+   "bytes": 413584,
+   "sha256": "4b92e1265db712f80fce0b1a153f2bf9e810db723ee6df508ce4cbd1a348d7e2"
+  },
+  "data/201111/sekzioa/09.json": {
+   "bytes": 47813,
+   "sha256": "30b4b9581919463e6f808e06975f440e5fa8303c274bf1c6e287524b7942d680"
+  },
+  "data/201111/sekzioa/10.json": {
+   "bytes": 36322,
+   "sha256": "aa4fe3db6a598e242291b8319c22bbb612787c8676dd7e7058827acd6071c054"
+  },
+  "data/201111/sekzioa/11.json": {
+   "bytes": 90967,
+   "sha256": "91cb8a33c2b2265d024e9f368ac92c42588067171e9a911966f166ad5f489265"
+  },
+  "data/201111/sekzioa/12.json": {
+   "bytes": 46023,
+   "sha256": "1fa5e7fb495b63cfbe90ddb3821e78c792341c14b68aa5157f377c78705fbe55"
+  },
+  "data/201111/sekzioa/13.json": {
+   "bytes": 39625,
+   "sha256": "6f4f237fd954062559bad077585f5938a2ba058aa218ea294eb639251476ee37"
+  },
+  "data/201111/sekzioa/14.json": {
+   "bytes": 59488,
+   "sha256": "4826385f5f368c1ea68300361c320be72a318a472467fdca8863b4ad75b279d8"
+  },
+  "data/201111/sekzioa/15.json": {
+   "bytes": 92247,
+   "sha256": "477800bf13d65756a3987eae7401b33c135c78f7dee489ef8aa84d68a71c19f9"
+  },
+  "data/201111/sekzioa/16.json": {
+   "bytes": 24316,
+   "sha256": "7b55eef5edad769f1bf0466deaf3a7ed54102dffb56152a5ef6c58dea0ddf0bf"
+  },
+  "data/201111/sekzioa/17.json": {
+   "bytes": 61364,
+   "sha256": "11dfb515954d9a6cea307eb6aeba27ef607b97443850f94b06d1883435a4178e"
+  },
+  "data/201111/sekzioa/18.json": {
+   "bytes": 65671,
+   "sha256": "8c2d4d576dc5184aa79bfe84e87de6666fbb2f777c0c36d663652832676485a0"
+  },
+  "data/201111/sekzioa/19.json": {
+   "bytes": 30342,
+   "sha256": "c8f08a330baaea6420bcdcad2b02e691b47806fa1d85e764d3913903a3e7888e"
+  },
+  "data/201111/sekzioa/20.json": {
+   "bytes": 55754,
+   "sha256": "ca10b58a0be02f080fbb0d58dcb391d8dab5e82e8757eb73890ba887529c7947"
+  },
+  "data/201111/sekzioa/21.json": {
+   "bytes": 37243,
+   "sha256": "7ef1aeea74f28c681a0520212e3222c04144d74202cd2bae82ab30fdcc417925"
+  },
+  "data/201111/sekzioa/22.json": {
+   "bytes": 26266,
+   "sha256": "f9592645571ecae78204ab63871e4219a0d643d3f50bd7a4ce8517551e2c5cc1"
+  },
+  "data/201111/sekzioa/23.json": {
+   "bytes": 43881,
+   "sha256": "87ec1339fec3e9945bc319bba0de79c3277d4b77b0500e693e72cb2ba2ad7fa9"
+  },
+  "data/201111/sekzioa/24.json": {
+   "bytes": 41599,
+   "sha256": "02b41a89a1c971a3d59a9f227a5e0e365d0d27a157e6fd74b30ea139de60ceb0"
+  },
+  "data/201111/sekzioa/25.json": {
+   "bytes": 44497,
+   "sha256": "c671b72351f8368ce9ad17b571f9d3e93104687cf7e88a68f65c15bc7be8b01a"
+  },
+  "data/201111/sekzioa/26.json": {
+   "bytes": 28181,
+   "sha256": "e7c93a237c4a81412b16e55f4ea399157259b0aecf939433302ccdb0f370fe34"
+  },
+  "data/201111/sekzioa/27.json": {
+   "bytes": 26350,
+   "sha256": "9349f69c104c1716d5eaeb25f4a158bd1ef8753c1ba94e40f5f84d6643976556"
+  },
+  "data/201111/sekzioa/28.json": {
+   "bytes": 461792,
+   "sha256": "ac8c30bcf63c4c2d75d2465e7c35b0d83017a00ad74c2a45bccd825741a28050"
+  },
+  "data/201111/sekzioa/29.json": {
+   "bytes": 100406,
+   "sha256": "be897ab4df73d99e8d9b9e6c0560db1739236f04e38c6418a90d843043890c09"
+  },
+  "data/201111/sekzioa/30.json": {
+   "bytes": 116924,
+   "sha256": "250b350b8688164207806593f0a7438a44e4fa80bc6f62fe08473f7ebd5301b9"
+  },
+  "data/201111/sekzioa/31.json": {
+   "bytes": 57180,
+   "sha256": "d03cd9db77e91d68620291bc948e4a361c124a1cf601059702dd56ed7dc748d4"
+  },
+  "data/201111/sekzioa/32.json": {
+   "bytes": 27447,
+   "sha256": "da973b8b9dd0d0e398708ae10f02768dc9c27d03f15d9fc58bd41131ebaeba03"
+  },
+  "data/201111/sekzioa/33.json": {
+   "bytes": 96997,
+   "sha256": "d2de96026d7af35fb2f696d72a15ebc508674c8705ed314639647c0633ebb236"
+  },
+  "data/201111/sekzioa/34.json": {
+   "bytes": 23955,
+   "sha256": "1888dc46cd441e6f0d10380b5062119f35508009d0b3f7bec7a563cb84d01c60"
+  },
+  "data/201111/sekzioa/35.json": {
+   "bytes": 78371,
+   "sha256": "b2c963a6ee543a88381b52f16d50086032bc00d0ec852a99b5927c63f6b5d0ca"
+  },
+  "data/201111/sekzioa/36.json": {
+   "bytes": 72417,
+   "sha256": "95886cf93d42fd08d472efcc29e1ad436cdb6f5262bf44e200556694f2ddd749"
+  },
+  "data/201111/sekzioa/37.json": {
+   "bytes": 41022,
+   "sha256": "faf28d672d1ebaa395350aca10654b71ef29a370232fa5ac5bb455b1a3a7f03e"
+  },
+  "data/201111/sekzioa/38.json": {
+   "bytes": 68051,
+   "sha256": "0a2482d7788c1d7e50350b39d5e03aaed49db54c39516c6eb0e724e12454d9f2"
+  },
+  "data/201111/sekzioa/39.json": {
+   "bytes": 49036,
+   "sha256": "c62dfa69c7e9b965adf87b8d63149e128d623b0b91108c27e57b5be255e3b7e7"
+  },
+  "data/201111/sekzioa/40.json": {
+   "bytes": 21997,
+   "sha256": "7bc240c11842ae0a99be56045ad5115579d33e6983c48653ddb10a92e60824b7"
+  },
+  "data/201111/sekzioa/41.json": {
+   "bytes": 131138,
+   "sha256": "ad6d8b995982e4deb126ec2c0bbaee2a4dd6a99318a16fe72b9999360fb36922"
+  },
+  "data/201111/sekzioa/42.json": {
+   "bytes": 16138,
+   "sha256": "4fe3b8f2684df4e04c67771900e78b91c9cf448020f6f6ae0f76de08f7ff6aa7"
+  },
+  "data/201111/sekzioa/43.json": {
+   "bytes": 65988,
+   "sha256": "106b8378732142ff55de7012151ccfaeafecbf56c7760f57e05e1adad8b3fbc8"
+  },
+  "data/201111/sekzioa/44.json": {
+   "bytes": 22218,
+   "sha256": "eb40a3770a06ecbc264a27e611b5e6cba84ffab90a26ed70404f622e3dfd591f"
+  },
+  "data/201111/sekzioa/45.json": {
+   "bytes": 47320,
+   "sha256": "5e81356fc1a8fbd0b29a3eb292a1ab43b4392c8e266684cfba283ccfd29a0a3a"
+  },
+  "data/201111/sekzioa/46.json": {
+   "bytes": 201372,
+   "sha256": "cf736ac7702447edb78901af02f35b667e2703cc115c8f7a564f54710876f99a"
+  },
+  "data/201111/sekzioa/47.json": {
+   "bytes": 54758,
+   "sha256": "4f52997d3aa0cd9e7c64b483bf05dc21afabb700fc0daf647c1d00159018fa60"
+  },
+  "data/201111/sekzioa/48.json": {
+   "bytes": 98733,
+   "sha256": "e476479982bdb7f9196a8a009dc2562d68a6bc0ea9797f48d2925c4c3fc041e7"
+  },
+  "data/201111/sekzioa/49.json": {
+   "bytes": 26267,
+   "sha256": "acd31d7abea6f4ed695d47b12627ec2fa4dbfdf6a45dbebbd876ed20a8cff7b5"
+  },
+  "data/201111/sekzioa/50.json": {
+   "bytes": 83785,
+   "sha256": "2f3333ff86f9f7499c7ffa4afcd6301bfb65e40e192f1133425d5cc8c23fe169"
+  },
+  "data/201111/sekzioa/51.json": {
+   "bytes": 7343,
+   "sha256": "80822640c049d819beeff817cd7dcf0e7af5d531deea81812b3fd4b93f7e1e20"
+  },
+  "data/201111/sekzioa/52.json": {
+   "bytes": 5775,
+   "sha256": "c9578f0344ad5858a69c75c62999dbf303ce19309b38dca6435e611f3312a0e2"
+  },
+  "data/201512/sekzioa/01.json": {
+   "bytes": 31156,
+   "sha256": "845451f4200cd43725c05c0181e6a500ad0259785c493af2557ae09d520a5665"
+  },
+  "data/201512/sekzioa/02.json": {
+   "bytes": 29169,
+   "sha256": "630aa05e04f2808485173b6ef3e849c7a316f21fe52e5ba2128aee8fe5243ca4"
+  },
+  "data/201512/sekzioa/03.json": {
+   "bytes": 131604,
+   "sha256": "5640202655aecfa9d245aa8476168fd43d41d302792de451f45f1b4de820c5a5"
+  },
+  "data/201512/sekzioa/04.json": {
+   "bytes": 44788,
+   "sha256": "8f005dfbcd7838e5dc3e108f7d28548a963cdc8b9b6572c8c08860aa2585c74c"
+  },
+  "data/201512/sekzioa/05.json": {
+   "bytes": 25038,
+   "sha256": "3003285b32667a61d015d3dd329ad143933fbbd3918a997f1908796a7c097cb0"
+  },
+  "data/201512/sekzioa/06.json": {
+   "bytes": 48896,
+   "sha256": "7affbc1b621e531c4ccd91f11557e57d8ae38b7b5d9a52481aa1fc3041557709"
+  },
+  "data/201512/sekzioa/07.json": {
+   "bytes": 70037,
+   "sha256": "1a49cae63d8c0a342e7b7033e1c8702b553fb3bb2837eab5f4ffe7994b54d695"
+  },
+  "data/201512/sekzioa/08.json": {
+   "bytes": 389231,
+   "sha256": "41f5cf16d2e979d2ff0d18f3c4af813678ca8ebc3ddce30a2d89cdd1f7fc4d37"
+  },
+  "data/201512/sekzioa/09.json": {
+   "bytes": 50250,
+   "sha256": "8b8aba65ffc99d5775988d5bfebcbb73d90c6cd96460f91a1979a775def2d57b"
+  },
+  "data/201512/sekzioa/10.json": {
+   "bytes": 37952,
+   "sha256": "2649b3dfdf59cb43137229d9845926e4393c6bcf2cec8a5861101b54d7fe31dc"
+  },
+  "data/201512/sekzioa/11.json": {
+   "bytes": 86477,
+   "sha256": "219f431b6a0896ccb894197735b69881b31a62cd3cf3bba5773dbd5965519147"
+  },
+  "data/201512/sekzioa/12.json": {
+   "bytes": 50156,
+   "sha256": "873134d568572c43ba09cd10ecc9e61dad4e900c4a07a0fe7750c74a28943e05"
+  },
+  "data/201512/sekzioa/13.json": {
+   "bytes": 39105,
+   "sha256": "a86077b6e09f4dad12c9d5749a7c3ec82c6074e3e37233d1bdb6c57f281e8126"
+  },
+  "data/201512/sekzioa/14.json": {
+   "bytes": 61747,
+   "sha256": "b87f3374d6e9248446d7011cf9b4180ffe035df77161c11726d050bb1fd3116c"
+  },
+  "data/201512/sekzioa/15.json": {
+   "bytes": 93760,
+   "sha256": "ec582bcfe4b2bc6add5edb181a7cfc58bc3600a4c4eff4b4db776c7a8b560132"
+  },
+  "data/201512/sekzioa/16.json": {
+   "bytes": 25139,
+   "sha256": "e4c727cb459f496a2b1cf1629532da9161ee0effe9ede9dc3e0ac52b0526b617"
+  },
+  "data/201512/sekzioa/17.json": {
+   "bytes": 56370,
+   "sha256": "43f1712d154411311af44be07a9b31aed1534819612f738c4972c57f4fbb67db"
+  },
+  "data/201512/sekzioa/18.json": {
+   "bytes": 63454,
+   "sha256": "a56b056f4b04d72adef0a811ec28d986c13884af7a4112fe23eab47560c15a21"
+  },
+  "data/201512/sekzioa/19.json": {
+   "bytes": 30147,
+   "sha256": "13e8d07424a439cd585ce802d2aceec11946c029c07c7ee1ad53222d53c7a946"
+  },
+  "data/201512/sekzioa/20.json": {
+   "bytes": 55969,
+   "sha256": "cf28df967e26cb18a24622b7da0bc6e25e3241de787e629ee16a04dfb4a33457"
+  },
+  "data/201512/sekzioa/21.json": {
+   "bytes": 35245,
+   "sha256": "0123fb6a89e7358e88ff3e4c951f07602cae10f0ad37afb9c70d179e6d3e531c"
+  },
+  "data/201512/sekzioa/22.json": {
+   "bytes": 26512,
+   "sha256": "2436bd74545cdfb1e38f7f27ce6574fe413619dc1ed0810d8a023af4fd7adce5"
+  },
+  "data/201512/sekzioa/23.json": {
+   "bytes": 53358,
+   "sha256": "0781520519d050561bd0a2e4bff1a05c9bfed7a3ee5571039d58cf1a18f59f74"
+  },
+  "data/201512/sekzioa/24.json": {
+   "bytes": 47954,
+   "sha256": "20944ac66db5552b79ec93e9d32f9e2ca5eb58ab2c26283774e5cedc70baacfe"
+  },
+  "data/201512/sekzioa/25.json": {
+   "bytes": 40530,
+   "sha256": "baa6db8716555ca83339a601d8b39e1ed178f1c3e6449725351a772a2455c547"
+  },
+  "data/201512/sekzioa/26.json": {
+   "bytes": 29489,
+   "sha256": "494daf94915e70d6b79a914419c3c474a61c1adf004030de05ef13342bc40889"
+  },
+  "data/201512/sekzioa/27.json": {
+   "bytes": 28886,
+   "sha256": "2c7bb8eeae6401d5fc30d6bc5bfe3fb8e5e92b3ece2fdce737abe715bd333a22"
+  },
+  "data/201512/sekzioa/28.json": {
+   "bytes": 468586,
+   "sha256": "3a3abc6c564d7b3927112d865163f39bca1536922fccec5d0cc471157b9c9b53"
+  },
+  "data/201512/sekzioa/29.json": {
+   "bytes": 104134,
+   "sha256": "9189a396ae45bde69c24fe621e50417e144ef6446798656060a220074113cd05"
+  },
+  "data/201512/sekzioa/30.json": {
+   "bytes": 121019,
+   "sha256": "d554cf1afb673c074f27b988dccff9643fbd03d01ab1620c44d005fec7f57d2a"
+  },
+  "data/201512/sekzioa/31.json": {
+   "bytes": 59380,
+   "sha256": "07e121d0a3bbfec3e22f4ce93f88066cb896b54bb9a17d63dec503500ff5b42d"
+  },
+  "data/201512/sekzioa/32.json": {
+   "bytes": 27519,
+   "sha256": "3267029f9b297becd5f189179992127dcea1ab47dbbd150526d5e28f0079d790"
+  },
+  "data/201512/sekzioa/33.json": {
+   "bytes": 89541,
+   "sha256": "17c3ffa4b0d015d81b0161f640b7bd71d91c8ddf16392d8919a97d0123c4d182"
+  },
+  "data/201512/sekzioa/34.json": {
+   "bytes": 24254,
+   "sha256": "b1d480fd0329c26cbb8b3b20fe74fa7939b8dc160434170fdd2062c41c5a0f95"
+  },
+  "data/201512/sekzioa/35.json": {
+   "bytes": 82722,
+   "sha256": "406824661c3cbc831d0fab71460905381a8ffe8b152f00eeefdc0bf40b73cfba"
+  },
+  "data/201512/sekzioa/36.json": {
+   "bytes": 74360,
+   "sha256": "f96c8838b82423b8b54fb4bfad8ddfc02538b26f90ed9560b7ee05513858c188"
+  },
+  "data/201512/sekzioa/37.json": {
+   "bytes": 44447,
+   "sha256": "f5e6da823eb49877945368672ac13b6dbc9860b8ae826f7f3ea01e62f6aa6870"
+  },
+  "data/201512/sekzioa/38.json": {
+   "bytes": 73190,
+   "sha256": "26cf43d244ef06e8aa6ca03a99f6de2247a700ceffef5a33910db2f22125b565"
+  },
+  "data/201512/sekzioa/39.json": {
+   "bytes": 47144,
+   "sha256": "115d6d0c93f5f27daf1e5b361ffe0b11d349bce63b33d81e6c28c1098553f156"
+  },
+  "data/201512/sekzioa/40.json": {
+   "bytes": 22781,
+   "sha256": "703c6289b2374f9714854ef0f87ed44e807c0c569e8fc63aae1e3a4e41c2cbb3"
+  },
+  "data/201512/sekzioa/41.json": {
+   "bytes": 134215,
+   "sha256": "288eb727b03fca010a4a41ed7aa886fb0f83f50bad7e8f80dfd1aff3456c4651"
+  },
+  "data/201512/sekzioa/42.json": {
+   "bytes": 16252,
+   "sha256": "f77e73d2c23b33767c13d955a50974360421a43fc06fb81f328b928896dbd74d"
+  },
+  "data/201512/sekzioa/43.json": {
+   "bytes": 60736,
+   "sha256": "7a0377a94ae3634664f431bda4d1ad0ea6d5795a1c9a4fe6b03d1ba7f544f3a1"
+  },
+  "data/201512/sekzioa/44.json": {
+   "bytes": 22643,
+   "sha256": "cf7ba99ab7934647e6ed9faebe0697253cbb5f69a7cacb350064dbf3be192ff9"
+  },
+  "data/201512/sekzioa/45.json": {
+   "bytes": 49044,
+   "sha256": "b2eb20d48efb97012cad080678c2594883806b6fd444a7b4ea627e5dc2b264c0"
+  },
+  "data/201512/sekzioa/46.json": {
+   "bytes": 215464,
+   "sha256": "80d59335e3ab975776a23c33a046e3151c6bce03f51855384f85f64761400fd6"
+  },
+  "data/201512/sekzioa/47.json": {
+   "bytes": 57738,
+   "sha256": "8a36c99bba824a1b23561f84ace1d5ea3e61485ae9242e045d5d91a3dae18247"
+  },
+  "data/201512/sekzioa/48.json": {
+   "bytes": 106380,
+   "sha256": "f65b285dfa2e4ef94bf5897a1dc666a276ae932fab0c799e4bd0785876440214"
+  },
+  "data/201512/sekzioa/49.json": {
+   "bytes": 26566,
+   "sha256": "98dc81647df1f3351b2c2cb1c0a5e78336b8dd08a171e1d923bc20eedd95f09b"
+  },
+  "data/201512/sekzioa/50.json": {
+   "bytes": 86082,
+   "sha256": "4b73e13f636dd0e679cbc2daebcba5c6889b428587c0371cef4c87e93020457e"
+  },
+  "data/201512/sekzioa/51.json": {
+   "bytes": 6476,
+   "sha256": "57c4c9fb8ad93bc3955968f8a7f752f55719335ecc709a8a5d7da6bb3345e0f4"
+  },
+  "data/201512/sekzioa/52.json": {
+   "bytes": 5576,
+   "sha256": "e5167ed9b9097f52108e74b90cefd543cf5295478fb805eaed791e6499298b07"
+  },
+  "data/201606/sekzioa/01.json": {
+   "bytes": 28384,
+   "sha256": "08aeacc366b0b22953b92b71b678d7880f8846c03c98968c0b87b5ac1edcccc9"
+  },
+  "data/201606/sekzioa/02.json": {
+   "bytes": 26341,
+   "sha256": "89e294a892b78f219d44b2770bb59e3301e62b78580e681e0cb46388564c9df9"
+  },
+  "data/201606/sekzioa/03.json": {
+   "bytes": 117055,
+   "sha256": "be7620d92535ac873c234bf7847e66411709600c707ad8001a3f47062551964d"
+  },
+  "data/201606/sekzioa/04.json": {
+   "bytes": 41017,
+   "sha256": "6b9d7288da556f0f319412fc17b7be8f95748917eccc5601392294ff01762723"
+  },
+  "data/201606/sekzioa/05.json": {
+   "bytes": 22611,
+   "sha256": "809075ed5344e6b84d6692f7e9ea1bf599be1419518f243a9e181570b67a70b5"
+  },
+  "data/201606/sekzioa/06.json": {
+   "bytes": 44275,
+   "sha256": "4c3f20659dd65264a79a30c49ce51c978041550269f192cd0dc8d909b9d25106"
+  },
+  "data/201606/sekzioa/07.json": {
+   "bytes": 60643,
+   "sha256": "1d6fbe5d3952c8d11426cb0bf8567418464558438476cf584d5f6fcbedcb1167"
+  },
+  "data/201606/sekzioa/08.json": {
+   "bytes": 338939,
+   "sha256": "cd6c6613a35a4f679575ebe4ddc49681c2b049fa743238258a359caf057fb129"
+  },
+  "data/201606/sekzioa/09.json": {
+   "bytes": 46124,
+   "sha256": "b386df5ae801bb5c26b2e6ca554e168efd5fd989d020ba13610a8ac7f6cde072"
+  },
+  "data/201606/sekzioa/10.json": {
+   "bytes": 32965,
+   "sha256": "6004fb64db9c6a94ceed888203b7963eb5ca79cbb4443d509a39c4145ca5b3ea"
+  },
+  "data/201606/sekzioa/11.json": {
+   "bytes": 81161,
+   "sha256": "4f81274edd36c35734a1e4541e30aaa3e05210a9803796052e3c94ce272ed679"
+  },
+  "data/201606/sekzioa/12.json": {
+   "bytes": 43525,
+   "sha256": "4e32e080cf7da4f088241552bf6fa91ee1a8fc486ebe0aefb7cdc91c07242b86"
+  },
+  "data/201606/sekzioa/13.json": {
+   "bytes": 33667,
+   "sha256": "dc1378ea6a939777a15d87fd4825c1ea11fedb3b94a0de1eba3a34cace08de29"
+  },
+  "data/201606/sekzioa/14.json": {
+   "bytes": 59274,
+   "sha256": "36d50b0462e84cd8614ac4fd0a0577edc291910b8169e9c869eb0afda82587db"
+  },
+  "data/201606/sekzioa/15.json": {
+   "bytes": 82883,
+   "sha256": "159889c90272c4be125ac1c35ec3b028183e5342f795a275dd6fe8d6b208a12e"
+  },
+  "data/201606/sekzioa/16.json": {
+   "bytes": 23189,
+   "sha256": "6ec98703614d911fc17fdfdbf28924bccd783dc01458b9a8d4866662aef19d1d"
+  },
+  "data/201606/sekzioa/17.json": {
+   "bytes": 51644,
+   "sha256": "ce4fa03316d6c1941d7d2fc5b5f42af4245f62ee1b8fb5b6092b3712c3d67ea2"
+  },
+  "data/201606/sekzioa/18.json": {
+   "bytes": 57560,
+   "sha256": "9fbf13d3f06dbea86642a093da87a2657c65d8c182373dd371c131cd27a30686"
+  },
+  "data/201606/sekzioa/19.json": {
+   "bytes": 29055,
+   "sha256": "ec13964a52db84af55805cfbeadd2259040029fb0a2a515f67b1791d0fd7abb5"
+  },
+  "data/201606/sekzioa/20.json": {
+   "bytes": 53337,
+   "sha256": "f3991cd5ca1470e3e50a6d822cd8ec40596a4b8ca4028e974cc06987498d4c06"
+  },
+  "data/201606/sekzioa/21.json": {
+   "bytes": 31717,
+   "sha256": "d221e82a806d84a65680f3ca89808e70e00de8c1fece2c8acca5d63e19a7ddb4"
+  },
+  "data/201606/sekzioa/22.json": {
+   "bytes": 25507,
+   "sha256": "69c302abf3ccb3b3521d8bfb171006ce0dd7354ef5ffbd163249f062b8d99e1b"
+  },
+  "data/201606/sekzioa/23.json": {
+   "bytes": 45266,
+   "sha256": "d3f67e6bc10687e68b3ac82b688425dbb5f66c7d996d96029dccbbfbdcf63a94"
+  },
+  "data/201606/sekzioa/24.json": {
+   "bytes": 42619,
+   "sha256": "f219b819df6aeb3b9759a27c045daa7ccf16191d7e67bcbdd533a22aeff8f89c"
+  },
+  "data/201606/sekzioa/25.json": {
+   "bytes": 36231,
+   "sha256": "d018c36a09d66e2ace79c34bb95260cbc16acdf0ac44d30b65bbc780010a7f1e"
+  },
+  "data/201606/sekzioa/26.json": {
+   "bytes": 28435,
+   "sha256": "e7d8b53524ff53dd080143d34b1db863342c351aa20d4a89ee1a24f77bfee1ad"
+  },
+  "data/201606/sekzioa/27.json": {
+   "bytes": 24774,
+   "sha256": "bc9c2fa1c9aa0c05f80512db88e5911646b3ede0cc6bac5c73e5b5d9427407c7"
+  },
+  "data/201606/sekzioa/28.json": {
+   "bytes": 414819,
+   "sha256": "3be2ff38df1c79af9b8e688c324c08248af193986e228e108fe4558d0de0aa06"
+  },
+  "data/201606/sekzioa/29.json": {
+   "bytes": 95037,
+   "sha256": "232075b6d1c4f5d0803dc7d7bfc4c1f29d27421b7d3c384a10317886b3400f7f"
+  },
+  "data/201606/sekzioa/30.json": {
+   "bytes": 108116,
+   "sha256": "fb7a42b4af0fe4376b18168fc6aa278dbab3b323af22bcd90b956bbfd9cc255f"
+  },
+  "data/201606/sekzioa/31.json": {
+   "bytes": 55060,
+   "sha256": "4b7349ec1f528688869f3332f0ba6844468e8fad54536c75768c0abafad594a9"
+  },
+  "data/201606/sekzioa/32.json": {
+   "bytes": 24349,
+   "sha256": "8c251f81827439cfb366d0e62b13025406a90f408cd9934cb18b5c3e77986c9d"
+  },
+  "data/201606/sekzioa/33.json": {
+   "bytes": 83482,
+   "sha256": "3b96741c920b7c27742cd65729dbd488637438b4e450e0f01f8b55533f55442d"
+  },
+  "data/201606/sekzioa/34.json": {
+   "bytes": 22000,
+   "sha256": "a555825e5b73745f08298e19e23fdebc9dff05a38e9d6e218196f19ae982a4c1"
+  },
+  "data/201606/sekzioa/35.json": {
+   "bytes": 76143,
+   "sha256": "54acb61da37017266655648b02f3bbc8328cfc7d137ac1df642b9ab4c76168d1"
+  },
+  "data/201606/sekzioa/36.json": {
+   "bytes": 70462,
+   "sha256": "716afea4f36be62c818e20c45fe0d0ddf05f21f388d314bda3875b462427c23e"
+  },
+  "data/201606/sekzioa/37.json": {
+   "bytes": 39463,
+   "sha256": "559fb1c0a4559d9953883bfdd82b5a12cdfb2f8795377cc2e206c8065369dd4a"
+  },
+  "data/201606/sekzioa/38.json": {
+   "bytes": 63953,
+   "sha256": "de86e91e9aa76235d7aae34448e42c8a7116bae99516bd15213f786ac7867f21"
+  },
+  "data/201606/sekzioa/39.json": {
+   "bytes": 44624,
+   "sha256": "76b0f3161269cac3c05b1bfe76ef0ca0fd09da0c697b9ec6b4c35ac61a66079f"
+  },
+  "data/201606/sekzioa/40.json": {
+   "bytes": 21858,
+   "sha256": "763c82a47c9284a77d8bd3f4f5a7b7a23599fe35440b212d17ed80a1d4719b24"
+  },
+  "data/201606/sekzioa/41.json": {
+   "bytes": 121095,
+   "sha256": "e91cccdfa663ba87721264650a42bac15563e56e7410b36a74e5edff0f0515e3"
+  },
+  "data/201606/sekzioa/42.json": {
+   "bytes": 15740,
+   "sha256": "ad927c96931173512e40f5890c6e83c9b6e85df9c0263a481490be3347d9ed43"
+  },
+  "data/201606/sekzioa/43.json": {
+   "bytes": 51459,
+   "sha256": "78aa30c7f559005d77bb3a71a0d7cb81046ecf157f9acfd1edadd19241409a35"
+  },
+  "data/201606/sekzioa/44.json": {
+   "bytes": 21392,
+   "sha256": "0188066f3e4feb1f5969c328887ac0949db7bc2fffeb6ccfa1876dc5327375be"
+  },
+  "data/201606/sekzioa/45.json": {
+   "bytes": 46854,
+   "sha256": "ca3f79c9510735fc3ecb03f547aa6676b01726839007a88488f138017492311c"
+  },
+  "data/201606/sekzioa/46.json": {
+   "bytes": 188324,
+   "sha256": "b9055b7d6b2b9d17dd8d6a93f6154f0be591e1aae6454509939cb3f3a560931a"
+  },
+  "data/201606/sekzioa/47.json": {
+   "bytes": 53712,
+   "sha256": "d8dd1369497c2e3dd1e8cec07a348389de05653a83e17cfa99c915570c8ed6d9"
+  },
+  "data/201606/sekzioa/48.json": {
+   "bytes": 94233,
+   "sha256": "fa71b8a9d8ad49d3f3e094038f65edbf596a49b70394a0fe34b1d9a740cb53a0"
+  },
+  "data/201606/sekzioa/49.json": {
+   "bytes": 25090,
+   "sha256": "359fa9cca5e9b1e6ffc38156bd565eb671c00403b76de95254aef73c0bd1f53d"
+  },
+  "data/201606/sekzioa/50.json": {
+   "bytes": 80208,
+   "sha256": "a4fbdd5fc4e68c5dbfbe197559f6e4491ddce504e53a6a4612e8efff417c695a"
+  },
+  "data/201606/sekzioa/51.json": {
+   "bytes": 6389,
+   "sha256": "5f2383e0ac40ae9d4e6e98d29b343dacc547967b5b43d32222e26bda00d3335b"
+  },
+  "data/201606/sekzioa/52.json": {
+   "bytes": 5436,
+   "sha256": "57e5e7ca16e023b4291ef03c76048d0fa3509e8cc201f888dfd5997696754e50"
+  },
+  "data/201904/sekzioa/01.json": {
+   "bytes": 27408,
+   "sha256": "bc55a2009e117b6d243165a07f48a71b6c509697a0cb397e635810e8d2bd0163"
+  },
+  "data/201904/sekzioa/02.json": {
+   "bytes": 28332,
+   "sha256": "134867cbdac3d5907471a284a77bb857a558080d47563bbb2539ab0755003967"
+  },
+  "data/201904/sekzioa/03.json": {
+   "bytes": 129169,
+   "sha256": "ddba9c3dc7a8316a997d250834f18c4c8f588378a528ef6a3bfb641aeb7cc1a1"
+  },
+  "data/201904/sekzioa/04.json": {
+   "bytes": 42173,
+   "sha256": "ed0b699f44b18e8d7db17511e23d9c788379e159a3e98aaf60a6d68ca86c3ecf"
+  },
+  "data/201904/sekzioa/05.json": {
+   "bytes": 25251,
+   "sha256": "b2ffbacf411625b53f9be9f012a6ccefa504111d6b59312d2678d6b6ccb7a2da"
+  },
+  "data/201904/sekzioa/06.json": {
+   "bytes": 52512,
+   "sha256": "bc77ea23ff8487b49168e0df40b6e14714de6dcca912fe2c0d19e78681b7a4f3"
+  },
+  "data/201904/sekzioa/07.json": {
+   "bytes": 71418,
+   "sha256": "8811c1e4fdb6c7e1c8fb5494260d9514a27bc2a0d0c04645b19bf308fc8ace26"
+  },
+  "data/201904/sekzioa/08.json": {
+   "bytes": 414612,
+   "sha256": "649605674011fb83bc214e24d0b74ae3dddd9cf79018a1acd0cff56f47287d7f"
+  },
+  "data/201904/sekzioa/09.json": {
+   "bytes": 47245,
+   "sha256": "97552781458dfc63c690636de36aedab39679cc9cd2a02a4d5cdde5e0a2cf32b"
+  },
+  "data/201904/sekzioa/10.json": {
+   "bytes": 37371,
+   "sha256": "eec9588c0562bf9869321dcfb221b7fb03c760da240070562392ac71d9bf554b"
+  },
+  "data/201904/sekzioa/11.json": {
+   "bytes": 89213,
+   "sha256": "9019015172416f8d44b9bfd07b9f2ae3be9e9cbf743c22a1bd7d434c95113c0b"
+  },
+  "data/201904/sekzioa/12.json": {
+   "bytes": 47451,
+   "sha256": "c00d732096568c536a2ab4c192d5ff03198822069f0d4baefd5ceed661c181b3"
+  },
+  "data/201904/sekzioa/13.json": {
+   "bytes": 36435,
+   "sha256": "4f4a3022e1fcfc61ca396a348fc2d187bb529bf49ad47826f1d13c6b65815acb"
+  },
+  "data/201904/sekzioa/14.json": {
+   "bytes": 61539,
+   "sha256": "26889bce2d0c59b5eb3947b2d89d5013a2ce3d1f0a60f946ae6a3ddb7c44e20e"
+  },
+  "data/201904/sekzioa/15.json": {
+   "bytes": 99194,
+   "sha256": "972666da8e53a1f6401eec8902f98bea12655528f231bff4fe37c47e57d12a44"
+  },
+  "data/201904/sekzioa/16.json": {
+   "bytes": 24965,
+   "sha256": "ce9a976017933816ec7914a0d5a06fc77e5b2341f2c654e1ed51b127455dccf0"
+  },
+  "data/201904/sekzioa/17.json": {
+   "bytes": 60034,
+   "sha256": "b719d165881bb6f5e699b433adab95c26a2b403e114ba459ffb7db207c930887"
+  },
+  "data/201904/sekzioa/18.json": {
+   "bytes": 65949,
+   "sha256": "c4c00554e19c5c1f2edae3401c6a88f44737432738e60d5894e454b407c981b2"
+  },
+  "data/201904/sekzioa/19.json": {
+   "bytes": 30727,
+   "sha256": "b67eadbdc275352b296f9f5a14478225d80c4d4965d950a3c4bf808081a341a4"
+  },
+  "data/201904/sekzioa/20.json": {
+   "bytes": 58240,
+   "sha256": "31430634b8ea16b1088ec2906f899605877e9e8db7602ac2e80284f3e246a10f"
+  },
+  "data/201904/sekzioa/21.json": {
+   "bytes": 35952,
+   "sha256": "37574df1683b1dcbc45833bf8331699c7a9a5a989f28f44a9c7f1a106ac6dad4"
+  },
+  "data/201904/sekzioa/22.json": {
+   "bytes": 27084,
+   "sha256": "c8d792ddd8db57cc37ece091f349be8d1a3a3c7f557b7212f3fa19c014a6b927"
+  },
+  "data/201904/sekzioa/23.json": {
+   "bytes": 49363,
+   "sha256": "a70acd837651d10a8d4b5b8ad9e2fb07fa4d6c8418df31222875a44ad108077f"
+  },
+  "data/201904/sekzioa/24.json": {
+   "bytes": 42180,
+   "sha256": "ebdf87d92669d357187233deb052774eab59b7aafa062bab52d8edf7a289437c"
+  },
+  "data/201904/sekzioa/25.json": {
+   "bytes": 42155,
+   "sha256": "5c6a0368e4be68b7ffc14d81d49f8118cf61e9d42f0734a752730c0734123438"
+  },
+  "data/201904/sekzioa/26.json": {
+   "bytes": 31020,
+   "sha256": "fae152c14bafc805b0162d7e94835a8b18b85837f7413865687dcc1187f51989"
+  },
+  "data/201904/sekzioa/27.json": {
+   "bytes": 30906,
+   "sha256": "2c71e7394a4395592a09a056c2ca2fe317bec9a00617f525107c357615160a5d"
+  },
+  "data/201904/sekzioa/28.json": {
+   "bytes": 439804,
+   "sha256": "898298504e48153445732b8b0052a1d2ce594bed96729d887354edc93947ed2f"
+  },
+  "data/201904/sekzioa/29.json": {
+   "bytes": 100919,
+   "sha256": "3fa2fc881b3c15a493a3dfa1fe66dd8d8061878836b376c1429a2c50bacec839"
+  },
+  "data/201904/sekzioa/30.json": {
+   "bytes": 119285,
+   "sha256": "6251371bd1531ce506bace1cdfee89d556453ed369e64ea463eb6ce069fe9829"
+  },
+  "data/201904/sekzioa/31.json": {
+   "bytes": 52879,
+   "sha256": "138d52ae8728095e0d5a751b7e400c26de14418ebf6145fdc1c88b5fa0a4d2d6"
+  },
+  "data/201904/sekzioa/32.json": {
+   "bytes": 30144,
+   "sha256": "ebca5caddbef31c34f0810561f2e4d793cdd8cabe977c5a3b0860c745a70b349"
+  },
+  "data/201904/sekzioa/33.json": {
+   "bytes": 88592,
+   "sha256": "5fa5deee5fe52d1ef058b324dabcfab411995dd67bc4d5b717850ab5b9ccd8b3"
+  },
+  "data/201904/sekzioa/34.json": {
+   "bytes": 23618,
+   "sha256": "05f7aa95b08ba86775dfc9eb32f63557cad2b81ec0eec930bcdb1f5f9135e634"
+  },
+  "data/201904/sekzioa/35.json": {
+   "bytes": 82391,
+   "sha256": "aea5cd3d8997024c58410561afe09a0d53c146a500a74dd32c910bc9da33b1e0"
+  },
+  "data/201904/sekzioa/36.json": {
+   "bytes": 80740,
+   "sha256": "a232d47057d67af260843c6520731360c4f479639ff9a3536ff1eb3a4d7d93cd"
+  },
+  "data/201904/sekzioa/37.json": {
+   "bytes": 42806,
+   "sha256": "3ce2c382f612f9d27bf0e98e8b6e0cc43741c6891cb69f821e8eb45703aa34b8"
+  },
+  "data/201904/sekzioa/38.json": {
+   "bytes": 73057,
+   "sha256": "abebf207aa3fd894b8f071fcc4dff5ad433aa9092b40cf00e3dd2063a5b050fd"
+  },
+  "data/201904/sekzioa/39.json": {
+   "bytes": 48201,
+   "sha256": "8b377fd1de4561abdaed5738117343a6c7cbb7745926e40a2a2379f52dc9a268"
+  },
+  "data/201904/sekzioa/40.json": {
+   "bytes": 24802,
+   "sha256": "ef54c11d5def62d24600e573166e3b6d7f46dcb4c0bd0c332f6a0d9a070b269d"
+  },
+  "data/201904/sekzioa/41.json": {
+   "bytes": 139922,
+   "sha256": "f2f4dc24e022e334c28c855138e126c8ac509b4193d0c40b44135f6b17995e52"
+  },
+  "data/201904/sekzioa/42.json": {
+   "bytes": 17815,
+   "sha256": "52e7801f2d8a5204b51fbb93a0979d2cfdc08c8f05e0bd74cfa96278143a1a9d"
+  },
+  "data/201904/sekzioa/43.json": {
+   "bytes": 63109,
+   "sha256": "8576be84c01163449a28ab5d283516eaf2c97d5464f0e3b5c0c2d2a3f3ddafa6"
+  },
+  "data/201904/sekzioa/44.json": {
+   "bytes": 23604,
+   "sha256": "dcf81355026507d0486a567124b51c49bc1f405eda26a1d44be199965ec148be"
+  },
+  "data/201904/sekzioa/45.json": {
+   "bytes": 45779,
+   "sha256": "491737b3c48be71d207cb5d79863869c31f1e9a747aee880a493b554ce9c1d48"
+  },
+  "data/201904/sekzioa/46.json": {
+   "bytes": 194288,
+   "sha256": "1cf8a21db87bf4c5726c3e633a9fb44d43977dccef0d58d803cfb911a387146a"
+  },
+  "data/201904/sekzioa/47.json": {
+   "bytes": 52273,
+   "sha256": "2f1571d19844b8a32503621fc0df7ece343c0e02160a76aba5a67e78bde447c8"
+  },
+  "data/201904/sekzioa/48.json": {
+   "bytes": 98196,
+   "sha256": "372dfbdc6b03a092bff583c856e0e5af727ae2110d6355825d5ae916ed305db8"
+  },
+  "data/201904/sekzioa/49.json": {
+   "bytes": 27298,
+   "sha256": "3ff7252d48c23c5c5bf23e8c5b951cf3906cc8c102494c468d272ff1cadf95ea"
+  },
+  "data/201904/sekzioa/50.json": {
+   "bytes": 85496,
+   "sha256": "0108e89ded1e82133325014972ad08f737ccce0bc2db453e923e450347e5eb83"
+  },
+  "data/201904/sekzioa/51.json": {
+   "bytes": 6827,
+   "sha256": "b0bd85f2fb80dfc509cdd42e0eafa68e32ecdbb71b84107f05b893b060fab6b4"
+  },
+  "data/201904/sekzioa/52.json": {
+   "bytes": 6246,
+   "sha256": "2b2cae93e12d832fb4ab4bbdf4f3fab5c576d398cf60fb0260feea9ac80a4072"
+  },
+  "data/201911/sekzioa/01.json": {
+   "bytes": 27646,
+   "sha256": "922d7718646087f737a2cb6380a80fe9a99299fb730be1ceac43fe9c21f829f7"
+  },
+  "data/201911/sekzioa/02.json": {
+   "bytes": 28975,
+   "sha256": "e64c5e2eb3b3c4e4502b1814785c311c942a6db521cf49197bad4a9c592e8fbf"
+  },
+  "data/201911/sekzioa/03.json": {
+   "bytes": 128773,
+   "sha256": "801e1388f90f3a2389c602dc5f09101f56aa9e927cbb38b0fec6125ee63b028d"
+  },
+  "data/201911/sekzioa/04.json": {
+   "bytes": 43243,
+   "sha256": "637119232be286571f3be3471cae84954acc802873962b24003f4b0a3adfb768"
+  },
+  "data/201911/sekzioa/05.json": {
+   "bytes": 26591,
+   "sha256": "46acfcbe6e622c0d84564c5388e9e8a6452a5b5011f5f72a82eeaa4e7dd4a8cf"
+  },
+  "data/201911/sekzioa/06.json": {
+   "bytes": 48079,
+   "sha256": "674b7d7209bd85c12ee61618d773e42851cc2751a2deeb825b175c9029b1f35b"
+  },
+  "data/201911/sekzioa/07.json": {
+   "bytes": 70309,
+   "sha256": "b372b55ce536ce18f97f32ccbd4ce5308e3340dfdb92c175c4bae5198f9f864b"
+  },
+  "data/201911/sekzioa/08.json": {
+   "bytes": 446446,
+   "sha256": "5cb57f819e0ff3477d25b9eec440f3ee6bdac4d17694a46ad986d1f07f3b94d4"
+  },
+  "data/201911/sekzioa/09.json": {
+   "bytes": 47002,
+   "sha256": "4bb9fa0a7f1e33924f3bec906c4a2f2eb73f67b121fdb8379289f7123bf8baba"
+  },
+  "data/201911/sekzioa/10.json": {
+   "bytes": 37009,
+   "sha256": "ae92164aa8a12c6176c560975b464cc67e8fc8e524d3b7fe7a900dd707019656"
+  },
+  "data/201911/sekzioa/11.json": {
+   "bytes": 96061,
+   "sha256": "a947b2b510216b491b31c5cf901965bd3fea29a53212321fea137456275b0cca"
+  },
+  "data/201911/sekzioa/12.json": {
+   "bytes": 48930,
+   "sha256": "318d1ce2f41f0a55c3190065dc8aa151178d26728243f3c470fbd43fbe8f02b2"
+  },
+  "data/201911/sekzioa/13.json": {
+   "bytes": 36817,
+   "sha256": "1e2254dfcb8c4812aaba2fb4c9c96cc5ce97c343fb7d366d40356871e5b39dbd"
+  },
+  "data/201911/sekzioa/14.json": {
+   "bytes": 63217,
+   "sha256": "b46b97b74993ad1b740f67e1a64d2328ef6b8a29379d006e488e720d82003ce8"
+  },
+  "data/201911/sekzioa/15.json": {
+   "bytes": 95888,
+   "sha256": "84df88f420e9060a1a0bacc5b7dcbc8378ebd523ea74d302db8594d30a09d138"
+  },
+  "data/201911/sekzioa/16.json": {
+   "bytes": 25340,
+   "sha256": "efdd9e33abcfacc8e9baf06773ef41ae382fa3864c2b35d1ed567fdd76cf8d9e"
+  },
+  "data/201911/sekzioa/17.json": {
+   "bytes": 60732,
+   "sha256": "ab10a7ee2fbb4b4c2bd127710947650d7457c3724c085e65173f1dd5786298ba"
+  },
+  "data/201911/sekzioa/18.json": {
+   "bytes": 67546,
+   "sha256": "afa95fe7400ed870bca38cd46b118d4386e7036754da83d9c547512cac95b33a"
+  },
+  "data/201911/sekzioa/19.json": {
+   "bytes": 32348,
+   "sha256": "b6d853a2da9d8d56d8878a28dca23e8ec6bedd467e19539e070aa916c4ee0b81"
+  },
+  "data/201911/sekzioa/20.json": {
+   "bytes": 57437,
+   "sha256": "bc5e5794abf6a4929de2da7ce7bef830ace54ae620ad0439f5105dd20ac10120"
+  },
+  "data/201911/sekzioa/21.json": {
+   "bytes": 37188,
+   "sha256": "e0a5ed869f0ff44b99ec18dbf43325e8ab3c7c88b74fd39a1a4fc303ddc7d94c"
+  },
+  "data/201911/sekzioa/22.json": {
+   "bytes": 28235,
+   "sha256": "0e144f90e1c6b65170faf360d5d9107d753ff304184080936e3f928f0dfd5cb6"
+  },
+  "data/201911/sekzioa/23.json": {
+   "bytes": 47979,
+   "sha256": "dc1a265360da1ad217b8b45987a95acab87894e545639e462a3ab8b828483180"
+  },
+  "data/201911/sekzioa/24.json": {
+   "bytes": 43406,
+   "sha256": "1ceb3e73afbe748b5f1c5647ab79740188512afb5eba9f4cfee988b467fb0a6c"
+  },
+  "data/201911/sekzioa/25.json": {
+   "bytes": 42687,
+   "sha256": "56b7e0233c789a7a86f3f56377acdb1b27762b569b0abca7e0cbff66a0f0d8ea"
+  },
+  "data/201911/sekzioa/26.json": {
+   "bytes": 30485,
+   "sha256": "6455357572379df3243d78802743405322e04d8afe2d210be3ed7048d91d4b7e"
+  },
+  "data/201911/sekzioa/27.json": {
+   "bytes": 29303,
+   "sha256": "3260245265f347927a96a9a34306f7f69ff6f762c5f9bc55357bf4ab4340f0d2"
+  },
+  "data/201911/sekzioa/28.json": {
+   "bytes": 436239,
+   "sha256": "16deb056bcb2ad4d26d329ae650f00c199ad63c37f97762c36d3850bda65d3f0"
+  },
+  "data/201911/sekzioa/29.json": {
+   "bytes": 110232,
+   "sha256": "2927c14e7d7d279124e9eda64c9923149720f4dc8a06f4b944d1e47ce5ebe302"
+  },
+  "data/201911/sekzioa/30.json": {
+   "bytes": 125975,
+   "sha256": "3fe20d4e5b22dcbba759c7456e2ec86348082de9044254beaa7e7ae867507892"
+  },
+  "data/201911/sekzioa/31.json": {
+   "bytes": 54030,
+   "sha256": "053a2b3bc674e2fbe5e802f7996a679e91bb71a966193deb9da66ad080aaba3c"
+  },
+  "data/201911/sekzioa/32.json": {
+   "bytes": 26700,
+   "sha256": "103b26db0466a1bf053e3781b3d9f223aa65c080ce5f309e9e81a4c24e7ba780"
+  },
+  "data/201911/sekzioa/33.json": {
+   "bytes": 88896,
+   "sha256": "97e7e1f681b6d0ac7cbf78ace02eddb2d565ca39a9aa90d3e7b58f0c447e85d0"
+  },
+  "data/201911/sekzioa/34.json": {
+   "bytes": 23558,
+   "sha256": "3c62b9d4b788668402fb5afe4d15b67e91ad9030b6c9e61d946766d4e259d9f4"
+  },
+  "data/201911/sekzioa/35.json": {
+   "bytes": 87599,
+   "sha256": "d2d9b5e3769c5dff11ab4fe4210b2a2ade31e69dc7740311f56e591bf1631f00"
+  },
+  "data/201911/sekzioa/36.json": {
+   "bytes": 78991,
+   "sha256": "237a1c80f0b0884ac84b5da03250ee7d4945514b6c4f07a5d607317b4be8917a"
+  },
+  "data/201911/sekzioa/37.json": {
+   "bytes": 44492,
+   "sha256": "2f3e2fa911e8030c2cc937a09093911c9f3edc35348b72ac8009f4f30bd90b74"
+  },
+  "data/201911/sekzioa/38.json": {
+   "bytes": 78691,
+   "sha256": "d86537ce96da57259b131c92d9221d7ed5771aba2a0cf3d05629018c444e770b"
+  },
+  "data/201911/sekzioa/39.json": {
+   "bytes": 47280,
+   "sha256": "0181b1c2aa41a4a92814467f8ace3f0c970f332c81d024e7396a8238af329fe8"
+  },
+  "data/201911/sekzioa/40.json": {
+   "bytes": 24534,
+   "sha256": "c2af4b42814446b5cba89ae588fd9945fcd43025a37db6f87fe4647c316ca052"
+  },
+  "data/201911/sekzioa/41.json": {
+   "bytes": 141796,
+   "sha256": "3b2b324fc1da19dbf5916d3bac486077b61d32dab737f13261b9da0ecaab1b75"
+  },
+  "data/201911/sekzioa/42.json": {
+   "bytes": 17786,
+   "sha256": "cfe697d87bcfed9e23cdf720596a2507450e121cbde274a421c964be52ae06f3"
+  },
+  "data/201911/sekzioa/43.json": {
+   "bytes": 62556,
+   "sha256": "547eb8a17580b1f5f71b62f0b9515548e0ec2d69003221449e1db243a37621c3"
+  },
+  "data/201911/sekzioa/44.json": {
+   "bytes": 24020,
+   "sha256": "b48deb9f60f739407e06647df1c4e4b765cd634ec6b9fac96ff6f2ad6fe43e2d"
+  },
+  "data/201911/sekzioa/45.json": {
+   "bytes": 48145,
+   "sha256": "a40eb56a2b40406efadeda259246301591b2cba42551960f487fc9af42d7858b"
+  },
+  "data/201911/sekzioa/46.json": {
+   "bytes": 204450,
+   "sha256": "ef142d44add962e9ecd2b88ccc7cad64538ec4997e301e1f8b0ec4e833159ec0"
+  },
+  "data/201911/sekzioa/47.json": {
+   "bytes": 51985,
+   "sha256": "a0870e5d224efba13a44b8aa0f37a3be87fddbfd0569348cb102ddb2eb6df85a"
+  },
+  "data/201911/sekzioa/48.json": {
+   "bytes": 101387,
+   "sha256": "a00536ae60ecb629ad0415587d723d0acc5acee8ced4180854e7c52f94376dd7"
+  },
+  "data/201911/sekzioa/49.json": {
+   "bytes": 27922,
+   "sha256": "d65605b310fe0925185edfe9200ae699b61f57aa7ae2d2c3b656e7063391a213"
+  },
+  "data/201911/sekzioa/50.json": {
+   "bytes": 90889,
+   "sha256": "55838408424dac552fd60d5254b1cc5a58ed23e0470f4db9dcca4160569dc36a"
+  },
+  "data/201911/sekzioa/51.json": {
+   "bytes": 7503,
+   "sha256": "50874420c60c1ce93733c99777a581078e0523f45cc1612f8a8faabf1cead543"
+  },
+  "data/201911/sekzioa/52.json": {
+   "bytes": 6661,
+   "sha256": "b4eeefd7b321e9d669bd73efd70bca874c6af4bcda104bd596f844905c8caf39"
+  },
+  "data/202307/sekzioa/01.json": {
+   "bytes": 26556,
+   "sha256": "46c10754ec15467ce60a5f7c99130db9ce8e6ced28fde6fc35a25fc767e1e36c"
+  },
+  "data/202307/sekzioa/02.json": {
+   "bytes": 24680,
+   "sha256": "b889f7a6c56117fb1368eac9adc6b3d79f124ae95e9fd33f2ee2f8c7c6aa7e50"
+  },
+  "data/202307/sekzioa/03.json": {
+   "bytes": 104170,
+   "sha256": "023239e7b02945b2d9081387084abf080aca141d1bc6ed68dc38564b56451cf2"
+  },
+  "data/202307/sekzioa/04.json": {
+   "bytes": 39129,
+   "sha256": "70fc32ad84d60eeab2a3f35cd3b5fbd48da42f4ed704cc2e2ec7dc1efb2c917a"
+  },
+  "data/202307/sekzioa/05.json": {
+   "bytes": 23950,
+   "sha256": "d1b8ee100c0aea96395377b3f5915f874f739a70c0f43ece654fd657aed778b2"
+  },
+  "data/202307/sekzioa/06.json": {
+   "bytes": 45957,
+   "sha256": "d654580a82a59343ee1fceae9d56ba6692c5ab02e9de1d466a7ecb493a1644c8"
+  },
+  "data/202307/sekzioa/07.json": {
+   "bytes": 56932,
+   "sha256": "3c0bc1e6391469c55102c9af9aa6ff60bd16dc14d6b1e9f998dc1c8dd81af5f6"
+  },
+  "data/202307/sekzioa/08.json": {
+   "bytes": 399771,
+   "sha256": "3ca2643aeeac100667f0215e9650fb550f10e471304b157589f674c63af81a68"
+  },
+  "data/202307/sekzioa/09.json": {
+   "bytes": 46540,
+   "sha256": "ab953f0f819b8c332dff806460948b03b5d593d6ab2fa609982bbb938886d108"
+  },
+  "data/202307/sekzioa/10.json": {
+   "bytes": 35585,
+   "sha256": "61f4f229708da4d40f5e10550e5df88835c2a65309e66e3a82bdc34a5f742cf4"
+  },
+  "data/202307/sekzioa/11.json": {
+   "bytes": 81461,
+   "sha256": "c6297f5c84269b868af4679c3eeef18354480359b1ce53ef8547ce222a01d7c4"
+  },
+  "data/202307/sekzioa/12.json": {
+   "bytes": 36238,
+   "sha256": "69f645d1d63b367e0af9cc07bd8836123ca0044decef3001552121148223c81c"
+  },
+  "data/202307/sekzioa/13.json": {
+   "bytes": 33346,
+   "sha256": "463a880fdf10e03a972a2e48676e1416d9be2f7f3dcf818407b69e02766aa82b"
+  },
+  "data/202307/sekzioa/14.json": {
+   "bytes": 54364,
+   "sha256": "1d3b6139da53de87cc557b639720fea3865f25b9138928353d25228b869ee640"
+  },
+  "data/202307/sekzioa/15.json": {
+   "bytes": 73519,
+   "sha256": "25ace6edd2864a67ad1c121ee0069b10e6e83fb1139232ac2a83be3316fcda2e"
+  },
+  "data/202307/sekzioa/16.json": {
+   "bytes": 23083,
+   "sha256": "a0a583e0efd029a692f80a5db77273ee08fdc63658a6294960e7654505b3f690"
+  },
+  "data/202307/sekzioa/17.json": {
+   "bytes": 59216,
+   "sha256": "839b7cfc2e617060b2b80911bdd96c0ec6f8f00a4a74dcd3977d5d530639a285"
+  },
+  "data/202307/sekzioa/18.json": {
+   "bytes": 60337,
+   "sha256": "58a4b852216bf7354ce8a455beefe3e9d1333b9274f1043497e1b8cc16071e1d"
+  },
+  "data/202307/sekzioa/19.json": {
+   "bytes": 29075,
+   "sha256": "2655f8310ff168cf56cb62f831fd4d1f0a2f9dccb0a8fd504be2a1bee3df710f"
+  },
+  "data/202307/sekzioa/20.json": {
+   "bytes": 54535,
+   "sha256": "2afc82d6f63c134c11f3e0a4186ee21c797bf3165c0a8a56d5020b6b2ff55a79"
+  },
+  "data/202307/sekzioa/21.json": {
+   "bytes": 31300,
+   "sha256": "a1b46bbaf51ee8748030077d542c7c5d3ac2225d3137f9f0f9b3259066154701"
+  },
+  "data/202307/sekzioa/22.json": {
+   "bytes": 26732,
+   "sha256": "f9364cfd94e5fa213c286134f0c94e4835ecdb4f43daf4a7e9f47b0ed162a0a3"
+  },
+  "data/202307/sekzioa/23.json": {
+   "bytes": 42781,
+   "sha256": "5840d4cdbc901ccf5494090401523ce9fd4ede4f00d27df2df3d5261727125d0"
+  },
+  "data/202307/sekzioa/24.json": {
+   "bytes": 40717,
+   "sha256": "fde555abdfebc76f22c8f849899fda727e48472510af6c0e94a795d1cead8415"
+  },
+  "data/202307/sekzioa/25.json": {
+   "bytes": 42931,
+   "sha256": "3779fee06087abc59afca0232836743aaf5ef8cc1986b8547802df190800a863"
+  },
+  "data/202307/sekzioa/26.json": {
+   "bytes": 28886,
+   "sha256": "47bbce7d491accdecd690381c7286f76edfb8224abdec41285a04ba65380af9d"
+  },
+  "data/202307/sekzioa/27.json": {
+   "bytes": 24831,
+   "sha256": "81c4b10fe0edd18420afd4f2a1d1277fef28020fa1ccc1b5b43591d9faba579c"
+  },
+  "data/202307/sekzioa/28.json": {
+   "bytes": 390632,
+   "sha256": "128d7e3bc6461498a22ac574f3e1336f10634b74e19902364437e400971965b5"
+  },
+  "data/202307/sekzioa/29.json": {
+   "bytes": 89476,
+   "sha256": "7b10306c1fa3787f9ad56515926998703265d46d3abf1e4434b9bd6ef70cf1e2"
+  },
+  "data/202307/sekzioa/30.json": {
+   "bytes": 104858,
+   "sha256": "2a92ca420278787b88829eefcdb4d77d9a2c3b2c95b91a0f0b847382cdaaadce"
+  },
+  "data/202307/sekzioa/31.json": {
+   "bytes": 58982,
+   "sha256": "f263d2f6513116447e0646beac35a61757ffbe23869093f1365739258104843d"
+  },
+  "data/202307/sekzioa/32.json": {
+   "bytes": 23528,
+   "sha256": "7c014890808d8b48e5c4912719add2d27ae7d72ea10495efed8b52e60357429a"
+  },
+  "data/202307/sekzioa/33.json": {
+   "bytes": 75818,
+   "sha256": "1ebd0c1846e32858d8b769da457e9e7f72ec4081996c3c4cc4c759ad7500e32b"
+  },
+  "data/202307/sekzioa/34.json": {
+   "bytes": 23838,
+   "sha256": "f3df6433402158a0f0e6508807775c68a0521f1a2a5e14930c17704e372aa3e3"
+  },
+  "data/202307/sekzioa/35.json": {
+   "bytes": 70642,
+   "sha256": "b23876c206d614998a22842485855eac366e4c094a42fd8ca8eb4c080b7d728b"
+  },
+  "data/202307/sekzioa/36.json": {
+   "bytes": 63447,
+   "sha256": "18713c186837a05c59965682eb98e5a1480b1a5a6e8d7581fa5b4e3e9dd23a94"
+  },
+  "data/202307/sekzioa/37.json": {
+   "bytes": 41114,
+   "sha256": "919d7c04a0f4297392e3b1a8246bb1cce8689bfb083c8176b146cc6ddb09a585"
+  },
+  "data/202307/sekzioa/38.json": {
+   "bytes": 62019,
+   "sha256": "8c4bcafe86a55cc941aaa1dffe0c7770e5a737af30e806e8a645521148cca461"
+  },
+  "data/202307/sekzioa/39.json": {
+   "bytes": 38545,
+   "sha256": "747ad32505b2a1e3e5da4f9d7a622d6af41830f5d71bd2141ca9180275c6d178"
+  },
+  "data/202307/sekzioa/40.json": {
+   "bytes": 21369,
+   "sha256": "3ad4d8bab03d1d75e2ea61917fbcf2a7fbee43251e142097e415ad2022803db2"
+  },
+  "data/202307/sekzioa/41.json": {
+   "bytes": 119426,
+   "sha256": "5a6e4736af92dfdd8ecdc0fdb7c2dcb89d23fc4a33f21a5a2b8123ba49149ee9"
+  },
+  "data/202307/sekzioa/42.json": {
+   "bytes": 15922,
+   "sha256": "8526f6789eedef0277da8c2a50bc35113cc5a20083672950edc0e09e416c8d23"
+  },
+  "data/202307/sekzioa/43.json": {
+   "bytes": 62099,
+   "sha256": "75b8c7449e08b423a2d4849beb51afc44b456f38685304b1152baca6ab825065"
+  },
+  "data/202307/sekzioa/44.json": {
+   "bytes": 23392,
+   "sha256": "9add9bf73d7b2bc2afa0525f5fb3b437b53fc1e44d81f8f3e73df51c17d844c4"
+  },
+  "data/202307/sekzioa/45.json": {
+   "bytes": 43274,
+   "sha256": "1035df6337359a2935020221cd185dbdce5ff2b9e55432ad30af9799f043dbf2"
+  },
+  "data/202307/sekzioa/46.json": {
+   "bytes": 160862,
+   "sha256": "18f766be45b81736d162398b9f919022956f8fd26eb43b011ff8367d99044d7f"
+  },
+  "data/202307/sekzioa/47.json": {
+   "bytes": 50917,
+   "sha256": "491a388f60852bdc158f640b271f3c2512fa3b69be06aa477f54440d6f95a65d"
+  },
+  "data/202307/sekzioa/48.json": {
+   "bytes": 89349,
+   "sha256": "6726ee6fffce9e7a308532ccaca5e54c91ff68d99312d6ef39192a24dd8f46bf"
+  },
+  "data/202307/sekzioa/49.json": {
+   "bytes": 26650,
+   "sha256": "810887a6a9f55c73b9da9ccb29790b6498da820055eecaa72d34f3e959635d2a"
+  },
+  "data/202307/sekzioa/50.json": {
+   "bytes": 85983,
+   "sha256": "2325cd8e9897e738a96c81ff44e71edc843aac41735fabc5d6227dc485cc430e"
+  },
+  "data/202307/sekzioa/51.json": {
+   "bytes": 6387,
+   "sha256": "b5486033755bf8000874db52e4e04b8aafc7f7da1d39f3296a0bf2752b9e531f"
+  },
+  "data/202307/sekzioa/52.json": {
+   "bytes": 5791,
+   "sha256": "321bc35d2038c6ca21a17d679821e6ec6cfa863f3833e070692dcecd9e53b904"
+  },
+  "data/index.json": {
+   "bytes": 1428,
+   "sha256": "94f0d7004e2b2db9d7676798da43de9fcc90559fa64922f2e048e64051225530"
+  },
+  "geo/sekzioak/2012/01.json": {
+   "bytes": 214590,
+   "sha256": "e1e5d2135b98fba42b594abb24f28ef1a85beab2a7c378ebf95bc6c7e45d1f24"
+  },
+  "geo/sekzioak/2012/02.json": {
+   "bytes": 381367,
+   "sha256": "c9b5338a8c43d046aede65212f3800716229cac565ea938eaa3b748f9bb012ab"
+  },
+  "geo/sekzioak/2012/03.json": {
+   "bytes": 665904,
+   "sha256": "f50ee762a963add43d1091a49eaa8dfef0eabcc1c3c1506ac058ea06c883354d"
+  },
+  "geo/sekzioak/2012/04.json": {
+   "bytes": 487094,
+   "sha256": "c3e38c8adb186593cf57d7c4c386e86b8958e61129510a2dd0386eec495f144e"
+  },
+  "geo/sekzioak/2012/05.json": {
+   "bytes": 546190,
+   "sha256": "19645b9c44bdf6010ad0506af515e72950a10b8e5b13d7103ceff5f585f77490"
+  },
+  "geo/sekzioak/2012/06.json": {
+   "bytes": 767417,
+   "sha256": "f12bbeb17dc6427c0c601a8420534be144723d5adb90721ebeb8d1bb7621a522"
+  },
+  "geo/sekzioak/2012/07.json": {
+   "bytes": 542562,
+   "sha256": "24fc27608926813cbf13594d9b462c393e9d98eb22ea418e2d3f79e26967e866"
+  },
+  "geo/sekzioak/2012/08.json": {
+   "bytes": 1582318,
+   "sha256": "46ab032cc31ea0b23779aeab8ea0c56966d810bbf220ae3c4f2eb5a602a4c287"
+  },
+  "geo/sekzioak/2012/09.json": {
+   "bytes": 740169,
+   "sha256": "c5fc67244f6218f31431e1ff582f58fd5af02d86317258a993f916ab598e6290"
+  },
+  "geo/sekzioak/2012/10.json": {
+   "bytes": 830069,
+   "sha256": "8d9a994963f43eb70b74dfcc8bb4e64032433fa458848a3abdc8bbaab2aab823"
+  },
+  "geo/sekzioak/2012/11.json": {
+   "bytes": 560472,
+   "sha256": "43c48396a7df983c44d3ab170d1925878571b09cfa72f2c9b8a7f3ba2a5edef0"
+  },
+  "geo/sekzioak/2012/12.json": {
+   "bytes": 409187,
+   "sha256": "8af40db18ede66434dacd9d42c1d2ffc58b7622833e1b57b993f50f504319e4f"
+  },
+  "geo/sekzioak/2012/13.json": {
+   "bytes": 622248,
+   "sha256": "00026eebd50c02e75fc9e58283038f0e929dc9610d5d8764de281642e6012dfc"
+  },
+  "geo/sekzioak/2012/14.json": {
+   "bytes": 673063,
+   "sha256": "80092f5f9bc3db327ad3bd2c30a86fd99883dedb63e1a343a1641e976aeee545"
+  },
+  "geo/sekzioak/2012/15.json": {
+   "bytes": 843746,
+   "sha256": "57eacc7a5fe9d68f075f9a46042dd3db2da384df2a59d473680d1a1786f2ae7e"
+  },
+  "geo/sekzioak/2012/16.json": {
+   "bytes": 560198,
+   "sha256": "22a1ad7fbafa9c65002b93412142d8f09688921eda02abdd78db2019119b40b4"
+  },
+  "geo/sekzioak/2012/17.json": {
+   "bytes": 549100,
+   "sha256": "bfd8b4559002af2ed9d593474e5405c8966235fd5b1301221767be6943690aaa"
+  },
+  "geo/sekzioak/2012/18.json": {
+   "bytes": 789365,
+   "sha256": "4a93a14247127df92a9ac5270430916e41b5330c3c5cdfe563f2d981e764bc96"
+  },
+  "geo/sekzioak/2012/19.json": {
+   "bytes": 631795,
+   "sha256": "745be5c337febf81969996f980a3cddb7b562a5e659b6d1b4a1cb0f2068338fd"
+  },
+  "geo/sekzioak/2012/20.json": {
+   "bytes": 338847,
+   "sha256": "f87c4a4b1f494bf2de6029b875152adeb5fc3a8ef4f4938c9f871cd14faab168"
+  },
+  "geo/sekzioak/2012/21.json": {
+   "bytes": 486197,
+   "sha256": "6f6e97308d9288a8141ad6607934e9c39ae70b0fb06a9f15c3d23baa176bda83"
+  },
+  "geo/sekzioak/2012/22.json": {
+   "bytes": 620734,
+   "sha256": "9a2cb0c1974abf43ddb195908914c5733f762bb9403ebbfeee8bde61233f8363"
+  },
+  "geo/sekzioak/2012/23.json": {
+   "bytes": 679115,
+   "sha256": "f615838c7f84fa9e65b54a334785823ae2e3e76213b0fc2560f4f6be655f5c7f"
+  },
+  "geo/sekzioak/2012/24.json": {
+   "bytes": 622759,
+   "sha256": "7dcaad92ba072bde75c7de112d291988a23cb579c7707d2227229b8bcf4530d9"
+  },
+  "geo/sekzioak/2012/25.json": {
+   "bytes": 600979,
+   "sha256": "5d5f53085314d0cc37366721b821743434dbc75a2332d69d80f214ca81a58c75"
+  },
+  "geo/sekzioak/2012/26.json": {
+   "bytes": 370820,
+   "sha256": "2f7fb22eea598b343c6190e77bf5fc23aa2189f45430b7b361a8f3c9b4476704"
+  },
+  "geo/sekzioak/2012/27.json": {
+   "bytes": 474779,
+   "sha256": "e0c2a2c46016ff8d164218a96566e1e2dd946881e4e21f59d3400b2bda9ea8be"
+  },
+  "geo/sekzioak/2012/28.json": {
+   "bytes": 1643433,
+   "sha256": "4787a67704d5c64b76e34af77ee55ecaff1347d0a972fd994f9be234cef8510a"
+  },
+  "geo/sekzioak/2012/29.json": {
+   "bytes": 731582,
+   "sha256": "3232ff3c1b27938bf07eb683f1a72ba09ee26a7ce3d1c85a039f34f69a3fddb2"
+  },
+  "geo/sekzioak/2012/30.json": {
+   "bytes": 730652,
+   "sha256": "7144fab5845c990151b040479659606c030b0b3270f08513901dc05ebea895b5"
+  },
+  "geo/sekzioak/2012/31.json": {
+   "bytes": 747522,
+   "sha256": "c9350f362183851bf8f477acd520351823e40bb7962a11e084d71fb9bcf7b175"
+  },
+  "geo/sekzioak/2012/32.json": {
+   "bytes": 410793,
+   "sha256": "0c67f61b79ae2701555e6ee37865f05253c847cbdd43232b093cab2590ce2127"
+  },
+  "geo/sekzioak/2012/33.json": {
+   "bytes": 775995,
+   "sha256": "2fd3a4957132d69ada83d41accf862ac9b30eb145008d6be0ada1a66129d1bae"
+  },
+  "geo/sekzioak/2012/34.json": {
+   "bytes": 433156,
+   "sha256": "4b7c73cc36735e1b4fe7300472aba4281f96d7493632088befc57c9ddee15e17"
+  },
+  "geo/sekzioak/2012/35.json": {
+   "bytes": 538664,
+   "sha256": "f01f0627f135c71f8f68b5c166a69f639563b4c53920e7b9fac36a1765401bd4"
+  },
+  "geo/sekzioak/2012/36.json": {
+   "bytes": 580207,
+   "sha256": "26cbe42100018c7a383eee6086ce4a965253f50ce16dae362396df6bb0d50114"
+  },
+  "geo/sekzioak/2012/37.json": {
+   "bytes": 868896,
+   "sha256": "b658505b657fbf7409575bc13db8f192b968ce740140b3ed30592f3a0bb3b9a7"
+  },
+  "geo/sekzioak/2012/38.json": {
+   "bytes": 577109,
+   "sha256": "59af69f0a83b81706463fcdd07ed6e95a22d6553548d1ecdc1f53a1c516aa592"
+  },
+  "geo/sekzioak/2012/39.json": {
+   "bytes": 379393,
+   "sha256": "b0b161707987c0638fce0bd6419f9175935834b70f603adb8f9f779ff1f11989"
+  },
+  "geo/sekzioak/2012/40.json": {
+   "bytes": 399445,
+   "sha256": "0216da35266e41744cad951ac957c79aac2b53d1e7d351e4d94d65636ac071e3"
+  },
+  "geo/sekzioak/2012/41.json": {
+   "bytes": 845603,
+   "sha256": "8d0163ea1474e2f0fab6edaac1283107437f539c9a09e8e3b754c5a33c80afca"
+  },
+  "geo/sekzioak/2012/42.json": {
+   "bytes": 343022,
+   "sha256": "e66573c7df3676eb5f47047875a61576b629cfb555d1e92a678350c428653050"
+  },
+  "geo/sekzioak/2012/43.json": {
+   "bytes": 491412,
+   "sha256": "b33375602782aa3d9ca41013fbe5bf96b38d3fe700cbf1ec17b44f15800c6ae7"
+  },
+  "geo/sekzioak/2012/44.json": {
+   "bytes": 543167,
+   "sha256": "ebfec51f23c49c8a9007fc3a0a9f1c1b6234b273ed92a381f7f574a473dd31f7"
+  },
+  "geo/sekzioak/2012/45.json": {
+   "bytes": 765546,
+   "sha256": "0a7c15d850bed6e1f35b97eb8a743dc7e1b0c33e0257dc29a572b402a5b22f8e"
+  },
+  "geo/sekzioak/2012/46.json": {
+   "bytes": 977662,
+   "sha256": "da6081191b5601634a56a6beb2a55cbfffda7dfb3fa07efa75f52fa502d9f345"
+  },
+  "geo/sekzioak/2012/47.json": {
+   "bytes": 559952,
+   "sha256": "76330e57cd45914cc4c2c2788d1b05c363419a86fb6feb11d0115afe14b231e0"
+  },
+  "geo/sekzioak/2012/48.json": {
+   "bytes": 469917,
+   "sha256": "f362b082a2bb21a9e204165ed7741ef1e0538f0d786b39ab252d4faed45a4507"
+  },
+  "geo/sekzioak/2012/49.json": {
+   "bytes": 481058,
+   "sha256": "4a5789bd25de66c9f1afb4d8e82df8c5ed2f1759ddcbf6723bd8cc021835a09f"
+  },
+  "geo/sekzioak/2012/50.json": {
+   "bytes": 865534,
+   "sha256": "173632d7b0051d4b11df3ad4af0b475086151d2419027bc49ef022087849b620"
+  },
+  "geo/sekzioak/2012/51.json": {
+   "bytes": 18005,
+   "sha256": "b23ba9028cdf758d9eff72c39b318f32c269e8a34b50936f48eeed5deb14cb18"
+  },
+  "geo/sekzioak/2012/52.json": {
+   "bytes": 16162,
+   "sha256": "03445d707a7c756d76cba3fde8fa1d480403e2831256c8b1fd590a078c9e8f11"
+  },
+  "geo/sekzioak/2015/01.json": {
+   "bytes": 214442,
+   "sha256": "b92082aa4c0bc5f79c726d2759a9fadb2ee5a8d7669e9e8fe3d239b4e826c774"
+  },
+  "geo/sekzioak/2015/02.json": {
+   "bytes": 382207,
+   "sha256": "1a1c151efc5d8ec38e37c378914844cfcbc0bf2e639c6414d6e11066e3d5b676"
+  },
+  "geo/sekzioak/2015/03.json": {
+   "bytes": 660179,
+   "sha256": "78f6fc84753dcfca408e9245b6650a8e90f8a45869cc72e52284614aa2bc4bbf"
+  },
+  "geo/sekzioak/2015/04.json": {
+   "bytes": 500167,
+   "sha256": "e7edfec3064f90620c730871aabbcadbc21620999bfdaeb2dc7c3bb9cd26f080"
+  },
+  "geo/sekzioak/2015/05.json": {
+   "bytes": 549554,
+   "sha256": "737ca6bfbae0973ddce1073ddf3e49f7f2687a90ee694f4c2712dde96517391b"
+  },
+  "geo/sekzioak/2015/06.json": {
+   "bytes": 818525,
+   "sha256": "44ab2a7f7768df4001b1e1cb5323558aa7edc657f02efa5b6f736599f838e421"
+  },
+  "geo/sekzioak/2015/07.json": {
+   "bytes": 557527,
+   "sha256": "ff6d56e2dceffdc0ec394a42afce34cf71b3661d0fa75fb7a7a5d088718c657e"
+  },
+  "geo/sekzioak/2015/08.json": {
+   "bytes": 1592915,
+   "sha256": "9ee90f2902ab886e8c225e561067ca4d1e9b1e1893067b3726d650580ba56103"
+  },
+  "geo/sekzioak/2015/09.json": {
+   "bytes": 740612,
+   "sha256": "0a7431308bab206532b443389d9f04bf493462ff8bd4389afba4f4ce2ecbd0e8"
+  },
+  "geo/sekzioak/2015/10.json": {
+   "bytes": 831028,
+   "sha256": "1e9d7f7427f34b915c11d746a41631a1ad62acc90e4ae5dfb4e2dd105aa839e3"
+  },
+  "geo/sekzioak/2015/11.json": {
+   "bytes": 564779,
+   "sha256": "54581b61779a388ee425aeff94eb4d4d97fbd7b26d3ca4f24971ac15a9139bee"
+  },
+  "geo/sekzioak/2015/12.json": {
+   "bytes": 410628,
+   "sha256": "52bff6ede58b267702a45d4e8dc4b9d3dd64f87d6e78006d21fcc2ec1762baaf"
+  },
+  "geo/sekzioak/2015/13.json": {
+   "bytes": 623500,
+   "sha256": "e07fcfcdcc2262eb00b011d10b709659af3a7cd25f2e8a8a1673a70e9a531962"
+  },
+  "geo/sekzioak/2015/14.json": {
+   "bytes": 675072,
+   "sha256": "709af6be652923135cc5058b786fc20741bf4b769e88fe7ca8daeaa1ac5f6718"
+  },
+  "geo/sekzioak/2015/15.json": {
+   "bytes": 846490,
+   "sha256": "f48811edb6c9cb22f8c3a6564bd482303aecb3578f5155b339db6a365703ba70"
+  },
+  "geo/sekzioak/2015/16.json": {
+   "bytes": 560646,
+   "sha256": "07795a55bcc98bb7e20a4d6a90644b13824f4e5176b5c1ab9787775469175ace"
+  },
+  "geo/sekzioak/2015/17.json": {
+   "bytes": 556134,
+   "sha256": "ef52a897e86dba5c8e0a1d1aa4e3c7e743097074b2d9a4f60791f5863e3e2872"
+  },
+  "geo/sekzioak/2015/18.json": {
+   "bytes": 793918,
+   "sha256": "04d55fbec57a017457cae36d89d43e87a209744beb64151231e31d9983d98f84"
+  },
+  "geo/sekzioak/2015/19.json": {
+   "bytes": 635879,
+   "sha256": "4671117cf798d8e59d22a20130756e315db7b588b1fa1d67c28b2536c357182f"
+  },
+  "geo/sekzioak/2015/20.json": {
+   "bytes": 341373,
+   "sha256": "f1533c7df7d921dd562b7532f5ff436440cb86883e02df77e324bd72f30ce9ba"
+  },
+  "geo/sekzioak/2015/21.json": {
+   "bytes": 496419,
+   "sha256": "5d31405f5eb3de3557f865b20bc282d7014f3c3d1e888c831a9a03ff0d7125a3"
+  },
+  "geo/sekzioak/2015/22.json": {
+   "bytes": 621246,
+   "sha256": "ce7ce488f3c1977a4fc90ba19a9408e336f19d8897b0705e5a66abc433a19bcd"
+  },
+  "geo/sekzioak/2015/23.json": {
+   "bytes": 682283,
+   "sha256": "18d0b4d58fbbd21c2449f26816e892fc7e8766bcdfa5dce8d872d77d6cc62f3f"
+  },
+  "geo/sekzioak/2015/24.json": {
+   "bytes": 620744,
+   "sha256": "c400dac3f796cc01fef023d0cc964ab5ddb05f7ded7c44590658da02c2cd91d0"
+  },
+  "geo/sekzioak/2015/25.json": {
+   "bytes": 599049,
+   "sha256": "f71207f90cf5a42bcca7bbbf4f406c5397003d178d19fca1a2c809772fc63d3a"
+  },
+  "geo/sekzioak/2015/26.json": {
+   "bytes": 369296,
+   "sha256": "fc10d326cc66dc77ebf2712ea3493848392ee6471713ebafa3d9a2c19a815bdb"
+  },
+  "geo/sekzioak/2015/27.json": {
+   "bytes": 485525,
+   "sha256": "568c826c1d97e03fceb24099de1c56f9f4d9a0506c32170f5aa68bbab8bb47ac"
+  },
+  "geo/sekzioak/2015/28.json": {
+   "bytes": 1672100,
+   "sha256": "311609c6fc887e711afb2eef65c33e444af78f2b1adba1b351f311448ed1af09"
+  },
+  "geo/sekzioak/2015/29.json": {
+   "bytes": 744026,
+   "sha256": "074a30ee99603ca9e69863141dc2f52231602433b4ea6d8086dd24945f5fc9d1"
+  },
+  "geo/sekzioak/2015/30.json": {
+   "bytes": 740449,
+   "sha256": "226801034207d39458d6eb9377b620d993996b029f4f1476217eec7d8f3d731c"
+  },
+  "geo/sekzioak/2015/31.json": {
+   "bytes": 748397,
+   "sha256": "8923a8f17490933dc4a8791734f5a57ba569026af006d2e8da071f04c0ea0e21"
+  },
+  "geo/sekzioak/2015/32.json": {
+   "bytes": 403276,
+   "sha256": "76bd9c8d584c43ce96a8a43dd81f56ad36095e4a04072350c1938708f42e8d91"
+  },
+  "geo/sekzioak/2015/33.json": {
+   "bytes": 769798,
+   "sha256": "9d792cbf43013a283e933c1cc4d1875f9954481016d4f3476b4138a5ef452496"
+  },
+  "geo/sekzioak/2015/34.json": {
+   "bytes": 433840,
+   "sha256": "6a0d343752e077b76f3478bcb46e60df164ff1a52bab6e4118f4abb4cc4f4f71"
+  },
+  "geo/sekzioak/2015/35.json": {
+   "bytes": 544706,
+   "sha256": "42f0f2e881e85090f55bcf9fd671c99fd7199bcfafd0bdfeda74e817bc1ce532"
+  },
+  "geo/sekzioak/2015/36.json": {
+   "bytes": 598784,
+   "sha256": "dac3a4441610327d6f9af48643904a06c49947ef981056fa3334d7bc47d5c702"
+  },
+  "geo/sekzioak/2015/37.json": {
+   "bytes": 869778,
+   "sha256": "9aa2c013c961e77e296620c125ba238ef0bdb82850951a6aa5f69407503ecba9"
+  },
+  "geo/sekzioak/2015/38.json": {
+   "bytes": 582787,
+   "sha256": "1cd9283bc311db1f255fdd3b9f1eb97e5dc4c81084749816f07906777ec7c910"
+  },
+  "geo/sekzioak/2015/39.json": {
+   "bytes": 381689,
+   "sha256": "2ebc0b0988047d503ca38fbb1317d5567f51ded33bc224a9c952c59f503942ba"
+  },
+  "geo/sekzioak/2015/40.json": {
+   "bytes": 400260,
+   "sha256": "83425e6f3ec8a11313571d3f53d77f2599cb287a2e7131ff1c2ba45b2df9b5d8"
+  },
+  "geo/sekzioak/2015/41.json": {
+   "bytes": 857898,
+   "sha256": "abdc14522dad340b05b0017ee412160b2e487a916b53657a59680ff97cb4f982"
+  },
+  "geo/sekzioak/2015/42.json": {
+   "bytes": 342517,
+   "sha256": "df56d220a86c219e356662c815fa004c5c087de6b446b08201ebf0bcd3b7a57e"
+  },
+  "geo/sekzioak/2015/43.json": {
+   "bytes": 500318,
+   "sha256": "ddd90e3fdef5eade311ab9c2b05fe3bf271329b5c897c09835ee9e540495e629"
+  },
+  "geo/sekzioak/2015/44.json": {
+   "bytes": 547677,
+   "sha256": "9a97eeee512d52ea05125410f86bb23f8ca214fa20c82680655af24c134e503d"
+  },
+  "geo/sekzioak/2015/45.json": {
+   "bytes": 768798,
+   "sha256": "58a3bb0e6c959c9d4954fd6ada303a1123f3d9bce54b3345066a1dc227eeeb99"
+  },
+  "geo/sekzioak/2015/46.json": {
+   "bytes": 977197,
+   "sha256": "d89f1bf514fd399bba211d6d0f979c76c58cc74be20c997b4e5006f77d0b4f42"
+  },
+  "geo/sekzioak/2015/47.json": {
+   "bytes": 558003,
+   "sha256": "b725edf110a9fee271bb5049159a7d078ec60d19109bd6515af688901da5fca8"
+  },
+  "geo/sekzioak/2015/48.json": {
+   "bytes": 471191,
+   "sha256": "c6f9dfa92e03c5656e02c889b9e6c6ea6cb03e0ee1d0ddc9f47bdb9f24773fa2"
+  },
+  "geo/sekzioak/2015/49.json": {
+   "bytes": 481089,
+   "sha256": "d40681e095b5198bb0b1cc302ce6a49dfdc8ae01e6734a4f00a78bcd343065ad"
+  },
+  "geo/sekzioak/2015/50.json": {
+   "bytes": 863483,
+   "sha256": "2f93e1c4d9f3675cefa2913b7a5cbde5dc9ecc3a302a58179359853620fcc89e"
+  },
+  "geo/sekzioak/2015/51.json": {
+   "bytes": 18011,
+   "sha256": "f6937107c1a34497972fa46cbf1da92d6c42b0e841c9798c2284b5e1a63353ba"
+  },
+  "geo/sekzioak/2015/52.json": {
+   "bytes": 16486,
+   "sha256": "1cc4bfe9ce2498bbb8043a3e5e600d536d86fcbb385f41dc3edded176814d02e"
+  },
+  "geo/sekzioak/2016/01.json": {
+   "bytes": 214444,
+   "sha256": "7185a3c644b38bb6dc4da83318a82aceffa3f23ab7cb08cbdaac5accce0b68fa"
+  },
+  "geo/sekzioak/2016/02.json": {
+   "bytes": 382240,
+   "sha256": "fadb3830fc8b8d80bfcf6461e80c8b042bd11400517295c04b715cf0a0a2b1ae"
+  },
+  "geo/sekzioak/2016/03.json": {
+   "bytes": 664195,
+   "sha256": "71cce07549f31109058beb51b337dc4782002f7055bc0758b4017c6e098ba352"
+  },
+  "geo/sekzioak/2016/04.json": {
+   "bytes": 497657,
+   "sha256": "f2ff101ef0dc3a7615c6838ecada311ef21c1c01906e40e052f46a84ec67061e"
+  },
+  "geo/sekzioak/2016/05.json": {
+   "bytes": 548540,
+   "sha256": "a75fbdf45afbacfe5177847b6e7133d89af0efa3c59e5b88d41d9e12375d56fa"
+  },
+  "geo/sekzioak/2016/06.json": {
+   "bytes": 815228,
+   "sha256": "c3ffe801521fab583862db12fc50d61d4bf948775c1e9c362632d0e7f6dd17fd"
+  },
+  "geo/sekzioak/2016/07.json": {
+   "bytes": 558228,
+   "sha256": "9b0f5278af701fa62a3b28428d15fbd12f1f9e569ace26f7c09304215f39bd90"
+  },
+  "geo/sekzioak/2016/08.json": {
+   "bytes": 1593160,
+   "sha256": "01b90017b22540665900bf76971b0dbe5199a89a9c1069c26412ff90281d5e54"
+  },
+  "geo/sekzioak/2016/09.json": {
+   "bytes": 740184,
+   "sha256": "d1034e99606ebab0d202367ed80109b553313524e0dcf2135848f343d7dc6d6a"
+  },
+  "geo/sekzioak/2016/10.json": {
+   "bytes": 832869,
+   "sha256": "16ad224444dfaffb6d7eb54529d7867f221903b7063b9952d1b2665c801e34a6"
+  },
+  "geo/sekzioak/2016/11.json": {
+   "bytes": 564777,
+   "sha256": "0e7180cb2dfbc7d253358e05b48de6329ccfcd44e5adbf664529bcebfa60e111"
+  },
+  "geo/sekzioak/2016/12.json": {
+   "bytes": 410827,
+   "sha256": "a972fbf30c23ab98f4d37ac872b8233f90c5f765c5f83c6a5902fa72155c1466"
+  },
+  "geo/sekzioak/2016/13.json": {
+   "bytes": 623709,
+   "sha256": "43de93aebbbba2746529ac5e9c029e232859b410214625cbf09dcb88cf94f20b"
+  },
+  "geo/sekzioak/2016/14.json": {
+   "bytes": 675437,
+   "sha256": "444fccd43beb076b1cd3fe27e1a914bd87dc4e07300facf7dd31cdae1eb99795"
+  },
+  "geo/sekzioak/2016/15.json": {
+   "bytes": 848530,
+   "sha256": "c42f0d5ca482fc7a8844709f87682d479845d7f67ba71c53f9bd67d24e3c61db"
+  },
+  "geo/sekzioak/2016/16.json": {
+   "bytes": 560680,
+   "sha256": "ae248ff6e21500ab1383c4521b1cc19e7c04e255e26b06050ca56a1359d11a53"
+  },
+  "geo/sekzioak/2016/17.json": {
+   "bytes": 560681,
+   "sha256": "1ed32ad70c8044b37fd70525a099d67d67dcd8c8b45a0852a8c1fe2b22ddc726"
+  },
+  "geo/sekzioak/2016/18.json": {
+   "bytes": 794603,
+   "sha256": "90fddd44e4b1f32dd906882ecb6f81a145ebcdd3bf2f4377c82182fb1ff26763"
+  },
+  "geo/sekzioak/2016/19.json": {
+   "bytes": 636099,
+   "sha256": "c9d6bff73c374713421b37bfbe3493626921b28f271e166cca8eeafd618c51c5"
+  },
+  "geo/sekzioak/2016/20.json": {
+   "bytes": 341038,
+   "sha256": "254527df256c39aa536b81214d02e78e74e2b2f8f388a0dd4fd72eeb19218221"
+  },
+  "geo/sekzioak/2016/21.json": {
+   "bytes": 496321,
+   "sha256": "f1b6c9e8685797ebf70187fafd0555f2d44ce0048339aa7ab526867a29e85cf9"
+  },
+  "geo/sekzioak/2016/22.json": {
+   "bytes": 621238,
+   "sha256": "2170aca42438b46b3f70c2ad9720349c53f3efe69997894bcb94bc18175b2cb7"
+  },
+  "geo/sekzioak/2016/23.json": {
+   "bytes": 670495,
+   "sha256": "82c59a15ca7eaca18853836337da1392c5cfcb2625f12c8cfb6a207031f382e9"
+  },
+  "geo/sekzioak/2016/24.json": {
+   "bytes": 620396,
+   "sha256": "e68c1ea5506cdcc2aab277b4ef160ef23851d94041e0f6da2a3c05e3967847ad"
+  },
+  "geo/sekzioak/2016/25.json": {
+   "bytes": 597953,
+   "sha256": "3e5cb3bb8be0c9141c5c7dd757487eb872511bb9ce60d402ce259b2a8917f041"
+  },
+  "geo/sekzioak/2016/26.json": {
+   "bytes": 369290,
+   "sha256": "825d58e880e17dbd506158e3da8649bd1dc02d644fb05f7b0167d96ba504d570"
+  },
+  "geo/sekzioak/2016/27.json": {
+   "bytes": 475474,
+   "sha256": "2839be6d711169cb3b252113b15a6b103b4ee30aac8c8c04c5b21e9c0937828e"
+  },
+  "geo/sekzioak/2016/28.json": {
+   "bytes": 1672354,
+   "sha256": "d87d56157d9d335c9cb7a09daac362892a3123886e2a25037ff3eafda0fc8084"
+  },
+  "geo/sekzioak/2016/29.json": {
+   "bytes": 754267,
+   "sha256": "c445dcef6f69db50643afbacccf70dc80bd6c39a81c3c0e5a3d14f4f12295d6f"
+  },
+  "geo/sekzioak/2016/30.json": {
+   "bytes": 740803,
+   "sha256": "fadb5db07946a2d4663dc882eab2292a5e1f2569404b95ebc5c73f2661df1327"
+  },
+  "geo/sekzioak/2016/31.json": {
+   "bytes": 748429,
+   "sha256": "3e603955ffe359796ac945199cdcdf9fc32f76ae97d48a65bb7c42e783b0bac4"
+  },
+  "geo/sekzioak/2016/32.json": {
+   "bytes": 403233,
+   "sha256": "88acaf477c2b5f818860d720761cc641a6a6dd043eb513e630f4c7e28244251d"
+  },
+  "geo/sekzioak/2016/33.json": {
+   "bytes": 764154,
+   "sha256": "1dab7946442ab2393d1a5f657b52f3d9aeaab8a49a53c42efe16ee7b507d49ea"
+  },
+  "geo/sekzioak/2016/34.json": {
+   "bytes": 433837,
+   "sha256": "3618ca4d4677db2cfd13f8f9cce29a7c773fb3cf18745fd774ac0bcf6d31c3e8"
+  },
+  "geo/sekzioak/2016/35.json": {
+   "bytes": 544712,
+   "sha256": "7d66a1c4ba18a4f9517004ea8745c7c8b2a585dd0d52b2c33919dc2a18ef178e"
+  },
+  "geo/sekzioak/2016/36.json": {
+   "bytes": 600040,
+   "sha256": "4fef4be3fedc7bd60eeedceff0501ac45f113d7774f83b759dbf40d92f58e6a2"
+  },
+  "geo/sekzioak/2016/37.json": {
+   "bytes": 869939,
+   "sha256": "9d50bcdb8d6b377e018eebe076cd5b403a14232524c6af89ac66264e6bbca56f"
+  },
+  "geo/sekzioak/2016/38.json": {
+   "bytes": 582728,
+   "sha256": "23505ab6cbf234de7700d5c80c9cdc40bace1ec6cbe2de215ef38363d35ed20b"
+  },
+  "geo/sekzioak/2016/39.json": {
+   "bytes": 381735,
+   "sha256": "4de96d90efbeadc0215d283c85cae91ce2a40b5b77af80b1c413a27079f25322"
+  },
+  "geo/sekzioak/2016/40.json": {
+   "bytes": 404567,
+   "sha256": "bdcc73bb0612d714b9afcac9363c513c660b685385ae6970326813c7660baf68"
+  },
+  "geo/sekzioak/2016/41.json": {
+   "bytes": 857796,
+   "sha256": "4506d650e745b4db6f5b5a4ed6012ba005b6a6ad4f133fa0237b12690c227a06"
+  },
+  "geo/sekzioak/2016/42.json": {
+   "bytes": 342605,
+   "sha256": "c430896dc8adb201e0e71f22a3b70ca7870e853a21ed18c6e4c7d3ba37198607"
+  },
+  "geo/sekzioak/2016/43.json": {
+   "bytes": 499861,
+   "sha256": "380f84fc9968fa3ea6cc8a79a92a46f4fc022435674fede0e3517f6cdf5a9f5a"
+  },
+  "geo/sekzioak/2016/44.json": {
+   "bytes": 547677,
+   "sha256": "c3e71d4cc47971a3a34900f03c5d2dbf593eaf19be6e80a04bc6046cd3effdbc"
+  },
+  "geo/sekzioak/2016/45.json": {
+   "bytes": 768828,
+   "sha256": "21133e9bf0c8f930d0fffe8ce41ecfa177f7f5efbf0aedd9efcbc93532a357bb"
+  },
+  "geo/sekzioak/2016/46.json": {
+   "bytes": 976218,
+   "sha256": "f0b6b5c68a172f3e33b1519e09a9b1ae1402e18d5c7dd562f604e6f356a6d183"
+  },
+  "geo/sekzioak/2016/47.json": {
+   "bytes": 558001,
+   "sha256": "2420e6296abf4f128b2188d4f09c1982add0a7dd2eb50f8333c3d06829931aee"
+  },
+  "geo/sekzioak/2016/48.json": {
+   "bytes": 471269,
+   "sha256": "773b644ba7d9433acaf20b1f1f8b6a22c9cc9d49c81a9e7fb3e913ceb9f6cae7"
+  },
+  "geo/sekzioak/2016/49.json": {
+   "bytes": 481091,
+   "sha256": "b947cca2734e747d199d946a0d2726013e704270653ea98855198c0b5ac94823"
+  },
+  "geo/sekzioak/2016/50.json": {
+   "bytes": 864063,
+   "sha256": "d77ae4c6d7005697fba2ed51a6a475acfe19dae8f1823ee1e923ecb82ba6e499"
+  },
+  "geo/sekzioak/2016/51.json": {
+   "bytes": 18012,
+   "sha256": "9ec3a035390d6f506df50a56452897ad32e19171137a31e12403d3163b0de2c8"
+  },
+  "geo/sekzioak/2016/52.json": {
+   "bytes": 16488,
+   "sha256": "ba9979d74c57c8ee20f8ecbdf0f9ca0ae78ee92ebce5c705f8ff03d377590372"
+  },
+  "geo/sekzioak/2019/01.json": {
+   "bytes": 209291,
+   "sha256": "2ce1f06abfe010607ccce1725e99fb96d3dc2c45a372e7292de72a85a7678fd6"
+  },
+  "geo/sekzioak/2019/02.json": {
+   "bytes": 382122,
+   "sha256": "40135838d9fdd77c6820d2359f385227dc12605ee3198dbe64fed93e58e93a32"
+  },
+  "geo/sekzioak/2019/03.json": {
+   "bytes": 665162,
+   "sha256": "7d05d6ce50bc783352b2e4931a07b1294ffa79daf857aa6a8d15db81d5efea69"
+  },
+  "geo/sekzioak/2019/04.json": {
+   "bytes": 498320,
+   "sha256": "e96779ed1122dc2e237f7e391da559904eb83f2004316f2717cf7cd6e571961e"
+  },
+  "geo/sekzioak/2019/05.json": {
+   "bytes": 552727,
+   "sha256": "5fbf2868ff61fa2f1b5409f149f0423bfb601631d914e09928d3abfaa3a54842"
+  },
+  "geo/sekzioak/2019/06.json": {
+   "bytes": 816962,
+   "sha256": "4f34f29d7d7ed5c60f5fbedfac489682f0e5c4eb5531d4b3461608c2829d2230"
+  },
+  "geo/sekzioak/2019/07.json": {
+   "bytes": 561610,
+   "sha256": "b8bf49d6afeec09ef86f7c97365543dc12d79df2270b007c53c4420382f8511d"
+  },
+  "geo/sekzioak/2019/08.json": {
+   "bytes": 1626132,
+   "sha256": "15fb5e77d1a6be7593830ea113f46a9457cb293d6370f8881c03977ad8e667c3"
+  },
+  "geo/sekzioak/2019/09.json": {
+   "bytes": 741684,
+   "sha256": "d156b08d8b32de9d4ae96f04f7772890a38e94fb4ed80cbb30863f399bc05358"
+  },
+  "geo/sekzioak/2019/10.json": {
+   "bytes": 830911,
+   "sha256": "3b0c292714a4fa2e07d9867628c2d6fe84bf7dffefff444864e46b99712cfc95"
+  },
+  "geo/sekzioak/2019/11.json": {
+   "bytes": 614316,
+   "sha256": "0517dc17c504dd579c5599778801ace3c39abf345dfcbe23f7973740358a250e"
+  },
+  "geo/sekzioak/2019/12.json": {
+   "bytes": 411904,
+   "sha256": "c3e1e8717e82745c56cf0790e67f00072294927b5cc1a6d22ba4e72499cada78"
+  },
+  "geo/sekzioak/2019/13.json": {
+   "bytes": 621654,
+   "sha256": "49df4702055eebcf46b3f9935ab006aa37056faf275807e8ceb71bb134506db0"
+  },
+  "geo/sekzioak/2019/14.json": {
+   "bytes": 677939,
+   "sha256": "3270b0bd2b17323562a8eac6bcf4cc1b8e1adef39b8bf4fcdfaab825be72498e"
+  },
+  "geo/sekzioak/2019/15.json": {
+   "bytes": 889449,
+   "sha256": "6787f8baaf78af6bdacbe104ac4751955c055be630076e0b98ca5342eb65ae4c"
+  },
+  "geo/sekzioak/2019/16.json": {
+   "bytes": 560963,
+   "sha256": "bcedc0f84154f7ac75591da716a4d0f11f781d9d1d95aa19cac9dd6434624d57"
+  },
+  "geo/sekzioak/2019/17.json": {
+   "bytes": 570344,
+   "sha256": "80fb0503bbaf5008b406bddc6288950813bc4a229380ee5569a86709691a1540"
+  },
+  "geo/sekzioak/2019/18.json": {
+   "bytes": 816215,
+   "sha256": "94b947449f5c2e13e2d19d07cccdfbd7bcd8df4cf4a6abfbca9a348d59471da9"
+  },
+  "geo/sekzioak/2019/19.json": {
+   "bytes": 635415,
+   "sha256": "6cb0bc680eee78557f323328a12dad07adb08ebacf3a7329c17350a0ae0ba8d4"
+  },
+  "geo/sekzioak/2019/20.json": {
+   "bytes": 343566,
+   "sha256": "9456f8d4f0daa4daa49d095027aa3a94473b004b19460fa77eac0375b5ac5d97"
+  },
+  "geo/sekzioak/2019/21.json": {
+   "bytes": 542306,
+   "sha256": "009006e1d7e17f92d9f6c77256103d6d53b13008f4f03152ac156fecb5e064dd"
+  },
+  "geo/sekzioak/2019/22.json": {
+   "bytes": 619351,
+   "sha256": "70db5625a30121fb5f1ac7998ef60f95195a208b622acf5d6df6060d0b74dc22"
+  },
+  "geo/sekzioak/2019/23.json": {
+   "bytes": 667570,
+   "sha256": "3fa7445f6bbdca1e9b26493004e8ba613073cfb97febf9b9fc1f24fdb1dd44c3"
+  },
+  "geo/sekzioak/2019/24.json": {
+   "bytes": 623777,
+   "sha256": "03f67ae60bc18c1c9b1bdd6864b331d1a4801417dc333f7dfc8e1b4c7e824687"
+  },
+  "geo/sekzioak/2019/25.json": {
+   "bytes": 599656,
+   "sha256": "ea45018b2fb08f99e259c7ace8919226792070c8eb90b3ca64644882c04d8cb8"
+  },
+  "geo/sekzioak/2019/26.json": {
+   "bytes": 370889,
+   "sha256": "fa3c9da2c905297e96bc2b2228090a9e4024083e30f91ad841439f654fcdc177"
+  },
+  "geo/sekzioak/2019/27.json": {
+   "bytes": 472050,
+   "sha256": "b0504885eb3c198b4cc2cdb1a77dfae2fbe968f9081a9c2c09a6bd36eb14b74f"
+  },
+  "geo/sekzioak/2019/28.json": {
+   "bytes": 1698670,
+   "sha256": "9b0ed54589d4c9ff1d73be26b7cc7ba9341c4a9293728df19e2982eae68b0ea5"
+  },
+  "geo/sekzioak/2019/29.json": {
+   "bytes": 768555,
+   "sha256": "653c798412831e66d9c1f85b3a5cf28c0ccbada5325d71b60979b2c039d0cd92"
+  },
+  "geo/sekzioak/2019/30.json": {
+   "bytes": 740010,
+   "sha256": "857bff1e7c3ff5d8992d60cb2835dbd65b736c8f78f0b48cf55b31c435e41473"
+  },
+  "geo/sekzioak/2019/31.json": {
+   "bytes": 749789,
+   "sha256": "29ef7fd65eda0f4a63561688847ff0750592d269ac39f7961bd72f6ba1d9fd27"
+  },
+  "geo/sekzioak/2019/32.json": {
+   "bytes": 398145,
+   "sha256": "d693bc6d2728c573ae87b77498d67e8d4cdf4cbcaa1c771000e15cfd6579a6e8"
+  },
+  "geo/sekzioak/2019/33.json": {
+   "bytes": 769382,
+   "sha256": "ae62f72a5fd4a0852dd4230ce346b68e7a50de37d78caa14d20106453a723aad"
+  },
+  "geo/sekzioak/2019/34.json": {
+   "bytes": 430412,
+   "sha256": "76c8f9dbc7d4432b53ceb0efe325f141863183051d92159eff57101b18e1b309"
+  },
+  "geo/sekzioak/2019/35.json": {
+   "bytes": 549251,
+   "sha256": "2a094f0ace577d2c3c71babcde6dd546b1e1cbec27ed37199a01514b5981f773"
+  },
+  "geo/sekzioak/2019/36.json": {
+   "bytes": 601846,
+   "sha256": "93d21c17835bda172e63c18c54417eba266d9812036084475e728723c1cc869b"
+  },
+  "geo/sekzioak/2019/37.json": {
+   "bytes": 870306,
+   "sha256": "ec1e137ee4c0d3c5238ca251072faa72e35215872786b1880c160da36acddc7d"
+  },
+  "geo/sekzioak/2019/38.json": {
+   "bytes": 584663,
+   "sha256": "b428162e0842e9d99ae9ff7f5945b9db38ccfc879453ef80fbdbc631342d795b"
+  },
+  "geo/sekzioak/2019/39.json": {
+   "bytes": 382542,
+   "sha256": "53f88ef10a3897dd1e2d81b7e04e58b4e3732fadd99c2b8cecabe295ce7a0ee9"
+  },
+  "geo/sekzioak/2019/40.json": {
+   "bytes": 405231,
+   "sha256": "12c75ff3e6889c0aead9607136bb82be34e910d20bf6619d909931f3a20b8863"
+  },
+  "geo/sekzioak/2019/41.json": {
+   "bytes": 870627,
+   "sha256": "4ad206e7838c864435af4a3d16601d6f0d799d757a220ba5ce1ae8c3f24482cb"
+  },
+  "geo/sekzioak/2019/42.json": {
+   "bytes": 342607,
+   "sha256": "d10f56a2367e07178ef395dd46b95a24c8cd416a7aa4e8ec42bc38aa9a56e09f"
+  },
+  "geo/sekzioak/2019/43.json": {
+   "bytes": 503047,
+   "sha256": "9d0d0e9c2c10c61d1c8549b55f3820d88729991bfab3e82834b2c073bcfa7cc6"
+  },
+  "geo/sekzioak/2019/44.json": {
+   "bytes": 549522,
+   "sha256": "4f4d582bae7af048c09509e86b62515231000567c9d131b0d30cae6f15010b3d"
+  },
+  "geo/sekzioak/2019/45.json": {
+   "bytes": 771841,
+   "sha256": "d325de89db349c9772571932f8023aded973affbdeaf934326dc65cfeab6e291"
+  },
+  "geo/sekzioak/2019/46.json": {
+   "bytes": 987693,
+   "sha256": "96ad4e5ff7bd8f36c8ce56d1ff926cf981a00bdcd1071073656b127b733888cd"
+  },
+  "geo/sekzioak/2019/47.json": {
+   "bytes": 558469,
+   "sha256": "8989a482f053b7335524269651cd25bf5818693027eebf68e2f98915eb29baaf"
+  },
+  "geo/sekzioak/2019/48.json": {
+   "bytes": 469930,
+   "sha256": "85874fcbd32c4089bbfe5cb756413ffa28223b2a16876aaf618512ca2c4f68c3"
+  },
+  "geo/sekzioak/2019/49.json": {
+   "bytes": 481092,
+   "sha256": "63174c0da8dd623150b22770fadc841f8f69b52b9883a24591c09a4df8515df8"
+  },
+  "geo/sekzioak/2019/50.json": {
+   "bytes": 867553,
+   "sha256": "f12da0d231f1b0c42b65010e0cb93ea9798520b69e26402a6bd54c616dab2607"
+  },
+  "geo/sekzioak/2019/51.json": {
+   "bytes": 20372,
+   "sha256": "0a0485ab7362664a7edc800c5fa507fd66e7fdbe72665c2f4c339874910d0c9b"
+  },
+  "geo/sekzioak/2019/52.json": {
+   "bytes": 16448,
+   "sha256": "11560a78b746377b89496a9ec07702e1a682d478984a5010cba0a8715f5e05a4"
+  },
+  "geo/sekzioak/2020/01.json": {
+   "bytes": 208965,
+   "sha256": "8e3f7dd1e4e4efcb97c226b4bafb1525440808fcdc4a27b2297f9c334004c774"
+  },
+  "geo/sekzioak/2020/02.json": {
+   "bytes": 381718,
+   "sha256": "fd634b9a9ca93bc5bc31c81c9931f060adf2c85b6df73455cf82ca9e0dce281d"
+  },
+  "geo/sekzioak/2020/03.json": {
+   "bytes": 664326,
+   "sha256": "f97b7a72a75276ff9ae0aa3641667dc2a188cf353f699211bd9df4d730c6c3f4"
+  },
+  "geo/sekzioak/2020/04.json": {
+   "bytes": 498075,
+   "sha256": "aaacfe62597b0640a9d1b60c7e22c65082eb0156a51bca7bc017fc98361c29f2"
+  },
+  "geo/sekzioak/2020/05.json": {
+   "bytes": 553239,
+   "sha256": "e187a6a108edfaecca28a1e003a242f85cf0264c18a6ae93b32e9c0d4a11a3bb"
+  },
+  "geo/sekzioak/2020/06.json": {
+   "bytes": 816533,
+   "sha256": "6f0697caa5eb57b0831e8b4b281f36054cdfe7f0deb1a44672dc907bc2cfbbfa"
+  },
+  "geo/sekzioak/2020/07.json": {
+   "bytes": 560776,
+   "sha256": "687c360216c1ba9203d25c15ff5fe83ed8dcc9e5c96ccd5d7a4cb7471237b202"
+  },
+  "geo/sekzioak/2020/08.json": {
+   "bytes": 1614435,
+   "sha256": "625af2081005713efbc32149fd0e9ce1364ef6aa86e692738de94bea6efe3b40"
+  },
+  "geo/sekzioak/2020/09.json": {
+   "bytes": 741232,
+   "sha256": "dbd8d24c2b31b46305774b5be837745194417a89a0936d3426d6a1f99150c6cd"
+  },
+  "geo/sekzioak/2020/10.json": {
+   "bytes": 830797,
+   "sha256": "f151598c711e936e450f6ec7d1d8ae89b7b1201957b80295e9bcc2bbf1e8e733"
+  },
+  "geo/sekzioak/2020/11.json": {
+   "bytes": 574752,
+   "sha256": "cb415a65769730b176cd5049d497e0c1005849462d6d2271849dafbe4a003095"
+  },
+  "geo/sekzioak/2020/12.json": {
+   "bytes": 410570,
+   "sha256": "d3415dc6e37061f504f802b21553e51532fecea1cea60da660c0aec3bc712aaa"
+  },
+  "geo/sekzioak/2020/13.json": {
+   "bytes": 621397,
+   "sha256": "0331dbc3b34223bfee7444399319d9319fb61480ac636ea28755bff03b5eb3c7"
+  },
+  "geo/sekzioak/2020/14.json": {
+   "bytes": 672287,
+   "sha256": "f26483bb023769c0e9bbb848fa4d9ade6d8cc5426c8f167a495c85232902b8d6"
+  },
+  "geo/sekzioak/2020/15.json": {
+   "bytes": 838148,
+   "sha256": "bed831354bb60ccdb78bd5fbc0d371e2ce839aad64fd1e2d054af7e0970686d1"
+  },
+  "geo/sekzioak/2020/16.json": {
+   "bytes": 560663,
+   "sha256": "2289d5f73a66fb847e8e3046f33a092a964b115dbdb508028a1ce3ee73f57085"
+  },
+  "geo/sekzioak/2020/17.json": {
+   "bytes": 570305,
+   "sha256": "b22c394bea389df367756bc63b88ca6d44c0c52cce929599c8ed0ea19cbe5baa"
+  },
+  "geo/sekzioak/2020/18.json": {
+   "bytes": 797160,
+   "sha256": "12c62f2aaeaf6891f4b3577e44432890f1502c69c0412bcc22cd6ad88f5a7039"
+  },
+  "geo/sekzioak/2020/19.json": {
+   "bytes": 635299,
+   "sha256": "ce83531423b719cf696e831a577f605aeb505b9acc28a58993e2929674d7cb49"
+  },
+  "geo/sekzioak/2020/20.json": {
+   "bytes": 343724,
+   "sha256": "9a84a80bd778dd7a5a6ef200c82e84c42d4358549b75d5f82565329287676306"
+  },
+  "geo/sekzioak/2020/21.json": {
+   "bytes": 504471,
+   "sha256": "bdf92753d25558391010d14af21cb4adce749af75fe6231d4bdd908781503e9b"
+  },
+  "geo/sekzioak/2020/22.json": {
+   "bytes": 618586,
+   "sha256": "253f52d29fb24852ec59c8aade5b451c1d0ddf8703c1d3f112e6648524cf1430"
+  },
+  "geo/sekzioak/2020/23.json": {
+   "bytes": 667233,
+   "sha256": "6fca1f1c0837fa2abadab8f8502bc1e2e3ff855d787b889f793c85deb706b2e8"
+  },
+  "geo/sekzioak/2020/24.json": {
+   "bytes": 624359,
+   "sha256": "5f4f541ff5d8c8ac01246425137e263fe56c9b7f1dfdc4dec1d4706596bedde7"
+  },
+  "geo/sekzioak/2020/25.json": {
+   "bytes": 599524,
+   "sha256": "e0f13b0ee18febacfdaa5b8441fa5a053c3c1dd6e1f7ff48b54b46dc6997bddc"
+  },
+  "geo/sekzioak/2020/26.json": {
+   "bytes": 370889,
+   "sha256": "fa3c9da2c905297e96bc2b2228090a9e4024083e30f91ad841439f654fcdc177"
+  },
+  "geo/sekzioak/2020/27.json": {
+   "bytes": 469027,
+   "sha256": "8ca3c3f708ffdd23ec5f5f88e8384341950376b37c46a47d360a4b00173ba0d6"
+  },
+  "geo/sekzioak/2020/28.json": {
+   "bytes": 1698293,
+   "sha256": "e7d0904977e6d4d2734ea4d0c3e37f8908a3d18e1928154765c56036c09c1981"
+  },
+  "geo/sekzioak/2020/29.json": {
+   "bytes": 762082,
+   "sha256": "ff3ba949faa86713e85129c0f58d71749fd95ea642089e895d7e04e92a444f4a"
+  },
+  "geo/sekzioak/2020/30.json": {
+   "bytes": 738984,
+   "sha256": "80e79189061287939ea50553b51fbd4b99adc1c378cd987b14ef26d9080ae07c"
+  },
+  "geo/sekzioak/2020/31.json": {
+   "bytes": 748952,
+   "sha256": "eedf68b2affc42b82435cc279e47680ead1024fa790b04b83672c638957fb56d"
+  },
+  "geo/sekzioak/2020/32.json": {
+   "bytes": 394094,
+   "sha256": "33145d906dfcc2504c96c00d1756b383b04f8f0ce0d2a4ccf51140e82ea2d440"
+  },
+  "geo/sekzioak/2020/33.json": {
+   "bytes": 769105,
+   "sha256": "22a531d6ee1f76a16d20c13c238a6414a1b6dafef181d920cac31ab3a091f86c"
+  },
+  "geo/sekzioak/2020/34.json": {
+   "bytes": 430353,
+   "sha256": "341ca9f7887755b413f81411112a401d918d24c6006425b416aedd49f6a26b52"
+  },
+  "geo/sekzioak/2020/35.json": {
+   "bytes": 548554,
+   "sha256": "fbc97f5a9329ead9ab50ee78c68944488ff9ea59866270a890e3009303cdfc0f"
+  },
+  "geo/sekzioak/2020/36.json": {
+   "bytes": 592620,
+   "sha256": "0a1e098341f39ab02d3b19252fe98efb32f32e7e71efbb9815a549c64e32cf12"
+  },
+  "geo/sekzioak/2020/37.json": {
+   "bytes": 870206,
+   "sha256": "9bdb7705e3dfe468088e2c03f3b93bc06b6fbc8eadf194c80665d25e7ad83da1"
+  },
+  "geo/sekzioak/2020/38.json": {
+   "bytes": 584222,
+   "sha256": "cda71e76edf7a27b7826bf0b63ec7f8c46a28bfba7fecbd074e47a82049a4f8a"
+  },
+  "geo/sekzioak/2020/39.json": {
+   "bytes": 382573,
+   "sha256": "da59c4063dd7297f91f895973dd78720f0fd138e0e2db9168a1ab453a9e4545e"
+  },
+  "geo/sekzioak/2020/40.json": {
+   "bytes": 405231,
+   "sha256": "12c75ff3e6889c0aead9607136bb82be34e910d20bf6619d909931f3a20b8863"
+  },
+  "geo/sekzioak/2020/41.json": {
+   "bytes": 864007,
+   "sha256": "d4111c9cd8a8f9d8d60791d4232a75de98aacde5de85a6c6c444155efdfa3a2f"
+  },
+  "geo/sekzioak/2020/42.json": {
+   "bytes": 342607,
+   "sha256": "d10f56a2367e07178ef395dd46b95a24c8cd416a7aa4e8ec42bc38aa9a56e09f"
+  },
+  "geo/sekzioak/2020/43.json": {
+   "bytes": 502437,
+   "sha256": "8c2ba95fa1720052490a0756af246ea81e605f0f7f135902ec429a0423d2eb46"
+  },
+  "geo/sekzioak/2020/44.json": {
+   "bytes": 549221,
+   "sha256": "e12c96fac65ad5bdf69a999cf591dce895068ca8332b65a28fa68d5cac7611c9"
+  },
+  "geo/sekzioak/2020/45.json": {
+   "bytes": 771420,
+   "sha256": "ec1c60da9aba691df9528b3ea9bddf01359ef27e6ce7f337c8a7dba6bae84295"
+  },
+  "geo/sekzioak/2020/46.json": {
+   "bytes": 985767,
+   "sha256": "60f8aa07c0c0b8c23abd036bd5128e66fdf31caa3af3cee19a4b23b45b372752"
+  },
+  "geo/sekzioak/2020/47.json": {
+   "bytes": 558353,
+   "sha256": "630e0b9cd454bf789c6724dfae6de529d7886bd8a6f37e853ebec8667f44b3e5"
+  },
+  "geo/sekzioak/2020/48.json": {
+   "bytes": 469814,
+   "sha256": "8fb4f5ca850941f5b9218f3b09ceae0ea4f92e1a2c213195a57e6cab76d860a7"
+  },
+  "geo/sekzioak/2020/49.json": {
+   "bytes": 480138,
+   "sha256": "4992a35958d64d25ffe01ff3c62e2abf37785af3a1d9ee83890cdc035d6842d1"
+  },
+  "geo/sekzioak/2020/50.json": {
+   "bytes": 866240,
+   "sha256": "88dbc0a30e83276fccdd61e94b233c991d59782c23d08cf4b6632173226e03f9"
+  },
+  "geo/sekzioak/2020/51.json": {
+   "bytes": 20522,
+   "sha256": "04bcbc193fe4cdd2c312b371de818e9a938d9a8301c033a37390ca2ca400a353"
+  },
+  "geo/sekzioak/2020/52.json": {
+   "bytes": 16448,
+   "sha256": "11560a78b746377b89496a9ec07702e1a682d478984a5010cba0a8715f5e05a4"
+  },
+  "geo/sekzioak/2024/01.json": {
+   "bytes": 208965,
+   "sha256": "bed464267019bef96637853e535f272ab38ec180c6ffdbc8adc09f9890b3a320"
+  },
+  "geo/sekzioak/2024/02.json": {
+   "bytes": 382052,
+   "sha256": "efa1bc3d1ebe84f0e0733c39d0c65e33cc02a2216c0da7a46c9e63c73117613b"
+  },
+  "geo/sekzioak/2024/03.json": {
+   "bytes": 672816,
+   "sha256": "fe52016f028cb5ef5b6047b5cadf0639d5cfe6bfda19a1e2d0f9c840b156817a"
+  },
+  "geo/sekzioak/2024/04.json": {
+   "bytes": 491150,
+   "sha256": "200af6d7db9302dc9b2dcda50d428a41982406b0cfb3267aedb0ea470f6ceeea"
+  },
+  "geo/sekzioak/2024/05.json": {
+   "bytes": 551446,
+   "sha256": "3b2b0bb3fbb2523422ab5b7db80e975fd68a0760db06828bf348b2518519ab3d"
+  },
+  "geo/sekzioak/2024/06.json": {
+   "bytes": 817223,
+   "sha256": "6f1df69d3974326abfabd205a82ce1ad318c740f8806aef9ea7952440f8731bb"
+  },
+  "geo/sekzioak/2024/07.json": {
+   "bytes": 564733,
+   "sha256": "4e34629fad0b172c8c6992e9914fa4fb9640cf68e7de6f51e4be01c3f46e06c4"
+  },
+  "geo/sekzioak/2024/08.json": {
+   "bytes": 1629076,
+   "sha256": "da6a34dae55c36a01bcefc4388224d96bf5c82957e8f204d7cf4a9b8baec8544"
+  },
+  "geo/sekzioak/2024/09.json": {
+   "bytes": 740676,
+   "sha256": "36872f97fa270efde6726c814860373e4e0ee00e92837097024d20c6aac7f08f"
+  },
+  "geo/sekzioak/2024/10.json": {
+   "bytes": 828405,
+   "sha256": "8745acbf798600023c35c85ed4639c18a052827d3330ba4d9e806460ba697834"
+  },
+  "geo/sekzioak/2024/11.json": {
+   "bytes": 578052,
+   "sha256": "7f2aea5d2484fec21f44f07d4dbfae60f8018a9e3d2830572fcd1dc4e42bdd12"
+  },
+  "geo/sekzioak/2024/12.json": {
+   "bytes": 411188,
+   "sha256": "40546851da1ac5a06f443c03e4ada63ea16ce44a39abde7971197a14ed250f27"
+  },
+  "geo/sekzioak/2024/13.json": {
+   "bytes": 616544,
+   "sha256": "fc0ee018c2c4263f84e829b53d1cc1fcbaff897ee0fefa049accf23f718bb62c"
+  },
+  "geo/sekzioak/2024/14.json": {
+   "bytes": 677331,
+   "sha256": "84fbf638a0d12d4382fa72942cb7d523fd83d61d1583cbeabc9cef4f640c9f3f"
+  },
+  "geo/sekzioak/2024/15.json": {
+   "bytes": 836566,
+   "sha256": "8e79e5cef0119c977b510afa744db684b3a4479e7e8eef1bd670d65ee3f99ab5"
+  },
+  "geo/sekzioak/2024/16.json": {
+   "bytes": 561235,
+   "sha256": "1a1cb297459cc0db687aa621528de4b0ff03d9cfb474582b4e69ccdf3b9e6d2a"
+  },
+  "geo/sekzioak/2024/17.json": {
+   "bytes": 573335,
+   "sha256": "63b80bc24f85295e4e7d759847fedf1b50d864b790712d3cd25508c5244224be"
+  },
+  "geo/sekzioak/2024/18.json": {
+   "bytes": 791380,
+   "sha256": "b4ebeecd26136ac60be42dde43666f259eac60bedb5b2f8e25415596f2b6a82e"
+  },
+  "geo/sekzioak/2024/19.json": {
+   "bytes": 639895,
+   "sha256": "42782f48b0c53a3960e54f9c23bc584b5dbcb969c53e4ca4bb56d7ecd7e1b7a1"
+  },
+  "geo/sekzioak/2024/20.json": {
+   "bytes": 343369,
+   "sha256": "a2962f482ef1234e1631fa56c384750008ed0c64eebb68494071c56dded8fc1c"
+  },
+  "geo/sekzioak/2024/21.json": {
+   "bytes": 509077,
+   "sha256": "5ea311517044ebdbaab673ae5b212a457310f44de27ace5974c74a3263777c34"
+  },
+  "geo/sekzioak/2024/22.json": {
+   "bytes": 618907,
+   "sha256": "96c31bcf5a950359e935c75ffb604faa20cb0862ce903b6956418a12ea7dbaf4"
+  },
+  "geo/sekzioak/2024/23.json": {
+   "bytes": 655485,
+   "sha256": "ce9c1126777f9c2c35dcfbc26f6bea229781fd8f2db853a590cd61cf299f0ec5"
+  },
+  "geo/sekzioak/2024/24.json": {
+   "bytes": 626232,
+   "sha256": "c8d9790c374881b97a05258894369fc14036e0081d65b0c31138adc3ed9486ab"
+  },
+  "geo/sekzioak/2024/25.json": {
+   "bytes": 599560,
+   "sha256": "73f341bd3f623963347faedaacba82aae972ea9c100edf5f4fe95c553c72ce32"
+  },
+  "geo/sekzioak/2024/26.json": {
+   "bytes": 369987,
+   "sha256": "ea1952a54ed500325afea5cec026fdfa0e1e93b8743a3eb0fd3488dabf708370"
+  },
+  "geo/sekzioak/2024/27.json": {
+   "bytes": 463538,
+   "sha256": "dfdb38fe48ddf05a4859de11c2f5f182cfd8239f4ab8b748fd0084f06fdbe438"
+  },
+  "geo/sekzioak/2024/28.json": {
+   "bytes": 1722552,
+   "sha256": "022ca53fcaedf50809be3bcd21aebd2c63a908145a8016b47b970ca0a303cc68"
+  },
+  "geo/sekzioak/2024/29.json": {
+   "bytes": 775885,
+   "sha256": "86da0475d346ba596679a079a81524e4f68e30de597bfe28bf2296cc004a966e"
+  },
+  "geo/sekzioak/2024/30.json": {
+   "bytes": 738814,
+   "sha256": "f17d6125cc1b9ebca517b07d3fe277f86d820c8543ae26aed13c8c8a44aed8f1"
+  },
+  "geo/sekzioak/2024/31.json": {
+   "bytes": 752610,
+   "sha256": "393b3c20a8e1c076ca01da54fbf5d9dfac10acce274fbbc5112df5719bbe5e19"
+  },
+  "geo/sekzioak/2024/32.json": {
+   "bytes": 386713,
+   "sha256": "579c537b1da80f63ae5180063335a4848c22025a2a4d64e46cd5e6e1f9473bbd"
+  },
+  "geo/sekzioak/2024/33.json": {
+   "bytes": 752631,
+   "sha256": "b865d6fc92490c68802d5b58c0fc79fd4aa7f277928dbcdb74c5b8d7e6ee2a09"
+  },
+  "geo/sekzioak/2024/34.json": {
+   "bytes": 429136,
+   "sha256": "e8bf774994ecbd0bed301392f167524814333f5d0bcbb753bb03d2481e6100bc"
+  },
+  "geo/sekzioak/2024/35.json": {
+   "bytes": 551996,
+   "sha256": "5ec660aaec06ced1b746a947c49c21a1349d8f0459d396ddfac2f72dd52c8cdd"
+  },
+  "geo/sekzioak/2024/36.json": {
+   "bytes": 590282,
+   "sha256": "2e984b43049a4f6087a91c64e1eebfde10fe7e78c3281675579d15cdf2e1133e"
+  },
+  "geo/sekzioak/2024/37.json": {
+   "bytes": 871326,
+   "sha256": "8a006a18cb2f5d1a9d21c1fd234a76d99b88cc7c095061f6125b97179ce0fb0c"
+  },
+  "geo/sekzioak/2024/38.json": {
+   "bytes": 583990,
+   "sha256": "7d22a93bf56711556fdaaf854b04811e3c54b422f05dc132359b4f78336392b3"
+  },
+  "geo/sekzioak/2024/39.json": {
+   "bytes": 380883,
+   "sha256": "9015e3103b5840d37e575f1dca8287afdb01529bfa76d52e797ef6a201401f0c"
+  },
+  "geo/sekzioak/2024/40.json": {
+   "bytes": 405385,
+   "sha256": "87f1992fdedfccc2867a16be2a20c2e5649440084781ed64bcee300bb2e290ae"
+  },
+  "geo/sekzioak/2024/41.json": {
+   "bytes": 870112,
+   "sha256": "cf2f63c66e2ccd9a53587475fd28bb253b10b2cd3648fa38e3abdb1e2477414b"
+  },
+  "geo/sekzioak/2024/42.json": {
+   "bytes": 344832,
+   "sha256": "fd18da31a03870801662a5876130b2885a0a23818200bb3948ae35c818e2444f"
+  },
+  "geo/sekzioak/2024/43.json": {
+   "bytes": 502995,
+   "sha256": "32c66929068a7f1f64ddc3982dcb615d1536b47de6a93c68566b292bc6042f84"
+  },
+  "geo/sekzioak/2024/44.json": {
+   "bytes": 548598,
+   "sha256": "0f8b8bf012f25286de883741dacdc3d78ce9b80c211812c099efc1fbcf39be3f"
+  },
+  "geo/sekzioak/2024/45.json": {
+   "bytes": 768887,
+   "sha256": "9eec8ff6766b07943a84fc816b85ff4d8f66bdbba3eb256b74e60db2b5fe8315"
+  },
+  "geo/sekzioak/2024/46.json": {
+   "bytes": 996420,
+   "sha256": "8b243bce0a734c4433191c07851765fa5a775f401715d0824fb81f0829f3b082"
+  },
+  "geo/sekzioak/2024/47.json": {
+   "bytes": 556837,
+   "sha256": "826324951bb38eecc8b1bbe231819085ec6fbcb1616f5c8936f0b559d37e955d"
+  },
+  "geo/sekzioak/2024/48.json": {
+   "bytes": 470521,
+   "sha256": "2564e6e763b59e96fabea53d300424da75c2e5307fc41f1d9418014eeb5ef3f2"
+  },
+  "geo/sekzioak/2024/49.json": {
+   "bytes": 479704,
+   "sha256": "edc9b0383225fcbe98ef1bbfeb6b2946ded8155fde41ea4f4e44930363ea55db"
+  },
+  "geo/sekzioak/2024/50.json": {
+   "bytes": 869302,
+   "sha256": "03d4f6654685976f555bacfbb2bbba92b7b83e2877fe34b809e2b6f36ae7099c"
+  },
+  "geo/sekzioak/2024/51.json": {
+   "bytes": 20560,
+   "sha256": "ea5e441027dd2a4e4aa724c596e3e484073867f2a85dd4f711a260e1ea047e27"
+  },
+  "geo/sekzioak/2024/52.json": {
+   "bytes": 16488,
+   "sha256": "ba9979d74c57c8ee20f8ecbdf0f9ca0ae78ee92ebce5c705f8ff03d377590372"
+  }
+ },
+ "contraste": {
+  "202307": {
+   "comparadas": 197,
+   "sin_homologar": {
+    "BNG": 4,
+    "JUNTS": 4,
+    "PSOE": 13,
+    "SUMAR": 10,
+    "UPN": 1
+   },
+   "errores": [],
+   "avisos": [],
+   "defecto_max": 0.07368
+  },
+  "201911": {
+   "comparadas": 256,
+   "sin_homologar": {
+    "ECP-GUANYEM EL CANVI": 4,
+    "MÁS PAÍS-EQUO": 12,
+    "MÉS COMPROMÍS": 3,
+    "PODEMOS-IU": 14,
+    "PSC": 4,
+    "PSOE": 7,
+    "¡TERUEL EXISTE!": 1
+   },
+   "errores": [],
+   "avisos": [],
+   "defecto_max": 0.0308
+  }
+ }
+}

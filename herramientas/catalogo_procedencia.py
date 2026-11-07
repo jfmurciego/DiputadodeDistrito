@@ -3,11 +3,12 @@
 """Catálogo de procedencia único, derivado de los registros existentes (T-74).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
+CAMBIOS: 1.1.0 (T-89): sección «fuentes_secundarias» (manifiesto sha256 y contraste de nazioenbehatokia).
+  1.0.0: fichero nuevo.
 MOTIVO: la procedencia estaba repartida en cinco registros; este índice la junta por territorio y producto sin migrar
   a sus escritores.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/catalogo_procedencia_v1.0.0_20261107.py
 QUÉ HACE: lee (solo lectura) orchestracion/publicaciones_visor.json, orchestracion/archivo_r2.json,
   datos_abiertos/INDEX.json, orchestracion/productos_publicos.json, fuentes/catalogo_oficial.yaml,
   configuracion/catalogo_preparacion.yaml, configuracion/publicaciones.yaml (DOI) y los MANIFEST de datos/composicion y
@@ -21,6 +22,7 @@ Uso: python herramientas/catalogo_procedencia.py [--comprobar] [--informe] [--ra
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -41,6 +43,7 @@ ENTRADAS = {
     "publicaciones": "configuracion/publicaciones.yaml",
     "composicion": "datos/composicion/MANIFEST.json",
     "resultados": "datos/resultados/MANIFEST.json",
+    "fuente_secundaria": "orchestracion/fuente_nazioenbehatokia.json",
 }
 PUBLICADO = {"PUBLICABLE"}
 _SHA_EN_RUTA = re.compile(r"/([0-9a-f]{64})/")
@@ -224,12 +227,31 @@ def generar(raiz: Path = ROOT) -> dict:
     incoherencias.sort(key=lambda i: (i["nivel"], i["codigo"], i["territorio"] or "", i["producto"], i["detalle"]))
     oficiales = {k: {"proveedor": v.get("provider_abbreviation"), "url": v.get("url") or v.get("current_endpoint")}
                  for k, v in ((d["fuentes_oficiales"] or {}).get("sources") or {}).items()}
+    secundarias = {}
+    fs = d["fuente_secundaria"]
+    if fs:
+        huella = hashlib.sha256(json.dumps(fs["ficheros"], sort_keys=True).encode()).hexdigest()
+        contraste = fs.get("contraste") or {}
+        secundarias[fs["id"]] = {
+            "proveedor": fs["proveedor"], "url": fs["url"], "rol": fs["rol"], "contenido": fs["contenido"],
+            "ficheros": len(fs["ficheros"]), "sha256_ficheros": huella, "copia_r2_prefijo": fs["copia_r2_prefijo"],
+            "contraste": {k: {"comparadas": v["comparadas"], "errores": len(v["errores"]),
+                              "defecto_max": v["defecto_max"]} for k, v in sorted(contraste.items())},
+        }
+        for k, v in sorted(contraste.items()):
+            if v["errores"]:
+                inco("ERROR", fs["id"], k, "CONTRASTE_OFICIAL", f"{len(v['errores'])} partidos con más votos que la oficial")
+        for e in fs["elecciones"]:
+            if e["clave"] not in contraste:
+                inco("AVISO", fs["id"], e["clave"], "SIN_CONTRASTE_OFICIAL", "sin fuente oficial local para contrastar")
+        incoherencias.sort(key=lambda i: (i["nivel"], i["codigo"], i["territorio"] or "", i["producto"], i["detalle"]))
     niveles = [i["nivel"] for i in incoherencias]
     return {
         "schema": SCHEMA,
         "generado_por": "herramientas/catalogo_procedencia.py",
         "entradas": dict(sorted(ENTRADAS.items())),
         "fuentes_oficiales": oficiales,
+        "fuentes_secundarias": secundarias,
         "resumen": {
             "territorios": len(territorios),
             "productos": sum(len(t["productos"]) for t in territorios.values()),
