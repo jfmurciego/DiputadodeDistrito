@@ -4,7 +4,7 @@ Versión: 1.0.12
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: estado a 07-11 (Paso 0 y Paso 1 pendientes de fusión), cola T-38 a T-44 (oro, revisor, forense, Environments, hemiciclo, ensembles, Málaga/Barcelona/Alicante), asignación de los cuatro chats y turnos
+Cambios/motivo: estado a 07-11 (Paso 0 fusionado, Paso 1 pendiente), prioridad a los agentes con el producto en pausa, cola T-38 a T-44 (oro, revisor, forense, Environments, hemiciclo, ensembles, Málaga/Barcelona/Alicante), asignación de los cuatro chats y turnos
 Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
 -->
 
@@ -41,23 +41,25 @@ Anterior: legacy/docs/PLAN_v1.0.11_20261107.md
   contradicción aritmética probada) → T-44.
 - Ensembles: Salamanca 10/10 publicada como escenario (run 41614546499); La Rioja y Sevilla 10/10 sin publicar → T-43.
 - Arquitectura de agentes (`docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md`, §11 y §12):
-  - **Paso 0** (framework P00-P60) · PR #427 · registro 1.0.95 · pendiente de fusión.
+  - **Paso 0** (framework P00-P60) · PR #427 · registro 1.0.95 · fusionada.
   - **Paso 1** · bloque 1 CI guardián de `main` · PR #428 · 1.0.96 · bloque 2 `CLAUDE.md`, `rules/` y hook de git ·
     PR #429 · 1.0.97 · bloque 3 skills de rol · PR #430 · 1.0.98. Hechos, **pendientes de fusión en orden
-    #427 → #428 → #429 → #430** (encadenadas) y después la PR de este plan (1.0.99).
+    #428 → #429 → #430** (encadenadas) y después la PR de este plan (1.0.99).
   - Siguientes del §12: (4) conjunto de oro → T-38; (5) revisor y forense → T-39, T-40; (6) Environments con
     aprobación → T-41.
 - PR abierta sin tarea: #425 (portal Zensical y auditoría de archivo, Cantabria 50 verificado). Se revisa con T-39
   cuando exista; no se fusiona antes.
-- Registro: último en `main` 1.0.94; 1.0.95-1.0.98 en la cadena; **1.0.99 este plan; siguiente libre 1.0.100**.
+- Registro: 1.0.95 en `main` (#427); 1.0.96-1.0.98 en la cadena; 1.0.99 este plan; reservados 1.0.100 (T-38),
+  1.0.101 (T-39) y 1.0.102 (T-40); **siguiente libre 1.0.103**.
 
 ### Asignaciones vigentes (07-11)
 | Chat | Rol | Tarea | Siguiente |
 |---|---|---|---|
-| «Paso 1 agentes DDD» | implementador de agentes (Opus) | T-38 conjunto de oro | T-39, T-40 |
-| «Implementador Motor» | ingeniero de motor (Opus) | T-44 Barcelona → Alicante → Málaga (con tope) | — |
-| «Implementador» | implementador (Sonnet) | T-42 hemiciclo y tabla | T-41 Environments |
-| «Operador» | operador único (Sonnet) | T-43 ensembles La Rioja y Sevilla (con permiso) | 00 de T-44, prueba de T-41 |
+| «Implementador nuevo» | constructor de agentes (Opus) | cadena #429-#430 al día; T-38 hecha en rama (PR tras #431) | T-39 + T-40 |
+| «Implementador Motor» | ingeniero de motor (Opus) | **en pausa** (T-44) | — |
+| «Implementador» | implementador (Sonnet) | **en pausa** (T-42), sesión inactiva | T-41 Environments |
+| «Operador» | operador único (Sonnet) | **en pausa** (T-43) | 00 de T-44, prueba de T-41 |
+| «Paso 1 agentes DDD» | — | sesión inactiva; T-38 a T-40 pasan a «Implementador nuevo» | — |
 | «DDD Plan» (este) | planificador | cola, registro, `PLAN.md` | — |
 
 El propietario habla solo con el planificador para el qué; los permisos de lanzar, publicar y fusionar los da en el chat
@@ -104,8 +106,10 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - Ruleset: `puerta_admision` fuera de checks obligatorios (solo corre si la PR toca contratos).
 
 ## 3. Cola de tareas (07-11)
-Orden: agentes (T-38 → T-39/T-40 → T-41) por el camino crítico; producto (T-42 a T-44) en paralelo, a demanda y con
-tope. Ninguna empieza hasta fusionar la cadena #427 → #430 (las skills de rol viven en `main`).
+**Prioridad del propietario (07-11): poner en uso los agentes; nada le interrumpe hasta lograrlo.** Camino crítico:
+fusionar #428 → #429 → #430 → #431 → T-38 (1.0.100) → T-39 (1.0.101) y T-40 (1.0.102). Producto (T-42 a T-44) en
+pausa: sin PR, sin preguntas al propietario y sin lanzamientos hasta que el revisor y el forense estén en `main`.
+T-41 va después. Las dudas de los chats van al planificador, no al propietario.
 
 ### T-38 · Conjunto de oro para revisor y forense (P1, §12 paso 4)
 - Alcance: casos de evaluación en `evals/oro/`: las 12 causas raíz del §9 del framework (run o PR de referencia,

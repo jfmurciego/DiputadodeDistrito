@@ -14,7 +14,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.98_paso1skills_20261107.md
 del §12 del framework: T-38 conjunto de oro, T-39 revisor, T-40 forense, T-41 Environments con aprobación; producto en
 paralelo y con tope: T-42 hemiciclo (tres sumas sobre 49 provincias, alcance confirmado), T-43 ensembles de La Rioja y
 Sevilla, T-44 Málaga, Barcelona y Alicante (dos ciclos por provincia). Asigna los cuatro chats y los turnos exclusivos;
-decisiones D-5 a D-7. Solo documentación · PR de este plan.
+decisiones D-5 a D-7. Prioridad del propietario: agentes en uso antes que nada; T-42 a T-44 en pausa. Solo documentación · PR de este plan.
 
 
 ## 2026-11-07 — Paso 1 (bloque 3) — Skills de rol y procedimiento
