@@ -1,7 +1,7 @@
 {
   "id": "CAL-01",
   "tipo": "calibracion",
-  "agente": "cualquiera",
+  "agente": "revisor",
   "titulo": "Candidato modificado tras la revisión",
   "causa": "Un veredicto ligado a un SHA no autoriza otro candidato: se invalida y se vuelve a revisar.",
   "origen": {

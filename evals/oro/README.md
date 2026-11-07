@@ -13,7 +13,7 @@ defectos históricos sobre el diff original (framework §8). Un JSON por caso en
 | Banco adversarial | ADV-01 a ADV-16 | revisor | `docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md` §7.2 |
 | Diff original con defecto probado | REV-17 a REV-19 | revisor | PR introductora → PR correctiva |
 | Controles limpios | ADV-05, CTRL-01 a CTRL-03 | revisor | PR fusionadas sin corrección posterior |
-| Calibración | CAL-01 a CAL-03 | cualquiera | metaagente v1.0 §29E |
+| Calibración | CAL-01 (revisor), CAL-02 (ambos), CAL-03 (forense) | según caso | metaagente v1.0 §29E |
 
 ## Esquema común
 

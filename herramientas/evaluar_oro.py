@@ -88,7 +88,7 @@ def validar_caso(c: dict) -> list[str]:
     tipo = c["tipo"]
     if tipo not in TIPOS:
         return e + [f"{cid}: tipo desconocido {tipo}"]
-    if c["agente"] != TIPOS[tipo]:
+    if c["agente"] != TIPOS[tipo] and not (tipo == "calibracion" and c["agente"] in ("revisor", "forense")):
         e.append(f"{cid}: agente {c['agente']} no corresponde a {tipo}")
     if not str(c["causa"]).strip() or "\n" in c["causa"]:
         e.append(f"{cid}: la causa es una línea no vacía")

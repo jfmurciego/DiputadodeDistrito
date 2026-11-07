@@ -1,7 +1,7 @@
 {
   "id": "CAL-03",
   "tipo": "calibracion",
-  "agente": "cualquiera",
+  "agente": "forense",
   "titulo": "Diagnóstico con lectura y sin permiso de escritura",
   "causa": "El forense diagnostica con lo que puede leer y propone el arreglo; no lanza, no relanza, no publica ni empuja.",
   "origen": {
