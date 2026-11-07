@@ -36,3 +36,9 @@ paths:
 - Fusión segura: `workflow_run` al terminar `pruebas-plataforma`; check-run `pruebas` del SHA exacto y de la check_suite
   que dispara (`workflow_run.check_suite_id`); `--match-head-commit` (#457, #460).
 - `dashboard/index.html` y `publicado/dashboard/index.html` deben ser idénticos; el publicador copia cada página enlazada (#459, #451).
+- El clasificador del arnés bloquea como «CI Bypass» / «Merge Without Review» / «Create Public Surface» las fusiones con `main`
+  en rojo, los dispatch públicos (05/06) y las escrituras externas (comentar/cerrar PR): hace falta frase explícita del
+  propietario por caso.
+- «`main` en verde» = ÚLTIMO run COMPLETADO de `pruebas-plataforma` en success. Con robots registrando, el run más reciente
+  casi nunca está terminado: una espera «run[0] completado» no acaba.
+- Una espera de fusión que dispara sola puede adelantarse a la orden (#455 antes que #457): páralas (TaskStop) si cambia el orden.

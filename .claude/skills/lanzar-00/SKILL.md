@@ -33,3 +33,6 @@ Efecto: el run queda esperando la aprobación del propietario en GitHub (entorno
 el operador no aprueba. Si el entorno aún no existe, GitHub lo crea sin reglas y no bloquea.
 Después: localiza el run por `TERRITORY:` en «Planificar», anótalo y termina el turno. Sin vigilar.
 Encadenados: si llega a M06 se lanza sola la activación y otra 00 «Reutilizar» como bot (desde #389, solo con la puerta 02).
+
+Nota (07-11): todo dispatch manual de 00/05/06 queda en `waiting` hasta el Approve del propietario; `extraer-composicion-m06`
+no espera. Decisión D-3: se publica en el visor cada provincia al terminar su 00, con permiso por provincia.

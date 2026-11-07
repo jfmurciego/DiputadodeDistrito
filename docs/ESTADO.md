@@ -1,25 +1,27 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-07 · Actualizar en cada PR de lecciones o de estado.
+Fecha: 2026-11-07 (noche) · Actualizar en cada PR de lecciones o de estado.
 
 ## PR abiertas
-- #463 T-67 composición sección→distrito y votos por partido (`no-automerge`; CI pendiente; fusionar con `pruebas` en verde, luego el Operador lanza `extraer-composicion-m06.yml` «todos»).
-- Coordinador: roles + lecciones (esta PR, `no-automerge`).
+- Ninguna de producto. #464 (roles) y #467 (revert de #462) fusionadas. Auto-merge activo y verificado (#465: `pruebas` 20:16:54, fusión 20:17:25).
 
-## Runs en curso
-- 00 Barcelona 42409499602 (aprobada, en curso); 00 Alicante 42409605030 y Málaga 42409615215 en `waiting` del entorno `produccion` (clic del propietario).
+## Runs en curso (aprobados por el propietario)
+- 00 Barcelona 42409499602, Alicante 42409605030, Málaga 42409615215 («Ejecutar desde el principio», `territorial_only`+`cadena_electoral`, sin publicar).
+- 00 Andalucía 42409764232 («Generar desde fuente territorial acreditada», electoral, sin publicar).
 
 ## Chats activos
 | Chat | Tarea |
 |---|---|
-| Operador (session_01KQDtFqsraJQeuw8tvfQg47) | 00 Barcelona, Alicante, Málaga (desde el principio) y Andalucía (fuente acreditada); ensembles Guadalajara y 9 más; extracción M06; republicar sitio |
-| Implementador nuevo (session_01KQDtFqecLysw6SpKyf7DKj) | Constructor de agentes e infraestructura; sin tarea |
-| T-67 Votos por partido (session_01KQDtFtbQBvVq6db2h4Bw66) | #463; luego extracción M06 (prioridad alta: los artefactos caducan) |
-| T-58 Álava y T-64 | Inactivos. T-64 EN PAUSA por decisión del propietario: lecciones sin aplicar (#462 ya fusionada) |
+| Planificador (session_01KQDtFsB1xxRnUwERbZc1pQ) | Ola nueva: prioridades y tareas |
+| Operador nuevo (session_01KQDtFrT2bfmm9SyeaFmTBq) | Relevo del anterior; sin permisos hasta que los dé el propietario. Pendiente: ensembles T-61, publicar cada provincia al acabar su 00 (D-3), sitio completo |
+| Implementador (session_01KQDtFrJjXiGDMASdLPo1ZK) | Agentes, infraestructura y motor; sin tarea |
+| T-64 Comarcas frente a partidos judiciales (session_01KQDtFtP8ktEcpGjEB2mC7p) | Estudio, red abierta (ine.es, mapa.gob.es, idescat.cat); sin cambiar C-13 |
+
+## Decisiones del propietario (07-11 noche)
+- D-3: se publica cada provincia al terminar su 00. Histórico 2019-11: todavía no. T-70 (D'Hondt) descartada.
+- #462 (partidos judiciales) revertida hasta el estudio de T-64. T-71 (reconstruir composición de 47 provincias): en espera de decisión.
+- Composición M06 recuperada en 16/63; no recuperables: 45 provincias + Ceuta y Melilla (artefactos caducados).
 
 ## Pendientes del propietario
-- `CLAUDE_CODE_OAUTH_TOKEN` no llega a Actions (revisor saltado 20:03): ponerlo en Settings → Secrets and variables → Actions → Repository secrets.
-- D-3: publicar en el visor cada provincia al terminar su 00 o todas al final (recomendado: cada una).
-- Confirmar que existe el entorno `produccion` (el primer lanzamiento manual debe quedar en «Waiting»).
-- Clic en `produccion` para Barcelona, Alicante y Málaga (o retirar la regla de revisores).
-- Auto-merge: `disabled_manually`; reactivarlo (`PUT …/workflows/auto-merge.yml/enable`) requiere su autorización en este chat.
+- Approve en `produccion` de los runs que queden en `waiting`; permisos de lanzar/publicar al Operador nuevo (ensembles T-61, publicaciones por provincia, sitio completo).
+- Comprobar que el revisor corre en la próxima PR (secreto `CLAUDE_CODE_OAUTH_TOKEN` actualizado).
