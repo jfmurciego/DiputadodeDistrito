@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.109
+Versión: 1.0.113
 Fecha: 2026-11-07
-Alcance: T-50 — CI más rápida: suite en cinco grupos paralelos
+Alcance: T-49 — Exenciones de suelo gobernadas
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t50-ci-rapida.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.108_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_t49-exenciones-gobernadas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.112_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,10 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.108_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.113 · [2026-11-07 — T-49 — Exenciones de suelo gobernadas](registro/2026-11-07_t49-exenciones-gobernadas.md)
+- 1.0.112 · [2026-11-07 — T-51 — Huella de motor, contrato y política en los checkpoints](registro/2026-11-07_claude-t51-huella-checkpoint.md)
+- 1.0.111 · [2026-11-07 — T-48 — Revisor y forense en CI](registro/2026-11-07_claude-t48-agentes-ci.md)
+- 1.0.110 · [2026-11-07 — T-47 — Archivista R2 de artefactos de Actions](registro/2026-11-07_claude-t-47-archivista-r2.md)
 - 1.0.109 · [2026-11-07 — T-50 — CI más rápida: suite en cinco grupos paralelos](registro/2026-11-07_claude-t50-ci-rapida.md)
 - 1.0.108 · [2026-11-07 — T-41 — Puerta humana de producción (environment produccion)](registro/2026-11-07_claude-t41-environment-produccion.md)
 - 1.0.107 · [2026-11-07 — Lecciones — Cierre de los chats del motor (T-22, T-44, T-07)](registro/2026-11-07_claude-lecciones-20261107.md)
