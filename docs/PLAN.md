@@ -88,6 +88,9 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
 
 ### Tomadas (07-11)
+- Fusiones sin intervención del propietario: el Operador fusiona por squash cada PR con `pruebas` en verde en la PR y en
+  `main`, en el orden de la cola, y pone al día la siguiente (merge de `main`, sin force). Fallo de CI: no relanza; informa al
+  planificador.
 - Hemiciclo: primera entrega con las tres sumas sobre las 49 provincias completas, marcando las tres que faltan, con
   script y página en el visor (la publicación sigue necesitando permiso, D-7).
 - Plan inmediato: §12 del framework en orden (oro, revisor y forense, Environments); producto en paralelo, a demanda
