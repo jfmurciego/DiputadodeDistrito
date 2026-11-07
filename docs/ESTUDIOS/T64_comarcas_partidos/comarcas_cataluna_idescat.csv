@@ -1,0 +1,949 @@
+# fuente: Idescat, Códigos territoriales y de entidades, municipios; https://www.idescat.cat/codis/?id=50&n=9&lang=es; descargado 2026-11-07; sha256 de la página 9111885f063810f4c32393c84cf9fb1a0073c31885b71b2e55a354be7f061033; comarcas oficiales de Cataluña (Ley 2/2023 / Aran incluida según Idescat)
+codigo_ine,nombre,id_comarca,comarca
+25001,Abella de la Conca,25,Pallars Jussà
+08001,Abrera,11,Baix Llobregat
+25002,Àger,23,Noguera
+25003,Agramunt,38,Urgell
+08002,Aguilar de Segarra,07,Bages
+17001,Agullana,02,Alt Empordà
+08014,Aiguafreda,24,Osona
+43001,Aiguamúrcia,01,Alt Camp
+17002,Aiguaviva,20,Gironès
+25038,Aitona,33,Segrià
+25004,"Alamús, els",33,Segrià
+25005,Alàs i Cerc,04,Alt Urgell
+25006,"Albagés, l'",18,Garrigues
+17003,Albanyà,02,Alt Empordà
+25007,Albatàrrec,33,Segrià
+25008,Albesa,23,Noguera
+25009,"Albi, l'",18,Garrigues
+43002,Albinyana,12,Baix Penedès
+43003,"Albiol, l'",08,Baix Camp
+17004,Albons,10,Baix Empordà
+43004,Alcanar,22,Montsià
+25010,Alcanó,33,Segrià
+25011,Alcarràs,33,Segrià
+25012,Alcoletge,33,Segrià
+43005,Alcover,01,Alt Camp
+43904,"Aldea, l'",09,Baix Ebre
+43006,Aldover,09,Baix Ebre
+43007,"Aleixar, l'",08,Baix Camp
+08003,Alella,21,Maresme
+43008,Alfara de Carles,09,Baix Ebre
+25013,Alfarràs,33,Segrià
+25014,Alfés,33,Segrià
+43009,Alforja,08,Baix Camp
+25015,Algerri,23,Noguera
+25016,Alguaire,33,Segrià
+25017,Alins,26,Pallars Sobirà
+43010,Alió,01,Alt Camp
+25019,Almacelles,33,Segrià
+25020,Almatret,33,Segrià
+25021,Almenar,33,Segrià
+43011,Almoster,08,Baix Camp
+25022,Alòs de Balaguer,23,Noguera
+17006,Alp,15,Cerdanya
+08004,Alpens,43,Lluçanès
+25023,Alpicat,33,Segrià
+25024,Alt Àneu,26,Pallars Sobirà
+43012,Altafulla,36,Tarragonès
+17007,Amer,34,Selva
+43013,"Ametlla de Mar, l'",09,Baix Ebre
+08005,"Ametlla del Vallès, l'",41,Vallès Oriental
+43906,"Ampolla, l'",09,Baix Ebre
+43014,Amposta,22,Montsià
+17008,Anglès,34,Selva
+25027,Anglesola,38,Urgell
+25029,Arbeca,18,Garrigues
+43016,"Arboç, l'",12,Baix Penedès
+43015,Arbolí,08,Baix Camp
+17009,Arbúcies,34,Selva
+08006,Arenys de Mar,21,Maresme
+08007,Arenys de Munt,21,Maresme
+17010,Argelaguer,19,Garrotxa
+08008,Argençola,06,Anoia
+43017,"Argentera, l'",08,Baix Camp
+08009,Argentona,21,Maresme
+17011,"Armentera, l'",02,Alt Empordà
+43018,Arnes,37,Terra Alta
+25031,Arres,39,Aran
+25032,Arsèguel,04,Alt Urgell
+08010,Artés,07,Bages
+25033,Artesa de Lleida,33,Segrià
+25034,Artesa de Segre,23,Noguera
+43019,Ascó,30,Ribera d'Ebre
+25036,Aspa,33,Segrià
+25037,"Avellanes i Santa Linya, les",23,Noguera
+08011,Avià,14,Berguedà
+08012,Avinyó,07,Bages
+17012,Avinyonet de Puigventós,02,Alt Empordà
+08013,Avinyonet del Penedès,03,Alt Penedès
+08015,Badalona,13,Barcelonès
+08904,Badia del Vallès,40,Vallès Occidental
+08016,Bagà,14,Berguedà
+25039,Baix Pallars,26,Pallars Sobirà
+25040,Balaguer,23,Noguera
+08017,Balenyà,24,Osona
+08018,Balsareny,07,Bages
+43020,Banyeres del Penedès,12,Baix Penedès
+17015,Banyoles,28,Pla de l'Estany
+25041,Barbens,27,Pla d'Urgell
+43021,Barberà de la Conca,16,Conca de Barberà
+08252,Barberà del Vallès,40,Vallès Occidental
+08019,Barcelona,13,Barcelonès
+25042,"Baronia de Rialb, la",23,Noguera
+17016,Bàscara,02,Alt Empordà
+25044,Bassella,04,Alt Urgell
+43022,Batea,37,Terra Alta
+25045,Bausen,39,Aran
+08020,Begues,11,Baix Llobregat
+17013,Begur,10,Baix Empordà
+25046,Belianes,38,Urgell
+25048,Bell-lloc d'Urgell,27,Pla d'Urgell
+25170,Bellaguarda,18,Garrigues
+17018,Bellcaire d'Empordà,10,Baix Empordà
+25047,Bellcaire d'Urgell,23,Noguera
+25049,Bellmunt d'Urgell,23,Noguera
+43023,Bellmunt del Priorat,29,Priorat
+08021,Bellprat,06,Anoia
+25050,Bellpuig,38,Urgell
+43024,Bellvei,12,Baix Penedès
+25051,Bellver de Cerdanya,15,Cerdanya
+25052,Bellvís,27,Pla d'Urgell
+25053,Benavent de Segrià,33,Segrià
+43025,Benifallet,09,Baix Ebre
+43026,Benissanet,30,Ribera d'Ebre
+08022,Berga,14,Berguedà
+17019,Besalú,19,Garrotxa
+17020,Bescanó,20,Gironès
+17021,Beuda,19,Garrotxa
+08023,Bigues i Riells del Fai,41,Vallès Oriental
+25055,Biosca,35,Solsonès
+17022,"Bisbal d'Empordà, la",10,Baix Empordà
+43027,"Bisbal de Montsant, la",29,Priorat
+43028,"Bisbal del Penedès, la",12,Baix Penedès
+17234,Biure,02,Alt Empordà
+43029,Blancafort,16,Conca de Barberà
+17023,Blanes,34,Selva
+17029,Boadella i les Escaules,02,Alt Empordà
+17024,Bolvir,15,Cerdanya
+43030,Bonastre,12,Baix Penedès
+25057,"Bòrdes, Es",39,Aran
+17025,Bordils,20,Gironès
+25058,"Borges Blanques, les",18,Garrigues
+43031,"Borges del Camp, les",08,Baix Camp
+17026,Borrassà,02,Alt Empordà
+08024,Borredà,14,Berguedà
+25059,Bossòst,39,Aran
+43032,Bot,37,Terra Alta
+43033,Botarell,08,Baix Camp
+25056,Bovera,18,Garrigues
+43034,Bràfim,01,Alt Camp
+17027,Breda,34,Selva
+08025,"Bruc, el",06,Anoia
+08026,"Brull, el",24,Osona
+17028,Brunyola i Sant Martí Sapresa,34,Selva
+43035,Cabacés,29,Priorat
+25060,Cabanabona,23,Noguera
+17031,Cabanelles,02,Alt Empordà
+17030,Cabanes,02,Alt Empordà
+08027,"Cabanyes, les",03,Alt Penedès
+25061,Cabó,04,Alt Urgell
+43036,Cabra del Camp,01,Alt Camp
+08028,Cabrera d'Anoia,06,Anoia
+08029,Cabrera de Mar,21,Maresme
+08030,Cabrils,21,Maresme
+17032,Cadaqués,02,Alt Empordà
+08031,Calaf,06,Anoia
+43037,Calafell,12,Baix Penedès
+08034,Calders,42,Moianès
+08032,Caldes d'Estrac,21,Maresme
+17033,Caldes de Malavella,34,Selva
+08033,Caldes de Montbui,41,Vallès Oriental
+08035,Calella,21,Maresme
+08037,Calldetenes,24,Osona
+08038,Callús,07,Bages
+08036,Calonge de Segarra,06,Anoia
+17034,Calonge i Sant Antoni,10,Baix Empordà
+25062,Camarasa,23,Noguera
+43903,Camarles,09,Baix Ebre
+43038,Cambrils,08,Baix Camp
+17035,Camós,28,Pla de l'Estany
+17036,Campdevànol,31,Ripollès
+17037,Campelles,31,Ripollès
+08039,Campins,41,Vallès Oriental
+17038,Campllong,20,Gironès
+17039,Camprodon,31,Ripollès
+25063,Canejan,39,Aran
+17040,Canet d'Adri,20,Gironès
+08040,Canet de Mar,21,Maresme
+43907,"Canonja, la",36,Tarragonès
+08041,Canovelles,41,Vallès Oriental
+08042,Cànoves i Samalús,41,Vallès Oriental
+17041,Cantallops,02,Alt Empordà
+08043,Canyelles,17,Garraf
+43039,Capafonts,08,Baix Camp
+43040,Capçanes,29,Priorat
+08044,Capellades,06,Anoia
+17042,Capmany,02,Alt Empordà
+08045,Capolat,14,Berguedà
+08046,Cardedeu,41,Vallès Oriental
+08047,Cardona,07,Bages
+08048,Carme,06,Anoia
+43041,Caseres,37,Terra Alta
+17044,Cassà de la Selva,20,Gironès
+08049,Casserres,14,Berguedà
+17048,"Castell d'Aro, Platja d'Aro i s'Agaró",10,Baix Empordà
+08057,Castell de l'Areny,14,Berguedà
+25904,Castell de Mur,25,Pallars Jussà
+25064,Castellar de la Ribera,35,Solsonès
+08052,Castellar de n'Hug,14,Berguedà
+08050,Castellar del Riu,14,Berguedà
+08051,Castellar del Vallès,40,Vallès Occidental
+08053,Castellbell i el Vilar,07,Bages
+08054,Castellbisbal,40,Vallès Occidental
+08055,Castellcir,42,Moianès
+25067,Castelldans,18,Garrigues
+08056,Castelldefels,11,Baix Llobregat
+08058,Castellet i la Gornal,03,Alt Penedès
+17046,Castellfollit de la Roca,19,Garrotxa
+08060,Castellfollit de Riubregós,06,Anoia
+08059,Castellfollit del Boix,07,Bages
+08061,Castellgalí,07,Bages
+08062,Castellnou de Bages,07,Bages
+25068,Castellnou de Seana,27,Pla d'Urgell
+17047,Castelló d'Empúries,02,Alt Empordà
+25069,Castelló de Farfanya,23,Noguera
+08063,Castellolí,06,Anoia
+25070,Castellserà,38,Urgell
+08064,Castellterçol,42,Moianès
+43042,Castellvell del Camp,08,Baix Camp
+08065,Castellví de la Marca,03,Alt Penedès
+08066,Castellví de Rosanes,11,Baix Llobregat
+43043,"Catllar, el",36,Tarragonès
+25071,Cava,04,Alt Urgell
+17189,"Cellera de Ter, la",34,Selva
+17049,Celrà,20,Gironès
+08067,Centelles,24,Osona
+08268,Cercs,14,Berguedà
+08266,Cerdanyola del Vallès,40,Vallès Occidental
+08068,Cervelló,11,Baix Llobregat
+25072,Cervera,32,Segarra
+25073,Cervià de les Garrigues,18,Garrigues
+17050,Cervià de Ter,20,Gironès
+17051,Cistella,02,Alt Empordà
+25074,Ciutadilla,38,Urgell
+25075,Clariana de Cardener,35,Solsonès
+25076,"Cogul, el",18,Garrigues
+17054,Colera,02,Alt Empordà
+25077,Coll de Nargó,04,Alt Urgell
+08069,Collbató,11,Baix Llobregat
+43045,Colldejou,08,Baix Camp
+08070,Collsuspina,42,Moianès
+17055,Colomers,10,Baix Empordà
+25163,"Coma i la Pedra, la",35,Solsonès
+25161,Conca de Dalt,25,Pallars Jussà
+43046,Conesa,16,Conca de Barberà
+43047,Constantí,36,Tarragonès
+08071,Copons,06,Anoia
+43048,Corbera d'Ebre,37,Terra Alta
+08072,Corbera de Llobregat,11,Baix Llobregat
+25078,Corbins,33,Segrià
+17057,Corçà,10,Baix Empordà
+08073,Cornellà de Llobregat,11,Baix Llobregat
+17056,Cornellà del Terri,28,Pla de l'Estany
+43049,Cornudella de Montsant,29,Priorat
+43050,Creixell,36,Tarragonès
+17058,Crespià,28,Pla de l'Estany
+17901,"Cruïlles, Monells i Sant Sadurní de l'Heura",10,Baix Empordà
+08074,Cubelles,17,Garraf
+25079,Cubells,23,Noguera
+43051,Cunit,12,Baix Penedès
+17060,Darnius,02,Alt Empordà
+17061,Das,15,Cerdanya
+43901,Deltebre,09,Baix Ebre
+08075,Dosrius,21,Maresme
+43053,Duesaigües,08,Baix Camp
+17062,"Escala, l'",02,Alt Empordà
+08076,Esparreguera,11,Baix Llobregat
+17063,Espinelves,24,Osona
+25081,"Espluga Calba, l'",18,Garrigues
+43054,"Espluga de Francolí, l'",16,Conca de Barberà
+08077,Esplugues de Llobregat,11,Baix Llobregat
+17064,Espolla,02,Alt Empordà
+17065,Esponellà,28,Pla de l'Estany
+25082,Espot,26,Pallars Sobirà
+08078,"Espunyola, l'",14,Berguedà
+08254,"Esquirol, l'",24,Osona
+25088,Estamariu,04,Alt Urgell
+08079,"Estany, l'",42,Moianès
+25085,Estaràs,32,Segarra
+25086,Esterri d'Àneu,26,Pallars Sobirà
+25087,Esterri de Cardós,26,Pallars Sobirà
+43055,Falset,29,Priorat
+17005,"Far d'Empordà, el",02,Alt Empordà
+25089,Farrera,26,Pallars Sobirà
+43056,"Fatarella, la",37,Terra Alta
+43057,"Febró, la",08,Baix Camp
+08134,Figaró-Montmany,41,Vallès Oriental
+08080,Fígols,14,Berguedà
+25908,Fígols i Alinyà,04,Alt Urgell
+43058,"Figuera, la",29,Priorat
+17066,Figueres,02,Alt Empordà
+43059,Figuerola del Camp,01,Alt Camp
+17067,Flaçà,20,Gironès
+43060,Flix,30,Ribera d'Ebre
+25092,"Floresta, la",18,Garrigues
+08082,Fogars de la Selva,34,Selva
+08081,Fogars de Montclús,41,Vallès Oriental
+17068,Foixà,10,Baix Empordà
+08083,Folgueroles,24,Osona
+25093,Fondarella,27,Pla d'Urgell
+08084,Fonollosa,07,Bages
+08085,Font-rubí,03,Alt Penedès
+17069,Fontanals de Cerdanya,15,Cerdanya
+17070,Fontanilles,10,Baix Empordà
+17071,Fontcoberta,28,Pla de l'Estany
+25094,Foradada,23,Noguera
+17902,Forallac,10,Baix Empordà
+43061,Forès,16,Conca de Barberà
+17073,Fornells de la Selva,20,Gironès
+17074,Fortià,02,Alt Empordà
+08086,"Franqueses del Vallès, les",41,Vallès Oriental
+43062,Freginals,22,Montsià
+25096,"Fuliola, la",38,Urgell
+25097,Fulleda,18,Garrigues
+08090,Gaià,07,Bages
+43063,"Galera, la",22,Montsià
+08087,Gallifa,40,Vallès Occidental
+43064,Gandesa,37,Terra Alta
+43065,Garcia,30,Ribera d'Ebre
+43066,"Garidells, els",01,Alt Camp
+08088,"Garriga, la",41,Vallès Oriental
+17075,Garrigàs,02,Alt Empordà
+17076,Garrigoles,10,Baix Empordà
+17077,Garriguella,02,Alt Empordà
+08089,Gavà,11,Baix Llobregat
+25098,Gavet de la Conca,25,Pallars Jussà
+08091,Gelida,03,Alt Penedès
+17078,Ger,15,Cerdanya
+25912,Gimenells i el Pla de la Font,33,Segrià
+43067,Ginestar,30,Ribera d'Ebre
+17079,Girona,20,Gironès
+08092,Gironella,14,Berguedà
+08093,Gisclareny,14,Berguedà
+43068,Godall,22,Montsià
+25099,Golmés,27,Pla d'Urgell
+17080,Gombrèn,31,Ripollès
+25100,Gósol,14,Berguedà
+08094,"Granada, la",03,Alt Penedès
+25101,"Granadella, la",18,Garrigues
+08095,Granera,42,Moianès
+25102,"Granja d'Escarp, la",33,Segrià
+08096,Granollers,41,Vallès Oriental
+25103,Granyanella,32,Segarra
+25105,Granyena de les Garrigues,18,Garrigues
+25104,Granyena de Segarra,32,Segarra
+43069,Gratallops,29,Priorat
+08097,Gualba,41,Vallès Oriental
+17081,Gualta,10,Baix Empordà
+08099,Guardiola de Berguedà,14,Berguedà
+43070,"Guiamets, els",29,Priorat
+17082,Guils de Cerdanya,15,Cerdanya
+25109,Guimerà,38,Urgell
+25903,"Guingueta d'Àneu, la",26,Pallars Sobirà
+25110,Guissona,32,Segarra
+25111,Guixers,35,Solsonès
+08100,Gurb,24,Osona
+43071,Horta de Sant Joan,37,Terra Alta
+08101,"Hospitalet de Llobregat, l'",13,Barcelonès
+08162,"Hostalets de Pierola, els",06,Anoia
+17083,Hostalric,34,Selva
+08102,Igualada,06,Anoia
+25115,Isona i Conca Dellà,25,Pallars Jussà
+17084,Isòvol,15,Cerdanya
+25113,Ivars d'Urgell,27,Pla d'Urgell
+25112,Ivars de Noguera,23,Noguera
+25114,Ivorra,32,Segarra
+17085,Jafre,10,Baix Empordà
+17086,"Jonquera, la",02,Alt Empordà
+08103,Jorba,06,Anoia
+25910,Josa i Tuixén,04,Alt Urgell
+17087,Juià,20,Gironès
+25118,Juncosa,18,Garrigues
+25119,Juneda,18,Garrigues
+25121,Les,39,Aran
+25122,Linyola,27,Pla d'Urgell
+08104,"Llacuna, la",06,Anoia
+17088,Lladó,02,Alt Empordà
+25123,Lladorre,26,Pallars Sobirà
+25124,Lladurs,35,Solsonès
+08105,"Llagosta, la",41,Vallès Oriental
+17089,Llagostera,20,Gironès
+17090,Llambilles,20,Gironès
+17091,Llanars,31,Ripollès
+17092,Llançà,02,Alt Empordà
+25125,Llardecans,33,Segrià
+25126,Llavorsí,26,Pallars Sobirà
+25120,Lleida,33,Segrià
+17093,Llers,02,Alt Empordà
+25127,Lles de Cerdanya,15,Cerdanya
+08107,Lliçà d'Amunt,41,Vallès Oriental
+08108,Lliçà de Vall,41,Vallès Oriental
+25128,Llimiana,25,Pallars Jussà
+08106,Llinars del Vallès,41,Vallès Oriental
+17094,Llívia,15,Cerdanya
+43072,"Lloar, el",29,Priorat
+25129,Llobera,35,Solsonès
+43073,Llorac,16,Conca de Barberà
+43074,Llorenç del Penedès,12,Baix Penedès
+17095,Lloret de Mar,34,Selva
+17096,"Llosses, les",31,Ripollès
+08109,Lluçà,43,Lluçanès
+17102,Maçanet de Cabrenys,02,Alt Empordà
+17103,Maçanet de la Selva,34,Selva
+17097,Madremanya,20,Gironès
+17098,Maià de Montcal,19,Garrotxa
+25133,Maials,33,Segrià
+25130,Maldà,38,Urgell
+08110,Malgrat de Mar,21,Maresme
+08111,Malla,24,Osona
+08112,Manlleu,24,Osona
+08113,Manresa,07,Bages
+43076,Marçà,29,Priorat
+43075,Margalef,29,Priorat
+08242,Marganell,07,Bages
+08114,Martorell,11,Baix Llobregat
+08115,Martorelles,41,Vallès Oriental
+43077,Mas de Barberans,22,Montsià
+17100,Masarac i Vilarnadal,02,Alt Empordà
+43078,Masdenverge,22,Montsià
+08116,"Masies de Roda, les",24,Osona
+08117,"Masies de Voltregà, les",24,Osona
+43079,Masllorenç,12,Baix Penedès
+08118,"Masnou, el",21,Maresme
+43080,"Masó, la",01,Alt Camp
+43081,Maspujols,08,Baix Camp
+08119,Masquefa,06,Anoia
+43082,"Masroig, el",29,Priorat
+25131,Massalcoreig,33,Segrià
+17101,Massanes,34,Selva
+25132,Massoteres,32,Segarra
+08120,Matadepera,40,Vallès Occidental
+08121,Mataró,21,Maresme
+08122,Mediona,03,Alt Penedès
+25134,Menàrguens,23,Noguera
+17099,Meranges,15,Cerdanya
+17105,Mieres,19,Garrotxa
+43083,"Milà, el",01,Alt Camp
+25135,Miralcamp,27,Pla d'Urgell
+43084,Miravet,30,Ribera d'Ebre
+08138,Moià,42,Moianès
+43085,"Molar, el",29,Priorat
+08123,Molins de Rei,11,Baix Llobregat
+25137,Mollerussa,27,Pla d'Urgell
+17106,Mollet de Peralada,02,Alt Empordà
+08124,Mollet del Vallès,41,Vallès Oriental
+17107,Molló,31,Ripollès
+25136,"Molsosa, la",35,Solsonès
+08128,Monistrol de Calders,42,Moianès
+08127,Monistrol de Montserrat,07,Bages
+43091,Mont-ral,01,Alt Camp
+17110,Mont-ras,10,Baix Empordà
+43092,Mont-roig del Camp,08,Baix Camp
+17109,Montagut i Oix,19,Garrotxa
+43086,Montblanc,16,Conca de Barberà
+43088,Montbrió del Camp,08,Baix Camp
+08125,Montcada i Reixac,40,Vallès Occidental
+08130,Montclar,14,Berguedà
+25139,Montellà i Martinet,15,Cerdanya
+08131,Montesquiu,24,Osona
+25140,Montferrer i Castellbò,04,Alt Urgell
+43089,Montferri,01,Alt Camp
+25138,Montgai,23,Noguera
+08126,Montgat,21,Maresme
+08132,Montmajor,14,Berguedà
+08133,Montmaneu,06,Anoia
+43090,"Montmell, el",12,Baix Penedès
+08135,Montmeló,41,Vallès Oriental
+25142,Montoliu de Lleida,33,Segrià
+25141,Montoliu de Segarra,32,Segarra
+25143,Montornès de Segarra,32,Segarra
+08136,Montornès del Vallès,41,Vallès Oriental
+08137,Montseny,41,Vallès Oriental
+43093,Móra d'Ebre,30,Ribera d'Ebre
+43094,Móra la Nova,30,Ribera d'Ebre
+43095,"Morell, el",36,Tarragonès
+43096,"Morera de Montsant, la",29,Priorat
+08129,Muntanyola,24,Osona
+08139,Mura,07,Bages
+25145,Nalec,38,Urgell
+25025,Naut Aran,39,Aran
+08140,Navarcles,07,Bages
+08141,Navàs,07,Bages
+17111,Navata,02,Alt Empordà
+25146,Navès,35,Solsonès
+08142,"Nou de Berguedà, la",14,Berguedà
+43097,"Nou de Gaià, la",36,Tarragonès
+43098,Nulles,01,Alt Camp
+25148,Odèn,35,Solsonès
+08143,Òdena,06,Anoia
+17112,Ogassa,31,Ripollès
+08145,Olèrdola,03,Alt Penedès
+08146,Olesa de Bonesvalls,03,Alt Penedès
+08147,Olesa de Montserrat,11,Baix Llobregat
+25149,Oliana,04,Alt Urgell
+25150,Oliola,23,Noguera
+25151,Olius,35,Solsonès
+08148,Olivella,17,Garraf
+08149,Olost,43,Lluçanès
+17114,Olot,19,Garrotxa
+25152,"Oluges, les",32,Segarra
+08144,Olvan,14,Berguedà
+25153,"Omellons, els",18,Garrigues
+25154,"Omells de na Gaia, els",38,Urgell
+17115,Ordis,02,Alt Empordà
+25155,Organyà,04,Alt Urgell
+08150,Orís,24,Osona
+08151,Oristà,43,Lluçanès
+08152,Orpí,06,Anoia
+08153,Òrrius,21,Maresme
+25156,Os de Balaguer,23,Noguera
+17116,Osor,34,Selva
+25157,Ossó de Sió,38,Urgell
+08154,Pacs del Penedès,03,Alt Penedès
+08155,Palafolls,21,Maresme
+17117,Palafrugell,10,Baix Empordà
+17118,Palamós i Sant Joan,10,Baix Empordà
+25158,"Palau d'Anglesola, el",27,Pla d'Urgell
+17119,Palau de Santa Eulàlia,02,Alt Empordà
+17121,Palau-sator,10,Baix Empordà
+17120,Palau-saverdera,02,Alt Empordà
+08156,Palau-solità i Plegamans,40,Vallès Occidental
+43100,"Pallaresos, els",36,Tarragonès
+08157,Pallejà,11,Baix Llobregat
+43099,"Palma d'Ebre, la",30,Ribera d'Ebre
+08905,"Palma de Cervelló, la",11,Baix Llobregat
+17123,Palol de Revardit,28,Pla de l'Estany
+17124,Pals,10,Baix Empordà
+08158,"Papiol, el",11,Baix Llobregat
+17125,Pardines,31,Ripollès
+08159,Parets del Vallès,41,Vallès Oriental
+17126,Parlavà,10,Baix Empordà
+43101,Passanant i Belltall,16,Conca de Barberà
+17128,Pau,02,Alt Empordà
+43102,Paüls,09,Baix Ebre
+17129,Pedret i Marzà,02,Alt Empordà
+25164,Penelles,23,Noguera
+17130,"Pera, la",10,Baix Empordà
+08160,Perafita,43,Lluçanès
+43103,Perafort,36,Tarragonès
+17132,Peralada,02,Alt Empordà
+25165,Peramola,04,Alt Urgell
+43104,"Perelló, el",09,Baix Ebre
+08161,Piera,06,Anoia
+43105,"Piles, les",16,Conca de Barberà
+08163,Pineda de Mar,21,Maresme
+43106,"Pinell de Brai, el",37,Terra Alta
+25166,Pinell de Solsonès,35,Solsonès
+25167,Pinós,35,Solsonès
+43107,Pira,16,Conca de Barberà
+43108,"Pla de Santa Maria, el",01,Alt Camp
+08164,"Pla del Penedès, el",03,Alt Penedès
+17133,"Planes d'Hostoles, les",19,Garrotxa
+17134,Planoles,31,Ripollès
+25911,"Plans de Sió, els",32,Segarra
+25168,"Poal, el",27,Pla d'Urgell
+25169,"Pobla de Cérvoles, la",18,Garrigues
+08165,"Pobla de Claramunt, la",06,Anoia
+08166,"Pobla de Lillet, la",14,Berguedà
+43109,"Pobla de Mafumet, la",36,Tarragonès
+43110,"Pobla de Massaluca, la",37,Terra Alta
+43111,"Pobla de Montornès, la",36,Tarragonès
+25171,"Pobla de Segur, la",25,Pallars Jussà
+43112,Poboleda,29,Priorat
+08167,Polinyà,40,Vallès Occidental
+43113,"Pont d'Armentera, el",01,Alt Camp
+25030,"Pont de Bar, el",04,Alt Urgell
+17135,Pont de Molins,02,Alt Empordà
+25173,"Pont de Suert, el",05,Alta Ribagorça
+08182,"Pont de Vilomara i Rocafort, el",07,Bages
+43141,Pontils,16,Conca de Barberà
+08168,Pontons,03,Alt Penedès
+17136,Pontós,02,Alt Empordà
+25172,Ponts,23,Noguera
+17137,Porqueres,28,Pla de l'Estany
+43114,Porrera,29,Priorat
+17140,"Port de la Selva, el",02,Alt Empordà
+17138,Portbou,02,Alt Empordà
+25174,"Portella, la",33,Segrià
+43115,Pradell de la Teixeta,29,Priorat
+43116,Prades,08,Baix Camp
+43117,Prat de Comte,37,Terra Alta
+08169,"Prat de Llobregat, el",11,Baix Llobregat
+43118,Pratdip,08,Baix Camp
+08171,Prats de Lluçanès,43,Lluçanès
+08170,"Prats de Rei, els",06,Anoia
+25175,Prats i Sansor,15,Cerdanya
+25176,Preixana,38,Urgell
+25177,Preixens,23,Noguera
+08230,Premià de Dalt,21,Maresme
+08172,Premià de Mar,21,Maresme
+17139,"Preses, les",19,Garrotxa
+25179,Prullans,15,Cerdanya
+08175,Puig-reig,14,Berguedà
+17141,Puigcerdà,15,Cerdanya
+08174,Puigdàlber,03,Alt Penedès
+25180,Puiggròs,18,Garrigues
+43119,Puigpelat,01,Alt Camp
+25181,Puigverd d'Agramunt,38,Urgell
+25182,Puigverd de Lleida,33,Segrià
+08176,Pujalt,06,Anoia
+08177,"Quar, la",14,Berguedà
+17142,Quart,20,Gironès
+17043,Queralbs,31,Ripollès
+43120,Querol,01,Alt Camp
+17143,Rabós,02,Alt Empordà
+08178,Rajadell,07,Bages
+43136,"Ràpita, la",22,Montsià
+43121,Rasquera,30,Ribera d'Ebre
+17144,Regencós,10,Baix Empordà
+08179,Rellinars,40,Vallès Occidental
+43122,Renau,36,Tarragonès
+43123,Reus,08,Baix Camp
+25183,Rialp,26,Pallars Sobirà
+43124,"Riba, la",01,Alt Camp
+43125,Riba-roja d'Ebre,30,Ribera d'Ebre
+25905,Ribera d'Ondara,32,Segarra
+25185,Ribera d'Urgellet,04,Alt Urgell
+17145,Ribes de Freser,31,Ripollès
+17146,Riells i Viabrea,34,Selva
+43126,"Riera de Gaià, la",36,Tarragonès
+25186,Riner,35,Solsonès
+17147,Ripoll,31,Ripollès
+08180,Ripollet,40,Vallès Occidental
+25913,Riu de Cerdanya,15,Cerdanya
+17148,Riudarenes,34,Selva
+17149,Riudaura,19,Garrotxa
+43127,Riudecanyes,08,Baix Camp
+43128,Riudecols,08,Baix Camp
+17150,Riudellots de la Selva,34,Selva
+43129,Riudoms,08,Baix Camp
+17151,Riumors,02,Alt Empordà
+08181,"Roca del Vallès, la",41,Vallès Oriental
+43130,Rocafort de Queralt,16,Conca de Barberà
+43131,Roda de Berà,36,Tarragonès
+08183,Roda de Ter,24,Osona
+43132,Rodonyà,01,Alt Camp
+43133,Roquetes,09,Baix Ebre
+17152,Roses,02,Alt Empordà
+25189,Rosselló,33,Segrià
+43134,"Rourell, el",01,Alt Camp
+08184,Rubí,40,Vallès Occidental
+08185,Rubió,06,Anoia
+17153,Rupià,10,Baix Empordà
+08901,Rupit i Pruit,24,Osona
+08187,Sabadell,40,Vallès Occidental
+08188,Sagàs,14,Berguedà
+25190,Salàs de Pallars,25,Pallars Jussà
+08190,Saldes,14,Berguedà
+17154,Sales de Llierca,19,Garrotxa
+08191,Sallent,07,Bages
+43135,Salomó,36,Tarragonès
+43905,Salou,36,Tarragonès
+17155,Salt,20,Gironès
+25191,Sanaüja,32,Segarra
+08194,Sant Adrià de Besòs,13,Barcelonès
+08195,Sant Agustí de Lluçanès,24,Osona
+08196,Sant Andreu de la Barca,11,Baix Llobregat
+08197,Sant Andreu de Llavaneres,21,Maresme
+17157,Sant Andreu Salou,20,Gironès
+17183,Sant Aniol de Finestres,19,Garrotxa
+08198,Sant Antoni de Vilamajor,41,Vallès Oriental
+08199,Sant Bartomeu del Grau,24,Osona
+08200,Sant Boi de Llobregat,11,Baix Llobregat
+08201,Sant Boi de Lluçanès,24,Osona
+08203,Sant Cebrià de Vallalta,21,Maresme
+08202,Sant Celoni,41,Vallès Oriental
+08204,Sant Climent de Llobregat,11,Baix Llobregat
+17158,Sant Climent Sescebes,02,Alt Empordà
+08205,Sant Cugat del Vallès,40,Vallès Occidental
+08206,Sant Cugat Sesgarrigues,03,Alt Penedès
+25196,Sant Esteve de la Sarga,25,Pallars Jussà
+08207,Sant Esteve de Palautordera,41,Vallès Oriental
+08208,Sant Esteve Sesrovires,11,Baix Llobregat
+17159,Sant Feliu de Buixalleu,34,Selva
+08210,Sant Feliu de Codines,41,Vallès Oriental
+17160,Sant Feliu de Guíxols,10,Baix Empordà
+08211,Sant Feliu de Llobregat,11,Baix Llobregat
+17161,Sant Feliu de Pallerols,19,Garrotxa
+08212,Sant Feliu Sasserra,07,Bages
+17162,Sant Ferriol,19,Garrotxa
+08209,Sant Fost de Campsentelles,41,Vallès Oriental
+08213,Sant Fruitós de Bages,07,Bages
+17163,Sant Gregori,20,Gironès
+25192,Sant Guim de Freixenet,32,Segarra
+25197,Sant Guim de la Plana,32,Segarra
+17164,Sant Hilari Sacalm,34,Selva
+08215,Sant Hipòlit de Voltregà,24,Osona
+08193,Sant Iscle de Vallalta,21,Maresme
+43902,Sant Jaume d'Enveja,22,Montsià
+08216,Sant Jaume de Frontanyà,14,Berguedà
+17165,Sant Jaume de Llierca,19,Garrotxa
+43137,Sant Jaume dels Domenys,12,Baix Penedès
+17167,Sant Joan de les Abadesses,31,Ripollès
+17168,Sant Joan de Mollet,20,Gironès
+08218,Sant Joan de Vilatorrada,07,Bages
+08217,Sant Joan Despí,11,Baix Llobregat
+17185,Sant Joan les Fonts,19,Garrotxa
+17166,Sant Jordi Desvalls,20,Gironès
+08903,Sant Julià de Cerdanyola,14,Berguedà
+17169,Sant Julià de Ramis,20,Gironès
+08220,Sant Julià de Vilatorta,24,Osona
+17903,Sant Julià del Llor i Bonmatí,34,Selva
+08221,Sant Just Desvern,11,Baix Llobregat
+08222,Sant Llorenç d'Hortons,03,Alt Penedès
+17171,Sant Llorenç de la Muga,02,Alt Empordà
+25193,Sant Llorenç de Morunys,35,Solsonès
+08223,Sant Llorenç Savall,40,Vallès Occidental
+08225,Sant Martí d'Albars,43,Lluçanès
+08224,Sant Martí de Centelles,24,Osona
+17172,Sant Martí de Llémena,20,Gironès
+25902,Sant Martí de Riucorb,38,Urgell
+08226,Sant Martí de Tous,06,Anoia
+08227,Sant Martí Sarroca,03,Alt Penedès
+08228,Sant Martí Sesgueioles,06,Anoia
+17173,Sant Martí Vell,20,Gironès
+08229,Sant Mateu de Bages,07,Bages
+17174,Sant Miquel de Campmajor,28,Pla de l'Estany
+17175,Sant Miquel de Fluvià,02,Alt Empordà
+17176,Sant Mori,02,Alt Empordà
+17177,Sant Pau de Segúries,31,Ripollès
+08231,Sant Pere de Ribes,17,Garraf
+08232,Sant Pere de Riudebitlles,03,Alt Penedès
+08233,Sant Pere de Torelló,24,Osona
+08234,Sant Pere de Vilamajor,41,Vallès Oriental
+17178,Sant Pere Pescador,02,Alt Empordà
+08189,Sant Pere Sallavinera,06,Anoia
+08235,Sant Pol de Mar,21,Maresme
+08236,Sant Quintí de Mediona,03,Alt Penedès
+08237,Sant Quirze de Besora,24,Osona
+08238,Sant Quirze del Vallès,40,Vallès Occidental
+08239,Sant Quirze Safaja,42,Moianès
+25194,Sant Ramon,32,Segarra
+08240,Sant Sadurní d'Anoia,03,Alt Penedès
+08241,Sant Sadurní d'Osormort,24,Osona
+08098,Sant Salvador de Guardiola,07,Bages
+08262,Sant Vicenç de Castellet,07,Bages
+08264,Sant Vicenç de Montalt,21,Maresme
+08265,Sant Vicenç de Torelló,24,Osona
+08263,Sant Vicenç dels Horts,11,Baix Llobregat
+43138,Santa Bàrbara,22,Montsià
+08243,Santa Cecília de Voltregà,24,Osona
+08244,Santa Coloma de Cervelló,11,Baix Llobregat
+17180,Santa Coloma de Farners,34,Selva
+08245,Santa Coloma de Gramenet,13,Barcelonès
+43139,Santa Coloma de Queralt,16,Conca de Barberà
+17181,Santa Cristina d'Aro,10,Baix Empordà
+08246,Santa Eugènia de Berga,24,Osona
+08247,Santa Eulàlia de Riuprimer,24,Osona
+08248,Santa Eulàlia de Ronçana,41,Vallès Oriental
+08249,Santa Fe del Penedès,03,Alt Penedès
+17182,Santa Llogaia d'Àlguema,02,Alt Empordà
+08250,Santa Margarida de Montbui,06,Anoia
+08251,Santa Margarida i els Monjos,03,Alt Penedès
+08258,Santa Maria d'Oló,42,Moianès
+08253,Santa Maria de Besora,24,Osona
+08256,Santa Maria de Martorelles,41,Vallès Oriental
+08255,Santa Maria de Merlès,14,Berguedà
+08257,Santa Maria de Miralles,06,Anoia
+08259,Santa Maria de Palautordera,41,Vallès Oriental
+43140,Santa Oliva,12,Baix Penedès
+17184,Santa Pau,19,Garrotxa
+08260,Santa Perpètua de Mogoda,40,Vallès Occidental
+08261,Santa Susanna,21,Maresme
+08192,Santpedor,07,Bages
+43142,Sarral,16,Conca de Barberà
+17186,Sarrià de Ter,20,Gironès
+25201,Sarroca de Bellera,25,Pallars Jussà
+25200,Sarroca de Lleida,33,Segrià
+17187,"Saus, Camallera i Llampaies",02,Alt Empordà
+43143,Savallà del Comtat,16,Conca de Barberà
+43144,"Secuita, la",36,Tarragonès
+17188,"Selva de Mar, la",02,Alt Empordà
+43145,"Selva del Camp, la",08,Baix Camp
+43146,Senan,16,Conca de Barberà
+43044,"Sénia, la",22,Montsià
+25202,Senterada,25,Pallars Jussà
+25035,"Sentiu de Sió, la",23,Noguera
+08267,Sentmenat,40,Vallès Occidental
+17190,Serinyà,28,Pla de l'Estany
+25204,Seròs,33,Segrià
+17191,Serra de Daró,10,Baix Empordà
+17192,Setcases,31,Ripollès
+25203,"Seu d'Urgell, la",04,Alt Urgell
+08269,Seva,24,Osona
+25205,Sidamon,27,Pla d'Urgell
+17193,Sils,34,Selva
+08270,Sitges,17,Garraf
+17052,Siurana,02,Alt Empordà
+08271,Sobremunt,43,Lluçanès
+25206,"Soleràs, el",18,Garrigues
+43147,Solivella,16,Conca de Barberà
+25207,Solsona,35,Solsonès
+08272,Sora,24,Osona
+25208,Soriguera,26,Pallars Sobirà
+25209,Sort,26,Pallars Sobirà
+25210,Soses,33,Segrià
+08273,Subirats,03,Alt Penedès
+25211,Sudanell,33,Segrià
+25212,Sunyer,33,Segrià
+08274,Súria,07,Bages
+17194,Susqueda,34,Selva
+08276,Tagamanent,41,Vallès Oriental
+08277,Talamanca,07,Bages
+25215,Talarn,25,Pallars Jussà
+25216,Talavera,32,Segarra
+17195,"Tallada d'Empordà, la",10,Baix Empordà
+08278,Taradell,24,Osona
+43148,Tarragona,36,Tarragonès
+25217,Tàrrega,38,Urgell
+25218,Tarrés,18,Garrigues
+25219,Tarroja de Segarra,32,Segarra
+08275,Tavèrnoles,24,Osona
+08280,Tavertet,24,Osona
+08281,Teià,21,Maresme
+25220,Térmens,23,Noguera
+17196,Terrades,02,Alt Empordà
+08279,Terrassa,40,Vallès Occidental
+08282,Tiana,21,Maresme
+25221,Tírvia,26,Pallars Sobirà
+25222,Tiurana,23,Noguera
+43149,Tivenys,09,Baix Ebre
+43150,Tivissa,30,Ribera d'Ebre
+08283,Tona,24,Osona
+25223,Torà,35,Solsonès
+08284,Tordera,21,Maresme
+08285,Torelló,24,Osona
+25224,"Torms, els",18,Garrigues
+25225,Tornabous,38,Urgell
+25227,"Torre de Cabdella, la",25,Pallars Jussà
+08286,"Torre de Claramunt, la",06,Anoia
+43151,"Torre de Fontaubella, la",29,Priorat
+43152,"Torre de l'Espanyol, la",30,Ribera d'Ebre
+25233,Torre-serona,33,Segrià
+25226,Torrebesses,33,Segrià
+43153,Torredembarra,36,Tarragonès
+25228,Torrefarrera,33,Segrià
+25907,Torrefeta i Florejacs,32,Segarra
+25230,Torregrossa,27,Pla d'Urgell
+25231,Torrelameu,23,Noguera
+08287,Torrelavit,03,Alt Penedès
+08288,Torrelles de Foix,03,Alt Penedès
+08289,Torrelles de Llobregat,11,Baix Llobregat
+17197,Torrent,10,Baix Empordà
+25232,Torres de Segre,33,Segrià
+17198,Torroella de Fluvià,02,Alt Empordà
+17199,Torroella de Montgrí,10,Baix Empordà
+43154,Torroja del Priorat,29,Priorat
+17200,Tortellà,19,Garrotxa
+43155,Tortosa,09,Baix Ebre
+17201,Toses,31,Ripollès
+17202,Tossa de Mar,34,Selva
+25234,Tremp,25,Pallars Jussà
+17204,Ullà,10,Baix Empordà
+08290,Ullastrell,40,Vallès Occidental
+17205,Ullastret,10,Baix Empordà
+43156,Ulldecona,22,Montsià
+43157,Ulldemolins,29,Priorat
+17203,Ultramort,10,Baix Empordà
+17206,Urús,15,Cerdanya
+08291,Vacarisses,40,Vallès Occidental
+17014,"Vajol, la",02,Alt Empordà
+17207,"Vall d'en Bas, la",19,Garrotxa
+17208,"Vall de Bianya, la",19,Garrotxa
+25043,"Vall de Boí, la",05,Alta Ribagorça
+25901,Vall de Cardós,26,Pallars Sobirà
+17209,Vall-llobrega,10,Baix Empordà
+08292,Vallbona d'Anoia,06,Anoia
+25238,Vallbona de les Monges,38,Urgell
+08293,Vallcebre,14,Berguedà
+43158,Vallclara,16,Conca de Barberà
+25240,Vallfogona de Balaguer,23,Noguera
+17170,Vallfogona de Ripollès,31,Ripollès
+43159,Vallfogona de Riucorb,16,Conca de Barberà
+08294,Vallgorguina,41,Vallès Oriental
+08295,Vallirana,11,Baix Llobregat
+43160,Vallmoll,01,Alt Camp
+08296,Vallromanes,41,Vallès Oriental
+43161,Valls,01,Alt Camp
+25906,"Valls d'Aguilar, les",04,Alt Urgell
+25239,"Valls de Valira, les",04,Alt Urgell
+43162,Vandellòs i l'Hospitalet de l'Infant,08,Baix Camp
+25909,"Vansa i Fórnols, la",04,Alt Urgell
+08297,Veciana,06,Anoia
+43163,"Vendrell, el",12,Baix Penedès
+17210,Ventalló,02,Alt Empordà
+25242,Verdú,38,Urgell
+17211,Verges,10,Baix Empordà
+43164,Vespella de Gaià,36,Tarragonès
+08298,Vic,24,Osona
+17212,Vidrà,24,Osona
+17213,Vidreres,34,Selva
+25243,Vielha e Mijaran,39,Aran
+43170,Vila-rodona,01,Alt Camp
+17230,Vila-sacra,02,Alt Empordà
+25252,Vila-sana,27,Pla d'Urgell
+43171,Vila-seca,36,Tarragonès
+43165,Vilabella,01,Alt Camp
+17214,Vilabertran,02,Alt Empordà
+17215,Vilablareix,20,Gironès
+08299,Vilada,14,Berguedà
+17217,Viladamat,02,Alt Empordà
+17216,Viladasens,20,Gironès
+08301,Viladecans,11,Baix Llobregat
+08300,Viladecavalls,40,Vallès Occidental
+17218,Vilademuls,28,Pla de l'Estany
+17220,Viladrau,24,Osona
+17221,Vilafant,02,Alt Empordà
+08305,Vilafranca del Penedès,03,Alt Penedès
+25244,Vilagrassa,38,Urgell
+17223,Vilajuïga,02,Alt Empordà
+43175,Vilalba dels Arcs,37,Terra Alta
+08306,Vilalba Sasserra,41,Vallès Oriental
+25245,Vilaller,05,Alta Ribagorça
+17224,Vilallonga de Ter,31,Ripollès
+43166,Vilallonga del Camp,36,Tarragonès
+17225,Vilamacolum,02,Alt Empordà
+17226,Vilamalla,02,Alt Empordà
+17227,Vilamaniscle,02,Alt Empordà
+25247,Vilamòs,39,Aran
+17228,Vilanant,02,Alt Empordà
+43167,Vilanova d'Escornalbou,08,Baix Camp
+25248,Vilanova de Bellpuig,27,Pla d'Urgell
+25249,Vilanova de l'Aguda,23,Noguera
+25254,Vilanova de la Barca,33,Segrià
+25250,Vilanova de Meià,23,Noguera
+43168,Vilanova de Prades,16,Conca de Barberà
+08303,Vilanova de Sau,24,Osona
+25251,Vilanova de Segrià,33,Segrià
+08302,Vilanova del Camí,06,Anoia
+08902,Vilanova del Vallès,41,Vallès Oriental
+08307,Vilanova i la Geltrú,17,Garraf
+43169,Vilaplana,08,Baix Camp
+08214,Vilassar de Dalt,21,Maresme
+08219,Vilassar de Mar,21,Maresme
+17222,Vilaür,02,Alt Empordà
+43172,Vilaverd,16,Conca de Barberà
+43173,"Vilella Alta, la",29,Priorat
+43174,"Vilella Baixa, la",29,Priorat
+17233,Vilobí d'Onyar,34,Selva
+08304,Vilobí del Penedès,03,Alt Penedès
+17232,Vilopriu,10,Baix Empordà
+25253,"Vilosell, el",18,Garrigues
+43176,Vimbodí i Poblet,16,Conca de Barberà
+25255,Vinaixa,18,Garrigues
+43177,Vinebre,30,Ribera d'Ebre
+43178,Vinyols i els Arcs,08,Baix Camp
+08308,Viver i Serrateix,14,Berguedà
+43052,Xerta,09,Baix Ebre

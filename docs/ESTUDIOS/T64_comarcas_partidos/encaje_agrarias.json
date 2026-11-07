@@ -1,0 +1,846 @@
+{
+ "cobertura_municipios_con_partido_y_comarca": 7782,
+ "TOTAL": {
+  "n": 7782,
+  "partidos": 402,
+  "comarcas": 316,
+  "ARI": 0.595,
+  "NMI": 0.896,
+  "pct_mun_en_partido_con_mayoria_unica": 79.0,
+  "pct_mun_en_comarca_mayoritaria_de_su_partido": 73.5
+ },
+ "provincias": {
+  "01": {
+   "n": 49,
+   "partidos": 2,
+   "comarcas": 6,
+   "ARI": 0.112,
+   "NMI": 0.285,
+   "pct_mun_en_partido_con_mayoria_unica": 14.3,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 40.8
+  },
+  "02": {
+   "n": 87,
+   "partidos": 7,
+   "comarcas": 7,
+   "ARI": 0.666,
+   "NMI": 0.743,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 82.8
+  },
+  "03": {
+   "n": 132,
+   "partidos": 12,
+   "comarcas": 5,
+   "ARI": 0.7,
+   "NMI": 0.769,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 93.9
+  },
+  "04": {
+   "n": 101,
+   "partidos": 8,
+   "comarcas": 8,
+   "ARI": 0.323,
+   "NMI": 0.613,
+   "pct_mun_en_partido_con_mayoria_unica": 53.5,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 59.4
+  },
+  "05": {
+   "n": 245,
+   "partidos": 4,
+   "comarcas": 6,
+   "ARI": 0.503,
+   "NMI": 0.65,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 74.7
+  },
+  "06": {
+   "n": 162,
+   "partidos": 14,
+   "comarcas": 12,
+   "ARI": 0.526,
+   "NMI": 0.771,
+   "pct_mun_en_partido_con_mayoria_unica": 76.5,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 75.9
+  },
+  "07": {
+   "n": 56,
+   "partidos": 6,
+   "comarcas": 3,
+   "ARI": 0.259,
+   "NMI": 0.573,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 100.0
+  },
+  "08": {
+   "n": 298,
+   "partidos": 25,
+   "comarcas": 10,
+   "ARI": 0.73,
+   "NMI": 0.817,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 93.0
+  },
+  "09": {
+   "n": 364,
+   "partidos": 7,
+   "comarcas": 8,
+   "ARI": 0.641,
+   "NMI": 0.772,
+   "pct_mun_en_partido_con_mayoria_unica": 71.2,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 79.1
+  },
+  "10": {
+   "n": 214,
+   "partidos": 7,
+   "comarcas": 10,
+   "ARI": 0.682,
+   "NMI": 0.838,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 73.8
+  },
+  "11": {
+   "n": 42,
+   "partidos": 13,
+   "comarcas": 5,
+   "ARI": 0.512,
+   "NMI": 0.669,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 81.0
+  },
+  "12": {
+   "n": 127,
+   "partidos": 5,
+   "comarcas": 7,
+   "ARI": 0.468,
+   "NMI": 0.627,
+   "pct_mun_en_partido_con_mayoria_unica": 50.4,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 62.2
+  },
+  "13": {
+   "n": 99,
+   "partidos": 10,
+   "comarcas": 6,
+   "ARI": 0.465,
+   "NMI": 0.677,
+   "pct_mun_en_partido_con_mayoria_unica": 92.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 74.7
+  },
+  "14": {
+   "n": 75,
+   "partidos": 12,
+   "comarcas": 6,
+   "ARI": 0.337,
+   "NMI": 0.567,
+   "pct_mun_en_partido_con_mayoria_unica": 72.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 73.3
+  },
+  "15": {
+   "n": 91,
+   "partidos": 14,
+   "comarcas": 3,
+   "ARI": 0.169,
+   "NMI": 0.464,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 87.9
+  },
+  "16": {
+   "n": 229,
+   "partidos": 4,
+   "comarcas": 7,
+   "ARI": 0.238,
+   "NMI": 0.462,
+   "pct_mun_en_partido_con_mayoria_unica": 51.5,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 45.4
+  },
+  "17": {
+   "n": 211,
+   "partidos": 9,
+   "comarcas": 7,
+   "ARI": 0.955,
+   "NMI": 0.955,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 99.1
+  },
+  "18": {
+   "n": 163,
+   "partidos": 8,
+   "comarcas": 10,
+   "ARI": 0.613,
+   "NMI": 0.781,
+   "pct_mun_en_partido_con_mayoria_unica": 89.6,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 79.8
+  },
+  "19": {
+   "n": 286,
+   "partidos": 3,
+   "comarcas": 5,
+   "ARI": 0.377,
+   "NMI": 0.522,
+   "pct_mun_en_partido_con_mayoria_unica": 46.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 62.6
+  },
+  "20": {
+   "n": 79,
+   "partidos": 6,
+   "comarcas": 1,
+   "ARI": null,
+   "NMI": null,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 100.0
+  },
+  "21": {
+   "n": 79,
+   "partidos": 6,
+   "comarcas": 6,
+   "ARI": 0.702,
+   "NMI": 0.695,
+   "pct_mun_en_partido_con_mayoria_unica": 89.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 74.7
+  },
+  "22": {
+   "n": 192,
+   "partidos": 6,
+   "comarcas": 8,
+   "ARI": 0.635,
+   "NMI": 0.758,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 70.8
+  },
+  "23": {
+   "n": 96,
+   "partidos": 10,
+   "comarcas": 9,
+   "ARI": 0.359,
+   "NMI": 0.642,
+   "pct_mun_en_partido_con_mayoria_unica": 67.7,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 62.5
+  },
+  "24": {
+   "n": 205,
+   "partidos": 7,
+   "comarcas": 10,
+   "ARI": 0.518,
+   "NMI": 0.707,
+   "pct_mun_en_partido_con_mayoria_unica": 64.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 67.8
+  },
+  "25": {
+   "n": 228,
+   "partidos": 7,
+   "comarcas": 10,
+   "ARI": 0.523,
+   "NMI": 0.737,
+   "pct_mun_en_partido_con_mayoria_unica": 71.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 65.4
+  },
+  "26": {
+   "n": 172,
+   "partidos": 3,
+   "comarcas": 6,
+   "ARI": 0.229,
+   "NMI": 0.433,
+   "pct_mun_en_partido_con_mayoria_unica": 48.3,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 54.7
+  },
+  "27": {
+   "n": 64,
+   "partidos": 9,
+   "comarcas": 5,
+   "ARI": 0.443,
+   "NMI": 0.691,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 85.9
+  },
+  "28": {
+   "n": 172,
+   "partidos": 19,
+   "comarcas": 6,
+   "ARI": 0.561,
+   "NMI": 0.661,
+   "pct_mun_en_partido_con_mayoria_unica": 95.3,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 82.6
+  },
+  "29": {
+   "n": 99,
+   "partidos": 10,
+   "comarcas": 4,
+   "ARI": 0.5,
+   "NMI": 0.657,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 89.9
+  },
+  "30": {
+   "n": 45,
+   "partidos": 11,
+   "comarcas": 6,
+   "ARI": 0.388,
+   "NMI": 0.723,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 91.1
+  },
+  "31": {
+   "n": 251,
+   "partidos": 5,
+   "comarcas": 7,
+   "ARI": 0.647,
+   "NMI": 0.731,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 72.9
+  },
+  "32": {
+   "n": 92,
+   "partidos": 9,
+   "comarcas": 3,
+   "ARI": 0.272,
+   "NMI": 0.523,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 92.4
+  },
+  "33": {
+   "n": 78,
+   "partidos": 18,
+   "comarcas": 10,
+   "ARI": 0.45,
+   "NMI": 0.751,
+   "pct_mun_en_partido_con_mayoria_unica": 93.6,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 80.8
+  },
+  "34": {
+   "n": 191,
+   "partidos": 3,
+   "comarcas": 7,
+   "ARI": 0.319,
+   "NMI": 0.506,
+   "pct_mun_en_partido_con_mayoria_unica": 50.8,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 50.3
+  },
+  "36": {
+   "n": 59,
+   "partidos": 13,
+   "comarcas": 4,
+   "ARI": 0.168,
+   "NMI": 0.495,
+   "pct_mun_en_partido_con_mayoria_unica": 86.4,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 84.7
+  },
+  "37": {
+   "n": 361,
+   "partidos": 5,
+   "comarcas": 8,
+   "ARI": 0.471,
+   "NMI": 0.67,
+   "pct_mun_en_partido_con_mayoria_unica": 60.7,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 65.4
+  },
+  "39": {
+   "n": 101,
+   "partidos": 7,
+   "comarcas": 6,
+   "ARI": 0.224,
+   "NMI": 0.477,
+   "pct_mun_en_partido_con_mayoria_unica": 60.4,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 65.3
+  },
+  "40": {
+   "n": 196,
+   "partidos": 4,
+   "comarcas": 3,
+   "ARI": 0.404,
+   "NMI": 0.437,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 78.6
+  },
+  "41": {
+   "n": 102,
+   "partidos": 15,
+   "comarcas": 7,
+   "ARI": 0.349,
+   "NMI": 0.624,
+   "pct_mun_en_partido_con_mayoria_unica": 73.5,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 75.5
+  },
+  "42": {
+   "n": 183,
+   "partidos": 3,
+   "comarcas": 7,
+   "ARI": 0.324,
+   "NMI": 0.485,
+   "pct_mun_en_partido_con_mayoria_unica": 44.3,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 52.5
+  },
+  "43": {
+   "n": 167,
+   "partidos": 8,
+   "comarcas": 8,
+   "ARI": 0.35,
+   "NMI": 0.643,
+   "pct_mun_en_partido_con_mayoria_unica": 74.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 71.9
+  },
+  "44": {
+   "n": 234,
+   "partidos": 3,
+   "comarcas": 6,
+   "ARI": 0.329,
+   "NMI": 0.48,
+   "pct_mun_en_partido_con_mayoria_unica": 50.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 51.7
+  },
+  "45": {
+   "n": 202,
+   "partidos": 7,
+   "comarcas": 7,
+   "ARI": 0.677,
+   "NMI": 0.81,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 84.7
+  },
+  "46": {
+   "n": 248,
+   "partidos": 17,
+   "comarcas": 13,
+   "ARI": 0.582,
+   "NMI": 0.77,
+   "pct_mun_en_partido_con_mayoria_unica": 68.5,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 75.4
+  },
+  "47": {
+   "n": 225,
+   "partidos": 3,
+   "comarcas": 4,
+   "ARI": 0.535,
+   "NMI": 0.622,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 71.6
+  },
+  "48": {
+   "n": 97,
+   "partidos": 6,
+   "comarcas": 1,
+   "ARI": null,
+   "NMI": null,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 100.0
+  },
+  "49": {
+   "n": 245,
+   "partidos": 5,
+   "comarcas": 6,
+   "ARI": 0.396,
+   "NMI": 0.616,
+   "pct_mun_en_partido_con_mayoria_unica": 55.9,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 63.7
+  },
+  "50": {
+   "n": 288,
+   "partidos": 7,
+   "comarcas": 7,
+   "ARI": 0.734,
+   "NMI": 0.792,
+   "pct_mun_en_partido_con_mayoria_unica": 100.0,
+   "pct_mun_en_comarca_mayoritaria_de_su_partido": 87.5
+  }
+ },
+ "partidos_partidos_por_comarcas": [
+  [
+   "19-01",
+   152,
+   [
+    [
+     "19-CAMPIÑA",
+     67
+    ],
+    [
+     "19-ALCARRIA ALTA",
+     44
+    ],
+    [
+     "19-ALCARRIA BAJA",
+     23
+    ]
+   ]
+  ],
+  [
+   "44-03",
+   115,
+   [
+    [
+     "44-SERRANÍA DE ALBARRACÍN",
+     32
+    ],
+    [
+     "44-HOYA DE TERUEL",
+     30
+    ],
+    [
+     "44-MAESTRAZGO",
+     26
+    ]
+   ]
+  ],
+  [
+   "47-01",
+   114,
+   [
+    [
+     "47-CENTRO",
+     68
+    ],
+    [
+     "47-SURESTE",
+     41
+    ],
+    [
+     "47-SUR",
+     5
+    ]
+   ]
+  ],
+  [
+   "49-02",
+   108,
+   [
+    [
+     "49-CAMPOS-PAN",
+     31
+    ],
+    [
+     "49-ALISTE",
+     29
+    ],
+    [
+     "49-SAYAGO",
+     24
+    ]
+   ]
+  ],
+  [
+   "09-01",
+   105,
+   [
+    [
+     "09-ARLANZÓN",
+     52
+    ],
+    [
+     "09-PISUERGA",
+     39
+    ],
+    [
+     "09-PÁRAMOS",
+     10
+    ]
+   ]
+  ],
+  [
+   "42-03",
+   102,
+   [
+    [
+     "42-CAMPO DE GOMARA",
+     49
+    ],
+    [
+     "42-TIERRAS ALTAS Y VALLE DEL TERA",
+     33
+    ],
+    [
+     "42-SORIA",
+     10
+    ]
+   ]
+  ],
+  [
+   "34-01",
+   97,
+   [
+    [
+     "34-CAMPOS",
+     61
+    ],
+    [
+     "34-EL CERRATO",
+     36
+    ]
+   ]
+  ],
+  [
+   "26-03",
+   89,
+   [
+    [
+     "26-RIOJA ALTA",
+     31
+    ],
+    [
+     "26-RIOJA MEDIA",
+     23
+    ],
+    [
+     "26-SIERRA RIOJA MEDIA",
+     22
+    ]
+   ]
+  ],
+  [
+   "31-04",
+   73,
+   [
+    [
+     "31-NORD OCCIDENTAL",
+     47
+    ],
+    [
+     "31-CUENCA PAMPLONA",
+     25
+    ],
+    [
+     "31-PIRINEOS",
+     1
+    ]
+   ]
+  ],
+  [
+   "34-02",
+   65,
+   [
+    [
+     "34-CAMPOS",
+     27
+    ],
+    [
+     "34-SALDAÑA-VALDAVIA",
+     26
+    ],
+    [
+     "34-BOEDO-OJEDA",
+     12
+    ]
+   ]
+  ],
+  [
+   "25-04",
+   64,
+   [
+    [
+     "25-GARRIGAS",
+     32
+    ],
+    [
+     "25-SEGRIA",
+     22
+    ],
+    [
+     "25-URGEL",
+     10
+    ]
+   ]
+  ],
+  [
+   "45-04",
+   63,
+   [
+    [
+     "45-TALAVERA",
+     45
+    ],
+    [
+     "45-LA JARA",
+     18
+    ]
+   ]
+  ]
+ ],
+ "comarcas_partidas_por_partidos": [
+  [
+   "34-CAMPOS",
+   88,
+   [
+    [
+     "34-01",
+     61
+    ],
+    [
+     "34-02",
+     27
+    ]
+   ]
+  ],
+  [
+   "26-RIOJA ALTA",
+   75,
+   [
+    [
+     "26-01",
+     44
+    ],
+    [
+     "26-03",
+     31
+    ]
+   ]
+  ],
+  [
+   "05-ARÉVALO-MADRIGAL",
+   72,
+   [
+    [
+     "05-01",
+     53
+    ],
+    [
+     "05-03",
+     19
+    ]
+   ]
+  ],
+  [
+   "40-CUÉLLAR",
+   71,
+   [
+    [
+     "40-04",
+     36
+    ],
+    [
+     "40-02",
+     20
+    ],
+    [
+     "40-01",
+     11
+    ]
+   ]
+  ],
+  [
+   "49-CAMPOS-PAN",
+   65,
+   [
+    [
+     "49-02",
+     31
+    ],
+    [
+     "49-05",
+     26
+    ],
+    [
+     "49-01",
+     8
+    ]
+   ]
+  ],
+  [
+   "43-CAMPO DE TARRAGONA",
+   61,
+   [
+    [
+     "43-02",
+     22
+    ],
+    [
+     "43-04",
+     19
+    ],
+    [
+     "43-06",
+     11
+    ]
+   ]
+  ],
+  [
+   "40-SEGOVIA",
+   60,
+   [
+    [
+     "40-01",
+     39
+    ],
+    [
+     "40-03",
+     18
+    ],
+    [
+     "40-04",
+     3
+    ]
+   ]
+  ],
+  [
+   "44-SERRANÍA DE MONTALBÁN",
+   53,
+   [
+    [
+     "44-02",
+     36
+    ],
+    [
+     "44-03",
+     17
+    ]
+   ]
+  ],
+  [
+   "07-MALLORCA",
+   45,
+   [
+    [
+     "07-02",
+     19
+    ],
+    [
+     "07-04",
+     14
+    ],
+    [
+     "07-03",
+     12
+    ]
+   ]
+  ],
+  [
+   "37-ALBA DE TORMES",
+   45,
+   [
+    [
+     "37-01",
+     30
+    ],
+    [
+     "37-04",
+     15
+    ]
+   ]
+  ],
+  [
+   "45-SAGRA-TOLEDO",
+   45,
+   [
+    [
+     "45-03",
+     27
+    ],
+    [
+     "45-05",
+     18
+    ]
+   ]
+  ],
+  [
+   "12-PALANCIA",
+   43,
+   [
+    [
+     "12-02",
+     32
+    ],
+    [
+     "12-04",
+     11
+    ]
+   ]
+  ]
+ ]
+}

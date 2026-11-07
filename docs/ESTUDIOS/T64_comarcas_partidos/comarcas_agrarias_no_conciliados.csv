@@ -1,0 +1,651 @@
+origen,provincia,comarca,nombre,candidatos
+anexo,ALMERÍA,CAMPO TABERNAS,Alcudia de Monteagudo,0
+anexo,GRANADA,DE LA VEGA,Cogollos Vega,0
+anexo,GRANADA,DE LA VEGA,Huétor Santillán,0
+anexo,GRANADA,DE LA VEGA,Otura,0
+anexo,GRANADA,IZNALLOZ,Píñar,2
+anexo,GRANADA,VALLE DE LECRIN,Pinar (El),2
+anexo,HUESCA,JACETANIA,Acumuer,0
+anexo,HUESCA,JACETANIA,Anzanigo,0
+anexo,HUESCA,JACETANIA,Aso,0
+anexo,HUESCA,JACETANIA,Atares,0
+anexo,HUESCA,JACETANIA,Barbenuta,0
+anexo,HUESCA,JACETANIA,Bernues,0
+anexo,HUESCA,JACETANIA,Botaya,0
+anexo,HUESCA,JACETANIA,Embun,0
+anexo,HUESCA,JACETANIA,Escarrilla,0
+anexo,HUESCA,JACETANIA,Escuer,0
+anexo,HUESCA,JACETANIA,Esposa,0
+anexo,HUESCA,JACETANIA,Espuendolas,0
+anexo,HUESCA,JACETANIA,Gavín,0
+anexo,HUESCA,JACETANIA,Guasa,0
+anexo,HUESCA,JACETANIA,Hecho,0
+anexo,HUESCA,JACETANIA,Javierregay,0
+anexo,HUESCA,JACETANIA,Javierrelatre,0
+anexo,HUESCA,JACETANIA,Laguarta,0
+anexo,HUESCA,JACETANIA,Lanuza,0
+anexo,HUESCA,JACETANIA,Latre,0
+anexo,HUESCA,JACETANIA,Navasa,0
+anexo,HUESCA,JACETANIA,Oliván,0
+anexo,HUESCA,JACETANIA,Osía,0
+anexo,HUESCA,JACETANIA,Piedrafita de Jaca,0
+anexo,HUESCA,JACETANIA,Pueyo de Jaca,0
+anexo,HUESCA,JACETANIA,Santa Cilia de Jaca,0
+anexo,HUESCA,JACETANIA,Sinues,0
+anexo,HUESCA,JACETANIA,Tramacastilla de Tena,0
+anexo,HUESCA,JACETANIA,Urdues,0
+anexo,HUESCA,SOBRARBE,Ainsa,0
+anexo,HUESCA,SOBRARBE,Albella i Janovas,0
+anexo,HUESCA,SOBRARBE,Arcusa,0
+anexo,HUESCA,SOBRARBE,Burgase,0
+anexo,HUESCA,SOBRARBE,Castejón de Sobrarbe,0
+anexo,HUESCA,SOBRARBE,Clamosa,0
+anexo,HUESCA,SOBRARBE,Linas Broto,0
+anexo,HUESCA,SOBRARBE,Mediano,0
+anexo,HUESCA,SOBRARBE,Morrillo Monclus,0
+anexo,HUESCA,SOBRARBE,Olson,0
+anexo,HUESCA,SOBRARBE,Santa María de Buil,0
+anexo,HUESCA,SOBRARBE,Sarsa de Surta,0
+anexo,HUESCA,SOBRARBE,Sieste,0
+anexo,HUESCA,SOBRARBE,Torla,0
+anexo,HUESCA,RIBARGORZA,Aguinaliu,0
+anexo,HUESCA,RIBARGORZA,Veracruz,0
+anexo,HUESCA,RIBARGORZA,Bono,0
+anexo,HUESCA,RIBARGORZA,Cajígar,0
+anexo,HUESCA,RIBARGORZA,Caladrones,0
+anexo,HUESCA,RIBARGORZA,Calvera,0
+anexo,HUESCA,RIBARGORZA,Castanesa,0
+anexo,HUESCA,RIBARGORZA,Espes,0
+anexo,HUESCA,RIBARGORZA,Guel,0
+anexo,HUESCA,RIBARGORZA,Juseu,0
+anexo,HUESCA,RIBARGORZA,Luzas,0
+anexo,HUESCA,RIBARGORZA,Merli,0
+anexo,HUESCA,RIBARGORZA,Monesma,0
+anexo,HUESCA,RIBARGORZA,Neril,0
+anexo,HUESCA,RIBARGORZA,Panillo,0
+anexo,HUESCA,RIBARGORZA,Pilzan,0
+anexo,HUESCA,RIBARGORZA,Puebla Roda,0
+anexo,HUESCA,RIBARGORZA,Purroy de la Solana,0
+anexo,HUESCA,RIBARGORZA,Santaliestra y San Quiílez,0
+anexo,HUESCA,RIBARGORZA,Santorens,0
+anexo,HUESCA,RIBARGORZA,Serraduy,0
+anexo,HUESCA,RIBARGORZA,Torres del Obispo,0
+anexo,HUESCA,HOYA DE HUESCA,Aguas,0
+anexo,HUESCA,HOYA DE HUESCA,Anies,0
+anexo,HUESCA,HOYA DE HUESCA,Apies,0
+anexo,HUESCA,HOYA DE HUESCA,Arascues,0
+anexo,HUESCA,HOYA DE HUESCA,Arbanies,0
+anexo,HUESCA,HOYA DE HUESCA,Banaries,0
+anexo,HUESCA,HOYA DE HUESCA,Bandalies,0
+anexo,HUESCA,HOYA DE HUESCA,Barluenga,0
+anexo,HUESCA,HOYA DE HUESCA,Bentue Rasal,0
+anexo,HUESCA,HOYA DE HUESCA,Bespen,0
+anexo,HUESCA,HOYA DE HUESCA,Castilsabas,0
+anexo,HUESCA,HOYA DE HUESCA,Coscullano,0
+anexo,HUESCA,HOYA DE HUESCA,Cuarte,0
+anexo,HUESCA,HOYA DE HUESCA,Ena,0
+anexo,HUESCA,HOYA DE HUESCA,Esquedas,0
+anexo,HUESCA,HOYA DE HUESCA,Fadanas,0
+anexo,HUESCA,HOYA DE HUESCA,Junzano,0
+anexo,HUESCA,HOYA DE HUESCA,Labata,0
+anexo,HUESCA,HOYA DE HUESCA,Lierta,0
+anexo,HUESCA,HOYA DE HUESCA,Liesa,0
+anexo,HUESCA,HOYA DE HUESCA,Nocito,0
+anexo,HUESCA,HOYA DE HUESCA,Ortilla,0
+anexo,HUESCA,HOYA DE HUESCA,Panzano,0
+anexo,HUESCA,HOYA DE HUESCA,Plasencia del Monte,0
+anexo,HUESCA,HOYA DE HUESCA,Pueyo de Fananas,0
+anexo,HUESCA,HOYA DE HUESCA,Quinzano,0
+anexo,HUESCA,HOYA DE HUESCA,Rasal,0
+anexo,HUESCA,HOYA DE HUESCA,Riglos,0
+anexo,HUESCA,HOYA DE HUESCA,Sabayes,0
+anexo,HUESCA,HOYA DE HUESCA,Salinas de Jaca,0
+anexo,HUESCA,HOYA DE HUESCA,Santa Eulalia la Mayor,0
+anexo,HUESCA,HOYA DE HUESCA,Sarsamarcuello,0
+anexo,HUESCA,HOYA DE HUESCA,Sasa del Abadiado,0
+anexo,HUESCA,HOYA DE HUESCA,Sieso de Huesca,0
+anexo,HUESCA,HOYA DE HUESCA,Sipan,0
+anexo,HUESCA,HOYA DE HUESCA,Tabernas de Isuela,0
+anexo,HUESCA,HOYA DE HUESCA,Triste,0
+anexo,HUESCA,HOYA DE HUESCA,Velillas,0
+anexo,HUESCA,HOYA DE HUESCA,Bellestar de Flumen,0
+anexo,HUESCA,SOMONTANO,Alberuela de la Liena,0
+anexo,HUESCA,SOMONTANO,Buera,0
+anexo,HUESCA,SOMONTANO,Coscojuela de Fantoya,0
+anexo,HUESCA,SOMONTANO,Costean,0
+anexo,HUESCA,SOMONTANO,Morrano,0
+anexo,HUESCA,SOMONTANO,Ponzano,0
+anexo,HUESCA,SOMONTANO,Rodellar,0
+anexo,HUESCA,SOMONTANO,Salinas de Hoz,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Armillas,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Campos,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Cirujeda,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Colladico,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Godos,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Mezquita de Loscos,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Parras de Martín (Las),0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Piedrahita,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Rambla de Martín (La),0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Rudilla,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Torre de las Arcas,2
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Valdeconejos,0
+anexo,TERUEL,SERRANÍA DE MONTALBÁN,Comunidad Pardina de Mercadal,0
+anexo,TERUEL,BAJO ARAGÓN,Torre de Arcas,2
+anexo,TERUEL,MAESTRAZGO,Castelvispal,0
+anexo,TERUEL,MAESTRAZGO,Montoro de Mezquita,0
+anexo,ZARAGOZA,EJEA DE LOS CABALLEROS,Biel-Fuencalderas,0
+anexo,ZARAGOZA,CALATAYUD,Jarque,0
+anexo,ZARAGOZA,CALATAYUD,Saviñán,0
+anexo,BALEARES,IBIZA,Santa Eulalia del Río,0
+anexo,BALEARES,MALLORCA,Andraitx,0
+anexo,BALEARES,MALLORCA,Bañalbufar,0
+anexo,BALEARES,MALLORCA,Deya,0
+anexo,BALEARES,MALLORCA,Estellenchs,0
+anexo,BALEARES,MALLORCA,María de la Salud,0
+anexo,BALEARES,MALLORCA,Montunrí,0
+anexo,BALEARES,MALLORCA,Palma de Mallorca,0
+anexo,BALEARES,MALLORCA,Santa Margarita,0
+anexo,BALEARES,MENORCA,Mahón,0
+anexo,CANTABRIA,LIÉBANA-TUDANCA-CABUÉRNIGA,Comunidad Campoo-Cabuérniga,0
+anexo,CANTABRIA,ASÓN,Villaverde de Trucios,0
+anexo,CUENCA,ALCARRIA,Bolliga,0
+anexo,CUENCA,ALCARRIA,Bonilla,0
+anexo,CUENCA,ALCARRIA,Caracenilla,0
+anexo,CUENCA,ALCARRIA,Castillejo del Romeral,0
+anexo,CUENCA,ALCARRIA,Cuevas de Velasco,0
+anexo,CUENCA,ALCARRIA,Culebras,0
+anexo,CUENCA,ALCARRIA,Fuentesbuenas,0
+anexo,CUENCA,ALCARRIA,Garcinarro,0
+anexo,CUENCA,ALCARRIA,Jabalera,0
+anexo,CUENCA,ALCARRIA,Mazarulleque,0
+anexo,CUENCA,ALCARRIA,Moncalvillo,0
+anexo,CUENCA,ALCARRIA,Saceda del Río,0
+anexo,CUENCA,ALCARRIA,Sacedoncillo,0
+anexo,CUENCA,ALCARRIA,Valdecolmenas de Abajo,0
+anexo,CUENCA,ALCARRIA,Valdecolmenas de Arriba,0
+anexo,CUENCA,ALCARRIA,Valdemoro del Rey,0
+anexo,CUENCA,ALCARRIA,Ventosa (La),0
+anexo,CUENCA,ALCARRIA,Verdelpino de Huete,0
+anexo,CUENCA,ALCARRIA,Villar del Maestre,0
+anexo,CUENCA,ALCARRIA,Villarejo del Espartal,0
+anexo,CUENCA,SERRANÍA MEDIA,Arcas del Villar,0
+anexo,CUENCA,SERRANÍA MEDIA,Barbalimpia,0
+anexo,CUENCA,SERRANÍA MEDIA,Collados,0
+anexo,CUENCA,SERRANÍA MEDIA,Colliga,0
+anexo,CUENCA,SERRANÍA MEDIA,Fuentesclaras del Chillarón,0
+anexo,CUENCA,SERRANÍA MEDIA,Melgosa,0
+anexo,CUENCA,SERRANÍA MEDIA,Mohorte,0
+anexo,CUENCA,SERRANÍA MEDIA,Navalón,0
+anexo,CUENCA,SERRANÍA MEDIA,Ribagorda,0
+anexo,CUENCA,SERRANÍA MEDIA,Ribatajada,0
+anexo,CUENCA,SERRANÍA MEDIA,Ribatajadilla,0
+anexo,CUENCA,SERRANÍA MEDIA,Sotoca,0
+anexo,CUENCA,SERRANÍA MEDIA,Sotos,0
+anexo,CUENCA,SERRANÍA MEDIA,Tondos,0
+anexo,CUENCA,SERRANÍA MEDIA,Torrecilla,0
+anexo,CUENCA,SERRANÍA MEDIA,Tortola,0
+anexo,CUENCA,SERRANÍA MEDIA,Valdecabras,0
+anexo,CUENCA,SERRANÍA MEDIA,Valdeganga de Cuenca,0
+anexo,CUENCA,SERRANÍA MEDIA,Valera de Abajo,0
+anexo,CUENCA,SERRANÍA MEDIA,Valera de Arriba,0
+anexo,CUENCA,SERRANÍA MEDIA,Villanueva de los Escuderos,0
+anexo,CUENCA,SERRANÍA MEDIA,Villar del Saz de Navalón,0
+anexo,CUENCA,SERRANÍA MEDIA,Villarejo Seco,0
+anexo,CUENCA,MANCHUELA,Rubielos Altos,0
+anexo,CUENCA,MANCHUELA,Rubielos Bajos,0
+anexo,CUENCA,MANCHA ALTA,Horcajada de la Torre,0
+anexo,CUENCA,MANCHA ALTA,Loranca del Campo,0
+anexo,CUENCA,MANCHA ALTA,Naharros,0
+anexo,CUENCA,MANCHA ALTA,Olmedilla del Campo,0
+anexo,CUENCA,MANCHA ALTA,Poveda de la Ovispalía,0
+anexo,CUENCA,MANCHA ALTA,Pozorrubio,0
+anexo,CUENCA,MANCHA ALTA,Valparaíso de Abajo,0
+anexo,CUENCA,MANCHA ALTA,Valparaíso de Arriba,0
+anexo,CUENCA,MANCHA ALTA,Villar del Águila,0
+anexo,CUENCA,MANCHA ALTA,Villar del Horno,0
+anexo,CUENCA,MANCHA ALTA,Villarejo Sobrehuerta,0
+anexo,GUADALAJARA,CAMPIÑA,Cerezo de Mohernando,0
+anexo,GUADALAJARA,CAMPIÑA,Humanes de Mohernando,0
+anexo,GUADALAJARA,CAMPIÑA,Iriepal,0
+anexo,GUADALAJARA,CAMPIÑA,Mesones,0
+anexo,GUADALAJARA,CAMPIÑA,Taracena,0
+anexo,GUADALAJARA,CAMPIÑA,Usanos,0
+anexo,GUADALAJARA,CAMPIÑA,Vadenoches,0
+anexo,GUADALAJARA,SIERRA,Alcorlo,0
+anexo,GUADALAJARA,SIERRA,Aleas,0
+anexo,GUADALAJARA,SIERRA,Alpedrete de la Sierra,0
+anexo,GUADALAJARA,SIERRA,Beleña del Sorbe,0
+anexo,GUADALAJARA,SIERRA,Torrebeleña,0
+anexo,GUADALAJARA,SIERRA,Veguillas,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Archilla,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Balconete,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Carrascosa de Tajo,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Castilblanco,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Castilmimbre,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Fuentes de la Alcarria,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Gárgoles de Abajo,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Gárgoles de Arriba,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Gualda,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Hontanares,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Huetos,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Olmeda del Extremo,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Oter,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Padilla de Hita,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Pajares,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Rebollosa de Hita,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Romanco,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Ruguilla,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Sotoca de Tajo,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Tomellosa,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Val de San García,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Valdesaz,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Villaviciosa de Tajuña,0
+anexo,GUADALAJARA,ALCARRIA ALTA,Yela,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Azañón,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Casasana,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Cereceda,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Corcoles,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Hontanillas,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Morillejo,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Poyos,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Puerta,0
+anexo,GUADALAJARA,ALCARRIA BAJA,Viana Mondéjar,0
+anexo,TOLEDO,TALAVERA,Iglesuela (La),0
+anexo,TOLEDO,LA JARA,Retamoso,0
+anexo,ÁVILA,ÁVILA,Manjabalago,0
+anexo,ÁVILA,BARCO ÁVILA-PIEDRAHITA,Casas del Puerto de Villatoro,0
+anexo,ÁVILA,VALLE DEL TIÉTAR,Comunidad Arenas S. Pedro-Candeleda,0
+anexo,BURGOS,BUREBA-EBRO,Santa María Rivarredonda,0
+anexo,BURGOS,LA RIBERA,Baños de Valdearado,0
+anexo,BURGOS,LA RIBERA,Gumiel de Hizán,0
+anexo,BURGOS,ARLANZA,Quintanilla del Agua,0
+anexo,BURGOS,PISUERGA,Castrillo Matajudíos,0
+anexo,BURGOS,ARLANZÓN,Cabia,0
+anexo,BURGOS,ARLANZÓN,Quintadueñas,0
+anexo,LEÓN,BIERZO,Candín,0
+anexo,LEÓN,BIERZO,Noceda,0
+anexo,LEÓN,BIERZO,Vega Espinareda,0
+anexo,LEÓN,BIERZO,Villadecanes,0
+anexo,LEÓN,LA MONTAÑA DE RIAÑO,Matallana de Torrio,0
+anexo,LEÓN,ASTORGA,Rabanal del Camino,0
+anexo,LEÓN,TIERRAS DE LEÓN,Garrafe de Torrio,0
+anexo,SEGOVIA,CUÉLLAR,Fresneda de Cuéllar Frumales,0
+anexo,SEGOVIA,CUÉLLAR,Lastras de Cuéllar Lastras del Pozo,0
+anexo,SEGOVIA,CUÉLLAR,Mata de Cuéllar Melque de Cercos,0
+anexo,SEGOVIA,CUÉLLAR,San Cristóbal de Cuéllar San Cristóbal de la Vega,0
+anexo,SEGOVIA,SEPÚLVEDA,Pradales,0
+anexo,SEGOVIA,SEGOVIA,San Ildefonso,0
+anexo,ZAMORA,SANABRIA,Codesal,0
+anexo,ZAMORA,SANABRIA,Donado,0
+anexo,ZAMORA,SANABRIA,Valparaíso,0
+anexo,ZAMORA,ALISTE,Figueruela de Abajo,0
+anexo,ZAMORA,ALISTE,Pino,0
+anexo,ZAMORA,CAMPOS-PAN,Cotanes,0
+anexo,ZAMORA,SAYAGO,Figueruela de Sayago,0
+anexo,ZAMORA,SAYAGO,Tamame,0
+anexo,ZAMORA,DUERO BAJO,Corrales,0
+anexo,BARCELONA,BERGADA,Berga-Valldan,0
+anexo,BARCELONA,OSONA,Santa María de Corco,0
+anexo,BARCELONA,ANOIA,Cabrera D Igualada,0
+anexo,BARCELONA,MARESME,Caldes Estrac,0
+anexo,BARCELONA,VALLES ORIENTAL,Bigues i Riells,0
+anexo,BARCELONA,VALLES ORIENTAL,Fogars de Tordera,0
+anexo,BARCELONA,VALLES ORIENTAL,Santa Eulalia de Ronlana,0
+anexo,BARCELONA,VALLES OCCIDENTAL,Palau de Plegamans,0
+anexo,GIRONA,GARROTXA,Montagut,0
+anexo,GIRONA,ALTO AMPURDÁN,Boadella d’Emporda,0
+anexo,GIRONA,ALTO AMPURDÁN,Masarac,0
+anexo,GIRONA,ALTO AMPURDÁN,Sant Llorenl de la Muga,0
+anexo,GIRONA,ALTO AMPURDÁN,Saus,0
+anexo,GIRONA,ALTO AMPURDÁN,Vilajunga,0
+anexo,GIRONA,BAJO AMPURDÁN,Calonge,0
+anexo,GIRONA,BAJO AMPURDÁN,Castell-Platja d`Aro,0
+anexo,GIRONA,BAJO AMPURDÁN,Crunlles,0
+anexo,GIRONA,BAJO AMPURDÁN,Monells i Sant Sadurni de L’heura,0
+anexo,GIRONA,LA SELVA,Brunyola,0
+anexo,LLEIDA,ALTO URGEL,Vansa,0
+anexo,TARRAGONA,BAJO EBRO,Sant Carles de la Rapita,0
+anexo,TARRAGONA,SEGARRA,Passanant,0
+anexo,TARRAGONA,CAMPO DE TARRAGONA,Vandellos i l’Hhospitalet de l’Infant,0
+anexo,TARRAGONA,BAJO PENEDÈS,Roda de Bara,0
+anexo,BADAJOZ,BADAJOZ,Pueblonuevo,0
+anexo,CÁCERES,CÁCERES,Albala del Caudillo,0
+anexo,CÁCERES,CÁCERES,Garrovillas,0
+anexo,CÁCERES,NAVALMORAL DE LA MATA,Higuera,0
+anexo,CÁCERES,JARAÍZ DE LA VERA,Collado,0
+anexo,A CORUÑA,SEPTENTRIONAL,Cesuras,0
+anexo,A CORUÑA,SEPTENTRIONAL,Oza Dos Ríos,0
+anexo,LUGO,SUR,Pobra de Brollon (A),0
+anexo,PONTEVEDRA,MONTAÑA,Cerdedo,0
+anexo,PONTEVEDRA,INTERIOR,Cotobade,0
+anexo,MADRID,LOZOYA SOMOSIERRA,Gargantilla del Lozoya,0
+anexo,MADRID,LOZOYA SOMOSIERRA,Horcajo de la Sierra,0
+anexo,MADRID,LOZOYA SOMOSIERRA,Lozoyuela,0
+anexo,MADRID,LOZOYA SOMOSIERRA,Navarredonda,0
+anexo,MADRID,LOZOYA SOMOSIERRA,Piñuecar,0
+anexo,MADRID,LOZOYA SOMOSIERRA,San Agustín de Guadalix,0
+anexo,NAVARRA,NORD OCCIDENTAL,Atez,0
+anexo,NAVARRA,NORD OCCIDENTAL,Labaien,0
+anexo,NAVARRA,NORD OCCIDENTAL,Oitz,0
+anexo,NAVARRA,NORD OCCIDENTAL,Urrotz,0
+anexo,NAVARRA,PIRINEOS,Esparza,0
+anexo,NAVARRA,PIRINEOS,Lizoáin,0
+anexo,NAVARRA,PIRINEOS,Orbaitzeta,0
+anexo,NAVARRA,CUENCA PAMPLONA,Egüés,0
+anexo,NAVARRA,CUENCA PAMPLONA,Olza,0
+anexo,NAVARRA,CUENCA PAMPLONA,Ollo,0
+anexo,NAVARRA,CUENCA PAMPLONA,Orcoyen,0
+anexo,NAVARRA,TIERRA ESTELLA,Estella/Lizarra,0
+anexo,NAVARRA,TIERRA ESTELLA,Yerri,0
+anexo,ÁLAVA,ESTRIBACIONES GORBEA,Legutiano,0
+anexo,ÁLAVA,LLANADA ALAVESA,Arrazua-Ubarrundia,0
+anexo,ÁLAVA,LLANADA ALAVESA,Parzoneria de Entzia,0
+anexo,ÁLAVA,MONTAÑA ALAVESA,Comunidad de Laño Pipaón y Peñacerrada,0
+anexo,GUIPÚZCOA,GUIPÚZCOA,Bidegoian,0
+anexo,GUIPÚZCOA,GUIPÚZCOA,Soraluze/Placencia de las Armas,0
+anexo,GUIPÚZCOA,GUIPÚZCOA,Donostia-San Sebastián,0
+anexo,GUIPÚZCOA,GUIPÚZCOA,Alzania,0
+anexo,GUIPÚZCOA,GUIPÚZCOA,Sierra de Aralar,0
+anexo,VIZCAYA,VIZCAYA,Arrankudiaga,0
+anexo,VIZCAYA,VIZCAYA,Etxebarri Anteiglesia de San Esteban-Etxebarri Doneztebeko Elizatea,0
+anexo,VIZCAYA,VIZCAYA,Garay,0
+anexo,VIZCAYA,VIZCAYA,Urduña-Orduña,0
+anexo,VIZCAYA,VIZCAYA,Sopelana,0
+anexo,LA RIOJA,SIERRA RIOJA MEDIA,Ajamil,0
+anexo,LA RIOJA,SIERRA RIOJA MEDIA,Lumbreras,0
+anexo,ALICANTE,MONTAÑA,Alcocer de Planes,0
+anexo,ALICANTE,MONTAÑA,Facheca,0
+anexo,ALICANTE,MONTAÑA,Guadalest,0
+anexo,ALICANTE,MARQUESADO,Adsubia,0
+anexo,ALICANTE,MARQUESADO,Rafol de Almunia,0
+anexo,ALICANTE,MARQUESADO,Vall de Ebo,0
+anexo,CASTELLÓN,ALTO MAESTRAZGO,Ares del Maestre,0
+anexo,CASTELLÓN,ALTO MAESTRAZGO,Herbes,0
+anexo,CASTELLÓN,LLANOS CENTRALES,Benasal,0
+anexo,CASTELLÓN,LLANOS CENTRALES,Benlloch,0
+anexo,CASTELLÓN,LLANOS CENTRALES,Sarratella,0
+anexo,CASTELLÓN,LLANOS CENTRALES,Torre Endomenech,0
+anexo,CASTELLÓN,PEÑAGOLOSA,Vistabella del Maestrazgo,0
+anexo,VALENCIA,CAMPOS DE LIRIA,Benisano,0
+anexo,VALENCIA,HOYA DE BUÑOL,Alfarp,0
+anexo,VALENCIA,HOYA DE BUÑOL,Monserrat,0
+anexo,VALENCIA,HOYA DE BUÑOL,Real de Montroi,0
+anexo,VALENCIA,SAGUNTO,Alfara de Algimia,0
+anexo,VALENCIA,SAGUNTO,Algimia de Alfara,0
+anexo,VALENCIA,SAGUNTO,Puig,0
+anexo,VALENCIA,RIBERAS DEL JÚCAR,Masalaves,0
+anexo,VALENCIA,RIBERAS DEL JÚCAR,San Juan de Enova,0
+anexo,VALENCIA,RIBERAS DEL JÚCAR,Villanueva de Castellon,0
+anexo,VALENCIA,VALLES DE ALBAIDA,Benisuera,0
+anexo,VALENCIA,VALLES DE ALBAIDA,Guadasequies,0
+ine_2025,01,,Arratzua-Ubarrundia (01008),
+ine_2025,01,,Legutio (01058),
+ine_2025,03,,"Atzúbia, l' (03001)",
+ine_2025,03,,Alcosser (03007),
+ine_2025,03,,Fageca (03067),
+ine_2025,03,,"Castell de Guadalest, el (03075)",
+ine_2025,03,,"Ràfol d'Almúnia, el (03110)",
+ine_2025,03,,"Vall d'Ebo, la (03135)",
+ine_2025,04,,Alcudia de Monteagud (04009),
+ine_2025,04,,Balanegra (04904),
+ine_2025,05,,Casas del Puerto (05052),
+ine_2025,05,,Manjabálago y Ortigosa de Rioalmar (05119),
+ine_2025,06,,Pueblonuevo del Guadiana (06902),
+ine_2025,06,,Guadiana (06903),
+ine_2025,07,,Andratx (07005),
+ine_2025,07,,Banyalbufar (07007),
+ine_2025,07,,Deià (07018),
+ine_2025,07,,Estellencs (07021),
+ine_2025,07,,Maó (07032),
+ine_2025,07,,Maria de la Salut (07035),
+ine_2025,07,,Montuïri (07038),
+ine_2025,07,,Palma (07040),
+ine_2025,07,,Santa Eulària des Riu (07054),
+ine_2025,07,,Santa Margalida (07055),
+ine_2025,08,,Berga (08022),
+ine_2025,08,,Bigues i Riells del Fai (08023),
+ine_2025,08,,Cabrera d'Anoia (08028),
+ine_2025,08,,Caldes d'Estrac (08032),
+ine_2025,08,,Fogars de la Selva (08082),
+ine_2025,08,,Palau-solità i Plegamans (08156),
+ine_2025,08,,Santa Eulàlia de Ronçana (08248),
+ine_2025,08,,"Esquirol, L' (08254)",
+ine_2025,09,,Baños de Valdearados (09035),
+ine_2025,09,,Cavia (09063),
+ine_2025,09,,Castrillo Mota de Judíos (09090),
+ine_2025,09,,Gumiel de Izán (09151),
+ine_2025,09,,Santa María Ribarredonda (09353),
+ine_2025,09,,Quintanilla del Agua y Tordueles (09901),
+ine_2025,09,,Alfoz de Quintanadueñas (09907),
+ine_2025,10,,Albalá (10007),
+ine_2025,10,,Collado de la Vera (10065),
+ine_2025,10,,Garrovillas de Alconétar (10082),
+ine_2025,10,,Higuera de Albalat (10097),
+ine_2025,10,,Tiétar (10904),
+ine_2025,10,,Pueblonuevo de Miramontes (10905),
+ine_2025,11,,San Martín del Tesorillo (11903),
+ine_2025,12,,Ares del Maestrat (12014),
+ine_2025,12,,Benassal (12026),
+ine_2025,12,,Benlloc (12029),
+ine_2025,12,,Herbers (12068),
+ine_2025,12,,"Serratella, la (12103)",
+ine_2025,12,,"Torre d'en Doménec, la (12120)",
+ine_2025,12,,Vistabella del Maestrat (12139),
+ine_2025,14,,Fuente Carreteros (14901),
+ine_2025,14,,"Guijarrosa, La (14902)",
+ine_2025,15,,Oza-Cesuras (15902),
+ine_2025,16,,Pozorrubio de Santiago (16167),
+ine_2025,16,,"Valle de Altomira, El (16173)",
+ine_2025,16,,Villas de la Ventosa (16272),
+ine_2025,16,,Valdetórtola (16902),
+ine_2025,16,,"Valeras, Las (16903)",
+ine_2025,16,,Arcas (16905),
+ine_2025,16,,"Valdecolmenas, Los (16906)",
+ine_2025,16,,Sotorribas (16909),
+ine_2025,16,,Villar y Velasco (16910),
+ine_2025,17,,Brunyola i Sant Martí Sapresa (17028),
+ine_2025,17,,Boadella i les Escaules (17029),
+ine_2025,17,,Calonge i Sant Antoni (17034),
+ine_2025,17,,"Castell d'Aro, Platja d'Aro i s'Agaró (17048)",
+ine_2025,17,,Masarac i Vilarnadal (17100),
+ine_2025,17,,Montagut i Oix (17109),
+ine_2025,17,,Sant Llorenç de la Muga (17171),
+ine_2025,17,,"Saus, Camallera i Llampaies (17187)",
+ine_2025,17,,Vilajuïga (17223),
+ine_2025,17,,"Cruïlles, Monells i Sant Sadurní de l'Heura (17901)",
+ine_2025,18,,Cogollos de la Vega (18050),
+ine_2025,18,,Dehesas Viejas (18065),
+ine_2025,18,,Fornes (18077),
+ine_2025,18,,Huétor de Santillán (18099),
+ine_2025,18,,Játar (18106),
+ine_2025,18,,Villa de Otura (18149),
+ine_2025,18,,Píñar (18159),
+ine_2025,18,,"Pinar, El (18910)",
+ine_2025,18,,Valderrubio (18914),
+ine_2025,18,,Domingo Pérez de Granada (18915),
+ine_2025,18,,Torrenueva Costa (18916),
+ine_2025,19,,Humanes (19151),
+ine_2025,20,,Bidania-Goiatz (20024),
+ine_2025,20,,Soraluze-Placencia de las Armas (20065),
+ine_2025,20,,Donostia/San Sebastián (20069),
+ine_2025,21,,"Zarza-Perrunal, La  (21902)",
+ine_2025,22,,Monesma y Cajigar (22155),
+ine_2025,22,,"Peñas de Riglos, Las (22173)",
+ine_2025,22,,Santa Cilia (22208),
+ine_2025,22,,Santaliestra y San Quílez (22212),
+ine_2025,22,,Torla-Ordesa (22230),
+ine_2025,22,,Beranuy (22246),
+ine_2025,22,,Valle de Hecho (22901),
+ine_2025,22,,Aínsa-Sobrarbe (22907),
+ine_2025,24,,Valle de Ancares (24036),
+ine_2025,24,,Garrafe de Torío (24076),
+ine_2025,24,,Matallana de Torío (24098),
+ine_2025,24,,Noceda del Bierzo (24102),
+ine_2025,24,,Vega de Espinareda (24196),
+ine_2025,24,,Toral de los Vados (24206),
+ine_2025,25,,"Vansa i Fórnols, La (25909)",
+ine_2025,26,,Ajamil de Cameros (26004),
+ine_2025,26,,Lumbreras de Cameros (26091),
+ine_2025,27,,"Pobra do Brollón, A (27047)",
+ine_2025,28,,Gargantilla del Lozoya y Pinilla de Buitrago (28063),
+ine_2025,28,,Horcajo de la Sierra-Aoslos (28070),
+ine_2025,28,,Navarredonda y San Mamés (28097),
+ine_2025,28,,Piñuécar-Gandullas (28114),
+ine_2025,28,,San Agustín del Guadalix (28129),
+ine_2025,28,,Lozoyuela-Navas-Sieteiglesias (28901),
+ine_2025,29,,Villanueva de la Concepción (29902),
+ine_2025,29,,Montecorto (29903),
+ine_2025,29,,Serrato (29904),
+ine_2025,31,,Atetz (31040),
+ine_2025,31,,Valle de Egüés/Eguesibar (31086),
+ine_2025,31,,Esparza de Salazar/Espartza Zaraitzu (31095),
+ine_2025,31,,Estella-Lizarra (31097),
+ine_2025,31,,Beintza-Labaien (31137),
+ine_2025,31,,Lizoain-Arriasgoiti/Lizoainibar-Arriasgoiti (31156),
+ine_2025,31,,Oiz (31187),
+ine_2025,31,,Cendea de Olza/Oltza Zendea (31193),
+ine_2025,31,,Valle de Ollo/Ollaran (31194),
+ine_2025,31,,Orbaizeta (31195),
+ine_2025,31,,Urroz-Villa (31243),
+ine_2025,31,,Valle de Yerri/Deierri (31260),
+ine_2025,31,,Orkoien (31906),
+ine_2025,35,,Agaete (35001),
+ine_2025,35,,Agüimes (35002),
+ine_2025,35,,Antigua (35003),
+ine_2025,35,,Arrecife (35004),
+ine_2025,35,,Artenara (35005),
+ine_2025,35,,Arucas (35006),
+ine_2025,35,,Betancuria (35007),
+ine_2025,35,,Firgas (35008),
+ine_2025,35,,Gáldar (35009),
+ine_2025,35,,Haría (35010),
+ine_2025,35,,Ingenio (35011),
+ine_2025,35,,Mogán (35012),
+ine_2025,35,,Moya (35013),
+ine_2025,35,,"Oliva, La (35014)",
+ine_2025,35,,Pájara (35015),
+ine_2025,35,,"Palmas de Gran Canaria, Las (35016)",
+ine_2025,35,,Puerto del Rosario (35017),
+ine_2025,35,,San Bartolomé (35018),
+ine_2025,35,,San Bartolomé de Tirajana (35019),
+ine_2025,35,,"Aldea de San Nicolás, La (35020)",
+ine_2025,35,,Santa Brígida (35021),
+ine_2025,35,,Santa Lucía de Tirajana (35022),
+ine_2025,35,,Santa María de Guía de Gran Canaria (35023),
+ine_2025,35,,Teguise (35024),
+ine_2025,35,,Tejeda (35025),
+ine_2025,35,,Telde (35026),
+ine_2025,35,,Teror (35027),
+ine_2025,35,,Tías (35028),
+ine_2025,35,,Tinajo (35029),
+ine_2025,35,,Tuineje (35030),
+ine_2025,35,,Valsequillo de Gran Canaria (35031),
+ine_2025,35,,Valleseco (35032),
+ine_2025,35,,Vega de San Mateo (35033),
+ine_2025,35,,Yaiza (35034),
+ine_2025,36,,Cerdedo-Cotobade (36902),
+ine_2025,38,,Adeje (38001),
+ine_2025,38,,Agulo (38002),
+ine_2025,38,,Alajeró (38003),
+ine_2025,38,,Arafo (38004),
+ine_2025,38,,Arico (38005),
+ine_2025,38,,Arona (38006),
+ine_2025,38,,Barlovento (38007),
+ine_2025,38,,Breña Alta (38008),
+ine_2025,38,,Breña Baja (38009),
+ine_2025,38,,Buenavista del Norte (38010),
+ine_2025,38,,Candelaria (38011),
+ine_2025,38,,Fasnia (38012),
+ine_2025,38,,Frontera (38013),
+ine_2025,38,,Fuencaliente de la Palma (38014),
+ine_2025,38,,Garachico (38015),
+ine_2025,38,,Garafía (38016),
+ine_2025,38,,Granadilla de Abona (38017),
+ine_2025,38,,"Guancha, La (38018)",
+ine_2025,38,,Guía de Isora (38019),
+ine_2025,38,,Güímar (38020),
+ine_2025,38,,Hermigua (38021),
+ine_2025,38,,Icod de los Vinos (38022),
+ine_2025,38,,San Cristóbal de La Laguna (38023),
+ine_2025,38,,"Llanos de Aridane, Los (38024)",
+ine_2025,38,,"Matanza de Acentejo, La (38025)",
+ine_2025,38,,"Orotava, La (38026)",
+ine_2025,38,,"Paso, El (38027)",
+ine_2025,38,,Puerto de la Cruz (38028),
+ine_2025,38,,Puntagorda (38029),
+ine_2025,38,,Puntallana (38030),
+ine_2025,38,,"Realejos, Los (38031)",
+ine_2025,38,,"Rosario, El (38032)",
+ine_2025,38,,San Andrés y Sauces (38033),
+ine_2025,38,,San Juan de la Rambla (38034),
+ine_2025,38,,San Miguel de Abona (38035),
+ine_2025,38,,San Sebastián de la Gomera (38036),
+ine_2025,38,,Santa Cruz de la Palma (38037),
+ine_2025,38,,Santa Cruz de Tenerife (38038),
+ine_2025,38,,Santa Úrsula (38039),
+ine_2025,38,,Santiago del Teide (38040),
+ine_2025,38,,"Sauzal, El (38041)",
+ine_2025,38,,"Silos, Los (38042)",
+ine_2025,38,,Tacoronte (38043),
+ine_2025,38,,"Tanque, El (38044)",
+ine_2025,38,,Tazacorte (38045),
+ine_2025,38,,Tegueste (38046),
+ine_2025,38,,Tijarafe (38047),
+ine_2025,38,,Valverde (38048),
+ine_2025,38,,Valle Gran Rey (38049),
+ine_2025,38,,Vallehermoso (38050),
+ine_2025,38,,"Victoria de Acentejo, La (38051)",
+ine_2025,38,,Vilaflor de Chasna (38052),
+ine_2025,38,,Villa de Mazo (38053),
+ine_2025,38,,"Pinar de El Hierro, El (38901)",
+ine_2025,39,,Valle de Villaverde (39101),
+ine_2025,40,,Fresneda de Cuéllar (40078),
+ine_2025,40,,Frumales (40081),
+ine_2025,40,,Lastras de Cuéllar (40110),
+ine_2025,40,,Lastras del Pozo (40111),
+ine_2025,40,,Mata de Cuéllar (40124),
+ine_2025,40,,Melque de Cercos (40126),
+ine_2025,40,,Carabias (40161),
+ine_2025,40,,San Cristóbal de Cuéllar (40177),
+ine_2025,40,,San Cristóbal de la Vega (40178),
+ine_2025,40,,Real Sitio de San Ildefonso (40181),
+ine_2025,41,,"Palmar de Troya, El (41904)",
+ine_2025,43,,Passanant i Belltall (43101),
+ine_2025,43,,Roda de Berà (43131),
+ine_2025,43,,"Ràpita, La (43136)",
+ine_2025,43,,Vandellòs i l'Hospitalet de l'Infant (43162),
+ine_2025,43,,"Canonja, La (43907)",
+ine_2025,44,,Torre de Arcas (44223),
+ine_2025,44,,Torre de las Arcas (44224),
+ine_2025,45,,"Iglesuela del Tiétar, La (45079)",
+ine_2025,45,,Retamoso de la Jara (45146),
+ine_2025,46,,Alfara de la Baronia (46024),
+ine_2025,46,,Alfarb (46026),
+ine_2025,46,,Algímia d'Alfara (46030),
+ine_2025,46,,Benetússer (46054),
+ine_2025,46,,Benissanó (46067),
+ine_2025,46,,Benissuera (46069),
+ine_2025,46,,Emperador (46117),
+ine_2025,46,,Guadasséquies (46138),
+ine_2025,46,,Llocnou de la Corona (46152),
+ine_2025,46,,Massalavés (46162),
+ine_2025,46,,Montserrat (46172),
+ine_2025,46,,"Puig de Santa Maria, el (46204)",
+ine_2025,46,,Real (46212),
+ine_2025,46,,Sant Joanet (46222),
+ine_2025,46,,Castelló (46257),
+ine_2025,48,,Arrankudiaga-Zollo (48009),
+ine_2025,48,,Etxebarri (48029),
+ine_2025,48,,Garai (48039),
+ine_2025,48,,Urduña/Orduña (48074),
+ine_2025,48,,Sopela (48085),
+ine_2025,48,,Usansolo (48916),
+ine_2025,49,,Corrales del Vino (49054),
+ine_2025,49,,Cotanes del Monte (49055),
+ine_2025,49,,Pino del Oro (49157),
+ine_2025,50,,Jarque de Moncayo (50130),
+ine_2025,50,,Sabiñán (50241),
+ine_2025,50,,Biel (50901),
+ine_2025,50,,Villamayor de Gállego (50903),
+ine_2025,51,,Ceuta (51001),
+ine_2025,52,,Melilla (52001),
