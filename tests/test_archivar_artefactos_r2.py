@@ -137,6 +137,84 @@ class Archivista(unittest.TestCase):
         self.assertFalse(arc.guardar_manifiesto(ruta, self.man))
 
 
+def estado_zip(ruta, n_secciones=2500):
+    import zipfile
+    dist = {"features": [{"properties": {"district_id": 0}}, {"properties": {"district_id": 1}}]}
+    secc = {"features": [{"properties": {"CUSEC": i}} for i in range(n_secciones)]}
+    with zipfile.ZipFile(ruta, "w") as z:
+        z.writestr("cache/.cache/t_m06_distritos.geojson", json.dumps(dist))
+        z.writestr("cache/t_m06_secciones.geojson", json.dumps(secc))
+        z.writestr("cache/t_m06_composicion_distritos.csv", "CUSEC_KEY,district_id,section_pop\n1,0,5\n")
+        z.writestr("cache/t_m05_informe.json", "{}")
+        z.writestr("run/CHAIN_STATE.json", "{}")
+        z.writestr("sources/paquete.zip", b"x" * 1000)
+    return ruta
+
+
+class PaqueteMinimo(unittest.TestCase):
+    def setUp(self):
+        self.td = tempfile.TemporaryDirectory()
+        self.d = Path(self.td.name)
+        estado_zip(self.d / "e.zip")
+        (self.d / "audit").mkdir()
+        (self.d / "audit/production_status.json").write_text('{"decision":"PASS"}')
+        self.a = {"id": 7, "name": "ddd-state-41037133327-M06", "run": "41037133327"}
+
+    def tearDown(self):
+        self.td.cleanup()
+
+    def paquete(self, sub):
+        import zipfile
+        (self.d / sub).mkdir()
+        z = arc.empaquetar_minimo((self.d / "audit",))(self.a, self.d / "e.zip", self.d / sub)
+        return z, zipfile.ZipFile(z)
+
+    def test_seleccion_y_manifiesto(self):
+        z, zf = self.paquete("p1")
+        self.assertEqual(z.name, "ddd-minimo-41037133327-M06.zip")
+        self.assertEqual(sorted(zf.namelist()), [
+            "MANIFEST_MINIMO.json", "estado/cache/.cache/t_m06_distritos.geojson",
+            "estado/cache/t_m06_composicion_distritos.csv", "estado/run/CHAIN_STATE.json",
+            "extra/audit/production_status.json"])
+        man = json.loads(zf.read("MANIFEST_MINIMO.json"))
+        self.assertEqual(man["sha256_estado_original"], arc.sha256_fichero(self.d / "e.zip"))
+        self.assertEqual(man["ficheros"]["estado/run/CHAIN_STATE.json"], arc.hashlib.sha256(b"{}").hexdigest())
+
+    def test_secciones_pequenas_excluidas(self):
+        estado_zip(self.d / "e.zip", n_secciones=50)
+        _, zf = self.paquete("p1")
+        self.assertNotIn("estado/cache/t_m06_secciones.geojson", zf.namelist())
+
+    def test_determinista(self):
+        z1, _ = self.paquete("p1")
+        z2, _ = self.paquete("p2")
+        self.assertEqual(arc.sha256_fichero(z1), arc.sha256_fichero(z2))
+
+    def test_sin_geojson_distrital_falla(self):
+        import zipfile
+        with zipfile.ZipFile(self.d / "e2.zip", "w") as z:
+            z.writestr("cache/t_m06_secciones.geojson", json.dumps({"features": [{}] * 2500}))
+        (self.d / "p").mkdir()
+        with self.assertRaises(ValueError):
+            arc.empaquetar_minimo()(self.a, self.d / "e2.zip", self.d / "p")
+
+    def test_archivar_con_paquete(self):
+        r2 = R2Falso()
+        man = {"artefactos": {}}
+        viv = [{**art(7, "ddd-state-41037133327-M06", "2026-11-20T00:00:00Z")}]
+        res = arc.archivar(viv, {"ddd-state-41037133327-M06": "cantabria"}, {}, man,
+                           lambda a, p: p.write_bytes((self.d / "e.zip").read_bytes()), r2.sha, r2.subir, "bkt",
+                           empaquetar=arc.empaquetar_minimo())
+        k = "cantabria/41037133327/ddd-minimo-41037133327-M06.zip"
+        self.assertEqual(res["archivados"], [k])
+        e = man["artefactos"][k]
+        self.assertEqual(e["artefacto"], "ddd-minimo-41037133327-M06")
+        self.assertEqual(e["artefacto_origen"], "ddd-state-41037133327-M06")
+        self.assertEqual(e["sha256_estado_original"], arc.sha256_fichero(self.d / "e.zip"))
+        self.assertLess(e["tamano_bytes"], e["tamano_estado_original"])
+        self.assertEqual(res["perdidos"], [])
+
+
 class Reintentos(unittest.TestCase):
     def setUp(self):
         self.esperas = []

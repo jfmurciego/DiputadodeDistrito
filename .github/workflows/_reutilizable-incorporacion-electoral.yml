@@ -9,8 +9,9 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.1.6: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# CAMBIOS 1.2.1: T-72b, el estado M08 es acumulativo (lleva el M06): tras subirlo se retira de R2 el M06 del run
-#   territorial (--sustituye-m06-run; R2 bajo 10 GB, decisión del propietario).
+# CAMBIOS 1.2.1: T-72b, a R2 va el paquete mínimo ddd-minimo-<run>-M08 (GeoJSON distritales y CSV/JSON de M06-M08,
+#   VALIDACION y manifiestos, con sha256 del estado original), no el ZIP de estado; como el estado M08 es acumulativo,
+#   el paquete M08 lleva lo del M06 y se retira de R2 el paquete M06 del run territorial (--sustituye-m06-run).
 # CAMBIOS 1.2.0: T-72, archivo en origen: tras registrar, el job «registrar» sube ddd-state-<run>-M08 a R2 con sha256
 #   (herramientas/archivo_origen.py r2; si falla, ARCHIVO_R2_FAILED y el run no queda verde) y escribe en git los votos
 #   por partido y distrito del run (datos/resultados/runs/) con la composición del run territorial.
