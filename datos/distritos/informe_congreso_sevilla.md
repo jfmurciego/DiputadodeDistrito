@@ -1,14 +1,29 @@
 # Nombres y comunidades de interés — congreso_sevilla
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 16 (nombres únicos: 16)
 - Reglas: MUNICIPIO 6, PRINCIPAL_Y_ENTORNO 10
 - Municipios divididos entre distritos (suma por distrito): 6
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 15
+- Partidos partidos entre distritos: 9
+- Cobertura: 96.2% de los municipios, 99.0% de la población (sin partido: 4, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 41-01 | 5, 12 |
+| 41-02 | 7, 12 |
+| 41-03 | 6, 9, 10 |
+| 41-04 | 7, 15 |
+| 41-05 | 7, 10, 12 |
+| 41-06 | 0, 1, 2, 3, 4, 6, 7, 9, 10, 11, 14 |
+| 41-07 | 12, 13 |
+| 41-09 | 12, 13 |
+| 41-10 | 5, 12 |
 
 ## Distritos
 

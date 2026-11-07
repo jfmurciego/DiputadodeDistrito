@@ -1,9 +1,9 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_pontevedra,0,Vigo 2,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118335,,0,NOT_EVALUABLE,
-congreso_pontevedra,1,Vigo 1,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118376,,0,NOT_EVALUABLE,
-congreso_pontevedra,2,Pontevedra y entorno,PRINCIPAL_Y_ENTORNO,,36038,Pontevedra,4,0,128618,,0,NOT_EVALUABLE,
-congreso_pontevedra,3,Puenteareas y entorno,PRINCIPAL_Y_ENTORNO,,36042,Puenteareas,14,0,123093,,0,NOT_EVALUABLE,
-congreso_pontevedra,4,Redondela y entorno,PRINCIPAL_Y_ENTORNO,,36045,Redondela,21,0,122832,,0,NOT_EVALUABLE,
-congreso_pontevedra,5,Vigo y entorno,PRINCIPAL_Y_ENTORNO,,36057,Vigo,5,1,124407,,0,NOT_EVALUABLE,
-congreso_pontevedra,6,Villagarcía de Arosa y entorno,PRINCIPAL_Y_ENTORNO,,36060,Villagarcía de Arosa,12,0,122852,,0,NOT_EVALUABLE,
-congreso_pontevedra,7,Cangas y entorno,PRINCIPAL_Y_ENTORNO,,36008,Cangas,5,0,88197,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_pontevedra,0,Vigo 2,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118335,,0,1,EVALUADO,
+congreso_pontevedra,1,Vigo 1,MUNICIPIO,POSICION_N_S_O_E,36057,Vigo,1,1,118376,,0,1,EVALUADO,
+congreso_pontevedra,2,Pontevedra y entorno,PRINCIPAL_Y_ENTORNO,,36038,Pontevedra,4,0,128618,,0,2,EVALUADO,
+congreso_pontevedra,3,Puenteareas y entorno,PRINCIPAL_Y_ENTORNO,,36042,Puenteareas,14,0,123093,,0,3,EVALUADO,
+congreso_pontevedra,4,Redondela y entorno,PRINCIPAL_Y_ENTORNO,,36045,Redondela,21,0,122832,,0,6,EVALUADO,
+congreso_pontevedra,5,Vigo y entorno,PRINCIPAL_Y_ENTORNO,,36057,Vigo,5,1,124407,,0,2,EVALUADO,
+congreso_pontevedra,6,Villagarcía de Arosa y entorno,PRINCIPAL_Y_ENTORNO,,36060,Villagarcía de Arosa,12,0,122852,,0,5,EVALUADO,
+congreso_pontevedra,7,Cangas y entorno,PRINCIPAL_Y_ENTORNO,,36008,Cangas,5,0,88197,,0,2,EVALUADO,

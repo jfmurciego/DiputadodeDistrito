@@ -1,4 +1,4 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_salamanca,0,Salamanca,MUNICIPIO,,37274,Salamanca,1,1,109023,,0,NOT_EVALUABLE,
-congreso_salamanca,1,Salamanca y entorno,PRINCIPAL_Y_ENTORNO,,37274,Salamanca,174,1,109031,,0,NOT_EVALUABLE,
-congreso_salamanca,2,Béjar y entorno,PRINCIPAL_Y_ENTORNO,,37046,Béjar,188,0,109035,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_salamanca,0,Salamanca,MUNICIPIO,,37274,Salamanca,1,1,109023,,0,1,EVALUADO,
+congreso_salamanca,1,Salamanca y entorno,PRINCIPAL_Y_ENTORNO,,37274,Salamanca,174,1,109031,,0,4,EVALUADO,
+congreso_salamanca,2,Béjar y entorno,PRINCIPAL_Y_ENTORNO,,37046,Béjar,188,0,109035,,0,5,EVALUADO,

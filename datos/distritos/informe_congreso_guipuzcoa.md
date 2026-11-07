@@ -1,14 +1,24 @@
 # Nombres y comunidades de interés — congreso_guipuzcoa
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 6 (nombres únicos: 6)
 - Reglas: MUNICIPIO 1, PRINCIPAL_Y_ENTORNO 5
 - Municipios divididos entre distritos (suma por distrito): 2
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 6
+- Partidos partidos entre distritos: 4
+- Cobertura: 93.2% de los municipios, 96.2% de la población (sin partido: 6, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 20-01 | 1, 2, 4 |
+| 20-02 | 1, 2, 4 |
+| 20-03 | 2, 4 |
+| 20-05 | 0, 1, 3, 5 |
 
 ## Distritos
 

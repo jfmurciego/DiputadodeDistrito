@@ -1,14 +1,26 @@
 # Nombres y comunidades de interés — congreso_cordoba
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 6 (nombres únicos: 6)
 - Reglas: MUNICIPIO 2, PRINCIPAL_Y_ENTORNO 4
 - Municipios divididos entre distritos (suma por distrito): 3
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 12
+- Partidos partidos entre distritos: 6
+- Cobertura: 97.4% de los municipios, 99.7% de la población (sin partido: 2, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 14-01 | 3, 4 |
+| 14-02 | 4, 5 |
+| 14-03 | 3, 4 |
+| 14-08 | 0, 1, 2, 3, 4 |
+| 14-10 | 4, 5 |
+| 14-11 | 2, 4 |
 
 ## Distritos
 
