@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.1.0
+# VERSIÓN: 3.2.0
 # NOMBRE: Publicación manual desacoplada del cálculo territorial
 # ESTADO: candidato
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
@@ -9,7 +9,8 @@
 # CAMBIOS 3.0.4: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # CAMBIOS 3.1.0: T-27 fase c, `scenario_id` y `scenario_strategy` opcionales: la ejecución se promueve como escenario no canónico (solo adición).
-# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.0.4_20261102.yml
+# CAMBIOS 3.2.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan. Solo si es la 05 directa (no la llamada desde la 00).
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.1.0_20261107.yml
 # CAMBIOS: sin run explícito, solo promueve latest_validated si conserva artefactos ddd-*; si caducaron publica el registro durable.
 # MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
 # FECHA: 2026-10-29
@@ -58,6 +59,7 @@ permissions:
 jobs:
   preparar_publicacion:
     name: Preparar promoción web
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == '05 Publicación del Visor') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-shared-operational-state

@@ -1,0 +1,43 @@
+{
+  "id": "CR-06",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Puerta 04 sin descargar el M08",
+  "causa": "La puerta final de la 04 no descargó el M08 y el manifiesto quedó con digest vacío; el receipt electoral no tiene linaje validado.",
+  "origen": {
+    "prs": [
+      407
+    ],
+    "runs": [
+      41491527658,
+      41480150601
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41491527658,
+      41480150601
+    ],
+    "sintoma": "Cádiz, 00 «Reutilizar» bloquea en Planificar con DURABLE_LINEAGE_INCOMPATIBLE: electoral_product; el manifiesto del run anterior tiene artifact_digest vacío y validation_decision BLOQUEADO.",
+    "territorio": "congreso_cadiz"
+  },
+  "esperado": {
+    "causa_id": "m08_no_descargado_linaje",
+    "claves": [
+      "M08",
+      "digest",
+      "linaje",
+      "electoral_product_available"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#407 fusionada, squash f732d8193d sobre 42eefcb0b7 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

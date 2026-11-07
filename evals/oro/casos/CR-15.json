@@ -1,0 +1,45 @@
+{
+  "id": "CR-15",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Encadenado del 00 sin puerta 02",
+  "causa": "El job encadenar_par_y_04 no exigía puerta_02 en success y encadenó par y 00 «Reutilizar» sin M06 registrado.",
+  "origen": {
+    "prs": [
+      389
+    ],
+    "runs": [
+      41335088773,
+      41336002924,
+      41336108228
+    ],
+    "pr_introductora": null,
+    "referencia": "CLAUDE.md (00) y PR #389"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41335088773,
+      41336002924,
+      41336108228
+    ],
+    "sintoma": "Congreso Álava: la 00 falla en «Registrar producto territorial» (puerta 02 skipped) y aun así activa el par (41336002924) y relanza una 00 que cae igual (41336108228).",
+    "territorio": "congreso_alava"
+  },
+  "esperado": {
+    "causa_id": "encadenado_sin_puerta_02",
+    "claves": [
+      "puerta_02",
+      "puerta 02",
+      "encaden",
+      "skipped"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "CLAUDE.md (00) y PR #389",
+    "verificado": "#389 fusionada, squash dc9f5c7a0f sobre 358f5b5063 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

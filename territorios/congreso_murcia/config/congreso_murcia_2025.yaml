@@ -207,7 +207,7 @@ validation:
       municipality: Águilas
       decided_at: '2026-11-02'
       decided_by: propietario
-      rationale: Contradicción probada con las reglas actuales (Lorca indivisible
+      reason: Contradicción probada con las reglas actuales (Lorca indivisible
         + Águilas + Puerto Lumbreras = 152.095 > techo 137.265); se exime del suelo
         el distrito de Águilas (0,31 de la media) y Lorca + Puerto Lumbreras suman
         115.411.

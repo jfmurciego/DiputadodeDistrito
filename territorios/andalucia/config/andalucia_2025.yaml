@@ -244,6 +244,27 @@ validation:
   - '11005'
   - '41001'
   population_floor_exempt_partitions: []
+  population_floor_exempt_decisions:
+    '11001':
+      decided_at: '2026-10-29'
+      decided_by: propietario
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 52.719 hab., 0,66 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
+    '11002':
+      decided_at: '2026-10-29'
+      decided_by: propietario
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 20.261 hab., 0,25 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
+    '11005':
+      decided_at: '2026-10-29'
+      decided_by: propietario
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 35.805 hab., 0,45 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
+    '41001':
+      decided_at: '2026-10-29'
+      decided_by: propietario
+      reason: 'Distrito de municipio rural bajo el suelo que no admite reparación (Andalucía en NO_FEASIBLE_REPAIR_FOUND con atomicidad 1,25): 55.814 hab., 0,70 de la media.'
+      evidence: 'run 40952332904; docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — Población — exención de suelo por municipio en Andalucía»; mecanismo #343'
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'

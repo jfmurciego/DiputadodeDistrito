@@ -13,17 +13,24 @@ tras pasar a 1,25.
 Con --consume-certified-product (la 04 consumiendo un M06 ya certificado) no se exige la huella
 del motor M05: sirve para reanudar optimización, no para consumir un producto cerrado; se siguen
 exigiendo fuentes, configuración M04 y certificación poblacional.
-ANTERIOR: legacy/herramientas/seleccionar_checkpoint_productivo_pre_huella_m04_20261029.py
+CAMBIOS 2026-11-07 (T-51): un checkpoint M04/M05/M06 se compara con la huella de motor, contrato y política
+(herramientas/huella_checkpoint_motor.py, compatibility/motor.json). Si la capa M04 no coincide se rechaza con
+CHECKPOINT_ENGINE_MISMATCH y el selector baja de etapa (rehace desde M04); si solo cambia la capa M05 se deriva M04
+y se rehace desde M05. Sin huella (checkpoint anterior) se avisa con CHECKPOINT_ENGINE_UNVERIFIED. Antes se
+reutilizaba en silencio un M04 de otro motor (Las Palmas 41432561787).
+ANTERIOR: legacy/herramientas/seleccionar_checkpoint_productivo_pre_huella_motor_20261107.py
 """
 from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Iterable
 
 from herramientas.validar_fuentes_reanudacion import validate_resume_sources
 from herramientas.huella_checkpoint_m05 import build_fingerprint
+from herramientas import huella_checkpoint_motor as motor
 from herramientas.derivar_checkpoint_acumulado import inspect_derivable_checkpoint
 from herramientas.estado_produccion import TARGET_MET, population_dimension
 from ddd_core.config import load_params_yaml
@@ -48,6 +55,19 @@ def _validate_m05_compatibility(*, params: Path, state_root: Path, root_dir: Pat
             f"{stored.get('fingerprint') or 'MISSING'} != {current.get('fingerprint')}"
         )
     return {"stored":stored,"current":current}
+
+
+def _engine_fingerprint_check(*, params: Path, state_root: Path, root_dir: Path, stage_num: int) -> dict:
+    """T-51: compara la huella de motor, contrato y política del checkpoint con la actual."""
+    path = state_root / "compatibility" / "motor.json"
+    stored = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else None
+    current = motor.build_fingerprint(params=params, root_dir=root_dir)
+    check = motor.comparar(stored, current, stage_num)
+    if check["status"] != motor.MATCH:
+        detalle = "; ".join(check.get("differences") or [])
+        print(f"::warning::{check['status']} (M{stage_num:02d}): {check.get('detail', '')}"
+              + (f" — {detalle}" if detalle else ""), file=sys.stderr)
+    return check
 
 
 def _validate_m04_configuration(*, params: Path, state_root: Path) -> dict:
@@ -140,8 +160,16 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
         compatibility_error=None
         derivation_cause=None
         m04_configuration=None
+        engine_check=None
         if _stage_num(stage) >= 4 and state_root is not None:
             m04_configuration=_validate_m04_configuration(params=params,state_root=state_root)
+            if not consume_certified:
+                engine_check=_engine_fingerprint_check(params=params,state_root=state_root,root_dir=root_dir,
+                                                       stage_num=_stage_num(stage))
+                if engine_check["status"] == motor.MISMATCH and engine_check["invalidate_from"] == "M04":
+                    raise ValueError(
+                        f"{motor.MISMATCH}: {engine_check['detail']} ({'; '.join(engine_check['differences'])})"
+                    )
         if consume_certified and _stage_num(stage) >= 6:
             if state_root is None:
                 raise ValueError("producto M06 exige estado completo para validar su certificación")
@@ -155,10 +183,12 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
             if state_root is None:
                 raise ValueError("checkpoint M05/M06 exige estado completo para validar compatibilidad")
             try:
+                if engine_check and engine_check["status"] == motor.MISMATCH:
+                    raise ValueError(f"{motor.MISMATCH}: {engine_check['detail']}")
                 compatibility=_validate_m05_compatibility(params=params,state_root=state_root,root_dir=root_dir)
             except Exception as exc:
                 compatibility_error=str(exc)
-                derivation_cause="M05_INCOMPATIBLE"
+                derivation_cause=motor.MISMATCH if str(exc).startswith(motor.MISMATCH) else "M05_INCOMPATIBLE"
                 derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
             else:
                 try:
@@ -191,6 +221,8 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
     }
     if m04_configuration is not None:
         result["m04_configuration"]=m04_configuration
+    if engine_check is not None:
+        result["engine_fingerprint"]=engine_check
     if compatibility is not None:
         result["m05_compatibility"]=compatibility
         result["population_evidence"]=population_evidence

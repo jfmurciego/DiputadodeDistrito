@@ -1,0 +1,41 @@
+{
+  "id": "CR-10",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Runner del ensemble con falso verde",
+  "causa": "ddd_ensemble.runner sale con 0 aunque haya candidatos fallidos o ninguno válido.",
+  "origen": {
+    "prs": [
+      410
+    ],
+    "runs": [
+      41518377027
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41518377027
+    ],
+    "sintoma": "Piloto de ensemble de Salamanca termina en SUCCESS con 0 de 10 candidatos válidos (run.failed=2 por perfil).",
+    "territorio": "congreso_salamanca"
+  },
+  "esperado": {
+    "causa_id": "runner_falso_verde",
+    "claves": [
+      "codigo de salida",
+      "exit",
+      "falso verde",
+      "fallid"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#410 fusionada, squash 919feacb83 sobre 2bda35f617 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

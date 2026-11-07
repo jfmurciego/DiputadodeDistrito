@@ -1,0 +1,47 @@
+{
+  "id": "ADV-09",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "00 encadena sin puerta 02",
+  "causa": "El job de encadenado no exige puerta_02=success: encadena par y 00 tras una 02 skipped/failure.",
+  "origen": {
+    "prs": [
+      389
+    ],
+    "runs": [
+      41335088773
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 389,
+    "sha_desde": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+    "sha_candidato": "358f5b5063007388c073a3dafbc971f130d8a2d2",
+    "ficheros": [
+      ".github/workflows/ejecucion-completa-proyecto.yml"
+    ],
+    "comando": "git diff dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd 358f5b5063007388c073a3dafbc971f130d8a2d2 -- .github/workflows/ejecucion-completa-proyecto.yml"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "encadenado_sin_puerta_02"
+    ],
+    "ficheros": [
+      ".github/workflows/ejecucion-completa-proyecto.yml"
+    ],
+    "claves": [
+      "puerta_02",
+      "needs",
+      "success",
+      "encaden"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#389 fusionada, squash dc9f5c7a0f sobre 358f5b5063 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

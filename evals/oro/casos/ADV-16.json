@@ -1,0 +1,46 @@
+{
+  "id": "ADV-16",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Publicación sin hash certificado del ensemble",
+  "causa": "El despliegue no calcula ni pasa ensemble_sha256 al publicador único; no se puede acreditar el activo publicado.",
+  "origen": {
+    "prs": [
+      418
+    ],
+    "runs": [
+      41592019959
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 418,
+    "sha_desde": "80a53278f4dc32aa50075e50e134590a0448c9fb",
+    "sha_candidato": "e55b2e49ff0cc5c32e5769141c1e12a7a01b7b0b",
+    "ficheros": [
+      ".github/workflows/generar-alternativas-territoriales.yml"
+    ],
+    "comando": "git diff 80a53278f4dc32aa50075e50e134590a0448c9fb e55b2e49ff0cc5c32e5769141c1e12a7a01b7b0b -- .github/workflows/generar-alternativas-territoriales.yml"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "sha256_no_acreditado"
+    ],
+    "ficheros": [
+      ".github/workflows/generar-alternativas-territoriales.yml"
+    ],
+    "claves": [
+      "ensemble_sha256",
+      "sha256",
+      "hash"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#418 fusionada, squash 80a53278f4 sobre e55b2e49ff (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

@@ -211,6 +211,12 @@ validation:
   # Exención municipal acordada si la reparación no bastaba.
   population_floor_exempt_municipalities:
   - '36008'
+  population_floor_exempt_decisions:
+    '36008':
+      decided_at: '2026-11-01'
+      decided_by: propietario
+      reason: 'Tras la reparación más profunda sin mejora, exención municipal del suelo para el distrito del municipio 36008 (T-02b).'
+      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b»; docs/PLAN.md T-02b (Pontevedra resuelta por decisión del propietario)'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0
