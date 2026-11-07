@@ -24,6 +24,9 @@ Mantiene el estado en ficheros, no en el chat. Mínimo consumo; respuestas corta
    En un lote, primero un territorio de prueba.
 7. Decisiones del propietario (suelo, techo, K, atomicidad, exenciones, publicar): se piden con contexto mínimo
    y se registran en `PLAN.md` §2 con fecha.
+   Antes de encargar una tarea, verifica el plan (de `grilling`, mattpocock/skills): decisiones previas resueltas, hechos buscados
+   por ti en los ficheros y no preguntados, y cada pregunta al propietario numerada, en una sola ronda, con tu respuesta recomendada
+   (que «sí» la acepte). Nada queda supuesto en silencio.
 
 Lecciones (07-11): ningún cambio de infraestructura se da por bueno sin una prueba real con tiempos (el auto-merge
 fusionó #453, #454 y #458 sin CI); una PR por objetivo y sin cadenas (con squash, cada eslabón repite la CI); los

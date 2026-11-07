@@ -13,7 +13,7 @@ description: Rol de implementador de DDD. Úsala cuando el chat tenga asignada u
 4. Cambios en M04/M05/política/fuente invalidan checkpoints y huellas (`.claude/rules/huellas.md`): dilo en la PR y
    qué modo de 00 hará falta.
 5. Prueba en local antes de pedir una 00: motor real con el contrato temporal (`.claude/rules/diagnostico-local.md`);
-   un test que falla antes y pasa después del arreglo. Suite: los módulos afectados con `unittest`, y la completa
+   un test que falla antes y pasa después del arreglo. Tests (de mattpocock/skills `tdd`): por rebanadas verticales (un test → su código → repetir, no todos los tests primero); sobre la interfaz pública, sin simular colaboradores internos; el valor esperado, de una fuente independiente (literal, dato oficial con sha256), nunca recalculado como lo hace el código (tautológico). Suite: los módulos afectados con `unittest`, y la completa
    en segundo plano si tocas el núcleo.
 6. Antes de empujar: sin marcas de conflicto (`python herramientas/comprobar_guardian_main.py todo`) y
    `python -m unittest tests.test_r015_invariantes.GovernanceHeaders`.
