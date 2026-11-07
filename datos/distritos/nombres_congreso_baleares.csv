@@ -1,0 +1,11 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_baleares,0,Palma 2,MUNICIPIO,POSICION_N_S_O_E,07040,Palma,1,1,107615,,0,NOT_EVALUABLE,
+congreso_baleares,1,Palma 1,MUNICIPIO,POSICION_N_S_O_E,07040,Palma,1,1,107427,,0,NOT_EVALUABLE,
+congreso_baleares,2,Palma 3,MUNICIPIO,POSICION_N_S_O_E,07040,Palma,1,1,107413,,0,NOT_EVALUABLE,
+congreso_baleares,3,Palma y entorno,PRINCIPAL_Y_ENTORNO,,07040,Palma,10,1,153810,,0,NOT_EVALUABLE,
+congreso_baleares,4,Manacor y entorno,PRINCIPAL_Y_ENTORNO,,07033,Manacor,12,0,154859,,0,NOT_EVALUABLE,
+congreso_baleares,5,Llucmajor y entorno,PRINCIPAL_Y_ENTORNO,,07031,Llucmajor,13,0,154786,,0,NOT_EVALUABLE,
+congreso_baleares,6,Calviá y entorno,PRINCIPAL_Y_ENTORNO,,07011,Calviá,18,0,154422,,0,NOT_EVALUABLE,
+congreso_baleares,7,Ciudadela y entorno,PRINCIPAL_Y_ENTORNO,,07015,Ciudadela,8,0,99005,,0,NOT_EVALUABLE,
+congreso_baleares,8,Ibiza y entorno,PRINCIPAL_Y_ENTORNO,,07026,Ibiza,3,0,93601,,0,NOT_EVALUABLE,
+congreso_baleares,9,Santa Eulalia del Río y entorno,PRINCIPAL_Y_ENTORNO,,07054,Santa Eulalia del Río,3,0,76968,,0,NOT_EVALUABLE,

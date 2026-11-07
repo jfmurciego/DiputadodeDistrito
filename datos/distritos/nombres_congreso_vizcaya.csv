@@ -1,0 +1,11 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_vizcaya,0,Bilbao 2,MUNICIPIO,POSICION_N_S_O_E,48020,Bilbao,1,1,115050,,0,NOT_EVALUABLE,
+congreso_vizcaya,1,Bilbao 1,MUNICIPIO,POSICION_N_S_O_E,48020,Bilbao,1,1,114956,,0,NOT_EVALUABLE,
+congreso_vizcaya,2,Sestao y entorno,PRINCIPAL_Y_ENTORNO,,48084,Sestao,17,0,118305,,0,NOT_EVALUABLE,
+congreso_vizcaya,3,Munguía y entorno,PRINCIPAL_Y_ENTORNO,,48069,Munguía,44,0,117976,,0,NOT_EVALUABLE,
+congreso_vizcaya,4,Bilbao y entorno,PRINCIPAL_Y_ENTORNO,,48020,Bilbao,2,1,119754,,0,NOT_EVALUABLE,
+congreso_vizcaya,5,Baracaldo y entorno,PRINCIPAL_Y_ENTORNO,,48013,Baracaldo,2,0,112894,,0,NOT_EVALUABLE,
+congreso_vizcaya,6,Guecho y entorno,PRINCIPAL_Y_ENTORNO,,48044,Guecho,3,0,123626,,0,NOT_EVALUABLE,
+congreso_vizcaya,7,Durango y entorno,PRINCIPAL_Y_ENTORNO,,48027,Durango,22,0,112414,,0,NOT_EVALUABLE,
+congreso_vizcaya,8,Santurce y entorno,PRINCIPAL_Y_ENTORNO,,48082,Santurce,9,0,106484,,0,NOT_EVALUABLE,
+congreso_vizcaya,9,Basauri y entorno,PRINCIPAL_Y_ENTORNO,,48015,Basauri,13,0,111823,,0,NOT_EVALUABLE,

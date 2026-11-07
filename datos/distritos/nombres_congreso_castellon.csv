@@ -1,0 +1,6 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_castellon,0,Castellón de la Plana,MUNICIPIO,,12040,Castellón de la Plana,1,1,120823,,0,NOT_EVALUABLE,
+congreso_castellon,1,Castellón de la Plana y entorno,PRINCIPAL_Y_ENTORNO,,12040,Castellón de la Plana,4,1,122287,,0,NOT_EVALUABLE,
+congreso_castellon,2,Villarreal y entorno,PRINCIPAL_Y_ENTORNO,,12135,Villarreal,42,0,120292,,0,NOT_EVALUABLE,
+congreso_castellon,3,Vall de Uxó y entorno,PRINCIPAL_Y_ENTORNO,,12126,Vall de Uxó,74,0,120246,,0,NOT_EVALUABLE,
+congreso_castellon,4,Vinaroz y entorno,PRINCIPAL_Y_ENTORNO,,12138,Vinaroz,15,0,120438,,0,NOT_EVALUABLE,

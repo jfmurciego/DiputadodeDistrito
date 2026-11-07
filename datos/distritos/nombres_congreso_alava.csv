@@ -1,0 +1,4 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_alava,0,Vitoria-Gasteiz 2,MUNICIPIO,POSICION_N_S_O_E,01059,Vitoria-Gasteiz,1,1,127496,,0,NOT_EVALUABLE,
+congreso_alava,1,Vitoria-Gasteiz 1,MUNICIPIO,POSICION_N_S_O_E,01059,Vitoria-Gasteiz,1,1,113457,,0,NOT_EVALUABLE,
+congreso_alava,2,Vitoria-Gasteiz y entorno,PRINCIPAL_Y_ENTORNO,,01059,Vitoria-Gasteiz,51,1,95355,,0,NOT_EVALUABLE,

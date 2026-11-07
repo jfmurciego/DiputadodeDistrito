@@ -1,0 +1,5 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_lerida,0,Lérida,MUNICIPIO,,25120,Lérida,1,1,111670,,0,NOT_EVALUABLE,
+congreso_lerida,1,Lérida y entorno,PRINCIPAL_Y_ENTORNO,,25120,Lérida,94,1,111811,,0,NOT_EVALUABLE,
+congreso_lerida,2,Tárrega y entorno,PRINCIPAL_Y_ENTORNO,,25217,Tárrega,53,0,112056,,0,NOT_EVALUABLE,
+congreso_lerida,3,Mollerussa y entorno,PRINCIPAL_Y_ENTORNO,,25137,Mollerussa,84,0,111806,,0,NOT_EVALUABLE,
