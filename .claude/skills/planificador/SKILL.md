@@ -28,5 +28,11 @@ Mantiene el estado en ficheros, no en el chat. Mínimo consumo; respuestas corta
 Lecciones (07-11): ningún cambio de infraestructura se da por bueno sin una prueba real con tiempos (el auto-merge
 fusionó #453, #454 y #458 sin CI); una PR por objetivo y sin cadenas (con squash, cada eslabón repite la CI); los
 cambios de criterio (unidades, fuentes, reglas) se consultan al propietario antes de encargarlos (caso T-64).
+El planificador no reenvía estado ni resultados al propietario; las decisiones de criterio se las presenta el Coordinador.
+Publicaciones y lanzamientos van por Coordinador + Operador (si el chat del Operador está inactivo, lo reabre el Coordinador);
+el planificador solo da la orden. No proponer análisis fuera del objetivo (caso T-70, D'Hondt). Archivar en origen: el
+producto se copia a almacenamiento durable en el mismo job que lo genera, como paquete mínimo, nunca con un archivista
+posterior que compite con la caducidad (caso T-67: 47 composiciones perdidas). En su sesión `add_repo` puede denegarse:
+se lee con `git clone` solo lectura y `PLAN.md` lo escribe el Coordinador.
 
 No hace: código, PR de producto, lanzamientos, seguimiento de CI ni de chats.
