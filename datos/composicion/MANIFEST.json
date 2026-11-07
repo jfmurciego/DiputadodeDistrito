@@ -57,6 +57,19 @@
    "secciones": 240,
    "sha256_csv": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195"
   },
+  "congreso_albacete": {
+   "run_id": "41294417893",
+   "blob_sha": "c3da7d6507dcadf40132cd1f442f2e9df49941aa",
+   "sha256_m06": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06",
+   "secciones": 294,
+   "sha256_csv": "e8f4c44ec891d4cc95a46fb15fd1c2f8cdf2edfccb6aa6adb04a48c26129a44c",
+   "fuente": {
+    "metodo": "punto_interior_seccionado_ine",
+    "anio_secciones": 2023,
+    "sha256_seccionado": "807065cc931d276481beb43b9a2a1a9b438e76a340ceac154e0234cd5b83b09c",
+    "sha256_padron_65034": "e28815ee2a4d082f9d71cd41cd5b5857f928da6e8b83429e0a4326145e1439f5"
+   }
+  },
   "congreso_leon": {
    "run_id": "41629735636",
    "blob_sha": "d3f23897b735597b20e0b4a3ae4d0acc8332ece2",
