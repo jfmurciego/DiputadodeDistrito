@@ -1,12 +1,23 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.100
+Versión: 1.0.101
 Fecha: 2026-11-07
-Alcance: T-38 — conjunto de oro para revisor y forense
+Alcance: T-39 — subagente revisor independiente
 Estado: candidato
-Cambios/motivo: evals/oro (43 casos), herramientas/evaluar_oro.py 1.0.0 y tests/test_evaluar_oro.py
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.99_plan_20261107.md
+Cambios/motivo: .claude/agents/revisor.md, skill revisar-pr delega en él; evaluación en el oro y primera revisión real (#425)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.100_t38_20261107.md
 -->
+
+## 2026-11-07 — T-39 — Subagente revisor independiente
+
+`.claude/agents/revisor.md` (Sonnet, solo lectura): revisa una PR o un diff y devuelve un JSON con veredicto
+(`PASS`, `PASS_WITH_EXCEPTIONS`, `FAIL`, `BLOCKED`) ligado al SHA del HEAD y defectos con fichero, línea y dato; comprueba
+defecto funcional, unidades y CRS, población (suelo, techo, exenciones), huellas M04/M05/N08, gobernanza VERSIÓN/legacy,
+registro y marcas de conflicto, workflows y robots, identidad y estado de producto, tests rojo/verde y efectos externos.
+`.claude/skills/revisar-pr` delega en él. Conjunto de oro (T-38): 23/24 (95,8 %); 17/18 defectos cazados sobre el diff
+original, 0/4 controles limpios bloqueados y 2/2 de calibración; 306.539 tokens en 3 lotes (`evals/oro/LIBRO_DE_COSTES.md`,
+`evals/oro/resultados/revisor_v1_20261107.json`). Primera revisión real: #425, PASS_WITH_EXCEPTIONS con dos hallazgos
+menores (`evals/revisiones/PR-425_2d1b9f42.json`). Sin lanzamientos · encadenada tras #432.
 
 ## 2026-11-07 — T-38 — Conjunto de oro para revisor y forense
 

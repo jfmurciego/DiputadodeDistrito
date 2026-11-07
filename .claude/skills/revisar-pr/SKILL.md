@@ -5,6 +5,10 @@ description: Revisión independiente de una PR de DDD antes de que la fusione el
 
 # Revisar una PR
 
+Delega en el subagente `revisor` (`.claude/agents/revisor.md`, Sonnet, solo lectura): pásale el número de PR o el
+diff con su SHA y devuelve su JSON. No lo corrijas ni lo suavices; si discrepas, dilo aparte. Su calibración está en
+`evals/oro/` (`python herramientas/evaluar_oro.py --preparar DIR --agente revisor`, luego `--salidas … --anotar`).
+
 Veredicto: `PASS`, `PASS_WITH_EXCEPTIONS`, `FAIL` o `BLOCKED`, ligado al SHA del HEAD revisado. Si el HEAD cambia
 después, la revisión deja de valer.
 
@@ -22,6 +26,6 @@ Lista de comprobación (solo lo que aplique al diff):
 8. Workflows: nombres y lista de `workflow_dispatch` fijados por los tests de diseño A; `run:` pasa `bash -n`.
 9. Efectos externos: la PR no lanza, publica ni fusiona como efecto colateral.
 
-Salida: veredicto + SHA + hallazgos ordenados por gravedad (fichero:línea, fallo concreto). Sin comentarios en
-GitHub salvo que se pidan. Casos de calibración: candidato modificado tras la revisión; reparaciones agotadas
+Salida: el JSON del revisor (veredicto + SHA + hallazgos ordenados por gravedad, fichero:línea y fallo concreto) y
+una línea de resumen. Sin comentarios en GitHub salvo que se pidan. Casos de calibración: candidato modificado tras la revisión; reparaciones agotadas
 con criterio fallido.

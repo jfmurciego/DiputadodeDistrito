@@ -1,0 +1,365 @@
+{
+ "agente": "revisor",
+ "modelo": "sonnet",
+ "etiqueta": "T-39 v1 (3 lotes de 8)",
+ "salidas": [
+  {
+   "caso": "ADV-01",
+   "sha": "d0aa8f5b7e20dfab30f58a5aeb0e550e56570e02",
+   "veredicto": "PASS_WITH_EXCEPTIONS",
+   "defectos": [
+    {
+     "gravedad": "menor",
+     "clase": "exencion_municipal",
+     "fichero": "herramientas/validar_ejecucion.py",
+     "linea": 52,
+     "detalle": "floor_exempt_districts solo comprueba la exención municipal si el campo del contrato está presente en las secciones; no cae a CUMUN/CUSEC[:5] como exige la regla (#394 #398). Si M06 no trae el campo la exención no se aplica y el validador dará falso fallo de suelo."
+    }
+   ],
+   "tokens": 12891,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-02",
+   "sha": "23ab67d20871b59527ce8f2ff49f34ddc3f31b61",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "regresion_funcional",
+     "fichero": "modulos/04_generar_semillas.py",
+     "linea": 83,
+     "detalle": "Elimina _connected_frontier_block y la ruta de respaldo multisección de expose_flexible_residual_units: territorios que solo se resolvían con un bloque conexo (Álava, 7.6.0) vuelven a abortar con SystemExit «no existe sección fronteriza individual transferible»."
+    },
+    {
+     "gravedad": "bloqueante",
+     "clase": "huella_m04",
+     "fichero": "modulos/04_generar_semillas.py",
+     "linea": 1,
+     "detalle": "Cambiar modulos/04 invalida checkpoints M04 y entra en la evidencia pre-M04 de los contratos physical_components."
+    }
+   ],
+   "tokens": 12886,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-03",
+   "sha": "23ab67d20871b59527ce8f2ff49f34ddc3f31b61",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "crs_incorrecto",
+     "fichero": "territorios/congreso_murcia/config/congreso_murcia_2025.yaml",
+     "linea": 94,
+     "detalle": "working_crs de M02 pasa de EPSG:25830 a EPSG:3035."
+    }
+   ],
+   "tokens": 12886,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-04",
+   "sha": "3c76b043d0b446fc0b46ffedf736089911d4362d",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "techo_sin_decision",
+     "fichero": "configuracion/politica_generacion_territorial_2025.yaml",
+     "linea": 855,
+     "detalle": "Baja el techo de Baleares de 1,28 a 1,27 sin decisión nueva; el distrito 5 de Mallorca (154.049) excede el techo."
+    }
+   ],
+   "tokens": 12886,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-05",
+   "sha": "ed9b20f03c521f2dc5129ee731c9c3b96d3fbaad",
+   "veredicto": "PASS",
+   "defectos": [],
+   "tokens": 12886,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-06",
+   "sha": "6708c5964af8a2a19376f805777da21e6606b48d",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "puentes",
+     "fichero": "herramientas/generar_provincias_congreso.py",
+     "linea": 234,
+     "detalle": "Elimina regional_bridges/inherit_bridges/sections_2023: las provincias dejan de heredar los puentes de enclaves y fallan pre-M04 por conectividad (Palencia, #371)."
+    }
+   ],
+   "tokens": 12886,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-07",
+   "sha": "355dff11776f75d440e5220b86937c19e92112a3",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "catalogo",
+     "fichero": "herramientas/catalogo_preparacion.py",
+     "linea": 65,
+     "detalle": "Elimina las validaciones del catálogo maestro (pilot_code, CODAUTO en pilotos, CATALOG_MASTER_DUPLICATE): un territory_id repetido entre territories y pilot_territories se sobrescribe sin error."
+    }
+   ],
+   "tokens": 12886,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-08",
+   "sha": "355dff11776f75d440e5220b86937c19e92112a3",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "identidad_sha",
+     "fichero": ".github/workflows/_reutilizable-incorporacion-electoral.yml",
+     "linea": 340,
+     "detalle": "Quita el output source_commit; el registro calcula el SHA con git rev-parse HEAD de un checkout nuevo, que puede no ser el SHA del cálculo M08."
+    }
+   ],
+   "tokens": 12886,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-09",
+   "sha": "358f5b5063007388c073a3dafbc971f130d8a2d2",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "puerta_previa",
+     "fichero": ".github/workflows/ejecucion-completa-proyecto.yml",
+     "linea": 1512,
+     "detalle": "El job encadenar_par_y_04 quita puerta_02 de needs y de la condición needs.puerta_02.result == 'success': la 00 puede encadenar par y otra 00 aunque la puerta 02 no haya pasado."
+    }
+   ],
+   "tokens": 12899,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-10",
+   "sha": "6444814df7742291ebbabbda2b4440aae68f52bc",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "fuente_sin_espejo",
+     "fichero": ".github/workflows/preparacion-resultados-electorales.yml",
+     "linea": 232,
+     "detalle": "Descarga el ZIP directamente de infoelectoral.interior.gob.es desde el runner; Interior rechaza runners y debe usarse el espejo del release con la misma huella."
+    }
+   ],
+   "tokens": 12895,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-11",
+   "sha": "0ce37c7f7fad1bcd0db6e3ec063ef6e701b9fac2",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "credencial_duplicada",
+     "fichero": ".github/workflows/preparacion-legislatura-vigente.yml",
+     "linea": 263,
+     "detalle": "Solo borra http.extraheader; no elimina las entradas includeIf.gitdir: de actions/checkout v6, así que git envía dos cabeceras Authorization (Duplicate header, HTTP 400)."
+    }
+   ],
+   "tokens": 12895,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-12",
+   "sha": "9f679f9110b1178c379f3828e0b6a7cf523caa90",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "estado_producto",
+     "fichero": "herramientas/manifest_generacion_territorial.py",
+     "linea": 84,
+     "detalle": "Elimina la deduplicación por id en artifact_ref: el mismo artefacto repetido en el índice da 2 coincidencias y falla (Congreso Álava, run 41335088773)."
+    }
+   ],
+   "tokens": 12895,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-13",
+   "sha": "92b221f28167cebcebf502d51d5a925bf78f93bb",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "seleccion_por_fecha",
+     "fichero": "herramientas/publicar_diagnostico_auto.py",
+     "linea": 43,
+     "detalle": "_latest elige M01, grafo M03 e informe M05 por st_mtime entre todos los coincidentes de la caché; puede publicar el fichero de otro run. Deben elegirse por la ruta declarada, no por fecha."
+    }
+   ],
+   "tokens": 12895,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-14",
+   "sha": "9f679f9110b1178c379f3828e0b6a7cf523caa90",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "estado_producto",
+     "fichero": "herramientas/generar_estado_operativo.py",
+     "linea": 526,
+     "detalle": "Elimina _clear_publication_only_stop: un territorio completo y publicado vuelve a mostrarse como parada (stopped_at 05) por un fallo solo en la 05; se pierde superseded_failure."
+    }
+   ],
+   "tokens": 12895,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-15",
+   "sha": "88625c40e0d8d1857fe337c4b405f1a180637ba8",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "techo_politica_ignorada",
+     "fichero": "herramientas/materializar_contrato_generacion.py",
+     "linea": 897,
+     "detalle": "Elimina apply_policy_population_limits: un contrato ya completo conserva el techo con el que se creó (Cádiz 1,15) aunque la política declare population_limits."
+    }
+   ],
+   "tokens": 12895,
+   "intento": 1
+  },
+  {
+   "caso": "ADV-16",
+   "sha": "e55b2e49ff0cc5c32e5769141c1e12a7a01b7b0b",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "hash_no_acreditado",
+     "fichero": ".github/workflows/generar-alternativas-territoriales.yml",
+     "linea": 387,
+     "detalle": "Deja de calcular y pasar ensemble_sha256 al publicador en publish y republish."
+    }
+   ],
+   "tokens": 12895,
+   "intento": 1
+  },
+  {
+   "caso": "REV-17",
+   "sha": "1beaa838b4c8c2929976861e2cba927af2be1c20",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "huella_m05",
+     "fichero": "modulos/05_optimizar_distritos.py",
+     "linea": 18,
+     "detalle": "Cambia la reparación M05 (huella M05) sin decir qué modo de 00 hará falta."
+    },
+    {
+     "gravedad": "bloqueante",
+     "clase": "tests",
+     "fichero": "modulos/05_optimizar_distritos.py",
+     "linea": 273,
+     "detalle": "Sin test rojo/verde del anclaje floor_exempt_anchor."
+    },
+    {
+     "gravedad": "menor",
+     "clase": "exencion_municipal",
+     "fichero": "modulos/05_optimizar_distritos.py",
+     "linea": 262,
+     "detalle": "units_touch_exempt([u], ...) recibe el id de unidad ddd_unit_id; la regla pide comparar el municipio (INE de 5 cifras, respaldo CUMUN o CUSEC[:5]), no el id de unidad."
+    }
+   ],
+   "tokens": 12537,
+   "intento": 1
+  },
+  {
+   "caso": "REV-18",
+   "sha": "297e1a3be83bebc8358a94f5c92e411167b15cbb",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "marcas_conflicto",
+     "fichero": "docs/REGISTRO_DE_CAMBIOS.md",
+     "linea": 3,
+     "detalle": "Quedan marcas <<<<<<< HEAD, ======= y >>>>>>> origin/main sin resolver."
+    }
+   ],
+   "tokens": 12535,
+   "intento": 1
+  },
+  {
+   "caso": "REV-19",
+   "sha": "42eefcb0b70d5a804be71b729b7cb45d6f6bd663",
+   "veredicto": "FAIL",
+   "defectos": [
+    {
+     "gravedad": "bloqueante",
+     "clase": "puentes",
+     "fichero": "configuracion/ensemble/congreso_salamanca.json",
+     "linea": 23,
+     "detalle": "preserve_atomic_multipart_sections=false deja que las piezas de una sección MultiPolygon rompan la contigüidad; M06 las trata como ATOMIC_MULTIPART y Aragón usa true."
+    }
+   ],
+   "tokens": 12535,
+   "intento": 1
+  },
+  {
+   "caso": "CTRL-01",
+   "sha": "dc9f5c7a0f6ffd8695d65d39b0fd23c3a8c607fd",
+   "veredicto": "PASS",
+   "defectos": [],
+   "tokens": 12535,
+   "intento": 1
+  },
+  {
+   "caso": "CTRL-02",
+   "sha": "919feacb83be71e91fadace738c4c2e5931d386e",
+   "veredicto": "PASS",
+   "defectos": [],
+   "tokens": 12535,
+   "intento": 1
+  },
+  {
+   "caso": "CTRL-03",
+   "sha": "705a6cedf03021ddcb5eee8bd4bfe19413794b51",
+   "veredicto": "PASS",
+   "defectos": [],
+   "tokens": 12535,
+   "intento": 1
+  },
+  {
+   "caso": "CAL-01",
+   "sha": "297e1a3be83bebc8358a94f5c92e411167b15cbb",
+   "veredicto": "REEVALUAR",
+   "evidencia": "La aprobación ligada a 9b0d2860 no vale para otro SHA: el candidato 297e1a3b incorpora un commit posterior (marcas de conflicto, #422); hay que revisar el nuevo SHA y ver su CI en verde.",
+   "acciones": [],
+   "tokens": 12535,
+   "intento": 1
+  },
+  {
+   "caso": "CAL-02",
+   "veredicto": "BLOCKED",
+   "evidencia": "Distrito de Málaga sobre el techo tras la reparación profunda y M04 7.6.6: estructural. No se entrega como PASS ni se cambia techo sin decisión registrada del propietario; bloqueado con la causa y las palancas para que decida.",
+   "acciones": [],
+   "tokens": 12535,
+   "intento": 1
+  }
+ ]
+}
