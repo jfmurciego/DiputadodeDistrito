@@ -1,12 +1,12 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 NOMBRE DE VERSIÓN: Fichas de roles y agentes y veredictos (metaagente v1.0 §4, §7)
 FECHA: 2026-11-07
-ESTADO: candidato (propuesta; no cambia agentes, skills ni workflows)
-CAMBIOS: T-75. Ficha §7 de cada rol y agente real; veredictos §4. Estados y handoff en ESTADOS_Y_HANDOFF.md.
-MOTIVO: aplicar el método del metaagente v1.0 sobre lo que existe (nivel N2), con evidencia del repositorio.
-ANTERIOR: ninguna (fichero nuevo)
+ESTADO: vigente (incorporado en skills por T-77)
+CAMBIOS: T-77. Topes de coste por chat, ficha del ingeniero de motor, libro de costes de chats, estados en skills.
+MOTIVO: incorporar los veredictos INCORPORAR de T-75.
+ANTERIOR: legacy/2026-11-07_t77_fichas/FICHAS_AGENTES_v1.0.0.md
 -->
 
 # Fichas de roles y agentes de DDD
@@ -21,8 +21,10 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 - Herramientas efectivas: las de la sesión cloud (lectura/escritura del repo, `gh api` REST, MCP GitHub y
   `claude-code-remote`); hook `guardia_git.py` bloquea commit con marcas de conflicto y `git push` forzado
   (`.claude/settings.json`). **No hay allowlist por rol**: la restricción es la instrucción de la skill.
-- Recursos: **ND** tope de tokens, tiempo o coste por chat; solo la regla «mínimo consumo» (`CLAUDE.md`) y el libro
-  de costes (`.claude/skills/presupuesto/SKILL.md`), que hoy registra agentes y no chats.
+- Recursos (topes por chat, T-77; al llegar al tope, parar y cerrar con la evidencia, sin ampliar por cuenta propia):
+  propietario sin tope; planificador ~1 ola por chat; Coordinador, relevo al cambiar de ola; Operador, un lote autorizado;
+  implementador, una tarea y dos ciclos de reparación por causa; ingeniero de motor, dos ciclos y luego estudio con
+  presupuesto fijo. Libro de costes (`.claude/skills/presupuesto/SKILL.md`): una fila por agente, run y chat cerrado.
 - Delegación: subagentes `revisor` y `forense`; profundidad y concurrencia **ND**.
 
 | Ficha | Propietario | Planificador | Coordinador |
@@ -38,7 +40,7 @@ Comunes a todos los chats, salvo que se diga otra cosa:
 
 | Ficha | Operador | Implementador | Ingeniero de motor |
 |---|---|---|---|
-| Identidad | skill `operador` (+ `lanzar-00`, `publicar-visor`) | skill `implementador` | skill `implementador` con modelo Opus (skill `presupuesto`); **sin ficha propia** |
+| Identidad | skill `operador` (+ `lanzar-00`, `publicar-visor`) | skill `implementador` | skill `ingeniero-motor` (modelo Opus, skill `presupuesto`) |
 | Misión | Único que lanza y publica | Una tarea, una PR | M04, M05 y GerryChain en local, una PR por causa (FRAMEWORK §6) |
 | Exclusiones | Código, contratos, política, `PLAN.md`; fusionar PR sin `no-automerge` | Lanzar, publicar, fusionar; ficheros compartidos sin turno | Lanzar; cambiar suelo, techo, K o atomicidad sin decisión |
 | Entrada | Permiso del propietario en su chat, por lote | Tarea `T-xx` de `PLAN.md` | Tarea con evidencia de run (`diagnostico/*`) |
@@ -89,11 +91,11 @@ Propuesta en `ESTADOS_Y_HANDOFF.md`.
 | Enfoque mínimo (§3) | INCORPORAR | `ADR-001-enfoque.md` (este PR) |
 | Criterio «sistema más pequeño» | YA CUBIERTO | FRAMEWORK §1, skills `presupuesto` y `disenar-agente` |
 | Fichas §7 | INCORPORAR | Este documento; huecos ND: topes por chat, allowlist por rol |
-| Ficha propia del ingeniero de motor | INCORPORAR | Hoy es el implementador con Opus, sin skill propia |
-| Estados de tarea §9.1 | INCORPORAR | Columna de estado en `PLAN.md` (`ESTADOS_Y_HANDOFF.md`) |
-| Estados de efecto externo §9.3 y `UNKNOWN` | INCORPORAR | Casos #462, #453, #454, #458 |
+| Ficha propia del ingeniero de motor | HECHO (T-77) | Skill `ingeniero-motor` |
+| Estados de tarea §9.1 | HECHO en skills (T-77) | Columna de estado en la cola; `PLAN.md` lo aplica el planificador |
+| Estados de efecto externo §9.3 y `UNKNOWN` | HECHO en skills (T-77) | Casos #462, #453, #454, #458 |
 | Resultado de calidad §9.2 | YA CUBIERTO | Veredicto del revisor y forense (`.claude/agents/*.md`) |
-| Handoff §23 | INCORPORAR | Línea de cierre ampliada (`ESTADOS_Y_HANDOFF.md`); sin JSON |
+| Handoff §23 | HECHO (T-77) | Línea de cierre ampliada en las skills; sin JSON |
 | Tabla de madurez §25 | INCORPORAR | `MADUREZ.md` (este PR) |
 | Aprobación ligada al HEAD (§11, §15) | YA CUBIERTO | `auto-merge.yml` 1.2.0; veredicto del revisor con SHA |
 | Revisor como check obligatorio | CAMBIO ARQUITECTÓNICO | Hoy el ruleset solo exige `pruebas`; hacerlo obligatorio cambia la puerta de fusión y depende de un secreto |
@@ -103,4 +105,4 @@ Propuesta en `ESTADOS_Y_HANDOFF.md`.
 | Agente de fuentes | YA CUBIERTO (no construir) | Lo mecánico está en workflows y huellas; sin caso que exija juicio |
 | Analista electoral | YA CUBIERTO (no construir) | «Casi todo es un script» (FRAMEWORK §6); `resultados-ligeros.yml` |
 | Redactor académico | INCORPORAR más adelante | Solo cuando arranque P60; hoy sin entrada |
-| Libro de costes de chats | INCORPORAR | Hoy solo agentes (`evals/oro/LIBRO_DE_COSTES.md`) |
+| Libro de costes de chats | HECHO (T-77) | Skill `presupuesto`: una fila por chat cerrado |
