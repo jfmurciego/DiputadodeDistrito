@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.153
+Versión: 1.0.154
 Fecha: 2026-11-07
-Alcance: T-89 — Fuente secundaria del histórico de generales por sección (nazioenbehatokia.eus)
+Alcance: T-88 — Plan: T-88 ampliada a los plugins oficiales de Anthropic
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t89-nazioenbehatokia.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.152_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_plan-t88b.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.153_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.152_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.154 · [2026-11-07 — T-88 — Plan: T-88 ampliada a los plugins oficiales de Anthropic](registro/2026-11-07_plan-t88b.md)
 - 1.0.153 · [2026-11-07 — T-89 — Fuente secundaria del histórico de generales por sección (nazioenbehatokia.eus)](registro/2026-11-07_claude-t89-nazioenbehatokia.md)
 - 1.0.152 · [2026-11-07 — T-78 — Gobierno de agentes en runtime: allowlist por rol y revisor obligatorio](registro/2026-11-07_claude-t78-gobierno-runtime.md)
 - 1.0.151 · [2026-11-07 — T-89 — Plan: Observatorio Electoral de las Naciones como fuente secundaria (D-8) y su espejo](registro/2026-11-07_plan-observatorio.md)
