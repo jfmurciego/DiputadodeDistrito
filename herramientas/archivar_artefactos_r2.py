@@ -2,8 +2,8 @@
 """Archivista: copia a Cloudflare R2 los artefactos de Actions referenciados antes de que caduquen.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Archivista R2
+VERSIÓN: 1.0.1
+NOMBRE DE VERSIÓN: Archivista R2 con reintentos
 FECHA: 2026-11-07
 ESTADO: candidato
 QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y orchestracion/publicaciones_visor.json,
@@ -13,10 +13,12 @@ QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y or
   la entrada en orchestracion/archivo_r2.json (URL R2, sha256, tamaño, caducidad original, fecha de archivado).
 IDEMPOTENTE: no vuelve a descargar un artefacto (mismo id) ya archivado, y no vuelve a subir si R2 ya tiene
   la misma clave con el mismo sha256. Un artefacto caducado y no archivado se informa como «perdido».
-CAMBIOS: 1.0.0: fichero nuevo (T-47).
+CAMBIOS: 1.0.1: reintentos con espera exponencial (2, 4, 8, 16, 32 s; 6 intentos) ante 5xx, 429 y errores de red
+  en la API de GitHub y en R2, con registro de cada intento (run 42393003447: HTTP 500 al listar artefactos).
+  1.0.0: fichero nuevo (T-47).
 MOTIVO: los artefactos caducan a los 14 días y con ellos productos registrados en el catálogo (p. ej. M05 de
   Cantabria, run 41037133327).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.0.0_20261107.py
 Uso: python herramientas/archivar_artefactos_r2.py [--root-dir .] [--caduca-antes AAAA-MM-DD] [--max N] [--simular]
 Entorno: GITHUB_TOKEN, GITHUB_REPOSITORY; R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_* (aws cli) salvo --simular.
 Salida: 0 si todo lo archivable quedó archivado; 1 si hubo errores de copia.
@@ -31,6 +33,8 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -205,16 +209,43 @@ def guardar_manifiesto(ruta: Path, m: dict) -> bool:
 
 # --- Implementaciones reales (GitHub y R2) -------------------------------------------------------
 
-def _gh(url: str, token: str):
-    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"})
-    return urllib.request.urlopen(req, timeout=120)
+INTENTOS = 6
+ESPERA_BASE = 2  # s; espera 2, 4, 8, 16, 32 entre intentos
+_dormir = time.sleep  # los tests lo sustituyen
+
+
+def _transitorio(exc: BaseException) -> bool:
+    if isinstance(exc, urllib.error.HTTPError):
+        return exc.code >= 500 or exc.code == 429
+    return isinstance(exc, (urllib.error.URLError, TimeoutError, ConnectionError, OSError, subprocess.CalledProcessError))
+
+
+def con_reintentos(fn: Callable, descripcion: str, intentos: int = INTENTOS):
+    """Ejecuta fn(); reintenta con espera exponencial los fallos transitorios y registra cada intento."""
+    for n in range(1, intentos + 1):
+        try:
+            return fn()
+        except Exception as exc:  # noqa: BLE001
+            if not _transitorio(exc) or n == intentos:
+                raise
+            espera = ESPERA_BASE * 2 ** (n - 1)
+            print(f"::warning::{descripcion}: intento {n}/{intentos} falló ({exc}); reintento en {espera}s", flush=True)
+            _dormir(espera)
+
+
+def _gh_json(url: str, token: str):
+    def _f():
+        req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"})
+        with urllib.request.urlopen(req, timeout=120) as r:
+            return json.load(r)
+
+    return con_reintentos(_f, f"GET {url}")
 
 
 def listar_artefactos_gh(repo: str, token: str) -> list[dict]:
     out, pagina = [], 1
     while True:
-        with _gh(f"https://api.github.com/repos/{repo}/actions/artifacts?per_page=100&page={pagina}", token) as r:
-            datos = json.load(r)
+        datos = _gh_json(f"https://api.github.com/repos/{repo}/actions/artifacts?per_page=100&page={pagina}", token)
         lote = datos.get("artifacts", [])
         out += lote
         if len(lote) < 100:
@@ -230,7 +261,7 @@ def descargar_gh(repo: str, token: str):
                 nuevo.headers.pop("Authorization", None)
             return nuevo
 
-    def _f(a: dict, destino: Path) -> None:
+    def _una_vez(a: dict, destino: Path) -> None:
         req = urllib.request.Request(
             f"https://api.github.com/repos/{repo}/actions/artifacts/{a['id']}/zip",
             headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
@@ -240,26 +271,37 @@ def descargar_gh(repo: str, token: str):
             while bloque := r.read(1 << 20):
                 f.write(bloque)
 
+    def _f(a: dict, destino: Path) -> None:
+        con_reintentos(lambda: _una_vez(a, destino), f"descarga artefacto {a['name']}")
+
     return _f
 
 
 def r2_cliente(bucket: str, account: str):
     ep = f"https://{account}.r2.cloudflarestorage.com"
 
-    def sha(k: str) -> Optional[str]:
+    def _sha(k: str) -> Optional[str]:
         p = subprocess.run(
             ["aws", "s3api", "head-object", "--bucket", bucket, "--key", k, "--endpoint-url", ep, "--output", "json"],
             capture_output=True, text=True,
         )
         if p.returncode != 0:
-            return None
+            if re.search(r"404|Not Found|NoSuchKey", p.stderr or ""):
+                return None
+            raise subprocess.CalledProcessError(p.returncode, "head-object", stderr=p.stderr)
         return (json.loads(p.stdout).get("Metadata") or {}).get("sha256")
 
-    def subir(k: str, ruta: Path, h: str) -> None:
+    def sha(k: str) -> Optional[str]:
+        return con_reintentos(lambda: _sha(k), f"R2 head {k}")
+
+    def _subir(k: str, ruta: Path, h: str) -> None:
         subprocess.run(
             ["aws", "s3", "cp", str(ruta), f"s3://{bucket}/{k}", "--endpoint-url", ep, "--metadata", f"sha256={h}", "--only-show-errors"],
             check=True,
         )
+
+    def subir(k: str, ruta: Path, h: str) -> None:
+        con_reintentos(lambda: _subir(k, ruta, h), f"R2 subida {k}")
 
     return sha, subir
 

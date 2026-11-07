@@ -9,6 +9,8 @@ import importlib.util
 import json
 import tempfile
 import unittest
+import urllib.error
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -120,6 +122,61 @@ class Archivista(unittest.TestCase):
         self.assertTrue(arc.guardar_manifiesto(ruta, self.man))
         self.man["actualizado_en"] = "otra"
         self.assertFalse(arc.guardar_manifiesto(ruta, self.man))
+
+
+class Reintentos(unittest.TestCase):
+    def setUp(self):
+        self.esperas = []
+        p = mock.patch.object(arc, "_dormir", self.esperas.append)
+        p.start()
+        self.addCleanup(p.stop)
+
+    def e500(self):
+        return urllib.error.HTTPError("u", 500, "Internal Server Error", {}, None)
+
+    def test_500_transitorio_se_reintenta_con_backoff(self):
+        llamadas = []
+
+        def f():
+            llamadas.append(1)
+            if len(llamadas) < 4:
+                raise self.e500()
+            return "ok"
+
+        self.assertEqual(arc.con_reintentos(f, "x"), "ok")
+        self.assertEqual(self.esperas, [2, 4, 8])
+
+    def test_agota_intentos(self):
+        def f():
+            raise self.e500()
+
+        with self.assertRaises(urllib.error.HTTPError):
+            arc.con_reintentos(f, "x")
+        self.assertEqual(self.esperas, [2, 4, 8, 16, 32])
+
+    def test_4xx_no_se_reintenta(self):
+        def f():
+            raise urllib.error.HTTPError("u", 404, "nf", {}, None)
+
+        with self.assertRaises(urllib.error.HTTPError):
+            arc.con_reintentos(f, "x")
+        self.assertEqual(self.esperas, [])
+
+    def test_listado_gh_sobrevive_a_un_500(self):
+        respuestas = [self.e500(), mock.MagicMock()]
+        resp = respuestas[1]
+        resp.__enter__.return_value = resp
+        resp.read.return_value = json.dumps({"artifacts": [{"id": 1}]}).encode()
+
+        def abrir(req, timeout=0):
+            r = respuestas.pop(0)
+            if isinstance(r, Exception):
+                raise r
+            return r
+
+        with mock.patch.object(arc.urllib.request, "urlopen", abrir):
+            self.assertEqual(arc.listar_artefactos_gh("o/r", "t"), [{"id": 1}])
+        self.assertEqual(self.esperas, [2])
 
 
 if __name__ == "__main__":
