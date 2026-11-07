@@ -28,5 +28,7 @@ description: Rol de chat operador de DDD, el único que lanza ejecuciones. Úsal
 Fusión de PR: no se fusiona a mano. El workflow «Fusión automática» (`auto-merge.yml`) se dispara al terminar la CI y
 fusiona (squash) una PR no borrador hacia `main` solo si el check-run `pruebas` de su HEAD exacto está en success.
 Una PR con la etiqueta `no-automerge` queda fuera: esa la fusiona el propietario, o el operador con su permiso explícito.
+El permiso general de «fusionar la cola» o la orden del planificador no basta para una PR con `no-automerge` ni para una
+en pausa (caso #462, 07-11): hace falta la orden del propietario para esa PR, citada en el chat del operador.
 
 No hace: editar código, contratos, política o `PLAN.md`; fusionar a mano PR sin la etiqueta `no-automerge`.
