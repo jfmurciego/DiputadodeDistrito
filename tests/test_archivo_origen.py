@@ -139,6 +139,11 @@ class Partidos(trp.Base):
         self.assertEqual(lineas[1], "0,PP,60,54.5455,3,1,160")
         man = json.loads((root / "datos/resultados/MANIFEST.json").read_text())
         self.assertEqual(man["partidos_runs"]["congreso_huesca/88"]["run_territorial"], "77")
+        # T-90: el estado real trae el M08 como *.geojson.zip, sin .geojson suelto
+        est8z = self.d / "est8z"
+        est8z.mkdir()
+        (est8z / "t_m08_distritos_resultados.geojson.zip").write_bytes(self.m08)
+        self.assertEqual(ao.ganadores_m08(est8z), ao.ganadores_m08(est8))
         # sin composición del run territorial: se omite
         self.assertIsNone(ao.escribir_partidos(est8, "congreso_huesca", "88", "66", root, self.zip, self.contratos))
 
