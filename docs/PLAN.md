@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.16
+Versión: 1.0.17
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: ola del 07-11 noche (decisiones, cola T-71 a T-75) escrita por el Coordinador por orden del propietario
-Anterior: legacy/docs/PLAN_v1.0.15_20261107.md
+Cambios/motivo: decisiones R2 y arquitectura de agentes (T-75), cola T-76 a T-78
+Anterior: legacy/docs/PLAN_v1.0.16_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -102,6 +102,10 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
 
 ### Tomadas (07-11 noche)
+- **R2:** se poda para quedar bajo los 10 GB gratuitos (T-76); el borrado solo con lista aprobada por el propietario.
+  T-72 archiva solo el producto final.
+- **Arquitectura de agentes (T-75, #474):** sí a los tres cambios: revisor obligatorio, allowlist de herramientas por rol en
+  runtime y medir al Coordinador durante dos olas (coste por ola y fallos de coordinación).
 - Red del entorno Default: `www.ine.es`, `www.mapa.gob.es`, `www.idescat.cat` (además de `boe.es`). `www.mapa.gob.es` resetea
   la conexión desde el proxy.
 - **D-3:** se publica en el visor cada provincia al terminar su 00 (permiso por provincia en el chat del Operador).
@@ -260,6 +264,9 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-74 | Catálogo de procedencia único (`orchestracion/catalogo_procedencia.json`, derivado de 5 ficheros) | session_01KQDtFs6b53QY496wZn2gSX (Opus) | PR #473; check en CI |
 | T-73 | Portal Zensical público (P3) en `/docs` del sitio, dentro de `_reutilizable-publicar-sitio.yml` | por abrir, tras T-71 (Sonnet) | `zensical build --strict` en verde, enlaces comprobados; sin publicar |
 | T-75 | Aplicar el metaagente a DDD (solo documentación) | session_01KQDtFvFEZ1wPrxBQpGsj9w (Opus) | En curso |
+| T-76 | Podar R2 bajo 10 GB; borrado solo con lista aprobada | session_01KQDtFtGG21KnDVVU6JUnni | En curso |
+| T-77 | Incorporar T-75: estado de tarea y de efecto externo, línea de cierre ampliada, ficha del ingeniero de motor, topes y libro de costes por chat | session_01KQDtFsDv6WYYdvBHC1Ji7t (Sonnet) | Skills y fichas coherentes; PR con registro |
+| T-78 | Gobierno de agentes en runtime: allowlist por rol y revisor como check obligatorio (JSON del ruleset, lo aplica el propietario) | session_01KQDtFru1JVfTuBosCwaVsu (Opus) | Herramienta denegada se bloquea; PR no-automerge |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
