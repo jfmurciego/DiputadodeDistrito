@@ -4,7 +4,7 @@ Versión: 1.0.18
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-88 (skills externas: verificación de plan y TDD), encargada por el propietario
+Cambios/motivo: ola 2 (completar territorios y Gestor listo), R2 sin poda, cola T-71 a T-86
 Anterior: legacy/docs/PLAN_v1.0.17_20261107.md
 -->
 
@@ -253,6 +253,17 @@ propietario: ajustes de Settings y permiso de las 00.
 Pendiente para la lista final del propietario: «Allow auto-merge» (P2), entorno `produccion` con revisor (D-5),
 secreto `CLAUDE_CODE_OAUTH_TOKEN` (T-48) y permiso de las 00 de Barcelona, Alicante, Málaga y Andalucía.
 La red del entorno Default ya permite `www.boe.es` y `boe.es` (07-11).
+
+### Ola 2 (07-11 noche) · solo completar territorios y dejar el Gestor listo para la legislatura vigente
+Histórico aplazado hasta entonces (T-81 a T-85 no se encargan); los votos por partido de 19 provincias esperan. R2: el
+sobrecoste es de unos 23 céntimos al mes; no se poda (T-76 cerrada, #480 sin fusionar). Hecho de la ola: 52/52 y 19/19
+«Cadena completa validada» y en el visor.
+
+| Id | Objetivo | Quién | Estado |
+|---|---|---|---|
+| T-79 | Nacional: Alicante y Málaga (00 en `produccion`; si fallan: forense, reparación con el tope de T-44 en chat Opus de motor); Barcelona: completar electoral; Ceuta: 00 según forense (pob. INE 3826 ≠ M06 3723). Cada uno se publica al terminar (D-3) | Coordinador + Operador | Barcelona territorial success; Alicante en curso; Málaga en cola |
+| T-80 | Andalucía autonómica: 03 falló por paquete electoral caducado (run 37150399030); preparar con `reutilizar=false`, `prepare_one`, 00 Reutilizar y publicar | Coordinador + Operador | Pendiente de permiso del propietario |
+| T-86 | Gestor listo para la legislatura vigente | chat Opus del planificador | En curso |
 
 ### Ola del 07-11 noche
 Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada chat.
