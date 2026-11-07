@@ -1,17 +1,20 @@
 ---
 paths:
   - "docs/REGISTRO_DE_CAMBIOS.md"
+  - "docs/registro/**"
   - "docs/PLAN.md"
   - "legacy/docs/REGISTRO_DE_CAMBIOS_*"
 ---
 
 # Registro de cambios y plan
 
-- El número de `docs/REGISTRO_DE_CAMBIOS.md` lo asigna el planificador: pregunta el último antes de añadir entradas.
-- Cabecera: `Versión` = la de `Anterior` + 1 en el último componente; `Anterior` apunta a la copia en
-  `legacy/docs/REGISTRO_DE_CAMBIOS_v<anterior>_<tarea>_<AAAAMMDD>.md`, que debe existir y tener esa versión.
-  Lo comprueba la CI: `python herramientas/comprobar_guardian_main.py registro`.
-- Entradas nuevas arriba: `## AAAA-MM-DD — T-xx — título`, con causa, cambio, pruebas y PR/run.
+- Desde T-46 (registro 1.0.105, la última con número manual) nadie edita `docs/REGISTRO_DE_CAMBIOS.md`: cada PR
+  añade su entrada en `docs/registro/AAAA-MM-DD_<rama>.md`, sin número (formato en `docs/registro/README.md`):
+  `## AAAA-MM-DD — T-xx — título` y causa, cambio, pruebas y PR/run.
+- Al fusionar en `main`, el workflow «Numeración del Registro» (`numerar-registro.yml`, app de registro) asigna el
+  número consecutivo, reescribe la cabecera (`Versión` = `Anterior` + 1, copia en `legacy/docs/`) y el índice.
+  La CI (`comprobar_guardian_main.py registro`) comprueba la cabecera, el formato de las entradas y el índice.
+- Ya no se pide número al planificador; dos PR abiertas no chocan en el registro.
 - Tras rebasar o fusionar `main`, busca marcas de conflicto (`<<<<<<<`, `>>>>>>>`): rompieron `main` en #422.
   La CI (`comprobar_guardian_main.py marcas`) y el hook de commit las bloquean.
 - `docs/PLAN.md` solo lo edita el planificador.

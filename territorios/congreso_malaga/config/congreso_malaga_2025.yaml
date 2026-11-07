@@ -200,6 +200,8 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  population_floor_exempt_municipalities:
+  - '29054'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0

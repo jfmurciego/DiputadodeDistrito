@@ -1,0 +1,52 @@
+{
+  "id": "ADV-01",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Las Palmas: exención con «municipio:partición» sin respaldo",
+  "causa": "El validador compara el campo municipal del contrato, pero las secciones M06 pueden no traerlo; falta respaldo CUMUN/CUSEC (lo arregló #398).",
+  "origen": {
+    "prs": [
+      394,
+      398
+    ],
+    "runs": [
+      41339428006,
+      41358199178
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 394,
+    "sha_desde": "f62c2453c81eb8bb10657ecd25ccd17b956bae07",
+    "sha_candidato": "d0aa8f5b7e20dfab30f58a5aeb0e550e56570e02",
+    "ficheros": [
+      "herramientas/validar_ejecucion.py",
+      "ddd_core/population_floor_exemptions.py"
+    ],
+    "comando": "git diff f62c2453c81eb8bb10657ecd25ccd17b956bae07 d0aa8f5b7e20dfab30f58a5aeb0e550e56570e02 -- herramientas/validar_ejecucion.py ddd_core/population_floor_exemptions.py"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "exencion_sin_respaldo_campo_municipal"
+    ],
+    "ficheros": [
+      "herramientas/validar_ejecucion.py",
+      "ddd_core/population_floor_exemptions.py"
+    ],
+    "claves": [
+      "CUMUN",
+      "CUSEC",
+      "DDD_MUNICIPALITY_PARTITION",
+      "respaldo",
+      "campo municipal"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#394 fusionada, squash d0aa8f5b7e sobre f62c2453c8; #398 fusionada, squash 623b0f68af sobre 6c1e875f01 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}
