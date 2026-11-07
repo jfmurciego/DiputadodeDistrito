@@ -1,0 +1,72 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Métricas del proceso
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: cada lunes y por workflow_dispatch regenera orchestracion/metricas_proceso.json (y su espejo
+#   dashboard/metricas_proceso.json) con herramientas/metricas_proceso.py y lo registra con la app ddd-registro.
+#   Solo lee la API; no lanza ni publica.
+# CAMBIOS: versión inicial (T-65).
+# MOTIVO: medir % de 00 a la primera, minutos de Actions, PR y coste de agentes sin modelo (FRAMEWORK §8).
+# ANTERIOR: ninguna (fichero nuevo)
+name: Métricas del proceso
+on:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+concurrency:
+  group: ddd-metricas-proceso
+  cancel-in-progress: false
+  queue: max
+jobs:
+  generar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Regenerar y empujar
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python herramientas/metricas_proceso.py --espejo dashboard/metricas_proceso.json
+          git config user.name "ddd-registro[bot]"
+          git config user.email "ddd-registro[bot]@users.noreply.github.com"
+          git add orchestracion/metricas_proceso.json dashboard/metricas_proceso.json
+          if git diff --cached --quiet; then echo "Sin cambios en las métricas."; exit 0; fi
+          git commit -m "datos: métricas del proceso"
+          for intento in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            echo "::warning::push rechazado (intento $intento)"
+            git pull --rebase origin main
+          done
+          exit 1
