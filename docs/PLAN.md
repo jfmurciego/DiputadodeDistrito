@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.18
+Versión: 1.0.19
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: ola 2 (completar territorios y Gestor listo), R2 sin poda, cola T-71 a T-86
-Anterior: legacy/docs/PLAN_v1.0.17_20261107.md
+Cambios/motivo: T-87 (publicación con una sola aprobación) y T-88 (skills externas), encargadas por el propietario
+Anterior: legacy/docs/PLAN_v1.0.18_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -278,6 +278,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-76 | Podar R2 bajo 10 GB; borrado solo con lista aprobada | session_01KQDtFtGG21KnDVVU6JUnni | En curso |
 | T-77 | Incorporar T-75: estado de tarea y de efecto externo, línea de cierre ampliada, ficha del ingeniero de motor, topes y libro de costes por chat | session_01KQDtFsDv6WYYdvBHC1Ji7t (Sonnet) | Skills y fichas coherentes; PR con registro |
 | T-78 | Gobierno de agentes en runtime: allowlist por rol y revisor como check obligatorio (JSON del ruleset, lo aplica el propietario) | session_01KQDtFru1JVfTuBosCwaVsu (Opus) | Herramienta denegada se bloquea; PR no-automerge |
+| T-87 | Cadena de publicación con una sola aprobación: al cerrar la puerta 04 de una 00, un job en el entorno `produccion` (aprobación del propietario) dispara juntos la 05 del visor con `production_run_id` de esa 00 y `publicar-version-mapa.yml` (Release, Zenodo); el archivo R2 lo cubre T-72 y los resultados ligeros ya se encadenan con `publicaciones_visor.json`. Toca workflows compartidos: avisar al Coordinador | por abrir (Opus), después de la 00 de prueba de T-72 | PR no-automerge; sin aprobación no publica nada; probado con un territorio y sin publicar hasta el permiso del propietario |
 | T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | por abrir (Sonnet), después de T-77 | Una PR con la comparación (qué se toma, qué no y por qué) y las skills ajustadas; sin aumentar el contexto cargado por defecto |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
