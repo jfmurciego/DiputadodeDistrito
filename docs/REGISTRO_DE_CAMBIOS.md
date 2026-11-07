@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.121
+Versión: 1.0.122
 Fecha: 2026-11-07
-Alcance: T-54 — Fusión automática con `pruebas` en verde
+Alcance: T-61 — Configuraciones de ensemble para 10 provincias
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t54-auto-merge.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.120_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-t61-ensembles-provincias.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.121_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.120_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.122 · [2026-11-07 — T-61 — Configuraciones de ensemble para 10 provincias](registro/2026-11-07_claude-t61-ensembles-provincias.md)
 - 1.0.121 · [2026-11-07 — T-54 — Fusión automática con `pruebas` en verde](registro/2026-11-07_claude-t54-auto-merge.md)
 - 1.0.120 · [2026-11-07 — T-56 — Hemiciclo nacional en el sitio publicado](registro/2026-11-07_claude-t56-hemiciclo-sitio.md)
 - 1.0.119 · [2026-11-07 — T-55 — Hemiciclo: columna (b) con el oficial de 2019-11](registro/2026-11-07_claude-t55-hemiciclo-2019.md)
