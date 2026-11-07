@@ -1,12 +1,56 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.95
+Versión: 1.0.100
 Fecha: 2026-11-07
-Alcance: Paso 0 — framework de agentes y arquitectura P00-P60
+Alcance: T-38 — conjunto de oro para revisor y forense
 Estado: candidato
-Cambios/motivo: documento de referencia del plan de agentes (solo documentación)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.94_t37_20261103.md
+Cambios/motivo: evals/oro (43 casos), herramientas/evaluar_oro.py 1.0.0 y tests/test_evaluar_oro.py
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.99_plan_20261107.md
 -->
+
+## 2026-11-07 — T-38 — Conjunto de oro para revisor y forense
+
+`evals/oro/casos/`: 43 casos con esquema común (id, causa, PR/run de origen, entrada, esperado, procedencia): las 12 causas
+raíz del §9 del framework y 6 runs más con causa cerrada (forense, CR-01 a CR-18); ADV-01 a ADV-16 de la auditoría §7.2,
+3 diffs originales con defecto probado (#399, #421, #406) y 3 controles limpios (#389, #410, #411) para el revisor; 3 casos
+de calibración del §29E. Entradas por SHA de 40 (diff original o diff que revierte el arreglo) y síntomas de run; sin
+artefactos. `herramientas/evaluar_oro.py` 1.0.0 (biblioteca estándar, determinista) valida los casos, puntúa la salida JSON
+de un agente (SHA del candidato, veredicto y defecto; causa en ≤ 5 líneas; veredictos prohibidos) y anota
+`evals/oro/LIBRO_DE_COSTES.md`. Pruebas: `tests/test_evaluar_oro.py` (13; 100 % con la salida ideal, 0 % vacía). Sin
+lanzamientos · encadenada tras #431.
+
+## 2026-11-07 — PLAN 1.0.12 — Estado a 07-11 y cola T-38 a T-44
+
+`docs/PLAN.md` 1.0.12: estado a 07-11 (49/52 provincias; Paso 0 y Paso 1 hechos, pendientes de fusión #427 → #430) y cola
+del §12 del framework: T-38 conjunto de oro, T-39 revisor, T-40 forense, T-41 Environments con aprobación; producto en
+paralelo y con tope: T-42 hemiciclo (tres sumas sobre 49 provincias, alcance confirmado), T-43 ensembles de La Rioja y
+Sevilla, T-44 Málaga, Barcelona y Alicante (dos ciclos por provincia). Asigna los cuatro chats y los turnos exclusivos;
+decisiones D-5 a D-7. Solo documentación · PR de este plan.
+
+
+## 2026-11-07 — Paso 1 (bloque 3) — Skills de rol y procedimiento
+
+Nueve skills en `.claude/skills/`, una página cada una: `planificador`, `operador`, `implementador`, `lanzar-00` (modos y dispatch REST con
+`publish_result=false` salvo permiso), `diagnosticar-run` (catálogo de causas raíz), `revisar-pr` (veredicto ligado al SHA), `publicar-visor`, `presupuesto`
+y `disenar-agente` (destilado del metaagente v1.0). Sin código, contratos ni workflows · PR #430.
+
+
+## 2026-11-07 — Paso 1 (bloque 2) — CLAUDE.md recortado, reglas por ruta y hook de git
+
+`CLAUDE.md` pasa de 133 a 72 líneas (reglas del propietario, mapa, coordinación, 00, visor, sesión cloud e historial). Lo que solo aplica al tocar ciertos
+ficheros va a `.claude/rules/` con `paths:`: `gobernanza`, `registro`, `huellas` (M04/M05/N08), `workflows`, `contratos` y `diagnostico-local`; ninguna
+lección se pierde. `.claude/hooks/guardia_git.py` 1.0.0 (PreToolUse de Bash en `.claude/settings.json`) bloquea `git push` forzado y `git commit` con marcas de
+conflicto. `cierre-sesion`: límite de 100 líneas y lecciones por ruta a las reglas. Pruebas: `tests/test_hooks_claude.py` (bloquea y pasa) · PR #429.
+
+
+## 2026-11-07 — Paso 1 (bloque 1) — CI: guardián de main
+
+Las marcas de conflicto en el registro rompieron `main` (hotfix #422). `herramientas/comprobar_guardian_main.py` 1.0.0 (solo biblioteca estándar):
+`marcas` revisa los ficheros de `git ls-files` (`<<<<<<<`, `|||||||`, `>>>>>>>`; `=======` solo dentro de un bloque abierto) y `registro` exige
+Versión = Anterior + 1 con el predecesor en `legacy/` y su cabecera coherente con su nombre. `pruebas-plataforma.yml` 1.5.0 los ejecuta al inicio del job
+`pruebas` (el que exige el ruleset); copia en `legacy/workflows/pruebas-plataforma_v1.4.0.yml`. Pruebas: `tests/test_comprobar_guardian_main.py` (10) y
+casos negativos manuales (marcas en `README.md`, versión saltada) · PR #428.
+
 
 ## 2026-11-07 — Paso 0 — Framework de agentes y arquitectura P00-P60
 
