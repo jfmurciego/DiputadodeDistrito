@@ -1,0 +1,9 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_granada,0,Granada 2,MUNICIPIO,POSICION_N_S_O_E,18087,Granada,1,1,116063,,0,NOT_EVALUABLE,
+congreso_granada,1,Guadix y entorno,PRINCIPAL_Y_ENTORNO,,18089,Guadix,36,0,116840,,0,NOT_EVALUABLE,
+congreso_granada,2,Motril y entorno,PRINCIPAL_Y_ENTORNO,,18140,Motril,13,0,116758,,0,NOT_EVALUABLE,
+congreso_granada,3,Granada 1,MUNICIPIO,POSICION_N_S_O_E,18087,Granada,1,1,116183,,0,NOT_EVALUABLE,
+congreso_granada,4,Armilla y entorno,PRINCIPAL_Y_ENTORNO,,18021,Armilla,14,0,121044,,0,NOT_EVALUABLE,
+congreso_granada,5,Baza y entorno,PRINCIPAL_Y_ENTORNO,,18023,Baza,44,0,112543,,0,NOT_EVALUABLE,
+congreso_granada,6,Maracena y entorno,PRINCIPAL_Y_ENTORNO,,18127,Maracena,51,0,112658,,0,NOT_EVALUABLE,
+congreso_granada,7,Las Gabias y entorno,PRINCIPAL_Y_ENTORNO,,18905,Las Gabias,15,0,121983,,0,NOT_EVALUABLE,
