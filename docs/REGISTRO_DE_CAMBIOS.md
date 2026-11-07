@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.150
+Versión: 1.0.151
 Fecha: 2026-11-07
-Alcance: T-88 — Skills de verificación de plan y TDD incorporadas a implementador y planificador
+Alcance: T-89 — Plan: Observatorio Electoral de las Naciones como fuente secundaria (D-8) y su espejo
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_t88-skills-verificacion-tdd.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.149_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_plan-observatorio.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.150_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.149_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.151 · [2026-11-07 — T-89 — Plan: Observatorio Electoral de las Naciones como fuente secundaria (D-8) y su espejo](registro/2026-11-07_plan-observatorio.md)
 - 1.0.150 · [2026-11-07 — T-88 — Skills de verificación de plan y TDD incorporadas a implementador y planificador](registro/2026-11-07_t88-skills-verificacion-tdd.md)
 - 1.0.149 · [2026-11-07 — T-86 — Gestor de Campañas listo para la legislatura vigente](registro/2026-11-07_claude-t86-gestor-legislatura-vigente.md)
 - 1.0.148 · [2026-11-07 — T-87/T-88 — Plan: encargo de T-87 (publicación con una sola aprobación) y T-88 (skills externas)](registro/2026-11-07_plan-t88.md)
