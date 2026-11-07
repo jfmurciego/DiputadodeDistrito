@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.19
+Versión: 1.0.20
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-87 (publicación con una sola aprobación) y T-88 (skills externas), encargadas por el propietario
-Anterior: legacy/docs/PLAN_v1.0.18_20261107.md
+Cambios/motivo: decisión D-8 (Observatorio Electoral de las Naciones como fuente secundaria) y T-89 (espejo), contraste en T-71
+Anterior: legacy/docs/PLAN_v1.0.19_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -90,6 +90,12 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - `docs/PLAN.md`: planificador. `docs/REGISTRO_DE_CAMBIOS.md`: número lo asigna el planificador al abrir cada PR.
 
 ## 2. Decisiones del propietario
+### Tomadas (07-11 noche)
+- D-8. El Observatorio Electoral de las Naciones (`nazioenbehatokia.eus`; Ion Ansa, Nora Galparsoro) se acepta como
+  **fuente secundaria** para el histórico de generales (2011-2023, votos por partido y sección, seccionado INE de cada año),
+  con contraste por muestreo frente a Infoelectoral y espejo propio con sha256 en el catálogo de procedencia (T-89).
+  Se usa ya como contraste de T-71. Se pide permiso de reutilización a los autores (lo envía el propietario).
+  La red del entorno Default permite `nazioenbehatokia.eus` (07-11).
 ### Pendientes
 - D-5 (T-41). Crear en Settings → Environments el entorno `produccion` con el propietario como revisor requerido
   (repositorio público: disponible en cualquier plan). Sin él, T-41 se queda en el código.
@@ -271,7 +277,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | Id | Objetivo | Chat | Hecho |
 |---|---|---|---|
 | T-72 | Archivo en origen: M06/M08 a R2 con sha256 en `registrar`, composición y votos por run | session_01KQDtFtH5s6XFb1sTEQE75B (Opus) | Fusionada (#471); falta una 00 de prueba (Operador, permiso del propietario) |
-| T-71 | Recuperar composición y votos por partido de las 47 provincias sin ejecuciones (centroides INE 2023 sobre el M06 publicado) | session_01KQDtFtsKtpcWSzdeGAmwMS (Sonnet) | ≥ 40 de 47 exactas; las que no cuadren, a 00 con motivo |
+| T-71 | Recuperar composición y votos por partido de las 47 provincias sin ejecuciones (centroides INE 2023 sobre el M06 publicado) | session_01KQDtFtsKtpcWSzdeGAmwMS (Sonnet) | ≥ 40 de 47 exactas; las que no cuadren, a 00 con motivo. Añadido (D-8): contrastar los votos por partido y sección de 2023 con `nazioenbehatokia.eus/data/202307/sekzioa/{cpro}.json` e informar de las discrepancias |
 | T-74 | Catálogo de procedencia único (`orchestracion/catalogo_procedencia.json`, derivado de 5 ficheros) | session_01KQDtFs6b53QY496wZn2gSX (Opus) | PR #473; check en CI |
 | T-73 | Portal Zensical público (P3) en `/docs` del sitio, dentro de `_reutilizable-publicar-sitio.yml` | por abrir, tras T-71 (Sonnet) | `zensical build --strict` en verde, enlaces comprobados; sin publicar |
 | T-75 | Aplicar el metaagente a DDD (solo documentación) | session_01KQDtFvFEZ1wPrxBQpGsj9w (Opus) | En curso |
@@ -280,6 +286,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-78 | Gobierno de agentes en runtime: allowlist por rol y revisor como check obligatorio (JSON del ruleset, lo aplica el propietario) | session_01KQDtFru1JVfTuBosCwaVsu (Opus) | Herramienta denegada se bloquea; PR no-automerge |
 | T-87 | Cadena de publicación con una sola aprobación: al cerrar la puerta 04 de una 00, un job en el entorno `produccion` (aprobación del propietario) dispara juntos la 05 del visor con `production_run_id` de esa 00 y `publicar-version-mapa.yml` (Release, Zenodo); el archivo R2 lo cubre T-72 y los resultados ligeros ya se encadenan con `publicaciones_visor.json`. Toca workflows compartidos: avisar al Coordinador | por abrir (Opus), después de la 00 de prueba de T-72 | PR no-automerge; sin aprobación no publica nada; probado con un territorio y sin publicar hasta el permiso del propietario |
 | T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | por abrir (Sonnet), después de T-77 | Una PR con la comparación (qué se toma, qué no y por qué) y las skills ajustadas; sin aumentar el contexto cargado por defecto |
+| T-89 | Espejo del Observatorio Electoral de las Naciones (D-8): bajar `data/index.json`, `data/{k}/sekzioa/{cpro}.json` de las 6 generales y `geo/sekzioak/{año}/{cpro}.json` de sus 6 seccionados, con fecha, URL y sha256 por fichero, a R2 (no a git); entrada en el catálogo de procedencia; contraste por muestreo (3 provincias × 2 elecciones) con Infoelectoral 2023 del release espejo y un lector Python del formato compacto (`s`,`k`,`f`,`b`,`r`) | por abrir (Sonnet) | Espejo completo y verificable; informe del contraste; sin publicar ni tocar el visor |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
