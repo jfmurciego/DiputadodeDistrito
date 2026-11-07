@@ -1,0 +1,48 @@
+{
+  "id": "REV-19",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Ensemble de Salamanca sin piezas MultiPolygon",
+  "causa": "La configuración nueva fija preserve_atomic_multipart_sections=false (Aragón usa true); M06 rechaza la contigüidad (#411).",
+  "origen": {
+    "prs": [
+      406,
+      411
+    ],
+    "runs": [
+      41518377027
+    ],
+    "pr_introductora": null,
+    "referencia": "Historia de PR (introductora → correctiva)"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 406,
+    "sha_desde": "b1ad371a79fda7f26bf4c3a094ca95b81ce86cf4",
+    "sha_candidato": "42eefcb0b70d5a804be71b729b7cb45d6f6bd663",
+    "ficheros": [
+      "configuracion/ensemble/congreso_salamanca.json"
+    ],
+    "comando": "git diff b1ad371a79fda7f26bf4c3a094ca95b81ce86cf4 42eefcb0b70d5a804be71b729b7cb45d6f6bd663 -- configuracion/ensemble/congreso_salamanca.json"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "ensemble_multipart"
+    ],
+    "ficheros": [
+      "configuracion/ensemble/congreso_salamanca.json"
+    ],
+    "claves": [
+      "preserve_atomic_multipart_sections",
+      "multipart",
+      "multipolygon",
+      "aragon"
+    ]
+  },
+  "procedencia": {
+    "fuente": "Historia de PR (introductora → correctiva)",
+    "verificado": "#406 fusionada, squash 42eefcb0b7 sobre b1ad371a79; #411 fusionada, squash 705a6cedf0 sobre 919feacb83 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

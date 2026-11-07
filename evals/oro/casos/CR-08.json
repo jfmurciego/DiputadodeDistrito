@@ -1,0 +1,38 @@
+{
+  "id": "CR-08",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Ensemble: geometría en grados",
+  "causa": "El ensemble mide shared_border_m en grados (EPSG:4326) en vez de metros; hay que reproyectar a working_crs.",
+  "origen": {
+    "prs": [
+      409
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [],
+    "sintoma": "Ensemble de Salamanca: aristas «débiles» (<1 m) en 1502 aristas, con fronteras de 0,04 «m».",
+    "territorio": "congreso_salamanca"
+  },
+  "esperado": {
+    "causa_id": "ensemble_crs_grados",
+    "claves": [
+      "grados",
+      "4326",
+      "metros",
+      "reproyect",
+      "working_crs"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#409 fusionada, squash 2bda35f617 sobre 9c1a6b461b (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "CTRL-03",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Control limpio: multipart en Salamanca",
+  "causa": "Cambio de una línea en configuración con test; no debe bloquearse.",
+  "origen": {
+    "prs": [
+      411
+    ],
+    "runs": [],
+    "pr_introductora": null,
+    "referencia": "Historia de PR (introductora → correctiva)"
+  },
+  "entrada": {
+    "modo": "diff_original",
+    "pr": 411,
+    "sha_desde": "919feacb83be71e91fadace738c4c2e5931d386e",
+    "sha_candidato": "705a6cedf03021ddcb5eee8bd4bfe19413794b51",
+    "ficheros": [
+      "configuracion/ensemble/congreso_salamanca.json",
+      "tests/test_ensemble_multipart_salamanca.py"
+    ],
+    "comando": "git diff 919feacb83be71e91fadace738c4c2e5931d386e 705a6cedf03021ddcb5eee8bd4bfe19413794b51 -- configuracion/ensemble/congreso_salamanca.json tests/test_ensemble_multipart_salamanca.py",
+    "contexto": "Fusionada con CI verde; el ensemble de Salamanca se publicó después 10/10 (run 41614546499)."
+  },
+  "esperado": {
+    "veredicto": "APROBAR",
+    "clases": [],
+    "ficheros": [],
+    "claves": [
+      "preserve_atomic_multipart_sections"
+    ]
+  },
+  "procedencia": {
+    "fuente": "Historia de PR (introductora → correctiva)",
+    "verificado": "#411 fusionada, squash 705a6cedf0 sobre 919feacb83 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

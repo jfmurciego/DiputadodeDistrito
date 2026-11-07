@@ -1,0 +1,40 @@
+{
+  "id": "CR-11",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Publicación de ensemble sin sha256",
+  "causa": "El publicador exige ensemble_sha256 y el despliegue solo pasaba ensemble_release_tag y target_page.",
+  "origen": {
+    "prs": [
+      418
+    ],
+    "runs": [
+      41592019959
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41592019959
+    ],
+    "sintoma": "Publicación del ensemble de Salamanca falla en «Resolver ensemble persistente solicitado» (exit 56, «sin ensemble_sha256 acreditado»).",
+    "territorio": "congreso_salamanca"
+  },
+  "esperado": {
+    "causa_id": "ensemble_sin_sha256",
+    "claves": [
+      "ensemble_sha256",
+      "sha256",
+      "publicador"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#418 fusionada, squash 80a53278f4 sobre e55b2e49ff (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

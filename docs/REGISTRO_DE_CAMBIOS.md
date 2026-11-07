@@ -1,12 +1,87 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.95
+Versión: 1.0.103
 Fecha: 2026-11-07
-Alcance: Paso 0 — framework de agentes y arquitectura P00-P60
+Alcance: T-42 — hemiciclo nacional con tres sumas de escaños
 Estado: candidato
-Cambios/motivo: documento de referencia del plan de agentes (solo documentación)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.94_t37_20261103.md
+Cambios/motivo: herramientas/generar_hemiciclo.py 1.0.0 y página dashboard/hemiciclo.html
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.102_t40_20261107.md
 -->
+
+## 2026-11-07 — T-42 — Hemiciclo nacional: tres sumas de escaños
+
+`herramientas/generar_hemiciclo.py` 1.0.0 (fichero nuevo). M08: blobs inmutables de `publicaciones_visor.json` (49 `congreso_*`, el run más reciente, sha256 verificado). Oficial 2023: ZIP por mesa del release
+`fuente-infoelectoral-02202307` (huella del contrato). Suma escaños por partido: (a) reparto real 2023, D'Hondt con barrera del 3 % sobre votos válidos; (b) generales 2019-11, «sin fuente» (el repositorio no
+tiene esos resultados; subtarea abierta); (c) uninominal propio, un escaño por distrito. PSOE agrupa sus federadas (PSC, PSE-EE, PSN, PSIB, PSdeG) y SUMAR sus marcas. Salida `hemiciclo.json`/`.csv` con el total
+«Nacional» y las provincias que faltan calculadas de los datos (hoy Alicante, Barcelona y Málaga). `dashboard/hemiciclo.html` (+ `hemiciclo.json`): hemiciclo SVG y tabla con conmutador entre las tres sumas.
+Pruebas: `tests/test_generar_hemiciclo.py` (5; Soria y Teruel sintéticas y, con `DDD_MESA_ZIP`, las reales: Soria PP 1 PSOE 1, Teruel PP 2 PSOE 1, escaños por circunscripción). **Desviación abierta de (a)**: sobre las 52
+circunscripciones sale PP 136 / PSOE 122, y el oficial es PP 137 / PSOE 121; el ZIP solo trae el CERA previo al escrutinio (p. ej. Murcia 3.442 votos; la candidata a cambiar es Murcia, margen 2,3 %) y el CERA final por
+partido no está en el repositorio. Por eso el script sale con 1 y marca `verificacion_a: FALLA` hasta tener ese dato. No toca workflows, `modulos/` ni `ddd_core/`; no publica.
+
+## 2026-11-07 — T-40 — Subagente forense de runs
+
+`.claude/agents/forense.md` (Sonnet, solo lectura): dado un run o un síntoma, da la causa en cinco líneas (territorio y
+run, paso, mensaje, causa, siguiente acción y quién) con `causa_id` del catálogo; lee anotaciones de `check-runs`,
+`TERRITORY:` del job «Planificar» y `diagnostico/auto/`, nunca artefactos; no lanza ni relanza. Memoria
+`.claude/agent-memory/forense/MEMORY.md`: 26 causas con id estable (§9 del framework y `CLAUDE.md`), por familias.
+`.claude/skills/diagnosticar-run` delega en él y deja el catálogo en la memoria. Conjunto de oro (T-38): 20/20; 12/12
+causas del §9 y 6/6 runs adicionales en ≤ 5 líneas, 2/2 de calibración; 168.568 tokens en 2 lotes
+(`evals/oro/LIBRO_DE_COSTES.md`). Sin lanzamientos · encadenada tras #433.
+
+## 2026-11-07 — T-39 — Subagente revisor independiente
+
+`.claude/agents/revisor.md` (Sonnet, solo lectura): revisa una PR o un diff y devuelve un JSON con veredicto
+(`PASS`, `PASS_WITH_EXCEPTIONS`, `FAIL`, `BLOCKED`) ligado al SHA del HEAD y defectos con fichero, línea y dato; comprueba
+defecto funcional, unidades y CRS, población (suelo, techo, exenciones), huellas M04/M05/N08, gobernanza VERSIÓN/legacy,
+registro y marcas de conflicto, workflows y robots, identidad y estado de producto, tests rojo/verde y efectos externos.
+`.claude/skills/revisar-pr` delega en él. Conjunto de oro (T-38): 23/24 (95,8 %); 17/18 defectos cazados sobre el diff
+original, 0/4 controles limpios bloqueados y 2/2 de calibración; 306.539 tokens en 3 lotes (`evals/oro/LIBRO_DE_COSTES.md`,
+`evals/oro/resultados/revisor_v1_20261107.json`). Primera revisión real: #425, PASS_WITH_EXCEPTIONS con dos hallazgos
+menores (`evals/revisiones/PR-425_2d1b9f42.json`). Sin lanzamientos · encadenada tras #432.
+
+## 2026-11-07 — T-38 — Conjunto de oro para revisor y forense
+
+`evals/oro/casos/`: 43 casos con esquema común (id, causa, PR/run de origen, entrada, esperado, procedencia): las 12 causas
+raíz del §9 del framework y 6 runs más con causa cerrada (forense, CR-01 a CR-18); ADV-01 a ADV-16 de la auditoría §7.2,
+3 diffs originales con defecto probado (#399, #421, #406) y 3 controles limpios (#389, #410, #411) para el revisor; 3 casos
+de calibración del §29E. Entradas por SHA de 40 (diff original o diff que revierte el arreglo) y síntomas de run; sin
+artefactos. `herramientas/evaluar_oro.py` 1.0.0 (biblioteca estándar, determinista) valida los casos, puntúa la salida JSON
+de un agente (SHA del candidato, veredicto y defecto; causa en ≤ 5 líneas; veredictos prohibidos) y anota
+`evals/oro/LIBRO_DE_COSTES.md`. Pruebas: `tests/test_evaluar_oro.py` (13; 100 % con la salida ideal, 0 % vacía). Sin
+lanzamientos · encadenada tras #431.
+
+## 2026-11-07 — PLAN 1.0.12 — Estado a 07-11 y cola T-38 a T-44
+
+`docs/PLAN.md` 1.0.12: estado a 07-11 (49/52 provincias; Paso 0 y Paso 1 hechos, pendientes de fusión #427 → #430) y cola
+del §12 del framework: T-38 conjunto de oro, T-39 revisor, T-40 forense, T-41 Environments con aprobación; producto en
+paralelo y con tope: T-42 hemiciclo (tres sumas sobre 49 provincias, alcance confirmado), T-43 ensembles de La Rioja y
+Sevilla, T-44 Málaga, Barcelona y Alicante (dos ciclos por provincia). Asigna los cuatro chats y los turnos exclusivos;
+decisiones D-5 a D-7. Solo documentación · PR de este plan.
+
+
+## 2026-11-07 — Paso 1 (bloque 3) — Skills de rol y procedimiento
+
+Nueve skills en `.claude/skills/`, una página cada una: `planificador`, `operador`, `implementador`, `lanzar-00` (modos y dispatch REST con
+`publish_result=false` salvo permiso), `diagnosticar-run` (catálogo de causas raíz), `revisar-pr` (veredicto ligado al SHA), `publicar-visor`, `presupuesto`
+y `disenar-agente` (destilado del metaagente v1.0). Sin código, contratos ni workflows · PR #430.
+
+
+## 2026-11-07 — Paso 1 (bloque 2) — CLAUDE.md recortado, reglas por ruta y hook de git
+
+`CLAUDE.md` pasa de 133 a 72 líneas (reglas del propietario, mapa, coordinación, 00, visor, sesión cloud e historial). Lo que solo aplica al tocar ciertos
+ficheros va a `.claude/rules/` con `paths:`: `gobernanza`, `registro`, `huellas` (M04/M05/N08), `workflows`, `contratos` y `diagnostico-local`; ninguna
+lección se pierde. `.claude/hooks/guardia_git.py` 1.0.0 (PreToolUse de Bash en `.claude/settings.json`) bloquea `git push` forzado y `git commit` con marcas de
+conflicto. `cierre-sesion`: límite de 100 líneas y lecciones por ruta a las reglas. Pruebas: `tests/test_hooks_claude.py` (bloquea y pasa) · PR #429.
+
+
+## 2026-11-07 — Paso 1 (bloque 1) — CI: guardián de main
+
+Las marcas de conflicto en el registro rompieron `main` (hotfix #422). `herramientas/comprobar_guardian_main.py` 1.0.0 (solo biblioteca estándar):
+`marcas` revisa los ficheros de `git ls-files` (`<<<<<<<`, `|||||||`, `>>>>>>>`; `=======` solo dentro de un bloque abierto) y `registro` exige
+Versión = Anterior + 1 con el predecesor en `legacy/` y su cabecera coherente con su nombre. `pruebas-plataforma.yml` 1.5.0 los ejecuta al inicio del job
+`pruebas` (el que exige el ruleset); copia en `legacy/workflows/pruebas-plataforma_v1.4.0.yml`. Pruebas: `tests/test_comprobar_guardian_main.py` (10) y
+casos negativos manuales (marcas en `README.md`, versión saltada) · PR #428.
+
 
 ## 2026-11-07 — Paso 0 — Framework de agentes y arquitectura P00-P60
 

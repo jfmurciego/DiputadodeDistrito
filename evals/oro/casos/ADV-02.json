@@ -1,0 +1,50 @@
+{
+  "id": "ADV-02",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Álava: M04 sin unidad flexible multisección",
+  "causa": "Sin la unidad :F multisección, ninguna sección fronteriza individual del residual cubre el déficit y Álava queda bloqueada.",
+  "origen": {
+    "prs": [
+      383
+    ],
+    "runs": [
+      41240137880
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 383,
+    "sha_desde": "0296136e2fcfdbb469d93e3d48990ba79f9d29dd",
+    "sha_candidato": "23ab67d20871b59527ce8f2ff49f34ddc3f31b61",
+    "ficheros": [
+      "modulos/04_generar_semillas.py"
+    ],
+    "comando": "git diff 0296136e2fcfdbb469d93e3d48990ba79f9d29dd 23ab67d20871b59527ce8f2ff49f34ddc3f31b61 -- modulos/04_generar_semillas.py",
+    "contexto": "El candidato devuelve M04 a 7.5.9; además cambia la huella pre-M04 de los contratos physical_components."
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "m04_sin_transferencia_multiseccion",
+      "huella_m04_invalidada"
+    ],
+    "ficheros": [
+      "modulos/04_generar_semillas.py"
+    ],
+    "claves": [
+      "multisecci",
+      "frontera flexible",
+      ":F",
+      "alava",
+      "deficit"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#383 fusionada, squash 0296136e2f sobre 23ab67d208 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

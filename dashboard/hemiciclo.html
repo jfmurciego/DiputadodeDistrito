@@ -1,0 +1,68 @@
+<!doctype html>
+<!-- PROYECTO: Diputado de Distrito · COMPONENTE: hemiciclo del visor · VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
+     ANTERIOR: ninguna (fichero nuevo) · Lee hemiciclo.json (herramientas/generar_hemiciclo.py). -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hemiciclo · Nacional</title>
+<style>
+:root{--bg:#fff;--fg:#1c2330;--mut:#5b6678;--line:#d9dee7;--card:#f5f7fa}
+@media (prefers-color-scheme:dark){:root{--bg:#12161d;--fg:#e8ecf2;--mut:#9aa6b8;--line:#2b3340;--card:#1a2029}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:.2rem 0}.mut{color:var(--mut);font-size:.9rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tabs button{padding:8px 12px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:8px;cursor:pointer;font:inherit}
+.tabs button[aria-pressed=true]{border-color:var(--fg);font-weight:600}
+svg{width:100%;height:auto}table{border-collapse:collapse;width:100%;margin-top:12px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}
+.sw{display:inline-block;width:.8em;height:.8em;border-radius:50%;margin-right:.5em}
+#aviso{padding:10px;background:var(--card);border-radius:8px;margin-top:12px}
+</style>
+</head>
+<body><main>
+<h1>Hemiciclo · <span id="amb">Nacional</span></h1>
+<div class="mut" id="sub"></div>
+<div class="tabs" role="group" aria-label="Suma de escaños">
+<button data-k="a" aria-pressed="true">Reparto real 2023</button>
+<button data-k="b" aria-pressed="false">Generales 2019-11</button>
+<button data-k="c" aria-pressed="false">Uninominal propio</button></div>
+<svg id="hemi" viewBox="0 0 400 215" role="img" aria-label="Hemiciclo"></svg>
+<div id="aviso" hidden></div>
+<table><thead><tr><th>Partido</th><th>Escaños</th><th>%</th></tr></thead><tbody id="tb"></tbody></table>
+<p class="mut" id="faltan"></p>
+</main>
+<script>
+const PAL=["#d1495b","#2e86ab","#f6ae2d","#3b8b5a","#8e5ea2","#e07a1f","#4d5b6b","#b5838d","#6a994e","#1b998b"];
+const col=(p,i)=>PAL[i%PAL.length];let D=null,K="a";
+function seats(n){ // posiciones ordenadas de izquierda a derecha por ángulo
+  const R=Math.max(2,Math.round(Math.sqrt(n/2.6))),r0=60,r1=190,rows=[];let sumr=0;
+  for(let i=0;i<R;i++){const r=R==1?r1:r0+(r1-r0)*i/(R-1);rows.push(r);sumr+=r}
+  let pts=[],left=n;
+  rows.forEach((r,i)=>{const m=i==R-1?left:Math.round(n*r/sumr);left-=m;
+    for(let j=0;j<m;j++){const t=m==1?.5:j/(m-1);pts.push({a:Math.PI*(1-t),r})}});
+  return pts.sort((x,y)=>y.a-x.a).map(p=>({x:200+p.r*Math.cos(p.a),y:205-p.r*Math.sin(p.a)}));
+}
+function draw(){
+  const t=D.totales[K],av=document.getElementById("aviso"),tb=document.getElementById("tb"),sv=document.getElementById("hemi");
+  sv.innerHTML="";tb.innerHTML="";
+  if(!t){av.hidden=false;av.textContent="Generales 2019-11: "+D.fuentes.b+". No hay resultados de esa elección en el repositorio.";return}
+  av.hidden=true;const ent=Object.entries(t),n=ent.reduce((s,e)=>s+e[1],0),pts=seats(n);let k=0;
+  ent.forEach(([p,c],i)=>{for(let j=0;j<c;j++){const s=pts[k++],e=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    e.setAttribute("cx",s.x.toFixed(1));e.setAttribute("cy",s.y.toFixed(1));e.setAttribute("r",(n>300?4.6:6.2));e.setAttribute("fill",col(p,i));
+    e.innerHTML="<title>"+p+"</title>";sv.appendChild(e)}
+    tb.insertAdjacentHTML("beforeend",`<tr><td><span class="sw" style="background:${col(p,i)}"></span>${p}</td><td>${c}</td><td>${(100*c/n).toFixed(1)}</td></tr>`)});
+  tb.insertAdjacentHTML("beforeend",`<tr><th>${D.ambito}</th><th>${n}</th><th>100</th></tr>`);
+  const tx=document.createElementNS("http://www.w3.org/2000/svg","text");tx.setAttribute("x",200);tx.setAttribute("y",190);tx.setAttribute("text-anchor","middle");
+  tx.setAttribute("font-size","34");tx.setAttribute("fill","currentColor");tx.textContent=n;sv.appendChild(tx);
+}
+fetch((new URLSearchParams(location.search).get("datos"))||"hemiciclo.json").then(r=>r.json()).then(d=>{D=d;
+  document.getElementById("amb").textContent=d.ambito;
+  document.getElementById("sub").textContent=d.provincias_incluidas+" provincias incluidas";
+  document.getElementById("faltan").textContent=d.faltan.length?"Faltan: "+d.faltan.map(f=>f.provincia).join(", ")+".":"";
+  draw()}).catch(()=>{document.getElementById("aviso").hidden=false;document.getElementById("aviso").textContent="No se pudo cargar hemiciclo.json."});
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{K=b.dataset.k;
+  document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));if(D)draw()});
+</script>
+</body></html>

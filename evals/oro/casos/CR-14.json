@@ -1,0 +1,41 @@
+{
+  "id": "CR-14",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Interior rechaza a los runners",
+  "causa": "Infoelectoral (Interior) rechaza las descargas desde runners de GitHub; la 03 necesita el espejo en release con la misma huella.",
+  "origen": {
+    "prs": [
+      363
+    ],
+    "runs": [
+      41192319910
+    ],
+    "pr_introductora": null,
+    "referencia": "CLAUDE.md (Infoelectoral) y PR #363"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41192319910
+    ],
+    "sintoma": "03 de Congreso Huesca falla con curl 22 al descargar el ZIP oficial por mesa.",
+    "territorio": "congreso_huesca"
+  },
+  "esperado": {
+    "causa_id": "infoelectoral_bloquea_runners",
+    "claves": [
+      "interior",
+      "espejo",
+      "release",
+      "runner"
+    ],
+    "min_claves": 2,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "CLAUDE.md (Infoelectoral) y PR #363",
+    "verificado": "#363 fusionada, squash c9b31cbb06 sobre 6444814df7 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}
