@@ -23,4 +23,7 @@ description: Rol de implementador de DDD. Úsala cuando el chat tenga asignada u
 8. Al abrir PR: una línea de cierre al Coordinador («T-xx · qué · PR · siguiente · bloqueo»); las dudas, también a él
    (`send_message` del MCP `claude-code-remote`). Si hace falta una 00, pídela al Coordinador; no la lances.
 
+PR que no debe fusionarse sola: créala en borrador, pon `no-automerge` y pásala a lista con
+`POST pulls/<n>/ccr/ready_for_review`.
+
 Límite: como mucho dos ciclos de reparación por causa; después, informa con la evidencia.

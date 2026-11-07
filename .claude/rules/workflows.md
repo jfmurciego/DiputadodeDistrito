@@ -29,3 +29,10 @@ paths:
   (tests `test_credencial_registro` y `test_operational_concurrency_gerrychain50`).
 - Un workflow manual nuevo va también en las listas de `test_design_a_matriz_sintetica` y
   `test_codauto_preparation_contract` (causa del rojo de #458).
+- Nunca auto-merge nativo ni decidir por `mergeable_state` con actores exentos del ruleset (app ddd-registro): fusiona sin
+  los checks obligatorios y la PR sale «clean» al instante (#453, #454).
+- Un evento `pull_request` ejecuta el workflow de la referencia de merge de la PR: justo tras cambiar un workflow en `main`,
+  una PR con la referencia vieja ejecuta la versión anterior (#458 la fusionó la 1.0.0 30 s después de entrar la 1.1.0).
+- Fusión segura: `workflow_run` al terminar `pruebas-plataforma`; check-run `pruebas` del SHA exacto y de la check_suite
+  que dispara (`workflow_run.check_suite_id`); `--match-head-commit` (#457, #460).
+- `dashboard/index.html` y `publicado/dashboard/index.html` deben ser idénticos; el publicador copia cada página enlazada (#459, #451).
