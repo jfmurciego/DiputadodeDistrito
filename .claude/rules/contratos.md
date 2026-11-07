@@ -30,6 +30,11 @@ paths:
   de 01 (`GEOMETRY_INVALID_AUDITED`) o la conectividad pre-M04 (#374, #383). Los parámetros de M02 viven en el
   contrato; la política solo sobrescribe población; `population_repair` va en `modulo_05` del contrato.
 
+- Distrito sobre el techo con «residual + enclaves» o un bloque de municipios enteros: suele ser fallo de búsqueda
+  (M05 mueve unidades enteras y no redibuja las piezas internas). Desde M04 7.6.7 lo cubren el alivio de residuos y el
+  reintento por enclaves (#441); antes de pedir exención, mira en el grafo los vecinos municipales y los residuales
+  con hueco. Imposible estructural (Fuengirola en Málaga): exención de suelo con decisión del propietario.
+
 ## Congreso / nacional (provincias)
 - `herramientas/generar_provincias_congreso.py` (idempotente) da de alta provincias desde el reparto N06 y hereda
   los puentes de enclaves de los contratos autonómicos: sin ellos el pre-M04 falla con «grafo territorial no
