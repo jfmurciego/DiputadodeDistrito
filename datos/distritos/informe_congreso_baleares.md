@@ -1,14 +1,24 @@
 # Nombres y comunidades de interés — congreso_baleares
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
 
 - Distritos: 10 (nombres únicos: 10)
 - Reglas: MUNICIPIO 3, PRINCIPAL_Y_ENTORNO 7
 - Municipios divididos entre distritos (suma por distrito): 4
 
-## C13 comarcas partidas
+## C13 partidos judiciales partidos
 
-NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia (no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).
+Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
+- Partidos tocados por la provincia: 6
+- Partidos partidos entre distritos: 4
+- Cobertura: 98.5% de los municipios, 99.9% de la población (sin partido: 1, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
+
+| Partido partido | Distritos |
+|---|---|
+| 07-02 | 3, 4, 5, 6 |
+| 07-03 | 0, 1, 2, 3, 5, 6 |
+| 07-04 | 3, 4, 5 |
+| 07-05 | 8, 9 |
 
 ## Distritos
 

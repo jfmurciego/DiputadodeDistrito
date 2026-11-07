@@ -1,7 +1,7 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_navarra,0,Pamplona,MUNICIPIO,,31201,Pamplona,1,1,103144,,0,NOT_EVALUABLE,
-congreso_navarra,1,Tudela y entorno,PRINCIPAL_Y_ENTORNO,,31232,Tudela,25,0,113778,,0,NOT_EVALUABLE,
-congreso_navarra,2,Pamplona y entorno,PRINCIPAL_Y_ENTORNO,,31201,Pamplona,10,1,113523,,0,NOT_EVALUABLE,
-congreso_navarra,3,Burlada y entorno,PRINCIPAL_Y_ENTORNO,,31060,Burlada,57,0,113859,,0,NOT_EVALUABLE,
-congreso_navarra,4,Tafalla y entorno,PRINCIPAL_Y_ENTORNO,,31227,Tafalla,150,0,113867,,0,NOT_EVALUABLE,
-congreso_navarra,5,Valle de Egüés y entorno,PRINCIPAL_Y_ENTORNO,,31086,Valle de Egüés,30,0,113984,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_navarra,0,Pamplona,MUNICIPIO,,31201,Pamplona,1,1,103144,,0,1,EVALUADO,
+congreso_navarra,1,Tudela y entorno,PRINCIPAL_Y_ENTORNO,,31232,Tudela,25,0,113778,,0,2,EVALUADO,
+congreso_navarra,2,Pamplona y entorno,PRINCIPAL_Y_ENTORNO,,31201,Pamplona,10,1,113523,,0,2,EVALUADO,
+congreso_navarra,3,Burlada y entorno,PRINCIPAL_Y_ENTORNO,,31060,Burlada,57,0,113859,,0,3,EVALUADO,
+congreso_navarra,4,Tafalla y entorno,PRINCIPAL_Y_ENTORNO,,31227,Tafalla,150,0,113867,,0,5,EVALUADO,
+congreso_navarra,5,Valle de Egüés y entorno,PRINCIPAL_Y_ENTORNO,,31086,Valle de Egüés,30,0,113984,,0,4,EVALUADO,

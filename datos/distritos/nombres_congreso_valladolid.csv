@@ -1,5 +1,5 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_valladolid,0,Valladolid 2,MUNICIPIO,POSICION_N_S_O_E,47186,Valladolid,1,1,148543,,0,NOT_EVALUABLE,
-congreso_valladolid,1,Valladolid 1,MUNICIPIO,POSICION_N_S_O_E,47186,Valladolid,1,1,148586,,0,NOT_EVALUABLE,
-congreso_valladolid,2,Laguna de Duero y entorno,PRINCIPAL_Y_ENTORNO,,47076,Laguna de Duero,106,0,112066,,0,NOT_EVALUABLE,
-congreso_valladolid,3,Arroyo de la Encomienda y entorno,PRINCIPAL_Y_ENTORNO,,47010,Arroyo de la Encomienda,118,0,112138,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_valladolid,0,Valladolid 2,MUNICIPIO,POSICION_N_S_O_E,47186,Valladolid,1,1,148543,,0,1,EVALUADO,
+congreso_valladolid,1,Valladolid 1,MUNICIPIO,POSICION_N_S_O_E,47186,Valladolid,1,1,148586,,0,1,EVALUADO,
+congreso_valladolid,2,Laguna de Duero y entorno,PRINCIPAL_Y_ENTORNO,,47076,Laguna de Duero,106,0,112066,,0,2,EVALUADO,
+congreso_valladolid,3,Arroyo de la Encomienda y entorno,PRINCIPAL_Y_ENTORNO,,47010,Arroyo de la Encomienda,118,0,112138,,0,3,EVALUADO,

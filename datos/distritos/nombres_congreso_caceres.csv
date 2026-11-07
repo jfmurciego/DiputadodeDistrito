@@ -1,4 +1,4 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_caceres,0,Cáceres y entorno,PRINCIPAL_Y_ENTORNO,,10037,Cáceres,41,0,129380,,0,NOT_EVALUABLE,
-congreso_caceres,1,Plasencia y entorno,PRINCIPAL_Y_ENTORNO,,10148,Plasencia,83,0,129432,,0,NOT_EVALUABLE,
-congreso_caceres,2,Navalmoral de la Mata y entorno,PRINCIPAL_Y_ENTORNO,,10131,Navalmoral de la Mata,99,0,129445,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_caceres,0,Cáceres y entorno,PRINCIPAL_Y_ENTORNO,,10037,Cáceres,41,0,129380,,0,4,EVALUADO,
+congreso_caceres,1,Plasencia y entorno,PRINCIPAL_Y_ENTORNO,,10148,Plasencia,83,0,129432,,0,4,EVALUADO,
+congreso_caceres,2,Navalmoral de la Mata y entorno,PRINCIPAL_Y_ENTORNO,,10131,Navalmoral de la Mata,99,0,129445,,0,6,EVALUADO,

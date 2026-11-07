@@ -1,6 +1,6 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_cantabria,0,Santander,MUNICIPIO,,39075,Santander,1,1,117761,,0,NOT_EVALUABLE,
-congreso_cantabria,1,Santander y entorno,PRINCIPAL_Y_ENTORNO,,39075,Santander,7,1,118800,,0,NOT_EVALUABLE,
-congreso_cantabria,2,Torrelavega y entorno,PRINCIPAL_Y_ENTORNO,,39087,Torrelavega,32,0,117334,,0,NOT_EVALUABLE,
-congreso_cantabria,3,Castro-Urdiales y entorno,PRINCIPAL_Y_ENTORNO,,39020,Castro-Urdiales,45,0,117307,,0,NOT_EVALUABLE,
-congreso_cantabria,4,Camargo y entorno,PRINCIPAL_Y_ENTORNO,,39016,Camargo,18,0,117185,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_cantabria,0,Santander,MUNICIPIO,,39075,Santander,1,1,117761,,0,1,EVALUADO,
+congreso_cantabria,1,Santander y entorno,PRINCIPAL_Y_ENTORNO,,39075,Santander,7,1,118800,,0,3,EVALUADO,
+congreso_cantabria,2,Torrelavega y entorno,PRINCIPAL_Y_ENTORNO,,39087,Torrelavega,32,0,117334,,0,2,EVALUADO,
+congreso_cantabria,3,Castro-Urdiales y entorno,PRINCIPAL_Y_ENTORNO,,39020,Castro-Urdiales,45,0,117307,,0,5,EVALUADO,
+congreso_cantabria,4,Camargo y entorno,PRINCIPAL_Y_ENTORNO,,39016,Camargo,18,0,117185,,0,3,EVALUADO,

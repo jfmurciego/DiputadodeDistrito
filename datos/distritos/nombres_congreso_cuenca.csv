@@ -1,3 +1,3 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
-congreso_cuenca,0,Cuenca y entorno,PRINCIPAL_Y_ENTORNO,,16078,Cuenca,180,0,99218,,0,NOT_EVALUABLE,
-congreso_cuenca,1,Tarancón y entorno,PRINCIPAL_Y_ENTORNO,,16203,Tarancón,58,0,99218,,0,NOT_EVALUABLE,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
+congreso_cuenca,0,Cuenca y entorno,PRINCIPAL_Y_ENTORNO,,16078,Cuenca,180,0,99218,,0,4,EVALUADO,
+congreso_cuenca,1,Tarancón y entorno,PRINCIPAL_Y_ENTORNO,,16203,Tarancón,58,0,99218,,0,4,EVALUADO,
