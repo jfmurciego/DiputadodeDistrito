@@ -3,8 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba del hemiciclo (T-42)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
+CAMBIOS: (b) 2019-11 oficial: total 350 y dos provincias contrastadas con el BOE-A-2019-18147 (T-55)
+ANTERIOR: legacy/tests/test_generar_hemiciclo_v1.0.0_20261107.py
 FUNCIÓN: dos provincias sintéticas (Soria y Teruel): D'Hondt con barrera, agrupación de partidos, un escaño por distrito,
   (b) «sin fuente» y provincias que faltan calculadas de los datos. Con DDD_MESA_ZIP (ZIP por mesa) contrasta las 52 circunscripciones,
   escaño a escaño, con el oficial del BOE (configuracion/resultados_oficiales_congreso_2023.csv).
@@ -90,6 +91,24 @@ class OficialReal(unittest.TestCase):
         self.assertEqual(rep["42"], {"PP": 1, "PSOE": 1})
         self.assertEqual(rep["44"], {"PP": 2, "PSOE": 1})
         self.assertEqual(rep, of)  # escaño a escaño en las 52
+
+
+class Oficial2019(unittest.TestCase):
+    """(b) contra el BOE-A-2019-18147 (filas del cuadro II: Soria y Teruel)."""
+    def test_350_y_dos_provincias(self):
+        b = g.leer_oficial_2019()
+        self.assertEqual(len(b), 52)
+        self.assertEqual(sum(sum(r.values()) for r in b.values()), 350)
+        self.assertEqual(b["42"], {"PSOE": 1, "PP": 1})  # Soria: PSOE 16.043, PP 15.247
+        self.assertEqual(b["44"], {"PSOE": 1, "PP": 1, "¡TERUEL EXISTE!": 1})  # Teruel
+        tot = g.reparto_flat(b)
+        # totales estatales del BOE: PSOE 108 + PSC 12, UP 26 + ECP 7 + PODEMOS-EU 2 (homologados a PSOE y SUMAR)
+        self.assertEqual((tot["PSOE"], tot["PP"], tot["VOX"], tot["SUMAR"], tot["ERC"]), (120, 87, 52, 35, 13))
+
+    def test_b_rellena_el_hemiciclo(self):
+        r = g.generar({"42": ["PP", "PSOE"]}, {"42": {"PP": 1, "PSOE": 1}}, {"42": 2}, g.leer_oficial_2019())
+        self.assertEqual(r["totales"]["b"], {"PP": 1, "PSOE": 1})
+        self.assertIn("2019-11", r["fuentes"]["b"])
 
 
 if __name__ == "__main__":

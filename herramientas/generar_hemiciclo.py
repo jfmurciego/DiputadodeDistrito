@@ -3,12 +3,13 @@
 """Hemiciclo nacional: suma de escaños por partido de tres maneras.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
-CAMBIOS: lee los ganadores de datos/resultados/*.csv (T-53) cuando el manifiesto acredita el blob vigente; blobs como respaldo.
-ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.0.0_20261107.py
+VERSIÓN: 1.2.0 · FECHA: 2026-11-07 · ESTADO: candidato
+CAMBIOS: (b) se rellena con el oficial de 2019-11 (BOE-A-2019-18147, T-55) y una tabla explícita de homologación de siglas; lee los ganadores de datos/resultados/*.csv (T-53) cuando el manifiesto acredita el blob vigente; blobs como respaldo.
+ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.1.0_20261107.py
 QUÉ HACE: lee los M08 registrados (distritos_resultados.csv) de las provincias nacionales completas y suma:
   (a) reparto real 2023 (D'Hondt, umbral 3 %), calculado desde los votos y contrastado escaño a escaño con el oficial;
-  (b) elección anterior (generales 2019-11): solo si se aporta --generales-2019; si no, «sin fuente»;
+  (b) elección anterior (generales 2019-11): escaños oficiales del BOE (configuracion/resultados_oficiales_congreso_2019_11.csv),
+      con las siglas homologadas a las de 2023 por HOMOLOGACION_2019 (UP→SUMAR es una decisión documentada, no una fusión silenciosa);
   (c) uninominal propio: el ganador de cada distrito DDD (un escaño por distrito).
   Salida JSON y CSV con totales de «Nacional» por partido y la lista de provincias que faltan, calculada de los datos
   (sin M08, o con distritos distintos de los esperados).
@@ -56,6 +57,22 @@ OFICIAL_META = ROOT / "configuracion/resultados_oficiales_congreso_2023.json"
 BOE_ID = "BOE-A-2023-18907"
 BOE_URL = f"https://www.boe.es/diario_boe/xml.php?id={BOE_ID}"
 ETIQUETA = "Nacional"
+
+# Oficial 2019-11: Resolución de 17-12-2019 de la Presidencia de la JEC, que corrige la de 29-11-2019 (BOE-A-2019-17344,
+# cuyo texto solo remite a los cuadros) y publica los cuadros completos (BOE núm. 303, 18-12-2019, BOE-A-2019-18147).
+OFICIAL19_CSV = ROOT / "configuracion/resultados_oficiales_congreso_2019_11.csv"
+OFICIAL19_META = ROOT / "configuracion/resultados_oficiales_congreso_2019_11.json"
+BOE19_ID = "BOE-A-2019-18147"
+BOE19_URL = f"https://www.boe.es/diario_boe/xml.php?id={BOE19_ID}"
+
+# Homologación de siglas del BOE 2019 (columna «partido» del CSV, tal cual el BOE) a las etiquetas de 2023. Lo no listado
+# conserva su sigla del BOE (Cs, MÁS PAÍS-EQUO, MÉS COMPROMÍS, CUP-PR, NA+, PP-FORO, PRC, ¡TERUEL EXISTE!). Las federadas
+# del PSOE (PSC) las agrupa grupo(). La familia Unidas Podemos (PODEMOS-IU, ECP-GUANYEM EL CANVI, PODEMOS-EU) se
+# asimila a SUMAR como espacio a la izquierda del PSOE; es una convención de comparación, no una identidad jurídica.
+HOMOLOGACION_2019 = {
+    "ERC-SOBIRANISTES": "ERC", "JxCAT-JUNTS": "JUNTS", "CCa-PNC-NC": "CCa",
+    "PODEMOS-IU": "SUMAR", "ECP-GUANYEM EL CANVI": "SUMAR", "PODEMOS-EU": "SUMAR",
+}
 
 # Código INE → (id de territorio, topónimo en español)
 PROVINCIAS = {
@@ -235,6 +252,66 @@ def leer_oficial(ruta: Path = OFICIAL_CSV) -> tuple[dict[str, int], dict[str, di
     return esc, por
 
 
+def extraer_boe_2019(xml: str) -> list[dict]:
+    """Escaños oficiales 2019-11 por circunscripción y candidatura de las cuatro tablas del Congreso con columna Escaños
+    (fila 1 = siglas del BOE; datos desde la fila 3; cada candidatura ocupa un par Votos/Escaños desde la columna 2)."""
+    out = []
+    por_cod = {c: n for c, (_, n) in PROVINCIAS.items()}
+    for tb in re.findall(r"<table.*?</table>", xml, re.S)[:4]:
+        filas = [[re.sub(r"<[^>]+>", "", x).replace("\xa0", " ").strip() for x in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", r, re.S)]
+                 for r in re.findall(r"<tr.*?</tr>", tb, re.S)]
+        if "Escaños" not in filas[2]:
+            raise ValueError("tabla del BOE 2019 sin columna Escaños")
+        siglas = filas[1]
+        for f in filas[3:]:
+            nombre = f[0].rstrip(".").strip()
+            if nombre.startswith("Total"):
+                continue
+            cod = _ALIAS.get(nombre) or next((c for c, n in por_cod.items() if n == nombre), None)
+            if cod is None:
+                raise ValueError(f"circunscripción del BOE no reconocida: {nombre!r}")
+            for k, par in enumerate(siglas):
+                v, e = (f[2 + 2 * k:4 + 2 * k] + ["", ""])[:2]
+                if e.strip():
+                    out.append({"codigo": cod, "provincia": PROVINCIAS[cod][1], "escanos_circunscripcion": int(f[1]),
+                                "partido": par, "votos": int(v.replace(".", "") or 0), "escanos": int(e)})
+    return out
+
+
+def guardar_oficial_2019(xml_ruta: Path, fecha_publicacion: str = "2019-12-18") -> None:
+    datos = extraer_boe_2019(xml_ruta.read_text(encoding="utf-8"))
+    with open(OFICIAL19_CSV, "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(datos[0]))
+        w.writeheader()
+        w.writerows(datos)
+    meta = {"fuente": "Resolución de 17-12-2019 de la Presidencia de la Junta Electoral Central, que corrige la de 29-11-2019 "
+                      "(BOE-A-2019-17344): resumen de resultados de las elecciones al Congreso y al Senado del 10-11-2019",
+            "boe": BOE19_ID, "boe_corregido": "BOE-A-2019-17344", "url": BOE19_URL, "fecha_publicacion": fecha_publicacion,
+            "sha256_xml": _sha256(xml_ruta.read_bytes()), "sha256_csv": _sha256(OFICIAL19_CSV.read_bytes())}
+    OFICIAL19_META.write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
+def leer_oficial_2019(ruta: Path = OFICIAL19_CSV) -> dict[str, dict[str, int]]:
+    """(b): provincia → {partido homologado: escaños} del CSV oficial 2019-11, verificando su sha256 y que cada
+    circunscripción reparta sus escaños y el total sea 350."""
+    if ruta == OFICIAL19_CSV and OFICIAL19_META.exists():
+        if json.loads(OFICIAL19_META.read_text(encoding="utf-8"))["sha256_csv"] != _sha256(ruta.read_bytes()):
+            raise ValueError("el CSV oficial 2019-11 no coincide con su sha256 registrado")
+    esc: dict[str, int] = {}
+    por: dict[str, dict[str, int]] = {}
+    with open(ruta, encoding="utf-8", newline="") as f:
+        for r in csv.DictReader(f):
+            esc[r["codigo"]] = int(r["escanos_circunscripcion"])
+            if int(r["escanos"]):
+                p = grupo(HOMOLOGACION_2019.get(r["partido"], r["partido"]))
+                d = por.setdefault(r["codigo"], {})
+                d[p] = d.get(p, 0) + int(r["escanos"])
+    mal = [c for c in esc if sum(por.get(c, {}).values()) != esc[c]]
+    if mal or sum(esc.values()) != 350 or set(esc) != set(PROVINCIAS):
+        raise ValueError(f"oficial 2019-11 no cuadra: circunscripciones {mal}, total {sum(esc.values())}")
+    return por
+
+
 def reparto_2023(oficial: dict[str, dict], escanos: dict[str, int]) -> dict[str, dict[str, int]]:
     """provincia → {partido nacional: escaños} (D'Hondt por candidatura, luego agrupado)."""
     res = {}
@@ -349,7 +426,7 @@ def generar(ganadores: dict[str, list[str]], reparto: dict[str, dict[str, int]],
         "schema": "ddd.hemiciclo/1.0", "version": "1.0.0", "ambito": ETIQUETA,
         "provincias_incluidas": len(provincias), "faltan": faltan,
         "fuentes": {"a": "reparto real 2023: D'Hondt con barrera del 3 % sobre el ZIP oficial por mesa (Interior)",
-                    "b": "sin fuente" if sin_b else "generales 2019-11",
+                    "b": "sin fuente" if sin_b else f"oficial generales 2019-11 ({BOE19_ID}), siglas homologadas por HOMOLOGACION_2019",
                     "c": "uninominal propio: ganador de cada distrito DDD (M08 registrado)"},
         "totales": {"a": total("a"), "b": None if sin_b else total("b"), "c": total("c")},
         "escanos": {"a": sum(p["escanos_2023"] for p in provincias), "c": sum(p["distritos"] for p in provincias)},
@@ -378,12 +455,17 @@ def main(argv=None) -> int:
     ap.add_argument("--mesa-zip", type=Path, help="ZIP oficial por mesa ya descargado (sin red)")
     ap.add_argument("--distritos", type=Path, default=N06)
     ap.add_argument("--extraer-boe", type=Path, help="XML del BOE ya descargado: regenera el CSV oficial y sale")
+    ap.add_argument("--extraer-boe-2019", type=Path, help="XML del BOE-A-2019-18147 ya descargado: regenera el CSV 2019-11 y sale")
     ap.add_argument("--salida", type=Path)
     ap.add_argument("--visor", action="store_true", help="copia también hemiciclo.json a dashboard/")
     a = ap.parse_args(argv)
     if a.extraer_boe:
         guardar_oficial(a.extraer_boe)
         print(f"escrito {OFICIAL_CSV.relative_to(ROOT)}")
+        return 0
+    if a.extraer_boe_2019:
+        guardar_oficial_2019(a.extraer_boe_2019)
+        print(f"escrito {OFICIAL19_CSV.relative_to(ROOT)}")
         return 0
     if a.salida is None:
         ap.error("--salida es obligatorio")
@@ -392,7 +474,7 @@ def main(argv=None) -> int:
     reparto = reparto_2023(oficial, escanos)
     errores, notas, difs = contrastar(reparto, of_prov, escanos)
     gan, runs = cargar_m08(a.cache, a.m08_dir)
-    res = generar(gan, reparto, leer_distritos(a.distritos), None, runs)
+    res = generar(gan, reparto, leer_distritos(a.distritos), leer_oficial_2019(), runs)
     res["errores"] += errores
     res["fuentes"]["a"] = FUENTE_A
     res["notas"] = notas
