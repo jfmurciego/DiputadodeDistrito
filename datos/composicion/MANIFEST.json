@@ -1,0 +1,117 @@
+{
+ "schema": "ddd.composicion-m06/1.0",
+ "territorios": {
+  "canarias": {
+   "run_id": "40951280657",
+   "blob_sha": "6eed168481c04e8ca07e1b607e1cabeae0b5e1ba",
+   "sha256_m06": "12e3bb65fca82a13dd550f98575541d1fca9e88e6bfeb338716dc87e1880e22b",
+   "secciones": 1396,
+   "sha256_csv": "63f561220ceb40dd10a2d850264f78ff6561ac80a10719e92ed9bb3735a9e18d"
+  },
+  "cantabria": {
+   "run_id": "41037133327",
+   "blob_sha": "b4a30d75a0ca0222db154592319896c8acaf4a43",
+   "sha256_m06": "dc20b6f2614f026c9d1ab6e6c04804bbece589aa3ffe0b0c78b1c1a0fd7e660e",
+   "secciones": 460,
+   "sha256_csv": "5341fd6a48c878d3d86f4a62afc78e5dbc70f3b5555daec9037bb6b727a58469"
+  },
+  "castilla_la_mancha": {
+   "run_id": "40241650464",
+   "blob_sha": "512925e81166ee50811c2cf9a55bf9cebacf54bf",
+   "sha256_m06": "81fe3681aae094eaf7514c7512ed2af9732b24020ee1b91ebb0fd5677ac6d14d",
+   "secciones": 1954,
+   "sha256_csv": "bba13aa774c0dbaf2407c34f0c82542bcd786e561e76b73db38892dc45a9f0af"
+  },
+  "castilla_y_leon": {
+   "run_id": "40969454399",
+   "blob_sha": "7917a37b81b943ba648befbe41eb1fc46332d0e2",
+   "sha256_m06": "c6f4ef01f95550296bdd9f65cede9193adadddb040eaa097839af9df187f9d1d",
+   "secciones": 3506,
+   "sha256_csv": "67cee6906c1398b4d6f0b611300428c9f65489422e76ef0dab7115ccb6395e43"
+  },
+  "cataluna": {
+   "run_id": "41062562553",
+   "blob_sha": "caa21b4f1a10b38ab80ecbd9b397eebc56381ae5",
+   "sha256_m06": "b9fd1d56ca88b8c05a67a2f54a24e58bdafb7a439c9bdd1aaa62d68ecc01ec41",
+   "secciones": 5117,
+   "sha256_csv": "9c3a91f41672c74b314cc5cd5f8cd56b01d8e4b4c1e2e3df7da645d412d2a72b"
+  },
+  "comunidad_foral_de_navarra": {
+   "run_id": "41049986588",
+   "blob_sha": "4d0cca79214f8e7586848919d0d8028217bf8460",
+   "sha256_m06": "dab6ea00ad906133f145948839ef7c1a4f79c49795715a3ff95e6aff00b84c89",
+   "secciones": 578,
+   "sha256_csv": "92ffd1f04346607af8d827cbd28f6ecfe3fb7fa48021af7ff8ed3308b6384ec0"
+  },
+  "comunidad_valenciana": {
+   "run_id": "41062567297",
+   "blob_sha": "590d954319932f716c69001083016526f16773f6",
+   "sha256_m06": "7ff98ceb983f615f48006e4e01cebd43eb005519e28dd31c241212ca969341be",
+   "secciones": 3503,
+   "sha256_csv": "6116b887ba4bd4f09f08d79dceea88113bfca13470fefe3c8921b3925fcc38ba"
+  },
+  "congreso_alava": {
+   "run_id": "41346917857",
+   "blob_sha": "366574023fdf95af5a1b3eae3e085d2c7ee2e2c3",
+   "sha256_m06": "44bd4d794d2ef99f0bf924bb0b43df29956e758c59310c434190babe1a50ed41",
+   "secciones": 240,
+   "sha256_csv": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195"
+  },
+  "congreso_leon": {
+   "run_id": "41629735636",
+   "blob_sha": "d3f23897b735597b20e0b4a3ae4d0acc8332ece2",
+   "sha256_m06": "64e44b77dcd81fee3f82ee7698112ee038c54837652c805485c720c9b4fc1025",
+   "secciones": 447,
+   "sha256_csv": "295ee72e72479aa104d93d7f99b0e7d12fc72fd2835c025c74f8cac079dca9dd"
+  },
+  "extremadura": {
+   "run_id": "41042675119",
+   "blob_sha": "8cd1063c3e9c53ac6531d9d8f2ab3cb8a4857638",
+   "sha256_m06": "ba587568e0f95e92bd4aed26e831e1796e6e1cae61ac21caee4885fa2e931569",
+   "secciones": 964,
+   "sha256_csv": "d09bf6d43f1b34b99dee43447a9f681bf9c4978fe941be1704e31b44631976ec"
+  },
+  "galicia": {
+   "run_id": "40241719200",
+   "blob_sha": "d8372a064b3aea0ec82e4b0eefd288a400fe05f7",
+   "sha256_m06": "93028055fcb72b3225b046c4829f2b30b623efa6d5843f8e3b4e41b2ee5c0452",
+   "secciones": 2141,
+   "sha256_csv": "f207453cf1fdf152b5b9e9cac54a0ed4ccdf5d590e5bc4de591dd7a8e68802ae"
+  },
+  "la_rioja": {
+   "run_id": "40867456776",
+   "blob_sha": "2bc4b066b871d7a4f51b2646e63432117f1648d8",
+   "sha256_m06": "10e672487c837fa47d09f9d2345dfcc685fdde122e8da0d59d796808bda85f7b",
+   "secciones": 343,
+   "sha256_csv": "6495e251017adc026d4d0e8e44e5d6829728bd1b756df756c4d6ceb3c691f66c"
+  },
+  "madrid": {
+   "run_id": "40787900559",
+   "blob_sha": "7aecce7a88854918d8cea23b1a67b366391371ce",
+   "sha256_m06": "4283dd5720dd2ba61d80970721549713ca9b6f064a57ca6594e118b194c73d65",
+   "secciones": 4479,
+   "sha256_csv": "bad01f174c469b41495f2a314e4db8b3d5ee1217cb4d47390debc795b5e795ac"
+  },
+  "melilla": {
+   "run_id": "40840795932",
+   "blob_sha": "0070ea2763dd5754bcc12b2cc4f2ec1f4f587d8a",
+   "sha256_m06": "0d3e73ea260199fa43bae7c6be94d03fd8a9118fdb91d60b487bc4e11cdd50a9",
+   "secciones": 44,
+   "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560"
+  },
+  "pais_vasco": {
+   "run_id": "40951146225",
+   "blob_sha": "347793dd1c19c93e7a9aa79087262d53358d1640",
+   "sha256_m06": "2de1e27194381fefefd6042fe0c9f85019e2882906fa1be591f74009fcd05b51",
+   "secciones": 1713,
+   "sha256_csv": "1bee2b96e9407f7d63cd12304a0ec8855a720048ad066e3083c29df7c2816dae"
+  },
+  "principado_de_asturias": {
+   "run_id": "40132061626",
+   "blob_sha": "ea91213419925f762e4a34234511ccc44a4dec64",
+   "sha256_m06": "87f5e921b8ac3277c2488d4d44754a572542b2290ae620eafa01e74ca9be9a22",
+   "secciones": 832,
+   "sha256_csv": "b144af58354d0e0df866c340eb80ad463eb1e2dd33feeef64cba0b47774ef40e"
+  }
+ }
+}
