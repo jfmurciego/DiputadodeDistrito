@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.96
+Versión: 1.0.97
 Fecha: 2026-11-07
-Alcance: Paso 1 (bloque 1) — guardián de main en CI
+Alcance: Paso 1 (bloque 2) — CLAUDE.md recortado, reglas y hook
 Estado: candidato
-Cambios/motivo: marcas de conflicto y numeración del registro en el job pruebas
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.95_paso0_20261107.md
+Cambios/motivo: CLAUDE.md < 100 líneas, .claude/rules por ruta y hook de git
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.96_paso1ci_20261107.md
 -->
+
+## 2026-11-07 — Paso 1 (bloque 2) — CLAUDE.md recortado, reglas por ruta y hook de git
+
+`CLAUDE.md` pasa de 133 a 72 líneas (reglas del propietario, mapa, coordinación, 00, visor, sesión cloud e historial). Lo que solo aplica al tocar ciertos
+ficheros va a `.claude/rules/` con `paths:`: `gobernanza`, `registro`, `huellas` (M04/M05/N08), `workflows`, `contratos` y `diagnostico-local`; ninguna
+lección se pierde. `.claude/hooks/guardia_git.py` 1.0.0 (PreToolUse de Bash en `.claude/settings.json`) bloquea `git push` forzado y `git commit` con marcas de
+conflicto. `cierre-sesion`: límite de 100 líneas y lecciones por ruta a las reglas. Pruebas: `tests/test_hooks_claude.py` (bloquea y pasa) · PR #429.
+
 
 ## 2026-11-07 — Paso 1 (bloque 1) — CI: guardián de main
 
