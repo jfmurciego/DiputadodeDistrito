@@ -1,0 +1,1182 @@
+{
+ "schema": "ddd.metricas-proceso/1",
+ "generado": "2026-11-07T18:06:37Z",
+ "repo": "jfmurciego/diputadodedistrito",
+ "ventana": {
+  "desde": "2026-09-26",
+  "dias": 42
+ },
+ "ejecuciones_00": {
+  "objetivo_pct_a_la_primera": 60.0,
+  "territorios": 57,
+  "con_exito": 50,
+  "a_la_primera": 28,
+  "pct_a_la_primera": 49.1,
+  "intentos_medianos_hasta_exito": 1.0,
+  "runs_cancelados_u_omitidos": 3,
+  "runs_sin_territorio": 13,
+  "runs_por_actor": {
+   "github-actions[bot]": 16,
+   "jfmurciego": 159
+  },
+  "por_semana": [
+   {
+    "semana": "2026-W44",
+    "territorios": 57,
+    "primera": 28,
+    "runs": 140,
+    "runs_ok": 83,
+    "pct_a_la_primera": 49.1,
+    "pct_runs_ok": 59.3
+   },
+   {
+    "semana": "2026-W45",
+    "territorios": 0,
+    "primera": 0,
+    "runs": 22,
+    "runs_ok": 11,
+    "pct_a_la_primera": null,
+    "pct_runs_ok": 50.0
+   }
+  ],
+  "por_territorio": [
+   {
+    "territorio": "cantabria",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "ceuta",
+    "semana_inicio": "2026-W44",
+    "runs": 1,
+    "intentos_hasta_exito": null,
+    "a_la_primera": false,
+    "con_exito": false
+   },
+   {
+    "territorio": "congreso_alava",
+    "semana_inicio": "2026-W44",
+    "runs": 4,
+    "intentos_hasta_exito": 4,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_albacete",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_alicante",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": null,
+    "a_la_primera": false,
+    "con_exito": false
+   },
+   {
+    "territorio": "congreso_almeria",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_asturias",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_avila",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_badajoz",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_baleares",
+    "semana_inicio": "2026-W44",
+    "runs": 10,
+    "intentos_hasta_exito": 9,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_barcelona",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": null,
+    "a_la_primera": false,
+    "con_exito": false
+   },
+   {
+    "territorio": "congreso_burgos",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_caceres",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_cadiz",
+    "semana_inicio": "2026-W44",
+    "runs": 11,
+    "intentos_hasta_exito": 9,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_cantabria",
+    "semana_inicio": "2026-W44",
+    "runs": 4,
+    "intentos_hasta_exito": 3,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_castellon",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_ceuta",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_ciudad_real",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_cordoba",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_cuenca",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_gerona",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_granada",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_guadalajara",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_guipuzcoa",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_huelva",
+    "semana_inicio": "2026-W44",
+    "runs": 4,
+    "intentos_hasta_exito": 4,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_huesca",
+    "semana_inicio": "2026-W44",
+    "runs": 1,
+    "intentos_hasta_exito": null,
+    "a_la_primera": false,
+    "con_exito": false
+   },
+   {
+    "territorio": "congreso_jaen",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_la_coruna",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_la_rioja",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_las_palmas",
+    "semana_inicio": "2026-W44",
+    "runs": 8,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_leon",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_lerida",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_lugo",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_madrid",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_malaga",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": null,
+    "a_la_primera": false,
+    "con_exito": false
+   },
+   {
+    "territorio": "congreso_melilla",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_murcia",
+    "semana_inicio": "2026-W44",
+    "runs": 6,
+    "intentos_hasta_exito": 5,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_navarra",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_orense",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_palencia",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_pontevedra",
+    "semana_inicio": "2026-W44",
+    "runs": 4,
+    "intentos_hasta_exito": 3,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_salamanca",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_santa_cruz_de_tenerife",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_segovia",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_sevilla",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_soria",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_tarragona",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_teruel",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_toledo",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_valencia",
+    "semana_inicio": "2026-W44",
+    "runs": 4,
+    "intentos_hasta_exito": 4,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_valladolid",
+    "semana_inicio": "2026-W44",
+    "runs": 3,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_vizcaya",
+    "semana_inicio": "2026-W44",
+    "runs": 4,
+    "intentos_hasta_exito": 3,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_zamora",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "congreso_zaragoza",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 1,
+    "a_la_primera": true,
+    "con_exito": true
+   },
+   {
+    "territorio": "extremadura",
+    "semana_inicio": "2026-W44",
+    "runs": 2,
+    "intentos_hasta_exito": 2,
+    "a_la_primera": false,
+    "con_exito": true
+   },
+   {
+    "territorio": "melilla",
+    "semana_inicio": "2026-W44",
+    "runs": 1,
+    "intentos_hasta_exito": null,
+    "a_la_primera": false,
+    "con_exito": false
+   },
+   {
+    "territorio": "region_de_murcia",
+    "semana_inicio": "2026-W44",
+    "runs": 1,
+    "intentos_hasta_exito": null,
+    "a_la_primera": false,
+    "con_exito": false
+   }
+  ]
+ },
+ "minutos_actions": {
+  "total": 16073.1,
+  "por_workflow": [
+   {
+    "workflow": "00 Ejecución Completa del Proyecto",
+    "runs": 221,
+    "minutos": 9904.9
+   },
+   {
+    "workflow": "Pruebas de la Plataforma",
+    "runs": 416,
+    "minutos": 5128.0
+   },
+   {
+    "workflow": "03 Preparación de Resultados Electorales",
+    "runs": 54,
+    "minutos": 356.3
+   },
+   {
+    "workflow": "06 Escenarios y Ensembles",
+    "runs": 12,
+    "minutos": 158.6
+   },
+   {
+    "workflow": "05 Publicación del Visor",
+    "runs": 18,
+    "minutos": 156.6
+   },
+   {
+    "workflow": "Controlar Ejecución",
+    "runs": 58,
+    "minutos": 110.5
+   },
+   {
+    "workflow": "Archivar artefactos en R2 · 2026-11-14",
+    "runs": 2,
+    "minutos": 39.6
+   },
+   {
+    "workflow": "0 Gestor de Campañas",
+    "runs": 38,
+    "minutos": 35.1
+   },
+   {
+    "workflow": "P0 Verificación remota no productiva",
+    "runs": 16,
+    "minutos": 31.0
+   },
+   {
+    "workflow": "Validar Contratos Territoriales",
+    "runs": 51,
+    "minutos": 29.5
+   },
+   {
+    "workflow": "Numeración del Registro",
+    "runs": 18,
+    "minutos": 23.3
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Soria · prepare_one",
+    "runs": 2,
+    "minutos": 9.1
+   },
+   {
+    "workflow": "Revisor de PR",
+    "runs": 13,
+    "minutos": 5.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Cádiz · prepare_one",
+    "runs": 3,
+    "minutos": 4.7
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Baleares · prepare_one",
+    "runs": 3,
+    "minutos": 3.7
+   },
+   {
+    "workflow": "Fusión automática",
+    "runs": 4,
+    "minutos": 2.6
+   },
+   {
+    "workflow": "github_actions in /. - Update #1675665607",
+    "runs": 1,
+    "minutos": 2.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Huesca · prepare_one",
+    "runs": 2,
+    "minutos": 2.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Las Palmas · prepare_one",
+    "runs": 2,
+    "minutos": 2.4
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Cáceres · prepare_one",
+    "runs": 1,
+    "minutos": 2.4
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Valencia · prepare_one",
+    "runs": 2,
+    "minutos": 2.2
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Melilla · prepare_one",
+    "runs": 2,
+    "minutos": 2.2
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso La Rioja · prepare_one",
+    "runs": 1,
+    "minutos": 2.1
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Madrid · prepare_one",
+    "runs": 1,
+    "minutos": 2.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Murcia · prepare_one",
+    "runs": 2,
+    "minutos": 1.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Orense · prepare_one",
+    "runs": 1,
+    "minutos": 1.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Huelva · prepare_one",
+    "runs": 2,
+    "minutos": 1.8
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Salamanca · prepare_one",
+    "runs": 1,
+    "minutos": 1.7
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Segovia · prepare_one",
+    "runs": 1,
+    "minutos": 1.7
+   },
+   {
+    "workflow": "Validar documentación pública",
+    "runs": 4,
+    "minutos": 1.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Castellón · prepare_one",
+    "runs": 1,
+    "minutos": 1.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso León · prepare_one",
+    "runs": 1,
+    "minutos": 1.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Lugo · prepare_one",
+    "runs": 1,
+    "minutos": 1.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Albacete · prepare_one",
+    "runs": 1,
+    "minutos": 1.6
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Sevilla · prepare_one",
+    "runs": 1,
+    "minutos": 1.5
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Zaragoza · prepare_one",
+    "runs": 1,
+    "minutos": 1.4
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Ávila · prepare_one",
+    "runs": 1,
+    "minutos": 1.4
+   },
+   {
+    "workflow": "pip in /. - Update #1675665599",
+    "runs": 1,
+    "minutos": 1.3
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso La Coruña · prepare_one",
+    "runs": 1,
+    "minutos": 1.3
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Tarragona · prepare_one",
+    "runs": 1,
+    "minutos": 1.3
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Jaén · prepare_one",
+    "runs": 1,
+    "minutos": 1.3
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Córdoba · prepare_one",
+    "runs": 1,
+    "minutos": 1.2
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Almería · prepare_one",
+    "runs": 1,
+    "minutos": 1.2
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Lérida · prepare_one",
+    "runs": 1,
+    "minutos": 1.1
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Palencia · prepare_one",
+    "runs": 1,
+    "minutos": 1.1
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Santa Cruz de Tenerife · prepare_one",
+    "runs": 1,
+    "minutos": 1.1
+   },
+   {
+    "workflow": "Verificar Minsait provisional · copia gobernada",
+    "runs": 2,
+    "minutos": 1.1
+   },
+   {
+    "workflow": "Verificar EleccionesDB · doce elecciones",
+    "runs": 1,
+    "minutos": 1.1
+   },
+   {
+    "workflow": "Validar Productos Públicos",
+    "runs": 3,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Cantabria · prepare_one",
+    "runs": 1,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Barcelona · prepare_one",
+    "runs": 1,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Navarra · prepare_one",
+    "runs": 1,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Gerona · prepare_one",
+    "runs": 1,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Guadalajara · prepare_one",
+    "runs": 1,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Zamora · prepare_one",
+    "runs": 1,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Teruel · prepare_one",
+    "runs": 1,
+    "minutos": 1.0
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Vizcaya · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación por Elección · ES-NAC-20230723 · completa",
+    "runs": 2,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Pontevedra · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Álava · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Badajoz · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Valladolid · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Burgos · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Guipúzcoa · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Asturias · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Granada · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Toledo · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Cuenca · prepare_one",
+    "runs": 1,
+    "minutos": 0.9
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Ciudad Real · prepare_one",
+    "runs": 1,
+    "minutos": 0.8
+   },
+   {
+    "workflow": "Activación de Legislatura Vigente · Congreso Ceuta · prepare_one",
+    "runs": 1,
+    "minutos": 0.8
+   },
+   {
+    "workflow": "Verify Cloudflare R2",
+    "runs": 2,
+    "minutos": 0.4
+   },
+   {
+    "workflow": "Verificar fuentes pendientes · Andalucía y Extremadura",
+    "runs": 1,
+    "minutos": 0.3
+   },
+   {
+    "workflow": "Forense de la 00",
+    "runs": 1,
+    "minutos": 0.0
+   }
+  ],
+  "por_territorio_00": [
+   {
+    "territorio": "congreso_baleares",
+    "minutos": 344.5
+   },
+   {
+    "territorio": "congreso_cadiz",
+    "minutos": 330.2
+   },
+   {
+    "territorio": "(sin territorio)",
+    "minutos": 270.0
+   },
+   {
+    "territorio": "congreso_las_palmas",
+    "minutos": 152.5
+   },
+   {
+    "territorio": "congreso_murcia",
+    "minutos": 106.4
+   },
+   {
+    "territorio": "congreso_madrid",
+    "minutos": 86.9
+   },
+   {
+    "territorio": "congreso_valencia",
+    "minutos": 86.3
+   },
+   {
+    "territorio": "congreso_huelva",
+    "minutos": 79.6
+   },
+   {
+    "territorio": "congreso_leon",
+    "minutos": 48.6
+   },
+   {
+    "territorio": "congreso_alava",
+    "minutos": 39.6
+   },
+   {
+    "territorio": "congreso_pontevedra",
+    "minutos": 30.6
+   },
+   {
+    "territorio": "congreso_barcelona",
+    "minutos": 30.4
+   },
+   {
+    "territorio": "congreso_cantabria",
+    "minutos": 13.8
+   },
+   {
+    "territorio": "congreso_burgos",
+    "minutos": 13.3
+   },
+   {
+    "territorio": "congreso_granada",
+    "minutos": 13.3
+   },
+   {
+    "territorio": "congreso_valladolid",
+    "minutos": 13.2
+   },
+   {
+    "territorio": "congreso_gerona",
+    "minutos": 13.1
+   },
+   {
+    "territorio": "congreso_navarra",
+    "minutos": 13.0
+   },
+   {
+    "territorio": "congreso_palencia",
+    "minutos": 13.0
+   },
+   {
+    "territorio": "congreso_guipuzcoa",
+    "minutos": 12.8
+   },
+   {
+    "territorio": "congreso_asturias",
+    "minutos": 12.8
+   },
+   {
+    "territorio": "congreso_cordoba",
+    "minutos": 12.8
+   },
+   {
+    "territorio": "congreso_la_coruna",
+    "minutos": 12.5
+   },
+   {
+    "territorio": "congreso_sevilla",
+    "minutos": 12.4
+   },
+   {
+    "territorio": "congreso_lerida",
+    "minutos": 12.3
+   },
+   {
+    "territorio": "congreso_zaragoza",
+    "minutos": 12.3
+   },
+   {
+    "territorio": "congreso_ciudad_real",
+    "minutos": 12.2
+   },
+   {
+    "territorio": "congreso_vizcaya",
+    "minutos": 12.0
+   },
+   {
+    "territorio": "congreso_toledo",
+    "minutos": 11.8
+   },
+   {
+    "territorio": "congreso_badajoz",
+    "minutos": 11.2
+   },
+   {
+    "territorio": "congreso_tarragona",
+    "minutos": 9.9
+   }
+  ]
+ },
+ "pr": {
+  "fusionadas": 281,
+  "fusionadas_por_dia": {
+   "2026-09-26": 4,
+   "2026-09-27": 6,
+   "2026-09-28": 12,
+   "2026-09-29": 4,
+   "2026-09-30": 6,
+   "2026-10-01": 6,
+   "2026-10-02": 13,
+   "2026-10-03": 6,
+   "2026-10-04": 13,
+   "2026-10-05": 2,
+   "2026-10-06": 3,
+   "2026-10-07": 1,
+   "2026-10-08": 1,
+   "2026-10-10": 6,
+   "2026-10-11": 5,
+   "2026-10-12": 20,
+   "2026-10-13": 4,
+   "2026-10-19": 12,
+   "2026-10-20": 11,
+   "2026-10-25": 1,
+   "2026-10-26": 4,
+   "2026-10-27": 2,
+   "2026-10-28": 9,
+   "2026-10-29": 36,
+   "2026-10-30": 5,
+   "2026-10-31": 8,
+   "2026-11-01": 26,
+   "2026-11-02": 17,
+   "2026-11-03": 11,
+   "2026-11-07": 27
+  },
+  "horas_abierta_mediana": 0.8,
+  "horas_abierta_p90": 10.46,
+  "pruebas": {
+   "runs_ok": 159,
+   "minutos_mediana": 12.65,
+   "minutos_p90": 15.77
+  }
+ },
+ "fallos_ci_pr": {
+  "total": 17,
+  "por_causa": {
+   "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético": 14,
+   "Fusión automática / fusionar · Activar el auto-merge o fusionar si ya está en verde": 1,
+   "Pruebas de la Plataforma / suite (2) · Verificar evidencia publicada y determinismo sintético (grupo 2 de 5)": 1,
+   "Pruebas de la Plataforma / pruebas · Probar registros electorales concurrentes sobre Git real": 1
+  }
+ },
+ "coste_agentes": {
+  "filas_tabla": [
+   {
+    "fecha": "2026-11-07",
+    "agente": "revisor",
+    "modelo": "sonnet",
+    "etiqueta": "T-39 v1 (3 lotes de 8)",
+    "casos": "24",
+    "tokens": 306539,
+    "a_la_primera": "24/24"
+   },
+   {
+    "fecha": "2026-11-07",
+    "agente": "forense",
+    "modelo": "sonnet",
+    "etiqueta": "T-40 v1 (2 lotes de 10)",
+    "casos": "20",
+    "tokens": 168568,
+    "a_la_primera": "20/20"
+   }
+  ],
+  "notas_con_tokens": [],
+  "tokens_total": 475107,
+  "nota": "tokens de la tabla + primera cifra «N tokens» de cada nota; aproximado"
+ },
+ "coste_por_territorio_cerrado": {
+  "territorios_con_exito_00": 50,
+  "minutos_actions_por_territorio": 321.5,
+  "tokens_agentes_por_territorio": 9502
+ },
+ "cache": {
+  "territorio_por_run": {},
+  "minutos_por_run": {
+   "41629735636": 48.6,
+   "41622862185": 8.4,
+   "41622703086": 9.8,
+   "41613691816": 64.3,
+   "41611821388": 77.1,
+   "41500124775": 12.1,
+   "41491527658": 0.5,
+   "41481449507": 10.2,
+   "41480150601": 10.0,
+   "41465837048": 92.3,
+   "41465820761": 83.8,
+   "41444676996": 68.5,
+   "41444664023": 69.8,
+   "41442913288": 8.8,
+   "41432561787": 75.4,
+   "41429872062": 7.6,
+   "41428008130": 70.1,
+   "41427993423": 72.3,
+   "41423758913": 9.6,
+   "41423746305": 9.6,
+   "41422092837": 7.8,
+   "41417532454": 23.3,
+   "41417528357": 23.0,
+   "41358199178": 7.2,
+   "41356175674": 8.8,
+   "41356074013": 7.9,
+   "41355664800": 4.1,
+   "41355659591": 5.0,
+   "41353894475": 8.9,
+   "41351970046": 21.6,
+   "41351964088": 21.7,
+   "41351957938": 20.9,
+   "41346917857": 16.7,
+   "41339504894": 10.1,
+   "41339428006": 8.5,
+   "41337086027": 12.1,
+   "41336112319": 38.8,
+   "41336108228": 12.1,
+   "41336103808": 37.2,
+   "41335936727": 8.5,
+   "41335929678": 8.9,
+   "41335095516": 21.6,
+   "41335088773": 10.8,
+   "41327510776": 22.8,
+   "41327505480": 19.8,
+   "41327500079": 2.4,
+   "41327494461": 20.7,
+   "41327488604": 19.3,
+   "41327483858": 20.4,
+   "41327479240": 23.2,
+   "41327474309": 2.6,
+   "41324188923": 31.1,
+   "41324180872": 19.8,
+   "41323024014": 8.2,
+   "41322925944": 7.7,
+   "41321084407": 22.2,
+   "41321082489": 21.0,
+   "41318952564": 0,
+   "41318946630": 0,
+   "41318125504": 70.7,
+   "41318119259": 77.8,
+   "41310755250": 43.9,
+   "41310752605": 43.5,
+   "41299475924": 11.2,
+   "41299313598": 13.2,
+   "41299221887": 13.3,
+   "41299128213": 13.0,
+   "41299033915": 12.3,
+   "41298935355": 12.8,
+   "41298839274": 13.1,
+   "41298749455": 12.2,
+   "41298660623": 13.0,
+   "41297168461": 12.4,
+   "41296991598": 12.5,
+   "41296815536": 12.3,
+   "41296638877": 12.8,
+   "41296546816": 13.3,
+   "41296449975": 9.9,
+   "41296268720": 11.8,
+   "41296161083": 12.8
+  },
+  "causa_por_run": {
+   "42391641294": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "42391088449": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "42391018759": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "42390222342": "Pruebas de la Plataforma / suite (2) · Verificar evidencia publicada y determinismo sintético (grupo 2 de 5)",
+   "42388725236": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41672451280": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41543414300": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41480674113": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41197454785": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41196209918": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41066975263": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41066724266": "Pruebas de la Plataforma / pruebas · Probar registros electorales concurrentes sobre Git real",
+   "41064685673": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41064641445": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41063681505": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "41063548585": "Pruebas de la Plataforma / pruebas · Verificar evidencia publicada y determinismo sintético",
+   "42399305639": "Fusión automática / fusionar · Activar el auto-merge o fusionar si ya está en verde"
+  }
+ }
+}
