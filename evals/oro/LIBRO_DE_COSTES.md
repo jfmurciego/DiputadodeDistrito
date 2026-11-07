@@ -21,6 +21,10 @@ forense ≥ 10 de las 12 causas del §9 en ≤ 5 líneas.
   PR correctivas), así que mide que el forense reconoce causas conocidas a partir del síntoma, no que descubre
   causas nuevas; la memoria incluye 8 causas sin caso CR en el oro como distractores. Salidas en
   `resultados/forense_v1_20261107.json`.
+- 2026-11-07 · revisor · PR #425 (segunda petición del planificador): el HEAD seguía en `2d1b9f42`, así que vale la
+  revisión anterior (PASS_WITH_EXCEPTIONS, 92.390 tokens) y no se repite (0 tokens). Hallazgos menores: entrada de
+  registro añadida en `docs/registro/`; el de las cifras no reproducibles ya lo declara la auditoría (corte fijado al SHA
+  base, 70 assets por metadatos). El HEAD nuevo solo añade el merge de `main`, esta entrada y esta nota.
 
 | Fecha | Agente | Modelo | Etiqueta | Casos | Aciertos | % | Tokens | A la primera |
 |---|---|---|---|---|---|---|---|---|
