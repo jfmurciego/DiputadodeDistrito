@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.4.0
+# VERSIÓN: 3.5.0
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
@@ -14,7 +14,9 @@
 #   de herramientas/generar_hemiciclo.py), enlazado desde el índice del dashboard con ruta relativa.
 # CAMBIOS 3.4.0: T-60, el sitio incluye /datos/ (datos_abiertos/: INDEX, README CC BY 4.0, CSV, fichas y GeoJSON verificado
 #   con su sha256 por herramientas/generar_datos_abiertos.py --materializar).
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.3.0_20261107.yml
+# CAMBIOS 3.5.0: el dashboard enlaza «Métricas del proceso» (T-65): se copian dashboard/metricas.html y
+#   metricas_proceso.json para que el enlace no dé 404 en Pages.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.4.0_20261107.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
 # FECHA: 2026-10-27
@@ -314,6 +316,7 @@ jobs:
           cp visor/index.html visor/app.js visor/escenarios.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
           cp dashboard/hemiciclo.html dashboard/hemiciclo.json /tmp/site-candidate/dashboard/
+          cp dashboard/metricas.html dashboard/metricas_proceso.json /tmp/site-candidate/dashboard/
           grep -q 'href="hemiciclo.html"' /tmp/site-candidate/dashboard/index.html || { echo "::error::El dashboard no enlaza el hemiciclo."; exit 1; }
           python herramientas/generar_datos_abiertos.py --materializar /tmp/site-candidate/datos
           python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .

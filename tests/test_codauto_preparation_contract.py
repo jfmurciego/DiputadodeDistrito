@@ -164,6 +164,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
+                "metricas-proceso.yml",
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
                 "preparacion-resultados-electorales.yml",

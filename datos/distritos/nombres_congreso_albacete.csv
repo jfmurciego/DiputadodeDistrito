@@ -1,0 +1,4 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_albacete,0,Albacete,MUNICIPIO,,02003,Albacete,1,1,128647,,0,NOT_EVALUABLE,
+congreso_albacete,1,Albacete y entorno,PRINCIPAL_Y_ENTORNO,,02003,Albacete,43,1,129452,,0,NOT_EVALUABLE,
+congreso_albacete,2,Villarrobledo y entorno,PRINCIPAL_Y_ENTORNO,,02081,Villarrobledo,44,0,129430,,0,NOT_EVALUABLE,

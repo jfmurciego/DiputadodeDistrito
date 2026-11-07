@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.126
+Versión: 1.0.127
 Fecha: 2026-11-07
-Alcance: T-65 — Métricas automáticas del proceso
+Alcance: Arreglo — main en rojo tras #458 (T-65)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t65-metricas-proceso.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.125_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-arreglo-main-t65.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.126_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.125_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.127 · [2026-11-07 — Arreglo — main en rojo tras #458 (T-65)](registro/2026-11-07_claude-arreglo-main-t65.md)
 - 1.0.126 · [2026-11-07 — T-65 — Métricas automáticas del proceso](registro/2026-11-07_claude-t65-metricas-proceso.md)
 - 1.0.125 · [2026-11-07 — T-54b — La fusión automática exige `pruebas` en success sobre el HEAD exacto](registro/2026-11-07_claude-t54b-auto-merge-pruebas.md)
 - 1.0.124 · [2026-11-07 — T-60 — Datos abiertos y fichas por distrito](registro/2026-11-07_claude-t-60-datos-abiertos.md)

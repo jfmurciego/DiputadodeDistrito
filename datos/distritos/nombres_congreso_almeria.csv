@@ -1,0 +1,7 @@
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_almeria,0,Almería,MUNICIPIO,,04013,Almería,1,1,125586,,0,NOT_EVALUABLE,
+congreso_almeria,1,El Ejido y entorno,PRINCIPAL_Y_ENTORNO,,04902,El Ejido,3,0,126107,,0,NOT_EVALUABLE,
+congreso_almeria,2,Roquetas de Mar y entorno,PRINCIPAL_Y_ENTORNO,,04079,Roquetas de Mar,19,0,125233,,0,NOT_EVALUABLE,
+congreso_almeria,3,Huércal-Overa y entorno,PRINCIPAL_Y_ENTORNO,,04053,Huércal-Overa,20,0,125523,,0,NOT_EVALUABLE,
+congreso_almeria,4,Adra y entorno,PRINCIPAL_Y_ENTORNO,,04003,Adra,45,0,125431,,0,NOT_EVALUABLE,
+congreso_almeria,5,Almería y entorno,PRINCIPAL_Y_ENTORNO,,04013,Almería,16,1,125484,,0,NOT_EVALUABLE,
