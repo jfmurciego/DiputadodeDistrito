@@ -16,8 +16,9 @@ Antes de gastar:
 - Modelo: Sonnet por defecto; Opus solo para el motor (M04, M05, GerryChain).
 - Sin esperas activas ni vigilancia de runs; sin avisos intermedios.
 
-Libro de costes (una línea por ejecución de agente o run, en el cierre de la tarea):
-`fecha · rol/tarea · tokens o minutos · resultado · ¿a la primera?`
+Libro de costes (una línea por ejecución de agente, run o chat cerrado, en el cierre de la tarea):
+`fecha · rol/tarea · tokens o minutos (si se conocen) · PR · resultado · ¿a la primera?`
+Topes por chat: ver `docs/ARQUITECTURA/FICHAS_AGENTES.md` §1; al llegar al tope, parar y cerrar con la evidencia.
 
 Métricas (FRAMEWORK §8): coste por provincia cerrada; % de 00 que pasan a la primera (al 02-11 ~20 %, objetivo
 > 60 %); causas raíz cerradas por día. Tope de gasto semanal: el que fije el propietario; al acercarse, parar y avisar.

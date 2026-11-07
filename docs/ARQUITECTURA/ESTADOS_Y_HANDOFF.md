@@ -1,12 +1,12 @@
 <!--
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Estados de tarea y de efecto externo, y handoff (metaagente v1.0 §9, §23)
 FECHA: 2026-11-07
-ESTADO: candidato (propuesta; no cambia PLAN.md ni skills)
-CAMBIOS: T-75. Propuesta mínima adaptada a docs/PLAN.md y a las líneas de cierre, con los casos reales del 07-11.
+ESTADO: vigente (aplicado en skills por T-77; la columna en PLAN.md la añade el planificador)
+CAMBIOS: T-77. Marcado como vigente; adopción hecha en skills.
 MOTIVO: aplicar el método del metaagente v1.0 sobre lo que existe (nivel N2).
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/2026-11-07_t77_fichas/ESTADOS_Y_HANDOFF_v1.0.0.md
 -->
 
 # Estados y handoff en DDD
@@ -36,5 +36,5 @@ Campos del §23 que se conservan: `task_id`, `producer_revision` (sha), `accepta
 `PLAN.md`), `authorization_ref`, `on_unknown_effect=RECONCILE_BEFORE_RETRY`. Se omiten `run_id`, `attempt_id`,
 `budget.reservation_id` y esquemas: no hay controlador que los valide.
 
-Adopción: la decide el planificador (edita `PLAN.md`) y la aplican las skills `coordinador`, `operador` e
-`implementador` en una PR propia; este documento no las cambia.
+Adopción: skills `planificador`, `coordinador`, `operador`, `implementador` e `ingeniero-motor` (T-77). Falta solo la
+columna de estado en la cola de `PLAN.md`, que edita el planificador.

@@ -11,12 +11,16 @@ Respuestas cortas, en español, mínimo consumo. No preguntes al propietario: es
 Reparto: propietario (permisos, decisiones) · planificador (qué y prioridades, por olas) · **Coordinador** · Operador
 (único que lanza y publica, con permiso del propietario en su chat) · implementadores (una tarea, una PR).
 
-1. Recibe las líneas de cierre («T-xx · qué · PR · siguiente · bloqueo») de todos los chats. Sigue PR, CI y runs con
+1. Recibe las líneas de cierre «T-xx · estado · qué · PR #n@sha7 · efectos: <efecto>=<estado> · siguiente · bloqueo · ref de autorización» de todos los chats. Sigue PR, CI y runs con
    `gh api` REST (GraphQL no funciona). Identifica cada run por `TERRITORY:`.
 2. Cuando un chat termina: pídele sus lecciones (`cierre-sesion` sin PR), archívalo con `archive_session` y recoge las
    lecciones en una sola PR, cada una en su destino (`CLAUDE.md` < 100 líneas; lo específico de ficheros, `.claude/rules/`).
    Antes, comprueba en `main` que no estén ya.
-3. Tablero `docs/ESTADO.md`: PR abiertas, runs en curso, chats activos y tarea, pendientes del propietario, fecha.
+3. Estados (`docs/ARQUITECTURA/ESTADOS_Y_HANDOFF.md`): tarea `PENDIENTE…HECHA`, `BLOQUEADA`, `FALLIDA`; efecto externo
+   `PREPARADO→AUTORIZADO→EN_VUELO→CONFIRMADO`, `RECHAZADO` o `DESCONOCIDO`. Con `DESCONOCIDO`, reconcilia con GitHub antes
+   de reintentar o dar la tarea por hecha. Propón el estado al planificador; no edites `PLAN.md`.
+   Al archivar un chat, añade su fila al libro de costes (skill `presupuesto`).
+3b. Tablero `docs/ESTADO.md`: PR abiertas, runs en curso, chats activos y tarea, pendientes del propietario, fecha.
    Se actualiza en cada PR de lecciones o de estado, no en cada evento.
 4. Escala al planificador solo decisiones y causas de fallo. Tras un fallo, no se relanza: causa con `diagnosticar-run`.
 5. Fusión: la hace el auto-merge solo con `pruebas` en success sobre el HEAD, o el Operador/propietario si la PR lleva
