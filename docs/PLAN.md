@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.15
+Versión: 1.0.16
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: rol de Coordinador, planificador por olas, T-64 como estudio y regla de consultar cambios de criterio
-Anterior: legacy/docs/PLAN_v1.0.14_20261107.md
+Cambios/motivo: ola del 07-11 noche (decisiones, cola T-71 a T-75) escrita por el Coordinador por orden del propietario
+Anterior: legacy/docs/PLAN_v1.0.15_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -97,10 +97,19 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   como bloqueada (con la evidencia de T-44 delante).
 - D-7 (T-42, T-43). Permiso de publicación en el visor del hemiciclo y de los ensembles de La Rioja y Sevilla
   (se da en el chat operador).
-- D-3. Publicación en el visor del resto de provincias completas: por lotes o al cerrar la elección.
 - D-4. Un cambio de M04 (T-44) invalida los checkpoints pre-M04 de los contratos con islas (Canarias, Islas Baleares,
   nacional Baleares, Las Palmas, Santa Cruz de Tenerife): visto bueno antes de que T-44 abra PR que toque M04.
 - D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
+
+### Tomadas (07-11 noche)
+- Red del entorno Default: `www.ine.es`, `www.mapa.gob.es`, `www.idescat.cat` (además de `boe.es`). `www.mapa.gob.es` resetea
+  la conexión desde el proxy.
+- **D-3:** se publica en el visor cada provincia al terminar su 00 (permiso por provincia en el chat del Operador).
+- Secreto `CLAUDE_CODE_OAUTH_TOKEN` actualizado por el propietario (comprobar que el revisor corre en la próxima PR).
+- Histórico 2019-11: todavía no. T-70 (D'Hondt): descartada.
+- Archivo: R2 para el archivo de trabajo y Zenodo para versiones cerradas. Portal Zensical publicado en `/docs` del sitio.
+- **T-64 (decisión del propietario):** nos quedamos con los partidos judiciales. #462 se reaplica en #470; la decisión de C-13
+  sigue pendiente (#469).
 
 ### Tomadas (07-11)
 - **Roles (07-11 noche):** el Coordinador (chat «Coordinador», Sonnet) es el socio operativo del propietario: recibe
@@ -108,7 +117,6 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   planifica, por olas: cada ola, un chat nuevo que lee `PLAN.md` y `ESTADO.md`.
 - **T-64 redefinida:** sin partidos judiciales de entrada. Estudio de comarcas no oficiales frente a partidos judiciales;
   si encajan razonablemente, se usan los partidos. #462 queda abierta sin fusionar hasta esa decisión.
-- **D-3:** pendiente (recomendación: publicar cada provincia al terminar su 00).
 - Cambios de criterio (unidades, fuentes, reglas): siempre se consultan al propietario antes de encargarlos.
 - **Senado: descartado.** No tiene sentido para el proyecto; no se planifica ni se dedica tiempo alguno a él.
 - D-4: visto bueno a M04 7.6.7 (Alicante); la próxima 00 de los territorios con islas empieza de cero.
@@ -241,6 +249,18 @@ propietario: ajustes de Settings y permiso de las 00.
 Pendiente para la lista final del propietario: «Allow auto-merge» (P2), entorno `produccion` con revisor (D-5),
 secreto `CLAUDE_CODE_OAUTH_TOKEN` (T-48) y permiso de las 00 de Barcelona, Alicante, Málaga y Andalucía.
 La red del entorno Default ya permite `www.boe.es` y `boe.es` (07-11).
+
+### Ola del 07-11 noche
+Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada chat.
+
+| Id | Objetivo | Chat | Hecho |
+|---|---|---|---|
+| T-72 | Archivo en origen: M06/M08 a R2 con sha256 en `registrar`, composición y votos por run | session_01KQDtFtH5s6XFb1sTEQE75B (Opus) | Fusionada (#471); falta una 00 de prueba (Operador, permiso del propietario) |
+| T-71 | Recuperar composición y votos por partido de las 47 provincias sin ejecuciones (centroides INE 2023 sobre el M06 publicado) | session_01KQDtFtsKtpcWSzdeGAmwMS (Sonnet) | ≥ 40 de 47 exactas; las que no cuadren, a 00 con motivo |
+| T-74 | Catálogo de procedencia único (`orchestracion/catalogo_procedencia.json`, derivado de 5 ficheros) | session_01KQDtFs6b53QY496wZn2gSX (Opus) | PR #473; check en CI |
+| T-73 | Portal Zensical público (P3) en `/docs` del sitio, dentro de `_reutilizable-publicar-sitio.yml` | por abrir, tras T-71 (Sonnet) | `zensical build --strict` en verde, enlaces comprobados; sin publicar |
+| T-75 | Aplicar el metaagente a DDD (solo documentación) | session_01KQDtFvFEZ1wPrxBQpGsj9w (Opus) | En curso |
+| T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
 
