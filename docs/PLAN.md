@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.14
+Versión: 1.0.15
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: decisión del propietario: Senado descartado
-Anterior: legacy/docs/PLAN_v1.0.13_20261107.md
+Cambios/motivo: rol de Coordinador, planificador por olas, T-64 como estudio y regla de consultar cambios de criterio
+Anterior: legacy/docs/PLAN_v1.0.14_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -103,6 +103,13 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
 
 ### Tomadas (07-11)
+- **Roles (07-11 noche):** el Coordinador (chat «Coordinador», Sonnet) es el socio operativo del propietario: recibe
+  los cierres, sigue PR, CI y runs, archiva chats, junta lecciones y mantiene `docs/ESTADO.md`. El planificador solo
+  planifica, por olas: cada ola, un chat nuevo que lee `PLAN.md` y `ESTADO.md`.
+- **T-64 redefinida:** sin partidos judiciales de entrada. Estudio de comarcas no oficiales frente a partidos judiciales;
+  si encajan razonablemente, se usan los partidos. #462 queda abierta sin fusionar hasta esa decisión.
+- **D-3:** pendiente (recomendación: publicar cada provincia al terminar su 00).
+- Cambios de criterio (unidades, fuentes, reglas): siempre se consultan al propietario antes de encargarlos.
 - **Senado: descartado.** No tiene sentido para el proyecto; no se planifica ni se dedica tiempo alguno a él.
 - D-4: visto bueno a M04 7.6.7 (Alicante); la próxima 00 de los territorios con islas empieza de cero.
 - D-6 Málaga: exención de suelo municipal de Fuengirola (29054) en el contrato; techo y atomicidad sin cambios
