@@ -2,8 +2,8 @@
 """Archivista: copia a Cloudflare R2 los artefactos de Actions referenciados antes de que caduquen.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Archivista R2 con reintentos
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Archivista R2 solo de productos finales
 FECHA: 2026-11-07
 ESTADO: candidato
 QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y orchestracion/publicaciones_visor.json,
@@ -13,12 +13,15 @@ QUÉ HACE: lee el catálogo operativo (orchestracion/estado_operativo.json) y or
   la entrada en orchestracion/archivo_r2.json (URL R2, sha256, tamaño, caducidad original, fecha de archivado).
 IDEMPOTENTE: no vuelve a descargar un artefacto (mismo id) ya archivado, y no vuelve a subir si R2 ya tiene
   la misma clave con el mismo sha256. Un artefacto caducado y no archivado se informa como «perdido».
-CAMBIOS: 1.0.1: reintentos con espera exponencial (2, 4, 8, 16, 32 s; 6 intentos) ante 5xx, 429 y errores de red
+CAMBIOS: 1.1.0 (T-72): solo archiva el producto final de cada run (ddd-state-<run>-M06/M08) y las auditorías
+  (KB); nunca los estados intermedios M01-M05 ni los paquetes fuente. Si el run tiene vivo su M08, no copia su M06:
+  el estado M08 es acumulativo (lleva cache/run del M06; M08 = M06 + 1-10 MB). Decisión del propietario: R2 bajo 10 GB.
+  1.0.1: reintentos con espera exponencial (2, 4, 8, 16, 32 s; 6 intentos) ante 5xx, 429 y errores de red
   en la API de GitHub y en R2, con registro de cada intento (run 42393003447: HTTP 500 al listar artefactos).
   1.0.0: fichero nuevo (T-47).
 MOTIVO: los artefactos caducan a los 14 días y con ellos productos registrados en el catálogo (p. ej. M05 de
   Cantabria, run 41037133327).
-ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.0.0_20261107.py
+ANTERIOR: legacy/herramientas/archivar_artefactos_r2_v1.0.1_20261107.py
 Uso: python herramientas/archivar_artefactos_r2.py [--root-dir .] [--caduca-antes AAAA-MM-DD] [--max N] [--simular]
 Entorno: GITHUB_TOKEN, GITHUB_REPOSITORY; R2_BUCKET, R2_ACCOUNT_ID y credenciales AWS_* (aws cli) salvo --simular.
 Salida: 0 si todo lo archivable quedó archivado; 1 si hubo errores de copia.
@@ -47,6 +50,12 @@ MANIFIESTO = "orchestracion/archivo_r2.json"
 SCHEMA = "ddd.archivo-r2/1.0"
 
 _NOMBRE = re.compile(r"^ddd-(state|audit|source-package)-")
+_FINAL = re.compile(r"^ddd-state-(\d+)-M0([68])(?:-|$)")
+
+
+def es_final(nombre: str) -> bool:
+    """Producto final archivable: estado M06/M08 o auditoría (no M01-M05 ni paquetes fuente)."""
+    return bool(_FINAL.match(nombre)) or nombre.startswith("ddd-audit-")
 _RUN = re.compile(r"(?<!\d)(\d{8,})(?!\d)")
 
 
@@ -96,13 +105,29 @@ def referencias(root: Path) -> tuple[dict[str, str], dict[str, str]]:
     return nombres, runs
 
 
+def cubierto_por_m08(nombre: str, entradas: dict) -> bool:
+    """Un M06 está en R2 dentro del M08 acumulativo de su run o del M08 que lo declara (``incluye_m06_run``)."""
+    m = _FINAL.match(nombre)
+    if not m or m.group(2) != "6":
+        return False
+    for e in entradas.values():
+        f = _FINAL.match(str(e.get("artefacto", "")))
+        if f and f.group(2) == "8" and m.group(1) in (f.group(1), str(e.get("incluye_m06_run", ""))):
+            return True
+    return False
+
+
 def seleccionar(vivos: list[dict], nombres: dict[str, str], runs: dict[str, str]) -> list[dict]:
     """Artefactos vivos referenciados, con territorio y run, por caducidad ascendente."""
     out = []
+    con_m08 = {m.group(1) for a in vivos if not a.get("expired") and (m := _FINAL.match(a["name"])) and m.group(2) == "8"}
     for a in vivos:
         if a.get("expired"):
             continue
         nom = a["name"]
+        m = _FINAL.match(nom)
+        if not es_final(nom) or (m and m.group(2) == "6" and m.group(1) in con_m08):
+            continue
         run = str((a.get("workflow_run") or {}).get("id") or _run_de_nombre(nom) or "")
         if nom in nombres:
             terr = nombres[nom]
@@ -183,7 +208,8 @@ def archivar(
         }
     existentes = {a["name"] for a in vivos}
     res["perdidos"] = sorted(
-        n for n in nombres if n not in existentes and not any(e["artefacto"] == n for e in entradas.values())
+        n for n in nombres if es_final(n) and n not in existentes and not any(e["artefacto"] == n for e in entradas.values())
+        and not cubierto_por_m08(n, entradas)
     )
     manifiesto["schema"] = SCHEMA
     manifiesto["actualizado_en"] = ahora()

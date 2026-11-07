@@ -1,9 +1,10 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: archivista R2 (T-47) con catálogo sintético y R2 simulado
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 FECHA: 2026-11-07
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS: 1.1.0 (T-72): solo productos finales M06/M08 y auditorías; M06 omitido si vive su M08.
+ANTERIOR: ninguna (fichero nuevo; 1.0.0 sin copia en legacy)
 """
 import importlib.util
 import json
@@ -71,15 +72,15 @@ class Archivista(unittest.TestCase):
         n, r = arc.referencias(self.root)
         sel = arc.seleccionar(self.vivos, n, r)
         self.assertEqual([a["name"] for a in sel],
-                         ["ddd-state-41037133327-M05", "ddd-audit-41037133327", "ddd-state-41037133327-M06"])
-        self.assertEqual(arc.clave(sel[0]), "cantabria/41037133327/ddd-state-41037133327-M05.zip")
+                         ["ddd-audit-41037133327", "ddd-state-41037133327-M06"])  # sin M05 (T-72)
+        self.assertEqual(arc.clave(sel[1]), "cantabria/41037133327/ddd-state-41037133327-M06.zip")
 
     def test_archiva_y_manifiesto(self):
         res = self.correr()
-        self.assertEqual(len(res["archivados"]), 3)
-        e = self.man["artefactos"]["cantabria/41037133327/ddd-state-41037133327-M05.zip"]
-        self.assertEqual(e["url"], "r2://bkt/cantabria/41037133327/ddd-state-41037133327-M05.zip")
-        self.assertEqual(e["caducidad_original"], "2026-11-13T00:00:00Z")
+        self.assertEqual(len(res["archivados"]), 2)
+        e = self.man["artefactos"]["cantabria/41037133327/ddd-state-41037133327-M06.zip"]
+        self.assertEqual(e["url"], "r2://bkt/cantabria/41037133327/ddd-state-41037133327-M06.zip")
+        self.assertEqual(e["caducidad_original"], "2026-11-20T00:00:00Z")
         self.assertEqual(len(e["sha256"]), 64)
         self.assertEqual(e["tamano_bytes"], 4)
         self.assertEqual(set(self.r2.objs.values()), {x['sha256'] for x in self.man['artefactos'].values()})
@@ -87,19 +88,19 @@ class Archivista(unittest.TestCase):
     def test_idempotente(self):
         self.correr()
         res = self.correr()
-        self.assertEqual(self.r2.subidas, 3)
-        self.assertEqual(len(res["ya_archivados"]), 3)
+        self.assertEqual(self.r2.subidas, 2)
+        self.assertEqual(len(res["ya_archivados"]), 2)
         self.assertEqual(res["archivados"], [])
 
     def test_no_resube_mismo_sha(self):
         self.correr()
         self.man["artefactos"].clear()  # manifiesto perdido, R2 conserva los objetos
         res = self.correr()
-        self.assertEqual(self.r2.subidas, 3)
-        self.assertEqual(len(res["sin_cambios_r2"]), 3)
+        self.assertEqual(self.r2.subidas, 2)
+        self.assertEqual(len(res["sin_cambios_r2"]), 2)
 
     def test_caduca_antes_y_maximo(self):
-        res = self.correr(caduca_antes="2026-11-14")
+        res = self.correr(caduca_antes="2026-11-16")
         self.assertEqual(len(res["archivados"]), 1)
         res = self.correr(maximo=1)
         self.assertEqual(len(res["archivados"]), 1)
@@ -107,14 +108,26 @@ class Archivista(unittest.TestCase):
     def test_error_no_registra_y_perdidos(self):
         n, r = arc.referencias(self.root)
         n["ddd-state-41037133327-M04"] = "cantabria"
+        n["ddd-state-41037133328-M06"] = "cantabria"
 
         def falla(a, p):
             raise RuntimeError("red")
 
         res = arc.archivar(self.vivos, n, r, self.man, falla, self.r2.sha, self.r2.subir, "bkt")
-        self.assertEqual(len(res["errores"]), 3)
+        self.assertEqual(len(res["errores"]), 2)
         self.assertEqual(self.man["artefactos"], {})
-        self.assertIn("ddd-state-41037133327-M04", res["perdidos"])
+        self.assertIn("ddd-state-41037133328-M06", res["perdidos"])
+        self.assertNotIn("ddd-state-41037133327-M04", res["perdidos"])  # intermedio: no se archiva
+
+    def test_m06_omitido_si_vive_su_m08(self):
+        self.vivos[4] = art(5, "ddd-state-41037133327-M08", "2026-11-21T00:00:00Z")
+        n, r = arc.referencias(self.root)
+        self.assertEqual([a["name"] for a in arc.seleccionar(self.vivos, n, r)],
+                         ["ddd-audit-41037133327", "ddd-state-41037133327-M08"])
+        self.assertTrue(arc.cubierto_por_m08("ddd-state-41037133327-M06",
+                                             {"k": {"artefacto": "ddd-state-41037133327-M08"}}))
+        self.assertTrue(arc.cubierto_por_m08("ddd-state-1111111111-M06",
+                                             {"k": {"artefacto": "ddd-state-41037133327-M08", "incluye_m06_run": "1111111111"}}))
 
     def test_guardar_manifiesto_solo_si_cambia(self):
         ruta = self.root / arc.MANIFIESTO

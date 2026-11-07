@@ -11,7 +11,8 @@
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # CAMBIOS 1.2.0: T-72, archivo en origen: tras registrar, el job «registrar» sube ddd-state-<run>-M08 a R2 con sha256
 #   (herramientas/archivo_origen.py r2; si falla, ARCHIVO_R2_FAILED y el run no queda verde) y escribe en git los votos
-#   por partido y distrito del run (datos/resultados/runs/) con la composición del run territorial.
+#   por partido y distrito del run (datos/resultados/runs/) con la composición del run territorial. El estado M08 es
+#   acumulativo (lleva el M06): tras subirlo se retira de R2 el M06 del run territorial (R2 bajo 10 GB).
 # MOTIVO 1.2.0: los artefactos caducan a los 14 días; el M08 y sus votos deben quedar fuera de Actions al terminar.
 # ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.1.6_20261107.yml
 # CAMBIOS: 1.1.4: VALIDACION.json se busca también en ejecuciones/<RUN_ID>/ (donde lo escribe validar_ejecucion).
@@ -412,7 +413,8 @@ jobs:
           t0=$(date +%s)
           suffix=''; [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
-          python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID"
+          python herramientas/archivo_origen.py r2 --run-id "$GITHUB_RUN_ID" --artefacto "$artifact_name" --territorio "$TERRITORY_ID" \
+            --sustituye-m06-run "$TERRITORIAL_RUN_ID"
           t1=$(date +%s)
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir .ddd-m08-state
           python herramientas/archivo_origen.py partidos --estado .ddd-m08-state --territorio "$TERRITORY_ID" \

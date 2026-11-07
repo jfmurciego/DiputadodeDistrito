@@ -12,6 +12,9 @@ QUÉ HACE: cuatro subcomandos.
   r2          sube a R2 el artefacto ``ddd-state-<run>-M06`` (o M08) del run en curso con sha256 y lo anota en
               orchestracion/archivo_r2.json (núcleo y clientes de herramientas/archivar_artefactos_r2.py, con sus
               reintentos). Si la copia falla, sale con 1 y ``::error::ARCHIVO_R2_FAILED``: el run no queda verde.
+              Con ``--sustituye-m06-run R`` (tras M08): el estado M08 es acumulativo (lleva cache/run del M06), así que
+              anota ``incluye_m06_run: R`` en la entrada M08 y retira de R2 y del manifiesto el M06 del run R
+              (R2 bajo 10 GB, decisión del propietario). Si la retirada falla, solo avisa.
   composicion toma ``*_m06_composicion_distritos.csv`` del estado M06 descargado, lo valida contra el GeoJSON M06 del
               mismo estado (validación de herramientas/composicion_m06.py) y escribe
               datos/composicion/runs/<territorio>_<run>.csv (seccion, distrito, poblacion) y la clave ``runs`` de
@@ -73,6 +76,36 @@ def archivar_uno(artefacto: dict, territorio: str, root: Path, descargar, r2_sha
     return man["artefactos"][k]
 
 
+def retirar_m06(run_m06: str, clave_m08: str, root: Path, r2_borrar) -> list[str]:
+    """Marca el M08 como contenedor del M06 del run y retira esas copias M06; devuelve las claves retiradas."""
+    ruta = root / ar.MANIFIESTO
+    man = ar.cargar_manifiesto(ruta)
+    man["artefactos"][clave_m08]["incluye_m06_run"] = str(run_m06)
+    retiradas = []
+    for k, e in list(man["artefactos"].items()):
+        if str(e.get("run_id")) == str(run_m06) and ar._FINAL.match(str(e.get("artefacto", ""))) \
+                and ar._FINAL.match(e["artefacto"]).group(2) == "6":
+            try:
+                r2_borrar(k)
+            except Exception as exc:  # noqa: BLE001 - ocupa espacio, pero no pierde datos
+                print(f"::warning::No se pudo retirar {k} de R2: {exc}")
+                continue
+            del man["artefactos"][k]
+            retiradas.append(k)
+    ar.guardar_manifiesto(ruta, man)
+    return retiradas
+
+
+def r2_borrador(bucket: str, cuenta: str):
+    ep = f"https://{cuenta}.r2.cloudflarestorage.com"
+
+    def borrar(k: str) -> None:
+        ar.con_reintentos(lambda: ar.subprocess.run(
+            ["aws", "s3", "rm", f"s3://{bucket}/{k}", "--endpoint-url", ep, "--only-show-errors"], check=True),
+            f"R2 borrado {k}")
+    return borrar
+
+
 def cmd_r2(a) -> int:
     root = Path(a.root_dir)
     repo, token = os.environ.get("GITHUB_REPOSITORY", ""), os.environ.get("GITHUB_TOKEN", "")
@@ -95,6 +128,10 @@ def cmd_r2(a) -> int:
         print(f"::error title=ARCHIVO_R2_FAILED::{a.artefacto}: {exc}")
         return 1
     print(f"R2: {e['url']} sha256={e['sha256']} {e['tamano_bytes']} B")
+    if a.sustituye_m06_run:
+        k = e["url"].split("/", 3)[3]
+        for r in retirar_m06(a.sustituye_m06_run, k, root, r2_borrador(bucket, cuenta)):
+            print(f"R2: retirado {r} (contenido en {k})")
     return 0
 
 
@@ -219,8 +256,13 @@ def cmd_partidos(a) -> int:
 def comprobar(root: Path) -> dict:
     """{'faltan': [...], 'sobran_excepciones': [...]} para los M06 publicados en el visor."""
     vig = cm.m06_vigentes(root / cm.REGISTRO_VISOR.relative_to(cm.ROOT))
-    r2 = {(e.get("territorio"), str(e.get("run_id"))) for e in _json(root / ar.MANIFIESTO, {}).get("artefactos", {}).values()
-          if "-M06" in str(e.get("artefacto", ""))}
+    r2 = set()
+    for e in _json(root / ar.MANIFIESTO, {}).get("artefactos", {}).values():
+        m = ar._FINAL.match(str(e.get("artefacto", "")))
+        if m:  # M06 del run, o M08 acumulativo del mismo run o del que declara incluir el M06
+            r2.add((e.get("territorio"), str(e.get("run_id"))))
+            if e.get("incluye_m06_run"):
+                r2.add((e.get("territorio"), str(e["incluye_m06_run"])))
     man = _json(root / COMPOSICION / "MANIFEST.json", {})
     git = {(t, str(e.get("run_id"))) for t, e in man.get("territorios", {}).items() if (root / COMPOSICION / f"{t}.csv").is_file()}
     git |= {(e["territorio"], str(e["run_id"])) for e in man.get("runs", {}).values() if (root / e["ruta"]).is_file()}
@@ -246,6 +288,7 @@ def main(argv=None) -> int:
     p.add_argument("--run-id", required=True)
     p.add_argument("--artefacto", required=True)
     p.add_argument("--territorio", required=True)
+    p.add_argument("--sustituye-m06-run", default="")
     p = sub.add_parser("composicion")
     p.add_argument("--estado", required=True)
     p.add_argument("--territorio", required=True)
