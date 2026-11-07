@@ -1,5 +1,5 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_leon,0,León,MUNICIPIO,,24089,León,1,0,121763,,0,1,EVALUADO,
-congreso_leon,1,Villaquilambre y entorno,PRINCIPAL_Y_ENTORNO,,24222,Villaquilambre,120,0,106896,,0,5,EVALUADO,
-congreso_leon,2,Ponferrada y entorno,PRINCIPAL_Y_ENTORNO,,24115,Ponferrada,36,0,115207,,0,3,EVALUADO,
-congreso_leon,3,San Andrés del Rabanedo y entorno,PRINCIPAL_Y_ENTORNO,,24142,San Andrés del Rabanedo,54,0,104707,,0,4,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_leon,0,León,MUNICIPIO,,24089,León,1,0,121763,,0,NOT_EVALUABLE,
+congreso_leon,1,Villaquilambre y entorno,PRINCIPAL_Y_ENTORNO,,24222,Villaquilambre,120,0,106896,,0,NOT_EVALUABLE,
+congreso_leon,2,Ponferrada y entorno,PRINCIPAL_Y_ENTORNO,,24115,Ponferrada,36,0,115207,,0,NOT_EVALUABLE,
+congreso_leon,3,San Andrés del Rabanedo y entorno,PRINCIPAL_Y_ENTORNO,,24142,San Andrés del Rabanedo,54,0,104707,,0,NOT_EVALUABLE,

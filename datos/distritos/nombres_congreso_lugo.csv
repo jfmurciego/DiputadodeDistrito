@@ -1,4 +1,4 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_lugo,0,Lugo y entorno,PRINCIPAL_Y_ENTORNO,,27028,Lugo,3,0,108565,,0,1,EVALUADO,
-congreso_lugo,1,Vivero y entorno,PRINCIPAL_Y_ENTORNO,,27066,Vivero,26,0,107734,,0,7,EVALUADO,
-congreso_lugo,2,Monforte de Lemos y entorno,PRINCIPAL_Y_ENTORNO,,27031,Monforte de Lemos,38,0,107968,,0,9,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_lugo,0,Lugo y entorno,PRINCIPAL_Y_ENTORNO,,27028,Lugo,3,0,108565,,0,NOT_EVALUABLE,
+congreso_lugo,1,Vivero y entorno,PRINCIPAL_Y_ENTORNO,,27066,Vivero,26,0,107734,,0,NOT_EVALUABLE,
+congreso_lugo,2,Monforte de Lemos y entorno,PRINCIPAL_Y_ENTORNO,,27031,Monforte de Lemos,38,0,107968,,0,NOT_EVALUABLE,

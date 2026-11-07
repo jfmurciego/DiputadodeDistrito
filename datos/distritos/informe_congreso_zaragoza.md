@@ -1,24 +1,10 @@
 # Nombres y comunidades de interés — congreso_zaragoza
 
-Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.1.0. Sin datos electorales.
+Generado por `herramientas/generar_nombres_comunidades_nacional.py` 1.0.0. Sin datos electorales.
 
 - Distritos: 8 (nombres únicos: 8)
 - Reglas: MUNICIPIO 5, PRINCIPAL_Y_ENTORNO 3
 - Municipios divididos entre distritos (suma por distrito): 6
-
-## C13 partidos judiciales partidos
-
-Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.
-- Partidos tocados por la provincia: 7
-- Partidos partidos entre distritos: 4
-- Cobertura: 99.3% de los municipios, 99.7% de la población (sin partido: 2, listados en `configuracion/partidos_judiciales_no_conciliados.csv`).
-
-| Partido partido | Distritos |
-|---|---|
-| 50-01 | 6, 7 |
-| 50-03 | 0, 1, 2, 3, 4, 5, 6, 7 |
-| 50-05 | 5, 7 |
-| 50-07 | 5, 6, 7 |
 
 ## C13 comarcas partidas
 

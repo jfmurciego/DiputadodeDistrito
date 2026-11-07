@@ -1,4 +1,4 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_orense,0,Orense,MUNICIPIO,,32054,Orense,1,0,104187,,0,1,EVALUADO,
-congreso_orense,1,El Carballiño y entorno,PRINCIPAL_Y_ENTORNO,,32019,El Carballiño,47,0,100518,,0,7,EVALUADO,
-congreso_orense,2,Verín y entorno,PRINCIPAL_Y_ENTORNO,,32085,Verín,44,0,99858,,0,6,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_orense,0,Orense,MUNICIPIO,,32054,Orense,1,0,104187,,0,NOT_EVALUABLE,
+congreso_orense,1,El Carballiño y entorno,PRINCIPAL_Y_ENTORNO,,32019,El Carballiño,47,0,100518,,0,NOT_EVALUABLE,
+congreso_orense,2,Verín y entorno,PRINCIPAL_Y_ENTORNO,,32085,Verín,44,0,99858,,0,NOT_EVALUABLE,

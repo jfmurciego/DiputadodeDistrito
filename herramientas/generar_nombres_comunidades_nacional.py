@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Nombres de distrito (C12) y comarcas partidas (C13) de los distritos nacionales.
 
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Nombres, comarcas y partidos judiciales
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Nombres y comarcas nacionales
 FECHA: 2026-11-07
-ESTADO: activo T-64
-CAMBIOS: C13 usa también los partidos judiciales (configuracion/partidos_judiciales.csv, Ley 38/1988) en toda España; los nombres de distrito no cambian.
+ESTADO: activo T-59
+CAMBIOS: herramienta nueva; lee los M06 publicados y no modifica motor, contratos ni M06.
 MOTIVO: un nombre legible y estable por distrito nacional y la medida de comarcas partidas.
-ANTERIOR: legacy/2026-11-07_nombres_comunidades_v1.0.0/generar_nombres_comunidades_nacional_v1.0.0.py
+ANTERIOR: ninguna (fichero nuevo)
 
 Reglas de nombre (toponimia solo en español, tabla datos/distritos/toponimos_es.csv):
   1. distrito de un único municipio: «<municipio>»; si ese municipio está repartido entre k>1 distritos
@@ -33,11 +33,10 @@ import zipfile
 from collections import defaultdict
 from pathlib import Path
 
-VERSION = "1.1.0"
+VERSION = "1.0.0"
 RAIZ = Path(__file__).resolve().parents[1]
 SALIDA = "datos/distritos"
 POBLACION = "datos/distritos/municipios_ine_2025.csv"  # código, nombre INE y población 2025 por municipio
-PARTIDOS = "configuracion/partidos_judiciales.csv"
 TOPONIMOS = "datos/distritos/toponimos_es.csv"
 REGISTRO = "orchestracion/publicaciones_visor.json"
 REPO = "jfmurciego/DiputadodeDistrito"
@@ -140,15 +139,6 @@ def cargar_comarcas(fuentes, raiz=RAIZ):
                 comarca[fila["Municipio código"]] = fila["Comarca nombre"].split(" / ")[0].strip()
                 cubiertas[fila["Provincia código"].zfill(2)] = etiqueta
     return comarca, cubiertas
-
-
-def cargar_partidos(ruta=None):
-    """{cod_municipio: id de partido judicial} desde configuracion/partidos_judiciales.csv (Ley 38/1988)."""
-    ruta = Path(ruta) if ruta else RAIZ / PARTIDOS
-    if not ruta.exists():
-        return {}
-    with ruta.open(encoding="utf-8", newline="") as f:
-        return {r["codigo_ine"]: r["id_partido"] for r in csv.DictReader(l for l in f if not l.startswith("#"))}
 
 
 def leer_m06(ruta, nombre_ine=None):
@@ -265,35 +255,20 @@ def comarcas_partidas(distritos, comarca_de, cubiertas, en_distritos):
     }
 
 
-def partidos_partidos(distritos, partido_de, pob_mun, en_distritos):
-    """C13 con partidos judiciales: misma definición que las comarcas, más la cobertura municipal y poblacional."""
-    cods = {c for d in distritos for c in d["codigos"]}
-    con = {c for c in cods if c in partido_de}
-    m = comarcas_partidas(distritos, {c: partido_de[c] for c in con}, None, en_distritos)
-    m["cobertura_municipios"] = len(con) / len(cods)
-    total = sum(pob_mun.get(c, 0) for c in cods)
-    m["cobertura_poblacion"] = (sum(pob_mun.get(c, 0) for c in con) / total) if total else 0.0
-    m["municipios_sin_partido"] = sorted(cods - con)
-    return m
-
-
 CAMPOS = ["territorio", "district_id", "nombre_distrito", "regla", "regla_numeracion", "municipio_principal_codigo",
           "municipio_principal", "n_municipios", "municipios_divididos", "poblacion_distrito", "comarcas",
-          "n_comarcas", "n_partidos", "estado_c13", "fuente_comarcas"]
+          "n_comarcas", "estado_c13", "fuente_comarcas"]
 
 
-def procesar_territorio(territorio, ruta_m06, pob_mun, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de=None):
+def procesar_territorio(territorio, ruta_m06, pob_mun, nombre_ine, tabla, comarca_de, cubiertas, salida):
     distritos = leer_m06(ruta_m06, nombre_ine)
     prov = distritos[0]["provincia"]
-    partido_de = partido_de or {}
     evaluable = prov in cubiertas
     cd = comarca_de if evaluable else {}
     filas, en_dist = nombrar(territorio, distritos, pob_mun, tabla, cd)
-    con_partidos = any(c in partido_de for d in distritos for c in d["codigos"])
-    for f, d in zip(filas, sorted(distritos, key=lambda d: d["district_id"])):
-        f["estado_c13"] = "EVALUADO" if (evaluable or con_partidos) else "NOT_EVALUABLE"
+    for f in filas:
+        f["estado_c13"] = "EVALUADO" if evaluable else "NOT_EVALUABLE"
         f["fuente_comarcas"] = cubiertas.get(prov, "")
-        f["n_partidos"] = len({partido_de[c] for c in d["codigos"] if c in partido_de}) if con_partidos else "n/d"
     nombres = [f["nombre_distrito"] for f in filas]
     if len(nombres) != len(set(nombres)):
         raise ValueError(f"{territorio}: nombres repetidos")
@@ -309,13 +284,12 @@ def procesar_territorio(territorio, ruta_m06, pob_mun, nombre_ine, tabla, comarc
     if evaluable:
         metrica = comarcas_partidas(distritos, {c: n for c, n in comarca_de.items() if c.startswith(prov)},
                                     cubiertas, en_dist)
-    m_part = partidos_partidos(distritos, partido_de, pob_mun, en_dist) if con_partidos else None
     (salida / f"informe_{territorio}.md").write_text(
-        informe(territorio, filas, metrica, cubiertas.get(prov), pendientes, m_part), encoding="utf-8")
-    return filas, metrica, pendientes, csv_ruta, m_part
+        informe(territorio, filas, metrica, cubiertas.get(prov), pendientes), encoding="utf-8")
+    return filas, metrica, pendientes, csv_ruta
 
 
-def informe(territorio, filas, metrica, fuente, pendientes, m_part=None):
+def informe(territorio, filas, metrica, fuente, pendientes):
     reglas = defaultdict(int)
     for f in filas:
         reglas[f["regla"]] += 1
@@ -325,22 +299,11 @@ def informe(territorio, filas, metrica, fuente, pendientes, m_part=None):
            "- Reglas: " + ", ".join(f"{k} {v}" for k, v in sorted(reglas.items())),
            f"- Municipios divididos entre distritos (suma por distrito): {sum(f['municipios_divididos'] for f in filas)}",
            ""]
-    if m_part is not None:
-        out += ["## C13 partidos judiciales partidos", "",
-                "Fuente: Ley 38/1988, Anexo I (BOE-A-1988-29622), `configuracion/partidos_judiciales.csv`.",
-                f"- Partidos tocados por la provincia: {m_part['comarcas_tocadas']}",
-                f"- Partidos partidos entre distritos: {m_part['comarcas_partidas']}",
-                f"- Cobertura: {m_part['cobertura_municipios']:.1%} de los municipios, "
-                f"{m_part['cobertura_poblacion']:.1%} de la población (sin partido: {len(m_part['municipios_sin_partido'])}, "
-                "listados en `configuracion/partidos_judiciales_no_conciliados.csv`).", ""]
-        if m_part["detalle_partidas"]:
-            out += ["| Partido partido | Distritos |", "|---|---|"]
-            out += [f"| {n} | {', '.join(map(str, ds))} |" for n, ds in sorted(m_part["detalle_partidas"].items())]
-            out.append("")
-    if metrica is None and m_part is None:
+    if metrica is None:
         out += ["## C13 comarcas partidas", "",
-                "NOT_EVALUABLE: sin comarcas ni partidos judiciales para esta provincia (no se infieren).", ""]
-    elif metrica is not None:
+                "NOT_EVALUABLE: el repo no trae comarcas ni partidos judiciales para esta provincia "
+                "(no se infieren; ver `docs/AUDITORIA_C13_COMUNIDADES_INTERES.md`).", ""]
+    else:
         out += ["## C13 comarcas partidas", "", f"Fuente: {fuente}.",
                 f"- Comarcas tocadas por la provincia: {metrica['comarcas_tocadas']}",
                 f"- Comarcas partidas entre distritos: {metrica['comarcas_partidas']}", ""]
@@ -352,7 +315,7 @@ def informe(territorio, filas, metrica, fuente, pendientes, m_part=None):
         out.append("")
     out += ["## Distritos", "", "| Id | Nombre | Regla | Población | Comarcas |", "|---|---|---|---|---|"]
     out += [f"| {f['district_id']} | {f['nombre_distrito']} | {f['regla']} | {f['poblacion_distrito']} | "
-            f"{f['n_comarcas'] if f['fuente_comarcas'] else 'n/d'} |" for f in filas]
+            f"{f['n_comarcas'] if f['estado_c13'] == 'EVALUADO' else 'n/d'} |" for f in filas]
     if pendientes:
         out += ["", "Toponimia pendiente de tabla: " + ", ".join(pendientes)]
     return "\n".join(out) + "\n"
@@ -397,23 +360,20 @@ def main(argv=None):
     pob, nombre_ine = cargar_municipios(RAIZ / POBLACION)
     tabla = cargar_toponimos(RAIZ / TOPONIMOS)
     comarca_de, cubiertas = cargar_comarcas(FUENTES_COMARCAS)
-    partido_de = cargar_partidos()
     salida = RAIZ / a.salida
     resumen, todos_pend = {}, {}
     for z in sorted(Path(a.m06_dir).glob("congreso_*.zip")):
         t = z.stem
-        filas, metrica, pend, _, m_part = procesar_territorio(t, z, pob, nombre_ine, tabla, comarca_de, cubiertas, salida, partido_de)
+        filas, metrica, pend, _ = procesar_territorio(t, z, pob, nombre_ine, tabla, comarca_de, cubiertas, salida)
         resumen[t] = {"distritos": len(filas), "sha256_m06": sha256(z),
-                      "comarcas_partidas": None if metrica is None else metrica["comarcas_partidas"],
-                      "partidos_partidos": None if m_part is None else m_part["comarcas_partidas"]}
+                      "comarcas_partidas": None if metrica is None else metrica["comarcas_partidas"]}
         if pend:
             todos_pend[t] = pend
     manifiesto = {
-        "schema": "ddd.nombres-comunidades/1.1", "version": VERSION,
+        "schema": "ddd.nombres-comunidades/1.0", "version": VERSION,
         "entradas": {"poblacion": {"path": POBLACION, "sha256": sha256(RAIZ / POBLACION)},
                      "toponimos": {"path": TOPONIMOS, "sha256": sha256(RAIZ / TOPONIMOS)},
-                     "comarcas": [{"path": p, "sha256": sha256(RAIZ / p)} for p, _ in FUENTES_COMARCAS],
-                     "partidos_judiciales": {"path": PARTIDOS, "sha256": sha256(RAIZ / PARTIDOS)}},
+                     "comarcas": [{"path": p, "sha256": sha256(RAIZ / p)} for p, _ in FUENTES_COMARCAS]},
         "territorios": resumen,
     }
     (salida / "MANIFEST.json").write_text(json.dumps(manifiesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

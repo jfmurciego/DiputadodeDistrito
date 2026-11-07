@@ -1,7 +1,7 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_toledo,0,Toledo y entorno,PRINCIPAL_Y_ENTORNO,,45168,Toledo,9,0,121908,,0,3,EVALUADO,
-congreso_toledo,1,Talavera de la Reina y entorno,PRINCIPAL_Y_ENTORNO,,45165,Talavera de la Reina,38,0,122132,,0,1,EVALUADO,
-congreso_toledo,2,Illescas y entorno,PRINCIPAL_Y_ENTORNO,,45081,Illescas,15,0,121069,,0,2,EVALUADO,
-congreso_toledo,3,Ocaña y entorno,PRINCIPAL_Y_ENTORNO,,45121,Ocaña,24,0,122041,,0,3,EVALUADO,
-congreso_toledo,4,Torrijos y entorno,PRINCIPAL_Y_ENTORNO,,45173,Torrijos,62,0,122025,,0,6,EVALUADO,
-congreso_toledo,5,Fuensalida y entorno,PRINCIPAL_Y_ENTORNO,,45066,Fuensalida,56,0,121937,,0,4,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_toledo,0,Toledo y entorno,PRINCIPAL_Y_ENTORNO,,45168,Toledo,9,0,121908,,0,NOT_EVALUABLE,
+congreso_toledo,1,Talavera de la Reina y entorno,PRINCIPAL_Y_ENTORNO,,45165,Talavera de la Reina,38,0,122132,,0,NOT_EVALUABLE,
+congreso_toledo,2,Illescas y entorno,PRINCIPAL_Y_ENTORNO,,45081,Illescas,15,0,121069,,0,NOT_EVALUABLE,
+congreso_toledo,3,Ocaña y entorno,PRINCIPAL_Y_ENTORNO,,45121,Ocaña,24,0,122041,,0,NOT_EVALUABLE,
+congreso_toledo,4,Torrijos y entorno,PRINCIPAL_Y_ENTORNO,,45173,Torrijos,62,0,122025,,0,NOT_EVALUABLE,
+congreso_toledo,5,Fuensalida y entorno,PRINCIPAL_Y_ENTORNO,,45066,Fuensalida,56,0,121937,,0,NOT_EVALUABLE,

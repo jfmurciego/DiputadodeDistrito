@@ -1,9 +1,9 @@
-territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,n_partidos,estado_c13,fuente_comarcas
-congreso_asturias,0,Gijón 1,MUNICIPIO,POSICION_N_S_O_E,33024,Gijón,1,1,134525,,0,1,EVALUADO,
-congreso_asturias,1,Oviedo,MUNICIPIO,,33044,Oviedo,1,1,108798,,0,1,EVALUADO,
-congreso_asturias,2,Oviedo y entorno,PRINCIPAL_Y_ENTORNO,,33044,Oviedo,6,1,125727,,0,2,EVALUADO,
-congreso_asturias,3,Castrillón y entorno,PRINCIPAL_Y_ENTORNO,,33016,Castrillón,34,0,125874,,0,8,EVALUADO,
-congreso_asturias,4,Gijón 2,MUNICIPIO,POSICION_N_S_O_E,33024,Gijón,1,1,134423,,0,1,EVALUADO,
-congreso_asturias,5,Siero y entorno,PRINCIPAL_Y_ENTORNO,,33066,Siero,21,0,125658,,0,6,EVALUADO,
-congreso_asturias,6,Langreo y entorno,PRINCIPAL_Y_ENTORNO,,33031,Langreo,11,0,125213,,0,6,EVALUADO,
-congreso_asturias,7,Avilés y entorno,PRINCIPAL_Y_ENTORNO,,33004,Avilés,5,0,125842,,0,3,EVALUADO,
+territorio,district_id,nombre_distrito,regla,regla_numeracion,municipio_principal_codigo,municipio_principal,n_municipios,municipios_divididos,poblacion_distrito,comarcas,n_comarcas,estado_c13,fuente_comarcas
+congreso_asturias,0,Gijón 1,MUNICIPIO,POSICION_N_S_O_E,33024,Gijón,1,1,134525,,0,NOT_EVALUABLE,
+congreso_asturias,1,Oviedo,MUNICIPIO,,33044,Oviedo,1,1,108798,,0,NOT_EVALUABLE,
+congreso_asturias,2,Oviedo y entorno,PRINCIPAL_Y_ENTORNO,,33044,Oviedo,6,1,125727,,0,NOT_EVALUABLE,
+congreso_asturias,3,Castrillón y entorno,PRINCIPAL_Y_ENTORNO,,33016,Castrillón,34,0,125874,,0,NOT_EVALUABLE,
+congreso_asturias,4,Gijón 2,MUNICIPIO,POSICION_N_S_O_E,33024,Gijón,1,1,134423,,0,NOT_EVALUABLE,
+congreso_asturias,5,Siero y entorno,PRINCIPAL_Y_ENTORNO,,33066,Siero,21,0,125658,,0,NOT_EVALUABLE,
+congreso_asturias,6,Langreo y entorno,PRINCIPAL_Y_ENTORNO,,33031,Langreo,11,0,125213,,0,NOT_EVALUABLE,
+congreso_asturias,7,Avilés y entorno,PRINCIPAL_Y_ENTORNO,,33004,Avilés,5,0,125842,,0,NOT_EVALUABLE,
