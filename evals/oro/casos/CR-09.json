@@ -1,0 +1,40 @@
+{
+  "id": "CR-09",
+  "tipo": "forense",
+  "agente": "forense",
+  "titulo": "Ensemble: secciones MultiPolygon sueltas",
+  "causa": "La configuración del ensemble llevaba preserve_atomic_multipart_sections=false y las piezas de una sección MultiPolygon quedan sueltas.",
+  "origen": {
+    "prs": [
+      411
+    ],
+    "runs": [
+      41518377027
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9"
+  },
+  "entrada": {
+    "modo": "sintoma_run",
+    "runs": [
+      41518377027
+    ],
+    "sintoma": "Piloto de ensemble de Salamanca, intento 3: los 10 perfiles fallan con geometric_contiguity:1, geometric_contiguity:2.",
+    "territorio": "congreso_salamanca"
+  },
+  "esperado": {
+    "causa_id": "ensemble_multipart",
+    "claves": [
+      "preserve_atomic_multipart_sections",
+      "multipolygon",
+      "multipart"
+    ],
+    "min_claves": 1,
+    "max_lineas": 5
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md §9",
+    "verificado": "#411 fusionada, squash 705a6cedf0 sobre 919feacb83 (gh api pulls/<n>, 07-11); runs citados en el cuerpo de la PR",
+    "fecha": "2026-11-07"
+  }
+}

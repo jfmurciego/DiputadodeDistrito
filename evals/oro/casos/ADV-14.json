@@ -1,0 +1,48 @@
+{
+  "id": "ADV-14",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "Estado de producto: fallo de la 05 sustituye la cadena publicada",
+  "causa": "Un fallo solo en la 05 con la cadena completa y publicada se marca como parada y oculta el producto certificado.",
+  "origen": {
+    "prs": [
+      387
+    ],
+    "runs": [
+      41194447427
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 387,
+    "sha_desde": "4221130a06f5632b80d8ab1b87c09b77c4dbeca5",
+    "sha_candidato": "9f679f9110b1178c379f3828e0b6a7cf523caa90",
+    "ficheros": [
+      "herramientas/generar_estado_operativo.py"
+    ],
+    "comando": "git diff 4221130a06f5632b80d8ab1b87c09b77c4dbeca5 9f679f9110b1178c379f3828e0b6a7cf523caa90 -- herramientas/generar_estado_operativo.py"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "estado_fallo_sustituye_certificado"
+    ],
+    "ficheros": [
+      "herramientas/generar_estado_operativo.py"
+    ],
+    "claves": [
+      "stopped_at",
+      "superseded",
+      "publicad",
+      "parada",
+      "05"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#387 fusionada, squash 4221130a06 sobre 9f679f9110 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

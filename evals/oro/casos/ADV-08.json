@@ -1,0 +1,48 @@
+{
+  "id": "ADV-08",
+  "tipo": "revision",
+  "agente": "revisor",
+  "titulo": "SHA de incorporación: persistidor viejo en memoria",
+  "causa": "El registro hace fetch/reset a origin/main pero usa la función cargada antes; el M08 debe quedar ligado al SHA real del cálculo.",
+  "origen": {
+    "prs": [
+      360
+    ],
+    "runs": [
+      41037133327
+    ],
+    "pr_introductora": null,
+    "referencia": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2"
+  },
+  "entrada": {
+    "modo": "revertir_arreglo",
+    "pr": 360,
+    "sha_desde": "be3c8c927da80f9017223184d35e11a260b147d7",
+    "sha_candidato": "355dff11776f75d440e5220b86937c19e92112a3",
+    "ficheros": [
+      ".github/workflows/_reutilizable-incorporacion-electoral.yml"
+    ],
+    "comando": "git diff be3c8c927da80f9017223184d35e11a260b147d7 355dff11776f75d440e5220b86937c19e92112a3 -- .github/workflows/_reutilizable-incorporacion-electoral.yml"
+  },
+  "esperado": {
+    "veredicto": "BLOQUEAR",
+    "clases": [
+      "identidad_sha_incorporacion"
+    ],
+    "ficheros": [
+      ".github/workflows/_reutilizable-incorporacion-electoral.yml"
+    ],
+    "claves": [
+      "sha",
+      "checkout",
+      "origin/main",
+      "memoria",
+      "persist"
+    ]
+  },
+  "procedencia": {
+    "fuente": "docs/ARQUITECTURA/referencias/AUDITORIA_CHATGPT_PLAN_V2_2026-11-02.md §7.2",
+    "verificado": "#360 fusionada, squash be3c8c927d sobre 355dff1177 (gh api pulls/<n>, 07-11)",
+    "fecha": "2026-11-07"
+  }
+}

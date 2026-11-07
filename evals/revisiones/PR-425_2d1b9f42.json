@@ -1,0 +1,8 @@
+{"caso": "PR-425", "sha": "2d1b9f42a87a46ed055b993d231109c12da1336a", "fecha": "2026-11-07", "agente": "revisor", "modelo": "sonnet", "tokens": 92390,
+ "veredicto": "PASS_WITH_EXCEPTIONS",
+ "defectos": [
+  {"gravedad": "menor", "clase": "registro", "fichero": "docs/REGISTRO_DE_CAMBIOS.md", "linea": 0, "detalle": "La PR añade un workflow y ~19 ficheros nuevos sin entrada en el registro de cambios; main ya va por 1.0.99+: si se quiere, pedir el último número y no reutilizar uno antiguo."},
+  {"gravedad": "menor", "clase": "hash_no_acreditado", "fichero": "documentacion_publica/docs/auditoria.md", "linea": 0, "detalle": "Cifras de la matriz (21 Releases, 70 assets, 2.300.937.069 bytes, 5.488 blobs) fijadas al SHA base 11f0ba2b y no reproducibles desde el repositorio; la propia PR declara no verificados los bytes de los 70 assets. El JSON de Cantabria sí cuadra: 50 candidatos, 50 hashes de asignación distintos, 24.735.141 bytes."}
+ ],
+ "ci": "verde",
+ "siguiente": "Fusionable con CI verde en la PR y en main (regla del propietario); revisar de nuevo si cambia el HEAD; si se quiere constancia en el registro, entrada con el número siguiente al último de main."}
