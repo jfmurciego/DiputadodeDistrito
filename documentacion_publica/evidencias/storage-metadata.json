@@ -1,0 +1,818 @@
+{
+  "schema": "ddd.audit-storage-metadata/1.0",
+  "date": "2026-11-03",
+  "run_id": 41037133327,
+  "scope": "metadatos; muestra del run, no inventario global de Actions",
+  "artifacts": [
+    {
+      "id": 12974535723,
+      "name": "ddd-puerta-electoral_source-41037133327",
+      "bytes": 398,
+      "digest": "sha256:56e8797ad3558aece3e9993024b63daa2e836420e869cded3deb1f8b012117de",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12974521289,
+      "name": "ddd-electoral-application-report-41037133327",
+      "bytes": 1264,
+      "digest": "sha256:0a032c1db240ab9ffe667679a1686127653dab5f318b5a84daf313183d84c0d3",
+      "expires_at": "2026-11-29T11:42:16Z",
+      "expired": false
+    },
+    {
+      "id": 12974451455,
+      "name": "ddd-state-41037133327-M08",
+      "bytes": 104059506,
+      "digest": "sha256:64b29150edf84166a23f2234fbd1bd5f54106bcfe1a3455bf7e8d8ff9a0791dd",
+      "expires_at": "2026-11-13T11:42:09Z",
+      "expired": false
+    },
+    {
+      "id": 12974296929,
+      "name": "ddd-audit-electoral-41037133327",
+      "bytes": 7303,
+      "digest": "sha256:cbab814247a6395dda2b4277e77aa539a9114682c316b2678621983aee2a67cb",
+      "expires_at": "2026-11-13T11:42:14Z",
+      "expired": false
+    },
+    {
+      "id": 12973997043,
+      "name": "ddd-full-run-manifest-41037133327",
+      "bytes": 1106,
+      "digest": "sha256:7bcd37ee9b8066e044b5590ef6a6be1dcf858ae9c747d51d522af27b4c08dcac",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12973917024,
+      "name": "ddd-audit-41037133327",
+      "bytes": 7267,
+      "digest": "sha256:b2df42df47ad89d9ca16e40a2d270459433e979f430be94b986ae150d7df4232",
+      "expires_at": "2026-11-13T11:36:09Z",
+      "expired": false
+    },
+    {
+      "id": 12973877231,
+      "name": "ddd-puerta-territorial_product-41037133327",
+      "bytes": 406,
+      "digest": "sha256:60daa096ba5603aba637ee517c838e82cbb15d7c5ebc8780d878eadad5926528",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12973876595,
+      "name": "jfmurciego~DiputadodeDistrito~TAUX71.dockerbuild",
+      "bytes": 31774,
+      "digest": "sha256:b66fb562606c90d7c5c1e523d513901bf9621bd96d0cabb7e8b52a59681333bc",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12973733457,
+      "name": "jfmurciego~DiputadodeDistrito~UN9F4S.dockerbuild",
+      "bytes": 35647,
+      "digest": "sha256:1f6b168f0a958631acc13e998333d1caaddc285e0ca4cc42c30593cf6e895e76",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12973693108,
+      "name": "ddd-state-41037133327-M07",
+      "bytes": 103779158,
+      "digest": "sha256:953c8942ef967dbb9c50994cbea6b7a463d8cdc689ac1a93ea8f31c708be7b6a",
+      "expires_at": "2026-11-13T11:42:01Z",
+      "expired": false
+    },
+    {
+      "id": 12973602798,
+      "name": "ddd-state-41037133327-M06",
+      "bytes": 103260898,
+      "digest": "sha256:4a0cc8bd12a92f86fb74b874b8590da94e2828e10f71a3a578a0882d9fe879d8",
+      "expires_at": "2026-11-13T11:34:47Z",
+      "expired": false
+    },
+    {
+      "id": 12973348423,
+      "name": "ddd-state-41037133327-M05",
+      "bytes": 102460319,
+      "digest": "sha256:facfbfcdef2566b24b55dea433d8ac289525727d97354fce0400b542e3914884",
+      "expires_at": "2026-11-13T11:33:28Z",
+      "expired": false
+    },
+    {
+      "id": 12973154411,
+      "name": "jfmurciego~DiputadodeDistrito~Y04W1K.dockerbuild",
+      "bytes": 30265,
+      "digest": "sha256:244e2948a6339fc90a6fc76b6d283df9f0711a754926a9a59e9c21cfeab11ce0",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12973004845,
+      "name": "jfmurciego~DiputadodeDistrito~XEC93O.dockerbuild",
+      "bytes": 30720,
+      "digest": "sha256:c84fd7a3e033e75e898310add8321a2646fc7220a0b14c78f2e2e0fc1f01736a",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12969820529,
+      "name": "ddd-internal-units-41037133327",
+      "bytes": 438,
+      "digest": "sha256:1da2983aee3a4d6a2bc75d0c658046f21e9a3e4853ce5b88f2ba126a2abe5295",
+      "expires_at": "2026-11-13T10:09:47Z",
+      "expired": false
+    },
+    {
+      "id": 12969645524,
+      "name": "jfmurciego~DiputadodeDistrito~QJ9G5K.dockerbuild",
+      "bytes": 31490,
+      "digest": "sha256:b1ee6f60d733fb8315f7a4ec90e79bb52c475d88e24eafa77fa96aebea649f1c",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12969275326,
+      "name": "ddd-official-inputs-41037133327",
+      "bytes": 689358,
+      "digest": "sha256:b42008cabfed7326ae20225b07d438f1b3e16b32df424b2202fd20f59bb5178c",
+      "expires_at": "2026-11-13T10:02:09Z",
+      "expired": false
+    },
+    {
+      "id": 12969245993,
+      "name": "ddd-state-41037133327-M01",
+      "bytes": 76149368,
+      "digest": "sha256:e5a3fd483f595a9508ca6cc2e660fff4ee8ff41ec7cc387b5a119f54d56a3c6c",
+      "expires_at": "2026-11-13T10:04:58Z",
+      "expired": false
+    },
+    {
+      "id": 12969212032,
+      "name": "jfmurciego~DiputadodeDistrito~I49NLQ.dockerbuild",
+      "bytes": 32358,
+      "digest": "sha256:b336ace357aa2f5b84dd7daf4fb5b32b1383ddf5bfe9915f7ea07c1d1d9347e6",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12969211157,
+      "name": "ddd-state-41037133327-M02",
+      "bytes": 76155752,
+      "digest": "sha256:ddee6670442441a24e27b1fd6ce6b405b6175ebbaf890f26aaf214f6322b7562",
+      "expires_at": "2026-11-13T10:06:23Z",
+      "expired": false
+    },
+    {
+      "id": 12969166871,
+      "name": "jfmurciego~DiputadodeDistrito~UANIW2.dockerbuild",
+      "bytes": 32359,
+      "digest": "sha256:19905158bf7a038986d55e11bbcd4d291e5909577a9d19aaa478b6381579f486",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12969165557,
+      "name": "ddd-fuentes-41037133327",
+      "bytes": 87601,
+      "digest": "sha256:99c0faa37a43764278b2b955b369032c5da533f9e00bd70a8a7a5c9dd841dc7e",
+      "expires_at": "2026-11-13T10:02:07Z",
+      "expired": false
+    },
+    {
+      "id": 12969161824,
+      "name": "ddd-state-41037133327-M03U",
+      "bytes": 76167257,
+      "digest": "sha256:50402f257681855c1268670d018c06ba98117320952be0895d557acee34cc638",
+      "expires_at": "2026-11-13T10:09:43Z",
+      "expired": false
+    },
+    {
+      "id": 12969086686,
+      "name": "jfmurciego~DiputadodeDistrito~9HL3PE.dockerbuild",
+      "bytes": 31314,
+      "digest": "sha256:6b71b680d2d0af2fcef0fb089a10265d2a7ab0fe7dba4d9516066fd0aa9f4474",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12969052530,
+      "name": "ddd-state-41037133327-M04",
+      "bytes": 76682025,
+      "digest": "sha256:86601daa89d8fd3d82ed02644b0f18675ba761bc5553c498d5279b2c01d00a5e",
+      "expires_at": "2026-11-13T10:11:32Z",
+      "expired": false
+    },
+    {
+      "id": 12968965260,
+      "name": "ddd-puerta-territorial_source-41037133327",
+      "bytes": 395,
+      "digest": "sha256:bb0081f02323bf29cd47c0819d23948313faa6548bb716e280b308ecc4cfd28e",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12968652925,
+      "name": "jfmurciego~DiputadodeDistrito~HE7X5T.dockerbuild",
+      "bytes": 34896,
+      "digest": "sha256:d6a009467536346c87335ecedfc96a006e93ef0a0a755e7285804b6d40d4cccc",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12968573353,
+      "name": "ddd-source-package-41037133327",
+      "bytes": 75644703,
+      "digest": "sha256:9f5a36dd4399f89bd3a1416e40fcf8419fc4a3cda6d89423fa54eb8ab50819aa",
+      "expires_at": "2026-11-13T10:02:11Z",
+      "expired": false
+    },
+    {
+      "id": 12968413452,
+      "name": "ddd-decision-41037133327",
+      "bytes": 599,
+      "digest": "sha256:7a7a1f78e572b6830b464d666177fa9275a95d80499c436c2bd7a8d3be75cab0",
+      "expires_at": "2026-11-13T09:59:19Z",
+      "expired": false
+    },
+    {
+      "id": 12968413163,
+      "name": "ddd-full-run-plan-41037133327",
+      "bytes": 3091,
+      "digest": "sha256:eb2afbae282476e1e2cf18a89d3fbfc18510baf652fbeef238b7a738be9f1b58",
+      "expires_at": "2026-11-29T09:57:32Z",
+      "expired": false
+    },
+    {
+      "id": 12968394481,
+      "name": "jfmurciego~DiputadodeDistrito~DPRGYN.dockerbuild",
+      "bytes": 33986,
+      "digest": "sha256:e942693ea65c9caf5be5516bdaa4e4d3a2d936e18dea2e75db936a1aee466e11",
+      "expires_at": "2027-01-28T09:57:04Z",
+      "expired": false
+    },
+    {
+      "id": 12968374980,
+      "name": "ddd-state-41037133327-M03",
+      "bytes": 76167257,
+      "digest": "sha256:680cfadedd825a530a63818b5dd13dd9232a67f3206b6aa79c4b089faf9e76bd",
+      "expires_at": "2026-11-13T10:07:59Z",
+      "expired": false
+    },
+    {
+      "id": 12968129203,
+      "name": "ddd-checkpoint-selection-41037133327",
+      "bytes": 622,
+      "digest": "sha256:96425fa509045c37bcd4825ca12227e2130f2d6679a495f575582bbfc28daa1e",
+      "expires_at": "2026-11-13T09:59:02Z",
+      "expired": false
+    }
+  ],
+  "releases": [
+    {
+      "tag": "ensemble-congreso-sevilla-9987893f2689",
+      "draft": true,
+      "assets": [
+        {
+          "id": 703713219,
+          "name": "ensemble-congreso-sevilla-9987893f2689.zip",
+          "bytes": 25663459,
+          "digest": "sha256:412f2090198125d330c3fbf548740c6c316b159173a78dea0550b1a5e0cb8adc"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-congreso-salamanca-2b68dd0a396a",
+      "draft": true,
+      "assets": [
+        {
+          "id": 705100902,
+          "name": "ensemble-congreso-salamanca-2b68dd0a396a.zip",
+          "bytes": 11897486,
+          "digest": "sha256:a707ede7eb4ecf5318a0fbbb90728f09d60c9dabb6d23f366b3723fa72511295"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-congreso-la-rioja-cccc4a1e8df2",
+      "draft": true,
+      "assets": [
+        {
+          "id": 703715351,
+          "name": "ensemble-congreso-la-rioja-cccc4a1e8df2.zip",
+          "bytes": 12702032,
+          "digest": "sha256:f4f0aa063539ba98c244b2d153f83eb0b4eeae5c4ebf7da71ecf02e35c8460af"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-congreso-salamanca-e3e860796c58",
+      "draft": true,
+      "assets": [
+        {
+          "id": 703107921,
+          "name": "ensemble-congreso-salamanca-e3e860796c58.zip",
+          "bytes": 17889,
+          "digest": "sha256:bcfda137d03787d9fc449cf92273165b3d5bef98ee03bdb86fa180277c388ad2"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-congreso-salamanca-5f963daf8166",
+      "draft": true,
+      "assets": [
+        {
+          "id": 702726462,
+          "name": "ensemble-congreso-salamanca-5f963daf8166.zip",
+          "bytes": 11912,
+          "digest": "sha256:fd7a6f23b0d3208ad7fb857967dab76d2b4562acbb4ef6373e01a9dab5c5a4c7"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-congreso-salamanca-3e9bdcd2c6fe",
+      "draft": true,
+      "assets": [
+        {
+          "id": 703557834,
+          "name": "ensemble-congreso-salamanca-3e9bdcd2c6fe.zip",
+          "bytes": 21303922,
+          "digest": "sha256:d2476b20ebabc1870706a2e9ca071580da0a3e220428ac77121aa687fad39d93"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-congreso-salamanca-252287ff49fc",
+      "draft": true,
+      "assets": [
+        {
+          "id": 702950594,
+          "name": "ensemble-congreso-salamanca-252287ff49fc.zip",
+          "bytes": 11911,
+          "digest": "sha256:5269d806b327e5d83f8c4aeb1abec92babdbe8cc96a4bbc05e4314690dba7ad1"
+        }
+      ]
+    },
+    {
+      "tag": "almacen-m06-principado_de_asturias-40241852045",
+      "draft": true,
+      "assets": [
+        {
+          "id": 684839163,
+          "name": "ddd-audit-40241852045-12617349362.zip",
+          "bytes": 8270,
+          "digest": "sha256:f589c4781fd37135a11c3996eeb1b1dd51dff7b5be8a6868665987717722d0de"
+        },
+        {
+          "id": 684840159,
+          "name": "ddd-checkpoint-selection-40241852045-12616094237.zip",
+          "bytes": 1426,
+          "digest": "sha256:d724e50097eeafc239372b56729fa6a80f39a1227f1ab4f8ae39c8358002d1f1"
+        },
+        {
+          "id": 684840066,
+          "name": "ddd-decision-40241852045-12617190893.zip",
+          "bytes": 608,
+          "digest": "sha256:7fbc3db0bb2d90d557fc7962cdb787c371e4803a4fc04b31913030dc2183ca9d"
+        },
+        {
+          "id": 684840309,
+          "name": "ddd-source-package-principado_de_asturias-2025-40132061626-12574909730.zip",
+          "bytes": 1663660,
+          "digest": "sha256:9dbaff46b33d2695c04fb520d840252dd9f15f4aa7036b15619e81f90f1d38c5"
+        },
+        {
+          "id": 684839612,
+          "name": "ddd-state-40241852045-M05-12617243623.zip",
+          "bytes": 67145210,
+          "digest": "sha256:8d81f282118c0517642998e84ec21663f6c9684933c4c02a843d7499b791271c"
+        },
+        {
+          "id": 684838769,
+          "name": "ddd-state-40241852045-M06-12617573407.zip",
+          "bytes": 68915864,
+          "digest": "sha256:9e8a8aa21962dea749fd4db1b0c357216a4ac901dab8351cc6be294e74676cdd"
+        },
+        {
+          "id": 684840392,
+          "name": "MANIFIESTO-principado_de_asturias-40241852045.tsv",
+          "bytes": 1150,
+          "digest": "sha256:6a25c0ad87b3dd4ea3ec646c3edb61a81ed49d6d7f6727d7b000b68181ffd40e"
+        }
+      ]
+    },
+    {
+      "tag": "almacen-m06-galicia-40604535110",
+      "draft": true,
+      "assets": [
+        {
+          "id": 684823880,
+          "name": "ddd-audit-40604535110-12781135188.zip",
+          "bytes": 16806,
+          "digest": "sha256:082c66714b18d334cf50b88bfb6bb687c18e46ee8892b24e308de1c197a7302b"
+        },
+        {
+          "id": 684824547,
+          "name": "ddd-checkpoint-selection-40604535110-12780192293.zip",
+          "bytes": 621,
+          "digest": "sha256:7072f163e81d6dd351f098a0a8987c6d521c16ac4566616363463a07c8fdebff"
+        },
+        {
+          "id": 684824436,
+          "name": "ddd-decision-40604535110-12780207255.zip",
+          "bytes": 597,
+          "digest": "sha256:3c4c70eddfbebc6bdc2faf8533fd406d7d8ac125ec18cffb652452e00b24a2d6"
+        },
+        {
+          "id": 684823977,
+          "name": "ddd-source-package-40604535110-12780776079.zip",
+          "bytes": 3745544,
+          "digest": "sha256:0d4d673cadfb16c2fedb040a54540c6a6187efeb6107abea7c54b5f935c18506"
+        },
+        {
+          "id": 684824971,
+          "name": "ddd-source-package-galicia-2025-40132266803-12575467528.zip",
+          "bytes": 3745544,
+          "digest": "sha256:45b33afd498bdbff34b7397c60b799edc9aa7c9b9fc60364444fd43e15ddd4ee"
+        },
+        {
+          "id": 684824785,
+          "name": "ddd-state-40604535110-M05-12779574698.zip",
+          "bytes": 12329133,
+          "digest": "sha256:de5d7cf6f8fb12296619b52fd6ba2f55f424da7054c8bf650569dad7032f85cb"
+        },
+        {
+          "id": 684824247,
+          "name": "ddd-state-40604535110-M06-12780638870.zip",
+          "bytes": 16333221,
+          "digest": "sha256:b734e29e58f7a2f4af3161058971508c356f783832d5212535d9ab7bd5b0fe4d"
+        },
+        {
+          "id": 684825055,
+          "name": "MANIFIESTO-galicia-40604535110.tsv",
+          "bytes": 1301,
+          "digest": "sha256:78985acadb4d23b36ea0d460e9ebabe08bfa5e8c6d4984678dbb3e41f7cf0e92"
+        }
+      ]
+    },
+    {
+      "tag": "almacen-m06-extremadura-40656175842",
+      "draft": true,
+      "assets": [
+        {
+          "id": 684834511,
+          "name": "ddd-audit-40656175842-12806053005.zip",
+          "bytes": 11562,
+          "digest": "sha256:21fe9624f69c3730ee1980ac8179ed24e0551e15372c879936077f874a6b38fc"
+        },
+        {
+          "id": 684835648,
+          "name": "ddd-checkpoint-selection-40656175842-12804927799.zip",
+          "bytes": 624,
+          "digest": "sha256:b6a846a1ac72163ef57b127e9bc158dac6949d7f472d23c5a805ac6aeba6b37e"
+        },
+        {
+          "id": 684838002,
+          "name": "ddd-decision-40656175842-12803817264.zip",
+          "bytes": 601,
+          "digest": "sha256:821efd44427131aef6105cfa517ba8359c56ada51e787974db7b6ee91e312633"
+        },
+        {
+          "id": 684835788,
+          "name": "ddd-decision-40656175842-12804867700.zip",
+          "bytes": 602,
+          "digest": "sha256:59a5428feba91e334f7301e3b2a81fcf40e8a6ea355c00f800bdceb9413575e1"
+        },
+        {
+          "id": 684836506,
+          "name": "ddd-source-package-40656175842-12804406947.zip",
+          "bytes": 81051481,
+          "digest": "sha256:dbc818f93185bd5c4b538f77f8b7e566cd3850664e281b970f9a7a88983e4981"
+        },
+        {
+          "id": 684835084,
+          "name": "ddd-source-package-40656175842-12805191412.zip",
+          "bytes": 81051481,
+          "digest": "sha256:736d72a4f9a9ff7380e8cafc41f91f8d84dad59e84df8e2ac472528594fa42bf"
+        },
+        {
+          "id": 684837406,
+          "name": "ddd-source-package-extremadura-2025-40656175842-12804355650.zip",
+          "bytes": 81051481,
+          "digest": "sha256:e0da49a004c130e76b67e1c2251956a6d7b77d6b5e2912b09459829e9a7e28ec"
+        },
+        {
+          "id": 684834022,
+          "name": "ddd-state-40656175842-M05-12806057223.zip",
+          "bytes": 89568719,
+          "digest": "sha256:db874770b8dab75fd6fb5c7d8f081826349aa486e459d9e57100b228e9cf61af"
+        },
+        {
+          "id": 684832910,
+          "name": "ddd-state-40656175842-M06-12806705160.zip",
+          "bytes": 92684030,
+          "digest": "sha256:ab3dcff900e876241dc25dbfa1ae24c83acfe9ac89d3f59a2c8c67cec5eb7faa"
+        },
+        {
+          "id": 684838079,
+          "name": "MANIFIESTO-extremadura-40656175842.tsv",
+          "bytes": 1658,
+          "digest": "sha256:c7064e62524a97cfdc9e20ccf6f807fab77235001042a9eaf425ce6d071ff185"
+        }
+      ]
+    },
+    {
+      "tag": "almacen-m06-castilla_la_mancha-40604483629",
+      "draft": true,
+      "assets": [
+        {
+          "id": 684821867,
+          "name": "ddd-audit-40604483629-12779974842.zip",
+          "bytes": 7959,
+          "digest": "sha256:66050568c28cfecae9a14e897a27eec83a8b75e9a698b1c296f7f53a7f27355f"
+        },
+        {
+          "id": 684821742,
+          "name": "ddd-checkpoint-selection-40604483629-12780456956.zip",
+          "bytes": 630,
+          "digest": "sha256:bed5b81c8810aadc59ee1a7d69d6deea5ea6b53f6ecce0865176026301aeb487"
+        },
+        {
+          "id": 684822859,
+          "name": "ddd-decision-40604483629-12779592950.zip",
+          "bytes": 606,
+          "digest": "sha256:061148d8d521447bb8610f62f12573af2f34df7ae72c8167cfe779bcd04d136a"
+        },
+        {
+          "id": 684823103,
+          "name": "ddd-source-package-40604483629-12779473707.zip",
+          "bytes": 12413530,
+          "digest": "sha256:9937688aab351573fb0c63117975d62df8db31d660d2202c52ce6a5e75dadf16"
+        },
+        {
+          "id": 684823406,
+          "name": "ddd-source-package-castilla_la_mancha-2025-40241650464-12616699615.zip",
+          "bytes": 12413530,
+          "digest": "sha256:a8e5085e5050aafbe7ce02564f0337c7fccfb0a57d4e13dd46526959a4a5d5a1"
+        },
+        {
+          "id": 684822571,
+          "name": "ddd-state-40604483629-M05-12779614381.zip",
+          "bytes": 23777110,
+          "digest": "sha256:0c43452d4f616cefe52380c2e7d20f38db34f7ddb072bddc71d287d2cae5b2fc"
+        },
+        {
+          "id": 684822186,
+          "name": "ddd-state-40604483629-M06-12779754938.zip",
+          "bytes": 28580512,
+          "digest": "sha256:ea98d1cef0153f1f5201756a8dca0e8943637e843b37702d64ca6f851b7a8a8d"
+        },
+        {
+          "id": 684823536,
+          "name": "MANIFIESTO-castilla_la_mancha-40604483629.tsv",
+          "bytes": 1324,
+          "digest": "sha256:e205716180a9a2749303ae58d83f6c67ab032dba75f92927e7a694624ac74cdc"
+        }
+      ]
+    },
+    {
+      "tag": "almacen-m06-cantabria-40604431189",
+      "draft": true,
+      "assets": [
+        {
+          "id": 684820796,
+          "name": "ddd-audit-40604431189-12780179742.zip",
+          "bytes": 7259,
+          "digest": "sha256:9335d9d08f8e28d8c7647e8530203adf08987f78fdb152eda1d2c2131d96c7f5"
+        },
+        {
+          "id": 684821149,
+          "name": "ddd-checkpoint-selection-40604431189-12779543087.zip",
+          "bytes": 622,
+          "digest": "sha256:909f01ac005e1f44effc1d3adc896b57f4fcf45c038b5d9f84a3efafd29b6e42"
+        },
+        {
+          "id": 684820340,
+          "name": "ddd-decision-40604431189-12780855436.zip",
+          "bytes": 596,
+          "digest": "sha256:5c52556cd37593c6e7c49cafcdd0faeb159993bd3f1f52b491b718d729a4e8b3"
+        },
+        {
+          "id": 684820635,
+          "name": "ddd-source-package-40604431189-12780227850.zip",
+          "bytes": 699409,
+          "digest": "sha256:cc0569c83f84e585356fec9d92a15353a3935ab3a29b78ff07c5fb2b1911ca96"
+        },
+        {
+          "id": 684821347,
+          "name": "ddd-source-package-cantabria-2025-40241638106-12617190596.zip",
+          "bytes": 699409,
+          "digest": "sha256:b496db543f7baedf4d6d56fdb1f11aa00ea0b6c55ae3768fa22db295ebe56ed9"
+        },
+        {
+          "id": 684820483,
+          "name": "ddd-state-40604431189-M05-12780807331.zip",
+          "bytes": 2253115,
+          "digest": "sha256:db6c025208200b6e82095921a23d92ab19088c2f9a6a668bf8ed06d88758a064"
+        },
+        {
+          "id": 684820990,
+          "name": "ddd-state-40604431189-M06-12779789644.zip",
+          "bytes": 3053642,
+          "digest": "sha256:232a101d11467d89c3be9e3a359c64f1e78305e57b4def7cfcd0de82b60891fa"
+        },
+        {
+          "id": 684821455,
+          "name": "MANIFIESTO-cantabria-40604431189.tsv",
+          "bytes": 1300,
+          "digest": "sha256:52b132ee9263566451d8f399027bf80f8b0fff46e1e9d4364dedb0f65f63b4cd"
+        }
+      ]
+    },
+    {
+      "tag": "almacen-m06-aragon-40656036271",
+      "draft": true,
+      "assets": [
+        {
+          "id": 684827997,
+          "name": "ddd-audit-40656036271-12805307655.zip",
+          "bytes": 11283,
+          "digest": "sha256:ef8eeafa3882693bdc80116289a81d255c2221056d17e32eb248fe4b718b7109"
+        },
+        {
+          "id": 684828143,
+          "name": "ddd-checkpoint-selection-40656036271-12804266342.zip",
+          "bytes": 620,
+          "digest": "sha256:a92a8445a6c368c7785cc3cb2037097c2a6e31fe464f27b2f1d7809633bda6cd"
+        },
+        {
+          "id": 684829510,
+          "name": "ddd-decision-40656036271-12803283822.zip",
+          "bytes": 591,
+          "digest": "sha256:ca0e1d0b9434014532e984199ee49f334427604a658b43b29eb5a79abaa3a4ec"
+        },
+        {
+          "id": 684829388,
+          "name": "ddd-decision-40656036271-12803329971.zip",
+          "bytes": 590,
+          "digest": "sha256:2dfa8196b570e0c1bc6bf82ba711c2b83c3f99856f37403e05242bdee939af0b"
+        },
+        {
+          "id": 684830329,
+          "name": "ddd-source-package-40656036271-12803214033.zip",
+          "bytes": 82129868,
+          "digest": "sha256:03b32288be08290c304bf5713f1917c964c3137a5a742c9acbe2f828945e4ee0"
+        },
+        {
+          "id": 684828832,
+          "name": "ddd-source-package-40656036271-12804047505.zip",
+          "bytes": 82129868,
+          "digest": "sha256:d5759c21868a7e7f1ab8af4860ab82c284a7d945fbe8db2610aa186bb44e10c7"
+        },
+        {
+          "id": 684831582,
+          "name": "ddd-source-package-aragon-2025-40656036271-12802833707.zip",
+          "bytes": 82129868,
+          "digest": "sha256:5ae11fd043912cbbb5de15fe42c0616d81dc9d31fafc37ff616b2833ee4f24e7"
+        },
+        {
+          "id": 684827390,
+          "name": "ddd-state-40656036271-M05-12805520539.zip",
+          "bytes": 89416116,
+          "digest": "sha256:01725a1a756aa63261ee4df37523ad2a36df00ab899f50ef5959cadc29eb6b1b"
+        },
+        {
+          "id": 684825974,
+          "name": "ddd-state-40656036271-M06-12805600704.zip",
+          "bytes": 92772782,
+          "digest": "sha256:77ec092206d9ca47db9814d64310cd8d728075851179584933a42ca94953d34b"
+        },
+        {
+          "id": 684832082,
+          "name": "MANIFIESTO-aragon-40656036271.tsv",
+          "bytes": 1648,
+          "digest": "sha256:d90b0d36d92e9f91d21ff79bed303f5562b7f950a7874808530c481b4cd3949e"
+        }
+      ]
+    },
+    {
+      "tag": "viewer-principado_de_asturias-35728626894-m06-769a361b76cc",
+      "draft": true,
+      "assets": []
+    },
+    {
+      "tag": "viewer-extremadura-35859241320-m06-fcbd89e46ef4",
+      "draft": true,
+      "assets": []
+    },
+    {
+      "tag": "ensemble-aragon-ec14a99a580b",
+      "draft": true,
+      "assets": [
+        {
+          "id": 567427315,
+          "name": "ensemble-aragon-ec14a99a580b.zip",
+          "bytes": 392641952,
+          "digest": "sha256:76172cfd2162e3e3013e6a377462fc49b8d540990151d76d47ca8708ef4ca1fc"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-aragon-e0cbf1b9461d",
+      "draft": true,
+      "assets": [
+        {
+          "id": 566444616,
+          "name": "ensemble-aragon-e0cbf1b9461d.zip",
+          "bytes": 78547838,
+          "digest": "sha256:e2d0d16e518687b2c3c095c96475b62f30e5350dc89cc942ec91d4879c686a98"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-aragon-d39ea357d840",
+      "draft": true,
+      "assets": [
+        {
+          "id": 566748004,
+          "name": "ensemble-aragon-d39ea357d840.zip",
+          "bytes": 392655752,
+          "digest": "sha256:159874b5f07fc330deb3dba63c3d66dc2fc70c902aecf6a910f0860f71f302af"
+        }
+      ]
+    },
+    {
+      "tag": "ensemble-aragon-17150ee5df09",
+      "draft": true,
+      "assets": [
+        {
+          "id": 566716747,
+          "name": "ensemble-aragon-17150ee5df09.zip",
+          "bytes": 78552397,
+          "digest": "sha256:f2f3844cd0180b1f173ca1d7ffdf1cf5590ac821016aecfefddff35f7cbe1df3"
+        }
+      ]
+    },
+    {
+      "tag": "fuente-infoelectoral-02202307",
+      "draft": false,
+      "assets": [
+        {
+          "id": 695114492,
+          "name": "02202307_MESA.zip",
+          "bytes": 4578794,
+          "digest": "sha256:e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8"
+        }
+      ]
+    },
+    {
+      "tag": "cyl-m06-checkpoint-temp",
+      "draft": false,
+      "assets": [
+        {
+          "id": 572034918,
+          "name": "ddd-state-35199668216-M06-with-sources.zip.part01",
+          "bytes": 47185920,
+          "digest": "sha256:8bc8c94e111d647d36cfad6c11eb5324178bd4c15131fb0b9a7c4827ce739ad2"
+        },
+        {
+          "id": 572035070,
+          "name": "ddd-state-35199668216-M06-with-sources.zip.part02",
+          "bytes": 47185920,
+          "digest": "sha256:72a2b267f3b54a0e3881a40e98740764e3d6880369cf5983240b069a2b0076f0"
+        },
+        {
+          "id": 572035215,
+          "name": "ddd-state-35199668216-M06-with-sources.zip.part03",
+          "bytes": 47185920,
+          "digest": "sha256:d14ba6f4d86cd2d7111ae01a80b1c5f56e1169deefef5bd7b4742cc19fc17479"
+        },
+        {
+          "id": 572035489,
+          "name": "ddd-state-35199668216-M06-with-sources.zip.part04",
+          "bytes": 28956972,
+          "digest": "sha256:2f0853fb884a60649ac00e7ed6ac969e767c1480eb6f451c26c0d527e3e75502"
+        },
+        {
+          "id": 571098781,
+          "name": "MANIFEST.parts.json",
+          "bytes": 1464,
+          "digest": "sha256:d8eb79905c678a07e2aef7f9e6b66b6f1ddccfb1f4c5f42ea663ee3e87fd613b"
+        },
+        {
+          "id": 571098761,
+          "name": "reassemble.ps1",
+          "bytes": 359,
+          "digest": "sha256:4c11db8b874030eea467a66ff2fa397835695c7adfe568bf4dd0e8ffb8847832"
+        },
+        {
+          "id": 571098716,
+          "name": "reassemble.sh",
+          "bytes": 189,
+          "digest": "sha256:0c61929bfd15555fc18960472b65ec69be71f3a1a17df2e5e30243c84b07f5ab"
+        }
+      ]
+    }
+  ]
+}
