@@ -47,10 +47,10 @@
   }
  },
  "resumen": {
-  "territorios": 66,
-  "productos": 288,
+  "territorios": 67,
+  "productos": 291,
   "errores": 0,
-  "avisos": 117
+  "avisos": 106
  },
  "territorios": {
   "aragon": {
@@ -4704,6 +4704,74 @@
     }
    ]
   },
+  "illes_balears": {
+   "fuente_territorial": {
+    "run_id": "40946850006",
+    "package_sha256": "02ad2c8ef9f4716f907f8aa9cc9690a9bc721c26c29a4c7fd9fc662bd33de046",
+    "artifact_sha256": "3f73fd53f8a6bc06f0b559e237959bf6f078589d7510f48eaee2d1fc347e1a03",
+    "territorial_identity_sha256": "4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f",
+    "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/4092523f2803d2d4b33f6deb8d858a30c81aeef8dfd0699bcd9e39f6195fa52f/40946850006/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/illes_balears/evidencia/fuentes_electorales/2025/b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437/40955056606/receipt.json",
+    "identity_sha256": "b66076b1a479a6ef255f0460de34adf8274e0b307bd9e18c350ef85d24292437"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-illes_balears-41033500476",
+     "run_id": "41033500476",
+     "vigente": true,
+     "sha256": "756dcb5076f6ea0b6a902b6163d3cc267d48ae57caea907f82a5b62d5535b633",
+     "copia_git": {
+      "blob_sha": "45656210387ab6ffdcf62d7e10c11c060b6d8298",
+      "ruta": null
+     },
+     "copias_r2": [
+      {
+       "url": "r2://ddd-research-archive/illes_balears/41033500476/ddd-state-41033500476-M06.zip",
+       "sha256": "93bde6278f409dda6b4b25350979150263086991771d8fe9c0f63cbf4f6ec5c4"
+      }
+     ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-illes_balears-41033500476",
+     "run_id": "41033500476",
+     "vigente": true,
+     "sha256": "2c12e458d542a818f4cbdbc5bea4dd78cabee1fd2ee9e6f1f88e0edce157ec70",
+     "copia_git": {
+      "blob_sha": "2a401f219d9abc8971682bf4449778a6cf71b36d",
+      "ruta": null
+     },
+     "copias_r2": [
+      {
+       "url": "r2://ddd-research-archive/illes_balears/41033500476/ddd-state-41033500476-M08.zip",
+       "sha256": "6754eb3b983d0bbb81157f2517df6bdf7d795fb166715ff3e1ad1c2855855fc3"
+      }
+     ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-illes_balears",
+     "run_id": "41033500476",
+     "vigente": true,
+     "sha256": "bb7ab2499967a9d1fa33362bd8e55bfed47fa21beb945f7b7124f89dfd09583d",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/illes_balears.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "2c12e458d542a818f4cbdbc5bea4dd78cabee1fd2ee9e6f1f88e0edce157ec70"
+    }
+   ]
+  },
   "la_rioja": {
    "fuente_territorial": {
     "run_id": "40850322464",
@@ -5283,83 +5351,6 @@
   }
  },
  "incoherencias": [
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-audit-41033500476.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-audit-electoral-41033500476.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M01.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M02.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M03.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M03U.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M04.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M05.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M07.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "illes_balears",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "illes_balears/41033500476/ddd-state-41033500476-M08.zip"
-  },
   {
    "nivel": "AVISO",
    "territorio": "nazioenbehatokia",
