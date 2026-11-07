@@ -21,6 +21,7 @@ permissions:
 concurrency:
   group: ddd-resultados-ligeros
   cancel-in-progress: false
+  queue: max
 jobs:
   generar:
     runs-on: ubuntu-24.04
