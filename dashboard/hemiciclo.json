@@ -21,14 +21,14 @@
   }
  ],
  "fuentes": {
-  "a": "escrutinio Interior sin CERA final (release fuente-infoelectoral-02202307)",
+  "a": "D'Hondt sobre el escrutinio de Interior (release fuente-infoelectoral-02202307), contrastado con el oficial BOE-A-2023-18907",
   "b": "sin fuente",
   "c": "uninominal propio: ganador de cada distrito DDD (M08 registrado)"
  },
  "totales": {
   "a": {
-   "PP": 121,
-   "PSOE": 102,
+   "PP": 122,
+   "PSOE": 101,
    "VOX": 27,
    "SUMAR": 24,
    "EH Bildu": 6,
@@ -66,8 +66,8 @@
    },
    "b": null,
    "c": {
-    "PSOE": 2,
-    "EH Bildu": 1
+    "EH Bildu": 1,
+    "PSOE": 2
    }
   },
   {
@@ -121,9 +121,9 @@
    "provincia": "Badajoz",
    "distritos": 6,
    "run_m08": "41299475924",
-   "escanos_2023": 6,
+   "escanos_2023": 5,
    "a": {
-    "PSOE": 3,
+    "PSOE": 2,
     "PP": 2,
     "VOX": 1
    },
@@ -511,8 +511,8 @@
    },
    "b": null,
    "c": {
-    "EH Bildu": 1,
-    "PSOE": 5
+    "PSOE": 5,
+    "EH Bildu": 1
    }
   },
   {
@@ -748,10 +748,10 @@
    "provincia": "Valencia",
    "distritos": 23,
    "run_m08": "41335936727",
-   "escanos_2023": 15,
+   "escanos_2023": 16,
    "a": {
     "PSOE": 5,
-    "PP": 5,
+    "PP": 6,
     "VOX": 2,
     "SUMAR": 3
    },
@@ -858,8 +858,17 @@
   }
  ],
  "errores": [],
- "notas": [
-  "difiere en 1 escaño PSOE→PP del total proclamado; provincia por confirmar con la tabla oficial (el ZIP no trae el CERA final)"
- ],
- "verificacion_a": "OK con nota: difiere en 1 escaño PSOE→PP del total proclamado; provincia por confirmar con la tabla oficial (el ZIP no trae el CERA final)"
+ "notas": [],
+ "contraste_oficial": {
+  "fuente": {
+   "fuente": "Resolución de 30-08-2023 de la Presidencia de la Junta Electoral Central: resumen de resultados de las elecciones al Congreso y al Senado del 23-07-2023",
+   "boe": "BOE-A-2023-18907",
+   "url": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2023-18907",
+   "fecha_publicacion": "2023-09-01",
+   "sha256_xml": "15950447a4cfe1b07ed44ead8514ed83ed87d859b2dcd7c03a47fd6a00f40323",
+   "sha256_csv": "c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+  },
+  "diferencias": []
+ },
+ "verificacion_a": "OK: 52 circunscripciones, 350 escaños y totales oficiales"
 }
