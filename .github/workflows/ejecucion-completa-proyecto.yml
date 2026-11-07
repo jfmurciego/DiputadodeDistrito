@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.5.0
-# NOMBRE DE VERSIÓN: Encadenado también lanzado por elección
+# VERSIÓN: 1.6.0
+# NOMBRE DE VERSIÓN: Cadena electoral en GitHub (sin el Mac)
 # ESTADO: candidato
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
 # conserva un manifiesto único y permite publicar el producto territorial certificado aunque no exista producto electoral.
@@ -19,7 +19,14 @@
 # CAMBIOS 1.4.9: T-12, «Encadenar par de fuentes y 04» exige la puerta 02 en success: si la 02 no registró el
 #   producto M06 (Congreso Álava 41335088773) no se activa el par ni se relanza el 00.
 # CAMBIOS 1.5.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan.
-# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.4.9_20261107.yml
+# CAMBIOS 1.6.0: T-52, cadenas sin el Mac. Entradas cadena_electoral (por defecto false) y cadena_origen_run_id: una 00
+#   territorial_only con cadena_electoral encadena «Activación de Legislatura» prepare_one y la 00 electoral
+#   «Reutilizar» como en la fase B de lanzadores-mac. El eslabón electoral va siempre con publish_result=false
+#   (publicar sigue aparte, con permiso del propietario) y lleva cadena_origen_run_id, que queda en su manifiesto.
+#   Sin duplicados: si el territorio ya tiene una activación o una 00 en cola o en curso, no se relanza
+#   (CHAIN_DUPLICATE_SKIPPED). Estado de cada eslabón en el artefacto ddd-cadena-<run> y en el resumen.
+#   run-name con el territorio y el modo para identificar los runs.
+# ANTERIOR: legacy/workflows/ejecucion-completa-proyecto_v1.5.0_20261107.yml
 # CAMBIOS: 1.4.0: si 01–03 quedan válidas y la 04 se salta por falta de prepared_source_pair, el job
 #   encadenar_par_y_04 activa el par (preparacion-legislatura-vigente prepare_one) y relanza el 00 en
 #   modo reutilizar; una ejecución en modo reutilizar no vuelve a encadenar.
@@ -28,6 +35,7 @@
 # MOTIVO: un único "Ejecutar desde el principio" debe llegar a la 04 sin pasos manuales.
 # FECHA: 2026-10-29
 name: 00 Ejecución Completa del Proyecto
+run-name: "${{ inputs.territory_id && format('00 Ejecución Completa del Proyecto · {0} · {1}', inputs.territory_id, inputs.execution_mode) || '00 Ejecución Completa del Proyecto' }}"
 
 on:
   workflow_call:
@@ -40,6 +48,8 @@ on:
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
       publication_mode: {required: false, type: string, default: electoral}
+      cadena_electoral: {required: false, type: boolean, default: false}
+      cadena_origen_run_id: {required: false, type: string, default: ''}
       artifact_namespace: {required: false, type: string, default: ''}
       campaign_instance: {required: false, type: string, default: ''}
       campaign_slot: {required: false, type: string, default: ''}
@@ -214,6 +224,16 @@ on:
         required: false
         default: false
         type: boolean
+      cadena_electoral:
+        description: Con territorial_only, encadenar Activación de Legislatura y 00 electoral sin publicar
+        required: false
+        default: false
+        type: boolean
+      cadena_origen_run_id:
+        description: Uso interno de la cadena (run de la 00 territorial de origen)
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: write
@@ -1400,6 +1420,8 @@ jobs:
     env:
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
       TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}
+      CHAIN_ELECTORAL_REQUESTED: ${{ inputs.cadena_electoral && 'true' || 'false' }}
+      CHAIN_ORIGIN_RUN_ID: ${{ inputs.cadena_origen_run_id }}
       MODE: ${{ needs.planificar.outputs.execution_mode_internal }}
       OPTIMIZATION_ALGORITHM: ${{ needs.planificar.outputs.optimization_algorithm }}
       PREP_T_RESULT: ${{ needs.preparar_territorial.result }}
@@ -1482,7 +1504,7 @@ jobs:
             test -n "$optimization_evidence" || { echo "::error::La generación completó correctamente pero no dejó evidencia de estrategia efectiva."; exit 51; }
             optimization_evidence_args=(--optimization-evidence "$optimization_evidence")
           fi
-          python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ needs.planificar.outputs.edition }}" --execution-mode "$MODE"             --optimization-algorithm "$OPTIMIZATION_ALGORITHM" "${optimization_evidence_args[@]}" --workflow-run-id "$GITHUB_RUN_ID" --source-sha "${{ needs.planificar.outputs.source_sha }}"             --publication-mode-requested "$PUBLICATION_MODE_REQUESTED" --publication-mode-effective "$PUBLICATION_MODE_EFFECTIVE"             --electoral-classification-result "$ELECTORAL_CLASSIFICATION_RESULT" --electoral-activation-status "$ELECTORAL_ACTIVATION_STATUS" --electoral-completion-status "$ELECTORAL_COMPLETION_STATUS" --electoral-skip-reason "$ELECTORAL_SKIP_REASON"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --territorial-source-digest "${{ needs.puerta_01.outputs.artifact_digest }}"             --territorial-product-digest "${{ needs.puerta_02.outputs.artifact_digest }}"             --electoral-source-digest "${{ needs.puerta_03.outputs.artifact_digest }}"             --electoral-product-digest "${{ needs.puerta_04.outputs.artifact_digest }}"             --territorial-source-validation "${{ needs.puerta_01.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-product-validation "${{ needs.puerta_02.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-source-validation "${{ needs.puerta_03.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-product-validation "${{ needs.puerta_04.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-source-phase-decision "${{ needs.puerta_01.outputs.phase_decision }}"             --territorial-product-phase-decision "${{ needs.puerta_02.outputs.phase_decision }}"             --electoral-source-phase-decision "${{ needs.puerta_03.outputs.phase_decision }}"             --electoral-product-phase-decision "${{ needs.puerta_04.outputs.phase_decision }}"             --electoral-recovery-status "$RECOVERY_STATUS"             --electoral-recovery-result "$RECOVERY_RESULT"             --electoral-recovery-reason "$RECOVERY_REASON"             --electoral-recovery-source-run-id "$RECOVERY_SOURCE_RUN_ID"             --electoral-recovery-artifact "$RECOVERY_ARTIFACT"             --electoral-recovery-digest "$RECOVERY_DIGEST"             --electoral-recovery-source-commit "$RECOVERY_SOURCE_COMMIT"             --electoral-recovery-origin-manifest "$RECOVERY_ORIGIN_MANIFEST"             --electoral-recovery-registration-status "$RECOVERY_REGISTRATION_STATUS"             --electoral-recovery-receipt-accredited "${RECOVERY_RECEIPT_ACCREDITED:-false}"             --electoral-recovery-catalog-accredited "${RECOVERY_CATALOG_ACCREDITED:-false}"             --output .ddd-full-run/manifest.json
+          python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ needs.planificar.outputs.edition }}" --execution-mode "$MODE"             --optimization-algorithm "$OPTIMIZATION_ALGORITHM" "${optimization_evidence_args[@]}" --workflow-run-id "$GITHUB_RUN_ID" --source-sha "${{ needs.planificar.outputs.source_sha }}"             --publication-mode-requested "$PUBLICATION_MODE_REQUESTED" --publication-mode-effective "$PUBLICATION_MODE_EFFECTIVE"             --electoral-classification-result "$ELECTORAL_CLASSIFICATION_RESULT" --electoral-activation-status "$ELECTORAL_ACTIVATION_STATUS" --electoral-completion-status "$ELECTORAL_COMPLETION_STATUS" --electoral-skip-reason "$ELECTORAL_SKIP_REASON"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --territorial-source-digest "${{ needs.puerta_01.outputs.artifact_digest }}"             --territorial-product-digest "${{ needs.puerta_02.outputs.artifact_digest }}"             --electoral-source-digest "${{ needs.puerta_03.outputs.artifact_digest }}"             --electoral-product-digest "${{ needs.puerta_04.outputs.artifact_digest }}"             --territorial-source-validation "${{ needs.puerta_01.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-product-validation "${{ needs.puerta_02.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-source-validation "${{ needs.puerta_03.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-product-validation "${{ needs.puerta_04.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-source-phase-decision "${{ needs.puerta_01.outputs.phase_decision }}"             --territorial-product-phase-decision "${{ needs.puerta_02.outputs.phase_decision }}"             --electoral-source-phase-decision "${{ needs.puerta_03.outputs.phase_decision }}"             --electoral-product-phase-decision "${{ needs.puerta_04.outputs.phase_decision }}"             --electoral-recovery-status "$RECOVERY_STATUS"             --electoral-recovery-result "$RECOVERY_RESULT"             --electoral-recovery-reason "$RECOVERY_REASON"             --electoral-recovery-source-run-id "$RECOVERY_SOURCE_RUN_ID"             --electoral-recovery-artifact "$RECOVERY_ARTIFACT"             --electoral-recovery-digest "$RECOVERY_DIGEST"             --electoral-recovery-source-commit "$RECOVERY_SOURCE_COMMIT"             --electoral-recovery-origin-manifest "$RECOVERY_ORIGIN_MANIFEST"             --electoral-recovery-registration-status "$RECOVERY_REGISTRATION_STATUS"             --electoral-recovery-receipt-accredited "${RECOVERY_RECEIPT_ACCREDITED:-false}"             --electoral-recovery-catalog-accredited "${RECOVERY_CATALOG_ACCREDITED:-false}"             --chain-electoral-requested "$CHAIN_ELECTORAL_REQUESTED" --chain-origin-run-id "${CHAIN_ORIGIN_RUN_ID:-}"             --output .ddd-full-run/manifest.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ddd-full-run-manifest-${{ github.run_id }}${{ needs.planificar.outputs.artifact_suffix }}
@@ -1517,7 +1539,7 @@ jobs:
     # Solo si la puerta 02 pasó: sin producto M06 registrado el par y la 04 no tienen sobre qué trabajar.
     name: Encadenar par de fuentes y 04
     needs: [planificar, puerta_02, clasificar_electoral, manifestar]
-    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && needs.puerta_02.result == 'success' && (github.actor != 'github-actions[bot]' || inputs.lanzado_por_eleccion) && needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' }}
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && needs.manifestar.result == 'success' && needs.puerta_02.result == 'success' && (github.actor != 'github-actions[bot]' || inputs.lanzado_por_eleccion) && (needs.clasificar_electoral.outputs.completion_status == 'SKIPPED_NO_ACCREDITED_PAIR' || (inputs.cadena_electoral && inputs.publication_mode == 'territorial_only')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     permissions:
@@ -1528,32 +1550,71 @@ jobs:
       TERRITORY: ${{ inputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
       ALGORITHM: ${{ inputs.optimization_algorithm }}
-      PUBLISH: ${{ inputs.publish_result }}
+      ORIGEN: ${{ github.run_id }}
     steps:
       - name: Activar par de fuentes y relanzar en modo reutilizar
         shell: bash
         run: |
           set -euo pipefail
           api="repos/$GITHUB_REPOSITORY/actions/workflows"
-          started="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          gh api -X POST "$api/preparacion-legislatura-vigente.yml/dispatches" -f ref=main \
-            -f "inputs[territory]=$TERRITORY" -f "inputs[operation]=prepare_one"
-          activation=""
-          for _ in $(seq 1 30); do
-            sleep 10
-            activation="$(gh api "$api/preparacion-legislatura-vigente.yml/runs?event=workflow_dispatch&created=%3E%3D$started&per_page=20" \
-              | jq -r --arg t "Activación de Legislatura Vigente · $TERRITORY · prepare_one" \
-                '[.workflow_runs[] | select(.display_title == $t)][0].id // empty')"
-            [[ -n "$activation" ]] && break
-          done
-          [[ -n "$activation" ]] || { echo "::error::No se encontró la activación del par lanzada."; exit 70; }
+          mkdir -p .ddd-cadena
+          estado() {  # estado de cada eslabón (artefacto ddd-cadena-<run> y resumen)
+            jq -n --arg t "$TERRITORY" --arg o "$ORIGEN" --arg a "${activation:-}" --arg ac "${conclusion:-}" \
+              --arg ar "${reutilizada:-false}" --arg e "$1" --arg m "$2" \
+              '{schema:"ddd.cadena-electoral/1.0",territorio:$t,origen_run_id:$o,
+                activacion:{run_id:$a,conclusion:$ac,reutilizada:($ar=="true")},
+                electoral:{estado:$e,publish_result:false},mensaje:$m}' > .ddd-cadena/cadena.json
+            { echo "### Cadena electoral · $TERRITORY"; echo; echo '```json'; cat .ddd-cadena/cadena.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          }
+          en_curso() {  # runs en cola o en curso de un workflow cuyo título empieza por $2
+            for s in queued in_progress waiting pending; do
+              gh api "$api/$1/runs?status=$s&per_page=100" | jq -r --arg p "$2" --arg yo "$GITHUB_RUN_ID" \
+                '.workflow_runs[] | select((.display_title|startswith($p)) and ((.id|tostring) != $yo)) | .id'
+            done | head -1
+          }
+          titulo_activacion="Activación de Legislatura Vigente · $TERRITORY · prepare_one"
+          activation="$(en_curso preparacion-legislatura-vigente.yml "$titulo_activacion")"; reutilizada=false
+          if [[ -n "$activation" ]]; then
+            reutilizada=true
+            echo "::notice::CHAIN_DUPLICATE_SKIPPED: ya hay una activación de $TERRITORY en curso ($activation); se espera a esa."
+          else
+            started="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            gh api -X POST "$api/preparacion-legislatura-vigente.yml/dispatches" -f ref=main \
+              -f "inputs[territory]=$TERRITORY" -f "inputs[operation]=prepare_one"
+            for _ in $(seq 1 30); do
+              sleep 10
+              activation="$(gh api "$api/preparacion-legislatura-vigente.yml/runs?event=workflow_dispatch&created=%3E%3D$started&per_page=20" \
+                | jq -r --arg t "$titulo_activacion" \
+                  '[.workflow_runs[] | select(.display_title == $t)][0].id // empty')"
+              [[ -n "$activation" ]] && break
+            done
+          fi
+          [[ -n "$activation" ]] || { estado NO_LANZADA "No se encontró la activación del par."; echo "::error::No se encontró la activación del par lanzada."; exit 70; }
           echo "Activación del par: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$activation"
           while [[ "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$activation" --jq .status)" != completed ]]; do sleep 30; done
           conclusion="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$activation" --jq .conclusion)"
-          [[ "$conclusion" == success ]] || { echo "::error::La activación del par terminó en $conclusion; no se relanza la 04."; exit 71; }
+          if [[ "$conclusion" != success ]]; then
+            estado NO_LANZADA "Activación en $conclusion: paquete electoral caducado o par incompatible; ver CLAUDE.md (TERRITORIAL_READY_PAIR_INCOMPATIBLE)."
+            echo "::error::La activación del par terminó en $conclusion; no se relanza la 04 (paquete electoral caducado o par incompatible)."; exit 71
+          fi
+          duplicada="$(en_curso ejecucion-completa-proyecto.yml "00 Ejecución Completa del Proyecto · $TERRITORY ·")"
+          if [[ -n "$duplicada" ]]; then
+            estado CHAIN_DUPLICATE_SKIPPED "Ya hay una 00 de $TERRITORY en cola o en curso ($duplicada)."
+            echo "::notice::CHAIN_DUPLICATE_SKIPPED: ya hay una 00 de $TERRITORY en cola o en curso ($duplicada); no se relanza."; exit 0
+          fi
+          # El eslabón electoral nunca publica: publicar sigue aparte y con permiso del propietario.
           gh api -X POST "$api/ejecucion-completa-proyecto.yml/dispatches" -f ref=main \
             -f "inputs[territory_id]=$TERRITORY" -f "inputs[data_edition]=$EDITION" \
             -f "inputs[execution_mode]=Reutilizar progreso existente" \
             -f "inputs[optimization_algorithm]=$ALGORITHM" -f "inputs[publication_mode]=electoral" \
-            -F "inputs[publish_result]=$PUBLISH"
-          echo "::notice::Par activado; relanzado el 00 en modo reutilizar para completar la 04 de $TERRITORY."
+            -F "inputs[publish_result]=false" -f "inputs[cadena_origen_run_id]=$ORIGEN"
+          estado LANZADA "Par activado; 00 electoral «Reutilizar» lanzada sin publicar."
+          echo "::notice::Par activado; relanzado el 00 en modo reutilizar para completar la 04 de $TERRITORY (sin publicar)."
+      - name: Conservar estado de la cadena
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ddd-cadena-${{ github.run_id }}
+          path: .ddd-cadena/cadena.json
+          if-no-files-found: ignore
+          retention-days: 90
