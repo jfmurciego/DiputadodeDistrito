@@ -4,6 +4,7 @@
  "entradas": {
   "composicion": "datos/composicion/MANIFEST.json",
   "datos_abiertos": "datos_abiertos/INDEX.json",
+  "fuente_secundaria": "orchestracion/fuente_nazioenbehatokia.json",
   "fuentes_oficiales": "fuentes/catalogo_oficial.yaml",
   "preparacion": "configuracion/catalogo_preparacion.yaml",
   "productos_publicos": "orchestracion/productos_publicos.json",
@@ -22,11 +23,34 @@
    "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items"
   }
  },
+ "fuentes_secundarias": {
+  "nazioenbehatokia": {
+   "proveedor": "Observatorio Electoral de las Naciones",
+   "url": "https://nazioenbehatokia.eus/",
+   "rol": "secundaria",
+   "contenido": "generales 2011-2023 por sección censal",
+   "ficheros": 625,
+   "sha256_ficheros": "094b01ab43d4faa8317066fa43d58fcfa319dd0bd10fd4a8f7cd4d9f1a56f56a",
+   "copia_r2_prefijo": "fuentes/nazioenbehatokia/",
+   "contraste": {
+    "201911": {
+     "comparadas": 256,
+     "errores": 0,
+     "defecto_max": 0.0308
+    },
+    "202307": {
+     "comparadas": 197,
+     "errores": 0,
+     "defecto_max": 0.07368
+    }
+   }
+  }
+ },
  "resumen": {
   "territorios": 66,
   "productos": 288,
   "errores": 0,
-  "avisos": 113
+  "avisos": 117
  },
  "territorios": {
   "aragon": {
@@ -5335,6 +5359,34 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "illes_balears/41033500476/ddd-state-41033500476-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nazioenbehatokia",
+   "producto": "201111",
+   "codigo": "SIN_CONTRASTE_OFICIAL",
+   "detalle": "sin fuente oficial local para contrastar"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nazioenbehatokia",
+   "producto": "201512",
+   "codigo": "SIN_CONTRASTE_OFICIAL",
+   "detalle": "sin fuente oficial local para contrastar"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nazioenbehatokia",
+   "producto": "201606",
+   "codigo": "SIN_CONTRASTE_OFICIAL",
+   "detalle": "sin fuente oficial local para contrastar"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "nazioenbehatokia",
+   "producto": "201904",
+   "codigo": "SIN_CONTRASTE_OFICIAL",
+   "detalle": "sin fuente oficial local para contrastar"
   },
   {
    "nivel": "AVISO",
