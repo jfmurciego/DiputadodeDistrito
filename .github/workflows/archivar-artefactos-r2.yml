@@ -31,6 +31,7 @@ permissions:
 concurrency:
   group: archivar-artefactos-r2
   cancel-in-progress: false
+  queue: max
 
 jobs:
   archivar:
@@ -49,13 +50,6 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: main
-      - name: Validar configuración de R2
-        shell: bash
-        run: |
-          set -euo pipefail
-          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET; do
-            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
-          done
       - name: Credencial de registro
         shell: bash
         env:
@@ -77,6 +71,13 @@ jobs:
           for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - name: Validar configuración de R2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY R2_ACCOUNT_ID R2_BUCKET; do
+            [[ -n "${!name:-}" ]] || { echo "::error::${name} está vacío."; exit 1; }
+          done
       - name: Archivar artefactos
         shell: bash
         run: |
