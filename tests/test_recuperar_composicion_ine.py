@@ -53,3 +53,12 @@ class RecuperarComposicion(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ContrasteObservatorio(unittest.TestCase):
+    def test_contrastar(self):
+        import contrastar_observatorio_2023 as co
+        zv = {"A": {"PP": 5, "PSOE": 3}, "B": {"PP": 2}, "C": {"PP": 1}}
+        ov = co.votos_obs({"s": ["PP", "PSOE"], "r": {"A": [0, 0, 8, [[0, 5], [1, 3]]], "B": [0, 0, 3, [[0, 3]]], "D": [0, 0, 1, [[0, 1]]]}})
+        r = co.contrastar(zv, ov)
+        self.assertEqual(r, [3, 3, 1, 1, 1, 10, 11, "PP"])

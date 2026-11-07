@@ -9,3 +9,5 @@
 **Pruebas.** `tests/test_recuperar_composicion_ine.py` (sintético); `archivo_origen comprobar` en verde.
 
 **Riesgos.** Solo datos y herramienta nueva; sin cambios en motor, contratos ni checkpoints.
+
+**Contraste D-8.** `herramientas/contrastar_observatorio_2023.py` compara por sección y partido el ZIP por mesa con `nazioenbehatokia.eus` (`data/202307/sekzioa/<cpro>.json`) y escribe `datos/resultados/contraste_2023.csv`. Resultado: 52 provincias; mismas secciones y mismos votos en todas salvo Álava, que solo difiere en la sigla (`PCTE` vs `PCTE/ELAK`). Las 19 provincias sin votos por partido no fallan por la fuente electoral sino porque el seccionado INE 2023 del M06 no coincide con las secciones electorales.
