@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.105
+Versión: 1.0.106
 Fecha: 2026-11-07
-Alcance: T-46 — registro sin conflictos: entradas por fichero y numeración automática al fusionar
-Estado: candidato
-Cambios/motivo: última entrada con número manual; desde aquí cada PR deja su entrada en docs/registro/
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.104_t44_20261107.md
+Alcance: T-46 (b) — CLAUDE.md: delegación en el planificador y lecciones de T-42
+Estado: vigente
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-claude-md-delegacion-lecciones.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.105_registro_20261107.md
 -->
+
+## Índice de entradas por fichero (numeración automática)
+
+Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
+
+<!-- indice-registro:inicio -->
+- 1.0.106 · [2026-11-07 — T-46 (b) — CLAUDE.md: delegación en el planificador y lecciones de T-42](registro/2026-11-07_claude-claude-md-delegacion-lecciones.md)
+<!-- indice-registro:fin -->
 
 ## 2026-11-07 — T-46 — Registro sin conflictos: entradas por fichero y numeración al fusionar
 
