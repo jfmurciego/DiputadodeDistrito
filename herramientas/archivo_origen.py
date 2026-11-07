@@ -3,11 +3,13 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Archivo en origen
 FECHA: 2026-11-07
 ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+CAMBIOS: 1.0.1 (T-72b): r2 --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
+  que contiene el M06 publicado.
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.0_20261107.py
 QUÉ HACE: cuatro subcomandos.
   r2          sube a R2 el artefacto ``ddd-state-<run>-M06`` (o M08) del run en curso con sha256 y lo anota en
               orchestracion/archivo_r2.json (núcleo y clientes de herramientas/archivar_artefactos_r2.py, con sus
