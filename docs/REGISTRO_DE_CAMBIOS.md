@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.139
+Versión: 1.0.140
 Fecha: 2026-11-07
-Alcance: T-72 — Archivo en origen de M06/M08
+Alcance: Coordinador — PLAN 1.0.16: ola del 07-11 noche
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t72-archivo-origen.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.138_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_plan-ola-0711-noche.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.139_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.138_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.140 · [2026-11-07 — Coordinador — PLAN 1.0.16: ola del 07-11 noche](registro/2026-11-07_plan-ola-0711-noche.md)
 - 1.0.139 · [2026-11-07 — T-72 — Archivo en origen de M06/M08](registro/2026-11-07_claude-t72-archivo-origen.md)
 - 1.0.138 · [2026-11-07 — T-64 — reaplica #462 (partidos judiciales)](registro/2026-11-07_reaplica-t64-462.md)
 - 1.0.137 · [2026-11-07 — Coordinador — lecciones de la primera ola y tablero](registro/2026-11-07_coordinador-lecciones-ola1.md)
