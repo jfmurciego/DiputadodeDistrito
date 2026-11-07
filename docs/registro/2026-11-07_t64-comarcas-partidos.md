@@ -1,0 +1,3 @@
+## 2026-11-07 — Estudio — T-64 comarcas frente a partidos judiciales
+
+Estudio (sin cambiar C-13): `docs/ESTUDIOS/T64_comarcas_partidos.md` compara los partidos judiciales de #462 (`configuracion/partidos_judiciales.csv`, sha256 `ae00cf82…89a`) con las comarcas agrarias (Anexo I del RD 1076/2014, BOE-A-2014-13257, XML sha256 `e3088680…a24df1`; 7.861 de 8.132 municipios), Cataluña (Idescat) y Aragón. ARI/NMI, mayoría única y desencajes por provincia, con ficheros y huellas en `docs/ESTUDIOS/T64_comarcas_partidos/`. Recomendación: conservar los partidos judiciales. No toca código del motor, workflows ni contratos; no publica. Pendiente: `www.mapa.gob.es` no responde y no se pidieron hosts autonómicos.
