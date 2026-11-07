@@ -197,6 +197,12 @@ validation:
   population_floor_exempt_partitions: []
   population_floor_exempt_municipalities:
   - '11031'
+  population_floor_exempt_decisions:
+    '11031':
+      decided_at: '2026-11-01'
+      decided_by: propietario
+      reason: 'San Fernando: municipio entero bajo el suelo que no completa distrito sin partirse (POPULATION_HARD_BLOCK de la 02, T-02b); la exención se aplica por el campo de municipio (M05 7.8.7).'
+      evidence: 'PR #380; docs/REGISTRO_DE_CAMBIOS.md «2026-11-01 — T-02b» y «2026-11-02 — T-24»; docs/PLAN.md T-24'
   partition_apportionment_audit: {}
   source_baseline:
     schema: ddd.source-baseline/1.0

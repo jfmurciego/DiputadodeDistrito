@@ -209,6 +209,18 @@ validation:
   population_floor_exempt_partitions: []
   population_floor_exempt_municipalities:
   - '35012'
+  population_floor_exempt_decisions:
+    '35012':
+      decided_at: '2026-11-01'
+      decided_by: propietario
+      reason: 'Mogán (62.453 hab., 0,55 de la media): exención municipal en contrato y no de toda Gran Canaria (35-C01).'
+      evidence: 'PR #384 (6466afc6) y #405; docs/REGISTRO_DE_CAMBIOS.md «2026-11-02 — T-24» y «2026-11-02 — T-13»; docs/PLAN.md T-02b'
+  population_floor_exempt_partition_decisions:
+    '35-C02':
+      decided_at: '2026-10-31'
+      decided_by: propietario
+      reason: 'Lanzarote y La Graciosa forman un solo distrito (componente de un distrito, 1,38 de la media).'
+      evidence: 'configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_las_palmas.component_districts; PR #369 y #370'
   partition_apportionment_audit:
     35-C01:
       population: 862893
