@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.13
+Versión: 1.0.14
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: §0 estado al cierre del lote del 07-11 (PR #431–#448) y pendientes del propietario
-Anterior: legacy/docs/PLAN_v1.0.12_20261107.md
+Cambios/motivo: decisión del propietario: Senado descartado
+Anterior: legacy/docs/PLAN_v1.0.13_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -103,6 +103,7 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-1. Completar Cantabria y Vizcaya por provincia o esperar a la activación por elección (T-04).
 
 ### Tomadas (07-11)
+- **Senado: descartado.** No tiene sentido para el proyecto; no se planifica ni se dedica tiempo alguno a él.
 - D-4: visto bueno a M04 7.6.7 (Alicante); la próxima 00 de los territorios con islas empieza de cero.
 - D-6 Málaga: exención de suelo municipal de Fuengirola (29054) en el contrato; techo y atomicidad sin cambios
   (Fuengirola 85.136 solo linda con Mijas y Benalmádena, atómicos; con cualquiera supera el techo).
@@ -484,7 +485,6 @@ Resueltas por decisión del propietario: Cádiz (techo 116 % solo en Cádiz, pol
 - Europeas: solo como agregación de resultados sobre los distritos existentes.
 - Municipales en ciudades grandes (Madrid, Barcelona, Valencia, Sevilla): distritos por sección censal; cambia la
   unidad atómica de M04 (Opus, largo).
-- Senado: simulación del voto limitado sobre las provincias existentes.
 - Ensembles con GerryChain (`docs/ENSEMBLES_GERRYCHAIN.md`) para medir el sesgo de cada plan.
 - Simulación de escaños: uninominal frente a D'Hondt real, por provincia y agregado nacional.
 - Comunidades de interés y nombres de distrito para el nacional (auditorías C12/C13).

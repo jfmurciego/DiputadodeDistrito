@@ -1,0 +1,6 @@
+## 2026-11-07 — T-65 — Métricas automáticas del proceso
+
+Causa: FRAMEWORK §8 pide medir el % de 00 que pasan a la primera, el coste por provincia cerrada y la duración de CI, y hasta ahora se hacía a mano.
+Cambio: `herramientas/metricas_proceso.py` 1.0.0 (API REST + ficheros del repo, sin modelo) escribe `orchestracion/metricas_proceso.json`: 00 por territorio (run-name, evidencias `ejecuciones_completas` o línea `TERRITORY:` de «Planificar»; cuentan los encadenados del bot), intentos hasta el primer éxito y % a la primera por semana, minutos de Actions por workflow y por territorio, PR fusionadas por día, horas de PR abierta y duración de `pruebas`, fallos de CI en PR por causa y tokens de los libros de costes. Página `dashboard/metricas.html` enlazada desde el índice; workflow `metricas-proceso.yml` (lunes y `workflow_dispatch`, `concurrency` con `queue: max`, registro con ddd-registro).
+Pruebas: `tests/test_metricas_proceso.py` (11, con API simulada); ejecución local con datos reales: 57 territorios, 49 % a la primera (objetivo > 60 %), 17 fallos de CI en PR (15 en «Verificar evidencia publicada y determinismo sintético»).
+Pendiente (fuera de turno): copiar `dashboard/metricas.html` y `metricas_proceso.json` en `_reutilizable-publicar-sitio.yml`, como el hemiciclo (#451).

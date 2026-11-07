@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.121
+Versión: 1.0.130
 Fecha: 2026-11-07
-Alcance: T-54 — Fusión automática con `pruebas` en verde
+Alcance: T-58 — Álava: artefacto local, regla de diagnóstico corregida
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_claude-t54-auto-merge.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.120_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_t-58-diagnostico-local.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.129_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,15 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.120_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.130 · [2026-11-07 — T-58 — Álava: artefacto local, regla de diagnóstico corregida](registro/2026-11-07_t-58-diagnostico-local.md)
+- 1.0.129 · [2026-11-07 — T-54c — Fusión automática ligada a la suite de CI que la dispara; causa de #458](registro/2026-11-07_claude-t54c-auto-merge-suite.md)
+- 1.0.128 · [2026-11-07 — T-59 — Nombres de distrito y comarcas partidas de las 49 provincias](registro/2026-11-07_claude-t59-nombres-comunidades.md)
+- 1.0.127 · [2026-11-07 — Arreglo — main en rojo tras #458 (T-65)](registro/2026-11-07_claude-arreglo-main-t65.md)
+- 1.0.126 · [2026-11-07 — T-65 — Métricas automáticas del proceso](registro/2026-11-07_claude-t65-metricas-proceso.md)
+- 1.0.125 · [2026-11-07 — T-54b — La fusión automática exige `pruebas` en success sobre el HEAD exacto](registro/2026-11-07_claude-t54b-auto-merge-pruebas.md)
+- 1.0.124 · [2026-11-07 — T-60 — Datos abiertos y fichas por distrito](registro/2026-11-07_claude-t-60-datos-abiertos.md)
+- 1.0.123 · [2026-11-07 — Plan 1.0.14 — Senado descartado](registro/2026-11-07_claude-plan-senado.md)
+- 1.0.122 · [2026-11-07 — T-61 — Configuraciones de ensemble para 10 provincias](registro/2026-11-07_claude-t61-ensembles-provincias.md)
 - 1.0.121 · [2026-11-07 — T-54 — Fusión automática con `pruebas` en verde](registro/2026-11-07_claude-t54-auto-merge.md)
 - 1.0.120 · [2026-11-07 — T-56 — Hemiciclo nacional en el sitio publicado](registro/2026-11-07_claude-t56-hemiciclo-sitio.md)
 - 1.0.119 · [2026-11-07 — T-55 — Hemiciclo: columna (b) con el oficial de 2019-11](registro/2026-11-07_claude-t55-hemiciclo-2019.md)

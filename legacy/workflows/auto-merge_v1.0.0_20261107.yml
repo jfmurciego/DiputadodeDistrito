@@ -1,0 +1,77 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Fusión automática con `pruebas` en verde
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: en toda PR no borrador del propio repositorio hacia main, sin la etiqueta `no-automerge`, activa el
+#   auto-merge (squash) de GitHub; el ruleset solo deja fusionar con el check `pruebas` en verde. Si la PR ya está
+#   «clean» (GitHub no admite activar el auto-merge en ese estado), la fusiona directamente, ligada a su HEAD. Con la
+#   etiqueta `no-automerge` desactiva el auto-merge. Usa el token de la app de registro si están sus secretos: una
+#   fusión hecha con github.token no dispara los workflows de push a main (numeración del registro, pruebas en main).
+#   Sin botón manual.
+# CAMBIOS: versión inicial (T-54).
+# MOTIVO: el propietario delega la fusión en el auto-merge con `pruebas` en verde (CLAUDE.md, «Coordinación»).
+# ANTERIOR: ninguna (fichero nuevo)
+name: Fusión automática
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+    branches: [main]
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: ddd-auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  fusionar:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Activar el auto-merge o fusionar si ya está en verde
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+          ETIQUETAS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          set -euo pipefail
+          # Token de la app de registro: una fusión hecha con github.token no dispara los workflows de push a main.
+          if [[ -n "${APP_ID:-}" && -n "${APP_KEY:-}" ]]; then
+            b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+            now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+            unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+            jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+            auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+            inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+            token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+            if [[ -n "$token" && "$token" != null ]]; then echo "::add-mask::$token"; export GH_TOKEN="$token"
+            else echo "::warning::La app de registro no devolvió token; se usa github.token."; fi
+          else
+            echo "::warning::Sin app de registro: se fusiona con github.token y los workflows de push a main no se dispararán."
+          fi
+          if [[ ",$ETIQUETAS," == *",no-automerge,"* ]]; then
+            gh pr merge "$PR" --disable-auto >/dev/null 2>&1 || true
+            echo "::notice::#$PR lleva la etiqueta no-automerge: auto-merge desactivado; la fusiona una persona."; exit 0
+          fi
+          if [[ "$DRAFT" == "true" ]]; then echo "::notice::#$PR es borrador: sin auto-merge."; exit 0; fi
+          if gh pr merge "$PR" --auto --squash --match-head-commit "$HEAD_SHA" 2>err.txt; then
+            echo "::notice::Auto-merge (squash) activado en #$PR para ${HEAD_SHA:0:10}: se fusionará con \`pruebas\` en verde."; exit 0
+          fi
+          cat err.txt
+          estado="$(gh pr view "$PR" --json mergeStateStatus,state -q '.state + " " + .mergeStateStatus')"
+          echo "Estado de #$PR: $estado"
+          case "$estado" in
+            "MERGED "*) echo "::notice::#$PR ya está fusionada."; exit 0 ;;
+            "OPEN CLEAN")
+              gh pr merge "$PR" --squash --match-head-commit "$HEAD_SHA"
+              echo "::notice::#$PR estaba en verde (clean): fusionada directamente (squash)."; exit 0 ;;
+            *) echo "::error::No se pudo activar el auto-merge en #$PR ($estado)."; exit 1 ;;
+          esac

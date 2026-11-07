@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- PROYECTO: Diputado de Distrito · COMPONENTE: métricas del proceso · VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
+     ANTERIOR: ninguna (fichero nuevo) · Lee metricas_proceso.json (herramientas/metricas_proceso.py). -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Métricas del proceso</title>
+<style>
+:root{--bg:#fff;--fg:#1c2330;--mut:#5b6678;--line:#d9dee7;--card:#f5f7fa;--ok:#3b8b5a;--mal:#d1495b}
+@media (prefers-color-scheme:dark){:root{--bg:#12161d;--fg:#e8ecf2;--mut:#9aa6b8;--line:#2b3340;--card:#1a2029}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;margin:.2rem 0}h2{font-size:1.05rem;margin:1.4rem 0 .4rem}.mut{color:var(--mut);font-size:.9rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px}.kpi b{display:block;font-size:1.4rem}
+table{border-collapse:collapse;width:100%}th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}.wrap{overflow-x:auto}.ok{color:var(--ok)}.mal{color:var(--mal)}
+a{color:inherit}
+</style>
+</head>
+<body><main>
+<p class="mut"><a href="index.html">← Dashboard</a></p>
+<h1>Métricas del proceso</h1>
+<div class="mut" id="sub">Cargando…</div>
+<div class="kpis" id="kpis"></div>
+<h2>00 que pasan a la primera, por semana</h2><div class="wrap"><table id="t-sem"></table></div>
+<h2>Minutos de Actions por workflow</h2><div class="wrap"><table id="t-wf"></table></div>
+<h2>Minutos de la 00 por territorio</h2><div class="wrap"><table id="t-terr"></table></div>
+<h2>PR fusionadas por día</h2><div class="wrap"><table id="t-pr"></table></div>
+<h2>Fallos de CI en PR por causa</h2><div class="wrap"><table id="t-ci"></table></div>
+<h2>Coste de agentes</h2><div class="wrap"><table id="t-ag"></table></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nf=n=>n==null?"—":Number(n).toLocaleString("es-ES");
+function tabla(id,cab,filas){$(id).innerHTML="<thead><tr>"+cab.map(c=>"<th>"+esc(c)+"</th>").join("")+"</tr></thead><tbody>"+
+  (filas.length?filas.map(f=>"<tr>"+f.map(c=>"<td>"+esc(c)+"</td>").join("")+"</tr>").join(""):"<tr><td colspan='"+cab.length+"'>Sin datos</td></tr>")+"</tbody>";}
+fetch("metricas_proceso.json").then(r=>r.json()).then(d=>{
+  const p=d.ejecuciones_00,pr=d.pr,c=d.coste_por_territorio_cerrado,ok=p.pct_a_la_primera>=p.objetivo_pct_a_la_primera;
+  $("sub").textContent="Generado "+d.generado+" · ventana "+d.ventana.dias+" días desde "+d.ventana.desde;
+  const k=[["00 a la primera",nf(p.pct_a_la_primera)+" %",ok?"ok":"mal"],["Objetivo",">"+p.objetivo_pct_a_la_primera+" %",""],
+    ["Territorios con 00",p.territorios,""],["Intentos medianos",nf(p.intentos_medianos_hasta_exito),""],
+    ["Minutos Actions",nf(d.minutos_actions.total),""],["PR fusionadas",pr.fusionadas,""],
+    ["PR abierta (h, mediana)",nf(pr.horas_abierta_mediana),""],["pruebas (min, mediana)",nf(pr.pruebas.minutos_mediana),""],
+    ["Min Actions / territorio",nf(c.minutos_actions_por_territorio),""],["Tokens agentes / territorio",nf(c.tokens_agentes_por_territorio),""]];
+  $("kpis").innerHTML=k.map(x=>"<div class='kpi'><span class='mut'>"+esc(x[0])+"</span><b class='"+x[2]+"'>"+esc(x[1])+"</b></div>").join("");
+  tabla("t-sem",["Semana","Territorios","A la primera","%","Runs","% runs OK"],p.por_semana.map(s=>[s.semana,s.territorios,s.primera,nf(s.pct_a_la_primera),s.runs,nf(s.pct_runs_ok)]));
+  tabla("t-wf",["Workflow","Runs","Minutos"],d.minutos_actions.por_workflow.map(w=>[w.workflow,w.runs,nf(w.minutos)]));
+  tabla("t-terr",["Territorio","Minutos"],d.minutos_actions.por_territorio_00.map(w=>[w.territorio,nf(w.minutos)]));
+  tabla("t-pr",["Día","Fusionadas"],Object.entries(pr.fusionadas_por_dia));
+  tabla("t-ci",["Causa","Fallos"],Object.entries(d.fallos_ci_pr.por_causa));
+  tabla("t-ag",["Fecha","Agente","Tokens","Fuente"],d.coste_agentes.notas_con_tokens.map(n=>[n.fecha,n.agente,nf(n.tokens),n.fuente])
+    .concat(d.coste_agentes.filas_tabla.map(n=>[n.fecha,n.agente+" "+n.etiqueta,nf(n.tokens),"tabla"])));
+}).catch(()=>{$("sub").textContent="No se pudo cargar metricas_proceso.json.";});
+</script>
+</body></html>
