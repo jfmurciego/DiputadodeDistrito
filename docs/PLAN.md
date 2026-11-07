@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.21
+Versión: 1.0.22
 Fecha: 2026-11-07
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-88 ampliada a los plugins oficiales de Anthropic (revisión de PR y desarrollo por fases)
-Anterior: legacy/docs/PLAN_v1.0.20_20261107.md
+Cambios/motivo: decisiones D-9 a D-11 del histórico; se encargan T-81 y T-85; T-82 aparcada
+Anterior: legacy/docs/PLAN_v1.0.21_20261107.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -96,6 +96,10 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   con contraste por muestreo frente a Infoelectoral y espejo propio con sha256 en el catálogo de procedencia (T-89).
   Se usa ya como contraste de T-71. Se pide permiso de reutilización a los autores (lo envía el propietario).
   La red del entorno Default permite `nazioenbehatokia.eus` (07-11).
+- D-9. Histórico: las 6 generales al Congreso de 2011-11, 2015-12, 2016-06, 2019-04, 2019-11 y 2023-07; las autonómicas, después.
+- D-10. Método: votos de cada elección pasada trasladados a los distritos vigentes (sin redibujar distritos por elección).
+- D-11. T-81 y T-85 empiezan ya, sin esperar al cierre de la ola 2 (no lanzan ni tocan territorios); T-83 y T-84 después;
+  T-82 (espejo de Infoelectoral desde el Mac) aparcada: solo si falla el contraste de T-89 o falta una elección.
 ### Pendientes
 - D-5 (T-41). Crear en Settings → Environments el entorno `produccion` con el propietario como revisor requerido
   (repositorio público: disponible en cualquier plan). Sin él, T-41 se queda en el código.
@@ -287,6 +291,8 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-87 | Cadena de publicación con una sola aprobación: al cerrar la puerta 04 de una 00, un job en el entorno `produccion` (aprobación del propietario) dispara juntos la 05 del visor con `production_run_id` de esa 00 y `publicar-version-mapa.yml` (Release, Zenodo); el archivo R2 lo cubre T-72 y los resultados ligeros ya se encadenan con `publicaciones_visor.json`. Toca workflows compartidos: avisar al Coordinador | por abrir (Opus), después de la 00 de prueba de T-72 | PR no-automerge; sin aprobación no publica nada; probado con un territorio y sin publicar hasta el permiso del propietario |
 | T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y, ampliada (07-11), los plugins oficiales de revisión de PR y de desarrollo por fases de `anthropics/claude-code` frente a `revisar-pr`, el revisor de CI e `implementador`; llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | por abrir (Sonnet), después de T-77 | Una PR con la comparación (qué se toma, qué no y por qué) y las skills ajustadas; sin aumentar el contexto cargado por defecto |
 | T-89 | Espejo del Observatorio Electoral de las Naciones (D-8): bajar `data/index.json`, `data/{k}/sekzioa/{cpro}.json` de las 6 generales y `geo/sekzioak/{año}/{cpro}.json` de sus 6 seccionados, con fecha, URL y sha256 por fichero, a R2 (no a git); entrada en el catálogo de procedencia; contraste por muestreo (3 provincias × 2 elecciones) con Infoelectoral 2023 del release espejo y un lector Python del formato compacto (`s`,`k`,`f`,`b`,`r`) | por abrir (Sonnet) | Espejo completo y verificable; informe del contraste; sin publicar ni tocar el visor |
+| T-85 | Equivalencia de secciones (D-9, D-10): tabla de cada seccionado de elección (INE 2012, 2015, 2016, 2019, 2020) al seccionado de los distritos vigentes, desde las geometrías del espejo T-89 o del INE (CC BY 4.0); 1:1 cuando código y geometría coinciden; si una sección se parte, pesos por área y, en paralelo, por población de la sección vigente; se informa del % de votos no 1:1 por provincia y elección. Elegir el peso es criterio: se presenta al propietario antes de fijarlo | por abrir (Opus), ya | Tabla versionada con sha256 y fuente; pesos que suman 1 por sección; tests; sin lanzar ni publicar |
+| T-81 | Inventario de fuentes del histórico (D-9): por elección y provincia, qué da el Observatorio (generales por sección; autonómicas por municipio y, donde existan, por sección), qué da Infoelectoral y el seccionado de cada una; huecos y discrepancias del contraste de T-89; propuesta de autonómicas para después | por abrir (Sonnet), ya | Documento en `docs/ESTUDIOS/` y JSON con fuente, fecha y sha256; sin datos de memoria |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
