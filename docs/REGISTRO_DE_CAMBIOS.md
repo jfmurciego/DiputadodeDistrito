@@ -1,12 +1,20 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.94
-Fecha: 2026-11-03
-Alcance: T-37 — copia web de ensembles con una feature por distrito
+Versión: 1.0.95
+Fecha: 2026-11-07
+Alcance: Paso 0 — framework de agentes y arquitectura P00-P60
 Estado: candidato
-Cambios/motivo: dissolve_by_district en la galería y validación de la republicación por distrito
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.93_t37_20261103.md
+Cambios/motivo: documento de referencia del plan de agentes (solo documentación)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.94_t37_20261103.md
 -->
+
+## 2026-11-07 — Paso 0 — Framework de agentes y arquitectura P00-P60
+
+`docs/ARQUITECTURA/FRAMEWORK_AGENTES_Y_ESTRUCTURA.md` 1.0.0 (borrador de referencia): fases P00-P60 (AUT y NAC como clave de universo, GerryChain en P25,
+ensembles en P30), estructura `.claude/` objetivo, catálogo de agentes y capas (CI, skills, subagentes, chats con rol), qué se adopta del metaagente v1.0,
+evals y libro de costes, catálogo de causas raíz, reglas operativas, estado a 07-11 y plan inmediato (§12). Referencias originales en
+`docs/ARQUITECTURA/referencias/` (cuatro imágenes de ChatGPT, metaagente v1.0, auditoría V2). Solo documentación · PR #427.
+
 
 ## 2026-11-03 — T-37 — Ensemble: la copia web lleva una feature por distrito
 
