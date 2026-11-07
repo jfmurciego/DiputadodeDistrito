@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-03T12:25:48.862076+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-07T17:34:05.817784+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -70,7 +70,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Huelva** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41335929678 · SUCCESS | — | — | — |
 | **Nacional Huesca** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41194447427 · FAILED | — | — | — |
 | **Nacional Jaén** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295799269 · SUCCESS | — | — | — |
-| **Nacional León** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295452035 · SUCCESS | — | — | — |
+| **Nacional León** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41629735636 · SUCCESS | — | — | — |
 | **Nacional Lérida** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299033915 · SUCCESS | — | — | — |
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294822309 · FAILED | — | — | — |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41294985244 · FAILED | — | — | — |
