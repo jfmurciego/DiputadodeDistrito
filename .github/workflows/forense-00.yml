@@ -1,0 +1,110 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Forense automático de la 00
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: cuando una «00 Ejecución Completa del Proyecto» termina en failure, ejecuta el subagente forense
+#   (.claude/agents/forense.md con su memoria, Sonnet, solo lectura: anotaciones y diagnostico/auto/, nunca artefactos)
+#   con anthropics/claude-code-action y abre un issue con la causa en cinco líneas. No relanza nada.
+#   Sin el secreto CLAUDE_CODE_OAUTH_TOKEN se salta limpiamente.
+# CAMBIOS: versión inicial (T-48).
+# MOTIVO: §12 del framework de agentes: diagnóstico sistemático de las 00 fallidas; calibración en evals/oro (T-40).
+# ANTERIOR: ninguna (fichero nuevo)
+name: Forense de la 00
+on:
+  workflow_run:
+    workflows: ["00 Ejecución Completa del Proyecto"]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: ddd-forense-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+  queue: max
+jobs:
+  comprobar:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    outputs:
+      listo: ${{ steps.c.outputs.listo }}
+    steps:
+      - id: c
+        shell: bash
+        env:
+          TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${TOKEN:-}" ]]; then echo "::notice::Sin CLAUDE_CODE_OAUTH_TOKEN: forense omitido."; echo "listo=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "listo=true" >> "$GITHUB_OUTPUT"
+
+  diagnosticar:
+    needs: comprobar
+    if: needs.comprobar.outputs.listo == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      checks: read
+    outputs:
+      diagnostico: ${{ steps.forense.outputs.structured_output }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - id: forense
+        uses: anthropics/claude-code-action@61a9c274fa7110a66dfafc1bbbced03833eb25fe # v1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: |
+            Actúa como el subagente definido en .claude/agents/forense.md (léelo primero, con su memoria
+            .claude/agent-memory/forense/MEMORY.md) y diagnostica el run ${{ github.event.workflow_run.id }}
+            de ${{ github.repository }} («00 Ejecución Completa del Proyecto», conclusión failure).
+            Fuentes: `gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/jobs`,
+            `gh api repos/${{ github.repository }}/check-runs/<job_id>/annotations` y, si existe, la rama
+            diagnostico/auto/ (`git fetch origin 'refs/heads/diagnostico/auto/*:refs/remotes/origin/diagnostico/auto/*'`).
+            Solo lectura: no lances, relances, publiques ni descargues artefactos. Devuelve el JSON de la definición
+            con "caso" = "${{ github.event.workflow_run.id }}" y como mucho cinco líneas.
+          claude_args: |
+            --model sonnet
+            --max-turns 25
+            --allowedTools Read,Grep,Glob,Bash(gh api:*),Bash(gh run view:*),Bash(git fetch:*),Bash(git show:*),Bash(git log:*)
+            --json-schema '{"type":"object","properties":{"caso":{"type":"string"},"causa_id":{"type":"string"},"lineas":{"type":"array","items":{"type":"string"},"maxItems":5},"veredicto":{"type":"string"},"acciones":{"type":"array","items":{"type":"string"}},"confianza":{"type":"string"}},"required":["caso","causa_id","lineas"]}'
+
+  issue:
+    needs: diagnosticar
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Abrir issue con la causa
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DIAGNOSTICO: ${{ needs.diagnosticar.outputs.diagnostico }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          RUN_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$DIAGNOSTICO" | jq -e . > diagnostico.json || { echo "::error::El forense no devolvió JSON."; exit 1; }
+          causa="$(jq -r .causa_id diagnostico.json)"
+          titulo="Forense 00 · run $RUN_ID · $causa"
+          ya="$(gh api "repos/$GITHUB_REPOSITORY/issues?state=all&per_page=100" -q ".[] | select(.title | startswith(\"Forense 00 · run $RUN_ID \")) | .number" | head -1)"
+          if [[ -n "$ya" ]]; then echo "Ya existe el issue #$ya para el run $RUN_ID."; exit 0; fi
+          {
+            echo "Run [$RUN_ID]($RUN_URL) · SHA \`${RUN_SHA:0:10}\` · causa \`$causa\` · confianza $(jq -r '.confianza // "—"' diagnostico.json)"
+            echo
+            jq -r '.lineas[:5][] | "1. \(.)"' diagnostico.json
+            echo
+            echo "Forense automático (Sonnet, solo lectura; \`.claude/agents/forense.md\`). No relanza nada: la siguiente"
+            echo "acción la decide el planificador y la ejecuta el operador con permiso del propietario."
+          } > cuerpo.md
+          cat cuerpo.md >> "$GITHUB_STEP_SUMMARY"
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues" -f title="$titulo" -F body=@cuerpo.md -q .html_url
