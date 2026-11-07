@@ -3,8 +3,9 @@
 """Hemiciclo nacional: suma de escaños por partido de tres maneras.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
+CAMBIOS: lee los ganadores de datos/resultados/*.csv (T-53) cuando el manifiesto acredita el blob vigente; blobs como respaldo.
+ANTERIOR: legacy/herramientas/generar_hemiciclo_v1.0.0_20261107.py
 QUÉ HACE: lee los M08 registrados (distritos_resultados.csv) de las provincias nacionales completas y suma:
   (a) reparto real 2023 (D'Hondt, umbral 3 %), calculado desde los votos y contrastado escaño a escaño con el oficial;
   (b) elección anterior (generales 2019-11): solo si se aporta --generales-2019; si no, «sin fuente»;
@@ -36,6 +37,9 @@ import subprocess
 import sys
 import zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import resultados_ligeros as rl  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 N06 = ROOT / "docs/ESTUDIOS/N06_DECISION_K_20261012/resultados/reparto_ddd_52.csv"
@@ -297,6 +301,10 @@ def cargar_m08(cache: Path, m08_dir: Path | None = None) -> tuple[dict[str, list
     gan, runs = {}, {}
     for t, p in sorted(prods.items()):
         if t not in _POR_ID:
+            continue
+        g = rl.ganadores(rl.SALIDA, t, p) if m08_dir is None else None
+        if g is not None:
+            gan[_POR_ID[t]], runs[_POR_ID[t]] = g, p["run_id"]
             continue
         f = (m08_dir or cache) / f"{t}_{p['run_id']}.zip"
         if not f.exists():
