@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-07T21:57:54.500380+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-07T22:54:24.790315+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -49,7 +49,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062581404 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
 | **Nacional Álava** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41346917857 · SUCCESS | — | — | — |
 | **Nacional Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294417893 · SUCCESS | — | — | — |
-| **Nacional Alicante** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42409605030 · SUCCESS | 03/04 · rama electoral omitida | alcance territorial solicitado | preparar fuentes electorales |
+| **Nacional Alicante** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42418334746 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
 | **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295979497 · SUCCESS | — | — | — |
 | **Nacional Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41241662219 · SUCCESS | — | — | — |
 | **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299475924 · SUCCESS | — | — | — |
@@ -75,7 +75,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294822309 · FAILED | — | — | — |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41294985244 · FAILED | — | — | — |
 | **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622703086 · SUCCESS | — | — | — |
-| **Nacional Málaga** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41293427148 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
+| **Nacional Málaga** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42418628975 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
 | **Nacional Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622862185 · SUCCESS | — | — | — |
 | **Nacional Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299128213 · SUCCESS | — | — | — |
 | **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295142111 · SUCCESS | — | — | — |
