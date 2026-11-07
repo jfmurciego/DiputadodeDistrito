@@ -61,6 +61,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Los M08 publicados están en git como blobs: `publicaciones_visor.json` (`kind=canonical_m08`, run más reciente) →
   `gh api repos/<r>/git/blobs/<blob_sha> -H "Accept: application/vnd.github.raw"` (ZIP; comprobar el sha256).
   Solo traen el ganador por distrito (no votos por partido); versión ligera en `datos/resultados/` (#445).
+  El M06 de los artefactos caduca (14 días): la extracción T-67 recuperó 16/63 composiciones; el resto, regenerar con 00.
 - El dashboard (`herramientas/generar_estado_operativo.py`) acepta un M08 de otro run si el manifiesto de ese run
   acredita la 02 con el M06 vigente y la 04 en success (#354).
 

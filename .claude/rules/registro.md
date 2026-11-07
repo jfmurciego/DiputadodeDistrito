@@ -18,3 +18,7 @@ paths:
 - Tras rebasar o fusionar `main`, busca marcas de conflicto (`<<<<<<<`, `>>>>>>>`): rompieron `main` en #422.
   La CI (`comprobar_guardian_main.py marcas`) y el hook de commit las bloquean.
 - `docs/PLAN.md` solo lo edita el planificador.
+- Una PR de rama larga (#441, #462) trae commits previos al squash de sus ancestras: add/add masivos. Resuélvelos con la
+  versión de la RAMA si contiene el HEAD fusionado (`git merge-base --is-ancestor`).
+- Un `git revert` de una PR con entrada de registro ya numerada borra la entrada y el guardian falla (el índice la
+  referencia): restaura la entrada (`git checkout <commit> -- docs/registro/<fichero>`).
