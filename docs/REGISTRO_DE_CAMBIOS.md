@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.133
+Versión: 1.0.134
 Fecha: 2026-11-07
-Alcance: Coordinador — prueba de la fusión automática
+Alcance: Plan 1.0.15 — Coordinador, planificación por olas y T-64 como estudio
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_coordinador-prueba-automerge.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.132_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_claude-plan-1-0-15.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.133_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.132_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.134 · [2026-11-07 — Plan 1.0.15 — Coordinador, planificación por olas y T-64 como estudio](registro/2026-11-07_claude-plan-1-0-15.md)
 - 1.0.133 · [2026-11-07 — Coordinador — prueba de la fusión automática](registro/2026-11-07_coordinador-prueba-automerge.md)
 - 1.0.132 · [2026-11-07 — T-67 — Votos por partido y distrito en git](registro/2026-11-07_t67-partidos.md)
 - 1.0.131 · [2026-11-07 — T-64 — Partidos judiciales para C-13 en toda España](registro/2026-11-07_claude-t64-partidos-judiciales.md)
