@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.148
+Versión: 1.0.150
 Fecha: 2026-11-07
-Alcance: T-87/T-88 — Plan: encargo de T-87 (publicación con una sola aprobación) y T-88 (skills externas)
+Alcance: T-88 — Skills de verificación de plan y TDD incorporadas a implementador y planificador
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_plan-t88.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.147_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_t88-skills-verificacion-tdd.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.149_registro_20261107.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.147_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.150 · [2026-11-07 — T-88 — Skills de verificación de plan y TDD incorporadas a implementador y planificador](registro/2026-11-07_t88-skills-verificacion-tdd.md)
+- 1.0.149 · [2026-11-07 — T-86 — Gestor de Campañas listo para la legislatura vigente](registro/2026-11-07_claude-t86-gestor-legislatura-vigente.md)
 - 1.0.148 · [2026-11-07 — T-87/T-88 — Plan: encargo de T-87 (publicación con una sola aprobación) y T-88 (skills externas)](registro/2026-11-07_plan-t88.md)
 - 1.0.147 · [2026-11-07 — Coordinador — PLAN 1.0.18 y lecciones del planificador (ola 2)](registro/2026-11-07_plan-1-0-18-ola2.md)
 - 1.0.146 · [2026-11-07 — T-77 — Incorporar T-75 en skills y fichas](registro/2026-11-07_t77-incorporar-t75.md)
