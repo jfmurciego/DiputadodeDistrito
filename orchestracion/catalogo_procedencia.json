@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 349,
+  "productos": 351,
   "errores": 0,
-  "avisos": 116
+  "avisos": 117
  },
  "territorios": {
   "andalucia": {
@@ -666,10 +666,36 @@
      "producto": "M06",
      "id": "m06-ceuta-36272095647",
      "run_id": "36272095647",
-     "vigente": true,
+     "vigente": false,
      "sha256": "545c7cae8edc9b7cd0bc978b1d5900e9c08982d158e2bf68acd25561d4cc1d58",
      "copia_git": {
       "blob_sha": "2c3bd660f3a7e0b663b8b25c98027c77afa876c3",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-ceuta-42503542766",
+     "run_id": "42503542766",
+     "vigente": true,
+     "sha256": "7070a351b9c0cd0ec8fe4613ec99681c6ea9ac37ee248e37a23a0a95fc90c37d",
+     "copia_git": {
+      "blob_sha": "ec956e24301898cf5f4b245cffdcf51195ba08c5",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-ceuta-42503542766",
+     "run_id": "42503542766",
+     "vigente": true,
+     "sha256": "1ea40f95abfa507ce96ab1c2d3624f8ac5c26f93716f77850b65417331de7432",
+     "copia_git": {
+      "blob_sha": "bfdc10b224c67c174b8ee2d147f7e97476f7b2c3",
       "ruta": null
      },
      "copias_r2": [],
@@ -6293,7 +6319,14 @@
    "territorio": "ceuta",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 36272095647: solo copia git"
+   "detalle": "run 42503542766: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "ceuta",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42503542766: solo copia git"
   },
   {
    "nivel": "AVISO",
