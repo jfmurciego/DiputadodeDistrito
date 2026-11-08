@@ -7,8 +7,8 @@ VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
 FUNCIÓN: provincia sintética con cuadrados de 10 × 10 (valores esperados escritos a mano): sección idéntica = 1:1,
   sección partida en dos = reparto 0,5/0,5 por área y 0,75/0,25 por población (300 frente a 100 habitantes),
-  astilla < 1 % descartada, traslación de 63 m corregida (y 5 m no), sección fuera del vigente, geometría tomada
-  del seccionado más cercano y el informe de % de votos no 1:1 y de votos que cambian de sección según el peso.
+  astilla < 1 % descartada, traslación de 63 m corregida (y 5 m no), prueba del censo, sección fuera del vigente,
+  geometría tomada del seccionado más cercano y el informe de % de votos no 1:1 y de votos que cambian de sección según el peso.
 """
 import sys
 import unittest
@@ -65,6 +65,17 @@ class Equivalencia(unittest.TestCase):
         self.assertEqual(es.desplazamiento_sistematico(movida, VIG), (0.0, 63.0))
         casi = {k: box(*(g.bounds[0] + 5, g.bounds[1], g.bounds[2] + 5, g.bounds[3])) for k, g in VIG.items()}
         self.assertEqual(es.desplazamiento_sistematico(casi, VIG), (0.0, 0.0))
+
+    def test_prueba_censo(self):
+        # H2 (censo 400) se parte en B y C; censo real de B = 300 y de C = 100
+        eq = es.equivalencia({"H1": box(0, 0, 10, 10), "H2": box(10, 0, 30, 10)}, VIG, POB)
+        ref = es.censo_referencia({"H1": 50, "B": 300, "C": 100},
+                                  {"H1": eq["H1"], "B": {"tipo": "1:1", "area": {"B": 1.0}},
+                                   "C": {"tipo": "1:1", "area": {"C": 1.0}}})
+        self.assertEqual(ref, {"A": 50, "B": 300, "C": 100})
+        r = es.prueba_censo({"H1": 50, "H2": 400}, eq, ref)
+        # área: 200/200 → error (100 + 100) / 400 = 50 %; población: 300/100 → 0 %
+        self.assertEqual(r, {"secciones": 2, "censo_real": 400, "error_area": 50.0, "error_poblacion": 0.0})
 
     def test_informe(self):
         eq = es.equivalencia({"H1": box(0, 0, 10, 10), "H2": box(10, 0, 30, 10)}, VIG, POB)

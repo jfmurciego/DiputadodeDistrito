@@ -8,17 +8,19 @@ CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: decisiones D-9, D-10 y D-11 del propietario: las 6 generales 2011-2023 se pasan a los distritos vigentes, lo que
   exige llevar los votos de cada sección histórica a las secciones del seccionado vigente.
 ANTERIOR: ninguna (fichero nuevo)
-QUÉ HACE: por provincia y seccionado histórico (geometrías del espejo T-89, geo/sekzioak/<año>/<cpro>.json, WGS84)
-  interseca cada sección del seccionado INE histórico (www.ine.es/prodyser/cartografia/seccionado_<año>.zip, ETRS89 H30;
-  la geometría simplificada del espejo T-89 da hasta un 35 % de falsos repartos urbanos y no se usa) con las del
-  seccionado INE 2025 (inputs/partes/seccionado_2025.zip, sha256 en MANIFEST_PARTES.sha256). Los votos son los del
-  espejo T-89 (data/<elección>/sekzioa/<cpro>.json, huellas en orchestracion/fuente_nazioenbehatokia.json). Una sección es 1:1 si al menos `umbral` de su área cae en una vigente y esa vigente procede
-  en al menos `umbral` de ella; si no, se reparte con dos pesos alternativos: área (a(h∩v)/a(h)) y población
-  (a(h∩v)/a(v)·pob2025(v), normalizado; padrón INE 65034). Las astillas de menos de `astilla` del área histórica se
-  descartan (ruido de digitalización). El informe da, por provincia y elección, el % de votos a
-  candidaturas que no queda 1:1 y el % de votos que cambia de sección vigente según se use un peso u otro. Una
-  traslación sistemática del seccionado histórico (mediana de centroides homónimos ≥ 20 m) se corrige y se anota.
-  No decide el peso: lo fija el propietario.
+QUÉ HACE: por provincia y elección interseca cada sección del seccionado INE histórico
+  (www.ine.es/prodyser/cartografia/seccionado_<año>.zip, ETRS89 H30) con las del seccionado INE 2025
+  (inputs/partes/seccionado_2025.zip, sha256 en MANIFEST_PARTES.sha256). La geometría simplificada del espejo T-89
+  da hasta un 35 % de falsos repartos urbanos y no se usa; del espejo se toman los votos y el censo
+  (data/<elección>/sekzioa/<cpro>.json, huellas en orchestracion/fuente_nazioenbehatokia.json).
+  Una sección es 1:1 si al menos `umbral` de su área cae en una vigente y esa vigente procede en al menos `umbral`
+  de ella; si no, se reparte. Peso (D-13 del propietario): población, a(h∩v)/a(v)·pob2025(v) normalizado (padrón
+  INE 65034); el área, a(h∩v)/a(h), solo si falta población; las tablas llevan los dos. Las astillas de menos de
+  `astilla` del área histórica se descartan (ruido de digitalización) y una traslación sistemática del seccionado
+  histórico (mediana de centroides homónimos ≥ 20 m; Melilla 2012) se corrige y se anota.
+  Informe por provincia y elección: % de votos a candidaturas que no queda 1:1, % de votos que cambia de sección
+  según el peso y prueba del censo (el censo de la elección llevado al vigente con cada peso frente al censo real de
+  la elección más reciente en las secciones que reciben reparto).
 Uso: python herramientas/equivalencia_seccionados.py --espejo DIR --historicos DIR --seccionado ZIP --padron ZIP
        --salida JSON [--tablas DIR] [--provincias 28 42]
 """
@@ -88,6 +90,36 @@ def desplazamiento_sistematico(hist: dict, vig: dict, minimo: float = DESPLAZAMI
     dx = statistics.median(vig[k].centroid.x - hist[k].centroid.x for k in comunes)
     dy = statistics.median(vig[k].centroid.y - hist[k].centroid.y for k in comunes)
     return (round(dx, 2), round(dy, 2)) if (dx * dx + dy * dy) ** 0.5 >= minimo else (0.0, 0.0)
+
+
+def censo_referencia(censo: dict[str, int], eq: dict) -> dict[str, int]:
+    """Censo real en el seccionado vigente: el de la elección más reciente, solo en sus secciones 1:1."""
+    return {next(iter(eq[h]["area"])): n for h, n in censo.items() if h in eq and eq[h]["tipo"] == "1:1"}
+
+
+def prueba_censo(censo: dict[str, int], eq: dict, ref: dict[str, int]) -> dict:
+    """Lleva el censo de una elección pasada al vigente con cada peso y lo compara con el censo real (`ref`) en las
+    secciones vigentes que reciben algún reparto. El total se escala al de la referencia para quitar el crecimiento;
+    error = Σ|estimado − real| / Σ real, en %."""
+    est = {"area": Counter(), "poblacion": Counter()}
+    evaluar = set()
+    for h, n in censo.items():
+        e = eq.get(h)
+        if not e:
+            continue
+        for peso in est:
+            for v, w in e[peso].items():
+                est[peso][v] += n * w
+        if e["tipo"] == "reparto":
+            evaluar |= set(e["area"]) | set(e["poblacion"])
+    evaluar &= set(ref)
+    real = sum(ref[v] for v in evaluar)
+    out = {"secciones": len(evaluar), "censo_real": real}
+    for peso, x in est.items():
+        tot = sum(x[v] for v in evaluar)
+        k = real / tot if tot else 0.0
+        out[f"error_{peso}"] = round(100 * sum(abs(x[v] * k - ref[v]) for v in evaluar) / real, 3) if real else 0.0
+    return out
 
 
 def completar_geometrias(votos: dict, año: int, por_año: dict[int, dict]) -> tuple[dict, list[str]]:
@@ -192,10 +224,13 @@ def main(argv=None) -> int:
         z = a.historicos / f"seccionado_{año}.zip"
         historicos[str(año)] = {"url": f"{URL_INE}seccionado_{año}.zip", "sha256": sha256(z)}
         todos[año] = leer_seccionado(z)
-    for e in espejo["elecciones"]:
-        clave, año = e["clave"], e["seccionado"]
-        for c in provs:
-            votos = leer_provincia(json.loads((a.espejo / f"data/{clave}/sekzioa/{c}.json").read_text(encoding="utf-8")))
+    referencia = max(espejo["elecciones"], key=lambda e: e["clave"])["clave"]
+    for c in provs:
+        ref = {}
+        for e in sorted(espejo["elecciones"], key=lambda e: e["clave"] != referencia):
+            clave, año = e["clave"], e["seccionado"]
+            doc = json.loads((a.espejo / f"data/{clave}/sekzioa/{c}.json").read_text(encoding="utf-8"))
+            votos = leer_provincia(doc)
             hist, otro = completar_geometrias(votos, año, {y: t.get(c, {}) for y, t in todos.items()})
             dx, dy = desplazamiento_sistematico(hist, vig[c])
             if dx or dy:
@@ -203,9 +238,15 @@ def main(argv=None) -> int:
                 hist = {k: translate(g, dx, dy) for k, g in hist.items()}
             eq = equivalencia(hist, vig[c], pob)
             r = informe_eleccion(votos, eq)
+            censo = {h: x["censo"] for h, x in votos.items()}
+            if clave == referencia:
+                ref = censo_referencia(censo, eq)
+            else:
+                r["prueba_censo"] = prueba_censo(censo, eq, ref)
             r["pct_geometria_otro_seccionado"] = round(100 * sum(votos[h]["votos_candidaturas"] for h in otro)
                                                        / r["votos"], 3) if r["votos"] else 0.0
-            r.update(desplazamiento_corregido_m=[dx, dy], seccionado=año, secciones=len(eq), secciones_reparto=sum(x["tipo"] != "1:1" for x in eq.values()))
+            r.update(desplazamiento_corregido_m=[dx, dy], seccionado=año, secciones=len(eq),
+                     secciones_reparto=sum(x["tipo"] != "1:1" for x in eq.values()))
             res.setdefault(c, {})[clave] = r
             if a.tablas:
                 p = a.tablas / str(año) / f"{c}.csv"
@@ -215,9 +256,11 @@ def main(argv=None) -> int:
                     w.writerow(["cusec_historica", "cusec_vigente", "tipo", "peso_area", "peso_poblacion"])
                     for h, x in sorted(eq.items()):
                         for v in sorted(set(x["area"]) | set(x["poblacion"])):
-                            w.writerow([h, v, x["tipo"], f"{x['area'].get(v, 0):.6f}", f"{x['poblacion'].get(v, 0):.6f}"])
+                            w.writerow([h, v, x["tipo"], f"{x['area'].get(v, 0):.6f}",
+                                        f"{x['poblacion'].get(v, 0):.6f}"])
             print(c, clave, r["pct_no_1a1"], r["pct_difiere_area_poblacion"], flush=True)
-    salida = {"schema": SCHEMA, "umbral_1a1": UMBRAL, "astilla": ASTILLA, "desplazamiento_min_m": DESPLAZAMIENTO_MIN, "vigente": "INE seccionado 2025",
+    salida = {"schema": SCHEMA, "umbral_1a1": UMBRAL, "astilla": ASTILLA, "desplazamiento_min_m": DESPLAZAMIENTO_MIN,
+              "vigente": "INE seccionado 2025", "peso": "poblacion (D-13); area si falta poblacion",
               "fuentes": {"seccionado_2025": {"fichero": a.seccionado.name, "sha256": sha256(a.seccionado)},
                           "padron_65034": {"fichero": a.padron.name, "sha256": sha256(a.padron), "periodo": "2025"},
                           "historicos": historicos,
