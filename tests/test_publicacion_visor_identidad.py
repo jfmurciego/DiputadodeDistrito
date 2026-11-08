@@ -53,6 +53,19 @@ class PublicationIdentityTests(unittest.TestCase):
             })
         write_json(path, {"schema": "ddd.viewer-results/1.0", "results": results})
 
+    def test_reused_run_without_audit_names_origin_run(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "production"
+            write_json(root / "ddd-full-run-manifest-900" / "manifest.json", {
+                "execution_mode": "reuse",
+                "workflow_run_id": 900,
+                "resumption": {"kind": "durable_electoral_product", "status": "VALID", "origin_run_id": 800},
+            })
+            payload = self.mod.evaluate_publication(requested_run_id="900", production_root=root, phase="source")
+            self.assertEqual(payload["status"], "BLOCK")
+            self.assertIn("EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA", payload["reasons"])
+            self.assertIn("EJECUCION_REUTILIZADA_PUBLICAR_CON_PRODUCTION_RUN_ID=800", payload["reasons"])
+
     def test_historical_only_viewer_is_not_complete_execution(self):
         with tempfile.TemporaryDirectory() as td:
             registry = Path(td) / "viewer-results.json"
