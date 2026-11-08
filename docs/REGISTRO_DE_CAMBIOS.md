@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.187
+Versión: 1.0.188
 Fecha: 2026-11-08
-Alcance: T-97 — Tabla de homologación de siglas de las generales 2011-2023 (propuesta, sin aplicar)
+Alcance: T-103 — Archivista: recodificadas y contenidas fuera del tope D-17
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_claude-t97-homologacion-siglas.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.186_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t103-recodificadas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.187_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.186_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.188 · [2026-11-08 — T-103 — Archivista: recodificadas y contenidas fuera del tope D-17](registro/2026-11-08_t103-recodificadas.md)
 - 1.0.187 · [2026-11-08 — T-97 — Tabla de homologación de siglas de las generales 2011-2023 (propuesta, sin aplicar)](registro/2026-11-08_claude-t97-homologacion-siglas.md)
 - 1.0.186 · [2026-11-08 — D-18 — Plan: autorización de estudios y difusión](registro/2026-11-08_plan-d18.md)
 - 1.0.185 · [2026-11-08 — T-101 — Archivista: tolerancia D-17 a desajustes de sección](registro/2026-11-08_t101-archivista-tolerancia.md)
