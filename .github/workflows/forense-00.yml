@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# ANTERIOR: legacy/workflows/forense-00_v1.0.0_20261108.yml
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Forense automático de la 00
-# FECHA: 2026-11-07
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: cuando una «00 Ejecución Completa del Proyecto» termina en failure, ejecuta el subagente forense
 #   (.claude/agents/forense.md con su memoria, Sonnet, solo lectura: anotaciones y diagnostico/auto/, nunca artefactos)
@@ -11,7 +13,7 @@
 # CAMBIOS: versión inicial (T-48).
 # MOTIVO: §12 del framework de agentes: diagnóstico sistemático de las 00 fallidas; calibración en evals/oro (T-40).
 # ANTERIOR: ninguna (fichero nuevo)
-name: Forense de la 00
+name: _Interno — Forense de la 00
 on:
   workflow_run:
     workflows: ["00 Ejecución Completa del Proyecto"]

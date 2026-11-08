@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.2.1
+# ANTERIOR: legacy/workflows/auto-merge_v1.2.0_20261108.yml
+# CAMBIOS 1.2.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Fusión automática solo con `pruebas` en success sobre el HEAD exacto
-# FECHA: 2026-11-07
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: cuando «Pruebas de la Plataforma» termina en una PR, consulta explícitamente el check-run `pruebas` del SHA
 #   exacto y fusiona (squash, ligado a ese SHA) solo si está en success y la PR es del propio repositorio, va a main, no
@@ -18,7 +20,7 @@
 #   1.0.0, ejecutada por un `pull_request` cuya referencia de merge aún no incluía #457: por eso aquí no hay disparador
 #   `pull_request` ni auto-merge nativo (un auto-merge nativo activado con la app exenta fusiona sin `pruebas`).
 # ANTERIOR: legacy/workflows/auto-merge_v1.1.0_20261107.yml
-name: Fusión automática
+name: _Interno — Fusión automática
 on:
   workflow_run:
     workflows: ["Pruebas de la Plataforma"]

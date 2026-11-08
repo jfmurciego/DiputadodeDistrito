@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
+# ANTERIOR: legacy/workflows/resultados-ligeros_v1.1.0_20261108.yml
+# CAMBIOS 1.1.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Resultados ligeros en git
-# FECHA: 2026-11-07
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: cuando cambia orchestracion/publicaciones_visor.json en main, regenera datos/resultados/ (CSV por territorio y
 #   MANIFEST.json) con herramientas/resultados_ligeros.py y lo empuja con la app de registro. Si ningún canonical_m08
@@ -10,7 +12,7 @@
 # CAMBIOS: 1.1.0: también regenera los votos por partido (resultados_partidos.py) y se dispara al cambiar datos/composicion/MANIFEST.json (T-67). 1.0.0: versión inicial (T-53).
 # MOTIVO: los análisis no deben descargar los ZIP M08.
 # ANTERIOR: legacy/workflows/resultados-ligeros_v1.0.0_20261107.yml
-name: Resultados ligeros
+name: _Interno — Resultados ligeros
 on:
   push:
     branches: [main]
