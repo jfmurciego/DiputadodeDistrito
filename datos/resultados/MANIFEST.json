@@ -346,9 +346,9 @@
    "sha256_csv": "04f7e4062f84510984d867171bc5b0a5fd8747d53d815fa3e67fe3097a4eb1ed"
   },
   "congreso_santa_cruz_de_tenerife": {
-   "run_id": "41294259017",
-   "blob_sha": "047b62cf96d9474c5dec9fa318e032b5da711133",
-   "sha256_origen": "550dab5817ca8c62f5d3ab76c201e4f6a879334b278aa10834d2297a4b46ce37",
+   "run_id": "42519017008",
+   "blob_sha": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
+   "sha256_origen": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9",
    "distritos": 9,
    "sha256_csv": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8"
   },

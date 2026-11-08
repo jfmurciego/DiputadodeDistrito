@@ -3371,9 +3371,9 @@
   },
   "congreso_santa_cruz_de_tenerife": {
    "provincia": "Santa Cruz de Tenerife",
-   "run_id": "41294259017",
-   "blob_sha": "06790029108d506a62a7d65e853866b86041dddd",
-   "sha256_origen": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b",
+   "run_id": "42519017008",
+   "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
+   "sha256_origen": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae",
    "n_distritos": 9,
    "nombres": {},
    "geojson": {
@@ -3383,8 +3383,8 @@
    "resultados": {
     "ruta": "congreso_santa_cruz_de_tenerife/resultados.csv",
     "sha256": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8",
-    "blob_sha_m08": "047b62cf96d9474c5dec9fa318e032b5da711133",
-    "run_id": "41294259017"
+    "blob_sha_m08": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
+    "run_id": "42519017008"
    },
    "distritos": [
     {
