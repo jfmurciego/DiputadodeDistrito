@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T17:50:24Z",
+  "actualizado_en": "2026-11-08T17:54:12Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -3355,6 +3355,20 @@
       "tamano_estado_original": 78284784,
       "territorio": "congreso_la_rioja",
       "url": "r2://ddd-research-archive/congreso_la_rioja/41294822309/ddd-minimo-41294822309-M08.zip"
+    },
+    "congreso_la_rioja/42504388624/ddd-minimo-42504388624-M06.zip": {
+      "archivado_en": "2026-11-08T17:54:12Z",
+      "artefacto": "ddd-minimo-42504388624-M06",
+      "artefacto_origen": "ddd-state-42504388624-M06",
+      "artifact_id": 13628041085,
+      "caducidad_original": "2026-11-22T17:50:53Z",
+      "run_id": "42504388624",
+      "sha256": "309443d024ff8665ed9d5b31fec69096f5f979e2e6c670b73f624d4dc889cc0a",
+      "sha256_estado_original": "51330170423ceacd4301d78cff951c59cd392e3361bd38d85128bf55bf15533f",
+      "tamano_bytes": 168818,
+      "tamano_estado_original": 77647300,
+      "territorio": "congreso_la_rioja",
+      "url": "r2://ddd-research-archive/congreso_la_rioja/42504388624/ddd-minimo-42504388624-M06.zip"
     },
     "congreso_las_palmas/41432561787/ddd-audit-41432561787.zip": {
       "archivado_en": "2026-11-08T12:19:08Z",

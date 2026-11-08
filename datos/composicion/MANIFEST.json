@@ -809,6 +809,13 @@
    "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
    "ruta": "datos/composicion/runs/congreso_ceuta_42488846588.csv"
   },
+  "congreso_la_rioja/42504388624": {
+   "territorio": "congreso_la_rioja",
+   "run_id": "42504388624",
+   "secciones": 343,
+   "sha256_csv": "5a096f13d2bcf57240777144222efc8e2f7557772cc22fb524195aec56f17fb3",
+   "ruta": "datos/composicion/runs/congreso_la_rioja_42504388624.csv"
+  },
   "congreso_malaga/42490329631": {
    "territorio": "congreso_malaga",
    "run_id": "42490329631",
