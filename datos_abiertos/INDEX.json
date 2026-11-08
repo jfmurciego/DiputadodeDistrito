@@ -255,9 +255,9 @@
   },
   "congreso_almeria": {
    "provincia": "Almería",
-   "run_id": "41295979497",
-   "blob_sha": "373e5f1f840a032f8d3465afa250be2540ebaada",
-   "sha256_origen": "869fba8930ef436c53658fedf8d86a0da1068c941feac94652ef4e5155cffcde",
+   "run_id": "42519378789",
+   "blob_sha": "339adddcc861371e35c714b9c8f667e6d2e1df9a",
+   "sha256_origen": "1b852666d2752f1a5c38c23fc87e9317575b0e0b5408b132f5d57121d76f907e",
    "n_distritos": 6,
    "nombres": {},
    "geojson": {
@@ -267,8 +267,8 @@
    "resultados": {
     "ruta": "congreso_almeria/resultados.csv",
     "sha256": "fa99fcf78bb82c054a919bac0c0329d8c959603aaa4501d769edb8ab34ef0754",
-    "blob_sha_m08": "13cb17a9cb57c9cdff03c956bfdce45a2d1046b0",
-    "run_id": "41295979497"
+    "blob_sha_m08": "989da8a12792c75246faf9b7280faae871e49c16",
+    "run_id": "42519378789"
    },
    "distritos": [
     {

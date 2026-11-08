@@ -87,9 +87,9 @@
    "sha256_csv": "28924177804fd394a8f43b0be9c53b96a753ab61a44a8e5d544119414195b584"
   },
   "congreso_almeria": {
-   "run_id": "41295979497",
-   "blob_sha": "13cb17a9cb57c9cdff03c956bfdce45a2d1046b0",
-   "sha256_origen": "ba3ee77bab666d7d808e204eb59494ed51d10324a9717e0237f98441a9861ac5",
+   "run_id": "42519378789",
+   "blob_sha": "989da8a12792c75246faf9b7280faae871e49c16",
+   "sha256_origen": "a620022b7945f9c343752191fe8ad00bb717eaada5f1e4ddfa87da04c5467962",
    "distritos": 6,
    "sha256_csv": "fa99fcf78bb82c054a919bac0c0329d8c959603aaa4501d769edb8ab34ef0754"
   },
