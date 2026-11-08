@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T21:26:09.585941+00:00",
+  "generated_at": "2026-11-08T21:29:40.093273+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -28,7 +28,7 @@
       "unavailable": 0,
       "activated": 68,
       "activable": 3,
-      "territorial_pending": 49,
+      "territorial_pending": 48,
       "electoral_pending": 49,
       "temporal_substitution": 3,
       "recent_activity": 0
@@ -37,7 +37,7 @@
       "total": 120,
       "legislature_resolved": 120,
       "years_resolved": 120,
-      "territorial_source": 71,
+      "territorial_source": 72,
       "electoral_source": 71,
       "durable_pair": 68
     },
@@ -5284,9 +5284,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -5296,10 +5296,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 42522378370,
+            "receipt_path": "territorios/congreso350_madrid/evidencia/fuentes_territoriales/2025/a8fe87fb016dd267456c3732900cdcd8876dd0c6c0a50360fcd0c42a75f9352a/42522378370/receipt.json"
           }
         },
         "electoral": {
@@ -5309,7 +5309,7 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ACTION_REQUIRED",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
           "state": "NOT_ACCREDITED",
           "pair": {
@@ -5325,11 +5325,6 @@
           "source": "repository_durable_state"
         },
         "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          },
           {
             "domain": "electoral",
             "planner_action": "ACQUIRE",
@@ -11647,25 +11642,32 @@
     {
       "territory_id": "congreso350_madrid",
       "name": "Nacional 350 Madrid",
-      "ft": "yellow",
+      "ft": "green",
       "g": "yellow",
       "fe": "gray",
       "re": "gray",
-      "status": "Validación pendiente",
+      "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "last_run": {},
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "congreso350_madrid",
+          "edition": "2025",
+          "run_id": 42522378370,
+          "artifact_name": "ddd-source-package-congreso350_madrid-2025-42522378370",
+          "artifact_sha256": "8b24dd9fcde64294cded207927927fcc7085dcdd7b1bc130fd7519584ab9a699",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "R28",
       "display_name": "Nacional 350 Madrid",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso350_malaga",
@@ -12395,9 +12397,11 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 0,
-    "ready_names": [],
-    "pending": 49,
+    "ready": 1,
+    "ready_names": [
+      "Nacional 350 Madrid"
+    ],
+    "pending": 48,
     "pending_names": [
       "Nacional 350 Álava",
       "Nacional 350 Albacete",
@@ -12425,7 +12429,6 @@
       "Nacional 350 Lérida",
       "Nacional 350 La Rioja",
       "Nacional 350 Lugo",
-      "Nacional 350 Madrid",
       "Nacional 350 Málaga",
       "Nacional 350 Murcia",
       "Nacional 350 Navarra",
@@ -12524,6 +12527,12 @@
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
       "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional 350 Madrid",
+      "territory_id": "congreso350_madrid",
+      "autonomous_community_code_ine": "R28",
+      "action": "generar y validar distritos"
     }
   ]
 }
