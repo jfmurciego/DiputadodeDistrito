@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de la homologación de siglas de las generales (T-97)
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
+ANTERIOR: ninguna (fichero nuevo en #524; 1.1.0 aplica D-20)
 FUNCIÓN: provincia sintética en el formato compacto (valores escritos a mano): precedencia sigla > familia > identidad,
   votos nulos fuera, sha256 contra el manifiesto, cobertura de Interior; y la tabla versionada pasa `comprobar`
   con los casos acordados (PP-EU → PP; PSC y PSdeG → PSOE; UPN-PP y NA+ en Navarra → UPN, certeza BAJA).
@@ -98,9 +98,33 @@ class TablaVersionada(unittest.TestCase):
         self.assertEqual(una("201911", "27", "PSdeG-PSOE")["partido_homologado"], "PSOE")
         for e, s in (("201111", "UPN-PP"), ("201904", "NA+")):
             f = una(e, "31", s)
-            self.assertEqual((f["partido_homologado"], f["nivel_certeza"]), ("UPN", "BAJA"))
-        self.assertEqual(una("202307", "31", "U.P.N.")["partido_homologado"], "UPN")
+            self.assertEqual((f["partido_homologado"], f["nivel_certeza"]), ("UPN y coaliciones", "DECIDIDA"))
+        self.assertEqual(una("202307", "31", "U.P.N.")["partido_homologado"], "UPN y coaliciones")
         self.assertEqual(una("201911", "51", "MDyC")["partido_homologado"], "MDyC")
+
+    def test_d20_decisiones_del_propietario(self):
+        """Valores literales de D-20 (docs/PLAN.md, 08-11)."""
+        def h(e, s):
+            x = {f["partido_homologado"] for f in self.filas if f["eleccion"] == e and f["sigla_fuente"] == s}
+            self.assertEqual(len(x), 1, (e, s))
+            return x.pop()
+        for s in ("PODEMOS", "EN COMÚ", "PODEMOS-COM", "PODEMOS-En"):
+            self.assertEqual(h("201512", s), "Podemos–Sumar")
+        self.assertEqual(h("201606", "UNIDOS PODEMOS"), "Podemos–Sumar")
+        self.assertEqual(h("202307", "SUMAR"), "Podemos–Sumar")
+        self.assertEqual(h("201111", "CiU"), "CiU–Junts")
+        self.assertEqual(h("201512", "DL"), "CiU–Junts")
+        self.assertEqual(h("201606", "CDC"), "CiU–Junts")
+        self.assertEqual(h("201911", "JxCAT-JUNTS"), "CiU–Junts")
+        self.assertEqual(h("201111", "CHA-IU"), "CHA-IU")
+        self.assertEqual(h("202307", "PDeCAT-E-CiU"), "PDeCAT")
+        self.assertEqual(h("201111", "PSM-IV-EXM-EQUO"), "MÉS")
+        self.assertEqual(h("201904", "EN MAREA"), "EN MAREA")
+        self.assertEqual(h("201111", "Caballas"), "Caballas")
+
+    def test_ninguna_fila_baja(self):
+        self.assertEqual([f for f in self.filas if f["nivel_certeza"] == "BAJA"], [])
+        self.assertEqual(sum(f["nivel_certeza"] == "DECIDIDA" for f in self.filas), 83)
 
 
 if __name__ == "__main__":
