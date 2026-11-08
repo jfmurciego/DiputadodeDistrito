@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Diputado de Distrito · web</title>
+<link href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css" rel="stylesheet">
+<link href="v2.css" rel="stylesheet"></head><body>
+<div class="site">
+<header class="navbar">
+ <div class="nav-inner">
+  <a class="brand" href="#" data-tab-go="inicio"><div class="mark">DDD</div><div><strong>Diputado de Distrito</strong><small data-k="marcaLema"></small></div></a>
+  <nav class="tabs" aria-label="Secciones">
+   <button class="tab active" data-tab="inicio">Mapa</button>
+   <button class="tab" data-tab="nacional">Nacional</button>
+   <button class="tab" data-tab="autonomico">Autonómico</button>
+   <button class="tab" data-tab="elecciones">Elecciones</button>
+   <button class="tab" data-tab="metodo">Método</button>
+  </nav>
+ </div>
+</header>
+
+<main>
+<section class="page active" id="page-inicio">
+ <div class="wrap vz">
+  <div class="vz-cab">
+   <nav class="vistas" aria-label="Vista">
+    <button id="v-congreso" aria-pressed="true">Congreso de los Diputados</button>
+    <button id="v-autonomico" aria-pressed="false">Parlamentos autonómicos</button>
+   </nav>
+   <div class="barra-sup" id="controles-congreso">
+    <div class="grupo" role="group" aria-label="Sistema"><span>Sistema</span>
+     <button class="chip" id="s-real" aria-pressed="true">Real · proporcional (350)</button>
+     <button class="chip" disabled title="Pendiente de T-102">350 distritos · mayoritario<small>T-102</small></button>
+     <button class="chip" disabled title="Pendiente de datos por distrito">407 distritos · propuesta<small>pronto</small></button>
+    </div>
+    <div class="grupo" role="group" aria-label="Capa"><span>Capa</span>
+     <button class="chip" aria-pressed="true">Partido más votado</button>
+     <button class="chip" disabled>Rotación<small>T-83</small></button>
+     <button class="chip" disabled>Participación<small>pronto</small></button>
+     <button class="chip" disabled>Secciones<small>pronto</small></button>
+    </div>
+   </div>
+  </div>
+  <div class="vz-grid">
+   <section class="mapa" aria-label="Mapa">
+    <div id="map"></div>
+    <div class="migas"><span id="ruta">España</span><button class="volver" id="volver" hidden>Volver a España</button></div>
+    <div class="tip" id="tip" hidden></div>
+    <div class="leyenda" id="leyenda"></div>
+   </section>
+   <div class="ficha" id="ficha" aria-live="polite"></div>
+  </div>
+  <nav class="elecciones" aria-label="Elección" id="elecciones-barra"></nav>
+  <p class="vz-pie">Datos reales: generales de 2023 (BOE-A-2023-18907). Geometría: INE (CC BY 4.0), simplificada; Canarias desplazada junto a la península. Mapa de investigación sin valor oficial.</p>
+ </div>
+</section>
+
+<section class="page" id="page-nacional">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Congreso de los Diputados</div><h1 data-k="nacionalTitulo"></h1><p class="lede" data-k="nacionalEntradilla"></p></div>
+  <div class="model-switch">
+   <article class="model active" data-model="407"><span class="tag">Propuesta DDD</span><b>407</b><p data-k="nacionalModelo407"></p><div class="mini"><span>1 distrito por provincia como mínimo</span><span>52 circunscripciones</span></div></article>
+   <article class="model" data-model="350"><span class="tag">Tamaño actual del Congreso</span><b>350</b><p data-k="nacionalModelo350"></p><div class="mini"><span>reparto provincial de 2023</span><span>52 circunscripciones</span></div></article>
+  </div>
+  <div class="compare-wrap section">
+   <div class="card"><h3>Distritos por provincia</h3><p class="sub">Rojo: propuesta de 407 · Azul: escaños reales de 2023 (BOE-A-2023-18907)</p><div class="comparison" id="province-comparison"></div></div>
+   <div class="compare-note"><h3 data-k="nacionalNotaTitulo"></h3><p data-k="nacionalNotaTexto"></p>
+    <div class="delta"><div><b>+57</b><span>distritos frente a 350</span></div><div><b>+16,3 %</b><span>de tamaño de la Cámara</span></div></div></div>
+  </div>
+  <div class="section">
+   <div class="section-head"><h2 data-k="nacionalVisorTitulo"></h2><p data-k="nacionalVisorTexto"></p></div>
+   <div class="viewer-shell">
+    <div class="viewer-top"><div><b>Visor nacional</b><span>407 distritos</span></div><a class="cta secondary" href="../nacional/">Abrir a pantalla completa</a></div>
+    <iframe src="../nacional/" title="Visor nacional" loading="lazy"></iframe>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="page-autonomico">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Parlamentos autonómicos</div><h1 data-k="autonomicoTitulo"></h1><p class="lede" data-k="autonomicoEntradilla"></p></div>
+  <div class="metric-row">
+   <div class="metric"><b>19</b><span>parlamentos</span></div>
+   <div class="metric"><b>1.262</b><span>distritos</span></div>
+   <div class="metric"><b>135</b><span>los mayores: Cataluña y Comunidad de Madrid</span></div>
+   <div class="metric"><b>25</b><span>los menores: Ceuta y Melilla</span></div>
+  </div>
+  <div class="region-layout section">
+   <div class="card"><h3>Distritos por parlamento</h3><p class="sub">Del catálogo de territorios del proyecto.</p><div class="region-bars" id="region-bars"></div></div>
+   <div class="card"><h3>Los 19 parlamentos</h3><p class="sub" data-k="autonomicoFichasPie"></p><div class="region-grid" id="region-grid"></div></div>
+  </div>
+  <div class="section"><div class="section-head"><h2 data-k="autonomicoBloqueTitulo"></h2><p data-k="autonomicoBloqueTexto"></p></div></div>
+ </div>
+</section>
+
+<section class="page" id="page-elecciones">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Elecciones generales</div><h1 data-k="eleccionesTitulo"></h1><p class="lede" data-k="eleccionesEntradilla"></p></div>
+  <div class="timeline"><span class="year future">2011</span><span class="year future">2015</span><span class="year future">2016</span><span class="year future">2019</span><span class="year active">2023</span><span class="year future">2026</span></div>
+  <div class="viewer-shell">
+   <div class="viewer-top"><div><b>Generales de 2023</b><span>Ganador por distrito</span></div><a class="cta secondary" href="../nacional/">Abrir visor</a></div>
+   <iframe src="../nacional/" title="Resultados por distrito" loading="lazy"></iframe>
+  </div>
+  <div class="section"><div class="story-grid">
+   <article class="story"><div class="num">52</div><h3 data-k="eleccionesIdea1Titulo"></h3><p data-k="eleccionesIdea1Texto"></p></article>
+   <article class="story"><div class="num">2023</div><h3 data-k="eleccionesIdea2Titulo"></h3><p data-k="eleccionesIdea2Texto"></p></article>
+   <article class="story"><div class="num">→</div><h3 data-k="eleccionesIdea3Titulo"></h3><p data-k="eleccionesIdea3Texto"></p></article>
+  </div></div>
+ </div>
+</section>
+
+<section class="page" id="page-metodo">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Método</div><h1 data-k="metodoTitulo"></h1><p class="lede" data-k="metodoEntradilla"></p></div>
+  <div class="method-grid">
+   <article class="method"><div class="icon">1</div><h3 data-k="metodo1Titulo"></h3><p data-k="metodo1Texto"></p></article>
+   <article class="method"><div class="icon">2</div><h3 data-k="metodo2Titulo"></h3><p data-k="metodo2Texto"></p></article>
+   <article class="method"><div class="icon">3</div><h3 data-k="metodo3Titulo"></h3><p data-k="metodo3Texto"></p></article>
+   <article class="method"><div class="icon">4</div><h3 data-k="metodo4Titulo"></h3><p data-k="metodo4Texto"></p></article>
+  </div>
+  <div class="sources"><span class="source-pill">INE · secciones censales y padrón</span><span class="source-pill">BOE · escaños y normas electorales</span><span class="source-pill">Ministerio del Interior · resultados por mesa</span><span class="source-pill">Código abierto en GitHub · Zenodo</span></div>
+  <div class="section"><div class="share-card"><div><blockquote data-k="cierreCita"></blockquote><p data-k="cierreAviso"></p></div><div class="big">DDD</div></div></div>
+ </div>
+</section>
+</main>
+<div class="wrap"><footer class="footer"><span data-k="pieTexto"></span><span><a href="https://github.com/jfmurciego/DiputadodeDistrito" target="_blank" rel="noreferrer">Código y metodología en GitHub</a></span></footer></div>
+</div>
+
+<div class="barra-edit">
+ <button id="b-editar">Editar textos</button>
+ <button id="b-claves">Ver claves</button>
+</div>
+<aside class="editor" id="editor" aria-label="Editor de textos">
+ <button class="cta secondary" id="editor-close" style="float:right">Cerrar</button>
+ <h2>Textos</h2>
+ <p style="color:#68716d;font-size:13px">Escribe y pulsa «Aplicar» para verlo en la página. Al terminar, «Copiar textos.md» y pégalo en el fichero del repositorio.</p>
+ <div class="editor-actions">
+   <button id="aplicar">Aplicar</button>
+   <button class="secondary" id="copiar">Copiar textos.md</button>
+   <button class="secondary" id="vaciar">Volver a los huecos</button>
+ </div>
+ <p class="ok" id="aviso-copia" hidden></p>
+ <textarea id="copia-manual" hidden readonly style="margin-top:10px;min-height:160px;width:100%"></textarea>
+ <div id="editor-fields"></div>
+</aside>
+<script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+<script src="v2.js" data-textos="../../web/textos.md"></script>
+</body></html>
