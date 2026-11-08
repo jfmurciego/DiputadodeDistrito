@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso_alicante",
+  "territory_name": "Congreso Alicante",
+  "edition": "2025",
+  "run_id": 42463675548,
+  "artifact_name": "ddd-electoral-package-congreso_alicante-2025-42463675548",
+  "artifact_sha256": "61461b5c1aba79fb8e7e1324e0b5a911f4b5ec9aa453276920c77e2cc1b5020e",
+  "source_commit": "76b75c007d9824d440211999f767734455929644",
+  "election_id": "congreso_alicante_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82"
+}

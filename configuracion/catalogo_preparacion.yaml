@@ -867,7 +867,7 @@ territories:
         section_year: 2023
         source_commit: e802cb5939a7d729fce0a5ab2d4be23932883f37
       evidence:
-        electoral_source: territorios/congreso_alicante/evidencia/fuentes_electorales/2025/600f053e186d955a62ff161b71725e160ba01932f57ed5a8af715476156830ec/41239760809/receipt.json
+        electoral_source: territorios/congreso_alicante/evidencia/fuentes_electorales/2025/b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82/42463675548/receipt.json
         generation_preflight: territorios/congreso_alicante/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_alicante/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_alicante/evidencia/pares_fuentes/2025/a15a905eafdabb7df54ebcd58b326c874fa91adc44bf70a9814a0fa7b4433d4d.json
