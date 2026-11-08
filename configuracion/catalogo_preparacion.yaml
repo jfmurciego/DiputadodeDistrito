@@ -3258,6 +3258,8 @@ territories:
         section_year: 2023
         source_commit: 6d589145792bf72b03aaa9c91a69ea5c77524f62
       generation_enabled: false
+      evidence:
+        generation_preflight: territorios/congreso350_madrid/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: congreso350_malaga
   name: Congreso 350 Málaga
   editions:
