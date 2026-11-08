@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T16:25:08Z",
+  "actualizado_en": "2026-11-08T17:01:38Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -189,6 +189,21 @@
       "tamano_bytes": 213252100,
       "territorio": "aragon",
       "url": "r2://ddd-research-archive/aragon/40979465420/ddd-state-40979465420-M08.zip"
+    },
+    "aragon/42497101869/ddd-minimo-42497101869-M08.zip": {
+      "archivado_en": "2026-11-08T17:01:38Z",
+      "artefacto": "ddd-minimo-42497101869-M08",
+      "artefacto_origen": "ddd-state-42497101869-M08",
+      "artifact_id": 13626101284,
+      "caducidad_original": "2026-11-22T16:59:37Z",
+      "incluye_m06_run": "42497101869",
+      "run_id": "42497101869",
+      "sha256": "62d893b4584d5c823bcdf00a6de533cee1a8e9c83e72675d6449571fb3ce2ea2",
+      "sha256_estado_original": "eaef03007dbb0b2bb12e7516b030a662849ec4ad8365d353ad677ec7ab8daac0",
+      "tamano_bytes": 1853777,
+      "tamano_estado_original": 96118684,
+      "territorio": "aragon",
+      "url": "r2://ddd-research-archive/aragon/42497101869/ddd-minimo-42497101869-M08.zip"
     },
     "canarias/40951280657/ddd-audit-40951280657.zip": {
       "archivado_en": "2026-11-07T17:10:14Z",
@@ -1002,6 +1017,20 @@
       "tamano_bytes": 366903711,
       "territorio": "castilla_y_leon",
       "url": "r2://ddd-research-archive/castilla_y_leon/40979527162/ddd-state-40979527162-M08.zip"
+    },
+    "castilla_y_leon/42497104110/ddd-minimo-42497104110-M06.zip": {
+      "archivado_en": "2026-11-08T16:50:33Z",
+      "artefacto": "ddd-minimo-42497104110-M06",
+      "artefacto_origen": "ddd-state-42497104110-M06",
+      "artifact_id": 13625566660,
+      "caducidad_original": "2026-11-22T16:33:50Z",
+      "run_id": "42497104110",
+      "sha256": "322f526b6d4bca1d2a3404633042a16ee0c37d51eb4c66f97fcd31eb8d7893fe",
+      "sha256_estado_original": "2265db3564af02bc7c1d3452368c2437b9c12e06d26d92bf99ef43d27a2901a1",
+      "tamano_bytes": 1780958,
+      "tamano_estado_original": 113464347,
+      "territorio": "castilla_y_leon",
+      "url": "r2://ddd-research-archive/castilla_y_leon/42497104110/ddd-minimo-42497104110-M06.zip"
     },
     "cataluna/40952013601/ddd-audit-40952013601.zip": {
       "archivado_en": "2026-11-07T17:11:01Z",

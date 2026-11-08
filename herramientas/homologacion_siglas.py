@@ -3,11 +3,12 @@
 """Tabla de homologación de siglas de las generales 2011-2023 para la capa de rotación del visor (T-97).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
+CAMBIOS: 1.1.0: nivel DECIDIDA (D-20: las 83 filas BAJA las resuelve el propietario); el resumen lista las decididas y las BAJA que queden.
+  1.0.0: fichero nuevo.
 MOTIVO: la rotación (T-84) cuenta «PP-EU → PP» como cambio de ganador (hallazgo de T-83A). La tabla se presenta al
   propietario ANTES de usarse; esta herramienta NO la aplica a la rotación ni toca el visor.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/homologacion_siglas_v1.0.0_20261108.py
 QUÉ HACE: `construir` lee el espejo T-89 (data/<elección>/sekzioa/<cpro>.json: siglas `s` y familia `f`), comprueba el
   sha256 de cada fichero contra orchestracion/fuente_nazioenbehatokia.json y escribe, por elección, circunscripción y
   sigla con votos, el partido homologado según datos/homologacion_siglas/reglas_generales.json (regla de sigla > regla
@@ -40,8 +41,8 @@ SALIDA_CSV = f"{DIR}/homologacion_siglas_generales.csv"
 SALIDA_JSON = f"{DIR}/homologacion_siglas_generales.json"
 MANIFIESTO = fn.SALIDA
 SCHEMA = "ddd.homologacion-siglas/1.0"
-VERSION = "1.0.0"
-CERTEZAS = ("ALTA", "MEDIA", "BAJA")
+VERSION = "1.1.0"
+CERTEZAS = ("ALTA", "MEDIA", "BAJA", "DECIDIDA")
 COLUMNAS = ["eleccion", "provincia", "sigla_fuente", "votos_fuente", "familia_fuente", "partido_homologado",
             "nivel_certeza", "regla", "interior", "ruta_fuente", "sha256_fuente"]
 FAMILIA_RE = re.compile(r"^a\d+$")
@@ -185,16 +186,19 @@ def resumen(filas: list[dict], reglas: dict) -> dict:
     por_ele = {e: dict(Counter(r["nivel_certeza"] for r in filas if r["eleccion"] == e)) for e in sorted({r["eleccion"] for r in filas})}
     cambios: dict = {}
     for r in filas:
-        if r["partido_homologado"] != r["sigla_fuente"] or r["nivel_certeza"] == "BAJA":
+        if r["partido_homologado"] != r["sigla_fuente"] or r["nivel_certeza"] in ("BAJA", "DECIDIDA"):
             k = (r["eleccion"], r["sigla_fuente"], r["partido_homologado"], r["nivel_certeza"], r["regla"])
             cambios.setdefault(k, [0, 0])
             cambios[k][0] += 1
             cambios[k][1] += r["votos_fuente"]
-    decisiones = [{"eleccion": e, "sigla_fuente": s, "partido_homologado": h, "regla": rid, "circunscripciones": n, "votos": v}
-                  for (e, s, h, c, rid), (n, v) in sorted(cambios.items()) if c == "BAJA"]
+    def agrupa(nivel):
+        return [{"eleccion": e, "sigla_fuente": s, "partido_homologado": h, "regla": rid, "circunscripciones": n, "votos": v}
+                for (e, s, h, c, rid), (n, v) in sorted(cambios.items()) if c == nivel]
+    decisiones, decididas = agrupa("BAJA"), agrupa("DECIDIDA")
     inter = Counter(r["interior"] for r in filas)
     return {"filas": len(filas), "por_certeza": dict(por_cert), "por_eleccion": por_ele,
-            "corroboracion_interior": dict(inter), "decisiones_baja_para_el_propietario": decisiones}
+            "corroboracion_interior": dict(inter), "decisiones_baja_para_el_propietario": decisiones,
+            "decididas_por_el_propietario_d20": decididas}
 
 
 def escribir_json(filas: list[dict], reglas_p: Path, csv_p: Path, destino: Path, root: Path = ROOT) -> dict:
@@ -203,8 +207,8 @@ def escribir_json(filas: list[dict], reglas_p: Path, csv_p: Path, destino: Path,
     for e, ruta in fn.OFICIALES.items():
         if (root / ruta).exists():
             interior_f[e] = {"ruta": ruta, "sha256": sha256(root / ruta)}
-    doc = {"schema": SCHEMA, "version": VERSION, "fecha": FECHA, "estado": "PROPUESTA_PENDIENTE_PROPIETARIO",
-           "uso": "No aplicada a la rotación ni al visor hasta decisión del propietario (T-97).",
+    doc = {"schema": SCHEMA, "version": VERSION, "fecha": FECHA, "estado": "APLICADA_D20",
+           "uso": "Resuelta por D-20 (docs/PLAN.md); la aplicación a la rotación (T-84) es otra tarea.",
            "niveles_certeza": reglas["niveles"],
            "fuentes": {"observatorio": {"manifiesto": MANIFIESTO, "sha256_manifiesto": sha256(root / MANIFIESTO),
                                         "url": fn.BASE, "campos": "s (siglas), f (familia)"},

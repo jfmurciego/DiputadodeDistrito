@@ -47,12 +47,56 @@
   }
  },
  "resumen": {
-  "territorios": 67,
-  "productos": 339,
+  "territorios": 71,
+  "productos": 347,
   "errores": 0,
-  "avisos": 128
+  "avisos": 114
  },
  "territorios": {
+  "andalucia": {
+   "fuente_territorial": {
+    "run_id": "40946875467",
+    "package_sha256": "2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37",
+    "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+    "territorial_identity_sha256": "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
+    "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json",
+    "population_year": 2025,
+    "section_year": 2025
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/andalucia/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json",
+    "identity_sha256": "995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-andalucia-42495072594",
+     "run_id": "42495072594",
+     "vigente": true,
+     "sha256": "c46a253a0db0896b5e58fd97c5a7681fa246bcf3853d6df20be573152b194541",
+     "copia_git": {
+      "blob_sha": "d90d9e047cdaca7e0f15e88b3528b9ab2c4bac3e",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-andalucia-42495072594",
+     "run_id": "42495072594",
+     "vigente": true,
+     "sha256": "20e898e8c031c9609cee70a1cc9dbe191ebb5d312c754ef250fbf47cb0925610",
+     "copia_git": {
+      "blob_sha": "3810296b91756fbfad65bdd38ec6380dda9535aa",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    }
+   ]
+  },
   "aragon": {
    "fuente_territorial": {
     "run_id": "40691712762",
@@ -86,11 +130,11 @@
   },
   "canarias": {
    "fuente_territorial": {
-    "run_id": "40946861866",
+    "run_id": "42504381511",
     "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
-    "artifact_sha256": "0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb",
+    "artifact_sha256": "15d1741f9a9a20768a06ce34dbedf2a8988af703646a7931128fc9343c76b57f",
     "territorial_identity_sha256": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
-    "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/40946861866/receipt.json",
+    "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/42504381511/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -1010,6 +1054,50 @@
     }
    ]
   },
+  "congreso_alicante": {
+   "fuente_territorial": {
+    "run_id": "42409605030",
+    "package_sha256": "89012683d93b6426a51dbe26181f264e2e4c173bcfe90da44505634a79040eda",
+    "artifact_sha256": "03fcb111cf36f97db49f60be1fd9c6731465263f07c520d14ca57cd8cafb52e0",
+    "territorial_identity_sha256": "5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2",
+    "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_territoriales/2025/5069521dc815a565b263910a381dbd4cd4fe072a236d204569c151c74a978cf2/42409605030/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/congreso_alicante/evidencia/fuentes_electorales/2025/b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82/42463675548/receipt.json",
+    "identity_sha256": "b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-congreso_alicante-42495067503",
+     "run_id": "42495067503",
+     "vigente": true,
+     "sha256": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443",
+     "copia_git": {
+      "blob_sha": "5915aa729c6bb763fa468917a2a414b277c9fd29",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_alicante-42495067503",
+     "run_id": "42495067503",
+     "vigente": true,
+     "sha256": "b82f3e65b037a8efa876afb94fca8bc681b3eb4cb2b73770c175a5442078b698",
+     "copia_git": {
+      "blob_sha": "bff1eb7b07b34f922482a8e9e35aa3b45fc41487",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    }
+   ]
+  },
   "congreso_almeria": {
    "fuente_territorial": {
     "run_id": "41242160179",
@@ -1437,6 +1525,50 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "37af82d713001e4a4598d2c8f2927cb319c2b8712d92de8ce4a652cee466d47a"
+    }
+   ]
+  },
+  "congreso_barcelona": {
+   "fuente_territorial": {
+    "run_id": "42409499602",
+    "package_sha256": "968f68fd67d6b74ba5b1fb9c5eb76031f5a0deb3cadb38a2d672461db40177e7",
+    "artifact_sha256": "37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270",
+    "territorial_identity_sha256": "07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a",
+    "receipt_path": "territorios/congreso_barcelona/evidencia/fuentes_territoriales/2025/07dec029d20b7b9394a7d5a78965b5d176288ae2d13537b4792a426a97b0f95a/42409499602/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/congreso_barcelona/evidencia/fuentes_electorales/2025/e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af/42489980111/receipt.json",
+    "identity_sha256": "e8203257f78dee511e0b5e1592611d712f6ae45c76c443a84a164e3983b652af"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-congreso_barcelona-42495069270",
+     "run_id": "42495069270",
+     "vigente": true,
+     "sha256": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f",
+     "copia_git": {
+      "blob_sha": "0744f6c1365a241a24e01ec3bd48556d751908ab",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_barcelona-42495069270",
+     "run_id": "42495069270",
+     "vigente": true,
+     "sha256": "ea82f1a13863487652a200d082dd97060841a300efd3a32b49f867800eb58ab2",
+     "copia_git": {
+      "blob_sha": "13e085cbb2e47bdf290eef497765e460fc336bf2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
     }
    ]
   },
@@ -3455,6 +3587,50 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "0b3b809db79a79619d10ac8452ed45c454834bb3490a58fa3838a9e54b35e5c0"
+    }
+   ]
+  },
+  "congreso_malaga": {
+   "fuente_territorial": {
+    "run_id": "42409615215",
+    "package_sha256": "37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0",
+    "artifact_sha256": "ee2301bea2c6cd972e433c1816e914bd900c09ecc3096756573d3fc9e975e5d3",
+    "territorial_identity_sha256": "8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3",
+    "receipt_path": "territorios/congreso_malaga/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/congreso_malaga/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json",
+    "identity_sha256": "6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-congreso_malaga-42495070976",
+     "run_id": "42495070976",
+     "vigente": true,
+     "sha256": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d",
+     "copia_git": {
+      "blob_sha": "9fcb5c60190c3362f7bb7dcf46c34768d97396cb",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_malaga-42495070976",
+     "run_id": "42495070976",
+     "vigente": true,
+     "sha256": "a25b2f54c5ceb6f2038b6916ee87101ae6e6fb0cd688f38e27969971f6be0720",
+     "copia_git": {
+      "blob_sha": "0ae1a479c4a0051e27068c0dcc4cfc2290507530",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
     }
    ]
   },
@@ -6025,160 +6201,6 @@
  "incoherencias": [
   {
    "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42409764232/ddd-audit-42409764232.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42409764232/ddd-minimo-42409764232-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42430164925/ddd-minimo-42430164925-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42495072594/ddd-minimo-42495072594-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_alicante",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_alicante/42409605030/ddd-audit-42409605030.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_alicante",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_alicante/42409605030/ddd-minimo-42409605030-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_alicante",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_alicante/42418334746/ddd-audit-electoral-42418334746.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_alicante",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_alicante/42418334746/ddd-minimo-42418334746-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_alicante",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_alicante/42490325518/ddd-minimo-42490325518-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_alicante",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_alicante/42495067503/ddd-minimo-42495067503-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_barcelona",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_barcelona/42409499602/ddd-audit-42409499602.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_barcelona",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_barcelona/42409499602/ddd-minimo-42409499602-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_barcelona",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_barcelona/42416213698/ddd-audit-electoral-42416213698.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_barcelona",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_barcelona/42416213698/ddd-minimo-42416213698-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_barcelona",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_barcelona/42490327657/ddd-minimo-42490327657-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_barcelona",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_barcelona/42495069270/ddd-minimo-42495069270-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42409615215/ddd-audit-42409615215.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42409615215/ddd-minimo-42409615215-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42418628975/ddd-audit-electoral-42418628975.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42418628975/ddd-minimo-42418628975-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42490329631/ddd-minimo-42490329631-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42495070976/ddd-minimo-42495070976-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
    "territorio": "nazioenbehatokia",
    "producto": "201111",
    "codigo": "SIN_CONTRASTE_OFICIAL",
@@ -6204,6 +6226,20 @@
    "producto": "201904",
    "codigo": "SIN_CONTRASTE_OFICIAL",
    "detalle": "sin fuente oficial local para contrastar"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495072594: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495072594: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -6249,6 +6285,20 @@
   },
   {
    "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495067503: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495067503: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "congreso_almeria",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
@@ -6316,6 +6366,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 41481449507: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495069270: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495069270: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -6638,6 +6702,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 41622703086: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495070976: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495070976: solo copia git"
   },
   {
    "nivel": "AVISO",

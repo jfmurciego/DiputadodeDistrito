@@ -1,5 +1,5 @@
 {
- "estado": "PROPUESTA_PENDIENTE_PROPIETARIO",
+ "estado": "APLICADA_D20",
  "fecha": "2026-11-08",
  "fuentes": {
   "interior": {
@@ -23,11 +23,12 @@
  "niveles_certeza": {
   "ALTA": "mismo partido: sigla idéntica, variante gráfica o federada ya homologada en el repositorio (HOMOLOGACION_2019 / hemiciclo)",
   "BAJA": "sucesión con fusión o escisión, o la familia de la fuente discrepa del criterio: decisión del propietario",
+  "DECIDIDA": "resuelta por el propietario en D-20 (08-11, docs/PLAN.md): antes BAJA",
   "MEDIA": "coalición o marca territorial con el partido como cabeza, o sucesión directa; criterio razonado, falta corroborar con Interior"
  },
  "reglas": {
   "ruta": "datos/homologacion_siglas/reglas_generales.json",
-  "sha256": "38f6b7394ebbe244622989a12b54795b2e127dfb6f71a9c87a4ede22d8d03962"
+  "sha256": "fe8a3487c2ca5f5b5f2ab24fc0c3d598b43f01cdac1630bf0733242b1fe59617"
  },
  "resumen": {
   "corroboracion_interior": {
@@ -35,11 +36,11 @@
    "INTERIOR_NO_ADQUIRIDA": 2324,
    "SIN_ESCAÑO_EN_INTERIOR": 646
   },
-  "decisiones_baja_para_el_propietario": [
+  "decididas_por_el_propietario_d20": [
    {
     "circunscripciones": 3,
     "eleccion": "201111",
-    "partido_homologado": "CHA",
+    "partido_homologado": "CHA-IU",
     "regla": "SIGLA:CHA-IU",
     "sigla_fuente": "CHA-IU",
     "votos": 74715
@@ -55,7 +56,7 @@
    {
     "circunscripciones": 4,
     "eleccion": "201111",
-    "partido_homologado": "JUNTS",
+    "partido_homologado": "CiU–Junts",
     "regla": "FAMILIA:a11@201111",
     "sigla_fuente": "CiU",
     "votos": 1014277
@@ -71,7 +72,7 @@
    {
     "circunscripciones": 1,
     "eleccion": "201111",
-    "partido_homologado": "UPN",
+    "partido_homologado": "UPN y coaliciones",
     "regla": "SIGLA:UPN-PP",
     "sigla_fuente": "UPN-PP",
     "votos": 126118
@@ -79,7 +80,7 @@
    {
     "circunscripciones": 4,
     "eleccion": "201512",
-    "partido_homologado": "JUNTS",
+    "partido_homologado": "CiU–Junts",
     "regla": "FAMILIA:a11@201512",
     "sigla_fuente": "DL",
     "votos": 565742
@@ -87,7 +88,7 @@
    {
     "circunscripciones": 4,
     "eleccion": "201512",
-    "partido_homologado": "SUMAR",
+    "partido_homologado": "Podemos–Sumar",
     "regla": "FAMILIA:a1@201512",
     "sigla_fuente": "EN COMÚ",
     "votos": 927053
@@ -95,7 +96,7 @@
    {
     "circunscripciones": 41,
     "eleccion": "201512",
-    "partido_homologado": "SUMAR",
+    "partido_homologado": "Podemos–Sumar",
     "regla": "FAMILIA:a1@201512",
     "sigla_fuente": "PODEMOS",
     "votos": 3182256
@@ -103,7 +104,7 @@
    {
     "circunscripciones": 3,
     "eleccion": "201512",
-    "partido_homologado": "SUMAR",
+    "partido_homologado": "Podemos–Sumar",
     "regla": "FAMILIA:a1@201512",
     "sigla_fuente": "PODEMOS-COM",
     "votos": 671077
@@ -111,7 +112,7 @@
    {
     "circunscripciones": 4,
     "eleccion": "201512",
-    "partido_homologado": "SUMAR",
+    "partido_homologado": "Podemos–Sumar",
     "regla": "FAMILIA:a1@201512",
     "sigla_fuente": "PODEMOS-En",
     "votos": 408417
@@ -119,7 +120,7 @@
    {
     "circunscripciones": 1,
     "eleccion": "201512",
-    "partido_homologado": "UPN",
+    "partido_homologado": "UPN y coaliciones",
     "regla": "SIGLA:UPN-PP",
     "sigla_fuente": "UPN-PP",
     "votos": 101901
@@ -127,7 +128,7 @@
    {
     "circunscripciones": 4,
     "eleccion": "201606",
-    "partido_homologado": "JUNTS",
+    "partido_homologado": "CiU–Junts",
     "regla": "FAMILIA:a11@201606",
     "sigla_fuente": "CDC",
     "votos": 481663
@@ -135,7 +136,7 @@
    {
     "circunscripciones": 1,
     "eleccion": "201606",
-    "partido_homologado": "UPN",
+    "partido_homologado": "UPN y coaliciones",
     "regla": "SIGLA:UPN-PP",
     "sigla_fuente": "UPN-PP",
     "votos": 106433
@@ -151,7 +152,7 @@
    {
     "circunscripciones": 1,
     "eleccion": "201904",
-    "partido_homologado": "UPN",
+    "partido_homologado": "UPN y coaliciones",
     "regla": "SIGLA:NA+",
     "sigla_fuente": "NA+",
     "votos": 107112
@@ -167,7 +168,7 @@
    {
     "circunscripciones": 1,
     "eleccion": "201911",
-    "partido_homologado": "UPN",
+    "partido_homologado": "UPN y coaliciones",
     "regla": "SIGLA:NA+",
     "sigla_fuente": "NA+",
     "votos": 98450
@@ -181,41 +182,42 @@
     "votos": 31649
    }
   ],
+  "decisiones_baja_para_el_propietario": [],
   "filas": 3501,
   "por_certeza": {
    "ALTA": 2667,
-   "BAJA": 83,
+   "DECIDIDA": 83,
    "MEDIA": 751
   },
   "por_eleccion": {
    "201111": {
     "ALTA": 481,
-    "BAJA": 10,
+    "DECIDIDA": 10,
     "MEDIA": 101
    },
    "201512": {
     "ALTA": 422,
-    "BAJA": 57,
+    "DECIDIDA": 57,
     "MEDIA": 126
    },
    "201606": {
     "ALTA": 407,
-    "BAJA": 5,
+    "DECIDIDA": 5,
     "MEDIA": 133
    },
    "201904": {
     "ALTA": 423,
-    "BAJA": 5,
+    "DECIDIDA": 5,
     "MEDIA": 154
    },
    "201911": {
     "ALTA": 482,
-    "BAJA": 2,
+    "DECIDIDA": 2,
     "MEDIA": 143
    },
    "202307": {
     "ALTA": 452,
-    "BAJA": 4,
+    "DECIDIDA": 4,
     "MEDIA": 94
    }
   }
@@ -223,8 +225,8 @@
  "schema": "ddd.homologacion-siglas/1.0",
  "tabla": {
   "ruta": "datos/homologacion_siglas/homologacion_siglas_generales.csv",
-  "sha256": "52051da748517a33efec486ecee1c8bb33afbe09d20793e577537904abcda5ea"
+  "sha256": "58a179fa41655572fa92b88eb9985963a0685ecc97839a6f520f613fdb5b43a3"
  },
- "uso": "No aplicada a la rotación ni al visor hasta decisión del propietario (T-97).",
- "version": "1.0.0"
+ "uso": "Resuelta por D-20 (docs/PLAN.md); la aplicación a la rotación (T-84) es otra tarea.",
+ "version": "1.1.0"
 }

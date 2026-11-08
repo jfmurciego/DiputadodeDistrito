@@ -78,7 +78,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40979465420
+        run_id: 42497101869
         stage: M08
       preparation_evidence:
         run_id: 40691712762
@@ -192,25 +192,25 @@ territories:
         run_id: 40951280657
         stage: M08
       preparation_evidence:
-        run_id: 40946861866
-        artifact_name: ddd-source-package-canarias-2025-40946861866
-        artifact_sha256: 0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb
+        run_id: 42504381511
+        artifact_name: ddd-source-package-canarias-2025-42504381511
+        artifact_sha256: 15d1741f9a9a20768a06ce34dbedf2a8988af703646a7931128fc9343c76b57f
         package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
-        receipt_path: territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/40946861866/receipt.json
+        receipt_path: territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/42504381511/receipt.json
         territorial_identity_sha256: 148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393
         compatibility_report_sha256: 86f389eec7d9ad8aefa24f76bcbde7953727a9e5811532b702d0268b92f08dc7
         compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 091d40cef648abcc9319af1f6dc3488a5abdc556
+        source_commit: 77333d60afad865e557827c68afd990e8e6c9909
       evidence:
         electoral_source: territorios/canarias/evidencia/fuentes_electorales/2025/02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11/36789298682/receipt.json
         prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json
-        generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/canarias/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/canarias/evidencia/catalogo/electoral_product_2025.json
-      generation_enabled: true
+        generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: false
 - territory_id: cantabria
   name: Cantabria
   editions:
@@ -312,8 +312,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40979527162
-        stage: M08
+        run_id: 42497104110
+        stage: M06
       preparation_evidence:
         run_id: 40969454399
         artifact_name: ddd-source-package-castilla_y_leon-2025-40969454399

@@ -10,13 +10,13 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-08T16:29:21.997114+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-08T17:14:27.946638+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **71** | 01 Andalucía · 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Nacional Álava · Nacional Albacete · Nacional Alicante · Nacional Almería · Nacional Ávila · Nacional Badajoz · Nacional Baleares · Nacional Barcelona · Nacional Burgos · Nacional Cáceres · Nacional Cádiz · Nacional Castellón · Nacional Ciudad Real · Nacional Córdoba · Nacional La Coruña · Nacional Cuenca · Nacional Gerona · Nacional Granada · Nacional Guadalajara · Nacional Guipúzcoa · Nacional Huelva · Nacional Huesca · Nacional Jaén · Nacional León · Nacional Lérida · Nacional La Rioja · Nacional Lugo · Nacional Madrid · Nacional Málaga · Nacional Murcia · Nacional Navarra · Nacional Orense · Nacional Asturias · Nacional Palencia · Nacional Las Palmas · Nacional Pontevedra · Nacional Salamanca · Nacional Santa Cruz de Tenerife · Nacional Cantabria · Nacional Segovia · Nacional Sevilla · Nacional Soria · Nacional Tarragona · Nacional Teruel · Nacional Toledo · Nacional Valencia · Nacional Valladolid · Nacional Vizcaya · Nacional Zamora · Nacional Zaragoza · Nacional Ceuta · Nacional Melilla |
+| **Cadena completa validada** | 🟢 **70** | 01 Andalucía · 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Nacional Álava · Nacional Albacete · Nacional Alicante · Nacional Almería · Nacional Ávila · Nacional Badajoz · Nacional Baleares · Nacional Barcelona · Nacional Burgos · Nacional Cáceres · Nacional Cádiz · Nacional Castellón · Nacional Ciudad Real · Nacional Córdoba · Nacional La Coruña · Nacional Cuenca · Nacional Gerona · Nacional Granada · Nacional Guadalajara · Nacional Guipúzcoa · Nacional Huelva · Nacional Huesca · Nacional Jaén · Nacional León · Nacional Lérida · Nacional La Rioja · Nacional Lugo · Nacional Madrid · Nacional Málaga · Nacional Murcia · Nacional Navarra · Nacional Orense · Nacional Asturias · Nacional Palencia · Nacional Las Palmas · Nacional Pontevedra · Nacional Salamanca · Nacional Santa Cruz de Tenerife · Nacional Cantabria · Nacional Segovia · Nacional Sevilla · Nacional Soria · Nacional Tarragona · Nacional Teruel · Nacional Toledo · Nacional Valencia · Nacional Valladolid · Nacional Vizcaya · Nacional Zamora · Nacional Zaragoza · Nacional Ceuta · Nacional Melilla |
 | **Generación territorial validada** | 🟢 **71** | 01 Andalucía · 02 Aragón · 03 Principado de Asturias · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 09 Cataluña · 10 Comunidad Valenciana · 11 Extremadura · 12 Galicia · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 18 Ceuta · 19 Melilla · Nacional Álava · Nacional Albacete · Nacional Alicante · Nacional Almería · Nacional Ávila · Nacional Badajoz · Nacional Baleares · Nacional Barcelona · Nacional Burgos · Nacional Cáceres · Nacional Cádiz · Nacional Castellón · Nacional Ciudad Real · Nacional Córdoba · Nacional La Coruña · Nacional Cuenca · Nacional Gerona · Nacional Granada · Nacional Guadalajara · Nacional Guipúzcoa · Nacional Huelva · Nacional Huesca · Nacional Jaén · Nacional León · Nacional Lérida · Nacional La Rioja · Nacional Lugo · Nacional Madrid · Nacional Málaga · Nacional Murcia · Nacional Navarra · Nacional Orense · Nacional Asturias · Nacional Palencia · Nacional Las Palmas · Nacional Pontevedra · Nacional Salamanca · Nacional Santa Cruz de Tenerife · Nacional Cantabria · Nacional Segovia · Nacional Sevilla · Nacional Soria · Nacional Tarragona · Nacional Teruel · Nacional Toledo · Nacional Valencia · Nacional Valladolid · Nacional Vizcaya · Nacional Zamora · Nacional Zaragoza · Nacional Ceuta · Nacional Melilla |
 | **Preparados para continuar** | 🔵 **0** | — |
 | **Validación pendiente** | 🟡 **0** | — |
@@ -28,13 +28,13 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 
 | Territorio | FT | G | FE | RE | PUB | Estado | Última ejecución | Parada en | Motivo | Siguiente paso |
 |---|:---:|:---:|:---:|:---:|:---:|---|---|---|---|---|
-| **01 Andalucía** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42430164925 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | — |
+| **01 Andalucía** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495072594 · SUCCESS | — | — | — |
 | **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979465420 · SUCCESS | — | — | — |
 | **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979477771 · SUCCESS | — | — | — |
 | **04 Islas Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41033500476 · SUCCESS | — | — | — |
 | **05 Canarias** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062557004 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
 | **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41195453629 · SUCCESS | — | — | — |
-| **07 Castilla y León** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979527162 · SUCCESS | — | — | — |
+| **07 Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42497104110 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
 | **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 40979540141 · SUCCESS | — | — | — |
 | **09 Cataluña** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41062562553 · SUCCESS | — | — | — |
 | **10 Comunidad Valenciana** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41062567297 · SUCCESS | — | — | — |
@@ -48,13 +48,13 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **18 Ceuta** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062577400 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
 | **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062581404 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
 | **Nacional Álava** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41346917857 · SUCCESS | — | — | — |
-| **Nacional Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294417893 · SUCCESS | — | — | — |
-| **Nacional Alicante** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42490325518 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | — |
-| **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295979497 · SUCCESS | — | — | — |
+| **Nacional Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42499467982 · SUCCESS | — | — | — |
+| **Nacional Alicante** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495067503 · SUCCESS | — | — | — |
+| **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42499470017 · SUCCESS | — | — | — |
 | **Nacional Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41241662219 · SUCCESS | — | — | — |
-| **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299475924 · SUCCESS | — | — | — |
+| **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42499465760 · SUCCESS | — | — | — |
 | **Nacional Baleares** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41481449507 · SUCCESS | — | — | — |
-| **Nacional Barcelona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42490327657 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | — |
+| **Nacional Barcelona** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495069270 · SUCCESS | — | — | — |
 | **Nacional Burgos** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299221887 · SUCCESS | — | — | — |
 | **Nacional Cáceres** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294658600 · SUCCESS | — | — | — |
 | **Nacional Cádiz** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41500124775 · SUCCESS | — | — | — |
@@ -75,7 +75,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294822309 · FAILED | — | — | — |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41294985244 · FAILED | — | — | — |
 | **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622703086 · SUCCESS | — | — | — |
-| **Nacional Málaga** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42490329631 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | — |
+| **Nacional Málaga** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495070976 · SUCCESS | — | — | — |
 | **Nacional Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622862185 · SUCCESS | — | — | — |
 | **Nacional Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299128213 · SUCCESS | — | — | — |
 | **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295142111 · SUCCESS | — | — | — |
