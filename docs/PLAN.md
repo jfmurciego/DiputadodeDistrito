@@ -4,7 +4,7 @@ Versión: 1.0.24
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-90 (generales del 29-11-2026); T-87 por el Operador (D-14); T-91 ensembles_10 de todos los territorios
+Cambios/motivo: T-90 (generales del 29-11-2026); T-87 por el Operador (D-14); T-91 ensembles_10 de todos los territorios; T-92 en espera
 Anterior: legacy/docs/PLAN_v1.0.23_20261108.md
 -->
 
@@ -304,6 +304,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-83 | Reagregación (D-10, D-12): paso B, herramienta fuera de línea que lleva los votos de cada general 2011-2023 (espejo T-89) a los distritos vigentes con la tabla de T-85; ganador y votos por partido por distrito en `datos/resultados/historico/`; validada con 3 provincias (una con muchas secciones partidas) y cuadre de totales provinciales con Infoelectoral; el paso A (M07/M08, puerta 04) se encarga al validar B | por abrir (Sonnet), tras T-85 (peso fijado en D-13) | Totales provinciales cuadran al voto; tests; sin lanzar ni publicar |
 | T-90 | Preparar las generales del 29-11-2026 (anunciadas por Interior; fecha y convocatoria se confirman en el BOE, nunca de memoria): (1) del real decreto de convocatoria, escaños por provincia en un CSV con fuente y sha256, y diferencias con 2023; si cambia alguno, se para y se presenta al propietario (afecta al número de distritos); (2) universo electoral nuevo (como 02202307) en contratos y catálogo; (3) espejo del ZIP por mesa de Infoelectoral en un release, como `fuente-infoelectoral-02202307`, en cuanto se publique; (4) prueba en local de la 03 y M07/M08 con una provincia. No altera la legislatura vigente hasta decisión del propietario | por abrir (Sonnet), ya | Pasos 1 y 2 en una PR antes del 29-11; 3 y 4 cuando Interior publique; sin lanzar ni publicar |
 | T-91 | Ensembles de 10 (06, `ensemble_10`) de los 52 territorios nacionales y las 19 autonómicas, por orden del propietario (D-15); primero uno de prueba y luego el resto por lotes; el 50 sigue bloqueado | Coordinador + Operador, al cerrar la ola 2 | Ensembles de todos los territorios registrados; publicar, solo con permiso |
+| T-92 | Resultados de las generales del 29-11-2026 sobre los distritos vigentes: paso A (03, M07/M08, puerta 04) de las 52 provincias y publicación (D-14). Se encarga cuando T-90 confirme los escaños del BOE; si cambian, antes decide el propietario. Orden de la cola tras T-92: T-83, T-87, T-91, T-83 A y T-84, autonómicas del histórico | en espera de T-90 paso 1 | 52/52 con M08 2026 y en el visor con permiso del propietario |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
