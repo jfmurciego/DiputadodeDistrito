@@ -1,0 +1,123 @@
+schema: ddd-election-registry/1.0
+edition: '2025'
+territories:
+  andalucia: {codauto: '01', name: Andalucía, election_id: andalucia_parlamento_2026, election_date: '2026-05-17', title: Parlamento de Andalucía 2026}
+  aragon: {codauto: '02', name: Aragón, election_id: aragon_cortes_2026-02-08, election_date: '2026-02-08', title: Cortes de Aragón 2026}
+  principado_de_asturias: {codauto: '03', name: Principado de Asturias, election_id: asturias_jgpa_2023, election_date: '2023-05-28', title: Junta General del Principado de Asturias 2023, declaration: territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml}
+  illes_balears: {codauto: '04', name: Islas Baleares, election_id: illes_balears_parlament_2023, election_date: '2023-05-28', title: Parlament de les Illes Balears 2023}
+  canarias: {codauto: '05', name: Canarias, election_id: canarias_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Canarias 2023}
+  cantabria: {codauto: '06', name: Cantabria, election_id: cantabria_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Cantabria 2023}
+  castilla_y_leon: {codauto: '07', name: Castilla y León, election_id: castilla_y_leon_cortes_2026-03-15, election_date: '2026-03-15', title: Cortes de Castilla y León 2026}
+  castilla_la_mancha: {codauto: '08', name: Castilla-La Mancha, election_id: castilla_la_mancha_cortes_2023, election_date: '2023-05-28', title: Cortes de Castilla-La Mancha 2023}
+  cataluna: {codauto: '09', name: Cataluña, election_id: cataluna_parlament_2024, election_date: '2024-05-12', title: Parlament de Catalunya 2024, declaration: territorios/cataluna/config/elecciones/cataluna_parlament_2024_vigente.yaml}
+  comunidad_valenciana: {codauto: '10', name: Comunidad Valenciana, election_id: comunidad_valenciana_corts_2023, election_date: '2023-05-28', title: Corts Valencianes 2023}
+  extremadura: {codauto: '11', name: Extremadura, election_id: extremadura_asamblea_2025-12-21, election_date: '2025-12-21', title: Asamblea de Extremadura 2025, declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml}
+  galicia: {codauto: '12', name: Galicia, election_id: galicia_parlamento_2024, election_date: '2024-02-18', title: Parlamento de Galicia 2024, declaration: territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml}
+  madrid: {codauto: '13', name: Comunidad de Madrid, election_id: comunidad_madrid_asamblea_2023, election_date: '2023-05-28', title: Asamblea de Madrid 2023}
+  region_de_murcia: {codauto: '14', name: Región de Murcia, election_id: region_murcia_asamblea_2023, election_date: '2023-05-28', title: Asamblea Regional de Murcia 2023}
+  comunidad_foral_de_navarra: {codauto: '15', name: Comunidad Foral de Navarra, election_id: navarra_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Navarra 2023}
+  pais_vasco: {codauto: '16', name: País Vasco, election_id: pais_vasco_parlamento_2024, election_date: '2024-04-21', title: Parlamento Vasco 2024}
+  la_rioja: {codauto: '17', name: La Rioja, election_id: la_rioja_parlamento_2023, election_date: '2023-05-28', title: Parlamento de La Rioja 2023}
+  ceuta: {codauto: '18', name: Ceuta, election_id: ceuta_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Ceuta — elecciones locales 2023}
+  melilla: {codauto: '19', name: Melilla, election_id: melilla_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Melilla — elecciones locales 2023}
+  congreso_alava: {pilot_code: C01, name: Congreso Álava, election_id: congreso_alava_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Álava}
+  congreso_albacete: {pilot_code: C02, name: Congreso Albacete, election_id: congreso_albacete_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Albacete}
+  congreso_alicante: {pilot_code: C03, name: Congreso Alicante, election_id: congreso_alicante_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Alicante}
+  congreso_almeria: {pilot_code: C04, name: Congreso Almería, election_id: congreso_almeria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Almería}
+  congreso_avila: {pilot_code: C05, name: Congreso Ávila, election_id: congreso_avila_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Ávila}
+  congreso_badajoz: {pilot_code: C06, name: Congreso Badajoz, election_id: congreso_badajoz_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Badajoz}
+  congreso_baleares: {pilot_code: C07, name: Congreso Baleares, election_id: congreso_baleares_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Baleares}
+  congreso_barcelona: {pilot_code: C08, name: Congreso Barcelona, election_id: congreso_barcelona_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Barcelona}
+  congreso_burgos: {pilot_code: C09, name: Congreso Burgos, election_id: congreso_burgos_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Burgos}
+  congreso_caceres: {pilot_code: C10, name: Congreso Cáceres, election_id: congreso_caceres_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cáceres}
+  congreso_cadiz: {pilot_code: C11, name: Congreso Cádiz, election_id: congreso_cadiz_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cádiz}
+  congreso_castellon: {pilot_code: C12, name: Congreso Castellón, election_id: congreso_castellon_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Castellón}
+  congreso_ciudad_real: {pilot_code: C13, name: Congreso Ciudad Real, election_id: congreso_ciudad_real_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Ciudad Real}
+  congreso_cordoba: {pilot_code: C14, name: Congreso Córdoba, election_id: congreso_cordoba_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Córdoba}
+  congreso_la_coruna: {pilot_code: C15, name: Congreso La Coruña, election_id: congreso_la_coruna_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — La Coruña}
+  congreso_cuenca: {pilot_code: C16, name: Congreso Cuenca, election_id: congreso_cuenca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cuenca}
+  congreso_gerona: {pilot_code: C17, name: Congreso Gerona, election_id: congreso_gerona_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Gerona}
+  congreso_granada: {pilot_code: C18, name: Congreso Granada, election_id: congreso_granada_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Granada}
+  congreso_guadalajara: {pilot_code: C19, name: Congreso Guadalajara, election_id: congreso_guadalajara_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Guadalajara}
+  congreso_guipuzcoa: {pilot_code: C20, name: Congreso Guipúzcoa, election_id: congreso_guipuzcoa_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Guipúzcoa}
+  congreso_huelva: {pilot_code: C21, name: Congreso Huelva, election_id: congreso_huelva_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Huelva}
+  congreso_huesca: {pilot_code: C22, name: Congreso Huesca, election_id: congreso_huesca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — piloto Huesca}
+  congreso_jaen: {pilot_code: C23, name: Congreso Jaén, election_id: congreso_jaen_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Jaén}
+  congreso_leon: {pilot_code: C24, name: Congreso León, election_id: congreso_leon_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — León}
+  congreso_lerida: {pilot_code: C25, name: Congreso Lérida, election_id: congreso_lerida_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Lérida}
+  congreso_la_rioja: {pilot_code: C26, name: Congreso La Rioja, election_id: congreso_la_rioja_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — La Rioja}
+  congreso_lugo: {pilot_code: C27, name: Congreso Lugo, election_id: congreso_lugo_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Lugo}
+  congreso_madrid: {pilot_code: C28, name: Congreso Madrid, election_id: congreso_madrid_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Madrid}
+  congreso_malaga: {pilot_code: C29, name: Congreso Málaga, election_id: congreso_malaga_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Málaga}
+  congreso_murcia: {pilot_code: C30, name: Congreso Murcia, election_id: congreso_murcia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Murcia}
+  congreso_navarra: {pilot_code: C31, name: Congreso Navarra, election_id: congreso_navarra_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Navarra}
+  congreso_orense: {pilot_code: C32, name: Congreso Orense, election_id: congreso_orense_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Orense}
+  congreso_asturias: {pilot_code: C33, name: Congreso Asturias, election_id: congreso_asturias_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Asturias}
+  congreso_palencia: {pilot_code: C34, name: Congreso Palencia, election_id: congreso_palencia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Palencia}
+  congreso_las_palmas: {pilot_code: C35, name: Congreso Las Palmas, election_id: congreso_las_palmas_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Las Palmas}
+  congreso_pontevedra: {pilot_code: C36, name: Congreso Pontevedra, election_id: congreso_pontevedra_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Pontevedra}
+  congreso_salamanca: {pilot_code: C37, name: Congreso Salamanca, election_id: congreso_salamanca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Salamanca}
+  congreso_santa_cruz_de_tenerife: {pilot_code: C38, name: Congreso Santa Cruz de Tenerife, election_id: congreso_santa_cruz_de_tenerife_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Santa Cruz de Tenerife}
+  congreso_cantabria: {pilot_code: C39, name: Congreso Cantabria, election_id: congreso_cantabria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cantabria}
+  congreso_segovia: {pilot_code: C40, name: Congreso Segovia, election_id: congreso_segovia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Segovia}
+  congreso_sevilla: {pilot_code: C41, name: Congreso Sevilla, election_id: congreso_sevilla_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Sevilla}
+  congreso_soria: {pilot_code: C42, name: Congreso Soria, election_id: congreso_soria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Soria}
+  congreso_tarragona: {pilot_code: C43, name: Congreso Tarragona, election_id: congreso_tarragona_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Tarragona}
+  congreso_teruel: {pilot_code: C44, name: Congreso Teruel, election_id: congreso_teruel_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Teruel}
+  congreso_toledo: {pilot_code: C45, name: Congreso Toledo, election_id: congreso_toledo_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Toledo}
+  congreso_valencia: {pilot_code: C46, name: Congreso Valencia, election_id: congreso_valencia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Valencia}
+  congreso_valladolid: {pilot_code: C47, name: Congreso Valladolid, election_id: congreso_valladolid_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Valladolid}
+  congreso_vizcaya: {pilot_code: C48, name: Congreso Vizcaya, election_id: congreso_vizcaya_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Vizcaya}
+  congreso_zamora: {pilot_code: C49, name: Congreso Zamora, election_id: congreso_zamora_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Zamora}
+  congreso_zaragoza: {pilot_code: C50, name: Congreso Zaragoza, election_id: congreso_zaragoza_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Zaragoza}
+  congreso_ceuta: {pilot_code: C51, name: Congreso Ceuta, election_id: congreso_ceuta_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Ceuta}
+  congreso_melilla: {pilot_code: C52, name: Congreso Melilla, election_id: congreso_melilla_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Melilla}
+  congreso350_alava: {pilot_code: R01, name: Congreso 350 Álava, election_id: congreso350_alava_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Álava}
+  congreso350_albacete: {pilot_code: R02, name: Congreso 350 Albacete, election_id: congreso350_albacete_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Albacete}
+  congreso350_alicante: {pilot_code: R03, name: Congreso 350 Alicante, election_id: congreso350_alicante_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Alicante}
+  congreso350_almeria: {pilot_code: R04, name: Congreso 350 Almería, election_id: congreso350_almeria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Almería}
+  congreso350_avila: {pilot_code: R05, name: Congreso 350 Ávila, election_id: congreso350_avila_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Ávila}
+  congreso350_badajoz: {pilot_code: R06, name: Congreso 350 Badajoz, election_id: congreso350_badajoz_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Badajoz}
+  congreso350_barcelona: {pilot_code: R08, name: Congreso 350 Barcelona, election_id: congreso350_barcelona_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Barcelona}
+  congreso350_burgos: {pilot_code: R09, name: Congreso 350 Burgos, election_id: congreso350_burgos_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Burgos}
+  congreso350_caceres: {pilot_code: R10, name: Congreso 350 Cáceres, election_id: congreso350_caceres_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cáceres}
+  congreso350_cadiz: {pilot_code: R11, name: Congreso 350 Cádiz, election_id: congreso350_cadiz_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cádiz}
+  congreso350_castellon: {pilot_code: R12, name: Congreso 350 Castellón, election_id: congreso350_castellon_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Castellón}
+  congreso350_ciudad_real: {pilot_code: R13, name: Congreso 350 Ciudad Real, election_id: congreso350_ciudad_real_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Ciudad Real}
+  congreso350_cordoba: {pilot_code: R14, name: Congreso 350 Córdoba, election_id: congreso350_cordoba_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Córdoba}
+  congreso350_la_coruna: {pilot_code: R15, name: Congreso 350 La Coruña, election_id: congreso350_la_coruna_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — La Coruña}
+  congreso350_cuenca: {pilot_code: R16, name: Congreso 350 Cuenca, election_id: congreso350_cuenca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cuenca}
+  congreso350_gerona: {pilot_code: R17, name: Congreso 350 Gerona, election_id: congreso350_gerona_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Gerona}
+  congreso350_granada: {pilot_code: R18, name: Congreso 350 Granada, election_id: congreso350_granada_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Granada}
+  congreso350_guadalajara: {pilot_code: R19, name: Congreso 350 Guadalajara, election_id: congreso350_guadalajara_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Guadalajara}
+  congreso350_guipuzcoa: {pilot_code: R20, name: Congreso 350 Guipúzcoa, election_id: congreso350_guipuzcoa_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Guipúzcoa}
+  congreso350_huelva: {pilot_code: R21, name: Congreso 350 Huelva, election_id: congreso350_huelva_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Huelva}
+  congreso350_huesca: {pilot_code: R22, name: Congreso 350 Huesca, election_id: congreso350_huesca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — piloto Huesca}
+  congreso350_jaen: {pilot_code: R23, name: Congreso 350 Jaén, election_id: congreso350_jaen_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Jaén}
+  congreso350_leon: {pilot_code: R24, name: Congreso 350 León, election_id: congreso350_leon_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — León}
+  congreso350_lerida: {pilot_code: R25, name: Congreso 350 Lérida, election_id: congreso350_lerida_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Lérida}
+  congreso350_la_rioja: {pilot_code: R26, name: Congreso 350 La Rioja, election_id: congreso350_la_rioja_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — La Rioja}
+  congreso350_lugo: {pilot_code: R27, name: Congreso 350 Lugo, election_id: congreso350_lugo_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Lugo}
+  congreso350_madrid: {pilot_code: R28, name: Congreso 350 Madrid, election_id: congreso350_madrid_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Madrid}
+  congreso350_malaga: {pilot_code: R29, name: Congreso 350 Málaga, election_id: congreso350_malaga_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Málaga}
+  congreso350_murcia: {pilot_code: R30, name: Congreso 350 Murcia, election_id: congreso350_murcia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Murcia}
+  congreso350_navarra: {pilot_code: R31, name: Congreso 350 Navarra, election_id: congreso350_navarra_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Navarra}
+  congreso350_orense: {pilot_code: R32, name: Congreso 350 Orense, election_id: congreso350_orense_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Orense}
+  congreso350_asturias: {pilot_code: R33, name: Congreso 350 Asturias, election_id: congreso350_asturias_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Asturias}
+  congreso350_palencia: {pilot_code: R34, name: Congreso 350 Palencia, election_id: congreso350_palencia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Palencia}
+  congreso350_pontevedra: {pilot_code: R36, name: Congreso 350 Pontevedra, election_id: congreso350_pontevedra_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Pontevedra}
+  congreso350_salamanca: {pilot_code: R37, name: Congreso 350 Salamanca, election_id: congreso350_salamanca_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Salamanca}
+  congreso350_cantabria: {pilot_code: R39, name: Congreso 350 Cantabria, election_id: congreso350_cantabria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Cantabria}
+  congreso350_segovia: {pilot_code: R40, name: Congreso 350 Segovia, election_id: congreso350_segovia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Segovia}
+  congreso350_sevilla: {pilot_code: R41, name: Congreso 350 Sevilla, election_id: congreso350_sevilla_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Sevilla}
+  congreso350_soria: {pilot_code: R42, name: Congreso 350 Soria, election_id: congreso350_soria_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Soria}
+  congreso350_tarragona: {pilot_code: R43, name: Congreso 350 Tarragona, election_id: congreso350_tarragona_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Tarragona}
+  congreso350_teruel: {pilot_code: R44, name: Congreso 350 Teruel, election_id: congreso350_teruel_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Teruel}
+  congreso350_toledo: {pilot_code: R45, name: Congreso 350 Toledo, election_id: congreso350_toledo_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Toledo}
+  congreso350_valencia: {pilot_code: R46, name: Congreso 350 Valencia, election_id: congreso350_valencia_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Valencia}
+  congreso350_valladolid: {pilot_code: R47, name: Congreso 350 Valladolid, election_id: congreso350_valladolid_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Valladolid}
+  congreso350_vizcaya: {pilot_code: R48, name: Congreso 350 Vizcaya, election_id: congreso350_vizcaya_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Vizcaya}
+  congreso350_zamora: {pilot_code: R49, name: Congreso 350 Zamora, election_id: congreso350_zamora_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Zamora}
+  congreso350_zaragoza: {pilot_code: R50, name: Congreso 350 Zaragoza, election_id: congreso350_zaragoza_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Zaragoza}
+  congreso350_ceuta: {pilot_code: R51, name: Congreso 350 Ceuta, election_id: congreso350_ceuta_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Ceuta}
+  congreso350_melilla: {pilot_code: R52, name: Congreso 350 Melilla, election_id: congreso350_melilla_2023-07-23, election_date: '2023-07-23', title: Congreso de los Diputados 2023 — Melilla}
