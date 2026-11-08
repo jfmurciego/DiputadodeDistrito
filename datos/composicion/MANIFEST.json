@@ -760,6 +760,13 @@
    "sha256_csv": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
    "ruta": "datos/composicion/runs/congreso_barcelona_42490327657.csv"
   },
+  "congreso_ceuta/42488846588": {
+   "territorio": "congreso_ceuta",
+   "run_id": "42488846588",
+   "secciones": 56,
+   "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "ruta": "datos/composicion/runs/congreso_ceuta_42488846588.csv"
+  },
   "congreso_malaga/42490329631": {
    "territorio": "congreso_malaga",
    "run_id": "42490329631",
