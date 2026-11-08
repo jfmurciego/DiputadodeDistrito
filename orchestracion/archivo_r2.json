@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T17:58:08Z",
+  "actualizado_en": "2026-11-08T17:59:13Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1404,19 +1404,20 @@
       "territorio": "ceuta",
       "url": "r2://ddd-research-archive/ceuta/40784389253/ddd-state-40784389253-M08.zip"
     },
-    "ceuta/42503542766/ddd-minimo-42503542766-M06.zip": {
-      "archivado_en": "2026-11-08T17:50:24Z",
-      "artefacto": "ddd-minimo-42503542766-M06",
-      "artefacto_origen": "ddd-state-42503542766-M06",
-      "artifact_id": 13627299157,
-      "caducidad_original": "2026-11-22T17:46:55Z",
+    "ceuta/42503542766/ddd-minimo-42503542766-M08.zip": {
+      "archivado_en": "2026-11-08T17:59:13Z",
+      "artefacto": "ddd-minimo-42503542766-M08",
+      "artefacto_origen": "ddd-state-42503542766-M08",
+      "artifact_id": 13627724140,
+      "caducidad_original": "2026-11-22T17:57:25Z",
+      "incluye_m06_run": "42503542766",
       "run_id": "42503542766",
-      "sha256": "e7f001474b79950635b484bd6ff9b7321b0af81a62579a9801d0d1fb84592173",
-      "sha256_estado_original": "0361ee882860b1409c0f7890426ae7cbc1c6f32389dee80ca63788c5a533d9a8",
-      "tamano_bytes": 72139,
-      "tamano_estado_original": 74466244,
+      "sha256": "27dc1ef5629e54f91c3b8e85b1ac1eafc49f61702ba4da274c173ac0f3ecf446",
+      "sha256_estado_original": "7c0d666c68462d84ea51f5b29dc49d5d1c7639a50045e6bb0c950de8f2119f32",
+      "tamano_bytes": 126248,
+      "tamano_estado_original": 74586373,
       "territorio": "ceuta",
-      "url": "r2://ddd-research-archive/ceuta/42503542766/ddd-minimo-42503542766-M06.zip"
+      "url": "r2://ddd-research-archive/ceuta/42503542766/ddd-minimo-42503542766-M08.zip"
     },
     "comunidad_foral_de_navarra/40847881909/ddd-audit-40847881909.zip": {
       "archivado_en": "2026-11-07T17:07:05Z",
