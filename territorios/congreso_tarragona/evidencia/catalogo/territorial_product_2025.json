@@ -4,11 +4,11 @@
   "territory_id": "congreso_tarragona",
   "territory_name": "Congreso Tarragona",
   "edition": "2025",
-  "run_id": 41243062797,
-  "artifact_name": "ddd-state-41243062797-M06",
-  "artifact_sha256": "765119177f393e33e4bd0f5f6581826717ab1d5771157c1b491204727ca8832b",
-  "source_commit": "a109fe8f27cd738d6112dd6a12a12ec9350f1f99",
+  "run_id": 42514991952,
+  "artifact_name": "ddd-state-42514991952-M06",
+  "artifact_sha256": "450cd3228020c9d7da5b9a363a5d026c72f5df39197a46a7132d774534e1d89a",
+  "source_commit": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_tarragona/evidencia/generaciones_m06/41243062797.json"
+  "producer_manifest_path": "territorios/congreso_tarragona/evidencia/generaciones_m06/42514991952.json"
 }
