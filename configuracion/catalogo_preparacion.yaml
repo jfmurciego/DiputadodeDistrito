@@ -312,8 +312,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40979527162
-        stage: M08
+        run_id: 42497104110
+        stage: M06
       preparation_evidence:
         run_id: 40969454399
         artifact_name: ddd-source-package-castilla_y_leon-2025-40969454399
