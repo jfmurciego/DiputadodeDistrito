@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.199
+Versión: 1.0.200
 Fecha: 2026-11-08
-Alcance: T-108 — La huella M05 se calcula desde el motor activo
+Alcance: T-105 — Plan: Gestor de Campañas con parámetros claros (D-22)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t108-huella-motor-m05.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.198_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_plan-t105.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.199_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.198_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.200 · [2026-11-08 — T-105 — Plan: Gestor de Campañas con parámetros claros (D-22)](registro/2026-11-08_plan-t105.md)
 - 1.0.199 · [2026-11-08 — T-108 — La huella M05 se calcula desde el motor activo](registro/2026-11-08_t108-huella-motor-m05.md)
 - 1.0.198 · [2026-11-08 — T-107 — M05 canónico respeta la disciplina municipal (Ávila, Castilla y León)](registro/2026-11-08_claude-t107-m05-disciplina-mixtos.md)
 - 1.0.197 · [2026-11-08 — T-106 — Limpieza reversible de la lista de Workflows de Actions](registro/2026-11-08_t106-limpieza-workflows.md)
