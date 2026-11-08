@@ -780,6 +780,13 @@
    "secciones": 1084,
    "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
    "ruta": "datos/composicion/runs/congreso_malaga_42490329631.csv"
+  },
+  "congreso_malaga/42495070976": {
+   "territorio": "congreso_malaga",
+   "run_id": "42495070976",
+   "secciones": 1084,
+   "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
+   "ruta": "datos/composicion/runs/congreso_malaga_42495070976.csv"
   }
  }
 }
