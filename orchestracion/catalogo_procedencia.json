@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 347,
+  "productos": 349,
   "errores": 0,
-  "avisos": 114
+  "avisos": 116
  },
  "territorios": {
   "andalucia": {
@@ -113,6 +113,32 @@
    },
    "doi": null,
    "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-aragon-42497101869",
+     "run_id": "42497101869",
+     "vigente": true,
+     "sha256": "80e0786ebc6f44015e41b71c152d2dfe4d8b79e1b12b37e0d244a7c23a5a1b0c",
+     "copia_git": {
+      "blob_sha": "c7b411cd678e4fb96011664b842c7a46c0e02ce3",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-aragon-42497101869",
+     "run_id": "42497101869",
+     "vigente": true,
+     "sha256": "64fe721f5e509afc82db6c778ff49263e8e113545498431eec5480841044af7b",
+     "copia_git": {
+      "blob_sha": "9662e5ad7ce474587d35faf611eae326bf8c5575",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
     {
      "producto": "static",
      "id": "static-aragon",
@@ -6240,6 +6266,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 42495072594: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aragon",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42497101869: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "aragon",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42497101869: solo copia git"
   },
   {
    "nivel": "AVISO",
