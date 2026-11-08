@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import datetime
 import json
 from pathlib import Path
 
@@ -62,6 +63,13 @@ def _read_manifest(snapshot: Path) -> dict:
     for key, value in expected_locator.items():
         if locator.get(key) != value:
             raise ValueError(f"Índice SIEL incorrecto {key}: {locator.get(key)!r} != {value!r}")
+    retrieved_at = str(data.get("retrieved_at") or "")
+    try:
+        datetime.date.fromisoformat(retrieved_at)
+    except ValueError:
+        raise ValueError(
+            "Snapshot SIEL sin retrieved_at (fecha ISO de la descarga) en manifest.json"
+        ) from None
     return data
 
 
@@ -282,6 +290,7 @@ def build(
                 "sha256": sha256(normalized),
                 "publisher": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
                 "source_url": SIEL_BASE,
+                "retrieved_at": meta["retrieved_at"],
                 "adapter": {
                     "kind": "long_csv",
                     "separator": ";",

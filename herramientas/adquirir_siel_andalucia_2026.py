@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import datetime
 import json
 import shutil
 import sys
@@ -463,6 +464,7 @@ def build(
         "siel_election_key": ELECTION_KEY,
         "publisher": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
         "source_base": BASE,
+        "retrieved_at": datetime.datetime.now(datetime.timezone.utc).date().isoformat(),
         "official_reference": "https://www.juntadeandalucia.es/boja/2026/115/1",
         "sections": len(set(tasks)),
         "vote_rows": len(rows),
