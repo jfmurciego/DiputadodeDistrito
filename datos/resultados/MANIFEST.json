@@ -73,9 +73,9 @@
    "sha256_csv": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1"
   },
   "congreso_albacete": {
-   "run_id": "41294417893",
-   "blob_sha": "2c135d68d27c516e0c349b3bdcb885f309ed8985",
-   "sha256_origen": "395562d8e6f9ba26acd5a6d47612e6408e883ae4f83f2ff3b4a5d5852b198bef",
+   "run_id": "42514994231",
+   "blob_sha": "eb789b5090f4fcb1443149cf59fba070bf6e37a0",
+   "sha256_origen": "4bf56ca501bad00f0a305b56e29709a092d9e226872c76bf752eacfe1bd7953d",
    "distritos": 3,
    "sha256_csv": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38"
   },

@@ -55,9 +55,9 @@
   },
   "congreso_albacete": {
    "provincia": "Albacete",
-   "run_id": "41294417893",
-   "blob_sha": "c3da7d6507dcadf40132cd1f442f2e9df49941aa",
-   "sha256_origen": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06",
+   "run_id": "42514994231",
+   "blob_sha": "c7df907f1c12c6b6a44005e48199411258f413d2",
+   "sha256_origen": "711147836285bd4a0ce0edf28d066c82ec9c4642b980b598be835f80c52b14c5",
    "n_distritos": 3,
    "nombres": {},
    "geojson": {
@@ -67,8 +67,8 @@
    "resultados": {
     "ruta": "congreso_albacete/resultados.csv",
     "sha256": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38",
-    "blob_sha_m08": "2c135d68d27c516e0c349b3bdcb885f309ed8985",
-    "run_id": "41294417893"
+    "blob_sha_m08": "eb789b5090f4fcb1443149cf59fba070bf6e37a0",
+    "run_id": "42514994231"
    },
    "distritos": [
     {
