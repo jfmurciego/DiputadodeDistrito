@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T20:40:33.920836+00:00",
+  "generated_at": "2026-11-08T22:53:53.938598+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,9 +26,9 @@
       "action_required": 49,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 68,
-      "activable": 3,
-      "territorial_pending": 49,
+      "activated": 69,
+      "activable": 2,
+      "territorial_pending": 48,
       "electoral_pending": 49,
       "temporal_substitution": 3,
       "recent_activity": 0
@@ -37,9 +37,9 @@
       "total": 120,
       "legislature_resolved": 120,
       "years_resolved": 120,
-      "territorial_source": 71,
+      "territorial_source": 72,
       "electoral_source": 71,
-      "durable_pair": 68
+      "durable_pair": 69
     },
     "territories": [
       {
@@ -282,12 +282,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json",
-            "pair_sha256": "63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43.json",
+            "pair_sha256": "4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -371,8 +371,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 40969454399,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/4d48062a353a8d6348251d657cf989d793b7b97d8243943ca1655b4e234a4b13/40969454399/receipt.json"
+            "run_id": 42521090842,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json"
           }
         },
         "electoral": {
@@ -387,8 +387,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac.json",
-            "pair_sha256": "28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac",
+            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json",
+            "pair_sha256": "3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -5284,9 +5284,9 @@
           "election_date": "2023-07-23"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -5296,10 +5296,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": null,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 42522378370,
+            "receipt_path": "territorios/congreso350_madrid/evidencia/fuentes_territoriales/2025/a8fe87fb016dd267456c3732900cdcd8876dd0c6c0a50360fcd0c42a75f9352a/42522378370/receipt.json"
           }
         },
         "electoral": {
@@ -5309,7 +5309,7 @@
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ACTION_REQUIRED",
+        "status": "ELECTORAL_ACTION_REQUIRED",
         "activation": {
           "state": "NOT_ACCREDITED",
           "pair": {
@@ -5325,11 +5325,6 @@
           "source": "repository_durable_state"
         },
         "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_PACKAGE_MISSING"
-          },
           {
             "domain": "electoral",
             "planner_action": "ACQUIRE",
@@ -6964,20 +6959,20 @@
       "name": "Canarias",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42504381511,
+      "run_id": 42523951377,
       "last_run": {
-        "run_id": 42504381511,
+        "run_id": 42523951377,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "no existe prepared_source_pair acreditado para la entrada electoral",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7009,16 +7004,16 @@
           "territory_id": "canarias",
           "territory_name": "Canarias",
           "edition": "2025",
-          "run_id": 40951280657,
-          "artifact_name": "ddd-state-40951280657-M08",
-          "artifact_sha256": "b0b6ceaf2b354559e9ce7f0430359a9f2e1d0258863e1bb69c139df1cc8cf3c9",
-          "source_commit": "e8e26fc88b46331f1269c06c37f6cb05f7faee5c",
+          "run_id": 42523951377,
+          "artifact_name": "ddd-state-42523951377-M08",
+          "artifact_sha256": "a8bc17b31163ab7ea1a775bef9551222615d831c1f1e823e44d95faa7fc01c4e",
+          "source_commit": "038f783212382b5ed5199f2b5faff57e680382d1",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "05",
       "display_name": "05 Canarias",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "cantabria",
@@ -7090,13 +7085,13 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42497104110,
+      "run_id": 42521090842,
       "last_run": {
-        "run_id": 42497104110,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
-        "reason": "ver log del run",
+        "run_id": 42521090842,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7105,9 +7100,9 @@
         "territorial_source": {
           "territory_id": "castilla_y_leon",
           "edition": "2025",
-          "run_id": 40969454399,
-          "artifact_name": "ddd-source-package-castilla_y_leon-2025-40969454399",
-          "artifact_sha256": "ed0bb11a00b950c7c2094082142064c719bf9d03c121b115c3b452630830f923",
+          "run_id": 42521090842,
+          "artifact_name": "ddd-source-package-castilla_y_leon-2025-42521090842",
+          "artifact_sha256": "3a710cff73dca6a5048e28f1eea5f1e5454404324538b66b7ae9c3b0b229c168",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7116,13 +7111,13 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 42497104110,
-          "artifact_name": "ddd-state-42497104110-M06",
-          "artifact_sha256": "2265db3564af02bc7c1d3452368c2437b9c12e06d26d92bf99ef43d27a2901a1",
-          "source_commit": "526a0295cf388eea9955e4f3fb585cfffe664b9b",
+          "run_id": 42521090842,
+          "artifact_name": "ddd-state-42521090842-M06",
+          "artifact_sha256": "7ab13d45f73c56fc3839bbdd09e61a4b04f612d9bfc545b3386f70da2a8510d4",
+          "source_commit": "f1e89f098f13ec04ce38c081f88fb876edda1e6f",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/42497104110.json"
+          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/42521090842.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7131,16 +7126,16 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 40979527162,
-          "artifact_name": "ddd-state-40979527162-M08",
-          "artifact_sha256": "04d1b913b5056d9a6155cc6a84c74aaf8227fa333100442a342bb5c306edafd6",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 42531122768,
+          "artifact_name": "ddd-state-42531122768-M08",
+          "artifact_sha256": "85727339f12a4afcabba8e98f33168bd84c15bc23abc7ded8f89a3ff2d9c9826",
+          "source_commit": "ea7d79ddbe517361b81970cb7a307648819c2ff1",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "07",
       "display_name": "07 Castilla y León",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "castilla_la_mancha",
@@ -8066,9 +8061,9 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41295979497,
+      "run_id": 42519378789,
       "last_run": {
-        "run_id": 42499470017,
+        "run_id": 42519378789,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -8092,13 +8087,13 @@
           "territory_id": "congreso_almeria",
           "territory_name": "Congreso Almería",
           "edition": "2025",
-          "run_id": 41242160179,
-          "artifact_name": "ddd-state-41242160179-M06",
-          "artifact_sha256": "bfea122809515a731f6479f65ac8e801555eb2b45cfa2f484f303d50d227c7a0",
-          "source_commit": "f55412942b767f3fac28120ce32ed377b25280d4",
+          "run_id": 42519378789,
+          "artifact_name": "ddd-state-42519378789-M06",
+          "artifact_sha256": "17745ac4c321897973ce4d058cb476fb8a78b1b762849bd84470657763a988e8",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/41242160179.json"
+          "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/42519378789.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8107,10 +8102,10 @@
           "territory_id": "congreso_almeria",
           "territory_name": "Congreso Almería",
           "edition": "2025",
-          "run_id": 41295979497,
-          "artifact_name": "ddd-state-41295979497-M08",
-          "artifact_sha256": "ae8b4d64ca14b860dd818a5a3759ccf536398e5ce174ac921a759a7102ddd97c",
-          "source_commit": "babbe148dc42c6a06dbf9e7a0c6f4617db3b748a",
+          "run_id": 42519378789,
+          "artifact_name": "ddd-state-42519378789-M08",
+          "artifact_sha256": "098624f0798728879a28a6be05c4689e493fe802025f675bce9fd851e673c5e6",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "stage": "M08"
         }
       },
@@ -8188,9 +8183,9 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41299475924,
+      "run_id": 42519381013,
       "last_run": {
-        "run_id": 42499465760,
+        "run_id": 42519381013,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -8214,13 +8209,13 @@
           "territory_id": "congreso_badajoz",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 41293199718,
-          "artifact_name": "ddd-state-41293199718-M06",
-          "artifact_sha256": "d7535c738bf20ae206d2dfdbb72272fb90d8c99ce8cd1d277f84c4771fb409aa",
-          "source_commit": "0a2cae4a3706c9d94d639f8066c2cacdc4cd73d2",
+          "run_id": 42519381013,
+          "artifact_name": "ddd-state-42519381013-M06",
+          "artifact_sha256": "9ec87edf7f93d704534287962c5e7977beeafa3ae5be8fd79d8abd028959b7af",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/41293199718.json"
+          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/42519381013.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8229,10 +8224,10 @@
           "territory_id": "congreso_badajoz",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 41299475924,
-          "artifact_name": "ddd-state-41299475924-M08",
-          "artifact_sha256": "d43dd31879919bec675394cc4570f4da3a3267f2341cc682017c29002f6ac8ea",
-          "source_commit": "a099545f649b03f51c9a91f3d1187c223dad12e4",
+          "run_id": 42519381013,
+          "artifact_name": "ddd-state-42519381013-M08",
+          "artifact_sha256": "5523e84a48cf2f35971bc2fa8d1e2da258c8c11e0a47df9f73b07ca9a453fe95",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "stage": "M08"
         }
       },
@@ -9164,9 +9159,9 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41194447427,
+      "run_id": 42519383275,
       "last_run": {
-        "run_id": 42421655965,
+        "run_id": 42519383275,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -9190,13 +9185,13 @@
           "territory_id": "congreso_huesca",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 41057319037,
-          "artifact_name": "ddd-state-41057319037-M06",
-          "artifact_sha256": "4e7052a1b085ebedde94c435f5ffa17f5473e693e30e9018e71f82cc84101eb5",
-          "source_commit": "e021b5f4673325cc32e6369e56ea788eebae9cd6",
+          "run_id": 42519383275,
+          "artifact_name": "ddd-state-42519383275-M06",
+          "artifact_sha256": "8efae76a8737df21e939708e6f185a0c651fad5a0ad48cc44a9a528515b956aa",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/41057319037.json"
+          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42519383275.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9205,10 +9200,10 @@
           "territory_id": "congreso_huesca",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 41194447427,
-          "artifact_name": "ddd-state-41194447427-M08",
-          "artifact_sha256": "a72510e3efecb33b97fccb709a6c9131cb4b77f0d692e61debc17236e3f538eb",
-          "source_commit": "310580a5f74db2b916c8eec7904d41861ee3b318",
+          "run_id": 42519383275,
+          "artifact_name": "ddd-state-42519383275-M08",
+          "artifact_sha256": "60fd20066df87d4ae51a3bb029210abecc11da3aeb6e43825de763e2d5497c88",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "stage": "M08"
         }
       },
@@ -10628,9 +10623,9 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41335936727,
+      "run_id": 42525625044,
       "last_run": {
-        "run_id": 42502622738,
+        "run_id": 42525625044,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -10654,13 +10649,13 @@
           "territory_id": "congreso_valencia",
           "territory_name": "Congreso Valencia",
           "edition": "2025",
-          "run_id": 41318119259,
-          "artifact_name": "ddd-state-41318119259-M06",
-          "artifact_sha256": "76d5e9a19058d3003daa83cebcd4056d1c078d5fce718a8b14e6d6ec258fc2c4",
-          "source_commit": "1029a38fe8302cda682107026a6db48df3f99df5",
+          "run_id": 42525625044,
+          "artifact_name": "ddd-state-42525625044-M06",
+          "artifact_sha256": "848b675b2d32d0366030cdfc48ca8e0b55a01e565d6ee9762a67a55eb9d27243",
+          "source_commit": "c0e9b47feb51339488dda14ef5616ad224cf5981",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/41318119259.json"
+          "producer_manifest_path": "territorios/congreso_valencia/evidencia/generaciones_m06/42525625044.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10669,10 +10664,10 @@
           "territory_id": "congreso_valencia",
           "territory_name": "Congreso Valencia",
           "edition": "2025",
-          "run_id": 41335936727,
-          "artifact_name": "ddd-state-41335936727-M08",
-          "artifact_sha256": "ddd68e64e8dc8bdb943fab0711e6abca544b7a3edcbbff79bbca8678351cef94",
-          "source_commit": "8a14e0e670e508f817c8a1976bed8738daac2dfe",
+          "run_id": 42525625044,
+          "artifact_name": "ddd-state-42525625044-M08",
+          "artifact_sha256": "72e8741e54dc29d653548f14498b2cbf5b81ec13da206aea4dacd7b8ab26d1ac",
+          "source_commit": "c0e9b47feb51339488dda14ef5616ad224cf5981",
           "stage": "M08"
         }
       },
@@ -11647,25 +11642,39 @@
     {
       "territory_id": "congreso350_madrid",
       "name": "Nacional 350 Madrid",
-      "ft": "yellow",
+      "ft": "green",
       "g": "yellow",
       "fe": "gray",
       "re": "gray",
-      "status": "Validación pendiente",
+      "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
-      "last_run": {},
+      "last_run": {
+        "run_id": 42522378370,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "publication": "not_requested"
+      },
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "congreso350_madrid",
+          "edition": "2025",
+          "run_id": 42522378370,
+          "artifact_name": "ddd-source-package-congreso350_madrid-2025-42522378370",
+          "artifact_sha256": "8b24dd9fcde64294cded207927927fcc7085dcdd7b1bc130fd7519584ab9a699",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "R28",
       "display_name": "Nacional 350 Madrid",
-      "next_step": "preparar fuentes territoriales"
+      "next_step": "generar y validar distritos"
     },
     {
       "territory_id": "congreso350_malaga",
@@ -12175,12 +12184,13 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
+      "05 Canarias",
       "06 Cantabria",
       "08 Castilla-La Mancha",
       "09 Cataluña",
@@ -12395,9 +12405,11 @@
       "Nacional Ceuta",
       "Nacional Melilla"
     ],
-    "ready": 0,
-    "ready_names": [],
-    "pending": 49,
+    "ready": 1,
+    "ready_names": [
+      "Nacional 350 Madrid"
+    ],
+    "pending": 48,
     "pending_names": [
       "Nacional 350 Álava",
       "Nacional 350 Albacete",
@@ -12425,7 +12437,6 @@
       "Nacional 350 Lérida",
       "Nacional 350 La Rioja",
       "Nacional 350 Lugo",
-      "Nacional 350 Madrid",
       "Nacional 350 Málaga",
       "Nacional 350 Murcia",
       "Nacional 350 Navarra",
@@ -12453,22 +12464,16 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_santa_cruz_de_tenerife",
-    "name": "Nacional Santa Cruz de Tenerife",
-    "display_name": "Nacional Santa Cruz de Tenerife",
-    "autonomous_community_code_ine": "C38",
-    "run_id": 42519017008,
+    "territory_id": "congreso_valencia",
+    "name": "Nacional Valencia",
+    "display_name": "Nacional Valencia",
+    "autonomous_community_code_ine": "C46",
+    "run_id": 42525625044,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
-    {
-      "territory": "05 Canarias",
-      "territory_id": "canarias",
-      "autonomous_community_code_ine": "05",
-      "action": "incorporar resultados electorales"
-    },
     {
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
@@ -12510,20 +12515,26 @@
       "territory_id": "congreso350_badajoz",
       "autonomous_community_code_ine": "R06",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Barcelona",
+      "territory_id": "congreso350_barcelona",
+      "autonomous_community_code_ine": "R08",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
-    {
-      "territory": "05 Canarias",
-      "territory_id": "canarias",
-      "autonomous_community_code_ine": "05",
-      "action": "preparar fuentes electorales"
-    },
     {
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
       "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional 350 Madrid",
+      "territory_id": "congreso350_madrid",
+      "autonomous_community_code_ine": "R28",
+      "action": "generar y validar distritos"
     }
   ]
 }
