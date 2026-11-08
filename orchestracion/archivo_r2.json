@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T17:59:13Z",
+  "actualizado_en": "2026-11-08T18:01:17Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -5889,6 +5889,20 @@
       "tamano_bytes": 75623735,
       "territorio": "melilla",
       "url": "r2://ddd-research-archive/melilla/40840795932/ddd-state-40840795932-M08.zip"
+    },
+    "melilla/42504386196/ddd-minimo-42504386196-M06.zip": {
+      "archivado_en": "2026-11-08T18:01:17Z",
+      "artefacto": "ddd-minimo-42504386196-M06",
+      "artefacto_origen": "ddd-state-42504386196-M06",
+      "artifact_id": 13627283865,
+      "caducidad_original": "2026-11-22T17:57:08Z",
+      "run_id": "42504386196",
+      "sha256": "bf0e31507bca10220cffd2810fc52d92efde475c97406742dae9222468ba5bd7",
+      "sha256_estado_original": "a7e973b0bb1e66257f397a96fc91a5a8cacf5a427f8be98ee85641b5eddb57f6",
+      "tamano_bytes": 174289,
+      "tamano_estado_original": 75299980,
+      "territorio": "melilla",
+      "url": "r2://ddd-research-archive/melilla/42504386196/ddd-minimo-42504386196-M06.zip"
     },
     "pais_vasco/40951146225/ddd-audit-40951146225.zip": {
       "archivado_en": "2026-11-07T17:10:17Z",
