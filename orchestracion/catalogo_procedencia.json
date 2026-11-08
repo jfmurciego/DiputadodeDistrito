@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 372,
+  "productos": 374,
   "errores": 0,
   "avisos": 120
  },
@@ -1266,7 +1266,7 @@
      "producto": "M06",
      "id": "m06-congreso_almeria-41295979497",
      "run_id": "41295979497",
-     "vigente": true,
+     "vigente": false,
      "sha256": "869fba8930ef436c53658fedf8d86a0da1068c941feac94652ef4e5155cffcde",
      "copia_git": {
       "blob_sha": "373e5f1f840a032f8d3465afa250be2540ebaada",
@@ -1276,13 +1276,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_almeria-42519378789",
+     "run_id": "42519378789",
+     "vigente": true,
+     "sha256": "1b852666d2752f1a5c38c23fc87e9317575b0e0b5408b132f5d57121d76f907e",
+     "copia_git": {
+      "blob_sha": "339adddcc861371e35c714b9c8f667e6d2e1df9a",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_almeria-41295979497",
      "run_id": "41295979497",
-     "vigente": true,
+     "vigente": false,
      "sha256": "ba3ee77bab666d7d808e204eb59494ed51d10324a9717e0237f98441a9861ac5",
      "copia_git": {
       "blob_sha": "13cb17a9cb57c9cdff03c956bfdce45a2d1046b0",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_almeria-42519378789",
+     "run_id": "42519378789",
+     "vigente": true,
+     "sha256": "a620022b7945f9c343752191fe8ad00bb717eaada5f1e4ddfa87da04c5467962",
+     "copia_git": {
+      "blob_sha": "989da8a12792c75246faf9b7280faae871e49c16",
       "ruta": null
      },
      "copias_r2": [],
@@ -1305,21 +1331,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_almeria",
-     "run_id": "41295979497",
+     "run_id": "42519378789",
      "vigente": true,
      "sha256": "bf18a66a74998b6dbd573a3ac59d372215479ff74f20dcc310abb69b136f39c6",
      "copia_git": {
-      "blob_sha": "373e5f1f840a032f8d3465afa250be2540ebaada",
+      "blob_sha": "339adddcc861371e35c714b9c8f667e6d2e1df9a",
       "ruta": "datos_abiertos/congreso_almeria/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "869fba8930ef436c53658fedf8d86a0da1068c941feac94652ef4e5155cffcde"
+     "origen_sha256": "1b852666d2752f1a5c38c23fc87e9317575b0e0b5408b132f5d57121d76f907e"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_almeria",
-     "run_id": "41295979497",
+     "run_id": "42519378789",
      "vigente": true,
      "sha256": "fa99fcf78bb82c054a919bac0c0329d8c959603aaa4501d769edb8ab34ef0754",
      "copia_git": {
@@ -1328,7 +1354,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "ba3ee77bab666d7d808e204eb59494ed51d10324a9717e0237f98441a9861ac5"
+     "origen_sha256": "a620022b7945f9c343752191fe8ad00bb717eaada5f1e4ddfa87da04c5467962"
     }
    ]
   },
@@ -6657,14 +6683,14 @@
    "territorio": "congreso_almeria",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41295979497: solo copia git"
+   "detalle": "run 42519378789: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_almeria",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41295979497: solo copia git"
+   "detalle": "run 42519378789: solo copia git"
   },
   {
    "nivel": "AVISO",
