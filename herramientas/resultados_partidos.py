@@ -3,17 +3,12 @@
 """Votos por partido y distrito en git (T-67).
 
 PROYECTO: Diputado de Distrito
-<<<<<<< HEAD
 VERSIÓN: 1.3.0 · FECHA: 2026-11-08 · ESTADO: candidato
 CAMBIOS: 1.3.0 (T-104, decisión del propietario del 08-11): una sección partida cuyas secciones M06 candidatas caen
   todas en el mismo distrito es «contenida_distrito»: el distrito es exacto y no cuenta para el tope D-17 (el reparto
   entre secciones sigue D-13 y queda en el informe). Regla general, no excepción: se retira CASOS_APARTE (Valencia,
   Bétera entera en un distrito, queda en 0 % partido). No se regenera ningún M06.
   1.2.0 (T-103, decisión del propietario del 08-11): cada sección del ZIP sin distrito se clasifica con la
-=======
-VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
-CAMBIOS: 1.2.0 (T-103, decisión del propietario del 08-11): cada sección del ZIP sin distrito se clasifica con la
->>>>>>> origin/main
   tabla de equivalencia en «recodificada» (tipo 1:1: misma geometría), «contenida» (una sola sección M06 recibe al
   menos el 95 % de su área: distrito exacto) o «partida» (varias secciones M06). Las dos primeras se asignan 1:1 y no
   cuentan para el tope D-17; solo cuentan las partidas (``votos_partidos``/``pct_partido`` del informe). El tope y el
@@ -27,11 +22,7 @@ CAMBIOS: 1.2.0 (T-103, decisión del propietario del 08-11): cada sección del Z
   desajustes (``agregar_informe``). Por encima del tope, o sin tabla, falla como en 1.0.0.
 MOTIVO: Málaga, Alicante y Barcelona (T-101): el ZIP de Interior y el seccionado INE 2023 del M06 difieren en unas
   pocas secciones (recodificaciones) y el archivista fallaba con PARTIDOS_ORIGEN_FAILED.
-<<<<<<< HEAD
 ANTERIOR: legacy/herramientas/resultados_partidos_v1.2.0_20261108.py
-=======
-ANTERIOR: legacy/herramientas/resultados_partidos_v1.1.0_20261108.py
->>>>>>> origin/main
 QUÉ HACE: por cada territorio con composición sección→distrito acreditada (datos/composicion, T-67) y M08 vigente
   (datos/resultados), agrega los votos por partido del ZIP nacional por mesa de Infoelectoral (release
   fuente-infoelectoral-02202307; huella y totales comprobados con herramientas/fuente_infoelectoral_mesas.convert)
@@ -73,11 +64,6 @@ EQUIVALENCIA = ROOT / "configuracion/equivalencia_secciones_congreso_2023.csv"
 EQUIVALENCIA_META = ROOT / "configuracion/equivalencia_secciones_congreso_2023.json"
 TOPE_DESAJUSTE = 0.005  # D-17: fracción de los votos a candidaturas de la provincia
 CONTENIDA_MIN = 0.95  # T-103: parte mínima del área de la sección del ZIP en una sola sección M06 (UMBRAL de T-85)
-<<<<<<< HEAD
-=======
-# T-103: provincias por encima del tope tras descontar recodificadas y contenidas; NO es una excepción: siguen fallando
-CASOS_APARTE = {"46": "Valencia: caso aparte (T-103), su tratamiento lo decide el propietario"}
->>>>>>> origin/main
 CABECERA = ["distrito", "partido", "votos", "porcentaje", "blancos", "nulos", "censo"]
 
 
@@ -154,34 +140,22 @@ def agregar(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ganadores:
     return agregar_informe(zip_path, contrato, comp, m08_ganadores, **kw)[0]
 
 
-<<<<<<< HEAD
 def clasificar(destinos: list[dict], comp: dict[str, int] | None = None) -> str:
     """T-103: «recodificada» (1:1), «contenida» (≥ CONTENIDA_MIN del área en una sola sección M06) o «partida».
     T-104: con la composición, una partida cuyas secciones M06 están todas en el mismo distrito es «contenida_distrito»."""
-=======
-def clasificar(destinos: list[dict]) -> str:
-    """T-103: «recodificada» (1:1), «contenida» (≥ CONTENIDA_MIN del área en una sola sección M06) o «partida»."""
->>>>>>> origin/main
     if any(e["tipo"] == "1:1" for e in destinos):
         return "recodificada"
     if len(destinos) == 1 and destinos[0]["peso_area"] >= CONTENIDA_MIN:
         return "contenida"
-<<<<<<< HEAD
     if comp is not None and len({comp.get(e["seccion_m06"]) for e in destinos}) == 1 and destinos[0]["seccion_m06"] in comp:
         return "contenida_distrito"
-=======
->>>>>>> origin/main
     return "partida"
 
 
 def _desajustes(por_seccion, extra09, comp, equivalencia, poblacion, total, tope):
     """D-17: {sección del ZIP sin distrito: {distrito: peso}} y el informe; ValueError por encima del tope.
-<<<<<<< HEAD
     Solo las secciones partidas cuentan para el tope (T-103); recodificadas y contenidas van 1:1; las contenidas en un
     distrito (T-104) se reparten entre secciones con D-13 pero su distrito es exacto."""
-=======
-    Solo las secciones partidas cuentan para el tope (T-103); recodificadas y contenidas van 1:1."""
->>>>>>> origin/main
     zsec = set(extra09)
     falta, sobra = sorted(zsec - set(comp)), sorted(set(comp) - zsec)
     msg = (f"secciones del ZIP sin distrito {len(falta)} (p. ej. {falta[:3]}); "
@@ -193,11 +167,7 @@ def _desajustes(por_seccion, extra09, comp, equivalencia, poblacion, total, tope
         destinos[s] = [e for e in equivalencia.get(s, []) if e["seccion_m06"] in comp]
         if not destinos[s]:
             raise ValueError(f"{msg}; la sección {s} del ZIP no tiene equivalencia con secciones del M06 (D-17)")
-<<<<<<< HEAD
         clase[s] = clasificar(destinos[s], comp)
-=======
-        clase[s] = clasificar(destinos[s])
->>>>>>> origin/main
     votos_s = {s: sum(por_seccion.get(s, {}).values()) for s in falta}
     v_des = sum(votos_s.values())
     partidas = [s for s in falta if clase[s] == "partida"]
@@ -206,32 +176,19 @@ def _desajustes(por_seccion, extra09, comp, equivalencia, poblacion, total, tope
     pct_par = 100 * v_par / total if total else 100.0
     if pct_par > 100 * tope:
         prov = falta[0][:2]
-<<<<<<< HEAD
         lista = ", ".join(f"{s}={votos_s[s]}" for s in partidas)
         raise ValueError(f"{msg}; desajuste partido {pct_par:.4f} % de los votos de la provincia > tope {100 * tope:g} %"
                          f" (D-17) [secciones partidas: {lista}] (provincia {prov})")
     reparto, filas = {}, []
     for s in falta:
         if clase[s] in ("partida", "contenida_distrito"):
-=======
-        aparte = f"; {CASOS_APARTE[prov]}" if prov in CASOS_APARTE else ""
-        lista = ", ".join(f"{s}={votos_s[s]}" for s in partidas)
-        raise ValueError(f"{msg}; desajuste partido {pct_par:.4f} % de los votos de la provincia > tope {100 * tope:g} %"
-                         f" (D-17) [secciones partidas: {lista}]{aparte}")
-    reparto, filas = {}, []
-    for s in falta:
-        if clase[s] == "partida":
->>>>>>> origin/main
             bruto = {e["seccion_m06"]: e["frac_m06"] * poblacion.get(e["seccion_m06"], 0) for e in destinos[s]}
             regla = "D-17: partida; reparto por población de la sección M06 (D-13) con la tabla de T-85"
             if sum(bruto.values()) <= 0:
                 bruto = {e["seccion_m06"]: e["peso_area"] for e in destinos[s]}
                 regla = "D-17: partida; reparto por área (sin población) con la tabla de T-85"
-<<<<<<< HEAD
             if clase[s] == "contenida_distrito":
                 regla = f"T-104: contenida en el distrito {comp[destinos[s][0]['seccion_m06']]}, fuera del tope D-17; " + regla.split("; ", 1)[1]
-=======
->>>>>>> origin/main
         else:
             v = next((e for e in destinos[s] if e["tipo"] == "1:1"), destinos[s][0])["seccion_m06"]
             bruto = {v: 1.0}
@@ -247,11 +204,7 @@ def _desajustes(por_seccion, extra09, comp, equivalencia, poblacion, total, tope
     for s in sobra:
         filas.append({"seccion": s, "origen": "m06_sin_zip", "votos": 0, "secciones_m06": {s: 1.0},
                       "distritos": {str(comp[s]): 1.0}, "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"})
-<<<<<<< HEAD
     informe = {"decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)", "tope_pct": 100 * tope,
-=======
-    informe = {"decision": "D-17; T-103 (solo las partidas cuentan para el tope)", "tope_pct": 100 * tope,
->>>>>>> origin/main
                "votos_candidaturas": total, "votos_desajustados": v_des, "pct_desajuste": round(pct, 4),
                "votos_partidos": v_par, "pct_partido": round(pct_par, 4), "desajustes": filas}
     return reparto, informe
