@@ -1,0 +1,262 @@
+{
+ "schema": "ddd.homologacion-siglas-reglas/1.0",
+ "version": "1.0.0",
+ "estado": "PROPUESTA_T112",
+ "eleccion": "202611",
+ "niveles": {
+  "ALTA": "mismo partido: sigla idéntica o variante gráfica/federada",
+  "MEDIA": "coalición o marca territorial con el partido como cabeza; criterio razonado",
+  "BAJA": "sucesión, fusión o escisión sin precedente en D-20: decisión del propietario",
+  "DECIDIDA": "aplica una decisión del propietario (D-20)"
+ },
+ "nota": "Sigla no listada = identidad ALTA (partido sin predecesor en las generales 2011-2023). Mismas familias que datos/homologacion_siglas/reglas_generales.json.",
+ "siglas": [
+  {
+   "id": "PP",
+   "siglas": [
+    "PP"
+   ],
+   "homologado": "PP",
+   "certeza": "ALTA",
+   "nota": "Identidad."
+  },
+  {
+   "id": "PSOE",
+   "siglas": [
+    "PSOE",
+    "PSC",
+    "PSIB-PSOE",
+    "PSN-PSOE",
+    "PSdeG-PSOE"
+   ],
+   "homologado": "PSOE",
+   "certeza": "ALTA",
+   "nota": "Federadas del PSOE (familia a4 de la tabla 2011-2023)."
+  },
+  {
+   "id": "VOX",
+   "siglas": [
+    "VOX"
+   ],
+   "homologado": "VOX",
+   "certeza": "ALTA",
+   "nota": "Identidad."
+  },
+  {
+   "id": "ERC",
+   "siglas": [
+    "ERC"
+   ],
+   "homologado": "ERC",
+   "certeza": "ALTA",
+   "nota": "Identidad."
+  },
+  {
+   "id": "EAJ-PNV",
+   "siglas": [
+    "EAJ-PNV"
+   ],
+   "homologado": "EAJ-PNV",
+   "certeza": "ALTA",
+   "nota": "Identidad."
+  },
+  {
+   "id": "GBAI",
+   "siglas": [
+    "GBAI"
+   ],
+   "homologado": "GBAI",
+   "certeza": "ALTA",
+   "nota": "Geroa Bai (a15)."
+  },
+  {
+   "id": "BNG",
+   "siglas": [
+    "BNG",
+    "B.N.G."
+   ],
+   "homologado": "BNG",
+   "certeza": "ALTA",
+   "nota": "Variante gráfica (a16)."
+  },
+  {
+   "id": "EH-BILDU",
+   "siglas": [
+    "EH BILDU",
+    "EH Bildu"
+   ],
+   "homologado": "EH Bildu",
+   "certeza": "ALTA",
+   "nota": "Variante gráfica (a13). Navarra: BOE-A-2026-23383 corrige «EH BILDU-ERC» a «EH BILDU»."
+  },
+  {
+   "id": "EXISTE",
+   "siglas": [
+    "TERUEL EXISTE"
+   ],
+   "homologado": "EXISTE",
+   "certeza": "ALTA",
+   "nota": "Teruel Existe (a21)."
+  },
+  {
+   "id": "JUNTS",
+   "siglas": [
+    "JxCat"
+   ],
+   "homologado": "CiU–Junts",
+   "certeza": "ALTA",
+   "nota": "Familia «CiU–Junts» (D-20 B; en 2023 Interior ya homologa JUNTS)."
+  },
+  {
+   "id": "UPN",
+   "siglas": [
+    "UPN-PP"
+   ],
+   "homologado": "UPN y coaliciones",
+   "certeza": "DECIDIDA",
+   "nota": "Familia «UPN y coaliciones» (D-20 C; UPN-PP ya es regla de sigla en 2011-2016)."
+  },
+  {
+   "id": "CHA-IU",
+   "siglas": [
+    "CHA-IU-MS-FRENTE AMPLIO"
+   ],
+   "homologado": "CHA-IU",
+   "certeza": "MEDIA",
+   "nota": "Coalición con CHA e IU como cabezas: familia «CHA-IU» (D-20 D). Incluye MS y Frente Amplio."
+  },
+  {
+   "id": "PODEMOS",
+   "siglas": [
+    "PODEMOS"
+   ],
+   "homologado": "Podemos–Sumar",
+   "certeza": "DECIDIDA",
+   "nota": "Familia «Podemos–Sumar» (D-20 A: Podemos y confluencias)."
+  },
+  {
+   "id": "CCA",
+   "siglas": [
+    "1.ºCAN-CCa",
+    "CCa-1.ºCAN"
+   ],
+   "homologado": "CCa",
+   "certeza": "MEDIA",
+   "nota": "Coalición Canaria con Municipalistas Primero Canarias (a17: coaliciones de CCa)."
+  },
+  {
+   "id": "FE-JONS",
+   "siglas": [
+    "FE de las JONS"
+   ],
+   "homologado": "FE de las JONS",
+   "certeza": "ALTA",
+   "nota": "Identidad."
+  },
+  {
+   "id": "EB",
+   "siglas": [
+    "ESCAÑOS EN BLANCO"
+   ],
+   "homologado": "ESCAÑOS EN BLANCO",
+   "certeza": "MEDIA",
+   "nota": "Variantes de Escaños en Blanco, también en gallego (regla VARIANTE-EB de 2011-2023)."
+  },
+  {
+   "id": "PCTE",
+   "siglas": [
+    "PCTE",
+    "PCTE/ELAK",
+    "ELAK/PCTE"
+   ],
+   "homologado": "PCTE",
+   "certeza": "MEDIA",
+   "nota": "PCTE y su rotulación vasca (regla VARIANTE-PCTE)."
+  },
+  {
+   "id": "FIA",
+   "siglas": [
+    "F.I.A.",
+    "FIA"
+   ],
+   "homologado": "F.I.A.",
+   "certeza": "ALTA",
+   "nota": "Puntuación (regla VARIANTE-FIA)."
+  },
+  {
+   "id": "PDSJE",
+   "siglas": [
+    "P.D.S.J.E."
+   ],
+   "homologado": "PDSJE",
+   "certeza": "ALTA",
+   "nota": "Puntuación (regla VARIANTE-PDSJE)."
+  },
+  {
+   "id": "B-FA",
+   "siglas": [
+    "FA",
+    "FRENTE AMPLIO - FRONTE AMPLA",
+    "FRENTE AMPLIO-FRONTE AMPLA",
+    "FRENTE AMPLIO-FRONTE ZABALA"
+   ],
+   "homologado": "FA",
+   "certeza": "BAJA",
+   "nota": "Frente Amplio (y sus rotulaciones gallega, navarra, andaluza y asturiana): marca nueva en 2026. ¿Entra en «Podemos–Sumar» o es partido propio?"
+  },
+  {
+   "id": "B-COMUNS",
+   "siglas": [
+    "COMUNS-FRONT AMPLI"
+   ],
+   "homologado": "COMUNS-FRONT AMPLI",
+   "certeza": "BAJA",
+   "nota": "Comuns (lineage En Comú Podem, dentro de SUMAR en 2023) con Frente Amplio. ¿«Podemos–Sumar»?"
+  },
+  {
+   "id": "B-ARAMES",
+   "siglas": [
+    "ARAMÉS-EU-MS"
+   ],
+   "homologado": "ARAMÉS-EU-MS",
+   "certeza": "BAJA",
+   "nota": "Aramés-Frente Amplio (EU, MS) en Aragón. ¿IU, CHA-IU o «Podemos–Sumar»?"
+  },
+  {
+   "id": "B-COMPROMIS",
+   "siglas": [
+    "COMPROMIS-EUPV-PODEM-ERPV"
+   ],
+   "homologado": "COMPROMÍS",
+   "certeza": "BAJA",
+   "nota": "Compromís con EUPV, Podem y ERPV; en 2023 Compromís iba dentro de SUMAR (D-20 no lo cubre). ¿«COMPROMÍS», «Podemos–Sumar» o aparte?"
+  },
+  {
+   "id": "B-UPC",
+   "siglas": [
+    "NC-BC, PODEMOS, IU, SUMAR"
+   ],
+   "homologado": "NC",
+   "certeza": "BAJA",
+   "nota": "Unidad del Pueblo Canario: NC-BC con Podemos, IU y Sumar. ¿«NC» o «Podemos–Sumar»?"
+  },
+  {
+   "id": "B-CNV",
+   "siglas": [
+    "CNV"
+   ],
+   "homologado": "CNV",
+   "certeza": "BAJA",
+   "nota": "Convergents: escisión del linaje CDC (familia «CiU–Junts»). ¿Dentro de la familia o aparte?"
+  },
+  {
+   "id": "B-PAZ",
+   "siglas": [
+    "PAZ,CASA Y TRABAJO"
+   ],
+   "homologado": "PAZ,CASA Y TRABAJO",
+   "certeza": "BAJA",
+   "nota": "Ceuta: «PODEMOS (PAZ,CASA Y TRABAJO)». Denominación Podemos con siglas ajenas; ¿es Podemos («Podemos–Sumar»)?"
+  }
+ ]
+}
