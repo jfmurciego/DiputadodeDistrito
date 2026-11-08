@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.168
+Versión: 1.0.169
 Fecha: 2026-11-08
-Alcance: T-94 — El escritor PENDING ya no esconde su error (01, Ceuta)
+Alcance: T-93 — Contrato electoral SIEL sin `retrieved_at`
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t94-persistencia-pending-error.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.167_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t93-siel-retrieved-at.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.168_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.167_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.169 · [2026-11-08 — T-93 — Contrato electoral SIEL sin `retrieved_at`](registro/2026-11-08_t93-siel-retrieved-at.md)
 - 1.0.168 · [2026-11-08 — T-94 — El escritor PENDING ya no esconde su error (01, Ceuta)](registro/2026-11-08_t94-persistencia-pending-error.md)
 - 1.0.167 · [2026-11-08 — T-83 B — Reagregación del histórico de generales a los distritos vigentes](registro/2026-11-08_t83-reagregacion-historico.md)
 - 1.0.166 · [2026-11-08 — Plan — Limpieza de decisiones pendientes](registro/2026-11-08_plan-pendientes.md)
