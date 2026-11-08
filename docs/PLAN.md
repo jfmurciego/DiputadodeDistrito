@@ -115,6 +115,7 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-17 (08-11). El archivo en origen (T-72) tolera desajustes de códigos de sección entre el ZIP de Interior y el M06 si no
   superan el 0,5 % de los votos de la provincia: los reparte con la tabla de T-85 (D-13, población) y lista las secciones en la
   evidencia. Por encima del tope, fallo estricto.
+
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
 - C-13 (T-64, #469). Alcance de comunidades de interés con partidos judiciales.
