@@ -632,5 +632,64 @@
    "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
    "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c"
   }
+ },
+ "partidos_runs": {
+  "congreso_alicante/42495067503": {
+   "territorio": "congreso_alicante",
+   "run_id": "42495067503",
+   "run_territorial": "42495067503",
+   "sha256_composicion": "a5ad973976e0eb4519f6e1b57d32751e47c4755cb4027a7c2f5afd2f56a3a4e2",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8e379f4b9178e27dfdee21c3c9e117467990766b722d865fde32bab80316f53f",
+   "ruta": "datos/resultados/runs/congreso_alicante_42495067503_partidos.csv",
+   "desajustes": {
+    "secciones": 6,
+    "pct_desajuste": 0.1932,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_alicante_42495067503_desajustes.json",
+    "sha256": "7a37d96ab2850c42db799f45c7c031456d97ae1a307c5273faa4dbe1ae8cfe5c"
+   }
+  },
+  "congreso_barcelona/42495069270": {
+   "territorio": "congreso_barcelona",
+   "run_id": "42495069270",
+   "run_territorial": "42495069270",
+   "sha256_composicion": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a3b50dc7f1ee9cde24d75d8da7dc116a257ea0d03ee7e104b761f50181ea9ce8",
+   "ruta": "datos/resultados/runs/congreso_barcelona_42495069270_partidos.csv",
+   "desajustes": {
+    "secciones": 9,
+    "pct_desajuste": 0.2395,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_barcelona_42495069270_desajustes.json",
+    "sha256": "84793df64c56f10c656c8fe2332baf5ea0f2eebf3ac4c288c2c4d7cac5f06812"
+   }
+  },
+  "congreso_ceuta/42496569312": {
+   "territorio": "congreso_ceuta",
+   "run_id": "42496569312",
+   "run_territorial": "42488846588",
+   "sha256_composicion": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
+   "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
+  },
+  "congreso_malaga/42495070976": {
+   "territorio": "congreso_malaga",
+   "run_id": "42495070976",
+   "run_territorial": "42495070976",
+   "sha256_composicion": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2e8d8945d6160b48292d59b0422d59f4365d8af40efd82a85a0ff164e6178587",
+   "ruta": "datos/resultados/runs/congreso_malaga_42495070976_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.0641,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_malaga_42495070976_desajustes.json",
+    "sha256": "97970fccaf40f4cfe56cb7080a9971e1d137e9ff9746ff649310bd0768f20736"
+   }
+  }
  }
 }

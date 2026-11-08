@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T15:34:42Z",
+  "actualizado_en": "2026-11-08T16:25:08Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -39,6 +39,21 @@
       "tamano_estado_original": 62982390,
       "territorio": "andalucia",
       "url": "r2://ddd-research-archive/andalucia/42430164925/ddd-minimo-42430164925-M06.zip"
+    },
+    "andalucia/42495072594/ddd-minimo-42495072594-M08.zip": {
+      "archivado_en": "2026-11-08T16:22:10Z",
+      "artefacto": "ddd-minimo-42495072594-M08",
+      "artefacto_origen": "ddd-state-42495072594-M08",
+      "artifact_id": 13624651977,
+      "caducidad_original": "2026-11-22T16:19:39Z",
+      "incluye_m06_run": "42495072594",
+      "run_id": "42495072594",
+      "sha256": "b8ab568dde543052f6559048b54d2e25e21ac5b297281c725e275627a28709e1",
+      "sha256_estado_original": "7836955a1722d7e15858003e181841503d5d48ae15bdca587f5296aebb2eeafb",
+      "tamano_bytes": 5272298,
+      "tamano_estado_original": 74092482,
+      "territorio": "andalucia",
+      "url": "r2://ddd-research-archive/andalucia/42495072594/ddd-minimo-42495072594-M08.zip"
     },
     "aragon/40979465420/ddd-audit-40979465420.zip": {
       "archivado_en": "2026-11-07T17:18:09Z",
@@ -1962,6 +1977,21 @@
       "territorio": "congreso_alicante",
       "url": "r2://ddd-research-archive/congreso_alicante/42490325518/ddd-minimo-42490325518-M06.zip"
     },
+    "congreso_alicante/42495067503/ddd-minimo-42495067503-M08.zip": {
+      "archivado_en": "2026-11-08T16:18:34Z",
+      "artefacto": "ddd-minimo-42495067503-M08",
+      "artefacto_origen": "ddd-state-42495067503-M08",
+      "artifact_id": 13625230020,
+      "caducidad_original": "2026-11-22T16:17:26Z",
+      "incluye_m06_run": "42495067503",
+      "run_id": "42495067503",
+      "sha256": "f834771a66f81b36cd3efe3024c15a63c6fe1154e0a782a9be7540edcc7c02ae",
+      "sha256_estado_original": "0703e4cda0c09573a0c35f2333bb283d84be5b70bc70345c3407c8fdfe013403",
+      "tamano_bytes": 866271,
+      "tamano_estado_original": 83575196,
+      "territorio": "congreso_alicante",
+      "url": "r2://ddd-research-archive/congreso_alicante/42495067503/ddd-minimo-42495067503-M08.zip"
+    },
     "congreso_almeria/41242160179/ddd-audit-41242160179.zip": {
       "archivado_en": "2026-11-08T12:08:41Z",
       "artefacto": "ddd-audit-41242160179",
@@ -2276,6 +2306,21 @@
       "territorio": "congreso_barcelona",
       "url": "r2://ddd-research-archive/congreso_barcelona/42490327657/ddd-minimo-42490327657-M06.zip"
     },
+    "congreso_barcelona/42495069270/ddd-minimo-42495069270-M08.zip": {
+      "archivado_en": "2026-11-08T16:25:08Z",
+      "artefacto": "ddd-minimo-42495069270-M08",
+      "artefacto_origen": "ddd-state-42495069270-M08",
+      "artifact_id": 13624921520,
+      "caducidad_original": "2026-11-22T16:19:42Z",
+      "incluye_m06_run": "42495069270",
+      "run_id": "42495069270",
+      "sha256": "555a9b936bf245a44fc1c717e3fcc04cca08123e77b1fa96807c7c8253d30486",
+      "sha256_estado_original": "04472063cf0ce40959829682ddaf9d523348bd9181738fedd7ec0c8f8d080453",
+      "tamano_bytes": 1259402,
+      "tamano_estado_original": 93657546,
+      "territorio": "congreso_barcelona",
+      "url": "r2://ddd-research-archive/congreso_barcelona/42495069270/ddd-minimo-42495069270-M08.zip"
+    },
     "congreso_burgos/41292846877/ddd-audit-41292846877.zip": {
       "archivado_en": "2026-11-08T12:15:38Z",
       "artefacto": "ddd-audit-41292846877",
@@ -2576,19 +2621,20 @@
       "territorio": "congreso_ceuta",
       "url": "r2://ddd-research-archive/congreso_ceuta/41250564472/ddd-minimo-41250564472-M08.zip"
     },
-    "congreso_ceuta/42488846588/ddd-minimo-42488846588-M06.zip": {
-      "archivado_en": "2026-11-08T15:34:42Z",
-      "artefacto": "ddd-minimo-42488846588-M06",
-      "artefacto_origen": "ddd-state-42488846588-M06",
-      "artifact_id": 13622209799,
-      "caducidad_original": "2026-11-22T15:31:44Z",
-      "run_id": "42488846588",
-      "sha256": "c500f02db07d857fa024139dab6e31161ae23e6272c9d0ea20e7a9ae71393719",
-      "sha256_estado_original": "c3509c2165d3ff9377dbd8cd42a817aa92e5f36538af81264bc8e93bdaaf893b",
-      "tamano_bytes": 45026,
-      "tamano_estado_original": 74440593,
+    "congreso_ceuta/42496569312/ddd-minimo-42496569312-M08.zip": {
+      "archivado_en": "2026-11-08T16:00:48Z",
+      "artefacto": "ddd-minimo-42496569312-M08",
+      "artefacto_origen": "ddd-state-42496569312-M08",
+      "artifact_id": 13623813688,
+      "caducidad_original": "2026-11-22T15:59:38Z",
+      "incluye_m06_run": "42488846588",
+      "run_id": "42496569312",
+      "sha256": "f5ac977ce71e5e04e7561da9692afcbd997f6b6035798af58842d2d06c05125f",
+      "sha256_estado_original": "454eeb5d1985c075122906e17e2e4848a274e448ec6804e4bbdcbeabb59d7f6a",
+      "tamano_bytes": 79417,
+      "tamano_estado_original": 74538154,
       "territorio": "congreso_ceuta",
-      "url": "r2://ddd-research-archive/congreso_ceuta/42488846588/ddd-minimo-42488846588-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_ceuta/42496569312/ddd-minimo-42496569312-M08.zip"
     },
     "congreso_ciudad_real/41291967967/ddd-audit-41291967967.zip": {
       "archivado_en": "2026-11-08T12:14:57Z",
@@ -3591,6 +3637,21 @@
       "tamano_estado_original": 84829628,
       "territorio": "congreso_malaga",
       "url": "r2://ddd-research-archive/congreso_malaga/42490329631/ddd-minimo-42490329631-M06.zip"
+    },
+    "congreso_malaga/42495070976/ddd-minimo-42495070976-M08.zip": {
+      "archivado_en": "2026-11-08T16:19:51Z",
+      "artefacto": "ddd-minimo-42495070976-M08",
+      "artefacto_origen": "ddd-state-42495070976-M08",
+      "artifact_id": 13624821091,
+      "caducidad_original": "2026-11-22T16:18:02Z",
+      "incluye_m06_run": "42495070976",
+      "run_id": "42495070976",
+      "sha256": "386736b962238a91091c74a275114303240f47b652e06ae91bf70ac769200f44",
+      "sha256_estado_original": "018897daed82958d42024fd08a3a608fd6726528dfc2f6b855b12a14d1672904",
+      "tamano_bytes": 705076,
+      "tamano_estado_original": 86687066,
+      "territorio": "congreso_malaga",
+      "url": "r2://ddd-research-archive/congreso_malaga/42495070976/ddd-minimo-42495070976-M08.zip"
     },
     "congreso_melilla/41236482346/ddd-audit-41236482346.zip": {
       "archivado_en": "2026-11-08T12:07:16Z",

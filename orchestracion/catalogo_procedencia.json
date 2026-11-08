@@ -50,7 +50,7 @@
   "territorios": 67,
   "productos": 339,
   "errores": 0,
-  "avisos": 124
+  "avisos": 128
  },
  "territorios": {
   "aragon": {
@@ -6046,6 +6046,13 @@
   },
   {
    "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "andalucia/42495072594/ddd-minimo-42495072594-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "congreso_alicante",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
@@ -6078,6 +6085,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso_alicante/42490325518/ddd-minimo-42490325518-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_alicante/42495067503/ddd-minimo-42495067503-M08.zip"
   },
   {
    "nivel": "AVISO",
@@ -6116,6 +6130,13 @@
   },
   {
    "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_barcelona/42495069270/ddd-minimo-42495069270-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "congreso_malaga",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
@@ -6148,6 +6169,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso_malaga/42490329631/ddd-minimo-42490329631-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_malaga/42495070976/ddd-minimo-42495070976-M08.zip"
   },
   {
    "nivel": "AVISO",

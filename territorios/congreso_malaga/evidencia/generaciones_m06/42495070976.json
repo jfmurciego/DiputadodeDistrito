@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13624671261,
+      "artifact_name": "ddd-audit-42495070976",
+      "artifact_sha256": "20c97c07b6537ceb3eef1529654ab4e060131ffc7c511aacdeca7c5696718e69",
+      "run_id": 42495070976,
+      "size_in_bytes": 5032
+    },
+    "m04": {
+      "artifact_id": 13624231473,
+      "artifact_name": "ddd-state-42495070976-M04",
+      "artifact_sha256": "f7b829f6443d2ac689d39594e390ef26950e966ceffabb64565b2bf3eaf3133f",
+      "run_id": 42495070976,
+      "size_in_bytes": 81477376
+    },
+    "m05": {
+      "artifact_id": 13623644468,
+      "artifact_name": "ddd-state-42495070976-M05",
+      "artifact_sha256": "979f493d9441cc4978b47f521966d1dcc61b028554e97b4f30c9a95962a2a9b0",
+      "run_id": 42495070976,
+      "size_in_bytes": 82976182
+    },
+    "m06": {
+      "artifact_id": 13623249683,
+      "artifact_name": "ddd-state-42495070976-M06",
+      "artifact_sha256": "e357c7b6decadf360f67e76490bed804bfaa7d8565783451287cb71b27dc4416",
+      "run_id": 42495070976,
+      "size_in_bytes": 84829628
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "48be6fe6abdab9eff39eee4e945d22fe79c570f83127fefe2eca92b4615d748e",
+        "size_in_bytes": 479
+      },
+      "congreso_malaga_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "1dad694fe5631da046a6c77f20460a9412cf817495ddd345064aeeb3980b57c3",
+        "size_in_bytes": 16041
+      },
+      "optimization_execution.json": {
+        "sha256": "5aef2e17ba97529cbd184d01e09153cafb2919cfd6eb30ab19aab53f8fd71d10",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "cfc6e8294bcd9b252da221eb8d9cb90e92a7f143ecdf083d85fdae6731a72252",
+        "size_in_bytes": 1310
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "cfc6e8294bcd9b252da221eb8d9cb90e92a7f143ecdf083d85fdae6731a72252",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso_malaga/config/congreso_malaga_2025.yaml",
+    "sha256": "d3a30a822df9730408f9c5233895c6540cb9b500f0c273f288963662a2144b67"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "8861906c02822efd4ed835f68790d598dab224a6dfe7e5d232a32f82e41a93be",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
+    "edition": "2025",
+    "territory_id": "congreso_malaga",
+    "territory_name": "Congreso Málaga",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42495070976,
+    "workflow_sha": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13624231473,
+      "artifact_name": "ddd-state-42495070976-M04",
+      "artifact_sha256": "f7b829f6443d2ac689d39594e390ef26950e966ceffabb64565b2bf3eaf3133f",
+      "run_id": 42495070976,
+      "size_in_bytes": 81477376
+    },
+    "source_manifest_sha256": "5eeca2b035939e33a7a930d197cdc174162f59cd7751fcd11d8cd2b61fb50164",
+    "source_package_artifact": {
+      "artifact_id": 13590676807,
+      "artifact_name": "ddd-source-package-congreso_malaga-2025-42409615215",
+      "artifact_sha256": "ee2301bea2c6cd972e433c1816e914bd900c09ecc3096756573d3fc9e975e5d3",
+      "run_id": 42409615215,
+      "size_in_bytes": 78452926
+    }
+  },
+  "manifest_sha256": "7f5cfee1114239e42f3d540e4929415985f5bf02551c942da3c82f1d20ac005a",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

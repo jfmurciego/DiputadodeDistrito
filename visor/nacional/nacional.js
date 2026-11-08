@@ -1,6 +1,9 @@
-/* Proyecto: Diputado de Distrito · Versión 1.0.0 · visor Nacional (T-84, D-16)
+/* Anterior: legacy/visor/nacional/nacional_v1.0.0.js
+ * Proyecto: Diputado de Distrito · Versión 1.0.2 · visor Nacional (T-84, D-16)
  * Vista Nacional: barra temporal, capas y feature-state de MapLibre. Solo muestra lo publicado en datos/
  * (datos_abiertos/INDEX.json). No inventa histórico: las elecciones y capas sin datos salen desactivadas.
+ * 1.0.1: encuadre inicial por límites (no por centro/zoom) para que el móvil de 390 px vea la Península.
+ * 1.0.2: atajos Península/Canarias (Canarias queda fuera del encuadre inicial).
  * Teselas PMTiles: pendiente (hoy GeoJSON por provincia, cargado en paralelo). */
 "use strict";
 const DATOS=new URLSearchParams(location.search).get("datos")||"../datos/";
@@ -42,7 +45,7 @@ function pintaControles(){
 }
 function parseCsv(t){return t.trim().split(/\r?\n/).slice(1).map(l=>{const c=l.split(",");
  return{distrito:+c[0],poblacion:+c[1],votos:+c[2],ganador:c[3],votosGanador:+c[4],pct:+c[5]}})}
-const map=new maplibregl.Map({container:"map",center:[-3.7,40.2],zoom:5.2,style:{version:8,
+const map=new maplibregl.Map({container:"map",bounds:[[-9.6,35.9],[4.6,43.9]],fitBoundsOptions:{padding:8},style:{version:8,
  sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,attribution:"© OpenStreetMap contributors"}},
  layers:[{id:"osm",type:"raster",source:"osm"}]}});
 map.addControl(new maplibregl.NavigationControl(),"top-right");
@@ -79,6 +82,7 @@ map.on("load",async()=>{
   map.addLayer({id:"d-fill",type:"fill",source:"distritos",paint:{"fill-color":["get","color"],
    "fill-opacity":["case",["boolean",["feature-state","sel"],false],0.9,["boolean",["feature-state","hover"],false],0.8,0.6]}});
   map.addLayer({id:"d-line",type:"line",source:"distritos",paint:{"line-color":"#273449","line-width":["case",["boolean",["feature-state","sel"],false],3,0.6]}});
+  map.resize();map.fitBounds([[-9.6,35.9],[4.6,43.9]],{padding:8,duration:0});
   pintaLeyenda();
   status.textContent=feats.length+" distritos en "+ent.length+" provincias · generales 2023";
   document.body.dataset.listo="1";
@@ -89,3 +93,5 @@ map.on("mousemove","d-fill",e=>{const u=e.features[0].properties.uid;map.getCanv
 map.on("mouseleave","d-fill",()=>{estado(hover,"hover",false);hover=null;map.getCanvas().style.cursor=""});
 map.on("click","d-fill",e=>{const p=e.features[0].properties;estado(selected,"sel",false);selected=p.uid;estado(selected,"sel",true);ficha(p)});
 pintaControles();
+const ZONAS={peninsula:[[-9.6,35.9],[4.6,43.9]],canarias:[[-18.4,27.5],[-13.2,29.5]]};
+for(const b of document.querySelectorAll("[data-zona]"))b.onclick=()=>map.fitBounds(ZONAS[b.dataset.zona],{padding:8,duration:600});

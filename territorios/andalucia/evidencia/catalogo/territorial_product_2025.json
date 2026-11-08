@@ -4,11 +4,11 @@
   "territory_id": "andalucia",
   "territory_name": "Andalucía",
   "edition": "2025",
-  "run_id": 42430164925,
-  "artifact_name": "ddd-state-42430164925-M06",
-  "artifact_sha256": "fccff31b283ebc189583c1665438ba44d81e71419c90c125523dfc109cb8f9b1",
-  "source_commit": "20e92e9848a9cf420d60a47d6c679bf3b7799187",
+  "run_id": 42495072594,
+  "artifact_name": "ddd-state-42495072594-M06",
+  "artifact_sha256": "4d465d8d923e82aec8305a1b9719acc99635d8b767f1c32449f4c8a0088204d3",
+  "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/42430164925.json"
+  "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/42495072594.json"
 }

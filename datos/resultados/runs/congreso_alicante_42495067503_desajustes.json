@@ -1,0 +1,91 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_alicante",
+ "run_id": "42495067503",
+ "run_territorial": "42495067503",
+ "decision": "D-17; T-103 (solo las partidas cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 888631,
+ "votos_desajustados": 1717,
+ "pct_desajuste": 0.1932,
+ "votos_partidos": 566,
+ "pct_partido": 0.0637,
+ "desajustes": [
+  {
+   "seccion": "0301408031",
+   "origen": "zip_sin_m06",
+   "clase": "partida",
+   "votos": 566,
+   "secciones_m06": {
+    "0301408016": 0.091582,
+    "0301408023": 0.908418
+   },
+   "distritos": {
+    "8": 1.0
+   },
+   "regla": "D-17: partida; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "0303104006",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 624,
+   "secciones_m06": {
+    "0303104004": 1.0
+   },
+   "distritos": {
+    "9": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0303104004 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0306507027",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 527,
+   "secciones_m06": {
+    "0306507001": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0306507001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0301402025",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0301402025": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "0301901005",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0301901005": 1.0
+   },
+   "distritos": {
+    "16": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "0306505007",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0306505007": 1.0
+   },
+   "distritos": {
+    "3": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}

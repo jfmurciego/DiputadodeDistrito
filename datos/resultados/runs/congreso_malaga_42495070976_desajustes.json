@@ -1,0 +1,40 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_malaga",
+ "run_id": "42495070976",
+ "run_territorial": "42495070976",
+ "decision": "D-17; T-103 (solo las partidas cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 775255,
+ "votos_desajustados": 497,
+ "pct_desajuste": 0.0641,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "2900701022",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 497,
+   "secciones_m06": {
+    "2900701003": 1.0
+   },
+   "distritos": {
+    "6": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 2900701003 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "2908405001",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2908405001": 1.0
+   },
+   "distritos": {
+    "14": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}
