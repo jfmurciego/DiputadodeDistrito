@@ -4,7 +4,7 @@ Versión: 1.0.31
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-103 (secciones recodificadas en el archivista); D-19 y T-102 (comparativa 2023 con 350 distritos); T-104 (M06 de Valencia)
+Cambios/motivo: T-103 (secciones recodificadas); D-19 y T-102 (comparativa 2023 con 350 distritos); T-104 (M06 de Valencia); D-20 (siglas de certeza baja)
 Anterior: legacy/docs/PLAN_v1.0.30_20261108.md
 -->
 
@@ -124,6 +124,11 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   mayoritarios, con los mismos escaños por provincia, frente al reparto real?». Opción C: cada provincia se divide en tantos distritos
   como escaños reales de 2023 (`configuracion/resultados_oficiales_congreso_2023.csv`, BOE-A-2023-18907). Los 407 siguen siendo la
   propuesta del proyecto; los 350 son solo para este estudio. Se avisa de que es una simulación mecánica con los votos de 2023.
+- D-20 (08-11). Las 83 filas de certeza BAJA de T-97 (`datos/homologacion_siglas/homologacion_siglas_generales.csv`, #524) se resuelven así:
+  A) PODEMOS, EN COMÚ, PODEMOS-COM y PODEMOS-En (2015) → familia «Podemos–Sumar», con la sigla real de cada año en el mapa;
+  B) CiU (2011), DL (2015) y CDC (2016) → familia «CiU–Junts»; C) UPN-PP (2011-2016) y NA+ (2019) → familia «UPN y coaliciones»;
+  D) CHA-IU (2011) → «CHA-IU»; E) PDeCAT-E-CiU → PDeCAT, PSM-IV-EXM-EQUO → MÉS, EN MAREA → EN MAREA, Caballas y MDyC → sí mismos.
+  Con D-20 la tabla puede aplicarse a la capa de rotación (T-84).
 
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
