@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 384,
+  "productos": 385,
   "errores": 0,
-  "avisos": 122
+  "avisos": 123
  },
  "territorios": {
   "andalucia": {
@@ -539,7 +539,7 @@
      "producto": "M06",
      "id": "m06-castilla_y_leon-40969454399",
      "run_id": "40969454399",
-     "vigente": true,
+     "vigente": false,
      "sha256": "c6f4ef01f95550296bdd9f65cede9193adadddb040eaa097839af9df187f9d1d",
      "copia_git": {
       "blob_sha": "7917a37b81b943ba648befbe41eb1fc46332d0e2",
@@ -551,6 +551,19 @@
        "sha256": "66dc44bae7adc9c58dc1e76a0d9379d9c8a075b6f72613afb29805cd4bc97eb2"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M06",
+     "id": "m06-castilla_y_leon-42521090842",
+     "run_id": "42521090842",
+     "vigente": true,
+     "sha256": "1e9f45e12e33d7ef4ddbd5ce6c735eb861b8a9c99deed680263fcd574af35197",
+     "copia_git": {
+      "blob_sha": "5143b70a6e064d9251b91d4e82f6c95e706d75e0",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -6765,6 +6778,13 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 37444564173: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "castilla_y_leon",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42521090842: solo copia git"
   },
   {
    "nivel": "AVISO",
