@@ -1,0 +1,41 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_albacete",
+ "run_id": "42514994231",
+ "run_territorial": "42514994231",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 218503,
+ "votos_desajustados": 1387,
+ "pct_desajuste": 0.6348,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "0200302025",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 641,
+   "secciones_m06": {
+    "0200302024": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0200302024 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0200307018",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 746,
+   "secciones_m06": {
+    "0200307014": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0200307014 con la tabla de T-85, fuera del tope D-17"
+  }
+ ]
+}

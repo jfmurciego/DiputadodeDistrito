@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T19:49:44Z",
+  "actualizado_en": "2026-11-08T19:58:16Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1971,19 +1971,20 @@
       "territorio": "congreso_albacete",
       "url": "r2://ddd-research-archive/congreso_albacete/41294417893/ddd-minimo-41294417893-M08.zip"
     },
-    "congreso_albacete/42514994231/ddd-minimo-42514994231-M06.zip": {
-      "archivado_en": "2026-11-08T19:47:59Z",
-      "artefacto": "ddd-minimo-42514994231-M06",
-      "artefacto_origen": "ddd-state-42514994231-M06",
-      "artifact_id": 13632080433,
-      "caducidad_original": "2026-11-22T19:45:24Z",
+    "congreso_albacete/42514994231/ddd-minimo-42514994231-M08.zip": {
+      "archivado_en": "2026-11-08T19:58:16Z",
+      "artefacto": "ddd-minimo-42514994231-M08",
+      "artefacto_origen": "ddd-state-42514994231-M08",
+      "artifact_id": 13631563018,
+      "caducidad_original": "2026-11-22T19:57:43Z",
+      "incluye_m06_run": "42514994231",
       "run_id": "42514994231",
-      "sha256": "24c2b27e065bc07876628bb6c7373cc4b993e0fbf0dc698fd4ca42743a37dbff",
-      "sha256_estado_original": "f49c395d523a0a3c3fcc81dc3f209aacad478ddaeaff883c3a189bba31a884ff",
-      "tamano_bytes": 160680,
-      "tamano_estado_original": 77705674,
+      "sha256": "ef4a12182f3d166cfac4b92f08d1764f2d5fa30517736da2239e09ff53da4f77",
+      "sha256_estado_original": "c75a3db7daefc56cc86f68803b5e8025469a115b2de914aa90a2ea3ba9ff17a3",
+      "tamano_bytes": 304731,
+      "tamano_estado_original": 78347569,
       "territorio": "congreso_albacete",
-      "url": "r2://ddd-research-archive/congreso_albacete/42514994231/ddd-minimo-42514994231-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_albacete/42514994231/ddd-minimo-42514994231-M08.zip"
     },
     "congreso_alicante/42409605030/ddd-audit-42409605030.zip": {
       "archivado_en": "2026-11-08T12:20:49Z",
