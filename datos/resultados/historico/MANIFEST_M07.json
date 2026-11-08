@@ -1,0 +1,420 @@
+{
+ "schema": "ddd.historico-m07m08/1.0",
+ "territorios": {
+  "congreso_alava": {
+   "composicion": {
+    "path": "datos/composicion/congreso_alava.csv",
+    "sha256": "a4507f48ddc8d95674949f533d9675cb1bb136b7125aca5c7c0f1a89d968f195"
+   },
+   "distritos_m06": {
+    "run_id": "41346917857",
+    "sha256": "44bd4d794d2ef99f0bf924bb0b43df29956e758c59310c434190babe1a50ed41"
+   },
+   "elecciones": {
+    "201111": {
+     "distritos": 3,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "902815fba89963adaa35822f8ff9be3979c8ca4ee240532e051ad872c252c91c",
+      "secciones": "e9759a6f994b24996cca85cd8b8ebf1cf6564e12e2a73bd0840c3618f6ca3bea"
+     },
+     "m07": "PASS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 2,
+      "dif_total": 0,
+      "distritos_b": 3,
+      "distritos_m07": 3,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 167160
+    },
+    "201512": {
+     "distritos": 3,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "c31137fe48285f1f1cff05081a4cf7d12c0e498d2aa32fc2e7a2c7b795d9b162",
+      "secciones": "0c4da341d2cce16dd3876099af215c40ddfa0a9aceb985de7a97eb057a7e87ac"
+     },
+     "m07": "PASS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 4,
+      "dif_total": 0,
+      "distritos_b": 3,
+      "distritos_m07": 3,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 177448
+    },
+    "201606": {
+     "distritos": 3,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "a65b3a4df92b445402dabdc1ac7c9fbf65203a96fc1723dcad0deb83afceb08b",
+      "secciones": "452c6dd66e175bf11cd23c8aaeed6d89b540345dcda54324fa66d23bb92f999a"
+     },
+     "m07": "PASS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 3,
+      "dif_total": 0,
+      "distritos_b": 3,
+      "distritos_m07": 3,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 165985
+    },
+    "201904": {
+     "distritos": 3,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "03a45f04fa2b38c463b67f37cf118dcdd929928ef281caadc37bc6c51d1bf9e5",
+      "secciones": "b896002f126730de888f444b214db8c02594529fff2fc647bf006421f9cf992e"
+     },
+     "m07": "PASS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 3,
+      "distritos_m07": 3,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 175733
+    },
+    "201911": {
+     "distritos": 3,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "182d1e49d7f1f5451b55883ffcda6ed8c70bde79c7aacee28fb0d02b03803597",
+      "secciones": "9ee14a4e6b50c6829c1d86b20202cd96a2e39a3e50d2b1df8eb33b1300f030d3"
+     },
+     "m07": "PASS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 3,
+      "distritos_m07": 3,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 169235
+    },
+    "202307": {
+     "distritos": 3,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "27cc515147a23ae2c83e957c524323d015f5f7258782fd715ce6515429f78010",
+      "secciones": "a40d5015d443ff3b5e5be8d6d5ead1536a28a37f11ab3667e5f5dbf2f2157288"
+     },
+     "m07": "PASS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 3,
+      "distritos_m07": 3,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 167304
+    }
+   },
+   "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+   "secciones": {
+    "composicion_exacta": 240,
+    "composicion_sin_seccion_2025": [],
+    "secciones": 240,
+    "secciones_2025_por_solape": {}
+   }
+  },
+  "congreso_badajoz": {
+   "composicion": {
+    "path": "datos/composicion/congreso_badajoz.csv",
+    "sha256": "fd29a7ec11fb021bb509eea661c7415ae99814c8cffd70725a7b5c5ce3c4de02"
+   },
+   "distritos_m06": {
+    "run_id": "41299475924",
+    "sha256": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f"
+   },
+   "elecciones": {
+    "201111": {
+     "distritos": 6,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "975bea29a93fc991c3aba10745a575e175b87f9ff45286daf71bdb097037813b",
+      "secciones": "5c202c9c19964eb3cf1f38b61cbd1a4c7d89d7fab57609fc14f4882a63b46709"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 5,
+      "dif_total": 0,
+      "distritos_b": 6,
+      "distritos_m07": 6,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 403522
+    },
+    "201512": {
+     "distritos": 6,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "da43fe88c2b2eb79ce10d4d59828ad29999ced0991874ab5eeaceec4d8efcf36",
+      "secciones": "3306335688304a4e573767dbfb3a2a858cd5e9d66efbbd1afb08b25834281eab"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 1,
+      "dif_total": 0,
+      "distritos_b": 6,
+      "distritos_m07": 6,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 395612
+    },
+    "201606": {
+     "distritos": 6,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "8d45c407a24a3a7c80dee1f6d906efd19a19e5ed8d1e06031eb4c5d917879fea",
+      "secciones": "bf9cc47b3f42766b563be5427d6a15d37943ad399679ac914f5df3fe9a04e7bc"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 1,
+      "dif_total": 0,
+      "distritos_b": 6,
+      "distritos_m07": 6,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 374365
+    },
+    "201904": {
+     "distritos": 6,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "28d6ef7606f2f530eb2161872062f4d9f8d26d85df79e7ca0f7aa3ba92b668ed",
+      "secciones": "f14e28625cc9c4fb3d5ca2f7a775dba70a4bbef3fd98bad02438c2284cee19cc"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 6,
+      "distritos_m07": 6,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 404139
+    },
+    "201911": {
+     "distritos": 6,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "8b154722cf194cc6904ea2ec50dccacc75bca526835470145eb9e2382de23668",
+      "secciones": "f0cb89bc8e0cc12d22f8159544ae63b9f576698c7152103eeb1c94ac92ffbb15"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 1,
+      "dif_total": 0,
+      "distritos_b": 6,
+      "distritos_m07": 6,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 365611
+    },
+    "202307": {
+     "distritos": 6,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "e78277a622d2e5b0865ec7467c2a1dc19025b2298224948e42820edb6f7d9de6",
+      "secciones": "09791ae896e38bb322f223cc798b19ad2db61d83cbe8e9733302762837b2e0a4"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 6,
+      "distritos_m07": 6,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 386842
+    }
+   },
+   "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+   "secciones": {
+    "composicion_exacta": 547,
+    "composicion_sin_seccion_2025": [
+     "0601505014",
+     "0601506003",
+     "0602301002",
+     "0605901002",
+     "0606701003",
+     "0608601002"
+    ],
+    "secciones": 553,
+    "secciones_2025_por_solape": {
+     "0601102009": "2",
+     "0601507014": "0",
+     "0608303011": "1",
+     "0608304014": "1",
+     "0608306010": "1",
+     "0615302006": "5"
+    }
+   }
+  },
+  "congreso_huesca": {
+   "composicion": {
+    "path": "datos/composicion/congreso_huesca.csv",
+    "sha256": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939"
+   },
+   "distritos_m06": {
+    "run_id": "41194447427",
+    "sha256": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1"
+   },
+   "elecciones": {
+    "201111": {
+     "distritos": 2,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "2baa3e87140e7ed84f06b1a236eb07476755f9c654013132eb5e8e10fdb7c8aa",
+      "secciones": "09a19193fcd5a6308f911d9479f0f5af7ca9e3f8e3733b3701039cd39ced668f"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 1,
+      "dif_total": 0,
+      "distritos_b": 2,
+      "distritos_m07": 2,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 117081
+    },
+    "201512": {
+     "distritos": 2,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "6a3e0af07e87c88bb27fd652c07844e413c7ea2d68fa97f58485cdbba0a85ddf",
+      "secciones": "7da8b18d550e1553357a6dfc1f840b6a3cd937ff7e557e28640c7b689beaeae3"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 2,
+      "distritos_m07": 2,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 120323
+    },
+    "201606": {
+     "distritos": 2,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "f4efc34593e85d62b3cba55b9f5da55f30dee1368b9c680d0201ea81677ea1a2",
+      "secciones": "6f2154f174d664fab19d23d5d0eb79d860fd66e1cb147f147d91d46bc393a623"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 2,
+      "distritos_m07": 2,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 114975
+    },
+    "201904": {
+     "distritos": 2,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "4885abffd2f16ef24d24f9b46860ebe44b67d27db62e338ad121733bd9d7c31f",
+      "secciones": "66f2f2961f59293bcd8ab4a241ad4c00d550e680389dba0815415ab900c90858"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 2,
+      "distritos_m07": 2,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 123335
+    },
+    "201911": {
+     "distritos": 2,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "24a927535b36b80de964280fe858bbdbe413a8fdd9d500c4f20b8881c267247a",
+      "secciones": "dd7cd656b66dc498a4dc5d83c0f12931730dd121e397585828a127c1aa76b1f0"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 2,
+      "distritos_m07": 2,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 111396
+    },
+    "202307": {
+     "distritos": 2,
+     "hueco_oficial": null,
+     "huellas": {
+      "contrato": "b827ac320846e556422949500927ac163d65670ade2b7965abd7e878bd1f6444",
+      "secciones": "a5a9a75d80fed628c5bf39dacce1323ed22caad5e0df208dc4bcc19f85e14f22"
+     },
+     "m07": "PASS_WITH_DECLARED_EXCEPTIONS",
+     "m08": "OK",
+     "paso_b": {
+      "dif_max_distrito": 0,
+      "dif_total": 0,
+      "distritos_b": 2,
+      "distritos_m07": 2,
+      "ganador_distinto": []
+     },
+     "perdidos": 0,
+     "votos": 117735
+    }
+   },
+   "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+   "secciones": {
+    "composicion_exacta": 286,
+    "composicion_sin_seccion_2025": [],
+    "secciones": 287,
+    "secciones_2025_por_solape": {
+     "2212503009": "0"
+    }
+   }
+  }
+ }
+}
