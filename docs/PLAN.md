@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.22
-Fecha: 2026-11-07
+Versión: 1.0.23
+Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: decisiones D-9 a D-12 del histórico; se encargan T-81 y T-85; T-83 en cola; T-82 aparcada
-Anterior: legacy/docs/PLAN_v1.0.21_20261107.md
+Cambios/motivo: D-13 (peso de T-85: población vigente, área de reserva, prueba del censo)
+Anterior: legacy/docs/PLAN_v1.0.22_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -102,6 +102,9 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   T-82 (espejo de Infoelectoral desde el Mac) aparcada: solo si falla el contraste de T-89 o falta una elección.
 - D-12. T-83 en dos pasos: primero (B) herramienta fuera de línea, sin lanzar, validada con 3 provincias; para publicar,
   (A) por la cadena M07/M08 con puerta 04, una elección por universo, lanzada por el Operador con permiso del propietario.
+- D-13 (08-11). Peso de T-85 para secciones partidas: población de la sección vigente (padrón de M01); el área solo si la pieza
+  no tiene población o falta el dato. Se confirma con la prueba del censo: el censo electoral de cada elección pasada llevado a
+  las secciones vigentes con los dos pesos frente al censo real; si gana el área, se vuelve al propietario.
 ### Pendientes
 - D-5 (T-41). Crear en Settings → Environments el entorno `produccion` con el propietario como revisor requerido
   (repositorio público: disponible en cualquier plan). Sin él, T-41 se queda en el código.
@@ -293,9 +296,9 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-87 | Cadena de publicación con una sola aprobación: al cerrar la puerta 04 de una 00, un job en el entorno `produccion` (aprobación del propietario) dispara juntos la 05 del visor con `production_run_id` de esa 00 y `publicar-version-mapa.yml` (Release, Zenodo); el archivo R2 lo cubre T-72 y los resultados ligeros ya se encadenan con `publicaciones_visor.json`. Toca workflows compartidos: avisar al Coordinador | por abrir (Opus), después de la 00 de prueba de T-72 | PR no-automerge; sin aprobación no publica nada; probado con un territorio y sin publicar hasta el permiso del propietario |
 | T-88 | Revisar las skills de verificación de plan y TDD de `mattpocock/skills` (MIT) y, ampliada (07-11), los plugins oficiales de revisión de PR y de desarrollo por fases de `anthropics/claude-code` frente a `revisar-pr`, el revisor de CI e `implementador`; llevar a `implementador` y `planificador` solo lo que falte, con el criterio de `disenar-agente`; sin instalar skills externas | por abrir (Sonnet), después de T-77 | Una PR con la comparación (qué se toma, qué no y por qué) y las skills ajustadas; sin aumentar el contexto cargado por defecto |
 | T-89 | Espejo del Observatorio Electoral de las Naciones (D-8): bajar `data/index.json`, `data/{k}/sekzioa/{cpro}.json` de las 6 generales y `geo/sekzioak/{año}/{cpro}.json` de sus 6 seccionados, con fecha, URL y sha256 por fichero, a R2 (no a git); entrada en el catálogo de procedencia; contraste por muestreo (3 provincias × 2 elecciones) con Infoelectoral 2023 del release espejo y un lector Python del formato compacto (`s`,`k`,`f`,`b`,`r`) | por abrir (Sonnet) | Espejo completo y verificable; informe del contraste; sin publicar ni tocar el visor |
-| T-85 | Equivalencia de secciones (D-9, D-10): tabla de cada seccionado de elección (INE 2012, 2015, 2016, 2019, 2020) al seccionado de los distritos vigentes, desde las geometrías del espejo T-89 o del INE (CC BY 4.0); 1:1 cuando código y geometría coinciden; si una sección se parte, pesos por área y, en paralelo, por población de la sección vigente; se informa del % de votos no 1:1 por provincia y elección. Elegir el peso es criterio: se presenta al propietario antes de fijarlo | por abrir (Opus), ya | Tabla versionada con sha256 y fuente; pesos que suman 1 por sección; tests; sin lanzar ni publicar |
+| T-85 | Equivalencia de secciones (D-9, D-10): tabla de cada seccionado de elección (INE 2012, 2015, 2016, 2019, 2020) al seccionado de los distritos vigentes, desde las geometrías del espejo T-89 o del INE (CC BY 4.0); 1:1 cuando código y geometría coinciden; si una sección se parte, peso por población de la sección vigente y área de reserva (D-13), con la prueba del censo de ambos pesos; se informa del % de votos no 1:1 por provincia y elección | por abrir (Opus), ya | Tabla versionada con sha256 y fuente; pesos que suman 1 por sección; tests; sin lanzar ni publicar |
 | T-81 | Inventario de fuentes del histórico (D-9): por elección y provincia, qué da el Observatorio (generales por sección; autonómicas por municipio y, donde existan, por sección), qué da Infoelectoral y el seccionado de cada una; huecos y discrepancias del contraste de T-89; propuesta de autonómicas para después | por abrir (Sonnet), ya | Documento en `docs/ESTUDIOS/` y JSON con fuente, fecha y sha256; sin datos de memoria |
-| T-83 | Reagregación (D-10, D-12): paso B, herramienta fuera de línea que lleva los votos de cada general 2011-2023 (espejo T-89) a los distritos vigentes con la tabla de T-85; ganador y votos por partido por distrito en `datos/resultados/historico/`; validada con 3 provincias (una con muchas secciones partidas) y cuadre de totales provinciales con Infoelectoral; el paso A (M07/M08, puerta 04) se encarga al validar B | por abrir (Sonnet), tras T-85 y la elección del peso | Totales provinciales cuadran al voto; tests; sin lanzar ni publicar |
+| T-83 | Reagregación (D-10, D-12): paso B, herramienta fuera de línea que lleva los votos de cada general 2011-2023 (espejo T-89) a los distritos vigentes con la tabla de T-85; ganador y votos por partido por distrito en `datos/resultados/historico/`; validada con 3 provincias (una con muchas secciones partidas) y cuadre de totales provinciales con Infoelectoral; el paso A (M07/M08, puerta 04) se encarga al validar B | por abrir (Sonnet), tras T-85 (peso fijado en D-13) | Totales provinciales cuadran al voto; tests; sin lanzar ni publicar |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
