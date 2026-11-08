@@ -650,6 +650,22 @@
     "sha256": "7a37d96ab2850c42db799f45c7c031456d97ae1a307c5273faa4dbe1ae8cfe5c"
    }
   },
+  "congreso_barcelona/42495069270": {
+   "territorio": "congreso_barcelona",
+   "run_id": "42495069270",
+   "run_territorial": "42495069270",
+   "sha256_composicion": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "a3b50dc7f1ee9cde24d75d8da7dc116a257ea0d03ee7e104b761f50181ea9ce8",
+   "ruta": "datos/resultados/runs/congreso_barcelona_42495069270_partidos.csv",
+   "desajustes": {
+    "secciones": 9,
+    "pct_desajuste": 0.2395,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_barcelona_42495069270_desajustes.json",
+    "sha256": "84793df64c56f10c656c8fe2332baf5ea0f2eebf3ac4c288c2c4d7cac5f06812"
+   }
+  },
   "congreso_ceuta/42496569312": {
    "territorio": "congreso_ceuta",
    "run_id": "42496569312",
