@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 368,
+  "productos": 370,
   "errores": 0,
   "avisos": 120
  },
@@ -4858,7 +4858,7 @@
      "producto": "M06",
      "id": "m06-congreso_tarragona-41296449975",
      "run_id": "41296449975",
-     "vigente": true,
+     "vigente": false,
      "sha256": "c097a2c9f1865a9225551549056159bc66f3811722f154d9a63cce7d4d597729",
      "copia_git": {
       "blob_sha": "94b8b2eea984649ef58d3cf6b0bb986a86f7d202",
@@ -4868,13 +4868,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_tarragona-42514991952",
+     "run_id": "42514991952",
+     "vigente": true,
+     "sha256": "7f6674484deb6b85da2a1d0b2ae73b85981d63af2c17a5bcf130b05769c34fba",
+     "copia_git": {
+      "blob_sha": "0999b5dbb595a02808088d6e84fd837a80f478c2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_tarragona-41296449975",
      "run_id": "41296449975",
-     "vigente": true,
+     "vigente": false,
      "sha256": "2de24fa08692c669d126a14bb85c5ef11675f4df09c931f7776487693e128b12",
      "copia_git": {
       "blob_sha": "c0a648d366913547d9be1cab5f8d59c2756ebd81",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_tarragona-42514991952",
+     "run_id": "42514991952",
+     "vigente": true,
+     "sha256": "a4238facf2dbd4750c34043d826ab1c245a0c51b37dd054a70d0e040baefb33b",
+     "copia_git": {
+      "blob_sha": "1b4a4a4213021cb54b07650bad5bbd017d5112da",
       "ruta": null
      },
      "copias_r2": [],
@@ -4897,21 +4923,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_tarragona",
-     "run_id": "41296449975",
+     "run_id": "42514991952",
      "vigente": true,
      "sha256": "7d5b34f21f1410fd79ae2807cc0ae0e1e6b79066d66b1d723200ff529b65569f",
      "copia_git": {
-      "blob_sha": "94b8b2eea984649ef58d3cf6b0bb986a86f7d202",
+      "blob_sha": "0999b5dbb595a02808088d6e84fd837a80f478c2",
       "ruta": "datos_abiertos/congreso_tarragona/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c097a2c9f1865a9225551549056159bc66f3811722f154d9a63cce7d4d597729"
+     "origen_sha256": "7f6674484deb6b85da2a1d0b2ae73b85981d63af2c17a5bcf130b05769c34fba"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_tarragona",
-     "run_id": "41296449975",
+     "run_id": "42514991952",
      "vigente": true,
      "sha256": "6356890af6b88a52a35d667503cd0902b01a63fbe670c95d61e4d92e9224f6d1",
      "copia_git": {
@@ -4920,7 +4946,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "2de24fa08692c669d126a14bb85c5ef11675f4df09c931f7776487693e128b12"
+     "origen_sha256": "a4238facf2dbd4750c34043d826ab1c245a0c51b37dd054a70d0e040baefb33b"
     }
    ]
   },
@@ -7179,14 +7205,14 @@
    "territorio": "congreso_tarragona",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296449975: solo copia git"
+   "detalle": "run 42514991952: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_tarragona",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41296449975: solo copia git"
+   "detalle": "run 42514991952: solo copia git"
   },
   {
    "nivel": "AVISO",
