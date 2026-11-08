@@ -73,9 +73,9 @@
    "sha256_csv": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1"
   },
   "congreso_albacete": {
-   "run_id": "41294417893",
-   "blob_sha": "2c135d68d27c516e0c349b3bdcb885f309ed8985",
-   "sha256_origen": "395562d8e6f9ba26acd5a6d47612e6408e883ae4f83f2ff3b4a5d5852b198bef",
+   "run_id": "42514994231",
+   "blob_sha": "eb789b5090f4fcb1443149cf59fba070bf6e37a0",
+   "sha256_origen": "4bf56ca501bad00f0a305b56e29709a092d9e226872c76bf752eacfe1bd7953d",
    "distritos": 3,
    "sha256_csv": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38"
   },
@@ -276,9 +276,9 @@
    "sha256_csv": "be64820d5e45a0194c08a7917fd77dc1d83ad32cd11df64bde6d6aa2caff1c8c"
   },
   "congreso_lugo": {
-   "run_id": "41294985244",
-   "blob_sha": "98b4840ba21944283c1dfa554c2055f2873b8626",
-   "sha256_origen": "8c5756401402ed32bfd7dd6078dea37effa30714f6988e38d745ab5ecb7fec6f",
+   "run_id": "42514986960",
+   "blob_sha": "ffffea11b298fa3c7a002852c14a1452f05337a1",
+   "sha256_origen": "bd1a437af587cd89001327e2145a2ea16f3b41d2921cf33c0a471dbb0d32b87f",
    "distritos": 3,
    "sha256_csv": "f804d131ce3221ef628d9114a15d85fb8353e7227c3d460ba9a2064366733803"
   },
@@ -374,9 +374,9 @@
    "sha256_csv": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317"
   },
   "congreso_tarragona": {
-   "run_id": "41296449975",
-   "blob_sha": "c0a648d366913547d9be1cab5f8d59c2756ebd81",
-   "sha256_origen": "2de24fa08692c669d126a14bb85c5ef11675f4df09c931f7776487693e128b12",
+   "run_id": "42514991952",
+   "blob_sha": "1b4a4a4213021cb54b07650bad5bbd017d5112da",
+   "sha256_origen": "a4238facf2dbd4750c34043d826ab1c245a0c51b37dd054a70d0e040baefb33b",
    "distritos": 7,
    "sha256_csv": "6356890af6b88a52a35d667503cd0902b01a63fbe670c95d61e4d92e9224f6d1"
   },

@@ -9,7 +9,7 @@ desde `inputs/partes` (sha256), M06 del blob (sha256 de INDEX), espejo de la ele
 `herramientas/gestor_campanas_2.py` 1.1.0: «histórico: generales 2019-11» da la matriz (con «todos», las 52; una provincia
 sin M06 publicado o sin composición se omite con «todos» y, pedida por nombre, falla con mensaje claro); el
 resto del histórico, autonómico, mapa 350, ensemble y publicar «sí» (puerta 04 del histórico sin adaptar) fallan al
-planificar. `herramientas/reagregacion_historico.py` 1.2.0: `--elecciones` (por defecto todas; las geometrías de
+planificar. `herramientas/reagregacion_historico.py` 1.3.0: `--elecciones` (por defecto todas; las geometrías de
 todos los años se siguen cargando, resultado idéntico). `gestor-campanas.yml` 1.6.0: job «histórico» (matriz tras el
 clic de produccion del job del plan, artefacto `ddd-historico-<clave>-<territorio>` por provincia; no publica ni
 escribe en el repositorio).

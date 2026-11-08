@@ -55,9 +55,9 @@
   },
   "congreso_albacete": {
    "provincia": "Albacete",
-   "run_id": "41294417893",
-   "blob_sha": "c3da7d6507dcadf40132cd1f442f2e9df49941aa",
-   "sha256_origen": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06",
+   "run_id": "42514994231",
+   "blob_sha": "c7df907f1c12c6b6a44005e48199411258f413d2",
+   "sha256_origen": "711147836285bd4a0ce0edf28d066c82ec9c4642b980b598be835f80c52b14c5",
    "n_distritos": 3,
    "nombres": {},
    "geojson": {
@@ -67,8 +67,8 @@
    "resultados": {
     "ruta": "congreso_albacete/resultados.csv",
     "sha256": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38",
-    "blob_sha_m08": "2c135d68d27c516e0c349b3bdcb885f309ed8985",
-    "run_id": "41294417893"
+    "blob_sha_m08": "eb789b5090f4fcb1443149cf59fba070bf6e37a0",
+    "run_id": "42514994231"
    },
    "distritos": [
     {
@@ -2275,9 +2275,9 @@
   },
   "congreso_lugo": {
    "provincia": "Lugo",
-   "run_id": "41294985244",
-   "blob_sha": "61baba86db0ee7f78ba5d54fd7c3d07f6da27a0c",
-   "sha256_origen": "fda0dda4b68a1a490af8f0f35489e3cb62eb2f77ddbcd7318e3c97c4a17abbd2",
+   "run_id": "42514986960",
+   "blob_sha": "a0dc4c1bb56192d413ff6bdd2463d2b5aa1f9989",
+   "sha256_origen": "8ed9e81b67604dc078a5bad7d2a1523e39f44b3902dcf18f4db2d640de0a013b",
    "n_distritos": 3,
    "nombres": {},
    "geojson": {
@@ -2287,8 +2287,8 @@
    "resultados": {
     "ruta": "congreso_lugo/resultados.csv",
     "sha256": "f804d131ce3221ef628d9114a15d85fb8353e7227c3d460ba9a2064366733803",
-    "blob_sha_m08": "98b4840ba21944283c1dfa554c2055f2873b8626",
-    "run_id": "41294985244"
+    "blob_sha_m08": "ffffea11b298fa3c7a002852c14a1452f05337a1",
+    "run_id": "42514986960"
    },
    "distritos": [
     {
@@ -3667,9 +3667,9 @@
   },
   "congreso_tarragona": {
    "provincia": "Tarragona",
-   "run_id": "41296449975",
-   "blob_sha": "94b8b2eea984649ef58d3cf6b0bb986a86f7d202",
-   "sha256_origen": "c097a2c9f1865a9225551549056159bc66f3811722f154d9a63cce7d4d597729",
+   "run_id": "42514991952",
+   "blob_sha": "0999b5dbb595a02808088d6e84fd837a80f478c2",
+   "sha256_origen": "7f6674484deb6b85da2a1d0b2ae73b85981d63af2c17a5bcf130b05769c34fba",
    "n_distritos": 7,
    "nombres": {},
    "geojson": {
@@ -3679,8 +3679,8 @@
    "resultados": {
     "ruta": "congreso_tarragona/resultados.csv",
     "sha256": "6356890af6b88a52a35d667503cd0902b01a63fbe670c95d61e4d92e9224f6d1",
-    "blob_sha_m08": "c0a648d366913547d9be1cab5f8d59c2756ebd81",
-    "run_id": "41296449975"
+    "blob_sha_m08": "1b4a4a4213021cb54b07650bad5bbd017d5112da",
+    "run_id": "42514991952"
    },
    "distritos": [
     {
