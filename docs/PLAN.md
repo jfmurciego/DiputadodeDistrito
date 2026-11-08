@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.30
+Versión: 1.0.31
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-18 (autorización de estudios y difusión), T-100 cancelada, kit de comunicación como borrador
-Anterior: legacy/docs/PLAN_v1.0.29_20261108.md
+Cambios/motivo: T-103 (secciones recodificadas en el archivista: Badajoz, Valencia, Albacete, Almería); T-102 reservada
+Anterior: legacy/docs/PLAN_v1.0.30_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -349,6 +349,8 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
 | T-100 | Estudio de rotación para la difusión | — | **Cancelada (D-18)** |
 | T-101 | Archivista con D-17: desajuste de secciones ZIP↔M06 (Málaga, run 42490329631: 2900701022 sin distrito, 2908405001 ausente del ZIP; Alicante y Barcelona, previsiblemente igual); tolerancia ≤ 0,5 % de votos, reparto con la tabla de T-85, lista en la evidencia; tests con el caso de Málaga | por abrir (Opus), ya; toca herramienta compartida | PR con tests; la 00 de Málaga sale verde al relanzarla (Operador) |
+| T-102 | Reservada: estudio comparativo de 2023 con 350 distritos uninominales, pendiente de la aprobación de la pregunta por el propietario (D-18) | — | En espera |
+| T-103 | Desajuste ZIP↔M06 por encima del tope D-17 (Badajoz 0,87 %, Valencia 0,77 %, Albacete 0,63 %, Almería 0,52 %): clasificar cada sección en recodificada (misma geometría o cruce oficial del INE, código distinto) o partida/unida; las recodificadas se asignan 1:1 con la tabla de T-85 y no cuentan para el tope; solo lo partido/unido cuenta. Sin regenerar M06 (cambiaría el producto territorial: decisión del propietario). Si tras clasificar alguna provincia sigue por encima del 0,5 %, se para y se presenta al propietario | por abrir (Opus), ya; toca el archivista | PR con tests de las cuatro provincias; porcentajes antes y después en la evidencia; sin lanzar |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
