@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-08T15:40:50.513014+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-08T16:03:15.192934+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -97,7 +97,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Vizcaya** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41356074013 · SUCCESS | — | — | — |
 | **Nacional Zamora** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41250479211 · SUCCESS | — | — | — |
 | **Nacional Zaragoza** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41296815536 · SUCCESS | — | — | — |
-| **Nacional Ceuta** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42463443610 · FAILED | 01 · Preparación de Datos Territoriales | ver log del run | preparar fuentes electorales |
+| **Nacional Ceuta** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42488846588 · SUCCESS | 03/04 · rama electoral omitida | 03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08 | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **Nacional Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41293988485 · SUCCESS | — | — | — |
 
 ## Cadena automática

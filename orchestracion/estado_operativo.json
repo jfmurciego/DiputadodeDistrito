@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T15:40:50.513014+00:00",
+  "generated_at": "2026-11-08T16:03:15.192934+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 68,
-      "activable": 3,
+      "activated": 69,
+      "activable": 2,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 68
+      "durable_pair": 69
     },
     "territories": [
       {
@@ -3597,12 +3597,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_ceuta/evidencia/pares_fuentes/2025/06512c236035bb31c11f899a4fc84dbb47f739f96e3f998a291ca1f9d3a980fc.json",
-            "pair_sha256": "06512c236035bb31c11f899a4fc84dbb47f739f96e3f998a291ca1f9d3a980fc",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_ceuta/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json",
+            "pair_sha256": "5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -7902,11 +7902,11 @@
       "certification": "PASS",
       "run_id": 42488846588,
       "last_run": {
-        "run_id": 42463443610,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "01 · Preparación de Datos Territoriales",
-        "reason": "ver log del run",
+        "run_id": 42488846588,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7941,16 +7941,16 @@
           "territory_id": "congreso_ceuta",
           "territory_name": "Congreso Ceuta",
           "edition": "2025",
-          "run_id": 41250564472,
-          "artifact_name": "ddd-state-41250564472-M08",
-          "artifact_sha256": "35a82cbf1041b54568e8efe3b0b6058435e3b419153b8204c0428103de848411",
-          "source_commit": "e05a35de955c5a77cc49fb711c559127debd0086",
+          "run_id": 42496569312,
+          "artifact_name": "ddd-state-42496569312-M08",
+          "artifact_sha256": "454eeb5d1985c075122906e17e2e4848a274e448ec6804e4bbdcbeabb59d7f6a",
+          "source_commit": "526a0295cf388eea9955e4f3fb585cfffe664b9b",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C51",
       "display_name": "Nacional Ceuta",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_melilla",

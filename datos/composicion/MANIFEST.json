@@ -746,6 +746,13 @@
    "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
    "ruta": "datos/composicion/runs/andalucia_42430164925.csv"
   },
+  "andalucia/42495072594": {
+   "territorio": "andalucia",
+   "run_id": "42495072594",
+   "secciones": 6029,
+   "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
+   "ruta": "datos/composicion/runs/andalucia_42495072594.csv"
+  },
   "congreso_alicante/42490325518": {
    "territorio": "congreso_alicante",
    "run_id": "42490325518",
@@ -753,12 +760,26 @@
    "sha256_csv": "a5ad973976e0eb4519f6e1b57d32751e47c4755cb4027a7c2f5afd2f56a3a4e2",
    "ruta": "datos/composicion/runs/congreso_alicante_42490325518.csv"
   },
+  "congreso_alicante/42495067503": {
+   "territorio": "congreso_alicante",
+   "run_id": "42495067503",
+   "secciones": 1236,
+   "sha256_csv": "a5ad973976e0eb4519f6e1b57d32751e47c4755cb4027a7c2f5afd2f56a3a4e2",
+   "ruta": "datos/composicion/runs/congreso_alicante_42495067503.csv"
+  },
   "congreso_barcelona/42490327657": {
    "territorio": "congreso_barcelona",
    "run_id": "42490327657",
    "secciones": 3642,
    "sha256_csv": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
    "ruta": "datos/composicion/runs/congreso_barcelona_42490327657.csv"
+  },
+  "congreso_barcelona/42495069270": {
+   "territorio": "congreso_barcelona",
+   "run_id": "42495069270",
+   "secciones": 3642,
+   "sha256_csv": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
+   "ruta": "datos/composicion/runs/congreso_barcelona_42495069270.csv"
   },
   "congreso_ceuta/42488846588": {
    "territorio": "congreso_ceuta",
@@ -773,6 +794,13 @@
    "secciones": 1084,
    "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
    "ruta": "datos/composicion/runs/congreso_malaga_42490329631.csv"
+  },
+  "congreso_malaga/42495070976": {
+   "territorio": "congreso_malaga",
+   "run_id": "42495070976",
+   "secciones": 1084,
+   "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
+   "ruta": "datos/composicion/runs/congreso_malaga_42495070976.csv"
   }
  }
 }
