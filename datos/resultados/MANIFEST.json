@@ -634,6 +634,22 @@
   }
  },
  "partidos_runs": {
+  "congreso_alicante/42495067503": {
+   "territorio": "congreso_alicante",
+   "run_id": "42495067503",
+   "run_territorial": "42495067503",
+   "sha256_composicion": "a5ad973976e0eb4519f6e1b57d32751e47c4755cb4027a7c2f5afd2f56a3a4e2",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8e379f4b9178e27dfdee21c3c9e117467990766b722d865fde32bab80316f53f",
+   "ruta": "datos/resultados/runs/congreso_alicante_42495067503_partidos.csv",
+   "desajustes": {
+    "secciones": 6,
+    "pct_desajuste": 0.1932,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_alicante_42495067503_desajustes.json",
+    "sha256": "7a37d96ab2850c42db799f45c7c031456d97ae1a307c5273faa4dbe1ae8cfe5c"
+   }
+  },
   "congreso_ceuta/42496569312": {
    "territorio": "congreso_ceuta",
    "run_id": "42496569312",
