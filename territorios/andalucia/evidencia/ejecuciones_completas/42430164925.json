@@ -1,0 +1,96 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "andalucia",
+  "territory_name": "Andalucía",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 42430164925,
+  "source_sha": "20e92e9848a9cf420d60a47d6c679bf3b7799187",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": null
+  },
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 38082966768,
+      "artifact": "ddd-source-package-andalucia-2025-38082966768",
+      "artifact_digest": "sha256:cc70f801d5a26a522458da05a5fde15e1876071cf1738d07c90429ca2057a056",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 42430164925,
+      "artifact": "ddd-state-42430164925-M06",
+      "artifact_digest": "sha256:fccff31b283ebc189583c1665438ba44d81e71419c90c125523dfc109cb8f9b1",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 42425793937,
+      "artifact": "ddd-electoral-package-andalucia-2025-42425793937",
+      "artifact_digest": "sha256:b146b64a37585a7e5f884584ff95b813e9e48f84c8fb11e14f2fe766109b7ca0",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-08T01:05:06.932032+00:00"
+}
