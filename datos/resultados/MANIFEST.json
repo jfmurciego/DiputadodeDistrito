@@ -658,6 +658,22 @@
    "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
    "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
    "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
+  },
+  "congreso_malaga/42495070976": {
+   "territorio": "congreso_malaga",
+   "run_id": "42495070976",
+   "run_territorial": "42495070976",
+   "sha256_composicion": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "2e8d8945d6160b48292d59b0422d59f4365d8af40efd82a85a0ff164e6178587",
+   "ruta": "datos/resultados/runs/congreso_malaga_42495070976_partidos.csv",
+   "desajustes": {
+    "secciones": 2,
+    "pct_desajuste": 0.0641,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_malaga_42495070976_desajustes.json",
+    "sha256": "97970fccaf40f4cfe56cb7080a9971e1d137e9ff9746ff649310bd0768f20736"
+   }
   }
  }
 }
