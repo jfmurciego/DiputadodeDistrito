@@ -5,10 +5,12 @@
   "territory_name": "Congreso Ceuta",
   "edition": "2025",
   "run_id": 42488846588,
-  "source_commit": "66512ec28dc717cbf559c09293e0c8cfb94bdb45",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "908636fcf3cc8bb7b36aad1a67257afc27f0d43d",
+  "artifact_name": "ddd-state-42488846588-M03U",
+  "artifact_sha256": "28a8966940a050af5e777efce9ac90f4fd15ed67822738634ef6737ede686f53",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 42488846588,
     "artifact_name": "ddd-source-package-congreso_ceuta-2025-42488846588",
@@ -19,10 +21,93 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "a055259813c023394d9dd5c4877e6eb4d1ab99be",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-42488846588-M03",
+    "artifact_sha256": "64b40c4f8de639ad2fa6253b12605943d2af0b6cfe27ae010df68941e41b8d01",
+    "module_version": "7.5.0",
+    "nodes": 56,
+    "edges": 135,
+    "population": 83052,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0,
+    "municipality_admitted_disconnected": 0,
+    "municipality_unresolved": 0,
+    "topology_accreditation": {
+      "valid": true,
+      "administrative_components": {
+        "accepted": [],
+        "rejected": []
+      }
+    }
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-42488846588",
+    "job_artifact_sha256": "5e17348631e1bbe243e1547b3312225f9a9993024af4f706bfd69b398626fecc",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/congreso_ceuta_2025/congreso_ceuta_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 83052,
+      "target_section_count": 56,
+      "package_sha256": "92dc13573e8b1bceeff58a5d05cd91934f202e74815b5220c49d2119042f969f",
+      "compatibility_report_sha256": "5fb46e52579c6edcc65c1707922302a03504d9a1d1b48654258f8e6d8b0c7b2f",
+      "compatibility_identity_sha256": "1ec5dabc257348e83f29c50ff9388413e2e988415ba0566c60a245ee8fcc2142"
+    },
+    "topology_accreditation": null,
+    "k_districts": 1,
+    "population_floor_ratio": 0.85,
+    "population_cap_ratio": 1.15,
+    "target_tolerance_ratio": 0.15,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.15,
+    "m01_output_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/congreso_ceuta/.cache/ddd/preparacion/{run_name}/congreso_ceuta_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 1,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
