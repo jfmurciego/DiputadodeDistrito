@@ -306,7 +306,7 @@ territories:
       evidence:
         territorial_product: territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json
-        prepared_source_pair: territorios/castilla_y_leon/evidencia/pares_fuentes/2025/28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac.json
+        prepared_source_pair: territorios/castilla_y_leon/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json
         electoral_product: territorios/castilla_y_leon/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/castilla_y_leon/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
