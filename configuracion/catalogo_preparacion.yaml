@@ -209,6 +209,7 @@ territories:
         prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json
         territorial_product: territorios/canarias/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/canarias/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: cantabria
   name: Cantabria
