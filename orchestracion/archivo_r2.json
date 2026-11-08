@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T19:59:54Z",
+  "actualizado_en": "2026-11-08T20:01:26Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -4356,19 +4356,20 @@
       "territorio": "congreso_tarragona",
       "url": "r2://ddd-research-archive/congreso_tarragona/41296449975/ddd-minimo-41296449975-M08.zip"
     },
-    "congreso_tarragona/42514991952/ddd-minimo-42514991952-M06.zip": {
-      "archivado_en": "2026-11-08T19:49:44Z",
-      "artefacto": "ddd-minimo-42514991952-M06",
-      "artefacto_origen": "ddd-state-42514991952-M06",
-      "artifact_id": 13631432111,
-      "caducidad_original": "2026-11-22T19:46:10Z",
+    "congreso_tarragona/42514991952/ddd-minimo-42514991952-M08.zip": {
+      "archivado_en": "2026-11-08T20:01:26Z",
+      "artefacto": "ddd-minimo-42514991952-M08",
+      "artefacto_origen": "ddd-state-42514991952-M08",
+      "artifact_id": 13632280774,
+      "caducidad_original": "2026-11-22T19:59:36Z",
+      "incluye_m06_run": "42514991952",
       "run_id": "42514991952",
-      "sha256": "6d82a370b4a47a0204d427c2f8437c8fa2c525167d5d398edabe37c3d39bdd45",
-      "sha256_estado_original": "450cd3228020c9d7da5b9a363a5d026c72f5df39197a46a7132d774534e1d89a",
-      "tamano_bytes": 510129,
-      "tamano_estado_original": 81763834,
+      "sha256": "f0ed5694d9a68bdf08efcf8f616b4c48a10de61827ad709fa00b6f23c747b2de",
+      "sha256_estado_original": "8b329a3a0fc49df16cb2a583c629290049a5329a18d366bcb970423621a5ace4",
+      "tamano_bytes": 996301,
+      "tamano_estado_original": 83247510,
       "territorio": "congreso_tarragona",
-      "url": "r2://ddd-research-archive/congreso_tarragona/42514991952/ddd-minimo-42514991952-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_tarragona/42514991952/ddd-minimo-42514991952-M08.zip"
     },
     "congreso_teruel/41235966858/ddd-audit-41235966858.zip": {
       "archivado_en": "2026-11-08T12:06:32Z",

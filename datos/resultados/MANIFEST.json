@@ -738,6 +738,15 @@
     "ruta": "datos/resultados/runs/congreso_malaga_42495070976_desajustes.json",
     "sha256": "97970fccaf40f4cfe56cb7080a9971e1d137e9ff9746ff649310bd0768f20736"
    }
+  },
+  "congreso_tarragona/42514991952": {
+   "territorio": "congreso_tarragona",
+   "run_id": "42514991952",
+   "run_territorial": "42514991952",
+   "sha256_composicion": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "ab706bd92a2b153e45fcc2ab7690f1c32f3e6f7f717226cc5adc62907133cae8",
+   "ruta": "datos/resultados/runs/congreso_tarragona_42514991952_partidos.csv"
   }
  }
 }
