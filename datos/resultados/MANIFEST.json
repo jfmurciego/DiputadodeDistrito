@@ -108,9 +108,9 @@
    "sha256_csv": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e"
   },
   "congreso_badajoz": {
-   "run_id": "41299475924",
-   "blob_sha": "92248f0ab6dea6f511c80892a6995b14c668bf83",
-   "sha256_origen": "b896e477841c2faeec5aad2179005ecf3716a6798b44167d59da31f495bbb2e6",
+   "run_id": "42519381013",
+   "blob_sha": "a956dc91d0af4c70f33bf206ba5cd3495db27a75",
+   "sha256_origen": "8934306e2394b04b190ec2dfd1b7a211541563b028de12668837ffb52dd7c89a",
    "distritos": 6,
    "sha256_csv": "a82717df3edfe3d9c1a0c16b9877683d59a8a6827b5abd7610cde86cf2e0f45d"
   },

@@ -435,9 +435,9 @@
   },
   "congreso_badajoz": {
    "provincia": "Badajoz",
-   "run_id": "41299475924",
-   "blob_sha": "3d0c756f9cd181dcd794a3c4f133439c8c736863",
-   "sha256_origen": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f",
+   "run_id": "42519381013",
+   "blob_sha": "6ffc6a528da11213c333258f43a90ebb128d4f3c",
+   "sha256_origen": "8d599633fa0e0db716f0b1bdb888b7b8060344f929145b7cba51dc3906b6d9e4",
    "n_distritos": 6,
    "nombres": {},
    "geojson": {
@@ -447,8 +447,8 @@
    "resultados": {
     "ruta": "congreso_badajoz/resultados.csv",
     "sha256": "a82717df3edfe3d9c1a0c16b9877683d59a8a6827b5abd7610cde86cf2e0f45d",
-    "blob_sha_m08": "92248f0ab6dea6f511c80892a6995b14c668bf83",
-    "run_id": "41299475924"
+    "blob_sha_m08": "a956dc91d0af4c70f33bf206ba5cd3495db27a75",
+    "run_id": "42519381013"
    },
    "distritos": [
     {
