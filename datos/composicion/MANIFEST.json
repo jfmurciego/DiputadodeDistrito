@@ -830,6 +830,13 @@
    "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
    "ruta": "datos/composicion/runs/congreso_ceuta_42488846588.csv"
   },
+  "congreso_huesca/42519383275": {
+   "territorio": "congreso_huesca",
+   "run_id": "42519383275",
+   "secciones": 286,
+   "sha256_csv": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
+   "ruta": "datos/composicion/runs/congreso_huesca_42519383275.csv"
+  },
   "congreso_la_rioja/42504388624": {
    "territorio": "congreso_la_rioja",
    "run_id": "42504388624",
