@@ -327,7 +327,7 @@ territories:
         population_year: 2025
         section_year: 2025
         source_commit: 8a8ed5f7deec51613ea7c31b92fc54b35de21745
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: cataluna
   name: Cataluña
   editions:
