@@ -707,6 +707,15 @@
    "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
    "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
   },
+  "congreso_huesca/42519383275": {
+   "territorio": "congreso_huesca",
+   "run_id": "42519383275",
+   "run_territorial": "42519383275",
+   "sha256_composicion": "e80ec32b04d6bcdb46de5f29b8064ab9ca26555f8c352f7b937fe5a02893b939",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "558edd5c4eb6243d798e0301f0fb8f7770b070a03ed7134f288053e2e0ef9fa5",
+   "ruta": "datos/resultados/runs/congreso_huesca_42519383275_partidos.csv"
+  },
   "congreso_la_rioja/42504388624": {
    "territorio": "congreso_la_rioja",
    "run_id": "42504388624",
