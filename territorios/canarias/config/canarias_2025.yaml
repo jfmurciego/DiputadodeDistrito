@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -92,7 +92,7 @@ territory_contract:
   - 38-C02
   - 38-C04
   small_component_exception_policy: one_contiguous_district_floor_exception
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -232,31 +232,39 @@ validation:
   - 38-C02
   - 38-C04
   population_floor_exempt_partition_decisions:
-    '35-C02':
+    35-C02:
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Partición insular cuyos municipios indivisibles impiden que M05 repare el distrito residual por encima del suelo (opción A).'
-      evidence: 'run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions'
-    '38-C01':
+      reason: Partición insular cuyos municipios indivisibles impiden que M05 repare
+        el distrito residual por encima del suelo (opción A).
+      evidence: run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions
+    38-C01:
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Tenerife deja tres distritos residuales bajo el suelo que M05 no puede reparar con la disciplina municipal vigente (opción A).'
-      evidence: 'run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions'
-    '35-C04':
+      reason: Tenerife deja tres distritos residuales bajo el suelo que M05 no puede
+        reparar con la disciplina municipal vigente (opción A).
+      evidence: run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions
+    35-C04:
       decided_at: '2026-10-29'
       decided_by: 'regla: componente pequeño'
-      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
-    '38-C02':
+      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception):
+        componente con un solo distrito bajo el suelo.'
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña,
+        Canarias y Baleares»
+    38-C02:
       decided_at: '2026-10-29'
       decided_by: 'regla: componente pequeño'
-      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
-    '38-C04':
+      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception):
+        componente con un solo distrito bajo el suelo.'
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña,
+        Canarias y Baleares»
+    38-C04:
       decided_at: '2026-10-29'
       decided_by: 'regla: componente pequeño'
-      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
+      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception):
+        componente con un solo distrito bajo el suelo.'
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña,
+        Canarias y Baleares»
   partition_apportionment_audit:
     35-C01:
       population: 862893
@@ -415,7 +423,7 @@ resolved_source_contract:
   contract_sha256: 49be87fd36d4e4c23a3f247a718eced10bb00a0622d796199fe787d8928afd33
 generation_state:
   source_prepared: true
-  generation_enabled: true
+  generation_enabled: false
   package_sha256: ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836
   compatibility_identity_sha256: af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c
   source_inputs:
@@ -467,6 +475,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40946861866
-  pre_m04_source_commit: f7e6f380b865004e610d5a8f7e8643987de8a2d2
-  pre_m04_artifact_sha256: 342410ae382013a186f4084a7d66e10f573647377fbc045302034a82248866a9
