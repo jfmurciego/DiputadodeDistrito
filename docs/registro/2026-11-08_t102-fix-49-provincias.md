@@ -8,5 +8,5 @@
   (Alicante, Alcoy, Elche, San Vicente del Raspeig, Villajoyosa, Hospitalet de Llobregat). El test exige nombres para
   todas las provincias publicadas (al menos 49) en lugar de un número fijo.
 - **Pruebas:** `tests.test_nombres_comunidades_nacional`, `test_nombres_distrito`, `test_nombres_visibles_nacional`,
-  `test_partidos_judiciales` en verde.
+  `test_partidos_judiciales` en verde (este último también contaba 49 informes fijos).
 - **PR/run:** PR de arreglo de `main` (cb4c4d3 en rojo).
