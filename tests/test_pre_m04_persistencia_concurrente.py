@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import json
 import os
 import shutil
@@ -911,6 +912,40 @@ class PreM04PilotPersistenceTests(unittest.TestCase):
             p.write_text(yaml.safe_dump(doc), encoding="utf-8")
             with self.assertRaisesRegex(PreM04PersistenceConflict, "PRE_M04_MASTER_DUPLICATE"):
                 _master_row(root, "alpha")
+
+class PreM04ErrorVisibilityTests(unittest.TestCase):
+    def test_runtime_error_goes_to_stderr_not_captured_stdout(self):
+        import contextlib
+        import io
+        from unittest import mock
+
+        from herramientas import persistir_evidencia_pre_m04_operacional as mod
+
+        out, err = io.StringIO(), io.StringIO()
+        argv = ["x", "--territory-id", "t", "--edition", "2025", "--run-id", "1",
+                "--contract-path", "c", "--candidate-evidence", "e", "--source-commit", "a" * 40]
+        with mock.patch.object(mod, "persist_pre_m04_evidence", side_effect=RuntimeError("boom")), \
+                mock.patch("sys.argv", argv), \
+                contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            rc = mod.main()
+        self.assertEqual(rc, 54)
+        self.assertEqual(out.getvalue(), "")
+        self.assertIn("::error::boom", err.getvalue())
+
+    def test_workflow_step_surfaces_failure_and_result_json(self):
+        wf = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
+        step = next(i for i in wf["jobs"]["generation_pending"]["steps"]
+                    if i.get("name") == "Persistir diagnóstico con el escritor concurrente común")
+        self.assertIn("|| rc=$?", step["run"])
+        self.assertIn("cat .ddd-generation-pending-persistence.json", step["run"])
+
+    def test_default_backoff_is_exponential(self):
+        from herramientas import persistir_evidencia_pre_m04_operacional as mod
+        self.assertGreaterEqual(mod.SHARED_STATE_MAX_ATTEMPTS, 10)
+        self.assertEqual(
+            inspect.signature(mod.persist_pre_m04_evidence).parameters["max_attempts"].default,
+            mod.SHARED_STATE_MAX_ATTEMPTS)
+
 
 if __name__ == "__main__":
     unittest.main()

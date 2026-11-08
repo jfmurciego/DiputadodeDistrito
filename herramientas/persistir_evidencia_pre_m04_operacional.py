@@ -21,8 +21,10 @@ from herramientas.handoff_evidencia_pre_m04 import (
 )
 from herramientas.materializar_evidencia_pre_m04 import register_evidence_path
 from herramientas.persistir_estado_operativo_compartido import (
+    SHARED_STATE_MAX_ATTEMPTS,
     PersistenceResult,
     persist_rederived_tree,
+    shared_state_backoff,
 )
 
 ABSENT_FINGERPRINT = "ABSENT"
@@ -317,7 +319,7 @@ def persist_pre_m04_evidence(
     candidate_evidence: Path,
     source_commit: str,
     target_branch: str = "main",
-    max_attempts: int = 4,
+    max_attempts: int = SHARED_STATE_MAX_ATTEMPTS,
     result_json: Path | None = None,
     handoff: Path | None = None,
     handoff_metadata: Path | None = None,
@@ -541,6 +543,7 @@ def persist_pre_m04_evidence(
             commit_message=f"chore: registrar evaluación pre-generación de {territory_id}",
             apply=apply,
             max_attempts=max_attempts,
+            backoff=shared_state_backoff,
             before_push=before_push,
             exhausted_message=(
                 "No se pudo registrar la evidencia pre-M04 tras "
@@ -614,7 +617,7 @@ def main() -> int:
     ap.add_argument("--candidate-evidence", type=Path, required=True)
     ap.add_argument("--source-commit", required=True)
     ap.add_argument("--target-branch", default="main")
-    ap.add_argument("--max-attempts", type=int, default=4)
+    ap.add_argument("--max-attempts", type=int, default=SHARED_STATE_MAX_ATTEMPTS)
     ap.add_argument("--result-json", type=Path)
     ap.add_argument("--handoff", type=Path)
     ap.add_argument("--handoff-metadata", type=Path)
@@ -639,7 +642,7 @@ def main() -> int:
         print(f"::error::{exc}", file=sys.stderr)
         return 59
     except RuntimeError as exc:
-        print(f"::error::{exc}")
+        print(f"::error::{exc}", file=sys.stderr)
         return 54
 
     print(sha)

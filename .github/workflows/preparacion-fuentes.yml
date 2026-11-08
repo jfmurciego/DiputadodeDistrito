@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.8
+# VERSIÓN: 1.4.9
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-10-28
 # ESTADO: candidato
@@ -14,7 +14,8 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.4.8: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.7_20261101b.yml
+# CAMBIOS 1.4.9: T-94, el paso «Persistir diagnóstico» ya no esconde el error del escritor (stderr al log y volcado del result-json).
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.8_20261108.yml
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -494,7 +495,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          source_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$RUN_ID"             --contract-path "$CONTRACT_PATH"             --candidate-evidence .ddd-generation-pending.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$TARGET_BRANCH"             --result-json .ddd-generation-pending-persistence.json)"
+          rc=0
+          source_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$RUN_ID"             --contract-path "$CONTRACT_PATH"             --candidate-evidence .ddd-generation-pending.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$TARGET_BRANCH"             --result-json .ddd-generation-pending-persistence.json)" || rc=$?
+          if [[ "$rc" -ne 0 ]]; then
+            echo "::error::Persistencia PENDING falló (exit $rc); ver .ddd-generation-pending-persistence.json"
+            if [[ -f .ddd-generation-pending-persistence.json ]]; then cat .ddd-generation-pending-persistence.json; fi
+            exit "$rc"
+          fi
           [[ "$source_ref" =~ ^[0-9a-f]{40}$ ]] || {
             echo "::error::Persistencia PENDING no devolvió un commit durable."
             exit 57
