@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.195
+Versión: 1.0.197
 Fecha: 2026-11-08
-Alcance: T-102 — Nombres de distrito de Alicante, Barcelona y Málaga (main en rojo)
+Alcance: T-106 — Limpieza reversible de la lista de Workflows de Actions
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t102-fix-49-provincias.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.194_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t106-limpieza-workflows.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.196_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.194_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.197 · [2026-11-08 — T-106 — Limpieza reversible de la lista de Workflows de Actions](registro/2026-11-08_t106-limpieza-workflows.md)
+- 1.0.196 · [2026-11-08 — T-105 — Gestor de Campañas 2.0 con el formulario de D-22](registro/2026-11-08_claude-t105-gestor-2.md)
 - 1.0.195 · [2026-11-08 — T-102 — Nombres de distrito de Alicante, Barcelona y Málaga (main en rojo)](registro/2026-11-08_t102-fix-49-provincias.md)
 - 1.0.194 · [2026-11-08 — T-102 — Congreso 350: 49 territorios paralelos con K = escaños reales de 2023](registro/2026-11-08_t102-congreso-350.md)
 - 1.0.193 · [2026-11-08 — T-104 — Estudio interno: Valencia, desajuste de secciones ZIP 2023 ↔ M06](registro/2026-11-08_t104-estudio-valencia-seccionado.md)
