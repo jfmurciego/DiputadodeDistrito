@@ -767,6 +767,13 @@
    "sha256_csv": "67cee6906c1398b4d6f0b611300428c9f65489422e76ef0dab7115ccb6395e43",
    "ruta": "datos/composicion/runs/castilla_y_leon_42497104110.csv"
   },
+  "ceuta/42503542766": {
+   "territorio": "ceuta",
+   "run_id": "42503542766",
+   "secciones": 56,
+   "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
+   "ruta": "datos/composicion/runs/ceuta_42503542766.csv"
+  },
   "congreso_alicante/42490325518": {
    "territorio": "congreso_alicante",
    "run_id": "42490325518",
