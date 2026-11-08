@@ -50,7 +50,7 @@
   "territorios": 67,
   "productos": 339,
   "errores": 0,
-  "avisos": 126
+  "avisos": 127
  },
  "territorios": {
   "aragon": {
@@ -6043,6 +6043,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "andalucia/42430164925/ddd-minimo-42430164925-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "andalucia/42495072594/ddd-minimo-42495072594-M06.zip"
   },
   {
    "nivel": "AVISO",
