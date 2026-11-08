@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 382,
+  "productos": 384,
   "errores": 0,
-  "avisos": 120
+  "avisos": 122
  },
  "territorios": {
   "andalucia": {
@@ -202,7 +202,7 @@
      "producto": "M06",
      "id": "m06-canarias-40951280657",
      "run_id": "40951280657",
-     "vigente": true,
+     "vigente": false,
      "sha256": "12e3bb65fca82a13dd550f98575541d1fca9e88e6bfeb338716dc87e1880e22b",
      "copia_git": {
       "blob_sha": "6eed168481c04e8ca07e1b607e1cabeae0b5e1ba",
@@ -217,10 +217,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-canarias-42523951377",
+     "run_id": "42523951377",
+     "vigente": true,
+     "sha256": "1377ef8ba5e90e8990d6ccf0341f743dbf50407fca066b3fd7b9e5b7677950a4",
+     "copia_git": {
+      "blob_sha": "09802d7d54f164ba4bb63fafcd1941d028521dcf",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-canarias-40951280657",
      "run_id": "40951280657",
-     "vigente": true,
+     "vigente": false,
      "sha256": "26ba80eb35e369b9b607aee03c16d1417c5c9d80f0380bc0f39fcc4578ccd6be",
      "copia_git": {
       "blob_sha": "ea6f74782bc1683b00fe5f7e98b5b177430107e5",
@@ -232,6 +245,19 @@
        "sha256": "b0b6ceaf2b354559e9ce7f0430359a9f2e1d0258863e1bb69c139df1cc8cf3c9"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-canarias-42523951377",
+     "run_id": "42523951377",
+     "vigente": true,
+     "sha256": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a",
+     "copia_git": {
+      "blob_sha": "8a85c922bea52c03b6dd81ee24170f66c5cbf5e7",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -251,16 +277,16 @@
     {
      "producto": "resultados",
      "id": "resultados-canarias",
-     "run_id": "40951280657",
+     "run_id": "42523951377",
      "vigente": true,
-     "sha256": "66ba6be144c9438ff2ee35ce910f4bdb91dbc69c0d4e0cfa3e2da8bd5e23433f",
+     "sha256": "e16c3b8f89b58ca08f357e19f6d9047f82c8be0243c016a178efd75b4894c9b4",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/canarias.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "26ba80eb35e369b9b607aee03c16d1417c5c9d80f0380bc0f39fcc4578ccd6be"
+     "origen_sha256": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a"
     }
    ]
   },
@@ -6718,6 +6744,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 42497101869: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "canarias",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42523951377: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "canarias",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42523951377: solo copia git"
   },
   {
    "nivel": "AVISO",
