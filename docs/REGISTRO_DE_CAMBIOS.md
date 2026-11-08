@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.181
+Versión: 1.0.182
 Fecha: 2026-11-08
-Alcance: T-94c — LICENSE y requisitos de repositorio de JOSS
+Alcance: T-100 — Plan: estudio de rotación de distritos
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t94c-license-joss.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.180_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_plan-t100.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.181_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.180_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.182 · [2026-11-08 — T-100 — Plan: estudio de rotación de distritos](registro/2026-11-08_plan-t100.md)
 - 1.0.181 · [2026-11-08 — T-94c — LICENSE y requisitos de repositorio de JOSS](registro/2026-11-08_t94c-license-joss.md)
 - 1.0.180 · [2026-11-08 — T-91b — La recuperación electoral no registra receipts de una 04 fallida](registro/2026-11-08_t91b-recuperacion-04-fallida.md)
 - 1.0.179 · [2026-11-08 — T-84 — Plan: secuencia tras T-84](registro/2026-11-08_plan-tras-t84.md)
