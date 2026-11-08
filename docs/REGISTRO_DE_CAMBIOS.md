@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.184
+Versión: 1.0.185
 Fecha: 2026-11-08
-Alcance: T-98 — Cádiz en el ensemble con la exención de suelo de San Fernando
+Alcance: T-101 — Archivista: tolerancia D-17 a desajustes de sección
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t98-cadiz-ensemble-exencion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.183_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t101-archivista-tolerancia.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.184_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.183_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.185 · [2026-11-08 — T-101 — Archivista: tolerancia D-17 a desajustes de sección](registro/2026-11-08_t101-archivista-tolerancia.md)
 - 1.0.184 · [2026-11-08 — T-98 — Cádiz en el ensemble con la exención de suelo de San Fernando](registro/2026-11-08_t98-cadiz-ensemble-exencion.md)
 - 1.0.183 · [2026-11-08 — T-101 — Plan: tolerancia del archivista a desajustes de sección (D-17)](registro/2026-11-08_plan-t101.md)
 - 1.0.182 · [2026-11-08 — T-100 — Plan: estudio de rotación de distritos](registro/2026-11-08_plan-t100.md)
