@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-08T16:29:21.997114+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-08T16:36:17.326617+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -49,7 +49,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **19 Melilla** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41062581404 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | — |
 | **Nacional Álava** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41346917857 · SUCCESS | — | — | — |
 | **Nacional Albacete** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41294417893 · SUCCESS | — | — | — |
-| **Nacional Alicante** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42490325518 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | — |
+| **Nacional Alicante** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 42495067503 · SUCCESS | — | — | — |
 | **Nacional Almería** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295979497 · SUCCESS | — | — | — |
 | **Nacional Ávila** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41241662219 · SUCCESS | — | — | — |
 | **Nacional Badajoz** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299475924 · SUCCESS | — | — | — |
