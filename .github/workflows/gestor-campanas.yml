@@ -125,7 +125,6 @@ on:
         options:
           - electoral
           - territorial_only
-      territorios:
   pull_request:
     branches: [main]
     paths:

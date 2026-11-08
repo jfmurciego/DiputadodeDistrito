@@ -74,6 +74,25 @@ class NoDisponible(unittest.TestCase):
         self.assertIn("::error::El ensemble de 25", p.stderr)
 
 
+class Workflow(unittest.TestCase):
+    def test_sin_claves_duplicadas(self):
+        """PyYAML se queda con la última clave repetida; GitHub rechaza el fichero (run sin jobs)."""
+        import yaml
+
+        class Estricto(yaml.SafeLoader):
+            pass
+
+        def mapping(loader, node):
+            keys = [loader.construct_object(k) for k, _ in node.value]
+            dup = {k for k in keys if keys.count(k) > 1}
+            if dup:
+                raise AssertionError(f"claves duplicadas en línea {node.start_mark.line + 1}: {dup}")
+            return loader.construct_mapping(node)
+
+        Estricto.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, mapping)
+        yaml.load((ROOT / ".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8"), Loader=Estricto)
+
+
 class Plan(unittest.TestCase):
     def test_plan_en_seco_muestra_entradas_y_cadena(self):
         plan = g.build({**BASE, "territorios": "Huesca", "inicio": "desde el principio", "publicar": "sí"}, {}, ROOT)
