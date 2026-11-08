@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T20:29:23.413684+00:00",
+  "generated_at": "2026-11-08T20:39:06.801141+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -10136,20 +10136,20 @@
       "name": "Nacional Santa Cruz de Tenerife",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42514989698,
+      "run_id": 42519017008,
       "last_run": {
-        "run_id": 42514989698,
+        "run_id": 42519017008,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "no existe prepared_source_pair acreditado para la entrada electoral",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10190,7 +10190,7 @@
       },
       "autonomous_community_code_ine": "C38",
       "display_name": "Nacional Santa Cruz de Tenerife",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_cantabria",
@@ -12175,7 +12175,7 @@
     }
   ],
   "kpis": {
-    "complete": 68,
+    "complete": 69,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12231,6 +12231,7 @@
       "Nacional Las Palmas",
       "Nacional Pontevedra",
       "Nacional Salamanca",
+      "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
       "Nacional Segovia",
       "Nacional Sevilla",
@@ -12452,11 +12453,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_albacete",
-    "name": "Nacional Albacete",
-    "display_name": "Nacional Albacete",
-    "autonomous_community_code_ine": "C02",
-    "run_id": 42514994231,
+    "territory_id": "congreso_santa_cruz_de_tenerife",
+    "name": "Nacional Santa Cruz de Tenerife",
+    "display_name": "Nacional Santa Cruz de Tenerife",
+    "autonomous_community_code_ine": "C38",
+    "run_id": 42519017008,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12472,12 +12473,6 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12509,6 +12504,12 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Badajoz",
+      "territory_id": "congreso350_badajoz",
+      "autonomous_community_code_ine": "R06",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12522,12 +12523,6 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Santa Cruz de Tenerife",
-      "territory_id": "congreso_santa_cruz_de_tenerife",
-      "autonomous_community_code_ine": "C38",
       "action": "preparar fuentes electorales"
     }
   ]
