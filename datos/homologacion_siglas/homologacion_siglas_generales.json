@@ -1,0 +1,230 @@
+{
+ "estado": "PROPUESTA_PENDIENTE_PROPIETARIO",
+ "fecha": "2026-11-08",
+ "fuentes": {
+  "interior": {
+   "201911": {
+    "ruta": "configuracion/resultados_oficiales_congreso_2019_11.csv",
+    "sha256": "9a5333865a5ff1933f19111b4418fb04e9188f116b1fd29e5206da66bee2b30d"
+   },
+   "202307": {
+    "ruta": "configuracion/resultados_oficiales_congreso_2023.csv",
+    "sha256": "c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+   }
+  },
+  "nota_interior": "Solo 2019-11 y 2023 están versionadas (BOE); 2011, 2015, 2016 y 2019-04 no están adquiridas.",
+  "observatorio": {
+   "campos": "s (siglas), f (familia)",
+   "manifiesto": "orchestracion/fuente_nazioenbehatokia.json",
+   "sha256_manifiesto": "b22ff749d3ba9570b9c1000e1d146ee963ab990f0c624388c41ddca803cbc5b3",
+   "url": "https://nazioenbehatokia.eus/"
+  }
+ },
+ "niveles_certeza": {
+  "ALTA": "mismo partido: sigla idéntica, variante gráfica o federada ya homologada en el repositorio (HOMOLOGACION_2019 / hemiciclo)",
+  "BAJA": "sucesión con fusión o escisión, o la familia de la fuente discrepa del criterio: decisión del propietario",
+  "MEDIA": "coalición o marca territorial con el partido como cabeza, o sucesión directa; criterio razonado, falta corroborar con Interior"
+ },
+ "reglas": {
+  "ruta": "datos/homologacion_siglas/reglas_generales.json",
+  "sha256": "38f6b7394ebbe244622989a12b54795b2e127dfb6f71a9c87a4ede22d8d03962"
+ },
+ "resumen": {
+  "corroboracion_interior": {
+   "COINCIDE": 531,
+   "INTERIOR_NO_ADQUIRIDA": 2324,
+   "SIN_ESCAÑO_EN_INTERIOR": 646
+  },
+  "decisiones_baja_para_el_propietario": [
+   {
+    "circunscripciones": 3,
+    "eleccion": "201111",
+    "partido_homologado": "CHA",
+    "regla": "SIGLA:CHA-IU",
+    "sigla_fuente": "CHA-IU",
+    "votos": 74715
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201111",
+    "partido_homologado": "Caballas",
+    "regla": "SIGLA:CABALLAS",
+    "sigla_fuente": "Caballas",
+    "votos": 1712
+   },
+   {
+    "circunscripciones": 4,
+    "eleccion": "201111",
+    "partido_homologado": "JUNTS",
+    "regla": "FAMILIA:a11@201111",
+    "sigla_fuente": "CiU",
+    "votos": 1014277
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201111",
+    "partido_homologado": "MÉS",
+    "regla": "FAMILIA:a20@201111",
+    "sigla_fuente": "PSM-IV-EXM-EQUO",
+    "votos": 31370
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201111",
+    "partido_homologado": "UPN",
+    "regla": "SIGLA:UPN-PP",
+    "sigla_fuente": "UPN-PP",
+    "votos": 126118
+   },
+   {
+    "circunscripciones": 4,
+    "eleccion": "201512",
+    "partido_homologado": "JUNTS",
+    "regla": "FAMILIA:a11@201512",
+    "sigla_fuente": "DL",
+    "votos": 565742
+   },
+   {
+    "circunscripciones": 4,
+    "eleccion": "201512",
+    "partido_homologado": "SUMAR",
+    "regla": "FAMILIA:a1@201512",
+    "sigla_fuente": "EN COMÚ",
+    "votos": 927053
+   },
+   {
+    "circunscripciones": 41,
+    "eleccion": "201512",
+    "partido_homologado": "SUMAR",
+    "regla": "FAMILIA:a1@201512",
+    "sigla_fuente": "PODEMOS",
+    "votos": 3182256
+   },
+   {
+    "circunscripciones": 3,
+    "eleccion": "201512",
+    "partido_homologado": "SUMAR",
+    "regla": "FAMILIA:a1@201512",
+    "sigla_fuente": "PODEMOS-COM",
+    "votos": 671077
+   },
+   {
+    "circunscripciones": 4,
+    "eleccion": "201512",
+    "partido_homologado": "SUMAR",
+    "regla": "FAMILIA:a1@201512",
+    "sigla_fuente": "PODEMOS-En",
+    "votos": 408417
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201512",
+    "partido_homologado": "UPN",
+    "regla": "SIGLA:UPN-PP",
+    "sigla_fuente": "UPN-PP",
+    "votos": 101901
+   },
+   {
+    "circunscripciones": 4,
+    "eleccion": "201606",
+    "partido_homologado": "JUNTS",
+    "regla": "FAMILIA:a11@201606",
+    "sigla_fuente": "CDC",
+    "votos": 481663
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201606",
+    "partido_homologado": "UPN",
+    "regla": "SIGLA:UPN-PP",
+    "sigla_fuente": "UPN-PP",
+    "votos": 106433
+   },
+   {
+    "circunscripciones": 4,
+    "eleccion": "201904",
+    "partido_homologado": "EN MAREA",
+    "regla": "FAMILIA:a35",
+    "sigla_fuente": "EN MAREA",
+    "votos": 17721
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201904",
+    "partido_homologado": "UPN",
+    "regla": "SIGLA:NA+",
+    "sigla_fuente": "NA+",
+    "votos": 107112
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201911",
+    "partido_homologado": "MDyC",
+    "regla": "SIGLA:MDYC",
+    "sigla_fuente": "MDyC",
+    "votos": 819
+   },
+   {
+    "circunscripciones": 1,
+    "eleccion": "201911",
+    "partido_homologado": "UPN",
+    "regla": "SIGLA:NA+",
+    "sigla_fuente": "NA+",
+    "votos": 98450
+   },
+   {
+    "circunscripciones": 4,
+    "eleccion": "202307",
+    "partido_homologado": "PDeCAT",
+    "regla": "SIGLA:PDECAT",
+    "sigla_fuente": "PDeCAT-E-CiU",
+    "votos": 31649
+   }
+  ],
+  "filas": 3501,
+  "por_certeza": {
+   "ALTA": 2667,
+   "BAJA": 83,
+   "MEDIA": 751
+  },
+  "por_eleccion": {
+   "201111": {
+    "ALTA": 481,
+    "BAJA": 10,
+    "MEDIA": 101
+   },
+   "201512": {
+    "ALTA": 422,
+    "BAJA": 57,
+    "MEDIA": 126
+   },
+   "201606": {
+    "ALTA": 407,
+    "BAJA": 5,
+    "MEDIA": 133
+   },
+   "201904": {
+    "ALTA": 423,
+    "BAJA": 5,
+    "MEDIA": 154
+   },
+   "201911": {
+    "ALTA": 482,
+    "BAJA": 2,
+    "MEDIA": 143
+   },
+   "202307": {
+    "ALTA": 452,
+    "BAJA": 4,
+    "MEDIA": 94
+   }
+  }
+ },
+ "schema": "ddd.homologacion-siglas/1.0",
+ "tabla": {
+  "ruta": "datos/homologacion_siglas/homologacion_siglas_generales.csv",
+  "sha256": "52051da748517a33efec486ecee1c8bb33afbe09d20793e577537904abcda5ea"
+ },
+ "uso": "No aplicada a la rotación ni al visor hasta decisión del propietario (T-97).",
+ "version": "1.0.0"
+}
