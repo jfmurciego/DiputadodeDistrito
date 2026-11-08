@@ -4,7 +4,7 @@ Versión: 1.0.33
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-24 y T-109 (visor v2 según la maqueta aprobada); T-105 y T-106 hechas; T-107 y T-108 del Coordinador
+Cambios/motivo: D-24 y T-109 (visor v2 según la maqueta aprobada); T-105 y T-106 hechas; T-107 y T-108 del Coordinador; T-110 (histórico a las 52 provincias)
 Anterior: legacy/docs/PLAN_v1.0.32_20261108.md
 -->
 
@@ -379,6 +379,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-109 | Visor v2 (D-24) según `docs/ARQUITECTURA/visor_v2/`: portada «Mapa» y pestañas del modelo v3, con la geometría y los datos de producción (M06/M08 publicados, CSV del BOE); textos leídos de `web/textos.md` (vacíos hasta que los escriba el propietario) y editor `?edit=1`; recoge el selector de T-102 y la capa de rotación cuando existan | por abrir (Sonnet), ya; toca `visor/` | Vista previa privada para que el propietario la pruebe ANTES de fusionar; nada se fusiona ni publica sin su visto bueno sobre la versión real |
 | T-107 | (id del Coordinador) Castilla y León: M05 7.4.3 | — | Hecha (#546) |
 | T-108 | (id del Coordinador) Huella M05 | — | Hecha (#547) |
+| T-110 | Empujón al histórico (orden del propietario, 08-11): extender el paso B de T-83 (hoy validado en Álava, Badajoz y Huesca) a las 52 provincias × 6 generales 2011-2023 con la tabla de T-85 (D-13) y las siglas de T-97 (D-20); rotación por distrito de toda España en `datos/resultados/historico/rotacion/`; cuadre de totales provinciales con Infoelectoral y contraste con el Observatorio; lista de provincias que no cuadren con su motivo. Salida lista para la capa de rotación de T-109. Después, el paso A (cadena con puerta 04) por elección empezando por 2019-11, lanzado con el Gestor por el propietario o por el Operador con permiso | por abrir (Sonnet), ya | 52/52 × 6 en el repositorio con manifiesto y sha256; tests; sin lanzar ni publicar; nada sale del repositorio sin el propietario (D-18) |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
