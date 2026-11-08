@@ -1,0 +1,6707 @@
+{
+ "schema": "ddd.equivalencia-seccionados/1.0",
+ "umbral_1a1": 0.95,
+ "astilla": 0.01,
+ "desplazamiento_min_m": 20.0,
+ "vigente": "INE seccionado 2025",
+ "peso": "poblacion (D-13); area si falta poblacion",
+ "fuentes": {
+  "seccionado_2025": {
+   "fichero": "seccionado_2025.zip",
+   "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+  },
+  "padron_65034": {
+   "fichero": "65034.csv.zip",
+   "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+   "periodo": "2025"
+  },
+  "historicos": {
+   "2012": {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2012.zip",
+    "sha256": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a"
+   },
+   "2015": {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2015.zip",
+    "sha256": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03"
+   },
+   "2016": {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2016.zip",
+    "sha256": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1"
+   },
+   "2019": {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2019.zip",
+    "sha256": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967"
+   },
+   "2020": {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2020.zip",
+    "sha256": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e"
+   },
+   "2024": {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2024.zip",
+    "sha256": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+   }
+  },
+  "espejo": {
+   "manifiesto": "orchestracion/fuente_nazioenbehatokia.json",
+   "sha256": "b22ff749d3ba9570b9c1000e1d146ee963ab990f0c624388c41ddca803cbc5b3"
+  }
+ },
+ "provincias": {
+  "01": {
+   "202307": {
+    "votos": 167304,
+    "pct_1a1": 99.058,
+    "pct_no_1a1": 0.942,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.159,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 240,
+    "secciones_reparto": 2
+   },
+   "201111": {
+    "votos": 167160,
+    "pct_1a1": 63.28,
+    "pct_no_1a1": 36.72,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.273,
+    "prueba_censo": {
+     "secciones": 82,
+     "censo_real": 100578,
+     "error_area": 34.091,
+     "error_poblacion": 27.155
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 265,
+    "secciones_reparto": 107
+   },
+   "201512": {
+    "votos": 177448,
+    "pct_1a1": 76.408,
+    "pct_no_1a1": 23.592,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.511,
+    "prueba_censo": {
+     "secciones": 48,
+     "censo_real": 58744,
+     "error_area": 17.472,
+     "error_poblacion": 10.61
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 261,
+    "secciones_reparto": 69
+   },
+   "201606": {
+    "votos": 165985,
+    "pct_1a1": 76.528,
+    "pct_no_1a1": 23.472,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.492,
+    "prueba_censo": {
+     "secciones": 48,
+     "censo_real": 58744,
+     "error_area": 17.113,
+     "error_poblacion": 9.968
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 261,
+    "secciones_reparto": 69
+   },
+   "201904": {
+    "votos": 175733,
+    "pct_1a1": 98.006,
+    "pct_no_1a1": 1.994,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.515,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 3021,
+     "error_area": 67.245,
+     "error_poblacion": 3.571
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 238,
+    "secciones_reparto": 4
+   },
+   "201911": {
+    "votos": 169235,
+    "pct_1a1": 99.139,
+    "pct_no_1a1": 0.861,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.142,
+    "prueba_censo": {
+     "secciones": 0,
+     "censo_real": 0,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 240,
+    "secciones_reparto": 2
+   }
+  },
+  "02": {
+   "202307": {
+    "votos": 218503,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 296,
+    "secciones_reparto": 0
+   },
+   "201111": {
+    "votos": 228824,
+    "pct_1a1": 78.192,
+    "pct_no_1a1": 21.808,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.963,
+    "prueba_censo": {
+     "secciones": 67,
+     "censo_real": 79873,
+     "error_area": 24.272,
+     "error_poblacion": 19.063
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 300,
+    "secciones_reparto": 64
+   },
+   "201512": {
+    "votos": 229347,
+    "pct_1a1": 90.684,
+    "pct_no_1a1": 9.316,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.478,
+    "prueba_censo": {
+     "secciones": 27,
+     "censo_real": 32701,
+     "error_area": 16.765,
+     "error_poblacion": 12.583
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 302,
+    "secciones_reparto": 32
+   },
+   "201606": {
+    "votos": 217414,
+    "pct_1a1": 94.117,
+    "pct_no_1a1": 5.883,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.4,
+    "prueba_censo": {
+     "secciones": 16,
+     "censo_real": 18912,
+     "error_area": 19.493,
+     "error_poblacion": 12.695
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 301,
+    "secciones_reparto": 22
+   },
+   "201904": {
+    "votos": 232074,
+    "pct_1a1": 97.812,
+    "pct_no_1a1": 2.188,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.405,
+    "prueba_censo": {
+     "secciones": 6,
+     "censo_real": 6782,
+     "error_area": 46.811,
+     "error_poblacion": 14.116
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 295,
+    "secciones_reparto": 6
+   },
+   "201911": {
+    "votos": 211827,
+    "pct_1a1": 97.803,
+    "pct_no_1a1": 2.197,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.419,
+    "prueba_censo": {
+     "secciones": 6,
+     "censo_real": 6782,
+     "error_area": 46.673,
+     "error_poblacion": 12.838
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 295,
+    "secciones_reparto": 6
+   }
+  },
+  "03": {
+   "202307": {
+    "votos": 888631,
+    "pct_1a1": 99.657,
+    "pct_no_1a1": 0.343,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.016,
+    "pct_geometria_otro_seccionado": 0.093,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 1238,
+    "secciones_reparto": 5
+   },
+   "201111": {
+    "votos": 876076,
+    "pct_1a1": 82.879,
+    "pct_no_1a1": 17.121,
+    "pct_sin_geometria": 0.214,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.342,
+    "prueba_censo": {
+     "secciones": 217,
+     "censo_real": 251166,
+     "error_area": 26.772,
+     "error_poblacion": 21.071
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 1226,
+    "secciones_reparto": 197
+   },
+   "201512": {
+    "votos": 897901,
+    "pct_1a1": 90.424,
+    "pct_no_1a1": 9.576,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.834,
+    "prueba_censo": {
+     "secciones": 120,
+     "censo_real": 136182,
+     "error_area": 26.488,
+     "error_poblacion": 19.855
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 1222,
+    "secciones_reparto": 106
+   },
+   "201606": {
+    "votos": 867612,
+    "pct_1a1": 92.172,
+    "pct_no_1a1": 7.828,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.756,
+    "prueba_censo": {
+     "secciones": 95,
+     "censo_real": 108274,
+     "error_area": 29.486,
+     "error_poblacion": 21.992
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 1222,
+    "secciones_reparto": 86
+   },
+   "201904": {
+    "votos": 908630,
+    "pct_1a1": 93.378,
+    "pct_no_1a1": 6.622,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.584,
+    "prueba_censo": {
+     "secciones": 76,
+     "censo_real": 89867,
+     "error_area": 24.986,
+     "error_poblacion": 19.261
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 1222,
+    "secciones_reparto": 66
+   },
+   "201911": {
+    "votos": 841760,
+    "pct_1a1": 93.288,
+    "pct_no_1a1": 6.712,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.59,
+    "prueba_censo": {
+     "secciones": 76,
+     "censo_real": 89867,
+     "error_area": 24.467,
+     "error_poblacion": 18.668
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 1222,
+    "secciones_reparto": 66
+   }
+  },
+  "04": {
+   "202307": {
+    "votos": 316006,
+    "pct_1a1": 94.197,
+    "pct_no_1a1": 5.803,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.377,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 462,
+    "secciones_reparto": 17
+   },
+   "201111": {
+    "votos": 308108,
+    "pct_1a1": 62.22,
+    "pct_no_1a1": 37.78,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 6.978,
+    "prueba_censo": {
+     "secciones": 155,
+     "censo_real": 178272,
+     "error_area": 44.859,
+     "error_poblacion": 24.891
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 423,
+    "secciones_reparto": 131
+   },
+   "201512": {
+    "votos": 306446,
+    "pct_1a1": 83.366,
+    "pct_no_1a1": 16.634,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.717,
+    "prueba_censo": {
+     "secciones": 57,
+     "censo_real": 63687,
+     "error_area": 35.644,
+     "error_poblacion": 20.77
+    },
+    "pct_geometria_otro_seccionado": 0.807,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 464,
+    "secciones_reparto": 67
+   },
+   "201606": {
+    "votos": 302695,
+    "pct_1a1": 85.462,
+    "pct_no_1a1": 14.538,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.411,
+    "prueba_censo": {
+     "secciones": 45,
+     "censo_real": 49942,
+     "error_area": 37.65,
+     "error_poblacion": 21.266
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 460,
+    "secciones_reparto": 57
+   },
+   "201904": {
+    "votos": 324309,
+    "pct_1a1": 88.41,
+    "pct_no_1a1": 11.59,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.998,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 32007,
+     "error_area": 29.65,
+     "error_poblacion": 14.504
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 463,
+    "secciones_reparto": 46
+   },
+   "201911": {
+    "votos": 297846,
+    "pct_1a1": 88.349,
+    "pct_no_1a1": 11.651,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.014,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 32007,
+     "error_area": 29.095,
+     "error_poblacion": 13.728
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 463,
+    "secciones_reparto": 46
+   }
+  },
+  "05": {
+   "202307": {
+    "votos": 96470,
+    "pct_1a1": 99.048,
+    "pct_no_1a1": 0.952,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.952,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 310,
+    "secciones_reparto": 2
+   },
+   "201111": {
+    "votos": 104345,
+    "pct_1a1": 85.144,
+    "pct_no_1a1": 14.856,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.44,
+    "prueba_censo": {
+     "secciones": 20,
+     "censo_real": 23412,
+     "error_area": 28.316,
+     "error_poblacion": 27.978
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 312,
+    "secciones_reparto": 22
+   },
+   "201512": {
+    "votos": 100859,
+    "pct_1a1": 89.983,
+    "pct_no_1a1": 10.017,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.009,
+    "prueba_censo": {
+     "secciones": 9,
+     "censo_real": 11729,
+     "error_area": 19.835,
+     "error_poblacion": 19.835
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 313,
+    "secciones_reparto": 14
+   },
+   "201606": {
+    "votos": 97658,
+    "pct_1a1": 92.665,
+    "pct_no_1a1": 7.335,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.009,
+    "prueba_censo": {
+     "secciones": 7,
+     "censo_real": 8327,
+     "error_area": 24.934,
+     "error_poblacion": 24.934
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 312,
+    "secciones_reparto": 11
+   },
+   "201904": {
+    "votos": 100881,
+    "pct_1a1": 92.648,
+    "pct_no_1a1": 7.352,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.011,
+    "prueba_censo": {
+     "secciones": 7,
+     "censo_real": 8327,
+     "error_area": 24.393,
+     "error_poblacion": 24.393
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 312,
+    "secciones_reparto": 11
+   },
+   "201911": {
+    "votos": 92173,
+    "pct_1a1": 95.148,
+    "pct_no_1a1": 4.852,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 5201,
+     "error_area": 30.65,
+     "error_poblacion": 30.65
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 312,
+    "secciones_reparto": 9
+   }
+  },
+  "06": {
+   "202307": {
+    "votos": 386842,
+    "pct_1a1": 98.451,
+    "pct_no_1a1": 1.549,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.398,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 551,
+    "secciones_reparto": 7
+   },
+   "201111": {
+    "votos": 403522,
+    "pct_1a1": 48.566,
+    "pct_no_1a1": 51.434,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 10.119,
+    "prueba_censo": {
+     "secciones": 273,
+     "censo_real": 285888,
+     "error_area": 48.922,
+     "error_poblacion": 26.954
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 552,
+    "secciones_reparto": 278
+   },
+   "201512": {
+    "votos": 395612,
+    "pct_1a1": 87.491,
+    "pct_no_1a1": 12.509,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.236,
+    "prueba_censo": {
+     "secciones": 70,
+     "censo_real": 69055,
+     "error_area": 40.766,
+     "error_poblacion": 23.779
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 551,
+    "secciones_reparto": 70
+   },
+   "201606": {
+    "votos": 374365,
+    "pct_1a1": 93.866,
+    "pct_no_1a1": 6.134,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.692,
+    "prueba_censo": {
+     "secciones": 28,
+     "censo_real": 30821,
+     "error_area": 23.286,
+     "error_poblacion": 19.954
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 551,
+    "secciones_reparto": 35
+   },
+   "201904": {
+    "votos": 404139,
+    "pct_1a1": 95.836,
+    "pct_no_1a1": 4.164,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.521,
+    "prueba_censo": {
+     "secciones": 17,
+     "censo_real": 17857,
+     "error_area": 24.277,
+     "error_poblacion": 18.67
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 553,
+    "secciones_reparto": 26
+   },
+   "201911": {
+    "votos": 365611,
+    "pct_1a1": 95.892,
+    "pct_no_1a1": 4.108,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.513,
+    "prueba_censo": {
+     "secciones": 17,
+     "censo_real": 17857,
+     "error_area": 24.203,
+     "error_poblacion": 18.537
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 553,
+    "secciones_reparto": 26
+   }
+  },
+  "07": {
+   "202307": {
+    "votos": 496245,
+    "pct_1a1": 99.163,
+    "pct_no_1a1": 0.837,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.309,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 672,
+    "secciones_reparto": 5
+   },
+   "201111": {
+    "votos": 429718,
+    "pct_1a1": 84.741,
+    "pct_no_1a1": 15.259,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.968,
+    "prueba_censo": {
+     "secciones": 107,
+     "censo_real": 127374,
+     "error_area": 36.575,
+     "error_poblacion": 15.148
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 631,
+    "secciones_reparto": 79
+   },
+   "201512": {
+    "votos": 479413,
+    "pct_1a1": 93.149,
+    "pct_no_1a1": 6.851,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.365,
+    "prueba_censo": {
+     "secciones": 45,
+     "censo_real": 52039,
+     "error_area": 37.145,
+     "error_poblacion": 10.436
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 653,
+    "secciones_reparto": 36
+   },
+   "201606": {
+    "votos": 459891,
+    "pct_1a1": 93.416,
+    "pct_no_1a1": 6.584,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.364,
+    "prueba_censo": {
+     "secciones": 43,
+     "censo_real": 49673,
+     "error_area": 39.098,
+     "error_poblacion": 11.361
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 653,
+    "secciones_reparto": 34
+   },
+   "201904": {
+    "votos": 512754,
+    "pct_1a1": 96.378,
+    "pct_no_1a1": 3.622,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.7,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 23516,
+     "error_area": 31.001,
+     "error_poblacion": 10.656
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 662,
+    "secciones_reparto": 18
+   },
+   "201911": {
+    "votos": 448207,
+    "pct_1a1": 96.359,
+    "pct_no_1a1": 3.641,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.707,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 23516,
+     "error_area": 30.8,
+     "error_poblacion": 10.654
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 662,
+    "secciones_reparto": 18
+   }
+  },
+  "08": {
+   "202307": {
+    "votos": 2625437,
+    "pct_1a1": 99.86,
+    "pct_no_1a1": 0.14,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.018,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 3650,
+    "secciones_reparto": 3
+   },
+   "201111": {
+    "votos": 2564814,
+    "pct_1a1": 81.855,
+    "pct_no_1a1": 18.145,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.568,
+    "prueba_censo": {
+     "secciones": 695,
+     "censo_real": 833413,
+     "error_area": 32.217,
+     "error_poblacion": 15.864
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 3592,
+    "secciones_reparto": 606
+   },
+   "201512": {
+    "votos": 2831889,
+    "pct_1a1": 89.899,
+    "pct_no_1a1": 10.101,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.477,
+    "prueba_censo": {
+     "secciones": 399,
+     "censo_real": 458691,
+     "error_area": 30.718,
+     "error_poblacion": 13.674
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 3588,
+    "secciones_reparto": 318
+   },
+   "201606": {
+    "votos": 2610887,
+    "pct_1a1": 90.086,
+    "pct_no_1a1": 9.914,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.457,
+    "prueba_censo": {
+     "secciones": 393,
+     "censo_real": 450559,
+     "error_area": 30.749,
+     "error_poblacion": 13.581
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 3588,
+    "secciones_reparto": 313
+   },
+   "201904": {
+    "votos": 3089979,
+    "pct_1a1": 95.067,
+    "pct_no_1a1": 4.933,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.846,
+    "prueba_censo": {
+     "secciones": 179,
+     "censo_real": 212463,
+     "error_area": 34.082,
+     "error_poblacion": 12.289
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 3611,
+    "secciones_reparto": 138
+   },
+   "201911": {
+    "votos": 2890355,
+    "pct_1a1": 96.349,
+    "pct_no_1a1": 3.651,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.699,
+    "prueba_censo": {
+     "secciones": 130,
+     "censo_real": 154364,
+     "error_area": 38.279,
+     "error_poblacion": 11.926
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 3613,
+    "secciones_reparto": 92
+   }
+  },
+  "09": {
+   "202307": {
+    "votos": 198616,
+    "pct_1a1": 92.338,
+    "pct_no_1a1": 7.662,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.899,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 582,
+    "secciones_reparto": 26
+   },
+   "201111": {
+    "votos": 209197,
+    "pct_1a1": 58.538,
+    "pct_no_1a1": 41.462,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 4.64,
+    "prueba_censo": {
+     "secciones": 118,
+     "censo_real": 113895,
+     "error_area": 30.352,
+     "error_poblacion": 22.831
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 575,
+    "secciones_reparto": 123
+   },
+   "201512": {
+    "votos": 212835,
+    "pct_1a1": 81.169,
+    "pct_no_1a1": 18.831,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.201,
+    "prueba_censo": {
+     "secciones": 40,
+     "censo_real": 40844,
+     "error_area": 29.189,
+     "error_poblacion": 19.182
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 585,
+    "secciones_reparto": 62
+   },
+   "201606": {
+    "votos": 203959,
+    "pct_1a1": 84.511,
+    "pct_no_1a1": 15.489,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.143,
+    "prueba_censo": {
+     "secciones": 24,
+     "censo_real": 25021,
+     "error_area": 47.322,
+     "error_poblacion": 22.006
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 585,
+    "secciones_reparto": 51
+   },
+   "201904": {
+    "votos": 216166,
+    "pct_1a1": 87.849,
+    "pct_no_1a1": 12.151,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.14,
+    "prueba_censo": {
+     "secciones": 13,
+     "censo_real": 13113,
+     "error_area": 21.762,
+     "error_poblacion": 13.36
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 587,
+    "secciones_reparto": 43
+   },
+   "201911": {
+    "votos": 194973,
+    "pct_1a1": 88.479,
+    "pct_no_1a1": 11.521,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.149,
+    "prueba_censo": {
+     "secciones": 11,
+     "censo_real": 11350,
+     "error_area": 24.181,
+     "error_poblacion": 14.01
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 587,
+    "secciones_reparto": 41
+   }
+  },
+  "10": {
+   "202307": {
+    "votos": 232620,
+    "pct_1a1": 99.684,
+    "pct_no_1a1": 0.316,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 412,
+    "secciones_reparto": 2
+   },
+   "201111": {
+    "votos": 250328,
+    "pct_1a1": 88.673,
+    "pct_no_1a1": 11.327,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.444,
+    "prueba_censo": {
+     "secciones": 37,
+     "censo_real": 38941,
+     "error_area": 29.465,
+     "error_poblacion": 26.249
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 418,
+    "secciones_reparto": 46
+   },
+   "201512": {
+    "votos": 246633,
+    "pct_1a1": 91.776,
+    "pct_no_1a1": 8.224,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.201,
+    "prueba_censo": {
+     "secciones": 25,
+     "censo_real": 26888,
+     "error_area": 26.441,
+     "error_poblacion": 26.01
+    },
+    "pct_geometria_otro_seccionado": 0.185,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 416,
+    "secciones_reparto": 32
+   },
+   "201606": {
+    "votos": 233626,
+    "pct_1a1": 92.364,
+    "pct_no_1a1": 7.636,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.202,
+    "prueba_censo": {
+     "secciones": 24,
+     "censo_real": 25285,
+     "error_area": 27.828,
+     "error_poblacion": 27.372
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 415,
+    "secciones_reparto": 30
+   },
+   "201904": {
+    "votos": 246055,
+    "pct_1a1": 93.293,
+    "pct_no_1a1": 6.707,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.197,
+    "prueba_censo": {
+     "secciones": 20,
+     "censo_real": 20993,
+     "error_area": 30.141,
+     "error_poblacion": 29.648
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 412,
+    "secciones_reparto": 23
+   },
+   "201911": {
+    "votos": 220215,
+    "pct_1a1": 93.308,
+    "pct_no_1a1": 6.692,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.201,
+    "prueba_censo": {
+     "secciones": 20,
+     "censo_real": 20993,
+     "error_area": 30.075,
+     "error_poblacion": 29.52
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 412,
+    "secciones_reparto": 23
+   }
+  },
+  "11": {
+   "202307": {
+    "votos": 627167,
+    "pct_1a1": 98.941,
+    "pct_no_1a1": 1.059,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.016,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 927,
+    "secciones_reparto": 15
+   },
+   "201111": {
+    "votos": 611124,
+    "pct_1a1": 76.181,
+    "pct_no_1a1": 23.819,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.499,
+    "prueba_censo": {
+     "secciones": 248,
+     "censo_real": 278035,
+     "error_area": 29.373,
+     "error_poblacion": 20.892
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 897,
+    "secciones_reparto": 209
+   },
+   "201512": {
+    "votos": 638360,
+    "pct_1a1": 82.497,
+    "pct_no_1a1": 17.503,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.639,
+    "prueba_censo": {
+     "secciones": 181,
+     "censo_real": 196336,
+     "error_area": 24.78,
+     "error_poblacion": 15.88
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 901,
+    "secciones_reparto": 151
+   },
+   "201606": {
+    "votos": 606847,
+    "pct_1a1": 82.735,
+    "pct_no_1a1": 17.265,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.623,
+    "prueba_censo": {
+     "secciones": 179,
+     "censo_real": 193757,
+     "error_area": 24.676,
+     "error_poblacion": 15.612
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 901,
+    "secciones_reparto": 150
+   },
+   "201904": {
+    "votos": 657430,
+    "pct_1a1": 96.699,
+    "pct_no_1a1": 3.301,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.235,
+    "prueba_censo": {
+     "secciones": 22,
+     "censo_real": 25087,
+     "error_area": 29.289,
+     "error_poblacion": 27.886
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 923,
+    "secciones_reparto": 34
+   },
+   "201911": {
+    "votos": 604653,
+    "pct_1a1": 97.055,
+    "pct_no_1a1": 2.945,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.231,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 21676,
+     "error_area": 31.377,
+     "error_poblacion": 29.471
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 923,
+    "secciones_reparto": 31
+   }
+  },
+  "12": {
+   "202307": {
+    "votos": 303870,
+    "pct_1a1": 98.01,
+    "pct_no_1a1": 1.99,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.312,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 444,
+    "secciones_reparto": 5
+   },
+   "201111": {
+    "votos": 291901,
+    "pct_1a1": 79.958,
+    "pct_no_1a1": 20.042,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.921,
+    "prueba_censo": {
+     "secciones": 83,
+     "censo_real": 94229,
+     "error_area": 23.253,
+     "error_poblacion": 17.061
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 435,
+    "secciones_reparto": 76
+   },
+   "201512": {
+    "votos": 306662,
+    "pct_1a1": 92.012,
+    "pct_no_1a1": 7.988,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.081,
+    "prueba_censo": {
+     "secciones": 28,
+     "censo_real": 31835,
+     "error_area": 34.332,
+     "error_poblacion": 15.386
+    },
+    "pct_geometria_otro_seccionado": 0.2,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 440,
+    "secciones_reparto": 29
+   },
+   "201606": {
+    "votos": 296233,
+    "pct_1a1": 92.299,
+    "pct_no_1a1": 7.701,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.019,
+    "prueba_censo": {
+     "secciones": 26,
+     "censo_real": 29813,
+     "error_area": 31.872,
+     "error_poblacion": 12.88
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 440,
+    "secciones_reparto": 28
+   },
+   "201904": {
+    "votos": 310195,
+    "pct_1a1": 96.82,
+    "pct_no_1a1": 3.18,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.589,
+    "prueba_censo": {
+     "secciones": 6,
+     "censo_real": 6420,
+     "error_area": 46.337,
+     "error_poblacion": 11.345
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 443,
+    "secciones_reparto": 11
+   },
+   "201911": {
+    "votos": 291161,
+    "pct_1a1": 96.938,
+    "pct_no_1a1": 3.062,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.596,
+    "prueba_censo": {
+     "secciones": 6,
+     "censo_real": 6420,
+     "error_area": 46.254,
+     "error_poblacion": 11.136
+    },
+    "pct_geometria_otro_seccionado": 0.18,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 443,
+    "secciones_reparto": 10
+   }
+  },
+  "13": {
+   "202307": {
+    "votos": 279684,
+    "pct_1a1": 99.392,
+    "pct_no_1a1": 0.608,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.013,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 419,
+    "secciones_reparto": 4
+   },
+   "201111": {
+    "votos": 294041,
+    "pct_1a1": 90.263,
+    "pct_no_1a1": 9.737,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.839,
+    "prueba_censo": {
+     "secciones": 44,
+     "censo_real": 40906,
+     "error_area": 29.246,
+     "error_poblacion": 25.013
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 426,
+    "secciones_reparto": 52
+   },
+   "201512": {
+    "votos": 292793,
+    "pct_1a1": 93.651,
+    "pct_no_1a1": 6.349,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.425,
+    "prueba_censo": {
+     "secciones": 28,
+     "censo_real": 26395,
+     "error_area": 24.762,
+     "error_poblacion": 16.695
+    },
+    "pct_geometria_otro_seccionado": 0.234,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 426,
+    "secciones_reparto": 34
+   },
+   "201606": {
+    "votos": 276822,
+    "pct_1a1": 93.922,
+    "pct_no_1a1": 6.078,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.381,
+    "prueba_censo": {
+     "secciones": 26,
+     "censo_real": 23634,
+     "error_area": 19.956,
+     "error_poblacion": 13.24
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 426,
+    "secciones_reparto": 33
+   },
+   "201904": {
+    "votos": 290881,
+    "pct_1a1": 95.657,
+    "pct_no_1a1": 4.343,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.405,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 15853,
+     "error_area": 24.26,
+     "error_poblacion": 10.11
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 420,
+    "secciones_reparto": 22
+   },
+   "201911": {
+    "votos": 265553,
+    "pct_1a1": 95.697,
+    "pct_no_1a1": 4.303,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.404,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 15853,
+     "error_area": 24.028,
+     "error_poblacion": 9.773
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 420,
+    "secciones_reparto": 22
+   }
+  },
+  "14": {
+   "202307": {
+    "votos": 442151,
+    "pct_1a1": 99.408,
+    "pct_no_1a1": 0.592,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.137,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 621,
+    "secciones_reparto": 2
+   },
+   "201111": {
+    "votos": 461489,
+    "pct_1a1": 71.26,
+    "pct_no_1a1": 28.74,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.492,
+    "prueba_censo": {
+     "secciones": 228,
+     "censo_real": 236676,
+     "error_area": 22.457,
+     "error_poblacion": 17.138
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 622,
+    "secciones_reparto": 187
+   },
+   "201512": {
+    "votos": 462203,
+    "pct_1a1": 81.828,
+    "pct_no_1a1": 18.172,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.199,
+    "prueba_censo": {
+     "secciones": 140,
+     "censo_real": 145678,
+     "error_area": 15.466,
+     "error_poblacion": 15.398
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 623,
+    "secciones_reparto": 118
+   },
+   "201606": {
+    "votos": 440947,
+    "pct_1a1": 82.91,
+    "pct_no_1a1": 17.09,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.129,
+    "prueba_censo": {
+     "secciones": 128,
+     "censo_real": 133979,
+     "error_area": 15.642,
+     "error_poblacion": 15.961
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 624,
+    "secciones_reparto": 111
+   },
+   "201904": {
+    "votos": 467567,
+    "pct_1a1": 89.652,
+    "pct_no_1a1": 10.348,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.861,
+    "prueba_censo": {
+     "secciones": 82,
+     "censo_real": 87801,
+     "error_area": 17.021,
+     "error_poblacion": 13.032
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 620,
+    "secciones_reparto": 63
+   },
+   "201911": {
+    "votos": 437338,
+    "pct_1a1": 90.789,
+    "pct_no_1a1": 9.211,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.575,
+    "prueba_censo": {
+     "secciones": 72,
+     "censo_real": 77789,
+     "error_area": 13.697,
+     "error_poblacion": 12.677
+    },
+    "pct_geometria_otro_seccionado": 0.173,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 621,
+    "secciones_reparto": 56
+   }
+  },
+  "15": {
+   "202307": {
+    "votos": 662459,
+    "pct_1a1": 99.521,
+    "pct_no_1a1": 0.479,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.003,
+    "pct_geometria_otro_seccionado": 0.118,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 883,
+    "secciones_reparto": 8
+   },
+   "201111": {
+    "votos": 648295,
+    "pct_1a1": 77.088,
+    "pct_no_1a1": 22.912,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.414,
+    "prueba_censo": {
+     "secciones": 202,
+     "censo_real": 224997,
+     "error_area": 23.931,
+     "error_poblacion": 18.469
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 915,
+    "secciones_reparto": 227
+   },
+   "201512": {
+    "votos": 662574,
+    "pct_1a1": 86.32,
+    "pct_no_1a1": 13.68,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.099,
+    "prueba_censo": {
+     "secciones": 119,
+     "censo_real": 128974,
+     "error_area": 27.032,
+     "error_poblacion": 17.819
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 897,
+    "secciones_reparto": 136
+   },
+   "201606": {
+    "votos": 630936,
+    "pct_1a1": 86.843,
+    "pct_no_1a1": 13.157,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.085,
+    "prueba_censo": {
+     "secciones": 112,
+     "censo_real": 124697,
+     "error_area": 27.481,
+     "error_poblacion": 17.768
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 897,
+    "secciones_reparto": 130
+   },
+   "201904": {
+    "votos": 665691,
+    "pct_1a1": 91.139,
+    "pct_no_1a1": 8.861,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.854,
+    "prueba_censo": {
+     "secciones": 71,
+     "censo_real": 83233,
+     "error_area": 26.908,
+     "error_poblacion": 13.776
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 894,
+    "secciones_reparto": 87
+   },
+   "201911": {
+    "votos": 599878,
+    "pct_1a1": 94.908,
+    "pct_no_1a1": 5.092,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.522,
+    "prueba_censo": {
+     "secciones": 39,
+     "censo_real": 46593,
+     "error_area": 27.294,
+     "error_poblacion": 10.633
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 886,
+    "secciones_reparto": 48
+   }
+  },
+  "16": {
+   "202307": {
+    "votos": 112472,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 310,
+    "secciones_reparto": 0
+   },
+   "201111": {
+    "votos": 123202,
+    "pct_1a1": 94.869,
+    "pct_no_1a1": 5.131,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.804,
+    "prueba_censo": {
+     "secciones": 9,
+     "censo_real": 12636,
+     "error_area": 24.25,
+     "error_poblacion": 14.4
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 309,
+    "secciones_reparto": 6
+   },
+   "201512": {
+    "votos": 119954,
+    "pct_1a1": 98.032,
+    "pct_no_1a1": 1.968,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.272,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 6714,
+     "error_area": 8.149,
+     "error_poblacion": 7.917
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 310,
+    "secciones_reparto": 2
+   },
+   "201606": {
+    "votos": 114807,
+    "pct_1a1": 98.059,
+    "pct_no_1a1": 1.941,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.268,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 6714,
+     "error_area": 8.549,
+     "error_poblacion": 7.41
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 310,
+    "secciones_reparto": 2
+   },
+   "201904": {
+    "votos": 118308,
+    "pct_1a1": 97.922,
+    "pct_no_1a1": 2.078,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.269,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 6714,
+     "error_area": 10.481,
+     "error_poblacion": 3.172
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 310,
+    "secciones_reparto": 2
+   },
+   "201911": {
+    "votos": 107820,
+    "pct_1a1": 97.897,
+    "pct_no_1a1": 2.103,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.268,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 6714,
+     "error_area": 10.612,
+     "error_poblacion": 2.672
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 310,
+    "secciones_reparto": 2
+   }
+  },
+  "17": {
+   "202307": {
+    "votos": 317740,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 536,
+    "secciones_reparto": 0
+   },
+   "201111": {
+    "votos": 299983,
+    "pct_1a1": 71.547,
+    "pct_no_1a1": 28.453,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 4.224,
+    "prueba_censo": {
+     "secciones": 163,
+     "censo_real": 183243,
+     "error_area": 28.262,
+     "error_poblacion": 13.491
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 525,
+    "secciones_reparto": 125
+   },
+   "201512": {
+    "votos": 328997,
+    "pct_1a1": 87.325,
+    "pct_no_1a1": 12.675,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.427,
+    "prueba_censo": {
+     "secciones": 80,
+     "censo_real": 84829,
+     "error_area": 21.288,
+     "error_poblacion": 12.269
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 531,
+    "secciones_reparto": 58
+   },
+   "201606": {
+    "votos": 303922,
+    "pct_1a1": 92.035,
+    "pct_no_1a1": 7.965,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.824,
+    "prueba_censo": {
+     "secciones": 52,
+     "censo_real": 52439,
+     "error_area": 20.59,
+     "error_poblacion": 8.956
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 531,
+    "secciones_reparto": 37
+   },
+   "201904": {
+    "votos": 378765,
+    "pct_1a1": 97.25,
+    "pct_no_1a1": 2.75,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.641,
+    "prueba_censo": {
+     "secciones": 14,
+     "censo_real": 15601,
+     "error_area": 53.574,
+     "error_poblacion": 9.077
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 530,
+    "secciones_reparto": 8
+   },
+   "201911": {
+    "votos": 351370,
+    "pct_1a1": 97.276,
+    "pct_no_1a1": 2.724,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.625,
+    "prueba_censo": {
+     "secciones": 14,
+     "censo_real": 15601,
+     "error_area": 53.461,
+     "error_poblacion": 8.926
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 530,
+    "secciones_reparto": 8
+   }
+  },
+  "18": {
+   "202307": {
+    "votos": 494203,
+    "pct_1a1": 99.643,
+    "pct_no_1a1": 0.357,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.014,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 673,
+    "secciones_reparto": 2
+   },
+   "201111": {
+    "votos": 501612,
+    "pct_1a1": 73.096,
+    "pct_no_1a1": 26.904,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.031,
+    "prueba_censo": {
+     "secciones": 200,
+     "censo_real": 231364,
+     "error_area": 29.683,
+     "error_poblacion": 20.867
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 655,
+    "secciones_reparto": 169
+   },
+   "201512": {
+    "votos": 504861,
+    "pct_1a1": 80.795,
+    "pct_no_1a1": 19.205,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.076,
+    "prueba_censo": {
+     "secciones": 135,
+     "censo_real": 158825,
+     "error_area": 26.349,
+     "error_poblacion": 16.326
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 667,
+    "secciones_reparto": 121
+   },
+   "201606": {
+    "votos": 483451,
+    "pct_1a1": 83.745,
+    "pct_no_1a1": 16.255,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.71,
+    "prueba_censo": {
+     "secciones": 113,
+     "censo_real": 130945,
+     "error_area": 26.912,
+     "error_poblacion": 15.811
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 669,
+    "secciones_reparto": 104
+   },
+   "201904": {
+    "votos": 517553,
+    "pct_1a1": 92.153,
+    "pct_no_1a1": 7.847,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.061,
+    "prueba_censo": {
+     "secciones": 50,
+     "censo_real": 56956,
+     "error_area": 31.547,
+     "error_poblacion": 14.223
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 672,
+    "secciones_reparto": 50
+   },
+   "201911": {
+    "votos": 475121,
+    "pct_1a1": 92.701,
+    "pct_no_1a1": 7.299,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.948,
+    "prueba_censo": {
+     "secciones": 46,
+     "censo_real": 52638,
+     "error_area": 29.832,
+     "error_poblacion": 14.022
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 674,
+    "secciones_reparto": 48
+   }
+  },
+  "19": {
+   "202307": {
+    "votos": 139031,
+    "pct_1a1": 96.13,
+    "pct_no_1a1": 3.87,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.126,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 402,
+    "secciones_reparto": 4
+   },
+   "201111": {
+    "votos": 130150,
+    "pct_1a1": 63.94,
+    "pct_no_1a1": 36.06,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 7.16,
+    "prueba_censo": {
+     "secciones": 65,
+     "censo_real": 76823,
+     "error_area": 46.354,
+     "error_poblacion": 22.578
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 388,
+    "secciones_reparto": 51
+   },
+   "201512": {
+    "votos": 134997,
+    "pct_1a1": 84.292,
+    "pct_no_1a1": 15.708,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 4.95,
+    "prueba_censo": {
+     "secciones": 28,
+     "censo_real": 32103,
+     "error_area": 62.548,
+     "error_poblacion": 18.146
+    },
+    "pct_geometria_otro_seccionado": 0.65,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 392,
+    "secciones_reparto": 21
+   },
+   "201606": {
+    "votos": 130275,
+    "pct_1a1": 84.984,
+    "pct_no_1a1": 15.016,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 4.73,
+    "prueba_censo": {
+     "secciones": 26,
+     "censo_real": 29938,
+     "error_area": 66.228,
+     "error_poblacion": 15.152
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 392,
+    "secciones_reparto": 20
+   },
+   "201904": {
+    "votos": 141331,
+    "pct_1a1": 86.37,
+    "pct_no_1a1": 13.63,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 4.481,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 21657,
+     "error_area": 79.816,
+     "error_poblacion": 15.978
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 393,
+    "secciones_reparto": 16
+   },
+   "201911": {
+    "votos": 130510,
+    "pct_1a1": 86.318,
+    "pct_no_1a1": 13.682,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 4.507,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 21657,
+     "error_area": 79.75,
+     "error_poblacion": 15.517
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 393,
+    "secciones_reparto": 16
+   }
+  },
+  "20": {
+   "202307": {
+    "votos": 370320,
+    "pct_1a1": 99.658,
+    "pct_no_1a1": 0.342,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.342,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 548,
+    "secciones_reparto": 5
+   },
+   "201111": {
+    "votos": 368191,
+    "pct_1a1": 74.357,
+    "pct_no_1a1": 25.643,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.317,
+    "prueba_censo": {
+     "secciones": 159,
+     "censo_real": 179403,
+     "error_area": 28.722,
+     "error_poblacion": 22.677
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 547,
+    "secciones_reparto": 133
+   },
+   "201512": {
+    "votos": 384722,
+    "pct_1a1": 94.089,
+    "pct_no_1a1": 5.911,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.654,
+    "prueba_censo": {
+     "secciones": 31,
+     "censo_real": 35171,
+     "error_area": 36.044,
+     "error_poblacion": 22.146
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 544,
+    "secciones_reparto": 30
+   },
+   "201606": {
+    "votos": 360082,
+    "pct_1a1": 94.286,
+    "pct_no_1a1": 5.714,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.609,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 34034,
+     "error_area": 33.201,
+     "error_poblacion": 24.212
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 543,
+    "secciones_reparto": 28
+   },
+   "201904": {
+    "votos": 407107,
+    "pct_1a1": 96.833,
+    "pct_no_1a1": 3.167,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.501,
+    "prueba_censo": {
+     "secciones": 15,
+     "censo_real": 17037,
+     "error_area": 56.052,
+     "error_poblacion": 33.493
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 544,
+    "secciones_reparto": 17
+   },
+   "201911": {
+    "votos": 377937,
+    "pct_1a1": 96.825,
+    "pct_no_1a1": 3.175,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.528,
+    "prueba_censo": {
+     "secciones": 15,
+     "censo_real": 17037,
+     "error_area": 56.597,
+     "error_poblacion": 32.38
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 545,
+    "secciones_reparto": 17
+   }
+  },
+  "21": {
+   "202307": {
+    "votos": 253713,
+    "pct_1a1": 99.508,
+    "pct_no_1a1": 0.492,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.205,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 373,
+    "secciones_reparto": 1
+   },
+   "201111": {
+    "votos": 259853,
+    "pct_1a1": 65.323,
+    "pct_no_1a1": 34.677,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.478,
+    "prueba_censo": {
+     "secciones": 164,
+     "censo_real": 172693,
+     "error_area": 22.472,
+     "error_poblacion": 20.685
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 360,
+    "secciones_reparto": 123
+   },
+   "201512": {
+    "votos": 256351,
+    "pct_1a1": 80.012,
+    "pct_no_1a1": 19.988,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.083,
+    "prueba_censo": {
+     "secciones": 98,
+     "censo_real": 99704,
+     "error_area": 15.144,
+     "error_poblacion": 13.946
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 365,
+    "secciones_reparto": 74
+   },
+   "201606": {
+    "votos": 242780,
+    "pct_1a1": 79.698,
+    "pct_no_1a1": 20.302,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.094,
+    "prueba_censo": {
+     "secciones": 98,
+     "censo_real": 99704,
+     "error_area": 14.986,
+     "error_poblacion": 13.835
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 365,
+    "secciones_reparto": 74
+   },
+   "201904": {
+    "votos": 261234,
+    "pct_1a1": 96.033,
+    "pct_no_1a1": 3.967,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.722,
+    "prueba_censo": {
+     "secciones": 15,
+     "censo_real": 16386,
+     "error_area": 46.437,
+     "error_poblacion": 27.779
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 367,
+    "secciones_reparto": 12
+   },
+   "201911": {
+    "votos": 246807,
+    "pct_1a1": 96.036,
+    "pct_no_1a1": 3.964,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.731,
+    "prueba_censo": {
+     "secciones": 15,
+     "censo_real": 16386,
+     "error_area": 46.436,
+     "error_poblacion": 27.818
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 367,
+    "secciones_reparto": 12
+   }
+  },
+  "22": {
+   "202307": {
+    "votos": 117735,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 287,
+    "secciones_reparto": 0
+   },
+   "201111": {
+    "votos": 117081,
+    "pct_1a1": 85.944,
+    "pct_no_1a1": 14.056,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.336,
+    "prueba_censo": {
+     "secciones": 25,
+     "censo_real": 27856,
+     "error_area": 36.649,
+     "error_poblacion": 21.325
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 289,
+    "secciones_reparto": 23
+   },
+   "201512": {
+    "votos": 120323,
+    "pct_1a1": 98.386,
+    "pct_no_1a1": 1.614,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.041,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 3097,
+     "error_area": 7.188,
+     "error_poblacion": 4.326
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 288,
+    "secciones_reparto": 5
+   },
+   "201606": {
+    "votos": 114975,
+    "pct_1a1": 98.343,
+    "pct_no_1a1": 1.657,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.041,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 3097,
+     "error_area": 7.208,
+     "error_poblacion": 4.546
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 288,
+    "secciones_reparto": 5
+   },
+   "201904": {
+    "votos": 123335,
+    "pct_1a1": 98.845,
+    "pct_no_1a1": 1.155,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.039,
+    "prueba_censo": {
+     "secciones": 3,
+     "censo_real": 1865,
+     "error_area": 11.882,
+     "error_poblacion": 6.857
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 287,
+    "secciones_reparto": 4
+   },
+   "201911": {
+    "votos": 111396,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 0,
+     "censo_real": 0,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 286,
+    "secciones_reparto": 0
+   }
+  },
+  "23": {
+   "202307": {
+    "votos": 364706,
+    "pct_1a1": 96.445,
+    "pct_no_1a1": 3.555,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.342,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 501,
+    "secciones_reparto": 18
+   },
+   "201111": {
+    "votos": 398827,
+    "pct_1a1": 72.634,
+    "pct_no_1a1": 27.366,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.807,
+    "prueba_censo": {
+     "secciones": 142,
+     "censo_real": 149568,
+     "error_area": 20.123,
+     "error_poblacion": 19.303
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 519,
+    "secciones_reparto": 149
+   },
+   "201512": {
+    "votos": 384142,
+    "pct_1a1": 86.153,
+    "pct_no_1a1": 13.847,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.882,
+    "prueba_censo": {
+     "secciones": 66,
+     "censo_real": 68432,
+     "error_area": 15.391,
+     "error_poblacion": 15.378
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 524,
+    "secciones_reparto": 89
+   },
+   "201606": {
+    "votos": 367340,
+    "pct_1a1": 91.15,
+    "pct_no_1a1": 8.85,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.619,
+    "prueba_censo": {
+     "secciones": 31,
+     "censo_real": 31840,
+     "error_area": 20.374,
+     "error_poblacion": 24.227
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 517,
+    "secciones_reparto": 58
+   },
+   "201904": {
+    "votos": 383565,
+    "pct_1a1": 94.714,
+    "pct_no_1a1": 5.286,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.322,
+    "prueba_censo": {
+     "secciones": 13,
+     "censo_real": 13207,
+     "error_area": 24.566,
+     "error_poblacion": 24.779
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 508,
+    "secciones_reparto": 31
+   },
+   "201911": {
+    "votos": 360773,
+    "pct_1a1": 94.702,
+    "pct_no_1a1": 5.298,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.328,
+    "prueba_censo": {
+     "secciones": 13,
+     "censo_real": 13207,
+     "error_area": 24.34,
+     "error_poblacion": 24.549
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 508,
+    "secciones_reparto": 31
+   }
+  },
+  "24": {
+   "202307": {
+    "votos": 269759,
+    "pct_1a1": 98.681,
+    "pct_no_1a1": 1.319,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.012,
+    "pct_geometria_otro_seccionado": 0.176,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 447,
+    "secciones_reparto": 6
+   },
+   "201111": {
+    "votos": 285678,
+    "pct_1a1": 74.545,
+    "pct_no_1a1": 25.455,
+    "pct_sin_geometria": 0.282,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.839,
+    "prueba_censo": {
+     "secciones": 102,
+     "censo_real": 107877,
+     "error_area": 22.15,
+     "error_poblacion": 20.19
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 460,
+    "secciones_reparto": 111
+   },
+   "201512": {
+    "votos": 287500,
+    "pct_1a1": 80.596,
+    "pct_no_1a1": 19.404,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.156,
+    "prueba_censo": {
+     "secciones": 77,
+     "censo_real": 78174,
+     "error_area": 18.791,
+     "error_poblacion": 16.643
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 459,
+    "secciones_reparto": 87
+   },
+   "201606": {
+    "votos": 275952,
+    "pct_1a1": 81.42,
+    "pct_no_1a1": 18.58,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.126,
+    "prueba_censo": {
+     "secciones": 74,
+     "censo_real": 74862,
+     "error_area": 18.438,
+     "error_poblacion": 16.252
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 457,
+    "secciones_reparto": 81
+   },
+   "201904": {
+    "votos": 286645,
+    "pct_1a1": 88.309,
+    "pct_no_1a1": 11.691,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.685,
+    "prueba_censo": {
+     "secciones": 41,
+     "censo_real": 39991,
+     "error_area": 16.213,
+     "error_poblacion": 15.257
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 453,
+    "secciones_reparto": 51
+   },
+   "201911": {
+    "votos": 257367,
+    "pct_1a1": 94.236,
+    "pct_no_1a1": 5.764,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.402,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 18137,
+     "error_area": 18.126,
+     "error_poblacion": 18.566
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 453,
+    "secciones_reparto": 30
+   }
+  },
+  "25": {
+   "202307": {
+    "votos": 180770,
+    "pct_1a1": 96.232,
+    "pct_no_1a1": 3.768,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.319,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 388,
+    "secciones_reparto": 8
+   },
+   "201111": {
+    "votos": 187388,
+    "pct_1a1": 92.006,
+    "pct_no_1a1": 7.994,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.007,
+    "prueba_censo": {
+     "secciones": 13,
+     "censo_real": 14789,
+     "error_area": 34.416,
+     "error_poblacion": 22.535
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 391,
+    "secciones_reparto": 22
+   },
+   "201512": {
+    "votos": 195587,
+    "pct_1a1": 94.09,
+    "pct_no_1a1": 5.91,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.899,
+    "prueba_censo": {
+     "secciones": 7,
+     "censo_real": 6881,
+     "error_area": 57.854,
+     "error_poblacion": 23.396
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 389,
+    "secciones_reparto": 14
+   },
+   "201606": {
+    "votos": 178017,
+    "pct_1a1": 95.012,
+    "pct_no_1a1": 4.988,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.898,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 4379,
+     "error_area": 86.849,
+     "error_poblacion": 34.965
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 387,
+    "secciones_reparto": 11
+   },
+   "201904": {
+    "votos": 222800,
+    "pct_1a1": 96.335,
+    "pct_no_1a1": 3.665,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.314,
+    "prueba_censo": {
+     "secciones": 1,
+     "censo_real": 419,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 388,
+    "secciones_reparto": 8
+   },
+   "201911": {
+    "votos": 204171,
+    "pct_1a1": 96.378,
+    "pct_no_1a1": 3.622,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.293,
+    "prueba_censo": {
+     "secciones": 1,
+     "censo_real": 419,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 388,
+    "secciones_reparto": 8
+   }
+  },
+  "26": {
+   "202307": {
+    "votos": 171589,
+    "pct_1a1": 95.927,
+    "pct_no_1a1": 4.073,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.327,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 344,
+    "secciones_reparto": 10
+   },
+   "201111": {
+    "votos": 170397,
+    "pct_1a1": 83.049,
+    "pct_no_1a1": 16.951,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.182,
+    "prueba_censo": {
+     "secciones": 32,
+     "censo_real": 37775,
+     "error_area": 46.981,
+     "error_poblacion": 30.321
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 336,
+    "secciones_reparto": 34
+   },
+   "201512": {
+    "votos": 175131,
+    "pct_1a1": 87.093,
+    "pct_no_1a1": 12.907,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.298,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 23370,
+     "error_area": 50.326,
+     "error_poblacion": 12.927
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 338,
+    "secciones_reparto": 23
+   },
+   "201606": {
+    "votos": 170903,
+    "pct_1a1": 87.003,
+    "pct_no_1a1": 12.997,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.339,
+    "prueba_censo": {
+     "secciones": 19,
+     "censo_real": 23370,
+     "error_area": 49.852,
+     "error_poblacion": 11.626
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 338,
+    "secciones_reparto": 23
+   },
+   "201904": {
+    "votos": 178541,
+    "pct_1a1": 93.539,
+    "pct_no_1a1": 6.461,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.649,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 5701,
+     "error_area": 40.825,
+     "error_poblacion": 10.855
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 343,
+    "secciones_reparto": 14
+   },
+   "201911": {
+    "votos": 162227,
+    "pct_1a1": 93.584,
+    "pct_no_1a1": 6.416,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.648,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 5701,
+     "error_area": 40.511,
+     "error_poblacion": 10.339
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 343,
+    "secciones_reparto": 14
+   }
+  },
+  "27": {
+   "202307": {
+    "votos": 193699,
+    "pct_1a1": 98.104,
+    "pct_no_1a1": 1.896,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.195,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 277,
+    "secciones_reparto": 7
+   },
+   "201111": {
+    "votos": 210107,
+    "pct_1a1": 75.835,
+    "pct_no_1a1": 24.165,
+    "pct_sin_geometria": 0.537,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.548,
+    "prueba_censo": {
+     "secciones": 59,
+     "censo_real": 68602,
+     "error_area": 19.271,
+     "error_poblacion": 13.097
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 291,
+    "secciones_reparto": 71
+   },
+   "201512": {
+    "votos": 199426,
+    "pct_1a1": 88.446,
+    "pct_no_1a1": 11.554,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.194,
+    "prueba_censo": {
+     "secciones": 20,
+     "censo_real": 25602,
+     "error_area": 9.617,
+     "error_poblacion": 8.004
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 291,
+    "secciones_reparto": 41
+   },
+   "201606": {
+    "votos": 189036,
+    "pct_1a1": 93.074,
+    "pct_no_1a1": 6.926,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.067,
+    "prueba_censo": {
+     "secciones": 11,
+     "censo_real": 14706,
+     "error_area": 12.842,
+     "error_poblacion": 14.172
+    },
+    "pct_geometria_otro_seccionado": 0.348,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 284,
+    "secciones_reparto": 24
+   },
+   "201904": {
+    "votos": 196190,
+    "pct_1a1": 95.921,
+    "pct_no_1a1": 4.079,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 5714,
+     "error_area": 15.062,
+     "error_poblacion": 15.062
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 281,
+    "secciones_reparto": 16
+   },
+   "201911": {
+    "votos": 176101,
+    "pct_1a1": 96.967,
+    "pct_no_1a1": 3.033,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 4,
+     "censo_real": 4442,
+     "error_area": 18.075,
+     "error_poblacion": 18.075
+    },
+    "pct_geometria_otro_seccionado": 0.211,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 280,
+    "secciones_reparto": 13
+   }
+  },
+  "28": {
+   "202307": {
+    "votos": 3535749,
+    "pct_1a1": 98.131,
+    "pct_no_1a1": 1.869,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.288,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 4480,
+    "secciones_reparto": 53
+   },
+   "201111": {
+    "votos": 3326413,
+    "pct_1a1": 83.032,
+    "pct_no_1a1": 16.968,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.477,
+    "prueba_censo": {
+     "secciones": 766,
+     "censo_real": 973645,
+     "error_area": 45.201,
+     "error_poblacion": 34.44
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 4275,
+    "secciones_reparto": 620
+   },
+   "201512": {
+    "votos": 3580532,
+    "pct_1a1": 89.868,
+    "pct_no_1a1": 10.132,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.679,
+    "prueba_censo": {
+     "secciones": 422,
+     "censo_real": 514755,
+     "error_area": 44.824,
+     "error_poblacion": 26.519
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 4341,
+    "secciones_reparto": 348
+   },
+   "201606": {
+    "votos": 3421222,
+    "pct_1a1": 89.829,
+    "pct_no_1a1": 10.171,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.69,
+    "prueba_censo": {
+     "secciones": 418,
+     "censo_real": 509513,
+     "error_area": 43.973,
+     "error_poblacion": 24.713
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 4341,
+    "secciones_reparto": 345
+   },
+   "201904": {
+    "votos": 3731602,
+    "pct_1a1": 93.412,
+    "pct_no_1a1": 6.588,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.098,
+    "prueba_censo": {
+     "secciones": 235,
+     "censo_real": 284841,
+     "error_area": 43.492,
+     "error_poblacion": 22.402
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 4417,
+    "secciones_reparto": 230
+   },
+   "201911": {
+    "votos": 3501889,
+    "pct_1a1": 93.29,
+    "pct_no_1a1": 6.71,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.133,
+    "prueba_censo": {
+     "secciones": 235,
+     "censo_real": 284841,
+     "error_area": 42.66,
+     "error_poblacion": 20.735
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 4417,
+    "secciones_reparto": 230
+   }
+  },
+  "29": {
+   "202307": {
+    "votos": 775255,
+    "pct_1a1": 98.621,
+    "pct_no_1a1": 1.379,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.317,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 1085,
+    "secciones_reparto": 9
+   },
+   "201111": {
+    "votos": 710077,
+    "pct_1a1": 60.261,
+    "pct_no_1a1": 39.739,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.384,
+    "prueba_censo": {
+     "secciones": 548,
+     "censo_real": 595872,
+     "error_area": 24.57,
+     "error_poblacion": 20.031
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 1022,
+    "secciones_reparto": 401
+   },
+   "201512": {
+    "votos": 768592,
+    "pct_1a1": 78.51,
+    "pct_no_1a1": 21.49,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.069,
+    "prueba_censo": {
+     "secciones": 258,
+     "censo_real": 290438,
+     "error_area": 24.152,
+     "error_poblacion": 17.348
+    },
+    "pct_geometria_otro_seccionado": 0.269,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 1047,
+    "secciones_reparto": 203
+   },
+   "201606": {
+    "votos": 735595,
+    "pct_1a1": 83.147,
+    "pct_no_1a1": 16.853,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.795,
+    "prueba_censo": {
+     "secciones": 201,
+     "censo_real": 224704,
+     "error_area": 26.465,
+     "error_poblacion": 16.711
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 1046,
+    "secciones_reparto": 156
+   },
+   "201904": {
+    "votos": 806447,
+    "pct_1a1": 91.233,
+    "pct_no_1a1": 8.767,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.121,
+    "prueba_censo": {
+     "secciones": 89,
+     "censo_real": 102638,
+     "error_area": 27.082,
+     "error_poblacion": 16.438
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 1067,
+    "secciones_reparto": 80
+   },
+   "201911": {
+    "votos": 744531,
+    "pct_1a1": 91.654,
+    "pct_no_1a1": 8.346,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.1,
+    "prueba_censo": {
+     "secciones": 83,
+     "censo_real": 95653,
+     "error_area": 28.694,
+     "error_poblacion": 18.171
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 1066,
+    "secciones_reparto": 74
+   }
+  },
+  "30": {
+   "202307": {
+    "votos": 739321,
+    "pct_1a1": 98.355,
+    "pct_no_1a1": 1.645,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.212,
+    "pct_geometria_otro_seccionado": 0.066,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 1223,
+    "secciones_reparto": 18
+   },
+   "201111": {
+    "votos": 726687,
+    "pct_1a1": 78.144,
+    "pct_no_1a1": 21.856,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.135,
+    "prueba_censo": {
+     "secciones": 262,
+     "censo_real": 240863,
+     "error_area": 29.095,
+     "error_poblacion": 21.801
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 1220,
+    "secciones_reparto": 256
+   },
+   "201512": {
+    "votos": 721461,
+    "pct_1a1": 91.91,
+    "pct_no_1a1": 8.09,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.443,
+    "prueba_censo": {
+     "secciones": 85,
+     "censo_real": 73158,
+     "error_area": 16.29,
+     "error_poblacion": 14.857
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 1232,
+    "secciones_reparto": 105
+   },
+   "201606": {
+    "votos": 707549,
+    "pct_1a1": 93.218,
+    "pct_no_1a1": 6.782,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.349,
+    "prueba_censo": {
+     "secciones": 68,
+     "censo_real": 58113,
+     "error_area": 15.24,
+     "error_poblacion": 14.352
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 1232,
+    "secciones_reparto": 90
+   },
+   "201904": {
+    "votos": 762443,
+    "pct_1a1": 96.148,
+    "pct_no_1a1": 3.852,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.263,
+    "prueba_censo": {
+     "secciones": 31,
+     "censo_real": 25531,
+     "error_area": 18.623,
+     "error_poblacion": 17.283
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 1225,
+    "secciones_reparto": 49
+   },
+   "201911": {
+    "votos": 707233,
+    "pct_1a1": 96.26,
+    "pct_no_1a1": 3.74,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.268,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 24426,
+     "error_area": 19.151,
+     "error_poblacion": 17.658
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 1224,
+    "secciones_reparto": 47
+   }
+  },
+  "31": {
+   "202307": {
+    "votos": 336216,
+    "pct_1a1": 98.617,
+    "pct_no_1a1": 1.383,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.023,
+    "pct_geometria_otro_seccionado": 0.135,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 583,
+    "secciones_reparto": 7
+   },
+   "201111": {
+    "votos": 323505,
+    "pct_1a1": 93.385,
+    "pct_no_1a1": 6.615,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.945,
+    "prueba_censo": {
+     "secciones": 39,
+     "censo_real": 44325,
+     "error_area": 51.084,
+     "error_poblacion": 43.309
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 559,
+    "secciones_reparto": 23
+   },
+   "201512": {
+    "votos": 348490,
+    "pct_1a1": 93.036,
+    "pct_no_1a1": 6.964,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.864,
+    "prueba_censo": {
+     "secciones": 35,
+     "censo_real": 38743,
+     "error_area": 39.312,
+     "error_poblacion": 32.555
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 562,
+    "secciones_reparto": 21
+   },
+   "201606": {
+    "votos": 330354,
+    "pct_1a1": 92.994,
+    "pct_no_1a1": 7.006,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.878,
+    "prueba_censo": {
+     "secciones": 35,
+     "censo_real": 38743,
+     "error_area": 38.984,
+     "error_poblacion": 31.5
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 562,
+    "secciones_reparto": 21
+   },
+   "201904": {
+    "votos": 361699,
+    "pct_1a1": 92.668,
+    "pct_no_1a1": 7.332,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.023,
+    "prueba_censo": {
+     "secciones": 33,
+     "censo_real": 35418,
+     "error_area": 37.961,
+     "error_poblacion": 26.019
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 562,
+    "secciones_reparto": 20
+   },
+   "201911": {
+    "votos": 329605,
+    "pct_1a1": 92.588,
+    "pct_no_1a1": 7.412,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.038,
+    "prueba_censo": {
+     "secciones": 33,
+     "censo_real": 35418,
+     "error_area": 37.788,
+     "error_poblacion": 25.21
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 562,
+    "secciones_reparto": 20
+   }
+  },
+  "32": {
+   "202307": {
+    "votos": 179460,
+    "pct_1a1": 99.556,
+    "pct_no_1a1": 0.444,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 257,
+    "secciones_reparto": 2
+   },
+   "201111": {
+    "votos": 198355,
+    "pct_1a1": 73.511,
+    "pct_no_1a1": 26.489,
+    "pct_sin_geometria": 0.201,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.814,
+    "prueba_censo": {
+     "secciones": 68,
+     "censo_real": 75625,
+     "error_area": 17.291,
+     "error_poblacion": 14.691
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 279,
+    "secciones_reparto": 81
+   },
+   "201512": {
+    "votos": 189166,
+    "pct_1a1": 88.766,
+    "pct_no_1a1": 11.234,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.215,
+    "prueba_censo": {
+     "secciones": 27,
+     "censo_real": 28619,
+     "error_area": 12.562,
+     "error_poblacion": 12.591
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 267,
+    "secciones_reparto": 37
+   },
+   "201606": {
+    "votos": 181783,
+    "pct_1a1": 88.631,
+    "pct_no_1a1": 11.369,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.205,
+    "prueba_censo": {
+     "secciones": 26,
+     "censo_real": 27311,
+     "error_area": 13.198,
+     "error_poblacion": 13.099
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 267,
+    "secciones_reparto": 37
+   },
+   "201904": {
+    "votos": 188172,
+    "pct_1a1": 94.252,
+    "pct_no_1a1": 5.748,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.089,
+    "prueba_censo": {
+     "secciones": 14,
+     "censo_real": 14238,
+     "error_area": 12.556,
+     "error_poblacion": 9.72
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 263,
+    "secciones_reparto": 21
+   },
+   "201911": {
+    "votos": 166843,
+    "pct_1a1": 95.818,
+    "pct_no_1a1": 4.182,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.045,
+    "prueba_censo": {
+     "secciones": 11,
+     "censo_real": 10750,
+     "error_area": 8.373,
+     "error_poblacion": 6.562
+    },
+    "pct_geometria_otro_seccionado": 0.303,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 262,
+    "secciones_reparto": 16
+   }
+  },
+  "33": {
+   "202307": {
+    "votos": 582385,
+    "pct_1a1": 98.775,
+    "pct_no_1a1": 1.225,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.122,
+    "pct_geometria_otro_seccionado": 0.361,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 832,
+    "secciones_reparto": 13
+   },
+   "201111": {
+    "votos": 619208,
+    "pct_1a1": 75.673,
+    "pct_no_1a1": 24.327,
+    "pct_sin_geometria": 0.249,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.724,
+    "prueba_censo": {
+     "secciones": 204,
+     "censo_real": 224442,
+     "error_area": 24.144,
+     "error_poblacion": 19.81
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 881,
+    "secciones_reparto": 238
+   },
+   "201512": {
+    "votos": 613309,
+    "pct_1a1": 87.353,
+    "pct_no_1a1": 12.647,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.729,
+    "prueba_censo": {
+     "secciones": 112,
+     "censo_real": 117727,
+     "error_area": 17.078,
+     "error_poblacion": 13.635
+    },
+    "pct_geometria_otro_seccionado": 0.133,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 872,
+    "secciones_reparto": 144
+   },
+   "201606": {
+    "votos": 583752,
+    "pct_1a1": 88.692,
+    "pct_no_1a1": 11.308,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.622,
+    "prueba_censo": {
+     "secciones": 100,
+     "censo_real": 103013,
+     "error_area": 14.744,
+     "error_poblacion": 11.708
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 868,
+    "secciones_reparto": 129
+   },
+   "201904": {
+    "votos": 614846,
+    "pct_1a1": 94.212,
+    "pct_no_1a1": 5.788,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.4,
+    "prueba_censo": {
+     "secciones": 42,
+     "censo_real": 43102,
+     "error_area": 19.735,
+     "error_poblacion": 15.785
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 850,
+    "secciones_reparto": 69
+   },
+   "201911": {
+    "votos": 546649,
+    "pct_1a1": 94.254,
+    "pct_no_1a1": 5.746,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.402,
+    "prueba_censo": {
+     "secciones": 42,
+     "censo_real": 43102,
+     "error_area": 19.951,
+     "error_poblacion": 15.937
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 850,
+    "secciones_reparto": 69
+   }
+  },
+  "34": {
+   "202307": {
+    "votos": 95377,
+    "pct_1a1": 94.102,
+    "pct_no_1a1": 5.898,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.413,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 276,
+    "secciones_reparto": 9
+   },
+   "201111": {
+    "votos": 104413,
+    "pct_1a1": 73.032,
+    "pct_no_1a1": 26.968,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.163,
+    "prueba_censo": {
+     "secciones": 35,
+     "censo_real": 35127,
+     "error_area": 16.769,
+     "error_poblacion": 21.56
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 283,
+    "secciones_reparto": 44
+   },
+   "201512": {
+    "votos": 103300,
+    "pct_1a1": 83.003,
+    "pct_no_1a1": 16.997,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.256,
+    "prueba_censo": {
+     "secciones": 16,
+     "censo_real": 18082,
+     "error_area": 22.652,
+     "error_poblacion": 21.751
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 282,
+    "secciones_reparto": 28
+   },
+   "201606": {
+    "votos": 99330,
+    "pct_1a1": 83.256,
+    "pct_no_1a1": 16.744,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.227,
+    "prueba_censo": {
+     "secciones": 16,
+     "censo_real": 18082,
+     "error_area": 22.374,
+     "error_poblacion": 21.492
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 282,
+    "secciones_reparto": 28
+   },
+   "201904": {
+    "votos": 104545,
+    "pct_1a1": 88.955,
+    "pct_no_1a1": 11.045,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.93,
+    "prueba_censo": {
+     "secciones": 7,
+     "censo_real": 10241,
+     "error_area": 32.125,
+     "error_poblacion": 27.764
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 277,
+    "secciones_reparto": 16
+   },
+   "201911": {
+    "votos": 94231,
+    "pct_1a1": 88.857,
+    "pct_no_1a1": 11.143,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.942,
+    "prueba_censo": {
+     "secciones": 7,
+     "censo_real": 10241,
+     "error_area": 31.626,
+     "error_poblacion": 27.229
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 277,
+    "secciones_reparto": 16
+   }
+  },
+  "35": {
+   "202307": {
+    "votos": 523753,
+    "pct_1a1": 98.075,
+    "pct_no_1a1": 1.925,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.523,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 717,
+    "secciones_reparto": 8
+   },
+   "201111": {
+    "votos": 464247,
+    "pct_1a1": 84.405,
+    "pct_no_1a1": 15.595,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.673,
+    "prueba_censo": {
+     "secciones": 121,
+     "censo_real": 144172,
+     "error_area": 40.023,
+     "error_poblacion": 25.233
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 680,
+    "secciones_reparto": 94
+   },
+   "201512": {
+    "votos": 511235,
+    "pct_1a1": 91.474,
+    "pct_no_1a1": 8.526,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.566,
+    "prueba_censo": {
+     "secciones": 58,
+     "censo_real": 67320,
+     "error_area": 33.158,
+     "error_poblacion": 19.796
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 702,
+    "secciones_reparto": 52
+   },
+   "201606": {
+    "votos": 497874,
+    "pct_1a1": 91.483,
+    "pct_no_1a1": 8.517,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.566,
+    "prueba_censo": {
+     "secciones": 58,
+     "censo_real": 67320,
+     "error_area": 33.091,
+     "error_poblacion": 19.761
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 702,
+    "secciones_reparto": 52
+   },
+   "201904": {
+    "votos": 539708,
+    "pct_1a1": 94.452,
+    "pct_no_1a1": 5.548,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.029,
+    "prueba_censo": {
+     "secciones": 32,
+     "censo_real": 39200,
+     "error_area": 26.161,
+     "error_poblacion": 13.921
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 709,
+    "secciones_reparto": 30
+   },
+   "201911": {
+    "votos": 478694,
+    "pct_1a1": 94.684,
+    "pct_no_1a1": 5.316,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.953,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 36857,
+     "error_area": 24.639,
+     "error_poblacion": 13.94
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 710,
+    "secciones_reparto": 29
+   }
+  },
+  "36": {
+   "202307": {
+    "votos": 559676,
+    "pct_1a1": 99.83,
+    "pct_no_1a1": 0.17,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.004,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 727,
+    "secciones_reparto": 2
+   },
+   "201111": {
+    "votos": 546434,
+    "pct_1a1": 56.574,
+    "pct_no_1a1": 43.426,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.098,
+    "prueba_censo": {
+     "secciones": 373,
+     "censo_real": 408786,
+     "error_area": 15.573,
+     "error_poblacion": 12.389
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 747,
+    "secciones_reparto": 327
+   },
+   "201512": {
+    "votos": 562734,
+    "pct_1a1": 82.764,
+    "pct_no_1a1": 17.236,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.825,
+    "prueba_censo": {
+     "secciones": 140,
+     "censo_real": 151935,
+     "error_area": 10.835,
+     "error_poblacion": 10.063
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 741,
+    "secciones_reparto": 137
+   },
+   "201606": {
+    "votos": 535416,
+    "pct_1a1": 88.238,
+    "pct_no_1a1": 11.762,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.62,
+    "prueba_censo": {
+     "secciones": 90,
+     "censo_real": 100892,
+     "error_area": 12.359,
+     "error_poblacion": 10.049
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 740,
+    "secciones_reparto": 95
+   },
+   "201904": {
+    "votos": 566481,
+    "pct_1a1": 91.529,
+    "pct_no_1a1": 8.471,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.372,
+    "prueba_censo": {
+     "secciones": 66,
+     "censo_real": 72366,
+     "error_area": 9.719,
+     "error_poblacion": 7.255
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 731,
+    "secciones_reparto": 65
+   },
+   "201911": {
+    "votos": 512467,
+    "pct_1a1": 91.537,
+    "pct_no_1a1": 8.463,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.371,
+    "prueba_censo": {
+     "secciones": 66,
+     "censo_real": 72366,
+     "error_area": 9.734,
+     "error_poblacion": 7.195
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 731,
+    "secciones_reparto": 65
+   }
+  },
+  "37": {
+   "202307": {
+    "votos": 194989,
+    "pct_1a1": 98.293,
+    "pct_no_1a1": 1.707,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 533,
+    "secciones_reparto": 6
+   },
+   "201111": {
+    "votos": 210259,
+    "pct_1a1": 81.954,
+    "pct_no_1a1": 18.046,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.902,
+    "prueba_censo": {
+     "secciones": 45,
+     "censo_real": 53340,
+     "error_area": 30.149,
+     "error_poblacion": 27.676
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 528,
+    "secciones_reparto": 46
+   },
+   "201512": {
+    "votos": 206062,
+    "pct_1a1": 95.121,
+    "pct_no_1a1": 4.879,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.691,
+    "prueba_censo": {
+     "secciones": 10,
+     "censo_real": 11506,
+     "error_area": 30.125,
+     "error_poblacion": 34.392
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 532,
+    "secciones_reparto": 14
+   },
+   "201606": {
+    "votos": 199423,
+    "pct_1a1": 95.195,
+    "pct_no_1a1": 4.805,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.693,
+    "prueba_censo": {
+     "secciones": 10,
+     "censo_real": 11506,
+     "error_area": 29.497,
+     "error_poblacion": 33.66
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 532,
+    "secciones_reparto": 14
+   },
+   "201904": {
+    "votos": 207207,
+    "pct_1a1": 95.273,
+    "pct_no_1a1": 4.727,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.624,
+    "prueba_censo": {
+     "secciones": 8,
+     "censo_real": 9766,
+     "error_area": 21.635,
+     "error_poblacion": 34.428
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 532,
+    "secciones_reparto": 13
+   },
+   "201911": {
+    "votos": 191124,
+    "pct_1a1": 95.262,
+    "pct_no_1a1": 4.738,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.617,
+    "prueba_censo": {
+     "secciones": 8,
+     "censo_real": 9766,
+     "error_area": 21.755,
+     "error_poblacion": 34.543
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 532,
+    "secciones_reparto": 13
+   }
+  },
+  "38": {
+   "202307": {
+    "votos": 484835,
+    "pct_1a1": 98.594,
+    "pct_no_1a1": 1.406,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.325,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 681,
+    "secciones_reparto": 7
+   },
+   "201111": {
+    "votos": 452028,
+    "pct_1a1": 78.272,
+    "pct_no_1a1": 21.728,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.893,
+    "prueba_censo": {
+     "secciones": 174,
+     "censo_real": 195636,
+     "error_area": 35.444,
+     "error_poblacion": 22.478
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 646,
+    "secciones_reparto": 138
+   },
+   "201512": {
+    "votos": 474123,
+    "pct_1a1": 87.434,
+    "pct_no_1a1": 12.566,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.371,
+    "prueba_censo": {
+     "secciones": 97,
+     "censo_real": 102611,
+     "error_area": 27.923,
+     "error_poblacion": 17.657
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 665,
+    "secciones_reparto": 81
+   },
+   "201606": {
+    "votos": 472641,
+    "pct_1a1": 87.369,
+    "pct_no_1a1": 12.631,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.385,
+    "prueba_censo": {
+     "secciones": 97,
+     "censo_real": 102611,
+     "error_area": 27.572,
+     "error_poblacion": 17.026
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 665,
+    "secciones_reparto": 81
+   },
+   "201904": {
+    "votos": 511747,
+    "pct_1a1": 95.845,
+    "pct_no_1a1": 4.155,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.654,
+    "prueba_censo": {
+     "secciones": 23,
+     "censo_real": 23923,
+     "error_area": 28.296,
+     "error_poblacion": 11.88
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 672,
+    "secciones_reparto": 23
+   },
+   "201911": {
+    "votos": 458744,
+    "pct_1a1": 95.852,
+    "pct_no_1a1": 4.148,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.654,
+    "prueba_censo": {
+     "secciones": 23,
+     "censo_real": 23923,
+     "error_area": 27.845,
+     "error_poblacion": 11.318
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 672,
+    "secciones_reparto": 23
+   }
+  },
+  "39": {
+   "202307": {
+    "votos": 343495,
+    "pct_1a1": 93.796,
+    "pct_no_1a1": 6.204,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.574,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 460,
+    "secciones_reparto": 30
+   },
+   "201111": {
+    "votos": 345790,
+    "pct_1a1": 61.661,
+    "pct_no_1a1": 38.339,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.449,
+    "prueba_censo": {
+     "secciones": 152,
+     "censo_real": 178753,
+     "error_area": 27.607,
+     "error_poblacion": 18.51
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 463,
+    "secciones_reparto": 167
+   },
+   "201512": {
+    "votos": 345963,
+    "pct_1a1": 88.183,
+    "pct_no_1a1": 11.817,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.792,
+    "prueba_censo": {
+     "secciones": 24,
+     "censo_real": 26952,
+     "error_area": 11.526,
+     "error_poblacion": 10.13
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 468,
+    "secciones_reparto": 60
+   },
+   "201606": {
+    "votos": 333281,
+    "pct_1a1": 88.593,
+    "pct_no_1a1": 11.407,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.783,
+    "prueba_censo": {
+     "secciones": 23,
+     "censo_real": 25206,
+     "error_area": 11.163,
+     "error_poblacion": 9.595
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 468,
+    "secciones_reparto": 59
+   },
+   "201904": {
+    "votos": 354992,
+    "pct_1a1": 89.78,
+    "pct_no_1a1": 10.22,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.666,
+    "prueba_censo": {
+     "secciones": 17,
+     "censo_real": 19179,
+     "error_area": 7.067,
+     "error_poblacion": 4.956
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 467,
+    "secciones_reparto": 53
+   },
+   "201911": {
+    "votos": 323353,
+    "pct_1a1": 90.326,
+    "pct_no_1a1": 9.674,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.653,
+    "prueba_censo": {
+     "secciones": 15,
+     "censo_real": 16405,
+     "error_area": 6.776,
+     "error_poblacion": 3.03
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 467,
+    "secciones_reparto": 51
+   }
+  },
+  "40": {
+   "202307": {
+    "votos": 87194,
+    "pct_1a1": 96.4,
+    "pct_no_1a1": 3.6,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.075,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 276,
+    "secciones_reparto": 5
+   },
+   "201111": {
+    "votos": 90834,
+    "pct_1a1": 75.512,
+    "pct_no_1a1": 24.488,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.951,
+    "prueba_censo": {
+     "secciones": 31,
+     "censo_real": 27588,
+     "error_area": 43.464,
+     "error_poblacion": 16.744
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 271,
+    "secciones_reparto": 29
+   },
+   "201512": {
+    "votos": 90693,
+    "pct_1a1": 85.553,
+    "pct_no_1a1": 14.447,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.133,
+    "prueba_censo": {
+     "secciones": 16,
+     "censo_real": 13192,
+     "error_area": 42.81,
+     "error_poblacion": 11.966
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 271,
+    "secciones_reparto": 16
+   },
+   "201606": {
+    "votos": 87594,
+    "pct_1a1": 95.221,
+    "pct_no_1a1": 4.779,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.136,
+    "prueba_censo": {
+     "secciones": 3,
+     "censo_real": 1403,
+     "error_area": 20.625,
+     "error_poblacion": 16.089
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 276,
+    "secciones_reparto": 8
+   },
+   "201904": {
+    "votos": 91409,
+    "pct_1a1": 95.902,
+    "pct_no_1a1": 4.098,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.138,
+    "prueba_censo": {
+     "secciones": 1,
+     "censo_real": 580,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 276,
+    "secciones_reparto": 6
+   },
+   "201911": {
+    "votos": 83659,
+    "pct_1a1": 95.871,
+    "pct_no_1a1": 4.129,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.137,
+    "prueba_censo": {
+     "secciones": 1,
+     "censo_real": 580,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 276,
+    "secciones_reparto": 6
+   }
+  },
+  "41": {
+   "202307": {
+    "votos": 1043832,
+    "pct_1a1": 99.42,
+    "pct_no_1a1": 0.58,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.113,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 1369,
+    "secciones_reparto": 6
+   },
+   "201111": {
+    "votos": 1045208,
+    "pct_1a1": 59.062,
+    "pct_no_1a1": 40.938,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.904,
+    "prueba_censo": {
+     "secciones": 637,
+     "censo_real": 742265,
+     "error_area": 24.775,
+     "error_poblacion": 20.113
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 1313,
+    "secciones_reparto": 516
+   },
+   "201512": {
+    "votos": 1081828,
+    "pct_1a1": 79.424,
+    "pct_no_1a1": 20.576,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.251,
+    "prueba_censo": {
+     "secciones": 330,
+     "censo_real": 378390,
+     "error_area": 25.508,
+     "error_poblacion": 18.763
+    },
+    "pct_geometria_otro_seccionado": 0.071,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 1344,
+    "secciones_reparto": 267
+   },
+   "201606": {
+    "votos": 1020448,
+    "pct_1a1": 79.59,
+    "pct_no_1a1": 20.41,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.21,
+    "prueba_censo": {
+     "secciones": 330,
+     "censo_real": 378390,
+     "error_area": 25.109,
+     "error_poblacion": 18.208
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 1345,
+    "secciones_reparto": 267
+   },
+   "201904": {
+    "votos": 1108057,
+    "pct_1a1": 96.31,
+    "pct_no_1a1": 3.69,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.56,
+    "prueba_censo": {
+     "secciones": 52,
+     "censo_real": 59388,
+     "error_area": 44.604,
+     "error_poblacion": 23.232
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 1361,
+    "secciones_reparto": 51
+   },
+   "201911": {
+    "votos": 1035992,
+    "pct_1a1": 96.44,
+    "pct_no_1a1": 3.56,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.53,
+    "prueba_censo": {
+     "secciones": 49,
+     "censo_real": 56552,
+     "error_area": 44.003,
+     "error_poblacion": 22.651
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 1362,
+    "secciones_reparto": 51
+   }
+  },
+  "42": {
+   "202307": {
+    "votos": 49823,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 217,
+    "secciones_reparto": 0
+   },
+   "201111": {
+    "votos": 49782,
+    "pct_1a1": 93.345,
+    "pct_no_1a1": 6.655,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.789,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 6276,
+     "error_area": 100.528,
+     "error_poblacion": 31.169
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 215,
+    "secciones_reparto": 4
+   },
+   "201512": {
+    "votos": 50886,
+    "pct_1a1": 94.002,
+    "pct_no_1a1": 5.998,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.557,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 6276,
+     "error_area": 102.867,
+     "error_poblacion": 50.662
+    },
+    "pct_geometria_otro_seccionado": 1.678,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 216,
+    "secciones_reparto": 4
+   },
+   "201606": {
+    "votos": 48678,
+    "pct_1a1": 95.854,
+    "pct_no_1a1": 4.146,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.259,
+    "prueba_censo": {
+     "secciones": 3,
+     "censo_real": 3185,
+     "error_area": 31.276,
+     "error_poblacion": 35.114
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 216,
+    "secciones_reparto": 3
+   },
+   "201904": {
+    "votos": 51252,
+    "pct_1a1": 95.77,
+    "pct_no_1a1": 4.23,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.259,
+    "prueba_censo": {
+     "secciones": 3,
+     "censo_real": 3185,
+     "error_area": 25.021,
+     "error_poblacion": 28.869
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 216,
+    "secciones_reparto": 3
+   },
+   "201911": {
+    "votos": 45344,
+    "pct_1a1": 95.746,
+    "pct_no_1a1": 4.254,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.26,
+    "prueba_censo": {
+     "secciones": 3,
+     "censo_real": 3185,
+     "error_area": 23.908,
+     "error_poblacion": 27.754
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 216,
+    "secciones_reparto": 3
+   }
+  },
+  "43": {
+   "202307": {
+    "votos": 362891,
+    "pct_1a1": 87.213,
+    "pct_no_1a1": 12.787,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.51,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 543,
+    "secciones_reparto": 40
+   },
+   "201111": {
+    "votos": 338887,
+    "pct_1a1": 73.478,
+    "pct_no_1a1": 26.522,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 6.021,
+    "prueba_censo": {
+     "secciones": 84,
+     "censo_real": 106317,
+     "error_area": 47.949,
+     "error_poblacion": 16.513
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 527,
+    "secciones_reparto": 102
+   },
+   "201512": {
+    "votos": 369396,
+    "pct_1a1": 84.478,
+    "pct_no_1a1": 15.522,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.052,
+    "prueba_censo": {
+     "secciones": 25,
+     "censo_real": 32126,
+     "error_area": 38.095,
+     "error_poblacion": 18.123
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 542,
+    "secciones_reparto": 58
+   },
+   "201606": {
+    "votos": 340375,
+    "pct_1a1": 85.002,
+    "pct_no_1a1": 14.998,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.076,
+    "prueba_censo": {
+     "secciones": 21,
+     "censo_real": 28216,
+     "error_area": 42.79,
+     "error_poblacion": 19.734
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 540,
+    "secciones_reparto": 52
+   },
+   "201904": {
+    "votos": 414377,
+    "pct_1a1": 87.365,
+    "pct_no_1a1": 12.635,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.454,
+    "prueba_censo": {
+     "secciones": 7,
+     "censo_real": 11016,
+     "error_area": 33.039,
+     "error_poblacion": 19.636
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 542,
+    "secciones_reparto": 42
+   },
+   "201911": {
+    "votos": 380730,
+    "pct_1a1": 87.366,
+    "pct_no_1a1": 12.634,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.45,
+    "prueba_censo": {
+     "secciones": 7,
+     "censo_real": 11016,
+     "error_area": 32.631,
+     "error_poblacion": 19.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 542,
+    "secciones_reparto": 42
+   }
+  },
+  "44": {
+   "202307": {
+    "votos": 75074,
+    "pct_1a1": 97.65,
+    "pct_no_1a1": 2.35,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.091,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 284,
+    "secciones_reparto": 3
+   },
+   "201111": {
+    "votos": 75236,
+    "pct_1a1": 70.69,
+    "pct_no_1a1": 29.31,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.557,
+    "prueba_censo": {
+     "secciones": 29,
+     "censo_real": 30856,
+     "error_area": 25.021,
+     "error_poblacion": 20.053
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 282,
+    "secciones_reparto": 30
+   },
+   "201512": {
+    "votos": 76534,
+    "pct_1a1": 89.726,
+    "pct_no_1a1": 10.274,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.875,
+    "prueba_censo": {
+     "secciones": 9,
+     "censo_real": 8664,
+     "error_area": 31.825,
+     "error_poblacion": 17.596
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 283,
+    "secciones_reparto": 11
+   },
+   "201606": {
+    "votos": 73893,
+    "pct_1a1": 90.015,
+    "pct_no_1a1": 9.985,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.861,
+    "prueba_censo": {
+     "secciones": 9,
+     "censo_real": 8664,
+     "error_area": 31.745,
+     "error_poblacion": 17.424
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 283,
+    "secciones_reparto": 11
+   },
+   "201904": {
+    "votos": 76985,
+    "pct_1a1": 93.92,
+    "pct_no_1a1": 6.08,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.109,
+    "prueba_censo": {
+     "secciones": 5,
+     "censo_real": 4268,
+     "error_area": 13.409,
+     "error_poblacion": 13.795
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 285,
+    "secciones_reparto": 8
+   },
+   "201911": {
+    "votos": 73362,
+    "pct_1a1": 95.091,
+    "pct_no_1a1": 4.909,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.108,
+    "prueba_censo": {
+     "secciones": 3,
+     "censo_real": 3054,
+     "error_area": 16.46,
+     "error_poblacion": 17.194
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 285,
+    "secciones_reparto": 6
+   }
+  },
+  "45": {
+   "202307": {
+    "votos": 383100,
+    "pct_1a1": 99.421,
+    "pct_no_1a1": 0.579,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.127,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 531,
+    "secciones_reparto": 3
+   },
+   "201111": {
+    "votos": 380086,
+    "pct_1a1": 69.322,
+    "pct_no_1a1": 30.678,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.86,
+    "prueba_censo": {
+     "secciones": 164,
+     "censo_real": 188710,
+     "error_area": 39.258,
+     "error_poblacion": 28.81
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 521,
+    "secciones_reparto": 145
+   },
+   "201512": {
+    "votos": 382506,
+    "pct_1a1": 80.823,
+    "pct_no_1a1": 19.177,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.52,
+    "prueba_censo": {
+     "secciones": 100,
+     "censo_real": 115524,
+     "error_area": 37.097,
+     "error_poblacion": 24.193
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 524,
+    "secciones_reparto": 87
+   },
+   "201606": {
+    "votos": 364607,
+    "pct_1a1": 80.885,
+    "pct_no_1a1": 19.115,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.5,
+    "prueba_censo": {
+     "secciones": 100,
+     "censo_real": 115524,
+     "error_area": 36.939,
+     "error_poblacion": 23.827
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 524,
+    "secciones_reparto": 87
+   },
+   "201904": {
+    "votos": 393505,
+    "pct_1a1": 94.501,
+    "pct_no_1a1": 5.499,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.855,
+    "prueba_censo": {
+     "secciones": 24,
+     "censo_real": 29191,
+     "error_area": 33.542,
+     "error_poblacion": 25.182
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 530,
+    "secciones_reparto": 25
+   },
+   "201911": {
+    "votos": 359794,
+    "pct_1a1": 94.48,
+    "pct_no_1a1": 5.52,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.86,
+    "prueba_censo": {
+     "secciones": 24,
+     "censo_real": 29191,
+     "error_area": 33.504,
+     "error_poblacion": 24.84
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 530,
+    "secciones_reparto": 25
+   }
+  },
+  "46": {
+   "202307": {
+    "votos": 1419017,
+    "pct_1a1": 96.675,
+    "pct_no_1a1": 3.325,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.454,
+    "pct_geometria_otro_seccionado": 0.068,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 1829,
+    "secciones_reparto": 53
+   },
+   "201111": {
+    "votos": 1407025,
+    "pct_1a1": 82.653,
+    "pct_no_1a1": 17.347,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 2.298,
+    "prueba_censo": {
+     "secciones": 270,
+     "censo_real": 316660,
+     "error_area": 33.217,
+     "error_poblacion": 27.326
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 1806,
+    "secciones_reparto": 296
+   },
+   "201512": {
+    "votos": 1453882,
+    "pct_1a1": 86.632,
+    "pct_no_1a1": 13.368,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.687,
+    "prueba_censo": {
+     "secciones": 191,
+     "censo_real": 228071,
+     "error_area": 30.312,
+     "error_poblacion": 23.627
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 1812,
+    "secciones_reparto": 223
+   },
+   "201606": {
+    "votos": 1405975,
+    "pct_1a1": 86.902,
+    "pct_no_1a1": 13.098,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.683,
+    "prueba_censo": {
+     "secciones": 187,
+     "censo_real": 222945,
+     "error_area": 30.63,
+     "error_poblacion": 23.74
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 1808,
+    "secciones_reparto": 215
+   },
+   "201904": {
+    "votos": 1442568,
+    "pct_1a1": 88.538,
+    "pct_no_1a1": 11.462,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.604,
+    "prueba_censo": {
+     "secciones": 154,
+     "censo_real": 182856,
+     "error_area": 33.55,
+     "error_poblacion": 23.225
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 1807,
+    "secciones_reparto": 181
+   },
+   "201911": {
+    "votos": 1373716,
+    "pct_1a1": 88.532,
+    "pct_no_1a1": 11.468,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.608,
+    "prueba_censo": {
+     "secciones": 154,
+     "censo_real": 182856,
+     "error_area": 33.489,
+     "error_poblacion": 23.032
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 1807,
+    "secciones_reparto": 181
+   }
+  },
+  "47": {
+   "202307": {
+    "votos": 311740,
+    "pct_1a1": 99.249,
+    "pct_no_1a1": 0.751,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.09,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 565,
+    "secciones_reparto": 3
+   },
+   "201111": {
+    "votos": 320827,
+    "pct_1a1": 80.735,
+    "pct_no_1a1": 19.265,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.426,
+    "prueba_censo": {
+     "secciones": 78,
+     "censo_real": 88885,
+     "error_area": 22.105,
+     "error_poblacion": 19.146
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 578,
+    "secciones_reparto": 94
+   },
+   "201512": {
+    "votos": 324879,
+    "pct_1a1": 92.418,
+    "pct_no_1a1": 7.582,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.44,
+    "prueba_censo": {
+     "secciones": 27,
+     "censo_real": 30361,
+     "error_area": 17.34,
+     "error_poblacion": 16.687
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 575,
+    "secciones_reparto": 41
+   },
+   "201606": {
+    "votos": 311988,
+    "pct_1a1": 92.357,
+    "pct_no_1a1": 7.643,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.417,
+    "prueba_censo": {
+     "secciones": 27,
+     "censo_real": 30361,
+     "error_area": 16.873,
+     "error_poblacion": 16.261
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 575,
+    "secciones_reparto": 41
+   },
+   "201904": {
+    "votos": 332264,
+    "pct_1a1": 95.883,
+    "pct_no_1a1": 4.117,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.267,
+    "prueba_censo": {
+     "secciones": 13,
+     "censo_real": 14803,
+     "error_area": 19.559,
+     "error_poblacion": 18.287
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 569,
+    "secciones_reparto": 21
+   },
+   "201911": {
+    "votos": 306562,
+    "pct_1a1": 95.848,
+    "pct_no_1a1": 4.152,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.265,
+    "prueba_censo": {
+     "secciones": 13,
+     "censo_real": 14803,
+     "error_area": 19.489,
+     "error_poblacion": 18.039
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 569,
+    "secciones_reparto": 21
+   }
+  },
+  "48": {
+   "202307": {
+    "votos": 602806,
+    "pct_1a1": 98.63,
+    "pct_no_1a1": 1.37,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.059,
+    "pct_geometria_otro_seccionado": 0.41,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 932,
+    "secciones_reparto": 16
+   },
+   "201111": {
+    "votos": 630938,
+    "pct_1a1": 82.859,
+    "pct_no_1a1": 17.141,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.528,
+    "prueba_censo": {
+     "secciones": 150,
+     "censo_real": 163520,
+     "error_area": 28.196,
+     "error_poblacion": 23.732
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 928,
+    "secciones_reparto": 154
+   },
+   "201512": {
+    "votos": 647537,
+    "pct_1a1": 90.843,
+    "pct_no_1a1": 9.157,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.938,
+    "prueba_censo": {
+     "secciones": 75,
+     "censo_real": 80650,
+     "error_area": 26.997,
+     "error_poblacion": 21.198
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 930,
+    "secciones_reparto": 86
+   },
+   "201606": {
+    "votos": 615025,
+    "pct_1a1": 92.507,
+    "pct_no_1a1": 7.493,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.648,
+    "prueba_censo": {
+     "secciones": 64,
+     "censo_real": 67185,
+     "error_area": 24.437,
+     "error_poblacion": 19.225
+    },
+    "pct_geometria_otro_seccionado": 0.177,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 933,
+    "secciones_reparto": 76
+   },
+   "201904": {
+    "votos": 680191,
+    "pct_1a1": 95.324,
+    "pct_no_1a1": 4.676,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.472,
+    "prueba_censo": {
+     "secciones": 29,
+     "censo_real": 31277,
+     "error_area": 24.793,
+     "error_poblacion": 17.636
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 929,
+    "secciones_reparto": 44
+   },
+   "201911": {
+    "votos": 623553,
+    "pct_1a1": 95.325,
+    "pct_no_1a1": 4.675,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.48,
+    "prueba_censo": {
+     "secciones": 29,
+     "censo_real": 31277,
+     "error_area": 24.844,
+     "error_poblacion": 17.198
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 929,
+    "secciones_reparto": 44
+   }
+  },
+  "49": {
+   "202307": {
+    "votos": 100766,
+    "pct_1a1": 96.278,
+    "pct_no_1a1": 3.722,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 319,
+    "secciones_reparto": 8
+   },
+   "201111": {
+    "votos": 115264,
+    "pct_1a1": 88.714,
+    "pct_no_1a1": 11.286,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.68,
+    "prueba_censo": {
+     "secciones": 12,
+     "censo_real": 12818,
+     "error_area": 32.223,
+     "error_poblacion": 24.435
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 320,
+    "secciones_reparto": 19
+   },
+   "201512": {
+    "votos": 111173,
+    "pct_1a1": 94.982,
+    "pct_no_1a1": 5.018,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 2,
+     "censo_real": 2118,
+     "error_area": 1.388,
+     "error_poblacion": 1.388
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 321,
+    "secciones_reparto": 11
+   },
+   "201606": {
+    "votos": 106876,
+    "pct_1a1": 95.068,
+    "pct_no_1a1": 4.932,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 2,
+     "censo_real": 2118,
+     "error_area": 0.94,
+     "error_poblacion": 0.94
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 321,
+    "secciones_reparto": 11
+   },
+   "201904": {
+    "votos": 108767,
+    "pct_1a1": 94.944,
+    "pct_no_1a1": 5.056,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 2,
+     "censo_real": 2118,
+     "error_area": 1.65,
+     "error_poblacion": 1.65
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 321,
+    "secciones_reparto": 11
+   },
+   "201911": {
+    "votos": 97650,
+    "pct_1a1": 95.513,
+    "pct_no_1a1": 4.487,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 2,
+     "censo_real": 2118,
+     "error_area": 0.601,
+     "error_poblacion": 0.601
+    },
+    "pct_geometria_otro_seccionado": 0.296,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 321,
+    "secciones_reparto": 10
+   }
+  },
+  "50": {
+   "202307": {
+    "votos": 510009,
+    "pct_1a1": 98.739,
+    "pct_no_1a1": 1.261,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.083,
+    "pct_geometria_otro_seccionado": 0.148,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 891,
+    "secciones_reparto": 7
+   },
+   "201111": {
+    "votos": 502546,
+    "pct_1a1": 79.997,
+    "pct_no_1a1": 20.003,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.997,
+    "prueba_censo": {
+     "secciones": 140,
+     "censo_real": 154213,
+     "error_area": 33.765,
+     "error_poblacion": 26.894
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 880,
+    "secciones_reparto": 141
+   },
+   "201512": {
+    "votos": 527720,
+    "pct_1a1": 87.517,
+    "pct_no_1a1": 12.483,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.486,
+    "prueba_censo": {
+     "secciones": 83,
+     "censo_real": 93624,
+     "error_area": 39.787,
+     "error_poblacion": 27.446
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 877,
+    "secciones_reparto": 76
+   },
+   "201606": {
+    "votos": 506597,
+    "pct_1a1": 88.675,
+    "pct_no_1a1": 11.325,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.294,
+    "prueba_censo": {
+     "secciones": 75,
+     "censo_real": 85085,
+     "error_area": 37.576,
+     "error_poblacion": 26.837
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 877,
+    "secciones_reparto": 68
+   },
+   "201904": {
+    "votos": 547136,
+    "pct_1a1": 90.529,
+    "pct_no_1a1": 9.471,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.272,
+    "prueba_censo": {
+     "secciones": 54,
+     "censo_real": 62357,
+     "error_area": 41.275,
+     "error_poblacion": 26.246
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 878,
+    "secciones_reparto": 52
+   },
+   "201911": {
+    "votos": 505372,
+    "pct_1a1": 91.675,
+    "pct_no_1a1": 8.325,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.093,
+    "prueba_censo": {
+     "secciones": 48,
+     "censo_real": 55560,
+     "error_area": 43.384,
+     "error_poblacion": 27.88
+    },
+    "pct_geometria_otro_seccionado": 0.202,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 881,
+    "secciones_reparto": 46
+   }
+  },
+  "51": {
+   "202307": {
+    "votos": 32905,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 56,
+    "secciones_reparto": 0
+   },
+   "201111": {
+    "votos": 31247,
+    "pct_1a1": 50.475,
+    "pct_no_1a1": 49.525,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 5.662,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 32114,
+     "error_area": 29.144,
+     "error_poblacion": 20.27
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2012,
+    "secciones": 54,
+    "secciones_reparto": 26
+   },
+   "201512": {
+    "votos": 32515,
+    "pct_1a1": 51.413,
+    "pct_no_1a1": 48.587,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.618,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 32114,
+     "error_area": 23.198,
+     "error_poblacion": 16.809
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 54,
+    "secciones_reparto": 26
+   },
+   "201606": {
+    "votos": 30421,
+    "pct_1a1": 51.317,
+    "pct_no_1a1": 48.683,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.633,
+    "prueba_censo": {
+     "secciones": 30,
+     "censo_real": 32114,
+     "error_area": 22.768,
+     "error_poblacion": 16.499
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 54,
+    "secciones_reparto": 26
+   },
+   "201904": {
+    "votos": 37562,
+    "pct_1a1": 76.319,
+    "pct_no_1a1": 23.681,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 1.126,
+    "prueba_censo": {
+     "secciones": 13,
+     "censo_real": 14725,
+     "error_area": 12.792,
+     "error_poblacion": 5.147
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 56,
+    "secciones_reparto": 12
+   },
+   "201911": {
+    "votos": 32942,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 0,
+     "censo_real": 0,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 56,
+    "secciones_reparto": 0
+   }
+  },
+  "52": {
+   "202307": {
+    "votos": 26925,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2024,
+    "secciones": 44,
+    "secciones_reparto": 0
+   },
+   "201111": {
+    "votos": 26163,
+    "pct_1a1": 58.411,
+    "pct_no_1a1": 41.589,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 3.091,
+    "prueba_censo": {
+     "secciones": 17,
+     "censo_real": 23975,
+     "error_area": 31.249,
+     "error_poblacion": 19.33
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.31,
+     63.07
+    ],
+    "seccionado": 2012,
+    "secciones": 41,
+    "secciones_reparto": 14
+   },
+   "201512": {
+    "votos": 27721,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 0,
+     "censo_real": 0,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2015,
+    "secciones": 44,
+    "secciones_reparto": 0
+   },
+   "201606": {
+    "votos": 26745,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 0,
+     "censo_real": 0,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2016,
+    "secciones": 44,
+    "secciones_reparto": 0
+   },
+   "201904": {
+    "votos": 33512,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 0,
+     "censo_real": 0,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2019,
+    "secciones": 44,
+    "secciones_reparto": 0
+   },
+   "201911": {
+    "votos": 30591,
+    "pct_1a1": 100.0,
+    "pct_no_1a1": 0.0,
+    "pct_sin_geometria": 0.0,
+    "pct_sin_vigente": 0.0,
+    "pct_difiere_area_poblacion": 0.0,
+    "prueba_censo": {
+     "secciones": 0,
+     "censo_real": 0,
+     "error_area": 0.0,
+     "error_poblacion": 0.0
+    },
+    "pct_geometria_otro_seccionado": 0.0,
+    "desplazamiento_corregido_m": [
+     0.0,
+     0.0
+    ],
+    "seccionado": 2020,
+    "secciones": 44,
+    "secciones_reparto": 0
+   }
+  }
+ }
+}
