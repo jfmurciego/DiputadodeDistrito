@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 374,
+  "productos": 376,
   "errores": 0,
   "avisos": 120
  },
@@ -1550,7 +1550,7 @@
      "producto": "M06",
      "id": "m06-congreso_badajoz-41299475924",
      "run_id": "41299475924",
-     "vigente": true,
+     "vigente": false,
      "sha256": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f",
      "copia_git": {
       "blob_sha": "3d0c756f9cd181dcd794a3c4f133439c8c736863",
@@ -1560,13 +1560,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_badajoz-42519381013",
+     "run_id": "42519381013",
+     "vigente": true,
+     "sha256": "8d599633fa0e0db716f0b1bdb888b7b8060344f929145b7cba51dc3906b6d9e4",
+     "copia_git": {
+      "blob_sha": "6ffc6a528da11213c333258f43a90ebb128d4f3c",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_badajoz-41299475924",
      "run_id": "41299475924",
-     "vigente": true,
+     "vigente": false,
      "sha256": "b896e477841c2faeec5aad2179005ecf3716a6798b44167d59da31f495bbb2e6",
      "copia_git": {
       "blob_sha": "92248f0ab6dea6f511c80892a6995b14c668bf83",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_badajoz-42519381013",
+     "run_id": "42519381013",
+     "vigente": true,
+     "sha256": "8934306e2394b04b190ec2dfd1b7a211541563b028de12668837ffb52dd7c89a",
+     "copia_git": {
+      "blob_sha": "a956dc91d0af4c70f33bf206ba5cd3495db27a75",
       "ruta": null
      },
      "copias_r2": [],
@@ -1589,21 +1615,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_badajoz",
-     "run_id": "41299475924",
+     "run_id": "42519381013",
      "vigente": true,
      "sha256": "8d289f2ebc84d67a96a36e56a8164cf83ac78106fac290b9fbc9d7ddc35832b2",
      "copia_git": {
-      "blob_sha": "3d0c756f9cd181dcd794a3c4f133439c8c736863",
+      "blob_sha": "6ffc6a528da11213c333258f43a90ebb128d4f3c",
       "ruta": "datos_abiertos/congreso_badajoz/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "a5aa31223a5ffc5c3a256160fb3d10986f09928fe0e8f696d735b76d26839c2f"
+     "origen_sha256": "8d599633fa0e0db716f0b1bdb888b7b8060344f929145b7cba51dc3906b6d9e4"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_badajoz",
-     "run_id": "41299475924",
+     "run_id": "42519381013",
      "vigente": true,
      "sha256": "a82717df3edfe3d9c1a0c16b9877683d59a8a6827b5abd7610cde86cf2e0f45d",
      "copia_git": {
@@ -1612,7 +1638,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "b896e477841c2faeec5aad2179005ecf3716a6798b44167d59da31f495bbb2e6"
+     "origen_sha256": "8934306e2394b04b190ec2dfd1b7a211541563b028de12668837ffb52dd7c89a"
     }
    ]
   },
@@ -6725,14 +6751,14 @@
    "territorio": "congreso_badajoz",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299475924: solo copia git"
+   "detalle": "run 42519381013: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_badajoz",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41299475924: solo copia git"
+   "detalle": "run 42519381013: solo copia git"
   },
   {
    "nivel": "AVISO",
