@@ -1,4 +1,4 @@
-# T-104 · Partida contenida en un distrito fuera del tope D-17
+## 2026-11-08 — T-104 — Partida contenida en un distrito fuera del tope D-17; Valencia sin caso aparte
 
 - `herramientas/resultados_partidos.py` 1.3.0: una sección del ZIP partida cuyas secciones M06 candidatas caen todas en
   el mismo distrito es «contenida_distrito»: distrito exacto, fuera del tope D-17 (reparto entre secciones con D-13 en

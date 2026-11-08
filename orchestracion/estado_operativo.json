@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T00:36:57.642423+00:00",
+  "generated_at": "2026-11-08T16:03:15.192934+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 0,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 70,
-      "activable": 1,
+      "activated": 69,
+      "activable": 2,
       "territorial_pending": 0,
       "electoral_pending": 0,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 71,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 70
+      "durable_pair": 69
     },
     "territories": [
       {
@@ -81,8 +81,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/andalucia/evidencia/pares_fuentes/2025/faa2f218555599a5bba64733486a3fcec21ca5e81e25f5ab14a14194fc06a1c7.json",
-            "pair_sha256": "faa2f218555599a5bba64733486a3fcec21ca5e81e25f5ab14a14194fc06a1c7",
+            "receipt_path": "territorios/andalucia/evidencia/pares_fuentes/2025/f7a5276fe0adfca0d032910c787c7656f4cafcb91ac6852f5de8d46bd0ba7690.json",
+            "pair_sha256": "f7a5276fe0adfca0d032910c787c7656f4cafcb91ac6852f5de8d46bd0ba7690",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -1152,8 +1152,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/congreso_alicante/evidencia/pares_fuentes/2025/a15a905eafdabb7df54ebcd58b326c874fa91adc44bf70a9814a0fa7b4433d4d.json",
-            "pair_sha256": "a15a905eafdabb7df54ebcd58b326c874fa91adc44bf70a9814a0fa7b4433d4d",
+            "receipt_path": "territorios/congreso_alicante/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json",
+            "pair_sha256": "f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -1404,12 +1404,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/congreso_barcelona/evidencia/pares_fuentes/2025/c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f.json",
             "pair_sha256": "c8d0c4a520df2356b13f940ab9e0127eadd3b63adff1d8bf1ba1360255e0f75f",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -2475,12 +2475,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/congreso_malaga/evidencia/pares_fuentes/2025/ffd60f7ceed7763841bb96ac9718b98cf2a133b925486f451405576f3bda614c.json",
             "pair_sha256": "ffd60f7ceed7763841bb96ac9718b98cf2a133b925486f451405576f3bda614c",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3584,8 +3584,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 42427122612,
-            "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/92ea51a36d6601f2520d8984b92aff200461448daa0081626d17fd38d53014e5/42427122612/receipt.json"
+            "run_id": 42488846588,
+            "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317/42488846588/receipt.json"
           }
         },
         "electoral": {
@@ -3597,12 +3597,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/congreso_ceuta/evidencia/pares_fuentes/2025/06512c236035bb31c11f899a4fc84dbb47f739f96e3f998a291ca1f9d3a980fc.json",
-            "pair_sha256": "06512c236035bb31c11f899a4fc84dbb47f739f96e3f998a291ca1f9d3a980fc",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/congreso_ceuta/evidencia/pares_fuentes/2025/5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d.json",
+            "pair_sha256": "5b85f3875068e95ec3e1df11d8b42eac69212011e02a296f64a00b0c662d3c8d",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -3686,12 +3686,12 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42409764232,
+      "run_id": 42430164925,
       "last_run": {
-        "run_id": 42409764232,
+        "run_id": 42430164925,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "03 · Preparación de Resultados Electorales",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
         "reason": "ver log del run",
         "publication": "not_requested"
       },
@@ -3712,13 +3712,13 @@
           "territory_id": "andalucia",
           "territory_name": "Andalucía",
           "edition": "2025",
-          "run_id": 42409764232,
-          "artifact_name": "ddd-state-42409764232-M06",
-          "artifact_sha256": "fa426f44966ce746b5741ce52aec18fbcde6519adb4a000190eb943fb9e444f6",
-          "source_commit": "0dd2df01eb8a60c4bc17243ca21197045c841951",
+          "run_id": 42430164925,
+          "artifact_name": "ddd-state-42430164925-M06",
+          "artifact_sha256": "fccff31b283ebc189583c1665438ba44d81e71419c90c125523dfc109cb8f9b1",
+          "source_commit": "20e92e9848a9cf420d60a47d6c679bf3b7799187",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/42409764232.json"
+          "producer_manifest_path": "territorios/andalucia/evidencia/generaciones_m06/42430164925.json"
         },
         "electoral_source": null,
         "electoral_product": null
@@ -4956,13 +4956,13 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42409605030,
+      "run_id": 42490325518,
       "last_run": {
-        "run_id": 42428211067,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 42490325518,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -4982,13 +4982,13 @@
           "territory_id": "congreso_alicante",
           "territory_name": "Congreso Alicante",
           "edition": "2025",
-          "run_id": 42409605030,
-          "artifact_name": "ddd-state-42409605030-M06",
-          "artifact_sha256": "ea0d29e63128c377fb309155c54b55f970fa173d14dcdc87ae028efbf42426e4",
-          "source_commit": "70fb22388ec2a5c1704b05b8c3c851683f58d62a",
+          "run_id": 42490325518,
+          "artifact_name": "ddd-state-42490325518-M06",
+          "artifact_sha256": "6401794853f082fe7b068bc6b4c5aad7bae5e412eb61e9122e0c9ef360ac9d7e",
+          "source_commit": "576ac6f8f3278533e786ca1bad35d5247d2ea429",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_alicante/evidencia/generaciones_m06/42409605030.json"
+          "producer_manifest_path": "territorios/congreso_alicante/evidencia/generaciones_m06/42490325518.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -5261,13 +5261,13 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42409499602,
+      "run_id": 42490327657,
       "last_run": {
-        "run_id": 42428208611,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 42490327657,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -5287,13 +5287,13 @@
           "territory_id": "congreso_barcelona",
           "territory_name": "Congreso Barcelona",
           "edition": "2025",
-          "run_id": 42409499602,
-          "artifact_name": "ddd-state-42409499602-M06",
-          "artifact_sha256": "9d21c845f7885d6e1b84f9d212baf995bc1ea2a6bc80a1f5e450f12f954b2300",
-          "source_commit": "57e8f90d2bd7b62f21048fedfbc12789599d8cfb",
+          "run_id": 42490327657,
+          "artifact_name": "ddd-state-42490327657-M06",
+          "artifact_sha256": "4225bebcc9a83337e020f442f15dc0735320aa723979bbc905e9764fdc4172da",
+          "source_commit": "576ac6f8f3278533e786ca1bad35d5247d2ea429",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42409499602.json"
+          "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42490327657.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6550,13 +6550,13 @@
       "re": "yellow",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42409615215,
+      "run_id": 42490329631,
       "last_run": {
-        "run_id": 42428213222,
-        "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
+        "run_id": 42490329631,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "04 · Incorporación de Resultados Electorales",
+        "reason": "ver log del run",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -6576,13 +6576,13 @@
           "territory_id": "congreso_malaga",
           "territory_name": "Congreso Málaga",
           "edition": "2025",
-          "run_id": 42409615215,
-          "artifact_name": "ddd-state-42409615215-M06",
-          "artifact_sha256": "83e13b13938c117e5f30aa3b9eac6e7dc88554960f7e2cf2d16f111379efe984",
-          "source_commit": "2762798bfb643623c1dd0f6315ecb55162ca8797",
+          "run_id": 42490329631,
+          "artifact_name": "ddd-state-42490329631-M06",
+          "artifact_sha256": "b04713f2c0d042154327f1a12dc1a010e97ba4cb2611c45c42f29485f384002d",
+          "source_commit": "576ac6f8f3278533e786ca1bad35d5247d2ea429",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_malaga/evidencia/generaciones_m06/42409615215.json"
+          "producer_manifest_path": "territorios/congreso_malaga/evidencia/generaciones_m06/42490329631.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7896,28 +7896,28 @@
       "name": "Nacional Ceuta",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 41250564472,
+      "run_id": 42488846588,
       "last_run": {
-        "run_id": 42427122612,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "01 · Preparación de Datos Territoriales",
-        "reason": "ver log del run",
+        "run_id": 42488846588,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "congreso_ceuta",
           "edition": "2025",
-          "run_id": 42427122612,
-          "artifact_name": "ddd-source-package-congreso_ceuta-2025-42427122612",
-          "artifact_sha256": "46fe2da6eb29a856c845d9f805c4d126c810e84d875acb36f172d5cd6ca8cf8b",
+          "run_id": 42488846588,
+          "artifact_name": "ddd-source-package-congreso_ceuta-2025-42488846588",
+          "artifact_sha256": "9808a974cef7018ae2f8b1c9eba200ac8f1b11de6c63853c0838a0651ead8b4e",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -7926,13 +7926,13 @@
           "territory_id": "congreso_ceuta",
           "territory_name": "Congreso Ceuta",
           "edition": "2025",
-          "run_id": 41236313879,
-          "artifact_name": "ddd-state-41236313879-M06",
-          "artifact_sha256": "d76d53fc294267c2ce6d9291c8d1fb00c968c1cba4400088a06839f10df54005",
-          "source_commit": "ea546d0b69db3b3de4d4846b25d3bcccb11760e2",
+          "run_id": 42488846588,
+          "artifact_name": "ddd-state-42488846588-M06",
+          "artifact_sha256": "c3509c2165d3ff9377dbd8cd42a817aa92e5f36538af81264bc8e93bdaaf893b",
+          "source_commit": "8c6007dd6f849ee298709bb9c78a1dcb902e17ac",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/41236313879.json"
+          "producer_manifest_path": "territorios/congreso_ceuta/evidencia/generaciones_m06/42488846588.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7941,16 +7941,16 @@
           "territory_id": "congreso_ceuta",
           "territory_name": "Congreso Ceuta",
           "edition": "2025",
-          "run_id": 41250564472,
-          "artifact_name": "ddd-state-41250564472-M08",
-          "artifact_sha256": "35a82cbf1041b54568e8efe3b0b6058435e3b419153b8204c0428103de848411",
-          "source_commit": "e05a35de955c5a77cc49fb711c559127debd0086",
+          "run_id": 42496569312,
+          "artifact_name": "ddd-state-42496569312-M08",
+          "artifact_sha256": "454eeb5d1985c075122906e17e2e4848a274e448ec6804e4bbdcbeabb59d7f6a",
+          "source_commit": "526a0295cf388eea9955e4f3fb585cfffe664b9b",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C51",
       "display_name": "Nacional Ceuta",
-      "next_step": "—"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso_melilla",
@@ -8015,7 +8015,7 @@
     }
   ],
   "kpis": {
-    "complete": 67,
+    "complete": 66,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
@@ -8082,7 +8082,6 @@
       "Nacional Vizcaya",
       "Nacional Zamora",
       "Nacional Zaragoza",
-      "Nacional Ceuta",
       "Nacional Melilla"
     ],
     "territorial_validated": 71,
@@ -8274,6 +8273,12 @@
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
       "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Ceuta",
+      "territory_id": "congreso_ceuta",
+      "autonomous_community_code_ine": "C51",
+      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -8299,6 +8304,12 @@
       "territory": "Nacional Málaga",
       "territory_id": "congreso_malaga",
       "autonomous_community_code_ine": "C29",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Ceuta",
+      "territory_id": "congreso_ceuta",
+      "autonomous_community_code_ine": "C51",
       "action": "preparar fuentes electorales"
     }
   ]

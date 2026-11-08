@@ -3,12 +3,19 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: prueba de la tolerancia D-17 del archivista (T-101)
+<<<<<<< HEAD
 VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
 CAMBIOS: 1.2.0 (T-104): partida con todas sus secciones M06 en un mismo distrito = «contenida_distrito», fuera del
   tope (caso sintético y Valencia/Bétera con la composición versionada); caso negativo: partida entre dos distritos.
   1.1.0 (T-103): recodificada (1:1), contenida y partida; solo las partidas cuentan para el tope; cifras de
   Badajoz, Albacete, Almería y Valencia con la tabla versionada (Valencia sigue por encima del tope).
 ANTERIOR: legacy/tests/test_desajuste_d17_v1.1.0_20261108.py
+=======
+VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
+CAMBIOS: 1.1.0 (T-103): recodificada (1:1), contenida y partida; solo las partidas cuentan para el tope; cifras de
+  Badajoz, Albacete, Almería y Valencia con la tabla versionada (Valencia sigue por encima del tope).
+ANTERIOR: legacy/tests/test_desajuste_d17_v1.0.0_20261108.py
+>>>>>>> origin/main
 FUNCIÓN: ZIP Infoelectoral sintético con una sección recodificada, como Málaga (2900701022 en el ZIP, 2908405001 en el
   M06): por debajo del 0,5 % de los votos de la provincia los votos se reparten con la tabla de equivalencia (1:1 y
   partida en dos distritos con peso de población, D-13) y queda la lista de desajustes en el informe, en el JSON del
@@ -97,6 +104,7 @@ class Tolerancia(unittest.TestCase):
         self.assertEqual(inf["desajustes"][0]["distritos"], {"0": 0.25, "1": 0.75})
         self.assertEqual((inf["desajustes"][0]["clase"], inf["votos_partidos"]), ("partida", 20))
         self.assertIn("población", inf["desajustes"][0]["regla"])
+<<<<<<< HEAD
 
     def test_contenida_en_distrito_fuera_del_tope(self):
         cuerpo, inf = rp.agregar_informe(self.zip, self.ctr, COMP, ["PP", "PSOE"], equivalencia=EQ_MISMO_DISTRITO,
@@ -108,6 +116,8 @@ class Tolerancia(unittest.TestCase):
         self.assertIn("T-104", x["regla"])
         # caso negativo: candidatas en dos distritos → sigue partida
         self.assertEqual(rp.clasificar(EQ_PARTIDA["2200301009"], COMP), "partida")
+=======
+>>>>>>> origin/main
 
     def test_por_encima_del_tope_falla(self):
         d = self.d / "chico"
@@ -117,8 +127,13 @@ class Tolerancia(unittest.TestCase):
         ctr = contrato(d / "c.yaml", trp.hacer_zip(z, datos), datos)  # 20 de 175 votos = 11,4 %
         with self.assertRaisesRegex(ValueError, r"tope 0.5 % \(D-17\) \[secciones partidas: 2200301009=20\]"):
             rp.agregar_informe(z, ctr, COMP, ["PP", "PSOE"], equivalencia=EQ_PARTIDA, poblacion=POB)
+<<<<<<< HEAD
         # la misma sección contenida, recodificada o contenida en un distrito no cuenta: pasa aunque sea el 11,4 %
         for eq in (EQ_1A1, EQ_RECOD, EQ_MISMO_DISTRITO):
+=======
+        # la misma sección contenida o recodificada no cuenta: pasa aunque sea el 11,4 % de la provincia
+        for eq in (EQ_1A1, EQ_RECOD):
+>>>>>>> origin/main
             self.assertEqual(rp.agregar_informe(z, ctr, COMP, ["PP", "PSOE"], equivalencia=eq, poblacion=POB)[1]["votos_partidos"], 0)
 
     def test_sin_tabla_o_sin_equivalencia_falla(self):
@@ -173,6 +188,7 @@ class CuatroProvincias(unittest.TestCase):
             self.assertEqual(v, partidos, terr)
             self.assertEqual(v / total > rp.TOPE_DESAJUSTE, terr == "congreso_valencia", terr)
         self.assertEqual(rp.clasificar(eq["0608304014"]), "recodificada")
+<<<<<<< HEAD
         self.assertFalse(hasattr(rp, "CASOS_APARTE"))
 
     def test_valencia_betera_en_un_distrito(self):
@@ -187,6 +203,9 @@ class CuatroProvincias(unittest.TestCase):
         self.assertEqual(len(betera), 10)
         self.assertTrue(all(s.startswith("46070") for s in betera))
         self.assertEqual({comp[e["seccion_m06"]] for s in betera for e in eq[s]}, {22})
+=======
+        self.assertIn("46", rp.CASOS_APARTE)
+>>>>>>> origin/main
 
 
 if __name__ == "__main__":
