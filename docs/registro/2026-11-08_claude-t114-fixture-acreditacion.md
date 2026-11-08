@@ -9,3 +9,8 @@
   (Aragón M06 42497101869 de `730f9ee`; Castilla y León M06 42497104110 de `74dc873^`), verificados con sha256
   (`INDEX.json`). Mismas aserciones; ya no depende de las 00 que se lancen.
 - Pruebas: `tests.test_acreditacion_historica_territorial` 14/14 en local sobre el estado de `origin/main`.
+- Ampliación (Coordinador): `datos/resultados/` regenerado con `resultados_ligeros.py` (nuevos Andalucía, Aragón, Ceuta,
+  Alicante, Barcelona, Málaga; runs nuevos de La Rioja, Melilla y Región de Murcia), `datos_abiertos/` con
+  `generar_datos_abiertos.py` (52 provincias, `--comprobar` al día) y `orchestracion/catalogo_procedencia.json`.
+  `resultados_ligeros.py` borra `contraste_2023.csv` y la clave `partidos_runs` del MANIFEST: restaurados a mano
+  (fallo de la herramienta, pendiente de tarea propia).

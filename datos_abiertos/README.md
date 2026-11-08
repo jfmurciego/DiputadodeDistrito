@@ -1,6 +1,6 @@
 # Datos abiertos de Diputado de Distrito
 
-Paquete por provincia (49 provincias nacionales completas) con:
+Paquete por provincia (52 provincias nacionales completas) con:
 
 - `<territorio>/distritos.geojson`: distritos del producto territorial M06 publicado (EPSG:4326 / CRS84).
 - `<territorio>/resultados.csv`: ganador por distrito en las elecciones generales de 2023 (congreso) (columnas: distrito, poblacion,
