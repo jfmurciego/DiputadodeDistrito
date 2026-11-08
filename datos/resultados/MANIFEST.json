@@ -17,11 +17,11 @@
    "sha256_csv": "a3f97672a39a013baa85814eda183640a69d8f20dc951631e042a54b15aaabd5"
   },
   "canarias": {
-   "run_id": "40951280657",
-   "blob_sha": "ea6f74782bc1683b00fe5f7e98b5b177430107e5",
-   "sha256_origen": "26ba80eb35e369b9b607aee03c16d1417c5c9d80f0380bc0f39fcc4578ccd6be",
+   "run_id": "42523951377",
+   "blob_sha": "8a85c922bea52c03b6dd81ee24170f66c5cbf5e7",
+   "sha256_origen": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a",
    "distritos": 70,
-   "sha256_csv": "66ba6be144c9438ff2ee35ce910f4bdb91dbc69c0d4e0cfa3e2da8bd5e23433f"
+   "sha256_csv": "e16c3b8f89b58ca08f357e19f6d9047f82c8be0243c016a178efd75b4894c9b4"
   },
   "cantabria": {
    "run_id": "41037133327",
