@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.33
+Versión: 1.0.34
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-24 y T-109 (visor v2 según la maqueta aprobada); T-105 y T-106 hechas; T-107 y T-108 del Coordinador; T-110 (histórico a las 52 provincias); D-25, T-111 y T-112 (generales 2026); T-113 (paso A del histórico en el Gestor); T-114 (main en rojo)
-Anterior: legacy/docs/PLAN_v1.0.32_20261108.md
+Cambios/motivo: T-115 (Madrid en el mapa de 350, bloqueo de población)
+Anterior: legacy/docs/PLAN_v1.0.33_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -387,6 +387,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-112 | Candidaturas y siglas de las generales 2026 (D-25): proclamación de candidaturas en el BOE (todas las circunscripciones), CSV con fuente y sha256; extender la tabla de T-97 a 2026 con sus familias (D-20); las de certeza baja se presentan al propietario antes de usarlas | por abrir (Sonnet), ya | CSV y tabla ampliada en una PR con tests; sin publicar |
 | T-113 | Paso A del histórico en el Gestor 2.0: conectar `reagregacion_historico --paquete` e `historico_m07m08.py` (hoy solo Álava, Badajoz y Huesca) a la opción «histórico» del Gestor (#542), para las 52 provincias y las 6 generales, con puerta 04; primero 2019-11 | por abrir (Opus), ya; toca workflows compartidos | PR no-automerge; plan en seco correcto para 2019-11 × 52; prueba real con una provincia lanzada por el Operador con permiso |
 | T-114 | **Prioridad 1: `main` en rojo.** `test_acreditacion_historica_territorial.test_planner_reuses_both_real_m06_from_durable_sealed_evidence` (castilla_y_leon) cae con DURABLE_LINEAGE_INCOMPATIBLE desde que la 00 de CyL 42521090842 (M05 7.4.3) registró un M06 nuevo. Diagnosticar si el test lee evidencia viva del repositorio (entonces fijar la evidencia sellada en una fixture inmutable) o si el resolver es demasiado estricto (entonces corregirlo con un test del caso). Prohibido saltar, desactivar o relajar el test para ponerlo en verde | por abrir (Opus), ya | Causa en una línea; PR con el arreglo; `pruebas` en verde en la PR y en `main` |
+| T-115 | Madrid en el mapa de 350 (K=37, run 42522378370): POPULATION_HARD_BLOCK, distrito 33 con 303.941 hab frente a techo 213.586 (+63,6 %), reparación IMPROVED_NOT_REPAIRED; en local T-102 dio PASS (−14,3/+14,5 %). Reproducir con el M01 de `diagnostico/auto/congreso350_madrid/42522378370` (sha ff17a366…), ver la composición del distrito 33 y por qué producción y local difieren (fuente, semilla u orden). Defecto de motor → PR de motor; estructural → al propietario, sin tocar suelo, techo ni K. Cubre también Madrid K=38 (T-111) | por abrir (Opus, ingeniero de motor), ya | Causa en una línea con evidencia; PR o decisión presentada; sin lanzar |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
