@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.202
+Versión: 1.0.204
 Fecha: 2026-11-08
-Alcance: T-114 — Planificador de acreditación histórica sobre evidencia fija
+Alcance: T-110 — Histórico 2011-2023 sobre los distritos vigentes: rotación de España
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_claude-t114-fixture-acreditacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.201_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t110-rotacion-espana.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.203_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.201_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.204 · [2026-11-08 — T-110 — Histórico 2011-2023 sobre los distritos vigentes: rotación de España](registro/2026-11-08_t110-rotacion-espana.md)
+- 1.0.203 · [2026-11-08 — T-109 — Plan: visor v2 según la maqueta aprobada (D-24)](registro/2026-11-08_plan-visor-v2.md)
 - 1.0.202 · [2026-11-08 — T-114 — Planificador de acreditación histórica sobre evidencia fija](registro/2026-11-08_claude-t114-fixture-acreditacion.md)
 - 1.0.201 · [2026-11-08 — Coordinador — Lecciones de la ola 2/3 y estado](registro/2026-11-08_coordinador-lecciones.md)
 - 1.0.200 · [2026-11-08 — T-105 — Plan: Gestor de Campañas con parámetros claros (D-22)](registro/2026-11-08_plan-t105.md)
