@@ -2723,8 +2723,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42488846588
-        stage: M06
+        run_id: 42496569312
+        stage: M08
       preparation_evidence:
         run_id: 42488846588
         artifact_name: ddd-source-package-congreso_ceuta-2025-42488846588
