@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T18:00:55.054313+00:00",
+  "generated_at": "2026-11-08T18:06:31.772778+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7513,9 +7513,9 @@
       "name": "Región de Murcia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42504383790,
       "last_run": {
@@ -7526,7 +7526,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7558,16 +7558,16 @@
           "territory_id": "region_de_murcia",
           "territory_name": "Región de Murcia",
           "edition": "2025",
-          "run_id": 40957577850,
-          "artifact_name": "ddd-state-40957577850-M08",
-          "artifact_sha256": "dcd9ff153ac52f188edcaa1ab1be953d4811ff184d82bb99fb93ac7d395d329d",
-          "source_commit": "91279b5d50304d55266ccbe31c1d316887b1371c",
+          "run_id": 42504383790,
+          "artifact_name": "ddd-state-42504383790-M08",
+          "artifact_sha256": "bba840cce34a4ec971ec1286851c23ecc65d31b327f927b178eeb5ff1a15d9ec",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "14",
       "display_name": "14 Región de Murcia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "comunidad_foral_de_navarra",
@@ -7763,11 +7763,11 @@
       "certification": "PASS",
       "run_id": 42503542766,
       "last_run": {
-        "run_id": 41062577400,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 42503542766,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -7818,11 +7818,11 @@
       "name": "Melilla",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS",
-      "run_id": 40840795932,
+      "run_id": 42504386196,
       "last_run": {
         "run_id": 41062581404,
         "status": "FAILED",
@@ -7831,7 +7831,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7848,13 +7848,13 @@
           "territory_id": "melilla",
           "territory_name": "Melilla",
           "edition": "2025",
-          "run_id": 40840795932,
-          "artifact_name": "ddd-state-40840795932-M06",
-          "artifact_sha256": "f8c2d14fcef4cb294542d11f604c5ec1c413b6119a0b91102ebed22edbdee291",
-          "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
+          "run_id": 42504386196,
+          "artifact_name": "ddd-state-42504386196-M06",
+          "artifact_sha256": "a7e973b0bb1e66257f397a96fc91a5a8cacf5a427f8be98ee85641b5eddb57f6",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/40840795932.json"
+          "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/42504386196.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -7872,7 +7872,7 @@
       },
       "autonomous_community_code_ine": "19",
       "display_name": "19 Melilla",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_alava",
@@ -9404,20 +9404,24 @@
       "name": "Nacional La Rioja",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42504388624,
       "last_run": {
         "run_id": 41294822309,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": "05 · Publicación del Visor",
-        "reason": "ver log del run",
-        "publication": "not_requested"
+        "stopped_at": null,
+        "reason": null,
+        "publication": "not_requested",
+        "superseded_failure": {
+          "stopped_at": "05 · Publicación del Visor",
+          "reason": "ver log del run"
+        }
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -9449,16 +9453,16 @@
           "territory_id": "congreso_la_rioja",
           "territory_name": "Congreso La Rioja",
           "edition": "2025",
-          "run_id": 41294822309,
-          "artifact_name": "ddd-state-41294822309-M08",
-          "artifact_sha256": "7dcb4bc1f5bc239e617ec01c309df292c27a2196302e73d3a4625b6b4adc78f2",
-          "source_commit": "8284cef381e9fdb7d2c7131a629efea0d6afbafe",
+          "run_id": 42504388624,
+          "artifact_name": "ddd-state-42504388624-M08",
+          "artifact_sha256": "80536ba8a09571415d87652803927a0672ac61fad6a3efb3110904b88184421b",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C26",
       "display_name": "Nacional La Rioja",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_lugo",
@@ -12187,7 +12191,7 @@
     }
   ],
   "kpis": {
-    "complete": 68,
+    "complete": 69,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12201,11 +12205,11 @@
       "11 Extremadura",
       "12 Galicia",
       "13 Comunidad de Madrid",
+      "14 Región de Murcia",
       "15 Comunidad Foral de Navarra",
       "16 País Vasco",
       "17 La Rioja",
       "18 Ceuta",
-      "19 Melilla",
       "Nacional Álava",
       "Nacional Albacete",
       "Nacional Alicante",
@@ -12231,6 +12235,7 @@
       "Nacional Jaén",
       "Nacional León",
       "Nacional Lérida",
+      "Nacional La Rioja",
       "Nacional Lugo",
       "Nacional Madrid",
       "Nacional Málaga",
@@ -12464,13 +12469,13 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "ceuta",
-    "name": "Ceuta",
-    "display_name": "18 Ceuta",
-    "autonomous_community_code_ine": "18",
-    "run_id": 42503542766,
+    "territory_id": "congreso_la_rioja",
+    "name": "Nacional La Rioja",
+    "display_name": "Nacional La Rioja",
+    "autonomous_community_code_ine": "C26",
+    "run_id": 42504388624,
     "stage": "M08",
-    "certification": "PASS",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
@@ -12481,15 +12486,9 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "14 Región de Murcia",
-      "territory_id": "region_de_murcia",
-      "autonomous_community_code_ine": "14",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional La Rioja",
-      "territory_id": "congreso_la_rioja",
-      "autonomous_community_code_ine": "C26",
+      "territory": "19 Melilla",
+      "territory_id": "melilla",
+      "autonomous_community_code_ine": "19",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12521,6 +12520,12 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Badajoz",
+      "territory_id": "congreso350_badajoz",
+      "autonomous_community_code_ine": "R06",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12531,15 +12536,9 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "14 Región de Murcia",
-      "territory_id": "region_de_murcia",
-      "autonomous_community_code_ine": "14",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional La Rioja",
-      "territory_id": "congreso_la_rioja",
-      "autonomous_community_code_ine": "C26",
+      "territory": "19 Melilla",
+      "territory_id": "melilla",
+      "autonomous_community_code_ine": "19",
       "action": "preparar fuentes electorales"
     }
   ]
