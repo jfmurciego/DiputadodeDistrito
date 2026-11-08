@@ -4,7 +4,7 @@ Versión: 1.0.31
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-103 (secciones recodificadas en el archivista: Badajoz, Valencia, Albacete, Almería); T-102 reservada
+Cambios/motivo: T-103 (secciones recodificadas en el archivista); D-19 y T-102 (comparativa 2023 con 350 distritos, opción C)
 Anterior: legacy/docs/PLAN_v1.0.30_20261108.md
 -->
 
@@ -120,6 +120,10 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   revistas) los decide el propietario; los chats solo preparan, si él lo pide, datos técnicos verificados con fuente. El planificador
   propone y presenta el criterio técnico; el criterio político y de comunicación es del propietario. Cancelada T-100; el kit de
   comunicación (#514) queda como borrador sin uso hasta que el propietario lo revise.
+- D-19 (08-11). Pregunta de estudio aprobada (D-18): «¿Cómo habría quedado el Congreso de 2023 con 350 distritos uninominales
+  mayoritarios, con los mismos escaños por provincia, frente al reparto real?». Opción C: cada provincia se divide en tantos distritos
+  como escaños reales de 2023 (`configuracion/resultados_oficiales_congreso_2023.csv`, BOE-A-2023-18907). Los 407 siguen siendo la
+  propuesta del proyecto; los 350 son solo para este estudio. Se avisa de que es una simulación mecánica con los votos de 2023.
 
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
@@ -349,7 +353,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
 | T-100 | Estudio de rotación para la difusión | — | **Cancelada (D-18)** |
 | T-101 | Archivista con D-17: desajuste de secciones ZIP↔M06 (Málaga, run 42490329631: 2900701022 sin distrito, 2908405001 ausente del ZIP; Alicante y Barcelona, previsiblemente igual); tolerancia ≤ 0,5 % de votos, reparto con la tabla de T-85, lista en la evidencia; tests con el caso de Málaga | por abrir (Opus), ya; toca herramienta compartida | PR con tests; la 00 de Málaga sale verde al relanzarla (Operador) |
-| T-102 | Reservada: estudio comparativo de 2023 con 350 distritos uninominales, pendiente de la aprobación de la pregunta por el propietario (D-18) | — | En espera |
+| T-102 | Comparativa 2023 (D-19): campaña nueva `congreso_350` en el Gestor con K por provincia = escaños reales de 2023 (CSV con fuente y sha256), reutilizando M01-M03 y regenerando M04-M06; primero 3 provincias de prueba (una de 2 escaños, una media y Madrid) y luego el resto en lote por el Operador con permiso; votos de 2023 a los 350 distritos con la herramienta de T-83 B; ganador por distrito y escaños por partido frente al reparto real; selector «Real / 350 distritos» en la vista Nacional de T-84. Resultados y visor, solo tras aprobación del propietario (D-18) | por abrir (Opus), ya | Contrato y configuración en una PR; 3 provincias en verde; luego 52/52; tabla comparativa con fuente; sin publicar |
 | T-103 | Desajuste ZIP↔M06 por encima del tope D-17 (Badajoz 0,87 %, Valencia 0,77 %, Albacete 0,63 %, Almería 0,52 %): clasificar cada sección en recodificada (misma geometría o cruce oficial del INE, código distinto) o partida/unida; las recodificadas se asignan 1:1 con la tabla de T-85 y no cuentan para el tope; solo lo partido/unido cuenta. Sin regenerar M06 (cambiaría el producto territorial: decisión del propietario). Si tras clasificar alguna provincia sigue por encima del 0,5 %, se para y se presenta al propietario | por abrir (Opus), ya; toca el archivista | PR con tests de las cuatro provincias; porcentajes antes y después en la evidencia; sin lanzar |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
