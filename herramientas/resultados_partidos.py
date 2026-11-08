@@ -3,14 +3,23 @@
 """Votos por partido y distrito en git (T-67).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
+CAMBIOS: 1.1.0 (T-101, D-17): ``agregar`` acepta la tabla de equivalencia de las secciones del ZIP ausentes del M06
+  (configuracion/equivalencia_secciones_congreso_2023.csv, herramientas/equivalencia_congreso_2023.py) y la población
+  de la composición: si el desajuste de secciones es ≤ 0,5 % de los votos a candidaturas de la provincia, reparte los
+  votos (y blancos, nulos y censo) de cada sección del ZIP sin distrito entre los distritos de sus secciones M06 con
+  peso de población (D-13; área si no hay población), en enteros por restos mayores, y devuelve la lista de
+  desajustes (``agregar_informe``). Por encima del tope, o sin tabla, falla como en 1.0.0.
+MOTIVO: Málaga, Alicante y Barcelona (T-101): el ZIP de Interior y el seccionado INE 2023 del M06 difieren en unas
+  pocas secciones (recodificaciones) y el archivista fallaba con PARTIDOS_ORIGEN_FAILED.
+ANTERIOR: legacy/herramientas/resultados_partidos_v1.0.0_20261107.py
 QUÉ HACE: por cada territorio con composición sección→distrito acreditada (datos/composicion, T-67) y M08 vigente
   (datos/resultados), agrega los votos por partido del ZIP nacional por mesa de Infoelectoral (release
   fuente-infoelectoral-02202307; huella y totales comprobados con herramientas/fuente_infoelectoral_mesas.convert)
   sobre los distritos y escribe datos/resultados/<territorio>_partidos.csv:
   distrito, partido, votos, porcentaje (sobre votos a candidaturas del distrito), blancos, nulos, censo.
-  Falla (sin escribir el territorio) si: hay secciones del ZIP sin distrito o distritos con secciones ausentes del ZIP;
+  Falla (sin escribir el territorio) si: hay secciones del ZIP sin distrito o distritos con secciones ausentes del ZIP
+  (salvo la tolerancia D-17 de ``agregar`` con tabla de equivalencia, que usa el archivista);
   la suma por partido de los distritos no es el total provincial del ZIP; o el ganador de algún distrito no es el del M08
   publicado. Añade la clave ``partidos`` a datos/resultados/MANIFEST.json (sha256 del CSV, de la composición y del ZIP).
   Salida determinista; un CSV que no cambia no se reescribe.
@@ -41,6 +50,9 @@ SALIDA = ROOT / "datos/resultados"
 COMPOSICION = ROOT / "datos/composicion"
 CONTRATOS = ROOT / "configuracion/contratos_infoelectoral.yaml"
 FECHA = "2023-07-23"
+EQUIVALENCIA = ROOT / "configuracion/equivalencia_secciones_congreso_2023.csv"
+EQUIVALENCIA_META = ROOT / "configuracion/equivalencia_secciones_congreso_2023.json"
+TOPE_DESAJUSTE = 0.005  # D-17: fracción de los votos a candidaturas de la provincia
 CABECERA = ["distrito", "partido", "votos", "porcentaje", "blancos", "nulos", "censo"]
 
 
@@ -68,6 +80,34 @@ def leer_composicion(ruta: Path) -> dict[str, int]:
     return {r["seccion"]: int(r["distrito"]) for r in csv.DictReader(io.StringIO(ruta.read_text(encoding="utf-8")))}
 
 
+def leer_poblacion(ruta: Path) -> dict[str, int]:
+    return {r["seccion"]: int(r.get("poblacion") or 0) for r in csv.DictReader(io.StringIO(ruta.read_text(encoding="utf-8")))}
+
+
+def leer_equivalencia(ruta: Path = EQUIVALENCIA) -> dict[str, list[dict]]:
+    """seccion_zip → [{seccion_m06, tipo, peso_area, frac_m06}]; comprueba el sha256 del CSV contra su JSON hermano."""
+    cuerpo = ruta.read_bytes()
+    meta = ruta.with_suffix(".json")
+    if meta.is_file():
+        esperado = json.loads(meta.read_text(encoding="utf-8"))["csv"]["sha256"]
+        if sha256(cuerpo) != esperado:
+            raise ValueError(f"sha256 de {ruta.name} no coincide con {meta.name}")
+    out: dict[str, list[dict]] = defaultdict(list)
+    for r in csv.DictReader(io.StringIO(cuerpo.decode("utf-8"))):
+        out[r["seccion_zip"]].append({"seccion_m06": r["seccion_m06"], "tipo": r["tipo"],
+                                      "peso_area": float(r["peso_area"]), "frac_m06": float(r["frac_m06"])})
+    return dict(out)
+
+
+def repartir(n: int, pesos: dict[int, float]) -> dict[int, int]:
+    """Reparte el entero n según pesos (suman 1) por restos mayores; desempate por distrito."""
+    base = {d: int(n * w) for d, w in pesos.items()}
+    resto = n - sum(base.values())
+    for d in sorted(pesos, key=lambda d: (-(n * pesos[d] - base[d]), d))[:resto]:
+        base[d] += 1
+    return base
+
+
 def mesas_09(zip_path: Path, contrato: dict) -> dict[str, dict[str, int]]:
     """sección (10 dígitos) → censo, blancos y nulos de las mesas de la provincia (sin CERA)."""
     import zipfile
@@ -84,8 +124,53 @@ def mesas_09(zip_path: Path, contrato: dict) -> dict[str, dict[str, int]]:
     return dict(out)
 
 
-def agregar(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ganadores: list[str]) -> bytes:
+def agregar(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ganadores: list[str], **kw) -> bytes:
     """CSV de votos por partido y distrito; ValueError si algo no cuadra (ver módulo)."""
+    return agregar_informe(zip_path, contrato, comp, m08_ganadores, **kw)[0]
+
+
+def _desajustes(por_seccion, extra09, comp, equivalencia, poblacion, total, tope):
+    """D-17: {sección del ZIP sin distrito: {distrito: peso}} y el informe; ValueError por encima del tope."""
+    zsec = set(extra09)
+    falta, sobra = sorted(zsec - set(comp)), sorted(set(comp) - zsec)
+    msg = (f"secciones del ZIP sin distrito {len(falta)} (p. ej. {falta[:3]}); "
+           f"secciones de la composición ausentes del ZIP {len(sobra)} (p. ej. {sobra[:3]})")
+    if equivalencia is None:
+        raise ValueError(msg)
+    v_des = sum(sum(por_seccion.get(s, {}).values()) for s in falta)
+    pct = 100 * v_des / total if total else 100.0
+    if pct > 100 * tope:
+        raise ValueError(f"{msg}; desajuste {pct:.4f} % de los votos de la provincia > tope {100 * tope:g} % (D-17)")
+    reparto, filas = {}, []
+    for s in falta:
+        destinos = [e for e in equivalencia.get(s, []) if e["seccion_m06"] in comp]
+        if not destinos:
+            raise ValueError(f"{msg}; la sección {s} del ZIP no tiene equivalencia con secciones del M06 (D-17)")
+        bruto = {e["seccion_m06"]: e["frac_m06"] * poblacion.get(e["seccion_m06"], 0) for e in destinos}
+        regla = "D-17: reparto por población de la sección M06 (D-13) con la tabla de T-85"
+        if sum(bruto.values()) <= 0:
+            bruto = {e["seccion_m06"]: e["peso_area"] for e in destinos}
+            regla = "D-17: reparto por área (sin población) con la tabla de T-85"
+        tot = sum(bruto.values())
+        pesos: dict[int, float] = defaultdict(float)
+        for v, x in bruto.items():
+            pesos[comp[v]] += x / tot
+        reparto[s] = dict(pesos)
+        filas.append({"seccion": s, "origen": "zip_sin_m06", "votos": sum(por_seccion.get(s, {}).values()),
+                      "secciones_m06": {v: round(x / tot, 6) for v, x in sorted(bruto.items())},
+                      "distritos": {str(d): round(w, 6) for d, w in sorted(pesos.items())}, "regla": regla})
+    for s in sobra:
+        filas.append({"seccion": s, "origen": "m06_sin_zip", "votos": 0, "secciones_m06": {s: 1.0},
+                      "distritos": {str(comp[s]): 1.0}, "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"})
+    informe = {"decision": "D-17", "tope_pct": 100 * tope, "votos_candidaturas": total, "votos_desajustados": v_des,
+               "pct_desajuste": round(pct, 4), "desajustes": filas}
+    return reparto, informe
+
+
+def agregar_informe(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ganadores: list[str],
+                    equivalencia: dict | None = None, poblacion: dict[str, int] | None = None,
+                    tope: float = TOPE_DESAJUSTE) -> tuple[bytes, dict]:
+    """Como ``agregar`` y además el informe de desajustes D-17 (vacío si las secciones coinciden)."""
     with tempfile.TemporaryDirectory() as tmp:
         resumen = fim.convert(zip_path, contrato, Path(tmp) / "mesas.csv")  # huella y totales del contrato
         filas = list(csv.DictReader(open(Path(tmp) / "mesas.csv", encoding="utf-8")))
@@ -94,18 +179,25 @@ def agregar(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ganadores:
         sec = r["codigo_provincia"] + r["codigo_municipio"] + r["codigo_distrito"] + r["codigo_seccion"]
         por_seccion[sec][r["partido"]] += int(r["votos"])
     extra09 = mesas_09(zip_path, contrato)
-    zsec = set(extra09)
-    if zsec != set(comp):
-        falta, sobra = sorted(zsec - set(comp)), sorted(set(comp) - zsec)
-        raise ValueError(f"secciones del ZIP sin distrito {len(falta)} (p. ej. {falta[:3]}); "
-                         f"secciones de la composición ausentes del ZIP {len(sobra)} (p. ej. {sobra[:3]})")
+    reparto, informe = {}, {}
+    if set(extra09) != set(comp):
+        reparto, informe = _desajustes(por_seccion, extra09, comp, equivalencia, poblacion or {},
+                                       resumen["candidate_votes"], tope)
     votos: dict[int, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     meta: dict[int, dict[str, int]] = defaultdict(lambda: {"censo": 0, "blancos": 0, "nulos": 0})
     for sec, d in comp.items():
         for p, v in por_seccion.get(sec, {}).items():
             votos[d][p] += v
-        for k, v in extra09[sec].items():
+        for k, v in extra09.get(sec, {}).items():
             meta[d][k] += v
+    for sec, pesos in reparto.items():
+        for p, v in por_seccion.get(sec, {}).items():
+            for d, x in repartir(v, pesos).items():
+                if x:
+                    votos[d][p] += x
+        for k, v in extra09[sec].items():
+            for d, x in repartir(v, pesos).items():
+                meta[d][k] += x
     total_zip: dict[str, int] = defaultdict(int)
     for s in por_seccion.values():
         for p, v in s.items():
@@ -129,7 +221,7 @@ def agregar(zip_path: Path, contrato: dict, comp: dict[str, int], m08_ganadores:
         tot = sum(v for _, v in orden)
         for p, v in orden:
             w.writerow([d, p, v, f"{v * 100 / tot:.4f}" if tot else "", meta[d]["blancos"], meta[d]["nulos"], meta[d]["censo"]])
-    return s.getvalue().encode("utf-8")
+    return s.getvalue().encode("utf-8"), informe
 
 
 def generar(salida: Path = SALIDA, registro: Path = rl.REGISTRO_VISOR, composicion: Path = COMPOSICION,
