@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-08T00:16:43.344464+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-08T00:18:26.948506+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -75,7 +75,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional La Rioja** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41294822309 · FAILED | — | — | — |
 | **Nacional Lugo** | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | Cadena completa validada | 41294985244 · FAILED | — | — | — |
 | **Nacional Madrid** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622703086 · SUCCESS | — | — | — |
-| **Nacional Málaga** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42418628975 · FAILED | 04 · Incorporación de Resultados Electorales | ver log del run | preparar fuentes electorales |
+| **Nacional Málaga** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42428213222 · SUCCESS | — | — | preparar fuentes electorales |
 | **Nacional Murcia** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41622862185 · SUCCESS | — | — | — |
 | **Nacional Navarra** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41299128213 · SUCCESS | — | — | — |
 | **Nacional Orense** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295142111 · SUCCESS | — | — | — |
