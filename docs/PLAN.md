@@ -4,7 +4,7 @@ Versión: 1.0.33
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-24 y T-109 (visor v2 según la maqueta aprobada); T-105 y T-106 hechas; T-107 y T-108 del Coordinador; T-110 (histórico a las 52 provincias); D-25, T-111 y T-112 (generales 2026)
+Cambios/motivo: D-24 y T-109 (visor v2 según la maqueta aprobada); T-105 y T-106 hechas; T-107 y T-108 del Coordinador; T-110 (histórico a las 52 provincias); D-25, T-111 y T-112 (generales 2026); T-113 (paso A del histórico en el Gestor)
 Anterior: legacy/docs/PLAN_v1.0.32_20261108.md
 -->
 
@@ -385,6 +385,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-110 | Empujón al histórico (orden del propietario, 08-11): extender el paso B de T-83 (hoy validado en Álava, Badajoz y Huesca) a las 52 provincias × 6 generales 2011-2023 con la tabla de T-85 (D-13) y las siglas de T-97 (D-20); rotación por distrito de toda España en `datos/resultados/historico/rotacion/`; cuadre de totales provinciales con Infoelectoral y contraste con el Observatorio; lista de provincias que no cuadren con su motivo. Salida lista para la capa de rotación de T-109. Después, el paso A (cadena con puerta 04) por elección empezando por 2019-11, lanzado con el Gestor por el propietario o por el Operador con permiso | por abrir (Sonnet), ya | 52/52 × 6 en el repositorio con manifiesto y sha256; tests; sin lanzar ni publicar; nada sale del repositorio sin el propietario (D-18) |
 | T-111 | Mapa de 350 con escaños de 2026 (D-25): campaña `congreso_350_2026` = la de T-102 salvo Cádiz (K=8) y Madrid (K=38), con K de `configuracion/escanos_oficiales_congreso_2026.csv`; reutiliza las otras 50 del mapa de 350 de 2023; lanzamiento de las dos provincias por el Operador con permiso del propietario | por abrir (Sonnet), tras las 3 de prueba de T-102 | Contrato en una PR; Cádiz y Madrid en verde; sin publicar |
 | T-112 | Candidaturas y siglas de las generales 2026 (D-25): proclamación de candidaturas en el BOE (todas las circunscripciones), CSV con fuente y sha256; extender la tabla de T-97 a 2026 con sus familias (D-20); las de certeza baja se presentan al propietario antes de usarlas | por abrir (Sonnet), ya | CSV y tabla ampliada en una PR con tests; sin publicar |
+| T-113 | Paso A del histórico en el Gestor 2.0: conectar `reagregacion_historico --paquete` e `historico_m07m08.py` (hoy solo Álava, Badajoz y Huesca) a la opción «histórico» del Gestor (#542), para las 52 provincias y las 6 generales, con puerta 04; primero 2019-11 | por abrir (Opus), ya; toca workflows compartidos | PR no-automerge; plan en seco correcto para 2019-11 × 52; prueba real con una provincia lanzada por el Operador con permiso |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
