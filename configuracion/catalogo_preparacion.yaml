@@ -1881,7 +1881,7 @@ territories:
         section_year: 2023
         source_commit: 0dd2df01eb8a60c4bc17243ca21197045c841951
       evidence:
-        electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/810ba9d1ea413302b78cf21a46cec0a52bfcfaade3bb7ec8595759c011a50357/41239877192/receipt.json
+        electoral_source: territorios/congreso_malaga/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json
         generation_preflight: territorios/congreso_malaga/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_malaga/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_malaga/evidencia/pares_fuentes/2025/ffd60f7ceed7763841bb96ac9718b98cf2a133b925486f451405576f3bda614c.json
