@@ -35,3 +35,9 @@ paths:
 - En una sesión cloud limpia faltan pyproj, geopandas y gerrychain (y networkx, shapely, numpy, pandas): instálalos
   con pip, versiones de `requirements.lock`, antes de los tests del ensemble o de R015. Los contratos con
   `topology_bridges` o exenciones por partición no valen para el ensemble; la exención municipal sí (T-98, motor 1.3.0).
+
+## Lecciones 08-11 (Coordinador)
+- Antes de buscar una regresión, compara el algoritmo de los dos runs: `UI_ALGORITHM` en el log de «Planificar» y `optimization_algorithm` en `evidencia/ejecuciones_completas/<run>.json` (CyL: «GerryChain 50» pasó, «Canónico» no; el canónico dejaba 2 mixtos en Ávila 05019, arreglado en M05 7.4.3, #546).
+- Un desajuste de sección que no cambia el distrito no es error de distrito: mira la composición antes de regenerar (Valencia/Bétera, regla «contenida_distrito», #538).
+- «Identidad remota no única» también sale con 0 artefactos: la retención del paquete electoral es de 30 días; el catálogo puede apuntar a uno ya purgado (Canarias). Receta: 03 con reutilizar=false → `prepare_one` → 00 «Reutilizar».
+- Tests de M05 en la sesión cloud: instala `requirements.lock` (geopandas, pyproj).

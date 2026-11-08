@@ -9,6 +9,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - Topónimos solo en español (Mahón, Ciudadela, Ibiza, Vizcaya, Guipúzcoa, Alicante, Castellón…), nunca en otras lenguas.
 - No lanzar ejecuciones productivas ni publicar (visor, releases) sin permiso explícito en ese mensaje.
 - Sin vigilantes ni revisiones programadas salvo que se pidan.
+- Objetivo (08-11): un motor repetible (se ejecutará miles de veces, con el Gestor), no conservar resultados antiguos: relanza y regenera si hace falta.
 - Respuestas cortas, en español.
 - No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main`.
 
@@ -96,3 +97,4 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - 2026-11-02 · Activación por elección, Gestor con provincias, robots con app propia, exención en islas · #376–#398.
 - 2026-11-07 · Paso 1 de agentes: CLAUDE.md < 100 líneas, `.claude/rules/` por rutas y hooks de git · #427 #428.
 - 2026-11-07 · Agentes en uso, registro por ficheros, CI en 4 min, archivista R2, huella de checkpoint, cadenas sin Mac · #441–#448.
+- 2026-11-08 · Ola 2 y 3: ensembles, archivista D-17, siglas D-20, Gestor 2.0, huella M05 calculada, M05 7.4.3, congreso_350 · #500–#547. Detalle en `.claude/rules/`.

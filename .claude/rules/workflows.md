@@ -42,3 +42,12 @@ paths:
 - «`main` en verde» = ÚLTIMO run COMPLETADO de `pruebas-plataforma` en success. Con robots registrando, el run más reciente
   casi nunca está terminado: una espera «run[0] completado» no acaba.
 - Una espera de fusión que dispara sola puede adelantarse a la orden (#455 antes que #457): páralas (TaskStop) si cambia el orden.
+
+## Lecciones 08-11 (Coordinador)
+- Renombrar el `name:` de un workflow referenciado en `workflow_run` rompe el disparo: haz grep en `workflows:` antes. Valida con `uses:` antes de archivar uno.
+- Clave duplicada en un workflow (`territorios` dos veces): GitHub lo rechaza (run sin jobs) y PyYAML lo acepta. Usa `actionlint` o un cargador YAML estricto (test en #542).
+- Una PR apilada sobre otra rama no dispara `pruebas` (solo corre en PR a `main`): tras fusionar la base, reapunta a `main` y fusiona `origin/main`.
+- Las PR apiladas sobre una PR fusionada por squash chocan: fusiona `origin/main` en la rama (sin rebase ni force).
+- Los commits automáticos de archivo/registro cambian el catálogo de procedencia y dejan `main` rojo un rato hasta que `catalogo-procedencia.yml` lo regenera. Los tests no deben fijar el total de territorios publicados (49→52 rompió dos).
+- API de jobs: pagina siempre (`--paginate`, 30 por página); el job que falla puede estar en la página 2 (Canarias, 48 jobs).
+- Etiquetar o pasar a lista una PR es «escritura externa» para el clasificador: la frase del propietario ha de estar en el chat que actúa. Chats de tarea nuevos: pásales el repositorio de origen (`source_url`) o no podrán empujar.

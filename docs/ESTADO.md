@@ -1,27 +1,30 @@
 # Estado operativo (mantiene el Coordinador)
 
-Fecha: 2026-11-07 (noche) · Actualizar en cada PR de lecciones o de estado.
+Fecha: 2026-11-08 (tarde-noche) · Actualizar en cada PR de lecciones o de estado.
 
 ## PR abiertas
-- Ninguna de producto. #464 (roles) y #467 (revert de #462) fusionadas. Auto-merge activo y verificado (#465: `pruebas` 20:16:54, fusión 20:17:25).
+- Ninguna. Hoy en main: #531 #535 #536 #537 #538 #539 #542 #543 #545 #546 #547 (archivista D-17, siglas D-20, Valencia «contenida», congreso_350, Gestor 2.0, limpieza de workflows, huella M05, M05 7.4.3).
 
-## Runs en curso (aprobados por el propietario)
-- 00 Barcelona 42409499602, Alicante 42409605030, Málaga 42409615215 («Ejecutar desde el principio», `territorial_only`+`cadena_electoral`, sin publicar).
-- 00 Andalucía 42409764232 («Generar desde fuente territorial acreditada», electoral, sin publicar).
+## Runs en curso (autorizados por el propietario)
+- 00 Castilla y León «Ejecutar desde el principio» 42521090842 (tras #546). Canarias: 03 reutilizar=false 42521092889 → `prepare_one` → 00 «Reutilizar».
+- 00 tanda 3 «Generar»: Almería 42519378789, Badajoz 42519381013, Huesca 42519383275.
+- 05 Visor: Aragón 42521094765, Ceuta autonómica 42521096886 (publicados por orden del propietario).
+
+## No verde (tablero 08-11)
+- Castilla y León y Canarias (arriba). El resto de la lista de 12 está regenerado o en curso.
 
 ## Chats activos
 | Chat | Tarea |
 |---|---|
-| Planificador (session_01KQDtFsB1xxRnUwERbZc1pQ) | Ola nueva: prioridades y tareas |
-| Operador nuevo (session_01KQDtFrT2bfmm9SyeaFmTBq) | Relevo del anterior; sin permisos hasta que los dé el propietario. Pendiente: ensembles T-61, publicar cada provincia al acabar su 00 (D-3), sitio completo |
-| Implementador (session_01KQDtFrJjXiGDMASdLPo1ZK) | Agentes, infraestructura y motor; sin tarea |
-| T-64 Comarcas frente a partidos judiciales (session_01KQDtFtP8ktEcpGjEB2mC7p) | Estudio, red abierta (ine.es, mapa.gob.es, idescat.cat); sin cambiar C-13 |
+| Planificador (session_01KQDtFsompAM8AUWYhsYUVx) | Cola y decisiones; D-22/D-23 hechas |
+| Operador (session_01KQDtFrT2bfmm9SyeaFmTBq) | Lanza y publica con permiso del propietario en su chat |
+| T-90b (session_01KQDtFu66MPWqPrqLcELtNt) | Generales 29-11-2026, espera a Interior |
+| T-91b (session_01KQDtFvNfHaxJtwCviU9kKV) | Retirar receipts huérfanos: segundo commit listo, espera aviso |
 
-## Decisiones del propietario (07-11 noche)
-- D-3: se publica cada provincia al terminar su 00. Histórico 2019-11: todavía no. T-70 (D'Hondt) descartada.
-- #462 (partidos judiciales) revertida hasta el estudio de T-64. T-71 (reconstruir composición de 47 provincias): en espera de decisión.
-- Composición M06 recuperada en 16/63; no recuperables: 45 provincias + Ceuta y Melilla (artefactos caducados).
+## Decisiones del propietario (08-11)
+- D-3 publicar por provincia; D-17 tolerancia ≤0,5 %; D-19 `congreso_350`; D-20 siglas (83 filas); D-22 Gestor 2.0; D-23 limpieza de workflows reversible (el borrado del historial de los 12 workflows desactivados sin fichero queda sin hacer).
+- Valencia: regla «contenida_distrito», sin regenerar M06. Objetivo: motor repetible, no resultados antiguos.
 
 ## Pendientes del propietario
-- Approve en `produccion` de los runs que queden en `waiting`; permisos de lanzar/publicar al Operador nuevo (ensembles T-61, publicaciones por provincia, sitio completo).
-- Comprobar que el revisor corre en la próxima PR (secreto `CLAUDE_CODE_OAUTH_TOKEN` actualizado).
+- Permisos del Operador (en su chat): Canarias, publicaciones de las provincias de las tandas, prueba real del Gestor 2.0 y de la campaña 350 (Soria, Valladolid, Madrid).
+- Versión del proyecto (CITATION 4.7.0 frente a README 4.9.0); ensemble de Barcelona (exenta); revisor del entorno `publicacion`; diseño del ensemble autonómico.

@@ -21,3 +21,6 @@ paths:
   archivada en `herramientas/verificar_evidencia_n08_readonly.py` y en `tests/test_preflight_caceres_n08.py`.
 - El bucle de selección de checkpoints (`produccion-distritos.yml`) baja de etapa (M06→M05→M04→M03) cuando el validador
   rechaza: para rehacer desde Mxx basta con rechazar. Los checkpoints caducan a los 14 días.
+
+## Lecciones 08-11 (Coordinador)
+- La huella M05 es ahora el cierre de imports desde `modulos/05` (calculado, #547); antes era una lista a mano que apuntaba al v740 inactivo y no al v741. Tocar `ddd_core/config.py` invalida M05/M06. La capa M04 solo mira `m04_*.py`: posible hueco igual.

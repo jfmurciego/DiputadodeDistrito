@@ -50,3 +50,9 @@ paths:
   abreviados): el nombre se toma del INE por código. En el repo, C12 = nombres de distrito y C13 = comunidades de interés.
 - Toda exención de suelo nueva trae su decisión en `validation` (`population_floor_exempt_decisions` /
   `_partition_decisions`: decided_at, decided_by, reason, evidence) o falla `comprobar_exenciones_gobernadas`.
+
+## Lecciones 08-11 (Coordinador)
+- Archivista (D-17): tolerancia de partidos ≤0,5 % de los votos de la provincia; contenidas y recodificadas no cuentan para el tope (#531, #535, #538).
+- Sigla: tabla de homologación T-97 con D-20 aplicada (familias «Podemos–Sumar», «CiU–Junts», «UPN y coaliciones», «CHA-IU»; #537). Renombrar partidos exige actualizar a la vez el mapa Interior o `construir` falla por cobertura. Valida las discrepancias contra el dato por provincia, no de memoria (Caballas y MDyC son Ceuta; CpM, Melilla).
+- Cada publicación nueva exige nombres/informes C12-C13 de la provincia (herramienta T-59) y topónimos en español.
+- `congreso_350`: gemelos `congreso350_<prov>` con K = escaños reales BOE-A-2023-18907, nunca publican (#539). Gestor 2.0 (#542) y guía en `docs/GUIA_GESTOR_CAMPANAS.md`.
