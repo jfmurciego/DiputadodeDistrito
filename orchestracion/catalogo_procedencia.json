@@ -50,7 +50,7 @@
   "territorios": 67,
   "productos": 339,
   "errores": 0,
-  "avisos": 122
+  "avisos": 123
  },
  "territorios": {
   "aragon": {
@@ -6099,6 +6099,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso_barcelona/42416213698/ddd-minimo-42416213698-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_barcelona/42490327657/ddd-minimo-42490327657-M06.zip"
   },
   {
    "nivel": "AVISO",
