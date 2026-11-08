@@ -1266,7 +1266,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
         checkout = next(step for step in pre_m04_job["steps"] if step.get("uses", "").startswith("actions/checkout@"))
         self.assertEqual(checkout["with"]["ref"], "${{ inputs.source_ref || github.sha }}")
-        self.assertIn("--preparation-evidence-json", pre_m04_job["steps"][3]["run"])
+        self.assertTrue(any("--preparation-evidence-json" in str(step.get("run", "")) for step in pre_m04_job["steps"]))
         self.assertTrue(any(
             step.get("with", {}).get("name") == "ddd-generation-preflight-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}"
             for step in pre_m04_job["steps"]
