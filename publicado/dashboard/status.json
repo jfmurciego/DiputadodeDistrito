@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-07T23:39:02.251790+00:00",
+  "generated_at": "2026-11-08T00:16:43.344464+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -81,8 +81,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/andalucia/evidencia/pares_fuentes/2025/6bccfd88f07ad95d67e89230cfdbc1f7400c67653e1af1fda008076ab080c935.json",
-            "pair_sha256": "6bccfd88f07ad95d67e89230cfdbc1f7400c67653e1af1fda008076ab080c935",
+            "receipt_path": "territorios/andalucia/evidencia/pares_fuentes/2025/faa2f218555599a5bba64733486a3fcec21ca5e81e25f5ab14a14194fc06a1c7.json",
+            "pair_sha256": "faa2f218555599a5bba64733486a3fcec21ca5e81e25f5ab14a14194fc06a1c7",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
