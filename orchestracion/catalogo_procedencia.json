@@ -50,7 +50,7 @@
   "territorios": 67,
   "productos": 339,
   "errores": 0,
-  "avisos": 124
+  "avisos": 125
  },
  "territorios": {
   "aragon": {
@@ -6078,6 +6078,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso_alicante/42490325518/ddd-minimo-42490325518-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_alicante/42495067503/ddd-minimo-42495067503-M06.zip"
   },
   {
    "nivel": "AVISO",
