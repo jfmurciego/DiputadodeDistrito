@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T22:32:04.153738+00:00",
+  "generated_at": "2026-11-08T22:35:36.364334+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7087,11 +7087,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42521090842,
       "last_run": {
-        "run_id": 42497104110,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
-        "reason": "ver log del run",
+        "run_id": 42521090842,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -7135,7 +7135,7 @@
       },
       "autonomous_community_code_ine": "07",
       "display_name": "07 Castilla y León",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "castilla_la_mancha",
@@ -10619,9 +10619,9 @@
       "name": "Nacional Valencia",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42525625044,
       "last_run": {
@@ -10632,7 +10632,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10664,16 +10664,16 @@
           "territory_id": "congreso_valencia",
           "territory_name": "Congreso Valencia",
           "edition": "2025",
-          "run_id": 41335936727,
-          "artifact_name": "ddd-state-41335936727-M08",
-          "artifact_sha256": "ddd68e64e8dc8bdb943fab0711e6abca544b7a3edcbbff79bbca8678351cef94",
-          "source_commit": "8a14e0e670e508f817c8a1976bed8738daac2dfe",
+          "run_id": 42525625044,
+          "artifact_name": "ddd-state-42525625044-M08",
+          "artifact_sha256": "72e8741e54dc29d653548f14498b2cbf5b81ec13da206aea4dacd7b8ab26d1ac",
+          "source_commit": "c0e9b47feb51339488dda14ef5616ad224cf5981",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C46",
       "display_name": "Nacional Valencia",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_valladolid",
@@ -12177,7 +12177,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12242,6 +12242,7 @@
       "Nacional Tarragona",
       "Nacional Teruel",
       "Nacional Toledo",
+      "Nacional Valencia",
       "Nacional Valladolid",
       "Nacional Vizcaya",
       "Nacional Zamora",
@@ -12456,11 +12457,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "canarias",
-    "name": "Canarias",
-    "display_name": "05 Canarias",
-    "autonomous_community_code_ine": "05",
-    "run_id": 42523951377,
+    "territory_id": "congreso_valencia",
+    "name": "Nacional Valencia",
+    "display_name": "Nacional Valencia",
+    "autonomous_community_code_ine": "C46",
+    "run_id": 42525625044,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12470,12 +12471,6 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
-      "action": "incorporar resultados electorales"
-    },
-    {
-      "territory": "Nacional Valencia",
-      "territory_id": "congreso_valencia",
-      "autonomous_community_code_ine": "C46",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12513,6 +12508,12 @@
       "territory_id": "congreso350_badajoz",
       "autonomous_community_code_ine": "R06",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Barcelona",
+      "territory_id": "congreso350_barcelona",
+      "autonomous_community_code_ine": "R08",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12520,12 +12521,6 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Nacional Valencia",
-      "territory_id": "congreso_valencia",
-      "autonomous_community_code_ine": "C46",
       "action": "preparar fuentes electorales"
     },
     {
