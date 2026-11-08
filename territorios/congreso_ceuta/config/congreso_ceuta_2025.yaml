@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2023
   source_section_year: 2023
   schema_family: ddd-territory
@@ -73,7 +73,7 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   limits_profile: exception
   limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
     piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
@@ -194,9 +194,9 @@ validation:
     section_year: 2023
     population_total: 83052
     target_section_count: 56
-    package_sha256: 7cf7730c3fc4d13ec0880c6719b702a71a0e069520dbf31346d3b471f6ab69fa
-    compatibility_report_sha256: 12d8096cb8881d27ab0394574e390c92063032cbc03201f66c022c9ed6ac6ccc
-    compatibility_identity_sha256: 2ba5e7443e0031bf11cbe06a016b4b38eb176f9e6a493676781627fe5b710add
+    package_sha256: 92dc13573e8b1bceeff58a5d05cd91934f202e74815b5220c49d2119042f969f
+    compatibility_report_sha256: 5fb46e52579c6edcc65c1707922302a03504d9a1d1b48654258f8e6d8b0c7b2f
+    compatibility_identity_sha256: 1ec5dabc257348e83f29c50ff9388413e2e988415ba0566c60a245ee8fcc2142
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -270,9 +270,9 @@ resolved_source_contract:
   contract_sha256: 8e16f7c0410af1b428c012223abb3683127154fdcc1fc7b4c976352873749865
 generation_state:
   source_prepared: true
-  generation_enabled: false
-  package_sha256: 7cf7730c3fc4d13ec0880c6719b702a71a0e069520dbf31346d3b471f6ab69fa
-  compatibility_identity_sha256: 2ba5e7443e0031bf11cbe06a016b4b38eb176f9e6a493676781627fe5b710add
+  generation_enabled: true
+  package_sha256: 92dc13573e8b1bceeff58a5d05cd91934f202e74815b5220c49d2119042f969f
+  compatibility_identity_sha256: 1ec5dabc257348e83f29c50ff9388413e2e988415ba0566c60a245ee8fcc2142
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 0fd528d8a08753bf6c35a22311e46e0f904c9515fe1cdf805c81f3e1ddd44330
@@ -322,3 +322,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 42488846588
+  pre_m04_source_commit: 908636fcf3cc8bb7b36aad1a67257afc27f0d43d
+  pre_m04_artifact_sha256: 28a8966940a050af5e777efce9ac90f4fd15ed67822738634ef6737ede686f53

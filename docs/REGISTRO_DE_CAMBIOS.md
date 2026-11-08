@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.178
+Versión: 1.0.189
 Fecha: 2026-11-08
-Alcance: T-96 — Credencial de registro en los pushes PENDING/pre-M04 a main
+Alcance: T-103 — Plan: secciones recodificadas en el archivo en origen
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t96-credencial-registro.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.177_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_plan-t103.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.188_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,17 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.177_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.189 · [2026-11-08 — T-103 — Plan: secciones recodificadas en el archivo en origen](registro/2026-11-08_plan-t103.md)
+- 1.0.188 · [2026-11-08 — T-103 — Archivista: recodificadas y contenidas fuera del tope D-17](registro/2026-11-08_t103-recodificadas.md)
+- 1.0.187 · [2026-11-08 — T-97 — Tabla de homologación de siglas de las generales 2011-2023 (propuesta, sin aplicar)](registro/2026-11-08_claude-t97-homologacion-siglas.md)
+- 1.0.186 · [2026-11-08 — D-18 — Plan: autorización de estudios y difusión](registro/2026-11-08_plan-d18.md)
+- 1.0.185 · [2026-11-08 — T-101 — Archivista: tolerancia D-17 a desajustes de sección](registro/2026-11-08_t101-archivista-tolerancia.md)
+- 1.0.184 · [2026-11-08 — T-98 — Cádiz en el ensemble con la exención de suelo de San Fernando](registro/2026-11-08_t98-cadiz-ensemble-exencion.md)
+- 1.0.183 · [2026-11-08 — T-101 — Plan: tolerancia del archivista a desajustes de sección (D-17)](registro/2026-11-08_plan-t101.md)
+- 1.0.182 · [2026-11-08 — T-100 — Plan: estudio de rotación de distritos](registro/2026-11-08_plan-t100.md)
+- 1.0.181 · [2026-11-08 — T-94c — LICENSE y requisitos de repositorio de JOSS](registro/2026-11-08_t94c-license-joss.md)
+- 1.0.180 · [2026-11-08 — T-91b — La recuperación electoral no registra receipts de una 04 fallida](registro/2026-11-08_t91b-recuperacion-04-fallida.md)
+- 1.0.179 · [2026-11-08 — T-84 — Plan: secuencia tras T-84](registro/2026-11-08_plan-tras-t84.md)
 - 1.0.178 · [2026-11-08 — T-96 — Credencial de registro en los pushes PENDING/pre-M04 a main](registro/2026-11-08_t96-credencial-registro.md)
 - 1.0.177 · [2026-11-08 — T-83 A — Histórico de generales por M07/M08 sobre los distritos vigentes](registro/2026-11-08_t83a-historico-m07.md)
 - 1.0.176 · [2026-11-08 — T-87 — Cadena de publicación con un solo lanzamiento (D-14)](registro/2026-11-08_t87-cadena-publicacion.md)

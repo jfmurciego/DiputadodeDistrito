@@ -4,11 +4,11 @@
   "territory_id": "congreso_barcelona",
   "territory_name": "Congreso Barcelona",
   "edition": "2025",
-  "run_id": 42409499602,
-  "artifact_name": "ddd-state-42409499602-M06",
-  "artifact_sha256": "9d21c845f7885d6e1b84f9d212baf995bc1ea2a6bc80a1f5e450f12f954b2300",
-  "source_commit": "57e8f90d2bd7b62f21048fedfbc12789599d8cfb",
+  "run_id": 42495069270,
+  "artifact_name": "ddd-state-42495069270-M06",
+  "artifact_sha256": "a3aceaf5da5ae8abc7c18ab682b6f378d61390e546cfd87bad1edc769ef43cb6",
+  "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42409499602.json"
+  "producer_manifest_path": "territorios/congreso_barcelona/evidencia/generaciones_m06/42495069270.json"
 }

@@ -1,8 +1,13 @@
 """Laboratorio M05 para GerryChain/ReCom, sin dependencias del repositorio DDD.
 
-VERSIÓN DEL ADAPTADOR: 1.2.0 (T-31: `working_crs` reproyecta geometrías geográficas a metros antes de medir fronteras;
-anterior: legacy/ddd_core/m05_gerrychain_engine_v1.1.0_20261102.py). La continuidad se valida tanto sobre secciones
-como sobre cada componente poligonal, incluidas las secciones MultiPolygon.
+VERSIÓN DEL ADAPTADOR: 1.3.0 · FECHA: 2026-11-08
+ANTERIOR: legacy/ddd_core/m05_gerrychain_engine_v1.2.0_20261108.py
+CAMBIOS 1.3.0 (T-98): ``Contract.population_floor_exempt_municipalities`` (códigos INE de 5 cifras, como
+  ``validation.population_floor_exempt_municipalities``): el distrito que contiene un municipio exento no tiene suelo
+  ni límite inferior de tolerancia (M05 7.8.5 / M06 7.2.3); techo, límite superior, K y atomicidad no cambian.
+MOTIVO: Cádiz (San Fernando, 11031) quedaba fuera del ensemble porque la partición inicial no era válida para la cadena.
+CAMBIOS 1.2.0 (T-31): `working_crs` reproyecta geometrías geográficas a metros antes de medir fronteras.
+La continuidad se valida tanto sobre secciones como sobre cada componente poligonal, incluidas las secciones MultiPolygon.
 
 La frontera correcta es sección censal: el ``id`` del grafo M03 se une con
 ``CUSEC_KEY`` del GeoJSON M04. ``ddd_unit_id`` NO es la clave de unión; es la
@@ -44,6 +49,13 @@ class Contract:
     require_municipality_discipline: bool = True
     max_mixed_districts_per_split_municipality: int = 1
     preserve_closed_urban: bool = True
+    population_floor_exempt_municipalities: tuple[str, ...] = ()
+
+
+def _floor_exempt(municipalities: Iterable[str], contract: Contract) -> bool:
+    """Como M05: «35012» o «35012:35-C01» (islas); se compara solo el código de municipio."""
+    exempt = {str(code) for code in contract.population_floor_exempt_municipalities}
+    return bool(exempt) and any(str(m).split(":", 1)[0] in exempt for m in municipalities)
 
 
 @dataclass(frozen=True)
@@ -409,12 +421,18 @@ def hard_constraint_violations(
         by_atomic[node["atomic_unit"]].add(district)
         by_municipality[node["municipality"]].add(district)
         municipality_pop[node["municipality"]] += node["population"]
+    district_municipalities: dict[Any, set[str]] = defaultdict(set)
+    for section, district in assignment.items():
+        district_municipalities[district].add(data.nodes[section]["municipality"])
     for district, pop in pops.items():
-        if pop < target * contract.population_floor_ratio - 1e-9:
+        exempt = _floor_exempt(district_municipalities[district], contract)
+        if pop < target * contract.population_floor_ratio - 1e-9 and not exempt:
             violations.append(f"population_floor:{district}")
         if pop > target * contract.population_cap_ratio + 1e-9:
             violations.append(f"population_cap:{district}")
-        if abs(pop - target) > target * contract.target_tolerance_ratio + 1e-9:
+        if pop - target > target * contract.target_tolerance_ratio + 1e-9:
+            violations.append(f"population_tolerance:{district}")
+        if target - pop > target * contract.target_tolerance_ratio + 1e-9 and not exempt:
             violations.append(f"population_tolerance:{district}")
     if contract.require_single_province:
         violations.extend(f"province:{d}" for d, values in provinces.items() if len(values) > 1)
@@ -428,9 +446,6 @@ def hard_constraint_violations(
             if province_counts.get(str(province), 0) != int(expected):
                 violations.append(f"province_count:{province}")
     if contract.require_municipality_discipline:
-        district_municipalities: dict[Any, set[str]] = defaultdict(set)
-        for section, district in assignment.items():
-            district_municipalities[district].add(data.nodes[section]["municipality"])
         cap = target * contract.population_cap_ratio
         for municipality, values in by_municipality.items():
             population = municipality_pop[municipality]

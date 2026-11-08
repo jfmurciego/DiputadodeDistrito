@@ -1,0 +1,37 @@
+<!doctype html>
+<!--
+Proyecto: Diputado de Distrito
+Versión: 1.0.0 | Nombre: visor Nacional (T-84, D-16)
+Fecha: 2026-11-08 | Alcance: vista Nacional, elecciones generales; Autonómica pendiente
+Estado: candidato
+Cambios/motivo: vista nueva con barra temporal y capas; solo muestra lo publicado en datos/.
+Anterior: ninguno (fichero nuevo)
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diputado de Distrito · visor Nacional</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+ <div><p class="eyebrow">Diputado de Distrito</p><h1>Visor Nacional</h1></div>
+ <nav class="views" aria-label="Vista"><button type="button" aria-pressed="true">Nacional</button><button type="button" disabled title="Pendiente: datos autonómicos con geometría">Autonómica</button></nav>
+ <div class="layers" id="layers" role="group" aria-label="Capa"></div>
+</header>
+<main>
+ <section id="map" aria-label="Mapa de distritos"></section>
+ <aside class="panel">
+  <p id="status" class="status">Cargando…</p>
+  <section id="legend" class="card"></section>
+  <section class="card"><h2>Distrito</h2><div id="detail">Pulsa un distrito para ver su ficha.</div></section>
+  <section class="card"><p class="note">Datos: elecciones generales de 2023 sobre los distritos propuestos (CC-BY-4.0). Solo consta el ganador por distrito. El visor muestra únicamente lo publicado.</p></section>
+ </aside>
+</main>
+<nav class="timebar" id="timebar" aria-label="Elección"></nav>
+<script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+<script src="nacional.js"></script>
+</body>
+</html>

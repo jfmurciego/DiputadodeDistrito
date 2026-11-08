@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.26
+Versión: 1.0.31
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-16 (visor con vistas Nacional y Autonómica), T-84 reorientada, T-93 kit de comunicación, T-94 artículo JOSS
-Anterior: legacy/docs/PLAN_v1.0.25_20261108.md
+Cambios/motivo: T-103 (secciones recodificadas); D-19 y T-102 (comparativa 2023 con 350 distritos); T-104 (M06 de Valencia); D-20 (siglas de certeza baja); D-21 (tras T-91)
+Anterior: legacy/docs/PLAN_v1.0.30_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -112,6 +112,26 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   temporal y capas ganador por distrito, ganador por sección, rotación y participación; solo división administrativa oficial
   (Estado, comunidades, provincias, municipios, secciones). Comparador lado a lado (opción C) después. Difusión: LinkedIn,
   divulgación y revistas, con el visor estable, `/docs` y el DOI de Zenodo antes de la primera publicación.
+- D-17 (08-11). El archivo en origen (T-72) tolera desajustes de códigos de sección entre el ZIP de Interior y el M06 si no
+  superan el 0,5 % de los votos de la provincia: los reparte con la tabla de T-85 (D-13, población) y lista las secciones en la
+  evidencia. Por encima del tope, fallo estricto.
+- D-18 (08-11). **Autorización de estudios y difusión.** Ningún estudio ni análisis se encarga sin que el propietario apruebe antes
+  la pregunta, y ningún resultado sale del repositorio sin su aprobación después. Los temas y textos de difusión (LinkedIn, prensa,
+  revistas) los decide el propietario; los chats solo preparan, si él lo pide, datos técnicos verificados con fuente. El planificador
+  propone y presenta el criterio técnico; el criterio político y de comunicación es del propietario. Cancelada T-100; el kit de
+  comunicación (#514) queda como borrador sin uso hasta que el propietario lo revise.
+- D-19 (08-11). Pregunta de estudio aprobada (D-18): «¿Cómo habría quedado el Congreso de 2023 con 350 distritos uninominales
+  mayoritarios, con los mismos escaños por provincia, frente al reparto real?». Opción C: cada provincia se divide en tantos distritos
+  como escaños reales de 2023 (`configuracion/resultados_oficiales_congreso_2023.csv`, BOE-A-2023-18907). Los 407 siguen siendo la
+  propuesta del proyecto; los 350 son solo para este estudio. Se avisa de que es una simulación mecánica con los votos de 2023.
+- D-20 (08-11). Las 83 filas de certeza BAJA de T-97 (`datos/homologacion_siglas/homologacion_siglas_generales.csv`, #524) se resuelven así:
+  A) PODEMOS, EN COMÚ, PODEMOS-COM y PODEMOS-En (2015) → familia «Podemos–Sumar», con la sigla real de cada año en el mapa;
+  B) CiU (2011), DL (2015) y CDC (2016) → familia «CiU–Junts»; C) UPN-PP (2011-2016) y NA+ (2019) → familia «UPN y coaliciones»;
+  D) CHA-IU (2011) → «CHA-IU»; E) PDeCAT-E-CiU → PDeCAT, PSM-IV-EXM-EQUO → MÉS, EN MAREA → EN MAREA, Caballas y MDyC → sí mismos.
+  Con D-20 la tabla puede aplicarse a la capa de rotación (T-84).
+- D-21 (08-11). Tras T-91: publicación de los ensembles por el Operador con permiso del propietario, tras su revisión de lo que se
+  muestra (D-18). Ensemble autonómico (diseño y lanzamientos): aparcado.
+
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
 - C-13 (T-64, #469). Alcance de comunidades de interés con partidos judiciales.
@@ -336,8 +356,19 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-91 | Ensembles de 10 (06, `ensemble_10`) de los 52 territorios nacionales y las 19 autonómicas, por orden del propietario (D-15); primero uno de prueba y luego el resto por lotes; el 50 sigue bloqueado | Coordinador + Operador, al cerrar la ola 2 | Ensembles de todos los territorios registrados; publicar, solo con permiso |
 | T-92 | Resultados de las generales del 29-11-2026 sobre los distritos vigentes: paso A (03, M07/M08, puerta 04) de las 52 provincias y publicación (D-14). Se encarga cuando T-90 confirme los escaños del BOE; si cambian, antes decide el propietario. Orden de la cola tras T-92: T-83, T-87, T-91, T-83 A y T-84, autonómicas del histórico | en espera de T-90 paso 1 | 52/52 con M08 2026 y en el visor con permiso del propietario |
 | T-84 | Visor en dos vistas (D-16): Nacional y Autonómica, barra temporal, capas ganador por distrito y por sección, rotación y participación; geometría por provincia cargada una vez y color por `feature-state`; secciones en PMTiles. Empieza ya con 2023 (M08 publicados y composición) y suma el histórico al cerrar T-83 | por abrir (Sonnet), ya | Vista Nacional funcionando en local con 2023; capturas en móvil y escritorio; sin publicar |
-| T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Kit en `documentacion_publica/comunicacion/`; nada se publica sin el propietario |
+| T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Borrador hecho (#514, «T-93b»); sin uso hasta la revisión del propietario (D-18) |
 | T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
+| T-100 | Estudio de rotación para la difusión | — | **Cancelada (D-18)** |
+| T-101 | Archivista con D-17: desajuste de secciones ZIP↔M06 (Málaga, run 42490329631: 2900701022 sin distrito, 2908405001 ausente del ZIP; Alicante y Barcelona, previsiblemente igual); tolerancia ≤ 0,5 % de votos, reparto con la tabla de T-85, lista en la evidencia; tests con el caso de Málaga | por abrir (Opus), ya; toca herramienta compartida | PR con tests; la 00 de Málaga sale verde al relanzarla (Operador) |
+| T-102 | Comparativa 2023 (D-19): campaña nueva `congreso_350` en el Gestor con K por provincia = escaños reales de 2023 (CSV con fuente y sha256), reutilizando M01-M03 y regenerando M04-M06; primero 3 provincias de prueba (una de 2 escaños, una media y Madrid) y luego el resto en lote por el Operador con permiso; votos de 2023 a los 350 distritos con la herramienta de T-83 B; ganador por distrito y escaños por partido frente al reparto real; selector «Real / 350 distritos» en la vista Nacional de T-84. Resultados y visor, solo tras aprobación del propietario (D-18) | por abrir (Opus), ya | Contrato y configuración en una PR; 3 provincias en verde; luego 52/52; tabla comparativa con fuente; sin publicar |
+| T-103 | Desajuste ZIP↔M06 por encima del tope D-17 (Badajoz 0,87 %, Valencia 0,77 %, Albacete 0,63 %, Almería 0,52 %): clasificar cada sección en recodificada (misma geometría o cruce oficial del INE, código distinto) o partida/unida; las recodificadas se asignan 1:1 con la tabla de T-85 y no cuentan para el tope; solo lo partido/unido cuenta. Sin regenerar M06 (cambiaría el producto territorial: decisión del propietario). Si tras clasificar alguna provincia sigue por encima del 0,5 %, se para y se presenta al propietario | por abrir (Opus), ya; toca el archivista | PR con tests de las cuatro provincias; porcentajes antes y después en la evidencia; sin lanzar |
+| T-104 | M06 de Valencia (autorizado por el propietario el 08-11: «regenera el M06 de Valencia»; T-103: «descuenta las contenidas»): antes de lanzar, (1) confirmar el seccionado del contrato de Valencia y cuál daría desajuste 0 con el ZIP de Interior de 2023; (2) cuantificar qué cambia (distritos de los 407, huellas M04/M05, checkpoints, M08 y publicación de Valencia) y la incoherencia de usar un seccionado distinto del INE 2025 del resto; (3) proponer el modo de 00. Se presenta al propietario antes de cualquier lanzamiento | por abrir (Opus), ya | Informe con las tres respuestas; sin lanzar |
+
+Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
+
+Abiertas el 08-11 (frentes en paralelo, orden del propietario): T-97 (Sonnet) homologación de siglas 2011-2026 para la capa de rotación, tabla con fuente y sha256, se presenta al propietario antes de usarla; T-98 (Opus, motor) Cádiz en el ensemble con la exención de San Fernando, una PR, sin lanzar; T-94c (Sonnet) LICENSE y requisitos pendientes de JOSS. Aplazados: ensemble autonómico (tras T-91 nacional) e histórico autonómico (tras T-83 A).
+
+Conciliación de ids (08-11): el Coordinador usó ids propios que chocan con este plan. Equivalencias, todas hechas salvo indicación: T-93 del Coordinador = `retrieved_at` del contrato SIEL de Andalucía (#508); T-94 del Coordinador = persistencia pre-M04 con error visible y reintentos (#509); T-95 = la 05 sobre una 00 «Reutilizar» nombra el run de origen (#510); T-96 = credencial de registro en los pushes pre-M04 con el ruleset `veredicto` (#516); T-91b = receipts electorales huérfanos (#497; en curso, decisión A/B del propietario); T-92 del Coordinador = configuraciones de ensemble, 24 lanzables (#500); T-72b = paquete mínimo (#478). Este plan: T-90 preparación = T-90b (#501, espera a Interior); T-93 kit = T-93b (#514, hecha); T-94 JOSS = T-94b (#512, borrador hecho). El comparador lado a lado pasa a T-99 (propuesta). En adelante los ids los asigna solo el planificador.
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)

@@ -1,0 +1,932 @@
+{
+ "schema": "ddd.equivalencia-congreso-2023/1.0",
+ "decision": "D-17 (tope 0,5 % de los votos de la provincia); peso D-13",
+ "csv": {
+  "ruta": "configuracion/equivalencia_secciones_congreso_2023.csv",
+  "sha256": "45befb7610aeaf8d0407a06676a2e4d4f79d00a02169d7ac479f5fcea3822bdd"
+ },
+ "fuentes": {
+  "zip_mesa_2023": {
+   "release": "fuente-infoelectoral-02202307",
+   "sha256": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8"
+  },
+  "seccionado_m06": {
+   "url": "https://www.ine.es/prodyser/cartografia/seccionado_2023.zip",
+   "sha256": "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f"
+  },
+  "geometria": [
+   {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2024.zip",
+    "sha256": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+   },
+   {
+    "url": "https://www.ine.es/prodyser/cartografia/seccionado_2025.zip",
+    "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+   }
+  ]
+ },
+ "umbral_1a1": 0.95,
+ "astilla": 0.01,
+ "provincias": {
+  "congreso_alava": {
+   "provincia": "01",
+   "votos_candidaturas": 167304,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_albacete": {
+   "provincia": "02",
+   "votos_candidaturas": 218503,
+   "votos_desajustados": 1387,
+   "pct_desajuste": 0.6348,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "0200302025",
+     "votos": 641,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0200302024"
+     ]
+    },
+    {
+     "seccion": "0200307018",
+     "votos": 746,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0200307014"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_alicante": {
+   "provincia": "03",
+   "votos_candidaturas": 888631,
+   "votos_desajustados": 1717,
+   "pct_desajuste": 0.1932,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "0301408031",
+     "votos": 566,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0301408016",
+      "0301408023"
+     ]
+    },
+    {
+     "seccion": "0303104006",
+     "votos": 624,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0303104004"
+     ]
+    },
+    {
+     "seccion": "0306507027",
+     "votos": 527,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0306507001"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "0301402025",
+    "0301901005",
+    "0306505007"
+   ]
+  },
+  "congreso_almeria": {
+   "provincia": "04",
+   "votos_candidaturas": 316006,
+   "votos_desajustados": 1637,
+   "pct_desajuste": 0.518,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "0402401003",
+     "votos": 571,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0402401001"
+     ]
+    },
+    {
+     "seccion": "0410004002",
+     "votos": 388,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0410004001"
+     ]
+    },
+    {
+     "seccion": "0490201051",
+     "votos": 678,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0490201039"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_asturias": {
+   "provincia": "33",
+   "votos_candidaturas": 582385,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_avila": {
+   "provincia": "05",
+   "votos_candidaturas": 96470,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": [
+    "0501401002"
+   ]
+  },
+  "congreso_badajoz": {
+   "provincia": "06",
+   "votos_candidaturas": 386842,
+   "votos_desajustados": 3368,
+   "pct_desajuste": 0.8706,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "0608303011",
+     "votos": 693,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0608303009",
+      "0608303010"
+     ]
+    },
+    {
+     "seccion": "0608304014",
+     "votos": 1054,
+     "tipo": "1:1",
+     "secciones_m06": [
+      "0608304013"
+     ]
+    },
+    {
+     "seccion": "0608306010",
+     "votos": 747,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0608306008"
+     ]
+    },
+    {
+     "seccion": "0615302006",
+     "votos": 874,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0615302001"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "0601505014",
+    "0601506003",
+    "0602301002",
+    "0605901002",
+    "0606701003",
+    "0608601002"
+   ]
+  },
+  "congreso_baleares": {
+   "provincia": "07",
+   "votos_candidaturas": 496245,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_barcelona": {
+   "provincia": "08",
+   "votos_candidaturas": 2625437,
+   "votos_desajustados": 6289,
+   "pct_desajuste": 0.2395,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "0801504017",
+     "votos": 884,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0801504014"
+     ]
+    },
+    {
+     "seccion": "0801508014",
+     "votos": 421,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0801508012"
+     ]
+    },
+    {
+     "seccion": "0811901003",
+     "votos": 1046,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0811901001"
+     ]
+    },
+    {
+     "seccion": "0811901004",
+     "votos": 1279,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0811901001",
+      "0811901002"
+     ]
+    },
+    {
+     "seccion": "0811901005",
+     "votos": 970,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0811901002"
+     ]
+    },
+    {
+     "seccion": "0811901006",
+     "votos": 694,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0811901002"
+     ]
+    },
+    {
+     "seccion": "0830101017",
+     "votos": 450,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0830101002"
+     ]
+    },
+    {
+     "seccion": "0830101018",
+     "votos": 545,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "0830101003",
+      "0830102013"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "0809202001"
+   ]
+  },
+  "congreso_burgos": {
+   "provincia": "09",
+   "votos_candidaturas": 198616,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_caceres": {
+   "provincia": "10",
+   "votos_candidaturas": 232620,
+   "votos_desajustados": 751,
+   "pct_desajuste": 0.3228,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "1014804015",
+     "votos": 751,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "1014805001"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "1002101002"
+   ]
+  },
+  "congreso_cadiz": {
+   "provincia": "11",
+   "votos_candidaturas": 627167,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_cantabria": {
+   "provincia": "39",
+   "votos_candidaturas": 343495,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_castellon": {
+   "provincia": "12",
+   "votos_candidaturas": 303870,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_ceuta": {
+   "provincia": "51",
+   "votos_candidaturas": 32905,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_ciudad_real": {
+   "provincia": "13",
+   "votos_candidaturas": 279684,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": [
+    "1301104001"
+   ]
+  },
+  "congreso_cordoba": {
+   "provincia": "14",
+   "votos_candidaturas": 442151,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": [
+    "1403701002"
+   ]
+  },
+  "congreso_cuenca": {
+   "provincia": "16",
+   "votos_candidaturas": 112472,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_gerona": {
+   "provincia": "17",
+   "votos_candidaturas": 317740,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_granada": {
+   "provincia": "18",
+   "votos_candidaturas": 494203,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_guadalajara": {
+   "provincia": "19",
+   "votos_candidaturas": 139031,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_guipuzcoa": {
+   "provincia": "20",
+   "votos_candidaturas": 370320,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": [
+    "2007902012"
+   ]
+  },
+  "congreso_huelva": {
+   "provincia": "21",
+   "votos_candidaturas": 253713,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_huesca": {
+   "provincia": "22",
+   "votos_candidaturas": 117735,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_jaen": {
+   "provincia": "23",
+   "votos_candidaturas": 364706,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": [
+    "2301801002",
+    "2303301002",
+    "2305601002",
+    "2309401002",
+    "2390102001",
+    "2390402002"
+   ]
+  },
+  "congreso_la_coruna": {
+   "provincia": "15",
+   "votos_candidaturas": 662459,
+   "votos_desajustados": 3118,
+   "pct_desajuste": 0.4707,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "1500401004",
+     "votos": 542,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "1500401003"
+     ]
+    },
+    {
+     "seccion": "1500501012",
+     "votos": 599,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "1500501001"
+     ]
+    },
+    {
+     "seccion": "1505802013",
+     "votos": 672,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "1505802001"
+     ]
+    },
+    {
+     "seccion": "1507501007",
+     "votos": 818,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "1507501003"
+     ]
+    },
+    {
+     "seccion": "1507805024",
+     "votos": 487,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "1507805020"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "1503501004",
+    "1503603002",
+    "1503607009",
+    "1505501004",
+    "1506102003",
+    "1506503002",
+    "1506803002",
+    "1507601003",
+    "1508402002"
+   ]
+  },
+  "congreso_la_rioja": {
+   "provincia": "26",
+   "votos_candidaturas": 171589,
+   "votos_desajustados": 579,
+   "pct_desajuste": 0.3374,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "2608904040",
+     "votos": 579,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "2608904034"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_las_palmas": {
+   "provincia": "35",
+   "votos_candidaturas": 523753,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_leon": {
+   "provincia": "24",
+   "votos_candidaturas": 269759,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_lerida": {
+   "provincia": "25",
+   "votos_candidaturas": 180770,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_lugo": {
+   "provincia": "27",
+   "votos_candidaturas": 193699,
+   "votos_desajustados": 401,
+   "pct_desajuste": 0.207,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "2702203002",
+     "votos": 401,
+     "tipo": "1:1",
+     "secciones_m06": [
+      "2702204002"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "2701201002",
+    "2702204001",
+    "2702204002"
+   ]
+  },
+  "congreso_madrid": {
+   "provincia": "28",
+   "votos_candidaturas": 3535749,
+   "votos_desajustados": 1023,
+   "pct_desajuste": 0.0289,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "2808002028",
+     "votos": 1023,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "2808002027"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_malaga": {
+   "provincia": "29",
+   "votos_candidaturas": 775255,
+   "votos_desajustados": 497,
+   "pct_desajuste": 0.0641,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "2900701022",
+     "votos": 497,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "2900701003"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "2908405001"
+   ]
+  },
+  "congreso_melilla": {
+   "provincia": "52",
+   "votos_candidaturas": 26925,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_murcia": {
+   "provincia": "30",
+   "votos_candidaturas": 739321,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_navarra": {
+   "provincia": "31",
+   "votos_candidaturas": 336216,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_orense": {
+   "provincia": "32",
+   "votos_candidaturas": 179460,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_palencia": {
+   "provincia": "34",
+   "votos_candidaturas": 95377,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_pontevedra": {
+   "provincia": "36",
+   "votos_candidaturas": 559676,
+   "votos_desajustados": 654,
+   "pct_desajuste": 0.1169,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "3602101006",
+     "votos": 654,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "3602101001"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "3604204002"
+   ]
+  },
+  "congreso_salamanca": {
+   "provincia": "37",
+   "votos_candidaturas": 194989,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_santa_cruz_de_tenerife": {
+   "provincia": "38",
+   "votos_candidaturas": 484835,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_segovia": {
+   "provincia": "40",
+   "votos_candidaturas": 87194,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_sevilla": {
+   "provincia": "41",
+   "votos_candidaturas": 1043832,
+   "votos_desajustados": 657,
+   "pct_desajuste": 0.0629,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "4102406006",
+     "votos": 657,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4102406002"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_soria": {
+   "provincia": "42",
+   "votos_candidaturas": 49823,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_tarragona": {
+   "provincia": "43",
+   "votos_candidaturas": 362891,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_teruel": {
+   "provincia": "44",
+   "votos_candidaturas": 75074,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_toledo": {
+   "provincia": "45",
+   "votos_candidaturas": 383100,
+   "votos_desajustados": 806,
+   "pct_desajuste": 0.2104,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "4509901003",
+     "votos": 806,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4509901001",
+      "4509901002"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "4516807017"
+   ]
+  },
+  "congreso_valencia": {
+   "provincia": "46",
+   "votos_candidaturas": 1419017,
+   "votos_desajustados": 10859,
+   "pct_desajuste": 0.7652,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "4607001005",
+     "votos": 769,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001004",
+      "4607002003",
+      "4607002006",
+      "4607002008"
+     ]
+    },
+    {
+     "seccion": "4607001006",
+     "votos": 739,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001004"
+     ]
+    },
+    {
+     "seccion": "4607001007",
+     "votos": 684,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001003",
+      "4607001004",
+      "4607002003"
+     ]
+    },
+    {
+     "seccion": "4607001008",
+     "votos": 820,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607002001",
+      "4607002009"
+     ]
+    },
+    {
+     "seccion": "4607001009",
+     "votos": 767,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607002003",
+      "4607002004",
+      "4607002009"
+     ]
+    },
+    {
+     "seccion": "4607001010",
+     "votos": 829,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607002001",
+      "4607002003",
+      "4607002004",
+      "4607002008"
+     ]
+    },
+    {
+     "seccion": "4607001011",
+     "votos": 985,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001003",
+      "4607002002",
+      "4607002008",
+      "4607002009"
+     ]
+    },
+    {
+     "seccion": "4607001012",
+     "votos": 961,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001001",
+      "4607001003"
+     ]
+    },
+    {
+     "seccion": "4607001013",
+     "votos": 955,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001001",
+      "4607001003",
+      "4607002001",
+      "4607002002"
+     ]
+    },
+    {
+     "seccion": "4607001014",
+     "votos": 880,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001002",
+      "4607001004"
+     ]
+    },
+    {
+     "seccion": "4607001015",
+     "votos": 861,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607001002",
+      "4607002001",
+      "4607002002",
+      "4607002009"
+     ]
+    },
+    {
+     "seccion": "4607001016",
+     "votos": 771,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4607002001"
+     ]
+    },
+    {
+     "seccion": "4612301002",
+     "votos": 838,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "4612301001"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": [
+    "4607002001",
+    "4607002002",
+    "4607002003",
+    "4607002004",
+    "4607002005",
+    "4607002006",
+    "4607002007",
+    "4607002008",
+    "4607002009"
+   ]
+  },
+  "congreso_valladolid": {
+   "provincia": "47",
+   "votos_candidaturas": 311740,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_vizcaya": {
+   "provincia": "48",
+   "votos_candidaturas": 602806,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": [
+    "4802005013",
+    "4802006032",
+    "4802007007",
+    "4802007031"
+   ]
+  },
+  "congreso_zamora": {
+   "provincia": "49",
+   "votos_candidaturas": 100766,
+   "votos_desajustados": 0,
+   "pct_desajuste": 0.0,
+   "secciones_zip_sin_m06": [],
+   "secciones_m06_sin_zip": []
+  },
+  "congreso_zaragoza": {
+   "provincia": "50",
+   "votos_candidaturas": 510009,
+   "votos_desajustados": 767,
+   "pct_desajuste": 0.1504,
+   "secciones_zip_sin_m06": [
+    {
+     "seccion": "5006201002",
+     "votos": 767,
+     "tipo": "reparto",
+     "secciones_m06": [
+      "5006201001"
+     ]
+    }
+   ],
+   "secciones_m06_sin_zip": []
+  }
+ }
+}
