@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.167
+Versión: 1.0.168
 Fecha: 2026-11-08
-Alcance: T-83 B — Reagregación del histórico de generales a los distritos vigentes
+Alcance: T-94 — El escritor PENDING ya no esconde su error (01, Ceuta)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t83-reagregacion-historico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.166_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t94-persistencia-pending-error.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.167_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.166_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.168 · [2026-11-08 — T-94 — El escritor PENDING ya no esconde su error (01, Ceuta)](registro/2026-11-08_t94-persistencia-pending-error.md)
 - 1.0.167 · [2026-11-08 — T-83 B — Reagregación del histórico de generales a los distritos vigentes](registro/2026-11-08_t83-reagregacion-historico.md)
 - 1.0.166 · [2026-11-08 — Plan — Limpieza de decisiones pendientes](registro/2026-11-08_plan-pendientes.md)
 - 1.0.165 · [2026-11-08 — T-90b — Universo electoral de las generales 2026](registro/2026-11-08_t90b-escanos-2026.md)
