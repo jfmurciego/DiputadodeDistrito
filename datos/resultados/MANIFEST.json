@@ -276,9 +276,9 @@
    "sha256_csv": "be64820d5e45a0194c08a7917fd77dc1d83ad32cd11df64bde6d6aa2caff1c8c"
   },
   "congreso_lugo": {
-   "run_id": "41294985244",
-   "blob_sha": "98b4840ba21944283c1dfa554c2055f2873b8626",
-   "sha256_origen": "8c5756401402ed32bfd7dd6078dea37effa30714f6988e38d745ab5ecb7fec6f",
+   "run_id": "42514986960",
+   "blob_sha": "ffffea11b298fa3c7a002852c14a1452f05337a1",
+   "sha256_origen": "bd1a437af587cd89001327e2145a2ea16f3b41d2921cf33c0a471dbb0d32b87f",
    "distritos": 3,
    "sha256_csv": "f804d131ce3221ef628d9114a15d85fb8353e7227c3d460ba9a2064366733803"
   },

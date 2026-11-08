@@ -2275,9 +2275,9 @@
   },
   "congreso_lugo": {
    "provincia": "Lugo",
-   "run_id": "41294985244",
-   "blob_sha": "61baba86db0ee7f78ba5d54fd7c3d07f6da27a0c",
-   "sha256_origen": "fda0dda4b68a1a490af8f0f35489e3cb62eb2f77ddbcd7318e3c97c4a17abbd2",
+   "run_id": "42514986960",
+   "blob_sha": "a0dc4c1bb56192d413ff6bdd2463d2b5aa1f9989",
+   "sha256_origen": "8ed9e81b67604dc078a5bad7d2a1523e39f44b3902dcf18f4db2d640de0a013b",
    "n_distritos": 3,
    "nombres": {},
    "geojson": {
@@ -2287,8 +2287,8 @@
    "resultados": {
     "ruta": "congreso_lugo/resultados.csv",
     "sha256": "f804d131ce3221ef628d9114a15d85fb8353e7227c3d460ba9a2064366733803",
-    "blob_sha_m08": "98b4840ba21944283c1dfa554c2055f2873b8626",
-    "run_id": "41294985244"
+    "blob_sha_m08": "ffffea11b298fa3c7a002852c14a1452f05337a1",
+    "run_id": "42514986960"
    },
    "distritos": [
     {
