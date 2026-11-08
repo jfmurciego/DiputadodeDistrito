@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T20:03:48.271441+00:00",
+  "generated_at": "2026-11-08T20:05:52.582381+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7946,7 +7946,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42514994231,
       "last_run": {
-        "run_id": 42499467982,
+        "run_id": 42514994231,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -10140,24 +10140,20 @@
       "name": "Nacional Santa Cruz de Tenerife",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41294259017,
+      "run_id": 42514989698,
       "last_run": {
         "run_id": 41294259017,
         "status": "FAILED",
         "completion_status": "INCOMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "not_requested",
-        "superseded_failure": {
-          "stopped_at": "05 · Publicación del Visor",
-          "reason": "ver log del run"
-        }
+        "stopped_at": "05 · Publicación del Visor",
+        "reason": "ver log del run",
+        "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -10174,13 +10170,13 @@
           "territory_id": "congreso_santa_cruz_de_tenerife",
           "territory_name": "Congreso Santa Cruz de Tenerife",
           "edition": "2025",
-          "run_id": 41239505387,
-          "artifact_name": "ddd-state-41239505387-M06",
-          "artifact_sha256": "bcac28237c78a78dc29ce9638755acf74b8c884b3afdfd27f248acd11a99b5e7",
-          "source_commit": "9f7ddb6cbbeeac9d8ab6f121512655bfd2f52c2c",
+          "run_id": 42514989698,
+          "artifact_name": "ddd-state-42514989698-M06",
+          "artifact_sha256": "db19a6b60a5256ec20e469dde132c629592fbed3b3c440b44b6f24d0c7db8cad",
+          "source_commit": "cfe73360b7c7d4ba40c099a81ec4cdb6be09b710",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/generaciones_m06/41239505387.json"
+          "producer_manifest_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/generaciones_m06/42514989698.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -10198,7 +10194,7 @@
       },
       "autonomous_community_code_ine": "C38",
       "display_name": "Nacional Santa Cruz de Tenerife",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_cantabria",
@@ -12187,7 +12183,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 68,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12243,7 +12239,6 @@
       "Nacional Las Palmas",
       "Nacional Pontevedra",
       "Nacional Salamanca",
-      "Nacional Santa Cruz de Tenerife",
       "Nacional Cantabria",
       "Nacional Segovia",
       "Nacional Sevilla",
@@ -12488,6 +12483,12 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Nacional Santa Cruz de Tenerife",
+      "territory_id": "congreso_santa_cruz_de_tenerife",
+      "autonomous_community_code_ine": "C38",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12516,12 +12517,6 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Badajoz",
-      "territory_id": "congreso350_badajoz",
-      "autonomous_community_code_ine": "R06",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12535,6 +12530,12 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Santa Cruz de Tenerife",
+      "territory_id": "congreso_santa_cruz_de_tenerife",
+      "autonomous_community_code_ine": "C38",
       "action": "preparar fuentes electorales"
     }
   ]
