@@ -51,6 +51,16 @@ def generated_identity(production_root: Path | None) -> tuple[str | None, str | 
     )
 
 
+def reused_origin_run(production_root: Path | None) -> str | None:
+    """Run que generó el producto que reutiliza una 00 «Reutilizar» sin auditoría propia."""
+    manifest = _read_json(_first(production_root, "manifest.json"))
+    resumption = manifest.get("resumption") if isinstance(manifest.get("resumption"), dict) else {}
+    origin = resumption.get("origin_run_id")
+    if manifest.get("execution_mode") == "reuse" and origin not in (None, ""):
+        return str(origin)
+    return None
+
+
 def evaluate_publication(
     *,
     requested_run_id: str | None,
@@ -72,6 +82,9 @@ def evaluate_publication(
     if requested:
         if generated_run is None:
             reasons.append("EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA")
+            origin = reused_origin_run(production_root)
+            if origin and origin != requested:
+                reasons.append(f"EJECUCION_REUTILIZADA_PUBLICAR_CON_PRODUCTION_RUN_ID={origin}")
         elif generated_run != requested:
             reasons.append("IDENTIFICADOR_EJECUCION_GENERADA_NO_COINCIDE")
         matching = [row for row in production_results if str(row.get("run_id") or "") == requested]
