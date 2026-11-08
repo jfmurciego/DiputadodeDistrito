@@ -2785,3 +2785,836 @@ territories:
         prepared_source_pair: territorios/congreso_melilla/evidencia/pares_fuentes/2025/c9abeb289e806d126bb44b093b47b7971c92d3eff4954a42b0d06a879c279220.json
         electoral_product: territorios/congreso_melilla/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
+- territory_id: congreso350_alava
+  name: Congreso 350 Álava
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_alava/config/congreso350_alava_2025.yaml
+      territorial_source_declaration: territorios/congreso350_alava/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_albacete
+  name: Congreso 350 Albacete
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_albacete/config/congreso350_albacete_2025.yaml
+      territorial_source_declaration: territorios/congreso350_albacete/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_alicante
+  name: Congreso 350 Alicante
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_alicante/config/congreso350_alicante_2025.yaml
+      territorial_source_declaration: territorios/congreso350_alicante/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_almeria
+  name: Congreso 350 Almería
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_almeria/config/congreso350_almeria_2025.yaml
+      territorial_source_declaration: territorios/congreso350_almeria/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_avila
+  name: Congreso 350 Ávila
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_avila/config/congreso350_avila_2025.yaml
+      territorial_source_declaration: territorios/congreso350_avila/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_badajoz
+  name: Congreso 350 Badajoz
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_badajoz/config/congreso350_badajoz_2025.yaml
+      territorial_source_declaration: territorios/congreso350_badajoz/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_barcelona
+  name: Congreso 350 Barcelona
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_barcelona/config/congreso350_barcelona_2025.yaml
+      territorial_source_declaration: territorios/congreso350_barcelona/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_burgos
+  name: Congreso 350 Burgos
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_burgos/config/congreso350_burgos_2025.yaml
+      territorial_source_declaration: territorios/congreso350_burgos/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_caceres
+  name: Congreso 350 Cáceres
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_caceres/config/congreso350_caceres_2025.yaml
+      territorial_source_declaration: territorios/congreso350_caceres/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_cadiz
+  name: Congreso 350 Cádiz
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_cadiz/config/congreso350_cadiz_2025.yaml
+      territorial_source_declaration: territorios/congreso350_cadiz/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_castellon
+  name: Congreso 350 Castellón
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_castellon/config/congreso350_castellon_2025.yaml
+      territorial_source_declaration: territorios/congreso350_castellon/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_ciudad_real
+  name: Congreso 350 Ciudad Real
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_ciudad_real/config/congreso350_ciudad_real_2025.yaml
+      territorial_source_declaration: territorios/congreso350_ciudad_real/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_cordoba
+  name: Congreso 350 Córdoba
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_cordoba/config/congreso350_cordoba_2025.yaml
+      territorial_source_declaration: territorios/congreso350_cordoba/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_la_coruna
+  name: Congreso 350 La Coruña
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_la_coruna/config/congreso350_la_coruna_2025.yaml
+      territorial_source_declaration: territorios/congreso350_la_coruna/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_cuenca
+  name: Congreso 350 Cuenca
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_cuenca/config/congreso350_cuenca_2025.yaml
+      territorial_source_declaration: territorios/congreso350_cuenca/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_gerona
+  name: Congreso 350 Gerona
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_gerona/config/congreso350_gerona_2025.yaml
+      territorial_source_declaration: territorios/congreso350_gerona/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_granada
+  name: Congreso 350 Granada
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_granada/config/congreso350_granada_2025.yaml
+      territorial_source_declaration: territorios/congreso350_granada/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_guadalajara
+  name: Congreso 350 Guadalajara
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_guadalajara/config/congreso350_guadalajara_2025.yaml
+      territorial_source_declaration: territorios/congreso350_guadalajara/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_guipuzcoa
+  name: Congreso 350 Guipúzcoa
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_guipuzcoa/config/congreso350_guipuzcoa_2025.yaml
+      territorial_source_declaration: territorios/congreso350_guipuzcoa/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_huelva
+  name: Congreso 350 Huelva
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_huelva/config/congreso350_huelva_2025.yaml
+      territorial_source_declaration: territorios/congreso350_huelva/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_huesca
+  name: Congreso 350 Huesca
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_huesca/config/congreso350_huesca_2025.yaml
+      territorial_source_declaration: territorios/congreso350_huesca/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_jaen
+  name: Congreso 350 Jaén
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_jaen/config/congreso350_jaen_2025.yaml
+      territorial_source_declaration: territorios/congreso350_jaen/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_leon
+  name: Congreso 350 León
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_leon/config/congreso350_leon_2025.yaml
+      territorial_source_declaration: territorios/congreso350_leon/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_lerida
+  name: Congreso 350 Lérida
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_lerida/config/congreso350_lerida_2025.yaml
+      territorial_source_declaration: territorios/congreso350_lerida/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_la_rioja
+  name: Congreso 350 La Rioja
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_la_rioja/config/congreso350_la_rioja_2025.yaml
+      territorial_source_declaration: territorios/congreso350_la_rioja/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_lugo
+  name: Congreso 350 Lugo
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_lugo/config/congreso350_lugo_2025.yaml
+      territorial_source_declaration: territorios/congreso350_lugo/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_madrid
+  name: Congreso 350 Madrid
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_madrid/config/congreso350_madrid_2025.yaml
+      territorial_source_declaration: territorios/congreso350_madrid/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_malaga
+  name: Congreso 350 Málaga
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_malaga/config/congreso350_malaga_2025.yaml
+      territorial_source_declaration: territorios/congreso350_malaga/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_murcia
+  name: Congreso 350 Murcia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_murcia/config/congreso350_murcia_2025.yaml
+      territorial_source_declaration: territorios/congreso350_murcia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_navarra
+  name: Congreso 350 Navarra
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_navarra/config/congreso350_navarra_2025.yaml
+      territorial_source_declaration: territorios/congreso350_navarra/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_orense
+  name: Congreso 350 Orense
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_orense/config/congreso350_orense_2025.yaml
+      territorial_source_declaration: territorios/congreso350_orense/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_asturias
+  name: Congreso 350 Asturias
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_asturias/config/congreso350_asturias_2025.yaml
+      territorial_source_declaration: territorios/congreso350_asturias/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_palencia
+  name: Congreso 350 Palencia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_palencia/config/congreso350_palencia_2025.yaml
+      territorial_source_declaration: territorios/congreso350_palencia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_pontevedra
+  name: Congreso 350 Pontevedra
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_pontevedra/config/congreso350_pontevedra_2025.yaml
+      territorial_source_declaration: territorios/congreso350_pontevedra/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_salamanca
+  name: Congreso 350 Salamanca
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_salamanca/config/congreso350_salamanca_2025.yaml
+      territorial_source_declaration: territorios/congreso350_salamanca/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_cantabria
+  name: Congreso 350 Cantabria
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_cantabria/config/congreso350_cantabria_2025.yaml
+      territorial_source_declaration: territorios/congreso350_cantabria/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_segovia
+  name: Congreso 350 Segovia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_segovia/config/congreso350_segovia_2025.yaml
+      territorial_source_declaration: territorios/congreso350_segovia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_sevilla
+  name: Congreso 350 Sevilla
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_sevilla/config/congreso350_sevilla_2025.yaml
+      territorial_source_declaration: territorios/congreso350_sevilla/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_soria
+  name: Congreso 350 Soria
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_soria/config/congreso350_soria_2025.yaml
+      territorial_source_declaration: territorios/congreso350_soria/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_tarragona
+  name: Congreso 350 Tarragona
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_tarragona/config/congreso350_tarragona_2025.yaml
+      territorial_source_declaration: territorios/congreso350_tarragona/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_teruel
+  name: Congreso 350 Teruel
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_teruel/config/congreso350_teruel_2025.yaml
+      territorial_source_declaration: territorios/congreso350_teruel/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_toledo
+  name: Congreso 350 Toledo
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_toledo/config/congreso350_toledo_2025.yaml
+      territorial_source_declaration: territorios/congreso350_toledo/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_valencia
+  name: Congreso 350 Valencia
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_valencia/config/congreso350_valencia_2025.yaml
+      territorial_source_declaration: territorios/congreso350_valencia/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_valladolid
+  name: Congreso 350 Valladolid
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_valladolid/config/congreso350_valladolid_2025.yaml
+      territorial_source_declaration: territorios/congreso350_valladolid/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_vizcaya
+  name: Congreso 350 Vizcaya
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_vizcaya/config/congreso350_vizcaya_2025.yaml
+      territorial_source_declaration: territorios/congreso350_vizcaya/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_zamora
+  name: Congreso 350 Zamora
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_zamora/config/congreso350_zamora_2025.yaml
+      territorial_source_declaration: territorios/congreso350_zamora/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_zaragoza
+  name: Congreso 350 Zaragoza
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_zaragoza/config/congreso350_zaragoza_2025.yaml
+      territorial_source_declaration: territorios/congreso350_zaragoza/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_ceuta
+  name: Congreso 350 Ceuta
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_ceuta/config/congreso350_ceuta_2025.yaml
+      territorial_source_declaration: territorios/congreso350_ceuta/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null
+- territory_id: congreso350_melilla
+  name: Congreso 350 Melilla
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY_INITIAL
+      contract_path: territorios/congreso350_melilla/config/congreso350_melilla_2025.yaml
+      territorial_source_declaration: territorios/congreso350_melilla/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: false
+      territorial_contract_complete: false
+      territorial_product_available: false
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: NOT_CERTIFIED
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint: null

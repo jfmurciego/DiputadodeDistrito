@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.10
+# VERSIÓN: 1.4.11
+# CAMBIOS 1.4.11: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
-# FECHA: 2026-10-28
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # CAMBIOS: en reutilización ordinaria, si el artefacto registrado caducó o fue eliminado, vuelve a adquirir la fuente oficial en vez de fallar (la recuperación exacta sigue bloqueando); el aviso de PENDING solo se emite si la preparación tuvo éxito.
 # MOTIVO: los artefactos de Actions caducan y bloqueaban "Reutilizar progreso existente" (Andalucía, run 40604585745; Comunidad Valenciana, run 40604791319).
@@ -17,7 +18,7 @@
 # CAMBIOS 1.4.9: T-94, el paso «Persistir diagnóstico» ya no esconde el error del escritor (stderr al log y volcado del result-json).
 # CAMBIOS 1.4.10: T-96, el job generation_pending (persistencia PENDING en main) usa la «Credencial de registro» tras el checkout;
 #   con github.token el ruleset proteger-main rechazaba el push (GH013, "veredicto" esperado; run 42463443610, Ceuta).
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.9_20261108.yml
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.10_20261108.yml
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -122,6 +123,55 @@ on:
           - Congreso Zaragoza
           - Congreso Ceuta
           - Congreso Melilla
+          - Congreso 350 Álava
+          - Congreso 350 Albacete
+          - Congreso 350 Alicante
+          - Congreso 350 Almería
+          - Congreso 350 Ávila
+          - Congreso 350 Badajoz
+          - Congreso 350 Barcelona
+          - Congreso 350 Burgos
+          - Congreso 350 Cáceres
+          - Congreso 350 Cádiz
+          - Congreso 350 Castellón
+          - Congreso 350 Ciudad Real
+          - Congreso 350 Córdoba
+          - Congreso 350 La Coruña
+          - Congreso 350 Cuenca
+          - Congreso 350 Gerona
+          - Congreso 350 Granada
+          - Congreso 350 Guadalajara
+          - Congreso 350 Guipúzcoa
+          - Congreso 350 Huelva
+          - Congreso 350 Huesca
+          - Congreso 350 Jaén
+          - Congreso 350 León
+          - Congreso 350 Lérida
+          - Congreso 350 La Rioja
+          - Congreso 350 Lugo
+          - Congreso 350 Madrid
+          - Congreso 350 Málaga
+          - Congreso 350 Murcia
+          - Congreso 350 Navarra
+          - Congreso 350 Orense
+          - Congreso 350 Asturias
+          - Congreso 350 Palencia
+          - Congreso 350 Pontevedra
+          - Congreso 350 Salamanca
+          - Congreso 350 Cantabria
+          - Congreso 350 Segovia
+          - Congreso 350 Sevilla
+          - Congreso 350 Soria
+          - Congreso 350 Tarragona
+          - Congreso 350 Teruel
+          - Congreso 350 Toledo
+          - Congreso 350 Valencia
+          - Congreso 350 Valladolid
+          - Congreso 350 Vizcaya
+          - Congreso 350 Zamora
+          - Congreso 350 Zaragoza
+          - Congreso 350 Ceuta
+          - Congreso 350 Melilla
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}
   cancel-in-progress: false

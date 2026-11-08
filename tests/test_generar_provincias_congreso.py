@@ -1,4 +1,4 @@
-"""Versión 1.3.0; 2026-10-31; candidato. 1.3.0: puentes heredados de los contratos autonómicos. 1.2.0: Baleares y Las Palmas con reparto fijado. 1.1.0: provincias insulares con partición declarada. Coherencia del alta de las provincias del Congreso.
+"""Versión 1.4.0; 2026-11-08; candidato. 1.4.0: excluye los gemelos Congreso 350 (T-102, batch congreso_350). 1.3.0: puentes heredados de los contratos autonómicos. 1.2.0: Baleares y Las Palmas con reparto fijado. 1.1.0: provincias insulares con partición declarada. Coherencia del alta de las provincias del Congreso.
 Origen: nuevo, sin predecesor. Cada provincia dada de alta por generar_provincias_congreso.py debe estar
 declarada igual en catálogo, política, matriz, registro, contrato Infoelectoral y contrato M01–M06.
 """
@@ -26,7 +26,7 @@ class CongressProvincesTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.reparto = {p["territory_id"]: p for p in provinces(ROOT)}
-        cls.pilots = {p["territory_id"]: p for p in load_pilot_territories()}
+        cls.pilots = {p["territory_id"]: p for p in load_pilot_territories() if p.get("batch") != "congreso_350"}
 
     def test_reparto_is_n06_and_every_peninsular_province_is_declared(self):
         self.assertEqual(52, len(self.reparto))

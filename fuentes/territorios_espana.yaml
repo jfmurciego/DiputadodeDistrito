@@ -83,3 +83,52 @@ territories:
   - {id: congreso_zaragoza, name: Congreso Zaragoza, province_codes: ['50']}
   - {id: congreso_ceuta, name: Congreso Ceuta, province_codes: ['51']}
   - {id: congreso_melilla, name: Congreso Melilla, province_codes: ['52']}
+  - {id: congreso350_alava, name: Congreso 350 Álava, province_codes: ['01']}
+  - {id: congreso350_albacete, name: Congreso 350 Albacete, province_codes: ['02']}
+  - {id: congreso350_alicante, name: Congreso 350 Alicante, province_codes: ['03']}
+  - {id: congreso350_almeria, name: Congreso 350 Almería, province_codes: ['04']}
+  - {id: congreso350_avila, name: Congreso 350 Ávila, province_codes: ['05']}
+  - {id: congreso350_badajoz, name: Congreso 350 Badajoz, province_codes: ['06']}
+  - {id: congreso350_barcelona, name: Congreso 350 Barcelona, province_codes: ['08']}
+  - {id: congreso350_burgos, name: Congreso 350 Burgos, province_codes: ['09']}
+  - {id: congreso350_caceres, name: Congreso 350 Cáceres, province_codes: ['10']}
+  - {id: congreso350_cadiz, name: Congreso 350 Cádiz, province_codes: ['11']}
+  - {id: congreso350_castellon, name: Congreso 350 Castellón, province_codes: ['12']}
+  - {id: congreso350_ciudad_real, name: Congreso 350 Ciudad Real, province_codes: ['13']}
+  - {id: congreso350_cordoba, name: Congreso 350 Córdoba, province_codes: ['14']}
+  - {id: congreso350_la_coruna, name: Congreso 350 La Coruña, province_codes: ['15']}
+  - {id: congreso350_cuenca, name: Congreso 350 Cuenca, province_codes: ['16']}
+  - {id: congreso350_gerona, name: Congreso 350 Gerona, province_codes: ['17']}
+  - {id: congreso350_granada, name: Congreso 350 Granada, province_codes: ['18']}
+  - {id: congreso350_guadalajara, name: Congreso 350 Guadalajara, province_codes: ['19']}
+  - {id: congreso350_guipuzcoa, name: Congreso 350 Guipúzcoa, province_codes: ['20']}
+  - {id: congreso350_huelva, name: Congreso 350 Huelva, province_codes: ['21']}
+  - {id: congreso350_huesca, name: Congreso 350 Huesca, province_codes: ['22']}
+  - {id: congreso350_jaen, name: Congreso 350 Jaén, province_codes: ['23']}
+  - {id: congreso350_leon, name: Congreso 350 León, province_codes: ['24']}
+  - {id: congreso350_lerida, name: Congreso 350 Lérida, province_codes: ['25']}
+  - {id: congreso350_la_rioja, name: Congreso 350 La Rioja, province_codes: ['26']}
+  - {id: congreso350_lugo, name: Congreso 350 Lugo, province_codes: ['27']}
+  - {id: congreso350_madrid, name: Congreso 350 Madrid, province_codes: ['28']}
+  - {id: congreso350_malaga, name: Congreso 350 Málaga, province_codes: ['29']}
+  - {id: congreso350_murcia, name: Congreso 350 Murcia, province_codes: ['30']}
+  - {id: congreso350_navarra, name: Congreso 350 Navarra, province_codes: ['31']}
+  - {id: congreso350_orense, name: Congreso 350 Orense, province_codes: ['32']}
+  - {id: congreso350_asturias, name: Congreso 350 Asturias, province_codes: ['33']}
+  - {id: congreso350_palencia, name: Congreso 350 Palencia, province_codes: ['34']}
+  - {id: congreso350_pontevedra, name: Congreso 350 Pontevedra, province_codes: ['36']}
+  - {id: congreso350_salamanca, name: Congreso 350 Salamanca, province_codes: ['37']}
+  - {id: congreso350_cantabria, name: Congreso 350 Cantabria, province_codes: ['39']}
+  - {id: congreso350_segovia, name: Congreso 350 Segovia, province_codes: ['40']}
+  - {id: congreso350_sevilla, name: Congreso 350 Sevilla, province_codes: ['41']}
+  - {id: congreso350_soria, name: Congreso 350 Soria, province_codes: ['42']}
+  - {id: congreso350_tarragona, name: Congreso 350 Tarragona, province_codes: ['43']}
+  - {id: congreso350_teruel, name: Congreso 350 Teruel, province_codes: ['44']}
+  - {id: congreso350_toledo, name: Congreso 350 Toledo, province_codes: ['45']}
+  - {id: congreso350_valencia, name: Congreso 350 Valencia, province_codes: ['46']}
+  - {id: congreso350_valladolid, name: Congreso 350 Valladolid, province_codes: ['47']}
+  - {id: congreso350_vizcaya, name: Congreso 350 Vizcaya, province_codes: ['48']}
+  - {id: congreso350_zamora, name: Congreso 350 Zamora, province_codes: ['49']}
+  - {id: congreso350_zaragoza, name: Congreso 350 Zaragoza, province_codes: ['50']}
+  - {id: congreso350_ceuta, name: Congreso 350 Ceuta, province_codes: ['51']}
+  - {id: congreso350_melilla, name: Congreso 350 Melilla, province_codes: ['52']}

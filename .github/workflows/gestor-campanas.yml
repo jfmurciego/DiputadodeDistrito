@@ -1,6 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# VERSIÓN: 1.3.0 · FECHA: 2026-11-07 · ESTADO: candidato
+# VERSIÓN: 1.4.0 · FECHA: 2026-11-08 · ESTADO: candidato
+# CAMBIOS 1.4.0: T-102: ámbito «congreso 350» (49 gemelos congreso350_*, K = escaños reales de 2023; nunca publican, D-18).
 # CAMBIOS 1.3.0: T-86, legislatura vigente por ámbito (configuracion/legislatura_vigente.yaml). Modo «plan» (en seco:
 #   territorios, clave, estado y acción) y «lanzar» (un clic de produccion por campaña; territorio de prueba si el lote
 #   es > 1; 00 → cadena electoral → 05 por territorio, D-3; salta los publicados salvo forzar; concurrencia limitada;
@@ -8,7 +9,7 @@
 # CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
 # CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
 #   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
-# ANTERIOR: legacy/workflows/gestor-campanas_v1.2.0_20261107.yml
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.3.0_20261107.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: 0 Gestor de Campañas
@@ -37,6 +38,7 @@ on:
           - autonómicas
           - comunidad
           - provincias
+          - congreso 350
       forzar:
         description: Rehacer desde el principio también los ya publicados
         required: true
