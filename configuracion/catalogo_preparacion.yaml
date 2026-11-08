@@ -14,12 +14,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 42495072594
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 40946875467
         artifact_name: ddd-source-package-andalucia-2025-40946875467
@@ -53,6 +53,7 @@ territories:
         generation_preflight: territorios/andalucia/evidencia/catalogo/generation_preflight_2025.json
         prepared_source_pair: territorios/andalucia/evidencia/pares_fuentes/2025/f7a5276fe0adfca0d032910c787c7656f4cafcb91ac6852f5de8d46bd0ba7690.json
         territorial_product: territorios/andalucia/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/andalucia/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: aragon
   name: Aragón
