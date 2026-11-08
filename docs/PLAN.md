@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.29
+Versión: 1.0.30
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-17 (tolerancia del archivista a desajustes de sección) y T-101
-Anterior: legacy/docs/PLAN_v1.0.28_20261108.md
+Cambios/motivo: D-18 (autorización de estudios y difusión), T-100 cancelada, kit de comunicación como borrador
+Anterior: legacy/docs/PLAN_v1.0.29_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -115,6 +115,11 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-17 (08-11). El archivo en origen (T-72) tolera desajustes de códigos de sección entre el ZIP de Interior y el M06 si no
   superan el 0,5 % de los votos de la provincia: los reparte con la tabla de T-85 (D-13, población) y lista las secciones en la
   evidencia. Por encima del tope, fallo estricto.
+- D-18 (08-11). **Autorización de estudios y difusión.** Ningún estudio ni análisis se encarga sin que el propietario apruebe antes
+  la pregunta, y ningún resultado sale del repositorio sin su aprobación después. Los temas y textos de difusión (LinkedIn, prensa,
+  revistas) los decide el propietario; los chats solo preparan, si él lo pide, datos técnicos verificados con fuente. El planificador
+  propone y presenta el criterio técnico; el criterio político y de comunicación es del propietario. Cancelada T-100; el kit de
+  comunicación (#514) queda como borrador sin uso hasta que el propietario lo revise.
 
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
@@ -340,12 +345,12 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-91 | Ensembles de 10 (06, `ensemble_10`) de los 52 territorios nacionales y las 19 autonómicas, por orden del propietario (D-15); primero uno de prueba y luego el resto por lotes; el 50 sigue bloqueado | Coordinador + Operador, al cerrar la ola 2 | Ensembles de todos los territorios registrados; publicar, solo con permiso |
 | T-92 | Resultados de las generales del 29-11-2026 sobre los distritos vigentes: paso A (03, M07/M08, puerta 04) de las 52 provincias y publicación (D-14). Se encarga cuando T-90 confirme los escaños del BOE; si cambian, antes decide el propietario. Orden de la cola tras T-92: T-83, T-87, T-91, T-83 A y T-84, autonómicas del histórico | en espera de T-90 paso 1 | 52/52 con M08 2026 y en el visor con permiso del propietario |
 | T-84 | Visor en dos vistas (D-16): Nacional y Autonómica, barra temporal, capas ganador por distrito y por sección, rotación y participación; geometría por provincia cargada una vez y color por `feature-state`; secciones en PMTiles. Empieza ya con 2023 (M08 publicados y composición) y suma el histórico al cerrar T-83 | por abrir (Sonnet), ya | Vista Nacional funcionando en local con 2023; capturas en móvil y escritorio; sin publicar |
-| T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Kit en `documentacion_publica/comunicacion/`; nada se publica sin el propietario |
+| T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Borrador hecho (#514, «T-93b»); sin uso hasta la revisión del propietario (D-18) |
 | T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
-| T-100 | Estudio de rotación para la difusión: con los votos de T-83 (paso B) y las siglas de T-97 aprobadas, cuántos de los 350 distritos cambian de ganador entre las generales 2011-2023, cuáles son fijos y cuáles bisagra, por comunidad y provincia; cifras con fuente y sha256 para la nota de prensa y LinkedIn (T-93) | por abrir (Sonnet), tras T-83 B y la aprobación de T-97 | Estudio en `docs/ESTUDIOS/` y tabla CSV; sin lanzar ni publicar; nada de D'Hondt |
+| T-100 | Estudio de rotación para la difusión | — | **Cancelada (D-18)** |
 | T-101 | Archivista con D-17: desajuste de secciones ZIP↔M06 (Málaga, run 42490329631: 2900701022 sin distrito, 2908405001 ausente del ZIP; Alicante y Barcelona, previsiblemente igual); tolerancia ≤ 0,5 % de votos, reparto con la tabla de T-85, lista en la evidencia; tests con el caso de Málaga | por abrir (Opus), ya; toca herramienta compartida | PR con tests; la 00 de Málaga sale verde al relanzarla (Operador) |
 
-Tras T-84 (orden del propietario, 08-11): T-93 → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → primera publicación en LinkedIn (la hace el propietario). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
+Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
 Abiertas el 08-11 (frentes en paralelo, orden del propietario): T-97 (Sonnet) homologación de siglas 2011-2026 para la capa de rotación, tabla con fuente y sha256, se presenta al propietario antes de usarla; T-98 (Opus, motor) Cádiz en el ensemble con la exención de San Fernando, una PR, sin lanzar; T-94c (Sonnet) LICENSE y requisitos pendientes de JOSS. Aplazados: ensemble autonómico (tras T-91 nacional) e histórico autonómico (tras T-83 A).
 
