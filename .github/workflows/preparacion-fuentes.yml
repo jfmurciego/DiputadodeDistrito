@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.4.9
+# VERSIÓN: 1.4.10
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-10-28
 # ESTADO: candidato
@@ -15,7 +15,9 @@
 # CAMBIOS 1.4.8: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # CAMBIOS 1.4.9: T-94, el paso «Persistir diagnóstico» ya no esconde el error del escritor (stderr al log y volcado del result-json).
-# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.8_20261108.yml
+# CAMBIOS 1.4.10: T-96, el job generation_pending (persistencia PENDING en main) usa la «Credencial de registro» tras el checkout;
+#   con github.token el ruleset proteger-main rechazaba el push (GH013, "veredicto" esperado; run 42463443610, Ceuta).
+# ANTERIOR: legacy/workflows/preparacion-fuentes_v1.4.9_20261108.yml
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -454,6 +456,27 @@ jobs:
         with:
           ref: ${{ needs.registrar.outputs.promotion_sha }}
           token: ${{ github.token }}
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: candidate
         name: Materializar estado PENDING ligado a la fuente acreditada
