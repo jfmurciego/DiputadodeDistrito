@@ -50,7 +50,7 @@
   "territorios": 67,
   "productos": 339,
   "errores": 0,
-  "avisos": 125
+  "avisos": 126
  },
  "territorios": {
   "aragon": {
@@ -6155,6 +6155,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso_malaga/42490329631/ddd-minimo-42490329631-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_malaga/42495070976/ddd-minimo-42495070976-M06.zip"
   },
   {
    "nivel": "AVISO",
