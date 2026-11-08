@@ -227,9 +227,9 @@
    "sha256_csv": "cdb5f4554e0c5791e253ec506aecb01af1fef60822b728fc2449268d39f7bf2e"
   },
   "congreso_huesca": {
-   "run_id": "41194447427",
-   "blob_sha": "db4713cd49825d47c618325403e382476401686a",
-   "sha256_origen": "0bfcc0fb0bbf738dfadbcd8d4d6ce1c702da67021661e470fa2790dd26319c36",
+   "run_id": "42519383275",
+   "blob_sha": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
+   "sha256_origen": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3",
    "distritos": 2,
    "sha256_csv": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82"
   },

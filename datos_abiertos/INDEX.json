@@ -1839,9 +1839,9 @@
   },
   "congreso_huesca": {
    "provincia": "Huesca",
-   "run_id": "41194447427",
-   "blob_sha": "67fa2836faad2b4eff97aa9f220542acb60adb4e",
-   "sha256_origen": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1",
+   "run_id": "42519383275",
+   "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
+   "sha256_origen": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61",
    "n_distritos": 2,
    "nombres": {},
    "geojson": {
@@ -1851,8 +1851,8 @@
    "resultados": {
     "ruta": "congreso_huesca/resultados.csv",
     "sha256": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82",
-    "blob_sha_m08": "db4713cd49825d47c618325403e382476401686a",
-    "run_id": "41194447427"
+    "blob_sha_m08": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
+    "run_id": "42519383275"
    },
    "distritos": [
     {
