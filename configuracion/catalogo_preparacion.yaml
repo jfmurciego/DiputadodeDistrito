@@ -51,7 +51,7 @@ territories:
       evidence:
         electoral_source: territorios/andalucia/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json
         generation_preflight: territorios/andalucia/evidencia/catalogo/generation_preflight_2025.json
-        prepared_source_pair: territorios/andalucia/evidencia/pares_fuentes/2025/faa2f218555599a5bba64733486a3fcec21ca5e81e25f5ab14a14194fc06a1c7.json
+        prepared_source_pair: territorios/andalucia/evidencia/pares_fuentes/2025/f7a5276fe0adfca0d032910c787c7656f4cafcb91ac6852f5de8d46bd0ba7690.json
         territorial_product: territorios/andalucia/evidencia/catalogo/territorial_product_2025.json
       generation_enabled: true
 - territory_id: aragon
