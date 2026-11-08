@@ -5,8 +5,8 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
 CAMBIOS: 1.1.0 (T-83 A): `--paquete DIR` escribe además, por elección, el paquete M07 sobre la sección vigente
-  (votos enteros por mayor resto partido a partido, diccionario de partidos y contrato electoral long_csv con la
-  oficial como `official_candidate_votes`), que consume herramientas/historico_m07m08.py. 1.0.0: fichero nuevo.
+  (votos enteros por mayor resto partido a partido, diccionario de partidos y contrato electoral long_csv; la
+  oficial parcial queda como referencia), que consume herramientas/historico_m07m08.py. 1.0.0: fichero nuevo.
 MOTIVO: decisiones D-9, D-10, D-12 y D-13 del propietario: los votos de cada general 2011-2023 se trasladan a los
   distritos vigentes (sin redibujar por elección) con la equivalencia de seccionados de T-85 (peso = población).
 ANTERIOR: legacy/herramientas/reagregacion_historico_v1.0.0_20261108.py
@@ -141,8 +141,10 @@ def escribir_paquete(carpeta: Path, territorio: str, clave: str, secciones: dict
                                "unknown_party_policy": "reject",
                                "parties": [{"canonical_id": p, "display_name": p} for p in siglas]},
                               ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    verif = {"secondary_source": fuente, "official_candidate_votes": sum(oficial.values()) if oficial else None,
-             "official_source": fnb.OFICIALES.get(clave),
+    # La oficial versionada (BOE) solo trae las candidaturas con escaño: no es el total de candidaturas, así que no
+    # se declara `official_candidate_votes`; el contraste partido a partido está en el MANIFEST del paso B.
+    verif = {"secondary_source": fuente, "official_party_votes_partial": dict(sorted(oficial.items())) if oficial
+             else None, "official_source": fnb.OFICIALES.get(clave),
              "note": "el espejo suma secciones y excluye el voto CERA: el hueco frente a la oficial es de la fuente"}
     contrato = {
         "schema_family": "ddd-election", "schema_version": "1.0.0",

@@ -7,8 +7,8 @@ VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
 FUNCIÓN: provincia sintética de tres secciones vigentes (A y B → distrito 0, C → distrito 1) con valores esperados
   escritos a mano: reparto a escala de sección (una histórica partida 25/75), paquete M07 (CSV long, diccionario,
-  contrato que carga `load_election_contract`) y ejecución real de M07 y M08 sobre él, con el hueco CERA frente a la
-  oficial informado como hueco de la fuente (no pérdida DDD), participación por distrito y rotación.
+  contrato que carga `load_election_contract`) y ejecución real de M07 y M08 sobre él, sin total oficial completo (la oficial
+  versionada es parcial), participación por distrito y rotación.
 """
 import csv
 import json
@@ -65,7 +65,8 @@ class HistoricoM07(unittest.TestCase):
         contrato, partidos = load_election_contract(self.tmp / "paq/contrato.json", project_root=ROOT,
                                                     expected_territory_id="congreso_huesca")
         self.assertEqual(contrato["election_id"], "congreso_huesca_2019-11-10")
-        self.assertEqual(contrato["source_verification"]["official_candidate_votes"], 152)
+        self.assertNotIn("official_candidate_votes", contrato["source_verification"])
+        self.assertEqual(contrato["source_verification"]["official_party_votes_partial"], {"PP": 56, "PSOE": 96})
         self.assertEqual(partidos.canonicalize("psoe"), "PSOE")
         filas = (self.tmp / "paq/secciones.csv").read_text(encoding="utf-8").splitlines()
         self.assertEqual(filas[:3], ["section_id,party,votes", "2200101001,PP,35", "2200101001,PSOE,25"])
@@ -89,20 +90,41 @@ class HistoricoM07(unittest.TestCase):
         with zipfile.ZipFile(zd, "w") as z:
             z.write(self.tmp / "distritos.geojson", arcname="distritos.geojson")
         tr = self.tmp / "trabajo"
-        secc = hm.secciones_m06(comp, zs, tr / "secciones.geojson.zip")
+        secc, asign, inf = hm.secciones_m06(comp, zs, tr / "secciones.geojson.zip")
+        self.assertEqual(inf["secciones_2025_por_solape"], {})
         p = hm.params("congreso_huesca", tr, secc, zd, self.tmp / "paq/contrato.json")
         hm.ejecutar("07_agregar_resultados_electorales.py", p)
         hm.ejecutar("08_integrar_resultados.py", p)
         rec = json.loads((tr / "m07_reconciliacion.json").read_text(encoding="utf-8"))
         self.assertEqual(rec["status"], "PASS")
         self.assertEqual((rec["source_votes"], rec["ddd_unassigned_votes"]), (140, 0))
-        self.assertEqual(rec["source_gap_to_definitive_votes"], 12)  # 152 oficial − 140 espejo (CERA)
+        self.assertIsNone(rec["source_gap_to_definitive_votes"])  # sin total oficial completo
         res = hm.leer_resumen(tr / "m07_resumen_electoral.csv")
         self.assertEqual({d: (int(r["total_votes"]), r["winner_party"]) for d, r in res.items()},
                          {"0": (120, "PSOE"), "1": (20, "PSOE")})
         self.assertTrue((tr / "m08_distritos_resultados.geojson.zip").exists())
-        part = hm.participacion(self.tmp / "paq/participacion.csv", comp)
+        part = hm.participacion(self.tmp / "paq/participacion.csv", asign)
         self.assertEqual((part["0"]["censo"], part["0"]["votantes"], part["1"]["censo"]), (240, 120, 40))
+
+    def test_seccion_recodificada_por_solape(self):
+        # composición con un código viejo (X) en lugar de C: C (2025) va al distrito de mayor solape (1)
+        comp = {"2200101001": ("0", 100), "2200101002": ("0", 300), "2200299999": ("1", 50)}
+        geo = gpd.GeoDataFrame({"CUSEC": ["2200101001", "2200101002", "2200201001"]},
+                               geometry=[box(0, 0, 10, 10), box(10, 0, 20, 10), box(20, 0, 30, 10)], crs=25830)
+        geo.to_file(self.tmp / "s.shp")
+        zs = self.tmp / "s.zip"
+        with zipfile.ZipFile(zs, "w") as z:
+            for f in self.tmp.glob("s.*"):
+                if f.suffix != ".zip":
+                    z.write(f, arcname=f.name)
+        dist = gpd.GeoDataFrame({"district_id": [0, 1]}, geometry=[box(0, 0, 22, 10), box(22, 0, 30, 10)],
+                                crs=25830).to_crs(4326)
+        dist.to_file(self.tmp / "d.geojson", driver="GeoJSON")
+        _, asign, inf = hm.secciones_m06(comp, zs, self.tmp / "o.geojson.zip", self.tmp / "d.geojson",
+                                         {"2200201001": 55})
+        self.assertEqual(asign["2200201001"], "1")
+        self.assertEqual(inf["composicion_sin_seccion_2025"], ["2200299999"])
+        self.assertEqual(inf["composicion_exacta"], 2)
 
     def test_rotacion(self):
         out = self.tmp / "rot.csv"

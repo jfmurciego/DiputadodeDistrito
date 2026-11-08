@@ -1,6 +1,6 @@
 # T-83 paso A · Diseño: histórico 2011-2023 por M07/M08 (D-10, D-12)
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: propuesta (pendiente del Coordinador) · ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: aprobado por el Coordinador (08-11) · ANTERIOR: ninguna (fichero nuevo)
 
 ## 1. Qué consume M07 hoy
 - `--params` del territorio. Bloque `modulo_07_agregar_resultados_electorales`: `in_geojson` (secciones M06,
@@ -54,3 +54,9 @@ por universo, lanzada por el Operador con permiso del propietario; adaptarla par
 ## 7. Pruebas
 Test sintético; suite local de M07/M08, gobernanza y contratos; ejecución local en Álava, Badajoz y Huesca × 6
 elecciones con cuadre: votos M07 = votos B = espejo, defecto frente a la oficial = CERA.
+
+## 8. Ajustes al implementar
+- No hay M06 de secciones publicado: la asignación exacta sale de `datos/composicion/<t>.csv`; las secciones 2025
+  recodificadas frente al M06 (6 en Badajoz, 1 en Huesca) van al distrito de mayor solape, como en B.
+- `official_candidate_votes` no se declara: la oficial versionada solo trae las candidaturas con escaño. El contraste
+  partido a partido sigue en el manifiesto de B. CERA no necesita excepción: M07 no lo imputa a DDD.

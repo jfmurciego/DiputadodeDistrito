@@ -10,13 +10,13 @@ MOTIVO: D-10 y D-12 del propietario: los resultados históricos pasan por el mis
 ANTERIOR: ninguna (fichero nuevo)
 QUÉ HACE: fuera de línea (no lanza ni publica; no toca M01-M06). Por territorio y elección: (1) secciones M06 desde la
   composición publicada (`datos/composicion/<t>.csv`, sección→distrito exacto del M06) y la geometría del seccionado
-  INE 2025; (2) params temporal con el contrato del paquete de `reagregacion_historico.py --paquete`; (3) ejecuta
+  INE 2025 (las secciones 2025 recodificadas frente al M06, p. ej. 6 en Badajoz, van al distrito de mayor solape); (2) params temporal con el contrato del paquete de `reagregacion_historico.py --paquete`; (3) ejecuta
   `modulos/07_agregar_resultados_electorales.py` y `modulos/08_integrar_resultados.py` tal cual; (4) copia a
   `<salida>/<elección>/<t>/` el resumen y los votos por partido de M07, la participación por distrito y la
   reconciliación; (5) `rotacion/<t>.csv` (ganador por elección y cambios) y `MANIFEST_M07.json` con huellas y el
   contraste con el paso B (misma provincia: votos idénticos; por distrito solo difiere el redondeo).
 Uso: python herramientas/historico_m07m08.py --paquete DIR --territorio congreso_huesca --seccionado ZIP
-       --distritos M06.zip [--trabajo DIR] [--salida datos/resultados/historico]
+       --distritos M06.zip [--padron ZIP] [--trabajo DIR] [--salida datos/resultados/historico]
 """
 from __future__ import annotations
 
@@ -50,19 +50,37 @@ def leer_composicion(path: Path) -> dict[str, tuple[str, int]]:
         return {r["seccion"]: (r["distrito"], int(r["poblacion"])) for r in csv.DictReader(f)}
 
 
-def secciones_m06(composicion: dict, seccionado: Path, destino: Path) -> Path:
-    """GeoJSON (zip) de secciones con CUSEC_KEY, district_id y POB, como el `out_geojson` de M06."""
+def secciones_m06(composicion: dict, seccionado: Path, destino: Path, distritos: Path | None = None,
+                  padron: dict | None = None) -> tuple[Path, dict, dict]:
+    """GeoJSON (zip) de secciones con CUSEC_KEY, district_id y POB, como el `out_geojson` de M06. Las secciones del
+    seccionado 2025 de la provincia que no están en la composición (recodificadas frente al seccionado del M06) se
+    asignan al distrito M06 de mayor solape, como en el paso B. Devuelve (ruta, {sección: distrito}, informe)."""
     import geopandas as gpd
     with zipfile.ZipFile(seccionado) as z:
         shp = next(n for n in z.namelist() if n.lower().endswith(".shp"))
+    provincias = {c[:2] for c in composicion}
     gdf = gpd.read_file(f"zip://{seccionado}!{shp}", columns=["CUSEC"])
-    gdf = gdf[gdf["CUSEC"].isin(composicion)].copy()
-    faltan = sorted(set(composicion) - set(gdf["CUSEC"]))
-    if faltan:
-        raise SystemExit(f"COMPOSICION_SIN_GEOMETRIA {len(faltan)}: {faltan[:5]}")
+    gdf = gdf[gdf["CUSEC"].str[:2].isin(provincias)].copy()
     gdf["CUSEC_KEY"] = gdf["CUSEC"].astype(str)
-    gdf["district_id"] = [composicion[c][0] for c in gdf["CUSEC_KEY"]]
-    gdf["POB"] = [composicion[c][1] for c in gdf["CUSEC_KEY"]]
+    faltan = sorted(set(composicion) - set(gdf["CUSEC_KEY"]))
+    extra = sorted(set(gdf["CUSEC_KEY"]) - set(composicion))
+    asign = {c: composicion[c][0] for c in gdf["CUSEC_KEY"] if c in composicion}
+    pob = {c: composicion[c][1] for c in asign}
+    if extra:
+        if distritos is None:
+            raise SystemExit(f"COMPOSICION_SIN_GEOMETRIA {len(faltan)}: {faltan[:5]}; 2025 sin composición {extra[:5]}")
+        dist = gpd.read_file(f"zip://{distritos}" if str(distritos).endswith(".zip") else distritos).to_crs(25830)
+        g25 = gdf.set_index("CUSEC_KEY").geometry.to_crs(25830)
+        for c in extra:
+            g = g25[c]
+            areas = [(g.intersection(dg).area, str(int(d))) for d, dg in zip(dist["district_id"], dist.geometry)]
+            area, d = max(areas)
+            if area <= 0:
+                raise SystemExit(f"SECCION_FUERA_DE_DISTRITOS {c}")
+            asign[c] = d
+            pob[c] = int((padron or {}).get(c) or 0)
+    gdf["district_id"] = [asign[c] for c in gdf["CUSEC_KEY"]]
+    gdf["POB"] = [pob[c] for c in gdf["CUSEC_KEY"]]
     gdf = gdf[["CUSEC_KEY", "district_id", "POB", "geometry"]].to_crs(4326)
     destino.parent.mkdir(parents=True, exist_ok=True)
     tmp = destino.with_suffix("")
@@ -70,7 +88,9 @@ def secciones_m06(composicion: dict, seccionado: Path, destino: Path) -> Path:
     with zipfile.ZipFile(destino, "w", compression=zipfile.ZIP_DEFLATED) as z:
         z.write(tmp, arcname=tmp.name)
     tmp.unlink()
-    return destino
+    informe = {"secciones": len(asign), "composicion_exacta": len(asign) - len(extra),
+               "composicion_sin_seccion_2025": faltan, "secciones_2025_por_solape": {c: asign[c] for c in extra}}
+    return destino, asign, informe
 
 
 def params(territorio: str, trabajo: Path, secciones: Path, distritos: Path, contrato: Path) -> Path:
@@ -108,12 +128,12 @@ def ejecutar(modulo: str, p: Path) -> None:
     print(r.stdout.strip().splitlines()[-1], flush=True)
 
 
-def participacion(path: Path, composicion: dict) -> dict:
-    """{distrito: {censo, votantes, votos_candidaturas}} sumando las secciones del paquete por la composición."""
+def participacion(path: Path, asign: dict) -> dict:
+    """{distrito: {censo, votantes, votos_candidaturas}} sumando las secciones del paquete por la asignación."""
     out: dict = defaultdict(Counter)
     with open(path, encoding="utf-8", newline="") as f:
         for r in csv.DictReader(f):
-            d = composicion[r["section_id"]][0]
+            d = asign[r["section_id"]]
             out[d].update({c: int(r[c]) for c in CAMPOS})
     return out
 
@@ -166,6 +186,7 @@ def main(argv=None) -> int:
     ap.add_argument("--seccionado", type=Path, required=True, help="seccionado INE 2025 (zip)")
     ap.add_argument("--distritos", type=Path, required=True, help="M06 de distritos publicado (zip del blob)")
     ap.add_argument("--composicion", type=Path)
+    ap.add_argument("--padron", type=Path, help="INE 65034 (zip): población de las secciones asignadas por solape")
     ap.add_argument("--trabajo", type=Path)
     ap.add_argument("--salida", type=Path, default=ROOT / "datos/resultados/historico")
     a = ap.parse_args(argv)
@@ -176,7 +197,12 @@ def main(argv=None) -> int:
     comp_path = a.composicion or ROOT / f"datos/composicion/{t}.csv"
     comp = leer_composicion(comp_path)
     trabajo = a.trabajo or ROOT / f".cache/ddd/historico/{t}"
-    secc = secciones_m06(comp, a.seccionado, trabajo / "secciones_m06.geojson.zip")
+    pad = None
+    if a.padron:
+        sys.path.insert(0, str(ROOT / "herramientas"))
+        import equivalencia_seccionados as eqs
+        pad = eqs.leer_padron(a.padron)
+    secc, asign, inf_secc = secciones_m06(comp, a.seccionado, trabajo / "secciones_m06.geojson.zip", a.distritos, pad)
     ganadores, informe = {}, {}
     for carpeta in sorted(p for p in a.paquete.iterdir() if (p / t / "contrato.json").exists()):
         clave, paq = carpeta.name, carpeta / t
@@ -190,7 +216,7 @@ def main(argv=None) -> int:
         dest.mkdir(parents=True, exist_ok=True)
         shutil.copy(tr / "m07_resumen_electoral.csv", dest / "resumen_electoral.csv")
         shutil.copy(tr / "m07_resultados_partido.csv", dest / "resultados_partido.csv")
-        escribir_participacion(dest / "participacion.csv", participacion(paq / "participacion.csv", comp))
+        escribir_participacion(dest / "participacion.csv", participacion(paq / "participacion.csv", asign))
         (dest / "reconciliacion.json").write_text(json.dumps(
             {k: rec.get(k) for k in ("status", "source_votes", "incorporated_votes", "ddd_unassigned_votes",
                                      "ddd_loss_ratio", "max_ddd_loss_ratio", "source_gap_to_definitive_votes",
@@ -212,7 +238,8 @@ def main(argv=None) -> int:
     man = json.loads(mp.read_text(encoding="utf-8")) if mp.exists() else {"schema": SCHEMA, "territorios": {}}
     man["territorios"][t] = {"distritos_m06": {"sha256": indice["sha256_origen"], "run_id": indice["run_id"]},
                              "composicion": {"path": str(comp_path.relative_to(ROOT)), "sha256": sha256(comp_path)},
-                             "seccionado_2025": sha256(a.seccionado), "elecciones": informe}
+                             "seccionado_2025": sha256(a.seccionado), "secciones": inf_secc,
+                             "elecciones": informe}
     mp.write_text(json.dumps(man, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     ok = all(x["m07"] in {"PASS", "PASS_WITH_DECLARED_EXCEPTIONS"} and not x["paso_b"].get("ganador_distinto")
              for x in informe.values())
