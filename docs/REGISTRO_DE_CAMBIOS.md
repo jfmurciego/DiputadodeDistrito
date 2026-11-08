@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.176
+Versión: 1.0.178
 Fecha: 2026-11-08
-Alcance: T-87 — Cadena de publicación con un solo lanzamiento (D-14)
+Alcance: T-96 — Credencial de registro en los pushes PENDING/pre-M04 a main
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t87-cadena-publicacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.175_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t96-credencial-registro.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.177_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.175_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.178 · [2026-11-08 — T-96 — Credencial de registro en los pushes PENDING/pre-M04 a main](registro/2026-11-08_t96-credencial-registro.md)
+- 1.0.177 · [2026-11-08 — T-83 A — Histórico de generales por M07/M08 sobre los distritos vigentes](registro/2026-11-08_t83a-historico-m07.md)
 - 1.0.176 · [2026-11-08 — T-87 — Cadena de publicación con un solo lanzamiento (D-14)](registro/2026-11-08_t87-cadena-publicacion.md)
 - 1.0.175 · [2026-11-08 — T-73 — Portal Zensical público en /docs y vista Nacional en el sitio](registro/2026-11-08_t73-portal-zensical.md)
 - 1.0.174 · [2026-11-08 — T-93b — Kit de comunicación (D-16)](registro/2026-11-08_t93b-kit-comunicacion.md)
