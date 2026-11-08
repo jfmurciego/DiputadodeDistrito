@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T16:41:40.898763+00:00",
+  "generated_at": "2026-11-08T16:54:44.729305+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -3688,11 +3688,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42495072594,
       "last_run": {
-        "run_id": 42430164925,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
-        "reason": "ver log del run",
+        "run_id": 42495072594,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -3743,11 +3743,11 @@
       "name": "Aragón",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40979465420,
+      "run_id": 42497101869,
       "last_run": {
         "run_id": 40979465420,
         "status": "SUCCESS",
@@ -3756,7 +3756,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -3773,13 +3773,13 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 40979465420,
-          "artifact_name": "ddd-state-40979465420-M06",
-          "artifact_sha256": "257d40366b285d0fd4753e1264f9002fa0ebbdc0d7886b5b7311665657a25bfe",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 42497101869,
+          "artifact_name": "ddd-state-42497101869-M06",
+          "artifact_sha256": "a4150d42b0cf65784ef1c6ea1a461e2fd1729b881e805bf8fb73c14cc0ae09fa",
+          "source_commit": "526a0295cf388eea9955e4f3fb585cfffe664b9b",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/40979465420.json"
+          "producer_manifest_path": "territorios/aragon/evidencia/generaciones_m06/42497101869.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -3797,7 +3797,7 @@
       },
       "autonomous_community_code_ine": "02",
       "display_name": "02 Aragón",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "principado_de_asturias",
@@ -4048,11 +4048,11 @@
       "name": "Castilla y León",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40979527162,
+      "run_id": 42497104110,
       "last_run": {
         "run_id": 40979527162,
         "status": "SUCCESS",
@@ -4061,7 +4061,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -4078,13 +4078,13 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 40979527162,
-          "artifact_name": "ddd-state-40979527162-M06",
-          "artifact_sha256": "4f69fa84a529ea7f474197f0094570f37de4eac5a92c6356e72db16d728de824",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 42497104110,
+          "artifact_name": "ddd-state-42497104110-M06",
+          "artifact_sha256": "2265db3564af02bc7c1d3452368c2437b9c12e06d26d92bf99ef43d27a2901a1",
+          "source_commit": "526a0295cf388eea9955e4f3fb585cfffe664b9b",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/40979527162.json"
+          "producer_manifest_path": "territorios/castilla_y_leon/evidencia/generaciones_m06/42497104110.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -4102,7 +4102,7 @@
       },
       "autonomous_community_code_ine": "07",
       "display_name": "07 Castilla y León",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "castilla_la_mancha",
@@ -5274,11 +5274,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42495069270,
       "last_run": {
-        "run_id": 42490327657,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "04 · Incorporación de Resultados Electorales",
-        "reason": "ver log del run",
+        "run_id": 42495069270,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -8026,15 +8026,13 @@
     }
   ],
   "kpis": {
-    "complete": 71,
+    "complete": 69,
     "complete_names": [
       "01 Andalucía",
-      "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
       "05 Canarias",
       "06 Cantabria",
-      "07 Castilla y León",
       "08 Castilla-La Mancha",
       "09 Cataluña",
       "10 Comunidad Valenciana",
@@ -8265,6 +8263,32 @@
     "certification": "PASS",
     "edition": "2025"
   },
-  "alerts": [],
-  "next_actions": []
+  "alerts": [
+    {
+      "territory": "02 Aragón",
+      "territory_id": "aragon",
+      "autonomous_community_code_ine": "02",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "07 Castilla y León",
+      "territory_id": "castilla_y_leon",
+      "autonomous_community_code_ine": "07",
+      "action": "incorporar resultados electorales"
+    }
+  ],
+  "next_actions": [
+    {
+      "territory": "02 Aragón",
+      "territory_id": "aragon",
+      "autonomous_community_code_ine": "02",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "07 Castilla y León",
+      "territory_id": "castilla_y_leon",
+      "autonomous_community_code_ine": "07",
+      "action": "preparar fuentes electorales"
+    }
+  ]
 }
