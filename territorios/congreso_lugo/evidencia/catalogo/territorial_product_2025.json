@@ -4,11 +4,11 @@
   "territory_id": "congreso_lugo",
   "territory_name": "Congreso Lugo",
   "edition": "2025",
-  "run_id": 41240766116,
-  "artifact_name": "ddd-state-41240766116-M06",
-  "artifact_sha256": "5333bbf941e9eeb1185142bc6df04a8f2c569ab720c6a525c4880a398a409f50",
-  "source_commit": "773efe666dc10eaa81fd171db22631e4ea10c4a9",
+  "run_id": 42514986960,
+  "artifact_name": "ddd-state-42514986960-M06",
+  "artifact_sha256": "a8822e3c195e772f6387190995eff81ca4757378c0fdaadfa8fff093e766678b",
+  "source_commit": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_lugo/evidencia/generaciones_m06/41240766116.json"
+  "producer_manifest_path": "territorios/congreso_lugo/evidencia/generaciones_m06/42514986960.json"
 }
