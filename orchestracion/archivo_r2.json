@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T20:54:48Z",
+  "actualizado_en": "2026-11-08T20:58:59Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2279,19 +2279,20 @@
       "territorio": "congreso_badajoz",
       "url": "r2://ddd-research-archive/congreso_badajoz/41299475924/ddd-minimo-41299475924-M08.zip"
     },
-    "congreso_badajoz/42519381013/ddd-minimo-42519381013-M06.zip": {
-      "archivado_en": "2026-11-08T20:49:02Z",
-      "artefacto": "ddd-minimo-42519381013-M06",
-      "artefacto_origen": "ddd-state-42519381013-M06",
-      "artifact_id": 13633866228,
-      "caducidad_original": "2026-11-22T20:44:32Z",
+    "congreso_badajoz/42519381013/ddd-minimo-42519381013-M08.zip": {
+      "archivado_en": "2026-11-08T20:58:59Z",
+      "artefacto": "ddd-minimo-42519381013-M08",
+      "artefacto_origen": "ddd-state-42519381013-M08",
+      "artifact_id": 13634147313,
+      "caducidad_original": "2026-11-22T20:57:41Z",
+      "incluye_m06_run": "42519381013",
       "run_id": "42519381013",
-      "sha256": "888ada667c163ce5e0fb5d2db3ff3e2ca5fcd32beccddbc3254078be13b5c6cd",
-      "sha256_estado_original": "9ec87edf7f93d704534287962c5e7977beeafa3ae5be8fd79d8abd028959b7af",
-      "tamano_bytes": 310336,
-      "tamano_estado_original": 81684531,
+      "sha256": "07a0074486fbe350a2afe7ca327d77cc6e9689e26fc73863e52ab1836b9d54ac",
+      "sha256_estado_original": "5523e84a48cf2f35971bc2fa8d1e2da258c8c11e0a47df9f73b07ca9a453fe95",
+      "tamano_bytes": 599204,
+      "tamano_estado_original": 82997363,
       "territorio": "congreso_badajoz",
-      "url": "r2://ddd-research-archive/congreso_badajoz/42519381013/ddd-minimo-42519381013-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_badajoz/42519381013/ddd-minimo-42519381013-M08.zip"
     },
     "congreso_baleares/41465837048/ddd-audit-41465837048.zip": {
       "archivado_en": "2026-11-08T12:19:29Z",
