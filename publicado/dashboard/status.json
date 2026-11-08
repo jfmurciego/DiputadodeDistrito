@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T18:07:27.489182+00:00",
+  "generated_at": "2026-11-08T18:11:27.266590+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7519,11 +7519,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42504383790,
       "last_run": {
-        "run_id": 41062572613,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 42504383790,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -7818,9 +7818,9 @@
       "name": "Melilla",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS",
       "run_id": 42504386196,
       "last_run": {
@@ -7831,7 +7831,7 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -7863,16 +7863,16 @@
           "territory_id": "melilla",
           "territory_name": "Melilla",
           "edition": "2025",
-          "run_id": 40840795932,
-          "artifact_name": "ddd-state-40840795932-M08",
-          "artifact_sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d",
-          "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
+          "run_id": 42504386196,
+          "artifact_name": "ddd-state-42504386196-M08",
+          "artifact_sha256": "c053eba12b2a890fa9c4638e8e94e55075e56bf51251ad8d65d0cc5e57015a89",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "19",
       "display_name": "19 Melilla",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_alava",
@@ -9410,16 +9410,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42504388624,
       "last_run": {
-        "run_id": 41294822309,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
+        "run_id": 42504388624,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
         "stopped_at": null,
         "reason": null,
-        "publication": "not_requested",
-        "superseded_failure": {
-          "stopped_at": "05 · Publicación del Visor",
-          "reason": "ver log del run"
-        }
+        "publication": "not_requested"
       },
       "stage": "M08",
       "edition": "2025",
@@ -12191,7 +12187,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 70,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12210,6 +12206,7 @@
       "16 País Vasco",
       "17 La Rioja",
       "18 Ceuta",
+      "19 Melilla",
       "Nacional Álava",
       "Nacional Albacete",
       "Nacional Alicante",
@@ -12486,12 +12483,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "19 Melilla",
-      "territory_id": "melilla",
-      "autonomous_community_code_ine": "19",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Nacional 350 Álava",
       "territory_id": "congreso350_alava",
       "autonomous_community_code_ine": "R01",
@@ -12526,6 +12517,12 @@
       "territory_id": "congreso350_badajoz",
       "autonomous_community_code_ine": "R06",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Barcelona",
+      "territory_id": "congreso350_barcelona",
+      "autonomous_community_code_ine": "R08",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12533,12 +12530,6 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
-      "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "19 Melilla",
-      "territory_id": "melilla",
-      "autonomous_community_code_ine": "19",
       "action": "preparar fuentes electorales"
     }
   ]
