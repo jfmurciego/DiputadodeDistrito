@@ -34,4 +34,4 @@ paths:
   código a medias. `/usr/bin/time` no existe en la sesión cloud.
 - En una sesión cloud limpia faltan pyproj, geopandas y gerrychain (y networkx, shapely, numpy, pandas): instálalos
   con pip, versiones de `requirements.lock`, antes de los tests del ensemble o de R015. Los contratos con
-  `topology_bridges` o exenciones no valen para el ensemble.
+  `topology_bridges` o exenciones por partición no valen para el ensemble; la exención municipal sí (T-98, motor 1.3.0).

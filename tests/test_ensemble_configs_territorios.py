@@ -1,4 +1,5 @@
-"""Versión 1.0.0; 2026-11-02; candidato. T-34: configuraciones de ensemble por territorio coherentes con su contrato."""
+"""Versión 1.1.0; 2026-11-08; candidato. T-34: configuraciones de ensemble por territorio coherentes con su contrato.
+T-98: la exención municipal de suelo se admite si la config la copia del contrato con su decisión gobernada."""
 from __future__ import annotations
 
 import json
@@ -48,14 +49,19 @@ class ConfigsEnsembleTerritorialesTests(unittest.TestCase):
                 self.assertIs(config["topology"]["preserve_atomic_multipart_sections"], True)
                 self.assertEqual(config["ensemble"]["candidate_count"], 10)
 
-    def test_el_motor_del_ensemble_no_modela_exenciones_ni_puentes(self):
+    def test_el_motor_del_ensemble_no_modela_puentes_ni_exenciones_por_particion(self):
         # Una config solo es válida si el contrato no depende de lo que el ensemble no sabe aplicar.
         for path in CONFIGS:
             with self.subTest(path.stem):
                 contract = yaml.safe_load((ROOT / f"territorios/{path.stem}/config/{path.stem}_2025.yaml").read_text(encoding="utf-8"))
                 val = contract["validation"]
+                config, _ = load_config(str(path))
                 self.assertFalse(val.get("population_floor_exempt_partitions"))
-                self.assertFalse(val.get("population_floor_exempt_municipalities"))
+                exentos = [str(c) for c in val.get("population_floor_exempt_municipalities") or []]
+                self.assertEqual(config["contract"].get("population_floor_exempt_municipalities", []), exentos)
+                for code in exentos:  # T-98: el ensemble la modela (m05_gerrychain_engine 1.3.0) si está gobernada
+                    self.assertEqual(config["decisions"][f"population_floor_exempt_municipalities:{code}"],
+                                     val["population_floor_exempt_decisions"][code])
                 self.assertFalse(contract["modulos"]["modulo_02_construir_adyacencias"].get("topology_bridges"))
 
     def test_cada_config_planifica_diez_candidatos(self):
