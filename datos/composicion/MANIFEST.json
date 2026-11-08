@@ -745,6 +745,13 @@
    "secciones": 6029,
    "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
    "ruta": "datos/composicion/runs/andalucia_42430164925.csv"
+  },
+  "congreso_malaga/42490329631": {
+   "territorio": "congreso_malaga",
+   "run_id": "42490329631",
+   "secciones": 1084,
+   "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
+   "ruta": "datos/composicion/runs/congreso_malaga_42490329631.csv"
   }
  }
 }
