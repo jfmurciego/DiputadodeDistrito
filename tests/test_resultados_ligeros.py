@@ -66,6 +66,25 @@ class Ligeros(unittest.TestCase):
         self.gen()
         self.assertEqual(a, {p.name: p.read_bytes() for p in self.out.iterdir()})
 
+    def test_conserva_claves_y_ficheros_ajenos(self):
+        # T-114: «partidos_runs» y contraste_2023.csv los escriben otras herramientas; no se pierden al regenerar.
+        self.gen()
+        man = json.loads((self.out / "MANIFEST.json").read_text())
+        man["partidos"] = {"congreso_soria": {"x": 1}}
+        man["partidos_runs"] = {"congreso_soria/10": {"run_territorial": "7"}}
+        (self.out / "MANIFEST.json").write_text(json.dumps(man))
+        (self.out / "contraste_2023.csv").write_text("a\n")
+        (self.out / "congreso_soria_partidos.csv").write_text("b\n")
+        reg = json.loads(self.reg.read_text())
+        reg["products"] = [p for p in reg["products"] if p.get("territory_id") != "congreso_teruel"]
+        self.reg.write_text(json.dumps(reg))
+        nuevo = self.gen()
+        self.assertEqual({"congreso_soria": {"x": 1}}, nuevo["partidos"])
+        self.assertEqual({"congreso_soria/10": {"run_territorial": "7"}}, nuevo["partidos_runs"])
+        self.assertTrue((self.out / "contraste_2023.csv").exists())
+        self.assertTrue((self.out / "congreso_soria_partidos.csv").exists())
+        self.assertFalse((self.out / "congreso_teruel.csv").exists())  # ya no vigente
+
     def test_sha_erroneo(self):
         (self.zips / "congreso_teruel_5.zip").write_bytes(m08(["XX"]))
         with self.assertRaises(ValueError):

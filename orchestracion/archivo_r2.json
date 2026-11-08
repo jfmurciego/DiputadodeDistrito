@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T21:02:27Z",
+  "actualizado_en": "2026-11-08T22:51:12Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -307,19 +307,20 @@
       "territorio": "canarias",
       "url": "r2://ddd-research-archive/canarias/40951280657/ddd-state-40951280657-M08.zip"
     },
-    "canarias/42504381511/ddd-minimo-42504381511-M06.zip": {
-      "archivado_en": "2026-11-08T18:15:31Z",
-      "artefacto": "ddd-minimo-42504381511-M06",
-      "artefacto_origen": "ddd-state-42504381511-M06",
-      "artifact_id": 13628412838,
-      "caducidad_original": "2026-11-22T18:12:32Z",
-      "run_id": "42504381511",
-      "sha256": "4a4fb50ecc27956d176a384a4abadeecec1e1f0156a53e02d9547f492ca54517",
-      "sha256_estado_original": "f38c0460a9be1c9022dbb71cd9de1bf8a19b55cf7863d17ce2ec0081d2ad9b9d",
-      "tamano_bytes": 3203928,
-      "tamano_estado_original": 127654229,
+    "canarias/42523951377/ddd-minimo-42523951377-M08.zip": {
+      "archivado_en": "2026-11-08T21:29:47Z",
+      "artefacto": "ddd-minimo-42523951377-M08",
+      "artefacto_origen": "ddd-state-42523951377-M08",
+      "artifact_id": 13634787190,
+      "caducidad_original": "2026-11-22T21:27:43Z",
+      "incluye_m06_run": "42504381511",
+      "run_id": "42523951377",
+      "sha256": "45c0b13be1a6aaf15bbc66f9fe3a4bb1e53f8271a8e4d98c69ccc3d792dd2aba",
+      "sha256_estado_original": "a8bc17b31163ab7ea1a775bef9551222615d831c1f1e823e44d95faa7fc01c4e",
+      "tamano_bytes": 6366489,
+      "tamano_estado_original": 137127719,
       "territorio": "canarias",
-      "url": "r2://ddd-research-archive/canarias/42504381511/ddd-minimo-42504381511-M06.zip"
+      "url": "r2://ddd-research-archive/canarias/42523951377/ddd-minimo-42523951377-M08.zip"
     },
     "cantabria/40241638106/ddd-audit-40241638106.zip": {
       "archivado_en": "2026-11-07T17:03:04Z",
@@ -1045,6 +1046,21 @@
       "tamano_estado_original": 113464347,
       "territorio": "castilla_y_leon",
       "url": "r2://ddd-research-archive/castilla_y_leon/42497104110/ddd-minimo-42497104110-M06.zip"
+    },
+    "castilla_y_leon/42531122768/ddd-minimo-42531122768-M08.zip": {
+      "archivado_en": "2026-11-08T22:51:12Z",
+      "artefacto": "ddd-minimo-42531122768-M08",
+      "artefacto_origen": "ddd-state-42531122768-M08",
+      "artifact_id": 13637837083,
+      "caducidad_original": "2026-11-22T22:50:24Z",
+      "incluye_m06_run": "42521090842",
+      "run_id": "42531122768",
+      "sha256": "8d4dbc74b26fd23bfd8e94d1df3266c019936f3965550feeac7894376d567ad6",
+      "sha256_estado_original": "85727339f12a4afcabba8e98f33168bd84c15bc23abc7ded8f89a3ff2d9c9826",
+      "tamano_bytes": 3369479,
+      "tamano_estado_original": 120186385,
+      "territorio": "castilla_y_leon",
+      "url": "r2://ddd-research-archive/castilla_y_leon/42531122768/ddd-minimo-42531122768-M08.zip"
     },
     "cataluna/40952013601/ddd-audit-40952013601.zip": {
       "archivado_en": "2026-11-07T17:11:01Z",
@@ -4580,6 +4596,21 @@
       "tamano_estado_original": 87087373,
       "territorio": "congreso_valencia",
       "url": "r2://ddd-research-archive/congreso_valencia/41335936727/ddd-minimo-41335936727-M08.zip"
+    },
+    "congreso_valencia/42525625044/ddd-minimo-42525625044-M08.zip": {
+      "archivado_en": "2026-11-08T22:32:49Z",
+      "artefacto": "ddd-minimo-42525625044-M08",
+      "artefacto_origen": "ddd-state-42525625044-M08",
+      "artifact_id": 13636987089,
+      "caducidad_original": "2026-11-22T22:31:41Z",
+      "incluye_m06_run": "42525625044",
+      "run_id": "42525625044",
+      "sha256": "78bb6c7205d3bcbdb404826baaf9219b842094f2ec747ece438da5e7175abc18",
+      "sha256_estado_original": "72e8741e54dc29d653548f14498b2cbf5b81ec13da206aea4dacd7b8ab26d1ac",
+      "tamano_bytes": 814616,
+      "tamano_estado_original": 87087427,
+      "territorio": "congreso_valencia",
+      "url": "r2://ddd-research-archive/congreso_valencia/42525625044/ddd-minimo-42525625044-M08.zip"
     },
     "congreso_valladolid/41292964287/ddd-audit-41292964287.zip": {
       "archivado_en": "2026-11-08T12:15:41Z",
