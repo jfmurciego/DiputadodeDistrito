@@ -1,0 +1,95 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_santa_cruz_de_tenerife",
+  "territory_name": "Congreso Santa Cruz de Tenerife",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 42514989698,
+  "source_sha": "d9b783f30e7fa6d9f83d62b85ae3035f94f1858a",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "TERRITORIAL_COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "SKIPPED_NO_ACCREDITED_PAIR",
+  "electoral_activation_status": "TERRITORIAL_READY_ELECTORAL_PENDING",
+  "electoral_skip_reason": "no existe prepared_source_pair acreditado para la entrada electoral",
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": null
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 42514989698,
+      "artifact": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-42514989698",
+      "artifact_digest": "sha256:0e28a4a3e78a35e5c8654af39ec909078de964678bc26073e24272627cbb1b12",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 42514989698,
+      "artifact": "ddd-state-42514989698-M06",
+      "artifact_digest": "sha256:db19a6b60a5256ec20e469dde132c629592fbed3b3c440b44b6f24d0c7db8cad",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-08T20:09:45.891799+00:00"
+}

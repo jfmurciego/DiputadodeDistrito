@@ -4,9 +4,9 @@
   "territory_id": "melilla",
   "territory_name": "Melilla",
   "edition": "2025",
-  "run_id": 40840795932,
-  "artifact_name": "ddd-state-40840795932-M08",
-  "artifact_sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d",
-  "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
+  "run_id": 42504386196,
+  "artifact_name": "ddd-state-42504386196-M08",
+  "artifact_sha256": "c053eba12b2a890fa9c4638e8e94e55075e56bf51251ad8d65d0cc5e57015a89",
+  "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
   "stage": "M08"
 }

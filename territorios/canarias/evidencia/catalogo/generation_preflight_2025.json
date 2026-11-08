@@ -4,17 +4,17 @@
   "territory_id": "canarias",
   "territory_name": "Canarias",
   "edition": "2025",
-  "run_id": 40946861866,
-  "source_commit": "f7e6f380b865004e610d5a8f7e8643987de8a2d2",
-  "artifact_name": "ddd-state-40946861866-M03U",
-  "artifact_sha256": "342410ae382013a186f4084a7d66e10f573647377fbc045302034a82248866a9",
+  "run_id": 42504381511,
+  "source_commit": "41aefc4f6a45e4aa86886a30934ba6c2a46dacb2",
+  "artifact_name": "ddd-state-42504381511-M03U",
+  "artifact_sha256": "fd13e5d3b7be9893e7e23fdcfb16d2388495a57d580a54bf37f6ccf139c1d48f",
   "decision": "READY_FOR_FIRST_GENERATION",
   "evaluation_status": "ENABLED",
   "stage": "M03U",
   "source": {
-    "run_id": 40946861866,
-    "artifact_name": "ddd-source-package-canarias-2025-40946861866",
-    "artifact_sha256": "0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb",
+    "run_id": 42504381511,
+    "artifact_name": "ddd-source-package-canarias-2025-42504381511",
+    "artifact_sha256": "15d1741f9a9a20768a06ce34dbedf2a8988af703646a7931128fc9343c76b57f",
     "package_sha256": "ae3086d3ad1ca57984ec2e0696fc870cfcc92d388feeff17dc861a4485752836",
     "compatibility_identity_sha256": "af3fcd401ca015593e3867cb6023bd8a352babbbec9e85a7c789777090a60d7c",
     "territorial_identity_sha256": "148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393",
@@ -28,7 +28,7 @@
     "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
     "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb",
     "physical_partition_preparer_git_blob_sha1": "1e1d197ddc8e41e0bf05505e6c22bbb70fa557ef",
-    "m04_entrypoint_git_blob_sha1": "3047b166e11448924152c043e72259ae83dfddd2"
+    "m04_entrypoint_git_blob_sha1": "d9dde5b8c538f281e162e396cceb679bbaac8112"
   },
   "adjacency": {
     "predicate": "contact",
@@ -40,8 +40,8 @@
     "topology_bridges": []
   },
   "graph": {
-    "artifact_name": "ddd-state-40946861866-M03",
-    "artifact_sha256": "1c71fb3c3d8941ebb93d27ed9ce2b406c7fc5c6ee7ff19e9a68a0b1d50042b7f",
+    "artifact_name": "ddd-state-42504381511-M03",
+    "artifact_sha256": "f09c7e840d6535f888d84f4fb7026097542a2ad03cb6faf72d934228cbe1efc3",
     "module_version": "7.5.0",
     "nodes": 1396,
     "edges": 3660,
@@ -61,14 +61,14 @@
     }
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-40946861866",
-    "job_artifact_sha256": "9927fdd8c402d9adb37bf7f9921a98937d575d323f36b2edb8421f9809f45b1b",
+    "job_artifact_name": "ddd-internal-units-42504381511",
+    "job_artifact_sha256": "6cf833b5c5296c4ae5b586636199fd0fa5f1e268c92a8fa27c02fa39683f10b0",
     "status": "PREPARED",
     "strategy": "physical_components",
     "contract_output_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_particiones.geojson.zip",
     "resolved_output_geojson": "/app/territorios/canarias/.cache/ddd/preparacion/canarias_2025/canarias_2025_m03_particiones.geojson.zip",
     "hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
-    "hard_partition_lookup_sha256": "ab26a3c1e930b436a8eb18f15ba93458cc5e877fa26dd5fbabea7001fa1023c1",
+    "hard_partition_lookup_sha256": "160e7ecbef7cbd7f0262c4d9b3c713c319e9fff07668a1405305c5e2d5cf3407",
     "inventory_id": "secciones_2023",
     "source_identity": {
       "territory_id": "canarias",

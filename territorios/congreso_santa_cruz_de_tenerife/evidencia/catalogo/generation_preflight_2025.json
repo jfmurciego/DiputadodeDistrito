@@ -4,17 +4,17 @@
   "territory_id": "congreso_santa_cruz_de_tenerife",
   "territory_name": "Congreso Santa Cruz de Tenerife",
   "edition": "2025",
-  "run_id": 41239505387,
-  "source_commit": "b53dd1af35d21917f0218e3c9a04756b4da50292",
-  "artifact_name": "ddd-state-41239505387-M03U",
-  "artifact_sha256": "8c9bcb78c168e5689aa71c5e613b45c8675b476602bc48bcd09efd83ad03ab3e",
+  "run_id": 42514989698,
+  "source_commit": "24d0cdedd67d9a684f4ee116b02ed0cbf678f181",
+  "artifact_name": "ddd-state-42514989698-M03U",
+  "artifact_sha256": "a078955d7f52ac11b9b75b477bb71306f46c94d7d7e8c20e0232c30a25a945c7",
   "decision": "READY_FOR_FIRST_GENERATION",
   "evaluation_status": "ENABLED",
   "stage": "M03U",
   "source": {
-    "run_id": 41239505387,
-    "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-41239505387",
-    "artifact_sha256": "92a3d4728c6ccd3acf30392e1448c8a3e7b456862fdbaab4d05fc8ad8e2f423b",
+    "run_id": 42514989698,
+    "artifact_name": "ddd-source-package-congreso_santa_cruz_de_tenerife-2025-42514989698",
+    "artifact_sha256": "0e28a4a3e78a35e5c8654af39ec909078de964678bc26073e24272627cbb1b12",
     "package_sha256": "b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f",
     "compatibility_identity_sha256": "a71306975cef7667b846faf4a0397957b11e7bdb49217d0f9017239b9de532c8",
     "territorial_identity_sha256": "6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53",
@@ -28,7 +28,7 @@
     "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
     "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb",
     "physical_partition_preparer_git_blob_sha1": "1e1d197ddc8e41e0bf05505e6c22bbb70fa557ef",
-    "m04_entrypoint_git_blob_sha1": "3047b166e11448924152c043e72259ae83dfddd2"
+    "m04_entrypoint_git_blob_sha1": "d9dde5b8c538f281e162e396cceb679bbaac8112"
   },
   "adjacency": {
     "predicate": "contact",
@@ -53,8 +53,8 @@
     ]
   },
   "graph": {
-    "artifact_name": "ddd-state-41239505387-M03",
-    "artifact_sha256": "109c66d42e3682dc58c5cf8673cf5fa0eeda06eafc12352957ebb374bf849c7c",
+    "artifact_name": "ddd-state-42514989698-M03",
+    "artifact_sha256": "6971cbc6bdf802c5d35f1cfa02c6ae67252b75db7ff86cecea15cee72b1a2691",
     "module_version": "7.5.0",
     "nodes": 681,
     "edges": 1786,
@@ -74,14 +74,14 @@
     }
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-41239505387",
-    "job_artifact_sha256": "82df5ecdc8c1daa1c4a78c2adb3d482e9c4e6591154b78e91d3bc49ae28bb2c0",
+    "job_artifact_name": "ddd-internal-units-42514989698",
+    "job_artifact_sha256": "ccb6d1a00723761be0454cc9adf8c161744d12f39b56ae2f1742777e96bed942",
     "status": "PREPARED",
     "strategy": "physical_components",
     "contract_output_geojson": "territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/{run_name}/congreso_santa_cruz_de_tenerife_2025_m03_particiones.geojson.zip",
     "resolved_output_geojson": "/app/territorios/congreso_santa_cruz_de_tenerife/.cache/ddd/preparacion/congreso_santa_cruz_de_tenerife_2025/congreso_santa_cruz_de_tenerife_2025_m03_particiones.geojson.zip",
     "hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
-    "hard_partition_lookup_sha256": "266baca17aef1b25f01a0533e2acff2d4e46e050cf3a4ff26e143ae05b777c6c",
+    "hard_partition_lookup_sha256": "160e7ecbef7cbd7f0262c4d9b3c713c319e9fff07668a1405305c5e2d5cf3407",
     "inventory_id": "secciones_2023",
     "source_identity": {
       "territory_id": "congreso_santa_cruz_de_tenerife",

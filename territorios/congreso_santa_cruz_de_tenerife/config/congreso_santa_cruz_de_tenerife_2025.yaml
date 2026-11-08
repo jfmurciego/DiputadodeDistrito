@@ -67,12 +67,6 @@ territory_contract:
   population_floor_ratio: 0.85
   population_cap_ratio: 1.15
   target_tolerance_ratio: 0.15
-  limits_profile: exception
-  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
-    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
-    se divide.'
-  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
-  limits_exception_decided_at: '2026-10-31'
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
@@ -80,6 +74,12 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.15
   require_auditable_district_catalogue: true
   status: generation_ready
+  limits_profile: exception
+  limits_exception_rationale: 'Reglas del Congreso del propietario, iguales que el
+    piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no
+    se divide.'
+  limits_exception_evidence: configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits
+  limits_exception_decided_at: '2026-10-31'
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -365,6 +365,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 41239505387
-  pre_m04_source_commit: b53dd1af35d21917f0218e3c9a04756b4da50292
-  pre_m04_artifact_sha256: 8c9bcb78c168e5689aa71c5e613b45c8675b476602bc48bcd09efd83ad03ab3e
+  pre_m04_run_id: 42514989698
+  pre_m04_source_commit: 24d0cdedd67d9a684f4ee116b02ed0cbf678f181
+  pre_m04_artifact_sha256: a078955d7f52ac11b9b75b477bb71306f46c94d7d7e8c20e0232c30a25a945c7

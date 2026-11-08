@@ -760,12 +760,33 @@
    "sha256_csv": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5",
    "ruta": "datos/composicion/runs/aragon_42497101869.csv"
   },
+  "canarias/42504381511": {
+   "territorio": "canarias",
+   "run_id": "42504381511",
+   "secciones": 1396,
+   "sha256_csv": "46915882a04ade2ec3af608f86f5a4214585b74d3e6d9542317f85e03133bbbd",
+   "ruta": "datos/composicion/runs/canarias_42504381511.csv"
+  },
   "castilla_y_leon/42497104110": {
    "territorio": "castilla_y_leon",
    "run_id": "42497104110",
    "secciones": 3506,
    "sha256_csv": "67cee6906c1398b4d6f0b611300428c9f65489422e76ef0dab7115ccb6395e43",
    "ruta": "datos/composicion/runs/castilla_y_leon_42497104110.csv"
+  },
+  "ceuta/42503542766": {
+   "territorio": "ceuta",
+   "run_id": "42503542766",
+   "secciones": 56,
+   "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
+   "ruta": "datos/composicion/runs/ceuta_42503542766.csv"
+  },
+  "congreso_albacete/42514994231": {
+   "territorio": "congreso_albacete",
+   "run_id": "42514994231",
+   "secciones": 294,
+   "sha256_csv": "e8f4c44ec891d4cc95a46fb15fd1c2f8cdf2edfccb6aa6adb04a48c26129a44c",
+   "ruta": "datos/composicion/runs/congreso_albacete_42514994231.csv"
   },
   "congreso_alicante/42490325518": {
    "territorio": "congreso_alicante",
@@ -802,6 +823,20 @@
    "sha256_csv": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
    "ruta": "datos/composicion/runs/congreso_ceuta_42488846588.csv"
   },
+  "congreso_la_rioja/42504388624": {
+   "territorio": "congreso_la_rioja",
+   "run_id": "42504388624",
+   "secciones": 343,
+   "sha256_csv": "5a096f13d2bcf57240777144222efc8e2f7557772cc22fb524195aec56f17fb3",
+   "ruta": "datos/composicion/runs/congreso_la_rioja_42504388624.csv"
+  },
+  "congreso_lugo/42514986960": {
+   "territorio": "congreso_lugo",
+   "run_id": "42514986960",
+   "secciones": 279,
+   "sha256_csv": "b8872f3807facddb55074d8f9e60f77c2c1450c95e1f33a3f70fc96e808eee1c",
+   "ruta": "datos/composicion/runs/congreso_lugo_42514986960.csv"
+  },
   "congreso_malaga/42490329631": {
    "territorio": "congreso_malaga",
    "run_id": "42490329631",
@@ -815,6 +850,34 @@
    "secciones": 1084,
    "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
    "ruta": "datos/composicion/runs/congreso_malaga_42495070976.csv"
+  },
+  "congreso_santa_cruz_de_tenerife/42514989698": {
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "run_id": "42514989698",
+   "secciones": 681,
+   "sha256_csv": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
+   "ruta": "datos/composicion/runs/congreso_santa_cruz_de_tenerife_42514989698.csv"
+  },
+  "congreso_tarragona/42514991952": {
+   "territorio": "congreso_tarragona",
+   "run_id": "42514991952",
+   "secciones": 542,
+   "sha256_csv": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
+   "ruta": "datos/composicion/runs/congreso_tarragona_42514991952.csv"
+  },
+  "melilla/42504386196": {
+   "territorio": "melilla",
+   "run_id": "42504386196",
+   "secciones": 44,
+   "sha256_csv": "ff0230560101719270ddf9368eb284d552ee0343f444ddab2751182bcd889560",
+   "ruta": "datos/composicion/runs/melilla_42504386196.csv"
+  },
+  "region_de_murcia/42504383790": {
+   "territorio": "region_de_murcia",
+   "run_id": "42504383790",
+   "secciones": 1223,
+   "sha256_csv": "54411b654585273f9b3b8cef5ee8e01929999b7191a4a3d88ced7bf7b99ed260",
+   "ruta": "datos/composicion/runs/region_de_murcia_42504383790.csv"
   }
  }
 }

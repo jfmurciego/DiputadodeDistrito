@@ -1,0 +1,28 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_la_rioja",
+ "run_id": "42504388624",
+ "run_territorial": "42504388624",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 171589,
+ "votos_desajustados": 579,
+ "pct_desajuste": 0.3374,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "2608904040",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 579,
+   "secciones_m06": {
+    "2608904034": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 2608904034 con la tabla de T-85, fuera del tope D-17"
+  }
+ ]
+}

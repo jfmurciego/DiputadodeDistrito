@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# ANTERIOR: legacy/workflows/catalogo-procedencia_v1.0.0_20261108.yml
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Catálogo de procedencia
-# FECHA: 2026-11-07
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: cuando cambia en main cualquiera de las entradas del catálogo de procedencia (visor, archivo R2, datos
 #   abiertos, productos públicos, catálogos de fuentes, preparación y publicaciones, MANIFEST de composición y
@@ -11,7 +13,7 @@
 # CAMBIOS: 1.0.0: versión inicial (T-74).
 # MOTIVO: los escritores de esos registros no se migran; sin esto el catálogo versionado se desfasa y `pruebas` falla.
 # ANTERIOR: ninguna (fichero nuevo)
-name: Catálogo de procedencia
+name: _Interno — Catálogo de procedencia
 on:
   push:
     branches: [main]

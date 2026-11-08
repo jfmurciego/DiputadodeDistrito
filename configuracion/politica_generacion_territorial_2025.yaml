@@ -875,6 +875,937 @@ territories:
       evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
       rationale: "Decisión del propietario 31-10-2026: Lanzarote y La Graciosa forman un solo distrito (1,38 de la media), así que el techo provincial sube a 1,40; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
 
+  congreso350_alava:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Álava (CPRO 01) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_albacete:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Albacete (CPRO 02) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_alicante:
+    k: 12
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=12 son los escaños de Alicante (CPRO 03) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_almeria:
+    k: 6
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=6 son los escaños de Almería (CPRO 04) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_avila:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Ávila (CPRO 05) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_badajoz:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Badajoz (CPRO 06) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_barcelona:
+    k: 32
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=32 son los escaños de Barcelona (CPRO 08) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_burgos:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Burgos (CPRO 09) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_caceres:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Cáceres (CPRO 10) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_cadiz:
+    k: 9
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=9 son los escaños de Cádiz (CPRO 11) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.16
+      target_tolerance_ratio: 0.16
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-11-01"
+      evidence: "run 00 41327505480: M05 distrito 8 = 132.239 hab. (El Puerto de Santa María 11027 y Puerto Real 11028 enteros) frente a un techo de 131.190; la reparación profunda no lo mejoró"
+      rationale: "Decisión del propietario (01-11-2026): techo 116 % solo en Cádiz, porque dos municipios enteros dan un distrito 1,159 veces la media; suelo 85 % y municipios indivisibles bajo el techo como en el resto."
+
+  congreso350_castellon:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Castellón (CPRO 12) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_ciudad_real:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Ciudad Real (CPRO 13) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_cordoba:
+    k: 6
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=6 son los escaños de Córdoba (CPRO 14) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_la_coruna:
+    k: 8
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=8 son los escaños de La Coruña (CPRO 15) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_cuenca:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Cuenca (CPRO 16) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_gerona:
+    k: 6
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=6 son los escaños de Gerona (CPRO 17) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_granada:
+    k: 7
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=7 son los escaños de Granada (CPRO 18) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_guadalajara:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Guadalajara (CPRO 19) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_guipuzcoa:
+    k: 6
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=6 son los escaños de Guipúzcoa (CPRO 20) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_huelva:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Huelva (CPRO 21) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_huesca:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Huesca (CPRO 22) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-30"
+      evidence: "territorios/congreso/contrato_congreso_2026.json (K=407, decisión N08-OWNER-20261013-7RULES: límites ±15 % e indivisibilidad municipal bajo el techo); docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/MATRIZ_FACTIBILIDAD_52.csv (Huesca: 1 componente, 0 solapes); referencia temporal 2023 contemporánea de la elección general de 2023"
+      rationale: "Reglas del Congreso aprobadas por el propietario: suelo 85 %, techo 115 %, y un municipio que cabe bajo el techo no se divide. Piloto autorizado el 30-10-2026."
+
+  congreso350_jaen:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Jaén (CPRO 23) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_leon:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de León (CPRO 24) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_lerida:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Lérida (CPRO 25) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_la_rioja:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de La Rioja (CPRO 26) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_lugo:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Lugo (CPRO 27) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_madrid:
+    k: 37
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=37 son los escaños de Madrid (CPRO 28) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_malaga:
+    k: 11
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=11 son los escaños de Málaga (CPRO 29) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_murcia:
+    k: 10
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=10 son los escaños de Murcia (CPRO 30) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_navarra:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Navarra (CPRO 31) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_orense:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Orense (CPRO 32) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_asturias:
+    k: 7
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=7 son los escaños de Asturias (CPRO 33) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_palencia:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Palencia (CPRO 34) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_pontevedra:
+    k: 7
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=7 son los escaños de Pontevedra (CPRO 36) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_salamanca:
+    k: 4
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=4 son los escaños de Salamanca (CPRO 37) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_cantabria:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Cantabria (CPRO 39) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_segovia:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Segovia (CPRO 40) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_sevilla:
+    k: 12
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=12 son los escaños de Sevilla (CPRO 41) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_soria:
+    k: 2
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=2 son los escaños de Soria (CPRO 42) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_tarragona:
+    k: 6
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=6 son los escaños de Tarragona (CPRO 43) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_teruel:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Teruel (CPRO 44) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_toledo:
+    k: 6
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=6 son los escaños de Toledo (CPRO 45) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_valencia:
+    k: 16
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=16 son los escaños de Valencia (CPRO 46) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_valladolid:
+    k: 5
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=5 son los escaños de Valladolid (CPRO 47) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_vizcaya:
+    k: 8
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=8 son los escaños de Vizcaya (CPRO 48) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_zamora:
+    k: 3
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=3 son los escaños de Zamora (CPRO 49) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_zaragoza:
+    k: 7
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=7 son los escaños de Zaragoza (CPRO 50) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_ceuta:
+    k: 1
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=1 son los escaños de Ceuta (CPRO 51) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
+  congreso350_melilla:
+    k: 1
+    k_source: norma
+    k_reference_scope: legal_apportionment_2023
+    k_reference_source: "BOE-A-2023-18907; configuracion/resultados_oficiales_congreso_2023.csv sha256=c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b"
+    apportionment_source: boe_congreso_2023
+    legal_apportionment_reused: true
+    legal_context: "Escaños por circunscripción de las generales del 23-07-2023 (D-19)."
+    partition_mode: province_hamilton
+    rationale: "Congreso 350 (D-19): K=1 son los escaños de Melilla (CPRO 52) en las generales del 23-07-2023, BOE-A-2023-18907; CSV oficial de escaños con sha256 c7a636f2d4f08944b3a84cc9a6cd855bd5665eafd619d53a944e910e93475d8b."
+    population_limits:
+      population_floor_ratio: 0.85
+      population_cap_ratio: 1.15
+      target_tolerance_ratio: 0.15
+      municipality_atomicity_limit_ratio: 1.15
+      decided_at: "2026-10-31"
+      evidence: "configuracion/politica_generacion_territorial_2025.yaml#territories.congreso_huesca.population_limits"
+      rationale: "Reglas del Congreso del propietario, iguales que el piloto Huesca: suelo 85 %, techo 115 % y un municipio que cabe bajo el techo no se divide."
+
 archipelago:
   partition_lookup: configuracion/particiones_insulares_2025.json
   apportionment: hamilton_min_one_floor_feasible

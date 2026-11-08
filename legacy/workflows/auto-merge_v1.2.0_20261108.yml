@@ -1,0 +1,83 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Fusión automática solo con `pruebas` en success sobre el HEAD exacto
+# FECHA: 2026-11-07
+# ESTADO: candidato
+# QUÉ HACE: cuando «Pruebas de la Plataforma» termina en una PR, consulta explícitamente el check-run `pruebas` del SHA
+#   exacto y fusiona (squash, ligado a ese SHA) solo si está en success y la PR es del propio repositorio, va a main, no
+#   es borrador y no lleva `no-automerge` (herramientas/decidir_auto_merge.py). Pendiente o en failure: no hace nada.
+#   No activa el auto-merge nativo ni mira mergeable_state. Fusiona con la app de registro para que el push a main
+#   dispare sus workflows. Sin botón manual.
+# CAMBIOS 1.1.0: T-54b. La 1.0.0 fusionó #453 y #454 sin `pruebas`: con el token de la app (actor exento del ruleset
+#   proteger-main) la PR salía «clean» al instante y la rama «si ya está clean, fusiona» se saltaba el check. Ahora se
+#   dispara con workflow_run al terminar la CI y decide por el check-run `pruebas` del SHA, nunca por el estado de la PR.
+# MOTIVO: el propietario autorizó la fusión automática con `pruebas` en verde (07-11), no sin él.
+# CAMBIOS 1.2.0: T-54c. El check-run `pruebas` debe pertenecer a la check suite del run de CI que dispara la fusión
+#   (workflow_run.check_suite_id) y ese run debe ser de pruebas-plataforma.yml. #458 no lo fusionó esta versión sino la
+#   1.0.0, ejecutada por un `pull_request` cuya referencia de merge aún no incluía #457: por eso aquí no hay disparador
+#   `pull_request` ni auto-merge nativo (un auto-merge nativo activado con la app exenta fusiona sin `pruebas`).
+# ANTERIOR: legacy/workflows/auto-merge_v1.1.0_20261107.yml
+name: Fusión automática
+on:
+  workflow_run:
+    workflows: ["Pruebas de la Plataforma"]
+    types: [completed]
+permissions:
+  contents: read
+  checks: read
+  pull-requests: read
+concurrency:
+  group: ddd-auto-merge-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: true
+jobs:
+  fusionar:
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.path == '.github/workflows/pruebas-plataforma.yml' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Fusionar si `pruebas` está en success sobre el HEAD exacto
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          SUITE: ${{ github.event.workflow_run.check_suite_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-am
+          gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/pulls" > .ddd-am/prs.json
+          mapfile -t prs < <(jq -r --arg sha "$SHA" '.[] | select(.state=="open" and .head.sha==$sha) | .number' .ddd-am/prs.json)
+          [[ ${#prs[@]} -gt 0 ]] || { echo "Sin PR abierta con HEAD ${SHA:0:10}."; exit 0; }
+          gh api "repos/$GITHUB_REPOSITORY/commits/$SHA/check-runs?check_name=pruebas&per_page=100" > .ddd-am/checks.json
+          fusionar=()
+          for pr in "${prs[@]}"; do
+            gh api "repos/$GITHUB_REPOSITORY/pulls/$pr" > ".ddd-am/pr-$pr.json"
+            res="$(python herramientas/decidir_auto_merge.py --pr ".ddd-am/pr-$pr.json" --checks .ddd-am/checks.json --sha "$SHA" --repo "$GITHUB_REPOSITORY" --suite "$SUITE")"
+            echo "#$pr: $res"
+            [[ "$(jq -r .decision <<<"$res")" == FUSIONAR ]] && fusionar+=("$pr")
+          done
+          [[ ${#fusionar[@]} -gt 0 ]] || exit 0
+          # Token de la app de registro (solo para fusionar, ya comprobado `pruebas`): el push a main dispara sus workflows.
+          if [[ -n "${APP_ID:-}" && -n "${APP_KEY:-}" ]]; then
+            b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+            now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+            unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+            jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+            auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+            inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+            token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+            if [[ -n "$token" && "$token" != null ]]; then echo "::add-mask::$token"; export GH_TOKEN="$token"
+            else echo "::warning::La app de registro no devolvió token; sin permiso de escritura no se fusiona."; exit 0; fi
+          else
+            echo "::warning::Sin app de registro: no se fusiona (github.token es de solo lectura aquí)."; exit 0
+          fi
+          for pr in "${fusionar[@]}"; do
+            gh pr merge "$pr" --squash --match-head-commit "$SHA"
+            echo "::notice::#$pr fusionada (squash) con \`pruebas\` en success sobre ${SHA:0:10}."
+          done

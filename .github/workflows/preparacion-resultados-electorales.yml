@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # FICHERO: preparacion-resultados-electorales.yml
-# VERSIÓN: 1.0.10
+# VERSIÓN: 1.0.11
+# CAMBIOS 1.0.11: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Cola durable de operaciones
-# FECHA: 2026-10-25
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: serializa el acceso al recurso compartido y conserva todos los trabajos en espera.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
@@ -21,7 +22,7 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.0.10: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
-# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.9_20261101b.yml
+# ANTERIOR: legacy/workflows/preparacion-resultados-electorales_v1.0.10_20261108.yml
 name: 03 Preparación de Resultados Electorales
 
 on:
@@ -47,7 +48,7 @@ on:
         description: Territorio
         required: true
         type: choice
-        options: ['01 Andalucía', '02 Aragón', '03 Principado de Asturias', '04 Islas Baleares', '05 Canarias', '06 Cantabria', '07 Castilla y León', '08 Castilla-La Mancha', '09 Cataluña', '10 Comunidad Valenciana', '11 Extremadura', '12 Galicia', '13 Comunidad de Madrid', '14 Región de Murcia', '15 Comunidad Foral de Navarra', '16 País Vasco', '17 La Rioja', '18 Ceuta', '19 Melilla', 'Congreso Álava', 'Congreso Albacete', 'Congreso Alicante', 'Congreso Almería', 'Congreso Ávila', 'Congreso Badajoz', 'Congreso Baleares', 'Congreso Barcelona', 'Congreso Burgos', 'Congreso Cáceres', 'Congreso Cádiz', 'Congreso Castellón', 'Congreso Ciudad Real', 'Congreso Córdoba', 'Congreso La Coruña', 'Congreso Cuenca', 'Congreso Gerona', 'Congreso Granada', 'Congreso Guadalajara', 'Congreso Guipúzcoa', 'Congreso Huelva', 'Congreso Huesca', 'Congreso Jaén', 'Congreso León', 'Congreso Lérida', 'Congreso La Rioja', 'Congreso Lugo', 'Congreso Madrid', 'Congreso Málaga', 'Congreso Murcia', 'Congreso Navarra', 'Congreso Orense', 'Congreso Asturias', 'Congreso Palencia', 'Congreso Las Palmas', 'Congreso Pontevedra', 'Congreso Salamanca', 'Congreso Santa Cruz de Tenerife', 'Congreso Cantabria', 'Congreso Segovia', 'Congreso Sevilla', 'Congreso Soria', 'Congreso Tarragona', 'Congreso Teruel', 'Congreso Toledo', 'Congreso Valencia', 'Congreso Valladolid', 'Congreso Vizcaya', 'Congreso Zamora', 'Congreso Zaragoza', 'Congreso Ceuta', 'Congreso Melilla']
+        options: ['01 Andalucía', '02 Aragón', '03 Principado de Asturias', '04 Islas Baleares', '05 Canarias', '06 Cantabria', '07 Castilla y León', '08 Castilla-La Mancha', '09 Cataluña', '10 Comunidad Valenciana', '11 Extremadura', '12 Galicia', '13 Comunidad de Madrid', '14 Región de Murcia', '15 Comunidad Foral de Navarra', '16 País Vasco', '17 La Rioja', '18 Ceuta', '19 Melilla', 'Congreso Álava', 'Congreso Albacete', 'Congreso Alicante', 'Congreso Almería', 'Congreso Ávila', 'Congreso Badajoz', 'Congreso Baleares', 'Congreso Barcelona', 'Congreso Burgos', 'Congreso Cáceres', 'Congreso Cádiz', 'Congreso Castellón', 'Congreso Ciudad Real', 'Congreso Córdoba', 'Congreso La Coruña', 'Congreso Cuenca', 'Congreso Gerona', 'Congreso Granada', 'Congreso Guadalajara', 'Congreso Guipúzcoa', 'Congreso Huelva', 'Congreso Huesca', 'Congreso Jaén', 'Congreso León', 'Congreso Lérida', 'Congreso La Rioja', 'Congreso Lugo', 'Congreso Madrid', 'Congreso Málaga', 'Congreso Murcia', 'Congreso Navarra', 'Congreso Orense', 'Congreso Asturias', 'Congreso Palencia', 'Congreso Las Palmas', 'Congreso Pontevedra', 'Congreso Salamanca', 'Congreso Santa Cruz de Tenerife', 'Congreso Cantabria', 'Congreso Segovia', 'Congreso Sevilla', 'Congreso Soria', 'Congreso Tarragona', 'Congreso Teruel', 'Congreso Toledo', 'Congreso Valencia', 'Congreso Valladolid', 'Congreso Vizcaya', 'Congreso Zamora', 'Congreso Zaragoza', 'Congreso Ceuta', 'Congreso Melilla', 'Congreso 350 Álava', 'Congreso 350 Albacete', 'Congreso 350 Alicante', 'Congreso 350 Almería', 'Congreso 350 Ávila', 'Congreso 350 Badajoz', 'Congreso 350 Barcelona', 'Congreso 350 Burgos', 'Congreso 350 Cáceres', 'Congreso 350 Cádiz', 'Congreso 350 Castellón', 'Congreso 350 Ciudad Real', 'Congreso 350 Córdoba', 'Congreso 350 La Coruña', 'Congreso 350 Cuenca', 'Congreso 350 Gerona', 'Congreso 350 Granada', 'Congreso 350 Guadalajara', 'Congreso 350 Guipúzcoa', 'Congreso 350 Huelva', 'Congreso 350 Huesca', 'Congreso 350 Jaén', 'Congreso 350 León', 'Congreso 350 Lérida', 'Congreso 350 La Rioja', 'Congreso 350 Lugo', 'Congreso 350 Madrid', 'Congreso 350 Málaga', 'Congreso 350 Murcia', 'Congreso 350 Navarra', 'Congreso 350 Orense', 'Congreso 350 Asturias', 'Congreso 350 Palencia', 'Congreso 350 Pontevedra', 'Congreso 350 Salamanca', 'Congreso 350 Cantabria', 'Congreso 350 Segovia', 'Congreso 350 Sevilla', 'Congreso 350 Soria', 'Congreso 350 Tarragona', 'Congreso 350 Teruel', 'Congreso 350 Toledo', 'Congreso 350 Valencia', 'Congreso 350 Valladolid', 'Congreso 350 Vizcaya', 'Congreso 350 Zamora', 'Congreso 350 Zaragoza', 'Congreso 350 Ceuta', 'Congreso 350 Melilla']
       data_edition: {description: Edición de datos, required: true, default: '2025', type: choice, options: ['2025']}
       reutilizar_si_ya_preparada: {description: Reutilizar resultados electorales ya preparados, required: true, default: true, type: boolean}
 

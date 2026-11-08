@@ -1,0 +1,64 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_lugo",
+ "run_id": "42514986960",
+ "run_territorial": "42514986960",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 193699,
+ "votos_desajustados": 401,
+ "pct_desajuste": 0.207,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "2702203002",
+   "origen": "zip_sin_m06",
+   "clase": "recodificada",
+   "votos": 401,
+   "secciones_m06": {
+    "2702204002": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "T-103: recodificada; asignación 1:1 a 2702204002 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "2701201002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2701201002": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "2702204001",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2702204001": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "2702204002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "2702204002": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}

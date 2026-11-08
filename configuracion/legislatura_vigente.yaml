@@ -6,8 +6,8 @@
 schema: ddd-legislatura-vigente/1.0
 generado_por: herramientas/legislatura_vigente.py generar
 fuentes:
-  configuracion/registro_electoral.yaml: ef0fd631faee9318002a320c191fb9a46114e96ec29fcc3e565b227e4c653519
-  configuracion/preparacion_legislatura_vigente.yaml: c04aea558f4e534e2de27e89b34ad32a4f09ee0530df995027686c95b82ad20b
+  configuracion/registro_electoral.yaml: 8f0a5f8261e730584c68019f21bab553031e9e89af8489157fb7ce8f45e35e87
+  configuracion/preparacion_legislatura_vigente.yaml: 094edd222d6f38a6cc62c79f0489c3f92fa2c092dc0f936c7d7a8bc85ddafa77
   configuracion/resultados_oficiales_congreso_2023.json: f273a250d75f95bc53c3441045cd624f93304d024170f7771c3dcd9e7292bec5
 nacional:
   fechas:
@@ -21,7 +21,8 @@ nacional:
 totales:
   nacional: 52
   autonómica: 19
-  total: 71
+  congreso_350: 49
+  total: 120
 territorios:
 - territory_id: congreso_alava
   ambito: nacional
@@ -490,6 +491,447 @@ territorios:
   election_id: congreso_melilla_2023-07-23
   fecha: '2023-07-23'
   clave: ES-NAC-52-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_alava
+  ambito: congreso_350
+  codigo: R01
+  nombre: Congreso 350 Álava
+  selector_00: Congreso 350 Álava
+  election_id: congreso350_alava_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R01-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_albacete
+  ambito: congreso_350
+  codigo: R02
+  nombre: Congreso 350 Albacete
+  selector_00: Congreso 350 Albacete
+  election_id: congreso350_albacete_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R02-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_alicante
+  ambito: congreso_350
+  codigo: R03
+  nombre: Congreso 350 Alicante
+  selector_00: Congreso 350 Alicante
+  election_id: congreso350_alicante_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R03-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_almeria
+  ambito: congreso_350
+  codigo: R04
+  nombre: Congreso 350 Almería
+  selector_00: Congreso 350 Almería
+  election_id: congreso350_almeria_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R04-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_avila
+  ambito: congreso_350
+  codigo: R05
+  nombre: Congreso 350 Ávila
+  selector_00: Congreso 350 Ávila
+  election_id: congreso350_avila_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R05-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_badajoz
+  ambito: congreso_350
+  codigo: R06
+  nombre: Congreso 350 Badajoz
+  selector_00: Congreso 350 Badajoz
+  election_id: congreso350_badajoz_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R06-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_barcelona
+  ambito: congreso_350
+  codigo: R08
+  nombre: Congreso 350 Barcelona
+  selector_00: Congreso 350 Barcelona
+  election_id: congreso350_barcelona_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R08-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_burgos
+  ambito: congreso_350
+  codigo: R09
+  nombre: Congreso 350 Burgos
+  selector_00: Congreso 350 Burgos
+  election_id: congreso350_burgos_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R09-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_caceres
+  ambito: congreso_350
+  codigo: R10
+  nombre: Congreso 350 Cáceres
+  selector_00: Congreso 350 Cáceres
+  election_id: congreso350_caceres_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R10-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_cadiz
+  ambito: congreso_350
+  codigo: R11
+  nombre: Congreso 350 Cádiz
+  selector_00: Congreso 350 Cádiz
+  election_id: congreso350_cadiz_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R11-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_castellon
+  ambito: congreso_350
+  codigo: R12
+  nombre: Congreso 350 Castellón
+  selector_00: Congreso 350 Castellón
+  election_id: congreso350_castellon_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R12-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_ciudad_real
+  ambito: congreso_350
+  codigo: R13
+  nombre: Congreso 350 Ciudad Real
+  selector_00: Congreso 350 Ciudad Real
+  election_id: congreso350_ciudad_real_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R13-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_cordoba
+  ambito: congreso_350
+  codigo: R14
+  nombre: Congreso 350 Córdoba
+  selector_00: Congreso 350 Córdoba
+  election_id: congreso350_cordoba_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R14-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_la_coruna
+  ambito: congreso_350
+  codigo: R15
+  nombre: Congreso 350 La Coruña
+  selector_00: Congreso 350 La Coruña
+  election_id: congreso350_la_coruna_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R15-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_cuenca
+  ambito: congreso_350
+  codigo: R16
+  nombre: Congreso 350 Cuenca
+  selector_00: Congreso 350 Cuenca
+  election_id: congreso350_cuenca_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R16-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_gerona
+  ambito: congreso_350
+  codigo: R17
+  nombre: Congreso 350 Gerona
+  selector_00: Congreso 350 Gerona
+  election_id: congreso350_gerona_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R17-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_granada
+  ambito: congreso_350
+  codigo: R18
+  nombre: Congreso 350 Granada
+  selector_00: Congreso 350 Granada
+  election_id: congreso350_granada_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R18-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_guadalajara
+  ambito: congreso_350
+  codigo: R19
+  nombre: Congreso 350 Guadalajara
+  selector_00: Congreso 350 Guadalajara
+  election_id: congreso350_guadalajara_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R19-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_guipuzcoa
+  ambito: congreso_350
+  codigo: R20
+  nombre: Congreso 350 Guipúzcoa
+  selector_00: Congreso 350 Guipúzcoa
+  election_id: congreso350_guipuzcoa_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R20-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_huelva
+  ambito: congreso_350
+  codigo: R21
+  nombre: Congreso 350 Huelva
+  selector_00: Congreso 350 Huelva
+  election_id: congreso350_huelva_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R21-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_huesca
+  ambito: congreso_350
+  codigo: R22
+  nombre: Congreso 350 Huesca
+  selector_00: Congreso 350 Huesca
+  election_id: congreso350_huesca_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R22-20230723
+  fuente_resultados: Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)
+- territory_id: congreso350_jaen
+  ambito: congreso_350
+  codigo: R23
+  nombre: Congreso 350 Jaén
+  selector_00: Congreso 350 Jaén
+  election_id: congreso350_jaen_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R23-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_leon
+  ambito: congreso_350
+  codigo: R24
+  nombre: Congreso 350 León
+  selector_00: Congreso 350 León
+  election_id: congreso350_leon_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R24-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_lerida
+  ambito: congreso_350
+  codigo: R25
+  nombre: Congreso 350 Lérida
+  selector_00: Congreso 350 Lérida
+  election_id: congreso350_lerida_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R25-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_la_rioja
+  ambito: congreso_350
+  codigo: R26
+  nombre: Congreso 350 La Rioja
+  selector_00: Congreso 350 La Rioja
+  election_id: congreso350_la_rioja_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R26-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_lugo
+  ambito: congreso_350
+  codigo: R27
+  nombre: Congreso 350 Lugo
+  selector_00: Congreso 350 Lugo
+  election_id: congreso350_lugo_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R27-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_madrid
+  ambito: congreso_350
+  codigo: R28
+  nombre: Congreso 350 Madrid
+  selector_00: Congreso 350 Madrid
+  election_id: congreso350_madrid_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R28-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_malaga
+  ambito: congreso_350
+  codigo: R29
+  nombre: Congreso 350 Málaga
+  selector_00: Congreso 350 Málaga
+  election_id: congreso350_malaga_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R29-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_murcia
+  ambito: congreso_350
+  codigo: R30
+  nombre: Congreso 350 Murcia
+  selector_00: Congreso 350 Murcia
+  election_id: congreso350_murcia_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R30-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_navarra
+  ambito: congreso_350
+  codigo: R31
+  nombre: Congreso 350 Navarra
+  selector_00: Congreso 350 Navarra
+  election_id: congreso350_navarra_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R31-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_orense
+  ambito: congreso_350
+  codigo: R32
+  nombre: Congreso 350 Orense
+  selector_00: Congreso 350 Orense
+  election_id: congreso350_orense_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R32-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_asturias
+  ambito: congreso_350
+  codigo: R33
+  nombre: Congreso 350 Asturias
+  selector_00: Congreso 350 Asturias
+  election_id: congreso350_asturias_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R33-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_palencia
+  ambito: congreso_350
+  codigo: R34
+  nombre: Congreso 350 Palencia
+  selector_00: Congreso 350 Palencia
+  election_id: congreso350_palencia_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R34-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_pontevedra
+  ambito: congreso_350
+  codigo: R36
+  nombre: Congreso 350 Pontevedra
+  selector_00: Congreso 350 Pontevedra
+  election_id: congreso350_pontevedra_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R36-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_salamanca
+  ambito: congreso_350
+  codigo: R37
+  nombre: Congreso 350 Salamanca
+  selector_00: Congreso 350 Salamanca
+  election_id: congreso350_salamanca_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R37-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_cantabria
+  ambito: congreso_350
+  codigo: R39
+  nombre: Congreso 350 Cantabria
+  selector_00: Congreso 350 Cantabria
+  election_id: congreso350_cantabria_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R39-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_segovia
+  ambito: congreso_350
+  codigo: R40
+  nombre: Congreso 350 Segovia
+  selector_00: Congreso 350 Segovia
+  election_id: congreso350_segovia_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R40-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_sevilla
+  ambito: congreso_350
+  codigo: R41
+  nombre: Congreso 350 Sevilla
+  selector_00: Congreso 350 Sevilla
+  election_id: congreso350_sevilla_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R41-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_soria
+  ambito: congreso_350
+  codigo: R42
+  nombre: Congreso 350 Soria
+  selector_00: Congreso 350 Soria
+  election_id: congreso350_soria_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R42-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_tarragona
+  ambito: congreso_350
+  codigo: R43
+  nombre: Congreso 350 Tarragona
+  selector_00: Congreso 350 Tarragona
+  election_id: congreso350_tarragona_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R43-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_teruel
+  ambito: congreso_350
+  codigo: R44
+  nombre: Congreso 350 Teruel
+  selector_00: Congreso 350 Teruel
+  election_id: congreso350_teruel_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R44-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_toledo
+  ambito: congreso_350
+  codigo: R45
+  nombre: Congreso 350 Toledo
+  selector_00: Congreso 350 Toledo
+  election_id: congreso350_toledo_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R45-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_valencia
+  ambito: congreso_350
+  codigo: R46
+  nombre: Congreso 350 Valencia
+  selector_00: Congreso 350 Valencia
+  election_id: congreso350_valencia_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R46-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_valladolid
+  ambito: congreso_350
+  codigo: R47
+  nombre: Congreso 350 Valladolid
+  selector_00: Congreso 350 Valladolid
+  election_id: congreso350_valladolid_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R47-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_vizcaya
+  ambito: congreso_350
+  codigo: R48
+  nombre: Congreso 350 Vizcaya
+  selector_00: Congreso 350 Vizcaya
+  election_id: congreso350_vizcaya_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R48-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_zamora
+  ambito: congreso_350
+  codigo: R49
+  nombre: Congreso 350 Zamora
+  selector_00: Congreso 350 Zamora
+  election_id: congreso350_zamora_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R49-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_zaragoza
+  ambito: congreso_350
+  codigo: R50
+  nombre: Congreso 350 Zaragoza
+  selector_00: Congreso 350 Zaragoza
+  election_id: congreso350_zaragoza_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R50-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_ceuta
+  ambito: congreso_350
+  codigo: R51
+  nombre: Congreso 350 Ceuta
+  selector_00: Congreso 350 Ceuta
+  election_id: congreso350_ceuta_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R51-20230723
+  fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
+- territory_id: congreso350_melilla
+  ambito: congreso_350
+  codigo: R52
+  nombre: Congreso 350 Melilla
+  selector_00: Congreso 350 Melilla
+  election_id: congreso350_melilla_2023-07-23
+  fecha: '2023-07-23'
+  clave: ES-NAC-R52-20230723
   fuente_resultados: Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023
 - territory_id: andalucia
   ambito: autonómica

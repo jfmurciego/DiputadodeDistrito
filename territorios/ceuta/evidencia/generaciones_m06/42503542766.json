@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13627473645,
+      "artifact_name": "ddd-audit-42503542766",
+      "artifact_sha256": "b46cb8b8c92f4b7bce5755780198975e3f2315da845a874971e648736582dbe9",
+      "run_id": 42503542766,
+      "size_in_bytes": 4886
+    },
+    "m04": {
+      "artifact_id": 13627775931,
+      "artifact_name": "ddd-state-42503542766-M04",
+      "artifact_sha256": "e0224f24552356a13d72e9c2b377ce403cb09e7b0e9161c5778adb6955c28f56",
+      "run_id": 42503542766,
+      "size_in_bytes": 74280306
+    },
+    "m05": {
+      "artifact_id": 13627528094,
+      "artifact_name": "ddd-state-42503542766-M05",
+      "artifact_sha256": "e0b800ded998354adc2b6671c960dd8f489335136a6f0b5be1e71f35576496f4",
+      "run_id": 42503542766,
+      "size_in_bytes": 74342715
+    },
+    "m06": {
+      "artifact_id": 13627299157,
+      "artifact_name": "ddd-state-42503542766-M06",
+      "artifact_sha256": "0361ee882860b1409c0f7890426ae7cbc1c6f32389dee80ca63788c5a533d9a8",
+      "run_id": 42503542766,
+      "size_in_bytes": 74466244
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "74b4bc2083374d1d02d1154891875337119d4eb866d2e365963c0d0b4f8d3eda",
+        "size_in_bytes": 417
+      },
+      "ceuta_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "8ad387ac7099910c2fec5985a58537678da6574a9d64796d32ff9d02447cd782",
+        "size_in_bytes": 20993
+      },
+      "optimization_execution.json": {
+        "sha256": "ade7e6a6306168820ac949c2dd94098f73eb0996bfdb52ce5b36a34aebee3447",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "eb747cad5998cd7e275477b377db32b67cb63827209ec84a407303a2e3528591",
+        "size_in_bytes": 1204
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "eb747cad5998cd7e275477b377db32b67cb63827209ec84a407303a2e3528591",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/ceuta/config/ceuta_2025.yaml",
+    "sha256": "0ee1c1acf0c2607021e75a3cdd46320864fbf1845e7791f74bff8a03c23997c7"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "b3c908d8e81c5697b76e4ae6d3f30cbc5c38d193ee884671869fb1c59381db1a",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "901bee97ee99deb02c211c9cb1732f19bec759c6",
+    "edition": "2025",
+    "territory_id": "ceuta",
+    "territory_name": "Ceuta",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42503542766,
+    "workflow_sha": "901bee97ee99deb02c211c9cb1732f19bec759c6"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13627775931,
+      "artifact_name": "ddd-state-42503542766-M04",
+      "artifact_sha256": "e0224f24552356a13d72e9c2b377ce403cb09e7b0e9161c5778adb6955c28f56",
+      "run_id": 42503542766,
+      "size_in_bytes": 74280306
+    },
+    "source_manifest_sha256": "f4b6448a1a030335e6decb2db90a28c72cb3dc294f8c9e962988c8580e795457",
+    "source_package_artifact": {
+      "artifact_id": 12856830095,
+      "artifact_name": "ddd-source-package-ceuta-2025-40773443591",
+      "artifact_sha256": "9de48295eec36c7e5e4ad16cb1ed929f128e3325ef2e18d2b53bc10f7a6be374",
+      "run_id": 40773443591,
+      "size_in_bytes": 74151159
+    }
+  },
+  "manifest_sha256": "e90266ab9b3e08adb57cec470a0e7caa43eb1cbfb955c588e667fc9a87857d95",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

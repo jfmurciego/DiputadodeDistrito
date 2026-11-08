@@ -232,31 +232,39 @@ validation:
   - 38-C02
   - 38-C04
   population_floor_exempt_partition_decisions:
-    '35-C02':
+    35-C02:
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Partición insular cuyos municipios indivisibles impiden que M05 repare el distrito residual por encima del suelo (opción A).'
-      evidence: 'run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions'
-    '38-C01':
+      reason: Partición insular cuyos municipios indivisibles impiden que M05 repare
+        el distrito residual por encima del suelo (opción A).
+      evidence: run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions
+    38-C01:
       decided_at: '2026-10-29'
       decided_by: propietario
-      reason: 'Tenerife deja tres distritos residuales bajo el suelo que M05 no puede reparar con la disciplina municipal vigente (opción A).'
-      evidence: 'run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions'
-    '35-C04':
+      reason: Tenerife deja tres distritos residuales bajo el suelo que M05 no puede
+        reparar con la disciplina municipal vigente (opción A).
+      evidence: run 40891782899; configuracion/politica_generacion_territorial_2025.yaml#territories.canarias.structural_floor_exemptions
+    35-C04:
       decided_at: '2026-10-29'
       decided_by: 'regla: componente pequeño'
-      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
-    '38-C02':
+      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception):
+        componente con un solo distrito bajo el suelo.'
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña,
+        Canarias y Baleares»
+    38-C02:
       decided_at: '2026-10-29'
       decided_by: 'regla: componente pequeño'
-      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
-    '38-C04':
+      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception):
+        componente con un solo distrito bajo el suelo.'
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña,
+        Canarias y Baleares»
+    38-C04:
       decided_at: '2026-10-29'
       decided_by: 'regla: componente pequeño'
-      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception): componente con un solo distrito bajo el suelo.'
-      evidence: 'docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña, Canarias y Baleares»'
+      reason: 'Regla de componente pequeño (small_component_exception_policy: one_contiguous_district_floor_exception):
+        componente con un solo distrito bajo el suelo.'
+      evidence: docs/REGISTRO_DE_CAMBIOS.md «2026-10-29 — M02/M03 y M05 — Cataluña,
+        Canarias y Baleares»
   partition_apportionment_audit:
     35-C01:
       population: 862893
@@ -467,6 +475,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 40946861866
-  pre_m04_source_commit: f7e6f380b865004e610d5a8f7e8643987de8a2d2
-  pre_m04_artifact_sha256: 342410ae382013a186f4084a7d66e10f573647377fbc045302034a82248866a9
+  pre_m04_run_id: 42504381511
+  pre_m04_source_commit: 41aefc4f6a45e4aa86886a30934ba6c2a46dacb2
+  pre_m04_artifact_sha256: fd13e5d3b7be9893e7e23fdcfb16d2388495a57d580a54bf37f6ccf139c1d48f
