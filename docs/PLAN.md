@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.23
+Versión: 1.0.24
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-13 (peso de T-85: población vigente, área de reserva, prueba del censo)
-Anterior: legacy/docs/PLAN_v1.0.22_20261108.md
+Cambios/motivo: T-90 (preparar la incorporación de las generales del 29-11-2026)
+Anterior: legacy/docs/PLAN_v1.0.23_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -299,6 +299,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-85 | Equivalencia de secciones (D-9, D-10): tabla de cada seccionado de elección (INE 2012, 2015, 2016, 2019, 2020) al seccionado de los distritos vigentes, desde las geometrías del espejo T-89 o del INE (CC BY 4.0); 1:1 cuando código y geometría coinciden; si una sección se parte, peso por población de la sección vigente y área de reserva (D-13), con la prueba del censo de ambos pesos; se informa del % de votos no 1:1 por provincia y elección | por abrir (Opus), ya | Tabla versionada con sha256 y fuente; pesos que suman 1 por sección; tests; sin lanzar ni publicar |
 | T-81 | Inventario de fuentes del histórico (D-9): por elección y provincia, qué da el Observatorio (generales por sección; autonómicas por municipio y, donde existan, por sección), qué da Infoelectoral y el seccionado de cada una; huecos y discrepancias del contraste de T-89; propuesta de autonómicas para después | por abrir (Sonnet), ya | Documento en `docs/ESTUDIOS/` y JSON con fuente, fecha y sha256; sin datos de memoria |
 | T-83 | Reagregación (D-10, D-12): paso B, herramienta fuera de línea que lleva los votos de cada general 2011-2023 (espejo T-89) a los distritos vigentes con la tabla de T-85; ganador y votos por partido por distrito en `datos/resultados/historico/`; validada con 3 provincias (una con muchas secciones partidas) y cuadre de totales provinciales con Infoelectoral; el paso A (M07/M08, puerta 04) se encarga al validar B | por abrir (Sonnet), tras T-85 (peso fijado en D-13) | Totales provinciales cuadran al voto; tests; sin lanzar ni publicar |
+| T-90 | Preparar las generales del 29-11-2026 (anunciadas por Interior; fecha y convocatoria se confirman en el BOE, nunca de memoria): (1) del real decreto de convocatoria, escaños por provincia en un CSV con fuente y sha256, y diferencias con 2023; si cambia alguno, se para y se presenta al propietario (afecta al número de distritos); (2) universo electoral nuevo (como 02202307) en contratos y catálogo; (3) espejo del ZIP por mesa de Infoelectoral en un release, como `fuente-infoelectoral-02202307`, en cuanto se publique; (4) prueba en local de la 03 y M07/M08 con una provincia. No altera la legislatura vigente hasta decisión del propietario | por abrir (Sonnet), ya | Pasos 1 y 2 en una PR antes del 29-11; 3 y 4 cuando Interior publique; sin lanzar ni publicar |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
