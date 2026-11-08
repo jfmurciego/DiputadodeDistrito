@@ -753,6 +753,13 @@
    "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
    "ruta": "datos/composicion/runs/andalucia_42495072594.csv"
   },
+  "aragon/42497101869": {
+   "territorio": "aragon",
+   "run_id": "42497101869",
+   "secciones": 1463,
+   "sha256_csv": "aafc159d0c84bbab14ab368c0df89428654cce827be665c1dcce9753d35957c5",
+   "ruta": "datos/composicion/runs/aragon_42497101869.csv"
+  },
   "congreso_alicante/42490325518": {
    "territorio": "congreso_alicante",
    "run_id": "42490325518",
