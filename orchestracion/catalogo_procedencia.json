@@ -50,7 +50,7 @@
   "territorios": 67,
   "productos": 339,
   "errores": 0,
-  "avisos": 107
+  "avisos": 121
  },
  "territorios": {
   "aragon": {
@@ -6028,7 +6028,105 @@
    "territorio": "andalucia",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "andalucia/42409764232/ddd-audit-42409764232.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "andalucia/42409764232/ddd-minimo-42409764232-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
    "detalle": "andalucia/42430164925/ddd-minimo-42430164925-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_alicante/42409605030/ddd-audit-42409605030.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_alicante/42409605030/ddd-minimo-42409605030-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_alicante/42418334746/ddd-audit-electoral-42418334746.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_alicante",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_alicante/42418334746/ddd-minimo-42418334746-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_barcelona/42409499602/ddd-audit-42409499602.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_barcelona/42409499602/ddd-minimo-42409499602-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_barcelona/42416213698/ddd-audit-electoral-42416213698.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_barcelona",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_barcelona/42416213698/ddd-minimo-42416213698-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_malaga/42409615215/ddd-audit-42409615215.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_malaga/42409615215/ddd-minimo-42409615215-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_malaga/42418628975/ddd-audit-electoral-42418628975.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_malaga/42418628975/ddd-minimo-42418628975-M08.zip"
   },
   {
    "nivel": "AVISO",
