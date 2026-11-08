@@ -20,7 +20,7 @@ from pathlib import Path
 import yaml
 
 MOLDE = "congreso_la_rioja"
-EXCLUIDOS_POR_ORDEN = {"congreso_cadiz": "techo 1,16 distinto de 1,15; decisión del propietario pendiente"}
+EXCLUIDOS_POR_ORDEN = {"congreso_cadiz": "exención de suelo municipal (San Fernando, 11031) que el ensemble no modela; además techo 1,16"}
 LIMITES = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio")
 
 
