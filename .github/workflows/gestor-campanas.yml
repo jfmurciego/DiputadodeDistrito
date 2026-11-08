@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# VERSIÓN: 1.5.0 · FECHA: 2026-11-08 · ESTADO: candidato
+# VERSIÓN: 1.6.0 · FECHA: 2026-11-08 · ESTADO: candidato
+# CAMBIOS 1.6.0: T-113, «histórico: generales 2019-11»: el plan da la matriz del paso A de T-83 por provincia
+#   (herramientas/historico_campana.py) y el job «histórico» la ejecuta (reagregación → M07/M08 sobre el M06 publicado,
+#   puerta: cuadre exacto, M07 PASS y mismo ganador que B) con artefacto por territorio; no publica. El resto del
+#   histórico sigue fallando al planificar con mensaje claro.
 # CAMBIOS 1.5.0: T-105, Gestor 2.0 (D-22): formulario en el orden de D-22 (elección, tipo, territorios, inicio, publicar,
 #   ensemble) más mapa (407/350) y «solo plan» activado por defecto; herramientas/gestor_campanas_2.py. Lo no disponible
 #   (histórico antes de T-83 A, ensemble 25) falla al planificar sin lanzar. Sustituye modo plan/lanzar, ámbito y forzar;
@@ -13,7 +17,7 @@
 # CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
 # CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
 #   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
-# ANTERIOR: legacy/workflows/gestor-campanas_v1.4.0_20261108.yml
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.5.0_20261108.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: 0 Gestor de Campañas
@@ -136,6 +140,9 @@ on:
       - 'tests/test_legislatura_vigente.py'
       - 'herramientas/gestor_campanas_2.py'
       - 'tests/test_gestor_campanas_2.py'
+      - 'herramientas/historico_campana.py'
+      - 'herramientas/reagregacion_historico.py'
+      - 'herramientas/historico_m07m08.py'
       - 'configuracion/catalogo_territorios_espana_2025.yaml'
       - 'configuracion/catalogo_preparacion.yaml'
       - 'herramientas/gestor_campana_nacional.py'
@@ -164,6 +171,9 @@ jobs:
     environment: ${{ (github.event_name == 'workflow_dispatch' && inputs.modo == 'gestor' && !inputs.solo_plan) && 'produccion' || '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 355
+    outputs:
+      historico: ${{ steps.plan.outputs.historico }}
+      historico_clave: ${{ steps.plan.outputs.historico_clave }}
     concurrency:
       group: ${{ (github.event_name == 'workflow_dispatch' && !inputs.solo_plan) && 'ddd-gestor-legislatura' || format('ddd-gestor-plan-{0}', github.run_id) }}
       cancel-in-progress: false
@@ -186,6 +196,7 @@ jobs:
       - name: Comprobar la legislatura vigente contra sus fuentes
         run: python herramientas/legislatura_vigente.py generar --comprobar
       - name: Plan (en seco)
+        id: plan
         shell: bash
         run: |
           set -euo pipefail
@@ -201,8 +212,12 @@ jobs:
             --territorios "$TERRITORIOS" --inicio "$INICIO" --publicar "$PUBLICAR" --ensemble "$ENSEMBLE" \
             --mapa "$MAPA" --solo-plan "$SOLO_PLAN" "${sin_api[@]}" --salida plan.json --resumen plan.md
           cat plan.md >> "$GITHUB_STEP_SUMMARY"
+          if jq -e 'has("historico")' plan.json >/dev/null; then
+            echo "historico=$(jq -c '{include: .historico.include}' plan.json)" >> "$GITHUB_OUTPUT"
+            echo "historico_clave=$(jq -r .historico.clave plan.json)" >> "$GITHUB_OUTPUT"
+          fi
       - name: Lanzar la campaña
-        if: ${{ github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo != 'matriz' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo != 'matriz' && steps.plan.outputs.historico == '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -211,6 +226,41 @@ jobs:
           python herramientas/gestor_campanas_2.py lanzar --plan plan.json --max-paralelo "$MAX_PARALELO" \
             --minutos 320 "${extra[@]}" | tee resultado.json
           { echo "### Resultado"; echo '```json'; cat resultado.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+  historico:
+    name: Histórico ${{ needs.legislatura.outputs.historico_clave }} ${{ matrix.territorio }}
+    # El clic de produccion del job «legislatura» es el permiso (D-22); este job solo corre si se aprobó y planificó.
+    if: ${{ github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo == 'gestor' && needs.legislatura.outputs.historico != '' }}
+    needs: legislatura
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJSON(needs.legislatura.outputs.historico) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CLAVE: ${{ needs.legislatura.outputs.historico_clave }}
+      TERRITORIO: ${{ matrix.territorio }}
+      PROVINCIA: ${{ matrix.provincia }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Paso A del histórico (reagregación → M07/M08) con puerta
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
+            --eleccion "$CLAVE" --salida salida_historico
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: ${{ always() }}
+        with:
+          name: ddd-historico-${{ needs.legislatura.outputs.historico_clave }}-${{ matrix.territorio }}
+          path: salida_historico
+          if-no-files-found: warn
+          retention-days: 90
 
   preparar:
     name: 0 Gestor de Campañas Preparar
