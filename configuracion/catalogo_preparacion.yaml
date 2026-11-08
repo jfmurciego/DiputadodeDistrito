@@ -206,7 +206,7 @@ territories:
         source_commit: 77333d60afad865e557827c68afd990e8e6c9909
       evidence:
         electoral_source: territorios/canarias/evidencia/fuentes_electorales/2025/3d6ea40b409231569f1f6240b06660f73c2cab44984296754f5ca4eda023da34/42521092889/receipt.json
-        prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json
+        prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43.json
         territorial_product: territorios/canarias/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/canarias/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
