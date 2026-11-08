@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "congreso_ceuta",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 42463443610,
+  "artifact_name": "ddd-source-package-congreso_ceuta-2025-42463443610",
+  "artifact_sha256": "47dd86183218ec329c9447894ed59a7a065a405ce3800f252930ed80e89c0ccd",
+  "package_sha256": "7cf7730c3fc4d13ec0880c6719b702a71a0e069520dbf31346d3b471f6ab69fa",
+  "source_commit": "76b75c007d9824d440211999f767734455929644",
+  "source_declaration": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/274c1b5d031656d58f4ce99d7ca8b118c7cbdb75ff17132e50a905f2ad4e7737/42463443610/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "274c1b5d031656d58f4ce99d7ca8b118c7cbdb75ff17132e50a905f2ad4e7737",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "12d8096cb8881d27ab0394574e390c92063032cbc03201f66c022c9ed6ac6ccc",
+  "compatibility_identity_sha256": "2ba5e7443e0031bf11cbe06a016b4b38eb176f9e6a493676781627fe5b710add"
+}
