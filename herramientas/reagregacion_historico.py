@@ -3,13 +3,15 @@
 """Reagregación del histórico de generales 2011-2023 a los distritos vigentes (T-83, paso B).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
-CAMBIOS: 1.1.0 (T-83 A): `--paquete DIR` escribe además, por elección, el paquete M07 sobre la sección vigente
+VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
+CAMBIOS: 1.2.0 (T-113): `--elecciones CLAVE…` limita las elecciones procesadas (Gestor 2.0, histórico por elección);
+  sin él, todas las del espejo, como antes. Las geometrías de los seccionados de todos los años se siguen cargando
+  (completar_geometrias), así que el resultado de una elección es idéntico al de la pasada completa. 1.1.0 (T-83 A): `--paquete DIR` escribe además, por elección, el paquete M07 sobre la sección vigente
   (votos enteros por mayor resto partido a partido, diccionario de partidos y contrato electoral long_csv; la
   oficial parcial queda como referencia), que consume herramientas/historico_m07m08.py. 1.0.0: fichero nuevo.
 MOTIVO: decisiones D-9, D-10, D-12 y D-13 del propietario: los votos de cada general 2011-2023 se trasladan a los
   distritos vigentes (sin redibujar por elección) con la equivalencia de seccionados de T-85 (peso = población).
-ANTERIOR: legacy/herramientas/reagregacion_historico_v1.0.0_20261108.py
+ANTERIOR: legacy/herramientas/reagregacion_historico_v1.1.0_20261108.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y elección: (1) asigna cada sección del
   seccionado INE 2025 al distrito M06 de mayor solape; (2) lleva los votos, censo y votantes de cada sección histórica
   del espejo T-89 a las secciones vigentes con `equivalencia_seccionados.equivalencia` y el peso de población (D-13);
@@ -22,7 +24,7 @@ QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y e
   informan, nunca se reparten.
 Uso: python herramientas/reagregacion_historico.py --espejo DIR --historicos DIR --seccionado ZIP --padron ZIP
        --territorio congreso_huesca --provincia 22 --distritos M06.geojson [--salida datos/resultados/historico]
-       [--tolerancia 0.10] [--paquete DIR]
+       [--tolerancia 0.10] [--paquete DIR] [--elecciones 201911 …]
 """
 from __future__ import annotations
 
@@ -279,9 +281,13 @@ def main(argv=None) -> int:
     ap.add_argument("--salida", type=Path, default=ROOT / "datos/resultados/historico")
     ap.add_argument("--tolerancia", type=float, default=TOLERANCIA)
     ap.add_argument("--paquete", type=Path, help="carpeta del paquete M07 (T-83 A): <DIR>/<elección>/<territorio>/")
+    ap.add_argument("--elecciones", nargs="*", help="claves del espejo (p. ej. 201911); por defecto, todas")
     a = ap.parse_args(argv)
     c = a.provincia
     espejo = json.loads((ROOT / eqs.MANIFIESTO_ESPEJO).read_text(encoding="utf-8"))
+    claves = {e["clave"] for e in espejo["elecciones"]}
+    if a.elecciones and not set(a.elecciones) <= claves:
+        raise SystemExit(f"ELECCION_DESCONOCIDA {sorted(set(a.elecciones) - claves)}; espejo: {sorted(claves)}")
     vig = eqs.leer_seccionado(a.seccionado)[c]
     pob = eqs.leer_padron(a.padron)
     distritos = leer_distritos(a.distritos)
@@ -290,6 +296,8 @@ def main(argv=None) -> int:
              for e in espejo["elecciones"]}
     huellas, informe = {}, {}
     for e in espejo["elecciones"]:
+        if a.elecciones and e["clave"] not in a.elecciones:
+            continue
         clave, año = e["clave"], e["seccionado"]
         ruta = f"data/{clave}/sekzioa/{c}.json"
         if eqs.sha256(a.espejo / ruta) != espejo["ficheros"][ruta]["sha256"]:
