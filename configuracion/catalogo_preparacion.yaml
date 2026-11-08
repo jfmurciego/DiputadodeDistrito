@@ -870,7 +870,7 @@ territories:
         electoral_source: territorios/congreso_alicante/evidencia/fuentes_electorales/2025/b1de5f6a5a140f72c8fa242ae6dde459ad232165849a848477037f1871654c82/42463675548/receipt.json
         generation_preflight: territorios/congreso_alicante/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_alicante/evidencia/catalogo/territorial_product_2025.json
-        prepared_source_pair: territorios/congreso_alicante/evidencia/pares_fuentes/2025/a15a905eafdabb7df54ebcd58b326c874fa91adc44bf70a9814a0fa7b4433d4d.json
+        prepared_source_pair: territorios/congreso_alicante/evidencia/pares_fuentes/2025/f8ffc966848c226fc610c12b2fb262768a3736bb8ad88a986df68e1c820d7256.json
         electoral_product: territorios/congreso_alicante/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_almeria
