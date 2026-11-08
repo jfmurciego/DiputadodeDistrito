@@ -1872,11 +1872,11 @@
   },
   "congreso_ceuta": {
    "fuente_territorial": {
-    "run_id": "41236313879",
-    "package_sha256": "21b4d39b5b2da7c1ac237a5ca9db4fac7504b6fa29961ecbd3ca673f8ee5227b",
-    "artifact_sha256": "c09be464c5afe9f7857aa9e6ebc94073ca1dab2968042d783bc507bdd92b76f9",
-    "territorial_identity_sha256": "b3db2c5faf733e0bf055ce1d6bc3b259cbeb5ad4161e83021f031a0638f4bd44",
-    "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/b3db2c5faf733e0bf055ce1d6bc3b259cbeb5ad4161e83021f031a0638f4bd44/41236313879/receipt.json",
+    "run_id": "42427122612",
+    "package_sha256": "e40174b7f7e90b353587f32245ff1f59367d7bb2b13b6fc21de52abae4f6aace",
+    "artifact_sha256": "46fe2da6eb29a856c845d9f805c4d126c810e84d875acb36f172d5cd6ca8cf8b",
+    "territorial_identity_sha256": "92ea51a36d6601f2520d8984b92aff200461448daa0081626d17fd38d53014e5",
+    "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/92ea51a36d6601f2520d8984b92aff200461448daa0081626d17fd38d53014e5/42427122612/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
