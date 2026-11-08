@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T16:22:48.556826+00:00",
+  "generated_at": "2026-11-08T16:29:21.997114+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -5268,9 +5268,9 @@
       "name": "Nacional Barcelona",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42495069270,
       "last_run": {
@@ -5281,7 +5281,7 @@
         "reason": "ver log del run",
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -5313,16 +5313,16 @@
           "territory_id": "congreso_barcelona",
           "territory_name": "Congreso Barcelona",
           "edition": "2025",
-          "run_id": 42416213698,
-          "artifact_name": "ddd-state-42416213698-M08",
-          "artifact_sha256": "7937fda7e1f9813185c3a1e6362b1362081f7b5a9dd23ccf6e4cbcfd6d85c112",
-          "source_commit": "e0fb1ae6c3ca25ef3f65fb702065c4ec857fcc96",
+          "run_id": 42495069270,
+          "artifact_name": "ddd-state-42495069270-M08",
+          "artifact_sha256": "04472063cf0ce40959829682ddaf9d523348bd9181738fedd7ec0c8f8d080453",
+          "source_commit": "8ba5174b6d2f7dd40775ea1002c5e0eff9f800a8",
           "stage": "M08"
         }
       },
       "autonomous_community_code_ine": "C08",
       "display_name": "Nacional Barcelona",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso_burgos",
@@ -8026,7 +8026,7 @@
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 71,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -8054,6 +8054,7 @@
       "Nacional Ávila",
       "Nacional Badajoz",
       "Nacional Baleares",
+      "Nacional Barcelona",
       "Nacional Burgos",
       "Nacional Cáceres",
       "Nacional Cádiz",
@@ -8264,20 +8265,6 @@
     "certification": "PASS",
     "edition": "2025"
   },
-  "alerts": [
-    {
-      "territory": "Nacional Barcelona",
-      "territory_id": "congreso_barcelona",
-      "autonomous_community_code_ine": "C08",
-      "action": "incorporar resultados electorales"
-    }
-  ],
-  "next_actions": [
-    {
-      "territory": "Nacional Barcelona",
-      "territory_id": "congreso_barcelona",
-      "autonomous_community_code_ine": "C08",
-      "action": "preparar fuentes electorales"
-    }
-  ]
+  "alerts": [],
+  "next_actions": []
 }
