@@ -2,7 +2,7 @@
 Nombre: Especificación del visor v2
 Versión: 1.0.0
 Fecha: 2026-11-08
-Alcance: Maqueta aprobada por el propietario como especificación de T-107
+Alcance: Maqueta aprobada por el propietario como especificación de T-109
 Estado: candidato
 Cambios/motivo: fichero nuevo (D-24)
 Anterior: ninguna (fichero nuevo)
