@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T14:55:56Z",
+  "actualizado_en": "2026-11-08T14:57:30Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1947,6 +1947,20 @@
       "tamano_estado_original": 83575185,
       "territorio": "congreso_alicante",
       "url": "r2://ddd-research-archive/congreso_alicante/42418334746/ddd-minimo-42418334746-M08.zip"
+    },
+    "congreso_alicante/42490325518/ddd-minimo-42490325518-M06.zip": {
+      "archivado_en": "2026-11-08T14:57:30Z",
+      "artefacto": "ddd-minimo-42490325518-M06",
+      "artefacto_origen": "ddd-state-42490325518-M06",
+      "artifact_id": 13622385661,
+      "caducidad_original": "2026-11-22T14:53:58Z",
+      "run_id": "42490325518",
+      "sha256": "f014be3b8eb4ede37aebef47778cac7f9f5c627be5107f495ff8ee458ffeb9cf",
+      "sha256_estado_original": "6401794853f082fe7b068bc6b4c5aad7bae5e412eb61e9122e0c9ef360ac9d7e",
+      "tamano_bytes": 450308,
+      "tamano_estado_original": 82110333,
+      "territorio": "congreso_alicante",
+      "url": "r2://ddd-research-archive/congreso_alicante/42490325518/ddd-minimo-42490325518-M06.zip"
     },
     "congreso_almeria/41242160179/ddd-audit-41242160179.zip": {
       "archivado_en": "2026-11-08T12:08:41Z",
