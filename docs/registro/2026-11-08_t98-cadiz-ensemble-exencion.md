@@ -16,7 +16,12 @@ Cambio:
 
 Pruebas: `tests/test_ensemble_exencion_suelo.py` (nuevo, caso sintético San Fernando + cadena ReCom real),
 `test_generar_config_ensemble`, `test_ensemble_configs_territorios`, `test_m05_gerrychain_engine` y el resto de
-`test_ensemble_*`, gobernanza R015 en verde en local.
+`test_ensemble_*`, gobernanza R015 y guardián (registro, marcas) en verde en local (127 tests).
+
+Corrida local con el motor real (fuentes INE 2023 de Cádiz: 926 secciones, 1.254.866 hab., como el contrato):
+M01–M05 OK (M05 hard=1, San Fernando exento). Sobre esa partición, el motor 1.2.0 daba `population_floor:7` y
+`population_tolerance:7`; el 1.3.0, ninguna. Ensemble corto (`balanced`, 150 pasos): 150 estados, 60 únicos, todas las
+puertas duras en verde; el distrito de San Fernando queda en 0,825 del objetivo y el resto entre 0,95 y 1,159.
 
 Efectos: el motor del ensemble no está en la huella M05 (`huella_checkpoint_m05.ENGINE_FILES`) ni en la evidencia
 pre-M04: no invalida checkpoints ni M06; no hace falta ninguna 00.
