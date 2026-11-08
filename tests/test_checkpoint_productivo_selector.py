@@ -20,9 +20,11 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             "territory:\n  id: demo\n  edition: 2025\ncoverage_checks:\n  expected_sections: 1\n",
             encoding="utf-8",
         )
+        # T-108: la huella M05 es el cierre de imports desde el punto de entrada; el sintético los declara.
+        imports="".join(f"import ddd_core.{Path(r).stem}\n" for r in ENGINE_FILES if r.startswith("ddd_core/"))
         for rel in ENGINE_FILES:
             path=root / rel; path.parent.mkdir(parents=True,exist_ok=True)
-            path.write_text(f"synthetic {rel}\n",encoding="utf-8")
+            path.write_text(f"# synthetic {rel}\n"+(imports if rel==ENGINE_FILES[0] else ""),encoding="utf-8")
         params = root / "params.yaml"
         params.write_text(
             "meta:\n  territory_id: demo\n  run_name: demo_2025\n  year: 2025\n"

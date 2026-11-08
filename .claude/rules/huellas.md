@@ -10,8 +10,10 @@ paths:
 
 # Huellas M05 y evidencias N08
 
-- `modulos/05_optimizar_distritos.py` está en la huella M05 (`huella_checkpoint_m05.ENGINE_FILES`): tocarlo
-  invalida los M06 previos para la 04 (lo resolvió #346 con `--consume-certified-product`).
+- La huella M05 (`huella_checkpoint_m05.engine_files`) es el cierre de imports `ddd_core` desde
+  `modulos/05_optimizar_distritos.py` (más `BASE_ENGINE` por ruta; T-108): tocar cualquiera, `ddd_core/config.py`
+  incluido, invalida los M05/M06 previos (para la 04, #346 con `--consume-certified-product`). Un import nuevo del
+  motor por otra vía (subprocess, ruta no literal) lo detecta `tests/test_huella_m05_motor_activo.py`.
 - `modulos/04_generar_semillas.py` entra en la evidencia pre-M04 de los contratos `physical_components` (Canarias,
   Baleares, Las Palmas, Santa Cruz de Tenerife): cambiarlo los obliga a «Generar desde fuente territorial acreditada».
 - Cambiar M04 o M05 invalida los checkpoints: la 00 siguiente va con «Ejecutar desde el principio».
