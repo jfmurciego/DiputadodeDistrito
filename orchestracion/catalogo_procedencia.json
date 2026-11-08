@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 353,
+  "productos": 355,
   "errores": 0,
-  "avisos": 118
+  "avisos": 120
  },
  "territorios": {
   "andalucia": {
@@ -5842,7 +5842,7 @@
      "producto": "M06",
      "id": "m06-melilla-40840795932",
      "run_id": "40840795932",
-     "vigente": true,
+     "vigente": false,
      "sha256": "0d3e73ea260199fa43bae7c6be94d03fd8a9118fdb91d60b487bc4e11cdd50a9",
      "copia_git": {
       "blob_sha": "0070ea2763dd5754bcc12b2cc4f2ec1f4f587d8a",
@@ -5857,10 +5857,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-melilla-42504386196",
+     "run_id": "42504386196",
+     "vigente": true,
+     "sha256": "18dac483d1f873d73f53d42e97d79cfcda18b1412038ffcab58d782711c388d3",
+     "copia_git": {
+      "blob_sha": "01fd12ceed10421d5d626fdaba918834f5583770",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-melilla-40840795932",
      "run_id": "40840795932",
-     "vigente": true,
+     "vigente": false,
      "sha256": "d58a7672f82c5a08e5b604c4e0f8d014799c127ac211bfc3e96fdfb00e9c0634",
      "copia_git": {
       "blob_sha": "3aecb7f93e50b3ea977ea6fb3aeebad6fcb848d7",
@@ -5872,6 +5885,19 @@
        "sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-melilla-42504386196",
+     "run_id": "42504386196",
+     "vigente": true,
+     "sha256": "962f40cf850f74d62abe2c262cd4a6fde328568663ad1fcc0584cde3276bcad0",
+     "copia_git": {
+      "blob_sha": "70252868d175d2eb088a8c5f2dd411b25450b35b",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -7088,6 +7114,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 36403519566: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "melilla",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42504386196: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "melilla",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42504386196: solo copia git"
   },
   {
    "nivel": "AVISO",
