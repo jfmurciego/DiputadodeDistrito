@@ -97,6 +97,13 @@ def _prepare_siel(
         expected_cera_sha256=expected_cera_sha,
         edition=str(edition),
     )
+    from ddd_core.electoral_contract import load_election_contract
+
+    # La preparación FALLA si el contrato embebido no valida como lo hará M07.
+    load_election_contract(
+        package_out / package["embedded_contract"]["election_contract"],
+        project_root=package_out,
+    )
     manifest_path = package_out / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["production_eligible"] = True

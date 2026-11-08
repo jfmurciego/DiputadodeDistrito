@@ -201,6 +201,7 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
                     "election_id": "andalucia_parlamento_2026",
                     "election_date": "2026-05-17",
                     "source_status": "VERIFIED_OFFICIAL_FINAL",
+                    "embedded_contract": {"election_contract": "contract/election_contract.json"},
                 }
                 (out / "manifest.json").write_text(
                     json.dumps(manifest, ensure_ascii=False) + "\n",
@@ -210,6 +211,7 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
 
             with mock.patch.object(special, "download", side_effect=fake_download), \
                  mock.patch.object(special, "sha256", return_value=siel.SECTION_LOCATOR_SHA256), \
+                 mock.patch("ddd_core.electoral_contract.load_election_contract"), \
                  mock.patch("herramientas.adquirir_siel_andalucia_2026.build", return_value=fake_snapshot), \
                  mock.patch("herramientas.adaptador_siel_andalucia_2026.build", side_effect=fake_adapter):
                 result = special.prepare(
@@ -230,6 +232,63 @@ class OfficialSnapshotExecutorTests(unittest.TestCase):
             persisted = json.loads((package_out / "manifest.json").read_text(encoding="utf-8"))
             self.assertTrue(persisted["production_eligible"])
             self.assertEqual(persisted["acquisition"]["provider"], "siel")
+
+    def test_siel_prepare_fails_if_embedded_contract_is_invalid(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "configuracion").mkdir()
+            (root / "configuracion" / "adquisiciones_electorales_especiales.yaml").write_text(
+                REGISTRY.read_text(encoding="utf-8"),
+                encoding="utf-8",
+            )
+            snapshot_out = root / "snapshot"
+            package_out = root / "package"
+
+            def fake_download(_url: str, target: Path) -> None:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b"locator")
+
+            fake_snapshot = {
+                "sections": 6044,
+                "candidate_votes_official": 4157539,
+                "sections_sha256": SECTIONS_SHA,
+                "cera_sha256": CERA_SHA,
+            }
+
+            def fake_adapter(_snapshot, out, **_kwargs):
+                out.mkdir(parents=True, exist_ok=True)
+                manifest = {
+                    "schema": "ddd-electoral-package/1.0",
+                    "decision": "ACQUIRE",
+                    "territory_id": "andalucia",
+                    "edition": "2025",
+                    "election_id": "andalucia_parlamento_2026",
+                    "election_date": "2026-05-17",
+                    "source_status": "VERIFIED_OFFICIAL_FINAL",
+                    "embedded_contract": {"election_contract": "contract/election_contract.json"},
+                }
+                (out / "manifest.json").write_text(
+                    json.dumps(manifest, ensure_ascii=False) + "\n",
+                    encoding="utf-8",
+                )
+                return manifest
+
+            with mock.patch.object(special, "download", side_effect=fake_download), \
+                 mock.patch.object(special, "sha256", return_value=siel.SECTION_LOCATOR_SHA256), \
+                 mock.patch("ddd_core.electoral_contract.load_election_contract", side_effect=ValueError("contrato.sources[0]: falta retrieved_at")), \
+                 mock.patch("herramientas.adquirir_siel_andalucia_2026.build", return_value=fake_snapshot), \
+                 mock.patch("herramientas.adaptador_siel_andalucia_2026.build", side_effect=fake_adapter):
+                with self.assertRaisesRegex(ValueError, "retrieved_at"):
+                    special.prepare(
+                        root_dir=root,
+                        election_id="andalucia_parlamento_2026",
+                        territory_id="andalucia",
+                        election_date="2026-05-17",
+                        edition="2025",
+                        snapshot_out=snapshot_out,
+                        package_out=package_out,
+                        workers=4,
+                    )
 
     def test_snapshot_hash_drift_blocks_before_adapter(self):
         with tempfile.TemporaryDirectory() as td:

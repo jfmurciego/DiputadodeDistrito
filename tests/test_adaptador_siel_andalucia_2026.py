@@ -93,6 +93,7 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             "siel_election_key": 202605,
             "publisher": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
             "source_base": "https://ws040.juntadeandalucia.es/siel-api/v1",
+            "retrieved_at": "2026-11-05",
             "candidate_votes_official": 4_157_539,
             "candidate_votes_sections": GEOGRAPHIC_VOTES,
             "candidate_votes_cera": CERA_VOTES,
@@ -165,6 +166,29 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             self.assertEqual(validation["decision"], "READY_PACKAGE")
             self.assertEqual(validation["mode"], "embedded_runtime_contract")
             self.assertEqual(validation["election_id"], "andalucia_parlamento_2026")
+
+    def test_contract_validates_with_load_election_contract(self):
+        # T-93: M07 exige retrieved_at en sources[0]; el contrato generado debe cargar.
+        from ddd_core.electoral_contract import load_election_contract
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            out = root / "package"
+            self.adapter.build(self._snapshot(root), out)
+            contract, _ = load_election_contract(
+                out / "contract/election_contract.json", project_root=out
+            )
+            self.assertEqual(contract["sources"][0]["retrieved_at"], "2026-11-05")
+
+    def test_snapshot_without_retrieved_at_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snap = self._snapshot(root)
+            mp = snap / "manifest.json"
+            meta = json.loads(mp.read_text(encoding="utf-8"))
+            del meta["retrieved_at"]
+            mp.write_text(json.dumps(meta), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "retrieved_at"):
+                self.adapter.build(snap, root / "package")
 
     def test_changed_snapshot_is_rejected_by_pinned_hash(self):
         with tempfile.TemporaryDirectory() as td:
