@@ -486,6 +486,27 @@ def validate_candidate(
             "con registro y fuente electoral vigentes"
         )
 
+    # T-91b: el resolver de activos durables exige la fase 04 del manifiesto de origen en
+    # success con run_id/artefacto/digest. Un receipt recuperado de una 04 fallida lo
+    # incumple siempre (DURABLE_LINEAGE_INCOMPATIBLE), así que no se registra.
+    origin = _json(root / str(candidate.get("manifest_path") or ""))
+    phase04 = _phase(origin, "04 ·")
+    if not (
+        phase04.get("result") == "success"
+        and phase04.get("run_id")
+        and phase04.get("artifact")
+        and phase04.get("artifact_digest")
+    ):
+        return {
+            "schema": "ddd.orphan-electoral-product-candidate/1.0",
+            "status": "NO_RECOVERY",
+            "reason": "ORIGIN_PHASE04_NOT_SUCCESS",
+            "territory_id": territory_id,
+            "edition": str(edition),
+            "source_run_id": run_id,
+            "origin_manifest": candidate.get("manifest_path"),
+        }
+
     return {
         "schema": "ddd.orphan-electoral-product-candidate/1.0",
         "status": "VALID",

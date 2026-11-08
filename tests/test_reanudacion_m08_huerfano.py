@@ -256,11 +256,11 @@ class OrphanM08DetectionTests(unittest.TestCase):
                 candidate=scan_result["candidate"],
                 evidence_root=evidence,
             )
-            self.assertEqual(result["status"], "VALID")
+            # T-91b: la fase 04 de origen está en failure (sin run/artefacto/digest):
+            # el resolver durable rechazaría el receipt, así que no se recupera.
+            self.assertEqual(result["status"], "NO_RECOVERY")
+            self.assertEqual(result["reason"], "ORIGIN_PHASE04_NOT_SUCCESS")
             self.assertEqual(result["source_run_id"], CANDIDATE_RUN)
-            self.assertEqual(result["artifact_sha256"], M08_DIGEST)
-            self.assertEqual(result["territorial_run_id"], TERRITORIAL_RUN)
-            self.assertEqual(result["election_id"], "demo_election_2025")
 
     def test_absent_m08_allows_fresh_incorporation_after_failed_history(self):
         with tempfile.TemporaryDirectory() as td:
@@ -306,7 +306,8 @@ class OrphanM08DetectionTests(unittest.TestCase):
                 candidate=candidate,
                 evidence_root=evidence,
             )
-            self.assertEqual(result["status"], "VALID")
+            self.assertEqual(result["status"], "NO_RECOVERY")
+            self.assertEqual(result["reason"], "ORIGIN_PHASE04_NOT_SUCCESS")
 
     def test_incomplete_artifact_inventory_blocks_absence_decision(self):
         with tempfile.TemporaryDirectory() as td:
@@ -480,17 +481,15 @@ class OrphanM08DetectionTests(unittest.TestCase):
                     digest_initial=("a" if index == 0 else "b") * 64,
                     evidence_dir=evidence_root / str(candidate["run_id"]),
                 )
-            with self.assertRaisesRegex(
-                RecoveryBlocked,
-                "RECOVERY_CANDIDATE_AMBIGUOUS.*productos M08 recuperables múltiples",
-            ):
-                resolve_candidates(
-                    root_dir=root,
-                    territory_id=TERRITORY,
-                    edition=EDITION,
-                    candidates=scan_result["candidates"],
-                    evidence_root=evidence_root,
-                )
+            # T-91b: ambos orígenes tienen la 04 en failure: ninguno es recuperable.
+            result = resolve_candidates(
+                root_dir=root,
+                territory_id=TERRITORY,
+                edition=EDITION,
+                candidates=scan_result["candidates"],
+                evidence_root=evidence_root,
+            )
+            self.assertEqual(result["status"], "NO_RECOVERY")
 
     def test_multiple_candidates_with_incompatible_lineage_still_block(self):
         with tempfile.TemporaryDirectory() as td:
