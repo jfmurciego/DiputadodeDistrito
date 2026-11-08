@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T14:53:56Z",
+  "actualizado_en": "2026-11-08T14:55:56Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2247,6 +2247,20 @@
       "tamano_estado_original": 93657545,
       "territorio": "congreso_barcelona",
       "url": "r2://ddd-research-archive/congreso_barcelona/42416213698/ddd-minimo-42416213698-M08.zip"
+    },
+    "congreso_barcelona/42490327657/ddd-minimo-42490327657-M06.zip": {
+      "archivado_en": "2026-11-08T14:55:56Z",
+      "artefacto": "ddd-minimo-42490327657-M06",
+      "artefacto_origen": "ddd-state-42490327657-M06",
+      "artifact_id": 13621837284,
+      "caducidad_original": "2026-11-22T14:51:58Z",
+      "run_id": "42490327657",
+      "sha256": "a70c89c7f7c492ea25977b216050508538095e67c1e0c487f4729bc1ed7c66c9",
+      "sha256_estado_original": "4225bebcc9a83337e020f442f15dc0735320aa723979bbc905e9764fdc4172da",
+      "tamano_bytes": 660781,
+      "tamano_estado_original": 90850203,
+      "territorio": "congreso_barcelona",
+      "url": "r2://ddd-research-archive/congreso_barcelona/42490327657/ddd-minimo-42490327657-M06.zip"
     },
     "congreso_burgos/41292846877/ddd-audit-41292846877.zip": {
       "archivado_en": "2026-11-08T12:15:38Z",

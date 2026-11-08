@@ -746,6 +746,13 @@
    "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
    "ruta": "datos/composicion/runs/andalucia_42430164925.csv"
   },
+  "congreso_barcelona/42490327657": {
+   "territorio": "congreso_barcelona",
+   "run_id": "42490327657",
+   "secciones": 3642,
+   "sha256_csv": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
+   "ruta": "datos/composicion/runs/congreso_barcelona_42490327657.csv"
+  },
   "congreso_malaga/42490329631": {
    "territorio": "congreso_malaga",
    "run_id": "42490329631",
