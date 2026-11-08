@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # FECHA: 2026-11-03
-# ESTADO: portal documental inicial; publicación pendiente
-# ANTERIOR: archivo nuevo
+# ESTADO: portal público estable (T-73)
+# ANTERIOR: legacy/documentacion_publica/zensical_v1.0.0_20261103.toml
 [project]
 site_name = "DDD · Documentación e investigación"
 site_description = "Método, fuentes y evidencias de Diputado de Distrito"
@@ -14,14 +14,11 @@ site_dir = "site"
 use_directory_urls = false
 nav = [
   { "Inicio" = "index.md" },
-  { "Empezar" = "empezar.md" },
-  { "Arquitectura M01–M08" = "arquitectura.md" },
+  { "Método" = "metodo.md" },
   { "Fuentes y derechos de uso" = "fuentes.md" },
-  { "Ejecuciones y escenarios" = "ejecuciones.md" },
-  { "Auditoría de conservación" = "auditoria.md" },
+  { "Datos abiertos y licencia" = "datos-abiertos.md" },
+  { "Cómo citar" = "citar.md" },
   { "Archivo con R2" = "archivo-r2.md" },
-  { "Publicación del portal" = "publicacion.md" },
-  { "Plan de trabajo" = "plan.md" },
 ]
 [project.theme]
 language = "es"

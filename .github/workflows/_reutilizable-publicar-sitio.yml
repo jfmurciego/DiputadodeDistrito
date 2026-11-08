@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.5.0
+# VERSIÓN: 3.6.0
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
@@ -16,7 +16,9 @@
 #   con su sha256 por herramientas/generar_datos_abiertos.py --materializar).
 # CAMBIOS 3.5.0: el dashboard enlaza «Métricas del proceso» (T-65): se copian dashboard/metricas.html y
 #   metricas_proceso.json para que el enlace no dé 404 en Pages.
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.4.0_20261107.yml
+# CAMBIOS 3.6.0: T-73, el sitio incluye /docs/ (portal Zensical de documentacion_publica, build --strict) y T-84, /nacional/
+#   (visor/nacional/); el visor y el resto del sitio no cambian.
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.5.0_20261108.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
 # FECHA: 2026-10-27
@@ -120,6 +122,7 @@ jobs:
           python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
           node --check visor/app.js
           node --check visor/escenarios.js
+          node --check visor/nacional/nacional.js
           test -f publicado/dashboard/index.html
           test -f publicado/dashboard/app.js
           test -f publicado/dashboard/styles.css
@@ -319,6 +322,12 @@ jobs:
           cp dashboard/metricas.html dashboard/metricas_proceso.json /tmp/site-candidate/dashboard/
           grep -q 'href="hemiciclo.html"' /tmp/site-candidate/dashboard/index.html || { echo "::error::El dashboard no enlaza el hemiciclo."; exit 1; }
           python herramientas/generar_datos_abiertos.py --materializar /tmp/site-candidate/datos
+          mkdir -p /tmp/site-candidate/nacional
+          cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
+          python -m pip install --disable-pip-version-check -r documentacion_publica/requirements.lock
+          zensical build --strict --clean -f documentacion_publica/zensical.toml
+          mkdir -p /tmp/site-candidate/docs
+          cp -R documentacion_publica/site/. /tmp/site-candidate/docs/
           python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
 
       - name: Preparar visor analítico Congreso opt-in
@@ -354,6 +363,11 @@ jobs:
         run: |
           set -euo pipefail
           test -s /tmp/site-candidate/data/viewer-results.json
+          test -s /tmp/site-candidate/docs/index.html
+          test -s /tmp/site-candidate/docs/citar.html
+          test ! -e /tmp/site-candidate/docs/plan.html
+          test -s /tmp/site-candidate/nacional/index.html
+          node --check /tmp/site-candidate/nacional/nacional.js
           if [[ "${{ inputs.include_congreso_analytical_preview }}" == "true" ]]; then
             test -s /tmp/site-candidate/congreso/data/24.geojson
             test -s /tmp/site-candidate/congreso/data/10.geojson
