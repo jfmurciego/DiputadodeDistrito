@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.174
+Versión: 1.0.176
 Fecha: 2026-11-08
-Alcance: T-93b — Kit de comunicación (D-16)
+Alcance: T-87 — Cadena de publicación con un solo lanzamiento (D-14)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t93b-kit-comunicacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.173_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t87-cadena-publicacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.175_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.173_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.176 · [2026-11-08 — T-87 — Cadena de publicación con un solo lanzamiento (D-14)](registro/2026-11-08_t87-cadena-publicacion.md)
+- 1.0.175 · [2026-11-08 — T-73 — Portal Zensical público en /docs y vista Nacional en el sitio](registro/2026-11-08_t73-portal-zensical.md)
 - 1.0.174 · [2026-11-08 — T-93b — Kit de comunicación (D-16)](registro/2026-11-08_t93b-kit-comunicacion.md)
 - 1.0.173 · [2026-11-08 — T-94b — Borrador de artículo JOSS](registro/2026-11-08_t94b-articulo-joss.md)
 - 1.0.172 · [2026-11-08 — T-84 — Visor Nacional con barra temporal y capas (D-16)](registro/2026-11-08_t84-visor-nacional.md)
