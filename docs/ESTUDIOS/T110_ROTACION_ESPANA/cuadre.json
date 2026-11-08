@@ -200,35 +200,55 @@
   },
   {
    "provincia": "03",
-   "territorio": null,
+   "territorio": "congreso_alicante",
    "eleccion": "201111",
    "votos_espejo": 876076,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 874199,
+    "votos_perdidos": 1877.0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "03",
-   "territorio": null,
+   "territorio": "congreso_alicante",
    "eleccion": "201512",
    "votos_espejo": 897901,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 897901,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "03",
-   "territorio": null,
+   "territorio": "congreso_alicante",
    "eleccion": "201606",
    "votos_espejo": 867612,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 867612,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "03",
-   "territorio": null,
+   "territorio": "congreso_alicante",
    "eleccion": "201904",
    "votos_espejo": 908630,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 908630,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "03",
-   "territorio": null,
+   "territorio": "congreso_alicante",
    "eleccion": "201911",
    "votos_espejo": 841760,
    "boe": {
@@ -240,11 +260,16 @@
     ],
     "avisos": []
    },
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 841760,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "03",
-   "territorio": null,
+   "territorio": "congreso_alicante",
    "eleccion": "202307",
    "votos_espejo": 888631,
    "infoelectoral": {
@@ -263,7 +288,12 @@
     ],
     "avisos": []
    },
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 888631,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "04",
@@ -642,35 +672,55 @@
   },
   {
    "provincia": "08",
-   "territorio": null,
+   "territorio": "congreso_barcelona",
    "eleccion": "201111",
    "votos_espejo": 2564814,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 2564814,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "08",
-   "territorio": null,
+   "territorio": "congreso_barcelona",
    "eleccion": "201512",
    "votos_espejo": 2831889,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 2831889,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "08",
-   "territorio": null,
+   "territorio": "congreso_barcelona",
    "eleccion": "201606",
    "votos_espejo": 2610887,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 2610887,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "08",
-   "territorio": null,
+   "territorio": "congreso_barcelona",
    "eleccion": "201904",
    "votos_espejo": 3089979,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 3089979,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "08",
-   "territorio": null,
+   "territorio": "congreso_barcelona",
    "eleccion": "201911",
    "votos_espejo": 2890355,
    "boe": {
@@ -682,11 +732,16 @@
     ],
     "avisos": []
    },
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 2890355,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "08",
-   "territorio": null,
+   "territorio": "congreso_barcelona",
    "eleccion": "202307",
    "votos_espejo": 2625437,
    "infoelectoral": {
@@ -707,7 +762,12 @@
     ],
     "avisos": []
    },
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 2625437,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "09",
@@ -2601,35 +2661,55 @@
   },
   {
    "provincia": "29",
-   "territorio": null,
+   "territorio": "congreso_malaga",
    "eleccion": "201111",
    "votos_espejo": 710077,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 710077,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "29",
-   "territorio": null,
+   "territorio": "congreso_malaga",
    "eleccion": "201512",
    "votos_espejo": 768592,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 768592,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "29",
-   "territorio": null,
+   "territorio": "congreso_malaga",
    "eleccion": "201606",
    "votos_espejo": 735595,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 735595,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "29",
-   "territorio": null,
+   "territorio": "congreso_malaga",
    "eleccion": "201904",
    "votos_espejo": 806447,
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 806447,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "29",
-   "territorio": null,
+   "territorio": "congreso_malaga",
    "eleccion": "201911",
    "votos_espejo": 744531,
    "boe": {
@@ -2641,11 +2721,16 @@
     ],
     "avisos": []
    },
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 744531,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "29",
-   "territorio": null,
+   "territorio": "congreso_malaga",
    "eleccion": "202307",
    "votos_espejo": 775255,
    "infoelectoral": {
@@ -2662,7 +2747,12 @@
     "sin_homologar": [],
     "avisos": []
    },
-   "reagregado": "SIN_M06"
+   "reagregado": {
+    "votos_distritos": 775255,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
   },
   {
    "provincia": "30",
@@ -5030,6 +5120,13 @@
  },
  "no_cuadra": [
   {
+   "provincia": "03",
+   "territorio": "congreso_alicante",
+   "eleccion": "201111",
+   "motivo": "REAGREGADO_NO_CUADRA",
+   "detalle": "perdidos 1877.0, dif 0"
+  },
+  {
    "provincia": "24",
    "territorio": "congreso_leon",
    "eleccion": "201111",
@@ -5056,27 +5153,6 @@
    "eleccion": "201111",
    "motivo": "REAGREGADO_NO_CUADRA",
    "detalle": "perdidos 1541.0, dif 0"
-  },
-  {
-   "provincia": "03",
-   "territorio": null,
-   "eleccion": "todas",
-   "motivo": "SIN_M06_VIGENTE",
-   "detalle": "no hay producto territorial M06 publicado: sin distritos que reagregar (el espejo sí se contrastó)"
-  },
-  {
-   "provincia": "08",
-   "territorio": null,
-   "eleccion": "todas",
-   "motivo": "SIN_M06_VIGENTE",
-   "detalle": "no hay producto territorial M06 publicado: sin distritos que reagregar (el espejo sí se contrastó)"
-  },
-  {
-   "provincia": "29",
-   "territorio": null,
-   "eleccion": "todas",
-   "motivo": "SIN_M06_VIGENTE",
-   "detalle": "no hay producto territorial M06 publicado: sin distritos que reagregar (el espejo sí se contrastó)"
   }
  ]
 }

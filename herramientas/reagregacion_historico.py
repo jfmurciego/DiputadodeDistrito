@@ -4,7 +4,7 @@
 
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
-CAMBIOS: 1.2.0 (T-110): `--lote DIR` procesa las 49 provincias con M06 (zip del blob, sha256 de datos_abiertos/INDEX.json) cargando
+CAMBIOS: 1.2.0 (T-110): `--lote DIR` procesa las provincias con M06 (zip del blob, sha256 de datos_abiertos/INDEX.json o de DIR/EXTRA.json) cargando
   una vez los seccionados, y escribe `rotacion/<t>.csv` con el ganador homologado (T-97 + D-20: se suman las siglas de
   la misma familia antes de elegir ganador) y `siglas_sin_homologar.json`. 1.1.0 (T-83 A): `--paquete DIR` escribe además, por elección, el paquete M07 sobre la sección vigente
   (votos enteros por mayor resto partido a partido, diccionario de partidos y contrato electoral long_csv; la
@@ -364,9 +364,11 @@ def main(argv=None) -> int:
     hom, sin_hom = cargar_homologacion(), set()
     if a.lote:
         indice = json.loads((ROOT / "datos_abiertos/INDEX.json").read_text(encoding="utf-8"))["territorios"]
+        extra = a.lote / "EXTRA.json"  # territorios fuera de datos_abiertos: {t: {provincia, sha256, run_id}}
+        indice = {**indice, **(json.loads(extra.read_text(encoding="utf-8")) if extra.exists() else {})}
         trabajo = [(t, None, a.lote / f"{t}.zip") for t in sorted(indice) if not a.solo or t in a.solo]
         for t, _, z in trabajo:
-            if eqs.sha256(z) != indice[t]["sha256_origen"]:
+            if eqs.sha256(z) != indice[t].get("sha256_origen", indice[t].get("sha256")):
                 raise SystemExit(f"HUELLA_M06_DISTINTA {t}")
     else:
         trabajo = [(a.territorio, a.provincia, a.distritos)]
@@ -376,6 +378,8 @@ def main(argv=None) -> int:
     man["tolerancia_cuadre"] = a.tolerancia
     ok = True
     for t, c, ruta in trabajo:
+        if c is None and a.lote and len(str(indice[t].get("provincia", ""))) == 2:  # EXTRA.json trae el código
+            c = indice[t]["provincia"]
         if c is None:  # provincia = las dos primeras cifras de la composición vigente
             with open(ROOT / f"datos/composicion/{t}.csv", encoding="utf-8", newline="") as f:
                 c = next(csv.DictReader(f))["seccion"][:2]
