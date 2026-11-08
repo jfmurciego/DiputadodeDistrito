@@ -1,11 +1,11 @@
 <!doctype html>
 <!--
 Proyecto: Diputado de Distrito
-Versión: 1.0.0 | Nombre: visor Nacional (T-84, D-16)
+Versión: 1.0.1 | Nombre: visor Nacional (T-84, D-16)
 Fecha: 2026-11-08 | Alcance: vista Nacional, elecciones generales; Autonómica pendiente
 Estado: candidato
 Cambios/motivo: vista nueva con barra temporal y capas; solo muestra lo publicado en datos/.
-Anterior: ninguno (fichero nuevo)
+Anterior: legacy/visor/nacional/index_v1.0.0.html
 -->
 <html lang="es">
 <head>
@@ -19,6 +19,7 @@ Anterior: ninguno (fichero nuevo)
 <header class="topbar">
  <div><p class="eyebrow">Diputado de Distrito</p><h1>Visor Nacional</h1></div>
  <nav class="views" aria-label="Vista"><button type="button" aria-pressed="true">Nacional</button><button type="button" disabled title="Pendiente: datos autonómicos con geometría">Autonómica</button></nav>
+ <div class="views" role="group" aria-label="Zona"><button type="button" data-zona="peninsula">Península</button><button type="button" data-zona="canarias">Canarias</button></div>
  <div class="layers" id="layers" role="group" aria-label="Capa"></div>
 </header>
 <main>
