@@ -737,5 +737,14 @@
     "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
    }
   }
+ },
+ "runs": {
+  "andalucia/42430164925": {
+   "territorio": "andalucia",
+   "run_id": "42430164925",
+   "secciones": 6029,
+   "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
+   "ruta": "datos/composicion/runs/andalucia_42430164925.csv"
+  }
  }
 }
