@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.27
+Versión: 1.0.28
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: secuencia tras T-84, T-97 y T-98 abiertas, conciliación de ids del Coordinador
-Anterior: legacy/docs/PLAN_v1.0.26_20261108.md
+Cambios/motivo: T-100 (estudio de rotación de distritos para la difusión)
+Anterior: legacy/docs/PLAN_v1.0.27_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -338,6 +338,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-84 | Visor en dos vistas (D-16): Nacional y Autonómica, barra temporal, capas ganador por distrito y por sección, rotación y participación; geometría por provincia cargada una vez y color por `feature-state`; secciones en PMTiles. Empieza ya con 2023 (M08 publicados y composición) y suma el histórico al cerrar T-83 | por abrir (Sonnet), ya | Vista Nacional funcionando en local con 2023; capturas en móvil y escritorio; sin publicar |
 | T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Kit en `documentacion_publica/comunicacion/`; nada se publica sin el propietario |
 | T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
+| T-100 | Estudio de rotación para la difusión: con los votos de T-83 (paso B) y las siglas de T-97 aprobadas, cuántos de los 350 distritos cambian de ganador entre las generales 2011-2023, cuáles son fijos y cuáles bisagra, por comunidad y provincia; cifras con fuente y sha256 para la nota de prensa y LinkedIn (T-93) | por abrir (Sonnet), tras T-83 B y la aprobación de T-97 | Estudio en `docs/ESTUDIOS/` y tabla CSV; sin lanzar ni publicar; nada de D'Hondt |
 
 Tras T-84 (orden del propietario, 08-11): T-93 → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → primera publicación en LinkedIn (la hace el propietario). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
