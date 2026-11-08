@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.4.2
+VERSIÓN: 7.4.3
 NOMBRE DE VERSIÓN: Refinamiento canónico con baseline poblacional imperfecto
-FECHA: 2026-09-11
+FECHA: 2026-11-08
 FUNCIÓN: optimizar población sin cruzar provincias ni romper las unidades municipales/urbanas construidas por M04.
 ENTRADAS: grafo M03 y solución M04 v7.3.1 con ddd_unit_id y ddd_closed_urban.
 SALIDAS: asignación optimizada y reporte.
@@ -14,7 +14,13 @@ OBJETIVO CANÓNICO: primero eliminar violaciones duras; después minimizar distr
 ESTADO: candidato R016 — pendiente de ejecución territorial GitHub.
 CAMBIOS: continúa la búsqueda después de la primera solución con fuera_12=0; conserva como ámbito las provincias que eran problemáticas al inicio y registra primera factibilidad frente al óptimo final encontrado.
 MOTIVO: el código v7.3.x interrumpía el recocido al primer fuera_12=0 aunque el objetivo canónico todavía ordena minimizar máximo desvío y error cuadrático.
-ANTERIOR: legacy/ddd_core/m05_opt_engine_v7.4.1_pre_exencion_municipal.py
+ANTERIOR: legacy/ddd_core/m05_opt_engine_v7.4.2_20261108.py
+CAMBIO 7.4.3 (T-107): con require_municipality_discipline, voraz y recocido rechazan el movimiento que aumenta los
+municipios partidos con más de max_mixed_districts_per_split_municipality distritos mixtos (R012 de validar_ejecucion),
+como ya hacen GerryChain y la reparación privada.
+MOTIVO 7.4.3: Castilla y León, run 42497104110 (Canónico): M05 llevó la unidad :F de Ávila (05019) a un distrito
+rural; Ávila quedó en 3 distritos con 2 mixtos y la 04 falló en la validación.
+ANTERIOR 7.4.2: legacy/ddd_core/m05_opt_engine_v7.4.1_pre_exencion_municipal.py
 CAMBIO 7.4.2: suelo 0 para el distrito que contiene un municipio de population_floor_exempt_municipalities.
 """
 from __future__ import annotations
@@ -78,6 +84,63 @@ def connected(nodes, adj):
     return len(seen) == len(nodes)
 
 
+def municipality_discipline_field(cfg, s5, columns, id_field):
+    """Campo municipal de R012 igual que validar_ejecucion; None si no se exige disciplina."""
+    val = cfg.get("validation", {}) or {}
+    if not bool(val.get("require_municipality_discipline", False)):
+        return None
+    field = str(val.get("municipality_field") or s5.get("municipality_field") or "CUMUN")
+    partitioning = cfg.get("partitioning") or {}
+    if bool(partitioning.get("enabled")) and str(partitioning.get("strategy") or "") == "connected_internal_units":
+        field = str(partitioning.get("partition_unit_field") or field)
+    return field if field in columns else id_field
+
+
+class MunicipalDiscipline:
+    """Cuenta municipios partidos con más de max_mixed distritos mixtos (R012) y evalúa movimientos de unidad."""
+
+    def __init__(self, unit_muns, unit_dist, max_mixed=1):
+        self.unit_muns = unit_muns
+        self.max_mixed = int(max_mixed)
+        self.d_mun = collections.defaultdict(collections.Counter)
+        for u, d in unit_dist.items():
+            self.d_mun[d].update(unit_muns[u])
+        self.mun_d = collections.defaultdict(collections.Counter)
+        for d, c in self.d_mun.items():
+            for m, n in c.items():
+                self.mun_d[m][d] += n
+
+    def _bad(self, muns, d_mun, mun_d):
+        bad = 0
+        for m in muns:
+            ds = [d for d, n in mun_d[m].items() if n > 0]
+            if len(ds) > 1 and sum(1 for d in ds if sum(1 for x in d_mun[d].values() if x > 0) > 1) > self.max_mixed:
+                bad += 1
+        return bad
+
+    def worsens(self, u, d0, d1):
+        affected = set(self.d_mun[d0]) | set(self.d_mun[d1])
+        before = self._bad(affected, self.d_mun, self.mun_d)
+        self.apply(u, d0, d1)
+        after = self._bad(affected, self.d_mun, self.mun_d)
+        self.apply(u, d1, d0)
+        return after > before
+
+    def apply(self, u, d0, d1):
+        for m, n in self.unit_muns[u].items():
+            self.d_mun[d0][m] -= n
+            if self.d_mun[d0][m] <= 0:
+                del self.d_mun[d0][m]
+            self.d_mun[d1][m] += n
+            self.mun_d[m][d0] -= n
+            if self.mun_d[m][d0] <= 0:
+                del self.mun_d[m][d0]
+            self.mun_d[m][d1] += n
+
+    def violations(self):
+        return self._bad(set(self.mun_d), self.d_mun, self.mun_d)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--params", required=True)
@@ -137,6 +200,16 @@ def main():
     unit_dist = {u: int(x[did].iloc[0]) for u, x in g.groupby("ddd_unit_id")}
     if any(x[did].nunique() != 1 for _, x in g.groupby("ddd_unit_id")):
         raise SystemExit("M05: una unidad territorial llega partida entre distritos")
+    mun_field = municipality_discipline_field(cfg, s5, g.columns, idf)
+    discipline = None
+    if mun_field is not None:
+        mun_values = g[mun_field].astype(str) if mun_field != idf else g[idf].astype(str).str[:5]
+        unit_muns = {u: collections.Counter(mun_values[x.index]) for u, x in g.groupby("ddd_unit_id")}
+        discipline = MunicipalDiscipline(
+            unit_muns, unit_dist, int(val.get("max_mixed_districts_per_split_municipality", 1) or 1)
+        )
+    discipline_start = discipline.violations() if discipline else None
+    discipline_rejected = 0
 
     K = int(g[did].nunique())
     total = sum(pop.values())
@@ -234,12 +307,17 @@ def main():
             trial_obj = obj(trial)
             if trial_obj >= cur:
                 continue
+            if discipline is not None and discipline.worsens(u, d0, d1):
+                discipline_rejected += 1
+                continue
             candidate = (trial_obj, str(u), d0, d1, u, remaining, newrecv, trial)
             if best is None or candidate[:4] < best[:4]:
                 best = candidate
         if best is None:
             break
         _, _, d0, d1, u, remaining, newrecv, trial = best
+        if discipline is not None:
+            discipline.apply(u, d0, d1)
         d_units[d0].remove(u)
         d_units[d1].add(u)
         d_nodes[d0] = remaining
@@ -325,6 +403,9 @@ def main():
             newrecv = d_nodes[d1] | unit_nodes[u]
             if not connected(remaining, adj) or not connected(newrecv, adj):
                 continue
+            if discipline is not None and discipline.worsens(u, d0, d1):
+                discipline_rejected += 1
+                continue
 
             trial = dict(d_pop)
             trial[d0] = new0
@@ -340,6 +421,8 @@ def main():
             if not accept:
                 continue
 
+            if discipline is not None:
+                discipline.apply(u, d0, d1)
             d_units[d0].remove(u)
             d_units[d1].add(u)
             d_nodes[d0] = remaining
@@ -430,6 +513,13 @@ def main():
         "initial_candidate_relations": initial_candidate_relations,
         "active_provinces": active_provinces,
         "anneal_iterations_executed": anneal_iterations_executed,
+        "municipal_discipline": {
+            "enforced": discipline is not None,
+            "field": mun_field,
+            "violations_start": discipline_start,
+            "violations_final": discipline.violations() if discipline else None,
+            "rejected_moves": discipline_rejected,
+        },
         "first_feasible_iteration": first_feasible_iteration,
         "objective_first_feasible": objective_first_feasible,
         "post_feasible_iterations": (
