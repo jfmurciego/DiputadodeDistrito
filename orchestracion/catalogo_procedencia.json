@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 376,
+  "productos": 378,
   "errores": 0,
   "avisos": 120
  },
@@ -3024,7 +3024,7 @@
      "producto": "M06",
      "id": "m06-congreso_huesca-41194447427",
      "run_id": "41194447427",
-     "vigente": true,
+     "vigente": false,
      "sha256": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1",
      "copia_git": {
       "blob_sha": "67fa2836faad2b4eff97aa9f220542acb60adb4e",
@@ -3034,13 +3034,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_huesca-42519383275",
+     "run_id": "42519383275",
+     "vigente": true,
+     "sha256": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61",
+     "copia_git": {
+      "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_huesca-41194447427",
      "run_id": "41194447427",
-     "vigente": true,
+     "vigente": false,
      "sha256": "0bfcc0fb0bbf738dfadbcd8d4d6ce1c702da67021661e470fa2790dd26319c36",
      "copia_git": {
       "blob_sha": "db4713cd49825d47c618325403e382476401686a",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_huesca-42519383275",
+     "run_id": "42519383275",
+     "vigente": true,
+     "sha256": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3",
+     "copia_git": {
+      "blob_sha": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
       "ruta": null
      },
      "copias_r2": [],
@@ -3063,21 +3089,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_huesca",
-     "run_id": "41194447427",
+     "run_id": "42519383275",
      "vigente": true,
      "sha256": "8978d3270f8e82fc14896a48bb0508274ef2078286a54261022f0c64b5bb3890",
      "copia_git": {
-      "blob_sha": "67fa2836faad2b4eff97aa9f220542acb60adb4e",
+      "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
       "ruta": "datos_abiertos/congreso_huesca/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1"
+     "origen_sha256": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_huesca",
-     "run_id": "41194447427",
+     "run_id": "42519383275",
      "vigente": true,
      "sha256": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82",
      "copia_git": {
@@ -3086,7 +3112,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "0bfcc0fb0bbf738dfadbcd8d4d6ce1c702da67021661e470fa2790dd26319c36"
+     "origen_sha256": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3"
     }
    ]
   },
@@ -6989,14 +7015,14 @@
    "territorio": "congreso_huesca",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41194447427: solo copia git"
+   "detalle": "run 42519383275: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_huesca",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41194447427: solo copia git"
+   "detalle": "run 42519383275: solo copia git"
   },
   {
    "nivel": "AVISO",
