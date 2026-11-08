@@ -55,7 +55,7 @@ class Seleccion(unittest.TestCase):
 
 class NoDisponible(unittest.TestCase):
     def test_historico_ensemble_25_y_350(self):
-        casos = [({"eleccion": "histórico: generales 2019-11"}, "T-83 A"), ({"ensemble": "25"}, "no está validado"),
+        casos = [({"eleccion": "histórico: generales 2016"}, "2019-11"), ({"ensemble": "25"}, "no está validado"),
                  ({"mapa": "350", "publicar": "sí"}, "D-18"), ({"mapa": "350", "tipo": "autonómico"}, "nacional"),
                  ({"ensemble": "10"}, "congreso_soria")]
         for kw, msg in casos:

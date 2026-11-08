@@ -1839,9 +1839,9 @@
   },
   "congreso_huesca": {
    "provincia": "Huesca",
-   "run_id": "41194447427",
-   "blob_sha": "67fa2836faad2b4eff97aa9f220542acb60adb4e",
-   "sha256_origen": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1",
+   "run_id": "42519383275",
+   "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
+   "sha256_origen": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61",
    "n_distritos": 2,
    "nombres": {},
    "geojson": {
@@ -1851,8 +1851,8 @@
    "resultados": {
     "ruta": "congreso_huesca/resultados.csv",
     "sha256": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82",
-    "blob_sha_m08": "db4713cd49825d47c618325403e382476401686a",
-    "run_id": "41194447427"
+    "blob_sha_m08": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
+    "run_id": "42519383275"
    },
    "distritos": [
     {
@@ -3371,9 +3371,9 @@
   },
   "congreso_santa_cruz_de_tenerife": {
    "provincia": "Santa Cruz de Tenerife",
-   "run_id": "41294259017",
-   "blob_sha": "06790029108d506a62a7d65e853866b86041dddd",
-   "sha256_origen": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b",
+   "run_id": "42519017008",
+   "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
+   "sha256_origen": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae",
    "n_distritos": 9,
    "nombres": {},
    "geojson": {
@@ -3383,8 +3383,8 @@
    "resultados": {
     "ruta": "congreso_santa_cruz_de_tenerife/resultados.csv",
     "sha256": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8",
-    "blob_sha_m08": "047b62cf96d9474c5dec9fa318e032b5da711133",
-    "run_id": "41294259017"
+    "blob_sha_m08": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
+    "run_id": "42519017008"
    },
    "distritos": [
     {
@@ -3839,9 +3839,9 @@
   },
   "congreso_valencia": {
    "provincia": "Valencia",
-   "run_id": "41335936727",
-   "blob_sha": "d9dc71bc351a04e038be07d2037d5e721e25d8e8",
-   "sha256_origen": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6",
+   "run_id": "42525625044",
+   "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
+   "sha256_origen": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51",
    "n_distritos": 23,
    "nombres": {},
    "geojson": {
@@ -3851,8 +3851,8 @@
    "resultados": {
     "ruta": "congreso_valencia/resultados.csv",
     "sha256": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67",
-    "blob_sha_m08": "90a26b763101d9d1c43570d53b591c8e2dde6866",
-    "run_id": "41335936727"
+    "blob_sha_m08": "d8520d6c02967199ee139cf113de9027862f7a37",
+    "run_id": "42525625044"
    },
    "distritos": [
     {

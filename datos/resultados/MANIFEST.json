@@ -17,11 +17,11 @@
    "sha256_csv": "a3f97672a39a013baa85814eda183640a69d8f20dc951631e042a54b15aaabd5"
   },
   "canarias": {
-   "run_id": "40951280657",
-   "blob_sha": "ea6f74782bc1683b00fe5f7e98b5b177430107e5",
-   "sha256_origen": "26ba80eb35e369b9b607aee03c16d1417c5c9d80f0380bc0f39fcc4578ccd6be",
+   "run_id": "42523951377",
+   "blob_sha": "8a85c922bea52c03b6dd81ee24170f66c5cbf5e7",
+   "sha256_origen": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a",
    "distritos": 70,
-   "sha256_csv": "66ba6be144c9438ff2ee35ce910f4bdb91dbc69c0d4e0cfa3e2da8bd5e23433f"
+   "sha256_csv": "e16c3b8f89b58ca08f357e19f6d9047f82c8be0243c016a178efd75b4894c9b4"
   },
   "cantabria": {
    "run_id": "41037133327",
@@ -227,9 +227,9 @@
    "sha256_csv": "cdb5f4554e0c5791e253ec506aecb01af1fef60822b728fc2449268d39f7bf2e"
   },
   "congreso_huesca": {
-   "run_id": "41194447427",
-   "blob_sha": "db4713cd49825d47c618325403e382476401686a",
-   "sha256_origen": "0bfcc0fb0bbf738dfadbcd8d4d6ce1c702da67021661e470fa2790dd26319c36",
+   "run_id": "42519383275",
+   "blob_sha": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
+   "sha256_origen": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3",
    "distritos": 2,
    "sha256_csv": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82"
   },
@@ -346,9 +346,9 @@
    "sha256_csv": "04f7e4062f84510984d867171bc5b0a5fd8747d53d815fa3e67fe3097a4eb1ed"
   },
   "congreso_santa_cruz_de_tenerife": {
-   "run_id": "41294259017",
-   "blob_sha": "047b62cf96d9474c5dec9fa318e032b5da711133",
-   "sha256_origen": "550dab5817ca8c62f5d3ab76c201e4f6a879334b278aa10834d2297a4b46ce37",
+   "run_id": "42519017008",
+   "blob_sha": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
+   "sha256_origen": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9",
    "distritos": 9,
    "sha256_csv": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8"
   },
@@ -395,9 +395,9 @@
    "sha256_csv": "4099f0e6a166efd0e85ce52f0c4021a7e73d2ffc2a2370d250e103b8304410ba"
   },
   "congreso_valencia": {
-   "run_id": "41335936727",
-   "blob_sha": "90a26b763101d9d1c43570d53b591c8e2dde6866",
-   "sha256_origen": "c57e9c0e9fec3cef9ef652235dd11847d88974e0695035066af0ff65fcc117ee",
+   "run_id": "42525625044",
+   "blob_sha": "d8520d6c02967199ee139cf113de9027862f7a37",
+   "sha256_origen": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f",
    "distritos": 23,
    "sha256_csv": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67"
   },

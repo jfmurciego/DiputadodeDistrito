@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 376,
+  "productos": 384,
   "errores": 0,
-  "avisos": 120
+  "avisos": 122
  },
  "territorios": {
   "andalucia": {
@@ -202,7 +202,7 @@
      "producto": "M06",
      "id": "m06-canarias-40951280657",
      "run_id": "40951280657",
-     "vigente": true,
+     "vigente": false,
      "sha256": "12e3bb65fca82a13dd550f98575541d1fca9e88e6bfeb338716dc87e1880e22b",
      "copia_git": {
       "blob_sha": "6eed168481c04e8ca07e1b607e1cabeae0b5e1ba",
@@ -217,10 +217,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-canarias-42523951377",
+     "run_id": "42523951377",
+     "vigente": true,
+     "sha256": "1377ef8ba5e90e8990d6ccf0341f743dbf50407fca066b3fd7b9e5b7677950a4",
+     "copia_git": {
+      "blob_sha": "09802d7d54f164ba4bb63fafcd1941d028521dcf",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-canarias-40951280657",
      "run_id": "40951280657",
-     "vigente": true,
+     "vigente": false,
      "sha256": "26ba80eb35e369b9b607aee03c16d1417c5c9d80f0380bc0f39fcc4578ccd6be",
      "copia_git": {
       "blob_sha": "ea6f74782bc1683b00fe5f7e98b5b177430107e5",
@@ -232,6 +245,19 @@
        "sha256": "b0b6ceaf2b354559e9ce7f0430359a9f2e1d0258863e1bb69c139df1cc8cf3c9"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-canarias-42523951377",
+     "run_id": "42523951377",
+     "vigente": true,
+     "sha256": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a",
+     "copia_git": {
+      "blob_sha": "8a85c922bea52c03b6dd81ee24170f66c5cbf5e7",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -251,16 +277,16 @@
     {
      "producto": "resultados",
      "id": "resultados-canarias",
-     "run_id": "40951280657",
+     "run_id": "42523951377",
      "vigente": true,
-     "sha256": "66ba6be144c9438ff2ee35ce910f4bdb91dbc69c0d4e0cfa3e2da8bd5e23433f",
+     "sha256": "e16c3b8f89b58ca08f357e19f6d9047f82c8be0243c016a178efd75b4894c9b4",
      "copia_git": {
       "blob_sha": null,
       "ruta": "datos/resultados/canarias.csv"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "26ba80eb35e369b9b607aee03c16d1417c5c9d80f0380bc0f39fcc4578ccd6be"
+     "origen_sha256": "12b337b541ad6e6e6b998be3ddb6f255407b047d6b8a2e8e8c8be57df4787e9a"
     }
    ]
   },
@@ -3024,7 +3050,7 @@
      "producto": "M06",
      "id": "m06-congreso_huesca-41194447427",
      "run_id": "41194447427",
-     "vigente": true,
+     "vigente": false,
      "sha256": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1",
      "copia_git": {
       "blob_sha": "67fa2836faad2b4eff97aa9f220542acb60adb4e",
@@ -3034,13 +3060,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_huesca-42519383275",
+     "run_id": "42519383275",
+     "vigente": true,
+     "sha256": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61",
+     "copia_git": {
+      "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_huesca-41194447427",
      "run_id": "41194447427",
-     "vigente": true,
+     "vigente": false,
      "sha256": "0bfcc0fb0bbf738dfadbcd8d4d6ce1c702da67021661e470fa2790dd26319c36",
      "copia_git": {
       "blob_sha": "db4713cd49825d47c618325403e382476401686a",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_huesca-42519383275",
+     "run_id": "42519383275",
+     "vigente": true,
+     "sha256": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3",
+     "copia_git": {
+      "blob_sha": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
       "ruta": null
      },
      "copias_r2": [],
@@ -3063,21 +3115,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_huesca",
-     "run_id": "41194447427",
+     "run_id": "42519383275",
      "vigente": true,
      "sha256": "8978d3270f8e82fc14896a48bb0508274ef2078286a54261022f0c64b5bb3890",
      "copia_git": {
-      "blob_sha": "67fa2836faad2b4eff97aa9f220542acb60adb4e",
+      "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
       "ruta": "datos_abiertos/congreso_huesca/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "86fd9b5590389e2f32c854f12299a8b2a6b1b6826f161f0b9528fb819c651ea1"
+     "origen_sha256": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_huesca",
-     "run_id": "41194447427",
+     "run_id": "42519383275",
      "vigente": true,
      "sha256": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82",
      "copia_git": {
@@ -3086,7 +3138,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "0bfcc0fb0bbf738dfadbcd8d4d6ce1c702da67021661e470fa2790dd26319c36"
+     "origen_sha256": "d696905987ae5b5f4a95e99957f2629583d2700ad63bc67e43f31117e03b6bd3"
     }
    ]
   },
@@ -4578,7 +4630,7 @@
      "producto": "M06",
      "id": "m06-congreso_santa_cruz_de_tenerife-41294259017",
      "run_id": "41294259017",
-     "vigente": true,
+     "vigente": false,
      "sha256": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b",
      "copia_git": {
       "blob_sha": "06790029108d506a62a7d65e853866b86041dddd",
@@ -4588,13 +4640,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_santa_cruz_de_tenerife-42519017008",
+     "run_id": "42519017008",
+     "vigente": true,
+     "sha256": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae",
+     "copia_git": {
+      "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_santa_cruz_de_tenerife-41294259017",
      "run_id": "41294259017",
-     "vigente": true,
+     "vigente": false,
      "sha256": "550dab5817ca8c62f5d3ab76c201e4f6a879334b278aa10834d2297a4b46ce37",
      "copia_git": {
       "blob_sha": "047b62cf96d9474c5dec9fa318e032b5da711133",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_santa_cruz_de_tenerife-42519017008",
+     "run_id": "42519017008",
+     "vigente": true,
+     "sha256": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9",
+     "copia_git": {
+      "blob_sha": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
       "ruta": null
      },
      "copias_r2": [],
@@ -4617,21 +4695,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_santa_cruz_de_tenerife",
-     "run_id": "41294259017",
+     "run_id": "42519017008",
      "vigente": true,
      "sha256": "13255016220076ff1e9101dc33d4a11b452fb74cde3622ebea4649a505ae08f3",
      "copia_git": {
-      "blob_sha": "06790029108d506a62a7d65e853866b86041dddd",
+      "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
       "ruta": "datos_abiertos/congreso_santa_cruz_de_tenerife/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b"
+     "origen_sha256": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_santa_cruz_de_tenerife",
-     "run_id": "41294259017",
+     "run_id": "42519017008",
      "vigente": true,
      "sha256": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8",
      "copia_git": {
@@ -4640,7 +4718,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "550dab5817ca8c62f5d3ab76c201e4f6a879334b278aa10834d2297a4b46ce37"
+     "origen_sha256": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9"
     }
    ]
   },
@@ -5220,7 +5298,7 @@
      "producto": "M06",
      "id": "m06-congreso_valencia-41335936727",
      "run_id": "41335936727",
-     "vigente": true,
+     "vigente": false,
      "sha256": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6",
      "copia_git": {
       "blob_sha": "d9dc71bc351a04e038be07d2037d5e721e25d8e8",
@@ -5230,13 +5308,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_valencia-42525625044",
+     "run_id": "42525625044",
+     "vigente": true,
+     "sha256": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51",
+     "copia_git": {
+      "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_valencia-41335936727",
      "run_id": "41335936727",
-     "vigente": true,
+     "vigente": false,
      "sha256": "c57e9c0e9fec3cef9ef652235dd11847d88974e0695035066af0ff65fcc117ee",
      "copia_git": {
       "blob_sha": "90a26b763101d9d1c43570d53b591c8e2dde6866",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_valencia-42525625044",
+     "run_id": "42525625044",
+     "vigente": true,
+     "sha256": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f",
+     "copia_git": {
+      "blob_sha": "d8520d6c02967199ee139cf113de9027862f7a37",
       "ruta": null
      },
      "copias_r2": [],
@@ -5259,21 +5363,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_valencia",
-     "run_id": "41335936727",
+     "run_id": "42525625044",
      "vigente": true,
      "sha256": "8c5d800cf5a4686a730e143e3baa1a5e0a13b370af90cc2f5ad6fe7a0c48fa31",
      "copia_git": {
-      "blob_sha": "d9dc71bc351a04e038be07d2037d5e721e25d8e8",
+      "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
       "ruta": "datos_abiertos/congreso_valencia/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6"
+     "origen_sha256": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_valencia",
-     "run_id": "41335936727",
+     "run_id": "42525625044",
      "vigente": true,
      "sha256": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67",
      "copia_git": {
@@ -5282,7 +5386,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c57e9c0e9fec3cef9ef652235dd11847d88974e0695035066af0ff65fcc117ee"
+     "origen_sha256": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f"
     }
    ]
   },
@@ -6643,6 +6747,20 @@
   },
   {
    "nivel": "AVISO",
+   "territorio": "canarias",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42523951377: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "canarias",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42523951377: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "castilla_la_mancha",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
@@ -6989,14 +7107,14 @@
    "territorio": "congreso_huesca",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41194447427: solo copia git"
+   "detalle": "run 42519383275: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_huesca",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41194447427: solo copia git"
+   "detalle": "run 42519383275: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7227,14 +7345,14 @@
    "territorio": "congreso_santa_cruz_de_tenerife",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294259017: solo copia git"
+   "detalle": "run 42519017008: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_santa_cruz_de_tenerife",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294259017: solo copia git"
+   "detalle": "run 42519017008: solo copia git"
   },
   {
    "nivel": "AVISO",
@@ -7325,14 +7443,14 @@
    "territorio": "congreso_valencia",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41335936727: solo copia git"
+   "detalle": "run 42525625044: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_valencia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41335936727: solo copia git"
+   "detalle": "run 42525625044: solo copia git"
   },
   {
    "nivel": "AVISO",
