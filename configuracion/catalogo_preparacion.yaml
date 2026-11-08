@@ -892,7 +892,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 42519378789
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 41242160179
         artifact_name: ddd-source-package-congreso_almeria-2025-41242160179
