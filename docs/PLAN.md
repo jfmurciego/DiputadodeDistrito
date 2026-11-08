@@ -4,7 +4,7 @@ Versión: 1.0.27
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: secuencia tras T-84 (T-93, publicación del visor, primera publicación en LinkedIn) y T-95 propuesta
+Cambios/motivo: secuencia tras T-84, T-97 y T-98 abiertas, conciliación de ids del Coordinador
 Anterior: legacy/docs/PLAN_v1.0.26_20261108.md
 -->
 
@@ -339,7 +339,11 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Kit en `documentacion_publica/comunicacion/`; nada se publica sin el propietario |
 | T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
 
-Tras T-84 (orden del propietario, 08-11): T-93 → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → primera publicación en LinkedIn (la hace el propietario). T-95 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
+Tras T-84 (orden del propietario, 08-11): T-93 → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → primera publicación en LinkedIn (la hace el propietario). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
+
+Abiertas el 08-11 (frentes en paralelo, orden del propietario): T-97 (Sonnet) homologación de siglas 2011-2026 para la capa de rotación, tabla con fuente y sha256, se presenta al propietario antes de usarla; T-98 (Opus, motor) Cádiz en el ensemble con la exención de San Fernando, una PR, sin lanzar; T-94c (Sonnet) LICENSE y requisitos pendientes de JOSS. Aplazados: ensemble autonómico (tras T-91 nacional) e histórico autonómico (tras T-83 A).
+
+Conciliación de ids (08-11): el Coordinador usó ids propios que chocan con este plan. Equivalencias, todas hechas salvo indicación: T-93 del Coordinador = `retrieved_at` del contrato SIEL de Andalucía (#508); T-94 del Coordinador = persistencia pre-M04 con error visible y reintentos (#509); T-95 = la 05 sobre una 00 «Reutilizar» nombra el run de origen (#510); T-96 = credencial de registro en los pushes pre-M04 con el ruleset `veredicto` (#516); T-91b = receipts electorales huérfanos (#497; en curso, decisión A/B del propietario); T-92 del Coordinador = configuraciones de ensemble, 24 lanzables (#500); T-72b = paquete mínimo (#478). Este plan: T-90 preparación = T-90b (#501, espera a Interior); T-93 kit = T-93b (#514, hecha); T-94 JOSS = T-94b (#512, borrador hecho). El comparador lado a lado pasa a T-99 (propuesta). En adelante los ids los asigna solo el planificador.
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
