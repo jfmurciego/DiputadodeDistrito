@@ -735,8 +735,8 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40840795932
-        stage: M08
+        run_id: 42504386196
+        stage: M06
       preparation_evidence:
         run_id: 40832114779
         artifact_name: ddd-source-package-melilla-2025-40832114779

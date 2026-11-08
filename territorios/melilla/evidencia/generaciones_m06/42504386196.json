@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13628155965,
+      "artifact_name": "ddd-audit-42504386196",
+      "artifact_sha256": "fb5fe05654777743774e713529ca439d419b176023145f43c6bcaef0054d8154",
+      "run_id": 42504386196,
+      "size_in_bytes": 4935
+    },
+    "m04": {
+      "artifact_id": 13627940659,
+      "artifact_name": "ddd-state-42504386196-M04",
+      "artifact_sha256": "1ec327d731aa874f93a970f5e19d9a9aa1d0c2f2826b2173407dcabd794e8bb2",
+      "run_id": 42504386196,
+      "size_in_bytes": 74810436
+    },
+    "m05": {
+      "artifact_id": 13628081625,
+      "artifact_name": "ddd-state-42504386196-M05",
+      "artifact_sha256": "60a4df6b6ea781cdcc58f815c3ae4ef243f7ca13254d75bd931cd25ead1cbb0a",
+      "run_id": 42504386196,
+      "size_in_bytes": 74973571
+    },
+    "m06": {
+      "artifact_id": 13627283865,
+      "artifact_name": "ddd-state-42504386196-M06",
+      "artifact_sha256": "a7e973b0bb1e66257f397a96fc91a5a8cacf5a427f8be98ee85641b5eddb57f6",
+      "run_id": 42504386196,
+      "size_in_bytes": 75299980
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "4583840fa54d1b3116e8f8d1127d7e9f11cf04e156d0c8b7da27b9e8f81e9e69",
+        "size_in_bytes": 423
+      },
+      "melilla_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "46e91af8a83b062c79819446feefd8c2415011842ef25b0c55f7dca9f227ad32",
+        "size_in_bytes": 20980
+      },
+      "optimization_execution.json": {
+        "sha256": "0329b680b5d1f711281ba71e1efb2dd0e934765278210876c775e560514af852",
+        "size_in_bytes": 648
+      },
+      "production_status.json": {
+        "sha256": "46f6ac828a30106361b59a6aedcf2f1b4c04cc62117e519f10bd16cd724b825e",
+        "size_in_bytes": 1214
+      }
+    },
+    "decision": "PASS",
+    "production_status_sha256": "46f6ac828a30106361b59a6aedcf2f1b4c04cc62117e519f10bd16cd724b825e",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/melilla/config/melilla_2025.yaml",
+    "sha256": "c0de74c6def9c9b660412b1e180e17aa5db2cfbbd0da1c431dccb5ec8e59da5c"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "a082a77ec4e890fab80ca24b7dcc9eb691cabbab73b813d7da7ecd7bd418819d",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "77333d60afad865e557827c68afd990e8e6c9909",
+    "edition": "2025",
+    "territory_id": "melilla",
+    "territory_name": "Melilla",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42504386196,
+    "workflow_sha": "77333d60afad865e557827c68afd990e8e6c9909"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13627940659,
+      "artifact_name": "ddd-state-42504386196-M04",
+      "artifact_sha256": "1ec327d731aa874f93a970f5e19d9a9aa1d0c2f2826b2173407dcabd794e8bb2",
+      "run_id": 42504386196,
+      "size_in_bytes": 74810436
+    },
+    "source_manifest_sha256": "785c91745062afe6b7390b4345d00707a8e16c6fe5324dbc17a05d0427032bac",
+    "source_package_artifact": {
+      "artifact_id": 12880482899,
+      "artifact_name": "ddd-source-package-melilla-2025-40832114779",
+      "artifact_sha256": "db0c191d868c248133c64d58f21706ccfb9686301c0d50270e09262b47fc8ccb",
+      "run_id": 40832114779,
+      "size_in_bytes": 74480353
+    }
+  },
+  "manifest_sha256": "dfaefa69ede834265a8a4c3e73ce871b40119bdb4dd5b271643bd09aaafb715b",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
