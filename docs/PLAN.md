@@ -4,7 +4,7 @@ Versión: 1.0.32
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-22 y T-105 (Gestor de Campañas con parámetros claros, lanzable a mano por el propietario)
+Cambios/motivo: D-22 y T-105 (Gestor de Campañas 2.0); D-23 y T-106 (limpieza de la lista de workflows)
 Anterior: legacy/docs/PLAN_v1.0.31_20261108.md
 -->
 
@@ -136,6 +136,9 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   (2) tipo: nacional o autonómico; (3) territorios: todos o lista de partes (provincias o comunidades por nombre, código o matrícula);
   (4) inicio: desde el principio, aprovechar fuentes o reutilizar progreso; (5) publicar en el visor: sí/no; (6) ensemble GerryChain:
   ninguno, 10 o 25. Lanzarlo él mismo equivale a su permiso para ese lanzamiento y esa publicación.
+- D-23 (08-11). La lista de Workflows de Actions solo debe mostrar lo que el propietario lanza. Se eliminan los 12 desactivados
+  (los «tachados»: F10, diagnóstico de fuentes, verificaciones de Andalucía, Cataluña y EleccionesDB), se archivan en `legacy/workflows/`
+  los obsoletos y los internos que deben quedarse se agrupan al final con un prefijo común. El tamaño de letra es de GitHub (zoom del navegador).
 
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
@@ -369,6 +372,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-103 | Desajuste ZIP↔M06 por encima del tope D-17 (Badajoz 0,87 %, Valencia 0,77 %, Albacete 0,63 %, Almería 0,52 %): clasificar cada sección en recodificada (misma geometría o cruce oficial del INE, código distinto) o partida/unida; las recodificadas se asignan 1:1 con la tabla de T-85 y no cuentan para el tope; solo lo partido/unido cuenta. Sin regenerar M06 (cambiaría el producto territorial: decisión del propietario). Si tras clasificar alguna provincia sigue por encima del 0,5 %, se para y se presenta al propietario | por abrir (Opus), ya; toca el archivista | PR con tests de las cuatro provincias; porcentajes antes y después en la evidencia; sin lanzar |
 | T-104 | M06 de Valencia (autorizado por el propietario el 08-11: «regenera el M06 de Valencia»; T-103: «descuenta las contenidas»): antes de lanzar, (1) confirmar el seccionado del contrato de Valencia y cuál daría desajuste 0 con el ZIP de Interior de 2023; (2) cuantificar qué cambia (distritos de los 407, huellas M04/M05, checkpoints, M08 y publicación de Valencia) y la incoherencia de usar un seccionado distinto del INE 2025 del resto; (3) proponer el modo de 00. Se presenta al propietario antes de cualquier lanzamiento | por abrir (Opus), ya | Informe con las tres respuestas; sin lanzar |
 | T-105 | Gestor de Campañas 2.0 (D-22), sobre T-86: `workflow_dispatch` con 6 entradas en el orden de D-22 (desplegables con nombres en español; lista de partes en texto), más `mapa` (407 o 350 de T-102) y una entrada «solo plan (en seco)» activada por defecto que muestra qué se lanzaría; opciones no disponibles (histórico antes de T-83 A, GerryChain 25 sin validar) fallan al planificar con un mensaje claro, sin lanzar; encadena 00 → par → electoral → publicación → ensemble sin chats; guía de una página en `docs/` con capturas | por abrir (Opus), ya; toca workflows compartidos: coordinar con el chat de T-86 | PR no-automerge; plan en seco correcto para «todo el Congreso», una comunidad y una lista; prueba real con una provincia lanzada por el Operador con permiso del propietario |
+| T-106 | Limpieza de la lista de Workflows (D-23): (1) inventario de los 37 activos y 12 desactivados (`gh api .../actions/workflows`), con quién llama a quién; (2) los 12 desactivados ya no tienen fichero: borrar su historial de runs (irreversible) tras comprobar que su evidencia está en git, con la lista final presentada al propietario en una línea antes de borrar; (3) obsoletos sin llamadas (p. ej. `r2-test.yml`) a `legacy/workflows/` con su historial borrado del mismo modo; (4) internos que deben seguir (reutilizables, auto-merge, numeración, revisor, forense…) renombrados con prefijo común para que queden al final; los lanzables, con número y nombre claro | por abrir (Sonnet), tras T-105; toca workflows: coordinar | PR no-automerge; la lista muestra arriba solo lo lanzable; nada borrado sin la confirmación del propietario |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
