@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.31
+Versión: 1.0.32
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-103 (secciones recodificadas); D-19 y T-102 (comparativa 2023 con 350 distritos); T-104 (M06 de Valencia); D-20 (siglas de certeza baja); D-21 (tras T-91)
-Anterior: legacy/docs/PLAN_v1.0.30_20261108.md
+Cambios/motivo: D-22 y T-105 (Gestor de Campañas con parámetros claros, lanzable a mano por el propietario)
+Anterior: legacy/docs/PLAN_v1.0.31_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -131,6 +131,11 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   Con D-20 la tabla puede aplicarse a la capa de rotación (T-84).
 - D-21 (08-11). Tras T-91: publicación de los ensembles por el Operador con permiso del propietario, tras su revisión de lo que se
   muestra (D-18). Ensemble autonómico (diseño y lanzamientos): aparcado.
+- D-22 (08-11). El propietario quiere lanzar a mano, sin chats, todo el Congreso (50 provincias, Ceuta y Melilla) o cualquier parte con
+  un solo «0 Gestor de Campañas» y parámetros claros, en este orden: (1) elección: legislatura vigente o histórico (y cuál);
+  (2) tipo: nacional o autonómico; (3) territorios: todos o lista de partes (provincias o comunidades por nombre, código o matrícula);
+  (4) inicio: desde el principio, aprovechar fuentes o reutilizar progreso; (5) publicar en el visor: sí/no; (6) ensemble GerryChain:
+  ninguno, 10 o 25. Lanzarlo él mismo equivale a su permiso para ese lanzamiento y esa publicación.
 
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
@@ -363,6 +368,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-102 | Comparativa 2023 (D-19): campaña nueva `congreso_350` en el Gestor con K por provincia = escaños reales de 2023 (CSV con fuente y sha256), reutilizando M01-M03 y regenerando M04-M06; primero 3 provincias de prueba (una de 2 escaños, una media y Madrid) y luego el resto en lote por el Operador con permiso; votos de 2023 a los 350 distritos con la herramienta de T-83 B; ganador por distrito y escaños por partido frente al reparto real; selector «Real / 350 distritos» en la vista Nacional de T-84. Resultados y visor, solo tras aprobación del propietario (D-18) | por abrir (Opus), ya | Contrato y configuración en una PR; 3 provincias en verde; luego 52/52; tabla comparativa con fuente; sin publicar |
 | T-103 | Desajuste ZIP↔M06 por encima del tope D-17 (Badajoz 0,87 %, Valencia 0,77 %, Albacete 0,63 %, Almería 0,52 %): clasificar cada sección en recodificada (misma geometría o cruce oficial del INE, código distinto) o partida/unida; las recodificadas se asignan 1:1 con la tabla de T-85 y no cuentan para el tope; solo lo partido/unido cuenta. Sin regenerar M06 (cambiaría el producto territorial: decisión del propietario). Si tras clasificar alguna provincia sigue por encima del 0,5 %, se para y se presenta al propietario | por abrir (Opus), ya; toca el archivista | PR con tests de las cuatro provincias; porcentajes antes y después en la evidencia; sin lanzar |
 | T-104 | M06 de Valencia (autorizado por el propietario el 08-11: «regenera el M06 de Valencia»; T-103: «descuenta las contenidas»): antes de lanzar, (1) confirmar el seccionado del contrato de Valencia y cuál daría desajuste 0 con el ZIP de Interior de 2023; (2) cuantificar qué cambia (distritos de los 407, huellas M04/M05, checkpoints, M08 y publicación de Valencia) y la incoherencia de usar un seccionado distinto del INE 2025 del resto; (3) proponer el modo de 00. Se presenta al propietario antes de cualquier lanzamiento | por abrir (Opus), ya | Informe con las tres respuestas; sin lanzar |
+| T-105 | Gestor de Campañas 2.0 (D-22), sobre T-86: `workflow_dispatch` con 6 entradas en el orden de D-22 (desplegables con nombres en español; lista de partes en texto), más `mapa` (407 o 350 de T-102) y una entrada «solo plan (en seco)» activada por defecto que muestra qué se lanzaría; opciones no disponibles (histórico antes de T-83 A, GerryChain 25 sin validar) fallan al planificar con un mensaje claro, sin lanzar; encadena 00 → par → electoral → publicación → ensemble sin chats; guía de una página en `docs/` con capturas | por abrir (Opus), ya; toca workflows compartidos: coordinar con el chat de T-86 | PR no-automerge; plan en seco correcto para «todo el Congreso», una comunidad y una lista; prueba real con una provincia lanzada por el Operador con permiso del propietario |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
