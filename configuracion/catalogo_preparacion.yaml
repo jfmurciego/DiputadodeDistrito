@@ -210,7 +210,7 @@ territories:
         territorial_product: territorios/canarias/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/canarias/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: cantabria
   name: Cantabria
   editions:
