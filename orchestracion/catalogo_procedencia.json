@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 370,
+  "productos": 372,
   "errores": 0,
   "avisos": 120
  },
@@ -1082,7 +1082,7 @@
      "producto": "M06",
      "id": "m06-congreso_albacete-41294417893",
      "run_id": "41294417893",
-     "vigente": true,
+     "vigente": false,
      "sha256": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06",
      "copia_git": {
       "blob_sha": "c3da7d6507dcadf40132cd1f442f2e9df49941aa",
@@ -1092,13 +1092,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_albacete-42514994231",
+     "run_id": "42514994231",
+     "vigente": true,
+     "sha256": "711147836285bd4a0ce0edf28d066c82ec9c4642b980b598be835f80c52b14c5",
+     "copia_git": {
+      "blob_sha": "c7df907f1c12c6b6a44005e48199411258f413d2",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_albacete-41294417893",
      "run_id": "41294417893",
-     "vigente": true,
+     "vigente": false,
      "sha256": "395562d8e6f9ba26acd5a6d47612e6408e883ae4f83f2ff3b4a5d5852b198bef",
      "copia_git": {
       "blob_sha": "2c135d68d27c516e0c349b3bdcb885f309ed8985",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_albacete-42514994231",
+     "run_id": "42514994231",
+     "vigente": true,
+     "sha256": "4bf56ca501bad00f0a305b56e29709a092d9e226872c76bf752eacfe1bd7953d",
+     "copia_git": {
+      "blob_sha": "eb789b5090f4fcb1443149cf59fba070bf6e37a0",
       "ruta": null
      },
      "copias_r2": [],
@@ -1121,21 +1147,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_albacete",
-     "run_id": "41294417893",
+     "run_id": "42514994231",
      "vigente": true,
      "sha256": "3741ebdd47ea7e5a3666e831274c97820e59b4446e8ce64156cc4def7cb7d01e",
      "copia_git": {
-      "blob_sha": "c3da7d6507dcadf40132cd1f442f2e9df49941aa",
+      "blob_sha": "c7df907f1c12c6b6a44005e48199411258f413d2",
       "ruta": "datos_abiertos/congreso_albacete/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06"
+     "origen_sha256": "711147836285bd4a0ce0edf28d066c82ec9c4642b980b598be835f80c52b14c5"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_albacete",
-     "run_id": "41294417893",
+     "run_id": "42514994231",
      "vigente": true,
      "sha256": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38",
      "copia_git": {
@@ -1144,7 +1170,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "395562d8e6f9ba26acd5a6d47612e6408e883ae4f83f2ff3b4a5d5852b198bef"
+     "origen_sha256": "4bf56ca501bad00f0a305b56e29709a092d9e226872c76bf752eacfe1bd7953d"
     }
    ]
   },
@@ -6603,14 +6629,14 @@
    "territorio": "congreso_albacete",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294417893: solo copia git"
+   "detalle": "run 42514994231: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_albacete",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294417893: solo copia git"
+   "detalle": "run 42514994231: solo copia git"
   },
   {
    "nivel": "AVISO",
