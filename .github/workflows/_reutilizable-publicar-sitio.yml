@@ -315,18 +315,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard
+          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard /tmp/site-candidate/nacional /tmp/site-candidate/docs
           cp visor/index.html visor/app.js visor/escenarios.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
           cp dashboard/hemiciclo.html dashboard/hemiciclo.json /tmp/site-candidate/dashboard/
           cp dashboard/metricas.html dashboard/metricas_proceso.json /tmp/site-candidate/dashboard/
           grep -q 'href="hemiciclo.html"' /tmp/site-candidate/dashboard/index.html || { echo "::error::El dashboard no enlaza el hemiciclo."; exit 1; }
           python herramientas/generar_datos_abiertos.py --materializar /tmp/site-candidate/datos
-          mkdir -p /tmp/site-candidate/nacional
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           python -m pip install --disable-pip-version-check -r documentacion_publica/requirements.lock
           zensical build --strict --clean -f documentacion_publica/zensical.toml
-          mkdir -p /tmp/site-candidate/docs
           cp -R documentacion_publica/site/. /tmp/site-candidate/docs/
           python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
 
