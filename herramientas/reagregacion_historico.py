@@ -3,13 +3,17 @@
 """Reagregación del histórico de generales 2011-2023 a los distritos vigentes (T-83, paso B).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
-CAMBIOS: 1.1.0 (T-83 A): `--paquete DIR` escribe además, por elección, el paquete M07 sobre la sección vigente
+VERSIÓN: 1.3.0 · FECHA: 2026-11-08 · ESTADO: candidato
+CAMBIOS: 1.3.0 (T-113): `--elecciones CLAVE…` limita las elecciones procesadas (Gestor 2.0, histórico por elección);
+  sin él, todas las del espejo. Las geometrías de los seccionados de todos los años se siguen cargando
+  (completar_geometrias), así que el resultado de una elección es idéntico al de la pasada completa. 1.2.0 (T-110): `--lote DIR` procesa las provincias con M06 (zip del blob, sha256 de datos_abiertos/INDEX.json o de DIR/EXTRA.json) cargando
+  una vez los seccionados, y escribe `rotacion/<t>.csv` con el ganador homologado (T-97 + D-20: se suman las siglas de
+  la misma familia antes de elegir ganador) y `siglas_sin_homologar.json`. 1.1.0 (T-83 A): `--paquete DIR` escribe además, por elección, el paquete M07 sobre la sección vigente
   (votos enteros por mayor resto partido a partido, diccionario de partidos y contrato electoral long_csv; la
   oficial parcial queda como referencia), que consume herramientas/historico_m07m08.py. 1.0.0: fichero nuevo.
 MOTIVO: decisiones D-9, D-10, D-12 y D-13 del propietario: los votos de cada general 2011-2023 se trasladan a los
   distritos vigentes (sin redibujar por elección) con la equivalencia de seccionados de T-85 (peso = población).
-ANTERIOR: legacy/herramientas/reagregacion_historico_v1.0.0_20261108.py
+ANTERIOR: legacy/herramientas/reagregacion_historico_v1.2.0_20261108.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y elección: (1) asigna cada sección del
   seccionado INE 2025 al distrito M06 de mayor solape; (2) lleva los votos, censo y votantes de cada sección histórica
   del espejo T-89 a las secciones vigentes con `equivalencia_seccionados.equivalencia` y el peso de población (D-13);
@@ -21,8 +25,8 @@ QUÉ HACE: fuera de línea (no lanza ni publica). Por territorio (provincia) y e
   oficial y su defecto es el CERA. Votos perdidos (sin geometría, sin sección vigente o fuera de los distritos) se
   informan, nunca se reparten.
 Uso: python herramientas/reagregacion_historico.py --espejo DIR --historicos DIR --seccionado ZIP --padron ZIP
-       --territorio congreso_huesca --provincia 22 --distritos M06.geojson [--salida datos/resultados/historico]
-       [--tolerancia 0.10] [--paquete DIR]
+       (--lote DIR [--solo T ...] | --territorio congreso_huesca --provincia 22 --distritos M06.geojson) [--salida datos/resultados/historico]
+       [--tolerancia 0.10] [--paquete DIR] [--elecciones 201911 …]
 """
 from __future__ import annotations
 
@@ -267,36 +271,56 @@ def leer_distritos(geojson: Path) -> dict:
     return {str(i): (g if g.is_valid else g.buffer(0)) for i, g in zip(gdf["district_id"], gdf.geometry)}
 
 
-def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--espejo", type=Path, required=True)
-    ap.add_argument("--historicos", type=Path, required=True)
-    ap.add_argument("--seccionado", type=Path, required=True)
-    ap.add_argument("--padron", type=Path, required=True)
-    ap.add_argument("--territorio", required=True, help="p. ej. congreso_huesca")
-    ap.add_argument("--provincia", required=True, help="código INE de dos cifras")
-    ap.add_argument("--distritos", type=Path, required=True, help="GeoJSON M06 del territorio")
-    ap.add_argument("--salida", type=Path, default=ROOT / "datos/resultados/historico")
-    ap.add_argument("--tolerancia", type=float, default=TOLERANCIA)
-    ap.add_argument("--paquete", type=Path, help="carpeta del paquete M07 (T-83 A): <DIR>/<elección>/<territorio>/")
-    a = ap.parse_args(argv)
-    c = a.provincia
-    espejo = json.loads((ROOT / eqs.MANIFIESTO_ESPEJO).read_text(encoding="utf-8"))
-    vig = eqs.leer_seccionado(a.seccionado)[c]
-    pob = eqs.leer_padron(a.padron)
-    distritos = leer_distritos(a.distritos)
+def cargar_homologacion(ruta: Path | None = None) -> dict:
+    """{(elección, provincia, sigla_fuente): partido_homologado} de T-97 con D-20 (`datos/homologacion_siglas/`)."""
+    ruta = ruta or ROOT / "datos/homologacion_siglas/homologacion_siglas_generales.csv"
+    with open(ruta, encoding="utf-8", newline="") as f:
+        return {(r["eleccion"], r["provincia"], r["sigla_fuente"]): r["partido_homologado"]
+                for r in csv.DictReader(f)}
+
+
+def ganador_homologado(votos: dict, hom: dict, clave: str, cpro: str, sin_homologar: set) -> str:
+    """Ganador del distrito tras sumar las siglas de la misma familia (las que no constan quedan tal cual y se anotan)."""
+    agr: Counter = Counter()
+    for sigla, n in votos.items():
+        h = hom.get((clave, cpro, sigla))
+        if h is None:
+            sin_homologar.add((clave, cpro, sigla))
+            h = sigla
+        agr[h] += n
+    return ganador(dict(agr))[0]
+
+
+def escribir_rotacion(path: Path, ganadores: dict) -> None:
+    """ganadores = {elección: {distrito: ganador homologado}}; cambios = nº de cambios entre elecciones consecutivas."""
+    claves = sorted(ganadores)
+    distritos = sorted({d for g in ganadores.values() for d in g}, key=int)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f, lineterminator="\n")
+        w.writerow(["district_id", *claves, "cambios"])
+        for d in distritos:
+            serie = [ganadores[k].get(d, "") for k in claves]
+            w.writerow([d, *serie, sum(1 for a, b in zip(serie, serie[1:]) if a and b and a != b)])
+
+
+def procesar(t: str, c: str, distritos_path: Path, a, espejo: dict, vig: dict, pob: dict, todos: dict,
+             hom: dict, sin_hom: set) -> tuple[dict, dict]:
+    """Un territorio: escribe resultados por elección y devuelve (entrada del manifiesto, ganadores homologados)."""
+    distritos = leer_distritos(distritos_path)
     asign, fuera = asignar_distritos(vig, distritos)
-    todos = {e["seccionado"]: eqs.leer_seccionado(a.historicos / f"seccionado_{e['seccionado']}.zip").get(c, {})
-             for e in espejo["elecciones"]}
-    huellas, informe = {}, {}
+    todos_c = {y: z.get(c, {}) for y, z in todos.items()}
+    huellas, informe, ganadores = {}, {}, {}
     for e in espejo["elecciones"]:
+        if a.elecciones and e["clave"] not in a.elecciones:
+            continue
         clave, año = e["clave"], e["seccionado"]
         ruta = f"data/{clave}/sekzioa/{c}.json"
         if eqs.sha256(a.espejo / ruta) != espejo["ficheros"][ruta]["sha256"]:
             raise SystemExit(f"HUELLA_ESPEJO_DISTINTA {ruta}")
         huellas[ruta] = espejo["ficheros"][ruta]["sha256"]
         votos = fnb.leer_provincia(json.loads((a.espejo / ruta).read_text(encoding="utf-8")))
-        hist, _ = eqs.completar_geometrias(votos, año, todos)
+        hist, _ = eqs.completar_geometrias(votos, año, todos_c)
         dx, dy = eqs.desplazamiento_sistematico(hist, vig)
         if dx or dy:
             from shapely.affinity import translate
@@ -306,25 +330,76 @@ def main(argv=None) -> int:
         red = redondear(res)
         informe[clave] = cuadre(votos, res, red, leer_oficial(clave, c), a.tolerancia)
         informe[clave]["distritos"] = len(red)
-        escribir(a.salida / clave, a.territorio, red)
+        escribir(a.salida / clave, t, red)
+        ganadores[clave] = {d: ganador_homologado(r["votos"], hom, clave, c, sin_hom) for d, r in red.items()}
         if a.paquete:
             sec = redondear({"distritos": reagregar_secciones(votos, eq)["distritos"]})
-            escribir_paquete(a.paquete / clave / a.territorio, a.territorio, clave, sec, leer_oficial(clave, c),
+            escribir_paquete(a.paquete / clave / t, t, clave, sec, leer_oficial(clave, c),
                              {"path": ruta, "sha256": huellas[ruta], "manifest": eqs.MANIFIESTO_ESPEJO})
-        print(a.territorio, clave, informe[clave]["ok"], informe[clave]["votos_perdidos"], flush=True)
-    # fuente con huella; el manifiesto acumula territorios
+        print(t, clave, informe[clave]["ok"], informe[clave]["votos_perdidos"], flush=True)
+    return {"provincia": c, "secciones_vigentes_sin_distrito": fuera,
+            "fuentes": {"seccionado_2025": eqs.sha256(a.seccionado), "padron_65034": eqs.sha256(a.padron),
+                        "distritos_m06": eqs.sha256(distritos_path), "espejo": huellas,
+                        "historicos": {str(y): eqs.sha256(a.historicos / f"seccionado_{y}.zip") for y in todos}},
+            "cuadre": informe}, ganadores
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--espejo", type=Path, required=True)
+    ap.add_argument("--historicos", type=Path, required=True)
+    ap.add_argument("--seccionado", type=Path, required=True)
+    ap.add_argument("--padron", type=Path, required=True)
+    ap.add_argument("--territorio", help="p. ej. congreso_huesca (con --provincia y --distritos)")
+    ap.add_argument("--provincia", help="código INE de dos cifras")
+    ap.add_argument("--distritos", type=Path, help="GeoJSON M06 del territorio")
+    ap.add_argument("--lote", type=Path, help="carpeta con <territorio>.zip (blob M06, sha256 de datos_abiertos/INDEX.json): "
+                    "procesa todos y escribe la rotación homologada de España")
+    ap.add_argument("--solo", nargs="*", help="con --lote: limita a estos territorios")
+    ap.add_argument("--salida", type=Path, default=ROOT / "datos/resultados/historico")
+    ap.add_argument("--tolerancia", type=float, default=TOLERANCIA)
+    ap.add_argument("--paquete", type=Path, help="carpeta del paquete M07 (T-83 A): <DIR>/<elección>/<territorio>/")
+    ap.add_argument("--elecciones", nargs="*", help="claves del espejo (p. ej. 201911); por defecto, todas")
+    a = ap.parse_args(argv)
+    espejo = json.loads((ROOT / eqs.MANIFIESTO_ESPEJO).read_text(encoding="utf-8"))
+    claves = {e["clave"] for e in espejo["elecciones"]}
+    if a.elecciones and not set(a.elecciones) <= claves:
+        raise SystemExit(f"ELECCION_DESCONOCIDA {sorted(set(a.elecciones) - claves)}; espejo: {sorted(claves)}")
+    vig_all = eqs.leer_seccionado(a.seccionado)
+    pob = eqs.leer_padron(a.padron)
+    todos = {e["seccionado"]: eqs.leer_seccionado(a.historicos / f"seccionado_{e['seccionado']}.zip")
+             for e in espejo["elecciones"]}
+    hom, sin_hom = cargar_homologacion(), set()
+    if a.lote:
+        indice = json.loads((ROOT / "datos_abiertos/INDEX.json").read_text(encoding="utf-8"))["territorios"]
+        extra = a.lote / "EXTRA.json"  # territorios fuera de datos_abiertos: {t: {provincia, sha256, run_id}}
+        indice = {**indice, **(json.loads(extra.read_text(encoding="utf-8")) if extra.exists() else {})}
+        trabajo = [(t, None, a.lote / f"{t}.zip") for t in sorted(indice) if not a.solo or t in a.solo]
+        for t, _, z in trabajo:
+            if eqs.sha256(z) != indice[t].get("sha256_origen", indice[t].get("sha256")):
+                raise SystemExit(f"HUELLA_M06_DISTINTA {t}")
+    else:
+        trabajo = [(a.territorio, a.provincia, a.distritos)]
     mp = a.salida / "MANIFEST.json"
     man = json.loads(mp.read_text(encoding="utf-8")) if mp.exists() else {"schema": SCHEMA, "territorios": {}}
     man["peso"] = "poblacion (D-13)"
     man["tolerancia_cuadre"] = a.tolerancia
-    man["territorios"][a.territorio] = {
-        "provincia": c, "secciones_vigentes_sin_distrito": fuera,
-        "fuentes": {"seccionado_2025": eqs.sha256(a.seccionado), "padron_65034": eqs.sha256(a.padron),
-                    "distritos_m06": eqs.sha256(a.distritos), "espejo": huellas,
-                    "historicos": {str(y): eqs.sha256(a.historicos / f"seccionado_{y}.zip") for y in todos}},
-        "cuadre": informe}
-    mp.write_text(json.dumps(man, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    return 0 if all(x["ok"] for x in informe.values()) else 1
+    ok = True
+    for t, c, ruta in trabajo:
+        if c is None and a.lote and len(str(indice[t].get("provincia", ""))) == 2:  # EXTRA.json trae el código
+            c = indice[t]["provincia"]
+        if c is None:  # provincia = las dos primeras cifras de la composición vigente
+            with open(ROOT / f"datos/composicion/{t}.csv", encoding="utf-8", newline="") as f:
+                c = next(csv.DictReader(f))["seccion"][:2]
+        entrada, ganadores = procesar(t, c, ruta, a, espejo, vig_all[c], pob, todos, hom, sin_hom)
+        man["territorios"][t] = entrada
+        escribir_rotacion(a.salida / "rotacion" / f"{t}.csv", ganadores)
+        ok &= all(x["ok"] for x in entrada["cuadre"].values())
+        mp.write_text(json.dumps(man, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    if sin_hom:
+        (a.salida / "siglas_sin_homologar.json").write_text(json.dumps(
+            sorted(sin_hom), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

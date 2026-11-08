@@ -1,0 +1,140 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_badajoz",
+ "run_id": "42519381013",
+ "run_territorial": "42519381013",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 386842,
+ "votos_desajustados": 3368,
+ "pct_desajuste": 0.8706,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "0608303011",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 693,
+   "secciones_m06": {
+    "0608303009": 0.046539,
+    "0608303010": 0.953461
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 1, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "0608304014",
+   "origen": "zip_sin_m06",
+   "clase": "recodificada",
+   "votos": 1054,
+   "secciones_m06": {
+    "0608304013": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "T-103: recodificada; asignación 1:1 a 0608304013 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0608306010",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 747,
+   "secciones_m06": {
+    "0608306008": 1.0
+   },
+   "distritos": {
+    "1": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0608306008 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0615302006",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 874,
+   "secciones_m06": {
+    "0615302001": 1.0
+   },
+   "distritos": {
+    "5": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 0615302001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "0601505014",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0601505014": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "0601506003",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0601506003": 1.0
+   },
+   "distritos": {
+    "0": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "0602301002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0602301002": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "0605901002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0605901002": 1.0
+   },
+   "distritos": {
+    "2": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "0606701003",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0606701003": 1.0
+   },
+   "distritos": {
+    "4": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "0608601002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "0608601002": 1.0
+   },
+   "distritos": {
+    "3": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}

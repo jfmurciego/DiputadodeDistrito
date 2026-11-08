@@ -189,8 +189,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42504381511
-        stage: M06
+        run_id: 42523951377
+        stage: M08
       preparation_evidence:
         run_id: 42504381511
         artifact_name: ddd-source-package-canarias-2025-42504381511
@@ -206,7 +206,7 @@ territories:
         source_commit: 77333d60afad865e557827c68afd990e8e6c9909
       evidence:
         electoral_source: territorios/canarias/evidencia/fuentes_electorales/2025/3d6ea40b409231569f1f6240b06660f73c2cab44984296754f5ca4eda023da34/42521092889/receipt.json
-        prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json
+        prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43.json
         territorial_product: territorios/canarias/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/canarias/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
@@ -305,28 +305,28 @@ territories:
       electoral_product_available: true
       evidence:
         territorial_product: territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json
-        electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/5e06969847e4f5d83c72c0289a1b535db55a1107c7a31d0af6b6404d6a60465e/40969454399/receipt.json
-        prepared_source_pair: territorios/castilla_y_leon/evidencia/pares_fuentes/2025/28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac.json
-        generation_preflight: territorios/castilla_y_leon/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json
+        prepared_source_pair: territorios/castilla_y_leon/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json
         electoral_product: territorios/castilla_y_leon/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/castilla_y_leon/evidencia/catalogo/generation_preflight_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42497104110
-        stage: M06
+        run_id: 42531122768
+        stage: M08
       preparation_evidence:
-        run_id: 40969454399
-        artifact_name: ddd-source-package-castilla_y_leon-2025-40969454399
-        artifact_sha256: ed0bb11a00b950c7c2094082142064c719bf9d03c121b115c3b452630830f923
-        package_sha256: 35316534a8408f4db237df9bcf009302647aae333489e131be2e820d21f10f1b
-        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/4d48062a353a8d6348251d657cf989d793b7b97d8243943ca1655b4e234a4b13/40969454399/receipt.json
-        territorial_identity_sha256: 4d48062a353a8d6348251d657cf989d793b7b97d8243943ca1655b4e234a4b13
-        compatibility_report_sha256: 774f9b1114510228d7b3f062aa91e0a4a056412c76e34f985fbd3686f5618087
-        compatibility_identity_sha256: ef2b2d121a350b27e76460fe5d0cdcd01aca4957fd86fd391dbac2935ec3d94e
+        run_id: 42521090842
+        artifact_name: ddd-source-package-castilla_y_leon-2025-42521090842
+        artifact_sha256: 3a710cff73dca6a5048e28f1eea5f1e5454404324538b66b7ae9c3b0b229c168
+        package_sha256: c0ab5947c911e815bb2b0657c9a256020916d8c3f9293bb379b1bfb6e6cd0215
+        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json
+        territorial_identity_sha256: e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60
+        compatibility_report_sha256: f7e13b4c123fe2889cfd5b0f8c6e0f505d4cfbc09ea9ebcf104984b35bd128bd
+        compatibility_identity_sha256: 31c36a90168ce5023e79c7a7dc95fd606a8248f52c65a8c0cfb945dd2c13905d
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2025
         section_year: 2025
-        source_commit: 0ec54ca10756724746511f40cc45396be61667ae
+        source_commit: 8a8ed5f7deec51613ea7c31b92fc54b35de21745
       generation_enabled: true
 - territory_id: cataluna
   name: Cataluña
@@ -891,7 +891,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41295979497
+        run_id: 42519378789
         stage: M08
       preparation_evidence:
         run_id: 41242160179
@@ -969,7 +969,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41299475924
+        run_id: 42519381013
         stage: M08
       preparation_evidence:
         run_id: 41293199718
@@ -1593,7 +1593,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41194447427
+        run_id: 42519383275
         stage: M08
       preparation_evidence:
         run_id: 41057319037
@@ -2529,7 +2529,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41335936727
+        run_id: 42525625044
         stage: M08
       preparation_evidence:
         run_id: 41318119259
@@ -3232,18 +3232,34 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso350_madrid/config/congreso350_madrid_2025.yaml
       territorial_source_declaration: territorios/congreso350_madrid/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 42522378370
+        artifact_name: ddd-source-package-congreso350_madrid-2025-42522378370
+        artifact_sha256: 8b24dd9fcde64294cded207927927fcc7085dcdd7b1bc130fd7519584ab9a699
+        package_sha256: 2493dee95693521f7a931c4243f0ba0ee52ad8fa0ce22bbf3a9b3208ed758815
+        receipt_path: territorios/congreso350_madrid/evidencia/fuentes_territoriales/2025/a8fe87fb016dd267456c3732900cdcd8876dd0c6c0a50360fcd0c42a75f9352a/42522378370/receipt.json
+        territorial_identity_sha256: a8fe87fb016dd267456c3732900cdcd8876dd0c6c0a50360fcd0c42a75f9352a
+        compatibility_report_sha256: f3e11b013187060a9f2810ceab37f8613719520a731265acd00b97fcfec788b9
+        compatibility_identity_sha256: 68c76394d4a683db9b783ec2b27a8940dbb77e03eb6280ab29e468c87d0e3042
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 6d589145792bf72b03aaa9c91a69ea5c77524f62
+      generation_enabled: true
+      evidence:
+        generation_preflight: territorios/congreso350_madrid/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: congreso350_malaga
   name: Congreso 350 Málaga
   editions:
