@@ -1,6 +1,7 @@
 """T-86: legislatura vigente (71 territorios con fuente) y plan/lanzamiento del Gestor de Campañas.
 
-VERSIÓN: 1.0.0 · FECHA: 2026-11-07
+VERSIÓN: 1.1.0 · FECHA: 2026-11-08
+CAMBIOS 1.1.0: T-102, los 49 gemelos Congreso 350 van aparte (ámbito congreso_350); siguen 71 de la legislatura.
 ANTERIOR: ninguna (fichero nuevo)
 """
 import json
@@ -30,8 +31,9 @@ class Configuracion(unittest.TestCase):
             self.assertEqual(lv._sha(ROOT / path), sha, path)
 
     def test_71_territorios_52_nacionales_19_autonomicas(self):
-        rows = self.cfg["territorios"]
+        rows = [r for r in self.cfg["territorios"] if r["ambito"] != lv.VARIANT]
         self.assertEqual(len(rows), 71)
+        self.assertEqual(self.cfg["totales"][lv.VARIANT], 49)
         self.assertEqual(len({r["territory_id"] for r in rows}), 71)
         self.assertEqual(sum(r["ambito"] == "nacional" for r in rows), 52)
         self.assertEqual(sorted(r["codigo"] for r in rows if r["ambito"] == "autonómica"),

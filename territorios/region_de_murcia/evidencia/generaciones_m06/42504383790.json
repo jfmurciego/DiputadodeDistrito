@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13627614200,
+      "artifact_name": "ddd-audit-42504383790",
+      "artifact_sha256": "bb818520cd75e43e6a5a323080aad4bafe14ec4dd19e071d3207852781133be9",
+      "run_id": 42504383790,
+      "size_in_bytes": 12680
+    },
+    "m04": {
+      "artifact_id": 13627053790,
+      "artifact_name": "ddd-state-42504383790-M04",
+      "artifact_sha256": "7267ca473ddb28575456ae76e3a4e53c97319d9625cf8a2b47b8c82103f98f39",
+      "run_id": 42504383790,
+      "size_in_bytes": 80343766
+    },
+    "m05": {
+      "artifact_id": 13627991685,
+      "artifact_name": "ddd-state-42504383790-M05",
+      "artifact_sha256": "4b84476d9a9e8ebf50cbf551ebb8b2566026584cb6e5cf80f6b4a7b11a2ad799",
+      "run_id": 42504383790,
+      "size_in_bytes": 81636038
+    },
+    "m06": {
+      "artifact_id": 13627509259,
+      "artifact_name": "ddd-state-42504383790-M06",
+      "artifact_sha256": "9e1a1e85596b29ef06262b9437376a4f7ff51c6e0db79a59399c6cacdfcd82ce",
+      "run_id": 42504383790,
+      "size_in_bytes": 83401484
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "10fe6424e02e950ffc4bdb00888544feb55191e7ca5929f35a9eb177f8daab9e",
+        "size_in_bytes": 482
+      },
+      "optimization_execution.json": {
+        "sha256": "93064287def83c078365dfdc6f39486ad9a7f196e38459d16ab798cbfc4d1c36",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "d15cd8d16d92aca5f48bff83dc792b1f4df5f45d2bdff6c49a8160365310f14c",
+        "size_in_bytes": 1320
+      },
+      "region_de_murcia_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "cf20e12dcea712a0e4a1632243d5c4e3dc66452988cfdaaf54c0c215f263c5f5",
+        "size_in_bytes": 159286
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "d15cd8d16d92aca5f48bff83dc792b1f4df5f45d2bdff6c49a8160365310f14c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/region_de_murcia/config/region_de_murcia_2025.yaml",
+    "sha256": "5381f9d24b6bfb11124b6adff946c381799c404bc41ff88bef556bc449caa989"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "c83ffa6c52644338d76b9fd163e9737fe96a3273d2d6a40e3bf1dbe1aaeaf779",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "77333d60afad865e557827c68afd990e8e6c9909",
+    "edition": "2025",
+    "territory_id": "region_de_murcia",
+    "territory_name": "Región de Murcia",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42504383790,
+    "workflow_sha": "77333d60afad865e557827c68afd990e8e6c9909"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13627053790,
+      "artifact_name": "ddd-state-42504383790-M04",
+      "artifact_sha256": "7267ca473ddb28575456ae76e3a4e53c97319d9625cf8a2b47b8c82103f98f39",
+      "run_id": 42504383790,
+      "size_in_bytes": 80343766
+    },
+    "source_manifest_sha256": "f72b37cc4ca088a8fb1bcdf35d14cc58d8dc28ef9cc4031092124188c521fae9",
+    "source_package_artifact": {
+      "artifact_id": 12855927231,
+      "artifact_name": "ddd-source-package-region_de_murcia-2025-40773421805",
+      "artifact_sha256": "c372f56285f705141729d9a63dedf5c0d2b94c1dcd3e7485c2d77932d1497ef5",
+      "run_id": 40773421805,
+      "size_in_bytes": 77732856
+    }
+  },
+  "manifest_sha256": "ae41381733fc3f31fab03568fc8c7fbfbcd0f27c51c1cc9ab5c1e67eea4365d3",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

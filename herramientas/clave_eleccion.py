@@ -2,7 +2,7 @@
 """Clave de elección y expansión elección → territorios.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.1 · FECHA: 2026-11-01 · ESTADO: candidato
+VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
 QUÉ HACE: define la clave `ES-<ámbito>-[<unidad>-]<AAAAMMDD>` y la resuelve contra el registro electoral.
   - Ámbito NAC (Congreso): unidad = número INE de provincia (canónico, D-2) o letras de matrícula (alias).
     `ES-NAC-20230723` es la elección entera (todas sus provincias); `ES-NAC-22-20230723` = `ES-NAC-HU-20230723`.
@@ -14,7 +14,9 @@ QUÉ HACE: define la clave `ES-<ámbito>-[<unidad>-]<AAAAMMDD>` y la resuelve co
 NO HACE: lanzar ejecuciones. El plan que imprime lo consume `.github/workflows/activacion-por-eleccion.yml`.
 CAMBIOS 1.0.1: D-2 confirmada (INE canónico); solo matrículas en español, las del catálogo maestro
   (PM, GE, OR…); IB, GI u OU se rechazan.
-ANTERIOR: legacy/herramientas/clave_eleccion_v1.0.0_20261101.py
+CAMBIOS 1.1.0: T-102, producto paralelo «Congreso 350» (pilot_code Rnn, variant congreso_350): clave
+  `ES-NAC-R<CPRO>-AAAAMMDD`; la elección entera (`ES-NAC-AAAAMMDD`) no incluye las variantes.
+ANTERIOR: legacy/herramientas/clave_eleccion_v1.0.1_20261101.py
 """
 from __future__ import annotations
 
@@ -80,21 +82,27 @@ def load_units(root: Path = Path(".")) -> list[dict]:
     for tid, row in (registry.get("territories") or {}).items():
         row = row or {}
         pilot = str(row.get("pilot_code") or "")
+        variant = ""
         if re.fullmatch(r"C\d{2}", pilot):
             scope, code = "NAC", pilot[1:]
             aliases = [a for a in [plates.get(str(tid), "")] if a]
+            dispatch = str(row["name"])
+        elif re.fullmatch(r"R\d{2}", pilot):
+            # Congreso 350 (T-102): misma elección, K = escaños reales; unidad propia, sin alias.
+            scope, code, aliases, variant = "NAC", pilot, [], "congreso_350"
             dispatch = str(row["name"])
         elif re.fullmatch(r"\d{2}", str(row.get("codauto") or "")):
             scope, code, aliases = "AUT", str(row["codauto"]), []
             dispatch = f"{row['codauto']} {row['name']}"
         else:
-            raise ClaveError(f"Territorio sin pilot_code Cnn ni CODAUTO: {tid}")
+            raise ClaveError(f"Territorio sin pilot_code Cnn/Rnn ni CODAUTO: {tid}")
         day = date.fromisoformat(str(row["election_date"]))
         units.append({
             "key": f"ES-{scope}-{code}-{day:%Y%m%d}", "scope": scope, "code": code,
             "aliases": [f"ES-{scope}-{a}-{day:%Y%m%d}" for a in dict.fromkeys(aliases)],
             "territory_id": str(tid), "name": str(row["name"]), "dispatch_name": dispatch,
             "election_id": str(row["election_id"]), "election_date": day.isoformat(), "edition": edition,
+            "variant": variant,
         })
     return units
 
@@ -102,6 +110,8 @@ def load_units(root: Path = Path(".")) -> list[dict]:
 def _unit_code(scope: str, unit: str, units: list[dict]) -> str:
     if unit.isdigit():
         return unit.zfill(2)
+    if any(u["scope"] == scope and u["code"] == unit for u in units):
+        return unit
     for u in units:
         if u["scope"] == scope and any(a.split("-")[2] == unit for a in u["aliases"]):
             return u["code"]
@@ -129,7 +139,8 @@ def expand(key: str, units: list[dict], only: list[str] | None = None) -> list[d
     p = parse(key)
     canon = canonical(key, units)
     if p["unit"] is None:
-        rows = [u for u in units if u["scope"] == p["scope"] and u["election_date"] == p["date"]]
+        rows = [u for u in units if u["scope"] == p["scope"] and u["election_date"] == p["date"]
+                and not u.get("variant")]
     else:
         rows = [u for u in units if u["key"] == canon]
     if not rows:

@@ -47,10 +47,10 @@
   }
  },
  "resumen": {
-  "territorios": 70,
-  "productos": 345,
+  "territorios": 71,
+  "productos": 347,
   "errores": 0,
-  "avisos": 118
+  "avisos": 114
  },
  "territorios": {
   "andalucia": {
@@ -3590,6 +3590,50 @@
     }
    ]
   },
+  "congreso_malaga": {
+   "fuente_territorial": {
+    "run_id": "42409615215",
+    "package_sha256": "37e059f70c8e42da32c2a99a8a5c1211175d290abb1b7e12e8ce72fd3819b8f0",
+    "artifact_sha256": "ee2301bea2c6cd972e433c1816e914bd900c09ecc3096756573d3fc9e975e5d3",
+    "territorial_identity_sha256": "8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3",
+    "receipt_path": "territorios/congreso_malaga/evidencia/fuentes_territoriales/2025/8dbc92151224d69a24fad6d6d34bed1d44d3244c358ebb52c3e1831ae6c1a2d3/42409615215/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/congreso_malaga/evidencia/fuentes_electorales/2025/6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905/42489981909/receipt.json",
+    "identity_sha256": "6bfa6549044d57ab94011df2e33d58cd0d1dcb859a117dcf6cd59b818bc07905"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-congreso_malaga-42495070976",
+     "run_id": "42495070976",
+     "vigente": true,
+     "sha256": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d",
+     "copia_git": {
+      "blob_sha": "9fcb5c60190c3362f7bb7dcf46c34768d97396cb",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_malaga-42495070976",
+     "run_id": "42495070976",
+     "vigente": true,
+     "sha256": "a25b2f54c5ceb6f2038b6916ee87101ae6e6fb0cd688f38e27969971f6be0720",
+     "copia_git": {
+      "blob_sha": "0ae1a479c4a0051e27068c0dcc4cfc2290507530",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    }
+   ]
+  },
   "congreso_melilla": {
    "fuente_territorial": {
     "run_id": "41236482346",
@@ -6157,48 +6201,6 @@
  "incoherencias": [
   {
    "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42409615215/ddd-audit-42409615215.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42409615215/ddd-minimo-42409615215-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42418628975/ddd-audit-electoral-42418628975.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42418628975/ddd-minimo-42418628975-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42490329631/ddd-minimo-42490329631-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso_malaga",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "congreso_malaga/42495070976/ddd-minimo-42495070976-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
    "territorio": "nazioenbehatokia",
    "producto": "201111",
    "codigo": "SIN_CONTRASTE_OFICIAL",
@@ -6700,6 +6702,20 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 41622703086: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495070976: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495070976: solo copia git"
   },
   {
    "nivel": "AVISO",

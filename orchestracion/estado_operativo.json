@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T17:14:27.946638+00:00",
+  "generated_at": "2026-11-08T18:18:20.989882+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -23,23 +23,23 @@
     },
     "summary": {
       "admissible": 71,
-      "action_required": 0,
+      "action_required": 49,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 69,
-      "activable": 2,
-      "territorial_pending": 0,
-      "electoral_pending": 0,
+      "activated": 68,
+      "activable": 3,
+      "territorial_pending": 49,
+      "electoral_pending": 49,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
     "activation_chain": {
-      "total": 71,
-      "legislature_resolved": 71,
-      "years_resolved": 71,
+      "total": 120,
+      "legislature_resolved": 120,
+      "years_resolved": 120,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 69
+      "durable_pair": 68
     },
     "territories": [
       {
@@ -269,8 +269,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 40946861866,
-            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/40946861866/receipt.json"
+            "run_id": 42504381511,
+            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/148594b03b43f71955277f2e70e2acca2f61634e57405e13526c26c8876ef393/42504381511/receipt.json"
           }
         },
         "electoral": {
@@ -282,12 +282,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json",
             "pair_sha256": "63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -3662,6 +3662,3044 @@
           "source": "repository_durable_state"
         },
         "next_steps": []
+      },
+      {
+        "territory_id": "congreso350_alava",
+        "name": "Congreso 350 Álava",
+        "display_name": "Nacional 350 Álava",
+        "election": {
+          "election_id": "congreso350_alava_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_albacete",
+        "name": "Congreso 350 Albacete",
+        "display_name": "Nacional 350 Albacete",
+        "election": {
+          "election_id": "congreso350_albacete_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_alicante",
+        "name": "Congreso 350 Alicante",
+        "display_name": "Nacional 350 Alicante",
+        "election": {
+          "election_id": "congreso350_alicante_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_almeria",
+        "name": "Congreso 350 Almería",
+        "display_name": "Nacional 350 Almería",
+        "election": {
+          "election_id": "congreso350_almeria_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_avila",
+        "name": "Congreso 350 Ávila",
+        "display_name": "Nacional 350 Ávila",
+        "election": {
+          "election_id": "congreso350_avila_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_badajoz",
+        "name": "Congreso 350 Badajoz",
+        "display_name": "Nacional 350 Badajoz",
+        "election": {
+          "election_id": "congreso350_badajoz_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_barcelona",
+        "name": "Congreso 350 Barcelona",
+        "display_name": "Nacional 350 Barcelona",
+        "election": {
+          "election_id": "congreso350_barcelona_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_burgos",
+        "name": "Congreso 350 Burgos",
+        "display_name": "Nacional 350 Burgos",
+        "election": {
+          "election_id": "congreso350_burgos_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_caceres",
+        "name": "Congreso 350 Cáceres",
+        "display_name": "Nacional 350 Cáceres",
+        "election": {
+          "election_id": "congreso350_caceres_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_cadiz",
+        "name": "Congreso 350 Cádiz",
+        "display_name": "Nacional 350 Cádiz",
+        "election": {
+          "election_id": "congreso350_cadiz_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_castellon",
+        "name": "Congreso 350 Castellón",
+        "display_name": "Nacional 350 Castellón",
+        "election": {
+          "election_id": "congreso350_castellon_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_ciudad_real",
+        "name": "Congreso 350 Ciudad Real",
+        "display_name": "Nacional 350 Ciudad Real",
+        "election": {
+          "election_id": "congreso350_ciudad_real_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_cordoba",
+        "name": "Congreso 350 Córdoba",
+        "display_name": "Nacional 350 Córdoba",
+        "election": {
+          "election_id": "congreso350_cordoba_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_la_coruna",
+        "name": "Congreso 350 La Coruña",
+        "display_name": "Nacional 350 La Coruña",
+        "election": {
+          "election_id": "congreso350_la_coruna_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_cuenca",
+        "name": "Congreso 350 Cuenca",
+        "display_name": "Nacional 350 Cuenca",
+        "election": {
+          "election_id": "congreso350_cuenca_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_gerona",
+        "name": "Congreso 350 Gerona",
+        "display_name": "Nacional 350 Gerona",
+        "election": {
+          "election_id": "congreso350_gerona_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_granada",
+        "name": "Congreso 350 Granada",
+        "display_name": "Nacional 350 Granada",
+        "election": {
+          "election_id": "congreso350_granada_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_guadalajara",
+        "name": "Congreso 350 Guadalajara",
+        "display_name": "Nacional 350 Guadalajara",
+        "election": {
+          "election_id": "congreso350_guadalajara_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_guipuzcoa",
+        "name": "Congreso 350 Guipúzcoa",
+        "display_name": "Nacional 350 Guipúzcoa",
+        "election": {
+          "election_id": "congreso350_guipuzcoa_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_huelva",
+        "name": "Congreso 350 Huelva",
+        "display_name": "Nacional 350 Huelva",
+        "election": {
+          "election_id": "congreso350_huelva_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_huesca",
+        "name": "Congreso 350 Huesca",
+        "display_name": "Nacional 350 Huesca",
+        "election": {
+          "election_id": "congreso350_huesca_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_jaen",
+        "name": "Congreso 350 Jaén",
+        "display_name": "Nacional 350 Jaén",
+        "election": {
+          "election_id": "congreso350_jaen_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_leon",
+        "name": "Congreso 350 León",
+        "display_name": "Nacional 350 León",
+        "election": {
+          "election_id": "congreso350_leon_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_lerida",
+        "name": "Congreso 350 Lérida",
+        "display_name": "Nacional 350 Lérida",
+        "election": {
+          "election_id": "congreso350_lerida_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_la_rioja",
+        "name": "Congreso 350 La Rioja",
+        "display_name": "Nacional 350 La Rioja",
+        "election": {
+          "election_id": "congreso350_la_rioja_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_lugo",
+        "name": "Congreso 350 Lugo",
+        "display_name": "Nacional 350 Lugo",
+        "election": {
+          "election_id": "congreso350_lugo_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_madrid",
+        "name": "Congreso 350 Madrid",
+        "display_name": "Nacional 350 Madrid",
+        "election": {
+          "election_id": "congreso350_madrid_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_malaga",
+        "name": "Congreso 350 Málaga",
+        "display_name": "Nacional 350 Málaga",
+        "election": {
+          "election_id": "congreso350_malaga_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_murcia",
+        "name": "Congreso 350 Murcia",
+        "display_name": "Nacional 350 Murcia",
+        "election": {
+          "election_id": "congreso350_murcia_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_navarra",
+        "name": "Congreso 350 Navarra",
+        "display_name": "Nacional 350 Navarra",
+        "election": {
+          "election_id": "congreso350_navarra_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_orense",
+        "name": "Congreso 350 Orense",
+        "display_name": "Nacional 350 Orense",
+        "election": {
+          "election_id": "congreso350_orense_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_asturias",
+        "name": "Congreso 350 Asturias",
+        "display_name": "Nacional 350 Asturias",
+        "election": {
+          "election_id": "congreso350_asturias_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_palencia",
+        "name": "Congreso 350 Palencia",
+        "display_name": "Nacional 350 Palencia",
+        "election": {
+          "election_id": "congreso350_palencia_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_pontevedra",
+        "name": "Congreso 350 Pontevedra",
+        "display_name": "Nacional 350 Pontevedra",
+        "election": {
+          "election_id": "congreso350_pontevedra_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_salamanca",
+        "name": "Congreso 350 Salamanca",
+        "display_name": "Nacional 350 Salamanca",
+        "election": {
+          "election_id": "congreso350_salamanca_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_cantabria",
+        "name": "Congreso 350 Cantabria",
+        "display_name": "Nacional 350 Cantabria",
+        "election": {
+          "election_id": "congreso350_cantabria_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_segovia",
+        "name": "Congreso 350 Segovia",
+        "display_name": "Nacional 350 Segovia",
+        "election": {
+          "election_id": "congreso350_segovia_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_sevilla",
+        "name": "Congreso 350 Sevilla",
+        "display_name": "Nacional 350 Sevilla",
+        "election": {
+          "election_id": "congreso350_sevilla_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_soria",
+        "name": "Congreso 350 Soria",
+        "display_name": "Nacional 350 Soria",
+        "election": {
+          "election_id": "congreso350_soria_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_tarragona",
+        "name": "Congreso 350 Tarragona",
+        "display_name": "Nacional 350 Tarragona",
+        "election": {
+          "election_id": "congreso350_tarragona_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_teruel",
+        "name": "Congreso 350 Teruel",
+        "display_name": "Nacional 350 Teruel",
+        "election": {
+          "election_id": "congreso350_teruel_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_toledo",
+        "name": "Congreso 350 Toledo",
+        "display_name": "Nacional 350 Toledo",
+        "election": {
+          "election_id": "congreso350_toledo_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_valencia",
+        "name": "Congreso 350 Valencia",
+        "display_name": "Nacional 350 Valencia",
+        "election": {
+          "election_id": "congreso350_valencia_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_valladolid",
+        "name": "Congreso 350 Valladolid",
+        "display_name": "Nacional 350 Valladolid",
+        "election": {
+          "election_id": "congreso350_valladolid_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_vizcaya",
+        "name": "Congreso 350 Vizcaya",
+        "display_name": "Nacional 350 Vizcaya",
+        "election": {
+          "election_id": "congreso350_vizcaya_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_zamora",
+        "name": "Congreso 350 Zamora",
+        "display_name": "Nacional 350 Zamora",
+        "election": {
+          "election_id": "congreso350_zamora_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_zaragoza",
+        "name": "Congreso 350 Zaragoza",
+        "display_name": "Nacional 350 Zaragoza",
+        "election": {
+          "election_id": "congreso350_zaragoza_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_ceuta",
+        "name": "Congreso 350 Ceuta",
+        "display_name": "Nacional 350 Ceuta",
+        "election": {
+          "election_id": "congreso350_ceuta_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
+      },
+      {
+        "territory_id": "congreso350_melilla",
+        "name": "Congreso 350 Melilla",
+        "display_name": "Nacional 350 Melilla",
+        "election": {
+          "election_id": "congreso350_melilla_2023-07-23",
+          "election_date": "2023-07-23"
+        },
+        "territorial": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "TERRITORIAL_PACKAGE_MISSING",
+          "required": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "selected": {
+            "population_year": 2023,
+            "section_year": 2023
+          },
+          "accredited": {
+            "population_year": null,
+            "section_year": null,
+            "run_id": null,
+            "receipt_path": null
+          }
+        },
+        "electoral": {
+          "status": "NOT_ACCREDITED",
+          "action": "ACQUIRE",
+          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
+          "granularity": "section_party"
+        },
+        "status": "ACTION_REQUIRED",
+        "activation": {
+          "state": "NOT_ACCREDITED",
+          "pair": {
+            "current": false,
+            "receipt_path": null,
+            "pair_sha256": null,
+            "reason": "PAIR_NOT_REGISTERED"
+          }
+        },
+        "activity": {
+          "status": "NOT_OBSERVED",
+          "label": "Sin actividad durable registrada",
+          "source": "repository_durable_state"
+        },
+        "next_steps": [
+          {
+            "domain": "territorial",
+            "planner_action": "ACQUIRE",
+            "reason": "TERRITORIAL_PACKAGE_MISSING"
+          },
+          {
+            "domain": "electoral",
+            "planner_action": "ACQUIRE",
+            "reason": "ELECTORAL_PACKAGE_MISSING"
+          }
+        ]
       }
     ]
   },
@@ -3749,7 +6787,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42497101869,
       "last_run": {
-        "run_id": 40979465420,
+        "run_id": 42497101869,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -3926,11 +6964,11 @@
       "name": "Canarias",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40951280657,
+      "run_id": 42504381511,
       "last_run": {
         "run_id": 41062557004,
         "status": "FAILED",
@@ -3939,15 +6977,15 @@
         "reason": "M04–M06 o certificación territorial (ver log del run)",
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "canarias",
           "edition": "2025",
-          "run_id": 40946861866,
-          "artifact_name": "ddd-source-package-canarias-2025-40946861866",
-          "artifact_sha256": "0a6f07595e77dc010627f81ed2200f1a626c59196a8670627dfe6a7a0f97c3bb",
+          "run_id": 42504381511,
+          "artifact_name": "ddd-source-package-canarias-2025-42504381511",
+          "artifact_sha256": "15d1741f9a9a20768a06ce34dbedf2a8988af703646a7931128fc9343c76b57f",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -3956,13 +6994,13 @@
           "territory_id": "canarias",
           "territory_name": "Canarias",
           "edition": "2025",
-          "run_id": 40951280657,
-          "artifact_name": "ddd-state-40951280657-M06",
-          "artifact_sha256": "625796d5cf68465b21000944dd358bb4409e0b0852644a3507d7e5ad42868629",
-          "source_commit": "e8e26fc88b46331f1269c06c37f6cb05f7faee5c",
+          "run_id": 42504381511,
+          "artifact_name": "ddd-state-42504381511-M06",
+          "artifact_sha256": "f38c0460a9be1c9022dbb71cd9de1bf8a19b55cf7863d17ce2ec0081d2ad9b9d",
+          "source_commit": "4b4f38179844835340f262d68c634155ce98140a",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/40951280657.json"
+          "producer_manifest_path": "territorios/canarias/evidencia/generaciones_m06/42504381511.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -3980,7 +7018,7 @@
       },
       "autonomous_community_code_ine": "05",
       "display_name": "05 Canarias",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "cantabria",
@@ -4479,13 +7517,13 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 40957577850,
+      "run_id": 42504383790,
       "last_run": {
-        "run_id": 41062572613,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 42504383790,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -4505,13 +7543,13 @@
           "territory_id": "region_de_murcia",
           "territory_name": "Región de Murcia",
           "edition": "2025",
-          "run_id": 40945284725,
-          "artifact_name": "ddd-state-40945284725-M06",
-          "artifact_sha256": "f3169dd583c1d7033ff17717bfd6329151d10677c32e590eabbf8fd4c49b5eb1",
-          "source_commit": "e1e61517e07485de592bd76d08327dd788671dce",
+          "run_id": 42504383790,
+          "artifact_name": "ddd-state-42504383790-M06",
+          "artifact_sha256": "9e1a1e85596b29ef06262b9437376a4f7ff51c6e0db79a59399c6cacdfcd82ce",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/40945284725.json"
+          "producer_manifest_path": "territorios/region_de_murcia/evidencia/generaciones_m06/42504383790.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -4520,10 +7558,10 @@
           "territory_id": "region_de_murcia",
           "territory_name": "Región de Murcia",
           "edition": "2025",
-          "run_id": 40957577850,
-          "artifact_name": "ddd-state-40957577850-M08",
-          "artifact_sha256": "dcd9ff153ac52f188edcaa1ab1be953d4811ff184d82bb99fb93ac7d395d329d",
-          "source_commit": "91279b5d50304d55266ccbe31c1d316887b1371c",
+          "run_id": 42504383790,
+          "artifact_name": "ddd-state-42504383790-M08",
+          "artifact_sha256": "bba840cce34a4ec971ec1286851c23ecc65d31b327f927b178eeb5ff1a15d9ec",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "stage": "M08"
         }
       },
@@ -4723,13 +7761,13 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 40784389253,
+      "run_id": 42503542766,
       "last_run": {
-        "run_id": 41062577400,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 42503542766,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -4749,13 +7787,13 @@
           "territory_id": "ceuta",
           "territory_name": "Ceuta",
           "edition": "2025",
-          "run_id": 40784389253,
-          "artifact_name": "ddd-state-40784389253-M06",
-          "artifact_sha256": "94e839301814588b4f9024fc01bc139f8a5338f5abd818f950da8b6500cb8a18",
-          "source_commit": "e7b907ef3fbd14be521147fa44dff965ea20e6b2",
+          "run_id": 42503542766,
+          "artifact_name": "ddd-state-42503542766-M06",
+          "artifact_sha256": "0361ee882860b1409c0f7890426ae7cbc1c6f32389dee80ca63788c5a533d9a8",
+          "source_commit": "901bee97ee99deb02c211c9cb1732f19bec759c6",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/ceuta/evidencia/generaciones_m06/40784389253.json"
+          "producer_manifest_path": "territorios/ceuta/evidencia/generaciones_m06/42503542766.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -4764,10 +7802,10 @@
           "territory_id": "ceuta",
           "territory_name": "Ceuta",
           "edition": "2025",
-          "run_id": 40784389253,
-          "artifact_name": "ddd-state-40784389253-M08",
-          "artifact_sha256": "ff0b75c365e0155d738c1693f57d3b6ffc1a88ff7f9ec9f7e480d1fc35e1728d",
-          "source_commit": "e7b907ef3fbd14be521147fa44dff965ea20e6b2",
+          "run_id": 42503542766,
+          "artifact_name": "ddd-state-42503542766-M08",
+          "artifact_sha256": "7c0d666c68462d84ea51f5b29dc49d5d1c7639a50045e6bb0c950de8f2119f32",
+          "source_commit": "901bee97ee99deb02c211c9cb1732f19bec759c6",
           "stage": "M08"
         }
       },
@@ -4784,13 +7822,13 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS",
-      "run_id": 40840795932,
+      "run_id": 42504386196,
       "last_run": {
-        "run_id": 41062581404,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 42504386196,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
       "stage": "M08",
@@ -4810,13 +7848,13 @@
           "territory_id": "melilla",
           "territory_name": "Melilla",
           "edition": "2025",
-          "run_id": 40840795932,
-          "artifact_name": "ddd-state-40840795932-M06",
-          "artifact_sha256": "f8c2d14fcef4cb294542d11f604c5ec1c413b6119a0b91102ebed22edbdee291",
-          "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
+          "run_id": 42504386196,
+          "artifact_name": "ddd-state-42504386196-M06",
+          "artifact_sha256": "a7e973b0bb1e66257f397a96fc91a5a8cacf5a427f8be98ee85641b5eddb57f6",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "decision": "PASS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/40840795932.json"
+          "producer_manifest_path": "territorios/melilla/evidencia/generaciones_m06/42504386196.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -4825,10 +7863,10 @@
           "territory_id": "melilla",
           "territory_name": "Melilla",
           "edition": "2025",
-          "run_id": 40840795932,
-          "artifact_name": "ddd-state-40840795932-M08",
-          "artifact_sha256": "a2b3db6b89c06d15408affa105c73424bfdbb3787f40f9f6abaf939b57c3b06d",
-          "source_commit": "a1c0f9e35fc44b7b795b27f9d9002ecb2e10dc88",
+          "run_id": 42504386196,
+          "artifact_name": "ddd-state-42504386196-M08",
+          "artifact_sha256": "c053eba12b2a890fa9c4638e8e94e55075e56bf51251ad8d65d0cc5e57015a89",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "stage": "M08"
         }
       },
@@ -6370,18 +9408,14 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41294822309,
+      "run_id": 42504388624,
       "last_run": {
-        "run_id": 41294822309,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
+        "run_id": 42504388624,
+        "status": "SUCCESS",
+        "completion_status": "COMPLETE",
         "stopped_at": null,
         "reason": null,
-        "publication": "not_requested",
-        "superseded_failure": {
-          "stopped_at": "05 · Publicación del Visor",
-          "reason": "ver log del run"
-        }
+        "publication": "not_requested"
       },
       "stage": "M08",
       "edition": "2025",
@@ -6400,13 +9434,13 @@
           "territory_id": "congreso_la_rioja",
           "territory_name": "Congreso La Rioja",
           "edition": "2025",
-          "run_id": 41240637295,
-          "artifact_name": "ddd-state-41240637295-M06",
-          "artifact_sha256": "131edf85a6971ac19919e338ba427f61f6a32854a10bfa3b1cb670843fbb921c",
-          "source_commit": "1aad0b14247b2e1cc5409fdd9d668abc3ecad475",
+          "run_id": 42504388624,
+          "artifact_name": "ddd-state-42504388624-M06",
+          "artifact_sha256": "51330170423ceacd4301d78cff951c59cd392e3361bd38d85128bf55bf15533f",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/41240637295.json"
+          "producer_manifest_path": "territorios/congreso_la_rioja/evidencia/generaciones_m06/42504388624.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -6415,10 +9449,10 @@
           "territory_id": "congreso_la_rioja",
           "territory_name": "Congreso La Rioja",
           "edition": "2025",
-          "run_id": 41294822309,
-          "artifact_name": "ddd-state-41294822309-M08",
-          "artifact_sha256": "7dcb4bc1f5bc239e617ec01c309df292c27a2196302e73d3a4625b6b4adc78f2",
-          "source_commit": "8284cef381e9fdb7d2c7131a629efea0d6afbafe",
+          "run_id": 42504388624,
+          "artifact_name": "ddd-state-42504388624-M08",
+          "artifact_sha256": "80536ba8a09571415d87652803927a0672ac61fad6a3efb3110904b88184421b",
+          "source_commit": "77333d60afad865e557827c68afd990e8e6c9909",
           "stage": "M08"
         }
       },
@@ -7608,7 +10642,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 41335936727,
       "last_run": {
-        "run_id": 41335936727,
+        "run_id": 42502622738,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -8023,16 +11057,1142 @@
       "autonomous_community_code_ine": "C52",
       "display_name": "Nacional Melilla",
       "next_step": "—"
+    },
+    {
+      "territory_id": "congreso350_alava",
+      "name": "Nacional 350 Álava",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R01",
+      "display_name": "Nacional 350 Álava",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_albacete",
+      "name": "Nacional 350 Albacete",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R02",
+      "display_name": "Nacional 350 Albacete",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_alicante",
+      "name": "Nacional 350 Alicante",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R03",
+      "display_name": "Nacional 350 Alicante",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_almeria",
+      "name": "Nacional 350 Almería",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R04",
+      "display_name": "Nacional 350 Almería",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_avila",
+      "name": "Nacional 350 Ávila",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R05",
+      "display_name": "Nacional 350 Ávila",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_badajoz",
+      "name": "Nacional 350 Badajoz",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R06",
+      "display_name": "Nacional 350 Badajoz",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_barcelona",
+      "name": "Nacional 350 Barcelona",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R08",
+      "display_name": "Nacional 350 Barcelona",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_burgos",
+      "name": "Nacional 350 Burgos",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R09",
+      "display_name": "Nacional 350 Burgos",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_caceres",
+      "name": "Nacional 350 Cáceres",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R10",
+      "display_name": "Nacional 350 Cáceres",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_cadiz",
+      "name": "Nacional 350 Cádiz",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R11",
+      "display_name": "Nacional 350 Cádiz",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_castellon",
+      "name": "Nacional 350 Castellón",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R12",
+      "display_name": "Nacional 350 Castellón",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_ciudad_real",
+      "name": "Nacional 350 Ciudad Real",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R13",
+      "display_name": "Nacional 350 Ciudad Real",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_cordoba",
+      "name": "Nacional 350 Córdoba",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R14",
+      "display_name": "Nacional 350 Córdoba",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_la_coruna",
+      "name": "Nacional 350 La Coruña",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R15",
+      "display_name": "Nacional 350 La Coruña",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_cuenca",
+      "name": "Nacional 350 Cuenca",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R16",
+      "display_name": "Nacional 350 Cuenca",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_gerona",
+      "name": "Nacional 350 Gerona",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R17",
+      "display_name": "Nacional 350 Gerona",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_granada",
+      "name": "Nacional 350 Granada",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R18",
+      "display_name": "Nacional 350 Granada",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_guadalajara",
+      "name": "Nacional 350 Guadalajara",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R19",
+      "display_name": "Nacional 350 Guadalajara",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_guipuzcoa",
+      "name": "Nacional 350 Guipúzcoa",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R20",
+      "display_name": "Nacional 350 Guipúzcoa",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_huelva",
+      "name": "Nacional 350 Huelva",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R21",
+      "display_name": "Nacional 350 Huelva",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_huesca",
+      "name": "Nacional 350 Huesca",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R22",
+      "display_name": "Nacional 350 Huesca",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_jaen",
+      "name": "Nacional 350 Jaén",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R23",
+      "display_name": "Nacional 350 Jaén",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_leon",
+      "name": "Nacional 350 León",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R24",
+      "display_name": "Nacional 350 León",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_lerida",
+      "name": "Nacional 350 Lérida",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R25",
+      "display_name": "Nacional 350 Lérida",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_la_rioja",
+      "name": "Nacional 350 La Rioja",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R26",
+      "display_name": "Nacional 350 La Rioja",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_lugo",
+      "name": "Nacional 350 Lugo",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R27",
+      "display_name": "Nacional 350 Lugo",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_madrid",
+      "name": "Nacional 350 Madrid",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R28",
+      "display_name": "Nacional 350 Madrid",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_malaga",
+      "name": "Nacional 350 Málaga",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R29",
+      "display_name": "Nacional 350 Málaga",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_murcia",
+      "name": "Nacional 350 Murcia",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R30",
+      "display_name": "Nacional 350 Murcia",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_navarra",
+      "name": "Nacional 350 Navarra",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R31",
+      "display_name": "Nacional 350 Navarra",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_orense",
+      "name": "Nacional 350 Orense",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R32",
+      "display_name": "Nacional 350 Orense",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_asturias",
+      "name": "Nacional 350 Asturias",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R33",
+      "display_name": "Nacional 350 Asturias",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_palencia",
+      "name": "Nacional 350 Palencia",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R34",
+      "display_name": "Nacional 350 Palencia",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_pontevedra",
+      "name": "Nacional 350 Pontevedra",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R36",
+      "display_name": "Nacional 350 Pontevedra",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_salamanca",
+      "name": "Nacional 350 Salamanca",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R37",
+      "display_name": "Nacional 350 Salamanca",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_cantabria",
+      "name": "Nacional 350 Cantabria",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R39",
+      "display_name": "Nacional 350 Cantabria",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_segovia",
+      "name": "Nacional 350 Segovia",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R40",
+      "display_name": "Nacional 350 Segovia",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_sevilla",
+      "name": "Nacional 350 Sevilla",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R41",
+      "display_name": "Nacional 350 Sevilla",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_soria",
+      "name": "Nacional 350 Soria",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R42",
+      "display_name": "Nacional 350 Soria",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_tarragona",
+      "name": "Nacional 350 Tarragona",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R43",
+      "display_name": "Nacional 350 Tarragona",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_teruel",
+      "name": "Nacional 350 Teruel",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R44",
+      "display_name": "Nacional 350 Teruel",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_toledo",
+      "name": "Nacional 350 Toledo",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R45",
+      "display_name": "Nacional 350 Toledo",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_valencia",
+      "name": "Nacional 350 Valencia",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R46",
+      "display_name": "Nacional 350 Valencia",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_valladolid",
+      "name": "Nacional 350 Valladolid",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R47",
+      "display_name": "Nacional 350 Valladolid",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_vizcaya",
+      "name": "Nacional 350 Vizcaya",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R48",
+      "display_name": "Nacional 350 Vizcaya",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_zamora",
+      "name": "Nacional 350 Zamora",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R49",
+      "display_name": "Nacional 350 Zamora",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_zaragoza",
+      "name": "Nacional 350 Zaragoza",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R50",
+      "display_name": "Nacional 350 Zaragoza",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_ceuta",
+      "name": "Nacional 350 Ceuta",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R51",
+      "display_name": "Nacional 350 Ceuta",
+      "next_step": "preparar fuentes territoriales"
+    },
+    {
+      "territory_id": "congreso350_melilla",
+      "name": "Nacional 350 Melilla",
+      "ft": "yellow",
+      "g": "yellow",
+      "fe": "gray",
+      "re": "gray",
+      "status": "Validación pendiente",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "last_run": {},
+      "stage": null,
+      "edition": "2025",
+      "phase_evidence": {
+        "territorial_source": null,
+        "territorial_product": null,
+        "electoral_source": null,
+        "electoral_product": null
+      },
+      "autonomous_community_code_ine": "R52",
+      "display_name": "Nacional 350 Melilla",
+      "next_step": "preparar fuentes territoriales"
     }
   ],
   "kpis": {
-    "complete": 70,
+    "complete": 69,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
       "03 Principado de Asturias",
       "04 Islas Baleares",
-      "05 Canarias",
       "06 Cantabria",
       "08 Castilla-La Mancha",
       "09 Cataluña",
@@ -8249,30 +12409,128 @@
     ],
     "ready": 0,
     "ready_names": [],
-    "pending": 0,
-    "pending_names": [],
+    "pending": 49,
+    "pending_names": [
+      "Nacional 350 Álava",
+      "Nacional 350 Albacete",
+      "Nacional 350 Alicante",
+      "Nacional 350 Almería",
+      "Nacional 350 Ávila",
+      "Nacional 350 Badajoz",
+      "Nacional 350 Barcelona",
+      "Nacional 350 Burgos",
+      "Nacional 350 Cáceres",
+      "Nacional 350 Cádiz",
+      "Nacional 350 Castellón",
+      "Nacional 350 Ciudad Real",
+      "Nacional 350 Córdoba",
+      "Nacional 350 La Coruña",
+      "Nacional 350 Cuenca",
+      "Nacional 350 Gerona",
+      "Nacional 350 Granada",
+      "Nacional 350 Guadalajara",
+      "Nacional 350 Guipúzcoa",
+      "Nacional 350 Huelva",
+      "Nacional 350 Huesca",
+      "Nacional 350 Jaén",
+      "Nacional 350 León",
+      "Nacional 350 Lérida",
+      "Nacional 350 La Rioja",
+      "Nacional 350 Lugo",
+      "Nacional 350 Madrid",
+      "Nacional 350 Málaga",
+      "Nacional 350 Murcia",
+      "Nacional 350 Navarra",
+      "Nacional 350 Orense",
+      "Nacional 350 Asturias",
+      "Nacional 350 Palencia",
+      "Nacional 350 Pontevedra",
+      "Nacional 350 Salamanca",
+      "Nacional 350 Cantabria",
+      "Nacional 350 Segovia",
+      "Nacional 350 Sevilla",
+      "Nacional 350 Soria",
+      "Nacional 350 Tarragona",
+      "Nacional 350 Teruel",
+      "Nacional 350 Toledo",
+      "Nacional 350 Valencia",
+      "Nacional 350 Valladolid",
+      "Nacional 350 Vizcaya",
+      "Nacional 350 Zamora",
+      "Nacional 350 Zaragoza",
+      "Nacional 350 Ceuta",
+      "Nacional 350 Melilla"
+    ],
     "blocked": 0,
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "aragon",
-    "name": "Aragón",
-    "display_name": "02 Aragón",
-    "autonomous_community_code_ine": "02",
-    "run_id": 42497101869,
+    "territory_id": "congreso_la_rioja",
+    "name": "Nacional La Rioja",
+    "display_name": "Nacional La Rioja",
+    "autonomous_community_code_ine": "C26",
+    "run_id": 42504388624,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
   },
   "alerts": [
     {
+      "territory": "05 Canarias",
+      "territory_id": "canarias",
+      "autonomous_community_code_ine": "05",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
       "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional 350 Álava",
+      "territory_id": "congreso350_alava",
+      "autonomous_community_code_ine": "R01",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Albacete",
+      "territory_id": "congreso350_albacete",
+      "autonomous_community_code_ine": "R02",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Alicante",
+      "territory_id": "congreso350_alicante",
+      "autonomous_community_code_ine": "R03",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Almería",
+      "territory_id": "congreso350_almeria",
+      "autonomous_community_code_ine": "R04",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Ávila",
+      "territory_id": "congreso350_avila",
+      "autonomous_community_code_ine": "R05",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Nacional 350 Badajoz",
+      "territory_id": "congreso350_badajoz",
+      "autonomous_community_code_ine": "R06",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
+    {
+      "territory": "05 Canarias",
+      "territory_id": "canarias",
+      "autonomous_community_code_ine": "05",
+      "action": "preparar fuentes electorales"
+    },
     {
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",

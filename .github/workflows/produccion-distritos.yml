@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.6
+# VERSIÓN: 8.1.7
+# CAMBIOS 8.1.7: T-102: selector con los 49 territorios «Congreso 350 <provincia>» (K = escaños reales de 2023).
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
-# FECHA: 2026-10-29
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
 # CAMBIOS: "Resolver paquete territorial preparado" usa la declaración que acredita el catálogo (territorial_source_declaration) y solo recurre a config/fuentes_oficiales.yaml si el catálogo no fija ninguna.
@@ -11,7 +12,7 @@
 # CAMBIOS 8.1.4: alta de 48 provincias del Congreso con herramientas/generar_provincias_congreso.py (K del reparto N06).
 # CAMBIOS 8.1.5: provincia de Santa Cruz de Tenerife con partición por islas (Tenerife y grupo occidental).
 # CAMBIOS 8.1.6: Baleares y Las Palmas con islas agrupadas y reparto fijado por el propietario.
-# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.5_islas_20261031.yml
+# ANTERIOR: legacy/workflows/produccion-distritos_v8.1.6_20261108.yml
 # MOTIVO: la Comunidad Valenciana acredita su declaración en evidencia versionada; la ruta fija leía config/fuentes_oficiales.yaml sin años y bloqueaba el run 40784680666.
 name: 02 Generación de Distritos Autonómicos
 
@@ -112,6 +113,55 @@ on:
           - Congreso Zaragoza
           - Congreso Ceuta
           - Congreso Melilla
+          - Congreso 350 Álava
+          - Congreso 350 Albacete
+          - Congreso 350 Alicante
+          - Congreso 350 Almería
+          - Congreso 350 Ávila
+          - Congreso 350 Badajoz
+          - Congreso 350 Barcelona
+          - Congreso 350 Burgos
+          - Congreso 350 Cáceres
+          - Congreso 350 Cádiz
+          - Congreso 350 Castellón
+          - Congreso 350 Ciudad Real
+          - Congreso 350 Córdoba
+          - Congreso 350 La Coruña
+          - Congreso 350 Cuenca
+          - Congreso 350 Gerona
+          - Congreso 350 Granada
+          - Congreso 350 Guadalajara
+          - Congreso 350 Guipúzcoa
+          - Congreso 350 Huelva
+          - Congreso 350 Huesca
+          - Congreso 350 Jaén
+          - Congreso 350 León
+          - Congreso 350 Lérida
+          - Congreso 350 La Rioja
+          - Congreso 350 Lugo
+          - Congreso 350 Madrid
+          - Congreso 350 Málaga
+          - Congreso 350 Murcia
+          - Congreso 350 Navarra
+          - Congreso 350 Orense
+          - Congreso 350 Asturias
+          - Congreso 350 Palencia
+          - Congreso 350 Pontevedra
+          - Congreso 350 Salamanca
+          - Congreso 350 Cantabria
+          - Congreso 350 Segovia
+          - Congreso 350 Sevilla
+          - Congreso 350 Soria
+          - Congreso 350 Tarragona
+          - Congreso 350 Teruel
+          - Congreso 350 Toledo
+          - Congreso 350 Valencia
+          - Congreso 350 Valladolid
+          - Congreso 350 Vizcaya
+          - Congreso 350 Zamora
+          - Congreso 350 Zaragoza
+          - Congreso 350 Ceuta
+          - Congreso 350 Melilla
       data_edition:
         description: Edición de datos
         required: true

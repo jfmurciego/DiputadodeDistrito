@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.193
+Versión: 1.0.194
 Fecha: 2026-11-08
-Alcance: T-104 — Estudio interno: Valencia, desajuste de secciones ZIP 2023 ↔ M06
+Alcance: T-102 — Congreso 350: 49 territorios paralelos con K = escaños reales de 2023
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t104-estudio-valencia-seccionado.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.192_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t102-congreso-350.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.193_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.192_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.194 · [2026-11-08 — T-102 — Congreso 350: 49 territorios paralelos con K = escaños reales de 2023](registro/2026-11-08_t102-congreso-350.md)
 - 1.0.193 · [2026-11-08 — T-104 — Estudio interno: Valencia, desajuste de secciones ZIP 2023 ↔ M06](registro/2026-11-08_t104-estudio-valencia-seccionado.md)
 - 1.0.192 · [2026-11-08 — T-104 — Partida contenida en un distrito fuera del tope D-17; Valencia sin caso aparte](registro/2026-11-08_t104-contenida-distrito.md)
 - 1.0.191 · [2026-11-08 — T-97 — Aplicar D-20 a la tabla de siglas (83 filas BAJA → DECIDIDA)](registro/2026-11-08_claude-t97b-aplicar-d20.md)
