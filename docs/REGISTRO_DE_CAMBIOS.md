@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.191
+Versión: 1.0.192
 Fecha: 2026-11-08
-Alcance: T-97 — Aplicar D-20 a la tabla de siglas (83 filas BAJA → DECIDIDA)
+Alcance: T-104 — Partida contenida en un distrito fuera del tope D-17; Valencia sin caso aparte
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_claude-t97b-aplicar-d20.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.190_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t104-contenida-distrito.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.191_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.190_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.192 · [2026-11-08 — T-104 — Partida contenida en un distrito fuera del tope D-17; Valencia sin caso aparte](registro/2026-11-08_t104-contenida-distrito.md)
 - 1.0.191 · [2026-11-08 — T-97 — Aplicar D-20 a la tabla de siglas (83 filas BAJA → DECIDIDA)](registro/2026-11-08_claude-t97b-aplicar-d20.md)
 - 1.0.190 · [2026-11-08 — T-84 — Visor Nacional: encuadre móvil y atajo a Canarias](registro/2026-11-08_t84-nacional-movil.md)
 - 1.0.189 · [2026-11-08 — T-103 — Plan: secciones recodificadas en el archivo en origen](registro/2026-11-08_plan-t103.md)
