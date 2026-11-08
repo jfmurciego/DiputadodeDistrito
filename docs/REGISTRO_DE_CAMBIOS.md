@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.161
+Versión: 1.0.162
 Fecha: 2026-11-08
-Alcance: T-85 — Plan: peso de la equivalencia de secciones (D-13)
+Alcance: T-90 — Plan: preparar la incorporación de las generales del 29-11-2026
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_plan-d13.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.160_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_plan-t90.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.161_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.160_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.162 · [2026-11-08 — T-90 — Plan: preparar la incorporación de las generales del 29-11-2026](registro/2026-11-08_plan-t90.md)
 - 1.0.161 · [2026-11-08 — T-85 — Plan: peso de la equivalencia de secciones (D-13)](registro/2026-11-08_plan-d13.md)
 - 1.0.160 · [2026-11-07 — T-81 — Inventario de fuentes del histórico de generales 2011-2023](registro/2026-11-07_t81-inventario-fuentes-historico.md)
 - 1.0.159 · [2026-11-07 — T-91 — Receipts electorales huérfanos (Barcelona, Málaga, Alicante)](registro/2026-11-07_t91-receipts-huerfanos.md)
