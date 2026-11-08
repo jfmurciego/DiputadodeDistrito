@@ -632,5 +632,16 @@
    "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
    "sha256_csv": "6edb3fd88bddbe49dede7b6af11aeab7309ff00cd441c12755fa2fe0e4ae4f6c"
   }
+ },
+ "partidos_runs": {
+  "congreso_ceuta/42496569312": {
+   "territorio": "congreso_ceuta",
+   "run_id": "42496569312",
+   "run_territorial": "42488846588",
+   "sha256_composicion": "0c0276b5b62ca585b38a7d02a1f708155256fe35e9928af939014e3c76c3a7af",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
+   "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
+  }
  }
 }
