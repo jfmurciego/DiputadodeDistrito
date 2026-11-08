@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.28
+Versión: 1.0.29
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-100 (estudio de rotación de distritos para la difusión)
-Anterior: legacy/docs/PLAN_v1.0.27_20261108.md
+Cambios/motivo: D-17 (tolerancia del archivista a desajustes de sección) y T-101
+Anterior: legacy/docs/PLAN_v1.0.28_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -112,6 +112,9 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   temporal y capas ganador por distrito, ganador por sección, rotación y participación; solo división administrativa oficial
   (Estado, comunidades, provincias, municipios, secciones). Comparador lado a lado (opción C) después. Difusión: LinkedIn,
   divulgación y revistas, con el visor estable, `/docs` y el DOI de Zenodo antes de la primera publicación.
+- D-17 (08-11). El archivo en origen (T-72) tolera desajustes de códigos de sección entre el ZIP de Interior y el M06 si no
+  superan el 0,5 % de los votos de la provincia: los reparte con la tabla de T-85 (D-13, población) y lista las secciones en la
+  evidencia. Por encima del tope, fallo estricto.
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
 - C-13 (T-64, #469). Alcance de comunidades de interés con partidos judiciales.
@@ -339,6 +342,7 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Kit en `documentacion_publica/comunicacion/`; nada se publica sin el propietario |
 | T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
 | T-100 | Estudio de rotación para la difusión: con los votos de T-83 (paso B) y las siglas de T-97 aprobadas, cuántos de los 350 distritos cambian de ganador entre las generales 2011-2023, cuáles son fijos y cuáles bisagra, por comunidad y provincia; cifras con fuente y sha256 para la nota de prensa y LinkedIn (T-93) | por abrir (Sonnet), tras T-83 B y la aprobación de T-97 | Estudio en `docs/ESTUDIOS/` y tabla CSV; sin lanzar ni publicar; nada de D'Hondt |
+| T-101 | Archivista con D-17: desajuste de secciones ZIP↔M06 (Málaga, run 42490329631: 2900701022 sin distrito, 2908405001 ausente del ZIP; Alicante y Barcelona, previsiblemente igual); tolerancia ≤ 0,5 % de votos, reparto con la tabla de T-85, lista en la evidencia; tests con el caso de Málaga | por abrir (Opus), ya; toca herramienta compartida | PR con tests; la 00 de Málaga sale verde al relanzarla (Operador) |
 
 Tras T-84 (orden del propietario, 08-11): T-93 → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → primera publicación en LinkedIn (la hace el propietario). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
