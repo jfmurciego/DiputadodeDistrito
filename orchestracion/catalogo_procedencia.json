@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 351,
+  "productos": 353,
   "errores": 0,
-  "avisos": 117
+  "avisos": 118
  },
  "territorios": {
   "andalucia": {
@@ -6192,7 +6192,7 @@
      "producto": "M06",
      "id": "m06-region_de_murcia-40957577850",
      "run_id": "40957577850",
-     "vigente": true,
+     "vigente": false,
      "sha256": "7dc200d1ce33f5c8198245488eb05526a9d92373c9bdcae2cf17bb4b61941a68",
      "copia_git": {
       "blob_sha": "19a0a695d71fff224815427fa7d5e92334d758ba",
@@ -6202,10 +6202,23 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-region_de_murcia-42504383790",
+     "run_id": "42504383790",
+     "vigente": true,
+     "sha256": "35c2f0837991a1f577f139d77039f5ff73f69bd83bd229c8d5587103add03236",
+     "copia_git": {
+      "blob_sha": "4ec350e49243fbc28cad37917fb6c9c80be06a1b",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-region_de_murcia-40957577850",
      "run_id": "40957577850",
-     "vigente": true,
+     "vigente": false,
      "sha256": "e0d338d3ac0d8e2d566695a3e9a0201f643b72554e7f40aa20b55bd0024b70b6",
      "copia_git": {
       "blob_sha": "278a4ee50d621c4363422aa36f0741d455c59c8d",
@@ -6217,6 +6230,19 @@
        "sha256": "dcd9ff153ac52f188edcaa1ab1be953d4811ff184d82bb99fb93ac7d395d329d"
       }
      ],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-region_de_murcia-42504383790",
+     "run_id": "42504383790",
+     "vigente": true,
+     "sha256": "dc2c75bee88fba6f98d39b947e97f57cc3758dcae3dc4c57fd304921b4c8fed7",
+     "copia_git": {
+      "blob_sha": "eb808812580844c01b0600cb3745481f19073a61",
+      "ruta": null
+     },
+     "copias_r2": [],
      "publicacion": "PUBLICABLE"
     },
     {
@@ -7068,7 +7094,14 @@
    "territorio": "region_de_murcia",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 40957577850: solo copia git"
+   "detalle": "run 42504383790: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "region_de_murcia",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42504383790: solo copia git"
   }
  ]
 }
