@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T18:03:37Z",
+  "actualizado_en": "2026-11-08T18:05:34Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -6547,19 +6547,20 @@
       "territorio": "region_de_murcia",
       "url": "r2://ddd-research-archive/region_de_murcia/40957577850/ddd-state-40957577850-M08.zip"
     },
-    "region_de_murcia/42504383790/ddd-minimo-42504383790-M06.zip": {
-      "archivado_en": "2026-11-08T17:58:08Z",
-      "artefacto": "ddd-minimo-42504383790-M06",
-      "artefacto_origen": "ddd-state-42504383790-M06",
-      "artifact_id": 13627509259,
-      "caducidad_original": "2026-11-22T17:53:55Z",
+    "region_de_murcia/42504383790/ddd-minimo-42504383790-M08.zip": {
+      "archivado_en": "2026-11-08T18:05:34Z",
+      "artefacto": "ddd-minimo-42504383790-M08",
+      "artefacto_origen": "ddd-state-42504383790-M08",
+      "artifact_id": 13628127724,
+      "caducidad_original": "2026-11-22T18:04:27Z",
+      "incluye_m06_run": "42504383790",
       "run_id": "42504383790",
-      "sha256": "33c7543f034a4ed192b4d1ce54d729796d4be9de6c4020364ee6d62b0e4d425c",
-      "sha256_estado_original": "9e1a1e85596b29ef06262b9437376a4f7ff51c6e0db79a59399c6cacdfcd82ce",
-      "tamano_bytes": 493534,
-      "tamano_estado_original": 83401484,
+      "sha256": "9806e46f5c14bf545e5c1525b3cf76a28d6aa20a8d731e9ae8d4d3e72d1a2f6c",
+      "sha256_estado_original": "bba840cce34a4ec971ec1286851c23ecc65d31b327f927b178eeb5ff1a15d9ec",
+      "tamano_bytes": 943945,
+      "tamano_estado_original": 85175117,
       "territorio": "region_de_murcia",
-      "url": "r2://ddd-research-archive/region_de_murcia/42504383790/ddd-minimo-42504383790-M06.zip"
+      "url": "r2://ddd-research-archive/region_de_murcia/42504383790/ddd-minimo-42504383790-M08.zip"
     }
   },
   "schema": "ddd.archivo-r2/1.0"
