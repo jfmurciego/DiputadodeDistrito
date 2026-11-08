@@ -39,8 +39,8 @@ class HemicicloEnElSitio(unittest.TestCase):
         build = paso("Construir sitio candidato completo")
         with tempfile.TemporaryDirectory() as d:
             site = Path(d) / "site-candidate"
-            # Los pasos de copia del publicador, sobre un directorio temporal (sin el materializador del registro).
-            copias = "\n".join(l for l in build.splitlines() if l.strip().startswith(("rm -rf /tmp/site-candidate", "cp ", "grep -q")))
+            # (T-73: se omite la copia del portal Zensical, que exige zensical build.) Los pasos de copia del publicador, sobre un directorio temporal (sin el materializador del registro).
+            copias = "\n".join(l for l in build.splitlines() if l.strip().startswith(("rm -rf /tmp/site-candidate", "cp ", "grep -q")) and "documentacion_publica/site" not in l)
             script = "set -euo pipefail\n" + copias.replace("/tmp/site-candidate", str(site))
             subprocess.run(["bash", "-c", script], cwd=ROOT, check=True)
             dash = site / "dashboard"

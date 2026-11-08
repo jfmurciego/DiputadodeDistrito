@@ -1,4 +1,4 @@
-# Arquitectura M01–M08
+# Método: módulos M01–M08
 
 Revisión estructural sobre el commit `11f0ba2b775a889f2316e31ebdbd859cbc50ab13`. Los nombres efectivos de archivos y parámetros se resuelven desde cada contrato territorial. Los ejemplos de Aragón en documentos antiguos no deben interpretarse como cardinalidades nacionales.
 

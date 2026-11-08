@@ -1,6 +1,6 @@
 # DDD — Portal Zensical
 
-**Versión 1.0.0 · 3 de noviembre de 2026 · Archivo nuevo.**
+**Versión 1.1.0 · 8 de noviembre de 2026.**
 
 Portal inicial documentado contra `main` **11f0ba2b775a889f2316e31ebdbd859cbc50ab13**.
 No modifica el motor, catálogos operativos ni el publicador del visor. El workflow nuevo solo construye y valida documentación.
@@ -23,6 +23,5 @@ Construcción verificable:
 
 El HTML se genera en `documentacion_publica/site/`. Las dependencias tienen versiones fijadas; este lock no contiene hashes de distribución ni congela Python y el sistema operativo. La configuración utiliza páginas `.html` y fuentes del sistema para facilitar su consulta local. Para utilizar búsqueda y evitar restricciones de `file://`, servir el sitio mediante HTTP.
 
-La auditoría es estructural con una muestra material de Cantabria M05: se han contrastado los bytes del checkpoint y los 50 candidatos, sin repetir la optimización ni la auditoría geográfica completa. Ver `docs/auditoria.md` y `evidencias/`.
 
-El plan R2 todavía no está conectado a una cuenta ni a la 00. La publicación de este portal en producción queda para una PR posterior que integre su salida en el único publicador de Pages, o para otro repositorio con su propio Pages.
+El portal se construye y publica dentro de `_reutilizable-publicar-sitio.yml` en la ruta `/docs/` del mismo sitio que el visor (T-73).
