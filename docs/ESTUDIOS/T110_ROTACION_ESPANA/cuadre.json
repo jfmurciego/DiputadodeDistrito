@@ -1,0 +1,5082 @@
+{
+ "schema": "ddd.cuadre-historico-espana/1.0",
+ "tolerancia": 0.1,
+ "fuentes": {
+  "mesas_infoelectoral": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+  "espejo": "orchestracion/fuente_nazioenbehatokia.json",
+  "boe": {
+   "202307": "configuracion/resultados_oficiales_congreso_2023.csv",
+   "201911": "configuracion/resultados_oficiales_congreso_2019_11.csv"
+  }
+ },
+ "provincias": [
+  {
+   "provincia": "01",
+   "territorio": "congreso_alava",
+   "eleccion": "201111",
+   "votos_espejo": 167160,
+   "reagregado": {
+    "votos_distritos": 167160,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "01",
+   "territorio": "congreso_alava",
+   "eleccion": "201512",
+   "votos_espejo": 177448,
+   "reagregado": {
+    "votos_distritos": 177448,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "01",
+   "territorio": "congreso_alava",
+   "eleccion": "201606",
+   "votos_espejo": 165985,
+   "reagregado": {
+    "votos_distritos": 165985,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "01",
+   "territorio": "congreso_alava",
+   "eleccion": "201904",
+   "votos_espejo": 175733,
+   "reagregado": {
+    "votos_distritos": 175733,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "01",
+   "territorio": "congreso_alava",
+   "eleccion": "201911",
+   "votos_espejo": 169235,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 169235,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "01",
+   "territorio": "congreso_alava",
+   "eleccion": "202307",
+   "votos_espejo": 167304,
+   "infoelectoral": {
+    "candidaturas_provincia": 168385,
+    "mesas_sin_cera": 167304,
+    "cera": 1081,
+    "mesas_total": 168385
+   },
+   "defecto_vs_provincia": 0.00642,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 167304,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "02",
+   "territorio": "congreso_albacete",
+   "eleccion": "201111",
+   "votos_espejo": 228824,
+   "reagregado": {
+    "votos_distritos": 228824,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "02",
+   "territorio": "congreso_albacete",
+   "eleccion": "201512",
+   "votos_espejo": 229347,
+   "reagregado": {
+    "votos_distritos": 229347,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "02",
+   "territorio": "congreso_albacete",
+   "eleccion": "201606",
+   "votos_espejo": 217414,
+   "reagregado": {
+    "votos_distritos": 217414,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "02",
+   "territorio": "congreso_albacete",
+   "eleccion": "201904",
+   "votos_espejo": 232074,
+   "reagregado": {
+    "votos_distritos": 232074,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "02",
+   "territorio": "congreso_albacete",
+   "eleccion": "201911",
+   "votos_espejo": 211827,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 211827,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "02",
+   "territorio": "congreso_albacete",
+   "eleccion": "202307",
+   "votos_espejo": 218503,
+   "infoelectoral": {
+    "candidaturas_provincia": 219357,
+    "mesas_sin_cera": 218503,
+    "cera": 854,
+    "mesas_total": 219357
+   },
+   "defecto_vs_provincia": 0.00389,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 218503,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "03",
+   "territorio": null,
+   "eleccion": "201111",
+   "votos_espejo": 876076,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "03",
+   "territorio": null,
+   "eleccion": "201512",
+   "votos_espejo": 897901,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "03",
+   "territorio": null,
+   "eleccion": "201606",
+   "votos_espejo": 867612,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "03",
+   "territorio": null,
+   "eleccion": "201904",
+   "votos_espejo": 908630,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "03",
+   "territorio": null,
+   "eleccion": "201911",
+   "votos_espejo": 841760,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÉS COMPROMÍS",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "03",
+   "territorio": null,
+   "eleccion": "202307",
+   "votos_espejo": 888631,
+   "infoelectoral": {
+    "candidaturas_provincia": 892617,
+    "mesas_sin_cera": 888631,
+    "cera": 3986,
+    "mesas_total": 892617
+   },
+   "defecto_vs_provincia": 0.00447,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "04",
+   "territorio": "congreso_almeria",
+   "eleccion": "201111",
+   "votos_espejo": 308108,
+   "reagregado": {
+    "votos_distritos": 308108,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "04",
+   "territorio": "congreso_almeria",
+   "eleccion": "201512",
+   "votos_espejo": 306446,
+   "reagregado": {
+    "votos_distritos": 306446,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "04",
+   "territorio": "congreso_almeria",
+   "eleccion": "201606",
+   "votos_espejo": 302695,
+   "reagregado": {
+    "votos_distritos": 302695,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "04",
+   "territorio": "congreso_almeria",
+   "eleccion": "201904",
+   "votos_espejo": 324309,
+   "reagregado": {
+    "votos_distritos": 324309,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "04",
+   "territorio": "congreso_almeria",
+   "eleccion": "201911",
+   "votos_espejo": 297846,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 297846,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "04",
+   "territorio": "congreso_almeria",
+   "eleccion": "202307",
+   "votos_espejo": 316006,
+   "infoelectoral": {
+    "candidaturas_provincia": 318778,
+    "mesas_sin_cera": 316006,
+    "cera": 2772,
+    "mesas_total": 318778
+   },
+   "defecto_vs_provincia": 0.0087,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 316006,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "05",
+   "territorio": "congreso_avila",
+   "eleccion": "201111",
+   "votos_espejo": 104345,
+   "reagregado": {
+    "votos_distritos": 104345,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "05",
+   "territorio": "congreso_avila",
+   "eleccion": "201512",
+   "votos_espejo": 100859,
+   "reagregado": {
+    "votos_distritos": 100859,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "05",
+   "territorio": "congreso_avila",
+   "eleccion": "201606",
+   "votos_espejo": 97658,
+   "reagregado": {
+    "votos_distritos": 97658,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "05",
+   "territorio": "congreso_avila",
+   "eleccion": "201904",
+   "votos_espejo": 100881,
+   "reagregado": {
+    "votos_distritos": 100881,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "05",
+   "territorio": "congreso_avila",
+   "eleccion": "201911",
+   "votos_espejo": 92173,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 92173,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "05",
+   "territorio": "congreso_avila",
+   "eleccion": "202307",
+   "votos_espejo": 96470,
+   "infoelectoral": {
+    "candidaturas_provincia": 97324,
+    "mesas_sin_cera": 96470,
+    "cera": 854,
+    "mesas_total": 97324
+   },
+   "defecto_vs_provincia": 0.00877,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 96470,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "06",
+   "territorio": "congreso_badajoz",
+   "eleccion": "201111",
+   "votos_espejo": 403522,
+   "reagregado": {
+    "votos_distritos": 403522,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "06",
+   "territorio": "congreso_badajoz",
+   "eleccion": "201512",
+   "votos_espejo": 395612,
+   "reagregado": {
+    "votos_distritos": 395612,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "06",
+   "territorio": "congreso_badajoz",
+   "eleccion": "201606",
+   "votos_espejo": 374365,
+   "reagregado": {
+    "votos_distritos": 374365,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "06",
+   "territorio": "congreso_badajoz",
+   "eleccion": "201904",
+   "votos_espejo": 404139,
+   "reagregado": {
+    "votos_distritos": 404139,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "06",
+   "territorio": "congreso_badajoz",
+   "eleccion": "201911",
+   "votos_espejo": 365611,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 365611,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "06",
+   "territorio": "congreso_badajoz",
+   "eleccion": "202307",
+   "votos_espejo": 386842,
+   "infoelectoral": {
+    "candidaturas_provincia": 388236,
+    "mesas_sin_cera": 386842,
+    "cera": 1394,
+    "mesas_total": 388236
+   },
+   "defecto_vs_provincia": 0.00359,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 386842,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "07",
+   "territorio": "congreso_baleares",
+   "eleccion": "201111",
+   "votos_espejo": 429718,
+   "reagregado": {
+    "votos_distritos": 429718,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "07",
+   "territorio": "congreso_baleares",
+   "eleccion": "201512",
+   "votos_espejo": 479413,
+   "reagregado": {
+    "votos_distritos": 479413,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "07",
+   "territorio": "congreso_baleares",
+   "eleccion": "201606",
+   "votos_espejo": 459891,
+   "reagregado": {
+    "votos_distritos": 459891,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "07",
+   "territorio": "congreso_baleares",
+   "eleccion": "201904",
+   "votos_espejo": 512754,
+   "reagregado": {
+    "votos_distritos": 512754,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "07",
+   "territorio": "congreso_baleares",
+   "eleccion": "201911",
+   "votos_espejo": 448207,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 448207,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "07",
+   "territorio": "congreso_baleares",
+   "eleccion": "202307",
+   "votos_espejo": 496245,
+   "infoelectoral": {
+    "candidaturas_provincia": 498576,
+    "mesas_sin_cera": 496245,
+    "cera": 2331,
+    "mesas_total": 498576
+   },
+   "defecto_vs_provincia": 0.00468,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 2,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE",
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 496245,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "08",
+   "territorio": null,
+   "eleccion": "201111",
+   "votos_espejo": 2564814,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "08",
+   "territorio": null,
+   "eleccion": "201512",
+   "votos_espejo": 2831889,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "08",
+   "territorio": null,
+   "eleccion": "201606",
+   "votos_espejo": 2610887,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "08",
+   "territorio": null,
+   "eleccion": "201904",
+   "votos_espejo": 3089979,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "08",
+   "territorio": null,
+   "eleccion": "201911",
+   "votos_espejo": 2890355,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "ECP-GUANYEM EL CANVI",
+     "PSC"
+    ],
+    "avisos": []
+   },
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "08",
+   "territorio": null,
+   "eleccion": "202307",
+   "votos_espejo": 2625437,
+   "infoelectoral": {
+    "candidaturas_provincia": 2646419,
+    "mesas_sin_cera": 2625437,
+    "cera": 20982,
+    "mesas_total": 2646419
+   },
+   "defecto_vs_provincia": 0.00793,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "JUNTS",
+     "PSOE",
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "09",
+   "territorio": "congreso_burgos",
+   "eleccion": "201111",
+   "votos_espejo": 209197,
+   "reagregado": {
+    "votos_distritos": 209197,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "09",
+   "territorio": "congreso_burgos",
+   "eleccion": "201512",
+   "votos_espejo": 212835,
+   "reagregado": {
+    "votos_distritos": 212835,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "09",
+   "territorio": "congreso_burgos",
+   "eleccion": "201606",
+   "votos_espejo": 203959,
+   "reagregado": {
+    "votos_distritos": 203959,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "09",
+   "territorio": "congreso_burgos",
+   "eleccion": "201904",
+   "votos_espejo": 216166,
+   "reagregado": {
+    "votos_distritos": 216166,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "09",
+   "territorio": "congreso_burgos",
+   "eleccion": "201911",
+   "votos_espejo": 194973,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 194973,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "09",
+   "territorio": "congreso_burgos",
+   "eleccion": "202307",
+   "votos_espejo": 198616,
+   "infoelectoral": {
+    "candidaturas_provincia": 200718,
+    "mesas_sin_cera": 198616,
+    "cera": 2102,
+    "mesas_total": 200718
+   },
+   "defecto_vs_provincia": 0.01047,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 198616,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "10",
+   "territorio": "congreso_caceres",
+   "eleccion": "201111",
+   "votos_espejo": 250328,
+   "reagregado": {
+    "votos_distritos": 250328,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "10",
+   "territorio": "congreso_caceres",
+   "eleccion": "201512",
+   "votos_espejo": 246633,
+   "reagregado": {
+    "votos_distritos": 246633,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "10",
+   "territorio": "congreso_caceres",
+   "eleccion": "201606",
+   "votos_espejo": 233626,
+   "reagregado": {
+    "votos_distritos": 233626,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "10",
+   "territorio": "congreso_caceres",
+   "eleccion": "201904",
+   "votos_espejo": 246055,
+   "reagregado": {
+    "votos_distritos": 246055,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "10",
+   "territorio": "congreso_caceres",
+   "eleccion": "201911",
+   "votos_espejo": 220215,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 220215,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "10",
+   "territorio": "congreso_caceres",
+   "eleccion": "202307",
+   "votos_espejo": 232620,
+   "infoelectoral": {
+    "candidaturas_provincia": 234130,
+    "mesas_sin_cera": 232620,
+    "cera": 1510,
+    "mesas_total": 234130
+   },
+   "defecto_vs_provincia": 0.00645,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 232620,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "11",
+   "territorio": "congreso_cadiz",
+   "eleccion": "201111",
+   "votos_espejo": 611124,
+   "reagregado": {
+    "votos_distritos": 611124,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "11",
+   "territorio": "congreso_cadiz",
+   "eleccion": "201512",
+   "votos_espejo": 638360,
+   "reagregado": {
+    "votos_distritos": 638360,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "11",
+   "territorio": "congreso_cadiz",
+   "eleccion": "201606",
+   "votos_espejo": 606847,
+   "reagregado": {
+    "votos_distritos": 606847,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "11",
+   "territorio": "congreso_cadiz",
+   "eleccion": "201904",
+   "votos_espejo": 657430,
+   "reagregado": {
+    "votos_distritos": 657430,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "11",
+   "territorio": "congreso_cadiz",
+   "eleccion": "201911",
+   "votos_espejo": 604653,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 604653,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "11",
+   "territorio": "congreso_cadiz",
+   "eleccion": "202307",
+   "votos_espejo": 627167,
+   "infoelectoral": {
+    "candidaturas_provincia": 629995,
+    "mesas_sin_cera": 627167,
+    "cera": 2828,
+    "mesas_total": 629995
+   },
+   "defecto_vs_provincia": 0.00449,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 627167,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "12",
+   "territorio": "congreso_castellon",
+   "eleccion": "201111",
+   "votos_espejo": 291901,
+   "reagregado": {
+    "votos_distritos": 291901,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "12",
+   "territorio": "congreso_castellon",
+   "eleccion": "201512",
+   "votos_espejo": 306662,
+   "reagregado": {
+    "votos_distritos": 306662,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "12",
+   "territorio": "congreso_castellon",
+   "eleccion": "201606",
+   "votos_espejo": 296233,
+   "reagregado": {
+    "votos_distritos": 296233,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "12",
+   "territorio": "congreso_castellon",
+   "eleccion": "201904",
+   "votos_espejo": 310195,
+   "reagregado": {
+    "votos_distritos": 310195,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "12",
+   "territorio": "congreso_castellon",
+   "eleccion": "201911",
+   "votos_espejo": 291161,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÉS COMPROMÍS",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 291161,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "12",
+   "territorio": "congreso_castellon",
+   "eleccion": "202307",
+   "votos_espejo": 303870,
+   "infoelectoral": {
+    "candidaturas_provincia": 305275,
+    "mesas_sin_cera": 303870,
+    "cera": 1405,
+    "mesas_total": 305275
+   },
+   "defecto_vs_provincia": 0.0046,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 303870,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "13",
+   "territorio": "congreso_ciudad_real",
+   "eleccion": "201111",
+   "votos_espejo": 294041,
+   "reagregado": {
+    "votos_distritos": 294041,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "13",
+   "territorio": "congreso_ciudad_real",
+   "eleccion": "201512",
+   "votos_espejo": 292793,
+   "reagregado": {
+    "votos_distritos": 292793,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "13",
+   "territorio": "congreso_ciudad_real",
+   "eleccion": "201606",
+   "votos_espejo": 276822,
+   "reagregado": {
+    "votos_distritos": 276822,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "13",
+   "territorio": "congreso_ciudad_real",
+   "eleccion": "201904",
+   "votos_espejo": 290881,
+   "reagregado": {
+    "votos_distritos": 290881,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "13",
+   "territorio": "congreso_ciudad_real",
+   "eleccion": "201911",
+   "votos_espejo": 265553,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 265553,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "13",
+   "territorio": "congreso_ciudad_real",
+   "eleccion": "202307",
+   "votos_espejo": 279684,
+   "infoelectoral": {
+    "candidaturas_provincia": 280626,
+    "mesas_sin_cera": 279684,
+    "cera": 942,
+    "mesas_total": 280626
+   },
+   "defecto_vs_provincia": 0.00336,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 279684,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "14",
+   "territorio": "congreso_cordoba",
+   "eleccion": "201111",
+   "votos_espejo": 461489,
+   "reagregado": {
+    "votos_distritos": 461489,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "14",
+   "territorio": "congreso_cordoba",
+   "eleccion": "201512",
+   "votos_espejo": 462203,
+   "reagregado": {
+    "votos_distritos": 462203,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "14",
+   "territorio": "congreso_cordoba",
+   "eleccion": "201606",
+   "votos_espejo": 440947,
+   "reagregado": {
+    "votos_distritos": 440947,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "14",
+   "territorio": "congreso_cordoba",
+   "eleccion": "201904",
+   "votos_espejo": 467567,
+   "reagregado": {
+    "votos_distritos": 467567,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "14",
+   "territorio": "congreso_cordoba",
+   "eleccion": "201911",
+   "votos_espejo": 437338,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 437338,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "14",
+   "territorio": "congreso_cordoba",
+   "eleccion": "202307",
+   "votos_espejo": 442151,
+   "infoelectoral": {
+    "candidaturas_provincia": 444254,
+    "mesas_sin_cera": 442151,
+    "cera": 2103,
+    "mesas_total": 444254
+   },
+   "defecto_vs_provincia": 0.00473,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 442151,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "15",
+   "territorio": "congreso_la_coruna",
+   "eleccion": "201111",
+   "votos_espejo": 648295,
+   "reagregado": {
+    "votos_distritos": 648295,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "15",
+   "territorio": "congreso_la_coruna",
+   "eleccion": "201512",
+   "votos_espejo": 662574,
+   "reagregado": {
+    "votos_distritos": 662574,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "15",
+   "territorio": "congreso_la_coruna",
+   "eleccion": "201606",
+   "votos_espejo": 630936,
+   "reagregado": {
+    "votos_distritos": 630936,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "15",
+   "territorio": "congreso_la_coruna",
+   "eleccion": "201904",
+   "votos_espejo": 665691,
+   "reagregado": {
+    "votos_distritos": 665691,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "15",
+   "territorio": "congreso_la_coruna",
+   "eleccion": "201911",
+   "votos_espejo": 599878,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 599878,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "15",
+   "territorio": "congreso_la_coruna",
+   "eleccion": "202307",
+   "votos_espejo": 662459,
+   "infoelectoral": {
+    "candidaturas_provincia": 672505,
+    "mesas_sin_cera": 662459,
+    "cera": 10046,
+    "mesas_total": 672505
+   },
+   "defecto_vs_provincia": 0.01494,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "BNG",
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 662459,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "16",
+   "territorio": "congreso_cuenca",
+   "eleccion": "201111",
+   "votos_espejo": 123202,
+   "reagregado": {
+    "votos_distritos": 123202,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "16",
+   "territorio": "congreso_cuenca",
+   "eleccion": "201512",
+   "votos_espejo": 119954,
+   "reagregado": {
+    "votos_distritos": 119954,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "16",
+   "territorio": "congreso_cuenca",
+   "eleccion": "201606",
+   "votos_espejo": 114807,
+   "reagregado": {
+    "votos_distritos": 114807,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "16",
+   "territorio": "congreso_cuenca",
+   "eleccion": "201904",
+   "votos_espejo": 118308,
+   "reagregado": {
+    "votos_distritos": 118308,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "16",
+   "territorio": "congreso_cuenca",
+   "eleccion": "201911",
+   "votos_espejo": 107820,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 107820,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "16",
+   "territorio": "congreso_cuenca",
+   "eleccion": "202307",
+   "votos_espejo": 112472,
+   "infoelectoral": {
+    "candidaturas_provincia": 112839,
+    "mesas_sin_cera": 112472,
+    "cera": 367,
+    "mesas_total": 112839
+   },
+   "defecto_vs_provincia": 0.00325,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 112472,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "17",
+   "territorio": "congreso_gerona",
+   "eleccion": "201111",
+   "votos_espejo": 299983,
+   "reagregado": {
+    "votos_distritos": 299983,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "17",
+   "territorio": "congreso_gerona",
+   "eleccion": "201512",
+   "votos_espejo": 328997,
+   "reagregado": {
+    "votos_distritos": 328997,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "17",
+   "territorio": "congreso_gerona",
+   "eleccion": "201606",
+   "votos_espejo": 303922,
+   "reagregado": {
+    "votos_distritos": 303922,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "17",
+   "territorio": "congreso_gerona",
+   "eleccion": "201904",
+   "votos_espejo": 378765,
+   "reagregado": {
+    "votos_distritos": 378765,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "17",
+   "territorio": "congreso_gerona",
+   "eleccion": "201911",
+   "votos_espejo": 351370,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "ECP-GUANYEM EL CANVI",
+     "PSC"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 351370,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "17",
+   "territorio": "congreso_gerona",
+   "eleccion": "202307",
+   "votos_espejo": 317740,
+   "infoelectoral": {
+    "candidaturas_provincia": 320007,
+    "mesas_sin_cera": 317740,
+    "cera": 2267,
+    "mesas_total": 320007
+   },
+   "defecto_vs_provincia": 0.00708,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "JUNTS",
+     "PSOE",
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 317740,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "18",
+   "territorio": "congreso_granada",
+   "eleccion": "201111",
+   "votos_espejo": 501612,
+   "reagregado": {
+    "votos_distritos": 501612,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "18",
+   "territorio": "congreso_granada",
+   "eleccion": "201512",
+   "votos_espejo": 504861,
+   "reagregado": {
+    "votos_distritos": 504861,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "18",
+   "territorio": "congreso_granada",
+   "eleccion": "201606",
+   "votos_espejo": 483451,
+   "reagregado": {
+    "votos_distritos": 483451,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "18",
+   "territorio": "congreso_granada",
+   "eleccion": "201904",
+   "votos_espejo": 517553,
+   "reagregado": {
+    "votos_distritos": 517553,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "18",
+   "territorio": "congreso_granada",
+   "eleccion": "201911",
+   "votos_espejo": 475121,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 475121,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "18",
+   "territorio": "congreso_granada",
+   "eleccion": "202307",
+   "votos_espejo": 494203,
+   "infoelectoral": {
+    "candidaturas_provincia": 498788,
+    "mesas_sin_cera": 494203,
+    "cera": 4585,
+    "mesas_total": 498788
+   },
+   "defecto_vs_provincia": 0.00919,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 494203,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "19",
+   "territorio": "congreso_guadalajara",
+   "eleccion": "201111",
+   "votos_espejo": 130150,
+   "reagregado": {
+    "votos_distritos": 130150,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "19",
+   "territorio": "congreso_guadalajara",
+   "eleccion": "201512",
+   "votos_espejo": 134997,
+   "reagregado": {
+    "votos_distritos": 134997,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "19",
+   "territorio": "congreso_guadalajara",
+   "eleccion": "201606",
+   "votos_espejo": 130275,
+   "reagregado": {
+    "votos_distritos": 130275,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "19",
+   "territorio": "congreso_guadalajara",
+   "eleccion": "201904",
+   "votos_espejo": 141331,
+   "reagregado": {
+    "votos_distritos": 141331,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "19",
+   "territorio": "congreso_guadalajara",
+   "eleccion": "201911",
+   "votos_espejo": 130510,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 130510,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "19",
+   "territorio": "congreso_guadalajara",
+   "eleccion": "202307",
+   "votos_espejo": 139031,
+   "infoelectoral": {
+    "candidaturas_provincia": 139770,
+    "mesas_sin_cera": 139031,
+    "cera": 739,
+    "mesas_total": 139770
+   },
+   "defecto_vs_provincia": 0.00529,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 139031,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "20",
+   "territorio": "congreso_guipuzcoa",
+   "eleccion": "201111",
+   "votos_espejo": 368191,
+   "reagregado": {
+    "votos_distritos": 368191,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "20",
+   "territorio": "congreso_guipuzcoa",
+   "eleccion": "201512",
+   "votos_espejo": 384722,
+   "reagregado": {
+    "votos_distritos": 384722,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "20",
+   "territorio": "congreso_guipuzcoa",
+   "eleccion": "201606",
+   "votos_espejo": 360082,
+   "reagregado": {
+    "votos_distritos": 360082,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "20",
+   "territorio": "congreso_guipuzcoa",
+   "eleccion": "201904",
+   "votos_espejo": 407107,
+   "reagregado": {
+    "votos_distritos": 407107,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "20",
+   "territorio": "congreso_guipuzcoa",
+   "eleccion": "201911",
+   "votos_espejo": 377937,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 377937,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "20",
+   "territorio": "congreso_guipuzcoa",
+   "eleccion": "202307",
+   "votos_espejo": 370320,
+   "infoelectoral": {
+    "candidaturas_provincia": 374616,
+    "mesas_sin_cera": 370320,
+    "cera": 4296,
+    "mesas_total": 374616
+   },
+   "defecto_vs_provincia": 0.01147,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 370320,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "21",
+   "territorio": "congreso_huelva",
+   "eleccion": "201111",
+   "votos_espejo": 259853,
+   "reagregado": {
+    "votos_distritos": 259853,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "21",
+   "territorio": "congreso_huelva",
+   "eleccion": "201512",
+   "votos_espejo": 256351,
+   "reagregado": {
+    "votos_distritos": 256351,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "21",
+   "territorio": "congreso_huelva",
+   "eleccion": "201606",
+   "votos_espejo": 242780,
+   "reagregado": {
+    "votos_distritos": 242780,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "21",
+   "territorio": "congreso_huelva",
+   "eleccion": "201904",
+   "votos_espejo": 261234,
+   "reagregado": {
+    "votos_distritos": 261234,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "21",
+   "territorio": "congreso_huelva",
+   "eleccion": "201911",
+   "votos_espejo": 246807,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 246807,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "21",
+   "territorio": "congreso_huelva",
+   "eleccion": "202307",
+   "votos_espejo": 253713,
+   "infoelectoral": {
+    "candidaturas_provincia": 254394,
+    "mesas_sin_cera": 253713,
+    "cera": 681,
+    "mesas_total": 254394
+   },
+   "defecto_vs_provincia": 0.00268,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 253713,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "22",
+   "territorio": "congreso_huesca",
+   "eleccion": "201111",
+   "votos_espejo": 117081,
+   "reagregado": {
+    "votos_distritos": 117081,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "22",
+   "territorio": "congreso_huesca",
+   "eleccion": "201512",
+   "votos_espejo": 120323,
+   "reagregado": {
+    "votos_distritos": 120323,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "22",
+   "territorio": "congreso_huesca",
+   "eleccion": "201606",
+   "votos_espejo": 114975,
+   "reagregado": {
+    "votos_distritos": 114975,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "22",
+   "territorio": "congreso_huesca",
+   "eleccion": "201904",
+   "votos_espejo": 123335,
+   "reagregado": {
+    "votos_distritos": 123335,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "22",
+   "territorio": "congreso_huesca",
+   "eleccion": "201911",
+   "votos_espejo": 111396,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 111396,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "22",
+   "territorio": "congreso_huesca",
+   "eleccion": "202307",
+   "votos_espejo": 117735,
+   "infoelectoral": {
+    "candidaturas_provincia": 118678,
+    "mesas_sin_cera": 117735,
+    "cera": 943,
+    "mesas_total": 118678
+   },
+   "defecto_vs_provincia": 0.00795,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 117735,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "23",
+   "territorio": "congreso_jaen",
+   "eleccion": "201111",
+   "votos_espejo": 398827,
+   "reagregado": {
+    "votos_distritos": 398827,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "23",
+   "territorio": "congreso_jaen",
+   "eleccion": "201512",
+   "votos_espejo": 384142,
+   "reagregado": {
+    "votos_distritos": 384142,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "23",
+   "territorio": "congreso_jaen",
+   "eleccion": "201606",
+   "votos_espejo": 367340,
+   "reagregado": {
+    "votos_distritos": 367340,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "23",
+   "territorio": "congreso_jaen",
+   "eleccion": "201904",
+   "votos_espejo": 383565,
+   "reagregado": {
+    "votos_distritos": 383565,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "23",
+   "territorio": "congreso_jaen",
+   "eleccion": "201911",
+   "votos_espejo": 360773,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 360773,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "23",
+   "territorio": "congreso_jaen",
+   "eleccion": "202307",
+   "votos_espejo": 364706,
+   "infoelectoral": {
+    "candidaturas_provincia": 366234,
+    "mesas_sin_cera": 364706,
+    "cera": 1528,
+    "mesas_total": 366234
+   },
+   "defecto_vs_provincia": 0.00417,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 364706,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "24",
+   "territorio": "congreso_leon",
+   "eleccion": "201111",
+   "votos_espejo": 285678,
+   "reagregado": {
+    "votos_distritos": 284871,
+    "votos_perdidos": 807.0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "24",
+   "territorio": "congreso_leon",
+   "eleccion": "201512",
+   "votos_espejo": 287500,
+   "reagregado": {
+    "votos_distritos": 287500,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "24",
+   "territorio": "congreso_leon",
+   "eleccion": "201606",
+   "votos_espejo": 275952,
+   "reagregado": {
+    "votos_distritos": 275952,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "24",
+   "territorio": "congreso_leon",
+   "eleccion": "201904",
+   "votos_espejo": 286645,
+   "reagregado": {
+    "votos_distritos": 286645,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "24",
+   "territorio": "congreso_leon",
+   "eleccion": "201911",
+   "votos_espejo": 257367,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 257367,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "24",
+   "territorio": "congreso_leon",
+   "eleccion": "202307",
+   "votos_espejo": 269759,
+   "infoelectoral": {
+    "candidaturas_provincia": 273663,
+    "mesas_sin_cera": 269759,
+    "cera": 3904,
+    "mesas_total": 273663
+   },
+   "defecto_vs_provincia": 0.01427,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 269759,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "25",
+   "territorio": "congreso_lerida",
+   "eleccion": "201111",
+   "votos_espejo": 187388,
+   "reagregado": {
+    "votos_distritos": 187388,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "25",
+   "territorio": "congreso_lerida",
+   "eleccion": "201512",
+   "votos_espejo": 195587,
+   "reagregado": {
+    "votos_distritos": 195587,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "25",
+   "territorio": "congreso_lerida",
+   "eleccion": "201606",
+   "votos_espejo": 178017,
+   "reagregado": {
+    "votos_distritos": 178017,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "25",
+   "territorio": "congreso_lerida",
+   "eleccion": "201904",
+   "votos_espejo": 222800,
+   "reagregado": {
+    "votos_distritos": 222800,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "25",
+   "territorio": "congreso_lerida",
+   "eleccion": "201911",
+   "votos_espejo": 204171,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "ECP-GUANYEM EL CANVI",
+     "PSC"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 204171,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "25",
+   "territorio": "congreso_lerida",
+   "eleccion": "202307",
+   "votos_espejo": 180770,
+   "infoelectoral": {
+    "candidaturas_provincia": 182480,
+    "mesas_sin_cera": 180770,
+    "cera": 1710,
+    "mesas_total": 182480
+   },
+   "defecto_vs_provincia": 0.00937,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "JUNTS",
+     "PSOE",
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 180770,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "26",
+   "territorio": "congreso_la_rioja",
+   "eleccion": "201111",
+   "votos_espejo": 170397,
+   "reagregado": {
+    "votos_distritos": 170397,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "26",
+   "territorio": "congreso_la_rioja",
+   "eleccion": "201512",
+   "votos_espejo": 175131,
+   "reagregado": {
+    "votos_distritos": 175131,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "26",
+   "territorio": "congreso_la_rioja",
+   "eleccion": "201606",
+   "votos_espejo": 170903,
+   "reagregado": {
+    "votos_distritos": 170903,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "26",
+   "territorio": "congreso_la_rioja",
+   "eleccion": "201904",
+   "votos_espejo": 178541,
+   "reagregado": {
+    "votos_distritos": 178541,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "26",
+   "territorio": "congreso_la_rioja",
+   "eleccion": "201911",
+   "votos_espejo": 162227,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 162227,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "26",
+   "territorio": "congreso_la_rioja",
+   "eleccion": "202307",
+   "votos_espejo": 171589,
+   "infoelectoral": {
+    "candidaturas_provincia": 173055,
+    "mesas_sin_cera": 171589,
+    "cera": 1466,
+    "mesas_total": 173055
+   },
+   "defecto_vs_provincia": 0.00847,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 171589,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "27",
+   "territorio": "congreso_lugo",
+   "eleccion": "201111",
+   "votos_espejo": 210107,
+   "reagregado": {
+    "votos_distritos": 208979,
+    "votos_perdidos": 1128.0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "27",
+   "territorio": "congreso_lugo",
+   "eleccion": "201512",
+   "votos_espejo": 199426,
+   "reagregado": {
+    "votos_distritos": 199426,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "27",
+   "territorio": "congreso_lugo",
+   "eleccion": "201606",
+   "votos_espejo": 189036,
+   "reagregado": {
+    "votos_distritos": 189036,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "27",
+   "territorio": "congreso_lugo",
+   "eleccion": "201904",
+   "votos_espejo": 196190,
+   "reagregado": {
+    "votos_distritos": 196190,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "27",
+   "territorio": "congreso_lugo",
+   "eleccion": "201911",
+   "votos_espejo": 176101,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 176101,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "27",
+   "territorio": "congreso_lugo",
+   "eleccion": "202307",
+   "votos_espejo": 193699,
+   "infoelectoral": {
+    "candidaturas_provincia": 197315,
+    "mesas_sin_cera": 193699,
+    "cera": 3616,
+    "mesas_total": 197315
+   },
+   "defecto_vs_provincia": 0.01833,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "BNG",
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 193699,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "28",
+   "territorio": "congreso_madrid",
+   "eleccion": "201111",
+   "votos_espejo": 3326413,
+   "reagregado": {
+    "votos_distritos": 3326413,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "28",
+   "territorio": "congreso_madrid",
+   "eleccion": "201512",
+   "votos_espejo": 3580532,
+   "reagregado": {
+    "votos_distritos": 3580532,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "28",
+   "territorio": "congreso_madrid",
+   "eleccion": "201606",
+   "votos_espejo": 3421222,
+   "reagregado": {
+    "votos_distritos": 3421222,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "28",
+   "territorio": "congreso_madrid",
+   "eleccion": "201904",
+   "votos_espejo": 3731602,
+   "reagregado": {
+    "votos_distritos": 3731602,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "28",
+   "territorio": "congreso_madrid",
+   "eleccion": "201911",
+   "votos_espejo": 3501889,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 3501889,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "28",
+   "territorio": "congreso_madrid",
+   "eleccion": "202307",
+   "votos_espejo": 3535749,
+   "infoelectoral": {
+    "candidaturas_provincia": 3579713,
+    "mesas_sin_cera": 3535749,
+    "cera": 43964,
+    "mesas_total": 3579713
+   },
+   "defecto_vs_provincia": 0.01228,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 3535749,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "29",
+   "territorio": null,
+   "eleccion": "201111",
+   "votos_espejo": 710077,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "29",
+   "territorio": null,
+   "eleccion": "201512",
+   "votos_espejo": 768592,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "29",
+   "territorio": null,
+   "eleccion": "201606",
+   "votos_espejo": 735595,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "29",
+   "territorio": null,
+   "eleccion": "201904",
+   "votos_espejo": 806447,
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "29",
+   "territorio": null,
+   "eleccion": "201911",
+   "votos_espejo": 744531,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "29",
+   "territorio": null,
+   "eleccion": "202307",
+   "votos_espejo": 775255,
+   "infoelectoral": {
+    "candidaturas_provincia": 780829,
+    "mesas_sin_cera": 775255,
+    "cera": 5574,
+    "mesas_total": 780829
+   },
+   "defecto_vs_provincia": 0.00714,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": "SIN_M06"
+  },
+  {
+   "provincia": "30",
+   "territorio": "congreso_murcia",
+   "eleccion": "201111",
+   "votos_espejo": 726687,
+   "reagregado": {
+    "votos_distritos": 726687,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "30",
+   "territorio": "congreso_murcia",
+   "eleccion": "201512",
+   "votos_espejo": 721461,
+   "reagregado": {
+    "votos_distritos": 721461,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "30",
+   "territorio": "congreso_murcia",
+   "eleccion": "201606",
+   "votos_espejo": 707549,
+   "reagregado": {
+    "votos_distritos": 707549,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "30",
+   "territorio": "congreso_murcia",
+   "eleccion": "201904",
+   "votos_espejo": 762443,
+   "reagregado": {
+    "votos_distritos": 762443,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "30",
+   "territorio": "congreso_murcia",
+   "eleccion": "201911",
+   "votos_espejo": 707233,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 707233,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "30",
+   "territorio": "congreso_murcia",
+   "eleccion": "202307",
+   "votos_espejo": 739321,
+   "infoelectoral": {
+    "candidaturas_provincia": 742763,
+    "mesas_sin_cera": 739321,
+    "cera": 3442,
+    "mesas_total": 742763
+   },
+   "defecto_vs_provincia": 0.00463,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 739321,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "31",
+   "territorio": "congreso_navarra",
+   "eleccion": "201111",
+   "votos_espejo": 323505,
+   "reagregado": {
+    "votos_distritos": 323505,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "31",
+   "territorio": "congreso_navarra",
+   "eleccion": "201512",
+   "votos_espejo": 348490,
+   "reagregado": {
+    "votos_distritos": 348490,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "31",
+   "territorio": "congreso_navarra",
+   "eleccion": "201606",
+   "votos_espejo": 330354,
+   "reagregado": {
+    "votos_distritos": 330354,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "31",
+   "territorio": "congreso_navarra",
+   "eleccion": "201904",
+   "votos_espejo": 361699,
+   "reagregado": {
+    "votos_distritos": 361699,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "31",
+   "territorio": "congreso_navarra",
+   "eleccion": "201911",
+   "votos_espejo": 329605,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 329605,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "31",
+   "territorio": "congreso_navarra",
+   "eleccion": "202307",
+   "votos_espejo": 336216,
+   "infoelectoral": {
+    "candidaturas_provincia": 338954,
+    "mesas_sin_cera": 336216,
+    "cera": 2738,
+    "mesas_total": 338954
+   },
+   "defecto_vs_provincia": 0.00808,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE",
+     "UPN"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 336216,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "32",
+   "territorio": "congreso_orense",
+   "eleccion": "201111",
+   "votos_espejo": 198355,
+   "reagregado": {
+    "votos_distritos": 197956,
+    "votos_perdidos": 399.0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "32",
+   "territorio": "congreso_orense",
+   "eleccion": "201512",
+   "votos_espejo": 189166,
+   "reagregado": {
+    "votos_distritos": 189166,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "32",
+   "territorio": "congreso_orense",
+   "eleccion": "201606",
+   "votos_espejo": 181783,
+   "reagregado": {
+    "votos_distritos": 181783,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "32",
+   "territorio": "congreso_orense",
+   "eleccion": "201904",
+   "votos_espejo": 188172,
+   "reagregado": {
+    "votos_distritos": 188172,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "32",
+   "territorio": "congreso_orense",
+   "eleccion": "201911",
+   "votos_espejo": 166843,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 166843,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "32",
+   "territorio": "congreso_orense",
+   "eleccion": "202307",
+   "votos_espejo": 179460,
+   "infoelectoral": {
+    "candidaturas_provincia": 185162,
+    "mesas_sin_cera": 179460,
+    "cera": 5702,
+    "mesas_total": 185162
+   },
+   "defecto_vs_provincia": 0.03079,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "BNG",
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 179460,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "33",
+   "territorio": "congreso_asturias",
+   "eleccion": "201111",
+   "votos_espejo": 619208,
+   "reagregado": {
+    "votos_distritos": 617667,
+    "votos_perdidos": 1541.0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "33",
+   "territorio": "congreso_asturias",
+   "eleccion": "201512",
+   "votos_espejo": 613309,
+   "reagregado": {
+    "votos_distritos": 613309,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "33",
+   "territorio": "congreso_asturias",
+   "eleccion": "201606",
+   "votos_espejo": 583752,
+   "reagregado": {
+    "votos_distritos": 583752,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "33",
+   "territorio": "congreso_asturias",
+   "eleccion": "201904",
+   "votos_espejo": 614846,
+   "reagregado": {
+    "votos_distritos": 614846,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "33",
+   "territorio": "congreso_asturias",
+   "eleccion": "201911",
+   "votos_espejo": 546649,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 546649,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "33",
+   "territorio": "congreso_asturias",
+   "eleccion": "202307",
+   "votos_espejo": 582385,
+   "infoelectoral": {
+    "candidaturas_provincia": 590953,
+    "mesas_sin_cera": 582385,
+    "cera": 8568,
+    "mesas_total": 590953
+   },
+   "defecto_vs_provincia": 0.0145,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 582385,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "34",
+   "territorio": "congreso_palencia",
+   "eleccion": "201111",
+   "votos_espejo": 104413,
+   "reagregado": {
+    "votos_distritos": 104413,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "34",
+   "territorio": "congreso_palencia",
+   "eleccion": "201512",
+   "votos_espejo": 103300,
+   "reagregado": {
+    "votos_distritos": 103300,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "34",
+   "territorio": "congreso_palencia",
+   "eleccion": "201606",
+   "votos_espejo": 99330,
+   "reagregado": {
+    "votos_distritos": 99330,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "34",
+   "territorio": "congreso_palencia",
+   "eleccion": "201904",
+   "votos_espejo": 104545,
+   "reagregado": {
+    "votos_distritos": 104545,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "34",
+   "territorio": "congreso_palencia",
+   "eleccion": "201911",
+   "votos_espejo": 94231,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 94231,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "34",
+   "territorio": "congreso_palencia",
+   "eleccion": "202307",
+   "votos_espejo": 95377,
+   "infoelectoral": {
+    "candidaturas_provincia": 96129,
+    "mesas_sin_cera": 95377,
+    "cera": 752,
+    "mesas_total": 96129
+   },
+   "defecto_vs_provincia": 0.00782,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 95377,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "35",
+   "territorio": "congreso_las_palmas",
+   "eleccion": "201111",
+   "votos_espejo": 464247,
+   "reagregado": {
+    "votos_distritos": 464247,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "35",
+   "territorio": "congreso_las_palmas",
+   "eleccion": "201512",
+   "votos_espejo": 511235,
+   "reagregado": {
+    "votos_distritos": 511235,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "35",
+   "territorio": "congreso_las_palmas",
+   "eleccion": "201606",
+   "votos_espejo": 497874,
+   "reagregado": {
+    "votos_distritos": 497874,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "35",
+   "territorio": "congreso_las_palmas",
+   "eleccion": "201904",
+   "votos_espejo": 539708,
+   "reagregado": {
+    "votos_distritos": 539708,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "35",
+   "territorio": "congreso_las_palmas",
+   "eleccion": "201911",
+   "votos_espejo": 478694,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 478694,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "35",
+   "territorio": "congreso_las_palmas",
+   "eleccion": "202307",
+   "votos_espejo": 523753,
+   "infoelectoral": {
+    "candidaturas_provincia": 526275,
+    "mesas_sin_cera": 523753,
+    "cera": 2522,
+    "mesas_total": 526275
+   },
+   "defecto_vs_provincia": 0.00479,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 523753,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "36",
+   "territorio": "congreso_pontevedra",
+   "eleccion": "201111",
+   "votos_espejo": 546434,
+   "reagregado": {
+    "votos_distritos": 546434,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "36",
+   "territorio": "congreso_pontevedra",
+   "eleccion": "201512",
+   "votos_espejo": 562734,
+   "reagregado": {
+    "votos_distritos": 562734,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "36",
+   "territorio": "congreso_pontevedra",
+   "eleccion": "201606",
+   "votos_espejo": 535416,
+   "reagregado": {
+    "votos_distritos": 535416,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "36",
+   "territorio": "congreso_pontevedra",
+   "eleccion": "201904",
+   "votos_espejo": 566481,
+   "reagregado": {
+    "votos_distritos": 566481,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "36",
+   "territorio": "congreso_pontevedra",
+   "eleccion": "201911",
+   "votos_espejo": 512467,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 512467,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "36",
+   "territorio": "congreso_pontevedra",
+   "eleccion": "202307",
+   "votos_espejo": 559676,
+   "infoelectoral": {
+    "candidaturas_provincia": 569259,
+    "mesas_sin_cera": 559676,
+    "cera": 9583,
+    "mesas_total": 569259
+   },
+   "defecto_vs_provincia": 0.01683,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "BNG",
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 559676,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "37",
+   "territorio": "congreso_salamanca",
+   "eleccion": "201111",
+   "votos_espejo": 210259,
+   "reagregado": {
+    "votos_distritos": 210259,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "37",
+   "territorio": "congreso_salamanca",
+   "eleccion": "201512",
+   "votos_espejo": 206062,
+   "reagregado": {
+    "votos_distritos": 206062,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "37",
+   "territorio": "congreso_salamanca",
+   "eleccion": "201606",
+   "votos_espejo": 199423,
+   "reagregado": {
+    "votos_distritos": 199423,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "37",
+   "territorio": "congreso_salamanca",
+   "eleccion": "201904",
+   "votos_espejo": 207207,
+   "reagregado": {
+    "votos_distritos": 207207,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "37",
+   "territorio": "congreso_salamanca",
+   "eleccion": "201911",
+   "votos_espejo": 191124,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 191124,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "37",
+   "territorio": "congreso_salamanca",
+   "eleccion": "202307",
+   "votos_espejo": 194989,
+   "infoelectoral": {
+    "candidaturas_provincia": 197461,
+    "mesas_sin_cera": 194989,
+    "cera": 2472,
+    "mesas_total": 197461
+   },
+   "defecto_vs_provincia": 0.01252,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 194989,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "38",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "eleccion": "201111",
+   "votos_espejo": 452028,
+   "reagregado": {
+    "votos_distritos": 452028,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "38",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "eleccion": "201512",
+   "votos_espejo": 474123,
+   "reagregado": {
+    "votos_distritos": 474123,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "38",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "eleccion": "201606",
+   "votos_espejo": 472641,
+   "reagregado": {
+    "votos_distritos": 472641,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "38",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "eleccion": "201904",
+   "votos_espejo": 511747,
+   "reagregado": {
+    "votos_distritos": 511747,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "38",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "eleccion": "201911",
+   "votos_espejo": 458744,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 458744,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "38",
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "eleccion": "202307",
+   "votos_espejo": 484835,
+   "infoelectoral": {
+    "candidaturas_provincia": 489285,
+    "mesas_sin_cera": 484835,
+    "cera": 4450,
+    "mesas_total": 489285
+   },
+   "defecto_vs_provincia": 0.00909,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 484835,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "39",
+   "territorio": "congreso_cantabria",
+   "eleccion": "201111",
+   "votos_espejo": 345790,
+   "reagregado": {
+    "votos_distritos": 345790,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "39",
+   "territorio": "congreso_cantabria",
+   "eleccion": "201512",
+   "votos_espejo": 345963,
+   "reagregado": {
+    "votos_distritos": 345963,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "39",
+   "territorio": "congreso_cantabria",
+   "eleccion": "201606",
+   "votos_espejo": 333281,
+   "reagregado": {
+    "votos_distritos": 333281,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "39",
+   "territorio": "congreso_cantabria",
+   "eleccion": "201904",
+   "votos_espejo": 354992,
+   "reagregado": {
+    "votos_distritos": 354992,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "39",
+   "territorio": "congreso_cantabria",
+   "eleccion": "201911",
+   "votos_espejo": 323353,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 323353,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "39",
+   "territorio": "congreso_cantabria",
+   "eleccion": "202307",
+   "votos_espejo": 343495,
+   "infoelectoral": {
+    "candidaturas_provincia": 346888,
+    "mesas_sin_cera": 343495,
+    "cera": 3393,
+    "mesas_total": 346888
+   },
+   "defecto_vs_provincia": 0.00978,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 343495,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "40",
+   "territorio": "congreso_segovia",
+   "eleccion": "201111",
+   "votos_espejo": 90834,
+   "reagregado": {
+    "votos_distritos": 90834,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "40",
+   "territorio": "congreso_segovia",
+   "eleccion": "201512",
+   "votos_espejo": 90693,
+   "reagregado": {
+    "votos_distritos": 90693,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "40",
+   "territorio": "congreso_segovia",
+   "eleccion": "201606",
+   "votos_espejo": 87594,
+   "reagregado": {
+    "votos_distritos": 87594,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "40",
+   "territorio": "congreso_segovia",
+   "eleccion": "201904",
+   "votos_espejo": 91409,
+   "reagregado": {
+    "votos_distritos": 91409,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "40",
+   "territorio": "congreso_segovia",
+   "eleccion": "201911",
+   "votos_espejo": 83659,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 83659,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "40",
+   "territorio": "congreso_segovia",
+   "eleccion": "202307",
+   "votos_espejo": 87194,
+   "infoelectoral": {
+    "candidaturas_provincia": 87738,
+    "mesas_sin_cera": 87194,
+    "cera": 544,
+    "mesas_total": 87738
+   },
+   "defecto_vs_provincia": 0.0062,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 87194,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "41",
+   "territorio": "congreso_sevilla",
+   "eleccion": "201111",
+   "votos_espejo": 1045208,
+   "reagregado": {
+    "votos_distritos": 1045208,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "41",
+   "territorio": "congreso_sevilla",
+   "eleccion": "201512",
+   "votos_espejo": 1081828,
+   "reagregado": {
+    "votos_distritos": 1081828,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "41",
+   "territorio": "congreso_sevilla",
+   "eleccion": "201606",
+   "votos_espejo": 1020448,
+   "reagregado": {
+    "votos_distritos": 1020448,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "41",
+   "territorio": "congreso_sevilla",
+   "eleccion": "201904",
+   "votos_espejo": 1108057,
+   "reagregado": {
+    "votos_distritos": 1108057,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "41",
+   "territorio": "congreso_sevilla",
+   "eleccion": "201911",
+   "votos_espejo": 1035992,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 1035992,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "41",
+   "territorio": "congreso_sevilla",
+   "eleccion": "202307",
+   "votos_espejo": 1043832,
+   "infoelectoral": {
+    "candidaturas_provincia": 1048407,
+    "mesas_sin_cera": 1043832,
+    "cera": 4575,
+    "mesas_total": 1048407
+   },
+   "defecto_vs_provincia": 0.00436,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 1043832,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "42",
+   "territorio": "congreso_soria",
+   "eleccion": "201111",
+   "votos_espejo": 49782,
+   "reagregado": {
+    "votos_distritos": 49782,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "42",
+   "territorio": "congreso_soria",
+   "eleccion": "201512",
+   "votos_espejo": 50886,
+   "reagregado": {
+    "votos_distritos": 50886,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "42",
+   "territorio": "congreso_soria",
+   "eleccion": "201606",
+   "votos_espejo": 48678,
+   "reagregado": {
+    "votos_distritos": 48678,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "42",
+   "territorio": "congreso_soria",
+   "eleccion": "201904",
+   "votos_espejo": 51252,
+   "reagregado": {
+    "votos_distritos": 51252,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "42",
+   "territorio": "congreso_soria",
+   "eleccion": "201911",
+   "votos_espejo": 45344,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 45344,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "42",
+   "territorio": "congreso_soria",
+   "eleccion": "202307",
+   "votos_espejo": 49823,
+   "infoelectoral": {
+    "candidaturas_provincia": 50484,
+    "mesas_sin_cera": 49823,
+    "cera": 661,
+    "mesas_total": 50484
+   },
+   "defecto_vs_provincia": 0.01309,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 49823,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "43",
+   "territorio": "congreso_tarragona",
+   "eleccion": "201111",
+   "votos_espejo": 338887,
+   "reagregado": {
+    "votos_distritos": 338887,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "43",
+   "territorio": "congreso_tarragona",
+   "eleccion": "201512",
+   "votos_espejo": 369396,
+   "reagregado": {
+    "votos_distritos": 369396,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "43",
+   "territorio": "congreso_tarragona",
+   "eleccion": "201606",
+   "votos_espejo": 340375,
+   "reagregado": {
+    "votos_distritos": 340375,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "43",
+   "territorio": "congreso_tarragona",
+   "eleccion": "201904",
+   "votos_espejo": 414377,
+   "reagregado": {
+    "votos_distritos": 414377,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "43",
+   "territorio": "congreso_tarragona",
+   "eleccion": "201911",
+   "votos_espejo": 380730,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "ECP-GUANYEM EL CANVI",
+     "PSC"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 380730,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "43",
+   "territorio": "congreso_tarragona",
+   "eleccion": "202307",
+   "votos_espejo": 362891,
+   "infoelectoral": {
+    "candidaturas_provincia": 364856,
+    "mesas_sin_cera": 362891,
+    "cera": 1965,
+    "mesas_total": 364856
+   },
+   "defecto_vs_provincia": 0.00539,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "JUNTS",
+     "PSOE",
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 362891,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "44",
+   "territorio": "congreso_teruel",
+   "eleccion": "201111",
+   "votos_espejo": 75236,
+   "reagregado": {
+    "votos_distritos": 75236,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "44",
+   "territorio": "congreso_teruel",
+   "eleccion": "201512",
+   "votos_espejo": 76534,
+   "reagregado": {
+    "votos_distritos": 76534,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "44",
+   "territorio": "congreso_teruel",
+   "eleccion": "201606",
+   "votos_espejo": 73893,
+   "reagregado": {
+    "votos_distritos": 73893,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "44",
+   "territorio": "congreso_teruel",
+   "eleccion": "201904",
+   "votos_espejo": 76985,
+   "reagregado": {
+    "votos_distritos": 76985,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "44",
+   "territorio": "congreso_teruel",
+   "eleccion": "201911",
+   "votos_espejo": 73362,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "¡TERUEL EXISTE!"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 73362,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "44",
+   "territorio": "congreso_teruel",
+   "eleccion": "202307",
+   "votos_espejo": 75074,
+   "infoelectoral": {
+    "candidaturas_provincia": 75503,
+    "mesas_sin_cera": 75074,
+    "cera": 429,
+    "mesas_total": 75503
+   },
+   "defecto_vs_provincia": 0.00568,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 75074,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "45",
+   "territorio": "congreso_toledo",
+   "eleccion": "201111",
+   "votos_espejo": 380086,
+   "reagregado": {
+    "votos_distritos": 380086,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "45",
+   "territorio": "congreso_toledo",
+   "eleccion": "201512",
+   "votos_espejo": 382506,
+   "reagregado": {
+    "votos_distritos": 382506,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "45",
+   "territorio": "congreso_toledo",
+   "eleccion": "201606",
+   "votos_espejo": 364607,
+   "reagregado": {
+    "votos_distritos": 364607,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "45",
+   "territorio": "congreso_toledo",
+   "eleccion": "201904",
+   "votos_espejo": 393505,
+   "reagregado": {
+    "votos_distritos": 393505,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "45",
+   "territorio": "congreso_toledo",
+   "eleccion": "201911",
+   "votos_espejo": 359794,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 359794,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "45",
+   "territorio": "congreso_toledo",
+   "eleccion": "202307",
+   "votos_espejo": 383100,
+   "infoelectoral": {
+    "candidaturas_provincia": 384589,
+    "mesas_sin_cera": 383100,
+    "cera": 1664,
+    "mesas_total": 384764
+   },
+   "defecto_vs_provincia": 0.00387,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 383100,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "46",
+   "territorio": "congreso_valencia",
+   "eleccion": "201111",
+   "votos_espejo": 1407025,
+   "reagregado": {
+    "votos_distritos": 1407025,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "46",
+   "territorio": "congreso_valencia",
+   "eleccion": "201512",
+   "votos_espejo": 1453882,
+   "reagregado": {
+    "votos_distritos": 1453882,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "46",
+   "territorio": "congreso_valencia",
+   "eleccion": "201606",
+   "votos_espejo": 1405975,
+   "reagregado": {
+    "votos_distritos": 1405975,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "46",
+   "territorio": "congreso_valencia",
+   "eleccion": "201904",
+   "votos_espejo": 1442568,
+   "reagregado": {
+    "votos_distritos": 1442568,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "46",
+   "territorio": "congreso_valencia",
+   "eleccion": "201911",
+   "votos_espejo": 1373716,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [
+     "MÉS COMPROMÍS",
+     "PODEMOS-IU"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 1373716,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "46",
+   "territorio": "congreso_valencia",
+   "eleccion": "202307",
+   "votos_espejo": 1419017,
+   "infoelectoral": {
+    "candidaturas_provincia": 1426351,
+    "mesas_sin_cera": 1419017,
+    "cera": 7334,
+    "mesas_total": 1426351
+   },
+   "defecto_vs_provincia": 0.00514,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 1419017,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "47",
+   "territorio": "congreso_valladolid",
+   "eleccion": "201111",
+   "votos_espejo": 320827,
+   "reagregado": {
+    "votos_distritos": 320827,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "47",
+   "territorio": "congreso_valladolid",
+   "eleccion": "201512",
+   "votos_espejo": 324879,
+   "reagregado": {
+    "votos_distritos": 324879,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "47",
+   "territorio": "congreso_valladolid",
+   "eleccion": "201606",
+   "votos_espejo": 311988,
+   "reagregado": {
+    "votos_distritos": 311988,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "47",
+   "territorio": "congreso_valladolid",
+   "eleccion": "201904",
+   "votos_espejo": 332264,
+   "reagregado": {
+    "votos_distritos": 332264,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "47",
+   "territorio": "congreso_valladolid",
+   "eleccion": "201911",
+   "votos_espejo": 306562,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 306562,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "47",
+   "territorio": "congreso_valladolid",
+   "eleccion": "202307",
+   "votos_espejo": 311740,
+   "infoelectoral": {
+    "candidaturas_provincia": 313890,
+    "mesas_sin_cera": 311740,
+    "cera": 2150,
+    "mesas_total": 313890
+   },
+   "defecto_vs_provincia": 0.00685,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 311740,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "48",
+   "territorio": "congreso_vizcaya",
+   "eleccion": "201111",
+   "votos_espejo": 630938,
+   "reagregado": {
+    "votos_distritos": 630938,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "48",
+   "territorio": "congreso_vizcaya",
+   "eleccion": "201512",
+   "votos_espejo": 647537,
+   "reagregado": {
+    "votos_distritos": 647537,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "48",
+   "territorio": "congreso_vizcaya",
+   "eleccion": "201606",
+   "votos_espejo": 615025,
+   "reagregado": {
+    "votos_distritos": 615025,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "48",
+   "territorio": "congreso_vizcaya",
+   "eleccion": "201904",
+   "votos_espejo": 680191,
+   "reagregado": {
+    "votos_distritos": 680191,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "48",
+   "territorio": "congreso_vizcaya",
+   "eleccion": "201911",
+   "votos_espejo": 623553,
+   "boe": {
+    "comparados": 6,
+    "errores": [],
+    "sin_homologar": [
+     "MÁS PAÍS-EQUO",
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 623553,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "48",
+   "territorio": "congreso_vizcaya",
+   "eleccion": "202307",
+   "votos_espejo": 602806,
+   "infoelectoral": {
+    "candidaturas_provincia": 606302,
+    "mesas_sin_cera": 602806,
+    "cera": 3496,
+    "mesas_total": 606302
+   },
+   "defecto_vs_provincia": 0.00577,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [
+     "PSOE"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 602806,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "49",
+   "territorio": "congreso_zamora",
+   "eleccion": "201111",
+   "votos_espejo": 115264,
+   "reagregado": {
+    "votos_distritos": 115264,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "49",
+   "territorio": "congreso_zamora",
+   "eleccion": "201512",
+   "votos_espejo": 111173,
+   "reagregado": {
+    "votos_distritos": 111173,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "49",
+   "territorio": "congreso_zamora",
+   "eleccion": "201606",
+   "votos_espejo": 106876,
+   "reagregado": {
+    "votos_distritos": 106876,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "49",
+   "territorio": "congreso_zamora",
+   "eleccion": "201904",
+   "votos_espejo": 108767,
+   "reagregado": {
+    "votos_distritos": 108767,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "49",
+   "territorio": "congreso_zamora",
+   "eleccion": "201911",
+   "votos_espejo": 97650,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 97650,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "49",
+   "territorio": "congreso_zamora",
+   "eleccion": "202307",
+   "votos_espejo": 100766,
+   "infoelectoral": {
+    "candidaturas_provincia": 102488,
+    "mesas_sin_cera": 100766,
+    "cera": 1722,
+    "mesas_total": 102488
+   },
+   "defecto_vs_provincia": 0.0168,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 100766,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "50",
+   "territorio": "congreso_zaragoza",
+   "eleccion": "201111",
+   "votos_espejo": 502546,
+   "reagregado": {
+    "votos_distritos": 502546,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "50",
+   "territorio": "congreso_zaragoza",
+   "eleccion": "201512",
+   "votos_espejo": 527720,
+   "reagregado": {
+    "votos_distritos": 527720,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "50",
+   "territorio": "congreso_zaragoza",
+   "eleccion": "201606",
+   "votos_espejo": 506597,
+   "reagregado": {
+    "votos_distritos": 506597,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "50",
+   "territorio": "congreso_zaragoza",
+   "eleccion": "201904",
+   "votos_espejo": 547136,
+   "reagregado": {
+    "votos_distritos": 547136,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "50",
+   "territorio": "congreso_zaragoza",
+   "eleccion": "201911",
+   "votos_espejo": 505372,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 505372,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "50",
+   "territorio": "congreso_zaragoza",
+   "eleccion": "202307",
+   "votos_espejo": 510009,
+   "infoelectoral": {
+    "candidaturas_provincia": 514012,
+    "mesas_sin_cera": 510009,
+    "cera": 4003,
+    "mesas_total": 514012
+   },
+   "defecto_vs_provincia": 0.00779,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 3,
+    "errores": [],
+    "sin_homologar": [
+     "SUMAR"
+    ],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 510009,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "51",
+   "territorio": "congreso_ceuta",
+   "eleccion": "201111",
+   "votos_espejo": 31247,
+   "reagregado": {
+    "votos_distritos": 31247,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "51",
+   "territorio": "congreso_ceuta",
+   "eleccion": "201512",
+   "votos_espejo": 32515,
+   "reagregado": {
+    "votos_distritos": 32515,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "51",
+   "territorio": "congreso_ceuta",
+   "eleccion": "201606",
+   "votos_espejo": 30421,
+   "reagregado": {
+    "votos_distritos": 30421,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "51",
+   "territorio": "congreso_ceuta",
+   "eleccion": "201904",
+   "votos_espejo": 37562,
+   "reagregado": {
+    "votos_distritos": 37562,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "51",
+   "territorio": "congreso_ceuta",
+   "eleccion": "201911",
+   "votos_espejo": 32942,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 32942,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "51",
+   "territorio": "congreso_ceuta",
+   "eleccion": "202307",
+   "votos_espejo": 32905,
+   "infoelectoral": {
+    "candidaturas_provincia": 32993,
+    "mesas_sin_cera": 32905,
+    "cera": 88,
+    "mesas_total": 32993
+   },
+   "defecto_vs_provincia": 0.00267,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 32905,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "52",
+   "territorio": "congreso_melilla",
+   "eleccion": "201111",
+   "votos_espejo": 26163,
+   "reagregado": {
+    "votos_distritos": 26163,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "52",
+   "territorio": "congreso_melilla",
+   "eleccion": "201512",
+   "votos_espejo": 27721,
+   "reagregado": {
+    "votos_distritos": 27721,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "52",
+   "territorio": "congreso_melilla",
+   "eleccion": "201606",
+   "votos_espejo": 26745,
+   "reagregado": {
+    "votos_distritos": 26745,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "52",
+   "territorio": "congreso_melilla",
+   "eleccion": "201904",
+   "votos_espejo": 33512,
+   "reagregado": {
+    "votos_distritos": 33512,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "52",
+   "territorio": "congreso_melilla",
+   "eleccion": "201911",
+   "votos_espejo": 30591,
+   "boe": {
+    "comparados": 5,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 30591,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  },
+  {
+   "provincia": "52",
+   "territorio": "congreso_melilla",
+   "eleccion": "202307",
+   "votos_espejo": 26925,
+   "infoelectoral": {
+    "candidaturas_provincia": 27096,
+    "mesas_sin_cera": 26925,
+    "cera": 171,
+    "mesas_total": 27096
+   },
+   "defecto_vs_provincia": 0.00631,
+   "defecto_vs_mesas_sin_cera": 0.0,
+   "boe": {
+    "comparados": 4,
+    "errores": [],
+    "sin_homologar": [],
+    "avisos": []
+   },
+   "reagregado": {
+    "votos_distritos": 26925,
+    "votos_perdidos": 0,
+    "dif_max_partido": 0,
+    "ok": true
+   }
+  }
+ ],
+ "ganador_2023_vs_m08": {
+  "congreso_alava": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_albacete": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_almeria": {
+   "distritos": 6,
+   "ganador_distinto": []
+  },
+  "congreso_asturias": {
+   "distritos": 8,
+   "ganador_distinto": []
+  },
+  "congreso_avila": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_badajoz": {
+   "distritos": 6,
+   "ganador_distinto": []
+  },
+  "congreso_baleares": {
+   "distritos": 10,
+   "ganador_distinto": []
+  },
+  "congreso_burgos": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_caceres": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_cadiz": {
+   "distritos": 11,
+   "ganador_distinto": []
+  },
+  "congreso_cantabria": {
+   "distritos": 5,
+   "ganador_distinto": []
+  },
+  "congreso_castellon": {
+   "distritos": 5,
+   "ganador_distinto": []
+  },
+  "congreso_ceuta": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_ciudad_real": {
+   "distritos": 4,
+   "ganador_distinto": []
+  },
+  "congreso_cordoba": {
+   "distritos": 6,
+   "ganador_distinto": []
+  },
+  "congreso_cuenca": {
+   "distritos": 2,
+   "ganador_distinto": []
+  },
+  "congreso_gerona": {
+   "distritos": 7,
+   "ganador_distinto": []
+  },
+  "congreso_granada": {
+   "distritos": 8,
+   "ganador_distinto": []
+  },
+  "congreso_guadalajara": {
+   "distritos": 2,
+   "ganador_distinto": []
+  },
+  "congreso_guipuzcoa": {
+   "distritos": 6,
+   "ganador_distinto": []
+  },
+  "congreso_huelva": {
+   "distritos": 4,
+   "ganador_distinto": []
+  },
+  "congreso_huesca": {
+   "distritos": 2,
+   "ganador_distinto": []
+  },
+  "congreso_jaen": {
+   "distritos": 5,
+   "ganador_distinto": []
+  },
+  "congreso_la_coruna": {
+   "distritos": 9,
+   "ganador_distinto": []
+  },
+  "congreso_la_rioja": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_las_palmas": {
+   "distritos": 10,
+   "ganador_distinto": []
+  },
+  "congreso_leon": {
+   "distritos": 4,
+   "ganador_distinto": []
+  },
+  "congreso_lerida": {
+   "distritos": 4,
+   "ganador_distinto": []
+  },
+  "congreso_lugo": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_madrid": {
+   "distritos": 59,
+   "ganador_distinto": []
+  },
+  "congreso_melilla": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_murcia": {
+   "distritos": 13,
+   "ganador_distinto": []
+  },
+  "congreso_navarra": {
+   "distritos": 6,
+   "ganador_distinto": []
+  },
+  "congreso_orense": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_palencia": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_pontevedra": {
+   "distritos": 8,
+   "ganador_distinto": []
+  },
+  "congreso_salamanca": {
+   "distritos": 3,
+   "ganador_distinto": []
+  },
+  "congreso_santa_cruz_de_tenerife": {
+   "distritos": 9,
+   "ganador_distinto": []
+  },
+  "congreso_segovia": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_sevilla": {
+   "distritos": 16,
+   "ganador_distinto": []
+  },
+  "congreso_soria": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_tarragona": {
+   "distritos": 7,
+   "ganador_distinto": []
+  },
+  "congreso_teruel": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_toledo": {
+   "distritos": 6,
+   "ganador_distinto": []
+  },
+  "congreso_valencia": {
+   "distritos": 23,
+   "ganador_distinto": []
+  },
+  "congreso_valladolid": {
+   "distritos": 4,
+   "ganador_distinto": []
+  },
+  "congreso_vizcaya": {
+   "distritos": 10,
+   "ganador_distinto": []
+  },
+  "congreso_zamora": {
+   "distritos": 1,
+   "ganador_distinto": []
+  },
+  "congreso_zaragoza": {
+   "distritos": 8,
+   "ganador_distinto": []
+  }
+ },
+ "no_cuadra": [
+  {
+   "provincia": "24",
+   "territorio": "congreso_leon",
+   "eleccion": "201111",
+   "motivo": "REAGREGADO_NO_CUADRA",
+   "detalle": "perdidos 807.0, dif 0"
+  },
+  {
+   "provincia": "27",
+   "territorio": "congreso_lugo",
+   "eleccion": "201111",
+   "motivo": "REAGREGADO_NO_CUADRA",
+   "detalle": "perdidos 1128.0, dif 0"
+  },
+  {
+   "provincia": "32",
+   "territorio": "congreso_orense",
+   "eleccion": "201111",
+   "motivo": "REAGREGADO_NO_CUADRA",
+   "detalle": "perdidos 399.0, dif 0"
+  },
+  {
+   "provincia": "33",
+   "territorio": "congreso_asturias",
+   "eleccion": "201111",
+   "motivo": "REAGREGADO_NO_CUADRA",
+   "detalle": "perdidos 1541.0, dif 0"
+  },
+  {
+   "provincia": "03",
+   "territorio": null,
+   "eleccion": "todas",
+   "motivo": "SIN_M06_VIGENTE",
+   "detalle": "no hay producto territorial M06 publicado: sin distritos que reagregar (el espejo sí se contrastó)"
+  },
+  {
+   "provincia": "08",
+   "territorio": null,
+   "eleccion": "todas",
+   "motivo": "SIN_M06_VIGENTE",
+   "detalle": "no hay producto territorial M06 publicado: sin distritos que reagregar (el espejo sí se contrastó)"
+  },
+  {
+   "provincia": "29",
+   "territorio": null,
+   "eleccion": "todas",
+   "motivo": "SIN_M06_VIGENTE",
+   "detalle": "no hay producto territorial M06 publicado: sin distritos que reagregar (el espejo sí se contrastó)"
+  }
+ ]
+}

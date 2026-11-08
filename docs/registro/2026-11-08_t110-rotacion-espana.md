@@ -1,0 +1,6 @@
+## 2026-11-08 — T-110 — Histórico 2011-2023 sobre los distritos vigentes: rotación de España
+
+Causa: orden del propietario (empujón al histórico): extender T-83 B de 3 a todas las provincias con M06 y alimentar la capa de rotación del visor (T-109).
+Cambio: `herramientas/reagregacion_historico.py` 1.2.0 (legacy 1.1.0): `--lote` (carga una vez seccionados y padrón, verifica el sha256 del M06) y `rotacion/<t>.csv` con ganador homologado (T-97 + D-20). `herramientas/cuadre_historico_espana.py` 1.0.0 (nuevo): cuadre con Infoelectoral 2023 (mesas), BOE y M08. Datos: 49 territorios × 6 elecciones en `datos/resultados/historico/` (3,2 MB) e informe en `docs/ESTUDIOS/T110_ROTACION_ESPANA/`.
+Pruebas: `tests/test_t110_rotacion_espana.py` (3, valores a mano), los 6 de B y 4 de A; guardián y `GovernanceHeaders`. Resultado: 294/294 con diferencia 0 frente al espejo, 0 errores frente al BOE, espejo = Infoelectoral sin CERA en 52/52, ganador 2023 = M08 en 49/49.
+Riesgos: Alicante, Barcelona y Málaga sin M06; 4 provincias con 0,2-0,5 % de votos 2011 perdidos (sección sin geometría INE 2012); la rotación de Álava, Badajoz y Huesca cambia al homologar. Sin motor, workflows ni publicación.
