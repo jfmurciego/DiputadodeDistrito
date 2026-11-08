@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.178
+Versión: 1.0.179
 Fecha: 2026-11-08
-Alcance: T-96 — Credencial de registro en los pushes PENDING/pre-M04 a main
+Alcance: T-84 — Plan: secuencia tras T-84
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t96-credencial-registro.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.177_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_plan-tras-t84.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.178_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.177_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.179 · [2026-11-08 — T-84 — Plan: secuencia tras T-84](registro/2026-11-08_plan-tras-t84.md)
 - 1.0.178 · [2026-11-08 — T-96 — Credencial de registro en los pushes PENDING/pre-M04 a main](registro/2026-11-08_t96-credencial-registro.md)
 - 1.0.177 · [2026-11-08 — T-83 A — Histórico de generales por M07/M08 sobre los distritos vigentes](registro/2026-11-08_t83a-historico-m07.md)
 - 1.0.176 · [2026-11-08 — T-87 — Cadena de publicación con un solo lanzamiento (D-14)](registro/2026-11-08_t87-cadena-publicacion.md)
