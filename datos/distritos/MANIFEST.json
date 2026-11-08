@@ -8,7 +8,7 @@
     },
     "toponimos": {
       "path": "datos/distritos/toponimos_es.csv",
-      "sha256": "3c97899df3787db632d921d54a887b67d557707b1f3765422ddd967aafab1049"
+      "sha256": "b4716a5e11e91f9831fc86c6ceef4a47727c609c175d2ecc900b0cd464305fd5"
     },
     "comarcas": [
       {
@@ -33,6 +33,12 @@
       "sha256_m06": "e9506b80a511cc8c4d0e56be2bc842420edd4ee38610ae301a16a2f119b15f06",
       "comarcas_partidas": null,
       "partidos_partidos": 7
+    },
+    "congreso_alicante": {
+      "distritos": 17,
+      "sha256_m06": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443",
+      "comarcas_partidas": null,
+      "partidos_partidos": 10
     },
     "congreso_almeria": {
       "distritos": 6,
@@ -63,6 +69,12 @@
       "sha256_m06": "dd5afe1a4ac150521efa0a18abe88d0b1850ece441f8c0d06e927d0a20849d72",
       "comarcas_partidas": null,
       "partidos_partidos": 4
+    },
+    "congreso_barcelona": {
+      "distritos": 50,
+      "sha256_m06": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f",
+      "comarcas_partidas": null,
+      "partidos_partidos": 21
     },
     "congreso_burgos": {
       "distritos": 3,
@@ -201,6 +213,12 @@
       "sha256_m06": "c0be80d0d15d89d9929c0400a278a9abcfe31131726fd870790984ab7c06b029",
       "comarcas_partidas": null,
       "partidos_partidos": 19
+    },
+    "congreso_malaga": {
+      "distritos": 15,
+      "sha256_m06": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d",
+      "comarcas_partidas": null,
+      "partidos_partidos": 9
     },
     "congreso_melilla": {
       "distritos": 1,
