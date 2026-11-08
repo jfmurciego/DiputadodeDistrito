@@ -2,8 +2,9 @@
 
 VERSIÓN: 1.0.0 · FECHA: 2026-11-08
 ANTERIOR: ninguna (fichero nuevo)
-Valores esperados de fuentes independientes: códigos INE de provincia (Huesca 22, Teruel 44, Zaragoza 50) y las tres
-provincias sin M06 publicado a 08-11 (Alicante, Barcelona, Málaga: 49 de 52 en datos_abiertos/INDEX.json).
+Valores esperados de fuentes independientes: códigos INE de provincia (Huesca 22, Teruel 44, Zaragoza 50) y las 52
+circunscripciones del Congreso. No se fija cuántas tienen M06 publicado (cambia con cada 00): lo no soportado se prueba
+con un territorio inexistente.
 """
 import json
 import subprocess
@@ -22,11 +23,18 @@ H = {"eleccion": "histórico: generales 2019-11", "tipo": "nacional", "territori
 
 
 class Plan(unittest.TestCase):
-    def test_todos_omite_las_tres_sin_m06(self):
+    def test_todos_cubre_las_52(self):
         h = g.build(H, {}, ROOT)["historico"]
         self.assertEqual(h["clave"], "201911")
-        self.assertEqual(len(h["include"]), 49)
-        self.assertEqual(sorted(h["omitidos"]), ["congreso_alicante", "congreso_barcelona", "congreso_malaga"])
+        self.assertEqual(len(h["include"]) + len(h["omitidos"]), 52)
+
+    def test_sin_m06_se_omite_con_todos_y_falla_si_se_pide(self):
+        filas = [{"territory_id": "congreso_huesca", "codigo": "22"}, {"territory_id": "congreso_narnia", "codigo": "99"}]
+        h = hc.plan(H["eleccion"], filas, False, ROOT)
+        self.assertEqual(h["include"], [{"territorio": "congreso_huesca", "provincia": "22"}])
+        self.assertIn("sin M06 publicado", h["omitidos"]["congreso_narnia"])
+        with self.assertRaisesRegex(hc.NoDisponible, "congreso_narnia: sin M06"):
+            hc.plan(H["eleccion"], filas, True, ROOT)
 
     def test_comunidad_da_sus_provincias_con_codigo_ine(self):
         h = g.build({**H, "territorios": "Aragón"}, {}, ROOT)["historico"]
@@ -35,8 +43,7 @@ class Plan(unittest.TestCase):
                                         {"territorio": "congreso_zaragoza", "provincia": "50"}])
 
     def test_no_soportado_falla_con_mensaje(self):
-        casos = [({"territorios": "Huesca,Barcelona"}, "congreso_barcelona: sin M06"),
-                 ({"eleccion": "histórico: generales 2011"}, "empieza por 2019-11"),
+        casos = [({"eleccion": "histórico: generales 2011"}, "empieza por 2019-11"),
                  ({"publicar": "sí"}, "puerta 04"), ({"tipo": "autonómico"}, "nacional"),
                  ({"mapa": "350"}, "350"), ({"ensemble": "10"}, "ensemble")]
         for kw, msg in casos:
@@ -46,7 +53,6 @@ class Plan(unittest.TestCase):
     def test_markdown_y_lanzar_rechazado(self):
         plan = g.build(H, {}, ROOT)
         md = g.markdown(plan, True)
-        self.assertIn("Omitidos", md)
         self.assertIn("| congreso_huesca | 22 |", md)
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "plan.json"

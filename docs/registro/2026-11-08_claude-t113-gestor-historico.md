@@ -6,8 +6,8 @@ Cambio: `herramientas/historico_campana.py` 1.0.0 (nuevo): plan por provincia (e
 `datos_abiertos/INDEX.json`, composición y fichero del espejo T-89) y `ejecutar` en el runner: seccionado 2025 y padrón
 desde `inputs/partes` (sha256), M06 del blob (sha256 de INDEX), espejo de la elección y seccionados INE históricos
 (sha256 de T-83/T-85), paso B + paso A; puerta: cuadre exacto, M07 PASS y mismo ganador que B (código 0).
-`herramientas/gestor_campanas_2.py` 1.1.0: «histórico: generales 2019-11» da la matriz (con «todos», 49 provincias;
-Alicante, Barcelona y Málaga se omiten por no tener M06 publicado; pedidas por nombre, fallan con mensaje claro); el
+`herramientas/gestor_campanas_2.py` 1.1.0: «histórico: generales 2019-11» da la matriz (con «todos», las 52; una provincia
+sin M06 publicado o sin composición se omite con «todos» y, pedida por nombre, falla con mensaje claro); el
 resto del histórico, autonómico, mapa 350, ensemble y publicar «sí» (puerta 04 del histórico sin adaptar) fallan al
 planificar. `herramientas/reagregacion_historico.py` 1.2.0: `--elecciones` (por defecto todas; las geometrías de
 todos los años se siguen cargando, resultado idéntico). `gestor-campanas.yml` 1.6.0: job «histórico» (matriz tras el
