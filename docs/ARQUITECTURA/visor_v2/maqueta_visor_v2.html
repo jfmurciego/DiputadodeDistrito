@@ -1,0 +1,459 @@
+<title>Diputado de Distrito · web</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+
+:root{
+ --paper:#f6f1e7;--paper2:#efe7d9;--ink:#16201f;--muted:#68716d;--line:#d9d0c3;
+ --red:#b33a2d;--red2:#8f2c23;--blue:#25556b;--blue2:#173e52;--gold:#c59a4a;
+ --green:#496c57;--white:#fffdf8;--shadow:0 20px 60px rgba(46,42,36,.10);--r:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea{font:inherit}
+a{color:inherit}
+.site{min-height:100vh}
+.navbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(246,241,231,.91);backdrop-filter:blur(16px);border-bottom:1px solid rgba(22,32,31,.10)}
+.nav-inner{max-width:1500px;margin:auto;padding-block:13px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mark{width:42px;height:42px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:Georgia,serif;font-weight:800;font-size:12px;letter-spacing:.04em}
+.brand strong{font-family:Georgia,serif;font-size:17px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:1px;letter-spacing:.04em;text-transform:uppercase}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.tab{border:0;background:transparent;padding:9px 12px;border-radius:999px;cursor:pointer;color:#58615e;font-weight:750;font-size:12px}
+.tab:hover{background:#ebe3d6}.tab.active{background:var(--ink);color:#fff}
+.page{display:none}.page.active{display:block}
+.wrap{max-width:1500px;margin:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero{min-height:calc(100vh - 69px);display:grid;grid-template-columns:1.04fr .96fr;gap:50px;align-items:center;padding:56px 0 70px}
+.kicker{color:var(--red);font-size:11px;font-weight:850;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(54px,7vw,108px);line-height:.92;letter-spacing:-.055em;margin:0 0 24px;font-weight:500}
+h1 .accent{color:var(--red)}
+.lede{font-size:19px;line-height:1.7;color:#4c5652;max-width:790px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.cta{border:1px solid var(--ink);background:var(--ink);color:#fff;padding:12px 16px;border-radius:999px;text-decoration:none;font-weight:800;font-size:12px;cursor:pointer}
+.cta.secondary{background:transparent;color:var(--ink)}.cta:hover{transform:translateY(-1px)}
+.hero-visual{position:relative;min-height:610px;display:grid;place-items:center}
+.spain-card{position:relative;width:min(100%,690px);aspect-ratio:1/1;border:1px solid var(--line);border-radius:40px;background:
+ radial-gradient(circle at 25% 20%,rgba(179,58,45,.10),transparent 32%),
+ radial-gradient(circle at 78% 78%,rgba(37,85,107,.13),transparent 34%),
+ linear-gradient(145deg,#fffaf1,#eee4d5);box-shadow:var(--shadow);overflow:hidden}
+.spain-card:before{content:"407";position:absolute;right:28px;top:18px;font:500 clamp(92px,13vw,210px)/.9 Georgia,serif;color:rgba(22,32,31,.055);letter-spacing:-.08em}
+.silhouette{position:absolute;inset:10% 8% 12% 8%}
+.silhouette svg{width:100%;height:100%}
+.silhouette path{fill:#243734;stroke:#f6f1e7;stroke-width:1.25}
+.silhouette .island{fill:#8f2c23}
+.map-label{position:absolute;border:1px solid rgba(22,32,31,.16);background:rgba(255,253,248,.92);border-radius:14px;padding:10px 12px;box-shadow:0 10px 25px rgba(0,0,0,.06)}
+.map-label b{display:block;font:500 26px/1 Georgia,serif}.map-label span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.ml1{left:22px;top:28px}.ml2{right:22px;bottom:26px}.ml3{left:30px;bottom:32px}
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-top:-20px}
+.stat{background:var(--white);padding:22px 24px}.stat strong{display:block;font:500 36px/1 Georgia,serif}.stat span{color:var(--muted);font-size:11px}
+.section{padding:74px 0}
+.section.alt{background:#ebe3d6}
+.section-head{display:grid;grid-template-columns:.7fr 1.3fr;gap:40px;align-items:end;margin-bottom:34px}
+.section-head h2{font:500 clamp(38px,5vw,72px)/.98 Georgia,serif;margin:0;letter-spacing:-.045em}
+.section-head p{margin:0;color:#52605b;font-size:17px;max-width:820px}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.story{border:1px solid var(--line);border-radius:22px;background:var(--white);padding:22px;min-height:230px}
+.story .num{font:500 48px/1 Georgia,serif;color:var(--red)}.story h3{font:500 24px/1.1 Georgia,serif;margin:18px 0 10px}.story p{color:var(--muted);margin:0}
+.share-card{margin-top:24px;border-radius:26px;background:var(--ink);color:#fff;padding:30px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.share-card blockquote{font:500 31px/1.2 Georgia,serif;margin:0}.share-card p{color:#cbd3cf;margin:12px 0 0}.share-card .big{font:500 96px/.9 Georgia,serif;text-align:right;color:#d7b66b}
+.subhero{padding:68px 0 34px}.subhero h1{font-size:clamp(48px,6vw,88px);margin-bottom:16px}.subhero .lede{max-width:900px}
+.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0 34px}
+.metric{border:1px solid var(--line);border-radius:18px;background:var(--white);padding:18px}.metric b{display:block;font:500 34px/1 Georgia,serif}.metric span{font-size:11px;color:var(--muted)}
+.region-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}
+.card{border:1px solid var(--line);border-radius:22px;background:var(--white);padding:20px;box-shadow:0 10px 35px rgba(46,42,36,.045)}
+.card h3{font:500 24px/1.1 Georgia,serif;margin:0}.card .sub{color:var(--muted);margin:6px 0 0;font-size:12px}
+.region-bars{margin-top:18px;display:grid;gap:8px}
+.region-row{display:grid;grid-template-columns:170px 1fr 42px;gap:10px;align-items:center}.region-row .name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:11px;background:#e5ddd1;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),#d36a55);border-radius:999px}
+.region-row b{font-size:12px;text-align:right}
+.region-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:18px}
+.region-chip{border:1px solid var(--line);border-radius:15px;padding:12px;background:#fffaf2;cursor:pointer;transition:.15s}.region-chip:hover{transform:translateY(-1px);border-color:#bda995}
+.region-chip b{display:block;font-size:12px}.region-chip span{color:var(--red);font:500 26px/1 Georgia,serif}
+.model-switch{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.model{border:1px solid var(--line);background:var(--white);border-radius:22px;padding:24px;cursor:pointer;position:relative;overflow:hidden}
+.model.active{border:2px solid var(--ink);padding:23px}.model .tag{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--red);font-weight:850}.model b{display:block;font:500 74px/.95 Georgia,serif;margin:12px 0}.model p{color:var(--muted);margin:0}
+.model .mini{margin-top:16px;display:flex;gap:14px;color:#57615d;font-size:11px}
+.model.active:after{content:"seleccionado";position:absolute;right:14px;top:14px;background:var(--ink);color:#fff;border-radius:999px;padding:5px 8px;font-size:9px;text-transform:uppercase;letter-spacing:.07em}
+.compare-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;align-items:start}
+.comparison{max-height:650px;overflow:auto;margin-top:16px;padding-right:5px}
+.prov{display:grid;grid-template-columns:130px 1fr 36px 1fr 36px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #ece4d8}
+.prov-name{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mini-bar{height:8px;background:#ece5da;border-radius:999px;overflow:hidden}.mini-bar i{display:block;height:100%;border-radius:999px}.mini-bar.ddd i{background:var(--red)}.mini-bar.cur i{background:var(--blue)}.prov b{font-size:10px;text-align:right}
+.compare-note{border-radius:20px;background:var(--ink);color:#fff;padding:24px}.compare-note h3{font:500 30px/1.05 Georgia,serif;margin:0 0 10px}.compare-note p{color:#c8d0cd}.delta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.delta div{border:1px solid #43514d;border-radius:14px;padding:12px}.delta b{display:block;font:500 30px/1 Georgia,serif}.delta span{font-size:10px;color:#b7c1bd}
+.viewer-shell{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:#dbe3e7;box-shadow:var(--shadow)}
+.viewer-top{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:14px 16px;background:var(--white);border-bottom:1px solid var(--line)}.viewer-top b{font-family:Georgia,serif;font-size:18px}.viewer-top span{font-size:11px;color:var(--muted)}.viewer-shell iframe{display:block;width:100%;height:min(74vh,820px);border:0;background:white}
+.timeline{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.year{border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 13px;color:#7a837f;font-weight:800;font-size:11px}.year.active{background:var(--ink);color:#fff;border-color:var(--ink)}.year.future{opacity:.45}
+.method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.method{border:1px solid var(--line);background:var(--white);border-radius:22px;padding:24px;min-height:200px}.method .icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#eee3d3;color:var(--red);font:600 16px Georgia,serif}.method h3{font:500 24px/1.1 Georgia,serif;margin:16px 0 8px}.method p{color:var(--muted);margin:0}
+.sources{margin-top:18px;border-top:1px solid var(--line);padding-top:18px;display:flex;gap:10px;flex-wrap:wrap}.source-pill{border:1px solid var(--line);border-radius:999px;padding:8px 10px;background:#fffaf2;font-size:11px}
+.footer{padding:34px 0 48px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:11px}
+.editor-launch{display:none;position:fixed;right:18px;bottom:18px;z-index:90;border:0;background:var(--red);color:#fff;border-radius:999px;padding:12px 16px;box-shadow:0 10px 30px rgba(179,58,45,.28);cursor:pointer;font-weight:850}
+.editor-launch.show{display:block}
+.editor{position:fixed;inset:0 0 0 auto;width:min(480px,96vw);z-index:100;background:#fffdf8;border-left:1px solid var(--line);box-shadow:-25px 0 70px rgba(0,0,0,.18);transform:translateX(102%);transition:.22s;overflow:auto;padding:22px}
+.editor.open{transform:translateX(0)}.editor h2{font:500 30px Georgia,serif;margin:0}.editor label{display:grid;gap:5px;margin-top:14px;font-size:11px;font-weight:800;color:#56605c}.editor input,.editor textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px;background:white;color:var(--ink)}.editor textarea{min-height:90px;resize:vertical}.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.editor-actions button{border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;padding:8px 11px;cursor:pointer}.editor-actions button.secondary{background:transparent;color:var(--ink)}
+@media(max-width:1050px){.hero{grid-template-columns:1fr;min-height:auto}.hero-visual{min-height:520px}.section-head{grid-template-columns:1fr}.story-grid{grid-template-columns:1fr}.share-card{grid-template-columns:1fr}.share-card .big{text-align:left}.region-layout,.compare-wrap{grid-template-columns:1fr}.metric-row{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.nav-inner{padding-block:10px;align-items:flex-start}.brand small{display:none}.tabs{gap:2px}.tab{padding:8px 8px;font-size:10px}.hero{padding-top:38px;gap:24px}h1{font-size:52px}.hero-visual{min-height:390px}.spain-card{border-radius:28px}.ml2{right:10px;bottom:10px}.ml1{left:10px;top:10px}.ml3{display:none}.stats-strip{grid-template-columns:1fr 1fr;margin-top:10px}.stat{padding:16px}.metric-row{grid-template-columns:1fr 1fr}.region-grid{grid-template-columns:1fr}.model-switch{grid-template-columns:1fr}.method-grid{grid-template-columns:1fr}.viewer-shell iframe{height:72vh}}
+
+:root{color-scheme:light}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--paper)}
+[data-k]{outline:1px dashed transparent;border-radius:6px}
+body.marcas [data-k]{outline-color:rgba(179,58,45,.55);position:relative}
+body.marcas [data-k]::after{content:attr(data-k);position:absolute;left:0;top:-14px;font:600 9px/1 ui-monospace,Menlo,monospace;color:#fff;background:var(--red);padding:2px 4px;border-radius:3px;letter-spacing:.02em;white-space:nowrap}
+.ph{color:#9a8f80;font-style:italic}
+.visor-ph{display:grid;place-items:center;min-height:320px;background:repeating-linear-gradient(45deg,#e3eaee,#e3eaee 12px,#dbe3e7 12px,#dbe3e7 24px);color:#3e4b52;font-size:13px;text-align:center;padding:24px}
+.barra-edit{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:95;display:flex;gap:8px;flex-wrap:wrap}
+.barra-edit button{border:1px solid var(--ink);border-radius:999px;background:var(--white);color:var(--ink);padding:9px 13px;cursor:pointer;font-weight:750;font-size:12px}
+.barra-edit button.on{background:var(--ink);color:#fff}
+.editor textarea{min-height:70px}
+.ok{color:var(--green);font-size:12px;margin-top:8px}
+
+:root{--sea:#dbe3e7;--land:#cbc3b6;--stroke:#fffdf8;--off:#efe7d9;
+ --pp:#1d6fb8;--psoe:#d32b2b;--vox:#5fa335;--sumar:#cf2a7b;--erc:#f0ac00;--junts:#18a99b;--bildu:#0f7a52;--pnv:#2c5e36;--bng:#7cb2d8;--upn:#3a55a2;--cca:#e8c400;--otros:#9aa3ad}
+.vz{display:flex;flex-direction:column;gap:12px;padding-block:18px 28px}
+.vz-cab{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center}
+.vistas{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--white)}
+.vistas button{font-weight:800;font-size:13px;padding:10px 18px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.vistas button+button{border-left:1px solid var(--line)}
+.vistas button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.barra-sup{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.grupo{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.grupo>span{font-size:10px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.chip{font-weight:700;font-size:12px;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
+.chip:disabled{cursor:not-allowed;color:var(--muted);background:var(--off);border-style:dashed}
+.chip small{font-weight:500;font-size:10px;margin-left:4px}
+.vistas button:focus-visible,.chip:focus-visible,.eleccion:focus-visible,.volver:focus-visible,.tab:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.vz-grid{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:14px;min-height:560px}
+.mapa{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--sea);min-height:500px;box-shadow:var(--shadow)}
+#map{position:absolute;inset:0}
+.maplibregl-map{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.maplibregl-canvas{position:absolute;left:0;top:0}
+.migas{position:absolute;left:12px;top:12px;display:flex;gap:6px;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;z-index:2}
+.volver{font-weight:800;font-size:11px;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:999px;padding:3px 10px;cursor:pointer}
+.tip{position:absolute;pointer-events:none;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:12px;z-index:3;box-shadow:0 8px 20px rgba(0,0,0,.08);white-space:nowrap}
+.leyenda{position:absolute;left:12px;bottom:12px;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:7px 10px;font-size:11px;display:flex;flex-wrap:wrap;gap:4px 10px;max-width:calc(100% - 24px);z-index:2}
+.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.ficha{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0;overflow:auto;box-shadow:0 10px 35px rgba(46,42,36,.045)}
+.ficha h2{font:500 30px/1.05 Georgia,serif;margin:0;letter-spacing:-.02em}
+.eyebrow{color:var(--red);font-size:10px;font-weight:850;letter-spacing:.14em;text-transform:uppercase;margin:0}
+.hemi{width:100%;height:auto;display:block}
+.tabla{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.tabla td{padding:5px 0;border-bottom:1px solid var(--line)}
+.tabla td:last-child{text-align:right;font-family:Georgia,serif}
+.nota{font-size:13px;color:var(--muted);margin:0}
+.aviso{font-size:12px;border-radius:14px;padding:10px 12px;background:var(--ink);color:#d8ded9;margin:0}
+.pend{font-size:12px;color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:10px 12px;margin:0}
+.elecciones{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:999px;background:var(--white);overflow-x:auto}
+.elecciones>span{font-size:10px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 16px;align-self:center;white-space:nowrap}
+.eleccion{flex:1 0 auto;min-width:84px;border:0;border-left:1px solid var(--line);background:transparent;color:var(--ink);padding:8px 10px;cursor:pointer;text-align:center;font:500 17px/1.1 Georgia,serif}
+.eleccion small{display:block;font:700 9px/1.4 ui-sans-serif,system-ui,sans-serif;color:var(--muted);letter-spacing:.04em}
+.eleccion[aria-pressed="true"]{background:var(--ink);color:#fff}.eleccion[aria-pressed="true"] small{color:#cfd6d2}
+.eleccion:disabled{cursor:not-allowed;color:#a29a8d}
+.vz-pie{font-size:11px;color:var(--muted);margin:0}
+@media(max-width:900px){.vz-grid{grid-template-columns:1fr}.mapa{min-height:58vh}}
+</style>
+<div class="site">
+<header class="navbar">
+ <div class="nav-inner">
+  <a class="brand" href="#" data-tab-go="inicio"><div class="mark">DDD</div><div><strong>Diputado de Distrito</strong><small data-k="marcaLema"></small></div></a>
+  <nav class="tabs" aria-label="Secciones">
+   <button class="tab active" data-tab="inicio">Mapa</button>
+   <button class="tab" data-tab="nacional">Nacional</button>
+   <button class="tab" data-tab="autonomico">Autonómico</button>
+   <button class="tab" data-tab="elecciones">Elecciones</button>
+   <button class="tab" data-tab="metodo">Método</button>
+  </nav>
+ </div>
+</header>
+
+<main>
+<section class="page active" id="page-inicio">
+ <div class="wrap vz">
+  <div class="vz-cab">
+   <nav class="vistas" aria-label="Vista">
+    <button id="v-congreso" aria-pressed="true">Congreso de los Diputados</button>
+    <button id="v-autonomico" aria-pressed="false">Parlamentos autonómicos</button>
+   </nav>
+   <div class="barra-sup" id="controles-congreso">
+    <div class="grupo" role="group" aria-label="Sistema"><span>Sistema</span>
+     <button class="chip" id="s-real" aria-pressed="true">Real · proporcional (350)</button>
+     <button class="chip" disabled title="Pendiente de T-102">350 distritos · mayoritario<small>T-102</small></button>
+     <button class="chip" disabled title="Pendiente de datos por distrito">407 distritos · propuesta<small>pronto</small></button>
+    </div>
+    <div class="grupo" role="group" aria-label="Capa"><span>Capa</span>
+     <button class="chip" aria-pressed="true">Partido más votado</button>
+     <button class="chip" disabled>Rotación<small>T-83</small></button>
+     <button class="chip" disabled>Participación<small>pronto</small></button>
+     <button class="chip" disabled>Secciones<small>pronto</small></button>
+    </div>
+   </div>
+  </div>
+  <div class="vz-grid">
+   <section class="mapa" aria-label="Mapa">
+    <div id="map"></div>
+    <div class="migas"><span id="ruta">España</span><button class="volver" id="volver" hidden>Volver a España</button></div>
+    <div class="tip" id="tip" hidden></div>
+    <div class="leyenda" id="leyenda"></div>
+   </section>
+   <div class="ficha" id="ficha" aria-live="polite"></div>
+  </div>
+  <nav class="elecciones" aria-label="Elección" id="elecciones-barra"></nav>
+  <p class="vz-pie">Datos reales: generales de 2023 (BOE-A-2023-18907). Geometría: INE (CC BY 4.0), simplificada; Canarias desplazada junto a la península. Mapa de investigación sin valor oficial.</p>
+ </div>
+</section>
+
+<section class="page" id="page-nacional">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Congreso de los Diputados</div><h1 data-k="nacionalTitulo"></h1><p class="lede" data-k="nacionalEntradilla"></p></div>
+  <div class="model-switch">
+   <article class="model active" data-model="407"><span class="tag">Propuesta DDD</span><b>407</b><p data-k="nacionalModelo407"></p><div class="mini"><span>1 distrito por provincia como mínimo</span><span>52 circunscripciones</span></div></article>
+   <article class="model" data-model="350"><span class="tag">Tamaño actual del Congreso</span><b>350</b><p data-k="nacionalModelo350"></p><div class="mini"><span>reparto provincial de 2023</span><span>52 circunscripciones</span></div></article>
+  </div>
+  <div class="compare-wrap section">
+   <div class="card"><h3>Distritos por provincia</h3><p class="sub">Rojo: propuesta de 407 · Azul: escaños reales de 2023 (BOE-A-2023-18907)</p><div class="comparison" id="province-comparison"></div></div>
+   <div class="compare-note"><h3 data-k="nacionalNotaTitulo"></h3><p data-k="nacionalNotaTexto"></p>
+    <div class="delta"><div><b>+57</b><span>distritos frente a 350</span></div><div><b>+16,3 %</b><span>de tamaño de la Cámara</span></div></div></div>
+  </div>
+  <div class="section">
+   <div class="section-head"><h2 data-k="nacionalVisorTitulo"></h2><p data-k="nacionalVisorTexto"></p></div>
+   <div class="viewer-shell">
+    <div class="viewer-top"><div><b>Visor nacional</b><span>407 distritos</span></div><a class="cta secondary" href="https://jfmurciego.github.io/DiputadodeDistrito/nacional/" target="_blank" rel="noreferrer">Abrir a pantalla completa</a></div>
+    <div class="visor-ph">Aquí va el visor en vivo de producción (/nacional/).<br>En esta vista previa no se puede incrustar; en la web real sí.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="page-autonomico">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Parlamentos autonómicos</div><h1 data-k="autonomicoTitulo"></h1><p class="lede" data-k="autonomicoEntradilla"></p></div>
+  <div class="metric-row">
+   <div class="metric"><b>19</b><span>parlamentos</span></div>
+   <div class="metric"><b>1.262</b><span>distritos</span></div>
+   <div class="metric"><b>135</b><span>los mayores: Cataluña y Comunidad de Madrid</span></div>
+   <div class="metric"><b>25</b><span>los menores: Ceuta y Melilla</span></div>
+  </div>
+  <div class="region-layout section">
+   <div class="card"><h3>Distritos por parlamento</h3><p class="sub">Del catálogo de territorios del proyecto.</p><div class="region-bars" id="region-bars"></div></div>
+   <div class="card"><h3>Los 19 parlamentos</h3><p class="sub" data-k="autonomicoFichasPie"></p><div class="region-grid" id="region-grid"></div></div>
+  </div>
+  <div class="section"><div class="section-head"><h2 data-k="autonomicoBloqueTitulo"></h2><p data-k="autonomicoBloqueTexto"></p></div></div>
+ </div>
+</section>
+
+<section class="page" id="page-elecciones">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Elecciones generales</div><h1 data-k="eleccionesTitulo"></h1><p class="lede" data-k="eleccionesEntradilla"></p></div>
+  <div class="timeline"><span class="year future">2011</span><span class="year future">2015</span><span class="year future">2016</span><span class="year future">2019</span><span class="year active">2023</span><span class="year future">2026</span></div>
+  <div class="viewer-shell">
+   <div class="viewer-top"><div><b>Generales de 2023</b><span>Ganador por distrito</span></div><a class="cta secondary" href="https://jfmurciego.github.io/DiputadodeDistrito/nacional/" target="_blank" rel="noreferrer">Abrir visor</a></div>
+   <div class="visor-ph">Aquí va el visor con los resultados por distrito.<br>Cuando esté T-102, también el selector «Real / 350 distritos».</div>
+  </div>
+  <div class="section"><div class="story-grid">
+   <article class="story"><div class="num">52</div><h3 data-k="eleccionesIdea1Titulo"></h3><p data-k="eleccionesIdea1Texto"></p></article>
+   <article class="story"><div class="num">2023</div><h3 data-k="eleccionesIdea2Titulo"></h3><p data-k="eleccionesIdea2Texto"></p></article>
+   <article class="story"><div class="num">→</div><h3 data-k="eleccionesIdea3Titulo"></h3><p data-k="eleccionesIdea3Texto"></p></article>
+  </div></div>
+ </div>
+</section>
+
+<section class="page" id="page-metodo">
+ <div class="wrap">
+  <div class="subhero"><div class="kicker">Método</div><h1 data-k="metodoTitulo"></h1><p class="lede" data-k="metodoEntradilla"></p></div>
+  <div class="method-grid">
+   <article class="method"><div class="icon">1</div><h3 data-k="metodo1Titulo"></h3><p data-k="metodo1Texto"></p></article>
+   <article class="method"><div class="icon">2</div><h3 data-k="metodo2Titulo"></h3><p data-k="metodo2Texto"></p></article>
+   <article class="method"><div class="icon">3</div><h3 data-k="metodo3Titulo"></h3><p data-k="metodo3Texto"></p></article>
+   <article class="method"><div class="icon">4</div><h3 data-k="metodo4Titulo"></h3><p data-k="metodo4Texto"></p></article>
+  </div>
+  <div class="sources"><span class="source-pill">INE · secciones censales y padrón</span><span class="source-pill">BOE · escaños y normas electorales</span><span class="source-pill">Ministerio del Interior · resultados por mesa</span><span class="source-pill">Código abierto en GitHub · Zenodo</span></div>
+  <div class="section"><div class="share-card"><div><blockquote data-k="cierreCita"></blockquote><p data-k="cierreAviso"></p></div><div class="big">DDD</div></div></div>
+ </div>
+</section>
+</main>
+<div class="wrap"><footer class="footer"><span data-k="pieTexto"></span><span><a href="https://github.com/jfmurciego/DiputadodeDistrito" target="_blank" rel="noreferrer">Código y metodología en GitHub</a></span></footer></div>
+</div>
+
+<div class="barra-edit">
+ <button id="b-editar">Editar textos</button>
+ <button id="b-claves">Ver claves</button>
+</div>
+<aside class="editor" id="editor" aria-label="Editor de textos">
+ <button class="cta secondary" id="editor-close" style="float:right">Cerrar</button>
+ <h2>Textos</h2>
+ <p style="color:#68716d;font-size:13px">Escribe y pulsa «Aplicar» para verlo en la página. Al terminar, «Copiar textos.md» y pégalo en el fichero del repositorio.</p>
+ <div class="editor-actions">
+   <button id="aplicar">Aplicar</button>
+   <button class="secondary" id="copiar">Copiar textos.md</button>
+   <button class="secondary" id="vaciar">Volver a los huecos</button>
+ </div>
+ <p class="ok" id="aviso-copia" hidden></p>
+ <textarea id="copia-manual" hidden readonly style="margin-top:10px;min-height:160px;width:100%"></textarea>
+ <div id="editor-fields"></div>
+</aside>
+<script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+<script>
+const HUECOS={
+ marcaLema:"Lema corto bajo el nombre (3-5 palabras)",
+ inicioAntetitulo:"Antetítulo de portada (3-6 palabras)",
+ inicioTitulo:"Título de portada (frase corta y fuerte)",
+ inicioEntradilla:"Entradilla de portada (2-3 frases: qué es y por qué importa)",
+ inicioBotonNacional:"Botón hacia Nacional (2-4 palabras)",
+ inicioBotonAutonomico:"Botón hacia Autonómico (2-4 palabras)",
+ inicioBloqueTitulo:"Título del bloque de ideas",
+ inicioBloqueTexto:"Texto del bloque de ideas (2-3 frases)",
+ inicioIdea1Titulo:"Idea 1 · título",inicioIdea1Texto:"Idea 1 · texto (1-2 frases)",
+ inicioIdea2Titulo:"Idea 2 · título",inicioIdea2Texto:"Idea 2 · texto (1-2 frases)",
+ inicioIdea3Titulo:"Idea 3 · título",inicioIdea3Texto:"Idea 3 · texto (1-2 frases)",
+ inicioCita:"Cita o frase para compartir",inicioCitaPie:"Pie de la cita (1 frase)",
+ nacionalTitulo:"Título de Nacional",nacionalEntradilla:"Entradilla de Nacional (2-3 frases)",
+ nacionalModelo407:"Qué es la propuesta de 407 (1-2 frases)",
+ nacionalModelo350:"Qué es la comparación con 350 (1-2 frases)",
+ nacionalNotaTitulo:"Título de la nota de comparación",nacionalNotaTexto:"Texto de la nota de comparación (2 frases)",
+ nacionalVisorTitulo:"Título sobre el visor",nacionalVisorTexto:"Cómo usar el visor (1-2 frases)",
+ autonomicoTitulo:"Título de Autonómico",autonomicoEntradilla:"Entradilla de Autonómico (2-3 frases)",
+ autonomicoFichasPie:"Subtítulo de la lista de parlamentos",
+ autonomicoBloqueTitulo:"Título del bloque final de Autonómico",autonomicoBloqueTexto:"Texto del bloque final (2-3 frases)",
+ eleccionesTitulo:"Título de Elecciones",eleccionesEntradilla:"Entradilla de Elecciones (2-3 frases)",
+ eleccionesIdea1Titulo:"Bloque 1 · título",eleccionesIdea1Texto:"Bloque 1 · texto",
+ eleccionesIdea2Titulo:"Bloque 2 · título",eleccionesIdea2Texto:"Bloque 2 · texto",
+ eleccionesIdea3Titulo:"Bloque 3 · título",eleccionesIdea3Texto:"Bloque 3 · texto",
+ metodoTitulo:"Título de Método",metodoEntradilla:"Entradilla de Método (2-3 frases)",
+ metodo1Titulo:"Paso 1 · título",metodo1Texto:"Paso 1 · texto",
+ metodo2Titulo:"Paso 2 · título",metodo2Texto:"Paso 2 · texto",
+ metodo3Titulo:"Paso 3 · título",metodo3Texto:"Paso 3 · texto",
+ metodo4Titulo:"Paso 4 · título",metodo4Texto:"Paso 4 · texto",
+ cierreCita:"Frase de cierre",cierreAviso:"Aviso legal corto (mapa de investigación sin valor oficial)",
+ pieTexto:"Texto del pie de página"
+};
+Object.keys(HUECOS).forEach(k=>{if(!document.querySelector('[data-k="'+k+'"]'))delete HUECOS[k]});
+const AUTONOMICO=[["Andalucía",109],["Aragón",67],["Principado de Asturias",45],["Islas Baleares",59],["Canarias",70],["Cantabria",35],["Castilla y León",82],["Castilla-La Mancha",33],["Cataluña",135],["Comunidad Valenciana",99],["Extremadura",65],["Galicia",75],["Comunidad de Madrid",135],["Región de Murcia",45],["Comunidad Foral de Navarra",50],["País Vasco",75],["La Rioja",33],["Ceuta",25],["Melilla",25]];
+let textos={};
+try{textos=JSON.parse(localStorage.getItem("ddd-textos")||"{}")}catch(e){textos={}}
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function aplicar(){
+ document.querySelectorAll("[data-k]").forEach(el=>{
+  const k=el.dataset.k,t=(textos[k]||"").trim();
+  el.innerHTML=t?esc(t).replace(/\n/g,"<br>"):`<span class="ph">[${HUECOS[k]||k}]</span>`;
+ });
+}
+function aMarkdown(){
+ return "# Textos de la web de Diputado de Distrito\n# Escribe debajo de cada «## clave». Una línea en blanco separa párrafos.\n\n"+Object.keys(HUECOS).map(k=>`## ${k}\n<!-- ${HUECOS[k]} -->\n${(textos[k]||"").trim()}\n`).join("\n");
+}
+const setTab=id=>{document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+id));document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));scrollTo({top:0});};
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+document.querySelectorAll("[data-tab-go]").forEach(b=>b.onclick=e=>{e.preventDefault();setTab(b.dataset.tabGo)});
+const max=135;
+document.querySelector("#region-bars").innerHTML=[...AUTONOMICO].sort((a,b)=>b[1]-a[1]).map(([n,d])=>`<div class="region-row"><span class="name">${n}</span><span class="bar"><i style="width:${d/max*100}%"></i></span><b>${d}</b></div>`).join("");
+document.querySelector("#region-grid").innerHTML=AUTONOMICO.map(([n,d])=>`<div class="region-chip"><span>${d}</span><b>${n}</b></div>`).join("");
+fetch("provincias.json").then(r=>r.json()).then(p=>{
+ const rows=p.features.map(f=>f.properties).sort((a,b)=>a.cod.localeCompare(b.cod));
+ const mk=59;
+ document.querySelector("#province-comparison").innerHTML=rows.map(r=>`<div class="prov"><span class="prov-name">${r.nombre}</span><span class="mini-bar ddd"><i style="width:${r.k407/mk*100}%"></i></span><b>${r.k407}</b><span class="mini-bar cur"><i style="width:${r.escanos/mk*100}%"></i></span><b>${r.escanos}</b></div>`).join("");
+}).catch(()=>{});
+document.querySelectorAll(".model").forEach(m=>m.onclick=()=>{document.querySelectorAll(".model").forEach(x=>x.classList.remove("active"));m.classList.add("active")});
+const editor=document.querySelector("#editor"),fields=document.querySelector("#editor-fields");
+function pintarCampos(){fields.innerHTML=Object.keys(HUECOS).map(k=>`<label for="t-${k}">${k}<span style="font-weight:400;color:#8a8f8c"> · ${HUECOS[k]}</span><textarea id="t-${k}" data-key="${k}">${esc(textos[k]||"")}</textarea></label>`).join("")}
+document.querySelector("#b-editar").onclick=()=>{pintarCampos();editor.classList.add("open")};
+document.querySelector("#editor-close").onclick=()=>editor.classList.remove("open");
+document.querySelector("#b-claves").onclick=e=>{document.body.classList.toggle("marcas");e.currentTarget.classList.toggle("on")};
+function leerCampos(){fields.querySelectorAll("textarea").forEach(t=>textos[t.dataset.key]=t.value);try{localStorage.setItem("ddd-textos",JSON.stringify(textos))}catch(e){}}
+document.querySelector("#aplicar").onclick=()=>{leerCampos();aplicar()};
+document.querySelector("#vaciar").onclick=()=>{textos={};try{localStorage.removeItem("ddd-textos")}catch(e){};pintarCampos();aplicar()};
+document.querySelector("#copiar").onclick=()=>{
+ leerCampos();aplicar();const md=aMarkdown(),av=document.querySelector("#aviso-copia"),ta=document.querySelector("#copia-manual");
+ const manual=()=>{ta.value=md;ta.hidden=false;ta.select();av.textContent="No se pudo copiar solo: selecciona el texto de abajo y cópialo.";av.hidden=false};
+ try{navigator.clipboard.writeText(md).then(()=>{ta.hidden=true;av.textContent="Copiado. Pégalo en web/textos.md del repositorio.";av.hidden=false},manual)}catch(e){manual()}
+};
+aplicar();
+</script>
+<script>
+(function(){
+const NOMBRE={"PP":"PP","PSOE":"PSOE","VOX":"VOX","SUMAR":"SUMAR","ERC":"ERC","JUNTS":"Junts","EH Bildu":"EH Bildu","EAJ-PNV":"PNV","BNG":"BNG","UPN":"UPN","CCa":"CC"};
+const VARP={"PP":"--pp","PSOE":"--psoe","VOX":"--vox","SUMAR":"--sumar","ERC":"--erc","JUNTS":"--junts","EH Bildu":"--bildu","EAJ-PNV":"--pnv","BNG":"--bng","UPN":"--upn","CCa":"--cca"};
+const ORDEN=["SUMAR","ERC","EH Bildu","BNG","PSOE","EAJ-PNV","JUNTS","CCa","UPN","PP","VOX"];
+const ELEC=[["2011","nov"],["2015","dic"],["2016","jun"],["2019","abr"],["2019","nov"],["2023","jul"],["2026","nov"]];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const col=p=>css(VARP[p]||"--otros");
+const $=id=>document.getElementById(id);
+let vista="congreso",prov=null,ccaa=null,map=null,sel=null,selId=null,selCcaa=null,hoverCcaa=null;
+const barra=$("elecciones-barra");
+const et=document.createElement("span");et.textContent="Elecciones generales";barra.appendChild(et);
+ELEC.forEach(([a,m])=>{const b=document.createElement("button");b.className="eleccion";const on=a==="2023";b.disabled=!on;b.setAttribute("aria-pressed",String(on));b.innerHTML=a+"<small>"+m+(on?"":a==="2026"?" · 29-11":" · T-83")+"</small>";barra.appendChild(b)});
+function totales(){const t={};prov.features.forEach(f=>{for(const[p,n]of Object.entries(f.properties.esc))t[p]=(t[p]||0)+n});return t}
+function hemi(esc){
+ const total=Object.values(esc).reduce((a,b)=>a+b,0),filas=9,r0=38,r1=96,pts=[];
+ const R=[...Array(filas)].map((_,i)=>r0+(r1-r0)*i/(filas-1)),suma=R.reduce((a,b)=>a+b,0);
+ let as=0;const pf=R.map((r,i)=>{const n=i===filas-1?total-as:Math.round(total*r/suma);as+=n;return n});
+ R.forEach((r,i)=>{const n=pf[i];for(let j=0;j<n;j++){const a=Math.PI*(1-(n===1?.5:j/(n-1)));pts.push({x:100+r*Math.cos(a),y:104-r*Math.sin(a),a})}});
+ pts.sort((p,q)=>q.a-p.a);const seq=[];ORDEN.forEach(p=>{for(let k=0;k<(esc[p]||0);k++)seq.push(p)});
+ return `<svg class="hemi" viewBox="0 0 200 112" role="img" aria-label="Hemiciclo de ${total} escaños">${pts.map((p,i)=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.1" fill="${col(seq[i])}"/>`).join("")}<text x="100" y="100" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="${css("--ink")}">${total}</text></svg>`;
+}
+const tabla=esc=>`<table class="tabla">${Object.entries(esc).sort((a,b)=>b[1]-a[1]).map(([p,n])=>`<tr><td><span class="sw" style="background:${col(p)}"></span>${NOMBRE[p]||p}</td><td>${n}</td></tr>`).join("")}</table>`;
+function fichaC(){
+ const f=$("ficha");
+ if(!sel){f.innerHTML=`<p class="eyebrow">Generales · julio de 2023</p><h2>España</h2>${hemi(totales())}${tabla(totales())}<p class="aviso">Pulsa una provincia del mapa para ver su reparto. Con «350 distritos» (T-102) aquí saldrá el mismo hemiciclo con el ganador de cada distrito.</p>`;return}
+ const p=sel.properties;
+ f.innerHTML=`<p class="eyebrow">Circunscripción · ${p.escanos} escaños</p><h2>${p.nombre}</h2><p class="nota">Más votado: <b>${NOMBRE[p.ganador]||p.ganador}</b> (${String(p.pct).replace(".",",")} % de los votos a candidaturas)</p>${hemi(p.esc)}${tabla(p.esc)}<p class="pend">Propuesta del proyecto: ${p.k407} ${p.k407===1?"distrito":"distritos"} uninominales en esta provincia. Su mapa y su ganador por distrito llegan con la capa «407 distritos».</p>`;
+}
+function fichaA(){
+ const f=$("ficha");
+ if(!ccaa){f.innerHTML=`<p class="eyebrow">Parlamentos autonómicos</p><h2>Elige una comunidad</h2><p class="nota">Pulsa una comunidad en el mapa. No hay desplegables: el mapa es el selector.</p><p class="pend">Esta vista no comparte controles con la del Congreso. Cada parlamento tendrá su propia barra de elecciones y sus distritos.</p>`;return}
+ f.innerHTML=`<p class="eyebrow">Parlamento autonómico</p><h2>${ccaa.properties.nombre}</h2><p class="pend">Pendiente en la maqueta: hemiciclo real, distritos propuestos y barra con sus elecciones autonómicas.</p>`;
+}
+function leyenda(){
+ const L=$("leyenda");
+ if(vista==="autonomico"){L.innerHTML=`<span><span class="sw" style="background:${css("--red")}"></span>Comunidad elegida</span>`;return}
+ const ps=[...new Set(prov.features.map(f=>f.properties.ganador))];
+ L.innerHTML=ps.map(p=>`<span><span class="sw" style="background:${col(p)}"></span>${NOMBRE[p]||p}</span>`).join("")+`<span style="color:${css("--muted")}">· más votado por provincia</span>`;
+}
+function pintar(){
+ if(!map||!map.getLayer("prov-fill"))return;
+ const e=["match",["get","ganador"]];Object.keys(VARP).forEach(p=>e.push(p,col(p)));e.push(css("--otros"));
+ map.setPaintProperty("prov-fill","fill-color",vista==="congreso"?e:css("--land"));
+ map.setPaintProperty("prov-fill","fill-opacity",vista==="congreso"?["case",["boolean",["feature-state","sel"],false],1,.86]:.9);
+ map.setPaintProperty("ccaa-fill","fill-opacity",vista==="autonomico"?["case",["boolean",["feature-state","sel"],false],.75,["boolean",["feature-state","hover"],false],.25,0]:0);
+ map.setPaintProperty("ccaa-line","line-width",vista==="autonomico"?1.4:.7);
+ leyenda();
+}
+const ESP=[[-13.2,33.7],[4.6,44.0]];
+function bbox(g){let a=[180,90,-180,-90];const w=c=>{if(typeof c[0]==="number"){a[0]=Math.min(a[0],c[0]);a[1]=Math.min(a[1],c[1]);a[2]=Math.max(a[2],c[0]);a[3]=Math.max(a[3],c[1])}else c.forEach(w)};w(g.coordinates);return[[a[0],a[1]],[a[2],a[3]]]}
+function setSel(src,id,key,prev){if(prev!==null)map.setFeatureState({source:src,id:prev},{[key]:false});if(id!==null)map.setFeatureState({source:src,id},{[key]:true})}
+function irEspana(){
+ if(selId!==null){setSel("prov",null,"sel",selId);selId=null}
+ if(selCcaa!==null){setSel("ccaa",null,"sel",selCcaa);selCcaa=null}
+ sel=null;ccaa=null;$("ruta").textContent="España";$("volver").hidden=true;
+ map.fitBounds(ESP,{padding:20,duration:500});vista==="congreso"?fichaC():fichaA();
+}
+function cambiar(v){vista=v;$("v-congreso").setAttribute("aria-pressed",String(v==="congreso"));$("v-autonomico").setAttribute("aria-pressed",String(v==="autonomico"));$("controles-congreso").hidden=v!=="congreso";barra.hidden=v!=="congreso";irEspana();pintar()}
+$("v-congreso").onclick=()=>cambiar("congreso");$("v-autonomico").onclick=()=>cambiar("autonomico");$("volver").onclick=irEspana;
+document.querySelectorAll('[data-tab="inicio"],[data-tab-go="inicio"]').forEach(b=>b.addEventListener("click",()=>setTimeout(()=>map&&map.resize(),30)));
+Promise.all([fetch("provincias.json").then(r=>r.json()),fetch("comunidades.json").then(r=>r.json())]).then(([p,c])=>{
+ prov=p;fichaC();
+ map=new maplibregl.Map({container:"map",style:{version:8,sources:{},layers:[{id:"bg",type:"background",paint:{"background-color":css("--sea")}}]},bounds:ESP,fitBoundsOptions:{padding:20},attributionControl:false,dragRotate:false,pitchWithRotate:false,renderWorldCopies:false});
+ map.touchZoomRotate.disableRotation();
+ map.on("load",()=>{
+  map.addSource("prov",{type:"geojson",data:p});map.addSource("ccaa",{type:"geojson",data:c});
+  map.addSource("caja",{type:"geojson",data:{type:"Feature",geometry:{type:"LineString",coordinates:[[-12.9,33.95],[-7.75,33.95],[-7.75,36.25],[-12.9,36.25],[-12.9,33.95]]}}});
+  map.addLayer({id:"prov-fill",type:"fill",source:"prov",paint:{"fill-color":"#999"}});
+  map.addLayer({id:"prov-line",type:"line",source:"prov",paint:{"line-color":css("--stroke"),"line-width":.6}});
+  map.addLayer({id:"ccaa-fill",type:"fill",source:"ccaa",paint:{"fill-color":css("--red"),"fill-opacity":0}});
+  map.addLayer({id:"ccaa-line",type:"line",source:"ccaa",paint:{"line-color":css("--ink"),"line-width":.7}});
+  map.addLayer({id:"caja",type:"line",source:"caja",paint:{"line-color":css("--muted"),"line-width":1,"line-dasharray":[3,2]}});
+  pintar();
+  const tip=$("tip");
+  map.on("mousemove",e=>{
+   const f=map.queryRenderedFeatures(e.point,{layers:[vista==="congreso"?"prov-fill":"ccaa-fill"]})[0];
+   if(vista==="autonomico"){const id=f?f.id:null;if(id!==hoverCcaa){if(hoverCcaa!==null)map.setFeatureState({source:"ccaa",id:hoverCcaa},{hover:false});if(id!==null)map.setFeatureState({source:"ccaa",id},{hover:true});hoverCcaa=id}}
+   if(!f){tip.hidden=true;map.getCanvas().style.cursor="";return}
+   map.getCanvas().style.cursor="pointer";const q=f.properties;
+   tip.innerHTML=vista==="congreso"?`<b>${q.nombre}</b> · ${q.escanos} escaños · más votado: ${NOMBRE[q.ganador]||q.ganador}`:`<b>${q.nombre}</b>`;
+   tip.hidden=false;tip.style.left=Math.max(6,Math.min(e.point.x+12,map.getCanvas().clientWidth-tip.offsetWidth-6))+"px";tip.style.top=(e.point.y+12)+"px";
+  });
+  map.on("mouseout",()=>{tip.hidden=true});
+  map.on("click",e=>{
+   if(vista==="congreso"){const f=map.queryRenderedFeatures(e.point,{layers:["prov-fill"]})[0];if(!f)return;const full=prov.features.find(x=>x.id===f.id);setSel("prov",f.id,"sel",selId);selId=f.id;sel=full;$("ruta").textContent="España › "+full.properties.nombre;$("volver").hidden=false;map.fitBounds(bbox(full.geometry),{padding:50,maxZoom:8,duration:500});fichaC()}
+   else{const f=map.queryRenderedFeatures(e.point,{layers:["ccaa-fill"]})[0];if(!f)return;const full=c.features.find(x=>x.id===f.id);setSel("ccaa",f.id,"sel",selCcaa);selCcaa=f.id;ccaa=full;$("ruta").textContent="España › "+full.properties.nombre;$("volver").hidden=false;map.fitBounds(bbox(full.geometry),{padding:50,maxZoom:8,duration:500});fichaA()}
+  });
+ });
+}).catch(err=>{$("ficha").innerHTML=`<p class="aviso">No se pudo cargar el mapa: ${err.message}. Recarga la página.</p>`});
+})();
+</script>
