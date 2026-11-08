@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T22:35:36.364334+00:00",
+  "generated_at": "2026-11-08T22:53:53.938598+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 49,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 68,
-      "activable": 3,
+      "activated": 69,
+      "activable": 2,
       "territorial_pending": 48,
       "electoral_pending": 49,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 72,
       "electoral_source": 71,
-      "durable_pair": 68
+      "durable_pair": 69
     },
     "territories": [
       {
@@ -384,12 +384,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac.json",
-            "pair_sha256": "28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf.json",
+            "pair_sha256": "3f2c6ef7aafa96ff9e6a29582e4fe21be426ad7afdde8d65e33af0b06b5a2adf",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -7126,10 +7126,10 @@
           "territory_id": "castilla_y_leon",
           "territory_name": "Castilla y León",
           "edition": "2025",
-          "run_id": 40979527162,
-          "artifact_name": "ddd-state-40979527162-M08",
-          "artifact_sha256": "04d1b913b5056d9a6155cc6a84c74aaf8227fa333100442a342bb5c306edafd6",
-          "source_commit": "627514a362fff2e6b75bd3313356963a38fc6a73",
+          "run_id": 42531122768,
+          "artifact_name": "ddd-state-42531122768-M08",
+          "artifact_sha256": "85727339f12a4afcabba8e98f33168bd84c15bc23abc7ded8f89a3ff2d9c9826",
+          "source_commit": "ea7d79ddbe517361b81970cb7a307648819c2ff1",
           "stage": "M08"
         }
       },
@@ -10625,7 +10625,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42525625044,
       "last_run": {
-        "run_id": 42502622738,
+        "run_id": 42525625044,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -11649,7 +11649,14 @@
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
-      "last_run": {},
+      "last_run": {
+        "run_id": 42522378370,
+        "status": "FAILED",
+        "completion_status": "INCOMPLETE",
+        "stopped_at": "02 · Generación de Distritos Autonómicos",
+        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "publication": "not_requested"
+      },
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
