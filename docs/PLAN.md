@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.24
+Versión: 1.0.25
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-90 (generales del 29-11-2026); T-87 por el Operador (D-14); T-91 ensembles_10 de todos los territorios; T-92 en espera
-Anterior: legacy/docs/PLAN_v1.0.23_20261108.md
+Cambios/motivo: limpieza de decisiones pendientes (D-1, D-4 y D-5 superadas) y lista vigente
+Anterior: legacy/docs/PLAN_v1.0.24_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -90,6 +90,32 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - `docs/PLAN.md`: planificador. `docs/REGISTRO_DE_CAMBIOS.md`: número lo asigna el planificador al abrir cada PR.
 
 ## 2. Decisiones del propietario
+### Tomadas (07-11 noche)
+- D-8. El Observatorio Electoral de las Naciones (`nazioenbehatokia.eus`; Ion Ansa, Nora Galparsoro) se acepta como
+  **fuente secundaria** para el histórico de generales (2011-2023, votos por partido y sección, seccionado INE de cada año),
+  con contraste por muestreo frente a Infoelectoral y espejo propio con sha256 en el catálogo de procedencia (T-89).
+  Se usa ya como contraste de T-71. Se pide permiso de reutilización a los autores (lo envía el propietario).
+  La red del entorno Default permite `nazioenbehatokia.eus` (07-11).
+- D-9. Histórico: las 6 generales al Congreso de 2011-11, 2015-12, 2016-06, 2019-04, 2019-11 y 2023-07; las autonómicas, después.
+- D-10. Método: votos de cada elección pasada trasladados a los distritos vigentes (sin redibujar distritos por elección).
+- D-11. T-81 y T-85 empiezan ya, sin esperar al cierre de la ola 2 (no lanzan ni tocan territorios); T-83 y T-84 después;
+  T-82 (espejo de Infoelectoral desde el Mac) aparcada: solo si falla el contraste de T-89 o falta una elección.
+- D-12. T-83 en dos pasos: primero (B) herramienta fuera de línea, sin lanzar, validada con 3 provincias; para publicar,
+  (A) por la cadena M07/M08 con puerta 04, una elección por universo, lanzada por el Operador con permiso del propietario.
+- D-13 (08-11). Peso de T-85 para secciones partidas: población de la sección vigente (padrón de M01); el área solo si la pieza
+  no tiene población o falta el dato. Se confirma con la prueba del censo: el censo electoral de cada elección pasada llevado a
+  las secciones vigentes con los dos pesos frente al censo real; si gana el área, se vuelve al propietario.
+- D-14 (08-11). El entorno `produccion` ya no pide aprobación y `main` exige el veredicto del revisor (ruleset). La puerta humana
+  de publicación es el permiso del propietario en el chat del Operador; T-87 se rediseña así.
+- D-15 (08-11). Al cerrar la ola 2, el Operador lanza los ensembles de 10 (06, `ensemble_10`) de todos los territorios y provincias (T-91).
+### Pendientes (08-11)
+- D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
+- C-13 (T-64, #469). Alcance de comunidades de interés con partidos judiciales.
+- Correo de permiso de reutilización al Observatorio Electoral de las Naciones (D-8): lo envía el propietario.
+- Condicionadas: D-6 si el motor no cierra Alicante o Málaga (exención, techo propio o bloqueada); T-90 si el BOE cambia
+  escaños; T-85 si la prueba del censo da ventaja al área.
+- Superadas (08-11): D-1 y D-4 (la ola 2 completa los territorios), D-5 (D-14: `produccion` sin aprobación).
+
 ### Tomadas (07-11 noche)
 - D-8. El Observatorio Electoral de las Naciones (`nazioenbehatokia.eus`; Ion Ansa, Nora Galparsoro) se acepta como
   **fuente secundaria** para el histórico de generales (2011-2023, votos por partido y sección, seccionado INE de cada año),
