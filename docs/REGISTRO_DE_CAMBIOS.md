@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.173
+Versión: 1.0.174
 Fecha: 2026-11-08
-Alcance: T-94b — Borrador de artículo JOSS
+Alcance: T-93b — Kit de comunicación (D-16)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t94b-articulo-joss.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.172_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t93b-kit-comunicacion.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.173_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.172_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.174 · [2026-11-08 — T-93b — Kit de comunicación (D-16)](registro/2026-11-08_t93b-kit-comunicacion.md)
 - 1.0.173 · [2026-11-08 — T-94b — Borrador de artículo JOSS](registro/2026-11-08_t94b-articulo-joss.md)
 - 1.0.172 · [2026-11-08 — T-84 — Visor Nacional con barra temporal y capas (D-16)](registro/2026-11-08_t84-visor-nacional.md)
 - 1.0.171 · [2026-11-08 — T-84/T-93/T-94 — Plan: visor en dos vistas y difusión](registro/2026-11-08_plan-visor-difusion.md)
