@@ -1,11 +1,11 @@
 <!--
 Nombre: Plan de trabajo DDD
-Versión: 1.0.25
+Versión: 1.0.26
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: limpieza de decisiones pendientes (D-1, D-4 y D-5 superadas) y lista vigente
-Anterior: legacy/docs/PLAN_v1.0.24_20261108.md
+Cambios/motivo: D-16 (visor con vistas Nacional y Autonómica), T-84 reorientada, T-93 kit de comunicación, T-94 artículo JOSS
+Anterior: legacy/docs/PLAN_v1.0.25_20261108.md
 -->
 
 # Plan de trabajo — Diputado de Distrito
@@ -108,6 +108,10 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-14 (08-11). El entorno `produccion` ya no pide aprobación y `main` exige el veredicto del revisor (ruleset). La puerta humana
   de publicación es el permiso del propietario en el chat del Operador; T-87 se rediseña así.
 - D-15 (08-11). Al cerrar la ola 2, el Operador lanza los ensembles de 10 (06, `ensemble_10`) de todos los territorios y provincias (T-91).
+- D-16 (08-11). Visor en dos vistas (opción B): Nacional (Congreso, generales) y Autonómica (19 parlamentos), cada una con barra
+  temporal y capas ganador por distrito, ganador por sección, rotación y participación; solo división administrativa oficial
+  (Estado, comunidades, provincias, municipios, secciones). Comparador lado a lado (opción C) después. Difusión: LinkedIn,
+  divulgación y revistas, con el visor estable, `/docs` y el DOI de Zenodo antes de la primera publicación.
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
 - C-13 (T-64, #469). Alcance de comunidades de interés con partidos judiciales.
@@ -331,6 +335,9 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-90 | Preparar las generales del 29-11-2026 (anunciadas por Interior; fecha y convocatoria se confirman en el BOE, nunca de memoria): (1) del real decreto de convocatoria, escaños por provincia en un CSV con fuente y sha256, y diferencias con 2023; si cambia alguno, se para y se presenta al propietario (afecta al número de distritos); (2) universo electoral nuevo (como 02202307) en contratos y catálogo; (3) espejo del ZIP por mesa de Infoelectoral en un release, como `fuente-infoelectoral-02202307`, en cuanto se publique; (4) prueba en local de la 03 y M07/M08 con una provincia. No altera la legislatura vigente hasta decisión del propietario | por abrir (Sonnet), ya | Pasos 1 y 2 en una PR antes del 29-11; 3 y 4 cuando Interior publique; sin lanzar ni publicar |
 | T-91 | Ensembles de 10 (06, `ensemble_10`) de los 52 territorios nacionales y las 19 autonómicas, por orden del propietario (D-15); primero uno de prueba y luego el resto por lotes; el 50 sigue bloqueado | Coordinador + Operador, al cerrar la ola 2 | Ensembles de todos los territorios registrados; publicar, solo con permiso |
 | T-92 | Resultados de las generales del 29-11-2026 sobre los distritos vigentes: paso A (03, M07/M08, puerta 04) de las 52 provincias y publicación (D-14). Se encarga cuando T-90 confirme los escaños del BOE; si cambian, antes decide el propietario. Orden de la cola tras T-92: T-83, T-87, T-91, T-83 A y T-84, autonómicas del histórico | en espera de T-90 paso 1 | 52/52 con M08 2026 y en el visor con permiso del propietario |
+| T-84 | Visor en dos vistas (D-16): Nacional y Autonómica, barra temporal, capas ganador por distrito y por sección, rotación y participación; geometría por provincia cargada una vez y color por `feature-state`; secciones en PMTiles. Empieza ya con 2023 (M08 publicados y composición) y suma el histórico al cerrar T-83 | por abrir (Sonnet), ya | Vista Nacional funcionando en local con 2023; capturas en móvil y escritorio; sin publicar |
+| T-93 | Kit de comunicación (D-16): nota metodológica de una página, ficha de prensa, 5-6 textos de LinkedIn para revisión del propietario e imágenes generadas desde el visor; aviso «mapa de investigación sin valor oficial» y DOI; cifras solo de productos con fuente y sha256 | por abrir (Sonnet), tras la vista Nacional de T-84 | Kit en `documentacion_publica/comunicacion/`; nada se publica sin el propietario |
+| T-94 | Artículo para JOSS: requisitos (licencia, tests, documentación, instalación, ejemplo reproducible), `paper.md` y `paper.bib`, huecos a cubrir | por abrir (Sonnet), ya | Borrador y lista de requisitos con estado; el envío lo hace el propietario |
 | T-64 | Estudio comarcas frente a partidos judiciales | cerrado; PR #469 | Pendiente: C-13 (decisión del propietario) |
 
 ## 3b. Histórico de la cola (01 a 03-11)
