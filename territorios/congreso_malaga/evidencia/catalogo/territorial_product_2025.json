@@ -4,11 +4,11 @@
   "territory_id": "congreso_malaga",
   "territory_name": "Congreso Málaga",
   "edition": "2025",
-  "run_id": 42409615215,
-  "artifact_name": "ddd-state-42409615215-M06",
-  "artifact_sha256": "83e13b13938c117e5f30aa3b9eac6e7dc88554960f7e2cf2d16f111379efe984",
-  "source_commit": "2762798bfb643623c1dd0f6315ecb55162ca8797",
+  "run_id": 42490329631,
+  "artifact_name": "ddd-state-42490329631-M06",
+  "artifact_sha256": "b04713f2c0d042154327f1a12dc1a010e97ba4cb2611c45c42f29485f384002d",
+  "source_commit": "576ac6f8f3278533e786ca1bad35d5247d2ea429",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_malaga/evidencia/generaciones_m06/42409615215.json"
+  "producer_manifest_path": "territorios/congreso_malaga/evidencia/generaciones_m06/42490329631.json"
 }
