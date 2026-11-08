@@ -4,11 +4,11 @@
   "territory_id": "congreso_almeria",
   "territory_name": "Congreso Almería",
   "edition": "2025",
-  "run_id": 41242160179,
-  "artifact_name": "ddd-state-41242160179-M06",
-  "artifact_sha256": "bfea122809515a731f6479f65ac8e801555eb2b45cfa2f484f303d50d227c7a0",
-  "source_commit": "f55412942b767f3fac28120ce32ed377b25280d4",
+  "run_id": 42519378789,
+  "artifact_name": "ddd-state-42519378789-M06",
+  "artifact_sha256": "17745ac4c321897973ce4d058cb476fb8a78b1b762849bd84470657763a988e8",
+  "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/41242160179.json"
+  "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/42519378789.json"
 }
