@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T21:29:40.093273+00:00",
+  "generated_at": "2026-11-08T21:33:20.747478+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -7004,10 +7004,10 @@
           "territory_id": "canarias",
           "territory_name": "Canarias",
           "edition": "2025",
-          "run_id": 40951280657,
-          "artifact_name": "ddd-state-40951280657-M08",
-          "artifact_sha256": "b0b6ceaf2b354559e9ce7f0430359a9f2e1d0258863e1bb69c139df1cc8cf3c9",
-          "source_commit": "e8e26fc88b46331f1269c06c37f6cb05f7faee5c",
+          "run_id": 42523951377,
+          "artifact_name": "ddd-state-42523951377-M08",
+          "artifact_sha256": "a8bc17b31163ab7ea1a775bef9551222615d831c1f1e823e44d95faa7fc01c4e",
+          "source_commit": "038f783212382b5ed5199f2b5faff57e680382d1",
           "stage": "M08"
         }
       },
