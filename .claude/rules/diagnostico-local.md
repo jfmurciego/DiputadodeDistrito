@@ -41,3 +41,5 @@ paths:
 - Un desajuste de sección que no cambia el distrito no es error de distrito: mira la composición antes de regenerar (Valencia/Bétera, regla «contenida_distrito», #538).
 - «Identidad remota no única» también sale con 0 artefactos: la retención del paquete electoral es de 30 días; el catálogo puede apuntar a uno ya purgado (Canarias). Receta: 03 con reutilizar=false → `prepare_one` → 00 «Reutilizar».
 - Tests de M05 en la sesión cloud: instala `requirements.lock` (geopandas, pyproj).
+- Visor v2 (T-109): la maqueta tenía 156 polígonos vacíos y Ávila desplazada; en cloud MapLibre se prueba con `npm pack` + `page.route`.
+- Escaño oficial ≠ K de DDD (N06, 407): los escaños 2026 (Madrid 38, Cádiz 8) no tocan `k_districts`.

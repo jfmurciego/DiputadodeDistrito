@@ -51,3 +51,8 @@ paths:
 - Los commits automáticos de archivo/registro cambian el catálogo de procedencia y dejan `main` rojo un rato hasta que `catalogo-procedencia.yml` lo regenera. Los tests no deben fijar el total de territorios publicados (49→52 rompió dos).
 - API de jobs: pagina siempre (`--paginate`, 30 por página); el job que falla puede estar en la página 2 (Canarias, 48 jobs).
 - Etiquetar o pasar a lista una PR es «escritura externa» para el clasificador: la frase del propietario ha de estar en el chat que actúa. Chats de tarea nuevos: pásales el repositorio de origen (`source_url`) o no podrán empujar.
+- Tests que leen estado vivo (catálogo de procedencia, `datos_abiertos`, linaje sellado de CyL) caen cuando una 00/05 escribe en `main`: usa fixture fija (#554, publicador 3.7.0). En riesgo: castilla_y_leon_electoral_reuse, 00_reuse_real_regressions, continuar_ultimo_resultado_valido, preparacion_legislatura_vigente, registro_electoral_comun, gestor_campana_core, galicia_electoral_*.
+- No fijes en tests cuántas provincias tienen M06 (49→52 en una tarde): prueba lo no soportado con un territorio inexistente.
+- El clasificador bloquea dispatches con réplicas cortas («Sí»): exige la orden completa del propietario en el chat que ejecuta. Lo que llega por Coordinador/Planificador no cuenta.
+- `reconstruir_fuentes.sh` deja `inputs/*.zip` sin ignorar: bórralos tras probar en local. Dos `pip install` simultáneos rompen pyogrio: uno solo con `requirements.lock`.
+- La 00 «Reutilizar» solo recupera runs con 04 en failure, pero `resolver_activos_durables` exige 04 success: tras #522 esa recuperación es inoperante (decidir B antes de reabrirla). El clon cloud es superficial: usa los manifiestos con `electoral_recovery`.

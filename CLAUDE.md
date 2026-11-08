@@ -10,7 +10,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
 - No lanzar ejecuciones productivas ni publicar (visor, releases) sin permiso explícito en ese mensaje.
 - Sin vigilantes ni revisiones programadas salvo que se pidan.
 - Objetivo (08-11): un motor repetible (se ejecutará miles de veces, con el Gestor), no conservar resultados antiguos: relanza y regenera si hace falta.
-- Respuestas cortas, en español.
+- Respuestas cortas, en español. D-18: sin estudios, difusión, estado operativo ni propuestas de contenido por iniciativa propia: solo criterio técnico y opciones.
 - No fusionar ninguna PR hasta ver la CI en verde en la PR y en `main`.
 
 ## Mapa
@@ -46,7 +46,7 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   2. `preparacion-legislatura-vigente.yml` `prepare_one` del territorio;
   3. 00 en «Reutilizar progreso existente» (hace 03/04).
 - Los artefactos de Actions caducan; un producto viejo puede ser válido en el catálogo y no descargable.
-- «Reutilizar» restaura el último checkpoint REGISTRADO: si el run bueno no llegó a registrar (fallo de push), toma uno
+- «Reutilizar» no ejecuta 02/04 ni archivo R2 y re-registra receipts de runs fallidos: para 04+R2 usa «Generar desde fuente»; verifica 04 y R2 antes de publicar. Restaura el último checkpoint REGISTRADO: si el run bueno no llegó a registrar (fallo de push), toma uno
   anterior (Murcia volvió al M03 en 3035, `CHECKPOINT_RUN_ID` en el log del paso M04). Mira ese valor antes de concluir.
 - La 00 encadena sola par (`prepare_one`) y otra 00 como github-actions[bot] si la 04 se salta por falta de par;
   desde #389 solo si la puerta 02 pasó.
@@ -90,11 +90,11 @@ Máximo 100 líneas: lo que solo aplica a ciertos ficheros va en `.claude/rules/
   entorno Default permite `boe.es`.
 
 ## Historial de lecciones
-- 2026-10-29 · Murcia/Valencia: M04 7.4.15–7.4.18, exención de Beniel, umbral 1,5 en Valencia · #324 #327 #332 #343 #336 #345 #352 #354.
-- 2026-10-31 · Congreso: piloto Huesca, 50 provincias, islas agrupadas, puentes heredados, Infoelectoral por espejo · #362–#371.
+- 2026-10-29/31 · Murcia/Valencia (M04 7.4.15–18, exención Beniel) y Congreso (piloto Huesca, 50 provincias, espejo Infoelectoral) · #324–#371.
 - 2026-11-01 · T-02: CRS 25830, M04 7.6.0 multisección, dedupe de manifiesto, encadenado con puerta 02 · #374 #383 #387 #389.
 - 2026-11-01 · Bloqueos de población: exención municipal en contrato, techo en política, reparación inútil si estructural · #380 #384 #391.
 - 2026-11-02 · Activación por elección, Gestor con provincias, robots con app propia, exención en islas · #376–#398.
 - 2026-11-07 · Paso 1 de agentes: CLAUDE.md < 100 líneas, `.claude/rules/` por rutas y hooks de git · #427 #428.
 - 2026-11-07 · Agentes en uso, registro por ficheros, CI en 4 min, archivista R2, huella de checkpoint, cadenas sin Mac · #441–#448.
 - 2026-11-08 · Ola 2 y 3: ensembles, archivista D-17, siglas D-20, Gestor 2.0, huella M05 calculada, M05 7.4.3, congreso_350 · #500–#547. Detalle en `.claude/rules/`.
+- 2026-11-08 (noche) · Relevo de chats, ids solo del Planificador, tests sobre estado vivo, T-90b/T-109/T-113 · #549–#555. Detalle en `.claude/rules/`.
