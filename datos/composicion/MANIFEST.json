@@ -886,6 +886,13 @@
    "sha256_csv": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
    "ruta": "datos/composicion/runs/congreso_tarragona_42514991952.csv"
   },
+  "congreso_valencia/42525625044": {
+   "territorio": "congreso_valencia",
+   "run_id": "42525625044",
+   "secciones": 1823,
+   "sha256_csv": "012274d09dcb71b4b87b9b8e0e74ae89b886b33b3109c0c3ec913a33b91bf5a3",
+   "ruta": "datos/composicion/runs/congreso_valencia_42525625044.csv"
+  },
   "melilla/42504386196": {
    "territorio": "melilla",
    "run_id": "42504386196",
