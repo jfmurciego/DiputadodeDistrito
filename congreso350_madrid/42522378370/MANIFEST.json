@@ -1,0 +1,36 @@
+{
+  "schema": "ddd.diagnostico-auto/1.0",
+  "status": "COMPLETE",
+  "missing": [],
+  "files": [
+    {
+      "kind": "m01",
+      "file": "congreso350_madrid_2025_m01_secciones_poblacion.geojson.zip",
+      "source": "territorios/congreso350_madrid/.cache/ddd/preparacion/congreso350_madrid_2025/congreso350_madrid_2025_m01_secciones_poblacion.geojson.zip",
+      "bytes": 2973431,
+      "sha256": "ff17a3664636c0a3d39667457d9cea126db9b829d1bf4443b0acb935309490c5",
+      "source_sha256": "ff17a3664636c0a3d39667457d9cea126db9b829d1bf4443b0acb935309490c5"
+    },
+    {
+      "kind": "m03",
+      "file": "congreso350_madrid_2025_m03_grafo.json.gz",
+      "source": "territorios/congreso350_madrid/.cache/ddd/preparacion/congreso350_madrid_2025/congreso350_madrid_2025_m03_grafo.json",
+      "bytes": 66172,
+      "sha256": "36354c1bdd9434c25616b0e9e4e3395ce4966736a55b992153a3f6e3d44ec9d6",
+      "source_sha256": "34ac24c2be4ec810caff0d8170f54dfdf00b79fd575b1e80f8f362143c8152ec"
+    },
+    {
+      "kind": "m05",
+      "file": "congreso350_madrid_2025_m05_informe.json",
+      "source": "territorios/congreso350_madrid/.cache/ddd/preparacion/congreso350_madrid_2025/congreso350_madrid_2025_m05_informe.json",
+      "bytes": 99621,
+      "sha256": "e84f835273cafc41918bd61c8540f46a2098adedf6e13c9ef15905cf01cca4fb",
+      "source_sha256": "e84f835273cafc41918bd61c8540f46a2098adedf6e13c9ef15905cf01cca4fb"
+    }
+  ],
+  "territory": "congreso350_madrid",
+  "run_id": "42522378370",
+  "checkpoint_run_id": null,
+  "stage": "CERTIFICACION",
+  "params": "territorios/congreso350_madrid/config/congreso350_madrid_2025.yaml"
+}
