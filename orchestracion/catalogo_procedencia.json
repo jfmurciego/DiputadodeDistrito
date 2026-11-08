@@ -47,12 +47,56 @@
   }
  },
  "resumen": {
-  "territorios": 67,
-  "productos": 339,
+  "territorios": 68,
+  "productos": 341,
   "errores": 0,
-  "avisos": 128
+  "avisos": 126
  },
  "territorios": {
+  "andalucia": {
+   "fuente_territorial": {
+    "run_id": "40946875467",
+    "package_sha256": "2cfec239eb9b6cf57083b985504e76fd3055f8425989c2aa1589f060afe0aa37",
+    "artifact_sha256": "f2694b451830d4a699a4aaa959834edab2e1a7dc5fd83eaa4589ba9d5d196c52",
+    "territorial_identity_sha256": "253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09",
+    "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/253f7c0dc82793977197c5dad117d30f1cd96ceaf0d8cab696c0c36bb6111b09/40946875467/receipt.json",
+    "population_year": 2025,
+    "section_year": 2025
+   },
+   "fuente_electoral": {
+    "receipt_path": "territorios/andalucia/evidencia/fuentes_electorales/2025/995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395/42463442007/receipt.json",
+    "identity_sha256": "995430f5ad831c5844c0777dae4936bc2b82af0113ea73a272c912aa0a3f8395"
+   },
+   "doi": null,
+   "productos": [
+    {
+     "producto": "M06",
+     "id": "m06-andalucia-42495072594",
+     "run_id": "42495072594",
+     "vigente": true,
+     "sha256": "c46a253a0db0896b5e58fd97c5a7681fa246bcf3853d6df20be573152b194541",
+     "copia_git": {
+      "blob_sha": "d90d9e047cdaca7e0f15e88b3528b9ab2c4bac3e",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-andalucia-42495072594",
+     "run_id": "42495072594",
+     "vigente": true,
+     "sha256": "20e898e8c031c9609cee70a1cc9dbe191ebb5d312c754ef250fbf47cb0925610",
+     "copia_git": {
+      "blob_sha": "3810296b91756fbfad65bdd38ec6380dda9535aa",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    }
+   ]
+  },
   "aragon": {
    "fuente_territorial": {
     "run_id": "40691712762",
@@ -6025,34 +6069,6 @@
  "incoherencias": [
   {
    "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42409764232/ddd-audit-42409764232.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42409764232/ddd-minimo-42409764232-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42430164925/ddd-minimo-42430164925-M06.zip"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "andalucia",
-   "producto": "r2",
-   "codigo": "R2_SIN_PRODUCTO",
-   "detalle": "andalucia/42495072594/ddd-minimo-42495072594-M08.zip"
-  },
-  {
-   "nivel": "AVISO",
    "territorio": "congreso_alicante",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
@@ -6204,6 +6220,20 @@
    "producto": "201904",
    "codigo": "SIN_CONTRASTE_OFICIAL",
    "detalle": "sin fuente oficial local para contrastar"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "M06",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495072594: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "andalucia",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42495072594: solo copia git"
   },
   {
    "nivel": "AVISO",
