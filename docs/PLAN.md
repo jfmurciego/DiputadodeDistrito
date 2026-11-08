@@ -4,7 +4,7 @@ Versión: 1.0.31
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: T-103 (secciones recodificadas); D-19 y T-102 (comparativa 2023 con 350 distritos); T-104 (M06 de Valencia); D-20 (siglas de certeza baja)
+Cambios/motivo: T-103 (secciones recodificadas); D-19 y T-102 (comparativa 2023 con 350 distritos); T-104 (M06 de Valencia); D-20 (siglas de certeza baja); D-21 (tras T-91)
 Anterior: legacy/docs/PLAN_v1.0.30_20261108.md
 -->
 
@@ -129,6 +129,8 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
   B) CiU (2011), DL (2015) y CDC (2016) → familia «CiU–Junts»; C) UPN-PP (2011-2016) y NA+ (2019) → familia «UPN y coaliciones»;
   D) CHA-IU (2011) → «CHA-IU»; E) PDeCAT-E-CiU → PDeCAT, PSM-IV-EXM-EQUO → MÉS, EN MAREA → EN MAREA, Caballas y MDyC → sí mismos.
   Con D-20 la tabla puede aplicarse a la capa de rotación (T-84).
+- D-21 (08-11). Tras T-91: publicación de los ensembles por el Operador con permiso del propietario, tras su revisión de lo que se
+  muestra (D-18). Ensemble autonómico (diseño y lanzamientos): aparcado.
 
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
