@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.158
-Fecha: 2026-11-07
-Alcance: T-71 — Composición sección→distrito recuperada por geometría INE
+Versión: 1.0.159
+Fecha: 2026-11-08
+Alcance: T-91 — Receipts electorales huérfanos (Barcelona, Málaga, Alicante)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-07_t71-recuperar-composicion.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.157_registro_20261107.md
+Cambios/motivo: entrada docs/registro/2026-11-07_t91-receipts-huerfanos.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.158_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.157_registro_20261107.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.159 · [2026-11-07 — T-91 — Receipts electorales huérfanos (Barcelona, Málaga, Alicante)](registro/2026-11-07_t91-receipts-huerfanos.md)
 - 1.0.158 · [2026-11-07 — T-71 — Composición sección→distrito recuperada por geometría INE](registro/2026-11-07_t71-recuperar-composicion.md)
 - 1.0.157 · [2026-11-07 — T-81/T-85 — Plan: decisiones del histórico (D-9 a D-11) y encargo de T-81 y T-85](registro/2026-11-07_plan-historico.md)
 - 1.0.156 · [2026-11-07 — T-90 — Paquete mínimo y archivo en origen leen los GeoJSON *.geojson.zip](registro/2026-11-07_claude-t90-paquete-minimo-geojson-zip.md)
