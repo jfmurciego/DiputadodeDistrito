@@ -374,9 +374,9 @@
    "sha256_csv": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317"
   },
   "congreso_tarragona": {
-   "run_id": "41296449975",
-   "blob_sha": "c0a648d366913547d9be1cab5f8d59c2756ebd81",
-   "sha256_origen": "2de24fa08692c669d126a14bb85c5ef11675f4df09c931f7776487693e128b12",
+   "run_id": "42514991952",
+   "blob_sha": "1b4a4a4213021cb54b07650bad5bbd017d5112da",
+   "sha256_origen": "a4238facf2dbd4750c34043d826ab1c245a0c51b37dd054a70d0e040baefb33b",
    "distritos": 7,
    "sha256_csv": "6356890af6b88a52a35d667503cd0902b01a63fbe670c95d61e4d92e9224f6d1"
   },
