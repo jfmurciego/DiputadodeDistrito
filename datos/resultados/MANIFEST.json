@@ -395,9 +395,9 @@
    "sha256_csv": "4099f0e6a166efd0e85ce52f0c4021a7e73d2ffc2a2370d250e103b8304410ba"
   },
   "congreso_valencia": {
-   "run_id": "41335936727",
-   "blob_sha": "90a26b763101d9d1c43570d53b591c8e2dde6866",
-   "sha256_origen": "c57e9c0e9fec3cef9ef652235dd11847d88974e0695035066af0ff65fcc117ee",
+   "run_id": "42525625044",
+   "blob_sha": "d8520d6c02967199ee139cf113de9027862f7a37",
+   "sha256_origen": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f",
    "distritos": 23,
    "sha256_csv": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67"
   },

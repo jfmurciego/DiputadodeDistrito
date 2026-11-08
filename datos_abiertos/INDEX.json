@@ -3839,9 +3839,9 @@
   },
   "congreso_valencia": {
    "provincia": "Valencia",
-   "run_id": "41335936727",
-   "blob_sha": "d9dc71bc351a04e038be07d2037d5e721e25d8e8",
-   "sha256_origen": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6",
+   "run_id": "42525625044",
+   "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
+   "sha256_origen": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51",
    "n_distritos": 23,
    "nombres": {},
    "geojson": {
@@ -3851,8 +3851,8 @@
    "resultados": {
     "ruta": "congreso_valencia/resultados.csv",
     "sha256": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67",
-    "blob_sha_m08": "90a26b763101d9d1c43570d53b591c8e2dde6866",
-    "run_id": "41335936727"
+    "blob_sha_m08": "d8520d6c02967199ee139cf113de9027862f7a37",
+    "run_id": "42525625044"
    },
    "distritos": [
     {
