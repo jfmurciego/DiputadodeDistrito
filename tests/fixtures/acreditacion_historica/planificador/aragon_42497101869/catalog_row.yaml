@@ -1,0 +1,39 @@
+territory_id: aragon
+name: Aragón
+editions:
+  '2025':
+    territory_declared: true
+    preparation_status: READY
+    contract_path: territorios/aragon/config/aragon_2025.yaml
+    territorial_source_declaration: territorios/aragon/config/fuentes_oficiales.yaml
+    electoral_source_declaration: null
+    territorial_sources_prepared: true
+    territorial_contract_complete: true
+    territorial_product_available: true
+    electoral_source_prepared: true
+    electoral_product_available: true
+    evidence:
+      territorial_product: territorios/aragon/evidencia/catalogo/territorial_product_2025.json
+      electoral_source: territorios/aragon/evidencia/fuentes_electorales/2025/9389e4386eae823a44d4180957676f42fcc5f5cabf899bf442ce6cc28400b8af/40896686254/receipt.json
+      electoral_product: territorios/aragon/evidencia/catalogo/electoral_product_2025.json
+      generation_preflight: territorios/aragon/evidencia/catalogo/generation_preflight_2025.json
+      prepared_source_pair: territorios/aragon/evidencia/pares_fuentes/2025/b52021ffe6d7e3e80d382abc7e0c0bba827d886aa5580b9abf83c38c0451bf47.json
+    territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+    production_authorization: AUTHORIZED
+    last_valid_checkpoint:
+      run_id: 42497101869
+      stage: M08
+    preparation_evidence:
+      run_id: 40691712762
+      artifact_name: ddd-source-package-aragon-2025-40691712762
+      artifact_sha256: 47a7ab0da32e99c006d925787df3fbdf7032c2b3737ff6effe6cd57321aa390a
+      package_sha256: 2b0a7e7f00cfc12d60c84ab0818e2ece6106bdb48684abfd603f3bc2fd59de34
+      receipt_path: territorios/aragon/evidencia/fuentes_territoriales/2025/2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f/40691712762/receipt.json
+      territorial_identity_sha256: 2d241e1cecc16b66c8462274d48ccacc5da3ef0dedd2ceb2fda95200dbbbbe6f
+      compatibility_report_sha256: caadb892c3cf6c306c81a2d23838ce8f1bb50db95682a61dc0877e776de8a5ad
+      compatibility_identity_sha256: 4f80abeb0e1fb1f24de0deb7c654e27a7115e8123b404181cac3e59ea290152f
+      compatibility_report_member: compatibilidad_poblacion_seccionado.json
+      population_year: 2025
+      section_year: 2025
+      source_commit: 8940b848734cc05516ead27b48378493aa9aeddb
+    generation_enabled: true

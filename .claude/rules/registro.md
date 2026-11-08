@@ -22,3 +22,7 @@ paths:
   versión de la RAMA si contiene el HEAD fusionado (`git merge-base --is-ancestor`).
 - Un `git revert` de una PR con entrada de registro ya numerada borra la entrada y el guardian falla (el índice la
   referencia): restaura la entrada (`git checkout <commit> -- docs/registro/<fichero>`).
+
+## Lecciones 08-11 (Coordinador)
+- La primera línea de cada `docs/registro/*.md` debe ser «## AAAA-MM-DD — T-xx — título»; si no, el guardián falla.
+- El hook `guardia_git` no frena `git commit -am` encadenado tras un merge: comprueba `git status` (marcas de conflicto) antes de commitear.

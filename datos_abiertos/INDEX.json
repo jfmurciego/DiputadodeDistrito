@@ -97,6 +97,162 @@
     }
    ]
   },
+  "congreso_alicante": {
+   "provincia": "Alicante",
+   "run_id": "42495067503",
+   "blob_sha": "5915aa729c6bb763fa468917a2a414b277c9fd29",
+   "sha256_origen": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443",
+   "n_distritos": 17,
+   "nombres": {},
+   "geojson": {
+    "ruta": "congreso_alicante/distritos.geojson",
+    "sha256": "5aa7e893c4a0ac9ad70ce001ac598a9f157062e85fe5e81fd8cf7db497304b27"
+   },
+   "resultados": {
+    "ruta": "congreso_alicante/resultados.csv",
+    "sha256": "28924177804fd394a8f43b0be9c53b96a753ab61a44a8e5d544119414195b584",
+    "blob_sha_m08": "bff1eb7b07b34f922482a8e9e35aa3b45fc41487",
+    "run_id": "42495067503"
+   },
+   "distritos": [
+    {
+     "distrito": 0,
+     "nombre": null,
+     "poblacion": 116958,
+     "municipios": 1,
+     "secciones": 80,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 117075,
+     "municipios": 1,
+     "secciones": 84,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 97773,
+     "municipios": 1,
+     "secciones": 70,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 97819,
+     "municipios": 1,
+     "secciones": 76,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 128709,
+     "municipios": 9,
+     "secciones": 99,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 128991,
+     "municipios": 7,
+     "secciones": 61,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 100938,
+     "municipios": 6,
+     "secciones": 48,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 131298,
+     "municipios": 6,
+     "secciones": 99,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 8,
+     "nombre": null,
+     "poblacion": 130465,
+     "municipios": 3,
+     "secciones": 90,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 9,
+     "nombre": null,
+     "poblacion": 100683,
+     "municipios": 9,
+     "secciones": 65,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 10,
+     "nombre": null,
+     "poblacion": 100741,
+     "municipios": 14,
+     "secciones": 61,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 11,
+     "nombre": null,
+     "poblacion": 130181,
+     "municipios": 7,
+     "secciones": 62,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 12,
+     "nombre": null,
+     "poblacion": 117707,
+     "municipios": 16,
+     "secciones": 89,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 13,
+     "nombre": null,
+     "poblacion": 103136,
+     "municipios": 6,
+     "secciones": 45,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 14,
+     "nombre": null,
+     "poblacion": 124434,
+     "municipios": 8,
+     "secciones": 48,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 15,
+     "nombre": null,
+     "poblacion": 101197,
+     "municipios": 39,
+     "secciones": 78,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 16,
+     "nombre": null,
+     "poblacion": 127163,
+     "municipios": 11,
+     "secciones": 81,
+     "ganador": "PP"
+    }
+   ]
+  },
   "congreso_almeria": {
    "provincia": "Almería",
    "run_id": "41295979497",
@@ -442,6 +598,426 @@
      "municipios": 3,
      "secciones": 34,
      "ganador": "PP"
+    }
+   ]
+  },
+  "congreso_barcelona": {
+   "provincia": "Barcelona",
+   "run_id": "42495069270",
+   "blob_sha": "0744f6c1365a241a24e01ec3bd48556d751908ab",
+   "sha256_origen": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f",
+   "n_distritos": 50,
+   "nombres": {},
+   "geojson": {
+    "ruta": "congreso_barcelona/distritos.geojson",
+    "sha256": "4ac2be7eef41fabae5b707607fffd4e277c64042a96b43bc4d162a8e05cdcf1a"
+   },
+   "resultados": {
+    "ruta": "congreso_barcelona/resultados.csv",
+    "sha256": "14cf4eff31c7533aa8cb29d00d833ee327a50cd9eff791dceed31a8a895324e7",
+    "blob_sha_m08": "13e085cbb2e47bdf290eef497765e460fc336bf2",
+    "run_id": "42495069270"
+   },
+   "distritos": [
+    {
+     "distrito": 0,
+     "nombre": null,
+     "poblacion": 129493,
+     "municipios": 1,
+     "secciones": 84,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 118913,
+     "municipios": 1,
+     "secciones": 79,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 118081,
+     "municipios": 1,
+     "secciones": 70,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 118618,
+     "municipios": 1,
+     "secciones": 78,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 118306,
+     "municipios": 1,
+     "secciones": 81,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 117949,
+     "municipios": 1,
+     "secciones": 77,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 119017,
+     "municipios": 1,
+     "secciones": 70,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 118563,
+     "municipios": 1,
+     "secciones": 77,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 8,
+     "nombre": null,
+     "poblacion": 117453,
+     "municipios": 1,
+     "secciones": 69,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 9,
+     "nombre": null,
+     "poblacion": 117828,
+     "municipios": 1,
+     "secciones": 79,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 10,
+     "nombre": null,
+     "poblacion": 118524,
+     "municipios": 1,
+     "secciones": 80,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 11,
+     "nombre": null,
+     "poblacion": 118097,
+     "municipios": 1,
+     "secciones": 69,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 12,
+     "nombre": null,
+     "poblacion": 118685,
+     "municipios": 1,
+     "secciones": 84,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 13,
+     "nombre": null,
+     "poblacion": 117775,
+     "municipios": 1,
+     "secciones": 78,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 14,
+     "nombre": null,
+     "poblacion": 115941,
+     "municipios": 1,
+     "secciones": 85,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 15,
+     "nombre": null,
+     "poblacion": 115995,
+     "municipios": 1,
+     "secciones": 78,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 16,
+     "nombre": null,
+     "poblacion": 109029,
+     "municipios": 1,
+     "secciones": 79,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 17,
+     "nombre": null,
+     "poblacion": 112709,
+     "municipios": 1,
+     "secciones": 71,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 18,
+     "nombre": null,
+     "poblacion": 113732,
+     "municipios": 27,
+     "secciones": 70,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 19,
+     "nombre": null,
+     "poblacion": 113435,
+     "municipios": 17,
+     "secciones": 79,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 20,
+     "nombre": null,
+     "poblacion": 109544,
+     "municipios": 19,
+     "secciones": 64,
+     "ganador": "JxCAT - JUNTS"
+    },
+    {
+     "distrito": 21,
+     "nombre": null,
+     "poblacion": 115825,
+     "municipios": 2,
+     "secciones": 66,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 22,
+     "nombre": null,
+     "poblacion": 114577,
+     "municipios": 8,
+     "secciones": 64,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 23,
+     "nombre": null,
+     "poblacion": 108274,
+     "municipios": 9,
+     "secciones": 53,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 24,
+     "nombre": null,
+     "poblacion": 110796,
+     "municipios": 27,
+     "secciones": 75,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 25,
+     "nombre": null,
+     "poblacion": 116952,
+     "municipios": 9,
+     "secciones": 69,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 26,
+     "nombre": null,
+     "poblacion": 114356,
+     "municipios": 13,
+     "secciones": 63,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 27,
+     "nombre": null,
+     "poblacion": 117251,
+     "municipios": 5,
+     "secciones": 66,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 28,
+     "nombre": null,
+     "poblacion": 114065,
+     "municipios": 10,
+     "secciones": 55,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 29,
+     "nombre": null,
+     "poblacion": 118147,
+     "municipios": 1,
+     "secciones": 77,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 30,
+     "nombre": null,
+     "poblacion": 112565,
+     "municipios": 1,
+     "secciones": 70,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 31,
+     "nombre": null,
+     "poblacion": 132714,
+     "municipios": 2,
+     "secciones": 87,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 32,
+     "nombre": null,
+     "poblacion": 113432,
+     "municipios": 20,
+     "secciones": 66,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 33,
+     "nombre": null,
+     "poblacion": 112803,
+     "municipios": 5,
+     "secciones": 61,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 34,
+     "nombre": null,
+     "poblacion": 118219,
+     "municipios": 2,
+     "secciones": 73,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 35,
+     "nombre": null,
+     "poblacion": 117419,
+     "municipios": 2,
+     "secciones": 84,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 36,
+     "nombre": null,
+     "poblacion": 112127,
+     "municipios": 3,
+     "secciones": 70,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 37,
+     "nombre": null,
+     "poblacion": 112450,
+     "municipios": 62,
+     "secciones": 103,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 38,
+     "nombre": null,
+     "poblacion": 110185,
+     "municipios": 4,
+     "secciones": 60,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 39,
+     "nombre": null,
+     "poblacion": 124022,
+     "municipios": 4,
+     "secciones": 79,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 40,
+     "nombre": null,
+     "poblacion": 90076,
+     "municipios": 1,
+     "secciones": 66,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 41,
+     "nombre": null,
+     "poblacion": 132024,
+     "municipios": 2,
+     "secciones": 85,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 42,
+     "nombre": null,
+     "poblacion": 111789,
+     "municipios": 10,
+     "secciones": 66,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 43,
+     "nombre": null,
+     "poblacion": 110390,
+     "municipios": 2,
+     "secciones": 58,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 44,
+     "nombre": null,
+     "poblacion": 109996,
+     "municipios": 3,
+     "secciones": 66,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 45,
+     "nombre": null,
+     "poblacion": 119195,
+     "municipios": 1,
+     "secciones": 88,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 46,
+     "nombre": null,
+     "poblacion": 129613,
+     "municipios": 1,
+     "secciones": 75,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 47,
+     "nombre": null,
+     "poblacion": 113389,
+     "municipios": 20,
+     "secciones": 65,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 48,
+     "nombre": null,
+     "poblacion": 115223,
+     "municipios": 11,
+     "secciones": 66,
+     "ganador": "PSC"
+    },
+    {
+     "distrito": 49,
+     "nombre": null,
+     "poblacion": 111795,
+     "municipios": 8,
+     "secciones": 65,
+     "ganador": "PSC"
     }
    ]
   },
@@ -1451,9 +2027,9 @@
   },
   "congreso_la_rioja": {
    "provincia": "La Rioja",
-   "run_id": "41294822309",
-   "blob_sha": "9f87439598bc544feeaea72125cd3c504745befe",
-   "sha256_origen": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a",
+   "run_id": "42504388624",
+   "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
+   "sha256_origen": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d",
    "n_distritos": 3,
    "nombres": {},
    "geojson": {
@@ -1463,8 +2039,8 @@
    "resultados": {
     "ruta": "congreso_la_rioja/resultados.csv",
     "sha256": "c694a53913ec76b8e3015c26e3aa3bd01a48a496e214f7b8116d13c9874213b7",
-    "blob_sha_m08": "86e7a0b014218c493f882e45ee57ed438583a64d",
-    "run_id": "41294822309"
+    "blob_sha_m08": "154e3e045a1cbff4ca36261274fec53eedb52c0c",
+    "run_id": "42504388624"
    },
    "distritos": [
     {
@@ -2229,6 +2805,146 @@
      "poblacion": 104384,
      "municipios": 10,
      "secciones": 50,
+     "ganador": "PP"
+    }
+   ]
+  },
+  "congreso_malaga": {
+   "provincia": "Málaga",
+   "run_id": "42495070976",
+   "blob_sha": "9fcb5c60190c3362f7bb7dcf46c34768d97396cb",
+   "sha256_origen": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d",
+   "n_distritos": 15,
+   "nombres": {},
+   "geojson": {
+    "ruta": "congreso_malaga/distritos.geojson",
+    "sha256": "bd763b645f29e5b4d412f447f7de7a061d53d9978ff8b90812fabede126a698d"
+   },
+   "resultados": {
+    "ruta": "congreso_malaga/resultados.csv",
+    "sha256": "f65e0aec2d2895993f170a48fddfd6dd7b5b2e3d807c0497de6a098e62d61bde",
+    "blob_sha_m08": "0ae1a479c4a0051e27068c0dcc4cfc2290507530",
+    "run_id": "42495070976"
+   },
+   "distritos": [
+    {
+     "distrito": 0,
+     "nombre": null,
+     "poblacion": 132625,
+     "municipios": 1,
+     "secciones": 94,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 1,
+     "nombre": null,
+     "poblacion": 134302,
+     "municipios": 1,
+     "secciones": 102,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 2,
+     "nombre": null,
+     "poblacion": 134329,
+     "municipios": 1,
+     "secciones": 100,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 3,
+     "nombre": null,
+     "poblacion": 122650,
+     "municipios": 1,
+     "secciones": 99,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 4,
+     "nombre": null,
+     "poblacion": 121743,
+     "municipios": 1,
+     "secciones": 62,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 5,
+     "nombre": null,
+     "poblacion": 133507,
+     "municipios": 2,
+     "secciones": 83,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 6,
+     "nombre": null,
+     "poblacion": 120173,
+     "municipios": 2,
+     "secciones": 58,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 7,
+     "nombre": null,
+     "poblacion": 108205,
+     "municipios": 11,
+     "secciones": 62,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 8,
+     "nombre": null,
+     "poblacion": 111478,
+     "municipios": 2,
+     "secciones": 53,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 9,
+     "nombre": null,
+     "poblacion": 110800,
+     "municipios": 4,
+     "secciones": 60,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 10,
+     "nombre": null,
+     "poblacion": 85136,
+     "municipios": 1,
+     "secciones": 39,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 11,
+     "nombre": null,
+     "poblacion": 108997,
+     "municipios": 11,
+     "secciones": 50,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 12,
+     "nombre": null,
+     "poblacion": 109888,
+     "municipios": 22,
+     "secciones": 65,
+     "ganador": "PP"
+    },
+    {
+     "distrito": 13,
+     "nombre": null,
+     "poblacion": 110292,
+     "municipios": 19,
+     "secciones": 78,
+     "ganador": "PSOE"
+    },
+    {
+     "distrito": 14,
+     "nombre": null,
+     "poblacion": 108603,
+     "municipios": 29,
+     "secciones": 79,
      "ganador": "PP"
     }
    ]

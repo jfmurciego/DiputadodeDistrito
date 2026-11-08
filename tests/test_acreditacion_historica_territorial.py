@@ -23,7 +23,6 @@ from herramientas.resolver_activos_durables import DurableAssetBlock, validate_d
 from herramientas.resolver_ejecucion_completa import build_plan
 
 ROOT = Path(__file__).resolve().parents[1]
-from tests._raiz_congelada import frozen_root  # noqa: E402
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 EXPECTED = {
     "aragon": {
@@ -67,6 +66,23 @@ FIXTURE_CASES = {
         HISTORICAL_FIXTURES / "castilla_y_leon_territorial_product_35889595424.json",
     ),
 }
+
+
+PLANNER_FIXTURES = HISTORICAL_FIXTURES / "planificador"
+
+
+def _planner_root(case_dir: Path, entry: dict, td: Path) -> Path:
+    """Raíz mínima: código enlazado al repositorio y estado sólo desde la fixture verificada."""
+    for rel, expected in entry["files"].items():
+        if _sha256(case_dir / rel) != expected:
+            raise AssertionError(f"fixture alterada: {case_dir.name}/{rel}")
+    root = td / "raiz"
+    root.mkdir()
+    for item in ROOT.iterdir():
+        if item.name not in {".git", "configuracion", "territorios", "orchestracion"}:
+            (root / item.name).symlink_to(item)
+    shutil.copytree(case_dir / "raiz", root, dirs_exist_ok=True)
+    return root
 
 
 def _catalog_row(territory_id: str) -> tuple[dict, dict]:
@@ -160,7 +176,7 @@ def _copy_case(territory_id: str) -> tuple[Path, tempfile.TemporaryDirectory, st
     return root, td, receipt_rel, json.loads((root / receipt_rel).read_text(encoding="utf-8"))
 
 
-def _planner_catalog(territory_id: str, output: Path) -> tuple[str, dict]:
+def _planner_catalog(territory_id: str, output: Path, root: Path = ROOT) -> tuple[str, dict]:
     row, state = _catalog_row(territory_id)
     row = copy.deepcopy(row)
     state = row["editions"]["2025"]
@@ -170,7 +186,7 @@ def _planner_catalog(territory_id: str, output: Path) -> tuple[str, dict]:
         "territorial_product": str((state.get("evidence") or {})["territorial_product"])
     }
     state["last_valid_checkpoint"] = {
-        "run_id": int(_receipt(territory_id)["run_id"]),
+        "run_id": int(_receipt(territory_id, root)["run_id"]),
         "stage": "M06",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -256,40 +272,36 @@ class HistoricalTerritorialAccreditationTests(unittest.TestCase):
         )
 
     def test_planner_reuses_both_real_m06_from_durable_sealed_evidence(self):
-        # El planificador lee el repositorio real: Aragón se comprueba con su M06 vivo adoptado.
-        for territory_id in ("aragon", "castilla_y_leon"):
-            frozen = False  # el linaje vivo de Castilla y León vuelve a ser coherente (M06 40868935788)
-            catalog_source = CATALOG
-            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td, \
-                    mock.patch.dict(FIXTURE_CASES, clear=True), \
-                    mock.patch(f"{__name__}.CATALOG", catalog_source):
+        # T-114: el planificador se evalúa sobre evidencia fija (fila de catálogo, contrato, registro
+        # electoral, receipt M06 y manifiesto 00 copiados con sha256), no sobre el estado vivo que
+        # reescribe cada 00: una fuente nueva registrada antes que su M06 rompía el linaje vivo.
+        for case, entry in json.loads((PLANNER_FIXTURES / "INDEX.json").read_text(encoding="utf-8")).items():
+            territory_id = case.rsplit("_", 1)[0]
+            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
+                root = _planner_root(PLANNER_FIXTURES / case, entry, Path(td))
+                catalog_row = PLANNER_FIXTURES / case / "catalog_row.yaml"
                 catalog = Path(td) / "catalogo.yaml"
-                territory_name, _ = _planner_catalog(territory_id, catalog)
+                with mock.patch.dict(FIXTURE_CASES, {territory_id: (catalog_row, None)}):
+                    territory_name, _ = _planner_catalog(territory_id, catalog, root=root)
                 plan = build_plan(
                     territory=territory_name,
                     edition="2025",
                     execution_mode="reuse",
                     catalog=catalog,
-                    # Castilla y León se relanza desde el principio y registra fuente nueva antes
-                    # que su M06; su caso real se evalúa en la raíz congelada aee8215e.
-                    root_dir=frozen_root() if frozen else ROOT,
+                    root_dir=root,
                     optimization_algorithm="Canónico",
                     force_selected_algorithm=False,
                 )
                 self.assertFalse(plan["run_generate"])
-                receipt = _receipt(territory_id)
-                self.assertEqual(
-                    int(receipt["run_id"]),
-                    plan["existing"]["territorial_product"]["run_id"],
+                receipt = json.loads(
+                    (root / f"territorios/{territory_id}/evidencia/catalogo/territorial_product_2025.json")
+                    .read_text(encoding="utf-8")
                 )
-                self.assertEqual(
-                    receipt["artifact_name"],
-                    plan["existing"]["territorial_product"]["artifact_name"],
-                )
-                self.assertEqual(
-                    receipt["artifact_sha256"],
-                    plan["existing"]["territorial_product"]["artifact_sha256"],
-                )
+                self.assertEqual(entry["m06_run_id"], int(receipt["run_id"]))
+                existing = plan["existing"]["territorial_product"]
+                self.assertEqual(int(receipt["run_id"]), existing["run_id"])
+                self.assertEqual(receipt["artifact_name"], existing["artifact_name"])
+                self.assertEqual(receipt["artifact_sha256"], existing["artifact_sha256"])
 
     def test_missing_original_gate_or_audit_blocks(self):
         for evidence_name in ("gate", "audit"):
