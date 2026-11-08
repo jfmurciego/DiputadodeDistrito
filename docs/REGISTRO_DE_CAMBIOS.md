@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.186
+Versión: 1.0.187
 Fecha: 2026-11-08
-Alcance: D-18 — Plan: autorización de estudios y difusión
+Alcance: T-97 — Tabla de homologación de siglas de las generales 2011-2023 (propuesta, sin aplicar)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_plan-d18.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.185_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_claude-t97-homologacion-siglas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.186_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.185_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.187 · [2026-11-08 — T-97 — Tabla de homologación de siglas de las generales 2011-2023 (propuesta, sin aplicar)](registro/2026-11-08_claude-t97-homologacion-siglas.md)
 - 1.0.186 · [2026-11-08 — D-18 — Plan: autorización de estudios y difusión](registro/2026-11-08_plan-d18.md)
 - 1.0.185 · [2026-11-08 — T-101 — Archivista: tolerancia D-17 a desajustes de sección](registro/2026-11-08_t101-archivista-tolerancia.md)
 - 1.0.184 · [2026-11-08 — T-98 — Cádiz en el ensemble con la exención de suelo de San Fernando](registro/2026-11-08_t98-cadiz-ensemble-exencion.md)
