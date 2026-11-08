@@ -851,6 +851,13 @@
    "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
    "ruta": "datos/composicion/runs/congreso_malaga_42495070976.csv"
   },
+  "congreso_tarragona/42514991952": {
+   "territorio": "congreso_tarragona",
+   "run_id": "42514991952",
+   "secciones": 542,
+   "sha256_csv": "8b5f1e0dc6afb10d8a2bca45bae89b505996cdfee9e9bc19d39c4c26c766bcc1",
+   "ruta": "datos/composicion/runs/congreso_tarragona_42514991952.csv"
+  },
   "melilla/42504386196": {
    "territorio": "melilla",
    "run_id": "42504386196",
