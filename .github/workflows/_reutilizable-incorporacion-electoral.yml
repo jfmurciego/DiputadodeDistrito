@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — incorporación electoral
-# VERSIÓN: 1.2.1
+# VERSIÓN: 1.2.2
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y un paquete electoral preparado,
 # agrega los resultados, genera el producto electoral y registra su disponibilidad.
@@ -9,6 +9,9 @@
 #   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
 # CAMBIOS 1.1.6: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
+# CAMBIOS 1.2.2: T-91, el receipt/catálogo del producto electoral se registra DESPUÉS del archivo en origen; si éste falla
+#   (ARCHIVO_ORIGEN_FAILED) ya no queda un activo durable de un run con la fase 04 en failure.
+# MOTIVO 1.2.2: Barcelona, Málaga y Alicante quedaron con receipts huérfanos y la 00 «Reutilizar» fallaba en DURABLE_LINEAGE_INCOMPATIBLE.
 # CAMBIOS 1.2.1: T-72b, a R2 va el paquete mínimo ddd-minimo-<run>-M08 (GeoJSON distritales y CSV/JSON de M06-M08,
 #   VALIDACION y manifiestos, con sha256 del estado original), no el ZIP de estado; como el estado M08 es acumulativo,
 #   el paquete M08 lleva lo del M06 y se retira de R2 el paquete M06 del run territorial (--sustituye-m06-run).
@@ -16,7 +19,7 @@
 #   (herramientas/archivo_origen.py r2; si falla, ARCHIVO_R2_FAILED y el run no queda verde) y escribe en git los votos
 #   por partido y distrito del run (datos/resultados/runs/) con la composición del run territorial.
 # MOTIVO 1.2.0: los artefactos caducan a los 14 días; el M08 y sus votos deben quedar fuera de Actions al terminar.
-# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.2.0_20261107.yml
+# ANTERIOR: legacy/workflows/_reutilizable-incorporacion-electoral_v1.2.1_20261107.yml
 # CAMBIOS: 1.1.4: VALIDACION.json se busca también en ejecuciones/<RUN_ID>/ (donde lo escribe validar_ejecucion).
 #   1.1.3: el diagnóstico añade DIAG_VALIDACION con fallos y municipios de VALIDACION.json.
 #   1.1.2: la salida de M07/M08 se guarda en .ddd-logs y, si fallan, sus últimas líneas se
@@ -385,27 +388,6 @@ jobs:
           git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
           echo "Registro con la app propia (exenta en el ruleset proteger-main)."
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
-      - name: Registrar disponibilidad del producto electoral
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -n "$PRODUCT_DIGEST" || { echo "::error::El producto electoral no tiene digest."; exit 49; }
-          suffix=''
-          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
-          artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
-          # El SHA procede del checkout REAL del job incorporar (antes de M08).
-          # El checkout de main en este job sólo aporta el persistidor compatible.
-          source_commit="${{ needs.incorporar.outputs.source_commit }}"
-          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
-          python -m herramientas.persistir_producto_electoral_operacional \
-            --root-dir . \
-            --territory-id "$TERRITORY_ID" \
-            --edition "$EDITION" \
-            --run-id "$GITHUB_RUN_ID" \
-            --artifact-name "$artifact_name" \
-            --artifact-sha256 "$PRODUCT_DIGEST" \
-            --source-commit "$source_commit" \
-            --target-branch main
       - name: Archivo en origen — M08 a R2 y votos por partido a git
         shell: bash
         env:
@@ -432,3 +414,24 @@ jobs:
             git rebase --abort >/dev/null 2>&1 || true; sleep $((attempt * 3))
           done
           echo '::error title=ARCHIVO_ORIGEN_FAILED::No se pudo registrar el archivo en origen en main.'; exit 1
+      - name: Registrar disponibilidad del producto electoral
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$PRODUCT_DIGEST" || { echo "::error::El producto electoral no tiene digest."; exit 49; }
+          suffix=''
+          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
+          # El SHA procede del checkout REAL del job incorporar (antes de M08).
+          # El checkout de main en este job sólo aporta el persistidor compatible.
+          source_commit="${{ needs.incorporar.outputs.source_commit }}"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de cálculo no acreditable"; exit 49; }
+          python -m herramientas.persistir_producto_electoral_operacional \
+            --root-dir . \
+            --territory-id "$TERRITORY_ID" \
+            --edition "$EDITION" \
+            --run-id "$GITHUB_RUN_ID" \
+            --artifact-name "$artifact_name" \
+            --artifact-sha256 "$PRODUCT_DIGEST" \
+            --source-commit "$source_commit" \
+            --target-branch main
