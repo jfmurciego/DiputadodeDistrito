@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 378,
+  "productos": 380,
   "errores": 0,
   "avisos": 120
  },
@@ -4604,7 +4604,7 @@
      "producto": "M06",
      "id": "m06-congreso_santa_cruz_de_tenerife-41294259017",
      "run_id": "41294259017",
-     "vigente": true,
+     "vigente": false,
      "sha256": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b",
      "copia_git": {
       "blob_sha": "06790029108d506a62a7d65e853866b86041dddd",
@@ -4614,13 +4614,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_santa_cruz_de_tenerife-42519017008",
+     "run_id": "42519017008",
+     "vigente": true,
+     "sha256": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae",
+     "copia_git": {
+      "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_santa_cruz_de_tenerife-41294259017",
      "run_id": "41294259017",
-     "vigente": true,
+     "vigente": false,
      "sha256": "550dab5817ca8c62f5d3ab76c201e4f6a879334b278aa10834d2297a4b46ce37",
      "copia_git": {
       "blob_sha": "047b62cf96d9474c5dec9fa318e032b5da711133",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_santa_cruz_de_tenerife-42519017008",
+     "run_id": "42519017008",
+     "vigente": true,
+     "sha256": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9",
+     "copia_git": {
+      "blob_sha": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
       "ruta": null
      },
      "copias_r2": [],
@@ -4643,21 +4669,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_santa_cruz_de_tenerife",
-     "run_id": "41294259017",
+     "run_id": "42519017008",
      "vigente": true,
      "sha256": "13255016220076ff1e9101dc33d4a11b452fb74cde3622ebea4649a505ae08f3",
      "copia_git": {
-      "blob_sha": "06790029108d506a62a7d65e853866b86041dddd",
+      "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
       "ruta": "datos_abiertos/congreso_santa_cruz_de_tenerife/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "0baddb9d493e671e3b576f6df54cd4acedad88860730d04b947b5823e9157a0b"
+     "origen_sha256": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_santa_cruz_de_tenerife",
-     "run_id": "41294259017",
+     "run_id": "42519017008",
      "vigente": true,
      "sha256": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8",
      "copia_git": {
@@ -4666,7 +4692,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "550dab5817ca8c62f5d3ab76c201e4f6a879334b278aa10834d2297a4b46ce37"
+     "origen_sha256": "b2e5d59a0a5f231df1184fee01e63dfeee372405b5b3fd918d873573fc06d1b9"
     }
    ]
   },
@@ -7253,14 +7279,14 @@
    "territorio": "congreso_santa_cruz_de_tenerife",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294259017: solo copia git"
+   "detalle": "run 42519017008: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_santa_cruz_de_tenerife",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294259017: solo copia git"
+   "detalle": "run 42519017008: solo copia git"
   },
   {
    "nivel": "AVISO",
