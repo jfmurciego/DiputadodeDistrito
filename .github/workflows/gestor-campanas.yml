@@ -1,6 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# VERSIÓN: 1.4.0 · FECHA: 2026-11-08 · ESTADO: candidato
+# VERSIÓN: 1.5.0 · FECHA: 2026-11-08 · ESTADO: candidato
+# CAMBIOS 1.5.0: T-105, Gestor 2.0 (D-22): formulario en el orden de D-22 (elección, tipo, territorios, inicio, publicar,
+#   ensemble) más mapa (407/350) y «solo plan» activado por defecto; herramientas/gestor_campanas_2.py. Lo no disponible
+#   (histórico antes de T-83 A, ensemble 25) falla al planificar sin lanzar. Sustituye modo plan/lanzar, ámbito y forzar;
+#   «matriz» (campaña anterior) y «continuar» (relevo interno) quedan en «modo».
 # CAMBIOS 1.4.0: T-102: ámbito «congreso 350» (49 gemelos congreso350_*, K = escaños reales de 2023; nunca publican, D-18).
 # CAMBIOS 1.3.0: T-86, legislatura vigente por ámbito (configuracion/legislatura_vigente.yaml). Modo «plan» (en seco:
 #   territorios, clave, estado y acción) y «lanzar» (un clic de produccion por campaña; territorio de prueba si el lote
@@ -9,7 +13,7 @@
 # CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
 # CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
 #   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
-# ANTERIOR: legacy/workflows/gestor-campanas_v1.3.0_20261107.yml
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.4.0_20261108.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: 0 Gestor de Campañas
@@ -17,38 +21,84 @@ name: 0 Gestor de Campañas
 on:
   workflow_dispatch:
     inputs:
-      modo:
-        description: 'plan (en seco, sin efectos), lanzar (legislatura vigente) o matriz (campaña anterior). continuar es interno'
+      eleccion:
+        description: '1) Elección'
         required: true
         type: choice
-        default: plan
+        default: legislatura vigente
         options:
-          - plan
-          - lanzar
-          - matriz
-          - continuar
-      ambito:
-        description: Ámbito de la legislatura vigente (plan y lanzar)
+          - legislatura vigente
+          - 'histórico: generales 2019-11'
+          - 'histórico: generales 2019-04'
+          - 'histórico: generales 2016'
+          - 'histórico: generales 2015'
+          - 'histórico: generales 2011'
+      tipo:
+        description: '2) Tipo'
         required: true
         type: choice
-        default: legislatura completa
+        default: nacional
         options:
-          - legislatura completa
           - nacional
-          - autonómicas
-          - comunidad
-          - provincias
-          - congreso 350
-      forzar:
-        description: Rehacer desde el principio también los ya publicados
+          - autonómico
+      territorios:
+        description: '3) Territorios: todos o lista separada por comas (provincias o comunidades por nombre, código o matrícula)'
+        required: true
+        type: string
+        default: todos
+      inicio:
+        description: '4) Inicio'
+        required: true
+        type: choice
+        default: reutilizar progreso
+        options:
+          - desde el principio
+          - aprovechar fuentes
+          - reutilizar progreso
+      publicar:
+        description: '5) Publicar en el visor'
+        required: true
+        type: choice
+        default: 'no'
+        options:
+          - 'no'
+          - sí
+      ensemble:
+        description: '6) Ensemble GerryChain'
+        required: true
+        type: choice
+        default: ninguno
+        options:
+          - ninguno
+          - '10'
+          - '25'
+      mapa:
+        description: 'Mapa: 407 distritos o 350 (escaños reales de 2023, T-102; nunca publica)'
+        required: true
+        type: choice
+        default: '407'
+        options:
+          - '407'
+          - '350'
+      solo_plan:
+        description: 'Solo plan: muestra qué se lanzaría y no lanza nada. Desactívelo para lanzar'
         required: true
         type: boolean
-        default: false
+        default: true
       max_paralelo:
         description: Territorios a la vez tras el de prueba
         required: true
         type: string
         default: '3'
+      modo:
+        description: 'Avanzado: gestor (formulario de arriba), matriz (campaña anterior). continuar es el relevo interno'
+        required: true
+        type: choice
+        default: gestor
+        options:
+          - gestor
+          - matriz
+          - continuar
       campana:
         description: Campaña
         required: true
@@ -75,11 +125,6 @@ on:
         options:
           - electoral
           - territorial_only
-      territorios:
-        description: 'Separados por coma. comunidad: CODAUTO o nombre; provincias: INE, matrícula o nombre; matriz: todos, números o nombres'
-        required: false
-        type: string
-        default: ''
   pull_request:
     branches: [main]
     paths:
@@ -89,6 +134,8 @@ on:
       - 'configuracion/preparacion_legislatura_vigente.yaml'
       - 'herramientas/legislatura_vigente.py'
       - 'tests/test_legislatura_vigente.py'
+      - 'herramientas/gestor_campanas_2.py'
+      - 'tests/test_gestor_campanas_2.py'
       - 'configuracion/catalogo_territorios_espana_2025.yaml'
       - 'configuracion/catalogo_preparacion.yaml'
       - 'herramientas/gestor_campana_nacional.py'
@@ -113,22 +160,26 @@ jobs:
   legislatura:
     name: 0 Gestor de Campañas Legislatura vigente
     if: ${{ github.event_name == 'pull_request' || inputs.modo != 'matriz' }}
-    # Un solo clic del propietario por campaña; el relevo «continuar» y los 00/05 que lanza van como bot.
-    environment: ${{ (github.event_name == 'workflow_dispatch' && inputs.modo == 'lanzar') && 'produccion' || '' }}
+    # Lanzarlo el propietario equivale a su permiso (D-22): un clic de produccion; el relevo «continuar» va como bot.
+    environment: ${{ (github.event_name == 'workflow_dispatch' && inputs.modo == 'gestor' && !inputs.solo_plan) && 'produccion' || '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 355
     concurrency:
-      group: ${{ (github.event_name == 'workflow_dispatch' && inputs.modo != 'plan') && 'ddd-gestor-legislatura' || format('ddd-gestor-plan-{0}', github.run_id) }}
+      group: ${{ (github.event_name == 'workflow_dispatch' && !inputs.solo_plan) && 'ddd-gestor-legislatura' || format('ddd-gestor-plan-{0}', github.run_id) }}
       cancel-in-progress: false
       queue: max
     env:
       GH_TOKEN: ${{ github.token }}
-      MODO: ${{ inputs.modo || 'plan' }}
-      AMBITO: ${{ inputs.ambito || 'legislatura completa' }}
-      TERRITORIOS: ${{ inputs.territorios }}
-      FORZAR: ${{ inputs.forzar && 'true' || 'false' }}
+      MODO: ${{ inputs.modo || 'gestor' }}
+      ELECCION: ${{ inputs.eleccion || 'legislatura vigente' }}
+      TIPO: ${{ inputs.tipo || 'nacional' }}
+      TERRITORIOS: ${{ inputs.territorios || 'Huesca' }}
+      INICIO: ${{ inputs.inicio || 'reutilizar progreso' }}
+      PUBLICAR: ${{ inputs.publicar || 'no' }}
+      ENSEMBLE: ${{ inputs.ensemble || 'ninguno' }}
+      MAPA: ${{ inputs.mapa || '407' }}
+      SOLO_PLAN: ${{ (github.event_name != 'workflow_dispatch' || inputs.solo_plan) && 'true' || 'false' }}
       MAX_PARALELO: ${{ inputs.max_paralelo || '3' }}
-      ESTRATEGIA: ${{ inputs.estrategia || 'Canónico' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -139,23 +190,26 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$MODO" == continuar && "$GITHUB_ACTOR" != 'github-actions[bot]' ]]; then
-            echo "::error::«continuar» es el relevo interno del Gestor; use «lanzar»."; exit 22
+            echo "::error::«continuar» es el relevo interno del Gestor; use «gestor»."; exit 22
           fi
-          if [[ "$MODO" != plan && "$GITHUB_REF_NAME" != main ]]; then
+          if [[ "$SOLO_PLAN" != true && "$GITHUB_REF_NAME" != main ]]; then
             echo "::error::Las campañas sólo se lanzan desde main."; exit 21
           fi
-          python herramientas/legislatura_vigente.py plan --ambito "$AMBITO" --territorios "$TERRITORIOS" \
-            --forzar "$FORZAR" --salida plan.json --resumen plan.md
+          sin_api=()
+          [[ "$GITHUB_EVENT_NAME" == pull_request ]] && sin_api=(--sin-api)
+          python herramientas/gestor_campanas_2.py plan --eleccion "$ELECCION" --tipo "$TIPO" \
+            --territorios "$TERRITORIOS" --inicio "$INICIO" --publicar "$PUBLICAR" --ensemble "$ENSEMBLE" \
+            --mapa "$MAPA" --solo-plan "$SOLO_PLAN" "${sin_api[@]}" --salida plan.json --resumen plan.md
           cat plan.md >> "$GITHUB_STEP_SUMMARY"
       - name: Lanzar la campaña
-        if: ${{ github.event_name == 'workflow_dispatch' && (inputs.modo == 'lanzar' || inputs.modo == 'continuar') }}
+        if: ${{ github.event_name == 'workflow_dispatch' && !inputs.solo_plan && inputs.modo != 'matriz' }}
         shell: bash
         run: |
           set -euo pipefail
           extra=()
           [[ "$MODO" == continuar ]] && extra=(--sin-prueba)
-          python herramientas/legislatura_vigente.py lanzar --plan plan.json --estrategia "$ESTRATEGIA" --forzar "$FORZAR" \
-            --max-paralelo "$MAX_PARALELO" --minutos 320 "${extra[@]}" | tee resultado.json
+          python herramientas/gestor_campanas_2.py lanzar --plan plan.json --max-paralelo "$MAX_PARALELO" \
+            --minutos 320 "${extra[@]}" | tee resultado.json
           { echo "### Resultado"; echo '```json'; cat resultado.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
 
   preparar:
