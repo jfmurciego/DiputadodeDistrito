@@ -847,12 +847,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42409605030
-        stage: M06
+        run_id: 42418334746
+        stage: M08
       preparation_evidence:
         run_id: 42409605030
         artifact_name: ddd-source-package-congreso_alicante-2025-42409605030
@@ -871,6 +871,7 @@ territories:
         generation_preflight: territorios/congreso_alicante/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso_alicante/evidencia/catalogo/territorial_product_2025.json
         prepared_source_pair: territorios/congreso_alicante/evidencia/pares_fuentes/2025/a15a905eafdabb7df54ebcd58b326c874fa91adc44bf70a9814a0fa7b4433d4d.json
+        electoral_product: territorios/congreso_alicante/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: congreso_almeria
   name: Congreso Almería
