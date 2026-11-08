@@ -1,8 +1,9 @@
 """T-86: legislatura vigente (71 territorios con fuente) y plan/lanzamiento del Gestor de Campañas.
 
-VERSIÓN: 1.1.0 · FECHA: 2026-11-08
+VERSIÓN: 1.2.0 · FECHA: 2026-11-08
+CAMBIOS 1.2.0: T-105, relevo con «@auto» para los iniciados, ensemble tras publicar y formulario 2.0 (D-22).
 CAMBIOS 1.1.0: T-102, los 49 gemelos Congreso 350 van aparte (ámbito congreso_350); siguen 71 de la legislatura.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/tests/test_legislatura_vigente_v1.1.0_20261108.py
 """
 import json
 import sys
@@ -118,7 +119,7 @@ class Lanzar(unittest.TestCase):
     """Simula GitHub: cada dispatch de 00 crea un run que termina en el siguiente sondeo."""
 
     def setUp(self):
-        self.runs = {lv.WF_00: [], lv.WF_05: []}
+        self.runs = {lv.WF_00: [], lv.WF_05: [], lv.WF_06: []}
         self.dispatched = []
         self.n = 100
         self.clock = 0.0
@@ -129,7 +130,7 @@ class Lanzar(unittest.TestCase):
             return
         self.n += 1
         title = (f"{lv.TITLE_00} · {inputs['territory_id']} · {inputs['execution_mode']}" if wf == lv.WF_00
-                 else "05 Publicación del Visor")
+                 else "05 Publicación del Visor" if wf == lv.WF_05 else "06 Escenarios y Ensembles")
         self.runs[wf].append({"id": self.n, "display_title": title, "status": "queued", "conclusion": None,
                               "created_at": "2026-11-07T10:00:%02dZ" % (self.n % 60)})
 
@@ -180,19 +181,39 @@ class Lanzar(unittest.TestCase):
         report = self.campaign([self.row("A"), self.row("B")], deadline=0)
         self.assertEqual(self.dispatched[-1][0], lv.WF_GESTOR)
         self.assertEqual(self.dispatched[-1][1]["modo"], "continuar")
-        self.assertEqual(self.dispatched[-1][1]["territorios"], "a,b")
+        self.assertEqual(self.dispatched[-1][1]["territorios"], "a@auto,b")  # A (prueba) ya iniciada
         self.assertEqual(len(report), 2)
 
 
+    def test_ensemble_tras_publicar_y_solo_ensemble_si_ya_publicado(self):
+        rows = [{**self.row("A", "desde_el_principio"), "publicar": False, "ensemble": "a"},
+                {**self.row("B", "nada"), "publicar": True, "ensemble": "b"}]
+        report = self.campaign(rows, test_first=False)
+        self.assertTrue(all(r["resultado"].startswith("OK") and "06" in r["resultado"] for r in report), report)
+        e06 = [d[1] for d in self.dispatched if d[0] == lv.WF_06]
+        self.assertEqual(sorted(e["territory_id"] for e in e06), ["a", "b"])
+        self.assertEqual({e["territory_id"]: e["deploy_pages"] for e in e06}, {"a": False, "b": True})
+        self.assertTrue(all(e["stage"] == "ensemble_10" and e["execution_confirmed"] for e in e06))
+        a00 = [d[1] for d in self.dispatched if d[0] == lv.WF_00]
+        self.assertEqual([(d["territory_id"], d["publish_result"]) for d in a00], [("A", False)])
+        self.assertNotIn(lv.WF_05, [d[0] for d in self.dispatched])
+
+    def test_aprovechar_fuentes(self):
+        self.campaign([self.row("A", "aprovechar_fuentes")])
+        self.assertEqual(self.dispatched[0][1]["execution_mode"], "Generar desde fuente territorial acreditada")
+
+
 class Workflow(unittest.TestCase):
-    def test_un_clic_por_campana_y_plan_en_pr(self):
+    def test_formulario_2_0_y_plan_en_pr(self):
         text = WF.read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         inputs = data.get(True, data.get("on"))["workflow_dispatch"]["inputs"]
-        self.assertEqual(inputs["modo"]["default"], "plan")
-        self.assertEqual(inputs["ambito"]["options"], lv.AMBITOS)
+        self.assertEqual(list(inputs)[:8], ["eleccion", "tipo", "territorios", "inicio", "publicar", "ensemble",
+                                            "mapa", "solo_plan"])  # orden de D-22
+        self.assertIs(inputs["solo_plan"]["default"], True)
+        self.assertEqual(inputs["modo"]["default"], "gestor")
         job = data["jobs"]["legislatura"]
-        self.assertIn("inputs.modo == 'lanzar') && 'produccion'", job["environment"])
+        self.assertIn("inputs.modo == 'gestor' && !inputs.solo_plan) && 'produccion'", job["environment"])
         self.assertIn("github.event_name == 'pull_request'", job["if"])
         self.assertIn("generar --comprobar", text)
         self.assertIn("inputs.modo == 'matriz'", data["jobs"]["preparar"]["if"])
