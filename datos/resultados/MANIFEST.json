@@ -666,6 +666,22 @@
     "sha256": "7a37d96ab2850c42db799f45c7c031456d97ae1a307c5273faa4dbe1ae8cfe5c"
    }
   },
+  "congreso_almeria/42519378789": {
+   "territorio": "congreso_almeria",
+   "run_id": "42519378789",
+   "run_territorial": "42519378789",
+   "sha256_composicion": "686b58aa44652658fbb091583ac070ee31e1fe836a0c6ec0da6903a0bd93d106",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "919185970778c123308d5cc6eaf5d613b6efd239a23b36e48148bf056c771390",
+   "ruta": "datos/resultados/runs/congreso_almeria_42519378789_partidos.csv",
+   "desajustes": {
+    "secciones": 3,
+    "pct_desajuste": 0.518,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_almeria_42519378789_desajustes.json",
+    "sha256": "d8312ee76855710af2ffaa6ce8546f8e693266d9ca6e889843382baa15746062"
+   }
+  },
   "congreso_badajoz/42519381013": {
    "territorio": "congreso_badajoz",
    "run_id": "42519381013",

@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T21:00:41Z",
+  "actualizado_en": "2026-11-08T21:02:27Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -2115,19 +2115,20 @@
       "territorio": "congreso_almeria",
       "url": "r2://ddd-research-archive/congreso_almeria/41295979497/ddd-minimo-41295979497-M08.zip"
     },
-    "congreso_almeria/42519378789/ddd-minimo-42519378789-M06.zip": {
-      "archivado_en": "2026-11-08T20:54:48Z",
-      "artefacto": "ddd-minimo-42519378789-M06",
-      "artefacto_origen": "ddd-state-42519378789-M06",
-      "artifact_id": 13633891113,
-      "caducidad_original": "2026-11-22T20:44:45Z",
+    "congreso_almeria/42519378789/ddd-minimo-42519378789-M08.zip": {
+      "archivado_en": "2026-11-08T21:02:27Z",
+      "artefacto": "ddd-minimo-42519378789-M08",
+      "artefacto_origen": "ddd-state-42519378789-M08",
+      "artifact_id": 13633747602,
+      "caducidad_original": "2026-11-22T21:00:24Z",
+      "incluye_m06_run": "42519378789",
       "run_id": "42519378789",
-      "sha256": "0640e0521e6b60d281e61221b85a54693246ee4d48e90cef2fb6a62689ac4d88",
-      "sha256_estado_original": "17745ac4c321897973ce4d058cb476fb8a78b1b762849bd84470657763a988e8",
-      "tamano_bytes": 200489,
-      "tamano_estado_original": 79483898,
+      "sha256": "6f3cc936e64a394d21f4b810745ef75759b761bceaf03d3d491a9aed2750ca2c",
+      "sha256_estado_original": "098624f0798728879a28a6be05c4689e493fe802025f675bce9fd851e673c5e6",
+      "tamano_bytes": 380821,
+      "tamano_estado_original": 80416944,
       "territorio": "congreso_almeria",
-      "url": "r2://ddd-research-archive/congreso_almeria/42519378789/ddd-minimo-42519378789-M06.zip"
+      "url": "r2://ddd-research-archive/congreso_almeria/42519378789/ddd-minimo-42519378789-M08.zip"
     },
     "congreso_asturias/41243326722/ddd-audit-41243326722.zip": {
       "archivado_en": "2026-11-08T12:10:45Z",
