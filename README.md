@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-08T20:08:00.131233+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-08T20:29:23.413684+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -84,7 +84,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional Las Palmas** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41442913288 · SUCCESS | — | — | — |
 | **Nacional Pontevedra** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41353894475 · SUCCESS | — | — | — |
 | **Nacional Salamanca** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41295298674 · SUCCESS | — | — | — |
-| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 41294259017 · FAILED | 05 · Publicación del Visor | ver log del run | preparar fuentes electorales |
+| **Nacional Santa Cruz de Tenerife** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42514989698 · SUCCESS | 03/04 · rama electoral omitida | no existe prepared_source_pair acreditado para la entrada electoral | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **Nacional Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | ⚪ | Cadena completa validada | 41356175674 · SUCCESS | — | — | — |
 | **Nacional Segovia** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41241846017 · SUCCESS | — | — | — |
 | **Nacional Sevilla** | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada | 41297168461 · SUCCESS | — | — | — |
