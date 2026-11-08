@@ -1,0 +1,96 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso_barcelona",
+  "territory_name": "Congreso Barcelona",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 42490327657,
+  "source_sha": "576ac6f8f3278533e786ca1bad35d5247d2ea429",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "INCOMPLETE",
+  "electoral_activation_status": "FULL_PAIR_READY",
+  "electoral_skip_reason": null,
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": null
+  },
+  "failed_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 42409499602,
+      "artifact": "ddd-source-package-congreso_barcelona-2025-42409499602",
+      "artifact_digest": "sha256:37cc86abd67e4a2552cc48ad8149f645f1d46d7904aade8301d7957b2adcd270",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 42490327657,
+      "artifact": "ddd-state-42490327657-M06",
+      "artifact_digest": "sha256:4225bebcc9a83337e020f442f15dc0735320aa723979bbc905e9764fdc4172da",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 41239777027,
+      "artifact": "ddd-electoral-package-congreso_barcelona-2025-41239777027",
+      "artifact_digest": "sha256:aa7d4ebccd728e768f3747aac8af1125800daed7234baebea3ff7bc3d4214af6",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-08T15:08:18.866140+00:00"
+}
