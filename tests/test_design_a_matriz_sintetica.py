@@ -40,7 +40,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","archivar-artefactos-r2.yml","cadena-publicacion.yml","desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","extraer-composicion-m06.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","metricas-proceso.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","publicar-version-mapa.yml","r2-test.yml","recuperar-producto-electoral-durable.yml"])
+        self.assertEqual(sorted(dispatch),["activacion-por-eleccion.yml","archivar-artefactos-r2.yml","cadena-publicacion.yml","desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","extraer-composicion-m06.yml","generar-alternativas-territoriales.yml","gestor-campanas.yml","incorporacion-resultados-electorales.yml","metricas-proceso.yml","preparacion-fuentes.yml","preparacion-legislatura-vigente.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","publicar-version-mapa.yml","recuperar-producto-electoral-durable.yml"])
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]

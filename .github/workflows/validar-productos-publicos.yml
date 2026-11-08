@@ -1,14 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
+# ANTERIOR: legacy/workflows/validar-productos-publicos_v1.0.1_20261108.yml
+# CAMBIOS 1.0.2: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE: Validar productos públicos
-# FECHA: 2026-09-16
+# FECHA: 2026-11-08
 # ESTADO: activo
 # QUÉ HACE: verifica y empaqueta el visor y sus GeoJSON canónicos como artefacto descargable, sin Pages ni motor territorial.
 # CAMBIOS: retira workflow_dispatch y conserva la validación automática por push.
 # MOTIVO: separar el control de calidad automático de la única interfaz humana de ejecución.
 # ANTERIOR: versión 1.0.0 en historial Git.
-name: Validar Productos Públicos
+name: _Interno — Validar Productos Públicos
 
 on:
   push:

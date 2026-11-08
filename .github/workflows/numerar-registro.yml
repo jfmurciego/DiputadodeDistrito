@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# ANTERIOR: legacy/workflows/numerar-registro_v1.0.0_20261108.yml
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Numeración automática del registro de cambios
-# FECHA: 2026-11-07
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: al fusionar en main una PR con entradas nuevas en docs/registro/, les asigna el número consecutivo,
 #   regenera la cabecera y el índice de docs/REGISTRO_DE_CAMBIOS.md (con copia en legacy/docs/) y lo empuja con la
@@ -10,7 +12,7 @@
 # CAMBIOS: versión inicial (T-46).
 # MOTIVO: el número pedido a mano hacía chocar todas las PR abiertas (#429-#436).
 # ANTERIOR: ninguna (fichero nuevo)
-name: Numeración del Registro
+name: _Interno — Numeración del Registro
 on:
   push:
     branches: [main]

@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.3
+# VERSIÓN: 1.1.4
+# ANTERIOR: legacy/workflows/orquestacion-durable_v1.1.3_20261108.yml
+# CAMBIOS 1.1.4: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE: O02 resolución de reutilización y estado durable
-# FECHA: 2026-10-25
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado durable.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
@@ -12,7 +14,7 @@
 #   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
 # ANTERIOR: legacy/workflows/orquestacion-durable_v1.1.2_20261101b.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
-name: Resolver Reutilización y Estado Durable
+name: _Interno — Resolver Reutilización y Estado Durable
 on:
   workflow_call:
     inputs:

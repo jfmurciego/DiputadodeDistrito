@@ -172,7 +172,6 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 "preparacion-resultados-electorales.yml",
                 "produccion-distritos.yml",
                 "publicar-version-mapa.yml",
-                "r2-test.yml",  # Explicitly approved manual infrastructure smoke test
                 "recuperar-producto-electoral-durable.yml",
             ],
         )

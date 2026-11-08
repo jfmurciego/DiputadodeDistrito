@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.6.0
+# VERSIÓN: 3.6.1
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.6.0_20261108.yml
+# CAMBIOS 3.6.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve activos persistentes y despliega Pages; los pilotos Congreso son opt-in y excluidos por defecto.
@@ -21,8 +23,8 @@
 # ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.5.0_20261108.yml
 # CAMBIOS: añade exclusión por defecto del visor analítico Congreso y carga de procedencia al habilitarlo explícitamente.
 # MOTIVO: mantener candidatos no certificados fuera de Pages salvo selección explícita del caller.
-# FECHA: 2026-10-27
-name: _Publicador Interno del Sitio
+# FECHA: 2026-11-08
+name: _Interno — Publicador del Sitio
 
 on:
   workflow_call:

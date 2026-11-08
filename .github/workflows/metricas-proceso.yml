@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# ANTERIOR: legacy/workflows/metricas-proceso_v1.0.0_20261108.yml
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Métricas del proceso
-# FECHA: 2026-11-07
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: cada lunes y por workflow_dispatch regenera orchestracion/metricas_proceso.json (y su espejo
 #   dashboard/metricas_proceso.json) con herramientas/metricas_proceso.py y lo registra con la app ddd-registro.
@@ -10,7 +12,7 @@
 # CAMBIOS: versión inicial (T-65).
 # MOTIVO: medir % de 00 a la primera, minutos de Actions, PR y coste de agentes sin modelo (FRAMEWORK §8).
 # ANTERIOR: ninguna (fichero nuevo)
-name: Métricas del proceso
+name: _Interno — Métricas del proceso
 on:
   schedule:
     - cron: '17 5 * * 1'

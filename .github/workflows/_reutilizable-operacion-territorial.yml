@@ -1,14 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 3.4.1
+# VERSIÓN: 3.4.2
+# ANTERIOR: legacy/workflows/_reutilizable-operacion-territorial_v3.4.1_20261108.yml
+# CAMBIOS 3.4.2: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Ruta productiva con nombres de negocio
-# FECHA: 2026-10-25
+# FECHA: 2026-11-08
 # ESTADO: candidato
 # QUÉ HACE: recibe una operación institucional resuelta, delega la ruta seleccionada y genera siempre un informe de ejecución para la cadena territorial.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 # ANTERIOR: legacy/workflows/p0_operational_repair_20261025/_reutilizable-operacion-territorial.pre-p0.yml (versión 3.4.0 conservada)
-name: Reutilizable — Ruta Territorial Resuelta
+name: _Interno — Ruta Territorial Resuelta
 
 on:
   workflow_call:

@@ -1,14 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
+# ANTERIOR: legacy/workflows/_reutilizable-auditoria-topologica_v1.0.0_20261108.yml
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE DE VERSIÓN: Diagnóstico topológico territorial reutilizable
-# FECHA: 2026-09-12
+# FECHA: 2026-11-08
 # ESTADO: vigente — R023
 # QUÉ HACE: reproduce M01-M03 observable y explica geométricamente todas las componentes provinciales o municipales separadas.
 # CAMBIOS: primera versión.
 # MOTIVO: convertir los hallazgos del bootstrap nacional en diagnósticos auditables sin añadir pasarelas automáticas.
 # ANTERIOR: ninguno — workflow nuevo.
-name: Reutilizable — Diagnóstico Topológico Territorial
+name: _Interno — Diagnóstico Topológico Territorial
 on:
   workflow_call:
     inputs:

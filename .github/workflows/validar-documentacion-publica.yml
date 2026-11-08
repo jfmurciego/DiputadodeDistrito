@@ -1,9 +1,11 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# FECHA: 2026-11-03
+# VERSIÓN: 1.0.1
+# ANTERIOR: legacy/workflows/validar-documentacion-publica_v1.0.0_20261108.yml
+# CAMBIOS 1.0.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
+# FECHA: 2026-11-08
 # ESTADO: validación documental sin despliegue
 # ANTERIOR: archivo nuevo
-name: Validar documentación pública
+name: _Interno — Validar documentación pública
 on:
   pull_request:
     paths:

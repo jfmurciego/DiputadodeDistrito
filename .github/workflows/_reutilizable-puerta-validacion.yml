@@ -1,12 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — puerta de validación
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.2.1
+# ANTERIOR: legacy/workflows/_reutilizable-puerta-validacion_v1.2.0_20261108.yml
+# CAMBIOS 1.2.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # QUÉ HACE: acredita identidad, digest y aptitud semántica del artefacto que alimentará la siguiente fase.
-# FECHA: 2026-10-28
+# FECHA: 2026-11-08
 # CAMBIOS: si el artefacto acreditado caducó en Actions, lo toma de su release draft almacen-m06-* con el mismo SHA-256.
 # MOTIVO: los M06 certificados dejaban de poder reutilizarse a los 14 días aunque sus bytes estuvieran conservados.
 # ANTERIOR: legacy/workflows/_reutilizable-puerta-validacion_v1.1.0.yml
-name: _Puerta de Validación de Fase
+name: _Interno — Puerta de Validación de Fase
 
 on:
   workflow_call:
