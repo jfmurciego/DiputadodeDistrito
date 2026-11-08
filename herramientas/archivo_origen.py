@@ -3,15 +3,20 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.2
+VERSIÓN: 1.0.3
 NOMBRE DE VERSIÓN: Archivo en origen
-FECHA: 2026-11-07
+FECHA: 2026-11-08
 ESTADO: candidato
-CAMBIOS: 1.0.2 (T-90): composicion y partidos leen también los GeoJSON *.geojson.zip del estado (así los escriben
+CAMBIOS: 1.0.3 (T-101, D-17): partidos tolera desajustes de código de sección entre el ZIP de Interior y la composición
+  M06 de hasta el 0,5 % de los votos de la provincia (resultados_partidos.agregar_informe con la tabla
+  configuracion/equivalencia_secciones_congreso_2023.csv y la población de la composición; peso D-13). La lista de
+  secciones desajustadas va a datos/resultados/runs/<territorio>_<run>_desajustes.json (clave ``desajustes`` de la
+  entrada del MANIFEST) y al log como ::warning PARTIDOS_DESAJUSTE_D17. Por encima del tope, fallo como antes.
+  1.0.2 (T-90): composicion y partidos leen también los GeoJSON *.geojson.zip del estado (así los escriben
   M06 y M08; antes solo veían *.geojson sueltos).
   1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
   que contiene el M06 publicado.
-ANTERIOR: legacy/herramientas/archivo_origen_v1.0.1_20261107.py
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.2_20261107.py
 QUÉ HACE: cuatro subcomandos.
   r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
               VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del
@@ -220,7 +225,8 @@ def ganadores_m08(estado: Path) -> list[str]:
 
 
 def escribir_partidos(estado: Path, territorio: str, run_id: str, run_territorial: str, root: Path,
-                      zip_path: Path | None = None, contratos_yaml: Path | None = None) -> dict | None:
+                      zip_path: Path | None = None, contratos_yaml: Path | None = None,
+                      equivalencia: Path | None = None) -> dict | None:
     """Votos por partido del run M08; None si no aplica (sin contrato 2023 o sin composición del run territorial)."""
     import resultados_partidos as rp
     ctr = rp.contratos(contratos_yaml or rp.CONTRATOS).get(territorio)
@@ -233,7 +239,9 @@ def escribir_partidos(estado: Path, territorio: str, run_id: str, run_territoria
         raise ValueError(f"sha256 de {comp['ruta']} no coincide con el MANIFEST")
     with tempfile.TemporaryDirectory() as tmp:
         zp = zip_path or rp.bajar_zip(ctr, Path(tmp) / "mesa.zip")
-        cuerpo = rp.agregar(zp, ctr, rp.leer_composicion(rutac), ganadores_m08(estado))
+        eq = rp.leer_equivalencia(equivalencia) if equivalencia else rp.leer_equivalencia()
+        cuerpo, informe = rp.agregar_informe(zp, ctr, rp.leer_composicion(rutac), ganadores_m08(estado),
+                                             equivalencia=eq, poblacion=rp.leer_poblacion(rutac))
     ruta = root / RESULTADOS / "runs" / f"{territorio}_{run_id}_partidos.csv"
     ruta.parent.mkdir(parents=True, exist_ok=True)
     if not ruta.is_file() or ruta.read_bytes() != cuerpo:
@@ -243,6 +251,13 @@ def escribir_partidos(estado: Path, territorio: str, run_id: str, run_territoria
     entrada = {"territorio": territorio, "run_id": str(run_id), "run_territorial": str(run_territorial),
                "sha256_composicion": comp["sha256_csv"], "sha256_zip": ctr["source_sha256"],
                "sha256_csv": cm.sha256(cuerpo), "ruta": ruta.relative_to(root).as_posix()}
+    if informe:
+        rd = root / RESULTADOS / "runs" / f"{territorio}_{run_id}_desajustes.json"
+        _escribir(rd, {"schema": "ddd.desajustes-secciones/1.0", "territorio": territorio, "run_id": str(run_id),
+                       "run_territorial": str(run_territorial), **informe})
+        entrada["desajustes"] = {"secciones": len(informe["desajustes"]), "pct_desajuste": informe["pct_desajuste"],
+                                 "tope_pct": informe["tope_pct"], "ruta": rd.relative_to(root).as_posix(),
+                                 "sha256": cm.sha256(rd.read_bytes())}
     man.setdefault("partidos_runs", {})[f"{territorio}/{run_id}"] = entrada
     man["partidos_runs"] = dict(sorted(man["partidos_runs"].items()))
     _escribir(ruta_man, man)
@@ -259,6 +274,13 @@ def cmd_partidos(a) -> int:
         print(f"::notice::{a.territorio}: sin contrato Infoelectoral 2023 o sin composición del run {a.run_territorial}; "
               "votos por partido omitidos.")
         return 0
+    if e.get("desajustes"):
+        d = e["desajustes"]
+        lista = json.loads((Path(a.root_dir) / d["ruta"]).read_text(encoding="utf-8"))["desajustes"]
+        print(f"::warning title=PARTIDOS_DESAJUSTE_D17::{a.territorio}/{a.run_id}: {d['secciones']} secciones desajustadas, "
+              f"{d['pct_desajuste']} % de los votos (tope {d['tope_pct']:g} %); detalle en {d['ruta']}")
+        for x in lista:
+            print(f"  {x['seccion']} {x['origen']} votos={x['votos']} distritos={x['distritos']} · {x['regla']}")
     print(f"partidos: {e['ruta']} (sha256 {e['sha256_csv']})")
     return 0
 
