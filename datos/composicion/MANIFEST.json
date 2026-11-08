@@ -746,6 +746,13 @@
    "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
    "ruta": "datos/composicion/runs/andalucia_42430164925.csv"
   },
+  "andalucia/42495072594": {
+   "territorio": "andalucia",
+   "run_id": "42495072594",
+   "secciones": 6029,
+   "sha256_csv": "5be42e2c012c4c49bdeb63345e077df717c55d83f958f7fda171c59ced6692e7",
+   "ruta": "datos/composicion/runs/andalucia_42495072594.csv"
+  },
   "congreso_alicante/42490325518": {
    "territorio": "congreso_alicante",
    "run_id": "42490325518",
