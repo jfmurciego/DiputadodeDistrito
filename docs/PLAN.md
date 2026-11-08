@@ -4,7 +4,7 @@ Versión: 1.0.33
 Fecha: 2026-11-08
 Alcance: Cola de tareas para chats implementadores y operadores
 Estado: candidato
-Cambios/motivo: D-24 y T-109 (visor v2 según la maqueta aprobada); T-105 y T-106 hechas; T-107 y T-108 del Coordinador; T-110 (histórico a las 52 provincias)
+Cambios/motivo: D-24 y T-109 (visor v2 según la maqueta aprobada); T-105 y T-106 hechas; T-107 y T-108 del Coordinador; T-110 (histórico a las 52 provincias); D-25, T-111 y T-112 (generales 2026)
 Anterior: legacy/docs/PLAN_v1.0.32_20261108.md
 -->
 
@@ -142,6 +142,9 @@ que ejecuta (regla de siempre). Cada chat manda su línea de cierre al planifica
 - D-24 (08-11). Visor v2: el propietario aprueba la maqueta combinada (portada «Mapa» con vistas Congreso y Parlamentos autonómicos
   separadas + pestañas Nacional, Autonómico, Elecciones y Método de su modelo v3), especificada en `docs/ARQUITECTURA/visor_v2/`.
   Se avanza por versiones: la v1 de T-84 ya está en producción. Los textos los escribe el propietario en `web/textos.md`.
+- D-25 (08-11). Generales del 29-11-2026: el RD 806/2026 (BOE-A-2026-20742, comprobado) cambia Cádiz 9→8 y Madrid 37→38. El propietario
+  aprueba (1) una variante del mapa de 350 con los escaños de 2026 (solo Cádiz y Madrid se rehacen) y (2) adquirir ya candidaturas y siglas.
+  Los 407 distritos no cambian (padrón INE 2025).
 
 ### Pendientes (08-11)
 - D-7 (T-42, T-43). Permiso de publicación del hemiciclo y de los ensembles de La Rioja y Sevilla (en el chat operador).
@@ -380,6 +383,8 @@ Cierres al Coordinador. Alcance y criterio de hecho: los del encargo de cada cha
 | T-107 | (id del Coordinador) Castilla y León: M05 7.4.3 | — | Hecha (#546) |
 | T-108 | (id del Coordinador) Huella M05 | — | Hecha (#547) |
 | T-110 | Empujón al histórico (orden del propietario, 08-11): extender el paso B de T-83 (hoy validado en Álava, Badajoz y Huesca) a las 52 provincias × 6 generales 2011-2023 con la tabla de T-85 (D-13) y las siglas de T-97 (D-20); rotación por distrito de toda España en `datos/resultados/historico/rotacion/`; cuadre de totales provinciales con Infoelectoral y contraste con el Observatorio; lista de provincias que no cuadren con su motivo. Salida lista para la capa de rotación de T-109. Después, el paso A (cadena con puerta 04) por elección empezando por 2019-11, lanzado con el Gestor por el propietario o por el Operador con permiso | por abrir (Sonnet), ya | 52/52 × 6 en el repositorio con manifiesto y sha256; tests; sin lanzar ni publicar; nada sale del repositorio sin el propietario (D-18) |
+| T-111 | Mapa de 350 con escaños de 2026 (D-25): campaña `congreso_350_2026` = la de T-102 salvo Cádiz (K=8) y Madrid (K=38), con K de `configuracion/escanos_oficiales_congreso_2026.csv`; reutiliza las otras 50 del mapa de 350 de 2023; lanzamiento de las dos provincias por el Operador con permiso del propietario | por abrir (Sonnet), tras las 3 de prueba de T-102 | Contrato en una PR; Cádiz y Madrid en verde; sin publicar |
+| T-112 | Candidaturas y siglas de las generales 2026 (D-25): proclamación de candidaturas en el BOE (todas las circunscripciones), CSV con fuente y sha256; extender la tabla de T-97 a 2026 con sus familias (D-20); las de certeza baja se presentan al propietario antes de usarlas | por abrir (Sonnet), ya | CSV y tabla ampliada en una PR con tests; sin publicar |
 
 Tras T-84 (orden del propietario, 08-11): revisión del kit T-93 por el propietario → publicación del visor nuevo por el Operador con permiso del propietario, con `/docs` (T-73) y DOI de Zenodo ya disponibles → difusión que decida el propietario (D-18). T-99 (comparador lado a lado, opción C de D-16) se propone con el visor publicado y la respuesta del público; no se encarga antes.
 
