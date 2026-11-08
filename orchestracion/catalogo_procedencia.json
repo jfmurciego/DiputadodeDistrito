@@ -50,7 +50,7 @@
   "territorios": 67,
   "productos": 339,
   "errores": 0,
-  "avisos": 121
+  "avisos": 122
  },
  "territorios": {
   "aragon": {
@@ -1872,11 +1872,11 @@
   },
   "congreso_ceuta": {
    "fuente_territorial": {
-    "run_id": "42463443610",
-    "package_sha256": "7cf7730c3fc4d13ec0880c6719b702a71a0e069520dbf31346d3b471f6ab69fa",
-    "artifact_sha256": "47dd86183218ec329c9447894ed59a7a065a405ce3800f252930ed80e89c0ccd",
-    "territorial_identity_sha256": "274c1b5d031656d58f4ce99d7ca8b118c7cbdb75ff17132e50a905f2ad4e7737",
-    "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/274c1b5d031656d58f4ce99d7ca8b118c7cbdb75ff17132e50a905f2ad4e7737/42463443610/receipt.json",
+    "run_id": "42488846588",
+    "package_sha256": "92dc13573e8b1bceeff58a5d05cd91934f202e74815b5220c49d2119042f969f",
+    "artifact_sha256": "9808a974cef7018ae2f8b1c9eba200ac8f1b11de6c63853c0838a0651ead8b4e",
+    "territorial_identity_sha256": "ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317",
+    "receipt_path": "territorios/congreso_ceuta/evidencia/fuentes_territoriales/2025/ccab1909b10228fdbd73b382cb3ae31da143df32481d7a54cd516e1e824c9317/42488846588/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -6127,6 +6127,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso_malaga/42418628975/ddd-minimo-42418628975-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso_malaga",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso_malaga/42490329631/ddd-minimo-42490329631-M06.zip"
   },
   {
    "nivel": "AVISO",
