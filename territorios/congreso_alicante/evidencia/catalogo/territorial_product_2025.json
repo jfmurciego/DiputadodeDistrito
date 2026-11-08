@@ -4,11 +4,11 @@
   "territory_id": "congreso_alicante",
   "territory_name": "Congreso Alicante",
   "edition": "2025",
-  "run_id": 42409605030,
-  "artifact_name": "ddd-state-42409605030-M06",
-  "artifact_sha256": "ea0d29e63128c377fb309155c54b55f970fa173d14dcdc87ae028efbf42426e4",
-  "source_commit": "70fb22388ec2a5c1704b05b8c3c851683f58d62a",
+  "run_id": 42490325518,
+  "artifact_name": "ddd-state-42490325518-M06",
+  "artifact_sha256": "6401794853f082fe7b068bc6b4c5aad7bae5e412eb61e9122e0c9ef360ac9d7e",
+  "source_commit": "576ac6f8f3278533e786ca1bad35d5247d2ea429",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06",
-  "producer_manifest_path": "territorios/congreso_alicante/evidencia/generaciones_m06/42409605030.json"
+  "producer_manifest_path": "territorios/congreso_alicante/evidencia/generaciones_m06/42490325518.json"
 }
