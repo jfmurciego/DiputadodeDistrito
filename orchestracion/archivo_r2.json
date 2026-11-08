@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T18:15:31Z",
+  "actualizado_en": "2026-11-08T19:47:59Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1970,6 +1970,20 @@
       "tamano_estado_original": 78347569,
       "territorio": "congreso_albacete",
       "url": "r2://ddd-research-archive/congreso_albacete/41294417893/ddd-minimo-41294417893-M08.zip"
+    },
+    "congreso_albacete/42514994231/ddd-minimo-42514994231-M06.zip": {
+      "archivado_en": "2026-11-08T19:47:59Z",
+      "artefacto": "ddd-minimo-42514994231-M06",
+      "artefacto_origen": "ddd-state-42514994231-M06",
+      "artifact_id": 13632080433,
+      "caducidad_original": "2026-11-22T19:45:24Z",
+      "run_id": "42514994231",
+      "sha256": "24c2b27e065bc07876628bb6c7373cc4b993e0fbf0dc698fd4ca42743a37dbff",
+      "sha256_estado_original": "f49c395d523a0a3c3fcc81dc3f209aacad478ddaeaff883c3a189bba31a884ff",
+      "tamano_bytes": 160680,
+      "tamano_estado_original": 77705674,
+      "territorio": "congreso_albacete",
+      "url": "r2://ddd-research-archive/congreso_albacete/42514994231/ddd-minimo-42514994231-M06.zip"
     },
     "congreso_alicante/42409605030/ddd-audit-42409605030.zip": {
       "archivado_en": "2026-11-08T12:20:49Z",
