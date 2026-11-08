@@ -1,0 +1,310 @@
+{
+ "peso": "poblacion (D-13)",
+ "schema": "ddd.reagregacion-historico/1.0",
+ "territorios": {
+  "congreso_alava": {
+   "cuadre": {
+    "201111": {
+     "dif_max_partido": 0,
+     "distritos": 3,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 167160,
+     "votos_espejo": 167160,
+     "votos_perdidos": 0
+    },
+    "201512": {
+     "dif_max_partido": 0,
+     "distritos": 3,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 177448,
+     "votos_espejo": 177448,
+     "votos_perdidos": 0
+    },
+    "201606": {
+     "dif_max_partido": 0,
+     "distritos": 3,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 165985,
+     "votos_espejo": 165985,
+     "votos_perdidos": 0
+    },
+    "201904": {
+     "dif_max_partido": 0,
+     "distritos": 3,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 175733,
+     "votos_espejo": 175733,
+     "votos_perdidos": 0
+    },
+    "201911": {
+     "dif_max_partido": 0,
+     "distritos": 3,
+     "oficial": {
+      "avisos": [],
+      "defecto_max_partido": 0.00792,
+      "defecto_total": 0.00404,
+      "errores": [],
+      "explicacion": "el espejo suma secciones y excluye el voto CERA",
+      "partidos_comparados": 6,
+      "sin_homologar": [
+       "PSOE"
+      ],
+      "tolerancia": 0.1
+     },
+     "ok": true,
+     "votos_distritos": 169235,
+     "votos_espejo": 169235,
+     "votos_perdidos": 0
+    },
+    "202307": {
+     "dif_max_partido": 0,
+     "distritos": 3,
+     "oficial": {
+      "avisos": [],
+      "defecto_max_partido": 0.00974,
+      "defecto_total": 0.00625,
+      "errores": [],
+      "explicacion": "el espejo suma secciones y excluye el voto CERA",
+      "partidos_comparados": 5,
+      "sin_homologar": [
+       "PSOE"
+      ],
+      "tolerancia": 0.1
+     },
+     "ok": true,
+     "votos_distritos": 167304,
+     "votos_espejo": 167304,
+     "votos_perdidos": 0
+    }
+   },
+   "fuentes": {
+    "distritos_m06": "7166a990d7e586f798435be258c9ac2d8be13f2d6fd71e96b2341873e1787456",
+    "espejo": {
+     "data/201111/sekzioa/01.json": "d4cd5dfba24c516bb1223bc6516ee795c5ffdb295bd9d82349f22dc5b36e9e28",
+     "data/201512/sekzioa/01.json": "845451f4200cd43725c05c0181e6a500ad0259785c493af2557ae09d520a5665",
+     "data/201606/sekzioa/01.json": "08aeacc366b0b22953b92b71b678d7880f8846c03c98968c0b87b5ac1edcccc9",
+     "data/201904/sekzioa/01.json": "bc55a2009e117b6d243165a07f48a71b6c509697a0cb397e635810e8d2bd0163",
+     "data/201911/sekzioa/01.json": "922d7718646087f737a2cb6380a80fe9a99299fb730be1ceac43fe9c21f829f7",
+     "data/202307/sekzioa/01.json": "46c10754ec15467ce60a5f7c99130db9ce8e6ced28fde6fc35a25fc767e1e36c"
+    },
+    "historicos": {
+     "2012": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+     "2015": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+     "2016": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+     "2019": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+     "2020": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+     "2024": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+    },
+    "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+    "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+   },
+   "provincia": "01",
+   "secciones_vigentes_sin_distrito": []
+  },
+  "congreso_badajoz": {
+   "cuadre": {
+    "201111": {
+     "dif_max_partido": 0,
+     "distritos": 6,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 403522,
+     "votos_espejo": 403522,
+     "votos_perdidos": 0
+    },
+    "201512": {
+     "dif_max_partido": 0,
+     "distritos": 6,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 395612,
+     "votos_espejo": 395612,
+     "votos_perdidos": 0
+    },
+    "201606": {
+     "dif_max_partido": 0,
+     "distritos": 6,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 374365,
+     "votos_espejo": 374365,
+     "votos_perdidos": 0
+    },
+    "201904": {
+     "dif_max_partido": 0,
+     "distritos": 6,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 404139,
+     "votos_espejo": 404139,
+     "votos_perdidos": 0
+    },
+    "201911": {
+     "dif_max_partido": 0,
+     "distritos": 6,
+     "oficial": {
+      "avisos": [],
+      "defecto_max_partido": 0.00562,
+      "defecto_total": 0.00252,
+      "errores": [],
+      "explicacion": "el espejo suma secciones y excluye el voto CERA",
+      "partidos_comparados": 5,
+      "sin_homologar": [],
+      "tolerancia": 0.1
+     },
+     "ok": true,
+     "votos_distritos": 365611,
+     "votos_espejo": 365611,
+     "votos_perdidos": 0
+    },
+    "202307": {
+     "dif_max_partido": 0,
+     "distritos": 6,
+     "oficial": {
+      "avisos": [],
+      "defecto_max_partido": 0.00754,
+      "defecto_total": 0.00345,
+      "errores": [],
+      "explicacion": "el espejo suma secciones y excluye el voto CERA",
+      "partidos_comparados": 4,
+      "sin_homologar": [],
+      "tolerancia": 0.1
+     },
+     "ok": true,
+     "votos_distritos": 386842,
+     "votos_espejo": 386842,
+     "votos_perdidos": 0
+    }
+   },
+   "fuentes": {
+    "distritos_m06": "8d289f2ebc84d67a96a36e56a8164cf83ac78106fac290b9fbc9d7ddc35832b2",
+    "espejo": {
+     "data/201111/sekzioa/06.json": "7b8a2e4b55b20a90c68690d70705a2f42ecbdbe5d546860a9fd4a049fd65bb00",
+     "data/201512/sekzioa/06.json": "7affbc1b621e531c4ccd91f11557e57d8ae38b7b5d9a52481aa1fc3041557709",
+     "data/201606/sekzioa/06.json": "4c3f20659dd65264a79a30c49ce51c978041550269f192cd0dc8d909b9d25106",
+     "data/201904/sekzioa/06.json": "bc77ea23ff8487b49168e0df40b6e14714de6dcca912fe2c0d19e78681b7a4f3",
+     "data/201911/sekzioa/06.json": "674b7d7209bd85c12ee61618d773e42851cc2751a2deeb825b175c9029b1f35b",
+     "data/202307/sekzioa/06.json": "d654580a82a59343ee1fceae9d56ba6692c5ab02e9de1d466a7ecb493a1644c8"
+    },
+    "historicos": {
+     "2012": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+     "2015": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+     "2016": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+     "2019": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+     "2020": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+     "2024": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+    },
+    "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+    "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+   },
+   "provincia": "06",
+   "secciones_vigentes_sin_distrito": []
+  },
+  "congreso_huesca": {
+   "cuadre": {
+    "201111": {
+     "dif_max_partido": 0,
+     "distritos": 2,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 117081,
+     "votos_espejo": 117081,
+     "votos_perdidos": 0
+    },
+    "201512": {
+     "dif_max_partido": 0,
+     "distritos": 2,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 120323,
+     "votos_espejo": 120323,
+     "votos_perdidos": 0
+    },
+    "201606": {
+     "dif_max_partido": 0,
+     "distritos": 2,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 114975,
+     "votos_espejo": 114975,
+     "votos_perdidos": 0
+    },
+    "201904": {
+     "dif_max_partido": 0,
+     "distritos": 2,
+     "oficial": "sin fuente oficial local: AVISO",
+     "ok": true,
+     "votos_distritos": 123335,
+     "votos_espejo": 123335,
+     "votos_perdidos": 0
+    },
+    "201911": {
+     "dif_max_partido": 0,
+     "distritos": 2,
+     "oficial": {
+      "avisos": [],
+      "defecto_max_partido": 0.01154,
+      "defecto_total": 0.00715,
+      "errores": [],
+      "explicacion": "el espejo suma secciones y excluye el voto CERA",
+      "partidos_comparados": 5,
+      "sin_homologar": [],
+      "tolerancia": 0.1
+     },
+     "ok": true,
+     "votos_distritos": 111396,
+     "votos_espejo": 111396,
+     "votos_perdidos": 0
+    },
+    "202307": {
+     "dif_max_partido": 0,
+     "distritos": 2,
+     "oficial": {
+      "avisos": [],
+      "defecto_max_partido": 0.01012,
+      "defecto_total": 0.00702,
+      "errores": [],
+      "explicacion": "el espejo suma secciones y excluye el voto CERA",
+      "partidos_comparados": 3,
+      "sin_homologar": [
+       "SUMAR"
+      ],
+      "tolerancia": 0.1
+     },
+     "ok": true,
+     "votos_distritos": 117735,
+     "votos_espejo": 117735,
+     "votos_perdidos": 0
+    }
+   },
+   "fuentes": {
+    "distritos_m06": "8978d3270f8e82fc14896a48bb0508274ef2078286a54261022f0c64b5bb3890",
+    "espejo": {
+     "data/201111/sekzioa/22.json": "f9592645571ecae78204ab63871e4219a0d643d3f50bd7a4ce8517551e2c5cc1",
+     "data/201512/sekzioa/22.json": "2436bd74545cdfb1e38f7f27ce6574fe413619dc1ed0810d8a023af4fd7adce5",
+     "data/201606/sekzioa/22.json": "69c302abf3ccb3b3521d8bfb171006ce0dd7354ef5ffbd163249f062b8d99e1b",
+     "data/201904/sekzioa/22.json": "c8d792ddd8db57cc37ece091f349be8d1a3a3c7f557b7212f3fa19c014a6b927",
+     "data/201911/sekzioa/22.json": "0e144f90e1c6b65170faf360d5d9107d753ff304184080936e3f928f0dfd5cb6",
+     "data/202307/sekzioa/22.json": "f9364cfd94e5fa213c286134f0c94e4835ecdb4f43daf4a7e9f47b0ed162a0a3"
+    },
+    "historicos": {
+     "2012": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+     "2015": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+     "2016": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+     "2019": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+     "2020": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+     "2024": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+    },
+    "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+    "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+   },
+   "provincia": "22",
+   "secciones_vigentes_sin_distrito": []
+  }
+ },
+ "tolerancia_cuadre": 0.1
+}
