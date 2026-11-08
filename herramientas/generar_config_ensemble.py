@@ -2,8 +2,11 @@
 """Genera configuracion/ensemble/<territorio>.json de las provincias del Congreso que el ensemble admite.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.0.0_20261108.py
+CAMBIOS 1.1.0 (T-98): APROBADOS_PROPIETARIO admite, por territorio, límites distintos del molde y la exención municipal de
+  suelo ya gobernada en el contrato (el motor del ensemble la modela desde m05_gerrychain_engine 1.3.0). La config copia
+  los valores del contrato y deja en `decisions` decided_at/decided_by/reason/evidence. Cádiz sale de EXCLUIDOS_POR_ORDEN.
 QUÉ HACE: toma como molde la config de La Rioja (mismos parámetros que T-61) y rellena id, provincia, K y rutas desde
   el contrato del territorio. No inventa umbrales: los copia de `validation`. Un contrato no es apto si tiene
   `topology_bridges`, exenciones de suelo, K<2, más de una provincia, CRS/POP distintos de los del molde o un techo/
@@ -20,18 +23,38 @@ from pathlib import Path
 import yaml
 
 MOLDE = "congreso_la_rioja"
-EXCLUIDOS_POR_ORDEN = {"congreso_cadiz": "exención de suelo municipal (San Fernando, 11031) que el ensemble no modela; además techo 1,16"}
+EXCLUIDOS_POR_ORDEN: dict[str, str] = {}
+EXENCION = "population_floor_exempt_municipalities"
+# Lo que el propietario ha aprobado para el ensemble y difiere del molde. La exención se toma del contrato (con su decisión).
+APROBADOS_PROPIETARIO = {
+    "congreso_cadiz": {
+        "admite": {"population_cap_ratio", "target_tolerance_ratio", EXENCION},
+        "decisions": {
+            "population_cap_ratio": {
+                "decided_at": "2026-11-08",
+                "decided_by": "propietario",
+                "reason": "Techo 1,16 de Cádiz (tolerancia 0,16) aprobado para el ensemble; se copian del contrato de producción, que no cambia.",
+                "evidence": "docs/registro/2026-11-08_claude-t92-ensembles-configs.md (T-92, «techo 1,16 aprobado para el ensemble»); T-98",
+            },
+        },
+    },
+}
 LIMITES = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio")
 
 
 def motivo_no_apto(contract: dict, molde: dict) -> str | None:
     val, tc = contract["validation"], contract["territory_contract"]
+    admite = APROBADOS_PROPIETARIO.get(contract["meta"]["territory_id"], {}).get("admite", set())
     m02 = contract["modulos"]["modulo_02_construir_adyacencias"]
     if m02.get("topology_bridges"):
         return f"topology_bridges ({len(m02['topology_bridges'])})"
-    for key in ("population_floor_exempt_partitions", "population_floor_exempt_municipalities"):
-        if val.get(key):
+    for key in ("population_floor_exempt_partitions", EXENCION):
+        if val.get(key) and key not in admite:
             return f"exención {key}"
+    decisiones = val.get("population_floor_exempt_decisions") or {}
+    for code in val.get(EXENCION) or []:
+        if not {"decided_at", "decided_by", "reason", "evidence"} <= set(decisiones.get(str(code)) or {}):
+            return f"exención {code} sin decisión gobernada"
     if len(tc["province_codes"]) != 1:
         return "más de una provincia"
     if tc["k_districts"] < 2:
@@ -41,7 +64,7 @@ def motivo_no_apto(contract: dict, molde: dict) -> str | None:
     if contract["modulos"]["modulo_03_construir_grafo"]["pop_field"] != molde["fields"]["population"]:
         return "campo de población distinto"
     for key in LIMITES:
-        if val[key] != molde["contract"][key]:
+        if val[key] != molde["contract"][key] and key not in admite:
             return f"{key}={val[key]} (molde {molde['contract'][key]})"
     return None
 
@@ -56,6 +79,18 @@ def construir(contract: dict, molde: dict) -> dict:
     cfg["inputs"]["initial_geojson"] = f"../../{cache}/{run}_m05_distritos_optimizados.geojson.zip"
     cfg["contract"]["k"] = k
     cfg["contract"]["province_districts"] = {cpro: k}
+    aprobado = APROBADOS_PROPIETARIO.get(tid)
+    if aprobado:
+        val = contract["validation"]
+        for key in LIMITES:
+            cfg["contract"][key] = val[key]
+        decisions = dict(aprobado["decisions"])
+        exentos = [str(c) for c in val.get(EXENCION) or []]
+        if exentos:
+            cfg["contract"][EXENCION] = exentos
+            for code in exentos:
+                decisions[f"{EXENCION}:{code}"] = dict(val["population_floor_exempt_decisions"][code])
+        cfg["decisions"] = decisions
     cfg["workflow"].update(contract=f"territorios/{tid}/config/{tid}_2025.yaml", cache_dir=cache, expected_districts=k)
     return cfg
 
