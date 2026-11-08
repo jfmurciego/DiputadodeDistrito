@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Homologación de siglas de las candidaturas proclamadas de las generales 2026 (T-112, extiende T-97).
+
+PROYECTO: Diputado de Distrito
+VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
+ANTERIOR: ninguna (fichero nuevo)
+QUÉ HACE: aplica datos/homologacion_siglas/reglas_candidaturas_2026.json (familias de D-20: «Podemos–Sumar»,
+  «CiU–Junts», «UPN y coaliciones», «CHA-IU») a configuracion/candidaturas_congreso_2026.csv (BOE-A-2026-23103 +
+  corrección BOE-A-2026-23383) y escribe datos/homologacion_siglas/homologacion_candidaturas_2026.csv con certeza,
+  regla, fuente y sha256. Las filas BAJA no se deciden: las lista para el propietario. No toca la tabla 2011-2023.
+Uso: python herramientas/homologacion_candidaturas_2026.py construir | comprobar
+"""
+from __future__ import annotations
+
+import csv
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+CAND = "configuracion/candidaturas_congreso_2026.csv"
+CAND_JSON = "configuracion/candidaturas_congreso_2026.json"
+REGLAS = "datos/homologacion_siglas/reglas_candidaturas_2026.json"
+SALIDA = "datos/homologacion_siglas/homologacion_candidaturas_2026.csv"
+COLUMNAS = ["eleccion", "codigo", "provincia", "sigla_boe", "denominacion_boe", "proclamada", "partido_homologado",
+            "nivel_certeza", "regla", "fuente_boe", "sha256_xml"]
+CERTEZAS = ("ALTA", "MEDIA", "BAJA", "DECIDIDA")
+
+
+def sha256(p: Path) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def resolver(reglas: dict, sigla: str) -> tuple[str, str, str]:
+    for r in reglas["siglas"]:
+        if sigla in r["siglas"]:
+            return r["homologado"], r["certeza"], r["id"]
+    return sigla, "ALTA", "IDENTIDAD"
+
+
+def filas(root: Path = ROOT) -> list[dict]:
+    reglas = json.loads((root / REGLAS).read_text(encoding="utf-8"))
+    meta = json.loads((root / CAND_JSON).read_text(encoding="utf-8"))
+    with (root / CAND).open(encoding="utf-8", newline="") as fh:
+        cand = list(csv.DictReader(fh))
+    out = []
+    for c in cand:
+        h, cert, rid = resolver(reglas, c["siglas"])
+        out.append({"eleccion": "202611", "codigo": c["codigo"], "provincia": c["provincia"], "sigla_boe": c["siglas"],
+                    "denominacion_boe": c["denominacion"], "proclamada": c["proclamada"], "partido_homologado": h,
+                    "nivel_certeza": cert, "regla": rid, "fuente_boe": meta["boe"], "sha256_xml": meta["sha256_xml"]})
+    return out
+
+
+def validar(root: Path = ROOT) -> list[str]:
+    reglas = json.loads((root / REGLAS).read_text(encoding="utf-8"))
+    err, vistas = [], {}
+    for r in reglas["siglas"]:
+        if r["certeza"] not in CERTEZAS or not r["homologado"]:
+            err.append(f"regla {r['id']}: inválida")
+        for s in r["siglas"]:
+            if s in vistas:
+                err.append(f"sigla {s!r} en dos reglas: {vistas[s]} y {r['id']}")
+            vistas[s] = r["id"]
+    meta = json.loads((root / CAND_JSON).read_text(encoding="utf-8"))
+    if meta["sha256_csv"] != sha256(root / CAND):
+        err.append("sha256 de candidaturas_congreso_2026.csv distinto al declarado")
+    return err
+
+
+def escribir(fs: list[dict], destino: Path) -> None:
+    with destino.open("w", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=COLUMNAS, lineterminator="\n")
+        w.writeheader()
+        w.writerows(fs)
+
+
+def main(argv=None) -> int:
+    cmd = (argv or sys.argv[1:] or [""])[0]
+    if cmd not in ("construir", "comprobar"):
+        print(__doc__)
+        return 2
+    err = validar()
+    fs = filas() if not err else []
+    if cmd == "comprobar" and not err:
+        actual = (ROOT / SALIDA).read_text(encoding="utf-8")
+        tmp = ROOT / (SALIDA + ".tmp")
+        escribir(fs, tmp)
+        if tmp.read_text(encoding="utf-8") != actual:
+            err.append("la tabla no coincide con las reglas: reconstruir")
+        tmp.unlink()
+    for e in err:
+        print("ERROR", e)
+    if err:
+        return 1
+    if cmd == "construir":
+        escribir(fs, ROOT / SALIDA)
+    from collections import Counter
+    print(dict(Counter(r["nivel_certeza"] for r in fs)))
+    bajas = sorted({(r["sigla_boe"], r["regla"]) for r in fs if r["nivel_certeza"] == "BAJA"})
+    print("BAJA:", bajas)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
