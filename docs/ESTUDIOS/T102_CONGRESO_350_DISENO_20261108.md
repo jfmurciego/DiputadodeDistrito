@@ -63,3 +63,18 @@ Decisión: D-19 (propietario). Producto paralelo; no toca los 407 (contratos `co
 1. ¿Vale `congreso350_<prov>` (contratos paralelos) frente a una variante de política?
 2. ¿Vale recalcular M01-M03 en vez de copiar checkpoints?
 3. Islas: ¿Hamilton por componente con exenciones, o se dejan fuera de la primera ola?
+
+## Aprobación y resultados (fase 2)
+- Aprobado por el Coordinador el 08-11: (1) contratos paralelos sí; (2) recalcular M01-M03 sí; (3) islas fuera de la
+  primera ola (decisión del propietario pendiente). Quedan 49 gemelos (327 escaños; las islas suman los 23 restantes).
+- Prueba local con el motor real (M01-M06, fuentes INE 2023: seccionado de ine.es y 65034 del repositorio):
+
+| Provincia | K | Secciones | Población | Desviación mín / máx | Estado |
+|---|---|---|---|---|---|
+| Soria | 2 | 216 | 89.528 | −0,002 % / +0,002 % | 2 PASS; grafo M03 = el de `congreso_soria` |
+| Valladolid | 5 | 565 | 521.333 | −5,4 % / +3,4 % | 5 PASS |
+| Madrid | 37 | 4.479 | 6.871.903 | −14,3 % / +14,5 % | 37 PASS (M04 236 s, M05 87 s) |
+
+- Nota de entorno: en local la sección 2808002027 (Majadahonda) quedó sin contacto medible con el shapefile INE; se probó
+  con un puente solo en el contrato temporal. En producción la fuente es la OGC acreditada (la de los 407, que no lo
+  necesitó); si la 00 de Madrid 350 diera `isolated=1`, ocurriría igual en el 407.

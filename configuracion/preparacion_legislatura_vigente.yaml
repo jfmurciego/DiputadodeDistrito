@@ -504,3 +504,346 @@ territories:
     election_date: '2023-07-23'
     territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
     electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_alava
+    pilot_code: R01
+    name: Congreso 350 Álava
+    election_id: congreso350_alava_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_albacete
+    pilot_code: R02
+    name: Congreso 350 Albacete
+    election_id: congreso350_albacete_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_alicante
+    pilot_code: R03
+    name: Congreso 350 Alicante
+    election_id: congreso350_alicante_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_almeria
+    pilot_code: R04
+    name: Congreso 350 Almería
+    election_id: congreso350_almeria_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_avila
+    pilot_code: R05
+    name: Congreso 350 Ávila
+    election_id: congreso350_avila_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_badajoz
+    pilot_code: R06
+    name: Congreso 350 Badajoz
+    election_id: congreso350_badajoz_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_barcelona
+    pilot_code: R08
+    name: Congreso 350 Barcelona
+    election_id: congreso350_barcelona_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_burgos
+    pilot_code: R09
+    name: Congreso 350 Burgos
+    election_id: congreso350_burgos_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_caceres
+    pilot_code: R10
+    name: Congreso 350 Cáceres
+    election_id: congreso350_caceres_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_cadiz
+    pilot_code: R11
+    name: Congreso 350 Cádiz
+    election_id: congreso350_cadiz_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_castellon
+    pilot_code: R12
+    name: Congreso 350 Castellón
+    election_id: congreso350_castellon_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_ciudad_real
+    pilot_code: R13
+    name: Congreso 350 Ciudad Real
+    election_id: congreso350_ciudad_real_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_cordoba
+    pilot_code: R14
+    name: Congreso 350 Córdoba
+    election_id: congreso350_cordoba_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_la_coruna
+    pilot_code: R15
+    name: Congreso 350 La Coruña
+    election_id: congreso350_la_coruna_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_cuenca
+    pilot_code: R16
+    name: Congreso 350 Cuenca
+    election_id: congreso350_cuenca_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_gerona
+    pilot_code: R17
+    name: Congreso 350 Gerona
+    election_id: congreso350_gerona_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_granada
+    pilot_code: R18
+    name: Congreso 350 Granada
+    election_id: congreso350_granada_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_guadalajara
+    pilot_code: R19
+    name: Congreso 350 Guadalajara
+    election_id: congreso350_guadalajara_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_guipuzcoa
+    pilot_code: R20
+    name: Congreso 350 Guipúzcoa
+    election_id: congreso350_guipuzcoa_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_huelva
+    pilot_code: R21
+    name: Congreso 350 Huelva
+    election_id: congreso350_huelva_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_huesca
+    pilot_code: R22
+    name: Congreso 350 Huesca
+    election_id: congreso350_huesca_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Piloto Congreso: elección general del 23-07-2023; existen población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — resultados por mesa, Congreso 2023 (pendiente de declaración)', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_jaen
+    pilot_code: R23
+    name: Congreso 350 Jaén
+    election_id: congreso350_jaen_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_leon
+    pilot_code: R24
+    name: Congreso 350 León
+    election_id: congreso350_leon_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_lerida
+    pilot_code: R25
+    name: Congreso 350 Lérida
+    election_id: congreso350_lerida_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_la_rioja
+    pilot_code: R26
+    name: Congreso 350 La Rioja
+    election_id: congreso350_la_rioja_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_lugo
+    pilot_code: R27
+    name: Congreso 350 Lugo
+    election_id: congreso350_lugo_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_madrid
+    pilot_code: R28
+    name: Congreso 350 Madrid
+    election_id: congreso350_madrid_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_malaga
+    pilot_code: R29
+    name: Congreso 350 Málaga
+    election_id: congreso350_malaga_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_murcia
+    pilot_code: R30
+    name: Congreso 350 Murcia
+    election_id: congreso350_murcia_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_navarra
+    pilot_code: R31
+    name: Congreso 350 Navarra
+    election_id: congreso350_navarra_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_orense
+    pilot_code: R32
+    name: Congreso 350 Orense
+    election_id: congreso350_orense_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_asturias
+    pilot_code: R33
+    name: Congreso 350 Asturias
+    election_id: congreso350_asturias_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_palencia
+    pilot_code: R34
+    name: Congreso 350 Palencia
+    election_id: congreso350_palencia_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_pontevedra
+    pilot_code: R36
+    name: Congreso 350 Pontevedra
+    election_id: congreso350_pontevedra_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_salamanca
+    pilot_code: R37
+    name: Congreso 350 Salamanca
+    election_id: congreso350_salamanca_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_cantabria
+    pilot_code: R39
+    name: Congreso 350 Cantabria
+    election_id: congreso350_cantabria_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_segovia
+    pilot_code: R40
+    name: Congreso 350 Segovia
+    election_id: congreso350_segovia_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_sevilla
+    pilot_code: R41
+    name: Congreso 350 Sevilla
+    election_id: congreso350_sevilla_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_soria
+    pilot_code: R42
+    name: Congreso 350 Soria
+    election_id: congreso350_soria_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_tarragona
+    pilot_code: R43
+    name: Congreso 350 Tarragona
+    election_id: congreso350_tarragona_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_teruel
+    pilot_code: R44
+    name: Congreso 350 Teruel
+    election_id: congreso350_teruel_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_toledo
+    pilot_code: R45
+    name: Congreso 350 Toledo
+    election_id: congreso350_toledo_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_valencia
+    pilot_code: R46
+    name: Congreso 350 Valencia
+    election_id: congreso350_valencia_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_valladolid
+    pilot_code: R47
+    name: Congreso 350 Valladolid
+    election_id: congreso350_valladolid_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_vizcaya
+    pilot_code: R48
+    name: Congreso 350 Vizcaya
+    election_id: congreso350_vizcaya_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_zamora
+    pilot_code: R49
+    name: Congreso 350 Zamora
+    election_id: congreso350_zamora_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_zaragoza
+    pilot_code: R50
+    name: Congreso 350 Zaragoza
+    election_id: congreso350_zaragoza_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_ceuta
+    pilot_code: R51
+    name: Congreso 350 Ceuta
+    election_id: congreso350_ceuta_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
+  - territory_id: congreso350_melilla
+    pilot_code: R52
+    name: Congreso 350 Melilla
+    election_id: congreso350_melilla_2023-07-23
+    election_date: '2023-07-23'
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Congreso: elección general del 23-07-2023; población por sección y seccionado oficial 2023, contemporáneos de la elección.'}
+    electoral: {source: 'Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023', granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}

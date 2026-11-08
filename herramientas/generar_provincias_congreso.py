@@ -2,7 +2,7 @@
 """Alta de las provincias del Congreso como territorios del flujo 00, con Huesca como plantilla.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.1 · FECHA: 2026-11-01 · ESTADO: candidato
+VERSIÓN: 1.2.2 · FECHA: 2026-11-08 · ESTADO: candidato
 QUÉ HACE: para cada provincia del reparto N06 (K aprobado, 407 escaños) que aún no exista, añade la
   entrada en el catálogo maestro (pilot_territories, con número INE y letras de matrícula), la política,
   la matriz de legislatura, el registro electoral, las fuentes territoriales, el catálogo de preparación,
@@ -15,7 +15,9 @@ CAMBIOS 1.2.0: hereda de los contratos autonómicos los puentes topológicos gob
   (enclaves como Treviño, Llívia, Rincón de Ademuz o Petilla) y las componentes administrativas como
   puentes municipales; sólo si sus secciones existen en 2023. Palencia (run 41235453115) falló sin ellos.
 CAMBIOS 1.2.1: matrículas en español (Baleares PM, Gerona GE, Orense OR), decisión del propietario.
-ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.2.0_20261101.py
+CAMBIOS 1.2.2: T-102, la ordenación de los selectores ignora las opciones «Congreso 350 …» (gemelos de
+  generar_provincias_congreso_350.py), que van detrás de las 52 provincias.
+ANTERIOR: legacy/herramientas/generar_provincias_congreso_v1.2.1_20261101.py
 """
 from __future__ import annotations
 
@@ -223,14 +225,17 @@ def sort_by_province_code(root: Path) -> None:
     _sort_blocks(root / "configuracion/catalogo_preparacion.yaml", "- territory_id: congreso_", ids)
     for workflow in WORKFLOWS:
         path = root / ".github/workflows" / workflow
-        _sort_lines(path, lambda l: l.startswith("          - Congreso "), labels)
+        _sort_lines(path, lambda l: l.startswith("          - Congreso ") and not l.startswith("          - Congreso 350 "),
+                    labels)
         text = path.read_text(encoding="utf-8")
         for line in text.splitlines():
             if "'Congreso " in line and "options:" in line:
                 prefix, _, rest = line.partition("'Congreso ")
                 items = ["'Congreso " + x.strip().rstrip(",") for x in rest.rstrip("]").split(", 'Congreso ")]
                 items = [i if i.endswith("'") else i + "'" for i in items]
-                ordered = sorted(items, key=lambda i: _code_of(i.strip("'") + "\n", labels))
+                twins = [i for i in items if i.startswith("'Congreso 350 ")]
+                ordered = sorted((i for i in items if i not in twins), key=lambda i: _code_of(i.strip("'") + "\n", labels))
+                ordered += twins
                 text = text.replace(line, prefix + ", ".join(ordered) + "]")
         path.write_text(text, encoding="utf-8")
 
