@@ -12,5 +12,9 @@
 - Ampliación (Coordinador): `datos/resultados/` regenerado con `resultados_ligeros.py` (nuevos Andalucía, Aragón, Ceuta,
   Alicante, Barcelona, Málaga; runs nuevos de La Rioja, Melilla y Región de Murcia), `datos_abiertos/` con
   `generar_datos_abiertos.py` (52 provincias, `--comprobar` al día) y `orchestracion/catalogo_procedencia.json`.
-  `resultados_ligeros.py` borra `contraste_2023.csv` y la clave `partidos_runs` del MANIFEST: restaurados a mano
-  (fallo de la herramienta, pendiente de tarea propia).
+- Causa raíz del desfase: la 05 de La Rioja (run 42504388624) persistió un M06 nuevo en `publicaciones_visor.json` sin
+  regenerar `datos_abiertos/`; `generar_datos_abiertos.py --materializar` bloqueaba toda 05 posterior.
+  Publicador 3.7.0: regenera `datos/resultados` y `datos_abiertos/` desde el registro candidato, comprueba, materializa
+  y los persiste en el mismo commit que el registro.
+- `resultados_ligeros.py` 1.2.0: conserva todas las claves ajenas del MANIFEST (`partidos_runs`) y solo borra los CSV que
+  su MANIFEST listaba (antes borraba `contraste_2023.csv`); test del caso.

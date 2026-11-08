@@ -1,7 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.6.1
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.6.0_20261108.yml
+# VERSIÓN: 3.7.0
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.6.1_20261108.yml
+# CAMBIOS 3.7.0: T-114, datos/resultados y datos_abiertos/ se regeneran desde el registro candidato antes de materializar
+#   /datos/ y se persisten en el mismo commit que el registro: un M06/M08 nuevo ya no deja INDEX.json desfasado
+#   (bloqueaba la validación del sitio de toda 05 posterior y el test test_paquete_versionado_al_dia).
 # CAMBIOS 3.6.1: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
@@ -323,7 +326,10 @@ jobs:
           cp dashboard/hemiciclo.html dashboard/hemiciclo.json /tmp/site-candidate/dashboard/
           cp dashboard/metricas.html dashboard/metricas_proceso.json /tmp/site-candidate/dashboard/
           grep -q 'href="hemiciclo.html"' /tmp/site-candidate/dashboard/index.html || { echo "::error::El dashboard no enlaza el hemiciclo."; exit 1; }
-          python herramientas/generar_datos_abiertos.py --materializar /tmp/site-candidate/datos
+          python herramientas/resultados_ligeros.py --registro /tmp/publicaciones_visor.candidate.json
+          python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json
+          python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --comprobar
+          python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --materializar /tmp/site-candidate/datos
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
           python -m pip install --disable-pip-version-check -r documentacion_publica/requirements.lock
           zensical build --strict --clean -f documentacion_publica/zensical.toml
@@ -438,14 +444,15 @@ jobs:
           [[ "${{ steps.deployment.outcome }}" == "success" ]] || {
             echo "::error::No se persiste el registro porque Pages no se desplegó correctamente."; exit 49;
           }
-          cmp -s "$PUBLICATION_REGISTRY" /tmp/publicaciones_visor.candidate.json && exit 0
+          cp /tmp/publicaciones_visor.candidate.json "$PUBLICATION_REGISTRY"
+          # Registro, resultados ligeros y datos abiertos van juntos: INDEX.json nunca queda desfasado del registro.
+          [[ -z "$(git status --porcelain -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos)" ]] && exit 0
           [[ "$GITHUB_REF_NAME" == "main" ]] || {
             echo "::error::Las promociones publicables sólo pueden persistirse desde main."; exit 45;
           }
-          cp /tmp/publicaciones_visor.candidate.json "$PUBLICATION_REGISTRY"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add "$PUBLICATION_REGISTRY"
+          git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos
           git commit -m "chore: registrar activos persistentes del visor"
           for attempt in 1 2 3; do
             if git pull --rebase origin main && git push origin HEAD:main; then

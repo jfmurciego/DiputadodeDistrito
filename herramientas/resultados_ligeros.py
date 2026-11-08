@@ -3,10 +3,12 @@
 """Resultados electorales ligeros por territorio, versionados en git (T-53).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-07 · ESTADO: candidato
+VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
+CAMBIOS: 1.2.0: conserva todas las claves ajenas del MANIFEST (p. ej. «partidos_runs») y solo borra los CSV de territorios
+  que su MANIFEST anterior listaba (no contraste_2023.csv ni otros ficheros ajenos) (T-114).
 CAMBIOS: 1.1.0: conserva la clave «partidos» del MANIFEST y no borra <territorio>_partidos.csv (T-67).
 MOTIVO: los votos por partido los escribe herramientas/resultados_partidos.py en el mismo directorio.
-ANTERIOR: legacy/herramientas/resultados_ligeros_v1.0.0_20261107.py
+ANTERIOR: legacy/herramientas/resultados_ligeros_v1.1.0_20261108.py
 QUÉ HACE: por cada territorio con canonical_m08 vigente (el run más reciente) en orchestracion/publicaciones_visor.json,
   lee el M08 (blob inmutable de git, verificado con su sha256) y escribe datos/resultados/<territorio>.csv con una fila por
   distrito: distrito, poblacion, votos_totales, ganador, votos_ganador, porcentaje_ganador (el M08 solo trae el ganador, no
@@ -80,12 +82,11 @@ def bajar_blob(p: dict) -> bytes:
 def generar(salida: Path = SALIDA, registro: Path = REGISTRO_VISOR, cache: Path | None = None,
             m08_dir: Path | None = None) -> dict:
     salida.mkdir(parents=True, exist_ok=True)
-    previo = {}
+    anterior = {}
     if (salida / "MANIFEST.json").exists():
-        previo = json.loads((salida / "MANIFEST.json").read_text(encoding="utf-8")).get("territorios", {})
-    partidos = {}
-    if (salida / "MANIFEST.json").exists():
-        partidos = json.loads((salida / "MANIFEST.json").read_text(encoding="utf-8")).get("partidos", {})
+        anterior = json.loads((salida / "MANIFEST.json").read_text(encoding="utf-8"))
+    previo = anterior.get("territorios", {})
+    ajenas = {k: v for k, v in anterior.items() if k not in {"schema", "origen", "territorios"}}
     terr = {}
     for t, p in vigentes(registro).items():
         ant = previo.get(t)
@@ -106,15 +107,14 @@ def generar(salida: Path = SALIDA, registro: Path = REGISTRO_VISOR, cache: Path 
                    "distritos": cuerpo.count(b"\n") - 1, "sha256_csv": sha256(cuerpo)}
     man = {"schema": "ddd.resultados-ligeros/1.0", "origen": "orchestracion/publicaciones_visor.json (canonical_m08)",
            "territorios": dict(sorted(terr.items()))}
-    if partidos:
-        man["partidos"] = partidos
+    man.update(ajenas)  # «partidos», «partidos_runs»…: las escriben otras herramientas
     texto = json.dumps(man, ensure_ascii=False, indent=1) + "\n"
     ruta = salida / "MANIFEST.json"
     if not ruta.exists() or ruta.read_text(encoding="utf-8") != texto:
         ruta.write_text(texto, encoding="utf-8")
-    for viejo in salida.glob("*.csv"):  # territorios que ya no están vigentes
-        if viejo.stem not in terr and not viejo.stem.endswith("_partidos"):
-            viejo.unlink()
+    for t in previo:  # territorios que ya no están vigentes (solo los CSV que este MANIFEST listaba)
+        if t not in terr and (salida / f"{t}.csv").exists():
+            (salida / f"{t}.csv").unlink()
     return man
 
 
