@@ -476,8 +476,8 @@
     "section_year": 2025
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/5e06969847e4f5d83c72c0289a1b535db55a1107c7a31d0af6b6404d6a60465e/40969454399/receipt.json",
-    "identity_sha256": "5e06969847e4f5d83c72c0289a1b535db55a1107c7a31d0af6b6404d6a60465e"
+    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json",
+    "identity_sha256": "988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea"
    },
    "doi": null,
    "productos": [
