@@ -1866,7 +1866,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 42495070976
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 42409615215
         artifact_name: ddd-source-package-congreso_malaga-2025-42409615215
