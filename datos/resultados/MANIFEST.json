@@ -739,6 +739,15 @@
     "sha256": "97970fccaf40f4cfe56cb7080a9971e1d137e9ff9746ff649310bd0768f20736"
    }
   },
+  "congreso_santa_cruz_de_tenerife/42519017008": {
+   "territorio": "congreso_santa_cruz_de_tenerife",
+   "run_id": "42519017008",
+   "run_territorial": "42514989698",
+   "sha256_composicion": "06ff3f2a92aab8c31e36223c61915dbe174fb8d95cdd9ba1e7a0488a47fd0d79",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "28bd7d1128121ac4ac06d5a9e2eaa618daf203460ce0df83ebf5d993ef627a00",
+   "ruta": "datos/resultados/runs/congreso_santa_cruz_de_tenerife_42519017008_partidos.csv"
+  },
   "congreso_tarragona/42514991952": {
    "territorio": "congreso_tarragona",
    "run_id": "42514991952",
