@@ -126,7 +126,17 @@ class PaqueteReal(unittest.TestCase):
     def test_publicador_incluye_datos(self):
         d = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8"))
         runs = [s.get("run", "") for j in d["jobs"].values() for s in j.get("steps") or []]
-        self.assertTrue(any("generar_datos_abiertos.py --materializar /tmp/site-candidate/datos" in r for r in runs))
+        cand = "--registro /tmp/publicaciones_visor.candidate.json"
+        self.assertTrue(any(f"generar_datos_abiertos.py {cand} --materializar /tmp/site-candidate/datos" in r for r in runs))
+        # T-114: resultados ligeros y datos abiertos se regeneran desde el candidato y se persisten con el registro.
+        construir = next(r for r in runs if "--materializar /tmp/site-candidate/datos" in r)
+        orden = [f"resultados_ligeros.py {cand}\n", f"generar_datos_abiertos.py {cand}\n",
+                 f"generar_datos_abiertos.py {cand} --comprobar", f"generar_datos_abiertos.py {cand} --materializar"]
+        posiciones = [construir.find(o) for o in orden]
+        self.assertNotIn(-1, posiciones)
+        self.assertEqual(sorted(posiciones), posiciones)
+        persistir = next(r for r in runs if 'git commit -m "chore: registrar activos persistentes del visor"' in r)
+        self.assertIn('git add -A -- "$PUBLICATION_REGISTRY" datos/resultados datos_abiertos', persistir)
         self.assertTrue(any("test -f datos_abiertos/INDEX.json" in r for r in runs))
 
 

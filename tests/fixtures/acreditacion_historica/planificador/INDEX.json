@@ -1,0 +1,24 @@
+{
+  "aragon_42497101869": {
+    "source_commit": "730f9ee86dc19978b91be546deef26e35b474ce9",
+    "m06_run_id": 42497101869,
+    "files": {
+      "catalog_row.yaml": "78486264480319c4dcec8009ddf87c4fcbd68f722499e7b539c77772823b6484",
+      "raiz/configuracion/registro_electoral.yaml": "8f0a5f8261e730584c68019f21bab553031e9e89af8489157fb7ce8f45e35e87",
+      "raiz/territorios/aragon/config/aragon_2025.yaml": "cd4afc63a691fbe89cf790de456a5e3ec41b715442ab84901d66f8e7c84c9900",
+      "raiz/territorios/aragon/evidencia/catalogo/territorial_product_2025.json": "d00bd96494e3946a91ef93c5711732a6dca4211e4e2086088bd08533e43183ad",
+      "raiz/territorios/aragon/evidencia/ejecuciones_completas/42497101869.json": "1a9150017ccbd3e08fa107a4f95903affd5ac43efe93ceb96c2c73ea9c286bee"
+    }
+  },
+  "castilla_y_leon_42497104110": {
+    "source_commit": "038f783212382b5ed5199f2b5faff57e680382d1",
+    "m06_run_id": 42497104110,
+    "files": {
+      "catalog_row.yaml": "0746812c044407f8ba378a9724af3313239bddf6d06aa491dca8a68808dc01e4",
+      "raiz/configuracion/registro_electoral.yaml": "8f0a5f8261e730584c68019f21bab553031e9e89af8489157fb7ce8f45e35e87",
+      "raiz/territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml": "74d4c915a32e6a12053c3a24373339ad47f05a609012d7fcc4aca373888c50a1",
+      "raiz/territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json": "ea0817ade0c0142934e8f37dc2a4b1af58e7b95237c23cec595f496a04c0ae6c",
+      "raiz/territorios/castilla_y_leon/evidencia/ejecuciones_completas/42497104110.json": "84f7ecbd3c8db331c542ceaf4da09b3c5a98c475ca5d944a67b385655216c05a"
+    }
+  }
+}

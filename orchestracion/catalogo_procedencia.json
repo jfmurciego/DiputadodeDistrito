@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 357,
+  "productos": 366,
   "errores": 0,
   "avisos": 120
  },
@@ -94,6 +94,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-andalucia",
+     "run_id": "42495072594",
+     "vigente": true,
+     "sha256": "ec6a647db97e18a625f1840f93c8bdcc8c9063fc53b3e86d4874285679a368f2",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/andalucia.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "20e898e8c031c9609cee70a1cc9dbe191ebb5d312c754ef250fbf47cb0925610"
     }
    ]
   },
@@ -138,6 +152,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-aragon",
+     "run_id": "42497101869",
+     "vigente": true,
+     "sha256": "a3f97672a39a013baa85814eda183640a69d8f20dc951631e042a54b15aaabd5",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/aragon.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "64fe721f5e509afc82db6c778ff49263e8e113545498431eec5480841044af7b"
     },
     {
      "producto": "static",
@@ -700,6 +728,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-ceuta",
+     "run_id": "42503542766",
+     "vigente": true,
+     "sha256": "032029f787958c5004db7d830ad6646b29b6cac17c3e12f1f60c1f1264b2a49b",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/ceuta.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "1ea40f95abfa507ce96ab1c2d3624f8ac5c26f93716f77850b65417331de7432"
     }
    ]
   },
@@ -1147,6 +1189,34 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-congreso_alicante",
+     "run_id": "42495067503",
+     "vigente": true,
+     "sha256": "5aa7e893c4a0ac9ad70ce001ac598a9f157062e85fe5e81fd8cf7db497304b27",
+     "copia_git": {
+      "blob_sha": "5915aa729c6bb763fa468917a2a414b277c9fd29",
+      "ruta": "datos_abiertos/congreso_alicante/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-congreso_alicante",
+     "run_id": "42495067503",
+     "vigente": true,
+     "sha256": "28924177804fd394a8f43b0be9c53b96a753ab61a44a8e5d544119414195b584",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/congreso_alicante.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "b82f3e65b037a8efa876afb94fca8bc681b3eb4cb2b73770c175a5442078b698"
     }
    ]
   },
@@ -1621,6 +1691,34 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-congreso_barcelona",
+     "run_id": "42495069270",
+     "vigente": true,
+     "sha256": "4ac2be7eef41fabae5b707607fffd4e277c64042a96b43bc4d162a8e05cdcf1a",
+     "copia_git": {
+      "blob_sha": "0744f6c1365a241a24e01ec3bd48556d751908ab",
+      "ruta": "datos_abiertos/congreso_barcelona/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-congreso_barcelona",
+     "run_id": "42495069270",
+     "vigente": true,
+     "sha256": "14cf4eff31c7533aa8cb29d00d833ee327a50cd9eff791dceed31a8a895324e7",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/congreso_barcelona.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "ea82f1a13863487652a200d082dd97060841a300efd3a32b49f867800eb58ab2"
     }
    ]
   },
@@ -3171,16 +3269,16 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_la_rioja",
-     "run_id": "41294822309",
+     "run_id": "42504388624",
      "vigente": true,
      "sha256": "8e740ec2563cb526f69e685af77ad5635c14108dc729caf20f5b28e0f2e8c3bf",
      "copia_git": {
-      "blob_sha": "9f87439598bc544feeaea72125cd3c504745befe",
+      "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
       "ruta": "datos_abiertos/congreso_la_rioja/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a"
+     "origen_sha256": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d"
     },
     {
      "producto": "ensemble",
@@ -3199,7 +3297,7 @@
     {
      "producto": "resultados",
      "id": "resultados-congreso_la_rioja",
-     "run_id": "41294822309",
+     "run_id": "42504388624",
      "vigente": true,
      "sha256": "c694a53913ec76b8e3015c26e3aa3bd01a48a496e214f7b8116d13c9874213b7",
      "copia_git": {
@@ -3208,7 +3306,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "3c5eb0472a965a598bc871ba236a77b9dae74f9deac0b64b53b8ddd472741b06"
+     "origen_sha256": "487cd056d84a2f739f53584db3a3b9ca9fd646560ba2fc4f07db6f0c7950be93"
     }
    ]
   },
@@ -3709,6 +3807,34 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "datos_abiertos",
+     "id": "datos-abiertos-congreso_malaga",
+     "run_id": "42495070976",
+     "vigente": true,
+     "sha256": "bd763b645f29e5b4d412f447f7de7a061d53d9978ff8b90812fabede126a698d",
+     "copia_git": {
+      "blob_sha": "9fcb5c60190c3362f7bb7dcf46c34768d97396cb",
+      "ruta": "datos_abiertos/congreso_malaga/distritos.geojson"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-congreso_malaga",
+     "run_id": "42495070976",
+     "vigente": true,
+     "sha256": "f65e0aec2d2895993f170a48fddfd6dd7b5b2e3d807c0497de6a098e62d61bde",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/congreso_malaga.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "a25b2f54c5ceb6f2038b6916ee87101ae6e6fb0cd688f38e27969971f6be0720"
     }
    ]
   },
@@ -5943,7 +6069,7 @@
     {
      "producto": "resultados",
      "id": "resultados-melilla",
-     "run_id": "40840795932",
+     "run_id": "42504386196",
      "vigente": true,
      "sha256": "4701421bb8851ead100eccc24a1c6c702a4ec9ea8d1a1e9227028b43a4713266",
      "copia_git": {
@@ -5952,7 +6078,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "d58a7672f82c5a08e5b604c4e0f8d014799c127ac211bfc3e96fdfb00e9c0634"
+     "origen_sha256": "962f40cf850f74d62abe2c262cd4a6fde328568663ad1fcc0584cde3276bcad0"
     }
    ]
   },
@@ -6314,7 +6440,7 @@
     {
      "producto": "resultados",
      "id": "resultados-region_de_murcia",
-     "run_id": "40957577850",
+     "run_id": "42504383790",
      "vigente": true,
      "sha256": "d8d08cdcece10679ee2f53c65edb18f8820357273054e5faf31d534bd1245df3",
      "copia_git": {
@@ -6323,7 +6449,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "e0d338d3ac0d8e2d566695a3e9a0201f643b72554e7f40aa20b55bd0024b70b6"
+     "origen_sha256": "dc2c75bee88fba6f98d39b947e97f57cc3758dcae3dc4c57fd304921b4c8fed7"
     }
    ]
   }
