@@ -1594,7 +1594,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 42519383275
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 41057319037
         artifact_name: ddd-source-package-congreso_huesca-2025-41057319037
