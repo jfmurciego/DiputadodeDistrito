@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 380,
+  "productos": 382,
   "errores": 0,
   "avisos": 120
  },
@@ -5272,7 +5272,7 @@
      "producto": "M06",
      "id": "m06-congreso_valencia-41335936727",
      "run_id": "41335936727",
-     "vigente": true,
+     "vigente": false,
      "sha256": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6",
      "copia_git": {
       "blob_sha": "d9dc71bc351a04e038be07d2037d5e721e25d8e8",
@@ -5282,13 +5282,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_valencia-42525625044",
+     "run_id": "42525625044",
+     "vigente": true,
+     "sha256": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51",
+     "copia_git": {
+      "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_valencia-41335936727",
      "run_id": "41335936727",
-     "vigente": true,
+     "vigente": false,
      "sha256": "c57e9c0e9fec3cef9ef652235dd11847d88974e0695035066af0ff65fcc117ee",
      "copia_git": {
       "blob_sha": "90a26b763101d9d1c43570d53b591c8e2dde6866",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_valencia-42525625044",
+     "run_id": "42525625044",
+     "vigente": true,
+     "sha256": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f",
+     "copia_git": {
+      "blob_sha": "d8520d6c02967199ee139cf113de9027862f7a37",
       "ruta": null
      },
      "copias_r2": [],
@@ -5311,21 +5337,21 @@
     {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_valencia",
-     "run_id": "41335936727",
+     "run_id": "42525625044",
      "vigente": true,
      "sha256": "8c5d800cf5a4686a730e143e3baa1a5e0a13b370af90cc2f5ad6fe7a0c48fa31",
      "copia_git": {
-      "blob_sha": "d9dc71bc351a04e038be07d2037d5e721e25d8e8",
+      "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
       "ruta": "datos_abiertos/congreso_valencia/distritos.geojson"
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "9a8287c017326c0a21588a670aa42255d06cb21ad4752abf7c867f6eb055c0e6"
+     "origen_sha256": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51"
     },
     {
      "producto": "resultados",
      "id": "resultados-congreso_valencia",
-     "run_id": "41335936727",
+     "run_id": "42525625044",
      "vigente": true,
      "sha256": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67",
      "copia_git": {
@@ -5334,7 +5360,7 @@
      },
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "c57e9c0e9fec3cef9ef652235dd11847d88974e0695035066af0ff65fcc117ee"
+     "origen_sha256": "eb4b034b967b7c74aefb058cbb3ab5b8a5299c12282be6b1fed923dc8136500f"
     }
    ]
   },
@@ -7377,14 +7403,14 @@
    "territorio": "congreso_valencia",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41335936727: solo copia git"
+   "detalle": "run 42525625044: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_valencia",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41335936727: solo copia git"
+   "detalle": "run 42525625044: solo copia git"
   },
   {
    "nivel": "AVISO",
