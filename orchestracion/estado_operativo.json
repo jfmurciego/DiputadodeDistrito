@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T20:40:33.920836+00:00",
+  "generated_at": "2026-11-08T21:01:51.957358+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 49,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 68,
-      "activable": 3,
+      "activated": 69,
+      "activable": 2,
       "territorial_pending": 49,
       "electoral_pending": 49,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 68
+      "durable_pair": 69
     },
     "territories": [
       {
@@ -282,12 +282,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e.json",
-            "pair_sha256": "63bf6b6fa4083a7f43c3984e5afb6de9cb898861ac894e396d5f5640a03c4a1e",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43.json",
+            "pair_sha256": "4b8474c1c5fa2e73b2b4761b49f0f3e7dfba3e268f1fc305fe18be9fdf916e43",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -8062,11 +8062,11 @@
       "name": "Nacional Almería",
       "ft": "green",
       "g": "green",
-      "fe": "green",
-      "re": "green",
-      "status": "Cadena completa validada",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41295979497,
+      "run_id": 42519378789,
       "last_run": {
         "run_id": 42499470017,
         "status": "SUCCESS",
@@ -8075,7 +8075,7 @@
         "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M08",
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -8092,13 +8092,13 @@
           "territory_id": "congreso_almeria",
           "territory_name": "Congreso Almería",
           "edition": "2025",
-          "run_id": 41242160179,
-          "artifact_name": "ddd-state-41242160179-M06",
-          "artifact_sha256": "bfea122809515a731f6479f65ac8e801555eb2b45cfa2f484f303d50d227c7a0",
-          "source_commit": "f55412942b767f3fac28120ce32ed377b25280d4",
+          "run_id": 42519378789,
+          "artifact_name": "ddd-state-42519378789-M06",
+          "artifact_sha256": "17745ac4c321897973ce4d058cb476fb8a78b1b762849bd84470657763a988e8",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/41242160179.json"
+          "producer_manifest_path": "territorios/congreso_almeria/evidencia/generaciones_m06/42519378789.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8116,7 +8116,7 @@
       },
       "autonomous_community_code_ine": "C04",
       "display_name": "Nacional Almería",
-      "next_step": "—"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso_avila",
@@ -8188,7 +8188,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41299475924,
+      "run_id": 42519381013,
       "last_run": {
         "run_id": 42499465760,
         "status": "SUCCESS",
@@ -8214,13 +8214,13 @@
           "territory_id": "congreso_badajoz",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 41293199718,
-          "artifact_name": "ddd-state-41293199718-M06",
-          "artifact_sha256": "d7535c738bf20ae206d2dfdbb72272fb90d8c99ce8cd1d277f84c4771fb409aa",
-          "source_commit": "0a2cae4a3706c9d94d639f8066c2cacdc4cd73d2",
+          "run_id": 42519381013,
+          "artifact_name": "ddd-state-42519381013-M06",
+          "artifact_sha256": "9ec87edf7f93d704534287962c5e7977beeafa3ae5be8fd79d8abd028959b7af",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/41293199718.json"
+          "producer_manifest_path": "territorios/congreso_badajoz/evidencia/generaciones_m06/42519381013.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -8229,10 +8229,10 @@
           "territory_id": "congreso_badajoz",
           "territory_name": "Congreso Badajoz",
           "edition": "2025",
-          "run_id": 41299475924,
-          "artifact_name": "ddd-state-41299475924-M08",
-          "artifact_sha256": "d43dd31879919bec675394cc4570f4da3a3267f2341cc682017c29002f6ac8ea",
-          "source_commit": "a099545f649b03f51c9a91f3d1187c223dad12e4",
+          "run_id": 42519381013,
+          "artifact_name": "ddd-state-42519381013-M08",
+          "artifact_sha256": "5523e84a48cf2f35971bc2fa8d1e2da258c8c11e0a47df9f73b07ca9a453fe95",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "stage": "M08"
         }
       },
@@ -9164,7 +9164,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 41194447427,
+      "run_id": 42519383275,
       "last_run": {
         "run_id": 42421655965,
         "status": "SUCCESS",
@@ -9190,13 +9190,13 @@
           "territory_id": "congreso_huesca",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 41057319037,
-          "artifact_name": "ddd-state-41057319037-M06",
-          "artifact_sha256": "4e7052a1b085ebedde94c435f5ffa17f5473e693e30e9018e71f82cc84101eb5",
-          "source_commit": "e021b5f4673325cc32e6369e56ea788eebae9cd6",
+          "run_id": 42519383275,
+          "artifact_name": "ddd-state-42519383275-M06",
+          "artifact_sha256": "8efae76a8737df21e939708e6f185a0c651fad5a0ad48cc44a9a528515b956aa",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06",
-          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/41057319037.json"
+          "producer_manifest_path": "territorios/congreso_huesca/evidencia/generaciones_m06/42519383275.json"
         },
         "electoral_source": null,
         "electoral_product": {
@@ -9205,10 +9205,10 @@
           "territory_id": "congreso_huesca",
           "territory_name": "Congreso Huesca",
           "edition": "2025",
-          "run_id": 41194447427,
-          "artifact_name": "ddd-state-41194447427-M08",
-          "artifact_sha256": "a72510e3efecb33b97fccb709a6c9131cb4b77f0d692e61debc17236e3f538eb",
-          "source_commit": "310580a5f74db2b916c8eec7904d41861ee3b318",
+          "run_id": 42519383275,
+          "artifact_name": "ddd-state-42519383275-M08",
+          "artifact_sha256": "60fd20066df87d4ae51a3bb029210abecc11da3aeb6e43825de763e2d5497c88",
+          "source_commit": "c330d0bdaac2a2a17360fbefd05ea42353bfd6ba",
           "stage": "M08"
         }
       },
@@ -12175,7 +12175,7 @@
     }
   ],
   "kpis": {
-    "complete": 69,
+    "complete": 68,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12197,7 +12197,6 @@
       "Nacional Álava",
       "Nacional Albacete",
       "Nacional Alicante",
-      "Nacional Almería",
       "Nacional Ávila",
       "Nacional Badajoz",
       "Nacional Baleares",
@@ -12453,11 +12452,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso_santa_cruz_de_tenerife",
-    "name": "Nacional Santa Cruz de Tenerife",
-    "display_name": "Nacional Santa Cruz de Tenerife",
-    "autonomous_community_code_ine": "C38",
-    "run_id": 42519017008,
+    "territory_id": "congreso_huesca",
+    "name": "Nacional Huesca",
+    "display_name": "Nacional Huesca",
+    "autonomous_community_code_ine": "C22",
+    "run_id": 42519383275,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12473,6 +12472,12 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Nacional Almería",
+      "territory_id": "congreso_almeria",
+      "autonomous_community_code_ine": "C04",
       "action": "incorporar resultados electorales"
     },
     {
@@ -12504,12 +12509,6 @@
       "territory_id": "congreso350_avila",
       "autonomous_community_code_ine": "R05",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Nacional 350 Badajoz",
-      "territory_id": "congreso350_badajoz",
-      "autonomous_community_code_ine": "R06",
-      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -12523,6 +12522,12 @@
       "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "Nacional Almería",
+      "territory_id": "congreso_almeria",
+      "autonomous_community_code_ine": "C04",
       "action": "preparar fuentes electorales"
     }
   ]
