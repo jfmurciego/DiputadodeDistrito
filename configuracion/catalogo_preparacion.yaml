@@ -189,8 +189,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40951280657
-        stage: M08
+        run_id: 42504381511
+        stage: M06
       preparation_evidence:
         run_id: 42504381511
         artifact_name: ddd-source-package-canarias-2025-42504381511
@@ -210,7 +210,7 @@ territories:
         territorial_product: territorios/canarias/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/canarias/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: cantabria
   name: Cantabria
   editions:
@@ -540,7 +540,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40957577850
+        run_id: 42504383790
         stage: M08
       preparation_evidence:
         run_id: 40773421805
@@ -696,7 +696,7 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40784389253
+        run_id: 42503542766
         stage: M08
       preparation_evidence:
         run_id: 40773443591
@@ -735,7 +735,7 @@ territories:
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 40840795932
+        run_id: 42504386196
         stage: M08
       preparation_evidence:
         run_id: 40832114779
@@ -1749,7 +1749,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 41294822309
+        run_id: 42504388624
         stage: M08
       preparation_evidence:
         run_id: 41240637295

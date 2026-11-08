@@ -70,7 +70,9 @@ class Datos49Provincias(unittest.TestCase):
         registro = json.loads((RAIZ / g.REGISTRO).read_text(encoding="utf-8"))
         territorios = {p["territory_id"] for p in registro["products"]
                        if p.get("kind") == "canonical_m06" and p["territory_id"].startswith("congreso_")}
-        self.assertEqual(len(territorios), 49)
+        # Todas las provincias con M06 publicado (49 hasta el 08-11; 52 con Alicante, Barcelona y Málaga) tienen
+        # nombres; los gemelos congreso350_* no entran (no publican, D-18).
+        self.assertGreaterEqual(len(territorios), 49)
         esperados = {p["territory_id"]: p["expected_districts"] for p in registro["products"]
                      if p.get("kind") == "canonical_m06" and p["territory_id"] in territorios}
         for t in sorted(territorios):

@@ -675,6 +675,22 @@
    "sha256_csv": "1665fe8ce50499b9feb1d7b4e31c4745e631912f69b85cd1f58e460741b258b9",
    "ruta": "datos/resultados/runs/congreso_ceuta_42496569312_partidos.csv"
   },
+  "congreso_la_rioja/42504388624": {
+   "territorio": "congreso_la_rioja",
+   "run_id": "42504388624",
+   "run_territorial": "42504388624",
+   "sha256_composicion": "5a096f13d2bcf57240777144222efc8e2f7557772cc22fb524195aec56f17fb3",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "f55ab70755d0e7cb09be24a337378b5706f199cce984cec8a6e8b59a1c83bc53",
+   "ruta": "datos/resultados/runs/congreso_la_rioja_42504388624_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.3374,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso_la_rioja_42504388624_desajustes.json",
+    "sha256": "444a34463f717cfe6a0f94d91c9103809249ff88c0d27d84a849e0ec8b951ff4"
+   }
+  },
   "congreso_malaga/42495070976": {
    "territorio": "congreso_malaga",
    "run_id": "42495070976",
