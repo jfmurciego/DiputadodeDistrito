@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.207
+Versión: 1.0.208
 Fecha: 2026-11-08
-Alcance: T-115 — Plan: Madrid bloqueada en el mapa de 350
+Alcance: T-109 — Visor v2 (vista previa privada, D-24)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_plan-t115.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.206_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_claude-t109-visor-v2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.207_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.206_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.208 · [2026-11-08 — T-109 — Visor v2 (vista previa privada, D-24)](registro/2026-11-08_claude-t109-visor-v2.md)
 - 1.0.207 · [2026-11-08 — T-115 — Plan: Madrid bloqueada en el mapa de 350](registro/2026-11-08_plan-t115.md)
 - 1.0.206 · [2026-11-08 — T-113 — Histórico 2019-11 en el Gestor 2.0 (paso A por provincia)](registro/2026-11-08_claude-t113-gestor-historico.md)
 - 1.0.205 · [2026-11-08 — T-112 — Candidaturas proclamadas 2026 y homologación de siglas](registro/2026-11-08_claude-t112-candidaturas-2026.md)
