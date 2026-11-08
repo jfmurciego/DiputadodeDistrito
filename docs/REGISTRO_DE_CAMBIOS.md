@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.169
+Versión: 1.0.170
 Fecha: 2026-11-08
-Alcance: T-93 — Contrato electoral SIEL sin `retrieved_at`
+Alcance: T-95 — La 05 nombra el run origen al publicar una 00 «Reutilizar»
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-08_t93-siel-retrieved-at.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.168_registro_20261108.md
+Cambios/motivo: entrada docs/registro/2026-11-08_t95-visor-reutilizar-origen.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.169_registro_20261108.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.168_registro_20261108.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.170 · [2026-11-08 — T-95 — La 05 nombra el run origen al publicar una 00 «Reutilizar»](registro/2026-11-08_t95-visor-reutilizar-origen.md)
 - 1.0.169 · [2026-11-08 — T-93 — Contrato electoral SIEL sin `retrieved_at`](registro/2026-11-08_t93-siel-retrieved-at.md)
 - 1.0.168 · [2026-11-08 — T-94 — El escritor PENDING ya no esconde su error (01, Ceuta)](registro/2026-11-08_t94-persistencia-pending-error.md)
 - 1.0.167 · [2026-11-08 — T-83 B — Reagregación del histórico de generales a los distritos vigentes](registro/2026-11-08_t83-reagregacion-historico.md)
