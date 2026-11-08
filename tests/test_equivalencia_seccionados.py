@@ -7,8 +7,8 @@ VERSIÓN: 1.0.0 · FECHA: 2026-11-07 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
 FUNCIÓN: provincia sintética con cuadrados de 10 × 10 (valores esperados escritos a mano): sección idéntica = 1:1,
   sección partida en dos = reparto 0,5/0,5 por área y 0,75/0,25 por población (300 frente a 100 habitantes),
-  astilla < 1 % descartada, sección fuera del vigente, geometría tomada del seccionado más cercano y el informe
-  de % de votos no 1:1 y de votos que cambian de sección según el peso.
+  astilla < 1 % descartada, traslación de 63 m corregida (y 5 m no), sección fuera del vigente, geometría tomada
+  del seccionado más cercano y el informe de % de votos no 1:1 y de votos que cambian de sección según el peso.
 """
 import sys
 import unittest
@@ -59,6 +59,12 @@ class Equivalencia(unittest.TestCase):
         hist, tomadas = es.completar_geometrias({"H1": {}, "H9": {}, "H7": {}}, 2015, por_año)
         self.assertEqual(hist, {"H1": "g15", "H9": "g16"})
         self.assertEqual(tomadas, ["H9"])
+
+    def test_desplazamiento_sistematico(self):
+        movida = {k: box(*(g.bounds[0], g.bounds[1] - 63, g.bounds[2], g.bounds[3] - 63)) for k, g in VIG.items()}
+        self.assertEqual(es.desplazamiento_sistematico(movida, VIG), (0.0, 63.0))
+        casi = {k: box(*(g.bounds[0] + 5, g.bounds[1], g.bounds[2] + 5, g.bounds[3])) for k, g in VIG.items()}
+        self.assertEqual(es.desplazamiento_sistematico(casi, VIG), (0.0, 0.0))
 
     def test_informe(self):
         eq = es.equivalencia({"H1": box(0, 0, 10, 10), "H2": box(10, 0, 30, 10)}, VIG, POB)

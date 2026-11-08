@@ -16,7 +16,8 @@ QUÉ HACE: por provincia y seccionado histórico (geometrías del espejo T-89, g
   en al menos `umbral` de ella; si no, se reparte con dos pesos alternativos: área (a(h∩v)/a(h)) y población
   (a(h∩v)/a(v)·pob2025(v), normalizado; padrón INE 65034). Las astillas de menos de `astilla` del área histórica se
   descartan (ruido de digitalización). El informe da, por provincia y elección, el % de votos a
-  candidaturas que no queda 1:1 y el % de votos que cambia de sección vigente según se use un peso u otro.
+  candidaturas que no queda 1:1 y el % de votos que cambia de sección vigente según se use un peso u otro. Una
+  traslación sistemática del seccionado histórico (mediana de centroides homónimos ≥ 20 m) se corrige y se anota.
   No decide el peso: lo fija el propietario.
 Uso: python herramientas/equivalencia_seccionados.py --espejo DIR --historicos DIR --seccionado ZIP --padron ZIP
        --salida JSON [--tablas DIR] [--provincias 28 42]
@@ -40,6 +41,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = "ddd.equivalencia-seccionados/1.0"
 UMBRAL = 0.95
 ASTILLA = 0.01
+DESPLAZAMIENTO_MIN = 20.0
 MANIFIESTO_ESPEJO = "orchestracion/fuente_nazioenbehatokia.json"
 URL_INE = "https://www.ine.es/prodyser/cartografia/"
 
@@ -73,6 +75,19 @@ def equivalencia(hist: dict, vig: dict, pob: dict[str, int], umbral: float = UMB
             area = poblacion = {v_max: 1.0}
         out[h] = {"tipo": "1:1" if es_1a1 else "reparto", "area": area, "poblacion": poblacion}
     return out
+
+
+def desplazamiento_sistematico(hist: dict, vig: dict, minimo: float = DESPLAZAMIENTO_MIN) -> tuple[float, float]:
+    """Traslación (dx, dy) del seccionado histórico respecto al vigente: mediana del desplazamiento de los centroides
+    de las secciones con el mismo código. Si mide menos de `minimo` metros se toma (0, 0). Melilla 2012 está 63 m
+    desplazada en la cartografía INE y sin corregir sale 100 % no 1:1."""
+    import statistics
+    comunes = sorted(set(hist) & set(vig))
+    if len(comunes) < 3:
+        return 0.0, 0.0
+    dx = statistics.median(vig[k].centroid.x - hist[k].centroid.x for k in comunes)
+    dy = statistics.median(vig[k].centroid.y - hist[k].centroid.y for k in comunes)
+    return (round(dx, 2), round(dy, 2)) if (dx * dx + dy * dy) ** 0.5 >= minimo else (0.0, 0.0)
 
 
 def completar_geometrias(votos: dict, año: int, por_año: dict[int, dict]) -> tuple[dict, list[str]]:
@@ -182,11 +197,15 @@ def main(argv=None) -> int:
         for c in provs:
             votos = leer_provincia(json.loads((a.espejo / f"data/{clave}/sekzioa/{c}.json").read_text(encoding="utf-8")))
             hist, otro = completar_geometrias(votos, año, {y: t.get(c, {}) for y, t in todos.items()})
+            dx, dy = desplazamiento_sistematico(hist, vig[c])
+            if dx or dy:
+                from shapely.affinity import translate
+                hist = {k: translate(g, dx, dy) for k, g in hist.items()}
             eq = equivalencia(hist, vig[c], pob)
             r = informe_eleccion(votos, eq)
             r["pct_geometria_otro_seccionado"] = round(100 * sum(votos[h]["votos_candidaturas"] for h in otro)
                                                        / r["votos"], 3) if r["votos"] else 0.0
-            r.update(seccionado=año, secciones=len(eq), secciones_reparto=sum(x["tipo"] != "1:1" for x in eq.values()))
+            r.update(desplazamiento_corregido_m=[dx, dy], seccionado=año, secciones=len(eq), secciones_reparto=sum(x["tipo"] != "1:1" for x in eq.values()))
             res.setdefault(c, {})[clave] = r
             if a.tablas:
                 p = a.tablas / str(año) / f"{c}.csv"
@@ -198,7 +217,7 @@ def main(argv=None) -> int:
                         for v in sorted(set(x["area"]) | set(x["poblacion"])):
                             w.writerow([h, v, x["tipo"], f"{x['area'].get(v, 0):.6f}", f"{x['poblacion'].get(v, 0):.6f}"])
             print(c, clave, r["pct_no_1a1"], r["pct_difiere_area_poblacion"], flush=True)
-    salida = {"schema": SCHEMA, "umbral_1a1": UMBRAL, "astilla": ASTILLA, "vigente": "INE seccionado 2025",
+    salida = {"schema": SCHEMA, "umbral_1a1": UMBRAL, "astilla": ASTILLA, "desplazamiento_min_m": DESPLAZAMIENTO_MIN, "vigente": "INE seccionado 2025",
               "fuentes": {"seccionado_2025": {"fichero": a.seccionado.name, "sha256": sha256(a.seccionado)},
                           "padron_65034": {"fichero": a.padron.name, "sha256": sha256(a.padron), "periodo": "2025"},
                           "historicos": historicos,
