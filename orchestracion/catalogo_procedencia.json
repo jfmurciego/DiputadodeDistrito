@@ -4252,11 +4252,11 @@
   },
   "congreso_santa_cruz_de_tenerife": {
    "fuente_territorial": {
-    "run_id": "41239505387",
+    "run_id": "42514989698",
     "package_sha256": "b4e48cee202a01d82099f916ab0b0d8e5c0ae15f34b649e07e2de0f9ae5e0c7f",
-    "artifact_sha256": "92a3d4728c6ccd3acf30392e1448c8a3e7b456862fdbaab4d05fc8ad8e2f423b",
+    "artifact_sha256": "0e28a4a3e78a35e5c8654af39ec909078de964678bc26073e24272627cbb1b12",
     "territorial_identity_sha256": "6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53",
-    "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/41239505387/receipt.json",
+    "receipt_path": "territorios/congreso_santa_cruz_de_tenerife/evidencia/fuentes_territoriales/2025/6c2db3cdd713c9c2e2f67b57128cf85d88f8b37f52f479446a1c4695d111eb53/42514989698/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
