@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-08T21:05:50.206048+00:00",
+  "generated_at": "2026-11-08T21:21:18.879113+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 49,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 69,
-      "activable": 2,
+      "activated": 68,
+      "activable": 3,
       "territorial_pending": 49,
       "electoral_pending": 49,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 71,
       "electoral_source": 71,
-      "durable_pair": 69
+      "durable_pair": 68
     },
     "territories": [
       {
@@ -371,8 +371,8 @@
           "accredited": {
             "population_year": 2025,
             "section_year": 2025,
-            "run_id": 40969454399,
-            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/4d48062a353a8d6348251d657cf989d793b7b97d8243943ca1655b4e234a4b13/40969454399/receipt.json"
+            "run_id": 42521090842,
+            "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/e4eb508497bc6a8169fe5a2522d1cd30aaa4a03c6daae6e83dc17a8565c40e60/42521090842/receipt.json"
           }
         },
         "electoral": {
@@ -384,12 +384,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/castilla_y_leon/evidencia/pares_fuentes/2025/28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac.json",
             "pair_sha256": "28df2dbde08ca682c8dadea057814de960d8f0af4cbe7bfd50b5f3607589d4ac",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -7105,9 +7105,9 @@
         "territorial_source": {
           "territory_id": "castilla_y_leon",
           "edition": "2025",
-          "run_id": 40969454399,
-          "artifact_name": "ddd-source-package-castilla_y_leon-2025-40969454399",
-          "artifact_sha256": "ed0bb11a00b950c7c2094082142064c719bf9d03c121b115c3b452630830f923",
+          "run_id": 42521090842,
+          "artifact_name": "ddd-source-package-castilla_y_leon-2025-42521090842",
+          "artifact_sha256": "3a710cff73dca6a5048e28f1eea5f1e5454404324538b66b7ae9c3b0b229c168",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -8068,7 +8068,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42519378789,
       "last_run": {
-        "run_id": 42499470017,
+        "run_id": 42519378789,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
@@ -9166,7 +9166,7 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42519383275,
       "last_run": {
-        "run_id": 42421655965,
+        "run_id": 42519383275,
         "status": "SUCCESS",
         "completion_status": "COMPLETE",
         "stopped_at": null,
