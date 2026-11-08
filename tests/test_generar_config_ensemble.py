@@ -36,7 +36,7 @@ class GeneradorConfigEnsembleTests(unittest.TestCase):
         c["validation"]["population_cap_ratio"] = 1.2
         self.assertIn("population_cap_ratio", motivo_no_apto(c, self.molde))
 
-    def test_madrid_y_cadiz_sin_config(self):
+    def test_cadiz_sin_config(self):
         for tid in EXCLUIDOS_POR_ORDEN:
             self.assertFalse((ROOT / f"configuracion/ensemble/{tid}.json").exists(), tid)
 
