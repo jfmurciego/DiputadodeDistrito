@@ -1,0 +1,314 @@
+{
+ "schema": "ddd.desajustes-secciones/1.0",
+ "territorio": "congreso_valencia",
+ "run_id": "42525625044",
+ "run_territorial": "42525625044",
+ "decision": "D-17; T-103 y T-104 (solo las partidas entre distritos cuentan para el tope)",
+ "tope_pct": 0.5,
+ "votos_candidaturas": 1419017,
+ "votos_desajustados": 10859,
+ "pct_desajuste": 0.7652,
+ "votos_partidos": 0,
+ "pct_partido": 0.0,
+ "desajustes": [
+  {
+   "seccion": "4607001005",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 769,
+   "secciones_m06": {
+    "4607001004": 0.068496,
+    "4607002003": 0.305152,
+    "4607002006": 0.603023,
+    "4607002008": 0.023329
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001006",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 739,
+   "secciones_m06": {
+    "4607001004": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 4607001004 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "4607001007",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 684,
+   "secciones_m06": {
+    "4607001003": 0.674602,
+    "4607001004": 0.053752,
+    "4607002003": 0.271646
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001008",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 820,
+   "secciones_m06": {
+    "4607002001": 0.597586,
+    "4607002009": 0.402414
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001009",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 767,
+   "secciones_m06": {
+    "4607002003": 0.060894,
+    "4607002004": 0.936482,
+    "4607002009": 0.002624
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001010",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 829,
+   "secciones_m06": {
+    "4607002001": 0.008392,
+    "4607002003": 0.66917,
+    "4607002004": 0.305119,
+    "4607002008": 0.017319
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001011",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 985,
+   "secciones_m06": {
+    "4607001003": 0.019628,
+    "4607002002": 0.775924,
+    "4607002008": 0.193678,
+    "4607002009": 0.010771
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001012",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 961,
+   "secciones_m06": {
+    "4607001001": 0.967662,
+    "4607001003": 0.032338
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001013",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 955,
+   "secciones_m06": {
+    "4607001001": 0.320986,
+    "4607001003": 0.000838,
+    "4607002001": 0.000455,
+    "4607002002": 0.677721
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001014",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 880,
+   "secciones_m06": {
+    "4607001002": 0.957017,
+    "4607001004": 0.042983
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001015",
+   "origen": "zip_sin_m06",
+   "clase": "contenida_distrito",
+   "votos": 861,
+   "secciones_m06": {
+    "4607001002": 0.743863,
+    "4607002001": 0.003128,
+    "4607002002": 0.252625,
+    "4607002009": 0.000384
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-104: contenida en el distrito 22, fuera del tope D-17; reparto por población de la sección M06 (D-13) con la tabla de T-85"
+  },
+  {
+   "seccion": "4607001016",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 771,
+   "secciones_m06": {
+    "4607002001": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 4607002001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "4612301002",
+   "origen": "zip_sin_m06",
+   "clase": "contenida",
+   "votos": 838,
+   "secciones_m06": {
+    "4612301001": 1.0
+   },
+   "distritos": {
+    "17": 1.0
+   },
+   "regla": "T-103: contenida; asignación 1:1 a 4612301001 con la tabla de T-85, fuera del tope D-17"
+  },
+  {
+   "seccion": "4607002001",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002001": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002002",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002002": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002003",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002003": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002004",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002004": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002005",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002005": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002006",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002006": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002007",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002007": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002008",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002008": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  },
+  {
+   "seccion": "4607002009",
+   "origen": "m06_sin_zip",
+   "votos": 0,
+   "secciones_m06": {
+    "4607002009": 1.0
+   },
+   "distritos": {
+    "22": 1.0
+   },
+   "regla": "D-17: sección del M06 sin mesas en el ZIP; 0 votos"
+  }
+ ]
+}

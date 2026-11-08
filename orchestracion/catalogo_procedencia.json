@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 355,
+  "productos": 357,
   "errores": 0,
   "avisos": 120
  },
@@ -476,8 +476,8 @@
     "section_year": 2025
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/5e06969847e4f5d83c72c0289a1b535db55a1107c7a31d0af6b6404d6a60465e/40969454399/receipt.json",
-    "identity_sha256": "5e06969847e4f5d83c72c0289a1b535db55a1107c7a31d0af6b6404d6a60465e"
+    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea/42521090842/receipt.json",
+    "identity_sha256": "988be947d2ff82e2d6dfe9a18a4ac0590d8b752a216bc97e814a480097ecf5ea"
    },
    "doi": null,
    "productos": [
@@ -3106,7 +3106,7 @@
      "producto": "M06",
      "id": "m06-congreso_la_rioja-41294822309",
      "run_id": "41294822309",
-     "vigente": true,
+     "vigente": false,
      "sha256": "79869857e151caa01d5c8e5b5d4818d61c2e84c36daf49bd2186c05ddc34c07a",
      "copia_git": {
       "blob_sha": "9f87439598bc544feeaea72125cd3c504745befe",
@@ -3116,13 +3116,39 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M06",
+     "id": "m06-congreso_la_rioja-42504388624",
+     "run_id": "42504388624",
+     "vigente": true,
+     "sha256": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d",
+     "copia_git": {
+      "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "M08",
      "id": "m08-congreso_la_rioja-41294822309",
      "run_id": "41294822309",
-     "vigente": true,
+     "vigente": false,
      "sha256": "3c5eb0472a965a598bc871ba236a77b9dae74f9deac0b64b53b8ddd472741b06",
      "copia_git": {
       "blob_sha": "86e7a0b014218c493f882e45ee57ed438583a64d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "M08",
+     "id": "m08-congreso_la_rioja-42504388624",
+     "run_id": "42504388624",
+     "vigente": true,
+     "sha256": "487cd056d84a2f739f53584db3a3b9ca9fd646560ba2fc4f07db6f0c7950be93",
+     "copia_git": {
+      "blob_sha": "154e3e045a1cbff4ca36261274fec53eedb52c0c",
       "ruta": null
      },
      "copias_r2": [],
@@ -6749,14 +6775,14 @@
    "territorio": "congreso_la_rioja",
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294822309: solo copia git"
+   "detalle": "run 42504388624: solo copia git"
   },
   {
    "nivel": "AVISO",
    "territorio": "congreso_la_rioja",
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
-   "detalle": "run 41294822309: solo copia git"
+   "detalle": "run 42504388624: solo copia git"
   },
   {
    "nivel": "AVISO",
