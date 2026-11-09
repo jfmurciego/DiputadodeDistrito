@@ -127,7 +127,7 @@ class NavegadorSecciones(unittest.TestCase):
             b, pg = self._pagina(p, os.environ.get("MAPLIBRE_DIR"))
             try:
                 chip = pg.locator("#c-secciones")
-                pg.wait_for_function("!document.querySelector('#c-secciones').disabled", timeout=10000)
+                pg.wait_for_function("document.querySelector('#c-secciones').getAttribute('aria-disabled')!=='true'", timeout=10000)
                 self.assertEqual(chip.get_attribute("aria-pressed"), "false")
                 self.assertFalse(pg.evaluate("document.documentElement.scrollWidth>innerWidth"))  # sin scroll horizontal
                 chip.click()
@@ -156,7 +156,7 @@ class NavegadorSecciones(unittest.TestCase):
                 b, pg = self._pagina(p, os.environ.get("MAPLIBRE_DIR"))
                 try:
                     pg.wait_for_timeout(800)
-                    self.assertTrue(pg.locator("#c-secciones").is_disabled())
+                    self.assertEqual(pg.locator("#c-secciones").get_attribute("aria-disabled"), "true")
                 finally:
                     b.close()
         finally:
