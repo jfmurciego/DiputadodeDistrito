@@ -159,6 +159,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
             [
                 "activacion-por-eleccion.yml",
                 "archivar-artefactos-r2.yml",  # T-47 archivista R2
+                "bateria-motor.yml",  # T-132 batería del motor
                 "cadena-publicacion.yml",  # T-87 cadena 05 + versión de mapa
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
