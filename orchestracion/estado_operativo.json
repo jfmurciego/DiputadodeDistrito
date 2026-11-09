@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-09T12:15:32.388700+00:00",
+  "generated_at": "2026-11-09T14:28:03.589196+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -12083,20 +12083,20 @@
       "name": "Nacional 350 Valladolid",
       "ft": "green",
       "g": "green",
-      "fe": "yellow",
-      "re": "yellow",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 42601455862,
+      "run_id": 42613899978,
       "last_run": {
-        "run_id": 42601455862,
+        "run_id": 42613899978,
         "status": "SUCCESS",
-        "completion_status": "TERRITORIAL_COMPLETE",
-        "stopped_at": "03/04 · rama electoral omitida",
-        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "completion_status": "COMPLETE",
+        "stopped_at": null,
+        "reason": null,
         "publication": "not_requested"
       },
-      "stage": "M06",
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -12137,7 +12137,7 @@
       },
       "autonomous_community_code_ine": "R47",
       "display_name": "Nacional 350 Valladolid",
-      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
+      "next_step": "—"
     },
     {
       "territory_id": "congreso350_vizcaya",
@@ -12256,7 +12256,7 @@
     }
   ],
   "kpis": {
-    "complete": 73,
+    "complete": 74,
     "complete_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12330,7 +12330,8 @@
       "Nacional Ceuta",
       "Nacional Melilla",
       "Nacional 350 Madrid",
-      "Nacional 350 Soria"
+      "Nacional 350 Soria",
+      "Nacional 350 Valladolid"
     ],
     "territorial_validated": 74,
     "territorial_validated_names": [
@@ -12541,11 +12542,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso350_soria",
-    "name": "Nacional 350 Soria",
-    "display_name": "Nacional 350 Soria",
-    "autonomous_community_code_ine": "R42",
-    "run_id": 42612579208,
+    "territory_id": "congreso350_valladolid",
+    "name": "Nacional 350 Valladolid",
+    "display_name": "Nacional 350 Valladolid",
+    "autonomous_community_code_ine": "R47",
+    "run_id": 42613899978,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -12600,12 +12601,5 @@
       "action": "completar puerta de validación territorial"
     }
   ],
-  "next_actions": [
-    {
-      "territory": "Nacional 350 Valladolid",
-      "territory_id": "congreso350_valladolid",
-      "autonomous_community_code_ine": "R47",
-      "action": "preparar fuentes electorales"
-    }
-  ]
+  "next_actions": []
 }
