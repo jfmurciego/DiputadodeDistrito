@@ -3,11 +3,16 @@
 """Archivo en origen: el propio run guarda en R2 su M06/M08 y en git la composición y los votos por partido (T-72).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.3
+VERSIÓN: 1.0.4
 NOMBRE DE VERSIÓN: Archivo en origen
-FECHA: 2026-11-08
+FECHA: 2026-11-09
 ESTADO: candidato
-CAMBIOS: 1.0.3 (T-101, D-17): partidos tolera desajustes de código de sección entre el ZIP de Interior y la composición
+CAMBIOS: 1.0.4 (T-119): si el run archivado es el del M06 vigente (orchestracion/publicaciones_visor.json) y no existe
+  datos/composicion/<territorio>.csv (o es de otro run), composicion lo promueve también a canónico con su entrada en
+  ``territorios`` del MANIFEST (run_id, blob_sha, sha256_m06, secciones, sha256_csv); subcomando ``canonica`` para
+  promover uno ya archivado. Antes solo lo escribía extraer-composicion-m06.yml desde artefactos no caducados y
+  Alicante, Barcelona y Málaga se quedaron sin canónico (historico_campana.requisitos los omitía).
+  1.0.3 (T-101, D-17): partidos tolera desajustes de código de sección entre el ZIP de Interior y la composición
   M06 de hasta el 0,5 % de los votos de la provincia (resultados_partidos.agregar_informe con la tabla
   configuracion/equivalencia_secciones_congreso_2023.csv y la población de la composición; peso D-13). La lista de
   secciones desajustadas va a datos/resultados/runs/<territorio>_<run>_desajustes.json (clave ``desajustes`` de la
@@ -16,8 +21,8 @@ CAMBIOS: 1.0.3 (T-101, D-17): partidos tolera desajustes de código de sección 
   M06 y M08; antes solo veían *.geojson sueltos).
   1.0.1 (T-72b): r2 sube el paquete mínimo y no el ZIP de estado (R2 total ≤ 8 GB); --extra; --sustituye-m06-run (el M08 acumulativo retira su M06 de R2) y el check acepta el M08
   que contiene el M06 publicado.
-ANTERIOR: legacy/herramientas/archivo_origen_v1.0.2_20261107.py
-QUÉ HACE: cuatro subcomandos.
+ANTERIOR: legacy/herramientas/archivo_origen_v1.0.3_20261109.py
+QUÉ HACE: cinco subcomandos (r2, composicion, canonica, partidos, comprobar).
   r2          sube a R2 el paquete mínimo (``ddd-minimo-<run>-M06``/M08: GeoJSON distritales, CSV/JSON de M06-M08,
               VALIDACION, manifiestos y ``--extra``; herramientas/archivar_artefactos_r2.empaquetar_minimo) del
               estado ``ddd-state-<run>-M06`` (o M08) del run en curso con sha256 y lo anota en
@@ -29,7 +34,7 @@ QUÉ HACE: cuatro subcomandos.
   composicion toma ``*_m06_composicion_distritos.csv`` del estado M06 descargado, lo valida contra el GeoJSON M06 del
               mismo estado (validación de herramientas/composicion_m06.py) y escribe
               datos/composicion/runs/<territorio>_<run>.csv (seccion, distrito, poblacion) y la clave ``runs`` de
-              datos/composicion/MANIFEST.json. No toca datos/composicion/<territorio>.csv, que es la del M06 publicado.
+              datos/composicion/MANIFEST.json. Solo escribe datos/composicion/<territorio>.csv (canónico, el del M06 publicado) si el run es el vigente.
   partidos    tras M08: votos por partido y distrito (herramientas/resultados_partidos.agregar) con la composición del
               run territorial y los ganadores del GeoJSON M08 del estado; escribe
               datos/resultados/runs/<territorio>_<run>_partidos.csv y la clave ``partidos_runs`` de
@@ -201,8 +206,47 @@ def escribir_composicion(estado: Path, territorio: str, run_id: str, root: Path)
             man.setdefault("runs", {})[f"{territorio}/{run_id}"] = entrada
             man["runs"] = dict(sorted(man["runs"].items()))
             _escribir(ruta_man, man)
+            promover_canonica(territorio, str(run_id), root)
             return entrada
     raise ValueError("ninguna composición valida contra el M06 del estado: " + "; ".join(errores[:3]))
+
+
+def promover_canonica(territorio: str, run_id: str, root: Path) -> bool:
+    """Copia la composición archivada del run a datos/composicion/<territorio>.csv si ese run es el M06 vigente.
+
+    Verifica el sha256 del CSV con la entrada ``runs`` del MANIFEST. False si el run no es el vigente o el canónico ya
+    es de ese run; ValueError si el CSV archivado no cuadra con su sha256."""
+    registro = root / cm.REGISTRO_VISOR.relative_to(cm.ROOT)
+    vig = cm.m06_vigentes(registro).get(territorio) if registro.is_file() else None
+    if not vig or str(vig["run_id"]) != str(run_id):
+        return False
+    ruta_man = root / COMPOSICION / "MANIFEST.json"
+    man = _json(ruta_man, {"schema": "ddd.composicion-m06/1.0", "territorios": {}})
+    e = man.get("runs", {}).get(f"{territorio}/{run_id}")
+    if not e:
+        raise ValueError(f"{territorio}/{run_id}: sin entrada runs en el MANIFEST de composición")
+    cuerpo = (root / e["ruta"]).read_bytes()
+    if cm.sha256(cuerpo) != e["sha256_csv"]:
+        raise ValueError(f"{territorio}/{run_id}: el CSV archivado no coincide con su sha256")
+    actual = man.setdefault("territorios", {}).get(territorio)
+    if actual and str(actual.get("run_id")) == str(run_id) and (root / COMPOSICION / f"{territorio}.csv").is_file():
+        return False
+    (root / COMPOSICION / f"{territorio}.csv").write_bytes(cuerpo)
+    man["territorios"][territorio] = {"run_id": str(run_id), "blob_sha": vig["blob_sha"], "sha256_m06": vig["sha256"],
+                                      "secciones": e["secciones"], "sha256_csv": e["sha256_csv"]}
+    man["territorios"] = dict(sorted(man["territorios"].items()))
+    _escribir(ruta_man, man)
+    return True
+
+
+def cmd_canonica(a) -> int:
+    try:
+        hecho = promover_canonica(a.territorio, a.run_id, Path(a.root_dir))
+    except ValueError as exc:
+        print(f"::error title=COMPOSICION_CANONICA_FAILED::{exc}")
+        return 1
+    print(f"{a.territorio}/{a.run_id}: " + ("canónico escrito" if hecho else "sin cambios (no es el run vigente o ya está)"))
+    return 0
 
 
 def cmd_composicion(a) -> int:
@@ -328,6 +372,9 @@ def main(argv=None) -> int:
     p.add_argument("--estado", required=True)
     p.add_argument("--territorio", required=True)
     p.add_argument("--run-id", required=True)
+    p = sub.add_parser("canonica")
+    p.add_argument("--territorio", required=True)
+    p.add_argument("--run-id", required=True)
     p = sub.add_parser("partidos")
     p.add_argument("--estado", required=True)
     p.add_argument("--territorio", required=True)
@@ -335,7 +382,7 @@ def main(argv=None) -> int:
     p.add_argument("--run-territorial", required=True)
     sub.add_parser("comprobar")
     a = ap.parse_args(argv)
-    return {"r2": cmd_r2, "composicion": cmd_composicion, "partidos": cmd_partidos, "comprobar": cmd_comprobar}[a.cmd](a)
+    return {"r2": cmd_r2, "composicion": cmd_composicion, "canonica": cmd_canonica, "partidos": cmd_partidos, "comprobar": cmd_comprobar}[a.cmd](a)
 
 
 if __name__ == "__main__":

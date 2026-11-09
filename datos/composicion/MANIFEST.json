@@ -70,6 +70,13 @@
     "sha256_padron_65034": "e28815ee2a4d082f9d71cd41cd5b5857f928da6e8b83429e0a4326145e1439f5"
    }
   },
+  "congreso_alicante": {
+   "run_id": "42495067503",
+   "blob_sha": "5915aa729c6bb763fa468917a2a414b277c9fd29",
+   "sha256_m06": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443",
+   "secciones": 1236,
+   "sha256_csv": "a5ad973976e0eb4519f6e1b57d32751e47c4755cb4027a7c2f5afd2f56a3a4e2"
+  },
   "congreso_almeria": {
    "run_id": "41295979497",
    "blob_sha": "373e5f1f840a032f8d3465afa250be2540ebaada",
@@ -134,6 +141,13 @@
     "sha256_seccionado": "6d7ef7f74b0d017e7ecf867d4725faf91c59d60e83d8f1f80419d0ea7e698abd",
     "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
    }
+  },
+  "congreso_barcelona": {
+   "run_id": "42495069270",
+   "blob_sha": "0744f6c1365a241a24e01ec3bd48556d751908ab",
+   "sha256_m06": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f",
+   "secciones": 3642,
+   "sha256_csv": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590"
   },
   "congreso_burgos": {
    "run_id": "41299221887",
@@ -427,6 +441,13 @@
     "sha256_seccionado": "3c41fabdf69ffe4bc68a54ad43461d0468155f32dd58451be8f1a7aebd40631e",
     "sha256_padron_65034": "51b35fb14514966e4bb4a5ec4923aef0b671ed1efcf85b4895730ff433247dc9"
    }
+  },
+  "congreso_malaga": {
+   "run_id": "42495070976",
+   "blob_sha": "9fcb5c60190c3362f7bb7dcf46c34768d97396cb",
+   "sha256_m06": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d",
+   "secciones": 1084,
+   "sha256_csv": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0"
   },
   "congreso_melilla": {
    "run_id": "41293988485",
