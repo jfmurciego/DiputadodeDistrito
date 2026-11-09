@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.237
+Versión: 1.0.238
 Fecha: 2026-11-09
-Alcance: T-133 — Paso A del histórico autonómico con puerta (`historico_autonomico.py`)
+Alcance: T-133 — El Gestor lanza el histórico autonómico dentro de la campaña completa
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t133-paso-a-autonomico.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.236_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t133-cablear-gestor.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.237_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.236_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.238 · [2026-11-09 — T-133 — El Gestor lanza el histórico autonómico dentro de la campaña completa](registro/2026-11-09_t133-cablear-gestor.md)
 - 1.0.237 · [2026-11-09 — T-133 — Paso A del histórico autonómico con puerta (`historico_autonomico.py`)](registro/2026-11-09_t133-paso-a-autonomico.md)
 - 1.0.236 · [2026-11-09 — T-131 — Histórico autonómico, lote 1: Cataluña, Comunidad Valenciana, Navarra, País Vasco, La Rioja y Canarias](registro/2026-11-09_t131-autonomicas-lote1.md)
 - 1.0.235 · [2026-11-09 — T-130 — Gestor 2.0: «campaña completa» en una sola orden](registro/2026-11-09_t130-campana-completa.md)
