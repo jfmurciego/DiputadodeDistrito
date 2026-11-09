@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "cantabria",
+  "territory_name": "Cantabria",
+  "edition": "2025",
+  "run_id": 42637193077,
+  "artifact_name": "ddd-electoral-package-cantabria-2025-42637193077",
+  "artifact_sha256": "e21f11a17252200aa864903e7f2c5495898aa4db7bf48fbb52f22090ddf7e118",
+  "source_commit": "12210923dc5d2bd1defe2fbe14801c15b8a12ec7",
+  "election_id": "cantabria_parlamento_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28",
+  "electoral_identity_sha256": "41d61b885c785e39d84d0f0eca0519dbda9f9bf18575f7d7101af33433f7041e"
+}
