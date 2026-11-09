@@ -35,6 +35,6 @@ depósito, hay que cambiar el proceso (lo decide el propietario; ver «Pendiente
 
 ## Pendientes tuyos
 - Afiliación del autor (o «Independent researcher»): no consta en el repositorio, no se ha puesto.
-- Versión del proyecto: `CITATION.cff` dice 4.7.0 (20-09-2026) y el README 4.9.0. Dime cuál vale.
+- Versión: decidida por el propietario, 4.9.0 (ya aplicada en `CITATION.cff`).
 - Si quieres el paquete del mapa dentro del depósito de Zenodo (ver arriba).
 - Nombre: el nombre se ha escrito «Jesús» (como en el artículo JOSS); confirma.
