@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.229
+Versión: 1.0.230
 Fecha: 2026-11-09
-Alcance: estado — Tablero del Coordinador al 09-11 noche
+Alcance: T-128 (paso 1) — El runner del ensemble imprime el motivo del fallo de cada candidato
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_estado-0911.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.228_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_claude-t128-ensemble-alava.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.229_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.228_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.230 · [2026-11-09 — T-128 (paso 1) — El runner del ensemble imprime el motivo del fallo de cada candidato](registro/2026-11-09_claude-t128-ensemble-alava.md)
 - 1.0.229 · [2026-11-09 — estado — Tablero del Coordinador al 09-11 noche](registro/2026-11-09_estado-0911.md)
 - 1.0.228 · [2026-11-09 — T-127 — Preparación de Zenodo: metadatos y guía (sin publicar)](registro/2026-11-09_t127-zenodo-metadatos.md)
 - 1.0.227 · [2026-11-09 — T-125 — CLAUDE.md: la 05 con production_run_id vacío es «solo sitio»](registro/2026-11-09_claude-md-05-solo-sitio.md)
