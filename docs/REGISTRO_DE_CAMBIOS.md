@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.233
+Versión: 1.0.235
 Fecha: 2026-11-09
-Alcance: T-128 (paso 2) — Fase `ensemble_25` en el 06 «Escenarios y Ensembles»
+Alcance: T-130 — Gestor 2.0: «campaña completa» en una sola orden
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_claude-t128-ensemble-25.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.232_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t130-campana-completa.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.234_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,8 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.232_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.235 · [2026-11-09 — T-130 — Gestor 2.0: «campaña completa» en una sola orden](registro/2026-11-09_t130-campana-completa.md)
+- 1.0.234 · [2026-11-09 — T-128 (paso 3) — Configuraciones de ensemble de cinco comunidades](registro/2026-11-09_claude-t128-ensemble-comunidades.md)
 - 1.0.233 · [2026-11-09 — T-128 (paso 2) — Fase `ensemble_25` en el 06 «Escenarios y Ensembles»](registro/2026-11-09_claude-t128-ensemble-25.md)
 - 1.0.232 · [2026-11-09 — T-130 — El Gestor sigue la 00 que lanzó, no la hija del bot](registro/2026-11-09_t130-sigue-00-de-prueba.md)
 - 1.0.231 · [2026-11-09 — T-129 — Nota técnica: censo/población y reparto de escaños 2026](registro/2026-11-09_t129-censo-reparto-2026.md)
