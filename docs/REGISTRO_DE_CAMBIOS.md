@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.242
+Versión: 1.0.243
 Fecha: 2026-11-09
-Alcance: lecciones — Lecciones de la jornada del 09-11 (Coordinador y chats de tarea)
+Alcance: T-127 — DOI de versión provisional del primer depósito de Zenodo
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_lecciones-0911b.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.241_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t127-zenodo-doi.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.242_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.241_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.243 · [2026-11-09 — T-127 — DOI de versión provisional del primer depósito de Zenodo](registro/2026-11-09_t127-zenodo-doi.md)
 - 1.0.242 · [2026-11-09 — lecciones — Lecciones de la jornada del 09-11 (Coordinador y chats de tarea)](registro/2026-11-09_lecciones-0911b.md)
 - 1.0.241 · [2026-11-09 — T-135 — Distritos numerados de 1 a K en lo público (zona datos abiertos y visor)](registro/2026-11-09_t135-distritos-desde-1.md)
 - 1.0.240 · [2026-11-09 — T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML](registro/2026-11-09_t134-plan-sin-shapely.md)
