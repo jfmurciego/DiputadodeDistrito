@@ -292,11 +292,11 @@
   },
   "cantabria": {
    "fuente_territorial": {
-    "run_id": "42637193077",
-    "package_sha256": "f7d6d25ee798c3d5d227fd0b519e55ed1caeb7581d5b3646588820f6287e2e6a",
-    "artifact_sha256": "f6ab5f38914483249c097c1b255934896c34ffdc55ebd859117c30bbab0caa73",
-    "territorial_identity_sha256": "247a86288236f57f7aad726b76d35a57a68c534b52c34a5248bc25fe4054d0bd",
-    "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/247a86288236f57f7aad726b76d35a57a68c534b52c34a5248bc25fe4054d0bd/42637193077/receipt.json",
+    "run_id": "42707820760",
+    "package_sha256": "c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570",
+    "artifact_sha256": "9078db6b7e0fe91151126dc111e355d5fbc769ba697f33f6f45f87eafe73de19",
+    "territorial_identity_sha256": "838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028",
+    "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
@@ -1103,7 +1103,7 @@
      "id": "datos-abiertos-congreso_alava",
      "run_id": "41346917857",
      "vigente": true,
-     "sha256": "7166a990d7e586f798435be258c9ac2d8be13f2d6fd71e96b2341873e1787456",
+     "sha256": "d7dfd66e25845e240429aa9e69b760257a837a9fdc1a039a490090d17ae25cd6",
      "copia_git": {
       "blob_sha": "366574023fdf95af5a1b3eae3e085d2c7ee2e2c3",
       "ruta": "datos_abiertos/congreso_alava/distritos.geojson"
@@ -1215,7 +1215,7 @@
      "id": "datos-abiertos-congreso_albacete",
      "run_id": "42514994231",
      "vigente": true,
-     "sha256": "3741ebdd47ea7e5a3666e831274c97820e59b4446e8ce64156cc4def7cb7d01e",
+     "sha256": "0fa784cb17d944dbea0f2246e5cfe56b0eb37f4ae06e67e6d6e06abf28d0416d",
      "copia_git": {
       "blob_sha": "c7df907f1c12c6b6a44005e48199411258f413d2",
       "ruta": "datos_abiertos/congreso_albacete/distritos.geojson"
@@ -1301,7 +1301,7 @@
      "id": "datos-abiertos-congreso_alicante",
      "run_id": "42495067503",
      "vigente": true,
-     "sha256": "5aa7e893c4a0ac9ad70ce001ac598a9f157062e85fe5e81fd8cf7db497304b27",
+     "sha256": "61ab7760472455eeb2a9f0bb0b7143c51876fb72ab4ef565938f19aa2b6a41af",
      "copia_git": {
       "blob_sha": "5915aa729c6bb763fa468917a2a414b277c9fd29",
       "ruta": "datos_abiertos/congreso_alicante/distritos.geojson"
@@ -1413,7 +1413,7 @@
      "id": "datos-abiertos-congreso_almeria",
      "run_id": "42519378789",
      "vigente": true,
-     "sha256": "bf18a66a74998b6dbd573a3ac59d372215479ff74f20dcc310abb69b136f39c6",
+     "sha256": "9867514e96a40a3356c43c1c8f4e314d59b9150fcb703282c6414488cbe1fc09",
      "copia_git": {
       "blob_sha": "339adddcc861371e35c714b9c8f667e6d2e1df9a",
       "ruta": "datos_abiertos/congreso_almeria/distritos.geojson"
@@ -1499,7 +1499,7 @@
      "id": "datos-abiertos-congreso_asturias",
      "run_id": "41296638877",
      "vigente": true,
-     "sha256": "7e64ba768aac8ba8f30ca2de4a76998af01d8fd45bebdb6bd72a8209cb94e579",
+     "sha256": "577c3087234cc3347c245857e96c392d6e0767cef5a5c6744a38640fd6a4a808",
      "copia_git": {
       "blob_sha": "f78afd6ad9243fc79c114e1eb1df83d39bb66c2c",
       "ruta": "datos_abiertos/congreso_asturias/distritos.geojson"
@@ -1585,7 +1585,7 @@
      "id": "datos-abiertos-congreso_avila",
      "run_id": "41241662219",
      "vigente": true,
-     "sha256": "3e40843bea39cfbaca47d25a26e2bc8e4e37810f542b5a4a4ac79dfa951b8187",
+     "sha256": "c173adc9899e2e6af3533d8711cc1e0991d5723fff5dc0058ef2473f29b0defe",
      "copia_git": {
       "blob_sha": "12b12913c997ab1b2672f9b64eb32aa048936486",
       "ruta": "datos_abiertos/congreso_avila/distritos.geojson"
@@ -1697,7 +1697,7 @@
      "id": "datos-abiertos-congreso_badajoz",
      "run_id": "42519381013",
      "vigente": true,
-     "sha256": "8d289f2ebc84d67a96a36e56a8164cf83ac78106fac290b9fbc9d7ddc35832b2",
+     "sha256": "6b9f37cf42587b782798c74c29c364e4c4b25c180c1ef91739a8b3d1546bf4b6",
      "copia_git": {
       "blob_sha": "6ffc6a528da11213c333258f43a90ebb128d4f3c",
       "ruta": "datos_abiertos/congreso_badajoz/distritos.geojson"
@@ -1783,7 +1783,7 @@
      "id": "datos-abiertos-congreso_baleares",
      "run_id": "41481449507",
      "vigente": true,
-     "sha256": "aad7685b9afe3fe3aa9f33ae1b3adc856d1b172eda9386907708504ab63d0eea",
+     "sha256": "5237c2ad831cbae56abac4383d02e631eb743f5f3f572e30218c8d52e6fda6a0",
      "copia_git": {
       "blob_sha": "14a348d64550231dd2a3eddaa662013ddf740ebe",
       "ruta": "datos_abiertos/congreso_baleares/distritos.geojson"
@@ -1869,7 +1869,7 @@
      "id": "datos-abiertos-congreso_barcelona",
      "run_id": "42495069270",
      "vigente": true,
-     "sha256": "4ac2be7eef41fabae5b707607fffd4e277c64042a96b43bc4d162a8e05cdcf1a",
+     "sha256": "2313c958d4ee705ddeb89fb1de9e45f5e5acd657386923448bae6fabf66ae39d",
      "copia_git": {
       "blob_sha": "0744f6c1365a241a24e01ec3bd48556d751908ab",
       "ruta": "datos_abiertos/congreso_barcelona/distritos.geojson"
@@ -1955,7 +1955,7 @@
      "id": "datos-abiertos-congreso_burgos",
      "run_id": "41299221887",
      "vigente": true,
-     "sha256": "eb046cddd7fc8cf90e07aed5d7fe0d0d9c6c41d782f5ba69beeb93e62f8da3e7",
+     "sha256": "b98ff062b8b5c1074e47790b2973ebd816279f2cfdbeb64f731c0a20ce36e2f7",
      "copia_git": {
       "blob_sha": "0a04c879067138b089f7243a51c3ee20f84d952e",
       "ruta": "datos_abiertos/congreso_burgos/distritos.geojson"
@@ -2041,7 +2041,7 @@
      "id": "datos-abiertos-congreso_caceres",
      "run_id": "41294658600",
      "vigente": true,
-     "sha256": "9c5bd41d7a0f749a517b147851dbc5cf5458884f4243d3c6e36121532488524e",
+     "sha256": "fe25da04739fba0781aef376d46a0ebfbab4fd33568835dfb6066b20e307c330",
      "copia_git": {
       "blob_sha": "169ddf46d52bc378f0f9f5d11a239e87d69af53d",
       "ruta": "datos_abiertos/congreso_caceres/distritos.geojson"
@@ -2127,7 +2127,7 @@
      "id": "datos-abiertos-congreso_cadiz",
      "run_id": "41500124775",
      "vigente": true,
-     "sha256": "ae8037bad137bc8a37b29e82e06d9695b8996032eb8d9cdbc112156391e8a8ef",
+     "sha256": "86b00940f1e29678a4e8a098ac484419cb0360f201040531d87b0ce075cf79f7",
      "copia_git": {
       "blob_sha": "eafe4c846725dc28ff6321f4bcb7149fbeac1472",
       "ruta": "datos_abiertos/congreso_cadiz/distritos.geojson"
@@ -2213,7 +2213,7 @@
      "id": "datos-abiertos-congreso_cantabria",
      "run_id": "41356175674",
      "vigente": true,
-     "sha256": "702989014176539d3f93edfe65e33aa7c47edb024d316398277d6829b91ec0da",
+     "sha256": "bfc006db4206fa987f6a2ac7a9af55c8d950cd664945d66ad0adc90408eacb4b",
      "copia_git": {
       "blob_sha": "591a9c54c496c1d04b322551c8992d480b72b353",
       "ruta": "datos_abiertos/congreso_cantabria/distritos.geojson"
@@ -2299,7 +2299,7 @@
      "id": "datos-abiertos-congreso_castellon",
      "run_id": "41295629673",
      "vigente": true,
-     "sha256": "c68ba03431a035f00e2cc54adac9c83720c0570b9385baa634c9811e5fcabbe2",
+     "sha256": "d4376a3733b50447dc5b4667e50ed454934d434a592dfb097a295f962f12f9ea",
      "copia_git": {
       "blob_sha": "f8cfc3a7e4af0e924261c7d25c9274678ae0650b",
       "ruta": "datos_abiertos/congreso_castellon/distritos.geojson"
@@ -2385,7 +2385,7 @@
      "id": "datos-abiertos-congreso_ceuta",
      "run_id": "41250564472",
      "vigente": true,
-     "sha256": "3085039129c4438844becd10afb44abc9f765acc9006256cb14ea00595d9ae61",
+     "sha256": "f3c8879142eb2a6bac398b7697bc4e014b32159766d6d129e34ded4ceac1d537",
      "copia_git": {
       "blob_sha": "1be63fee48bf92fc8f5e3a6633afe2fa27c9b7ed",
       "ruta": "datos_abiertos/congreso_ceuta/distritos.geojson"
@@ -2471,7 +2471,7 @@
      "id": "datos-abiertos-congreso_ciudad_real",
      "run_id": "41298749455",
      "vigente": true,
-     "sha256": "f7131c45f6ab1d2e1bf6c458e2df722be7a90ca2c6f34a9537f0d488efe3ff86",
+     "sha256": "e484503c5aa51a8b03aca1841fb9d440907ee38b63c2396267a86d9bdb3b0796",
      "copia_git": {
       "blob_sha": "1ad927a5686dfbd97ee8e9682118dc1495837f0a",
       "ruta": "datos_abiertos/congreso_ciudad_real/distritos.geojson"
@@ -2557,7 +2557,7 @@
      "id": "datos-abiertos-congreso_cordoba",
      "run_id": "41296161083",
      "vigente": true,
-     "sha256": "e4500ac6ce064b97d040f3bf262169e911dc77a77ef9c5337d68ddd7f6fbe10c",
+     "sha256": "5bfca6646231abbcc2a2cbd9802765410accfd9c6c95968c273664b07ee5e1e2",
      "copia_git": {
       "blob_sha": "663e0d09d85983b70d2a50d47e5a0b446e304feb",
       "ruta": "datos_abiertos/congreso_cordoba/distritos.geojson"
@@ -2643,7 +2643,7 @@
      "id": "datos-abiertos-congreso_cuenca",
      "run_id": "41294075778",
      "vigente": true,
-     "sha256": "deddd8e6b8d941b3f36b0e1cf0822f174e4680deb33ad2a89e41b3c946a3211a",
+     "sha256": "61c194c1b234e16550bfc24dbe69732671c9f00f1d090d3c2d335841f6428e6c",
      "copia_git": {
       "blob_sha": "23e6a88cc3538afac3f92544faf1fd4455098fab",
       "ruta": "datos_abiertos/congreso_cuenca/distritos.geojson"
@@ -2729,7 +2729,7 @@
      "id": "datos-abiertos-congreso_gerona",
      "run_id": "41298839274",
      "vigente": true,
-     "sha256": "f7b8461a6fdde2490bb7d045b742865b48fa16859c4fd8e803f406132e01ca49",
+     "sha256": "a928b3731d9ae2a57561599b06bccbac68faadad74439bfaf597c320df1f0a09",
      "copia_git": {
       "blob_sha": "4f8354e9752910baa53ea70f75604eba11d99bd3",
       "ruta": "datos_abiertos/congreso_gerona/distritos.geojson"
@@ -2815,7 +2815,7 @@
      "id": "datos-abiertos-congreso_granada",
      "run_id": "41296546816",
      "vigente": true,
-     "sha256": "522915875dbe1b1c7dc43c2bf4b6bd4b347d40813e55951bf0815f003a2b8f4f",
+     "sha256": "d6b96886cfc541b89ed63bdcd25f32ca9a19f0ad2e5341797342ac4f195f9700",
      "copia_git": {
       "blob_sha": "611bf9348182615c952e6fa6b708bd60cd89905a",
       "ruta": "datos_abiertos/congreso_granada/distritos.geojson"
@@ -2901,7 +2901,7 @@
      "id": "datos-abiertos-congreso_guadalajara",
      "run_id": "41294169221",
      "vigente": true,
-     "sha256": "6c5a65cc1b6bf398d5f4359745b915c465bdc0bcf692097ca46ee31d3b4704a9",
+     "sha256": "8adc51ffc0034b0f03af844b1bf6e781d84b87430bf34073951384f353882c06",
      "copia_git": {
       "blob_sha": "cecdd9f8b243296d1e43202b560ba9614cd08d2b",
       "ruta": "datos_abiertos/congreso_guadalajara/distritos.geojson"
@@ -2987,7 +2987,7 @@
      "id": "datos-abiertos-congreso_guipuzcoa",
      "run_id": "41298935355",
      "vigente": true,
-     "sha256": "ba1e1146c38080441217f5fe3aea838b88bc6d16bb1b9a6e67b3a189795d639c",
+     "sha256": "f617051cd118dbe363c703dc2d2866531b1ef83ae49cec9c506dc30a1142a12c",
      "copia_git": {
       "blob_sha": "16e92009efc458b946eb2fd4e163801d99045782",
       "ruta": "datos_abiertos/congreso_guipuzcoa/distritos.geojson"
@@ -3073,7 +3073,7 @@
      "id": "datos-abiertos-congreso_huelva",
      "run_id": "41335929678",
      "vigente": true,
-     "sha256": "cfd43d60cd33c3261d72f309bdc3cf9153c9d5b8110eef3122daedf8d962601c",
+     "sha256": "f2ac52213c0e38d49e59a5c6e5a9de18a48bfb948d6b5bfd6a3e3ad69d70a568",
      "copia_git": {
       "blob_sha": "dcf873c77be2c95769c800bb9a3fd65c827fa735",
       "ruta": "datos_abiertos/congreso_huelva/distritos.geojson"
@@ -3185,7 +3185,7 @@
      "id": "datos-abiertos-congreso_huesca",
      "run_id": "42519383275",
      "vigente": true,
-     "sha256": "8978d3270f8e82fc14896a48bb0508274ef2078286a54261022f0c64b5bb3890",
+     "sha256": "6ed0da001232a4fb5349bc5ea32aad45bc7d2f44f6eb341ea967b6df5225ae94",
      "copia_git": {
       "blob_sha": "81c4e7b34bc2f60b6e45b05547199c53e80b8fd5",
       "ruta": "datos_abiertos/congreso_huesca/distritos.geojson"
@@ -3271,7 +3271,7 @@
      "id": "datos-abiertos-congreso_jaen",
      "run_id": "41295799269",
      "vigente": true,
-     "sha256": "08b377f723b85e3b81bb9aedf87a14712d28bc13c0beed0d3830dde6b60e1c72",
+     "sha256": "2123e0eb4283cfb09f93246da997c10479c06c6b304a2c1bf8e5bb51f5db5f64",
      "copia_git": {
       "blob_sha": "b94f3a6ca6d1f1baac161fba38132ab6a6f6bd41",
       "ruta": "datos_abiertos/congreso_jaen/distritos.geojson"
@@ -3357,7 +3357,7 @@
      "id": "datos-abiertos-congreso_la_coruna",
      "run_id": "41296991598",
      "vigente": true,
-     "sha256": "88e3d59b8f903607266c3ac63ca783a2324ec2b1c095f91b89669edf5ad6f740",
+     "sha256": "0cc420300dc4c5b71aa8269f590ef307a63bb55a1a2c1e82faf49cd4e8fc9899",
      "copia_git": {
       "blob_sha": "58991b5796314eb5a9baf0ed6560f80209294806",
       "ruta": "datos_abiertos/congreso_la_coruna/distritos.geojson"
@@ -3469,7 +3469,7 @@
      "id": "datos-abiertos-congreso_la_rioja",
      "run_id": "42504388624",
      "vigente": true,
-     "sha256": "8e740ec2563cb526f69e685af77ad5635c14108dc729caf20f5b28e0f2e8c3bf",
+     "sha256": "d025da924014522a77e803708098d4a75c27587c26483b4fb92fda998393f31b",
      "copia_git": {
       "blob_sha": "b89ec148d92075dacfc2f24667de95d066742397",
       "ruta": "datos_abiertos/congreso_la_rioja/distritos.geojson"
@@ -3569,7 +3569,7 @@
      "id": "datos-abiertos-congreso_las_palmas",
      "run_id": "41442913288",
      "vigente": true,
-     "sha256": "d17fb33044516a3e57658cbcf061c582cbd09fe6d8b2a92d833bbb9b08ec4910",
+     "sha256": "8e3e5a975619f370cc90ae02f97b1741efd7f35cf36787e25e6c9962ddd737a4",
      "copia_git": {
       "blob_sha": "fc8b114d71a67855b6f81d3f76f3ea0280f3825d",
       "ruta": "datos_abiertos/congreso_las_palmas/distritos.geojson"
@@ -3681,7 +3681,7 @@
      "id": "datos-abiertos-congreso_leon",
      "run_id": "41629735636",
      "vigente": true,
-     "sha256": "efdf7be60ca038bb9752a65f4c55e4d637d85bcbad2b1c894bfa0b5f44ed1c7b",
+     "sha256": "377c7744a5dfc98d7503d0b413cc8375aa936132bf80e7e3187b1203d5e3a299",
      "copia_git": {
       "blob_sha": "d3f23897b735597b20e0b4a3ae4d0acc8332ece2",
       "ruta": "datos_abiertos/congreso_leon/distritos.geojson"
@@ -3767,7 +3767,7 @@
      "id": "datos-abiertos-congreso_lerida",
      "run_id": "41299033915",
      "vigente": true,
-     "sha256": "fecf55d195c2e2f47f8efebe886571159a3d50148e496aed834ed38c8499b1e4",
+     "sha256": "e09d6f70683dcf1d5f6e29e99ff7cfe30381a4dc1f460669f670d09cac26d6fe",
      "copia_git": {
       "blob_sha": "1c7a7c7d4f77c71bc0a7ccd78a9eea630f3392e4",
       "ruta": "datos_abiertos/congreso_lerida/distritos.geojson"
@@ -3879,7 +3879,7 @@
      "id": "datos-abiertos-congreso_lugo",
      "run_id": "42514986960",
      "vigente": true,
-     "sha256": "1cdf4658a0514d2897e4aa009a3e79e52a662e98ee41711407686524e7b39af4",
+     "sha256": "66cc670dbe293978b6af92a4be0979b02eb0c293ed80c181e9518628ff232f27",
      "copia_git": {
       "blob_sha": "a0dc4c1bb56192d413ff6bdd2463d2b5aa1f9989",
       "ruta": "datos_abiertos/congreso_lugo/distritos.geojson"
@@ -3965,7 +3965,7 @@
      "id": "datos-abiertos-congreso_madrid",
      "run_id": "41622703086",
      "vigente": true,
-     "sha256": "0e23c3710cf92fe5fada1f1bfd623e7f24783324dbcd44a91ad4d26e79ea4e4c",
+     "sha256": "f896d52f446169c689241a0926cf8b2391412b74c7c89359fbcd98be6b5b8edf",
      "copia_git": {
       "blob_sha": "f58540de9091b77168047562c0a669cd68b20ef9",
       "ruta": "datos_abiertos/congreso_madrid/distritos.geojson"
@@ -4051,7 +4051,7 @@
      "id": "datos-abiertos-congreso_malaga",
      "run_id": "42495070976",
      "vigente": true,
-     "sha256": "bd763b645f29e5b4d412f447f7de7a061d53d9978ff8b90812fabede126a698d",
+     "sha256": "12168822d736d6024be3a4fcc65c96c8cd3e7377c0d7870fdfb16976b4e7b13a",
      "copia_git": {
       "blob_sha": "9fcb5c60190c3362f7bb7dcf46c34768d97396cb",
       "ruta": "datos_abiertos/congreso_malaga/distritos.geojson"
@@ -4137,7 +4137,7 @@
      "id": "datos-abiertos-congreso_melilla",
      "run_id": "41293988485",
      "vigente": true,
-     "sha256": "df576a5e5d1ef2178f286fa05fc33b77bd66c3b8950b2f06c7f200b0ae151dfb",
+     "sha256": "b818630e9d8d921e3b4b8477a6909926663604763eb9d6b4c2ef4653f98b8f6c",
      "copia_git": {
       "blob_sha": "27815e9348d63f2ae831f1a60c8495a5f4fd3262",
       "ruta": "datos_abiertos/congreso_melilla/distritos.geojson"
@@ -4223,7 +4223,7 @@
      "id": "datos-abiertos-congreso_murcia",
      "run_id": "41622862185",
      "vigente": true,
-     "sha256": "50d35ebad97b5935a637d298e81ceaf2568d40c6eecc42a65db3fb1dadb9ea31",
+     "sha256": "f886614d6004267e880fb01a937108e0b01a5d5113fa855577ed784294ac25f9",
      "copia_git": {
       "blob_sha": "d77418d6fba6f0b63785e21256215769714a3b05",
       "ruta": "datos_abiertos/congreso_murcia/distritos.geojson"
@@ -4309,7 +4309,7 @@
      "id": "datos-abiertos-congreso_navarra",
      "run_id": "41299128213",
      "vigente": true,
-     "sha256": "850e10e52c4d52a126555571a6e77b01e2458e6730bf5d2d6ccb3023ecc30f69",
+     "sha256": "16deed74519326b0525b74183b8f51fd4443032e596479001b762fb0fce37688",
      "copia_git": {
       "blob_sha": "f5587e91c557e43bb560f6f8d9a663c8d5c1f775",
       "ruta": "datos_abiertos/congreso_navarra/distritos.geojson"
@@ -4395,7 +4395,7 @@
      "id": "datos-abiertos-congreso_orense",
      "run_id": "41295142111",
      "vigente": true,
-     "sha256": "39f2634d310832e05fd4e0e19d716fc6ba16bab74cb89ea27f1d2643ec365f11",
+     "sha256": "1c72d0d76000dd7c7d7c92d17ef3abe422134cebe69ad7f0f242381597f3a509",
      "copia_git": {
       "blob_sha": "ebd135b7019a015c6650cc3525b214f357d68a78",
       "ruta": "datos_abiertos/congreso_orense/distritos.geojson"
@@ -4481,7 +4481,7 @@
      "id": "datos-abiertos-congreso_palencia",
      "run_id": "41298660623",
      "vigente": true,
-     "sha256": "7ee989020dfece20be96217a3c2f02dd1080420a075333520c3e5ecfb149505a",
+     "sha256": "531073f45b91ba80af4ee786b6caa2cb98e41a759b4757dffead4cfc47acc79a",
      "copia_git": {
       "blob_sha": "36ceb7489e519793d385c8a9a723f9fc53b062c9",
       "ruta": "datos_abiertos/congreso_palencia/distritos.geojson"
@@ -4567,7 +4567,7 @@
      "id": "datos-abiertos-congreso_pontevedra",
      "run_id": "41353894475",
      "vigente": true,
-     "sha256": "0584f47d813f2db6987661673dcb9c269f66452e6c572e1fd1f3c8a440a75f67",
+     "sha256": "9d7776bfab2f0192cae426aff436777e7dd7b725f8793e79d7e698907b4c5c0c",
      "copia_git": {
       "blob_sha": "7ba90d7878ea2b57d16d8bc7b3612bb7a3b2375f",
       "ruta": "datos_abiertos/congreso_pontevedra/distritos.geojson"
@@ -4653,7 +4653,7 @@
      "id": "datos-abiertos-congreso_salamanca",
      "run_id": "41295298674",
      "vigente": true,
-     "sha256": "f9aaa4329493d9eb0b86631451b3ad356d78af59727688faf7295a2ec189c89a",
+     "sha256": "72cdd58c4ee925e0181f0032e30fe5187f871f483bc0311b2ce204687a9e8ae2",
      "copia_git": {
       "blob_sha": "519c279aea0d800bf26cbc681521eabf48e59caf",
       "ruta": "datos_abiertos/congreso_salamanca/distritos.geojson"
@@ -4779,7 +4779,7 @@
      "id": "datos-abiertos-congreso_santa_cruz_de_tenerife",
      "run_id": "42519017008",
      "vigente": true,
-     "sha256": "13255016220076ff1e9101dc33d4a11b452fb74cde3622ebea4649a505ae08f3",
+     "sha256": "053c4a9939f5de94bbe607b54a57b3df604a2b917159031dfaa1cffb39ed3288",
      "copia_git": {
       "blob_sha": "13b05b4afbf2517a039b7175aec8fccb746957de",
       "ruta": "datos_abiertos/congreso_santa_cruz_de_tenerife/distritos.geojson"
@@ -4865,7 +4865,7 @@
      "id": "datos-abiertos-congreso_segovia",
      "run_id": "41241846017",
      "vigente": true,
-     "sha256": "9f8e85767341e936d6410b58d6dddae5da649052166c7e51e498358bfa3bb1c0",
+     "sha256": "9131b5d6e000907a63ae88fe9d33dcabf78bfa7e16faf581939732b84dbb72f2",
      "copia_git": {
       "blob_sha": "e26b2372cb2672d8e4d227d011a895c72c174b48",
       "ruta": "datos_abiertos/congreso_segovia/distritos.geojson"
@@ -4951,7 +4951,7 @@
      "id": "datos-abiertos-congreso_sevilla",
      "run_id": "41297168461",
      "vigente": true,
-     "sha256": "e7773d44cb05be6925ae1e77daeb47e4f2d24c61a02d4ff0e27a49ea443f3f1e",
+     "sha256": "c3735ecfbde4aeddcdc47e2a52903bbff38bd3ca6ffb5e785bb4d8d742083da0",
      "copia_git": {
       "blob_sha": "40fe1057d2f9cd5a9b7690c6ac1d931f2aa298d6",
       "ruta": "datos_abiertos/congreso_sevilla/distritos.geojson"
@@ -5051,7 +5051,7 @@
      "id": "datos-abiertos-congreso_soria",
      "run_id": "41250310066",
      "vigente": true,
-     "sha256": "6e595de50314960298b21325ab8282e27973813467883384a31868d5c89e9fcc",
+     "sha256": "aee9434472bececb3b4102260deb96c05e3f632b490d93c0967be0334cee3278",
      "copia_git": {
       "blob_sha": "28635adcea450debbde9ff4c62ad99c754ae12c0",
       "ruta": "datos_abiertos/congreso_soria/distritos.geojson"
@@ -5163,7 +5163,7 @@
      "id": "datos-abiertos-congreso_tarragona",
      "run_id": "42514991952",
      "vigente": true,
-     "sha256": "7d5b34f21f1410fd79ae2807cc0ae0e1e6b79066d66b1d723200ff529b65569f",
+     "sha256": "de94c77ce9ec232f35a52e2d1959f457e1331e52073a379059269ac85463f789",
      "copia_git": {
       "blob_sha": "0999b5dbb595a02808088d6e84fd837a80f478c2",
       "ruta": "datos_abiertos/congreso_tarragona/distritos.geojson"
@@ -5249,7 +5249,7 @@
      "id": "datos-abiertos-congreso_teruel",
      "run_id": "41250394074",
      "vigente": true,
-     "sha256": "8fb1e01713bcee7544a2cede69c755a1e2940284a3d9723adf149e0211034e0c",
+     "sha256": "4b4225f41abd2666b40e1279e90fc2190ea54079e50f48536892eeb6e763c466",
      "copia_git": {
       "blob_sha": "aeac695056d49ce1ed4f7ac390cd913f57259ffd",
       "ruta": "datos_abiertos/congreso_teruel/distritos.geojson"
@@ -5335,7 +5335,7 @@
      "id": "datos-abiertos-congreso_toledo",
      "run_id": "41296268720",
      "vigente": true,
-     "sha256": "e88c25bc1b5fddb32e0744c1c5f7406e7c98810edd8fd1e495e3f3d2aa84cf2a",
+     "sha256": "b7b4b81055b4f99b7f27df320cfaa01449810e44b7a8fdf349a783c04a697355",
      "copia_git": {
       "blob_sha": "3af235bd23d357673e5b9e1c0260a20c90d31ad1",
       "ruta": "datos_abiertos/congreso_toledo/distritos.geojson"
@@ -5447,7 +5447,7 @@
      "id": "datos-abiertos-congreso_valencia",
      "run_id": "42525625044",
      "vigente": true,
-     "sha256": "8c5d800cf5a4686a730e143e3baa1a5e0a13b370af90cc2f5ad6fe7a0c48fa31",
+     "sha256": "776087559c4ed490e64f62175fccc9d5c6eec3d1c4fc0bac2481d9370a6197aa",
      "copia_git": {
       "blob_sha": "a3a96c98675a546b2e32cf8510dcea696574e2e9",
       "ruta": "datos_abiertos/congreso_valencia/distritos.geojson"
@@ -5533,7 +5533,7 @@
      "id": "datos-abiertos-congreso_valladolid",
      "run_id": "41299313598",
      "vigente": true,
-     "sha256": "6ba1691c8f99ea0dd71eff8ec31f6538198b30157f5f810bcb6924899c7fa41e",
+     "sha256": "abe0d9f1987910e8a7cde22aab791a7d0c007cacd602f84c749be62369808fe2",
      "copia_git": {
       "blob_sha": "6c690bd9dd4072e776698eaca1fe4502b8a1f1a4",
       "ruta": "datos_abiertos/congreso_valladolid/distritos.geojson"
@@ -5619,7 +5619,7 @@
      "id": "datos-abiertos-congreso_vizcaya",
      "run_id": "41356074013",
      "vigente": true,
-     "sha256": "7921e1722521d95388cdf602a295ff86b34a7468d85f0888fd6e38e21f375669",
+     "sha256": "3013858596029c3175330d75f5a3b9315e2d7e008c8955fbf23cd736887c51ef",
      "copia_git": {
       "blob_sha": "9ea873c8de3a6c57ed0b211014cf2e4ac88405a7",
       "ruta": "datos_abiertos/congreso_vizcaya/distritos.geojson"
@@ -5705,7 +5705,7 @@
      "id": "datos-abiertos-congreso_zamora",
      "run_id": "41250479211",
      "vigente": true,
-     "sha256": "f1c8e8d4cddcde65c9bf2e3f08c3d00ba209f5a0449f783f41116894b8789ccd",
+     "sha256": "ff64b7ea3d0dc02662eaa676a2b545046b273c9e77444227d27fe958ceb06898",
      "copia_git": {
       "blob_sha": "05c6845681eab342139cd0656d31f144091eae76",
       "ruta": "datos_abiertos/congreso_zamora/distritos.geojson"
@@ -5791,7 +5791,7 @@
      "id": "datos-abiertos-congreso_zaragoza",
      "run_id": "41296815536",
      "vigente": true,
-     "sha256": "c68f4764f51f3c2405fb5547d382592a3ec4b3c67c9bee5395d4a8e70a067908",
+     "sha256": "483adf434b1eeb74f7cc95b0c79202143d1ad61f0f4dce77a40ae795488fd2b0",
      "copia_git": {
       "blob_sha": "a43219db6c4b467e8b8c59bd8f4b47e4e0d1a6b0",
       "ruta": "datos_abiertos/congreso_zaragoza/distritos.geojson"
