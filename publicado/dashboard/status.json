@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-09T11:59:25.046654+00:00",
+  "generated_at": "2026-11-09T12:09:53.360617+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 71,
-      "activable": 3,
+      "activated": 72,
+      "activable": 2,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 71
+      "durable_pair": 72
     },
     "territories": [
       {
@@ -6343,12 +6343,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso350_valladolid/evidencia/pares_fuentes/2025/94406f6259254e89a210e32a59bcda52689894f0ac45860871ffa2de0dd84c86.json",
+            "pair_sha256": "94406f6259254e89a210e32a59bcda52689894f0ac45860871ffa2de0dd84c86",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -11969,7 +11969,18 @@
           "producer_manifest_path": "territorios/congreso350_soria/evidencia/generaciones_m06/42601453125.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso350_soria",
+          "territory_name": "Congreso 350 Soria",
+          "edition": "2025",
+          "run_id": 42612579208,
+          "artifact_name": "ddd-state-42612579208-M08",
+          "artifact_sha256": "0c9311a3a5ce3aefe80104bd1df3c5e0b9363bfab84fa5a671794d3bf03ae9af",
+          "source_commit": "f4821824f83b86651f31fb6d657fc634c85868e9",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "R42",
       "display_name": "Nacional 350 Soria",
@@ -12077,7 +12088,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42601455862,
-      "last_run": {},
+      "last_run": {
+        "run_id": 42601455862,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -12108,7 +12126,7 @@
       },
       "autonomous_community_code_ine": "R47",
       "display_name": "Nacional 350 Valladolid",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso350_vizcaya",
