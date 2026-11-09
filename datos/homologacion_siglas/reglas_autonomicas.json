@@ -1,0 +1,36 @@
+{
+ "schema": "ddd.homologacion-siglas-reglas-autonomicas/1.0",
+ "version": "1.0.0",
+ "estado": "CANDIDATA",
+ "nota": "Se suman a datos/homologacion_siglas/reglas_generales.json (D-20): las familias del Observatorio son las mismas en generales y autonómicas. Aquí solo las reglas propias de autonómicas; lo que no tenga regla queda con su sigla y nivel BAJA para decisión del propietario.",
+ "familias": {},
+ "siglas": [
+  {
+   "id": "AHORA-DECIDE",
+   "siglas": [
+    "AHORA DECIDE",
+    "AHORA DECIDE/AS"
+   ],
+   "elecciones": "*",
+   "provincias": "*",
+   "homologado": "AHORA DECIDE",
+   "certeza": "MEDIA",
+   "nota": "Misma marca con y sin sufijo «/AS» en el Observatorio (Castilla y León); falta corroborar con la Junta Electoral."
+  },
+  {
+   "id": "UPN-NAVARRA",
+   "siglas": [
+    "UPN-PP",
+    "NA+",
+    "UPN"
+   ],
+   "elecciones": "*",
+   "provincias": [
+    "comunidad_foral_de_navarra"
+   ],
+   "homologado": "UPN y coaliciones",
+   "certeza": "DECIDIDA",
+   "nota": "Misma decisión que D-20 C para las generales en Navarra (las reglas generales usan el código de provincia 31, que aquí no coincide): evita que UPN-PP caiga en la familia del PP."
+  }
+ ]
+}
