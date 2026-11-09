@@ -52,6 +52,18 @@ class ProductosPublicos(unittest.TestCase):
         for t, e in idx["territorios"].items():
             self.assertEqual([d["distrito"] for d in e["distritos"]], list(range(1, e["n_distritos"] + 1)), t)
 
+    def test_internos_no_se_sirven_en_el_sitio(self):
+        """Frontera: datos/composicion, datos/resultados y datos/distritos (0..K-1) no se copian a /site (solo derivados 1..K)."""
+        wf = (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
+        for linea in wf.splitlines():
+            if "site-candidate" in linea and not linea.lstrip().startswith("#"):
+                for i in n.INTERNOS:
+                    self.assertNotIn(i + "/", linea.replace(i + "/historico/rotacion", ""), linea[:120])
+        for js in ("visor/v2/v2.js", "visor/nacional/nacional.js"):
+            t = (ROOT / js).read_text(encoding="utf-8")
+            self.assertNotIn("datos/resultados", t)
+            self.assertNotIn("datos/composicion", t)
+
     def test_generadores_del_visor_usan_la_funcion(self):
         for f in ("generar_rotacion_visor", "generar_territorial_visor", "generar_secciones_visor"):
             t = (ROOT / "herramientas" / f"{f}.py").read_text(encoding="utf-8")
