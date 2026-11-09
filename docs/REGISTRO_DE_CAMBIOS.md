@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.214
+Versión: 1.0.215
 Fecha: 2026-11-09
-Alcance: T-119 — Pulido del visor v2: duplicidades, teclado y botones de edición
+Alcance: T-119 — Botones del visor v2: rotación real y «sin datos» con motivo
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t119-pulido-v2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.213_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t119-botones-v2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.214_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.213_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.215 · [2026-11-09 — T-119 — Botones del visor v2: rotación real y «sin datos» con motivo](registro/2026-11-09_t119-botones-v2.md)
 - 1.0.214 · [2026-11-09 — T-119 — Pulido del visor v2: duplicidades, teclado y botones de edición](registro/2026-11-09_t119-pulido-v2.md)
 - 1.0.213 · [2026-11-09 — T-119 — Capa de secciones censales en el visor v2](registro/2026-11-09_t119-secciones-v2.md)
 - 1.0.212 · [2026-11-09 — T-118 — La 05 de un run «Reutilizar» no registraba el M08 (M06 reutilizado duplicado)](registro/2026-11-09_t118-m06-reutilizado-duplicado.md)
