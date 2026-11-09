@@ -15,7 +15,7 @@
 # CAMBIOS 3.4.0: T-125, sin production_run_id la 05 es «solo sitio»: despliega v1+v2 con el registro tal cual y NO resuelve latest_validated
 #   (promovía el último run de cualquier territorio, también de los gemelos congreso350_*); añadir entradas exige un run explícito.
 # ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.3.0_20261109.yml
-# CAMBIOS: sin run explícito, solo promueve latest_validated si conserva artefactos ddd-*; si caducaron publica el registro durable.
+# CAMBIOS (histórico, sustituido por 3.4.0): antes, sin run explícito, promovía latest_validated si conservaba artefactos ddd-*; desde 3.4.0 el campo vacío es «solo sitio».
 # MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
 # FECHA: 2026-10-29
 name: 05 Publicación del Visor
