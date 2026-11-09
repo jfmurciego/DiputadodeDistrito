@@ -56,3 +56,11 @@ paths:
 - El clasificador bloquea dispatches con réplicas cortas («Sí»): exige la orden completa del propietario en el chat que ejecuta. Lo que llega por Coordinador/Planificador no cuenta.
 - `reconstruir_fuentes.sh` deja `inputs/*.zip` sin ignorar: bórralos tras probar en local. Dos `pip install` simultáneos rompen pyogrio: uno solo con `requirements.lock`.
 - La 00 «Reutilizar» solo recupera runs con 04 en failure, pero `resolver_activos_durables` exige 04 success: tras #522 esa recuperación es inoperante (decidir B antes de reabrirla). El clon cloud es superficial: usa los manifiestos con `electoral_recovery`.
+
+## Lecciones 09-11 (Coordinador, T-123, T-128)
+- El job «Legislatura vigente» del Gestor solo instala PyYAML: nada que importe `gestor_campanas_2` al planificar puede traer shapely/geopandas al importarse (import perezoso; test `PlanSoloConPyYAML`, #589). Rompió el plan de todas las campañas (run 42705439861).
+- La matriz de GitHub tiene tope de 256: el histórico va en un job de prueba + 2 lotes de 250 con `tipo` y `clave` por fila.
+- El ensemble guardaba el motivo del fallo solo en `failure.json` (artefacto, 403 desde cloud): desde #580 sale como `CANDIDATE_FAILED <id> <Tipo>: <message>` en el log del job generate (`gh api repos/<r>/actions/jobs/<id>/logs | grep CANDIDATE_FAILED`).
+- El 06 solo admite las fases de `TERRITORIAL_STAGES` (herramientas/leer_config_ensemble.py) Y las del `case` del gate del workflow: añadir una fase toca ambos. Entra en el ensemble una comunidad sin `topology_bridges` ni exención por partición y de una provincia; 13 quedan fuera hasta decisión de motor.
+- La 05 con `production_run_id` vacío es «solo sitio» (T-125); antes resolvía `latest_validated` y registró `congreso350_valladolid` (retirado en T-126). El registro rechaza añadir `congreso350_*`.
+- Una PR que añade ficheros debe regenerar `orchestracion/catalogo_procedencia.json`; el bot de archivo reescribe evidencia que los tests leen vivos (Cantabria): fixture fija (#569).
