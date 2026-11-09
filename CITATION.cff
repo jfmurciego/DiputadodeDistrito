@@ -5,12 +5,12 @@ message: >-
 title: "Diputado de Distrito: motor reproducible de distritos uninominales"
 type: software
 authors:
-  - family-names: "Murciego"          # ← rellenar
-    given-names: "Jesus"              # ← rellenar
-    orcid: "https://orcid.org/0009-0002-4434-959X"   # ← rellenar
+  - family-names: "Murciego"
+    given-names: "Jesús"
+    orcid: "https://orcid.org/0009-0002-4434-959X"
 repository-code: "https://github.com/jfmurciego/DiputadodeDistrito"
 url: "https://jfmurciego.github.io/DiputadodeDistrito/"
-license: Apache-2.0                    # ← debe coincidir con LICENSE
+license: Apache-2.0
 version: "4.7.0"
 date-released: "2026-09-20"
 keywords:
