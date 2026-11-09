@@ -1,7 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.2
-# ANTERIOR: legacy/workflows/validar-productos-publicos_v1.0.1_20261108.yml
+# VERSIÓN: 1.0.3
+# ANTERIOR: legacy/workflows/validar-productos-publicos_v1.0.2_20261108.yml
+# CAMBIOS 1.0.3: T-116, valida visor/v2/v2.js y lo empaqueta en /v2/ del artefacto (v1 intacto).
 # CAMBIOS 1.0.2: T-106, solo el nombre visible (prefijo «_Interno — ») para ordenar la lista de Actions.
 # NOMBRE: Validar productos públicos
 # FECHA: 2026-11-08
@@ -34,12 +35,15 @@ jobs:
         run: |
           set -euo pipefail
           node --check visor/app.js
+          node --check visor/v2/v2.js
           python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output public-products.json
       - name: Empaquetar producto estático verificable
         run: |
           set -euo pipefail
           mkdir -p site/data/aragon site/data/castilla_y_leon
           cp visor/index.html visor/app.js visor/styles.css site/
+          mkdir -p site/v2 && cp -R visor/v2/. site/v2/ && cp web/textos.md site/v2/textos.md
+          sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' site/v2/index.html
           cp resultados/finales/aragon/distritos.geojson site/data/aragon/
           cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
           mv public-products.json site/data/

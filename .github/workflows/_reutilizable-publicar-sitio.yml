@@ -1,7 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.7.0
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.6.1_20261108.yml
+# VERSIÓN: 3.8.0
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.7.0_20261108.yml
+# CAMBIOS 3.8.0: T-116, el sitio incluye /v2/ (visor/v2/ más web/textos.md, con data-textos reescrito a ruta local) en paralelo
+#   con v1, que no cambia; v2.js se valida con node --check.
 # CAMBIOS 3.7.0: T-114, datos/resultados y datos_abiertos/ se regeneran desde el registro candidato antes de materializar
 #   /datos/ y se persisten en el mismo commit que el registro: un M06/M08 nuevo ya no deja INDEX.json desfasado
 #   (bloqueaba la validación del sitio de toda 05 posterior y el test test_paquete_versionado_al_dia).
@@ -128,6 +130,7 @@ jobs:
           node --check visor/app.js
           node --check visor/escenarios.js
           node --check visor/nacional/nacional.js
+          node --check visor/v2/v2.js
           test -f publicado/dashboard/index.html
           test -f publicado/dashboard/app.js
           test -f publicado/dashboard/styles.css
@@ -320,7 +323,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard /tmp/site-candidate/nacional /tmp/site-candidate/docs
+          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard /tmp/site-candidate/nacional /tmp/site-candidate/docs /tmp/site-candidate/v2
           cp visor/index.html visor/app.js visor/escenarios.js visor/styles.css /tmp/site-candidate/
           cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
           cp dashboard/hemiciclo.html dashboard/hemiciclo.json /tmp/site-candidate/dashboard/
@@ -331,6 +334,10 @@ jobs:
           python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --comprobar
           python herramientas/generar_datos_abiertos.py --registro /tmp/publicaciones_visor.candidate.json --materializar /tmp/site-candidate/datos
           cp visor/nacional/index.html visor/nacional/nacional.js visor/nacional/styles.css /tmp/site-candidate/nacional/
+          cp -R visor/v2/. /tmp/site-candidate/v2/
+          rm -f /tmp/site-candidate/v2/README.md /tmp/site-candidate/v2/construir_vista_previa.py
+          cp web/textos.md /tmp/site-candidate/v2/textos.md
+          sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' /tmp/site-candidate/v2/index.html
           python -m pip install --disable-pip-version-check -r documentacion_publica/requirements.lock
           zensical build --strict --clean -f documentacion_publica/zensical.toml
           cp -R documentacion_publica/site/. /tmp/site-candidate/docs/
@@ -374,6 +381,10 @@ jobs:
           test ! -e /tmp/site-candidate/docs/plan.html
           test -s /tmp/site-candidate/nacional/index.html
           node --check /tmp/site-candidate/nacional/nacional.js
+          test -s /tmp/site-candidate/v2/index.html
+          test -s /tmp/site-candidate/v2/datos/provincias.json
+          grep -q 'data-textos="textos.md"' /tmp/site-candidate/v2/index.html
+          node --check /tmp/site-candidate/v2/v2.js
           if [[ "${{ inputs.include_congreso_analytical_preview }}" == "true" ]]; then
             test -s /tmp/site-candidate/congreso/data/24.geojson
             test -s /tmp/site-candidate/congreso/data/10.geojson
