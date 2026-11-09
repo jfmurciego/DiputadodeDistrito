@@ -8,3 +8,8 @@ __pycache__/
 andalucia-section-locator.csv
 siel-andalucia-2026.zip
 .ddd-electoral-package/
+visor/v2/datos/secciones/
+visor/v2/datos/rotacion.json
+visor/v2/datos/territorial.json
+inputs/reconstruido/
+capturas_t119/

@@ -35,3 +35,9 @@ distrito (ficha: sección, municipio, población, distrito). La generan `herrami
 (seccionado INE 2025 de `inputs/partes`, sha256 verificado, unido a `datos/composicion/congreso_*.csv`); no se versiona. En local:
 `python3 herramientas/generar_secciones_visor.py --seccionado inputs/seccionado_2025.zip --salida visor/v2/datos/secciones`.
 Algunas secciones de la composición no existen en el seccionado 2025 y salen sin geometría (`sin_geometria` en el INDEX).
+
+## Vista Territorial y selector (T-119 PR-C)
+Selector «Vista: Electoral / Territorial» en la portada (Congreso). Territorial no usa resultados: colorea cada provincia por la mayor
+desviación de un distrito respecto a la media y, al elegir una provincia, lista sus distritos (población, objetivo, desviación, techo,
+suelo/exención, secciones y municipios con topónimo español) y activa la capa de secciones. Datos: `herramientas/generar_territorial_visor.py`
+(M06 de `datos_abiertos` con sha256 de `INDEX.json`, nombres de `datos/distritos/`), generados en la publicación; sin ellos el botón queda «sin datos».

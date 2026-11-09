@@ -84,7 +84,7 @@ const ELEC=[["2011","nov"],["2015","dic"],["2016","jun"],["2019","abr"],["2019",
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const col=p=>css(VARP[p]||"--otros");
 const $=id=>document.getElementById(id);
-let capa="ganador",rot=null,vista="congreso",prov=null,ccaa=null,map=null,sel=null,selId=null,selCcaa=null,hoverCcaa=null;
+let modo="electoral",terr=null,capa="ganador",rot=null,vista="congreso",prov=null,ccaa=null,map=null,sel=null,selId=null,selCcaa=null,hoverCcaa=null;
 const barra=$("elecciones-barra");
 const et=document.createElement("span");et.textContent="Elecciones generales";barra.appendChild(et);
 ELEC.forEach(([a,m])=>{const b=document.createElement("button");b.className="eleccion";const on=a==="2023";b.disabled=!on;b.setAttribute("aria-pressed",String(on));b.innerHTML=a+"<small>"+m+(on?"":a==="2026"?" · 29-11":" · sin datos")+"</small>";barra.appendChild(b)});
@@ -100,6 +100,7 @@ function hemi(esc){
 const tabla=esc=>`<table class="tabla">${Object.entries(esc).sort((a,b)=>b[1]-a[1]).map(([p,n])=>`<tr><td><span class="sw" style="background:${col(p)}"></span>${NOMBRE[p]||p}</td><td>${n}</td></tr>`).join("")}</table>`;
 function fichaC(){
  const f=$("ficha");
+ if(modo==="territorial"&&terr){if(sel&&secIdx&&!secOn)secSet(true);fichaT();return}
  if(capa==="rotacion"&&rot&&sel&&rot.provincias[sel.properties.cod]){fichaRot();return}
  if(!sel){f.innerHTML=`<p class="eyebrow">Generales · julio de 2023</p><h2>España</h2>${hemi(totales())}${tabla(totales())}<p class="aviso">Pulsa una provincia del mapa para ver su reparto. Con «350 distritos» (T-102) aquí saldrá el mismo hemiciclo con el ganador de cada distrito.</p>`;return}
  const p=sel.properties;
@@ -113,6 +114,8 @@ function fichaA(){
 function leyenda(){
  const L=$("leyenda");
  if(vista==="autonomico"){L.innerHTML=`<span><span class="sw" style="background:${css("--red")}"></span>Comunidad elegida</span>`;return}
+ if(secOn&&secCod&&secNDist&&vista==="congreso"){L.innerHTML=`<span><span class="sw" style="background:linear-gradient(90deg,#c0392b,#2e86c1,#27ae60,#d68910)"></span>Cada color es un distrito (${secNDist}); las líneas finas son secciones censales</span>`;return}
+ if(modo==="territorial"&&terr){L.innerHTML=`<span><span class="sw" style="background:${ROT_COL(0)}"></span>0 %</span><span><span class="sw" style="background:${ROT_COL(1)}"></span>40 % o más: mayor desviación de un distrito respecto a la media de su provincia</span><span style="color:${css("--muted")}">· gris: sin datos</span>`;return}
  if(capa==="rotacion"&&rot){L.innerHTML=`<span><span class="sw" style="background:${ROT_COL(0)}"></span>0 cambios</span><span><span class="sw" style="background:${ROT_COL(1)}"></span>5 cambios de ganador (media por distrito, 2011-2023)</span><span style="color:${css("--muted")}">· gris: sin datos</span>`;return}
  const ps=[...new Set(prov.features.map(f=>f.properties.ganador))];
  L.innerHTML=ps.map(p=>`<span><span class="sw" style="background:${col(p)}"></span>${NOMBRE[p]||p}</span>`).join("")+`<span style="color:${css("--muted")}">· más votado por provincia</span>`;
@@ -120,7 +123,7 @@ function leyenda(){
 function pintar(){
  if(!map||!map.getLayer("prov-fill"))return;
  const e=["match",["get","ganador"]];Object.keys(VARP).forEach(p=>e.push(p,col(p)));e.push(css("--otros"));
- map.setPaintProperty("prov-fill","fill-color",vista==="congreso"?(capa==="rotacion"&&rot?rotColor():e):css("--land"));
+ map.setPaintProperty("prov-fill","fill-color",vista==="congreso"?(modo==="territorial"&&terr?terrColor():capa==="rotacion"&&rot?rotColor():e):css("--land"));
  map.setPaintProperty("prov-fill","fill-opacity",vista==="congreso"?["case",["boolean",["feature-state","sel"],false],1,.86]:.9);
  map.setPaintProperty("ccaa-fill","fill-opacity",vista==="autonomico"?["case",["boolean",["feature-state","sel"],false],.75,["boolean",["feature-state","hover"],false],.25,0]:0);
  map.setPaintProperty("ccaa-line","line-width",vista==="autonomico"?1.4:.7);
@@ -135,7 +138,7 @@ function irEspana(){
  sel=null;ccaa=null;$("ruta").textContent="España";$("volver").hidden=true;
  map.fitBounds(ESP,{padding:20,duration:500});vista==="congreso"?fichaC():fichaA();secCod=null;secCargar();
 }
-function cambiar(v){vista=v;$("v-congreso").setAttribute("aria-pressed",String(v==="congreso"));$("v-autonomico").setAttribute("aria-pressed",String(v==="autonomico"));$("controles-congreso").hidden=v!=="congreso";barra.hidden=v!=="congreso";irEspana();pintar()}
+function cambiar(v){vista=v;$("v-congreso").setAttribute("aria-pressed",String(v==="congreso"));$("v-autonomico").setAttribute("aria-pressed",String(v==="autonomico"));$("controles-congreso").hidden=v!=="congreso";$("modos").hidden=v!=="congreso";barra.hidden=v!=="congreso"||modo==="territorial";irEspana();pintar()}
 $("v-congreso").onclick=()=>cambiar("congreso");$("v-autonomico").onclick=()=>cambiar("autonomico");$("volver").onclick=irEspana;
 document.querySelectorAll('[data-tab="inicio"],[data-tab-go="inicio"]').forEach(b=>b.addEventListener("click",()=>setTimeout(()=>map&&map.resize(),30)));
 Promise.all([fetch("datos/provincias.json").then(r=>r.json()),fetch("datos/comunidades.json").then(r=>r.json())]).then(([p,c])=>{
@@ -169,7 +172,7 @@ Promise.all([fetch("datos/provincias.json").then(r=>r.json()),fetch("datos/comun
 }).catch(err=>{$("ficha").innerHTML=`<p class="aviso">No se pudo cargar el mapa: ${err.message}. Recarga la página.</p>`});
 
 /* Capa de secciones censales (T-119): opcional; solo existe si la publicación trae datos/secciones/INDEX.json. */
-let secOn=false,secIdx=null,secCod=null;
+let secOn=false,secIdx=null,secCod=null,secNDist=0;
 const SEC_COL=["#c0392b","#2e86c1","#27ae60","#d68910","#8e44ad","#17a589","#cb4335","#5d6d7e","#b7950b","#2874a6"];
 const secProv=()=>sel&&vista==="congreso"?sel.properties.cod:null;
 function secFicha(p){
@@ -184,9 +187,14 @@ function secCargar(){
  if(!secOn||!cod||!secIdx||!secIdx.provincias[cod]){if(secOn&&cod&&secIdx&&!secIdx.provincias[cod])$("ruta").textContent+=" (sin secciones)";return}
  if(secCod===cod)return;secCod=cod;
  fetch("datos/secciones/"+cod+".geojson").then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(g=>{
-  if(secCod!==cod)return;map.getSource("sec").setData(g);
+  if(secCod!==cod)return;
+  const ds=[...new Set(g.features.map(f=>Number(f.properties.d)))].sort((x,y)=>x-y),e=["match",["to-number",["get","d"]]];
+  ds.forEach((d,i)=>e.push(d,"hsl("+Math.round((i*137.508)%360)+","+(i%2?52:68)+"%,"+(i%3===0?44:i%3===1?56:50)+"%)"));e.push("#999");
+  map.setPaintProperty("sec-fill","fill-color",e);secNDist=ds.length;leyenda();
+  map.getSource("sec").setData(g);
  }).catch(e=>{secCod=null;console.error("secciones "+cod+": "+e.message)});
 }
+function secSet(v){secOn=v;$("c-secciones").setAttribute("aria-pressed",String(v));secCargar();leyenda()}
 function iniciarSecciones(){
  const chip=$("c-secciones");
  fetch("datos/secciones/INDEX.json").then(r=>r.ok?r.json():null).catch(()=>null).then(idx=>{
@@ -196,7 +204,7 @@ function iniciarSecciones(){
   map.addLayer({id:"sec-fill",type:"fill",source:"sec",minzoom:6,layout:{visibility:"none"},paint:{"fill-color":col,"fill-opacity":.7}});
   map.addLayer({id:"sec-line",type:"line",source:"sec",minzoom:6,layout:{visibility:"none"},paint:{"line-color":"#fff","line-width":.4}});
   chip.removeAttribute("aria-disabled");chip.removeAttribute("data-motivo");chip.title="Colorea cada sección por su distrito (elige antes una provincia)";const sm=chip.querySelector("small");if(sm)sm.remove();
-  chip.onclick=()=>{secOn=!secOn;chip.setAttribute("aria-pressed",String(secOn));secCargar()};
+  chip.onclick=()=>secSet(!secOn);
   map.on("click","sec-fill",e=>{const f=e.features&&e.features[0];if(f)secFicha(f.properties)});
   map.on("click",()=>setTimeout(secCargar,0));
  });
@@ -217,4 +225,26 @@ function ponCapa(c){capa=c;$("c-ganador").setAttribute("aria-pressed",String(c==
 $("c-ganador").onclick=()=>ponCapa("ganador");
 fetch("datos/rotacion.json").then(r=>r.ok?r.json():null).catch(()=>null).then(d=>{
  if(!d||!d.provincias)return;rot=d;const b=$("c-rotacion");b.removeAttribute("aria-disabled");b.removeAttribute("data-motivo");const sm=b.querySelector("small");if(sm)sm.remove();b.onclick=()=>ponCapa("rotacion");
+});
+
+/* Vista territorial (T-119 PR-C): del M06 publicado, sin resultados electorales. */
+const pc=x=>(x>=0?"+":"−")+Math.abs(x*100).toFixed(1).replace(".",",")+" %",num=x=>Math.round(x).toLocaleString("es-ES");
+const maxDev=c=>Math.max(...terr.provincias[c].distritos.map(x=>Math.abs(x.dev)));
+function terrColor(){const e=["match",["get","cod"]];Object.keys(terr.provincias).forEach(c=>e.push(c,ROT_COL(Math.min(maxDev(c)/.4,1))));e.push("#c9c9c4");return e}
+function fichaT(){
+ const f=$("ficha");
+ if(!sel||!terr.provincias[sel.properties.cod]){
+  const P=Object.values(terr.provincias),D=P.flatMap(x=>x.distritos);
+  f.innerHTML=`<p class="eyebrow">Territorial · sin resultados electorales</p><h2>España</h2><div class="terr-resumen"><div><b>${P.length}</b><span>provincias con datos</span></div><div><b>${D.length}</b><span>distritos</span></div><div><b>${num(D.reduce((a,x)=>a+x.p,0))}</b><span>habitantes</span></div><div><b>${D.filter(x=>!x.tol).length}</b><span>fuera de la tolerancia · ${D.filter(x=>x.exenta).length} con suelo exento</span></div></div><p class="aviso">Pulsa una provincia: verás sus distritos con población, desviación, municipios y secciones.</p>`;return}
+ const p=sel.properties,R=terr.provincias[p.cod],D=R.distritos,tot=D.reduce((a,x)=>a+x.p,0);
+ f.innerHTML=`<p class="eyebrow">Territorial · ${D.length} ${D.length===1?"distrito":"distritos"}</p><h2>${p.nombre}</h2><div class="terr-resumen"><div><b>${num(tot)}</b><span>habitantes</span></div><div><b>${num(D[0].o)}</b><span>objetivo por distrito (media)</span></div><div><b>${num(D[0].techo)}</b><span>techo de población</span></div><div><b>${D.some(x=>x.exenta)?"con exención":"sin exención"}</b><span>suelo ${num(Math.max(...D.map(x=>x.suelo)))} (0 = exento)</span></div></div>`+D.map(x=>`<details class="terr-dist"><summary><b>${esc(x.n||"Distrito "+(x.d+1))}</b><span class="dev${x.tol?"":" mal"}">${pc(x.dev)}</span><small>${num(x.p)} hab. · ${x.s} secciones · ${x.m.length} ${x.m.length===1?"municipio":"municipios"}${x.exenta?" · suelo exento":""}${x.tol?"":" · fuera de tolerancia"}</small></summary><p>${x.m.map(esc).join(", ")}</p></details>`).join("")+`<p class="aviso">Datos: M06 publicado (sha256 ${R.sha256_m06.slice(0,12)}…). Las secciones se ven en el mapa. Sin valor oficial.</p>`;
+}
+function ponModo(m){
+ modo=m;document.body.classList.toggle("modo-territorial",m==="territorial");
+ $("m-electoral").setAttribute("aria-pressed",String(m==="electoral"));$("m-territorial").setAttribute("aria-pressed",String(m==="territorial"));
+ motivo("");barra.hidden=vista!=="congreso"||m==="territorial";pintar();vista==="congreso"&&fichaC();
+}
+$("m-electoral").onclick=()=>ponModo("electoral");
+fetch("datos/territorial.json").then(r=>r.ok?r.json():null).catch(()=>null).then(d=>{
+ if(!d||!d.provincias)return;terr=d;const b=$("m-territorial");b.removeAttribute("aria-disabled");b.removeAttribute("data-motivo");const sm=b.querySelector("small");if(sm)sm.remove();b.onclick=()=>ponModo("territorial");
 });
