@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.4.3
+VERSIÓN: 7.4.4
 NOMBRE DE VERSIÓN: Refinamiento canónico con baseline poblacional imperfecto
 FECHA: 2026-11-08
 FUNCIÓN: optimizar población sin cruzar provincias ni romper las unidades municipales/urbanas construidas por M04.
@@ -14,7 +14,13 @@ OBJETIVO CANÓNICO: primero eliminar violaciones duras; después minimizar distr
 ESTADO: candidato R016 — pendiente de ejecución territorial GitHub.
 CAMBIOS: continúa la búsqueda después de la primera solución con fuera_12=0; conserva como ámbito las provincias que eran problemáticas al inicio y registra primera factibilidad frente al óptimo final encontrado.
 MOTIVO: el código v7.3.x interrumpía el recocido al primer fuera_12=0 aunque el objetivo canónico todavía ordena minimizar máximo desvío y error cuadrático.
-ANTERIOR: legacy/ddd_core/m05_opt_engine_v7.4.2_20261108.py
+ANTERIOR: legacy/ddd_core/m05_opt_engine_v7.4.3_20261108.py
+CAMBIO 7.4.4 (T-115): voraz y recocido aceptan el movimiento que reduce la violación dura de un distrito que ya
+está fuera de [suelo, techo] (antes se exigía que donante y receptor quedaran dentro en un solo paso, y un distrito
+sobre el techo no podía ceder unidades). Un distrito dentro de límites sigue sin poder salir de ellos.
+MOTIVO 7.4.4: congreso350_madrid K=37, run 42522378370: el distrito 33 (Móstoles + Boadilla del Monte + Villaviciosa
+de Odón, 303.941 hab.) quedó bloqueado sobre el techo 213.586 aunque existe solución factible (Móstoles solo).
+ANTERIOR 7.4.3: legacy/ddd_core/m05_opt_engine_v7.4.2_20261108.py
 CAMBIO 7.4.3 (T-107): con require_municipality_discipline, voraz y recocido rechazan el movimiento que aumenta los
 municipios partidos con más de max_mixed_districts_per_split_municipality distritos mixtos (R012 de validar_ejecucion),
 como ya hacen GerryChain y la reparación privada.
@@ -82,6 +88,13 @@ def connected(nodes, adj):
                 seen.add(v)
                 q.append(v)
     return len(seen) == len(nodes)
+
+
+def bounds_move_ok(old, new, floor, cap):
+    """7.4.4: un distrito dentro de [suelo, techo] no puede salir; uno que ya está fuera solo admite
+    movimientos que reduzcan estrictamente su violación (en 7.4.3 un distrito sobre el techo no podía ceder)."""
+    viol_new = max(0.0, floor - new, new - cap)
+    return viol_new == 0 or viol_new < max(0.0, floor - old, old - cap)
 
 
 def municipality_discipline_field(cfg, s5, columns, id_field):
@@ -251,6 +264,9 @@ def main():
             return 0.0
         return floor
 
+    def bounds_ok(d, old, new):
+        return bounds_move_ok(old, new, district_floor(d), cap)
+
     def obj(values):
         items = list(values.items())
         hard = sum(p < district_floor(d) or p > cap for d, p in items)
@@ -295,7 +311,7 @@ def main():
                 continue
             new0 = d_pop[d0] - unit_pop[u]
             new1 = d_pop[d1] + unit_pop[u]
-            if new0 < district_floor(d0) or new0 > cap or new1 < district_floor(d1) or new1 > cap:
+            if not bounds_ok(d0, d_pop[d0], new0) or not bounds_ok(d1, d_pop[d1], new1):
                 continue
             remaining = d_nodes[d0] - unit_nodes[u]
             newrecv = d_nodes[d1] | unit_nodes[u]
@@ -396,7 +412,7 @@ def main():
 
             new0 = d_pop[d0] - unit_pop[u]
             new1 = d_pop[d1] + unit_pop[u]
-            if new0 < district_floor(d0) or new0 > cap or new1 < district_floor(d1) or new1 > cap:
+            if not bounds_ok(d0, d_pop[d0], new0) or not bounds_ok(d1, d_pop[d1], new1):
                 continue
 
             remaining = d_nodes[d0] - unit_nodes[u]
