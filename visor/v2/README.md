@@ -28,3 +28,10 @@ y abrir `http://localhost:8000/visor/v2/` (con `?edit=1` aparece «Editar textos
 - La geometría provincial propia del proyecto no está versionada (solo los GeoJSON de distritos, que no se versionan);
   las pestañas Nacional y Elecciones incrustan el visor de producción `../nacional/`.
 - Textos: `web/textos.md` (`## clave`), vacío hasta que lo escriba el propietario; los huecos solo se ven con `?edit=1`.
+
+## Capa de secciones censales (T-119)
+Chip «Secciones»: se activa solo si la publicación trae `datos/secciones/INDEX.json`; elige una provincia y colorea cada sección por su
+distrito (ficha: sección, municipio, población, distrito). La generan `herramientas/generar_secciones_visor.py` y el job de publicación
+(seccionado INE 2025 de `inputs/partes`, sha256 verificado, unido a `datos/composicion/congreso_*.csv`); no se versiona. En local:
+`python3 herramientas/generar_secciones_visor.py --seccionado inputs/seccionado_2025.zip --salida visor/v2/datos/secciones`.
+Algunas secciones de la composición no existen en el seccionado 2025 y salen sin geometría (`sin_geometria` en el INDEX).

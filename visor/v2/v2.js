@@ -127,7 +127,7 @@ function irEspana(){
  if(selId!==null){setSel("prov",null,"sel",selId);selId=null}
  if(selCcaa!==null){setSel("ccaa",null,"sel",selCcaa);selCcaa=null}
  sel=null;ccaa=null;$("ruta").textContent="España";$("volver").hidden=true;
- map.fitBounds(ESP,{padding:20,duration:500});vista==="congreso"?fichaC():fichaA();
+ map.fitBounds(ESP,{padding:20,duration:500});vista==="congreso"?fichaC():fichaA();secCod=null;secCargar();
 }
 function cambiar(v){vista=v;$("v-congreso").setAttribute("aria-pressed",String(v==="congreso"));$("v-autonomico").setAttribute("aria-pressed",String(v==="autonomico"));$("controles-congreso").hidden=v!=="congreso";barra.hidden=v!=="congreso";irEspana();pintar()}
 $("v-congreso").onclick=()=>cambiar("congreso");$("v-autonomico").onclick=()=>cambiar("autonomico");$("volver").onclick=irEspana;
@@ -144,7 +144,7 @@ Promise.all([fetch("datos/provincias.json").then(r=>r.json()),fetch("datos/comun
   map.addLayer({id:"ccaa-fill",type:"fill",source:"ccaa",paint:{"fill-color":css("--red"),"fill-opacity":0}});
   map.addLayer({id:"ccaa-line",type:"line",source:"ccaa",paint:{"line-color":css("--ink"),"line-width":.7}});
   map.addLayer({id:"caja",type:"line",source:"caja",paint:{"line-color":css("--muted"),"line-width":1,"line-dasharray":[3,2]}});
-  pintar();
+  pintar();iniciarSecciones();
   const tip=$("tip");
   map.on("mousemove",e=>{
    const f=map.queryRenderedFeatures(e.point,{layers:[vista==="congreso"?"prov-fill":"ccaa-fill"]})[0];
@@ -156,8 +156,42 @@ Promise.all([fetch("datos/provincias.json").then(r=>r.json()),fetch("datos/comun
   });
   map.on("mouseout",()=>{tip.hidden=true});
   map.on("click",e=>{
-   if(vista==="congreso"){const f=map.queryRenderedFeatures(e.point,{layers:["prov-fill"]})[0];if(!f)return;const full=prov.features.find(x=>x.id===f.id);setSel("prov",f.id,"sel",selId);selId=f.id;sel=full;$("ruta").textContent="España › "+full.properties.nombre;$("volver").hidden=false;map.fitBounds(bbox(full.geometry),{padding:50,maxZoom:8,duration:500});fichaC()}
+   if(vista==="congreso"){if(secOn&&map.getLayer("sec-fill")&&map.queryRenderedFeatures(e.point,{layers:["sec-fill"]}).length)return;const f=map.queryRenderedFeatures(e.point,{layers:["prov-fill"]})[0];if(!f)return;const full=prov.features.find(x=>x.id===f.id);setSel("prov",f.id,"sel",selId);selId=f.id;sel=full;$("ruta").textContent="España › "+full.properties.nombre;$("volver").hidden=false;map.fitBounds(bbox(full.geometry),{padding:50,maxZoom:8,duration:500});fichaC()}
    else{const f=map.queryRenderedFeatures(e.point,{layers:["ccaa-fill"]})[0];if(!f)return;const full=c.features.find(x=>x.id===f.id);setSel("ccaa",f.id,"sel",selCcaa);selCcaa=f.id;ccaa=full;$("ruta").textContent="España › "+full.properties.nombre;$("volver").hidden=false;map.fitBounds(bbox(full.geometry),{padding:50,maxZoom:8,duration:500});fichaA()}
   });
  });
 }).catch(err=>{$("ficha").innerHTML=`<p class="aviso">No se pudo cargar el mapa: ${err.message}. Recarga la página.</p>`});
+
+/* Capa de secciones censales (T-119): opcional; solo existe si la publicación trae datos/secciones/INDEX.json. */
+let secOn=false,secIdx=null,secCod=null;
+const SEC_COL=["#c0392b","#2e86c1","#27ae60","#d68910","#8e44ad","#17a589","#cb4335","#5d6d7e","#b7950b","#2874a6"];
+const secProv=()=>sel&&vista==="congreso"?sel.properties.cod:null;
+function secFicha(p){
+ const f=$("ficha");
+ f.innerHTML=`<p class="eyebrow">Sección censal ${p.s}</p><h2>${esc(String(p.m||"Sin municipio"))}</h2><p class="nota">Distrito <b>${Number(p.d)+1}</b> · ${Number(p.p).toLocaleString("es-ES")} habitantes</p><p class="aviso">Geometría: seccionado del INE. Mapa de investigación sin valor oficial.</p>`;
+}
+function secCargar(){
+ const cod=secProv();
+ if(!map||!map.getLayer("sec-fill"))return;
+ map.setLayoutProperty("sec-fill","visibility",secOn&&cod?"visible":"none");
+ map.setLayoutProperty("sec-line","visibility",secOn&&cod?"visible":"none");
+ if(!secOn||!cod||!secIdx||!secIdx.provincias[cod]){if(secOn&&cod&&secIdx&&!secIdx.provincias[cod])$("ruta").textContent+=" (sin secciones)";return}
+ if(secCod===cod)return;secCod=cod;
+ fetch("datos/secciones/"+cod+".geojson").then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(g=>{
+  if(secCod!==cod)return;map.getSource("sec").setData(g);
+ }).catch(e=>{secCod=null;console.error("secciones "+cod+": "+e.message)});
+}
+function iniciarSecciones(){
+ const chip=$("c-secciones");
+ fetch("datos/secciones/INDEX.json").then(r=>r.ok?r.json():null).catch(()=>null).then(idx=>{
+  if(!idx||!idx.provincias||!map)return;secIdx=idx;
+  const col=["match",["%",["to-number",["get","d"]],SEC_COL.length]];SEC_COL.forEach((c,i)=>col.push(i,c));col.push("#999");
+  map.addSource("sec",{type:"geojson",data:{type:"FeatureCollection",features:[]}});
+  map.addLayer({id:"sec-fill",type:"fill",source:"sec",minzoom:6,layout:{visibility:"none"},paint:{"fill-color":col,"fill-opacity":.7}});
+  map.addLayer({id:"sec-line",type:"line",source:"sec",minzoom:6,layout:{visibility:"none"},paint:{"line-color":"#fff","line-width":.4}});
+  chip.disabled=false;chip.title="Colorea cada sección por su distrito (elige antes una provincia)";const sm=chip.querySelector("small");if(sm)sm.remove();
+  chip.onclick=()=>{secOn=!secOn;chip.setAttribute("aria-pressed",String(secOn));secCargar()};
+  map.on("click","sec-fill",e=>{const f=e.features&&e.features[0];if(f)secFicha(f.properties)});
+  map.on("click",()=>setTimeout(secCargar,0));
+ });
+}
