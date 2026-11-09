@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-11-09T10:10:29.208361+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-11-09T10:26:11.274660+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
@@ -125,7 +125,7 @@ FT = **fuentes territoriales (01)** · G = **generación territorial (02)** · F
 | **Nacional 350 Lérida** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 La Rioja** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Lugo** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
-| **Nacional 350 Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42522378370 · FAILED | 02 · Generación de Distritos Autonómicos | M04–M06 o certificación territorial (ver log del run) | preparar fuentes electorales |
+| **Nacional 350 Madrid** | 🟢 | 🟢 | 🟡 | 🟡 | ⚪ | Generación territorial validada | 42588623702 · SUCCESS | 03/04 · rama electoral omitida | 03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08 | activar par de fuentes (Activación de Legislatura Vigente) y reutilizar |
 | **Nacional 350 Málaga** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Murcia** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |
 | **Nacional 350 Navarra** | 🟡 | 🟡 | ⚪ | ⚪ | ⚪ | Validación pendiente | — | — | — | preparar fuentes territoriales |

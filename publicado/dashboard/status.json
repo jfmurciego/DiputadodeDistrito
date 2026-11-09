@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-09T10:10:29.208361+00:00",
+  "generated_at": "2026-11-09T10:26:11.274660+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 48,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 69,
-      "activable": 3,
+      "activated": 70,
+      "activable": 2,
       "territorial_pending": 48,
       "electoral_pending": 48,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 72,
       "electoral_source": 72,
-      "durable_pair": 69
+      "durable_pair": 70
     },
     "territories": [
       {
@@ -5311,12 +5311,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso350_madrid/evidencia/pares_fuentes/2025/2a7eadbe4577da15caf3453026c028e731ea2b1a48b4640fb4a95432fdccf3a2.json",
+            "pair_sha256": "2a7eadbe4577da15caf3453026c028e731ea2b1a48b4640fb4a95432fdccf3a2",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -11644,11 +11644,11 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42588623702,
       "last_run": {
-        "run_id": 42522378370,
-        "status": "FAILED",
-        "completion_status": "INCOMPLETE",
-        "stopped_at": "02 · Generación de Distritos Autonómicos",
-        "reason": "M04–M06 o certificación territorial (ver log del run)",
+        "run_id": 42588623702,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
         "publication": "not_requested"
       },
       "stage": "M06",
@@ -11677,11 +11677,22 @@
           "producer_manifest_path": "territorios/congreso350_madrid/evidencia/generaciones_m06/42588623702.json"
         },
         "electoral_source": null,
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "congreso350_madrid",
+          "territory_name": "Congreso 350 Madrid",
+          "edition": "2025",
+          "run_id": 42599356804,
+          "artifact_name": "ddd-state-42599356804-M08",
+          "artifact_sha256": "23ebdc93f6ca08c399393c1c8f0991355b0699bc18fa47af66704d896e55608b",
+          "source_commit": "4c4eb537dd9a81a1078f73c5be1718d83c358e11",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "R28",
       "display_name": "Nacional 350 Madrid",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso350_malaga",
