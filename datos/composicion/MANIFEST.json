@@ -802,6 +802,13 @@
    "sha256_csv": "63ec5c906bd9e8fa3241d367c570124392ac1db04d88ab306452e724918f1a4d",
    "ruta": "datos/composicion/runs/congreso350_soria_42601453125.csv"
   },
+  "congreso350_valladolid/42601455862": {
+   "territorio": "congreso350_valladolid",
+   "run_id": "42601455862",
+   "secciones": 565,
+   "sha256_csv": "32f7c99872df480ac90187a34224059110006e068e8d453c0af63be5a7ccbafd",
+   "ruta": "datos/composicion/runs/congreso350_valladolid_42601455862.csv"
+  },
   "congreso_albacete/42514994231": {
    "territorio": "congreso_albacete",
    "run_id": "42514994231",
