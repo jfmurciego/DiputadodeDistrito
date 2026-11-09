@@ -26,3 +26,6 @@ paths:
 ## Lecciones 08-11 (Coordinador)
 - La primera línea de cada `docs/registro/*.md` debe ser «## AAAA-MM-DD — T-xx — título»; si no, el guardián falla.
 - El hook `guardia_git` no frena `git commit -am` encadenado tras un merge: comprueba `git status` (marcas de conflicto) antes de commitear.
+- Los ids T-xx los da solo el Planificador: el Coordinador reutilizó ids dos veces; pídelo antes de crear tarea.
+- Una PR de plan con base vieja cae en `pruebas`: fusiona `origin/main` antes de pedir la fusión.
+- Reproducir en local una PR de otro chat: un cambio solo local (rama sin empujar) se pierde al archivar el chat (T-91b); empuja o deja PR.
