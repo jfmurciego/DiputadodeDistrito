@@ -50,7 +50,7 @@
   "territorios": 71,
   "productos": 387,
   "errores": 0,
-  "avisos": 126
+  "avisos": 127
  },
  "territorios": {
   "andalucia": {
@@ -6742,6 +6742,13 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso350_soria/42601453125/ddd-minimo-42601453125-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42601455862/ddd-minimo-42601455862-M06.zip"
   },
   {
    "nivel": "AVISO",
