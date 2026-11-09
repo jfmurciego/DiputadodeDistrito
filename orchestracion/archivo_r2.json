@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-08T22:51:12Z",
+  "actualizado_en": "2026-11-09T10:05:17Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1900,6 +1900,20 @@
       "tamano_bytes": 253024625,
       "territorio": "comunidad_valenciana",
       "url": "r2://ddd-research-archive/comunidad_valenciana/41062567297/ddd-state-41062567297-M08.zip"
+    },
+    "congreso350_madrid/42588623702/ddd-minimo-42588623702-M06.zip": {
+      "archivado_en": "2026-11-09T10:05:17Z",
+      "artefacto": "ddd-minimo-42588623702-M06",
+      "artefacto_origen": "ddd-state-42588623702-M06",
+      "artifact_id": 13664283063,
+      "caducidad_original": "2026-11-23T10:02:37Z",
+      "run_id": "42588623702",
+      "sha256": "9d5dbf20dd896df4475f120f8b2426e8cc362a9f51e3f38e6304f3b91bd86f07",
+      "sha256_estado_original": "611720d66bdffdc64e42f5a9c9f4613935a12f71f629d463543e743b8f739eec",
+      "tamano_bytes": 991664,
+      "tamano_estado_original": 97147743,
+      "territorio": "congreso350_madrid",
+      "url": "r2://ddd-research-archive/congreso350_madrid/42588623702/ddd-minimo-42588623702-M06.zip"
     },
     "congreso_alava/41346917857/ddd-audit-41346917857.zip": {
       "archivado_en": "2026-11-08T12:17:18Z",

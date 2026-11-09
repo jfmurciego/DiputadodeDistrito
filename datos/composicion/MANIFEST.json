@@ -788,6 +788,13 @@
    "sha256_csv": "7caceb283fc2a2f61bc4904eb363411459386c40fb80b5df44140871c89c2795",
    "ruta": "datos/composicion/runs/ceuta_42503542766.csv"
   },
+  "congreso350_madrid/42588623702": {
+   "territorio": "congreso350_madrid",
+   "run_id": "42588623702",
+   "secciones": 4479,
+   "sha256_csv": "7ee0874aca2f8d3dced31e2af72d2f7cb0e021b116b249a05efbce9c17a4b8f5",
+   "ruta": "datos/composicion/runs/congreso350_madrid_42588623702.csv"
+  },
   "congreso_albacete/42514994231": {
    "territorio": "congreso_albacete",
    "run_id": "42514994231",
