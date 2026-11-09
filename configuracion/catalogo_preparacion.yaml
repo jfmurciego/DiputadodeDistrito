@@ -3573,12 +3573,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42601455862
-        stage: M06
+        run_id: 42613899978
+        stage: M08
       preparation_evidence:
         run_id: 42601455862
         artifact_name: ddd-source-package-congreso350_valladolid-2025-42601455862
@@ -3598,6 +3598,7 @@ territories:
         territorial_product: territorios/congreso350_valladolid/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/congreso350_valladolid/evidencia/fuentes_electorales/2025/3f250f3d3fd31e70c958889c081ed8e54fff0bc72258ae5685fb761c4e65d69b/42601455862/receipt.json
         prepared_source_pair: territorios/congreso350_valladolid/evidencia/pares_fuentes/2025/94406f6259254e89a210e32a59bcda52689894f0ac45860871ffa2de0dd84c86.json
+        electoral_product: territorios/congreso350_valladolid/evidencia/catalogo/electoral_product_2025.json
 - territory_id: congreso350_vizcaya
   name: Congreso 350 Vizcaya
   editions:
