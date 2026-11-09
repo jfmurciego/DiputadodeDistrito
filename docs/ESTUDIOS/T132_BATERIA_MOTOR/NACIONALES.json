@@ -1,0 +1,29 @@
+{
+  "schema": "ddd.bateria-nacionales/1.0",
+  "ficheros": {
+    "65034.csv.zip": {
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+      "bytes": 75489355
+    },
+    "65034_totales.csv.zip": {
+      "sha256": "b1dea0af7f574e4be87c3f7a9e4e2f8ca59c29034b8670d4aa84bd927afad793",
+      "bytes": 24884440
+    },
+    "seccionado_2023.zip": {
+      "sha256": "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f",
+      "bytes": 64929708
+    },
+    "seccionado_2024.zip": {
+      "sha256": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7",
+      "bytes": 65690243
+    },
+    "seccionado_2025.zip": {
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "bytes": 60298555
+    }
+  },
+  "origen": {
+    "seccionado": "https://www.ine.es/prodyser/cartografia/seccionado_{}.zip",
+    "65034": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv (copia en inputs/partes)"
+  }
+}
