@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -53,7 +53,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '39'
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   notes:
   - R022 congeló 458 secciones y 593623 habitantes sin faltantes.
   - R023 justificó 1 pasarelas; no se añade ninguna excepción no auditada.
@@ -197,9 +197,9 @@ validation:
     section_year: 2023
     population_total: 588387
     target_section_count: 460
-    package_sha256: f7d6d25ee798c3d5d227fd0b519e55ed1caeb7581d5b3646588820f6287e2e6a
-    compatibility_report_sha256: 71b0059c200da49035e2e824e705c804f1db20d491a8eb33f6a28d606bc91013
-    compatibility_identity_sha256: a58c0e8c25bf55c66cab6f3891aa6a0c85d1dd0b8104bf93662b4f87d45ec538
+    package_sha256: c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570
+    compatibility_report_sha256: ec2c077f051eeb7bf373ab8aa1ad88533d91cafc4796e796c2f8534d8b6a4e3f
+    compatibility_identity_sha256: 83ef8f00689a4a4305ea3b24090b7fe94a0d8648316eedb5de16244549b03102
 resolved_source_contract:
   schema: ddd.resolved-source-contract/1.0
   territory:
@@ -273,9 +273,9 @@ resolved_source_contract:
   contract_sha256: dd585917b1ed99caa3aea60d25b00b033970786f7217b31519410f828c07d2de
 generation_state:
   source_prepared: true
-  generation_enabled: true
-  package_sha256: f7d6d25ee798c3d5d227fd0b519e55ed1caeb7581d5b3646588820f6287e2e6a
-  compatibility_identity_sha256: a58c0e8c25bf55c66cab6f3891aa6a0c85d1dd0b8104bf93662b4f87d45ec538
+  generation_enabled: false
+  package_sha256: c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570
+  compatibility_identity_sha256: 83ef8f00689a4a4305ea3b24090b7fe94a0d8648316eedb5de16244549b03102
   source_inputs:
   - path: inputs/65034.csv.zip
     sha256: 6c528643ca8972c7fe013104e01e8197e5975d6db31a36dc86c271d5353d6edf
@@ -325,6 +325,3 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
-  pre_m04_run_id: 42637193077
-  pre_m04_source_commit: c82d03757b598bf0dc66a82f63c8ae6ec0b3cd72
-  pre_m04_artifact_sha256: d94342ba925af3aa2ac282967c4431b526edb8828715b4d0bfb103b3d8adb6a4

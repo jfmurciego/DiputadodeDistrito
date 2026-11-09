@@ -9,7 +9,7 @@ Diputado de Distrito (DDD) es un motor abierto y reproducible que divide cada ci
 
 ## Cómo se forman los distritos
 1. **Unidades.** Secciones censales del INE con población del padrón de 2025 (`datos/distritos/municipios_ine_2025.csv`). Las 49 provincias publicadas suman 30.500 secciones.
-2. **Número de distritos (K).** Decisión del propietario `N06-OWNER-20261012-K`: K = el mayor entre 1 y la parte entera de (población + 60.000) / 120.000, por provincia. Es un reparto propio del proyecto (suma 407 en las 52 circunscripciones), **no** el número de escaños del Congreso (350).
+2. **Número de distritos (K).** Decisión del propietario `N06-OWNER-20261012-K`: K = el mayor entre 1 y la parte entera de (población + 60.000) / 120.000, por provincia. Es un reparto propio del proyecto (suma 407 en las 52 circunscripciones; la población es la del padrón INE por secciones a 1-1-2025, 49.128.297 hab., y no la cifra oficial del RD 1117/2025, 49.114.494, un 0,03 % menos; con esta última Cádiz tendría 10 distritos y el total sería 406), **no** el número de escaños del Congreso (350).
 3. **Reparto.** Método de Hamilton. Cada distrito es contiguo y queda dentro de una sola comunidad autónoma; los municipios se conservan enteros salvo que superen el techo de población (política `configuracion/politica_generacion_territorial_2025.yaml`, v1.7.4). Los límites de población por distrito y sus excepciones (islas, municipios indivisibles) están en esa política y en el contrato de cada territorio.
 4. **Optimización y validación.** Solución inicial (M04), mejora con cadenas de GerryChain (M05), consolidación y validación del producto (M06). Cada paso deja informes y huellas sha256.
 

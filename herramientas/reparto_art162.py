@@ -4,6 +4,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
 ANTERIOR: ninguna (fichero nuevo)
+incluye dhondt() (art. 163, reparto por candidaturas).
 QUÉ HACE: 2 diputados por provincia, 1 Ceuta y 1 Melilla, y el resto (248) por cociente y mayores restos.
   Es un oráculo de comprobación del dato electoral (RD de convocatoria); NO es el K de DDD (N06).
   Solo biblioteca estándar. La población debe venir de un fichero con fuente y sha256, nunca de memoria.
@@ -26,3 +27,13 @@ def repartir(poblacion: dict[str, int]) -> dict[str, int]:
     for k in CEUTA_MELILLA:
         esc[k] = 1
     return esc
+
+
+def dhondt(votos: dict[str, int], escanos: int) -> dict[str, int]:
+    """Reparto D'Hondt de una circunscripción entre las candidaturas dadas (art. 163 LOREG; el umbral del 3 % se
+    aplica antes, quitando las que no lo alcanzan). Desempate: mayor número de votos, luego orden alfabético."""
+    res = {k: 0 for k in votos}
+    for _ in range(escanos):
+        k = max(votos, key=lambda c: (votos[c] / (res[c] + 1), votos[c], c))
+        res[k] += 1
+    return res

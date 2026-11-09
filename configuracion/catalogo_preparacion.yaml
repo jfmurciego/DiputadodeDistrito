@@ -231,25 +231,24 @@ territories:
         run_id: 42637193077
         stage: M06
       preparation_evidence:
-        run_id: 42637193077
-        artifact_name: ddd-source-package-cantabria-2025-42637193077
-        artifact_sha256: f6ab5f38914483249c097c1b255934896c34ffdc55ebd859117c30bbab0caa73
-        package_sha256: f7d6d25ee798c3d5d227fd0b519e55ed1caeb7581d5b3646588820f6287e2e6a
-        receipt_path: territorios/cantabria/evidencia/fuentes_territoriales/2025/247a86288236f57f7aad726b76d35a57a68c534b52c34a5248bc25fe4054d0bd/42637193077/receipt.json
-        territorial_identity_sha256: 247a86288236f57f7aad726b76d35a57a68c534b52c34a5248bc25fe4054d0bd
-        compatibility_report_sha256: 71b0059c200da49035e2e824e705c804f1db20d491a8eb33f6a28d606bc91013
-        compatibility_identity_sha256: a58c0e8c25bf55c66cab6f3891aa6a0c85d1dd0b8104bf93662b4f87d45ec538
+        run_id: 42707820760
+        artifact_name: ddd-source-package-cantabria-2025-42707820760
+        artifact_sha256: 9078db6b7e0fe91151126dc111e355d5fbc769ba697f33f6f45f87eafe73de19
+        package_sha256: c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570
+        receipt_path: territorios/cantabria/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json
+        territorial_identity_sha256: 838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028
+        compatibility_report_sha256: ec2c077f051eeb7bf373ab8aa1ad88533d91cafc4796e796c2f8534d8b6a4e3f
+        compatibility_identity_sha256: 83ef8f00689a4a4305ea3b24090b7fe94a0d8648316eedb5de16244549b03102
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 12210923dc5d2bd1defe2fbe14801c15b8a12ec7
+        source_commit: 08eea1424162697f59603c2b269765d9f6b5addf
       evidence:
         electoral_source: territorios/cantabria/evidencia/fuentes_electorales/2025/41d61b885c785e39d84d0f0eca0519dbda9f9bf18575f7d7101af33433f7041e/42637193077/receipt.json
         prepared_source_pair: territorios/cantabria/evidencia/pares_fuentes/2025/fc21c1941280823586c1f01956414f55736ceb7ed9dccde68813a3886f1fab68.json
         territorial_product: territorios/cantabria/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/cantabria/evidencia/catalogo/electoral_product_2025.json
-        generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: castilla_la_mancha
   name: Castilla-La Mancha
   editions:
