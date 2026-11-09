@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.224
+Versión: 1.0.225
 Fecha: 2026-11-09
-Alcance: T-123 — El Gestor 2.0 lanza las cinco generales históricas
+Alcance: T-126 — Retirada de las dos entradas congreso350_valladolid del registro de publicaciones
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t123-historico-generales.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.223_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t126-retirar-congreso350-valladolid.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.224_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.223_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.225 · [2026-11-09 — T-126 — Retirada de las dos entradas congreso350_valladolid del registro de publicaciones](registro/2026-11-09_t126-retirar-congreso350-valladolid.md)
 - 1.0.224 · [2026-11-09 — T-123 — El Gestor 2.0 lanza las cinco generales históricas](registro/2026-11-09_t123-historico-generales.md)
 - 1.0.223 · [2026-11-09 — T-124 — Reintentos en las descargas del materializador de la 05](registro/2026-11-09_t124-reintentos-materializar.md)
 - 1.0.222 · [2026-11-09 — T-121 — Siglas de las autonómicas (paso 4, D-20) y rotación homologada de las 3 comunidades de prueba](registro/2026-11-09_t121-siglas-autonomicas.md)
