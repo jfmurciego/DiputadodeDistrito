@@ -16,8 +16,9 @@ QUÉ HACE: subcomandos
   nacionales  copias nacionales oficiales con sha256 en inputs/_nacional/: seccionado INE 2023/2024/2025 (shapefile
               nacional; el 2025 sale de inputs/partes) y la tabla INE 65034 (de inputs/partes, convertida a «;» como
               la descarga en vivo y reducida a Sexo=Total y Edad=Todas las edades, que es lo único que usa el filtro).
-  entradas    por territorio: adquisición oficial en modo verified_snapshot (herramientas/adquirir_fuentes_oficiales
-              sobre las copias nacionales, sin red), M01-M03 y preparar_unidades_internas, como procedimiento.sh;
+  entradas    por territorio: adquisición oficial (herramientas/ejecutar_fuentes_workflow) por la ruta de producción,
+              official_live con el seccionado del OGC del INE y la 65034 servida desde la copia nacional
+              (--seccionado shapefile: verified_snapshot sobre el shapefile nacional, sin red), M01-M03 y preparar_unidades_internas, como procedimiento.sh;
               guarda en <out>/entradas/<t>/ los ficheros materializados y M01-M03 con su sha256 (ENTRADAS.json) y
               compara la huella de población y seccionado con la del contrato.
   motor       por territorio: restaura las entradas, ejecuta M04, M05 canónico (o el motor base M05 de una versión
@@ -131,7 +132,7 @@ def nacionales(args) -> int:
 
 
 # --------------------------------------------------------------------------- entradas
-def _declaracion_temporal(t: str, nac: dict) -> Path:
+def _declaracion_temporal(t: str, nac: dict, seccionado: str) -> Path:
     base = ROOT / "territorios" / t / "config"
     d = yaml.safe_load((base / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
     terr = d.setdefault("territory", {})
@@ -145,6 +146,10 @@ def _declaracion_temporal(t: str, nac: dict) -> Path:
     ed_sec = int(terr.get("section_year") or terr.get("edition"))
     ed_pob = int(terr.get("population_year") or terr.get("edition"))
     b = d["source_bindings"]
+    tmp = base / "_bateria_fuentes.yaml"
+    if seccionado == "ogc":
+        tmp.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        return tmp
     pob = "65034_totales.csv.zip"
     sec = f"seccionado_{ed_sec}.zip"
     b["poblacion_por_sexo_y_edad"]["snapshot"] = {
@@ -161,7 +166,6 @@ def _declaracion_temporal(t: str, nac: dict) -> Path:
     pol = d.setdefault("environment_policy", {})
     for env in ("development", "test", "production"):
         pol[env] = sorted(set(pol.get(env) or []) | {"verified_snapshot"})
-    tmp = base / "_bateria_fuentes.yaml"
     tmp.write_text(yaml.safe_dump(d, allow_unicode=True, sort_keys=False), encoding="utf-8")
     return tmp
 
@@ -199,22 +203,36 @@ def _run(cmd: list[str], log: Path, env: dict) -> tuple[int, float]:
     return rc, round(time.time() - t0, 1)
 
 
-def entradas_uno(t: str, out: Path, nac: dict) -> dict:
+# Ruta de producción (official_live): el seccionado llega del OGC del INE como en la 00; solo la tabla 65034 se sirve
+# desde la copia nacional (su descarga en vivo, de 1,6 GB, no termina en 15 min desde la sesión cloud).
+ADQUISICION_OGC = (
+    "import runpy,sys;from pathlib import Path;sys.path.insert(0,str(Path.cwd()))\n"
+    "import herramientas.adquirir_fuentes_oficiales as a\n"
+    "orig=a.live_fetch;local=Path('inputs/_nacional/65034_totales.csv.zip').read_bytes()\n"
+    "a.live_fetch=lambda url,*x,**k: local if '65034' in url else orig(url,*x,**k)\n"
+    "sys.argv=['ejecutar_fuentes_workflow']+sys.argv[1:]\n"
+    "runpy.run_module('herramientas.ejecutar_fuentes_workflow',run_name='__main__')\n"
+)
+
+
+def entradas_uno(t: str, out: Path, nac: dict, seccionado: str = "ogc") -> dict:
     dest = out / "entradas" / t
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir(parents=True)
     log = dest / "log.txt"
     env = dict(os.environ, DDD_RUN_ID=f"bateria-{t}", PYTHONHASHSEED="0")
     res: dict = {"territorio": t, "tiempos": {}}
-    decl = _declaracion_temporal(t, nac)
+    decl = _declaracion_temporal(t, nac, seccionado)
+    res["seccionado"] = seccionado
     completada = "_bateria_declaracion_completada_desde_contrato" in decl.read_text(encoding="utf-8")
     work = out / "_trabajo" / t
     shutil.rmtree(work, ignore_errors=True)
     try:
-        rc, s = _run([sys.executable, "-m", "herramientas.ejecutar_fuentes_workflow", "--declaration", str(decl),
+        modo = ["official_live"] if seccionado == "ogc" else ["verified_snapshot"]
+        rc, s = _run([sys.executable, "-c", ADQUISICION_OGC, "--declaration", str(decl),
                       "--working", str(work / "pkg"), "--checkpoint-out", str(work / "ckpt"),
                       "--acquisition-evidence", str(work / "ev"), "--environment", "production",
-                      "--acquisition-mode", "verified_snapshot", "--root-dir", str(ROOT)], log, env)
+                      "--acquisition-mode", *modo, "--root-dir", str(ROOT)], log, env)
     finally:
         decl.unlink(missing_ok=True)
     res["tiempos"]["adquisicion"] = s
@@ -254,7 +272,7 @@ def entradas(args) -> int:
     out = Path(args.out)
     fallos = 0
     for t in (territorios() if args.todos else args.territorios):
-        r = entradas_uno(t, out, nac)
+        r = entradas_uno(t, out, nac, args.seccionado)
         iguales = {k: v["igual_contrato"] for k, v in (r.get("fuentes") or {}).items()}
         print(f"{t}: {r['estado']} {r['tiempos']} huella=contrato {iguales}", flush=True)
         fallos += r["estado"] != "OK"
@@ -448,6 +466,9 @@ def main(argv=None) -> int:
         p.add_argument("territorios", nargs="*")
         p.add_argument("--todos", action="store_true")
         p.add_argument("--out", default=str(OUT))
+        if nombre == "entradas":
+            p.add_argument("--seccionado", default="ogc", choices=("ogc", "shapefile"),
+                           help="ogc: ruta de producción (OGC del INE); shapefile: copia nacional verificada, sin red")
         if nombre == "motor":
             p.add_argument("--m05", default="7.4.4", choices=sorted(M05_BASE))
     for nombre in ("matriz", "archivar"):
