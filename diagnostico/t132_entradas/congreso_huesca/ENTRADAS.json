@@ -1,0 +1,31 @@
+{
+  "territorio": "congreso_huesca",
+  "tiempos": {
+    "adquisicion": 10.1,
+    "M01": 0.8,
+    "M02": 1.2,
+    "M03": 0.6
+  },
+  "seccionado": "ogc",
+  "declaracion_completada_desde_contrato": false,
+  "fuentes": {
+    "65034.csv.zip": {
+      "sha256": "9467ff08186169c8b4aec49bc9bde0fd30f976c49d0fa93ba85636beb0680ed4",
+      "contrato_sha256": "9467ff08186169c8b4aec49bc9bde0fd30f976c49d0fa93ba85636beb0680ed4",
+      "igual_contrato": true
+    },
+    "seccionado_2023.zip": {
+      "sha256": "71a6787e02dfb8b3a9f45e885321ab8df0c0de9670edcd68002ccef766448354",
+      "contrato_sha256": "12da75b0ae905341f5865a229bbda5d916a1edf1b5f11f80b376304566a81eb2",
+      "igual_contrato": false
+    }
+  },
+  "estado": "OK",
+  "salidas": {
+    "congreso_huesca_2025_m01_informe.json": "22dd0a3cddcaf9856858d5d1d9e07a66f9988a08de570192678e41eba8c127a8",
+    "congreso_huesca_2025_m01_secciones_poblacion.geojson.zip": "ddac504c3e5f45c8e591628a6e9acc0a94c164c7806aa1b0ff478614169d4e4b",
+    "congreso_huesca_2025_m02_adyacencias.jsonl": "cb0c09a51d03633b79eb563e741d88dee991c4ea437a30e63c51ad0168008c1d",
+    "congreso_huesca_2025_m03_grafo.json": "43dfcdb6a80770244d64ed60a17edc8ab900da43d7d6b46160275638124a2cdb",
+    "congreso_huesca_2025_m03_informe.json": "8bdefeb1b8454f5d3605f0b44dcfd7ea99d87f824026e2ff606a2be5ac4b2862"
+  }
+}
