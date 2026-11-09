@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.223
+Versión: 1.0.224
 Fecha: 2026-11-09
-Alcance: T-124 — Reintentos en las descargas del materializador de la 05
+Alcance: T-123 — El Gestor 2.0 lanza las cinco generales históricas
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t124-reintentos-materializar.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.222_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t123-historico-generales.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.223_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.222_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.224 · [2026-11-09 — T-123 — El Gestor 2.0 lanza las cinco generales históricas](registro/2026-11-09_t123-historico-generales.md)
 - 1.0.223 · [2026-11-09 — T-124 — Reintentos en las descargas del materializador de la 05](registro/2026-11-09_t124-reintentos-materializar.md)
 - 1.0.222 · [2026-11-09 — T-121 — Siglas de las autonómicas (paso 4, D-20) y rotación homologada de las 3 comunidades de prueba](registro/2026-11-09_t121-siglas-autonomicas.md)
 - 1.0.221 · [2026-11-09 — T-119 — Composición canónica de Alicante, Barcelona y Málaga](registro/2026-11-09_t119-composicion-canonica.md)
