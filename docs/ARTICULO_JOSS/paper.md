@@ -8,12 +8,12 @@ tags:
   - reproducibility
   - Spain
 authors:
-  - name: Jesús Murciego
+  - name: Jesus Murciego
     orcid: 0009-0002-4434-959X
     corresponding: true
     affiliation: 1
 affiliations:
-  - name: "PENDIENTE: afiliación del autor (o «Independent researcher»)"
+  - name: "Independent researcher"
     index: 1
 date: 8 November 2026
 bibliography: paper.bib

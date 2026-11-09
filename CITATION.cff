@@ -6,7 +6,8 @@ title: "Diputado de Distrito: motor reproducible de distritos uninominales"
 type: software
 authors:
   - family-names: "Murciego"
-    given-names: "Jesús"
+    given-names: "Jesus"
+    affiliation: "Independent researcher"
     orcid: "https://orcid.org/0009-0002-4434-959X"
 repository-code: "https://github.com/jfmurciego/DiputadodeDistrito"
 url: "https://jfmurciego.github.io/DiputadodeDistrito/"
