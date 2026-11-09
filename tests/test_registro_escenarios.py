@@ -36,17 +36,16 @@ def registry(*products):
 
 
 class RegistroEscenariosTests(unittest.TestCase):
-    def test_mismo_activo_solo_con_mismo_sha256_y_error_nombra_entradas(self):
+    def test_activo_duplicado_se_rechaza_y_nombra_las_entradas(self):
         a = entry("canonical_m06", "m06-x-111")
         b = entry("canonical_m08", "m08-x-111", asset_type="electoral_product",
                   blob_sha=a["blob_sha"], immutable_location=a["immutable_location"], sha256=a["sha256"])
-        reg.validate_registry(registry(a, b))  # mismo sha256: contenido idéntico, se admite
-        b["sha256"] = hashlib.sha256(b"otro").hexdigest()
         with self.assertRaises(ValueError) as ctx:
             reg.validate_registry(registry(a, b))
         msg = str(ctx.exception)
         self.assertIn("id=m06-x-111", msg)
         self.assertIn("id=m08-x-111", msg)
+        self.assertIn("M08 idéntico al M06", msg)
 
     def test_par_de_escenario_valido_y_canonicos_intactos(self):
         reg.validate_registry(registry(entry("canonical_m06", "c6"), entry("canonical_m08", "c8"),
