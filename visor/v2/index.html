@@ -28,15 +28,16 @@
    <div class="barra-sup" id="controles-congreso">
     <div class="grupo" role="group" aria-label="Sistema"><span>Sistema</span>
      <button class="chip" id="s-real" aria-pressed="true">Real · proporcional (350)</button>
-     <button class="chip" disabled title="Pendiente de T-102">350 distritos · mayoritario<small>T-102</small></button>
-     <button class="chip" disabled title="Pendiente de datos por distrito">407 distritos · propuesta<small>pronto</small></button>
+     <button class="chip" id="s-350" aria-disabled="true" data-motivo="350 distritos · mayoritario: sin resultados por distrito (solo hay la composición de Madrid, Soria y Valladolid)">350 distritos · mayoritario<small>sin datos</small></button>
+     <button class="chip" id="s-407">407 distritos · propuesta<small>en Nacional</small></button>
     </div>
     <div class="grupo" role="group" aria-label="Capa"><span>Capa</span>
-     <button class="chip" aria-pressed="true">Partido más votado</button>
-     <button class="chip" disabled>Rotación<small>T-83</small></button>
-     <button class="chip" disabled>Participación<small>pronto</small></button>
-     <button class="chip" id="c-secciones" aria-pressed="false" disabled title="Sin capa de secciones en esta publicación">Secciones<small>pronto</small></button>
+     <button class="chip" id="c-ganador" aria-pressed="true">Partido más votado</button>
+     <button class="chip" id="c-rotacion" aria-pressed="false" aria-disabled="true" data-motivo="Rotación: sin datos de rotación en esta publicación">Rotación<small>sin datos</small></button>
+     <button class="chip" id="c-participacion" aria-disabled="true" data-motivo="Participación: no hay censo por distrito en los datos publicados">Participación<small>sin datos</small></button>
+     <button class="chip" id="c-secciones" aria-pressed="false" aria-disabled="true" data-motivo="Secciones: sin capa de secciones en esta publicación">Secciones<small>sin datos</small></button>
     </div>
+    <p class="motivo" id="motivo" role="status" hidden></p>
    </div>
   </div>
   <div class="vz-grid">

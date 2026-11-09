@@ -84,10 +84,10 @@ const ELEC=[["2011","nov"],["2015","dic"],["2016","jun"],["2019","abr"],["2019",
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const col=p=>css(VARP[p]||"--otros");
 const $=id=>document.getElementById(id);
-let vista="congreso",prov=null,ccaa=null,map=null,sel=null,selId=null,selCcaa=null,hoverCcaa=null;
+let capa="ganador",rot=null,vista="congreso",prov=null,ccaa=null,map=null,sel=null,selId=null,selCcaa=null,hoverCcaa=null;
 const barra=$("elecciones-barra");
 const et=document.createElement("span");et.textContent="Elecciones generales";barra.appendChild(et);
-ELEC.forEach(([a,m])=>{const b=document.createElement("button");b.className="eleccion";const on=a==="2023";b.disabled=!on;b.setAttribute("aria-pressed",String(on));b.innerHTML=a+"<small>"+m+(on?"":a==="2026"?" · 29-11":" · T-83")+"</small>";barra.appendChild(b)});
+ELEC.forEach(([a,m])=>{const b=document.createElement("button");b.className="eleccion";const on=a==="2023";b.disabled=!on;b.setAttribute("aria-pressed",String(on));b.innerHTML=a+"<small>"+m+(on?"":a==="2026"?" · 29-11":" · sin datos")+"</small>";barra.appendChild(b)});
 function totales(){const t={};prov.features.forEach(f=>{for(const[p,n]of Object.entries(f.properties.esc))t[p]=(t[p]||0)+n});return t}
 function hemi(esc){
  const total=Object.values(esc).reduce((a,b)=>a+b,0),filas=9,r0=38,r1=96,pts=[];
@@ -100,6 +100,7 @@ function hemi(esc){
 const tabla=esc=>`<table class="tabla">${Object.entries(esc).sort((a,b)=>b[1]-a[1]).map(([p,n])=>`<tr><td><span class="sw" style="background:${col(p)}"></span>${NOMBRE[p]||p}</td><td>${n}</td></tr>`).join("")}</table>`;
 function fichaC(){
  const f=$("ficha");
+ if(capa==="rotacion"&&rot&&sel&&rot.provincias[sel.properties.cod]){fichaRot();return}
  if(!sel){f.innerHTML=`<p class="eyebrow">Generales · julio de 2023</p><h2>España</h2>${hemi(totales())}${tabla(totales())}<p class="aviso">Pulsa una provincia del mapa para ver su reparto. Con «350 distritos» (T-102) aquí saldrá el mismo hemiciclo con el ganador de cada distrito.</p>`;return}
  const p=sel.properties;
  f.innerHTML=`<p class="eyebrow">Circunscripción · ${p.escanos} escaños</p><h2>${p.nombre}</h2><p class="nota">Más votado: <b>${NOMBRE[p.ganador]||p.ganador}</b> (${String(p.pct).replace(".",",")} % de los votos a candidaturas)</p>${hemi(p.esc)}${tabla(p.esc)}<p class="pend">Propuesta del proyecto: ${p.k407} ${p.k407===1?"distrito":"distritos"} uninominales en esta provincia. Su mapa y su ganador por distrito llegan con la capa «407 distritos».</p>`;
@@ -112,13 +113,14 @@ function fichaA(){
 function leyenda(){
  const L=$("leyenda");
  if(vista==="autonomico"){L.innerHTML=`<span><span class="sw" style="background:${css("--red")}"></span>Comunidad elegida</span>`;return}
+ if(capa==="rotacion"&&rot){L.innerHTML=`<span><span class="sw" style="background:${ROT_COL(0)}"></span>0 cambios</span><span><span class="sw" style="background:${ROT_COL(1)}"></span>5 cambios de ganador (media por distrito, 2011-2023)</span><span style="color:${css("--muted")}">· gris: sin datos</span>`;return}
  const ps=[...new Set(prov.features.map(f=>f.properties.ganador))];
  L.innerHTML=ps.map(p=>`<span><span class="sw" style="background:${col(p)}"></span>${NOMBRE[p]||p}</span>`).join("")+`<span style="color:${css("--muted")}">· más votado por provincia</span>`;
 }
 function pintar(){
  if(!map||!map.getLayer("prov-fill"))return;
  const e=["match",["get","ganador"]];Object.keys(VARP).forEach(p=>e.push(p,col(p)));e.push(css("--otros"));
- map.setPaintProperty("prov-fill","fill-color",vista==="congreso"?e:css("--land"));
+ map.setPaintProperty("prov-fill","fill-color",vista==="congreso"?(capa==="rotacion"&&rot?rotColor():e):css("--land"));
  map.setPaintProperty("prov-fill","fill-opacity",vista==="congreso"?["case",["boolean",["feature-state","sel"],false],1,.86]:.9);
  map.setPaintProperty("ccaa-fill","fill-opacity",vista==="autonomico"?["case",["boolean",["feature-state","sel"],false],.75,["boolean",["feature-state","hover"],false],.25,0]:0);
  map.setPaintProperty("ccaa-line","line-width",vista==="autonomico"?1.4:.7);
@@ -193,9 +195,26 @@ function iniciarSecciones(){
   map.addSource("sec",{type:"geojson",data:{type:"FeatureCollection",features:[]}});
   map.addLayer({id:"sec-fill",type:"fill",source:"sec",minzoom:6,layout:{visibility:"none"},paint:{"fill-color":col,"fill-opacity":.7}});
   map.addLayer({id:"sec-line",type:"line",source:"sec",minzoom:6,layout:{visibility:"none"},paint:{"line-color":"#fff","line-width":.4}});
-  chip.disabled=false;chip.title="Colorea cada sección por su distrito (elige antes una provincia)";const sm=chip.querySelector("small");if(sm)sm.remove();
+  chip.removeAttribute("aria-disabled");chip.removeAttribute("data-motivo");chip.title="Colorea cada sección por su distrito (elige antes una provincia)";const sm=chip.querySelector("small");if(sm)sm.remove();
   chip.onclick=()=>{secOn=!secOn;chip.setAttribute("aria-pressed",String(secOn));secCargar()};
   map.on("click","sec-fill",e=>{const f=e.features&&e.features[0];if(f)secFicha(f.properties)});
   map.on("click",()=>setTimeout(secCargar,0));
  });
 }
+
+/* Capas y chips (T-119, PR-B): solo datos que existen; lo demás queda «sin datos» con motivo visible. */
+const ROT_COL=t=>{const a=[241,233,220],b=[179,58,45],m=a.map((x,i)=>Math.round(x+(b[i]-x)*t));return`rgb(${m})`};
+const mediaRot=cod=>{const d=rot.provincias[cod].distritos;return d.reduce((s,x)=>s+x.c,0)/d.length};
+function rotColor(){const e=["match",["get","cod"]];Object.keys(rot.provincias).forEach(c=>e.push(c,ROT_COL(Math.min(mediaRot(c)/5,1))));e.push("#c9c9c4");return e}
+function fichaRot(){
+ const p=sel.properties,R=rot.provincias[p.cod],ys=rot.elecciones.map(e=>[e.slice(2,4)+(e==="201904"?"a":e==="201911"?"n":""),e.slice(0,4)+" ("+e.slice(4)+")"]);
+ $("ficha").innerHTML=`<p class="eyebrow">Rotación 2011-2023 · distritos de la propuesta</p><h2>${p.nombre}</h2><p class="nota">Ganador por distrito y elección (homologado). Cambios de ganador: media ${mediaRot(p.cod).toFixed(1).replace(".",",")}.</p><div style="overflow-x:auto"><table class="rot-tabla"><tr><th>D.</th>${ys.map(y=>`<th title="${y[1]}">${y[0]}</th>`).join("")}<th>Δ</th></tr>${R.distritos.map(x=>`<tr><td>${x.d+1}</td>${x.g.map(g=>`<td title="${esc(g)}"><span class="sw" style="background:${col(g)}"></span></td>`).join("")}<td>${x.c}</td></tr>`).join("")}</table></div><p class="aviso">Datos: histórico T-110 sobre los distritos vigentes; sin valor oficial.</p>`;
+}
+function motivo(t){const m=$("motivo");m.textContent=t||"";m.hidden=!t}
+document.querySelectorAll(".chip[data-motivo]").forEach(b=>b.addEventListener("click",()=>{if(b.getAttribute("aria-disabled")==="true")motivo(b.dataset.motivo)}));
+$("s-407").onclick=()=>{motivo("");setTab("nacional")};
+function ponCapa(c){capa=c;$("c-ganador").setAttribute("aria-pressed",String(c==="ganador"));$("c-rotacion").setAttribute("aria-pressed",String(c==="rotacion"));motivo("");pintar();vista==="congreso"&&fichaC()}
+$("c-ganador").onclick=()=>ponCapa("ganador");
+fetch("datos/rotacion.json").then(r=>r.ok?r.json():null).catch(()=>null).then(d=>{
+ if(!d||!d.provincias)return;rot=d;const b=$("c-rotacion");b.removeAttribute("aria-disabled");b.removeAttribute("data-motivo");const sm=b.querySelector("small");if(sm)sm.remove();b.onclick=()=>ponCapa("rotacion");
+});

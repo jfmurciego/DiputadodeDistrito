@@ -1,7 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.9.0
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.8.0_20261109.yml
+# VERSIÓN: 3.10.0
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.9.0_20261109.yml
+# CAMBIOS 3.10.0: T-119 PR-B, /v2/datos/rotacion.json (herramientas/generar_rotacion_visor.py, de datos/resultados/historico/rotacion);
+#   opcional: si falla, avisa y el v2 deja la capa Rotación en «sin datos».
 # CAMBIOS 3.9.0: T-119, capa opcional de secciones censales del v2 (/v2/datos/secciones/): reconstruye el seccionado INE 2025 de
 #   inputs/partes (sha256 verificado) y lo une con datos/composicion con herramientas/generar_secciones_visor.py. Si falta la
 #   fuente o el paso falla, avisa y el sitio sale sin la capa (el v2 sigue igual); nada se versiona.
@@ -341,6 +343,7 @@ jobs:
           rm -f /tmp/site-candidate/v2/README.md /tmp/site-candidate/v2/construir_vista_previa.py
           cp web/textos.md /tmp/site-candidate/v2/textos.md
           sed -i 's#data-textos="../../web/textos.md"#data-textos="textos.md"#' /tmp/site-candidate/v2/index.html
+          python herramientas/generar_rotacion_visor.py --salida /tmp/site-candidate/v2/datos/rotacion.json || echo "::warning::Sin capa de rotación en el v2."
           rm -rf /tmp/site-candidate/v2/datos/secciones
           if (cd inputs/partes && sha256sum -c --ignore-missing MANIFEST_PARTES.sha256 >/dev/null 2>&1) && cat inputs/partes/seccionado_2025.zip.part00 inputs/partes/seccionado_2025.zip.part01 inputs/partes/seccionado_2025.zip.part02 > /tmp/seccionado_2025.zip && echo "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4  /tmp/seccionado_2025.zip" | sha256sum -c - >/dev/null && python -m pip install --disable-pip-version-check -q geopandas pyogrio && python herramientas/generar_secciones_visor.py --seccionado /tmp/seccionado_2025.zip --salida /tmp/site-candidate/v2/datos/secciones; then echo "Capa de secciones del v2 generada."; else rm -rf /tmp/site-candidate/v2/datos/secciones; echo "::warning::Sin capa de secciones en el v2 (seccionado no disponible o generación fallida)."; fi
           python -m pip install --disable-pip-version-check -r documentacion_publica/requirements.lock
