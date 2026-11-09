@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.235
+Versión: 1.0.236
 Fecha: 2026-11-09
-Alcance: T-130 — Gestor 2.0: «campaña completa» en una sola orden
+Alcance: T-131 — Histórico autonómico, lote 1: Cataluña, Comunidad Valenciana, Navarra, País Vasco, La Rioja y Canarias
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t130-campana-completa.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.234_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t131-autonomicas-lote1.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.235_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.234_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.236 · [2026-11-09 — T-131 — Histórico autonómico, lote 1: Cataluña, Comunidad Valenciana, Navarra, País Vasco, La Rioja y Canarias](registro/2026-11-09_t131-autonomicas-lote1.md)
 - 1.0.235 · [2026-11-09 — T-130 — Gestor 2.0: «campaña completa» en una sola orden](registro/2026-11-09_t130-campana-completa.md)
 - 1.0.234 · [2026-11-09 — T-128 (paso 3) — Configuraciones de ensemble de cinco comunidades](registro/2026-11-09_claude-t128-ensemble-comunidades.md)
 - 1.0.233 · [2026-11-09 — T-128 (paso 2) — Fase `ensemble_25` en el 06 «Escenarios y Ensembles»](registro/2026-11-09_claude-t128-ensemble-25.md)
