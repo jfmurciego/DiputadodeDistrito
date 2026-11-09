@@ -20,14 +20,14 @@ ALAVA_D2 = ["EAJ-PNV", "Podemos–Sumar", "Podemos–Sumar", "EAJ-PNV", "EAJ-PNV
 
 
 class Generador(unittest.TestCase):
-    def test_alava_distrito_2(self):
+    def test_alava_distrito_3_publico(self):
         with tempfile.TemporaryDirectory() as t:
             out = Path(t) / "r.json"
             self.assertEqual(gr.generar(out, RAIZ / "datos/resultados/historico/rotacion", RAIZ / "datos/composicion"), 0)
             d = json.loads(out.read_text("utf-8"))
             a = d["provincias"]["01"]
             self.assertEqual(a["territorio"], "congreso_alava")
-            self.assertEqual(a["distritos"][2], {"d": 2, "g": ALAVA_D2, "c": 3})
+            self.assertEqual(a["distritos"][2], {"d": 3, "g": ALAVA_D2, "c": 3})
             self.assertEqual(len(a["sha256"]), 64)
             self.assertEqual(d["elecciones"][-1], "202307")
 

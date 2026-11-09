@@ -1,5 +1,5 @@
 {
- "schema": "ddd.datos-abiertos/1.0",
+ "schema": "ddd.datos-abiertos/1.1",
  "licencia": {
   "id": "CC-BY-4.0",
   "nombre": "Creative Commons Atribución 4.0 Internacional",
@@ -16,19 +16,21 @@
    "sha256_origen": "44bd4d794d2ef99f0bf924bb0b43df29956e758c59310c434190babe1a50ed41",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_alava/distritos.geojson",
     "sha256": "7166a990d7e586f798435be258c9ac2d8be13f2d6fd71e96b2341873e1787456"
    },
    "resultados": {
     "ruta": "congreso_alava/resultados.csv",
-    "sha256": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1",
+    "sha256": "b9e37ca06f5a61e5859bbaac13c967f2c5042c6c5d664e2ff957a6b08d008f6d",
+    "fuente_sha256": "9092a5f63aaaa4ad4f8b5100af11bb4c54ab9238b68368ac761b4a38f0e11ca1",
     "blob_sha_m08": "d3fc88943f3b177aedc172a758785b7d9096c8e3",
     "run_id": "41346917857"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 127496,
      "municipios": 1,
@@ -36,7 +38,7 @@
      "ganador": "PSE-EE (PSOE)"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 113457,
      "municipios": 1,
@@ -44,7 +46,7 @@
      "ganador": "PSE-EE (PSOE)"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 95355,
      "municipios": 51,
@@ -60,19 +62,21 @@
    "sha256_origen": "711147836285bd4a0ce0edf28d066c82ec9c4642b980b598be835f80c52b14c5",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_albacete/distritos.geojson",
     "sha256": "3741ebdd47ea7e5a3666e831274c97820e59b4446e8ce64156cc4def7cb7d01e"
    },
    "resultados": {
     "ruta": "congreso_albacete/resultados.csv",
-    "sha256": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38",
+    "sha256": "ad1d5b86ca70a6bb991291d0b7fecae916b41fcd891496e2b6f4853cb7f1bb57",
+    "fuente_sha256": "0711fc0862cebeb286345041ec93832c402e3665f89323cba4f32d52cfbbdd38",
     "blob_sha_m08": "eb789b5090f4fcb1443149cf59fba070bf6e37a0",
     "run_id": "42514994231"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 128647,
      "municipios": 1,
@@ -80,7 +84,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 129452,
      "municipios": 43,
@@ -88,7 +92,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 129430,
      "municipios": 44,
@@ -104,19 +108,21 @@
    "sha256_origen": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443",
    "n_distritos": 17,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_alicante/distritos.geojson",
     "sha256": "5aa7e893c4a0ac9ad70ce001ac598a9f157062e85fe5e81fd8cf7db497304b27"
    },
    "resultados": {
     "ruta": "congreso_alicante/resultados.csv",
-    "sha256": "28924177804fd394a8f43b0be9c53b96a753ab61a44a8e5d544119414195b584",
+    "sha256": "2eaadd46da02fa4c454c1c677861b3224ec90c56b7c52e2023bfcffedc3cf404",
+    "fuente_sha256": "28924177804fd394a8f43b0be9c53b96a753ab61a44a8e5d544119414195b584",
     "blob_sha_m08": "bff1eb7b07b34f922482a8e9e35aa3b45fc41487",
     "run_id": "42495067503"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 116958,
      "municipios": 1,
@@ -124,7 +130,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 117075,
      "municipios": 1,
@@ -132,7 +138,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 97773,
      "municipios": 1,
@@ -140,7 +146,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 97819,
      "municipios": 1,
@@ -148,7 +154,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 128709,
      "municipios": 9,
@@ -156,7 +162,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 128991,
      "municipios": 7,
@@ -164,7 +170,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 100938,
      "municipios": 6,
@@ -172,7 +178,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 131298,
      "municipios": 6,
@@ -180,7 +186,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 130465,
      "municipios": 3,
@@ -188,7 +194,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 100683,
      "municipios": 9,
@@ -196,7 +202,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 100741,
      "municipios": 14,
@@ -204,7 +210,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 11,
+     "distrito": 12,
      "nombre": null,
      "poblacion": 130181,
      "municipios": 7,
@@ -212,7 +218,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 12,
+     "distrito": 13,
      "nombre": null,
      "poblacion": 117707,
      "municipios": 16,
@@ -220,7 +226,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 13,
+     "distrito": 14,
      "nombre": null,
      "poblacion": 103136,
      "municipios": 6,
@@ -228,7 +234,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 14,
+     "distrito": 15,
      "nombre": null,
      "poblacion": 124434,
      "municipios": 8,
@@ -236,7 +242,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 15,
+     "distrito": 16,
      "nombre": null,
      "poblacion": 101197,
      "municipios": 39,
@@ -244,7 +250,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 16,
+     "distrito": 17,
      "nombre": null,
      "poblacion": 127163,
      "municipios": 11,
@@ -260,19 +266,21 @@
    "sha256_origen": "1b852666d2752f1a5c38c23fc87e9317575b0e0b5408b132f5d57121d76f907e",
    "n_distritos": 6,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_almeria/distritos.geojson",
     "sha256": "bf18a66a74998b6dbd573a3ac59d372215479ff74f20dcc310abb69b136f39c6"
    },
    "resultados": {
     "ruta": "congreso_almeria/resultados.csv",
-    "sha256": "fa99fcf78bb82c054a919bac0c0329d8c959603aaa4501d769edb8ab34ef0754",
+    "sha256": "0126d836aa8046c5d0a3ce0845c5083215e76a759a6d250734586b1ae8e0c459",
+    "fuente_sha256": "fa99fcf78bb82c054a919bac0c0329d8c959603aaa4501d769edb8ab34ef0754",
     "blob_sha_m08": "989da8a12792c75246faf9b7280faae871e49c16",
     "run_id": "42519378789"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 125586,
      "municipios": 1,
@@ -280,7 +288,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 126107,
      "municipios": 3,
@@ -288,7 +296,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 125233,
      "municipios": 19,
@@ -296,7 +304,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 125523,
      "municipios": 20,
@@ -304,7 +312,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 125431,
      "municipios": 45,
@@ -312,7 +320,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 125484,
      "municipios": 16,
@@ -328,19 +336,21 @@
    "sha256_origen": "26d9f1eef6f4fa0c46124d0bd90c02275f6d5fa352d7ebf35e2162987f48d5ab",
    "n_distritos": 8,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_asturias/distritos.geojson",
     "sha256": "7e64ba768aac8ba8f30ca2de4a76998af01d8fd45bebdb6bd72a8209cb94e579"
    },
    "resultados": {
     "ruta": "congreso_asturias/resultados.csv",
-    "sha256": "aba1053888e3b48df27b7b673144da9dfb4532c2be2bfe1e2f0271c32e84c8ca",
+    "sha256": "c5541128bd02311fed41e240e126069fbc919a3c243f3e95d2284f5f24eec3ee",
+    "fuente_sha256": "aba1053888e3b48df27b7b673144da9dfb4532c2be2bfe1e2f0271c32e84c8ca",
     "blob_sha_m08": "9cfb9eecfd065e04360c4051c21c479db90639ad",
     "run_id": "41296638877"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 134525,
      "municipios": 1,
@@ -348,7 +358,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 108798,
      "municipios": 1,
@@ -356,7 +366,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 125727,
      "municipios": 6,
@@ -364,7 +374,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 125874,
      "municipios": 34,
@@ -372,7 +382,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 134423,
      "municipios": 1,
@@ -380,7 +390,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 125658,
      "municipios": 21,
@@ -388,7 +398,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 125213,
      "municipios": 11,
@@ -396,7 +406,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 125842,
      "municipios": 5,
@@ -412,19 +422,21 @@
    "sha256_origen": "1dbc9e4be04d22053d7d09cad006f9fbc57ca10874b499ebc5e18ecff1fdde86",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_avila/distritos.geojson",
     "sha256": "3e40843bea39cfbaca47d25a26e2bc8e4e37810f542b5a4a4ac79dfa951b8187"
    },
    "resultados": {
     "ruta": "congreso_avila/resultados.csv",
-    "sha256": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e",
+    "sha256": "d2c12f0d24ab65dbd45d05a0dec56bd94ea2989bdec524d308045808f21c70d6",
+    "fuente_sha256": "ffafaa3c13379f0ee25a2f476e8a9ec13f0d28a794492ac842c9404614af949e",
     "blob_sha_m08": "e97cda6a54ca52585145bdbfcba104085bc7204e",
     "run_id": "41241662219"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 159764,
      "municipios": 248,
@@ -440,19 +452,21 @@
    "sha256_origen": "8d599633fa0e0db716f0b1bdb888b7b8060344f929145b7cba51dc3906b6d9e4",
    "n_distritos": 6,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_badajoz/distritos.geojson",
     "sha256": "8d289f2ebc84d67a96a36e56a8164cf83ac78106fac290b9fbc9d7ddc35832b2"
    },
    "resultados": {
     "ruta": "congreso_badajoz/resultados.csv",
-    "sha256": "a82717df3edfe3d9c1a0c16b9877683d59a8a6827b5abd7610cde86cf2e0f45d",
+    "sha256": "128f6ab05c0854f25863a86bb4497bb36faab9f15f2ae27ff53f7b64b1a8f087",
+    "fuente_sha256": "a82717df3edfe3d9c1a0c16b9877683d59a8a6827b5abd7610cde86cf2e0f45d",
     "blob_sha_m08": "a956dc91d0af4c70f33bf206ba5cd3495db27a75",
     "run_id": "42519381013"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 111238,
      "municipios": 1,
@@ -460,7 +474,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 111845,
      "municipios": 18,
@@ -468,7 +482,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 110215,
      "municipios": 31,
@@ -476,7 +490,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 110096,
      "municipios": 52,
@@ -484,7 +498,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 112572,
      "municipios": 24,
@@ -492,7 +506,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 110083,
      "municipios": 40,
@@ -508,19 +522,21 @@
    "sha256_origen": "dd5afe1a4ac150521efa0a18abe88d0b1850ece441f8c0d06e927d0a20849d72",
    "n_distritos": 10,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_baleares/distritos.geojson",
     "sha256": "aad7685b9afe3fe3aa9f33ae1b3adc856d1b172eda9386907708504ab63d0eea"
    },
    "resultados": {
     "ruta": "congreso_baleares/resultados.csv",
-    "sha256": "df5f61fb42017454c18b8c6cd9ec50c32937d020bf2c7c638f565f81cf8ab900",
+    "sha256": "4b81559417a5a247fb7093014bd382318b857da8a4ae514ba67d2331bde62755",
+    "fuente_sha256": "df5f61fb42017454c18b8c6cd9ec50c32937d020bf2c7c638f565f81cf8ab900",
     "blob_sha_m08": "f4803b7cbbedfeb951917c06ee1ba5ba0bfae033",
     "run_id": "41481449507"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 107615,
      "municipios": 1,
@@ -528,7 +544,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 107427,
      "municipios": 1,
@@ -536,7 +552,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 107413,
      "municipios": 1,
@@ -544,7 +560,7 @@
      "ganador": "PSIB-PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 153810,
      "municipios": 10,
@@ -552,7 +568,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 154859,
      "municipios": 12,
@@ -560,7 +576,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 154786,
      "municipios": 13,
@@ -568,7 +584,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 154422,
      "municipios": 18,
@@ -576,7 +592,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 99005,
      "municipios": 8,
@@ -584,7 +600,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 93601,
      "municipios": 3,
@@ -592,7 +608,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 76968,
      "municipios": 3,
@@ -608,19 +624,21 @@
    "sha256_origen": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f",
    "n_distritos": 50,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_barcelona/distritos.geojson",
     "sha256": "4ac2be7eef41fabae5b707607fffd4e277c64042a96b43bc4d162a8e05cdcf1a"
    },
    "resultados": {
     "ruta": "congreso_barcelona/resultados.csv",
-    "sha256": "14cf4eff31c7533aa8cb29d00d833ee327a50cd9eff791dceed31a8a895324e7",
+    "sha256": "264e4179cfd879588d420f21975ad9ee54e1f54aee184a4ba2ac0b474459f123",
+    "fuente_sha256": "14cf4eff31c7533aa8cb29d00d833ee327a50cd9eff791dceed31a8a895324e7",
     "blob_sha_m08": "13e085cbb2e47bdf290eef497765e460fc336bf2",
     "run_id": "42495069270"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 129493,
      "municipios": 1,
@@ -628,7 +646,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 118913,
      "municipios": 1,
@@ -636,7 +654,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 118081,
      "municipios": 1,
@@ -644,7 +662,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 118618,
      "municipios": 1,
@@ -652,7 +670,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 118306,
      "municipios": 1,
@@ -660,7 +678,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 117949,
      "municipios": 1,
@@ -668,7 +686,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 119017,
      "municipios": 1,
@@ -676,7 +694,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 118563,
      "municipios": 1,
@@ -684,7 +702,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 117453,
      "municipios": 1,
@@ -692,7 +710,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 117828,
      "municipios": 1,
@@ -700,7 +718,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 118524,
      "municipios": 1,
@@ -708,7 +726,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 11,
+     "distrito": 12,
      "nombre": null,
      "poblacion": 118097,
      "municipios": 1,
@@ -716,7 +734,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 12,
+     "distrito": 13,
      "nombre": null,
      "poblacion": 118685,
      "municipios": 1,
@@ -724,7 +742,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 13,
+     "distrito": 14,
      "nombre": null,
      "poblacion": 117775,
      "municipios": 1,
@@ -732,7 +750,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 14,
+     "distrito": 15,
      "nombre": null,
      "poblacion": 115941,
      "municipios": 1,
@@ -740,7 +758,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 15,
+     "distrito": 16,
      "nombre": null,
      "poblacion": 115995,
      "municipios": 1,
@@ -748,7 +766,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 16,
+     "distrito": 17,
      "nombre": null,
      "poblacion": 109029,
      "municipios": 1,
@@ -756,7 +774,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 17,
+     "distrito": 18,
      "nombre": null,
      "poblacion": 112709,
      "municipios": 1,
@@ -764,7 +782,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 18,
+     "distrito": 19,
      "nombre": null,
      "poblacion": 113732,
      "municipios": 27,
@@ -772,7 +790,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 19,
+     "distrito": 20,
      "nombre": null,
      "poblacion": 113435,
      "municipios": 17,
@@ -780,7 +798,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 20,
+     "distrito": 21,
      "nombre": null,
      "poblacion": 109544,
      "municipios": 19,
@@ -788,7 +806,7 @@
      "ganador": "JxCAT - JUNTS"
     },
     {
-     "distrito": 21,
+     "distrito": 22,
      "nombre": null,
      "poblacion": 115825,
      "municipios": 2,
@@ -796,7 +814,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 22,
+     "distrito": 23,
      "nombre": null,
      "poblacion": 114577,
      "municipios": 8,
@@ -804,7 +822,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 23,
+     "distrito": 24,
      "nombre": null,
      "poblacion": 108274,
      "municipios": 9,
@@ -812,7 +830,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 24,
+     "distrito": 25,
      "nombre": null,
      "poblacion": 110796,
      "municipios": 27,
@@ -820,7 +838,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 25,
+     "distrito": 26,
      "nombre": null,
      "poblacion": 116952,
      "municipios": 9,
@@ -828,7 +846,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 26,
+     "distrito": 27,
      "nombre": null,
      "poblacion": 114356,
      "municipios": 13,
@@ -836,7 +854,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 27,
+     "distrito": 28,
      "nombre": null,
      "poblacion": 117251,
      "municipios": 5,
@@ -844,7 +862,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 28,
+     "distrito": 29,
      "nombre": null,
      "poblacion": 114065,
      "municipios": 10,
@@ -852,7 +870,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 29,
+     "distrito": 30,
      "nombre": null,
      "poblacion": 118147,
      "municipios": 1,
@@ -860,7 +878,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 30,
+     "distrito": 31,
      "nombre": null,
      "poblacion": 112565,
      "municipios": 1,
@@ -868,7 +886,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 31,
+     "distrito": 32,
      "nombre": null,
      "poblacion": 132714,
      "municipios": 2,
@@ -876,7 +894,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 32,
+     "distrito": 33,
      "nombre": null,
      "poblacion": 113432,
      "municipios": 20,
@@ -884,7 +902,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 33,
+     "distrito": 34,
      "nombre": null,
      "poblacion": 112803,
      "municipios": 5,
@@ -892,7 +910,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 34,
+     "distrito": 35,
      "nombre": null,
      "poblacion": 118219,
      "municipios": 2,
@@ -900,7 +918,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 35,
+     "distrito": 36,
      "nombre": null,
      "poblacion": 117419,
      "municipios": 2,
@@ -908,7 +926,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 36,
+     "distrito": 37,
      "nombre": null,
      "poblacion": 112127,
      "municipios": 3,
@@ -916,7 +934,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 37,
+     "distrito": 38,
      "nombre": null,
      "poblacion": 112450,
      "municipios": 62,
@@ -924,7 +942,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 38,
+     "distrito": 39,
      "nombre": null,
      "poblacion": 110185,
      "municipios": 4,
@@ -932,7 +950,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 39,
+     "distrito": 40,
      "nombre": null,
      "poblacion": 124022,
      "municipios": 4,
@@ -940,7 +958,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 40,
+     "distrito": 41,
      "nombre": null,
      "poblacion": 90076,
      "municipios": 1,
@@ -948,7 +966,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 41,
+     "distrito": 42,
      "nombre": null,
      "poblacion": 132024,
      "municipios": 2,
@@ -956,7 +974,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 42,
+     "distrito": 43,
      "nombre": null,
      "poblacion": 111789,
      "municipios": 10,
@@ -964,7 +982,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 43,
+     "distrito": 44,
      "nombre": null,
      "poblacion": 110390,
      "municipios": 2,
@@ -972,7 +990,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 44,
+     "distrito": 45,
      "nombre": null,
      "poblacion": 109996,
      "municipios": 3,
@@ -980,7 +998,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 45,
+     "distrito": 46,
      "nombre": null,
      "poblacion": 119195,
      "municipios": 1,
@@ -988,7 +1006,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 46,
+     "distrito": 47,
      "nombre": null,
      "poblacion": 129613,
      "municipios": 1,
@@ -996,7 +1014,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 47,
+     "distrito": 48,
      "nombre": null,
      "poblacion": 113389,
      "municipios": 20,
@@ -1004,7 +1022,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 48,
+     "distrito": 49,
      "nombre": null,
      "poblacion": 115223,
      "municipios": 11,
@@ -1012,7 +1030,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 49,
+     "distrito": 50,
      "nombre": null,
      "poblacion": 111795,
      "municipios": 8,
@@ -1028,19 +1046,21 @@
    "sha256_origen": "b0251dbc3a45083701ea28895ed68acf4e29a9a12514b6c13a925997b2bd1d63",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_burgos/distritos.geojson",
     "sha256": "eb046cddd7fc8cf90e07aed5d7fe0d0d9c6c41d782f5ba69beeb93e62f8da3e7"
    },
    "resultados": {
     "ruta": "congreso_burgos/resultados.csv",
-    "sha256": "44f91786adb47ca84409af5a775d6c3c9ab5f1ddab9b192e7095cedece4beb9f",
+    "sha256": "1893eb6fd7951445282abc0bd3d2b006f0d56f3bb50ec1be770d23aab76bb03d",
+    "fuente_sha256": "44f91786adb47ca84409af5a775d6c3c9ab5f1ddab9b192e7095cedece4beb9f",
     "blob_sha_m08": "74e2223eb893f175d8861db1c07ec6a7f2ca4510",
     "run_id": "41299221887"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 119115,
      "municipios": 1,
@@ -1048,7 +1068,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 119121,
      "municipios": 101,
@@ -1056,7 +1076,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 119134,
      "municipios": 270,
@@ -1072,19 +1092,21 @@
    "sha256_origen": "74292d05558e5f07f44cf42cca4377d68f17eb193876cdad535444f9fabd1ea4",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_caceres/distritos.geojson",
     "sha256": "9c5bd41d7a0f749a517b147851dbc5cf5458884f4243d3c6e36121532488524e"
    },
    "resultados": {
     "ruta": "congreso_caceres/resultados.csv",
-    "sha256": "5de4c6cb91751aa948708f153fadcf3a371516a0f66983381551b16e5115c09f",
+    "sha256": "f8007434d9301407c504af3fb717b073c866a55b80562e3fe6ab4fb224d4a627",
+    "fuente_sha256": "5de4c6cb91751aa948708f153fadcf3a371516a0f66983381551b16e5115c09f",
     "blob_sha_m08": "a5118a0607c842f7fb9f96073b790d7f11f785dc",
     "run_id": "41294658600"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 129380,
      "municipios": 41,
@@ -1092,7 +1114,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 129432,
      "municipios": 83,
@@ -1100,7 +1122,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 129445,
      "municipios": 99,
@@ -1116,19 +1138,21 @@
    "sha256_origen": "b394db0e089c1360ed02408c5ab5bb8aa8168ef32798982ad4f78e92cafa0587",
    "n_distritos": 11,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_cadiz/distritos.geojson",
     "sha256": "ae8037bad137bc8a37b29e82e06d9695b8996032eb8d9cdbc112156391e8a8ef"
    },
    "resultados": {
     "ruta": "congreso_cadiz/resultados.csv",
-    "sha256": "e699180202c1fee3492822e1ba4f19aeb84b65c08ae8228bba483a9023291412",
+    "sha256": "3cd242cae6de298bcba358074a036ebedb7773a115dd1eeb3d955a4d9650ef9d",
+    "fuente_sha256": "e699180202c1fee3492822e1ba4f19aeb84b65c08ae8228bba483a9023291412",
     "blob_sha_m08": "8546ec32dc1be59241c53caecedbb4007d19f4af",
     "run_id": "41500124775"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 114044,
      "municipios": 1,
@@ -1136,7 +1160,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 113850,
      "municipios": 18,
@@ -1144,7 +1168,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 112478,
      "municipios": 2,
@@ -1152,7 +1176,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 112077,
      "municipios": 1,
@@ -1160,7 +1184,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 113197,
      "municipios": 4,
@@ -1168,7 +1192,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 123943,
      "municipios": 1,
@@ -1176,7 +1200,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 111314,
      "municipios": 5,
@@ -1184,7 +1208,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 94072,
      "municipios": 1,
@@ -1192,7 +1216,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 132239,
      "municipios": 2,
@@ -1200,7 +1224,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 108358,
      "municipios": 8,
@@ -1208,7 +1232,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 119294,
      "municipios": 3,
@@ -1224,19 +1248,21 @@
    "sha256_origen": "5ca88b82e1e9addae247e6e078ad8c2f56b0e17220fa749aee11a2c136a9d87b",
    "n_distritos": 5,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_cantabria/distritos.geojson",
     "sha256": "702989014176539d3f93edfe65e33aa7c47edb024d316398277d6829b91ec0da"
    },
    "resultados": {
     "ruta": "congreso_cantabria/resultados.csv",
-    "sha256": "c87bf9f98ef2dbe571432768dce9567dd942baeb85d319b1d0724a20f3b6f2b5",
+    "sha256": "4c0cd96269d730cad42deeb25db144e3c5ad4f8fbfe559354c86a0a590990799",
+    "fuente_sha256": "c87bf9f98ef2dbe571432768dce9567dd942baeb85d319b1d0724a20f3b6f2b5",
     "blob_sha_m08": "a1da06e542e1285fd2422e651fd100a60bea41e2",
     "run_id": "41356175674"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 117761,
      "municipios": 1,
@@ -1244,7 +1270,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 118800,
      "municipios": 7,
@@ -1252,7 +1278,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 117334,
      "municipios": 32,
@@ -1260,7 +1286,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 117307,
      "municipios": 45,
@@ -1268,7 +1294,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 117185,
      "municipios": 18,
@@ -1284,19 +1310,21 @@
    "sha256_origen": "ba5921830ce016ec27a31b6ad4fb4fcc87c53761b702fb38ae926a07ac6f88f6",
    "n_distritos": 5,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_castellon/distritos.geojson",
     "sha256": "c68ba03431a035f00e2cc54adac9c83720c0570b9385baa634c9811e5fcabbe2"
    },
    "resultados": {
     "ruta": "congreso_castellon/resultados.csv",
-    "sha256": "fd400ea095b866704e584bccd16d33c0fe2c8049e0f75aa50dd487055495f87e",
+    "sha256": "2c5baedf4c46e83311361122e796c765e8a67a7aed30a340a979ec3f18912586",
+    "fuente_sha256": "fd400ea095b866704e584bccd16d33c0fe2c8049e0f75aa50dd487055495f87e",
     "blob_sha_m08": "c7205b34b76b9ed34c19838afecc27fe9124f135",
     "run_id": "41295629673"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 120823,
      "municipios": 1,
@@ -1304,7 +1332,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 122287,
      "municipios": 4,
@@ -1312,7 +1340,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 120292,
      "municipios": 42,
@@ -1320,7 +1348,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 120246,
      "municipios": 74,
@@ -1328,7 +1356,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 120438,
      "municipios": 15,
@@ -1344,19 +1372,21 @@
    "sha256_origen": "35a0976bb4aef886cd19778051f9d84d576e6f7e9c42d778ce0d8b9b2c5c4865",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_ceuta/distritos.geojson",
     "sha256": "3085039129c4438844becd10afb44abc9f765acc9006256cb14ea00595d9ae61"
    },
    "resultados": {
     "ruta": "congreso_ceuta/resultados.csv",
-    "sha256": "ee58feb986b5906a52df87a9edc8ffafa2248512af54c305d833614992a70672",
+    "sha256": "088414dc72ba882ac9d0b259d382846d2ee18bba565d68447cb08119481e10bd",
+    "fuente_sha256": "ee58feb986b5906a52df87a9edc8ffafa2248512af54c305d833614992a70672",
     "blob_sha_m08": "a4832d2fc00cc3442113ff09801c3e198433b091",
     "run_id": "41250564472"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 83052,
      "municipios": 1,
@@ -1372,19 +1402,21 @@
    "sha256_origen": "0167a300e1a4df4f4c202e189bca38941b04d711fab72fc16e37294c8885f2d3",
    "n_distritos": 4,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_ciudad_real/distritos.geojson",
     "sha256": "f7131c45f6ab1d2e1bf6c458e2df722be7a90ca2c6f34a9537f0d488efe3ff86"
    },
    "resultados": {
     "ruta": "congreso_ciudad_real/resultados.csv",
-    "sha256": "a6516419b0e9a5ca01147626ac86521ad9a0855128f5366a939887281785c4d7",
+    "sha256": "ffecf24bc170859949b41a6f350cc333c22480920678a2d9395ace2b42165d43",
+    "fuente_sha256": "a6516419b0e9a5ca01147626ac86521ad9a0855128f5366a939887281785c4d7",
     "blob_sha_m08": "8c8e5d35dcedec37bdf7d7bdf6524d641aae4292",
     "run_id": "41298749455"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 125201,
      "municipios": 19,
@@ -1392,7 +1424,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 117009,
      "municipios": 25,
@@ -1400,7 +1432,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 125227,
      "municipios": 38,
@@ -1408,7 +1440,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 124490,
      "municipios": 20,
@@ -1424,19 +1456,21 @@
    "sha256_origen": "10a97db73caea16a250f2e485d5d0d1bb83008a0252a99803dea6953ba7ac8c2",
    "n_distritos": 6,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_cordoba/distritos.geojson",
     "sha256": "e4500ac6ce064b97d040f3bf262169e911dc77a77ef9c5337d68ddd7f6fbe10c"
    },
    "resultados": {
     "ruta": "congreso_cordoba/resultados.csv",
-    "sha256": "50b1e805e40267e5bff4643591f95d72b8b395769e6e5582bbdcb42dd9e71670",
+    "sha256": "3a122b2023d5d1a63803415b613d4625d078ff89bbc00bd78b28879f644772da",
+    "fuente_sha256": "50b1e805e40267e5bff4643591f95d72b8b395769e6e5582bbdcb42dd9e71670",
     "blob_sha_m08": "6a305cf6e6310fd335bdfa87f6331b4b618ca330",
     "run_id": "41296161083"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 129146,
      "municipios": 1,
@@ -1444,7 +1478,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 131387,
      "municipios": 1,
@@ -1452,7 +1486,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 127101,
      "municipios": 10,
@@ -1460,7 +1494,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 128864,
      "municipios": 34,
@@ -1468,7 +1502,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 129081,
      "municipios": 20,
@@ -1476,7 +1510,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 129423,
      "municipios": 13,
@@ -1492,19 +1526,21 @@
    "sha256_origen": "4746490207d3abd662af430dfa3a104456cd065c165b4645271170a006c004e0",
    "n_distritos": 2,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_cuenca/distritos.geojson",
     "sha256": "deddd8e6b8d941b3f36b0e1cf0822f174e4680deb33ad2a89e41b3c946a3211a"
    },
    "resultados": {
     "ruta": "congreso_cuenca/resultados.csv",
-    "sha256": "f23a2a27f754aad2a618e135d4c926aa763e4833a8fe4615012450be66eb6207",
+    "sha256": "a4a0924857bbc117a8eb0299601f839fb873fe4fea34f6d5cc0b5d7e29b4b2b6",
+    "fuente_sha256": "f23a2a27f754aad2a618e135d4c926aa763e4833a8fe4615012450be66eb6207",
     "blob_sha_m08": "e29e727992f394a06e730933715684cf5421b5c1",
     "run_id": "41294075778"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 99218,
      "municipios": 180,
@@ -1512,7 +1548,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 99218,
      "municipios": 58,
@@ -1528,19 +1564,21 @@
    "sha256_origen": "cd4875419859e9ab2e079b4352e41271bcc501a9ad98b4c7f941d32d0022e2c7",
    "n_distritos": 7,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_gerona/distritos.geojson",
     "sha256": "f7b8461a6fdde2490bb7d045b742865b48fa16859c4fd8e803f406132e01ca49"
    },
    "resultados": {
     "ruta": "congreso_gerona/resultados.csv",
-    "sha256": "547f36e2bd9f69fd3c6bc954e4c583c926a51a9c646b00454501939400da3e6d",
+    "sha256": "12e3d75c6721a0073e8fa555e0c0f12c32ac74159b9b65a8ce82fbb1d47523ab",
+    "fuente_sha256": "547f36e2bd9f69fd3c6bc954e4c583c926a51a9c646b00454501939400da3e6d",
     "blob_sha_m08": "be43a21eb06fe0b2b9464ba122339d24f2f476e3",
     "run_id": "41298839274"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 114900,
      "municipios": 38,
@@ -1548,7 +1586,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 114973,
      "municipios": 10,
@@ -1556,7 +1594,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 115156,
      "municipios": 31,
@@ -1564,7 +1602,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 114916,
      "municipios": 30,
@@ -1572,7 +1610,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 115117,
      "municipios": 17,
@@ -1580,7 +1618,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 114903,
      "municipios": 83,
@@ -1588,7 +1626,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 118707,
      "municipios": 12,
@@ -1604,19 +1642,21 @@
    "sha256_origen": "6eeb3324efed451f190cc4f2c7aeb1325c19783364a9f965a778d165ad52c1c6",
    "n_distritos": 8,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_granada/distritos.geojson",
     "sha256": "522915875dbe1b1c7dc43c2bf4b6bd4b347d40813e55951bf0815f003a2b8f4f"
    },
    "resultados": {
     "ruta": "congreso_granada/resultados.csv",
-    "sha256": "594cfd4cfba8653d81bfe8fbd628a28fcf2ce30f2405c5bc4541cd99c4e4fb5a",
+    "sha256": "115211581e45119514ac5cbeb9c487f59c4064158812240ad635dbd91f19ca3b",
+    "fuente_sha256": "594cfd4cfba8653d81bfe8fbd628a28fcf2ce30f2405c5bc4541cd99c4e4fb5a",
     "blob_sha_m08": "c66245657ddefc1de11baec0ff20d26de25900ef",
     "run_id": "41296546816"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 116063,
      "municipios": 1,
@@ -1624,7 +1664,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 116840,
      "municipios": 36,
@@ -1632,7 +1672,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 116758,
      "municipios": 13,
@@ -1640,7 +1680,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 116183,
      "municipios": 1,
@@ -1648,7 +1688,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 121044,
      "municipios": 14,
@@ -1656,7 +1696,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 112543,
      "municipios": 44,
@@ -1664,7 +1704,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 112658,
      "municipios": 51,
@@ -1672,7 +1712,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 121983,
      "municipios": 15,
@@ -1688,19 +1728,21 @@
    "sha256_origen": "92cb51d9b623af9db3f703d87b1c488e59302c38c735a7033590fed2db871e21",
    "n_distritos": 2,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_guadalajara/distritos.geojson",
     "sha256": "6c5a65cc1b6bf398d5f4359745b915c465bdc0bcf692097ca46ee31d3b4704a9"
    },
    "resultados": {
     "ruta": "congreso_guadalajara/resultados.csv",
-    "sha256": "68ed72c90ad75342c1c8e77412115e742024db0dccaa25aaa8c2a0f71df54dac",
+    "sha256": "dec5f069e7e54d031a0a06763c272caabd820a823855d02e6cf3f581884f59c5",
+    "fuente_sha256": "68ed72c90ad75342c1c8e77412115e742024db0dccaa25aaa8c2a0f71df54dac",
     "blob_sha_m08": "4b459fd17245300468949ff20e2f119018d5c792",
     "run_id": "41294169221"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 137547,
      "municipios": 50,
@@ -1708,7 +1750,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 137535,
      "municipios": 238,
@@ -1724,19 +1766,21 @@
    "sha256_origen": "f6d52eb83af59f0d3e39c6154e6825a0b1ad6615bc6c9ad19fb5c881401159c2",
    "n_distritos": 6,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_guipuzcoa/distritos.geojson",
     "sha256": "ba1e1146c38080441217f5fe3aea838b88bc6d16bb1b9a6e67b3a189795d639c"
    },
    "resultados": {
     "ruta": "congreso_guipuzcoa/resultados.csv",
-    "sha256": "52ed95e35a7ba6172a43eb0ea24dcc9726368197fd2b8271fcd7f25213e994be",
+    "sha256": "16a96d5b581083fe68e439512b7d552b47aec1a8f56355b4fa5334d9d2cd8dfa",
+    "fuente_sha256": "52ed95e35a7ba6172a43eb0ea24dcc9726368197fd2b8271fcd7f25213e994be",
     "blob_sha_m08": "60f963a2c858c3770717a55e830cad0352a2e824",
     "run_id": "41298935355"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 121468,
      "municipios": 1,
@@ -1744,7 +1788,7 @@
      "ganador": "EAJ-PNV"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 118857,
      "municipios": 22,
@@ -1752,7 +1796,7 @@
      "ganador": "EH Bildu"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 118821,
      "municipios": 45,
@@ -1760,7 +1804,7 @@
      "ganador": "EH Bildu"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 112137,
      "municipios": 5,
@@ -1768,7 +1812,7 @@
      "ganador": "PSE-EE (PSOE)"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 121543,
      "municipios": 12,
@@ -1776,7 +1820,7 @@
      "ganador": "EH Bildu"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 133886,
      "municipios": 4,
@@ -1792,19 +1836,21 @@
    "sha256_origen": "c74b2145c223cf9a05e0e4d259e193950d07100e89c1c793537109340742db4e",
    "n_distritos": 4,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_huelva/distritos.geojson",
     "sha256": "cfd43d60cd33c3261d72f309bdc3cf9153c9d5b8110eef3122daedf8d962601c"
    },
    "resultados": {
     "ruta": "congreso_huelva/resultados.csv",
-    "sha256": "cdb5f4554e0c5791e253ec506aecb01af1fef60822b728fc2449268d39f7bf2e",
+    "sha256": "f55b01ca2671d8ee23c076b1939243d0e3ab780e2e1fe0cc9d6e9e40dd7dc093",
+    "fuente_sha256": "cdb5f4554e0c5791e253ec506aecb01af1fef60822b728fc2449268d39f7bf2e",
     "blob_sha_m08": "c7d817affd289cde0c069594366b0b4d929c628b",
     "run_id": "41335929678"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 142968,
      "municipios": 1,
@@ -1812,7 +1858,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 130337,
      "municipios": 26,
@@ -1820,7 +1866,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 130484,
      "municipios": 25,
@@ -1828,7 +1874,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 130295,
      "municipios": 28,
@@ -1844,19 +1890,21 @@
    "sha256_origen": "d023d782e7c5dbb8acce4b9c480daa56709f4fa77bef2e6036c8ab49f1c75e61",
    "n_distritos": 2,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_huesca/distritos.geojson",
     "sha256": "8978d3270f8e82fc14896a48bb0508274ef2078286a54261022f0c64b5bb3890"
    },
    "resultados": {
     "ruta": "congreso_huesca/resultados.csv",
-    "sha256": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82",
+    "sha256": "fa8fdbc40c585cf8b577310d2079ccf814c70f2e1d97ffe1cd0e33c5265708e1",
+    "fuente_sha256": "27002a7d1e56ddb6ad5938482efaf788b64395bf0be3d3afebc792489ef73b82",
     "blob_sha_m08": "d9501b1b659ac4b4cd381b510db6f8e07beebba6",
     "run_id": "42519383275"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 113368,
      "municipios": 102,
@@ -1864,7 +1912,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 113510,
      "municipios": 100,
@@ -1880,19 +1928,21 @@
    "sha256_origen": "b13230763d2b9859ad314b379cf6250c615a757c0ef01f242270aa26eaee8a23",
    "n_distritos": 5,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_jaen/distritos.geojson",
     "sha256": "08b377f723b85e3b81bb9aedf87a14712d28bc13c0beed0d3830dde6b60e1c72"
    },
    "resultados": {
     "ruta": "congreso_jaen/resultados.csv",
-    "sha256": "4f59e0a257ae31a48c067a8de3d6eacbaaf515984020ccac77c939161441a490",
+    "sha256": "9c1a4598e48538b9fcf83783ef9c1adea7ee34df9ab9ad41feb45a0691b9affb",
+    "fuente_sha256": "4f59e0a257ae31a48c067a8de3d6eacbaaf515984020ccac77c939161441a490",
     "blob_sha_m08": "3900d16071e2391c7627166599ff06815dd25467",
     "run_id": "41295799269"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 124199,
      "municipios": 4,
@@ -1900,7 +1950,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 124016,
      "municipios": 20,
@@ -1908,7 +1958,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 124169,
      "municipios": 25,
@@ -1916,7 +1966,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 124240,
      "municipios": 23,
@@ -1924,7 +1974,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 124013,
      "municipios": 25,
@@ -1940,19 +1990,21 @@
    "sha256_origen": "4ad7c2aebcae10814e7c88492178abeb4f9633a0d48999714990d795940767cc",
    "n_distritos": 9,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_la_coruna/distritos.geojson",
     "sha256": "88e3d59b8f903607266c3ac63ca783a2324ec2b1c095f91b89669edf5ad6f740"
    },
    "resultados": {
     "ruta": "congreso_la_coruna/resultados.csv",
-    "sha256": "833b9b82f9a0172dbfabb472551dba949209d18f99f25a330e68f976de010893",
+    "sha256": "c6cb9cafdcce406ac398e2cfc12c6059e737ca17b09ce0e9c8b9889558dada1a",
+    "fuente_sha256": "833b9b82f9a0172dbfabb472551dba949209d18f99f25a330e68f976de010893",
     "blob_sha_m08": "db13655c6e54dfa14152a9b337507aeddf98f248",
     "run_id": "41296991598"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 123911,
      "municipios": 1,
@@ -1960,7 +2012,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 124895,
      "municipios": 17,
@@ -1968,7 +2020,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 123439,
      "municipios": 1,
@@ -1976,7 +2028,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 131194,
      "municipios": 2,
@@ -1984,7 +2036,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 124195,
      "municipios": 6,
@@ -1992,7 +2044,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 126955,
      "municipios": 4,
@@ -2000,7 +2052,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 122066,
      "municipios": 16,
@@ -2008,7 +2060,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 124330,
      "municipios": 23,
@@ -2016,7 +2068,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 122899,
      "municipios": 24,
@@ -2032,19 +2084,21 @@
    "sha256_origen": "e955fa90ad03ba89552f6d925d262d9fa24e8e7e02700e1fe8a4e47e39cdf96d",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_la_rioja/distritos.geojson",
     "sha256": "8e740ec2563cb526f69e685af77ad5635c14108dc729caf20f5b28e0f2e8c3bf"
    },
    "resultados": {
     "ruta": "congreso_la_rioja/resultados.csv",
-    "sha256": "c694a53913ec76b8e3015c26e3aa3bd01a48a496e214f7b8116d13c9874213b7",
+    "sha256": "d2e6790b26d794f297ef315ba741d45f95a3ef1d2df96fa9cd2b2f8209db8ee0",
+    "fuente_sha256": "c694a53913ec76b8e3015c26e3aa3bd01a48a496e214f7b8116d13c9874213b7",
     "blob_sha_m08": "154e3e045a1cbff4ca36261274fec53eedb52c0c",
     "run_id": "42504388624"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 107262,
      "municipios": 1,
@@ -2052,7 +2106,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 107496,
      "municipios": 76,
@@ -2060,7 +2114,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 107524,
      "municipios": 98,
@@ -2076,19 +2130,21 @@
    "sha256_origen": "e1085a9d926a560620e68ed7999f033bd5323396a407b85751742c9658a83d87",
    "n_distritos": 10,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_las_palmas/distritos.geojson",
     "sha256": "d17fb33044516a3e57658cbcf061c582cbd09fe6d8b2a92d833bbb9b08ec4910"
    },
    "resultados": {
     "ruta": "congreso_las_palmas/resultados.csv",
-    "sha256": "d527bba59d5e16f1e9afda3577cf31ea8629f494b19c3f3f0a83dbdc8ec96c20",
+    "sha256": "cb077a107770c506c34044ad72a49f54957813ee6cc92ae176ec65391f17735a",
+    "fuente_sha256": "d527bba59d5e16f1e9afda3577cf31ea8629f494b19c3f3f0a83dbdc8ec96c20",
     "blob_sha_m08": "dc9480466ab380c928492c554cc1f11c7bdde9c2",
     "run_id": "41442913288"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 126452,
      "municipios": 1,
@@ -2096,7 +2152,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 127330,
      "municipios": 1,
@@ -2104,7 +2160,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 127081,
      "municipios": 1,
@@ -2112,7 +2168,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 109215,
      "municipios": 2,
@@ -2120,7 +2176,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 103240,
      "municipios": 1,
@@ -2128,7 +2184,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 66538,
      "municipios": 7,
@@ -2136,7 +2192,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 98535,
      "municipios": 6,
@@ -2144,7 +2200,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 104502,
      "municipios": 4,
@@ -2152,7 +2208,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 124152,
      "municipios": 6,
@@ -2160,7 +2216,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 158798,
      "municipios": 7,
@@ -2176,19 +2232,21 @@
    "sha256_origen": "64e44b77dcd81fee3f82ee7698112ee038c54837652c805485c720c9b4fc1025",
    "n_distritos": 4,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_leon/distritos.geojson",
     "sha256": "efdf7be60ca038bb9752a65f4c55e4d637d85bcbad2b1c894bfa0b5f44ed1c7b"
    },
    "resultados": {
     "ruta": "congreso_leon/resultados.csv",
-    "sha256": "8014c472b0b9254579d7511479944769589b5a2d954d9c26dd7aa04d5766bacc",
+    "sha256": "684c98202f25fc4d854142c8a94c2d820db48a6232c8d7062d6d4702057aa412",
+    "fuente_sha256": "8014c472b0b9254579d7511479944769589b5a2d954d9c26dd7aa04d5766bacc",
     "blob_sha_m08": "fb9b05561399abd89a4c06bb3251d5d28712acc4",
     "run_id": "41629735636"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 121763,
      "municipios": 1,
@@ -2196,7 +2254,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 106896,
      "municipios": 120,
@@ -2204,7 +2262,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 115207,
      "municipios": 36,
@@ -2212,7 +2270,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 104707,
      "municipios": 54,
@@ -2228,19 +2286,21 @@
    "sha256_origen": "cc6ac03c68b83abe4c832a7d29f034522f690fa7480cce2752a74bc94d975af1",
    "n_distritos": 4,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_lerida/distritos.geojson",
     "sha256": "fecf55d195c2e2f47f8efebe886571159a3d50148e496aed834ed38c8499b1e4"
    },
    "resultados": {
     "ruta": "congreso_lerida/resultados.csv",
-    "sha256": "be64820d5e45a0194c08a7917fd77dc1d83ad32cd11df64bde6d6aa2caff1c8c",
+    "sha256": "24354f0f676de179f195d1e0f1b61157449500a02b83bddd2eaad12017d16f30",
+    "fuente_sha256": "be64820d5e45a0194c08a7917fd77dc1d83ad32cd11df64bde6d6aa2caff1c8c",
     "blob_sha_m08": "95da3c81fe54d39d5c249d961d30fb9286729695",
     "run_id": "41299033915"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 111670,
      "municipios": 1,
@@ -2248,7 +2308,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 111811,
      "municipios": 94,
@@ -2256,7 +2316,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 112056,
      "municipios": 53,
@@ -2264,7 +2324,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 111806,
      "municipios": 84,
@@ -2280,19 +2340,21 @@
    "sha256_origen": "8ed9e81b67604dc078a5bad7d2a1523e39f44b3902dcf18f4db2d640de0a013b",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_lugo/distritos.geojson",
     "sha256": "1cdf4658a0514d2897e4aa009a3e79e52a662e98ee41711407686524e7b39af4"
    },
    "resultados": {
     "ruta": "congreso_lugo/resultados.csv",
-    "sha256": "f804d131ce3221ef628d9114a15d85fb8353e7227c3d460ba9a2064366733803",
+    "sha256": "314dcb621b638af604ae526ce7212a56552e481ff19716e4ea2f84ecc151f8aa",
+    "fuente_sha256": "f804d131ce3221ef628d9114a15d85fb8353e7227c3d460ba9a2064366733803",
     "blob_sha_m08": "ffffea11b298fa3c7a002852c14a1452f05337a1",
     "run_id": "42514986960"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 108565,
      "municipios": 3,
@@ -2300,7 +2362,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 107734,
      "municipios": 26,
@@ -2308,7 +2370,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 107968,
      "municipios": 38,
@@ -2324,19 +2386,21 @@
    "sha256_origen": "c0be80d0d15d89d9929c0400a278a9abcfe31131726fd870790984ab7c06b029",
    "n_distritos": 59,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_madrid/distritos.geojson",
     "sha256": "0e23c3710cf92fe5fada1f1bfd623e7f24783324dbcd44a91ad4d26e79ea4e4c"
    },
    "resultados": {
     "ruta": "congreso_madrid/resultados.csv",
-    "sha256": "f1c7c301e1307450de258dc34d2a70d2c6fb9e9c2053bbe9d04b438efbbde0d8",
+    "sha256": "651ca71bdf4d9c95fc1ae11ce774b50b9b0c878af0e27c8c144d3be62c427692",
+    "fuente_sha256": "f1c7c301e1307450de258dc34d2a70d2c6fb9e9c2053bbe9d04b438efbbde0d8",
     "blob_sha_m08": "24c734823516a69d1a23cb59bc0d627c2bc69de1",
     "run_id": "41622703086"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 99237,
      "municipios": 1,
@@ -2344,7 +2408,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 116468,
      "municipios": 1,
@@ -2352,7 +2416,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 116509,
      "municipios": 1,
@@ -2360,7 +2424,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 116609,
      "municipios": 1,
@@ -2368,7 +2432,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 116500,
      "municipios": 1,
@@ -2376,7 +2440,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 114872,
      "municipios": 1,
@@ -2384,7 +2448,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 115935,
      "municipios": 1,
@@ -2392,7 +2456,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 126630,
      "municipios": 1,
@@ -2400,7 +2464,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 114973,
      "municipios": 1,
@@ -2408,7 +2472,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 114928,
      "municipios": 1,
@@ -2416,7 +2480,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 119272,
      "municipios": 1,
@@ -2424,7 +2488,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 11,
+     "distrito": 12,
      "nombre": null,
      "poblacion": 115146,
      "municipios": 1,
@@ -2432,7 +2496,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 12,
+     "distrito": 13,
      "nombre": null,
      "poblacion": 116056,
      "municipios": 1,
@@ -2440,7 +2504,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 13,
+     "distrito": 14,
      "nombre": null,
      "poblacion": 115058,
      "municipios": 1,
@@ -2448,7 +2512,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 14,
+     "distrito": 15,
      "nombre": null,
      "poblacion": 115484,
      "municipios": 1,
@@ -2456,7 +2520,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 15,
+     "distrito": 16,
      "nombre": null,
      "poblacion": 115592,
      "municipios": 1,
@@ -2464,7 +2528,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 16,
+     "distrito": 17,
      "nombre": null,
      "poblacion": 115329,
      "municipios": 1,
@@ -2472,7 +2536,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 17,
+     "distrito": 18,
      "nombre": null,
      "poblacion": 114693,
      "municipios": 1,
@@ -2480,7 +2544,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 18,
+     "distrito": 19,
      "nombre": null,
      "poblacion": 117710,
      "municipios": 1,
@@ -2488,7 +2552,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 19,
+     "distrito": 20,
      "nombre": null,
      "poblacion": 126606,
      "municipios": 1,
@@ -2496,7 +2560,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 20,
+     "distrito": 21,
      "nombre": null,
      "poblacion": 115200,
      "municipios": 1,
@@ -2504,7 +2568,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 21,
+     "distrito": 22,
      "nombre": null,
      "poblacion": 114527,
      "municipios": 1,
@@ -2512,7 +2576,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 22,
+     "distrito": 23,
      "nombre": null,
      "poblacion": 133450,
      "municipios": 1,
@@ -2520,7 +2584,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 23,
+     "distrito": 24,
      "nombre": null,
      "poblacion": 116717,
      "municipios": 1,
@@ -2528,7 +2592,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 24,
+     "distrito": 25,
      "nombre": null,
      "poblacion": 115915,
      "municipios": 1,
@@ -2536,7 +2600,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 25,
+     "distrito": 26,
      "nombre": null,
      "poblacion": 116202,
      "municipios": 1,
@@ -2544,7 +2608,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 26,
+     "distrito": 27,
      "nombre": null,
      "poblacion": 132263,
      "municipios": 1,
@@ -2552,7 +2616,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 27,
+     "distrito": 28,
      "nombre": null,
      "poblacion": 116089,
      "municipios": 1,
@@ -2560,7 +2624,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 28,
+     "distrito": 29,
      "nombre": null,
      "poblacion": 115880,
      "municipios": 1,
@@ -2568,7 +2632,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 29,
+     "distrito": 30,
      "nombre": null,
      "poblacion": 115278,
      "municipios": 1,
@@ -2576,7 +2640,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 30,
+     "distrito": 31,
      "nombre": null,
      "poblacion": 115174,
      "municipios": 1,
@@ -2584,7 +2648,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 31,
+     "distrito": 32,
      "nombre": null,
      "poblacion": 115059,
      "municipios": 1,
@@ -2592,7 +2656,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 32,
+     "distrito": 33,
      "nombre": null,
      "poblacion": 115538,
      "municipios": 1,
@@ -2600,7 +2664,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 33,
+     "distrito": 34,
      "nombre": null,
      "poblacion": 105329,
      "municipios": 1,
@@ -2608,7 +2672,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 34,
+     "distrito": 35,
      "nombre": null,
      "poblacion": 116422,
      "municipios": 1,
@@ -2616,7 +2680,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 35,
+     "distrito": 36,
      "nombre": null,
      "poblacion": 119132,
      "municipios": 2,
@@ -2624,7 +2688,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 36,
+     "distrito": 37,
      "nombre": null,
      "poblacion": 110490,
      "municipios": 9,
@@ -2632,7 +2696,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 37,
+     "distrito": 38,
      "nombre": null,
      "poblacion": 119471,
      "municipios": 1,
@@ -2640,7 +2704,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 38,
+     "distrito": 39,
      "nombre": null,
      "poblacion": 107857,
      "municipios": 22,
@@ -2648,7 +2712,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 39,
+     "distrito": 40,
      "nombre": null,
      "poblacion": 116399,
      "municipios": 48,
@@ -2656,7 +2720,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 40,
+     "distrito": 41,
      "nombre": null,
      "poblacion": 119451,
      "municipios": 2,
@@ -2664,7 +2728,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 41,
+     "distrito": 42,
      "nombre": null,
      "poblacion": 120886,
      "municipios": 2,
@@ -2672,7 +2736,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 42,
+     "distrito": 43,
      "nombre": null,
      "poblacion": 112837,
      "municipios": 24,
@@ -2680,7 +2744,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 43,
+     "distrito": 44,
      "nombre": null,
      "poblacion": 133104,
      "municipios": 2,
@@ -2688,7 +2752,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 44,
+     "distrito": 45,
      "nombre": null,
      "poblacion": 123714,
      "municipios": 2,
@@ -2696,7 +2760,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 45,
+     "distrito": 46,
      "nombre": null,
      "poblacion": 115425,
      "municipios": 3,
@@ -2704,7 +2768,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 46,
+     "distrito": 47,
      "nombre": null,
      "poblacion": 114223,
      "municipios": 6,
@@ -2712,7 +2776,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 47,
+     "distrito": 48,
      "nombre": null,
      "poblacion": 115977,
      "municipios": 7,
@@ -2720,7 +2784,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 48,
+     "distrito": 49,
      "nombre": null,
      "poblacion": 113980,
      "municipios": 3,
@@ -2728,7 +2792,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 49,
+     "distrito": 50,
      "nombre": null,
      "poblacion": 130851,
      "municipios": 2,
@@ -2736,7 +2800,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 50,
+     "distrito": 51,
      "nombre": null,
      "poblacion": 107291,
      "municipios": 2,
@@ -2744,7 +2808,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 51,
+     "distrito": 52,
      "nombre": null,
      "poblacion": 132842,
      "municipios": 1,
@@ -2752,7 +2816,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 52,
+     "distrito": 53,
      "nombre": null,
      "poblacion": 108197,
      "municipios": 4,
@@ -2760,7 +2824,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 53,
+     "distrito": 54,
      "nombre": null,
      "poblacion": 105263,
      "municipios": 1,
@@ -2768,7 +2832,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 54,
+     "distrito": 55,
      "nombre": null,
      "poblacion": 108384,
      "municipios": 17,
@@ -2776,7 +2840,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 55,
+     "distrito": 56,
      "nombre": null,
      "poblacion": 113433,
      "municipios": 2,
@@ -2784,7 +2848,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 56,
+     "distrito": 57,
      "nombre": null,
      "poblacion": 127956,
      "municipios": 2,
@@ -2792,7 +2856,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 57,
+     "distrito": 58,
      "nombre": null,
      "poblacion": 107706,
      "municipios": 5,
@@ -2800,7 +2864,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 58,
+     "distrito": 59,
      "nombre": null,
      "poblacion": 104384,
      "municipios": 10,
@@ -2816,19 +2880,21 @@
    "sha256_origen": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d",
    "n_distritos": 15,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_malaga/distritos.geojson",
     "sha256": "bd763b645f29e5b4d412f447f7de7a061d53d9978ff8b90812fabede126a698d"
    },
    "resultados": {
     "ruta": "congreso_malaga/resultados.csv",
-    "sha256": "f65e0aec2d2895993f170a48fddfd6dd7b5b2e3d807c0497de6a098e62d61bde",
+    "sha256": "1f7aeffe7ae591211dbcdd733281bf915ae366f42fa555ab735c9ab7759afe10",
+    "fuente_sha256": "f65e0aec2d2895993f170a48fddfd6dd7b5b2e3d807c0497de6a098e62d61bde",
     "blob_sha_m08": "0ae1a479c4a0051e27068c0dcc4cfc2290507530",
     "run_id": "42495070976"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 132625,
      "municipios": 1,
@@ -2836,7 +2902,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 134302,
      "municipios": 1,
@@ -2844,7 +2910,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 134329,
      "municipios": 1,
@@ -2852,7 +2918,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 122650,
      "municipios": 1,
@@ -2860,7 +2926,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 121743,
      "municipios": 1,
@@ -2868,7 +2934,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 133507,
      "municipios": 2,
@@ -2876,7 +2942,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 120173,
      "municipios": 2,
@@ -2884,7 +2950,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 108205,
      "municipios": 11,
@@ -2892,7 +2958,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 111478,
      "municipios": 2,
@@ -2900,7 +2966,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 110800,
      "municipios": 4,
@@ -2908,7 +2974,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 85136,
      "municipios": 1,
@@ -2916,7 +2982,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 11,
+     "distrito": 12,
      "nombre": null,
      "poblacion": 108997,
      "municipios": 11,
@@ -2924,7 +2990,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 12,
+     "distrito": 13,
      "nombre": null,
      "poblacion": 109888,
      "municipios": 22,
@@ -2932,7 +2998,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 13,
+     "distrito": 14,
      "nombre": null,
      "poblacion": 110292,
      "municipios": 19,
@@ -2940,7 +3006,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 14,
+     "distrito": 15,
      "nombre": null,
      "poblacion": 108603,
      "municipios": 29,
@@ -2956,19 +3022,21 @@
    "sha256_origen": "3788e954c96a750f6281f5bedd47436322858279fc3dc51d39b5c7d25ec0bb75",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_melilla/distritos.geojson",
     "sha256": "df576a5e5d1ef2178f286fa05fc33b77bd66c3b8950b2f06c7f200b0ae151dfb"
    },
    "resultados": {
     "ruta": "congreso_melilla/resultados.csv",
-    "sha256": "badcefec022696cd6177b05a2a48ea3a7c3e146cdcc2df62d866fc37abed9411",
+    "sha256": "5da0a3fc13576eb09e81526da501595a440e2eb993416d7d6b4ed5b618305149",
+    "fuente_sha256": "badcefec022696cd6177b05a2a48ea3a7c3e146cdcc2df62d866fc37abed9411",
     "blob_sha_m08": "0359e7c88e9c1bc2c8f60a0615615e1dc6ac7276",
     "run_id": "41293988485"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 85493,
      "municipios": 1,
@@ -2984,19 +3052,21 @@
    "sha256_origen": "8056c77be56654e0593941673245cb2cdbe2cd21a2d74d172faaeaafa825c4e4",
    "n_distritos": 13,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_murcia/distritos.geojson",
     "sha256": "50d35ebad97b5935a637d298e81ceaf2568d40c6eecc42a65db3fb1dadb9ea31"
    },
    "resultados": {
     "ruta": "congreso_murcia/resultados.csv",
-    "sha256": "08e489e35a2e4e4a52ac3f5ff030c2a7664edc34f0b7700b96e524364da7e5a4",
+    "sha256": "18425fd83b3bcb9b06094c7fca8ed40cd495edf9b3de892f54c25093edd9fab8",
+    "fuente_sha256": "08e489e35a2e4e4a52ac3f5ff030c2a7664edc34f0b7700b96e524364da7e5a4",
     "blob_sha_m08": "574d8ec0f1e61ac183c8b590c22141dacd75f17a",
     "run_id": "41622862185"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 109097,
      "municipios": 1,
@@ -3004,7 +3074,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 136928,
      "municipios": 1,
@@ -3012,7 +3082,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 133011,
      "municipios": 1,
@@ -3020,7 +3090,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 137155,
      "municipios": 1,
@@ -3028,7 +3098,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 127261,
      "municipios": 5,
@@ -3036,7 +3106,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 124236,
      "municipios": 7,
@@ -3044,7 +3114,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 36684,
      "municipios": 1,
@@ -3052,7 +3122,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 125706,
      "municipios": 4,
@@ -3060,7 +3130,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 130091,
      "municipios": 3,
@@ -3068,7 +3138,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 124253,
      "municipios": 13,
@@ -3076,7 +3146,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 117082,
      "municipios": 6,
@@ -3084,7 +3154,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 11,
+     "distrito": 12,
      "nombre": null,
      "poblacion": 120203,
      "municipios": 4,
@@ -3092,7 +3162,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 12,
+     "distrito": 13,
      "nombre": null,
      "poblacion": 129985,
      "municipios": 2,
@@ -3108,19 +3178,21 @@
    "sha256_origen": "bdba8f82d8788453fce9274c84ccd82037c1088456979c44070aa857e84ef032",
    "n_distritos": 6,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_navarra/distritos.geojson",
     "sha256": "850e10e52c4d52a126555571a6e77b01e2458e6730bf5d2d6ccb3023ecc30f69"
    },
    "resultados": {
     "ruta": "congreso_navarra/resultados.csv",
-    "sha256": "7e59075051985163ec7963057d409b10c9e7fd513ca46f4e04048252ec22150f",
+    "sha256": "0e3ce5f1adf5c20bcf840372cd4a999016568ee94a4e13d5f70998dea38630bc",
+    "fuente_sha256": "7e59075051985163ec7963057d409b10c9e7fd513ca46f4e04048252ec22150f",
     "blob_sha_m08": "0967d47647a8fc62faec9139809393a4c0dd0485",
     "run_id": "41299128213"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 103144,
      "municipios": 1,
@@ -3128,7 +3200,7 @@
      "ganador": "PSN-PSOE"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 113778,
      "municipios": 25,
@@ -3136,7 +3208,7 @@
      "ganador": "PSN-PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 113523,
      "municipios": 10,
@@ -3144,7 +3216,7 @@
      "ganador": "PSN-PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 113859,
      "municipios": 57,
@@ -3152,7 +3224,7 @@
      "ganador": "EH Bildu"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 113867,
      "municipios": 150,
@@ -3160,7 +3232,7 @@
      "ganador": "PSN-PSOE"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 113984,
      "municipios": 30,
@@ -3176,19 +3248,21 @@
    "sha256_origen": "ae08e0c7068202deaaf3a04c0f7f4909a87ce039bb55d69633d074afd2740edb",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_orense/distritos.geojson",
     "sha256": "39f2634d310832e05fd4e0e19d716fc6ba16bab74cb89ea27f1d2643ec365f11"
    },
    "resultados": {
     "ruta": "congreso_orense/resultados.csv",
-    "sha256": "9df0a218af3838a9181a8f670e3184a6fa72814ef5eb3e350d49dbe9ba7d50ec",
+    "sha256": "c544a8b8c8cdada91d00acb3000565eedb931c122f0e0aea5501d7b5208fcd8e",
+    "fuente_sha256": "9df0a218af3838a9181a8f670e3184a6fa72814ef5eb3e350d49dbe9ba7d50ec",
     "blob_sha_m08": "85aa91e079414ae53a062ab7bfff3e51effe02f5",
     "run_id": "41295142111"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 104187,
      "municipios": 1,
@@ -3196,7 +3270,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 100518,
      "municipios": 47,
@@ -3204,7 +3278,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 99858,
      "municipios": 44,
@@ -3220,19 +3294,21 @@
    "sha256_origen": "76e597dca654a53f5dfea12557bc8237e120e55e9d6dcf348f8d1408e904c547",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_palencia/distritos.geojson",
     "sha256": "7ee989020dfece20be96217a3c2f02dd1080420a075333520c3e5ecfb149505a"
    },
    "resultados": {
     "ruta": "congreso_palencia/resultados.csv",
-    "sha256": "8a741407abaa0fd67070dd1db1c66b44952e814fb043340e4772b1ed21ef50d0",
+    "sha256": "f91b83005e642f7ccb6b17cd9b91bf1a7390e003efaca4622cbd3613e2e4e0ce",
+    "fuente_sha256": "8a741407abaa0fd67070dd1db1c66b44952e814fb043340e4772b1ed21ef50d0",
     "blob_sha_m08": "a57583bcba9edd506c7a32b827166f4d0b7ae545",
     "run_id": "41298660623"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 157787,
      "municipios": 191,
@@ -3248,19 +3324,21 @@
    "sha256_origen": "e9ae99095a8da16629135ee476915bca1d405541f79656d055638e166c6ac294",
    "n_distritos": 8,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_pontevedra/distritos.geojson",
     "sha256": "0584f47d813f2db6987661673dcb9c269f66452e6c572e1fd1f3c8a440a75f67"
    },
    "resultados": {
     "ruta": "congreso_pontevedra/resultados.csv",
-    "sha256": "cc8ef452216052eb9632b31644f228497d239f26c9d1447f1ca67ff253f72227",
+    "sha256": "6abf2133c8c6f3bc7afdc2305326f05455a599fa23909293d75c7c4c8f4d606b",
+    "fuente_sha256": "cc8ef452216052eb9632b31644f228497d239f26c9d1447f1ca67ff253f72227",
     "blob_sha_m08": "32d4ca73e436d67d20cf711f9bdaa4f386feec61",
     "run_id": "41353894475"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 118335,
      "municipios": 1,
@@ -3268,7 +3346,7 @@
      "ganador": "PSdeG-PSOE"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 118376,
      "municipios": 1,
@@ -3276,7 +3354,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 128618,
      "municipios": 4,
@@ -3284,7 +3362,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 123093,
      "municipios": 14,
@@ -3292,7 +3370,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 122832,
      "municipios": 21,
@@ -3300,7 +3378,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 124407,
      "municipios": 5,
@@ -3308,7 +3386,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 122852,
      "municipios": 12,
@@ -3316,7 +3394,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 88197,
      "municipios": 5,
@@ -3332,19 +3410,21 @@
    "sha256_origen": "4daccc0e0011ab510156a94cd1330e02c9cc97fe6d17d8bb4b655b9325dc4da0",
    "n_distritos": 3,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_salamanca/distritos.geojson",
     "sha256": "f9aaa4329493d9eb0b86631451b3ad356d78af59727688faf7295a2ec189c89a"
    },
    "resultados": {
     "ruta": "congreso_salamanca/resultados.csv",
-    "sha256": "04f7e4062f84510984d867171bc5b0a5fd8747d53d815fa3e67fe3097a4eb1ed",
+    "sha256": "4fd25dea418d31728a90c87bd682d5d882ab9e31a711323819c69026337f81c0",
+    "fuente_sha256": "04f7e4062f84510984d867171bc5b0a5fd8747d53d815fa3e67fe3097a4eb1ed",
     "blob_sha_m08": "442c8201661af099714b6e9b49f133deb88f5794",
     "run_id": "41295298674"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 109023,
      "municipios": 1,
@@ -3352,7 +3432,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 109031,
      "municipios": 174,
@@ -3360,7 +3440,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 109035,
      "municipios": 188,
@@ -3376,19 +3456,21 @@
    "sha256_origen": "8798a2b53741e954c82a2f3d27be4bd9a6ddbc584bea83fd9fa020aaaa738aae",
    "n_distritos": 9,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_santa_cruz_de_tenerife/distritos.geojson",
     "sha256": "13255016220076ff1e9101dc33d4a11b452fb74cde3622ebea4649a505ae08f3"
    },
    "resultados": {
     "ruta": "congreso_santa_cruz_de_tenerife/resultados.csv",
-    "sha256": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8",
+    "sha256": "8d26c52ec03e60d92896940eae98709b0e0ba72d65caf5ae88de59cfde831994",
+    "fuente_sha256": "7fcc1ad1464fedea3de6989aec6bf5f286d5d4143d913771aae6961a7d41c0a8",
     "blob_sha_m08": "e565ed96f1ffa8ff90b7c0a3600df744bcb60636",
     "run_id": "42519017008"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 118786,
      "municipios": 1,
@@ -3396,7 +3478,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 104659,
      "municipios": 1,
@@ -3404,7 +3486,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 122152,
      "municipios": 2,
@@ -3412,7 +3494,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 124017,
      "municipios": 6,
@@ -3420,7 +3502,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 111354,
      "municipios": 3,
@@ -3428,7 +3510,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 119368,
      "municipios": 7,
@@ -3436,7 +3518,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 126372,
      "municipios": 8,
@@ -3444,7 +3526,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 122107,
      "municipios": 5,
@@ -3452,7 +3534,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 118358,
      "municipios": 23,
@@ -3468,19 +3550,21 @@
    "sha256_origen": "00d8ba468186219a10ae0821821862ae55426789f7a1d7e35fa896a9e5bf5638",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_segovia/distritos.geojson",
     "sha256": "9f8e85767341e936d6410b58d6dddae5da649052166c7e51e498358bfa3bb1c0"
    },
    "resultados": {
     "ruta": "congreso_segovia/resultados.csv",
-    "sha256": "38207341475d10dfc19eece3b8d94409f5e765ab5e23595d8029dbc726f22318",
+    "sha256": "a6b72156020c71fb807b4eaff57596cc7592abfd2969938c31c03c455fe168dd",
+    "fuente_sha256": "38207341475d10dfc19eece3b8d94409f5e765ab5e23595d8029dbc726f22318",
     "blob_sha_m08": "7b8441b18d177c1c1c6709395f912996a38b076d",
     "run_id": "41241846017"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 155332,
      "municipios": 209,
@@ -3496,19 +3580,21 @@
    "sha256_origen": "b8804062414795e12545ff69a42dcc0d09e9a98f713d2c7f5c7e630ba1902994",
    "n_distritos": 16,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_sevilla/distritos.geojson",
     "sha256": "e7773d44cb05be6925ae1e77daeb47e4f2d24c61a02d4ff0e27a49ea443f3f1e"
    },
    "resultados": {
     "ruta": "congreso_sevilla/resultados.csv",
-    "sha256": "5ddc3df3191f022006fe6380d5ee27dbdd84d3189cf0ad40a49993fe8de66d2d",
+    "sha256": "b4f6656791ea54bc108f07bf9e676c1e98e89f7b1c65a96acac0ea5524539d0a",
+    "fuente_sha256": "5ddc3df3191f022006fe6380d5ee27dbdd84d3189cf0ad40a49993fe8de66d2d",
     "blob_sha_m08": "f30c6018e8f51b5ad7110a5933597d7dc5519510",
     "run_id": "41297168461"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 114225,
      "municipios": 1,
@@ -3516,7 +3602,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 113593,
      "municipios": 1,
@@ -3524,7 +3610,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 114029,
      "municipios": 1,
@@ -3532,7 +3618,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 113932,
      "municipios": 1,
@@ -3540,7 +3626,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 114005,
      "municipios": 1,
@@ -3548,7 +3634,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 121146,
      "municipios": 18,
@@ -3556,7 +3642,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 125847,
      "municipios": 13,
@@ -3564,7 +3650,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 121507,
      "municipios": 16,
@@ -3572,7 +3658,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 138991,
      "municipios": 1,
@@ -3580,7 +3666,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 129663,
      "municipios": 5,
@@ -3588,7 +3674,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 127515,
      "municipios": 14,
@@ -3596,7 +3682,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 11,
+     "distrito": 12,
      "nombre": null,
      "poblacion": 127434,
      "municipios": 9,
@@ -3604,7 +3690,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 12,
+     "distrito": 13,
      "nombre": null,
      "poblacion": 121301,
      "municipios": 18,
@@ -3612,7 +3698,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 13,
+     "distrito": 14,
      "nombre": null,
      "poblacion": 132989,
      "municipios": 7,
@@ -3620,7 +3706,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 14,
+     "distrito": 15,
      "nombre": null,
      "poblacion": 122965,
      "municipios": 2,
@@ -3628,7 +3714,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 15,
+     "distrito": 16,
      "nombre": null,
      "poblacion": 120252,
      "municipios": 3,
@@ -3644,19 +3730,21 @@
    "sha256_origen": "79155d841e6b6b713e9cbe9b387f3b4e927c7cb4a70ce935a01a8b90048935a1",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_soria/distritos.geojson",
     "sha256": "6e595de50314960298b21325ab8282e27973813467883384a31868d5c89e9fcc"
    },
    "resultados": {
     "ruta": "congreso_soria/resultados.csv",
-    "sha256": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317",
+    "sha256": "d430974fd0deb160976094bdde6d1e35d46c11297b920e0b1c97aa40a13f8c5b",
+    "fuente_sha256": "c4b9b710d107cc66860b037c842b6ff76a9981dcb5027100de108c99876be317",
     "blob_sha_m08": "9b819f8253137f1d6c44ad8ec54c4576e426ce58",
     "run_id": "41250310066"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 89528,
      "municipios": 183,
@@ -3672,19 +3760,21 @@
    "sha256_origen": "7f6674484deb6b85da2a1d0b2ae73b85981d63af2c17a5bcf130b05769c34fba",
    "n_distritos": 7,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_tarragona/distritos.geojson",
     "sha256": "7d5b34f21f1410fd79ae2807cc0ae0e1e6b79066d66b1d723200ff529b65569f"
    },
    "resultados": {
     "ruta": "congreso_tarragona/resultados.csv",
-    "sha256": "6356890af6b88a52a35d667503cd0902b01a63fbe670c95d61e4d92e9224f6d1",
+    "sha256": "0984982b8e74e794d0c0aa9fcc6c30c097e996562599315e3aa24b55501ae10e",
+    "fuente_sha256": "6356890af6b88a52a35d667503cd0902b01a63fbe670c95d61e4d92e9224f6d1",
     "blob_sha_m08": "1b4a4a4213021cb54b07650bad5bbd017d5112da",
     "run_id": "42514991952"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 117877,
      "municipios": 61,
@@ -3692,7 +3782,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 117870,
      "municipios": 37,
@@ -3700,7 +3790,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 120921,
      "municipios": 8,
@@ -3708,7 +3798,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 138326,
      "municipios": 1,
@@ -3716,7 +3806,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 117892,
      "municipios": 55,
@@ -3724,7 +3814,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 117798,
      "municipios": 17,
@@ -3732,7 +3822,7 @@
      "ganador": "PSC"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 117908,
      "municipios": 5,
@@ -3748,19 +3838,21 @@
    "sha256_origen": "f458afbf4549817ddc093bda229aebe8d14806ca83006d4f833e02388651c3cb",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_teruel/distritos.geojson",
     "sha256": "8fb1e01713bcee7544a2cede69c755a1e2940284a3d9723adf149e0211034e0c"
    },
    "resultados": {
     "ruta": "congreso_teruel/resultados.csv",
-    "sha256": "66aead7e6e40735d145637d4606afefaaad9aecdddee917f9b2b460a95feb755",
+    "sha256": "d518a2f48fd893d05d0b44e149f4ac4de831a5a10a1bcf05640aeef47dde0281",
+    "fuente_sha256": "66aead7e6e40735d145637d4606afefaaad9aecdddee917f9b2b460a95feb755",
     "blob_sha_m08": "16b291fb3157d8d03c46d45bc185d428f7c3c15d",
     "run_id": "41250394074"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 135046,
      "municipios": 236,
@@ -3776,19 +3868,21 @@
    "sha256_origen": "438ab1ce7a80fdc8d9e2362aec6bd1a3947dd678c4fb7a7ddca588061a97d375",
    "n_distritos": 6,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_toledo/distritos.geojson",
     "sha256": "e88c25bc1b5fddb32e0744c1c5f7406e7c98810edd8fd1e495e3f3d2aa84cf2a"
    },
    "resultados": {
     "ruta": "congreso_toledo/resultados.csv",
-    "sha256": "4099f0e6a166efd0e85ce52f0c4021a7e73d2ffc2a2370d250e103b8304410ba",
+    "sha256": "f8549c0e4f057dacdc7978552a4dbd99f1aec675495b63cca14ada553f8944cc",
+    "fuente_sha256": "4099f0e6a166efd0e85ce52f0c4021a7e73d2ffc2a2370d250e103b8304410ba",
     "blob_sha_m08": "46e224b53d3a6e1f0f8061667db0e7f9f7bd469f",
     "run_id": "41296268720"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 121908,
      "municipios": 9,
@@ -3796,7 +3890,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 122132,
      "municipios": 38,
@@ -3804,7 +3898,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 121069,
      "municipios": 15,
@@ -3812,7 +3906,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 122041,
      "municipios": 24,
@@ -3820,7 +3914,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 122025,
      "municipios": 62,
@@ -3828,7 +3922,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 121937,
      "municipios": 56,
@@ -3844,19 +3938,21 @@
    "sha256_origen": "43a59012831f4535b485d4fd20f27b14c24b87e92f7c0782a9f3b25a174e3c51",
    "n_distritos": 23,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_valencia/distritos.geojson",
     "sha256": "8c5d800cf5a4686a730e143e3baa1a5e0a13b370af90cc2f5ad6fe7a0c48fa31"
    },
    "resultados": {
     "ruta": "congreso_valencia/resultados.csv",
-    "sha256": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67",
+    "sha256": "8ca10d1b93e79b1ea33194fbe10cbe8b5957ab0272b7bfe0221683d7b5ddc316",
+    "fuente_sha256": "1fe403bb577f1cc3595716b08a50620d6613c7c466ca6bf034d38f4fd6b2cb67",
     "blob_sha_m08": "d8520d6c02967199ee139cf113de9027862f7a37",
     "run_id": "42525625044"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 115268,
      "municipios": 1,
@@ -3864,7 +3960,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 114837,
      "municipios": 1,
@@ -3872,7 +3968,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 115139,
      "municipios": 1,
@@ -3880,7 +3976,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 114849,
      "municipios": 1,
@@ -3888,7 +3984,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 114983,
      "municipios": 1,
@@ -3896,7 +3992,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 114699,
      "municipios": 1,
@@ -3904,7 +4000,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 115774,
      "municipios": 7,
@@ -3912,7 +4008,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 119529,
      "municipios": 11,
@@ -3920,7 +4016,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 111842,
      "municipios": 45,
@@ -3928,7 +4024,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 115333,
      "municipios": 7,
@@ -3936,7 +4032,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 10,
+     "distrito": 11,
      "nombre": null,
      "poblacion": 113544,
      "municipios": 20,
@@ -3944,7 +4040,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 11,
+     "distrito": 12,
      "nombre": null,
      "poblacion": 115388,
      "municipios": 44,
@@ -3952,7 +4048,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 12,
+     "distrito": 13,
      "nombre": null,
      "poblacion": 118501,
      "municipios": 14,
@@ -3960,7 +4056,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 13,
+     "distrito": 14,
      "nombre": null,
      "poblacion": 115044,
      "municipios": 17,
@@ -3968,7 +4064,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 14,
+     "distrito": 15,
      "nombre": null,
      "poblacion": 111624,
      "municipios": 19,
@@ -3976,7 +4072,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 15,
+     "distrito": 16,
      "nombre": null,
      "poblacion": 113118,
      "municipios": 19,
@@ -3984,7 +4080,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 16,
+     "distrito": 17,
      "nombre": null,
      "poblacion": 120679,
      "municipios": 2,
@@ -3992,7 +4088,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 17,
+     "distrito": 18,
      "nombre": null,
      "poblacion": 116006,
      "municipios": 25,
@@ -4000,7 +4096,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 18,
+     "distrito": 19,
      "nombre": null,
      "poblacion": 111969,
      "municipios": 19,
@@ -4008,7 +4104,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 19,
+     "distrito": 20,
      "nombre": null,
      "poblacion": 118287,
      "municipios": 4,
@@ -4016,7 +4112,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 20,
+     "distrito": 21,
      "nombre": null,
      "poblacion": 121914,
      "municipios": 3,
@@ -4024,7 +4120,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 21,
+     "distrito": 22,
      "nombre": null,
      "poblacion": 105009,
      "municipios": 2,
@@ -4032,7 +4128,7 @@
      "ganador": "PSOE"
     },
     {
-     "distrito": 22,
+     "distrito": 23,
      "nombre": null,
      "poblacion": 123505,
      "municipios": 8,
@@ -4048,19 +4144,21 @@
    "sha256_origen": "5c1183841e5307b49327fef4bb463049f8d22873352bbdba2917b4e858e2b9a1",
    "n_distritos": 4,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_valladolid/distritos.geojson",
     "sha256": "6ba1691c8f99ea0dd71eff8ec31f6538198b30157f5f810bcb6924899c7fa41e"
    },
    "resultados": {
     "ruta": "congreso_valladolid/resultados.csv",
-    "sha256": "b3e9a182aefa6c5696db3fe996b0bcf91a8b7e7b440985b186d1681b9378988b",
+    "sha256": "d339a576970acba60b39d773b58c58c64886f5bfe4a5cb8535004eabdd6066c4",
+    "fuente_sha256": "b3e9a182aefa6c5696db3fe996b0bcf91a8b7e7b440985b186d1681b9378988b",
     "blob_sha_m08": "52c92117dc16ff1f6139510b56c76c66b1b83567",
     "run_id": "41299313598"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 148543,
      "municipios": 1,
@@ -4068,7 +4166,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 148586,
      "municipios": 1,
@@ -4076,7 +4174,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 112066,
      "municipios": 106,
@@ -4084,7 +4182,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 112138,
      "municipios": 118,
@@ -4100,19 +4198,21 @@
    "sha256_origen": "55a5bcab96db8190d4aac251b0d58e12703b80c915616d29cfe508a30370371c",
    "n_distritos": 10,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_vizcaya/distritos.geojson",
     "sha256": "7921e1722521d95388cdf602a295ff86b34a7468d85f0888fd6e38e21f375669"
    },
    "resultados": {
     "ruta": "congreso_vizcaya/resultados.csv",
-    "sha256": "81c1026acae11701238fd21d68bc47d052acaa75331076a155ea69767a66a5a4",
+    "sha256": "2f1f5f38c11ab655e3443d3848a70a74a627d745911970e53c45fe7ab6223ce9",
+    "fuente_sha256": "81c1026acae11701238fd21d68bc47d052acaa75331076a155ea69767a66a5a4",
     "blob_sha_m08": "da53172a589fd67b53cd4cd478dff0a4483281ad",
     "run_id": "41356074013"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 115050,
      "municipios": 1,
@@ -4120,7 +4220,7 @@
      "ganador": "PSE-EE (PSOE)"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 114956,
      "municipios": 1,
@@ -4128,7 +4228,7 @@
      "ganador": "PSE-EE (PSOE)"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 118305,
      "municipios": 17,
@@ -4136,7 +4236,7 @@
      "ganador": "EAJ-PNV"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 117976,
      "municipios": 44,
@@ -4144,7 +4244,7 @@
      "ganador": "EAJ-PNV"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 119754,
      "municipios": 2,
@@ -4152,7 +4252,7 @@
      "ganador": "EAJ-PNV"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 112894,
      "municipios": 2,
@@ -4160,7 +4260,7 @@
      "ganador": "PSE-EE (PSOE)"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 123626,
      "municipios": 3,
@@ -4168,7 +4268,7 @@
      "ganador": "EAJ-PNV"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 112414,
      "municipios": 22,
@@ -4176,7 +4276,7 @@
      "ganador": "EAJ-PNV"
     },
     {
-     "distrito": 8,
+     "distrito": 9,
      "nombre": null,
      "poblacion": 106484,
      "municipios": 9,
@@ -4184,7 +4284,7 @@
      "ganador": "PSE-EE (PSOE)"
     },
     {
-     "distrito": 9,
+     "distrito": 10,
      "nombre": null,
      "poblacion": 111823,
      "municipios": 13,
@@ -4200,19 +4300,21 @@
    "sha256_origen": "c6662aa8a98b3dc64c53e5f428201ba050ee936ea6c4ac767f8868b7ac5fccd2",
    "n_distritos": 1,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_zamora/distritos.geojson",
     "sha256": "f1c8e8d4cddcde65c9bf2e3f08c3d00ba209f5a0449f783f41116894b8789ccd"
    },
    "resultados": {
     "ruta": "congreso_zamora/resultados.csv",
-    "sha256": "476ae37e98fe79377d74e7880fb9841bace98b41a30bf4ba88299232247f3d12",
+    "sha256": "817070692284738a6019bccca4b6229c9e7a2a01b9a19d392f748b52fb0f6929",
+    "fuente_sha256": "476ae37e98fe79377d74e7880fb9841bace98b41a30bf4ba88299232247f3d12",
     "blob_sha_m08": "ab897447076206bb0b62b2a37945708a4dab85e2",
     "run_id": "41250479211"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 166927,
      "municipios": 248,
@@ -4228,19 +4330,21 @@
    "sha256_origen": "70a152960ebead39af5fc94fb739db0aeb169d336def2860c0656b5f9c07dd7c",
    "n_distritos": 8,
    "nombres": {},
+   "numeracion": "1..K",
    "geojson": {
     "ruta": "congreso_zaragoza/distritos.geojson",
     "sha256": "c68f4764f51f3c2405fb5547d382592a3ec4b3c67c9bee5395d4a8e70a067908"
    },
    "resultados": {
     "ruta": "congreso_zaragoza/resultados.csv",
-    "sha256": "7280bea8120116814f2ac065ed16282c9cd220e7c71bbf57620988cdaad81403",
+    "sha256": "0c49beb44688a682a37f8f500311c8bff364c103569faee5e9d0b2d6f770855f",
+    "fuente_sha256": "7280bea8120116814f2ac065ed16282c9cd220e7c71bbf57620988cdaad81403",
     "blob_sha_m08": "dd7e9d7863bf9e01c640d1edb05b7ac7c0858b9d",
     "run_id": "41296815536"
    },
    "distritos": [
     {
-     "distrito": 0,
+     "distrito": 1,
      "nombre": null,
      "poblacion": 114305,
      "municipios": 1,
@@ -4248,7 +4352,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 1,
+     "distrito": 2,
      "nombre": null,
      "poblacion": 114172,
      "municipios": 1,
@@ -4256,7 +4360,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 2,
+     "distrito": 3,
      "nombre": null,
      "poblacion": 113741,
      "municipios": 1,
@@ -4264,7 +4368,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 3,
+     "distrito": 4,
      "nombre": null,
      "poblacion": 113865,
      "municipios": 1,
@@ -4272,7 +4376,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 4,
+     "distrito": 5,
      "nombre": null,
      "poblacion": 114051,
      "municipios": 1,
@@ -4280,7 +4384,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 5,
+     "distrito": 6,
      "nombre": null,
      "poblacion": 136422,
      "municipios": 41,
@@ -4288,7 +4392,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 6,
+     "distrito": 7,
      "nombre": null,
      "poblacion": 136391,
      "municipios": 143,
@@ -4296,7 +4400,7 @@
      "ganador": "PP"
     },
     {
-     "distrito": 7,
+     "distrito": 8,
      "nombre": null,
      "poblacion": 136418,
      "municipios": 109,
