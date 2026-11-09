@@ -5,7 +5,11 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.4.0 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS 1.4.0 (T-125): el registro rechaza AÑADIR cualquier territorio `congreso350_*` (mapa 350, D-18/D-19: nunca se publica):
+  `make_candidate` y `production_descriptors` lanzan ValueError. Las entradas que ya figuran no se tocan y siguen validando
+  (`validate_registry` solo avisa con ::warning::); retirarlas es decisión del propietario.
+MOTIVO 1.4.0: la 05 42642161355 registró m06/m08 de congreso350_valladolid como canonical al resolver latest_validated.
 CAMBIOS 1.3.0 (T-118): `make_candidate` no re-registra un M06 cuyo activo inmutable ya figura para el mismo territorio y
   kind bajo otro run (M06 reutilizado dentro del estado acumulativo del M08): antes fallaba con «Activo inmutable duplicado».
 MOTIVO 1.3.0: la 05 de CyL (run 00 42531122768, «Reutilizar») no llegaba a registrar su M08.
@@ -14,7 +18,7 @@ CAMBIOS 1.1.0 (T-27 fase a): escenarios no canónicos. Kinds `scenario_m06` y `s
   `scenario_kind` ("alternative") y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, debe ser true).
   A lo sumo una entrada `canonical: true` por territorio y familia (m06/m08); un `scenario_m08` exige el `scenario_m06`
   del mismo `scenario_id`. El registro es de solo adición: la identidad de un escenario es territorio+kind+scenario_id.
-ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.2.0_20261102.py
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.3.0_20261109.py
 """
 from __future__ import annotations
 
@@ -39,6 +43,7 @@ ALLOWED_SOURCES = {"release_asset", "repository_blob"}
 SCENARIO_KINDS = {"scenario_m06", "scenario_m08"}
 CANONICAL_KINDS = {"canonical_m06", "canonical_m08"}
 PRODUCT_KINDS = {"static"} | CANONICAL_KINDS | SCENARIO_KINDS
+PREFIJO_MAPA_350 = "congreso350_"
 STRATEGIES = {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}
 
 
@@ -242,8 +247,15 @@ def _already_registered_reused_m06(registry: dict, entry: dict) -> bool:
     return False
 
 
+def rechazar_mapa_350(territory_id: str) -> None:
+    if str(territory_id).startswith(PREFIJO_MAPA_350):
+        raise ValueError(f"El mapa 350 no se publica (D-18/D-19): territorio {territory_id} rechazado en el registro")
+
+
 def make_candidate(registry: dict, entries: list[dict]) -> dict:
     validate_registry(registry)
+    for entry in entries:
+        rechazar_mapa_350(entry.get("territory_id", ""))
     candidate = copy.deepcopy(registry)
     for entry in entries:
         if _already_registered_reused_m06(candidate, entry):
@@ -302,6 +314,7 @@ def production_descriptors(
     production_root: Path, run_id: str, scenario_id: str | None = None, strategy: str | None = None
 ) -> list[dict]:
     metadata = production_metadata(production_root)
+    rechazar_mapa_350(metadata["territory_id"])
     audit_path = first(production_root, "*_m06_contiguedad_geometrica.json")
     audit = read_json(audit_path)
     geometric_status = audit.get("decision", "NOT_AUDITED")
