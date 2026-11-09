@@ -3239,7 +3239,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: true
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
@@ -3263,6 +3263,7 @@ territories:
       evidence:
         generation_preflight: territorios/congreso350_madrid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso350_madrid/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/congreso350_madrid/evidencia/fuentes_electorales/2025/5e1dc31ea678f2fa1f3da2dc31e9ca1fecd10452808434fe10c1cf474b869ca7/42588623702/receipt.json
 - territory_id: congreso350_malaga
   name: Congreso 350 Málaga
   editions:

@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso350_madrid",
+  "territory_name": "Congreso 350 Madrid",
+  "edition": "2025",
+  "run_id": 42588623702,
+  "artifact_name": "ddd-electoral-package-congreso350_madrid-2025-42588623702",
+  "artifact_sha256": "c9f1cbb7cc84df9773af2314b1a877f4e2cd2c4530eba518bed10c818a8843e0",
+  "source_commit": "07362b09124ae40bc208a18a4946a59b640660d5",
+  "election_id": "congreso350_madrid_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "5e1dc31ea678f2fa1f3da2dc31e9ca1fecd10452808434fe10c1cf474b869ca7"
+}
