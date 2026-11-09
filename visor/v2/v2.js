@@ -114,6 +114,7 @@ function fichaA(){
 function leyenda(){
  const L=$("leyenda");
  if(vista==="autonomico"){L.innerHTML=`<span><span class="sw" style="background:${css("--red")}"></span>Comunidad elegida</span>`;return}
+ if(secOn&&secCod&&secNDist&&vista==="congreso"){L.innerHTML=`<span><span class="sw" style="background:linear-gradient(90deg,#c0392b,#2e86c1,#27ae60,#d68910)"></span>Cada color es un distrito (${secNDist}); las líneas finas son secciones censales</span>`;return}
  if(modo==="territorial"&&terr){L.innerHTML=`<span><span class="sw" style="background:${ROT_COL(0)}"></span>0 %</span><span><span class="sw" style="background:${ROT_COL(1)}"></span>40 % o más: mayor desviación de un distrito respecto a la media de su provincia</span><span style="color:${css("--muted")}">· gris: sin datos</span>`;return}
  if(capa==="rotacion"&&rot){L.innerHTML=`<span><span class="sw" style="background:${ROT_COL(0)}"></span>0 cambios</span><span><span class="sw" style="background:${ROT_COL(1)}"></span>5 cambios de ganador (media por distrito, 2011-2023)</span><span style="color:${css("--muted")}">· gris: sin datos</span>`;return}
  const ps=[...new Set(prov.features.map(f=>f.properties.ganador))];
@@ -171,7 +172,7 @@ Promise.all([fetch("datos/provincias.json").then(r=>r.json()),fetch("datos/comun
 }).catch(err=>{$("ficha").innerHTML=`<p class="aviso">No se pudo cargar el mapa: ${err.message}. Recarga la página.</p>`});
 
 /* Capa de secciones censales (T-119): opcional; solo existe si la publicación trae datos/secciones/INDEX.json. */
-let secOn=false,secIdx=null,secCod=null;
+let secOn=false,secIdx=null,secCod=null,secNDist=0;
 const SEC_COL=["#c0392b","#2e86c1","#27ae60","#d68910","#8e44ad","#17a589","#cb4335","#5d6d7e","#b7950b","#2874a6"];
 const secProv=()=>sel&&vista==="congreso"?sel.properties.cod:null;
 function secFicha(p){
@@ -186,10 +187,14 @@ function secCargar(){
  if(!secOn||!cod||!secIdx||!secIdx.provincias[cod]){if(secOn&&cod&&secIdx&&!secIdx.provincias[cod])$("ruta").textContent+=" (sin secciones)";return}
  if(secCod===cod)return;secCod=cod;
  fetch("datos/secciones/"+cod+".geojson").then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(g=>{
-  if(secCod!==cod)return;map.getSource("sec").setData(g);
+  if(secCod!==cod)return;
+  const ds=[...new Set(g.features.map(f=>Number(f.properties.d)))].sort((x,y)=>x-y),e=["match",["to-number",["get","d"]]];
+  ds.forEach((d,i)=>e.push(d,"hsl("+Math.round((i*137.508)%360)+","+(i%2?52:68)+"%,"+(i%3===0?44:i%3===1?56:50)+"%)"));e.push("#999");
+  map.setPaintProperty("sec-fill","fill-color",e);secNDist=ds.length;leyenda();
+  map.getSource("sec").setData(g);
  }).catch(e=>{secCod=null;console.error("secciones "+cod+": "+e.message)});
 }
-function secSet(v){secOn=v;$("c-secciones").setAttribute("aria-pressed",String(v));secCargar()}
+function secSet(v){secOn=v;$("c-secciones").setAttribute("aria-pressed",String(v));secCargar();leyenda()}
 function iniciarSecciones(){
  const chip=$("c-secciones");
  fetch("datos/secciones/INDEX.json").then(r=>r.ok?r.json():null).catch(()=>null).then(idx=>{

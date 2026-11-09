@@ -19,7 +19,7 @@ class Pulido(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = tempfile.mkdtemp()
-        shutil.copytree(RAIZ / "visor" / "v2", Path(cls.tmp) / "v2")
+        shutil.copytree(RAIZ / "visor" / "v2", Path(cls.tmp) / "v2", ignore=shutil.ignore_patterns("secciones", "rotacion.json", "territorial.json"))
         shutil.copy(RAIZ / "web" / "textos.md", Path(cls.tmp) / "v2" / "textos.md")
         h = functools.partial(http.server.SimpleHTTPRequestHandler, directory=cls.tmp)
         h.log_message = lambda *a, **k: None

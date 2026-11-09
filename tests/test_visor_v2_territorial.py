@@ -68,7 +68,7 @@ class Repaso(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = tempfile.mkdtemp()
         v2 = Path(cls.tmp) / "v2"
-        shutil.copytree(RAIZ / "visor" / "v2", v2)
+        shutil.copytree(RAIZ / "visor" / "v2", v2, ignore=shutil.ignore_patterns("secciones", "rotacion.json", "territorial.json"))
         shutil.copy(RAIZ / "web" / "textos.md", v2 / "textos.md")
         cls.v2 = v2
         h = functools.partial(http.server.SimpleHTTPRequestHandler, directory=cls.tmp)
