@@ -1,7 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.11.0
-# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.10.0_20261109.yml
+# VERSIÓN: 3.12.0
+# ANTERIOR: legacy/workflows/_reutilizable-publicar-sitio_v3.11.0_20261109.yml
+# CAMBIOS 3.12.0: T-124, las descargas gh api de .ddd-publication/materializar_registro.sh se reintentan hasta 3 veces con
+#   espera creciente (2 s, 4 s) solo ante errores transitorios (HTTP 5xx, reset de conexión, timeout); los 4xx no se reintentan.
+#   Causa: la 05 42662842906 falló por un 504 de la API en el preflight.
 # CAMBIOS 3.11.0: T-119 PR-C, /v2/datos/territorial.json (herramientas/generar_territorial_visor.py, del paquete de datos abiertos ya
 #   verificado con INDEX.json); opcional: si falla, avisa y el v2 deja la vista Territorial en «sin datos».
 # CAMBIOS 3.10.0: T-119 PR-B, /v2/datos/rotacion.json (herramientas/generar_rotacion_visor.py, de datos/resultados/historico/rotacion);
@@ -153,6 +156,20 @@ jobs:
           set -euo pipefail
           registry="$1"
           target="$2"
+          # --- reintentos (T-124) ---
+          gh_retry() {
+            local out="$1" n=1 err; shift
+            while true; do
+              err="$(mktemp)"
+              if "$@" > "$out" 2> "$err"; then cat "$err" >&2; rm -f "$err"; return 0; fi
+              if (( n >= 3 )) || ! grep -Eqi 'HTTP 5[0-9]{2}|connection reset|unexpected EOF|i/o timeout|timed out|temporarily unavailable' "$err"; then
+                cat "$err" >&2; rm -f "$err"; return 1
+              fi
+              echo "::warning::gh api falló con un error transitorio (intento $n/3); reintento en $(( n * ${DDD_REINTENTO_BASE:-2} )) s"
+              rm -f "$err"; sleep $(( n * ${DDD_REINTENTO_BASE:-2} )); n=$(( n + 1 ))
+            done
+          }
+          # --- fin reintentos ---
           rm -rf "$target"
           mkdir -p "$target"
           python herramientas/registro_publicaciones_visor.py validate --registry "$registry"
@@ -165,11 +182,11 @@ jobs:
               release_asset)
                 asset_id="$(jq -r '.asset_id' <<<"$row")"
                 [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: asset_id inválido"; exit 51; }
-                gh api -H 'Accept: application/octet-stream'                   "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$target/$id/asset"
+                gh_retry "$target/$id/asset" gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id"
                 ;;
               repository_blob)
                 blob_sha="$(jq -r '.blob_sha' <<<"$row")"
-                gh api "repos/$GITHUB_REPOSITORY/git/blobs/$blob_sha" > "$target/$id/blob.json"
+                gh_retry "$target/$id/blob.json" gh api "repos/$GITHUB_REPOSITORY/git/blobs/$blob_sha"
                 [[ "$(jq -r '.encoding' "$target/$id/blob.json")" == "base64" ]] || {
                   echo "::error::$id: blob sin codificación base64"; exit 52;
                 }

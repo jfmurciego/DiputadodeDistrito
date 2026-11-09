@@ -1,0 +1,6 @@
+## 2026-11-09 — T-124 — Reintentos en las descargas del materializador de la 05
+
+Causa: la 05 42662842906 falló en el preflight por un 504 de la API de GitHub: `.ddd-publication/materializar_registro.sh` (heredoc de `_reutilizable-publicar-sitio.yml`) llamaba a `gh api` sin reintentos y un error transitorio tiraba la publicación.
+Cambio: `_reutilizable-publicar-sitio.yml` 3.12.0 (legacy 3.11.0): función `gh_retry` (hasta 3 intentos, espera creciente 2 s y 4 s, configurable con `DDD_REINTENTO_BASE`) solo ante HTTP 5xx, reset de conexión, `unexpected EOF`, timeout o «temporarily unavailable»; los 4xx (404, 403, 422…) fallan al primer intento con su mensaje. La usan las dos descargas del materializador (release asset y blob del repositorio); los avisos van como `::warning::`. Los demás `gh api` del workflow (promoción de blobs, resolución de ensembles) no se tocan.
+Pruebas: `tests/test_publicador_reintentos.py` (6: 504+502 y luego OK = 3 llamadas; reset de conexión; 404, 403 y 422 sin reintento; 503 tres veces falla tras 3 intentos; las dos descargas usan `gh_retry`) con un `gh` falso; el script completo pasa `bash -n`; las 19 suites que leen este workflow, 175 tests OK.
+Riesgos: un fallo transitorio persistente retrasa la 05 unos 6 s antes de fallar; no cambia el resultado verificado (el sha256 se comprueba después, como antes). No se publica.
