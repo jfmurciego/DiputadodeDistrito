@@ -9,11 +9,14 @@ import json
 import subprocess
 import sys
 import unittest
+
+import yaml
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 import gestor_campanas_2 as g  # noqa: E402
+import legislatura_vigente as lv  # noqa: E402
 
 BASE = {"eleccion": "legislatura vigente", "tipo": "nacional", "territorios": "todos",
         "inicio": "reutilizar progreso", "publicar": "no", "ensemble": "ninguno", "mapa": "407"}
@@ -102,6 +105,39 @@ class Plan(unittest.TestCase):
         self.assertIn("SOLO PLAN (no se lanza nada)", md)
         self.assertIn("5) Publicar: sí", md)
         json.dumps(plan)  # el plan viaja como JSON al paso de lanzamiento
+
+
+class CampanaCompleta(unittest.TestCase):
+    """T-130: una orden = vigente (nacional y/o autonómica) + histórico de las cinco generales, en seco."""
+    C = {**BASE, "eleccion": "campaña completa", "tipo": "nacional y autonómico", "territorios": "todos"}
+
+    def test_una_orden_planifica_todo(self):
+        plan = g.build(self.C, {}, ROOT)
+        # 52 provincias + 19 comunidades (INE/Constitución) y 5 elecciones × 52 provincias.
+        self.assertEqual(len(plan["territorios"]), 52 + 19)
+        h = plan["historico"]
+        self.assertEqual(len(h["include"]) + len(h["omitidos"]), 5 * 52)
+        self.assertEqual({r["clave"] for r in h["include"]}, {"201111", "201512", "201606", "201904", "201911"})
+        self.assertTrue(any("T-131" in t for t in plan["pendiente"]))
+        self.assertIn("Pendiente", g.markdown(plan, True))
+
+    def test_solo_nacional_no_deja_pendiente_y_solo_autonomico_no_trae_historico(self):
+        self.assertEqual(g.build({**self.C, "tipo": "nacional"}, {}, ROOT)["pendiente"], [])
+        self.assertNotIn("historico", g.build({**self.C, "tipo": "autonómico"}, {}, ROOT))
+
+    def test_rechazos(self):
+        casos = [({"ensemble": "25"}, "no está validado"), ({"mapa": "350"}, "407"),
+                 ({"territorios": "Aragón"}, "todos"),
+                 ({"eleccion": "legislatura vigente"}, "campaña completa")]
+        for kw, msg in casos:
+            with self.subTest(kw=kw), self.assertRaisesRegex(g.NoDisponible if msg != "todos" else lv.GestorError, msg):
+                g.resolve({**self.C, **kw}, ROOT)
+
+    def test_workflow_matriz_con_clave_y_tope_de_256(self):
+        wf = yaml.safe_load((ROOT / ".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8"))
+        for job in ("historico_prueba", "historico", "historico_2"):
+            self.assertIn("matrix.clave", json.dumps(wf["jobs"][job]["steps"]), job)
+        self.assertIn("1:251", json.dumps(wf["jobs"]["legislatura"]["steps"], ensure_ascii=False))
 
 
 if __name__ == "__main__":
