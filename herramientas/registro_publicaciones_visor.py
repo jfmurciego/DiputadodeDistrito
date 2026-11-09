@@ -5,8 +5,8 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.2.1 · FECHA: 2026-11-09 · ESTADO: candidato
-CAMBIOS 1.2.1 (T-117): el error de activo inmutable duplicado nombra las dos entradas (id, kind, territorio, ejecución) que colisionan.
+VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS 1.3.0 (T-117): una misma ubicación inmutable puede servir a varias entradas de distinta identidad si su sha256 coincide (el blob de git es direccionable por contenido); con sha256 distinto sigue siendo error y el mensaje nombra las dos entradas. Cada entrada se sigue verificando por separado.
 CAMBIOS 1.2.0 (T-27 fase c): `describe-production --scenario-id --strategy` describe M06/M08 de una ejecución como `scenario_m06/m08` (solo adición, sin tocar canónicos).
 CAMBIOS 1.1.0 (T-27 fase a): escenarios no canónicos. Kinds `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy`,
   `scenario_kind` ("alternative") y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, debe ser true).
@@ -169,13 +169,13 @@ def validate_registry(registry: dict) -> None:
         identities.add(identity)
 
         location = str(entry["immutable_location"])
-        if location in locations:
-            other = locations[location]
+        other = locations.get(location)
+        if other is not None and other["sha256"] != entry["sha256"]:
             raise ValueError(
                 f"Activo inmutable duplicado en varias entradas: {location}; "
                 f"{_describe(other)} y {_describe(entry)} (sha256 {other['sha256']} / {entry['sha256']})"
             )
-        locations[location] = entry
+        locations.setdefault(location, entry)
 
     canonical_marked: set[tuple[str, str]] = set()
     scenario_m06: set[tuple[str, str]] = set()
