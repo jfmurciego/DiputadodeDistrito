@@ -134,7 +134,14 @@ def nacionales(args) -> int:
 def _declaracion_temporal(t: str, nac: dict) -> Path:
     base = ROOT / "territorios" / t / "config"
     d = yaml.safe_load((base / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
-    terr = d.get("territory") or {}
+    terr = d.setdefault("territory", {})
+    if not terr.get("section_year") or not terr.get("population_year"):
+        # Declaración incompleta (p. ej. esquema 1.1): años y seccionado del contrato; queda anotado.
+        meta = (_cfg(t).get("meta") or {})
+        terr["population_year"] = int(meta.get("source_population_year") or terr.get("edition"))
+        terr["section_year"] = int(meta.get("source_section_year") or terr.get("edition"))
+        d["source_bindings"]["secciones_censales"]["materialized_path"] = f"inputs/seccionado_{terr['section_year']}.zip"
+        d["_bateria_declaracion_completada_desde_contrato"] = True
     ed_sec = int(terr.get("section_year") or terr.get("edition"))
     ed_pob = int(terr.get("population_year") or terr.get("edition"))
     b = d["source_bindings"]
@@ -200,6 +207,7 @@ def entradas_uno(t: str, out: Path, nac: dict) -> dict:
     env = dict(os.environ, DDD_RUN_ID=f"bateria-{t}", PYTHONHASHSEED="0")
     res: dict = {"territorio": t, "tiempos": {}}
     decl = _declaracion_temporal(t, nac)
+    completada = "_bateria_declaracion_completada_desde_contrato" in decl.read_text(encoding="utf-8")
     work = out / "_trabajo" / t
     shutil.rmtree(work, ignore_errors=True)
     try:
@@ -210,6 +218,7 @@ def entradas_uno(t: str, out: Path, nac: dict) -> dict:
     finally:
         decl.unlink(missing_ok=True)
     res["tiempos"]["adquisicion"] = s
+    res["declaracion_completada_desde_contrato"] = completada
     mat = work / "ev" / "materialized" / "inputs"
     if rc != 0 or not mat.is_dir():
         res.update(estado="FALLO_ADQUISICION", rc=rc)
