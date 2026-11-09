@@ -221,7 +221,7 @@ def _resolve_completa(entradas: dict, tipo: str, publicar: bool, ensemble: str, 
                             "prueba": rows[0], "include": rows,
                             "omitidos": {f"{h['clave']}:{t}": m for h in lotes for t, m in h["omitidos"].items()}}
     if "autonómico" in tipos:
-        out["pendiente"].append("Histórico autonómico desde 2011 (calendario por comunidad): pendiente de T-131 "
+        out["pendiente"].append("Histórico autonómico desde 2011 (calendario por comunidad): sin asignar (T-131 solo hace el paso B) "
                                 "(herramientas/historico_autonomico.py); no se planifica.")
     return out
 

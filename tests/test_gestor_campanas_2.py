@@ -118,7 +118,7 @@ class CampanaCompleta(unittest.TestCase):
         h = plan["historico"]
         self.assertEqual(len(h["include"]) + len(h["omitidos"]), 5 * 52)
         self.assertEqual({r["clave"] for r in h["include"]}, {"201111", "201512", "201606", "201904", "201911"})
-        self.assertTrue(any("T-131" in t for t in plan["pendiente"]))
+        self.assertTrue(any("sin asignar" in t for t in plan["pendiente"]))
         self.assertIn("Pendiente", g.markdown(plan, True))
 
     def test_solo_nacional_no_deja_pendiente_y_solo_autonomico_no_trae_historico(self):
