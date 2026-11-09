@@ -156,3 +156,10 @@ body.edit .barra-edit{display:flex}
 .chip[aria-disabled="true"]{cursor:help;color:var(--muted);background:var(--off);border-style:dashed}
 .motivo{flex-basis:100%;margin:0;font-size:12px;color:var(--muted)}
 .rot-tabla{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}.rot-tabla th,.rot-tabla td{padding:4px 3px;text-align:left;border-bottom:1px solid var(--line)}.rot-tabla .sw{margin-right:0}
+
+.modos{display:flex;gap:6px;align-items:center;margin:0 0 8px}.modos>span{font-size:10px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+body:not(.modo-territorial) .solo-territorial,body.modo-territorial .solo-electoral:not(#c-secciones){display:none}
+.terr-resumen{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.terr-resumen div{border:1px solid var(--line);border-radius:12px;padding:8px 10px}.terr-resumen b{display:block;font:500 20px Georgia,serif}.terr-resumen span{font-size:11px;color:var(--muted)}
+.terr-dist{border-top:1px solid var(--line);padding:8px 0;font-size:13px}.terr-dist summary{cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 8px}.terr-dist summary b{font-weight:700}.terr-dist .dev{font-variant-numeric:tabular-nums;font-weight:700}.terr-dist .dev.mal{color:var(--red)}.terr-dist small{color:var(--muted);grid-column:1/-1}.terr-dist p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.terr-dist summary:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+[hidden]{display:none!important}

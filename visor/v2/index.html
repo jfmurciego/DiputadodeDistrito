@@ -25,16 +25,22 @@
     <button id="v-congreso" aria-pressed="true">Congreso de los Diputados</button>
     <button id="v-autonomico" aria-pressed="false">Parlamentos autonómicos</button>
    </nav>
+   <div class="modos" id="modos" role="group" aria-label="Tipo de vista">
+    <span>Vista</span>
+    <button class="chip" id="m-electoral" aria-pressed="true">Electoral</button>
+    <button class="chip" id="m-territorial" aria-pressed="false" aria-disabled="true" data-motivo="Territorial: sin datos territoriales en esta publicación">Territorial<small>sin datos</small></button>
+   </div>
    <div class="barra-sup" id="controles-congreso">
-    <div class="grupo" role="group" aria-label="Sistema"><span>Sistema</span>
+    <div class="grupo solo-electoral" role="group" aria-label="Sistema"><span>Sistema</span>
      <button class="chip" id="s-real" aria-pressed="true">Real · proporcional (350)</button>
      <button class="chip" id="s-350" aria-disabled="true" data-motivo="350 distritos · mayoritario: sin resultados por distrito (solo hay la composición de Madrid, Soria y Valladolid)">350 distritos · mayoritario<small>sin datos</small></button>
      <button class="chip" id="s-407">407 distritos · propuesta<small>en Nacional</small></button>
     </div>
     <div class="grupo" role="group" aria-label="Capa"><span>Capa</span>
-     <button class="chip" id="c-ganador" aria-pressed="true">Partido más votado</button>
-     <button class="chip" id="c-rotacion" aria-pressed="false" aria-disabled="true" data-motivo="Rotación: sin datos de rotación en esta publicación">Rotación<small>sin datos</small></button>
-     <button class="chip" id="c-participacion" aria-disabled="true" data-motivo="Participación: no hay censo por distrito en los datos publicados">Participación<small>sin datos</small></button>
+     <button class="chip solo-territorial" id="c-desviacion" aria-pressed="true">Desviación respecto a la media</button>
+     <button class="chip solo-electoral" id="c-ganador" aria-pressed="true">Partido más votado</button>
+     <button class="chip solo-electoral" id="c-rotacion" aria-pressed="false" aria-disabled="true" data-motivo="Rotación: sin datos de rotación en esta publicación">Rotación<small>sin datos</small></button>
+     <button class="chip solo-electoral" id="c-participacion" aria-disabled="true" data-motivo="Participación: no hay censo por distrito en los datos publicados">Participación<small>sin datos</small></button>
      <button class="chip" id="c-secciones" aria-pressed="false" aria-disabled="true" data-motivo="Secciones: sin capa de secciones en esta publicación">Secciones<small>sin datos</small></button>
     </div>
     <p class="motivo" id="motivo" role="status" hidden></p>
