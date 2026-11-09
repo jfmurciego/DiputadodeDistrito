@@ -81,6 +81,18 @@ class Reparto(unittest.TestCase):
                 malas.append(cod)
         self.assertEqual(malas, [])
 
+    def test_k_de_distritos_decision_propietario_opcion_a(self):
+        # Decisión del propietario (09-11, opción A): el K (N06-OWNER-20261012-K) se fija con la tabla INE 65034
+        # (padrón por secciones, 1-1-2025): K_i = max(1, ⌊(P_i + 60.000) / 120.000⌋), total 407, Cádiz 11.
+        # Con la cifra oficial del RD 1117/2025 saldrían 406 y Cádiz 10: un cambio de fuente no debe alterarlo en silencio.
+        self.assertEqual(hashlib.sha256(POB65034.read_bytes()).hexdigest(),
+                         "6a5f16d1bf354bebb1d05ad0f9afc350d8dc1c7ea251aac3ce6002e392b16a7c")
+        rows = json.loads(POB65034.read_text("utf-8"))["rows"]
+        k = {r["province_code"]: max(1, (r["population"] + 60000) // 120000) for r in rows}
+        self.assertEqual((sum(k.values()), k["11"]), (407, 11))
+        ko = {c: max(1, (p + 60000) // 120000) for c, p in _pob(POB25).items()}
+        self.assertEqual((sum(ko.values()), ko["11"]), (406, 10))  # alternativa descartada, solo documentada
+
 
 if __name__ == "__main__":
     unittest.main()
