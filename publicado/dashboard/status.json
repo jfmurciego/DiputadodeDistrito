@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-09T11:49:55.115715+00:00",
+  "generated_at": "2026-11-09T11:59:25.046654+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,14 +22,14 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 73,
-      "action_required": 47,
+      "admissible": 74,
+      "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 70,
+      "activated": 71,
       "activable": 3,
       "territorial_pending": 46,
-      "electoral_pending": 47,
+      "electoral_pending": 46,
       "temporal_substitution": 3,
       "recent_activity": 0
     },
@@ -38,8 +38,8 @@
       "legislature_resolved": 120,
       "years_resolved": 120,
       "territorial_source": 74,
-      "electoral_source": 73,
-      "durable_pair": 70
+      "electoral_source": 74,
+      "durable_pair": 71
     },
     "territories": [
       {
@@ -6044,12 +6044,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/congreso350_soria/evidencia/pares_fuentes/2025/a4f08c8f46a4cd133c236b329d3dea9babdc25bcd4242d708b65697cfedadeb9.json",
+            "pair_sha256": "a4f08c8f46a4cd133c236b329d3dea9babdc25bcd4242d708b65697cfedadeb9",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -6335,15 +6335,15 @@
           }
         },
         "electoral": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "ELECTORAL_PACKAGE_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "ELECTORAL_DURABLE_CANDIDATE",
           "source": "Ministerio del Interior — Infoelectoral, resultados por mesa, Congreso 23-07-2023",
           "granularity": "section_party"
         },
-        "status": "ELECTORAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVABLE",
           "pair": {
             "current": false,
             "receipt_path": null,
@@ -6356,13 +6356,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "electoral",
-            "planner_action": "ACQUIRE",
-            "reason": "ELECTORAL_PACKAGE_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "congreso350_vizcaya",
@@ -11941,7 +11935,14 @@
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42601453125,
-      "last_run": {},
+      "last_run": {
+        "run_id": 42601453125,
+        "status": "SUCCESS",
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "publication": "not_requested"
+      },
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -11972,7 +11973,7 @@
       },
       "autonomous_community_code_ine": "R42",
       "display_name": "Nacional 350 Soria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "congreso350_tarragona",
@@ -12070,14 +12071,14 @@
       "territory_id": "congreso350_valladolid",
       "name": "Nacional 350 Valladolid",
       "ft": "green",
-      "g": "yellow",
-      "fe": "gray",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
+      "g": "green",
+      "fe": "yellow",
+      "re": "yellow",
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 42601455862,
       "last_run": {},
-      "stage": null,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -12088,13 +12089,26 @@
           "artifact_sha256": "efa57a1a34568c313790f7ee16abb3418690cb55af99a2da77904fe1cd1d5552",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "congreso350_valladolid",
+          "territory_name": "Congreso 350 Valladolid",
+          "edition": "2025",
+          "run_id": 42601455862,
+          "artifact_name": "ddd-state-42601455862-M06",
+          "artifact_sha256": "a87f40b959843394b42255eab7bd970ceee21cd08844683980681e7987d2b906",
+          "source_commit": "baaf8c67f5fff7a2976a61ed07872154c77c87c2",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06",
+          "producer_manifest_path": "territorios/congreso350_valladolid/evidencia/generaciones_m06/42601455862.json"
+        },
         "electoral_source": null,
         "electoral_product": null
       },
       "autonomous_community_code_ine": "R47",
       "display_name": "Nacional 350 Valladolid",
-      "next_step": "generar y validar distritos"
+      "next_step": "preparar fuentes electorales"
     },
     {
       "territory_id": "congreso350_vizcaya",
@@ -12288,7 +12302,7 @@
       "Nacional Melilla",
       "Nacional 350 Madrid"
     ],
-    "territorial_validated": 73,
+    "territorial_validated": 74,
     "territorial_validated_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12362,9 +12376,10 @@
       "Nacional Ceuta",
       "Nacional Melilla",
       "Nacional 350 Madrid",
-      "Nacional 350 Soria"
+      "Nacional 350 Soria",
+      "Nacional 350 Valladolid"
     ],
-    "validated": 73,
+    "validated": 74,
     "validated_names": [
       "01 Andalucía",
       "02 Aragón",
@@ -12438,12 +12453,11 @@
       "Nacional Ceuta",
       "Nacional Melilla",
       "Nacional 350 Madrid",
-      "Nacional 350 Soria"
-    ],
-    "ready": 1,
-    "ready_names": [
+      "Nacional 350 Soria",
       "Nacional 350 Valladolid"
     ],
+    "ready": 0,
+    "ready_names": [],
     "pending": 46,
     "pending_names": [
       "Nacional 350 Álava",
@@ -12567,7 +12581,7 @@
       "territory": "Nacional 350 Valladolid",
       "territory_id": "congreso350_valladolid",
       "autonomous_community_code_ine": "R47",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     }
   ]
 }
