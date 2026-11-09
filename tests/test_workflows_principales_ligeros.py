@@ -81,7 +81,9 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("name: ddd-audit-electoral-${{ github.run_id }}",reusable)
         self.assertIn('payload["workflow_run_id"]=int(run_id)',reusable)
         self.assertIn('payload["source_territorial_run_id"]',reusable)
-        self.assertIn("latest_validated.run_id",publisher)
+        # T-125: la 05 promueve solo un run explícito; sin él es «solo sitio» y no resuelve latest_validated
+        self.assertIn("PRODUCTION_RUN_ID_OVERRIDE",publisher)
+        self.assertNotIn("latest_validated.run_id",publisher)
 
     def test_internal_pipeline_uses_functional_visible_names(self):
         engine=(WF/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
