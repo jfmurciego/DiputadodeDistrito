@@ -1,0 +1,36 @@
+{
+ "comunidad": "galicia",
+ "elecciones": {
+  "201210": {
+   "defecto_frente_total": 0.0,
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "201609": {
+   "defecto_frente_total": -1e-05,
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "202007": {
+   "defecto_frente_total": 0.0,
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "202402": {
+   "defecto_frente_total": 0.0,
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  }
+ },
+ "huecos": [],
+ "no_cuadran": [],
+ "schema": "ddd.reagregacion-autonomicas/1.0"
+}

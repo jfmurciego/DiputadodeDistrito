@@ -1,0 +1,52 @@
+{
+ "comunidad": "castilla_y_leon",
+ "cuadre": {
+  "defecto_frente_total": 0.0,
+  "dentro_tope_d17": true,
+  "dif_max_partido": 0,
+  "distritos": 82,
+  "oficial": "sin fuente oficial local: AVISO",
+  "ok": true,
+  "perdida_dentro_tope": true,
+  "perdida_frente_fuente": 0.003163,
+  "perdidos_por_causa": {
+   "sin_geometria": 3874.0
+  },
+  "total_autonomico": 1224971,
+  "votos_distritos": 1221097,
+  "votos_espejo": 1224971,
+  "votos_perdidos": 3874.0
+ },
+ "eleccion": "202603",
+ "fuentes": {
+  "calendario": "cdccb737ab624a989c1f9599478251563bc3b1b41fadbd44d7b14df00eedac4e",
+  "composicion": "67cee6906c1398b4d6f0b611300428c9f65489422e76ef0dab7115ccb6395e43",
+  "historicos": {
+   "2012": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+   "2015": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+   "2016": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+   "2019": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+   "2020": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+   "2024": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+  },
+  "observatorio": {
+   "hauteskundea/07-202603.json": "b02991378a1cfc50b289a6fe0ebbf96e878503f680c8d67ba7068ff970906f96",
+   "sekzioa/07-202603/05.json": "aa03cabd8c28cf15b68c33bd0d0fc6c4abe11dbc93a98a48f799f4703cbfd176",
+   "sekzioa/07-202603/09.json": "eef215e3337d0951c37fe6ee9f398d18d4a071e0cab53492a9f91eed465ba7d6",
+   "sekzioa/07-202603/24.json": "13f8e567a6cde1c249dacfe00ce2c6a97cea30889b03a6530f210a716992e56f",
+   "sekzioa/07-202603/34.json": "29c4ef2d31a290884069690d0052f537dbbb0b7de50cf0b7518083d8ca41bcf2",
+   "sekzioa/07-202603/37.json": "a82692268f8f4d4dc385e2502aaae67d64b05a8cd3996d83f6c774204cd25e93",
+   "sekzioa/07-202603/40.json": "bf173695da58f09bf1ad25db918f58b1142559ca6ade2edb74eb0680f51b50d2",
+   "sekzioa/07-202603/42.json": "03b0dd22c25d863442dacee249a0a419df424781f5ff3845e745a58024946592",
+   "sekzioa/07-202603/47.json": "661805ea16971c5c093e63972bd9ffbb37a70a662e3c0c50febd7ae710935347",
+   "sekzioa/07-202603/49.json": "7214a309c6a6a3ac8883f8fddd15596b8d301f3215535a12bd6b4871cd827a64"
+  },
+  "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "poblacion_asignada_por_geometria": 0,
+  "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+  "secciones_vigentes_asignadas_por_geometria": 0
+ },
+ "peso": "poblacion (D-13)",
+ "schema": "ddd.reagregacion-autonomicas/1.0",
+ "seccionado_historico": 2024
+}

@@ -88,6 +88,29 @@ def leer_composicion(comunidad: str, raiz: Path = ROOT) -> dict[str, str]:
         return {r["seccion"]: r["distrito"] for r in csv.DictReader(f)}
 
 
+def completar_composicion(comp: dict, vig_prov: dict) -> tuple[dict, list]:
+    """Secciones vigentes (INE 2025) ausentes de la composición M06 (el M06 se generó con otra versión del seccionado)
+    se asignan por geometría al distrito cuya unión de secciones conocidas queda más cerca; en empate, al de mayor
+    contacto. Devuelve (composición completa, [(sección, distrito)]); el MANIFEST lo declara."""
+    from shapely.ops import unary_union
+    faltan = sorted(set(vig_prov) - set(comp))
+    if not faltan:
+        return comp, []
+    por_d: dict = {}
+    for sec, d in comp.items():
+        if sec in vig_prov:
+            por_d.setdefault(d, []).append(vig_prov[sec])
+    poligonos = {d: unary_union(gs) for d, gs in por_d.items()}
+    nueva, asignadas = dict(comp), []
+    for sec in faltan:
+        g = vig_prov[sec]
+        orden = sorted(poligonos, key=lambda d: (round(g.distance(poligonos[d]), 3),
+                                                  -g.buffer(1).intersection(poligonos[d]).area, str(d)))
+        nueva[sec] = orden[0]
+        asignadas.append((sec, orden[0]))
+    return nueva, asignadas
+
+
 def total_autonomico(doc: dict) -> dict:
     """Total de la comunidad del fichero hauteskundea (sin voto CERA): votos por sigla y a candidaturas."""
     siglas = doc["s"]
@@ -103,7 +126,10 @@ def cuadre_autonomico(votos: dict, res: dict, red: dict, total: dict) -> dict:
     c["total_autonomico"] = of
     c["defecto_frente_total"] = round((of - suma_fuente) / of, 6) if of else 0.0
     c["dentro_tope_d17"] = abs(c["defecto_frente_total"]) <= TOPE_D17
-    c["ok"] = c["dif_max_partido"] == 0 and c["dentro_tope_d17"]
+    c["perdida_frente_fuente"] = round(c["votos_perdidos"] / suma_fuente, 6) if suma_fuente else 0.0
+    c["perdida_dentro_tope"] = c["perdida_frente_fuente"] <= TOPE_D17
+    c["perdidos_por_causa"] = {k: round(sum(v["votos"].values()), 1) for k, v in res["perdido"].items() if v["votos"]}
+    c["ok"] = c["dif_max_partido"] == 0 and c["dentro_tope_d17"] and c["perdida_dentro_tope"]
     return c
 
 
@@ -135,6 +161,10 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
              sin: set) -> tuple[dict, dict, list]:
     comp = leer_composicion(com)
     provincias = sorted({s[:2] for s in comp})
+    geom_asignadas = []
+    for c in provincias:
+        comp, asg = completar_composicion(comp, vig_all[c])
+        geom_asignadas += asg
     salida_c = a.salida / com
     ganadores, huecos, elecciones = {}, [], {}
     cca = filas[0]["cod_ine"]
@@ -151,7 +181,9 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
             crudo = bajar(BASE + ruta, a.trabajo / "obs" / ruta)
             huellas[ruta] = sha(crudo)
             v = fnb.leer_provincia(json.loads(crudo))
-            hist, _ = eqs.completar_geometrias(v, año, {y: z.get(c, {}) for y, z in todos.items()})
+            por_año = {y: z.get(c, {}) for y, z in todos.items()}
+            por_año.setdefault(2025, vig_all[c])  # respaldo: secciones posteriores al seccionado de la elección
+            hist, _ = eqs.completar_geometrias(v, año, por_año)
             dx, dy = eqs.desplazamiento_sistematico(hist, vig_all[c])
             if dx or dy:
                 from shapely.affinity import translate
@@ -171,6 +203,8 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
             "schema": SCHEMA, "comunidad": com, "eleccion": ele, "seccionado_historico": año, "peso": "poblacion (D-13)",
             "fuentes": {"observatorio": huellas, "seccionado_2025": eqs.sha256(a.seccionado), "padron_65034": eqs.sha256(a.padron),
                         "composicion": eqs.sha256(ROOT / f"datos/composicion/{com}.csv"),
+                        "secciones_vigentes_asignadas_por_geometria": len(geom_asignadas),
+                        "poblacion_asignada_por_geometria": sum(pob.get(s, 0) for s, _ in geom_asignadas),
                         "calendario": eqs.sha256(ROOT / CALENDARIO),
                         "historicos": {str(y): eqs.sha256(a.trabajo / "historicos" / f"seccionado_{y}.zip") for y in todos}},
             "cuadre": c}, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
@@ -181,7 +215,8 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
         escribir_rotacion(salida_c / "rotacion.csv", ganadores)
     (salida_c / "MANIFEST.json").write_text(json.dumps({
         "schema": SCHEMA, "comunidad": com, "elecciones": {e: {"ok": c["ok"], "defecto_frente_total": c["defecto_frente_total"],
-                                                                "votos_perdidos": c["votos_perdidos"]} for e, c in elecciones.items()},
+                                                                "votos_perdidos": c["votos_perdidos"], "perdida_frente_fuente": c["perdida_frente_fuente"],
+                                                                "perdidos_por_causa": c["perdidos_por_causa"]} for e, c in elecciones.items()},
         "huecos": huecos, "no_cuadran": sorted(e for e, c in elecciones.items() if not c["ok"])},
         ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return elecciones, ganadores, huecos
