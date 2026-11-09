@@ -65,6 +65,13 @@ class EnsembleWorkflowGenericoTests(unittest.TestCase):
         self.assertIn("ensemble_10) test \"$KIND\" = territorial; count=10", gate)
         self.assertNotIn("ensemble_50", gate)
 
+    def test_fase_ensemble_25_admitida_solo_en_territorios(self):
+        self.assertEqual(describe("congreso_salamanca", "ensemble_25", ROOT, resolve_sources=False)["kind"], "territorial")
+        with self.assertRaises(SystemExit):
+            describe("aragon", "ensemble_25", ROOT)
+        gate = next(s for s in JOBS["base"]["steps"] if s.get("id") == "gate")["run"]
+        self.assertIn("ensemble_25) test \"$KIND\" = territorial; count=25", gate)
+
     def test_configuracion_de_salamanca_valida_y_planifica(self):
         info = describe("congreso_salamanca", "ensemble_10", ROOT, resolve_sources=False)
         self.assertEqual((info["kind"], info["expected_districts"], info["working_crs"]), ("territorial", "3", "EPSG:3035"))
