@@ -43,12 +43,22 @@ class Plan(unittest.TestCase):
                                         {"territorio": "congreso_zaragoza", "provincia": "50"}])
 
     def test_no_soportado_falla_con_mensaje(self):
-        casos = [({"eleccion": "histórico: generales 2011"}, "empieza por 2019-11"),
-                 ({"publicar": "sí"}, "puerta 04"), ({"tipo": "autonómico"}, "nacional"),
+        casos = [({"publicar": "sí"}, "puerta 04"), ({"tipo": "autonómico"}, "nacional"),
                  ({"mapa": "350"}, "350"), ({"ensemble": "10"}, "ensemble")]
         for kw, msg in casos:
             with self.subTest(kw=kw), self.assertRaisesRegex(g.NoDisponible, msg):
                 g.resolve({**H, **kw}, ROOT)
+
+    def test_las_cinco_generales_se_planifican(self):
+        # Claves del espejo T-89 (fuente independiente: nazioenbehatokia, 52 provincias por elección).
+        esperado = {"2011": "201111", "2015": "201512", "2016": "201606", "2019-04": "201904", "2019-11": "201911"}
+        for nombre, clave in esperado.items():
+            with self.subTest(e=nombre):
+                h = g.build({**H, "eleccion": f"histórico: generales {nombre}", "territorios": "Aragón"}, {}, ROOT)["historico"]
+                self.assertEqual(h["clave"], clave)
+                self.assertEqual(h["prueba"], {"territorio": "congreso_huesca", "provincia": "22"})
+                self.assertEqual(len(h["include"]), 3)
+                self.assertIn("Lote de prueba: congreso_huesca", hc.plan_markdown(h))
 
     def test_markdown_y_lanzar_rechazado(self):
         plan = g.build(H, {}, ROOT)
@@ -84,7 +94,12 @@ class Workflow(unittest.TestCase):
         import yaml
         wf = yaml.safe_load((ROOT / ".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8"))
         job = wf["jobs"]["historico"]
-        self.assertEqual(job["needs"], "legislatura")
+        self.assertEqual(job["needs"], ["legislatura", "historico_prueba"])
+        self.assertIn("success()", job["if"])
+        self.assertIn("max_paralelo", job["strategy"]["max-parallel"])
+        prueba = wf["jobs"]["historico_prueba"]
+        self.assertEqual(prueba["needs"], "legislatura")
+        self.assertNotIn("max-parallel", prueba["strategy"])
         self.assertIn("!inputs.solo_plan", job["if"])
         self.assertIn("historico_campana.py ejecutar", json.dumps(job["steps"], ensure_ascii=False))
         self.assertIn("historico", wf["jobs"]["legislatura"]["outputs"])

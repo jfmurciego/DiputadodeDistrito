@@ -1,0 +1,7 @@
+## 2026-11-09 — T-123 — El Gestor 2.0 lanza las cinco generales históricas
+
+Causa: `historico_campana.py` solo soportaba 2019-11; 2019-04, 2016, 2015 y 2011 fallaban al planificar «aún no disponible», aunque el espejo T-89 trae las cinco para las 52 provincias.
+Cambio: `SOPORTADAS` pasa a las cinco claves (201111, 201512, 201606, 201904, 201911) con el mismo paso A y la misma puerta (cuadre exacto, M07 PASS, mismo ganador que B). El plan añade `prueba` (primer territorio); el workflow 1.7.0 corre antes el job `historico_prueba` y el resto (`historico`) solo si pasa, con `max-parallel` = `max_paralelo`. Sigue en «solo plan» por defecto y sin publicar. `historico_campana.py` 1.1.0 y workflow 1.7.0, con copia en `legacy/`.
+Pruebas: planificación local de las cinco elecciones (52 incluidos, 0 omitidos cada una); ensemble 25 sigue fallando al planificar; `tests.test_t113_gestor_historico` (test nuevo de las cinco claves, test del workflow ajustado) y `GovernanceHeaders` OK. Único fallo local: `test_reagregacion_rechaza_eleccion_desconocida` por falta de `shapely` en la sesión (entorno; en CI pasa). El paso A real de 2011-2019-04 no se ha ejecutado (no se lanza).
+Riesgos: la primera ejecución real de 2011, 2015, 2016 y 2019-04 puede no pasar la puerta en algún distrito; el job de prueba lo detiene antes del lote. Sin efecto en checkpoints ni huellas (no toca M04/M05).
+Seguimiento CI: `tests/test_gestor_campanas_2.py` fijaba 2016 como «no disponible»; el caso pasa a histórico autonómico (sigue sin soporte).
