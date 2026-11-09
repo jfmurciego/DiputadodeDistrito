@@ -3,8 +3,9 @@
 """Rotación 2011-2023 por distrito para el visor v2 (T-119).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: ninguna (fichero nuevo)
+VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/generar_rotacion_visor_v1.0.0_20261109b.py
+CAMBIOS 1.1.0 (T-135): el número de distrito sale en numeración pública 1..K (no existe el 0).
 QUÉ HACE: lee datos/resultados/historico/rotacion/congreso_<t>.csv (T-110: ganador homologado por distrito y elección) y
   datos/composicion/congreso_<t>.csv (para el código de provincia, 2 primeras cifras de la sección) y escribe un único JSON
   {schema, elecciones, provincias: {cod: {territorio, sha256, distritos: [{d, g: [ganadores], c: cambios}]}}} con el sha256
@@ -19,6 +20,9 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from numeracion_publica import numero_publico  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 ELECCIONES = ["201111", "201512", "201606", "201904", "201911", "202307"]
@@ -37,7 +41,7 @@ def generar(salida: Path, rotacion: Path, composicion: Path) -> int:
         if not filas or any(e not in filas[0] for e in ELECCIONES):
             raise SystemExit(f"{f.name}: faltan columnas de elecciones")
         provs[cod] = {"territorio": f.stem, "sha256": hashlib.sha256(datos).hexdigest(),
-                      "distritos": [{"d": int(r["district_id"]), "g": [r[e] for e in ELECCIONES], "c": int(r["cambios"])} for r in filas]}
+                      "distritos": [{"d": numero_publico(r["district_id"]), "g": [r[e] for e in ELECCIONES], "c": int(r["cambios"])} for r in filas]}
     if not provs:
         print("AVISO: sin datos de rotación; no se escribe nada.")
         return 0

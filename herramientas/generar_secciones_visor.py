@@ -3,8 +3,9 @@
 """Capa de secciones censales del visor v2, por provincia (T-119).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_secciones_visor_v1.0.0_20261109.py
+VERSIÓN: 1.2.0 · FECHA: 2026-11-09 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/generar_secciones_visor_v1.1.0_20261109b.py
+CAMBIOS 1.2.0 (T-135): el número de distrito sale en numeración pública 1..K (no existe el 0).
 QUÉ HACE: une el seccionado INE (ZIP con shapefile, columnas CUSEC y NMUN) con datos/composicion/<territorio>.csv
   (seccion, distrito, poblacion; MANIFEST con sha256) y escribe SALIDA/<cod provincia>.geojson (WGS84, simplificado,
   5 decimales; propiedades s=sección, m=municipio, p=población, d=distrito, t=territorio) y SALIDA/INDEX.json
@@ -22,6 +23,9 @@ import hashlib
 import json
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from numeracion_publica import numero_publico  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -66,7 +70,7 @@ def leer_composicion(carpeta: Path, patron: str = "congreso_*.csv", indice: Path
             raise SystemExit(f"composición {f.name}: sha256 {h[:12]} no coincide con MANIFEST ({e[:12]})")
         huellas[stem] = h
         for r in csv.DictReader(datos.decode("utf-8").splitlines()):
-            sec[r["seccion"]] = {"d": int(r["distrito"]), "p": int(float(r["poblacion"])), "t": stem}
+            sec[r["seccion"]] = {"d": numero_publico(r["distrito"]), "p": int(float(r["poblacion"])), "t": stem}
     return sec, huellas
 
 

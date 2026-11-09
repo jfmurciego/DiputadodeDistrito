@@ -20,7 +20,7 @@ except ImportError:  # pragma: no cover
 
 def _feat(i, pop, dev, suelo, tol, secs, cods, nombres):
     return {"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [[[0, 0], [1, 0], [1, 1], [0, 0]]]},
-            "properties": {"district_id": i, "district_pop": pop, "target": 120990.6, "relative_deviation": dev,
+            "properties": {"distrito": i + 1, "district_pop": pop, "target": 120990.6, "relative_deviation": dev,
                            "population_floor": suelo, "population_cap": 154867.968, "within_target_tolerance": tol,
                            "within_hard_bounds": True, "section_count": secs, "municipality_codes": cods,
                            "municipality_names": nombres, "province_codes": "07-C01"}}
@@ -52,7 +52,7 @@ class Generador(unittest.TestCase):
             self.assertEqual(p["sha256_m06"], "ab" * 32)
             d9 = p["distritos"][1]
             self.assertEqual((d9["p"], d9["dev"], d9["suelo"], d9["exenta"], d9["tol"], d9["s"]), (76968, -0.3639, 0.0, True, False, 34))
-            self.assertEqual(d9["n"], "Santa Eulalia")
+            self.assertEqual((d9["d"], d9["n"]), (10, "Santa Eulalia"))  # público 10 = interno 9
             self.assertEqual(p["distritos"][0]["m"], ["Formentera", "Ibiza"])  # topónimo español, no «Eivissa»
 
     def test_sha_distinto_falla(self):
@@ -86,7 +86,7 @@ class Repaso(unittest.TestCase):
         gr.generar(v2 / "datos" / "rotacion.json", RAIZ / "datos/resultados/historico/rotacion", RAIZ / "datos/composicion")
         s = v2 / "datos" / "secciones"; s.mkdir()
         (s / "INDEX.json").write_text(json.dumps({"provincias": {"01": {"secciones": 1}}}), "utf-8")
-        (s / "01.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"s": "0100101001", "m": "Vitoria-Gasteiz", "p": 1390, "d": 0, "t": "congreso_alava"},
+        (s / "01.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"s": "0100101001", "m": "Vitoria-Gasteiz", "p": 1390, "d": 1, "t": "congreso_alava"},
             "geometry": {"type": "Polygon", "coordinates": [[[-2.72, 42.8], [-2.66, 42.8], [-2.66, 42.9], [-2.72, 42.9], [-2.72, 42.8]]]}}]}), "utf-8")
 
     @classmethod
