@@ -301,8 +301,8 @@
     "section_year": 2023
    },
    "fuente_electoral": {
-    "receipt_path": "territorios/cantabria/evidencia/fuentes_electorales/2025/6fdb5407f99745b11a39f68ac187bb95610c0a2b0508fd1f469989f3b9be9ee1/40689735716/receipt.json",
-    "identity_sha256": "6fdb5407f99745b11a39f68ac187bb95610c0a2b0508fd1f469989f3b9be9ee1"
+    "receipt_path": "territorios/cantabria/evidencia/fuentes_electorales/2025/41d61b885c785e39d84d0f0eca0519dbda9f9bf18575f7d7101af33433f7041e/42637193077/receipt.json",
+    "identity_sha256": "41d61b885c785e39d84d0f0eca0519dbda9f9bf18575f7d7101af33433f7041e"
    },
    "doi": null,
    "productos": [

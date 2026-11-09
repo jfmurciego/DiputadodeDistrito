@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.218
+Versión: 1.0.219
 Fecha: 2026-11-09
-Alcance: T-122 — `test_gestor_campana_nacional` deja de leer el preflight vivo de Cantabria
+Alcance: T-121 — Calendario de elecciones autonómicas por comunidad (paso 1)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t122-fixture-preflight-cantabria.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.217_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t121-calendario-autonomicas.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.218_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.217_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.219 · [2026-11-09 — T-121 — Calendario de elecciones autonómicas por comunidad (paso 1)](registro/2026-11-09_t121-calendario-autonomicas.md)
 - 1.0.218 · [2026-11-09 — T-122 — `test_gestor_campana_nacional` deja de leer el preflight vivo de Cantabria](registro/2026-11-09_t122-fixture-preflight-cantabria.md)
 - 1.0.217 · [2026-11-09 — T-119 — Vista territorial del visor v2 y repaso completo](registro/2026-11-09_t119-territorial-v2.md)
 - 1.0.216 · [2026-11-09 — T-120 — Barcelona entra en los ensembles con su exención (08073)](registro/2026-11-09_t120-barcelona-ensemble.md)

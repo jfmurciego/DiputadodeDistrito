@@ -245,7 +245,7 @@ territories:
         source_commit: 12210923dc5d2bd1defe2fbe14801c15b8a12ec7
       evidence:
         electoral_source: territorios/cantabria/evidencia/fuentes_electorales/2025/41d61b885c785e39d84d0f0eca0519dbda9f9bf18575f7d7101af33433f7041e/42637193077/receipt.json
-        prepared_source_pair: territorios/cantabria/evidencia/pares_fuentes/2025/9e88dd071aa9603d933e7c19a748df210fcc57c9c307619ee1d25839ed6c3605.json
+        prepared_source_pair: territorios/cantabria/evidencia/pares_fuentes/2025/fc21c1941280823586c1f01956414f55736ceb7ed9dccde68813a3886f1fab68.json
         territorial_product: territorios/cantabria/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/cantabria/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
