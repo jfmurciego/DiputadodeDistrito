@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.215
+Versión: 1.0.216
 Fecha: 2026-11-09
-Alcance: T-119 — Botones del visor v2: rotación real y «sin datos» con motivo
+Alcance: T-120 — Barcelona entra en los ensembles con su exención (08073)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t119-botones-v2.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.214_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t120-barcelona-ensemble.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.215_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.214_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.216 · [2026-11-09 — T-120 — Barcelona entra en los ensembles con su exención (08073)](registro/2026-11-09_t120-barcelona-ensemble.md)
 - 1.0.215 · [2026-11-09 — T-119 — Botones del visor v2: rotación real y «sin datos» con motivo](registro/2026-11-09_t119-botones-v2.md)
 - 1.0.214 · [2026-11-09 — T-119 — Pulido del visor v2: duplicidades, teclado y botones de edición](registro/2026-11-09_t119-pulido-v2.md)
 - 1.0.213 · [2026-11-09 — T-119 — Capa de secciones censales en el visor v2](registro/2026-11-09_t119-secciones-v2.md)
