@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.240
+Versión: 1.0.241
 Fecha: 2026-11-09
-Alcance: T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML
+Alcance: T-135 — Distritos numerados de 1 a K en lo público (zona datos abiertos y visor)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t134-plan-sin-shapely.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.239_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t135-distritos-desde-1.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.240_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.239_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.241 · [2026-11-09 — T-135 — Distritos numerados de 1 a K en lo público (zona datos abiertos y visor)](registro/2026-11-09_t135-distritos-desde-1.md)
 - 1.0.240 · [2026-11-09 — T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML](registro/2026-11-09_t134-plan-sin-shapely.md)
 - 1.0.239 · [2026-11-09 — estado — Tabla verde/amarillo/rojo por tema en ESTADO.md](registro/2026-11-09_estado-semaforo.md)
 - 1.0.238 · [2026-11-09 — T-133 — El Gestor lanza el histórico autonómico dentro de la campaña completa](registro/2026-11-09_t133-cablear-gestor.md)
