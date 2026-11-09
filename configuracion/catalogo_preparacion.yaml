@@ -3264,6 +3264,7 @@ territories:
         generation_preflight: territorios/congreso350_madrid/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/congreso350_madrid/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/congreso350_madrid/evidencia/fuentes_electorales/2025/5e1dc31ea678f2fa1f3da2dc31e9ca1fecd10452808434fe10c1cf474b869ca7/42588623702/receipt.json
+        prepared_source_pair: territorios/congreso350_madrid/evidencia/pares_fuentes/2025/2a7eadbe4577da15caf3453026c028e731ea2b1a48b4640fb4a95432fdccf3a2.json
 - territory_id: congreso350_malaga
   name: Congreso 350 Málaga
   editions:
