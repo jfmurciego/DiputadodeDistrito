@@ -1,10 +1,12 @@
 {
  "comunidad": "castilla_y_leon",
  "cuadre": {
+  "aproximado_en_distrito": false,
   "defecto_frente_total": 0.0,
   "dentro_tope_d17": true,
   "dif_max_partido": 0,
   "distritos": 82,
+  "nivel": "seccion",
   "oficial": "sin fuente oficial local: AVISO",
   "ok": true,
   "perdida_dentro_tope": true,
@@ -19,6 +21,11 @@
  },
  "eleccion": "202603",
  "fuentes": {
+  "asignacion_por_geometria": {
+   "habitantes": 0,
+   "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto",
+   "secciones": 0
+  },
   "calendario": "cdccb737ab624a989c1f9599478251563bc3b1b41fadbd44d7b14df00eedac4e",
   "composicion": "67cee6906c1398b4d6f0b611300428c9f65489422e76ef0dab7115ccb6395e43",
   "historicos": {
@@ -42,9 +49,7 @@
    "sekzioa/07-202603/49.json": "7214a309c6a6a3ac8883f8fddd15596b8d301f3215535a12bd6b4871cd827a64"
   },
   "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
-  "poblacion_asignada_por_geometria": 0,
-  "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
-  "secciones_vigentes_asignadas_por_geometria": 0
+  "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
  },
  "peso": "poblacion (D-13)",
  "schema": "ddd.reagregacion-autonomicas/1.0",

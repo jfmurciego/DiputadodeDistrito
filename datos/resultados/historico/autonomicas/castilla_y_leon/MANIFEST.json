@@ -2,7 +2,9 @@
  "comunidad": "castilla_y_leon",
  "elecciones": {
   "201105": {
+   "aproximado_en_distrito": false,
    "defecto_frente_total": 0.0,
+   "nivel": "seccion",
    "ok": true,
    "perdida_frente_fuente": 0.00049,
    "perdidos_por_causa": {
@@ -11,28 +13,36 @@
    "votos_perdidos": 678.0
   },
   "201505": {
+   "aproximado_en_distrito": false,
    "defecto_frente_total": 0.0,
+   "nivel": "seccion",
    "ok": true,
    "perdida_frente_fuente": 0.0,
    "perdidos_por_causa": {},
    "votos_perdidos": 0
   },
   "201905": {
+   "aproximado_en_distrito": false,
    "defecto_frente_total": 0.0,
+   "nivel": "seccion",
    "ok": true,
    "perdida_frente_fuente": 0.0,
    "perdidos_por_causa": {},
    "votos_perdidos": 0
   },
   "202202": {
+   "aproximado_en_distrito": false,
    "defecto_frente_total": 0.0,
+   "nivel": "seccion",
    "ok": true,
    "perdida_frente_fuente": 0.0,
    "perdidos_por_causa": {},
    "votos_perdidos": 0
   },
   "202603": {
+   "aproximado_en_distrito": false,
    "defecto_frente_total": 0.0,
+   "nivel": "seccion",
    "ok": true,
    "perdida_frente_fuente": 0.003163,
    "perdidos_por_causa": {

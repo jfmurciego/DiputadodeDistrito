@@ -198,13 +198,16 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
         red = rh.redondear(res)
         c = cuadre_autonomico(votos, res, red, total)
         c["distritos"] = len(red)
+        c["aproximado_en_distrito"] = bool(geom_asignadas)
+        c["nivel"] = "seccion"
         rh.escribir(salida_c / ele, com, red)
         (salida_c / ele / "MANIFEST.json").write_text(json.dumps({
             "schema": SCHEMA, "comunidad": com, "eleccion": ele, "seccionado_historico": año, "peso": "poblacion (D-13)",
             "fuentes": {"observatorio": huellas, "seccionado_2025": eqs.sha256(a.seccionado), "padron_65034": eqs.sha256(a.padron),
                         "composicion": eqs.sha256(ROOT / f"datos/composicion/{com}.csv"),
-                        "secciones_vigentes_asignadas_por_geometria": len(geom_asignadas),
-                        "poblacion_asignada_por_geometria": sum(pob.get(s, 0) for s, _ in geom_asignadas),
+                        "asignacion_por_geometria": {
+                            "secciones": len(geom_asignadas), "habitantes": sum(pob.get(s, 0) for s, _ in geom_asignadas),
+                            "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto"},
                         "calendario": eqs.sha256(ROOT / CALENDARIO),
                         "historicos": {str(y): eqs.sha256(a.trabajo / "historicos" / f"seccionado_{y}.zip") for y in todos}},
             "cuadre": c}, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
@@ -216,6 +219,7 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
     (salida_c / "MANIFEST.json").write_text(json.dumps({
         "schema": SCHEMA, "comunidad": com, "elecciones": {e: {"ok": c["ok"], "defecto_frente_total": c["defecto_frente_total"],
                                                                 "votos_perdidos": c["votos_perdidos"], "perdida_frente_fuente": c["perdida_frente_fuente"],
+                                                                "aproximado_en_distrito": c["aproximado_en_distrito"], "nivel": c["nivel"],
                                                                 "perdidos_por_causa": c["perdidos_por_causa"]} for e, c in elecciones.items()},
         "huecos": huecos, "no_cuadran": sorted(e for e, c in elecciones.items() if not c["ok"])},
         ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
