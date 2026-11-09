@@ -1,6 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# VERSIÓN: 1.8.0 · FECHA: 2026-11-09 · ESTADO: candidato
+# VERSIÓN: 1.9.0 · FECHA: 2026-11-09 · ESTADO: candidato
+# CAMBIOS 1.9.0: T-133, el histórico autonómico (herramientas/historico_autonomico.py, paso A por comunidad con su calendario)
+#   corre en los mismos jobs: cada fila lleva `tipo` (general | autonomico) y la prueba incluye una de cada tipo.
 # CAMBIOS 1.8.0: T-130, «campaña completa» (una orden): la parte vigente (nacional y/o autonómica) se lanza con el Gestor y,
 #   a la vez, el histórico de las cinco generales corre en los jobs «histórico» con `clave` por fila (260 ejecuciones:
 #   prueba + dos lotes por el tope de 256 de la matriz). El histórico autonómico queda pendiente (T-131).
@@ -22,7 +24,7 @@
 # CAMBIOS 1.2.0: campaña «Nacional 2023» con las 52 provincias (INE, matrícula o nombre); T-06.
 # CAMBIOS 1.1.0: actions: write (el 00 llamado tiene un job con actions: write; con read, GitHub no arranca:
 #   startup_failure); selección por «todos», números o nombres en lugar de CODAUTO con ceros.
-# ANTERIOR: legacy/workflows/gestor-campanas_v1.7.0_20261109.yml
+# ANTERIOR: legacy/workflows/gestor-campanas_v1.8.0_20261109.yml
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: 0 Gestor de Campañas
@@ -146,6 +148,7 @@ on:
       - 'herramientas/gestor_campanas_2.py'
       - 'tests/test_gestor_campanas_2.py'
       - 'herramientas/historico_campana.py'
+      - 'herramientas/historico_autonomico.py'
       - 'herramientas/reagregacion_historico.py'
       - 'herramientas/historico_m07m08.py'
       - 'configuracion/catalogo_territorios_espana_2025.yaml'
@@ -224,14 +227,16 @@ jobs:
           if jq -e 'has("territorios")' plan.json >/dev/null; then echo "lanzar_vigente=true" >> "$GITHUB_OUTPUT"; fi
           if jq -e 'has("historico")' plan.json >/dev/null; then
             C="$(jq -r .historico.clave plan.json)"
-            jq -c --arg c "$C" '[.historico.include[] | . + {clave: (.clave // $c)}]' plan.json > filas.json
+            jq -c --arg c "$C" '[.historico.include[] | . + {clave: (.clave // $c), tipo: (.tipo // "general"), provincia: (.provincia // "")}]' plan.json > filas.json
+            jq -c '[(map(select(.tipo == "general")) | first // empty), (map(select(.tipo == "autonomico")) | first // empty)]' filas.json > pruebas.json
+            jq -c --slurpfile p pruebas.json '[.[] | select(. as $r | ($p[0] | index($r)) == null)]' filas.json > resto.json
             echo "historico=$(jq -c '{include: .}' filas.json)" >> "$GITHUB_OUTPUT"
-            echo "historico_prueba=$(jq -c '{include: [.[0]]}' filas.json)" >> "$GITHUB_OUTPUT"
-            if jq -e 'length > 1' filas.json >/dev/null; then
-              echo "historico_resto=$(jq -c '{include: .[1:251]}' filas.json)" >> "$GITHUB_OUTPUT"
+            echo "historico_prueba=$(jq -c '{include: .}' pruebas.json)" >> "$GITHUB_OUTPUT"
+            if jq -e 'length > 0' resto.json >/dev/null; then
+              echo "historico_resto=$(jq -c '{include: .[0:250]}' resto.json)" >> "$GITHUB_OUTPUT"
             fi
-            if jq -e 'length > 251' filas.json >/dev/null; then
-              echo "historico_resto2=$(jq -c '{include: .[251:]}' filas.json)" >> "$GITHUB_OUTPUT"
+            if jq -e 'length > 250' resto.json >/dev/null; then
+              echo "historico_resto2=$(jq -c '{include: .[250:]}' resto.json)" >> "$GITHUB_OUTPUT"
             fi
             echo "historico_clave=$C" >> "$GITHUB_OUTPUT"
           fi
@@ -263,6 +268,7 @@ jobs:
       CLAVE: ${{ matrix.clave }}
       TERRITORIO: ${{ matrix.territorio }}
       PROVINCIA: ${{ matrix.provincia }}
+      TIPO: ${{ matrix.tipo }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: python -m pip install --disable-pip-version-check -r requirements.lock
@@ -270,8 +276,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
-            --eleccion "$CLAVE" --salida salida_historico
+          if [[ "$TIPO" == autonomico ]]; then
+            python herramientas/historico_autonomico.py ejecutar --comunidad "$TERRITORIO" --salida salida_historico
+          else
+            python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
+              --eleccion "$CLAVE" --salida salida_historico
+          fi
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ always() }}
         with:
@@ -298,6 +308,7 @@ jobs:
       CLAVE: ${{ matrix.clave }}
       TERRITORIO: ${{ matrix.territorio }}
       PROVINCIA: ${{ matrix.provincia }}
+      TIPO: ${{ matrix.tipo }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: python -m pip install --disable-pip-version-check -r requirements.lock
@@ -305,8 +316,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
-            --eleccion "$CLAVE" --salida salida_historico
+          if [[ "$TIPO" == autonomico ]]; then
+            python herramientas/historico_autonomico.py ejecutar --comunidad "$TERRITORIO" --salida salida_historico
+          else
+            python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
+              --eleccion "$CLAVE" --salida salida_historico
+          fi
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ always() }}
         with:
@@ -333,6 +348,7 @@ jobs:
       CLAVE: ${{ matrix.clave }}
       TERRITORIO: ${{ matrix.territorio }}
       PROVINCIA: ${{ matrix.provincia }}
+      TIPO: ${{ matrix.tipo }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: python -m pip install --disable-pip-version-check -r requirements.lock
@@ -340,8 +356,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
-            --eleccion "$CLAVE" --salida salida_historico
+          if [[ "$TIPO" == autonomico ]]; then
+            python herramientas/historico_autonomico.py ejecutar --comunidad "$TERRITORIO" --salida salida_historico
+          else
+            python herramientas/historico_campana.py ejecutar --territorio "$TERRITORIO" --provincia "$PROVINCIA" \
+              --eleccion "$CLAVE" --salida salida_historico
+          fi
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ always() }}
         with:
