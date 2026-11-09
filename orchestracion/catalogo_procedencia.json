@@ -50,7 +50,7 @@
   "territorios": 71,
   "productos": 387,
   "errores": 0,
-  "avisos": 127
+  "avisos": 136
  },
  "territorios": {
   "andalucia": {
@@ -6734,6 +6734,27 @@
    "territorio": "congreso350_madrid",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_madrid/42588623702/ddd-audit-42588623702.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_madrid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_madrid/42588623702/ddd-minimo-42588623702-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_madrid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_madrid/42599356804/ddd-audit-electoral-42599356804.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_madrid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso350_madrid/42599356804/ddd-minimo-42599356804-M08.zip"
   },
   {
@@ -6741,7 +6762,49 @@
    "territorio": "congreso350_soria",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_soria/42601453125/ddd-audit-42601453125.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_soria",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_soria/42601453125/ddd-minimo-42601453125-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_soria",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_soria/42612579208/ddd-audit-electoral-42612579208.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_soria",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso350_soria/42612579208/ddd-minimo-42612579208-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42601455862/ddd-audit-42601455862.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42601455862/ddd-minimo-42601455862-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42613899978/ddd-audit-electoral-42613899978.zip"
   },
   {
    "nivel": "AVISO",
