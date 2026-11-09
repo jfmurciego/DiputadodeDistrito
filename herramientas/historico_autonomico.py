@@ -3,12 +3,15 @@
 """Histórico AUTONÓMICO en el Gestor 2.0: plan y paso A (M07/M08) por comunidad y elección, con puerta (T-133).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.0.1 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS: 1.0.1 (T-134): el plan (`elecciones`, `requisitos`, `plan`) solo usa la biblioteca estándar: el job «Legislatura
+  vigente» del Gestor solo instala PyYAML y fallaba con `No module named 'shapely'` (run 42705439861) al importar este
+  módulo. `reagregacion_autonomicas` (shapely, geopandas) se importa de forma perezosa solo en `ejecutar`.
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): el Gestor lanza TODO el histórico, también las autonómicas desde 2011, cada
   comunidad con sus propias fechas (configuracion/calendario_autonomicas.csv, sin calendario común). Reproduce para
   las comunidades el paso A de las generales (historico_campana.py + historico_m07m08.py).
-ANTERIOR: ninguna (fichero nuevo; reutiliza funciones de reagregacion_autonomicas.py, reagregacion_historico.py y
+ANTERIOR: legacy/herramientas/historico_autonomico_v1.0.0_20261109.py (1.0.0 reutiliza funciones de reagregacion_autonomicas.py, reagregacion_historico.py y
   historico_m07m08.py sin modificarlas)
 QUÉ HACE: `plan(comunidades, explicito)` devuelve, por comunidad, las elecciones del calendario (en alcance, no vigentes,
   con dato por sección en el Observatorio) y lo que falta (M06 publicado en orchestracion/publicaciones_visor.json con
@@ -34,7 +37,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "herramientas"))
 sys.path.insert(0, str(ROOT))
-import reagregacion_autonomicas as ra  # noqa: E402
+
+CALENDARIO = "configuracion/calendario_autonomicas.csv"
+INDICE = "fuentes/observatorio_autonomicas/index.json"
 
 PUBLICACIONES = "orchestracion/publicaciones_visor.json"
 COMPOSICION_MANIFEST = "datos/composicion/MANIFEST.json"
@@ -51,10 +56,26 @@ def _json(root: Path, rel: str) -> dict:
     return json.loads((root / rel).read_text(encoding="utf-8"))
 
 
+def leer_calendario(raiz: Path = ROOT) -> dict[str, list[dict]]:
+    """{comunidad: [filas en alcance]} (como `reagregacion_autonomicas.leer_calendario`, sin sus dependencias)."""
+    out: dict[str, list[dict]] = {}
+    with open(raiz / CALENDARIO, encoding="utf-8", newline="") as f:
+        for r in csv.DictReader(f):
+            if r["en_alcance"] == "si":
+                out.setdefault(r["comunidad"], []).append(r)
+    return out
+
+
+def _ra():
+    """Módulo del paso B (shapely, geopandas): solo en el runner del histórico."""
+    import reagregacion_autonomicas as ra
+    return ra
+
+
 def elecciones(comunidad: str, root: Path = ROOT) -> list[dict]:
     """Elecciones históricas de una comunidad: del calendario, en alcance, no vigentes, desde 2011 y con dato por sección."""
-    filas = ra.leer_calendario(root).get(comunidad, [])
-    indice = _json(root, ra.INDICE)["sekzioak"]
+    filas = leer_calendario(root).get(comunidad, [])
+    indice = _json(root, INDICE)["sekzioak"]
     return [{"eleccion": f["mes"].replace("-", ""), "fecha": f["fecha"] or f["mes"],
              "cod_ine": f["cod_ine"]} for f in filas
             if f["vigente"] != "si" and f["mes"] >= DESDE and f"{f['cod_ine']}-{f['mes'].replace('-', '')}" in indice]
@@ -70,7 +91,7 @@ def requisitos(comunidad: str, root: Path = ROOT) -> list[str]:
                  and p.get("blob_sha") == comp["blob_sha"] and p.get("sha256") == comp["sha256_m06"]
                  for p in _json(root, PUBLICACIONES)["products"]):
         falta.append("sin M06 publicado con la huella de la composición")
-    cal = ra.leer_calendario(root)
+    cal = leer_calendario(root)
     if comunidad not in cal:
         falta.append("sin calendario (configuracion/calendario_autonomicas.csv)")
     els = elecciones(comunidad, root) if comunidad in cal else []
@@ -117,6 +138,7 @@ def escribir_paquete(carpeta: Path, comunidad: str, ele: str, fecha: str, seccio
     """Paquete M07 de una autonómica: como `reagregacion_historico.escribir_paquete`, con contrato autonómico."""
     from ddd_core.electoral_contract import party_key
     import equivalencia_seccionados as eqs
+    ra = _ra()
     carpeta.mkdir(parents=True, exist_ok=True)
     sv, sp, dic, con = (carpeta / n for n in ("secciones.csv", "participacion.csv", "partidos.json", "contrato.json"))
     with open(sv, "w", encoding="utf-8", newline="") as f:
@@ -183,6 +205,7 @@ def _m06(comunidad: str, destino: Path) -> Path:
 def ejecutar(comunidad: str, trabajo: Path, salida: Path, solo: list[str] | None = None) -> int:
     import subprocess
     import equivalencia_seccionados as eqs
+    ra = _ra()
     import fuente_nazioenbehatokia as fnb
     import historico_m07m08 as hm
     falta = requisitos(comunidad)
@@ -227,7 +250,7 @@ def ejecutar(comunidad: str, trabajo: Path, salida: Path, solo: list[str] | None
             votos.update(v)
         sec = ra.rh.redondear({"distritos": ra.rh.reagregar_secciones(votos, eq)["distritos"]})
         escribir_paquete(paquete / ele / comunidad, comunidad, ele, e["fecha"], sec,
-                         {"observatorio": huellas, "calendario": eqs.sha256(ROOT / ra.CALENDARIO)})
+                         {"observatorio": huellas, "calendario": eqs.sha256(ROOT / CALENDARIO)})
         pq = paquete / ele / comunidad
         tr = trabajo / "m07" / ele
         tr.mkdir(parents=True, exist_ok=True)

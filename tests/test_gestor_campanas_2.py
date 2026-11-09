@@ -153,5 +153,29 @@ class CampanaCompleta(unittest.TestCase):
         self.assertIn("historico_autonomico.py ejecutar", json.dumps(wf["jobs"]["historico_prueba"]["steps"]))
 
 
+class PlanSoloConPyYAML(unittest.TestCase):
+    """T-134 (run 42705439861): el job «Legislatura vigente» solo instala PyYAML; planificar no puede importar shapely."""
+    BLOQUEO = ("import sys\nfor m in ('shapely', 'geopandas', 'pandas', 'numpy', 'pyproj', 'networkx', 'gerrychain'):\n"
+               "    sys.modules[m] = None\nsys.argv = ['gestor_campanas_2.py'] + sys.argv[1:]\n"
+               "sys.path.insert(0, 'herramientas')\nimport gestor_campanas_2 as g\nraise SystemExit(g.main())\n")
+
+    def plan(self, *args):
+        return subprocess.run([sys.executable, "-c", self.BLOQUEO, "plan", "--sin-api", *args], cwd=ROOT,
+                              capture_output=True, text=True)
+
+    def test_plan_vigente_sin_shapely(self):
+        r = self.plan("--eleccion=legislatura vigente", "--tipo=nacional", "--territorios=todos",
+                      "--inicio=reutilizar progreso", "--publicar=no", "--ensemble=ninguno", "--mapa=407",
+                      "--salida=/dev/null")
+        self.assertEqual(r.returncode, 0, r.stderr[-800:])
+
+    def test_plan_campana_completa_con_historico_autonomico_sin_shapely(self):
+        r = self.plan("--eleccion=campaña completa", "--tipo=nacional y autonómico", "--territorios=todos",
+                      "--inicio=reutilizar progreso", "--publicar=no", "--ensemble=ninguno", "--mapa=407",
+                      "--salida=/dev/null")
+        self.assertEqual(r.returncode, 0, r.stderr[-800:])
+        self.assertIn("autonómicas desde 2011", r.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()

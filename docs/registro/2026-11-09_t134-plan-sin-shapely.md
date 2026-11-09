@@ -1,0 +1,6 @@
+## 2026-11-09 — T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML
+
+Causa: #587 (T-133) hizo que `gestor_campanas_2.py` importara `historico_autonomico.py`, y este `reagregacion_autonomicas.py` → `equivalencia_seccionados.py` (shapely). El job «Legislatura vigente» solo instala PyYAML: `ModuleNotFoundError: No module named 'shapely'` en «Plan (en seco)» (Gestor 42705439861, Cantabria/Extremadura). Rompía el Gestor para toda campaña.
+Cambio: `historico_autonomico.py` 1.0.1 (copia en `legacy/`): plan con biblioteca estándar (lee el calendario él mismo) e importación perezosa de `reagregacion_autonomicas` solo en `ejecutar` y `escribir_paquete`. Los jobs de histórico siguen instalando `requirements.lock`. Sin cambios en el workflow ni en el Gestor.
+Pruebas: clase nueva `PlanSoloConPyYAML` (planifica «legislatura vigente» y «campaña completa» con shapely, geopandas, pandas, numpy, pyproj y networkx bloqueados): falla con la 1.0.0 (`No module named 'shapely'`) y pasa con la 1.0.1; tests del Gestor, del histórico autonómico, de legislatura vigente, del histórico de generales y de gobernanza OK.
+Riesgos: ninguno para la ejecución del paso A (mismo código tras el import perezoso). Lección: un módulo que importa el Gestor al planificar no puede traer dependencias pesadas al importarse.
