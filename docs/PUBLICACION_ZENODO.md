@@ -36,5 +36,9 @@ adjunto sigue en la Release de GitHub, con su firma verificable. Decisión del p
 Nombre «Jesus Murciego», ORCID 0009-0002-4434-959X, afiliación «Independent researcher» (decisión del propietario, 09-11).
 Versión del proyecto: 4.9.0.
 
+## Primer depósito
+Mapa Congreso Huesca 1.0.0: https://zenodo.org/records/24093968 — DOI de versión 10.5281/zenodo.24093968 (provisional: derivado del número de registro, sin verificar desde el entorno del proyecto). El fichero del depósito es el ZIP de código fuente de GitHub, **no** el paquete firmado `.tar.gz` (su sha256 está en la Release).
+
 ## Pendiente
-- El DOI real, tras la primera publicación, para la insignia y el campo `identifiers`.
+- DOI de concepto («Cite all versions» en la página del registro): pendiente del propietario.
+- Verificar que el DOI de versión resuelve.
