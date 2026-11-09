@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-09T16:01:44.114223+00:00",
+  "generated_at": "2026-11-09T17:16:29.600291+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 46,
       "blocked": 0,
       "unavailable": 0,
-      "activated": 71,
-      "activable": 3,
+      "activated": 72,
+      "activable": 2,
       "territorial_pending": 46,
       "electoral_pending": 46,
       "temporal_substitution": 3,
@@ -39,7 +39,7 @@
       "years_resolved": 120,
       "territorial_source": 74,
       "electoral_source": 74,
-      "durable_pair": 71
+      "durable_pair": 72
     },
     "territories": [
       {
@@ -333,12 +333,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/9e88dd071aa9603d933e7c19a748df210fcc57c9c307619ee1d25839ed6c3605.json",
-            "pair_sha256": "9e88dd071aa9603d933e7c19a748df210fcc57c9c307619ee1d25839ed6c3605",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/fc21c1941280823586c1f01956414f55736ceb7ed9dccde68813a3886f1fab68.json",
+            "pair_sha256": "fc21c1941280823586c1f01956414f55736ceb7ed9dccde68813a3886f1fab68",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -6998,12 +6998,12 @@
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
       "run_id": 42637193077,
       "last_run": {
-        "run_id": 41195453629,
+        "run_id": 42637193077,
         "status": "SUCCESS",
-        "completion_status": "COMPLETE",
-        "stopped_at": null,
-        "reason": null,
-        "publication": "executed"
+        "completion_status": "TERRITORIAL_COMPLETE",
+        "stopped_at": "03/04 · rama electoral omitida",
+        "reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+        "publication": "not_requested"
       },
       "stage": "M06",
       "edition": "2025",
@@ -7046,7 +7046,7 @@
       },
       "autonomous_community_code_ine": "06",
       "display_name": "06 Cantabria",
-      "next_step": "preparar fuentes electorales"
+      "next_step": "activar par de fuentes (Activación de Legislatura Vigente) y reutilizar"
     },
     {
       "territory_id": "castilla_y_leon",
