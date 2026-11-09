@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13671340699,
+      "artifact_name": "ddd-audit-42601455862",
+      "artifact_sha256": "d9b986edf144e173d242b1e92eb95ead7bb4338fe42e475f5d4a6f435c187b3c",
+      "run_id": 42601455862,
+      "size_in_bytes": 3943
+    },
+    "m04": {
+      "artifact_id": 13670567241,
+      "artifact_name": "ddd-state-42601455862-M04",
+      "artifact_sha256": "6dcdf2252c967d335d71b795ce86d50216b4ad0cd57580addef95d60be927de2",
+      "run_id": 42601455862,
+      "size_in_bytes": 76839006
+    },
+    "m05": {
+      "artifact_id": 13669643814,
+      "artifact_name": "ddd-state-42601455862-M05",
+      "artifact_sha256": "20c60b6a636ffa8f81ee7cb460e4ea289f7836294e0149dcae21c0694ed52092",
+      "run_id": 42601455862,
+      "size_in_bytes": 77370060
+    },
+    "m06": {
+      "artifact_id": 13671021155,
+      "artifact_name": "ddd-state-42601455862-M06",
+      "artifact_sha256": "a87f40b959843394b42255eab7bd970ceee21cd08844683980681e7987d2b906",
+      "run_id": 42601455862,
+      "size_in_bytes": 78046056
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "7f3d2c53be36d4414bc0c45c357c16d3e2017096b58fb01a966bc87b4a952eff",
+        "size_in_bytes": 496
+      },
+      "congreso350_valladolid_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "1494f5e17e6fb123289ef42d4175aa2105df8da637d56e632a323ae6d84e17a6",
+        "size_in_bytes": 8779
+      },
+      "optimization_execution.json": {
+        "sha256": "db9fef7d7e4c1f0095b4ff33f9be62f35a432b8a2c5f2811adc2794db50197cd",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "f07ab7f773db2b467c93716749fff9719969c164db597cb06a220b8d85845038",
+        "size_in_bytes": 1348
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "f07ab7f773db2b467c93716749fff9719969c164db597cb06a220b8d85845038",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso350_valladolid/config/congreso350_valladolid_2025.yaml",
+    "sha256": "baee40dcaf7b8dbbb81f31dc39a036ab8fcb8b17c457b4018d246375f5453d4d"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "9d0fc89d2b7ef483c9e7250703365137ced99f779d6493049fde650947d1ffdf",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "baaf8c67f5fff7a2976a61ed07872154c77c87c2",
+    "edition": "2025",
+    "territory_id": "congreso350_valladolid",
+    "territory_name": "Congreso 350 Valladolid",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42601455862,
+    "workflow_sha": "38e1494e500e276612b7e27a5bcd6078b3e0f413"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13670567241,
+      "artifact_name": "ddd-state-42601455862-M04",
+      "artifact_sha256": "6dcdf2252c967d335d71b795ce86d50216b4ad0cd57580addef95d60be927de2",
+      "run_id": 42601455862,
+      "size_in_bytes": 76839006
+    },
+    "source_manifest_sha256": "86042a294583c76cc03f8b079168ba35aa4271f8aa3119549c102023dac7ddae",
+    "source_package_artifact": {
+      "artifact_id": 13668139274,
+      "artifact_name": "ddd-source-package-congreso350_valladolid-2025-42601455862",
+      "artifact_sha256": "efa57a1a34568c313790f7ee16abb3418690cb55af99a2da77904fe1cd1d5552",
+      "run_id": 42601455862,
+      "size_in_bytes": 75758899
+    }
+  },
+  "manifest_sha256": "ddfb1ef3194b71eb7713867a54b44c964ccb42db733899f07836e84b39b59548",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}
