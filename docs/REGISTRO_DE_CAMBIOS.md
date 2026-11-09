@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.229
+Versión: 1.0.240
 Fecha: 2026-11-09
-Alcance: estado — Tablero del Coordinador al 09-11 noche
+Alcance: T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_estado-0911.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.228_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t134-plan-sin-shapely.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.239_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,17 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.228_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.240 · [2026-11-09 — T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML](registro/2026-11-09_t134-plan-sin-shapely.md)
+- 1.0.239 · [2026-11-09 — estado — Tabla verde/amarillo/rojo por tema en ESTADO.md](registro/2026-11-09_estado-semaforo.md)
+- 1.0.238 · [2026-11-09 — T-133 — El Gestor lanza el histórico autonómico dentro de la campaña completa](registro/2026-11-09_t133-cablear-gestor.md)
+- 1.0.237 · [2026-11-09 — T-133 — Paso A del histórico autonómico con puerta (`historico_autonomico.py`)](registro/2026-11-09_t133-paso-a-autonomico.md)
+- 1.0.236 · [2026-11-09 — T-131 — Histórico autonómico, lote 1: Cataluña, Comunidad Valenciana, Navarra, País Vasco, La Rioja y Canarias](registro/2026-11-09_t131-autonomicas-lote1.md)
+- 1.0.235 · [2026-11-09 — T-130 — Gestor 2.0: «campaña completa» en una sola orden](registro/2026-11-09_t130-campana-completa.md)
+- 1.0.234 · [2026-11-09 — T-128 (paso 3) — Configuraciones de ensemble de cinco comunidades](registro/2026-11-09_claude-t128-ensemble-comunidades.md)
+- 1.0.233 · [2026-11-09 — T-128 (paso 2) — Fase `ensemble_25` en el 06 «Escenarios y Ensembles»](registro/2026-11-09_claude-t128-ensemble-25.md)
+- 1.0.232 · [2026-11-09 — T-130 — El Gestor sigue la 00 que lanzó, no la hija del bot](registro/2026-11-09_t130-sigue-00-de-prueba.md)
+- 1.0.231 · [2026-11-09 — T-129 — Nota técnica: censo/población y reparto de escaños 2026](registro/2026-11-09_t129-censo-reparto-2026.md)
+- 1.0.230 · [2026-11-09 — T-128 (paso 1) — El runner del ensemble imprime el motivo del fallo de cada candidato](registro/2026-11-09_claude-t128-ensemble-alava.md)
 - 1.0.229 · [2026-11-09 — estado — Tablero del Coordinador al 09-11 noche](registro/2026-11-09_estado-0911.md)
 - 1.0.228 · [2026-11-09 — T-127 — Preparación de Zenodo: metadatos y guía (sin publicar)](registro/2026-11-09_t127-zenodo-metadatos.md)
 - 1.0.227 · [2026-11-09 — T-125 — CLAUDE.md: la 05 con production_run_id vacío es «solo sitio»](registro/2026-11-09_claude-md-05-solo-sitio.md)

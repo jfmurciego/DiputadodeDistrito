@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 2.4.0
-# FECHA: 2026-11-03
+# VERSIÓN: 2.5.0
+# FECHA: 2026-11-09
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
 # CAMBIOS 2.3.0: T-36, la validación de la republicación sale a herramientas/validar_republicacion_ensemble.py y admite candidatos ya en WGS84 (la web debe coincidir con la analítica) además de proyectados.
 # CAMBIOS 2.2.0: T-35, `publish` y `republish` exponen `ensemble_sha256` (hash del zip del release) y se lo pasan al publicador único, que lo exige
@@ -11,7 +11,8 @@
 #   ensemble-<territorio>) y NO registran nada en el catálogo ni en el estado operativo. Fase ensemble_10; el lote de 50 sigue bloqueado.
 # CAMBIOS: conserva la exclusión mutua y permite hasta 100 ejecuciones pendientes con queue: max.
 # CAMBIOS 2.4.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan. Puerta en config (ruta de cálculo) y republish; la 05 que llama no pide un segundo clic.
-# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.3.0_20261107.yml
+# CAMBIOS 2.5.0: T-128, fase ensemble_25 (25 candidatas, territorios) en el gate; antes el 25 no existía y fallaba (exit 20 «Fase no admitida»).
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v2.4.0_20261109.yml
 # MOTIVO: evitar que los registros durables o ejecuciones territoriales pendientes sean sustituidos antes de ejecutarse.
 name: 06 Escenarios y Ensembles
 
@@ -27,7 +28,7 @@ on:
   workflow_dispatch:
     inputs:
       territory_id: {description: 'Territorio con configuracion/ensemble/<territorio>.json (piloto: congreso_salamanca)', required: true, type: string}
-      stage: {description: 'ensemble_10 (territorios), aragon_10/aragon_50 (Aragón) o synthetic', required: true, type: string, default: synthetic}
+      stage: {description: 'ensemble_10 o ensemble_25 (territorios), aragon_10/aragon_50 (Aragón) o synthetic', required: true, type: string, default: synthetic}
       execution_confirmed: {description: 'Confirma la ejecución (coste de Actions)', required: false, type: boolean, default: false}
       promotion_confirmed: {description: 'Solo Aragón-50', required: false, type: boolean, default: false}
       deploy_pages: {description: 'Publicar la galería en el visor (dejar en falso en el piloto)', required: false, type: boolean, default: false}
@@ -127,6 +128,7 @@ jobs:
           test "${{ inputs.execution_confirmed }}" = true
           case "${{ inputs.stage }}" in
             ensemble_10) test "$KIND" = territorial; count=10 ;;
+            ensemble_25) test "$KIND" = territorial; count=25 ;;
             aragon_10) test "$KIND" = aragon; count=10 ;;
             aragon_50)
               test "$KIND" = aragon

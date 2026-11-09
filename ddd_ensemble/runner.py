@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -268,6 +269,16 @@ def _clear_candidate_outputs(candidate_dir: Path) -> None:
         (candidate_dir / name).unlink(missing_ok=True)
 
 
+def _report_failure(candidate: dict[str, Any], exc: BaseException) -> None:
+    """T-128: el motivo del fallo va al log (failure.json está en un artefacto que no siempre se puede descargar)."""
+    print(
+        f"CANDIDATE_FAILED {candidate['candidate_id']} profile={candidate['profile']} "
+        f"{type(exc).__name__}: {exc}",
+        file=sys.stderr,
+        flush=True,
+    )
+
+
 def run_candidates(
     config: dict[str, Any],
     base: Path,
@@ -368,6 +379,7 @@ def run_candidates(
                 "message": str(exc),
                 "chain_quality": exc.report.get("chain_quality", {}),
             })
+            _report_failure(candidate, exc)
             failed += 1
         except Exception as exc:  # El lote continúa y la reanudación apunta al fallo.
             _write(candidate_dir / "failure.json", {
@@ -375,6 +387,7 @@ def run_candidates(
                 "error_type": type(exc).__name__,
                 "message": str(exc),
             })
+            _report_failure(candidate, exc)
             failed += 1
     return {"executed": executed, "skipped": skipped, "failed": failed}
 
