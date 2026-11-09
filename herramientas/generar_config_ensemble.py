@@ -2,8 +2,10 @@
 """Genera configuracion/ensemble/<territorio>.json de las provincias del Congreso que el ensemble admite.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.1.0 · FECHA: 2026-11-08 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.0.0_20261108.py
+VERSIÓN: 1.2.0 · FECHA: 2026-11-09 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.1.0_20261108.py
+CAMBIOS 1.2.0 (T-120): Barcelona entra con su exención municipal 08073 (Cornellà, decisión gobernada del contrato, propietario
+  2026-11-01); límites iguales a los del molde. B2 del propietario, 09-11.
 CAMBIOS 1.1.0 (T-98): APROBADOS_PROPIETARIO admite, por territorio, límites distintos del molde y la exención municipal de
   suelo ya gobernada en el contrato (el motor del ensemble la modela desde m05_gerrychain_engine 1.3.0). La config copia
   los valores del contrato y deja en `decisions` decided_at/decided_by/reason/evidence. Cádiz sale de EXCLUIDOS_POR_ORDEN.
@@ -37,6 +39,10 @@ APROBADOS_PROPIETARIO = {
                 "evidence": "docs/registro/2026-11-08_claude-t92-ensembles-configs.md (T-92, «techo 1,16 aprobado para el ensemble»); T-98",
             },
         },
+    },
+    "congreso_barcelona": {
+        "admite": {EXENCION},
+        "decisions": {},
     },
 }
 LIMITES = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio")
