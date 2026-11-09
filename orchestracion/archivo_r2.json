@@ -1,5 +1,5 @@
 {
-  "actualizado_en": "2026-11-09T12:07:30Z",
+  "actualizado_en": "2026-11-09T12:12:33Z",
   "artefactos": {
     "andalucia/42409764232/ddd-audit-42409764232.zip": {
       "archivado_en": "2026-11-08T12:20:29Z",
@@ -1931,19 +1931,20 @@
       "territorio": "congreso350_soria",
       "url": "r2://ddd-research-archive/congreso350_soria/42612579208/ddd-minimo-42612579208-M08.zip"
     },
-    "congreso350_valladolid/42601455862/ddd-minimo-42601455862-M06.zip": {
-      "archivado_en": "2026-11-09T11:51:31Z",
-      "artefacto": "ddd-minimo-42601455862-M06",
-      "artefacto_origen": "ddd-state-42601455862-M06",
-      "artifact_id": 13671021155,
-      "caducidad_original": "2026-11-23T11:48:51Z",
-      "run_id": "42601455862",
-      "sha256": "e2c239d06b36b8b54899d1d4267767afe5091da1341810eae2282533a97fd1cd",
-      "sha256_estado_original": "a87f40b959843394b42255eab7bd970ceee21cd08844683980681e7987d2b906",
-      "tamano_bytes": 154803,
-      "tamano_estado_original": 78046056,
+    "congreso350_valladolid/42613899978/ddd-minimo-42613899978-M08.zip": {
+      "archivado_en": "2026-11-09T12:12:33Z",
+      "artefacto": "ddd-minimo-42613899978-M08",
+      "artefacto_origen": "ddd-state-42613899978-M08",
+      "artifact_id": 13672162063,
+      "caducidad_original": "2026-11-23T12:10:33Z",
+      "incluye_m06_run": "42601455862",
+      "run_id": "42613899978",
+      "sha256": "3f8edee9afd9a499f6817130f7487a1e1b385237914200dba18ed85d3e49a12f",
+      "sha256_estado_original": "d199c7534b4ca0dd6d45d5a9e4235ed3c1542517ddcf7bbdce5f3a944b6f9c33",
+      "tamano_bytes": 286184,
+      "tamano_estado_original": 78716781,
       "territorio": "congreso350_valladolid",
-      "url": "r2://ddd-research-archive/congreso350_valladolid/42601455862/ddd-minimo-42601455862-M06.zip"
+      "url": "r2://ddd-research-archive/congreso350_valladolid/42613899978/ddd-minimo-42613899978-M08.zip"
     },
     "congreso_alava/41346917857/ddd-audit-41346917857.zip": {
       "archivado_en": "2026-11-08T12:17:18Z",
