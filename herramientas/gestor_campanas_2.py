@@ -2,7 +2,10 @@
 """Gestor de Campañas 2.0 (T-105, D-22): seis entradas en español → plan en seco o campaña sin chats.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-09 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS: 1.3.0 (T-133): la campaña completa con tipo autonómico planifica también el histórico autonómico desde 2011
+  (herramientas/historico_autonomico.py: paso A por comunidad, cada una con su calendario); filas con `tipo`
+  («general» o «autonomico») y una prueba de cada tipo. Las comunidades sin paso B se omiten con su motivo.
 CAMBIOS: 1.2.0 (T-130): elección «campaña completa» y tipo «nacional y autonómico»: UNA orden planifica la legislatura
   vigente (nacional y/o autonómica, con o sin ensemble 10) más el histórico de las cinco generales (matriz con `clave`
   por fila); el histórico autonómico queda como «pendiente» (T-131) sin impedir el resto. `lanzar` ejecuta la parte
@@ -11,7 +14,7 @@ CAMBIOS: 1.1.0 (T-113): «histórico: generales 2019-11» planifica el paso A de
   (herramientas/historico_campana.py; matriz `historico` del plan, la ejecutan los jobs del workflow); el resto de
   elecciones históricas, el tipo autonómico, el mapa 350, el ensemble y publicar siguen fallando con mensaje claro.
   1.0.0: fichero nuevo.
-ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.1.0_20261109.py
+ANTERIOR: legacy/herramientas/gestor_campanas_2_v1.2.0_20261109.py
 QUÉ HACE: traduce las entradas del formulario «0 Gestor de Campañas», en el orden de D-22, a un plan de
   `legislatura_vigente.py` y, si «solo plan» está desactivado, lo lanza: 00 (con su cadena par → 00 electoral)
   → 05 si «publicar» = sí → 06 `ensemble_10` si «ensemble» = 10.
@@ -33,6 +36,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import clave_eleccion as ce  # noqa: E402
+import historico_autonomico as ha  # noqa: E402
 import historico_campana as hc  # noqa: E402
 import legislatura_vigente as lv  # noqa: E402
 
@@ -213,16 +217,26 @@ def _resolve_completa(entradas: dict, tipo: str, publicar: bool, ensemble: str, 
            "inicio": {k: v for p in parts for k, v in p["inicio"].items()},
            "ensemble": {k: v for p in parts for k, v in p["ensemble"].items()},
            "entradas": {**parts[0]["entradas"], "eleccion": COMPLETA, "tipo": tipo}, "pendiente": []}
+    rows, omitidos, partes = [], {}, []
     if "nacional" in tipos:
         lotes = [_resolve_historico({**entradas, "eleccion": e}, e, "nacional", False, "ninguno", "407", root)["historico"]
                  for e in ELECCIONES if e.startswith("histórico: generales")]
-        rows = [{**r, "clave": h["clave"]} for h in lotes for r in h["include"]]
-        out["historico"] = {"completa": True, "eleccion": "las cinco generales 2011-2023", "clave": "completa",
-                            "prueba": rows[0], "include": rows,
-                            "omitidos": {f"{h['clave']}:{t}": m for h in lotes for t, m in h["omitidos"].items()}}
+        rows += [{**r, "clave": h["clave"], "tipo": "general"} for h in lotes for r in h["include"]]
+        omitidos.update({f"{h['clave']}:{t}": m for h in lotes for t, m in h["omitidos"].items()})
+        partes.append("las cinco generales 2011-2023")
     if "autonómico" in tipos:
-        out["pendiente"].append("Histórico autonómico desde 2011 (calendario por comunidad): sin asignar (T-131 solo hace el paso B) "
-                                "(herramientas/historico_autonomico.py); no se planifica.")
+        try:
+            h = ha.plan(parts[-1]["ids"], False, root)
+        except ha.NoDisponible as exc:
+            out["pendiente"].append(f"Histórico autonómico desde 2011: {exc}")
+        else:
+            rows += [{"territorio": r["comunidad"], "provincia": "", "clave": "autonomicas", "tipo": "autonomico",
+                      "elecciones": r["elecciones"]} for r in h["include"]]
+            omitidos.update({f"autonomicas:{t}": m for t, m in h["omitidos"].items()})
+            partes.append("autonómicas desde 2011 (" + ", ".join(r["comunidad"] for r in h["include"]) + ")")
+    if rows:
+        out["historico"] = {"completa": True, "eleccion": " + ".join(partes), "clave": "completa", "prueba": rows[0],
+                            "include": rows, "omitidos": omitidos}
     return out
 
 

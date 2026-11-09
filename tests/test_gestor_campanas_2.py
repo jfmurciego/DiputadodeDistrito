@@ -116,14 +116,25 @@ class CampanaCompleta(unittest.TestCase):
         # 52 provincias + 19 comunidades (INE/Constitución) y 5 elecciones × 52 provincias.
         self.assertEqual(len(plan["territorios"]), 52 + 19)
         h = plan["historico"]
-        self.assertEqual(len(h["include"]) + len(h["omitidos"]), 5 * 52)
-        self.assertEqual({r["clave"] for r in h["include"]}, {"201111", "201512", "201606", "201904", "201911"})
-        self.assertTrue(any("sin asignar" in t for t in plan["pendiente"]))
-        self.assertIn("Pendiente", g.markdown(plan, True))
+        gen = [r for r in h["include"] if r["tipo"] == "general"]
+        om_gen = [k for k in h["omitidos"] if not k.startswith("autonomicas:")]
+        self.assertEqual(len(gen) + len(om_gen), 5 * 52)
+        self.assertEqual({r["clave"] for r in gen}, {"201111", "201512", "201606", "201904", "201911"})
+        self.assertEqual(plan["pendiente"], [])
 
-    def test_solo_nacional_no_deja_pendiente_y_solo_autonomico_no_trae_historico(self):
-        self.assertEqual(g.build({**self.C, "tipo": "nacional"}, {}, ROOT)["pendiente"], [])
-        self.assertNotIn("historico", g.build({**self.C, "tipo": "autonómico"}, {}, ROOT))
+    def test_historico_autonomico_con_el_calendario_de_cada_comunidad(self):
+        h = g.build(self.C, {}, ROOT)["historico"]
+        aut = {r["territorio"]: r["elecciones"] for r in h["include"] if r["tipo"] == "autonomico"}
+        # Fechas del calendario con fuente y sha256 (sin la vigente de cada comunidad).
+        self.assertEqual(aut["galicia"], ["201210", "201609", "202007"])
+        self.assertEqual(aut["madrid"], ["201105", "201505", "201905", "202105"])
+        self.assertEqual(aut["castilla_y_leon"], ["201105", "201505", "201905", "202202"])
+
+    def test_solo_nacional_no_trae_autonomico_y_solo_autonomico_no_trae_generales(self):
+        nac = g.build({**self.C, "tipo": "nacional"}, {}, ROOT)["historico"]["include"]
+        self.assertEqual({r["tipo"] for r in nac}, {"general"})
+        aut = g.build({**self.C, "tipo": "autonómico"}, {}, ROOT)["historico"]["include"]
+        self.assertEqual({r["tipo"] for r in aut}, {"autonomico"})
 
     def test_rechazos(self):
         casos = [({"ensemble": "25"}, "no está validado"), ({"mapa": "350"}, "407"),
@@ -137,7 +148,9 @@ class CampanaCompleta(unittest.TestCase):
         wf = yaml.safe_load((ROOT / ".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8"))
         for job in ("historico_prueba", "historico", "historico_2"):
             self.assertIn("matrix.clave", json.dumps(wf["jobs"][job]["steps"]), job)
-        self.assertIn("1:251", json.dumps(wf["jobs"]["legislatura"]["steps"], ensure_ascii=False))
+        plan_step = json.dumps(wf["jobs"]["legislatura"]["steps"], ensure_ascii=False)
+        self.assertIn("0:250", plan_step)  # tope de 256 por matriz
+        self.assertIn("historico_autonomico.py ejecutar", json.dumps(wf["jobs"]["historico_prueba"]["steps"]))
 
 
 if __name__ == "__main__":
