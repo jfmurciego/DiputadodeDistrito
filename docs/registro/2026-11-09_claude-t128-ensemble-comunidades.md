@@ -1,0 +1,6 @@
+## 2026-11-09 — T-128 (paso 3) — Configuraciones de ensemble de cinco comunidades
+
+Autorización: Planificador (09-11): opción (a), «Ceuta, Melilla, Madrid, La Rioja y Asturias». No se lanza ni se publica nada.
+Cambio: `generar_config_ensemble.py` 1.3.0 (molde autonómico: límites copiados sin cambio del contrato de producción, K del contrato) y `configuracion/ensemble/{ceuta,melilla,madrid,la_rioja,principado_de_asturias}.json`. El 06 las admite como kind territorial sin más cambios (el catálogo resuelve sus fuentes). Con config, el Gestor ofrece ahora «ensemble 10» para ellas.
+Bloqueadas (decisión de motor): puentes de topología (el ensemble no los modela) en Andalucía 2, Cantabria 1, Castilla-La Mancha 1, Castilla y León 7, Cataluña 1, Navarra 2, Comunidad Valenciana 2, Extremadura 2, Galicia 2, País Vasco 2, Murcia 2 (esta, además, con 1 exención municipal); exención por partición en Canarias 5 y Baleares 3. Aragón ya tenía config. Necesitan: puentes en el grafo del ensemble (adyacencias forzadas) y floor-exempt por partición en el motor del ensemble; las multiprovincia, además, molde multiprovincia (province_districts) y sin comarcas.
+Riesgos: K=135 (Madrid) con 1000 pasos y 25 candidatas puede costar mucho; validar primero con La Rioja (K=33). Sin cambio en motor ni huellas.
