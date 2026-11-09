@@ -3245,21 +3245,20 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 42522378370
-        artifact_name: ddd-source-package-congreso350_madrid-2025-42522378370
-        artifact_sha256: 8b24dd9fcde64294cded207927927fcc7085dcdd7b1bc130fd7519584ab9a699
-        package_sha256: 2493dee95693521f7a931c4243f0ba0ee52ad8fa0ce22bbf3a9b3208ed758815
-        receipt_path: territorios/congreso350_madrid/evidencia/fuentes_territoriales/2025/a8fe87fb016dd267456c3732900cdcd8876dd0c6c0a50360fcd0c42a75f9352a/42522378370/receipt.json
-        territorial_identity_sha256: a8fe87fb016dd267456c3732900cdcd8876dd0c6c0a50360fcd0c42a75f9352a
-        compatibility_report_sha256: f3e11b013187060a9f2810ceab37f8613719520a731265acd00b97fcfec788b9
-        compatibility_identity_sha256: 68c76394d4a683db9b783ec2b27a8940dbb77e03eb6280ab29e468c87d0e3042
+        run_id: 42588623702
+        artifact_name: ddd-source-package-congreso350_madrid-2025-42588623702
+        artifact_sha256: 254f17c4d773d57d5102a06f05c112f3c27440d5474ee523e4cfdde752da14ad
+        package_sha256: 0e6ac72561d08d35ca634f7f573c2cb3b9c62c9d1a942234bd0ba7373adef1db
+        receipt_path: territorios/congreso350_madrid/evidencia/fuentes_territoriales/2025/11cff2d317ee9ae109043998447fb855f27d739dbe0e5c0f957a826e2aaf5876/42588623702/receipt.json
+        territorial_identity_sha256: 11cff2d317ee9ae109043998447fb855f27d739dbe0e5c0f957a826e2aaf5876
+        compatibility_report_sha256: bc4116f4a2d00070c27a28a363989360f3aac6b49d904779579c50a6f65ec9b3
+        compatibility_identity_sha256: 003cae276322bd77a07df6c2f2a112198a05141063eb20f92a899ff90be8bcff
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 6d589145792bf72b03aaa9c91a69ea5c77524f62
-      generation_enabled: true
+        source_commit: 07362b09124ae40bc208a18a4946a59b640660d5
+      generation_enabled: false
       evidence:
-        generation_preflight: territorios/congreso350_madrid/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: congreso350_malaga
   name: Congreso 350 Málaga
   editions:
