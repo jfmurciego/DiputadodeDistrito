@@ -788,6 +788,13 @@
    "sha256_csv": "46915882a04ade2ec3af608f86f5a4214585b74d3e6d9542317f85e03133bbbd",
    "ruta": "datos/composicion/runs/canarias_42504381511.csv"
   },
+  "cantabria/42637193077": {
+   "territorio": "cantabria",
+   "run_id": "42637193077",
+   "secciones": 460,
+   "sha256_csv": "30c46091c7e5d4ab8be266ed08c3ee33bb9c11cff7032cca6b354298d2f55ff2",
+   "ruta": "datos/composicion/runs/cantabria_42637193077.csv"
+  },
   "castilla_y_leon/42497104110": {
    "territorio": "castilla_y_leon",
    "run_id": "42497104110",

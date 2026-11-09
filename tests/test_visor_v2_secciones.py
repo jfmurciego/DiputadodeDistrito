@@ -56,6 +56,23 @@ class GeneradorSecciones(unittest.TestCase):
             x = json.loads(raw)["features"][0]["geometry"]["coordinates"][0][0]
             self.assertTrue(-3.0 < x[0] < -2.0 and 42.0 < x[1] < 43.5, x)  # WGS84 en Álava
 
+    def test_provincia_solo_en_runs(self):
+        import sys, hashlib
+        sys.path.insert(0, str(RAIZ / "herramientas"))
+        import generar_secciones_visor as g
+        with tempfile.TemporaryDirectory() as t:
+            c = Path(t); (c / "runs").mkdir()
+            for run, fila in (("111", "0100101001,0,5"), ("222", "0100101001,1,7")):
+                b = f"seccion,distrito,poblacion\n{fila}\n".encode()
+                (c / "runs" / f"congreso_y_{run}.csv").write_bytes(b)
+            man = {"runs": {f"congreso_y/{r}": {"territorio": "congreso_y", "run_id": r, "ruta": str(c / "runs" / f"congreso_y_{r}.csv"),
+                   "sha256_csv": hashlib.sha256((c / "runs" / f"congreso_y_{r}.csv").read_bytes()).hexdigest()} for r in ("111", "222")}}
+            (c / "MANIFEST.json").write_text(json.dumps(man), "utf-8")
+            idx = c / "INDEX.json"; idx.write_text(json.dumps({"territorios": {"congreso_y": {"run_id": 111}}}), "utf-8")
+            sec, h = g.leer_composicion(c, indice=idx)
+            self.assertEqual(sec["0100101001"], {"d": 0, "p": 5, "t": "congreso_y"})  # el run publicado (111), no el más reciente
+            self.assertEqual(list(h), ["congreso_y"])
+
     def test_sin_seccionado_no_falla(self):
         import sys
         sys.path.insert(0, str(RAIZ / "herramientas"))
@@ -93,7 +110,7 @@ class NavegadorSecciones(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = tempfile.mkdtemp()
         cls.v2 = Path(cls.tmp) / "v2"
-        shutil.copytree(RAIZ / "visor" / "v2", cls.v2)
+        shutil.copytree(RAIZ / "visor" / "v2", cls.v2, ignore=shutil.ignore_patterns("secciones", "rotacion.json", "territorial.json"))
         shutil.copy(RAIZ / "web" / "textos.md", cls.v2 / "textos.md")
         d = cls.v2 / "datos" / "secciones"; d.mkdir()
         (d / "INDEX.json").write_text(json.dumps({"provincias": {"01": {"secciones": 2}}}), "utf-8")
@@ -145,6 +162,7 @@ class NavegadorSecciones(unittest.TestCase):
                 pg.wait_for_function("map.queryRenderedFeatures({layers:['sec-fill']}).length>0", timeout=10000)
                 pt = pg.evaluate("(()=>{const q=map.project([-2.69,42.85]);const r=map.getCanvas().getBoundingClientRect();return[q.x+r.left-20,q.y+r.top]})()")
                 pg.mouse.click(*pt)
+                self.assertIn("Cada color es un distrito (2)", pg.locator("#leyenda").inner_text())
                 ficha = pg.locator("#ficha").inner_text()
                 self.assertIn("0100101001", ficha)
                 self.assertIn("Vitoria-Gasteiz", ficha)
