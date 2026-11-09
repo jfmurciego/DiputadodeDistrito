@@ -164,9 +164,10 @@ def _cfg(t: str) -> dict:
 
 
 def _cache(t: str) -> Path:
-    cfg = _cfg(t)
-    run_name = (cfg.get("meta") or {}).get("run_name") or f"{t}_2025"
-    return ROOT / "territorios" / t / ".cache" / "ddd" / "preparacion" / run_name
+    os.environ.setdefault("DDD_RUN_ID", f"bateria-{t}")
+    from ddd_core.config import load_params_yaml, module_cfg
+    cfg = load_params_yaml(str(contrato(t)))
+    return Path(module_cfg(cfg, "modulo_03_construir_grafo", "step3_build_graph")["out_graph_json"]).parent
 
 
 def _huellas_contrato(cfg: dict) -> dict:
