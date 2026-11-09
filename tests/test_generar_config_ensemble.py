@@ -1,6 +1,7 @@
 """Versión 1.2.0; 2026-11-09; candidato. T-92: el generador de configs de ensemble respeta el contrato de cada provincia.
 T-98: Cádiz entra con el techo aprobado y la exención de San Fernando; el resto de exenciones sigue fuera.
-T-120: Barcelona entra con la exención de Cornellà (08073)."""
+T-120: Barcelona entra con la exención de Cornellà (08073).
+T-128: cinco comunidades uniprovinciales entran con los límites de su contrato."""
 from __future__ import annotations
 
 import copy
@@ -61,6 +62,27 @@ class GeneradorConfigEnsembleTests(unittest.TestCase):
         self.assertEqual(real["contract"]["population_floor_exempt_municipalities"], ["08073"])
         self.assertEqual(real["contract"]["population_cap_ratio"], 1.15)
         self.assertEqual(real["decisions"][f"{EXENCION}:08073"]["decided_by"], "propietario")
+
+    def test_comunidades_uniprovinciales_copian_limites_del_contrato(self):
+        esperado = {  # literales del contrato de producción (validation), no recalculados
+            "ceuta": (25, "51", 0.8, 1.75, 0.12, 1.75), "melilla": (25, "52", 0.5, 1.75, 0.5, 1.75),
+            "madrid": (135, "28", 0.8, 1.75, 0.12, 1.75), "la_rioja": (33, "26", 0.8, 1.75, 0.12, 1.12),
+            "principado_de_asturias": (45, "33", 0.8, 1.75, 0.12, 1.75),
+        }
+        for tid, (k, cpro, piso, techo, tol, atom) in esperado.items():
+            c = _contrato(tid)
+            self.assertIsNone(motivo_no_apto(c, self.molde), tid)
+            real = json.loads((ROOT / f"configuracion/ensemble/{tid}.json").read_text(encoding="utf-8"))
+            self.assertEqual(construir(c, self.molde), real, tid)
+            ct = real["contract"]
+            self.assertEqual((ct["k"], ct["province_districts"], ct["population_floor_ratio"], ct["population_cap_ratio"],
+                              ct["target_tolerance_ratio"], ct["municipality_atomicity_limit_ratio"]),
+                             (k, {cpro: k}, piso, techo, tol, atom), tid)
+
+    def test_comunidades_con_puentes_o_exencion_por_particion_siguen_fuera(self):
+        for tid in ("andalucia", "galicia", "canarias", "illes_balears"):
+            self.assertIsNotNone(motivo_no_apto(_contrato(tid), self.molde), tid)
+            self.assertFalse((ROOT / f"configuracion/ensemble/{tid}.json").exists(), tid)
 
     def test_rechaza_exencion_no_gobernada(self):
         c = copy.deepcopy(_contrato("congreso_barcelona"))
