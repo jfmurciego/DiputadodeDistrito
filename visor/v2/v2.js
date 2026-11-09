@@ -47,7 +47,7 @@ function aplicar(){
 function aMarkdown(){
  return "# Textos de la web de Diputado de Distrito\n# Escribe debajo de cada «## clave». Una línea en blanco separa párrafos.\n\n"+Object.keys(HUECOS).map(k=>`## ${k}\n<!-- ${HUECOS[k]} -->\n${(textos[k]||"").trim()}\n`).join("\n");
 }
-const setTab=id=>{document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+id));document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));scrollTo({top:0});};
+const setTab=id=>{document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+id));document.querySelectorAll(".tab").forEach(b=>{const on=b.dataset.tab===id;b.classList.toggle("active",on);on?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current")});if(id==="inicio"&&map)setTimeout(()=>map.resize(),30);scrollTo({top:0});};
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
 document.querySelectorAll("[data-tab-go]").forEach(b=>b.onclick=e=>{e.preventDefault();setTab(b.dataset.tabGo)});
 const max=135;
@@ -58,7 +58,11 @@ fetch("datos/provincias.json").then(r=>r.json()).then(p=>{
  const mk=59;
  document.querySelector("#province-comparison").innerHTML=rows.map(r=>`<div class="prov"><span class="prov-name">${r.nombre}</span><span class="mini-bar ddd"><i style="width:${r.k407/mk*100}%"></i></span><b>${r.k407}</b><span class="mini-bar cur"><i style="width:${r.escanos/mk*100}%"></i></span><b>${r.escanos}</b></div>`).join("");
 }).catch(()=>{});
-document.querySelectorAll(".model").forEach(m=>m.onclick=()=>{document.querySelectorAll(".model").forEach(x=>x.classList.remove("active"));m.classList.add("active")});
+document.querySelectorAll(".model").forEach(m=>{
+ m.tabIndex=0;m.setAttribute("role","button");m.setAttribute("aria-pressed",String(m.classList.contains("active")));
+ const act=()=>{document.querySelectorAll(".model").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-pressed","false")});m.classList.add("active");m.setAttribute("aria-pressed","true")};
+ m.onclick=act;m.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();act()}};
+});
 const editor=document.querySelector("#editor"),fields=document.querySelector("#editor-fields");
 function pintarCampos(){fields.innerHTML=Object.keys(HUECOS).map(k=>`<label for="t-${k}">${k}<span style="font-weight:400;color:#8a8f8c"> · ${HUECOS[k]}</span><textarea id="t-${k}" data-key="${k}">${esc(textos[k]||"")}</textarea></label>`).join("")}
 document.querySelector("#b-editar").onclick=()=>{pintarCampos();editor.classList.add("open")};

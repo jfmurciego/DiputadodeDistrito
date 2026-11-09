@@ -82,8 +82,6 @@ h1 .accent{color:var(--red)}
 .method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.method{border:1px solid var(--line);background:var(--white);border-radius:22px;padding:24px;min-height:200px}.method .icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#eee3d3;color:var(--red);font:600 16px Georgia,serif}.method h3{font:500 24px/1.1 Georgia,serif;margin:16px 0 8px}.method p{color:var(--muted);margin:0}
 .sources{margin-top:18px;border-top:1px solid var(--line);padding-top:18px;display:flex;gap:10px;flex-wrap:wrap}.source-pill{border:1px solid var(--line);border-radius:999px;padding:8px 10px;background:#fffaf2;font-size:11px}
 .footer{padding:34px 0 48px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:11px}
-.editor-launch{display:none;position:fixed;right:18px;bottom:18px;z-index:90;border:0;background:var(--red);color:#fff;border-radius:999px;padding:12px 16px;box-shadow:0 10px 30px rgba(179,58,45,.28);cursor:pointer;font-weight:850}
-.editor-launch.show{display:block}
 .editor{position:fixed;inset:0 0 0 auto;width:min(480px,96vw);z-index:100;background:#fffdf8;border-left:1px solid var(--line);box-shadow:-25px 0 70px rgba(0,0,0,.18);transform:translateX(102%);transition:.22s;overflow:auto;padding:22px}
 .editor.open{transform:translateX(0)}.editor h2{font:500 30px Georgia,serif;margin:0}.editor label{display:grid;gap:5px;margin-top:14px;font-size:11px;font-weight:800;color:#56605c}.editor input,.editor textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px;background:white;color:var(--ink)}.editor textarea{min-height:90px;resize:vertical}.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.editor-actions button{border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;padding:8px 11px;cursor:pointer}.editor-actions button.secondary{background:transparent;color:var(--ink)}
 @media(max-width:1050px){.hero{grid-template-columns:1fr;min-height:auto}.hero-visual{min-height:520px}.section-head{grid-template-columns:1fr}.story-grid{grid-template-columns:1fr}.share-card{grid-template-columns:1fr}.share-card .big{text-align:left}.region-layout,.compare-wrap{grid-template-columns:1fr}.metric-row{grid-template-columns:1fr 1fr}}
@@ -96,7 +94,7 @@ body.marcas [data-k]{outline-color:rgba(179,58,45,.55);position:relative}
 body.marcas [data-k]::after{content:attr(data-k);position:absolute;left:0;top:-14px;font:600 9px/1 ui-monospace,Menlo,monospace;color:#fff;background:var(--red);padding:2px 4px;border-radius:3px;letter-spacing:.02em;white-space:nowrap}
 .ph{color:#9a8f80;font-style:italic}
 .visor-ph{display:grid;place-items:center;min-height:320px;background:repeating-linear-gradient(45deg,#e3eaee,#e3eaee 12px,#dbe3e7 12px,#dbe3e7 24px);color:#3e4b52;font-size:13px;text-align:center;padding:24px}
-.barra-edit{display:none;position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:95;display:flex;gap:8px;flex-wrap:wrap}
+.barra-edit{display:none;position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:95;gap:8px;flex-wrap:wrap}
 .barra-edit button{border:1px solid var(--ink);border-radius:999px;background:var(--white);color:var(--ink);padding:9px 13px;cursor:pointer;font-weight:750;font-size:12px}
 .barra-edit button.on{background:var(--ink);color:#fff}
 .editor textarea{min-height:70px}
@@ -148,3 +146,9 @@ body.marcas [data-k]::after{content:attr(data-k);position:absolute;left:0;top:-1
 @media(max-width:900px){.vz-grid{grid-template-columns:1fr}.mapa{min-height:58vh}}
 body.edit .barra-edit{display:flex}
 .visor-ph{display:none}
+
+/* T-119 pulido: foco visible y hover coherentes en todo lo pulsable */
+.cta:focus-visible,.model:focus-visible,.brand:focus-visible,.region-chip:focus-visible,.footer a:focus-visible,.editor button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.tab:hover:not(.active),.chip:not(:disabled):not([aria-pressed="true"]):hover,.vistas button:hover,.eleccion:not(:disabled):hover{border-color:var(--ink)}
+.tab[aria-current="page"]{font-weight:700}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
