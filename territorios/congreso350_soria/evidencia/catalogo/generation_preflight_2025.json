@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso350_soria",
+  "territory_name": "Congreso 350 Soria",
+  "edition": "2025",
+  "run_id": 42601453125,
+  "source_commit": "51b907746578a1c8af8f836f381e8827967cc9ee",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 42601453125,
+    "artifact_name": "ddd-source-package-congreso350_soria-2025-42601453125",
+    "artifact_sha256": "ca48dd070bffab9e093ee22a64c6b04661d76e1cf108625e2cfe835f765566e8",
+    "package_sha256": "40bbca033a215821a746c6662931926acc6d9249ffc1e208d3350b90dbe96b1f",
+    "compatibility_identity_sha256": "6a22f8fcb72e50c64ee44c089a0ae0114ba8e51757d22902fecd90da4e7a8db0",
+    "territorial_identity_sha256": "e60bb05f1ee5909b06919ed9d1028a06cec658392e2377867d10249be5b30024",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
