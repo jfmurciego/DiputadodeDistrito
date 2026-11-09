@@ -319,12 +319,11 @@ def _comparar_publicado(t: str, comp: Path) -> dict:
             "secciones_solo_publicado": len(sa - sb), "secciones_solo_bateria": len(sb - sa)}
 
 
-def motor_uno(t: str, out: Path, version: str) -> dict:
+def restaurar(t: str, out: Path) -> Path | None:
+    """Copia las entradas archivadas de ``t`` a su caché y a inputs/; devuelve la caché o None si faltan."""
     src = out / "entradas" / t
-    res: dict = {"territorio": t, "m05": version, "tiempos": {}}
     if not (src / "ENTRADAS.json").is_file():
-        res["estado"] = "SIN_ENTRADAS"
-        return res
+        return None
     cache = _cache(t)
     shutil.rmtree(cache, ignore_errors=True)
     cache.mkdir(parents=True)
@@ -333,26 +332,31 @@ def motor_uno(t: str, out: Path, version: str) -> dict:
             shutil.copy2(f, cache / f.name)
         elif f.suffix == ".zip":
             shutil.copy2(f, ROOT / "inputs" / f.name)
-    dest = out / "motor" / version / t
-    shutil.rmtree(dest, ignore_errors=True)
-    dest.mkdir(parents=True)
-    log = dest / "log.txt"
-    run_id = f"bateria-{t}-{version}"
-    env = dict(os.environ, DDD_RUN_ID=run_id, PYTHONHASHSEED="0", DDD_OPTIMIZATION_ALGORITHM="Canónico")
-    p = str(contrato(t).relative_to(ROOT))
-    pasos = [("unidades", [sys.executable, "herramientas/preparar_unidades_internas.py", "--params", p, "--run-id", run_id,
-                           "--job-report", str(dest / "preparacion_unidades_internas.json")]),
-             ("M04", [sys.executable, "modulos/04_generar_semillas.py", "--params", p]),
-             ("M05", [sys.executable, "modulos/05_optimizar_distritos.py", "--params", p] if version == "7.4.4"
-              else [sys.executable, "-c", M05_PARCHE, str(M05_BASE[version]), "--params", p]),
-             ("M06", [sys.executable, "modulos/06_consolidar_distritos.py", "--params", p])]
-    res["estado"] = "OK"
-    for nombre, cmd in pasos:
-        rc, s = _run(cmd, log, env)
-        res["tiempos"][nombre] = s
-        if rc != 0:
-            res.update(estado=f"FALLO_{nombre}", rc=rc)
-            break
+    return cache
+
+
+def pasos_m04(p: str, run_id: str, dest: Path) -> list:
+    return [("unidades", [sys.executable, "herramientas/preparar_unidades_internas.py", "--params", p, "--run-id", run_id,
+                          "--job-report", str(dest / "preparacion_unidades_internas.json")]),
+            ("M04", [sys.executable, "modulos/04_generar_semillas.py", "--params", p])]
+
+
+def metricas(t: str, comp: Path | None, val: dict) -> dict:
+    """Desvío máximo, distritos fuera de la tolerancia del contrato y municipios partidos (de la composición M06)."""
+    if comp is None or not comp.is_file() or not val.get("target_population"):
+        return {}
+    import pandas as pd
+    c = pd.read_csv(comp, dtype={"CUMUN": str})
+    pop = next(x for x in ("section_pop", "poblacion") if x in c.columns)
+    tol = float(((_cfg(t).get("validation") or {}).get("target_tolerance_ratio")) or 0.12)
+    dev = (c.groupby("district_id")[pop].sum() / float(val["target_population"]) - 1).abs()
+    partidos = int((c.groupby("CUMUN")["district_id"].nunique() > 1).sum()) if "CUMUN" in c.columns else None
+    return {"desvio_max": round(float(dev.max()), 4), "fuera_tolerancia": int((dev > tol + 1e-9).sum()),
+            "tolerancia": tol, "municipios_partidos": partidos}
+
+
+def validar_y_resumir(t: str, p: str, run_id: str, dest: Path, res: dict, cache: Path, log: Path, env: dict) -> dict:
+    """M06 ya ejecutado: validación de producción, reglas, métricas y comparación con lo publicado."""
     rc, s = _run([sys.executable, "herramientas/validar_ejecucion.py", "--params", p, "--run-id", run_id], log, env)
     res["tiempos"]["validacion"] = s
     vpath = ROOT / "ejecuciones" / run_id / "VALIDACION.json"
@@ -373,9 +377,37 @@ def motor_uno(t: str, out: Path, version: str) -> dict:
     if comp:
         shutil.copy2(comp, dest / comp.name)
         res["composicion_sha256"] = sha256(comp)
+    res["metricas"] = metricas(t, comp, val)
     res["publicado"] = _comparar_publicado(t, comp) if comp else {"igual": None}
     (dest / "RESULTADO.json").write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     return res
+
+
+def motor_uno(t: str, out: Path, version: str) -> dict:
+    res: dict = {"territorio": t, "m05": version, "tiempos": {}}
+    cache = restaurar(t, out)
+    if cache is None:
+        res["estado"] = "SIN_ENTRADAS"
+        return res
+    dest = out / "motor" / version / t
+    shutil.rmtree(dest, ignore_errors=True)
+    dest.mkdir(parents=True)
+    log = dest / "log.txt"
+    run_id = f"bateria-{t}-{version}"
+    env = dict(os.environ, DDD_RUN_ID=run_id, PYTHONHASHSEED="0", DDD_OPTIMIZATION_ALGORITHM="Canónico")
+    p = str(contrato(t).relative_to(ROOT))
+    pasos = pasos_m04(p, run_id, dest) + [
+             ("M05", [sys.executable, "modulos/05_optimizar_distritos.py", "--params", p] if version == "7.4.4"
+              else [sys.executable, "-c", M05_PARCHE, str(M05_BASE[version]), "--params", p]),
+             ("M06", [sys.executable, "modulos/06_consolidar_distritos.py", "--params", p])]
+    res["estado"] = "OK"
+    for nombre, cmd in pasos:
+        rc, s = _run(cmd, log, env)
+        res["tiempos"][nombre] = s
+        if rc != 0:
+            res.update(estado=f"FALLO_{nombre}", rc=rc)
+            break
+    return validar_y_resumir(t, p, run_id, dest, res, cache, log, env)
 
 
 def motor(args) -> int:
