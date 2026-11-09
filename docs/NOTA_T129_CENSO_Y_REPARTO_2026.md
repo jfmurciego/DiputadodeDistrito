@@ -26,7 +26,7 @@ Reparto del art. 162 recalculado con la población 1-1-2025 (cuota = 48.957.663/
 - Votos: no hay efecto en los distritos publicados; la elección 2026 se incorpora por la vía M07 aceptada (secciones 2026 sin correspondencia = pérdida DDD).
 
 ## Qué falta para dejarlo listo y probado con 2023 (propuesta, sin implementar)
-1. Test unitario del reparto art. 162 con población INE 1-1-2023 y `escanos_2023` del CSV como valor esperado (fuente independiente: RD 400/2023 y su sha256). Servirá de oráculo para 2026.
+1. Hecho: `herramientas/reparto_art162.py` y `tests/test_reparto_art162.py` (oráculo 2023 = `configuracion/resultados_oficiales_congreso_2023.csv`). El test de 2023 está saltado (`skipUnless`) hasta que exista `configuracion/poblacion_provincial_2022.json` con fuente INE y sha256: el repo no tiene población provincial de esa fecha y no se escribe de memoria. Pendiente también saber qué fecha de población usó el RD 400/2023.
 2. Acreditar la cifra de población del RD 2026 (comparar 1-1-2025, 1-1-2026 provisional, revisión) hasta reproducir Ciudad Real 5 / Tenerife 7; registrar fuente y sha256 en `elecciones_generales_2026.yaml`.
 3. Cuando Interior publique: M07 por sección con el contrato de 2023 ya probado; verificar suma CER/CERA contra el total provincial como en `contratos_infoelectoral.yaml`.
 4. Hallazgo para el Planificador (motor): ninguno; el K de DDD (N06) no depende de los escaños.
