@@ -3585,6 +3585,8 @@ territories:
         section_year: 2023
         source_commit: 38e1494e500e276612b7e27a5bcd6078b3e0f413
       generation_enabled: false
+      evidence:
+        generation_preflight: territorios/congreso350_valladolid/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: congreso350_vizcaya
   name: Congreso 350 Vizcaya
   editions:

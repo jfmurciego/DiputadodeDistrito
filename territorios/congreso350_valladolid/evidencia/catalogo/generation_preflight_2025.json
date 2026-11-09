@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "congreso350_valladolid",
+  "territory_name": "Congreso 350 Valladolid",
+  "edition": "2025",
+  "run_id": 42601455862,
+  "source_commit": "035e59c72e78f301e399692339c75deb55cf81e4",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 42601455862,
+    "artifact_name": "ddd-source-package-congreso350_valladolid-2025-42601455862",
+    "artifact_sha256": "efa57a1a34568c313790f7ee16abb3418690cb55af99a2da77904fe1cd1d5552",
+    "package_sha256": "0e55a4f1cc392e9c46cda5b37012a9f0fd3da837b743ccff41a594335e52db79",
+    "compatibility_identity_sha256": "68ec9c6e78020c6d8761a19f66f596eadcfdbf880c08199e5f8a146a38c31535",
+    "territorial_identity_sha256": "d38c47effcb222b76e8749f71f9ff86930cdc27969883e7a35314321573c4b42",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
