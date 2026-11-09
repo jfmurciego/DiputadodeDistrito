@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso350_soria",
+  "territory_name": "Congreso 350 Soria",
+  "edition": "2025",
+  "run_id": 42601453125,
+  "artifact_name": "ddd-state-42601453125-M06",
+  "artifact_sha256": "448d2a2e281cff30632aab6903b317f20c2fd62645ed9ed1686f53b41d00561b",
+  "source_commit": "1b37dab56be443c27d04069cebb5fddc4600ea89",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso350_soria/evidencia/generaciones_m06/42601453125.json"
+}
