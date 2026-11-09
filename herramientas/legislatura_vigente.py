@@ -2,14 +2,17 @@
 """Legislatura vigente: configuración, plan y lanzamiento por ámbito del Gestor de Campañas.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.2.1 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS 1.2.1: T-130, el Gestor da por resultado de la 00 el de la que lanzó él (la primera, p. ej. la de prueba), no el de la
+  hija «Reutilizar» que encadena el bot (run 42637133308: seguía la 42651881625 en vez de la 42637193077). Una hija
+  fallida solo cuenta si hay que publicar (el eslabón electoral es el que se publica).
 CAMBIOS 1.2.0: T-105 (Gestor 2.0, D-22): `build_plan` admite inicio (reutilizar/aprovechar fuentes/desde el principio),
   publicar sí/no por fila y ensemble de 10 (06 `ensemble_10`) tras la publicación; una sola 06 del Gestor a la vez;
   el relevo `continuar` pasa las entradas 2.0 y marca con «@auto» los territorios ya iniciados (no se rehacen).
 CAMBIOS 1.1.0: T-102, ámbito «congreso 350» (49 gemelos `congreso350_*`, K = escaños reales de 2023);
   «legislatura completa» y «nacional» no los incluyen salvo que se pidan por territory_id (relevo `continuar`).
   Los gemelos nunca publican (D-18): 00 con publish_result=false y sin 05; «COMPLETO_SIN_PUBLICAR» → `nada`.
-ANTERIOR: legacy/herramientas/legislatura_vigente_v1.1.0_20261108.py
+ANTERIOR: legacy/herramientas/legislatura_vigente_v1.2.0_20261109.py
 QUÉ HACE: T-86.
   - `generar` escribe `configuracion/legislatura_vigente.yaml` desde los ficheros con fuente del repo
     (registro electoral, preparación de la legislatura y escaños oficiales del BOE), con su sha256; nada de memoria.
@@ -364,16 +367,20 @@ class Territorio:
                 return
             if time.time() - self.idle_since < 120:
                 return
-            last = max(runs, key=lambda r: r.get("created_at", ""))
-            self.run_id = str(last["id"])
-            if last.get("conclusion") != "success":
-                self._end(f"FALLO 00 {self.run_id} ({last.get('conclusion')})")
+            own = min(runs, key=lambda r: (r.get("created_at", ""), int(r["id"])))  # la que lanzó el Gestor
+            last = max(runs, key=lambda r: (r.get("created_at", ""), int(r["id"])))  # hijas encadenadas por el bot
+            self.run_id = str(own["id"])
+            if own.get("conclusion") != "success":
+                self._end(f"FALLO 00 {self.run_id} ({own.get('conclusion')})")
             elif not self.publishes:
                 self._ok(f"OK 00 {self.run_id} (sin publicar)")
             elif len(runs) == 1 and self.row["accion"] != "esperar":
                 self._ok(f"OK 00 {self.run_id} (publicada por la propia 00)")
+            elif last.get("conclusion") != "success":
+                self.run_id = str(last["id"])
+                self._end(f"FALLO 00 {self.run_id} ({last.get('conclusion')}, eslabón encadenado)")
             else:
-                self._queue_publish(self.run_id)  # eslabón electoral de la cadena: no publica, publica el Gestor
+                self._queue_publish(str(last["id"]))  # eslabón electoral de la cadena: no publica, publica el Gestor
         elif self.fase == "05":
             runs = [r for r in list_runs(WF_05, since=self.since[:10]) if r.get("created_at", "") >= self.since]
             if runs and all(r.get("status") == "completed" for r in runs):
