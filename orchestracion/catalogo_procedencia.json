@@ -292,11 +292,11 @@
   },
   "cantabria": {
    "fuente_territorial": {
-    "run_id": "42637193077",
-    "package_sha256": "f7d6d25ee798c3d5d227fd0b519e55ed1caeb7581d5b3646588820f6287e2e6a",
-    "artifact_sha256": "f6ab5f38914483249c097c1b255934896c34ffdc55ebd859117c30bbab0caa73",
-    "territorial_identity_sha256": "247a86288236f57f7aad726b76d35a57a68c534b52c34a5248bc25fe4054d0bd",
-    "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/247a86288236f57f7aad726b76d35a57a68c534b52c34a5248bc25fe4054d0bd/42637193077/receipt.json",
+    "run_id": "42707820760",
+    "package_sha256": "c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570",
+    "artifact_sha256": "9078db6b7e0fe91151126dc111e355d5fbc769ba697f33f6f45f87eafe73de19",
+    "territorial_identity_sha256": "838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028",
+    "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/838473aecd35d02c3a9ab905503f7ce4a1368b1935fec5701b673a01055ca028/42707820760/receipt.json",
     "population_year": 2023,
     "section_year": 2023
    },
