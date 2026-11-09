@@ -5,13 +5,16 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.2.0 · FECHA: 2026-11-02 · ESTADO: candidato
+VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS 1.3.0 (T-118): `make_candidate` no re-registra un M06 cuyo activo inmutable ya figura para el mismo territorio y
+  kind bajo otro run (M06 reutilizado dentro del estado acumulativo del M08): antes fallaba con «Activo inmutable duplicado».
+MOTIVO 1.3.0: la 05 de CyL (run 00 42531122768, «Reutilizar») no llegaba a registrar su M08.
 CAMBIOS 1.2.0 (T-27 fase c): `describe-production --scenario-id --strategy` describe M06/M08 de una ejecución como `scenario_m06/m08` (solo adición, sin tocar canónicos).
 CAMBIOS 1.1.0 (T-27 fase a): escenarios no canónicos. Kinds `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy`,
   `scenario_kind` ("alternative") y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, debe ser true).
   A lo sumo una entrada `canonical: true` por territorio y familia (m06/m08); un `scenario_m08` exige el `scenario_m06`
   del mismo `scenario_id`. El registro es de solo adición: la identidad de un escenario es territorio+kind+scenario_id.
-ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.1.0_20261102.py
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.2.0_20261102.py
 """
 from __future__ import annotations
 
@@ -223,10 +226,28 @@ def upsert_entry(registry: dict, entry: dict) -> None:
     validate_registry(registry)
 
 
+def _already_registered_reused_m06(registry: dict, entry: dict) -> bool:
+    """M06 reutilizado: mismos bytes ya registrados para el territorio bajo otro run (no es un producto nuevo)."""
+    if entry.get("kind") != "canonical_m06":
+        return False
+    key = identity_key(entry)
+    for current in registry.get("products", []):
+        if (
+            current.get("territory_id") == entry.get("territory_id")
+            and current.get("kind") == "canonical_m06"
+            and current.get("immutable_location") == entry.get("immutable_location")
+            and identity_key(current) != key
+        ):
+            return True
+    return False
+
+
 def make_candidate(registry: dict, entries: list[dict]) -> dict:
     validate_registry(registry)
     candidate = copy.deepcopy(registry)
     for entry in entries:
+        if _already_registered_reused_m06(candidate, entry):
+            continue
         upsert_entry(candidate, entry)
     validate_registry(candidate)
     return _sorted_registry(candidate)
