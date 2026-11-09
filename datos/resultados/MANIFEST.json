@@ -37,6 +37,13 @@
    "distritos": 33,
    "sha256_csv": "7149faadacd2654df9cfe145d6e59637549d9ce9580c19fcfd7eec26eacbb30b"
   },
+  "castilla_y_leon": {
+   "run_id": "42531122768",
+   "blob_sha": "54309d35d77148151f3f257421050f63d8ca5f8d",
+   "sha256_origen": "945da465d4e6557f01fdde778c2bbada64e27ecb977d185bddd04a798774b90b",
+   "distritos": 82,
+   "sha256_csv": "e0a9acc811ce061c4e67c881f86cd7cd982a4c0fbb61ae6f9250c9a89b9a091e"
+  },
   "cataluna": {
    "run_id": "41062562553",
    "blob_sha": "e048919647fd04bb7e99c61b1cb0417428613ba1",

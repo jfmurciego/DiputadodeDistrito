@@ -420,6 +420,27 @@
       "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/5143b70a6e064d9251b91d4e82f6c95e706d75e0"
     },
     {
+      "id": "m08-castilla_y_leon-42531122768",
+      "asset_type": "electoral_product",
+      "kind": "canonical_m08",
+      "territory_id": "castilla_y_leon",
+      "territory_label": "Castilla y León",
+      "run_id": "42531122768",
+      "expected_districts": 82,
+      "technical_status": "PASS_WITH_EXCEPTIONS",
+      "certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "territorial_certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS_WITH_EXCEPTIONS",
+      "geometric_gate": "82 distritos evaluados / 62 PASS / 20 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M08 electoral · run 42531122768",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "54309d35d77148151f3f257421050f63d8ca5f8d",
+      "sha256": "945da465d4e6557f01fdde778c2bbada64e27ecb977d185bddd04a798774b90b",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/54309d35d77148151f3f257421050f63d8ca5f8d"
+    },
+    {
       "id": "static-castilla_y_leon",
       "asset_type": "territorial_geojson",
       "source_type": "repository_blob",
