@@ -1,45 +1,31 @@
-# T-129 — Censo/población para las generales de 2026 (nota técnica)
+# T-129 — Población, censo y reparto de las generales (nota técnica cerrada)
 
-Fecha: 2026-11-09 · Solo documentación; no toca motor, huellas ni contratos.
+Fecha: 2026-11-09 · Solo documentación, datos oficiales y tests; no toca motor, huellas ni contratos.
 
-## Fuentes (con sha256)
-- RD 806/2026 (BOE-A-2026-20742), XML descargado de boe.es: `5e1ae58f61d1031e085a1e60d1cccd86dd28d72639dd4d2b0ffded9ae5cb565e`.
-  El texto solo cita el art. 162 LOREG y da el reparto en el anexo; **no indica la cifra de población usada**.
-- `configuracion/escanos_oficiales_congreso_2026.csv`: `9c9b48c1dcefe1aac327aa0211fc5f7c57130f83e5929dab25cbac352d182b8f` (transcribe el anexo).
-- Población provincial INE a 1-1-2025 (52 filas, 49.128.297 hab.): `docs/ESTUDIOS/modelo_nacional_2025_120000/fuente_poblacion.json`,
-  `6a5f16d1bf354bebb1d05ad0f9afc350d8dc1c7ea251aac3ce6002e392b16a7c`.
-- No verificado: INE (servicios.ine.es) y la LOREG consolidada no son accesibles desde esta sesión (proxy). Lo marcado «(sin fuente local)» queda por acreditar.
+## Fuentes (todas del BOE, con sha256 del XML)
+| Qué | Norma | Fichero | sha256 XML |
+|---|---|---|---|
+| Convocatoria 2026 (escaños) | RD 806/2026, BOE-A-2026-20742 | `configuracion/escanos_oficiales_congreso_2026.csv` | `5e1ae58f61d1031e085a1e60d1cccd86dd28d72639dd4d2b0ffded9ae5cb565e` |
+| Cifras oficiales de población a 1-1-2025 | RD 1117/2025, BOE-A-2025-25362 | `configuracion/poblacion_oficial_provincias_2025-01-01.csv` | `c557f3932692291d19956e05748ca5f0aeaeeb5947bf56eeacc361bd11ae3d69` |
+| Cifras oficiales de población a 1-1-2022 | RD 1037/2022, BOE-A-2022-21724 | `configuracion/poblacion_oficial_provincias_2022-01-01.csv` | `681d56a76ad304fff94724d956abfd3d405bd983204ca3589d5e5e013f31d340` |
+| Escaños y votos 2023 | BOE-A-2023-18907 | `configuracion/resultados_oficiales_congreso_2023.csv` | `15950447…0323` (ya en el repo) |
 
-## Qué censo aplica
-- El reparto de diputados (art. 162 LOREG) se hace por **población de derecho** de cada provincia (2 por provincia, 1 Ceuta y 1 Melilla, 248 por resto mayor), no por censo electoral. El censo electoral (CER, mayores de 18; CERA, residentes ausentes) no interviene en el reparto (sin fuente local: texto del art. 162, BOE-A-1985-11672).
-- El CER/CERA sí importa para participación y para el cuadre de resultados de Interior (los contratos ya llevan `cera_records`); no condiciona el trazado de distritos, que usa población por sección.
-- Cifras INE a 1-1-2026: el repo registra «población 2026 no publicada» (`configuracion/preparacion_legislatura_vigente.yaml`, cabecera 1.1.2). Los 407 distritos usan padrón 1-1-2025 con decisión F10-20261012-PAIR-2025.
+## 1. Cifra que usa el reparto de 2026 (resuelto)
+- El RD 806/2026 solo cita el art. 162 LOREG; la población es la de las **cifras oficiales** declaradas por real decreto (RD 1117/2025, a 1-1-2025, con efectos desde el 31-12-2025). Con ellas, el reparto del art. 162 (2 por provincia, 1 Ceuta y 1 Melilla, 248 por cociente y mayores restos) **reproduce el anexo en 50/50 provincias más Ceuta y Melilla** (52/52), incluidos Madrid 38, Cádiz 8, Ciudad Real 5 y Santa Cruz de Tenerife 7.
+- Por qué difería: el proyecto usaba la tabla INE 65034 (padrón por sección, 49.128.297 hab.), que no es la cifra oficial (49.114.494 hab.). Santa Cruz de Tenerife: 1.087.319 (65034) frente a 1.082.421 (RD); Ciudad Real: 494.848 frente a 494.407. Con 65034 Tenerife gana el último resto por 241 hab. y sale 8/4. No he podido contrastar con el INE el origen exacto de la diferencia (servicios.ine.es no es accesible); el hecho comprobado es que son dos publicaciones con cifras distintas y solo la del RD reproduce el anexo.
+- Efecto: Madrid 36,16 cuotas (36 enteras + 2 = 38); Cádiz 6,37 (6 + 2 = 8; sin el 9.º de 2023). Resultado cerrado: no queda nada pendiente de acreditar en el reparto.
 
-## Prueba con el padrón 2025
-Reparto del art. 162 recalculado con la población 1-1-2025 (cuota = 48.957.663/248 = 197.410):
-- Coincide con el anexo en 48 de 50 provincias, **incluidas Madrid 38 y Cádiz 8**.
-- Difiere en 2: Ciudad Real (calculado 4, oficial 5) y Santa Cruz de Tenerife (calculado 8, oficial 7). El último escaño se decide por un resto de 100.269 (Tenerife) frente a 100.028 (Ciudad Real): **241 habitantes**. El RD, por tanto, usa una cifra distinta de la de 1-1-2025 (probablemente otra fecha o revisión; sin fuente local).
+## 2. 2023 (resuelto y probado)
+Las cifras a 1-1-2022 (RD 1037/2022) reproducen los escaños de 2023 en 52/52 (test activo). Con los votos oficiales, D'Hondt reproduce los escaños por partido en todas las provincias.
 
-## Efecto estimado
-- Escaños: Madrid = 2 + 36 cuotas enteras (36,036); margen sobre el entero ≈ 7.100 hab. (0,1 %). Cádiz = 2 + 6 (6,39); su resto (76.960) queda a ≈ 23.000 hab. de ganar el escaño extra; sin el 9.º de 2023. Ambos coinciden con el RD; la sensibilidad de Madrid es mínima, la de Ciudad Real/Tenerife es crítica.
-- Distritos: suelo/techo son relativos a la media de cada territorio (`population_floor_ratio` 0,80, techo según política) y los 407 se calcularon con 2025. Con 2026 el desplazamiento relativo entre secciones de un mismo territorio será de décimas de punto; no cabe cuantificarlo sin la tabla 65034 de 2026 (no publicada). Los distritos no se rehacen por esto; en un territorio con exención de suelo o margen justo (Baleares, Cádiz, Tenerife), reevaluar con `diagnostico/` cuando haya datos 2026.
-- Votos: no hay efecto en los distritos publicados; la elección 2026 se incorpora por la vía M07 aceptada (secciones 2026 sin correspondencia = pérdida DDD).
+## 3. Conclusión para el 29-N
+- **Población para los 407 distritos:** la del proyecto. Dos usos distintos: (a) el K de cada provincia (N06: `K_i = max(1, ⌊(P_i+60.000)/120.000⌋)`, K2025=407) sale de población provincial 2025; (b) el trazado (M06) usa población y seccionado INE 2023 (contemporáneos de la elección de 2023, contratos `congreso_*`). Nada de esto depende del reparto de escaños de 2026 (N06 no es el reparto oficial) y los 407 no cambian por el RD 806/2026.
+- **Hallazgo para decisión del propietario (K):** con las cifras oficiales del RD 1117/2025, Cádiz da P+60.000 = 1.317.041 → K=10, no 11 (con 65034: 1.321.420 → 11). El total sería 406, no 407. No lo cambio: K es decisión del propietario (N06) y el mapa de 407 no se regenera. Hay que decidir si K sigue con 65034 (como está) o con la cifra oficial.
+- **Censo electoral (CER/CERA):** llega con los resultados de Interior (ZIP por mesa: censo, votantes y un registro CERA por provincia, ya cuadrado en `contratos_infoelectoral.yaml`). Sus secciones son las del censo electoral de la fecha de la elección, no el seccionado INE: se casan con el M06 por la tabla de equivalencia (D-17, tope 0,5 % de votos; `configuracion/equivalencia_secciones_congreso_2023.csv`). Esa tabla es de 2023: para el ZIP de 2026 hay que regenerarla con `herramientas/equivalencia_congreso_2023.py` cuando exista el ZIP (Interior no lo ha publicado: nada que probar hoy con 2026).
+- **Cambios necesarios:** ninguno en contratos ni datos existentes. A hacer el 29-N, en cuanto haya ZIP: una tabla de equivalencia 2026 (fichero nuevo) y, si el propietario decide cambiar el K de Cádiz, el contrato `congreso_cadiz` y la política (ficheros compartidos: avisar al Coordinador antes).
 
-## Qué falta para dejarlo listo y probado con 2023 (propuesta, sin implementar)
-1. Hecho: `herramientas/reparto_art162.py` y `tests/test_reparto_art162.py` (oráculo 2023 = `configuracion/resultados_oficiales_congreso_2023.csv`). El test de 2023 está saltado (`skipUnless`) hasta que exista `configuracion/poblacion_provincial_2022.json` con fuente INE y sha256: el repo no tiene población provincial de esa fecha y no se escribe de memoria. Pendiente también saber qué fecha de población usó el RD 400/2023.
-2. Acreditar la cifra de población del RD 2026 (comparar 1-1-2025, 1-1-2026 provisional, revisión) hasta reproducir Ciudad Real 5 / Tenerife 7; registrar fuente y sha256 en `elecciones_generales_2026.yaml`.
-3. Cuando Interior publique: M07 por sección con el contrato de 2023 ya probado; verificar suma CER/CERA contra el total provincial como en `contratos_infoelectoral.yaml`.
-4. Hallazgo para el Planificador (motor): ninguno; el K de DDD (N06) no depende de los escaños.
+## 4. Prueba de punta a punta con 2023 (Huesca)
+`tests/test_reparto_art162.py::test_2023_dhondt_punta_a_punta_huesca`: cifras oficiales 1-1-2022 → 3 escaños → D'Hondt con los votos oficiales (PP 45.783, PSOE 40.307, VOX 15.155, SUMAR 13.774) → PP 2, PSOE 1, VOX 0, SUMAR 0 = resultado oficial. Además `test_2023_dhondt_todas_las_provincias`. No se ha ejecutado el archivista con el ZIP de Interior (no cabe sin el M06 de Huesca descargable aquí); queda cubierto por los tests de T-101.
 
 ## Reproducir
-```
-python3 -I - <<'P'
-import json
-rows=json.load(open('docs/ESTUDIOS/modelo_nacional_2025_120000/fuente_poblacion.json'))['rows']
-pop={r['province_code']:r['population'] for r in rows if r['province_code'] not in('51','52')}
-q=sum(pop.values())/248
-s={k:2+int(v//q) for k,v in pop.items()}
-for k in sorted(pop,key=lambda k:-(pop[k]%q))[:350-2-sum(s.values())]: s[k]+=1
-print(s['28'],s['11'],s['13'],s['38'])   # 38 8 4 8
-P
-```
+`python -m unittest tests.test_reparto_art162`
