@@ -1,0 +1,8 @@
+## 2026-11-09 — T-126 — Retirada de las dos entradas congreso350_valladolid del registro de publicaciones
+
+Autorización: del propietario (09-11), transmitida por el planificador en su chat («DDD Plan»): retirar `m06-congreso350_valladolid-42613899978` y `m08-congreso350_valladolid-42613899978` de `orchestracion/publicaciones_visor.json`, excepción explícita a «solo adición».
+Causa: la 05 42642161355, con `production_run_id` vacío, resolvió `latest_validated` = el último run validado de un gemelo del mapa 350 (D-18/D-19: nunca se publica) y lo registró como canonical (commit 91e29b1f). T-125 (#574) evita que se repita.
+Cambio: se quitan solo esas dos entradas (42 líneas, 199 → 197 productos) con `load/save_registry` de `registro_publicaciones_visor.py` (el fichero resultante es idéntico byte a byte al que escribe la herramienta); `validate` PASS. No hay herramienta de retirada. No se borra ningún blob ni release. `orchestracion/catalogo_procedencia.json` regenerado con `herramientas/catalogo_procedencia.py` (derivado del registro).
+Comprobado antes: eran las ÚNICAS entradas `congreso350_*` (productos y ensembles); el Valladolid de 407 (`m06/m08-congreso_valladolid-41299313598`) sigue publicado; `datos_abiertos/INDEX.json` no referencia congreso350; el dashboard y el visor no leen estas entradas (el estado operativo y `archivo_r2.json` son estado/archivo de los bots y no dependen del registro).
+Pruebas: `tests/test_t126_registro_sin_mapa_350.py` (sin entradas 350, Valladolid 407 presente, registro válido y con el formato de la herramienta); 10 suites que leen el registro, 66 tests OK tras regenerar el catálogo de procedencia.
+Riesgos: ninguno para el visor v1/v2; la 05 siguiente ya no incluye el mapa 350 en el sitio.

@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 72,
-  "productos": 393,
+  "productos": 391,
   "errores": 0,
-  "avisos": 134
+  "avisos": 133
  },
  "territorios": {
   "andalucia": {
@@ -1058,32 +1058,6 @@
    },
    "doi": null,
    "productos": [
-    {
-     "producto": "M06",
-     "id": "m06-congreso350_valladolid-42613899978",
-     "run_id": "42613899978",
-     "vigente": true,
-     "sha256": "367a6e34e97f0be70fb632d644b1d74c928875d34ba18c300621b8b7fa4d2b0e",
-     "copia_git": {
-      "blob_sha": "17d55de47dd4055f5ddc31ea4eed212c0cdc6a88",
-      "ruta": null
-     },
-     "copias_r2": [],
-     "publicacion": "PUBLICABLE"
-    },
-    {
-     "producto": "M08",
-     "id": "m08-congreso350_valladolid-42613899978",
-     "run_id": "42613899978",
-     "vigente": true,
-     "sha256": "9701c8406dbbb2cd5d1db15d845cbf7ebec98934c2293732c7a1b77291dcde2e",
-     "copia_git": {
-      "blob_sha": "3908e509cc62e4a5c6f978ff87e42ae361d802ee",
-      "ruta": null
-     },
-     "copias_r2": [],
-     "publicacion": "PUBLICABLE"
-    },
     {
      "producto": "resultados",
      "id": "resultados-congreso350_valladolid",
@@ -6831,6 +6805,13 @@
  "incoherencias": [
   {
    "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "resultados",
+   "codigo": "ORIGEN_M08_NO_PUBLICADO",
+   "detalle": "run 42613899978 / blob 3908e509cc62e4a5c6f978ff87e42ae361d802ee no es un canonical_m08 del visor"
+  },
+  {
+   "nivel": "AVISO",
    "territorio": "congreso350_madrid",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
@@ -6989,20 +6970,6 @@
    "producto": "M08",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 42503542766: solo copia git"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso350_valladolid",
-   "producto": "M06",
-   "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42613899978: solo copia git"
-  },
-  {
-   "nivel": "AVISO",
-   "territorio": "congreso350_valladolid",
-   "producto": "M08",
-   "codigo": "SIN_COPIA_R2",
-   "detalle": "run 42613899978: solo copia git"
   },
   {
    "nivel": "AVISO",
