@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.232
+Versión: 1.0.233
 Fecha: 2026-11-09
-Alcance: T-130 — El Gestor sigue la 00 que lanzó, no la hija del bot
+Alcance: T-128 (paso 2) — Fase `ensemble_25` en el 06 «Escenarios y Ensembles»
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t130-sigue-00-de-prueba.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.231_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_claude-t128-ensemble-25.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.232_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.231_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.233 · [2026-11-09 — T-128 (paso 2) — Fase `ensemble_25` en el 06 «Escenarios y Ensembles»](registro/2026-11-09_claude-t128-ensemble-25.md)
 - 1.0.232 · [2026-11-09 — T-130 — El Gestor sigue la 00 que lanzó, no la hija del bot](registro/2026-11-09_t130-sigue-00-de-prueba.md)
 - 1.0.231 · [2026-11-09 — T-129 — Nota técnica: censo/población y reparto de escaños 2026](registro/2026-11-09_t129-censo-reparto-2026.md)
 - 1.0.230 · [2026-11-09 — T-128 (paso 1) — El runner del ensemble imprime el motivo del fallo de cada candidato](registro/2026-11-09_claude-t128-ensemble-alava.md)
