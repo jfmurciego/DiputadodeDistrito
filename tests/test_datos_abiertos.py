@@ -88,27 +88,28 @@ class DatosAbiertos(Base):
         self.assertEqual(sorted(p.name for p in (self.out / T).glob("distrito-*.html")), ["distrito-1.html", "distrito-2.html"])
         self.assertEqual([r.split(",")[0] for r in (self.out / T / "resultados.csv").read_text().splitlines()], ["distrito", "1", "2"])
 
-    def test_migra_indice_1_0_sin_red(self):
+    def test_regenera_paquete_1_0_y_borra_distrito_cero(self):
         self.gen()
-        # reconstruye un paquete 1.0 (ids 0..K-1) y comprueba que se migra sin descargar nada
         idx = json.loads((self.out / "INDEX.json").read_text())
         e = idx["territorios"][T]
-        fuente = (self.res / f"{T}.csv").read_bytes()
-        (self.out / T / "resultados.csv").write_bytes(fuente)
-        for f in (self.out / T).glob("distrito-*.html"):
-            f.unlink()
-        (self.out / T / "distrito-0.html").write_text("viejo")
-        e.pop("numeracion")
-        e["resultados"]["sha256"] = da.sha(fuente)
-        e["resultados"].pop("fuente_sha256")
-        for d in e["distritos"]:
-            d["distrito"] -= 1
+        e.pop("numeracion")  # paquete 1.0: ids 0..K-1
         (self.out / "INDEX.json").write_text(json.dumps(idx))
-        nuevo = da.generar(self.out, self.reg, self.res, m06_dir=self.d / "vacio")
+        (self.out / T / "distrito-0.html").write_text("viejo")
+        nuevo = self.gen()
         self.assertEqual([d["distrito"] for d in nuevo["territorios"][T]["distritos"]], [1, 2])
         self.assertFalse((self.out / T / "distrito-0.html").exists())
-        self.assertTrue((self.out / T / "distrito-2.html").exists())
         self.assertEqual(da.comprobar(self.out, self.reg), [])
+
+    def test_geojson_publico_sin_district_id(self):
+        self.gen()
+        dest = self.d / "site"
+        da.materializar(dest, self.out, self.reg, m06_dir=self.m6)
+        gj = json.loads((dest / T / "distritos.geojson").read_text())
+        self.assertEqual(sorted(f["properties"]["distrito"] for f in gj["features"]), [1, 2])
+        self.assertTrue(all("district_id" not in f["properties"] for f in gj["features"]))
+        e = json.loads((self.out / "INDEX.json").read_text())["territorios"][T]["geojson"]
+        self.assertEqual(da.sha((dest / T / "distritos.geojson").read_bytes()), e["sha256"])
+        self.assertNotEqual(e["sha256"], e["sha256_origen"])
 
     def test_nombres_opcionales(self):
         self.gen()

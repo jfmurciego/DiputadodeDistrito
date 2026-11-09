@@ -54,7 +54,8 @@ class ProductosPublicos(unittest.TestCase):
 
     def test_generadores_del_visor_usan_la_funcion(self):
         for f in ("generar_rotacion_visor", "generar_territorial_visor", "generar_secciones_visor"):
-            self.assertIn("numero_publico", (ROOT / "herramientas" / f"{f}.py").read_text(encoding="utf-8"), f)
+            t = (ROOT / "herramientas" / f"{f}.py").read_text(encoding="utf-8")
+            self.assertTrue("numero_publico" in t or 'p["distrito"]' in t, f)
         for js in ("visor/v2/v2.js",):
             self.assertNotRegex((ROOT / js).read_text(encoding="utf-8"), r"\.d\s*\)?\s*\+\s*1")
 

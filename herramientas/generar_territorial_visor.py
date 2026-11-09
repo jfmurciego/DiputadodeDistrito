@@ -5,7 +5,7 @@
 PROYECTO: Diputado de Distrito
 VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
 ANTERIOR: legacy/herramientas/generar_territorial_visor_v1.0.0_20261109b.py
-CAMBIOS 1.1.0 (T-135): el número de distrito sale en numeración pública 1..K (no existe el 0).
+CAMBIOS 1.1.0 (T-135): lee el GeoJSON público de datos abiertos (propiedad `distrito` 1..K); los nombres (internos) se buscan con id_interno.
 QUÉ HACE: por provincia, copia del M06 publicado (distritos.geojson del paquete de datos abiertos, con el sha256 de INDEX.json
   verificado) lo que describe el reparto territorial: población, objetivo, desviación, suelo, techo, exención de suelo
   (suelo 0 en el M06), nº de secciones y municipios (con topónimo español de datos/distritos/toponimos_es.csv; si no hay,
@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from numeracion_publica import numero_publico  # noqa: E402
+from numeracion_publica import id_interno  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -51,14 +51,14 @@ def generar(datos: Path, salida: Path, distritos: Path) -> int:
         nom = {int(r["district_id"]): r["nombre_distrito"] for r in _csv(distritos / f"nombres_{t}.csv")} \
             if (distritos / f"nombres_{t}.csv").exists() else {}
         filas, cod = [], None
-        for f in sorted(json.loads(gj_bytes)["features"], key=lambda f: f["properties"]["district_id"]):
+        for f in sorted(json.loads(gj_bytes)["features"], key=lambda f: int(f["properties"]["distrito"])):
             p = f["properties"]
             cod = cod or str(p["province_codes"]).split("|")[0].strip()[:2]
             codes = [c.split(":")[0].strip() for c in str(p["municipality_codes"]).split("|")]
             falta = [c for c in codes if c not in mun]
             if falta:
                 raise SystemExit(f"{t}: municipios sin nombre en datos/distritos: {falta[:3]}")
-            filas.append({"d": numero_publico(p["district_id"]), "n": nom.get(int(p["district_id"])), "p": int(p["district_pop"]),
+            filas.append({"d": int(p["distrito"]), "n": nom.get(id_interno(p["distrito"])), "p": int(p["district_pop"]),
                           "o": round(p["target"], 1), "dev": round(p["relative_deviation"], 4),
                           "suelo": round(p["population_floor"], 1), "techo": round(p["population_cap"], 1),
                           "exenta": float(p["population_floor"]) == 0.0, "tol": bool(p["within_target_tolerance"]),

@@ -113,6 +113,31 @@ class Botones(unittest.TestCase):
             finally:
                 b.close()
 
+    def test_numero_mostrado_igual_al_csv_publico(self):
+        """T-135: la tabla de rotación muestra los mismos números 1..K que el CSV público (sin doble +1)."""
+        gr.generar(self.v2 / "datos" / "rotacion.json", RAIZ / "datos/resultados/historico/rotacion", RAIZ / "datos/composicion")
+        with sync_playwright() as p:
+            b, pg = self._abrir(p)
+            try:
+                pg.wait_for_function("document.querySelector('#c-rotacion').getAttribute('aria-disabled')!=='true'", timeout=10000)
+                pg.click("#c-rotacion")
+                for nombre, t, lonlat in (("Álava", "congreso_alava", (-2.69, 42.85)), ("Madrid", "congreso_madrid", (-3.70, 40.42))):
+                    pg.evaluate(f"map.jumpTo({{center:[{lonlat[0]},{lonlat[1]}],zoom:7}})")
+                    for _ in range(5):
+                        pg.wait_for_function("map.loaded()&&!map.isMoving()", timeout=10000)
+                        pt = pg.evaluate(f"(()=>{{const q=map.project([{lonlat[0]},{lonlat[1]}]);const r=map.getCanvas().getBoundingClientRect();return[q.x+r.left,q.y+r.top]}})()")
+                        pg.mouse.click(*pt)
+                        if nombre in pg.locator("#ruta").inner_text():
+                            break
+                        pg.wait_for_timeout(300)
+                    self.assertIn(nombre, pg.locator("#ruta").inner_text())
+                    vistos = [c.inner_text() for c in pg.locator(".rot-tabla tr td:first-child").all()]
+                    csv_ = (RAIZ / "datos_abiertos" / t / "resultados.csv").read_text("utf-8").splitlines()[1:]
+                    self.assertEqual(vistos, [l.split(",")[0] for l in csv_], nombre)
+                    self.assertNotIn("0", vistos)
+            finally:
+                b.close()
+
 
 if __name__ == "__main__":
     unittest.main()

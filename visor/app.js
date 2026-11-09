@@ -1,8 +1,8 @@
 /* PROYECTO: Diputado de Distrito
- * VERSIÓN: 1.4.0
+ * VERSIÓN: 1.4.1 (T-135: el id numérico interno del M06/M08, 0..K-1, se muestra como 1..K)
  * NOMBRE: visor técnico con leyendas por tipo de resultado
  * QUÉ HACE: visualiza resultados certificados, con simbología M06/M08 y estado verificable.
- * ANTERIOR: visor/app.js v1.3.1
+ * ANTERIOR: legacy/visor/app_v1.4.0.js
  */
 let RESULTS=[];
 const map=new maplibregl.Map({container:"map",style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm"}]},center:[-2.5,41.5],zoom:5.2});
@@ -73,7 +73,7 @@ function districtHtml(props,spec){
     const winner=scalar(props,["winner_party"]),winnerVotes=scalar(props,["winner_votes"]),winnerShare=scalar(props,["winner_share"]),totalVotes=scalar(props,["total_votes"]);
     extra=`<dt>Partido ganador</dt><dd>${formatNumber(winner)}</dd><dt>Votos del ganador</dt><dd>${formatNumber(winnerVotes)}</dd><dt>Porcentaje del ganador</dt><dd>${formatPercent(winnerShare)}</dd><dt>Votos totales</dt><dd>${formatNumber(totalVotes)}</dd>`;
   }
-  return`<p class="district-title">Distrito ${formatNumber(id)}</p><dl class="detail-list"><dt>Población</dt><dd>${formatNumber(pop)}</dd><dt>Objetivo</dt><dd>${formatNumber(target)}</dd><dt>Desviación</dt><dd>${dev===null?"—":formatPercent(dev)}</dd><dt>Municipios</dt><dd>${formatNumber(mun)}</dd>${extra}</dl>`;
+  return`<p class="district-title">Distrito ${formatNumber(/^\d+$/.test(String(id))?Number(id)+1:id)}</p><dl class="detail-list"><dt>Población</dt><dd>${formatNumber(pop)}</dd><dt>Objetivo</dt><dd>${formatNumber(target)}</dd><dt>Desviación</dt><dd>${dev===null?"—":formatPercent(dev)}</dd><dt>Municipios</dt><dd>${formatNumber(mun)}</dd>${extra}</dl>`;
 }
 function removeDistrictLayers(){["district-fill","district-line","district-hit"].forEach(id=>map.getLayer(id)&&map.removeLayer(id));if(map.getSource("districts"))map.removeSource("districts")}
 async function loadResult(id){

@@ -2,7 +2,8 @@
 
 Paquete por provincia (52 provincias nacionales completas) con:
 
-- `<territorio>/distritos.geojson`: distritos del producto territorial M06 publicado (EPSG:4326 / CRS84).
+- `<territorio>/distritos.geojson`: distritos del producto territorial M06 publicado (EPSG:4326 / CRS84), con la propiedad `distrito` (1..K) en lugar
+  del `district_id` interno del motor; `INDEX.json` lleva su sha256 (`geojson.sha256`) y el del GeoJSON M06 de origen (`sha256_origen`).
 - `<territorio>/resultados.csv`: ganador por distrito en las elecciones generales de 2023 (congreso) (columnas: distrito, poblacion,
   votos_totales, ganador, votos_ganador, porcentaje_ganador). Solo consta el ganador, no los votos de cada partido.
 - `<territorio>/distrito-<n>.html`: ficha estática del distrito. Los distritos se numeran de 1 a K en cada provincia

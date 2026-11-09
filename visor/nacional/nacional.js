@@ -4,7 +4,7 @@
  * (datos_abiertos/INDEX.json). No inventa histórico: las elecciones y capas sin datos salen desactivadas.
  * 1.0.1: encuadre inicial por límites (no por centro/zoom) para que el móvil de 390 px vea la Península.
  * 1.0.2: atajos Península/Canarias (Canarias queda fuera del encuadre inicial).
- * 1.0.3: T-135, el CSV de datos abiertos numera los distritos de 1 a K; el GeoJSON conserva el id interno (0..K-1).
+ * 1.0.3: T-135, CSV y GeoJSON de datos abiertos numeran los distritos de 1 a K (propiedad `distrito`).
  * Teselas PMTiles: pendiente (hoy GeoJSON por provincia, cargado en paralelo). */
 "use strict";
 const DATOS=new URLSearchParams(location.search).get("datos")||"../datos/";
@@ -54,8 +54,8 @@ async function cargaProvincia(t,info){
  const [g,c]=await Promise.all([fetch(DATOS+info.geojson.ruta).then(r=>{if(!r.ok)throw Error(t);return r.json()}),
   fetch(DATOS+info.resultados.ruta).then(r=>{if(!r.ok)throw Error(t);return r.text()})]);
  const res=new Map(parseCsv(c).map(r=>[r.distrito,r]));
- return g.features.map(f=>{const id=f.properties.district_id,r=res.get(String(+id+1))||{};
-  return{type:"Feature",id:undefined,geometry:f.geometry,properties:{uid:t+"-"+id,provincia:info.provincia,distrito:+id+1,
+ return g.features.map(f=>{const id=f.properties.distrito,r=res.get(String(id))||{};
+  return{type:"Feature",id:undefined,geometry:f.geometry,properties:{uid:t+"-"+id,provincia:info.provincia,distrito:id,
    poblacion:f.properties.district_pop,ganador:r.ganador||"",votos:r.votos,votosGanador:r.votosGanador,pct:r.pct,
    familia:familia(r.ganador||"").name,color:familia(r.ganador||"").color}}});
 }
