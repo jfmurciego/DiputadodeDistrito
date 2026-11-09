@@ -1,0 +1,106 @@
+{
+  "artifacts": {
+    "audit": {
+      "artifact_id": 13663704600,
+      "artifact_name": "ddd-audit-42588623702",
+      "artifact_sha256": "55e8b122f7d5025c267e6f05b63cd42fc4d9ee08249b87f31022ee934ba6f1a6",
+      "run_id": 42588623702,
+      "size_in_bytes": 7413
+    },
+    "m04": {
+      "artifact_id": 13664421181,
+      "artifact_name": "ddd-state-42588623702-M04",
+      "artifact_sha256": "96b9a90110308ec193d27aeced6db95f3ea11f228b333dbf06775957da1dd295",
+      "run_id": 42588623702,
+      "size_in_bytes": 90124468
+    },
+    "m05": {
+      "artifact_id": 13663723975,
+      "artifact_name": "ddd-state-42588623702-M05",
+      "artifact_sha256": "96eaa926c10d6a5098516d3a45d9aaa4f33a8e8f3939f3e530ad7029f92f0449",
+      "run_id": 42588623702,
+      "size_in_bytes": 93149903
+    },
+    "m06": {
+      "artifact_id": 13664283063,
+      "artifact_name": "ddd-state-42588623702-M06",
+      "artifact_sha256": "611720d66bdffdc64e42f5a9c9f4613935a12f71f629d463543e743b8f739eec",
+      "run_id": 42588623702,
+      "size_in_bytes": 97147743
+    }
+  },
+  "certification": {
+    "audit_files": {
+      "block_causes.json": {
+        "sha256": "6c103d45c581b2c1520570d00110d058a952980010c229740cc5a80bd5dc09eb",
+        "size_in_bytes": 484
+      },
+      "congreso350_madrid_2025_m06_contiguedad_geometrica.json": {
+        "sha256": "d490707a1890526b4cc0bce737517ba21bc3ed2630144b23ce7538915ca00dcf",
+        "size_in_bytes": 36563
+      },
+      "optimization_execution.json": {
+        "sha256": "a641f3a05b962e58fd10e394b37bc386f2ccdea00810b41ce7dcfb0b47ae5b27",
+        "size_in_bytes": 664
+      },
+      "production_status.json": {
+        "sha256": "5723ba96c0850251f515c0adc847d607c21f51a7e5aac5eaa3f758730449153c",
+        "size_in_bytes": 1351
+      }
+    },
+    "decision": "PASS_WITH_EXCEPTIONS",
+    "production_status_sha256": "5723ba96c0850251f515c0adc847d607c21f51a7e5aac5eaa3f758730449153c",
+    "stage": "M06_INDEPENDENT_GEOMETRIC_AUDIT"
+  },
+  "contract": {
+    "path": "territorios/congreso350_madrid/config/congreso350_madrid_2025.yaml",
+    "sha256": "1c515fae5d6283b610b81beb029659ba97d44ef6ac000fdd7d833e9c356f1533"
+  },
+  "execution": {
+    "candidate_count": 0,
+    "checkpoint_run_id": null,
+    "fallback": false,
+    "fallback_reason": null,
+    "from_stage": "M01",
+    "gerrychain_entrypoint": null,
+    "mode": "execute",
+    "optimization_algorithm_effective": "Canónico",
+    "optimization_algorithm_requested": "Canónico",
+    "optimization_evidence_sha256": "b0655623cbce1c83f94788aebceab54c186415e65e3e533c82f4c6d41e265422",
+    "portfolio_proof": null,
+    "require_unique_hashes": false,
+    "to_stage": "M06"
+  },
+  "identity": {
+    "checkout_sha": "4b43ab2e0ea6acf7635e3a5bf6ec9e04d3d51b09",
+    "edition": "2025",
+    "territory_id": "congreso350_madrid",
+    "territory_name": "Congreso 350 Madrid",
+    "workflow_name": "00 Ejecución Completa del Proyecto",
+    "workflow_run_attempt": 1,
+    "workflow_run_id": 42588623702,
+    "workflow_sha": "07362b09124ae40bc208a18a4946a59b640660d5"
+  },
+  "inputs": {
+    "checkpoint_artifact": null,
+    "checkpoint_run_id": null,
+    "m04_artifact": {
+      "artifact_id": 13664421181,
+      "artifact_name": "ddd-state-42588623702-M04",
+      "artifact_sha256": "96b9a90110308ec193d27aeced6db95f3ea11f228b333dbf06775957da1dd295",
+      "run_id": 42588623702,
+      "size_in_bytes": 90124468
+    },
+    "source_manifest_sha256": "e40315cb245a34437987c34faf7205932c458d35a1865bb0b47eafe753c61402",
+    "source_package_artifact": {
+      "artifact_id": 13661937548,
+      "artifact_name": "ddd-source-package-congreso350_madrid-2025-42588623702",
+      "artifact_sha256": "254f17c4d773d57d5102a06f05c112f3c27440d5474ee523e4cfdde752da14ad",
+      "run_id": 42588623702,
+      "size_in_bytes": 83988700
+    }
+  },
+  "manifest_sha256": "fd67a3d6e717f2d0ca4f76ca206ed929393c033bbd5b14113a766c6771a9d517",
+  "record_type": "run_time",
+  "schema": "ddd.territorial-generation-manifest/1.0"
+}

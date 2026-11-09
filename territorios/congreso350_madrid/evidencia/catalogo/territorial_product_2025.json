@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "congreso350_madrid",
+  "territory_name": "Congreso 350 Madrid",
+  "edition": "2025",
+  "run_id": 42588623702,
+  "artifact_name": "ddd-state-42588623702-M06",
+  "artifact_sha256": "611720d66bdffdc64e42f5a9c9f4613935a12f71f629d463543e743b8f739eec",
+  "source_commit": "4b43ab2e0ea6acf7635e3a5bf6ec9e04d3d51b09",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06",
+  "producer_manifest_path": "territorios/congreso350_madrid/evidencia/generaciones_m06/42588623702.json"
+}
