@@ -3259,6 +3259,7 @@ territories:
         source_commit: 07362b09124ae40bc208a18a4946a59b640660d5
       generation_enabled: false
       evidence:
+        generation_preflight: territorios/congreso350_madrid/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: congreso350_malaga
   name: Congreso 350 Málaga
   editions:
