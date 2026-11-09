@@ -97,7 +97,12 @@ class Botones(unittest.TestCase):
                 self.assertEqual(pg.locator("#c-ganador").get_attribute("aria-pressed"), "false")
                 self.assertIn("cambios", pg.locator("#leyenda").inner_text())
                 pt = pg.evaluate("(()=>{const q=map.project([-2.69,42.85]);const r=map.getCanvas().getBoundingClientRect();return[q.x+r.left,q.y+r.top]})()")
-                pg.mouse.click(*pt)  # Álava
+                for _ in range(4):
+                    pg.wait_for_function("map.loaded()&&!map.isMoving()", timeout=10000)
+                    pg.mouse.click(*pt)  # Álava
+                    if "Álava" in pg.locator("#ruta").inner_text():
+                        break
+                    pg.wait_for_timeout(300)
                 fila = pg.locator(".rot-tabla tr").nth(3)  # cabecera + distritos 1..3 → distrito 3 (d=2)
                 self.assertEqual(fila.locator("td").first.inner_text(), "3")
                 self.assertEqual(fila.locator("td").nth(6).get_attribute("title"), "EH Bildu")

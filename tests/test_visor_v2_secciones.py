@@ -132,7 +132,13 @@ class NavegadorSecciones(unittest.TestCase):
                 self.assertFalse(pg.evaluate("document.documentElement.scrollWidth>innerWidth"))  # sin scroll horizontal
                 chip.click()
                 pt = pg.evaluate("(()=>{const q=map.project([-2.69,42.85]);const r=map.getCanvas().getBoundingClientRect();return[q.x+r.left,q.y+r.top]})()")
-                pg.mouse.click(*pt)  # provincia de Álava
+                for _ in range(4):  # el mapa puede seguir cargando teselas: reintenta hasta que la provincia quede elegida
+                    pg.wait_for_function("map.loaded()&&!map.isMoving()", timeout=10000)
+                    pg.mouse.click(*pt)  # provincia de Álava
+                    if "Álava" in pg.locator("#ruta").inner_text():
+                        break
+                    pg.wait_for_timeout(300)
+                self.assertIn("Álava", pg.locator("#ruta").inner_text())
                 pg.wait_for_function("map.getSource('sec')&&map.getSource('sec')._data.features&&map.getSource('sec')._data.features.length===2", timeout=10000)
                 self.assertEqual(pg.evaluate("map.getLayoutProperty('sec-fill','visibility')"), "visible")
                 pg.evaluate("map.jumpTo({center:[-2.69,42.85],zoom:9.5})")
