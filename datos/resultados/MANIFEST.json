@@ -683,6 +683,22 @@
   }
  },
  "partidos_runs": {
+  "congreso350_madrid/42599356804": {
+   "territorio": "congreso350_madrid",
+   "run_id": "42599356804",
+   "run_territorial": "42588623702",
+   "sha256_composicion": "7ee0874aca2f8d3dced31e2af72d2f7cb0e021b116b249a05efbce9c17a4b8f5",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8d930122bb0ffe2462d5f7470a1e2bd0884e5642defe1f9e6cc60a43caa8df9e",
+   "ruta": "datos/resultados/runs/congreso350_madrid_42599356804_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0289,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso350_madrid_42599356804_desajustes.json",
+    "sha256": "90d375092ec11b7aaaac7e93540baf34e7f41fec4911da302e112ab15cc5614a"
+   }
+  },
   "congreso_albacete/42514994231": {
    "territorio": "congreso_albacete",
    "run_id": "42514994231",
