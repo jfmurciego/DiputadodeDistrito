@@ -3466,12 +3466,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42601453125
-        stage: M06
+        run_id: 42612579208
+        stage: M08
       preparation_evidence:
         run_id: 42601453125
         artifact_name: ddd-source-package-congreso350_soria-2025-42601453125
@@ -3491,6 +3491,7 @@ territories:
         territorial_product: territorios/congreso350_soria/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/congreso350_soria/evidencia/fuentes_electorales/2025/4dd1135d4c4dc3c48f04eb07155406749b85e3c72270a6ca5434258ce0e1ba13/42601453125/receipt.json
         prepared_source_pair: territorios/congreso350_soria/evidencia/pares_fuentes/2025/a4f08c8f46a4cd133c236b329d3dea9babdc25bcd4242d708b65697cfedadeb9.json
+        electoral_product: territorios/congreso350_soria/evidencia/catalogo/electoral_product_2025.json
 - territory_id: congreso350_tarragona
   name: Congreso 350 Tarragona
   editions:

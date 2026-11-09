@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso350_soria",
+  "territory_name": "Congreso 350 Soria",
+  "edition": "2025",
+  "run_id": 42612579208,
+  "artifact_name": "ddd-state-42612579208-M08",
+  "artifact_sha256": "0c9311a3a5ce3aefe80104bd1df3c5e0b9363bfab84fa5a671794d3bf03ae9af",
+  "source_commit": "f4821824f83b86651f31fb6d657fc634c85868e9",
+  "stage": "M08"
+}
