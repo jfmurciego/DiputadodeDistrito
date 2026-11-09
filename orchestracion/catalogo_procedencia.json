@@ -48,9 +48,9 @@
  },
  "resumen": {
   "territorios": 71,
-  "productos": 385,
+  "productos": 387,
   "errores": 0,
-  "avisos": 123
+  "avisos": 124
  },
  "territorios": {
   "andalucia": {
@@ -567,6 +567,19 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "M08",
+     "id": "m08-castilla_y_leon-42531122768",
+     "run_id": "42531122768",
+     "vigente": true,
+     "sha256": "945da465d4e6557f01fdde778c2bbada64e27ecb977d185bddd04a798774b90b",
+     "copia_git": {
+      "blob_sha": "54309d35d77148151f3f257421050f63d8ca5f8d",
+      "ruta": null
+     },
+     "copias_r2": [],
+     "publicacion": "PUBLICABLE"
+    },
+    {
      "producto": "composicion",
      "id": "composicion-castilla_y_leon",
      "run_id": "40969454399",
@@ -579,6 +592,20 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "c6f4ef01f95550296bdd9f65cede9193adadddb040eaa097839af9df187f9d1d"
+    },
+    {
+     "producto": "resultados",
+     "id": "resultados-castilla_y_leon",
+     "run_id": "42531122768",
+     "vigente": true,
+     "sha256": "e0a9acc811ce061c4e67c881f86cd7cd982a4c0fbb61ae6f9250c9a89b9a091e",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/resultados/castilla_y_leon.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "945da465d4e6557f01fdde778c2bbada64e27ecb977d185bddd04a798774b90b"
     },
     {
      "producto": "static",
@@ -6785,6 +6812,13 @@
    "producto": "M06",
    "codigo": "SIN_COPIA_R2",
    "detalle": "run 42521090842: solo copia git"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "castilla_y_leon",
+   "producto": "M08",
+   "codigo": "SIN_COPIA_R2",
+   "detalle": "run 42531122768: solo copia git"
   },
   {
    "nivel": "AVISO",
