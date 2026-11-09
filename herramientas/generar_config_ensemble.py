@@ -2,8 +2,11 @@
 """Genera configuracion/ensemble/<territorio>.json de las provincias del Congreso que el ensemble admite.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0 · FECHA: 2026-11-09 · ESTADO: candidato
-ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.1.0_20261108.py
+VERSIÓN: 1.3.0 · FECHA: 2026-11-09 · ESTADO: candidato
+ANTERIOR: legacy/herramientas/generar_config_ensemble_v1.2.0_20261109.py
+CAMBIOS 1.3.0 (T-128): molde autonómico. Ceuta, Melilla, Madrid, La Rioja y Asturias (comunidades de una provincia, sin puentes ni
+  exenciones) entran con los límites de su contrato de producción (0,80/1,75/0,12; Melilla, su excepción gobernada), copiados sin cambio;
+  el resto de comunidades sigue fuera (puentes, exención por partición o varias provincias). Orden del Planificador, 09-11.
 CAMBIOS 1.2.0 (T-120): Barcelona entra con su exención municipal 08073 (Cornellà, decisión gobernada del contrato, propietario
   2026-11-01); límites iguales a los del molde. B2 del propietario, 09-11.
 CAMBIOS 1.1.0 (T-98): APROBADOS_PROPIETARIO admite, por territorio, límites distintos del molde y la exención municipal de
@@ -45,6 +48,19 @@ APROBADOS_PROPIETARIO = {
         "decisions": {},
     },
 }
+_AUTONOMICA = {
+    "admite": {"population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio"},
+    "decisions": {
+        "limits": {
+            "decided_at": "2026-11-09",
+            "decided_by": "planificador (delegación del propietario)",
+            "reason": "Comunidad uniprovincial: el ensemble copia los límites de su contrato de producción, que no cambia.",
+            "evidence": "territorios/<territorio>/config/<territorio>_2025.yaml#validation; T-128",
+        },
+    },
+}
+for _tid in ("ceuta", "melilla", "madrid", "la_rioja", "principado_de_asturias"):
+    APROBADOS_PROPIETARIO[_tid] = _AUTONOMICA
 LIMITES = ("population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio")
 
 
@@ -108,7 +124,9 @@ def main() -> int:
     args = ap.parse_args()
     root = args.root_dir
     molde = json.loads((root / "configuracion/ensemble" / f"{MOLDE}.json").read_text(encoding="utf-8"))
-    for path in sorted((root / "territorios").glob("congreso_*/config/congreso_*_2025.yaml")):
+    rutas = sorted((root / "territorios").glob("congreso_*/config/congreso_*_2025.yaml"))
+    rutas += [root / "territorios" / t / "config" / f"{t}_2025.yaml" for t in sorted(APROBADOS_PROPIETARIO) if not t.startswith("congreso_")]
+    for path in rutas:
         contract = yaml.safe_load(path.read_text(encoding="utf-8"))
         tid = contract["meta"]["territory_id"]
         destino = root / "configuracion/ensemble" / f"{tid}.json"

@@ -3,11 +3,11 @@
 """Reagregación del histórico AUTONÓMICO a los distritos autonómicos vigentes (T-121, paso 3).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-09 · ESTADO: candidato
-CAMBIOS: 1.0.0: fichero nuevo.
+VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS: 1.1.0 (T-131): excluye el voto CERA que La Rioja trae como pseudo-sección; secciones sin censo (Canarias 2011) cuentan 0 y se declaran. 1.0.0: fichero nuevo.
 MOTIVO: orden del propietario (09-11): reproducir para las comunidades el paso B de las generales (T-83): votos de cada
   autonómica → distritos vigentes con la equivalencia de seccionados de T-85 y peso por población (D-13).
-ANTERIOR: ninguna (fichero nuevo; reutiliza funciones de reagregacion_historico.py y equivalencia_seccionados.py sin modificarlas)
+ANTERIOR: legacy/herramientas/reagregacion_autonomicas_v1.0.0_20261109.py
 QUÉ HACE: fuera de línea (no lanza ni publica). Por comunidad y elección en alcance de configuracion/calendario_autonomicas.csv:
   (1) descarga del Observatorio data/autonomikoak/sekzioa/<cca>-<AAAAMM>/<provincia>.json y data/autonomikoak/hauteskundea/
   <cca>-<AAAAMM>.json (sha256 en el MANIFEST; la fuente no publica huellas previas); (2) lleva las secciones históricas
@@ -111,6 +111,16 @@ def completar_composicion(comp: dict, vig_prov: dict) -> tuple[dict, list]:
     return nueva, asignadas
 
 
+def cera_en_secciones(votos: dict, hist: dict, cera: int) -> list[str]:
+    """El Observatorio de La Rioja mete el voto CERA como una pseudo-sección (sin geometría) cuyos votos a candidaturas
+    son exactamente los del CERA del total autonómico. Se identifica así (única sección sin geometría con ese total) y se
+    excluye: el total autonómico no incluye CERA. Cualquier otra sección sin geometría sigue siendo pérdida."""
+    if not cera:
+        return []
+    c = [s for s, x in votos.items() if s not in hist and x["votos_candidaturas"] == cera]
+    return c if len(c) == 1 else []
+
+
 def total_autonomico(doc: dict) -> dict:
     """Total de la comunidad del fichero hauteskundea (sin voto CERA): votos por sigla y a candidaturas."""
     siglas = doc["s"]
@@ -175,12 +185,23 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
         if año is None:
             huecos.append({"eleccion": ele, "motivo": f"sin datos por sección en el Observatorio ({fila['granularidad']}, {fila['completitud']})"})
             continue
-        huellas, votos, eq = {}, {}, {}
+        huellas, votos, eq, sin_censo, cera_excl = {}, {}, {}, [], []
+        ruta_t = f"hauteskundea/{clave}.json"
+        crudo_t = bajar(BASE + ruta_t, a.trabajo / "obs" / ruta_t)
+        huellas[ruta_t] = sha(crudo_t)
+        doc_t = json.loads(crudo_t)
+        total = total_autonomico(doc_t)
+        cera_prov = {c: v[4] for c, v in (doc_t.get("cera") or {}).items()}  # votos a candidaturas del voto CERA
         for c in provincias:
             ruta = f"sekzioa/{clave}/{c}.json"
             crudo = bajar(BASE + ruta, a.trabajo / "obs" / ruta)
             huellas[ruta] = sha(crudo)
             v = fnb.leer_provincia(json.loads(crudo))
+            for x in v.values():  # el Observatorio deja sin censo algunas secciones (Canarias 2011): cuenta 0, se declara
+                for k in rh.CAMPOS:
+                    if x[k] is None:
+                        x[k] = 0
+                        sin_censo.append(k)
             por_año = {y: z.get(c, {}) for y, z in todos.items()}
             por_año.setdefault(2025, vig_all[c])  # respaldo: secciones posteriores al seccionado de la elección
             hist, _ = eqs.completar_geometrias(v, año, por_año)
@@ -190,14 +211,15 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
                 hist = {k: translate(g, dx, dy) for k, g in hist.items()}
             eq.update(eqs.equivalencia(hist, vig_all[c], pob))
             votos.update(v)
-        ruta_t = f"hauteskundea/{clave}.json"
-        crudo_t = bajar(BASE + ruta_t, a.trabajo / "obs" / ruta_t)
-        huellas[ruta_t] = sha(crudo_t)
-        total = total_autonomico(json.loads(crudo_t))
+            cera_excl += [(c, s_) for s_ in cera_en_secciones(v, hist, cera_prov.get(c, 0))]
+        for _c, sec in cera_excl:
+            votos.pop(sec)
         res = rh.reagregar(votos, eq, comp)
         red = rh.redondear(res)
         c = cuadre_autonomico(votos, res, red, total)
         c["distritos"] = len(red)
+        c["cera_excluido"] = [{"provincia": pv, "seccion": sc} for pv, sc in cera_excl]
+        c["campos_sin_dato_a_cero"] = dict(Counter(sin_censo))
         c["aproximado_en_distrito"] = bool(geom_asignadas)
         c["nivel"] = "seccion"
         rh.escribir(salida_c / ele, com, red)
@@ -219,6 +241,7 @@ def procesar(com: str, filas: list[dict], a, indice: dict, vig_all: dict, pob: d
     (salida_c / "MANIFEST.json").write_text(json.dumps({
         "schema": SCHEMA, "comunidad": com, "elecciones": {e: {"ok": c["ok"], "defecto_frente_total": c["defecto_frente_total"],
                                                                 "votos_perdidos": c["votos_perdidos"], "perdida_frente_fuente": c["perdida_frente_fuente"],
+                                                                "cera_excluido": c["cera_excluido"], "campos_sin_dato_a_cero": c["campos_sin_dato_a_cero"],
                                                                 "aproximado_en_distrito": c["aproximado_en_distrito"], "nivel": c["nivel"],
                                                                 "perdidos_por_causa": c["perdidos_por_causa"]} for e, c in elecciones.items()},
         "huecos": huecos, "no_cuadran": sorted(e for e, c in elecciones.items() if not c["ok"])},

@@ -1,0 +1,53 @@
+{
+ "comunidad": "cataluna",
+ "elecciones": {
+  "201211": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "201509": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "201712": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "202102": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "202405": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  }
+ },
+ "huecos": [],
+ "no_cuadran": [],
+ "schema": "ddd.reagregacion-autonomicas/1.0"
+}

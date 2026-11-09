@@ -177,6 +177,21 @@ class Lanzar(unittest.TestCase):
         self.assertEqual(report[1]["resultado"], "NO_INICIADO")
         self.assertEqual(len(self.dispatched), 1)
 
+    def test_hija_fallida_del_bot_no_hunde_la_00_propia(self):
+        """T-130 (run 42637133308): la 00 de prueba pasa; su hija «Reutilizar» del bot falla y no cuenta sin publicar."""
+        def hija(*_):
+            self.runs[lv.WF_00].append({"id": 999, "display_title": f"{lv.TITLE_00} · A · Reutilizar progreso existente Fallo",
+                                        "status": "queued", "conclusion": None, "created_at": "2026-11-07T10:05:00Z"})
+        rows = [{**self.row("A"), "publicar": False}]
+        orig = self.fake_dispatch
+        def d(wf, inputs):
+            orig(wf, inputs)
+            if wf == lv.WF_00:
+                hija()
+        self.fake_dispatch = d
+        report = self.campaign(rows, test_first=False)
+        self.assertTrue(report[0]["resultado"].startswith("OK 00 101"), report)
+
     def test_relevo_al_limite(self):
         report = self.campaign([self.row("A"), self.row("B")], deadline=0)
         self.assertEqual(self.dispatched[-1][0], lv.WF_GESTOR)

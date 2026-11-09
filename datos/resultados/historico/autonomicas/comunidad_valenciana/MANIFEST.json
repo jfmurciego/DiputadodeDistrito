@@ -1,0 +1,46 @@
+{
+ "comunidad": "comunidad_valenciana",
+ "elecciones": {
+  "201105": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.001397,
+   "perdidos_por_causa": {
+    "sin_geometria": 3335.0
+   },
+   "votos_perdidos": 3335.0
+  },
+  "201505": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "201904": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  },
+  "202305": {
+   "aproximado_en_distrito": true,
+   "defecto_frente_total": 0.0,
+   "nivel": "seccion",
+   "ok": true,
+   "perdida_frente_fuente": 0.0,
+   "perdidos_por_causa": {},
+   "votos_perdidos": 0
+  }
+ },
+ "huecos": [],
+ "no_cuadran": [],
+ "schema": "ddd.reagregacion-autonomicas/1.0"
+}
