@@ -1,0 +1,50 @@
+{
+ "comunidad": "galicia",
+ "cuadre": {
+  "aproximado_en_distrito": false,
+  "defecto_frente_total": 0.0,
+  "dentro_tope_d17": true,
+  "dif_max_partido": 0,
+  "distritos": 75,
+  "nivel": "seccion",
+  "oficial": "sin fuente oficial local: AVISO",
+  "ok": true,
+  "perdida_dentro_tope": true,
+  "perdida_frente_fuente": 0.0,
+  "perdidos_por_causa": {},
+  "total_autonomico": 1291831,
+  "votos_distritos": 1291831,
+  "votos_espejo": 1291831,
+  "votos_perdidos": 0
+ },
+ "eleccion": "202007",
+ "fuentes": {
+  "asignacion_por_geometria": {
+   "habitantes": 0,
+   "metodo": "sección vigente ausente de la composición M06 → distrito de la unión de secciones conocidas más próxima; empate: mayor contacto",
+   "secciones": 0
+  },
+  "calendario": "cdccb737ab624a989c1f9599478251563bc3b1b41fadbd44d7b14df00eedac4e",
+  "composicion": "f207453cf1fdf152b5b9e9cac54a0ed4ccdf5d590e5bc4de591dd7a8e68802ae",
+  "historicos": {
+   "2012": "772ad76b84e1b3bb9293a5595d2ccafa06f21a3a58ccc96a9ec5dadd99e46c4a",
+   "2015": "50dda58ed4afb57c7f1f38e6b6b8150768efaa225bfc3a523b9c210a2a218c03",
+   "2016": "3410af763bfe58d1b0f9c0d0038cbdd6417e0f3f6d0fce6a3e70bef64c84b3e1",
+   "2019": "656119dadadb57ef3fa9d20a8ba33399fe606e553c9fef3fc338786e52fae967",
+   "2020": "07544bb49256e9e9f290b6f459a0a833e69c97900eb840c3f5bbe863914ede6e",
+   "2024": "df931fa0d372808eb81abb2f2645ed5ecccbd6ed397b85db656980748ddd6bf7"
+  },
+  "observatorio": {
+   "hauteskundea/12-202007.json": "a993d56a9bf86ccd42e1d97276483723ecd7e94e8aed2bc9a76c0a98912987db",
+   "sekzioa/12-202007/15.json": "d701cc28233cd02821472b51527436243b05007e5873dca97564b507a321ef4f",
+   "sekzioa/12-202007/27.json": "4f332a0fe26b4b9b446c4d59266725d9045165e8026ff16b9eeac268b72a36ce",
+   "sekzioa/12-202007/32.json": "c6058817736e1d73f3c2c3bb14327cfba3cc23a1a302e14124151425740506d3",
+   "sekzioa/12-202007/36.json": "e58e873327fa68c67e3533de260d59379e1cc62491257f2e6572dc6baa327c39"
+  },
+  "padron_65034": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "seccionado_2025": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+ },
+ "peso": "poblacion (D-13)",
+ "schema": "ddd.reagregacion-autonomicas/1.0",
+ "seccionado_historico": 2020
+}
