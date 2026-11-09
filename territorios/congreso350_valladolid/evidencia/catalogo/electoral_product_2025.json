@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso350_valladolid",
+  "territory_name": "Congreso 350 Valladolid",
+  "edition": "2025",
+  "run_id": 42613899978,
+  "artifact_name": "ddd-state-42613899978-M08",
+  "artifact_sha256": "d199c7534b4ca0dd6d45d5a9e4235ed3c1542517ddcf7bbdce5f3a944b6f9c33",
+  "source_commit": "331a1d243d1a2e4738c3ad4c66c9b71d95250384",
+  "stage": "M08"
+}

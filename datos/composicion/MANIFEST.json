@@ -795,6 +795,20 @@
    "sha256_csv": "7ee0874aca2f8d3dced31e2af72d2f7cb0e021b116b249a05efbce9c17a4b8f5",
    "ruta": "datos/composicion/runs/congreso350_madrid_42588623702.csv"
   },
+  "congreso350_soria/42601453125": {
+   "territorio": "congreso350_soria",
+   "run_id": "42601453125",
+   "secciones": 216,
+   "sha256_csv": "63ec5c906bd9e8fa3241d367c570124392ac1db04d88ab306452e724918f1a4d",
+   "ruta": "datos/composicion/runs/congreso350_soria_42601453125.csv"
+  },
+  "congreso350_valladolid/42601455862": {
+   "territorio": "congreso350_valladolid",
+   "run_id": "42601455862",
+   "secciones": 565,
+   "sha256_csv": "32f7c99872df480ac90187a34224059110006e068e8d453c0af63be5a7ccbafd",
+   "ruta": "datos/composicion/runs/congreso350_valladolid_42601455862.csv"
+  },
   "congreso_albacete/42514994231": {
    "territorio": "congreso_albacete",
    "run_id": "42514994231",

@@ -1,0 +1,95 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "congreso350_soria",
+  "territory_name": "Congreso 350 Soria",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 42601453125,
+  "source_sha": "38e1494e500e276612b7e27a5bcd6078b3e0f413",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "TERRITORIAL_COMPLETE",
+  "territorial_status": "CERTIFIED",
+  "electoral_status": "SKIPPED_NO_ACCREDITED_PAIR",
+  "electoral_activation_status": "TERRITORIAL_READY_ELECTORAL_PENDING",
+  "electoral_skip_reason": "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08",
+  "resumption": null,
+  "chain": {
+    "electoral_chain_requested": false,
+    "origin_run_id": null
+  },
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "skipped_source_gap_phases": [
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 42601453125,
+      "artifact": "ddd-source-package-congreso350_soria-2025-42601453125",
+      "artifact_digest": "sha256:ca48dd070bffab9e093ee22a64c6b04661d76e1cf108625e2cfe835f765566e8",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 42601453125,
+      "artifact": "ddd-state-42601453125-M06",
+      "artifact_digest": "sha256:448d2a2e281cff30632aab6903b317f20c2fd62645ed9ed1686f53b41d00561b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": true,
+      "result": "success",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "SOURCE_GAP_SKIP",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-11-09T11:50:36.365101+00:00"
+}

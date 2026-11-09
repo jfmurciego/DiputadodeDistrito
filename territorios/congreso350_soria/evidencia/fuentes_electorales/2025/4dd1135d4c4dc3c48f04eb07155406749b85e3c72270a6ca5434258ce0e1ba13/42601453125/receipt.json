@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "congreso350_soria",
+  "territory_name": "Congreso 350 Soria",
+  "edition": "2025",
+  "run_id": 42601453125,
+  "artifact_name": "ddd-electoral-package-congreso350_soria-2025-42601453125",
+  "artifact_sha256": "eea1029b5fa83b708a10b7eb882e49d0fc97abfa6196f122d856884bdee90a39",
+  "source_commit": "38e1494e500e276612b7e27a5bcd6078b3e0f413",
+  "election_id": "congreso350_soria_2023-07-23",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-07-23",
+  "electoral_identity_sha256": "4dd1135d4c4dc3c48f04eb07155406749b85e3c72270a6ca5434258ce0e1ba13"
+}

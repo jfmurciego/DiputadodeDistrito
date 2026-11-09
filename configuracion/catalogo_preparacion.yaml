@@ -3240,12 +3240,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 42588623702
-        stage: M06
+        run_id: 42599356804
+        stage: M08
       preparation_evidence:
         run_id: 42588623702
         artifact_name: ddd-source-package-congreso350_madrid-2025-42588623702
@@ -3265,6 +3265,7 @@ territories:
         territorial_product: territorios/congreso350_madrid/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/congreso350_madrid/evidencia/fuentes_electorales/2025/5e1dc31ea678f2fa1f3da2dc31e9ca1fecd10452808434fe10c1cf474b869ca7/42588623702/receipt.json
         prepared_source_pair: territorios/congreso350_madrid/evidencia/pares_fuentes/2025/2a7eadbe4577da15caf3453026c028e731ea2b1a48b4640fb4a95432fdccf3a2.json
+        electoral_product: territorios/congreso350_madrid/evidencia/catalogo/electoral_product_2025.json
 - territory_id: congreso350_malaga
   name: Congreso 350 Málaga
   editions:
@@ -3457,18 +3458,40 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso350_soria/config/congreso350_soria_2025.yaml
       territorial_source_declaration: territorios/congreso350_soria/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
-      territorial_product_available: false
-      electoral_source_prepared: false
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
+      territorial_product_available: true
+      electoral_source_prepared: true
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 42612579208
+        stage: M08
+      preparation_evidence:
+        run_id: 42601453125
+        artifact_name: ddd-source-package-congreso350_soria-2025-42601453125
+        artifact_sha256: ca48dd070bffab9e093ee22a64c6b04661d76e1cf108625e2cfe835f765566e8
+        package_sha256: 40bbca033a215821a746c6662931926acc6d9249ffc1e208d3350b90dbe96b1f
+        receipt_path: territorios/congreso350_soria/evidencia/fuentes_territoriales/2025/e60bb05f1ee5909b06919ed9d1028a06cec658392e2377867d10249be5b30024/42601453125/receipt.json
+        territorial_identity_sha256: e60bb05f1ee5909b06919ed9d1028a06cec658392e2377867d10249be5b30024
+        compatibility_report_sha256: 10867fe668bf00ff292d2752105ce09bc039f672e56dc6d8845e23335aac0d65
+        compatibility_identity_sha256: 6a22f8fcb72e50c64ee44c089a0ae0114ba8e51757d22902fecd90da4e7a8db0
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 38e1494e500e276612b7e27a5bcd6078b3e0f413
+      generation_enabled: true
+      evidence:
+        generation_preflight: territorios/congreso350_soria/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso350_soria/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/congreso350_soria/evidencia/fuentes_electorales/2025/4dd1135d4c4dc3c48f04eb07155406749b85e3c72270a6ca5434258ce0e1ba13/42601453125/receipt.json
+        prepared_source_pair: territorios/congreso350_soria/evidencia/pares_fuentes/2025/a4f08c8f46a4cd133c236b329d3dea9babdc25bcd4242d708b65697cfedadeb9.json
+        electoral_product: territorios/congreso350_soria/evidencia/catalogo/electoral_product_2025.json
 - territory_id: congreso350_tarragona
   name: Congreso 350 Tarragona
   editions:
@@ -3542,18 +3565,40 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: READY_INITIAL
+      preparation_status: READY
       contract_path: territorios/congreso350_valladolid/config/congreso350_valladolid_2025.yaml
       territorial_source_declaration: territorios/congreso350_valladolid/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
-      territorial_product_available: false
-      electoral_source_prepared: false
-      electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
+      territorial_product_available: true
+      electoral_source_prepared: true
+      electoral_product_available: true
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 42613899978
+        stage: M08
+      preparation_evidence:
+        run_id: 42601455862
+        artifact_name: ddd-source-package-congreso350_valladolid-2025-42601455862
+        artifact_sha256: efa57a1a34568c313790f7ee16abb3418690cb55af99a2da77904fe1cd1d5552
+        package_sha256: 0e55a4f1cc392e9c46cda5b37012a9f0fd3da837b743ccff41a594335e52db79
+        receipt_path: territorios/congreso350_valladolid/evidencia/fuentes_territoriales/2025/d38c47effcb222b76e8749f71f9ff86930cdc27969883e7a35314321573c4b42/42601455862/receipt.json
+        territorial_identity_sha256: d38c47effcb222b76e8749f71f9ff86930cdc27969883e7a35314321573c4b42
+        compatibility_report_sha256: 0795f9ddc06733983b8a452e2a22c35f21d362fdf0f9e5451cc1402f1416c5b0
+        compatibility_identity_sha256: 68ec9c6e78020c6d8761a19f66f596eadcfdbf880c08199e5f8a146a38c31535
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 38e1494e500e276612b7e27a5bcd6078b3e0f413
+      generation_enabled: true
+      evidence:
+        generation_preflight: territorios/congreso350_valladolid/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/congreso350_valladolid/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/congreso350_valladolid/evidencia/fuentes_electorales/2025/3f250f3d3fd31e70c958889c081ed8e54fff0bc72258ae5685fb761c4e65d69b/42601455862/receipt.json
+        prepared_source_pair: territorios/congreso350_valladolid/evidencia/pares_fuentes/2025/94406f6259254e89a210e32a59bcda52689894f0ac45860871ffa2de0dd84c86.json
+        electoral_product: territorios/congreso350_valladolid/evidencia/catalogo/electoral_product_2025.json
 - territory_id: congreso350_vizcaya
   name: Congreso 350 Vizcaya
   editions:

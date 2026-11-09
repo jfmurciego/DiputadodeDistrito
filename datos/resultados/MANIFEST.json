@@ -683,6 +683,40 @@
   }
  },
  "partidos_runs": {
+  "congreso350_madrid/42599356804": {
+   "territorio": "congreso350_madrid",
+   "run_id": "42599356804",
+   "run_territorial": "42588623702",
+   "sha256_composicion": "7ee0874aca2f8d3dced31e2af72d2f7cb0e021b116b249a05efbce9c17a4b8f5",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "8d930122bb0ffe2462d5f7470a1e2bd0884e5642defe1f9e6cc60a43caa8df9e",
+   "ruta": "datos/resultados/runs/congreso350_madrid_42599356804_partidos.csv",
+   "desajustes": {
+    "secciones": 1,
+    "pct_desajuste": 0.0289,
+    "tope_pct": 0.5,
+    "ruta": "datos/resultados/runs/congreso350_madrid_42599356804_desajustes.json",
+    "sha256": "90d375092ec11b7aaaac7e93540baf34e7f41fec4911da302e112ab15cc5614a"
+   }
+  },
+  "congreso350_soria/42612579208": {
+   "territorio": "congreso350_soria",
+   "run_id": "42612579208",
+   "run_territorial": "42601453125",
+   "sha256_composicion": "63ec5c906bd9e8fa3241d367c570124392ac1db04d88ab306452e724918f1a4d",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "86f0cf3fc3dac9c7897a9da66ce90582456b9ec78618e72df3edafe2d50ee16e",
+   "ruta": "datos/resultados/runs/congreso350_soria_42612579208_partidos.csv"
+  },
+  "congreso350_valladolid/42613899978": {
+   "territorio": "congreso350_valladolid",
+   "run_id": "42613899978",
+   "run_territorial": "42601455862",
+   "sha256_composicion": "32f7c99872df480ac90187a34224059110006e068e8d453c0af63be5a7ccbafd",
+   "sha256_zip": "e78fc231326a03cf67bbec87b7100ea0c8c46859daa1b2a631c06daaaf1717f8",
+   "sha256_csv": "21398f4df2aec843b5e4a6ecc0570649f60ceea407309fb22f66d7e07ba82e44",
+   "ruta": "datos/resultados/runs/congreso350_valladolid_42613899978_partidos.csv"
+  },
   "congreso_albacete/42514994231": {
    "territorio": "congreso_albacete",
    "run_id": "42514994231",

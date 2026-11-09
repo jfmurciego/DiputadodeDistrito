@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.212
+Versión: 1.0.213
 Fecha: 2026-11-09
-Alcance: T-118 — La 05 de un run «Reutilizar» no registraba el M08 (M06 reutilizado duplicado)
+Alcance: T-119 — Capa de secciones censales en el visor v2
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_t118-m06-reutilizado-duplicado.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.211_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t119-secciones-v2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.212_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.211_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.213 · [2026-11-09 — T-119 — Capa de secciones censales en el visor v2](registro/2026-11-09_t119-secciones-v2.md)
 - 1.0.212 · [2026-11-09 — T-118 — La 05 de un run «Reutilizar» no registraba el M08 (M06 reutilizado duplicado)](registro/2026-11-09_t118-m06-reutilizado-duplicado.md)
 - 1.0.211 · [2026-11-08 — T-115 — M05 canónico 7.4.4: un distrito sobre el techo puede ceder unidades](registro/2026-11-08_claude-t115-m05-salida-sobre-techo.md)
 - 1.0.210 · [2026-11-08 — T-116 — Visor v2 publicado en /v2/ en paralelo con v1](registro/2026-11-08_t-116-visor-v2.md)

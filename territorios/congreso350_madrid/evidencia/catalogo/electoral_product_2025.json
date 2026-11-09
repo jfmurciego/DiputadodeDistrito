@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "congreso350_madrid",
+  "territory_name": "Congreso 350 Madrid",
+  "edition": "2025",
+  "run_id": 42599356804,
+  "artifact_name": "ddd-state-42599356804-M08",
+  "artifact_sha256": "23ebdc93f6ca08c399393c1c8f0991355b0699bc18fa47af66704d896e55608b",
+  "source_commit": "4c4eb537dd9a81a1078f73c5be1718d83c358e11",
+  "stage": "M08"
+}
