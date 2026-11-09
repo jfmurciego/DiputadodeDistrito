@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -53,7 +53,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '39'
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   notes:
   - R022 congeló 458 secciones y 593623 habitantes sin faltantes.
   - R023 justificó 1 pasarelas; no se añade ninguna excepción no auditada.
@@ -273,7 +273,7 @@ resolved_source_contract:
   contract_sha256: dd585917b1ed99caa3aea60d25b00b033970786f7217b31519410f828c07d2de
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: c9b81def38f3eaed2db7d2cc16ba1f4dd06f114cc412113f4ca1d807c746c570
   compatibility_identity_sha256: 83ef8f00689a4a4305ea3b24090b7fe94a0d8648316eedb5de16244549b03102
   source_inputs:
@@ -325,3 +325,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 42707820760
+  pre_m04_source_commit: 19f6203347ceff0b49e37681acd3e3c9a96116bd
+  pre_m04_artifact_sha256: a5223498414deb796ad211c9d02ddc9cf7c7f0098a9d386e87d653c193797e27
