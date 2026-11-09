@@ -52,10 +52,21 @@ class Registro(unittest.TestCase):
         rpv.rechazar_mapa_350("madrid")
 
     def test_las_entradas_350_ya_registradas_siguen_validando(self):
-        ya = [e for e in self.registro["products"] if str(e.get("territory_id", "")).startswith("congreso350_")]
-        self.assertTrue(ya, "el registro actual conserva las entradas de congreso350_valladolid (decisión del propietario)")
-        rpv.validate_registry(self.registro)
-        self.assertEqual(len(rpv.make_candidate(self.registro, [])["products"]), len(self.registro["products"]))
+        # independiente del registro vivo (T-126 retira las dos de Valladolid): se inyecta una entrada 350 sintética
+        import copy
+        base = next(e for e in self.registro["products"] if e["kind"] == "canonical_m06")
+        ya = copy.deepcopy(base)
+        ya.update(id="m06-congreso350_x-1", territory_id="congreso350_x", run_id="1", blob_sha="e" * 40, sha256="f" * 64)
+        for k, v in list(ya.items()):  # la ubicación inmutable se deriva del blob_sha
+            if isinstance(v, str) and base["blob_sha"] in v:
+                ya[k] = v.replace(base["blob_sha"], "e" * 40)
+        reg = copy.deepcopy(self.registro)
+        reg["products"].append(ya)
+        rpv.validate_registry(reg)  # una entrada 350 ya presente sigue validando (grandfather)
+        # lo que sí se exige: añadir otra 350 se rechaza aunque ya haya una, y no se toca la existente
+        with self.assertRaisesRegex(ValueError, "mapa 350"):
+            rpv.make_candidate(reg, [{"territory_id": "congreso350_y", "kind": "canonical_m06"}])
+        self.assertEqual(len(rpv.make_candidate(reg, [])["products"]), len(reg["products"]))
 
     def test_describe_production_rechaza_350(self):
         with unittest.mock.patch.object(rpv, "production_metadata", return_value={"territory_id": "congreso350_soria"}):
