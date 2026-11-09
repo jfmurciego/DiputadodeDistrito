@@ -56,3 +56,11 @@ paths:
 - Sigla: tabla de homologación T-97 con D-20 aplicada (familias «Podemos–Sumar», «CiU–Junts», «UPN y coaliciones», «CHA-IU»; #537). Renombrar partidos exige actualizar a la vez el mapa Interior o `construir` falla por cobertura. Valida las discrepancias contra el dato por provincia, no de memoria (Caballas y MDyC son Ceuta; CpM, Melilla).
 - Cada publicación nueva exige nombres/informes C12-C13 de la provincia (herramienta T-59) y topónimos en español.
 - `congreso_350`: gemelos `congreso350_<prov>` con K = escaños reales BOE-A-2023-18907, nunca publican (#539). Gestor 2.0 (#542) y guía en `docs/GUIA_GESTOR_CAMPANAS.md`.
+
+## Lecciones 09-11 (T-129, T-121)
+- La población del reparto de escaños son las cifras oficiales por real decreto (RD 1117/2025 a 1-1-2025; RD 1037/2022 a 1-1-2022), no la tabla INE 65034: difieren 0,03 % y 241 hab. cambian un escaño (Ciudad Real/Tenerife). `configuracion/poblacion_oficial_provincias_*.csv` + `herramientas/reparto_art162.py` reproducen el anexo 52/52 en 2026 y 2023.
+- El K de los distritos usa la 65034 por decisión del propietario (opción A): con la oficial Cádiz sería 10 y el total 406; fijado por test, no cambiar de fuente sin decisión.
+- Los BOE se bajan con `curl https://www.boe.es/diario_boe/xml.php?id=BOE-A-…` (sha256 del XML); INE no es accesible desde la nube.
+- Autonómicas: el Observatorio publica el voto CERA como pseudo-sección sin geometría en La Rioja (excluir solo si es la única sección sin geometría con ese total); `datos/composicion/<c>.csv` de 12 de 14 comunidades está desfasado frente al seccionado INE 2025 (Madrid, 46 secciones): asignación por geometría y marca `aproximado_en_distrito`, no regenerar. Ceuta y Melilla no tienen autonómicas; el día exacto de elecciones pasadas solo consta como mes hasta contrastar con boletín.
+- Paso A autonómico: `historico_autonomico.py ejecutar --comunidad X` (pip install -r requirements.lock); Madrid difiere hasta 884 votos/distrito del paso B por redondeo, con suma y ganador idénticos.
+- Distritos públicos 1..K (T-135, regla del propietario): lo interno (`datos/composicion`, `datos/resultados`, M06) sigue 0..K-1; la conversión se hace al publicar (`numeracion_publica.py`) y un test falla ante un distrito 0.
