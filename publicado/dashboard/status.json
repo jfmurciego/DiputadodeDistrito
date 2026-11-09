@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-11-09T17:16:29.600291+00:00",
+  "generated_at": "2026-11-09T20:35:38.853652+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -12541,11 +12541,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "congreso350_valladolid",
-    "name": "Nacional 350 Valladolid",
-    "display_name": "Nacional 350 Valladolid",
-    "autonomous_community_code_ine": "R47",
-    "run_id": 42613899978,
+    "territory_id": "castilla_y_leon",
+    "name": "Castilla y León",
+    "display_name": "07 Castilla y León",
+    "autonomous_community_code_ine": "07",
+    "run_id": 42531122768,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
