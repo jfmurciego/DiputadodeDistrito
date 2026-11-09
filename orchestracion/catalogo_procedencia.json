@@ -48,7 +48,7 @@
  },
  "resumen": {
   "territorios": 72,
-  "productos": 390,
+  "productos": 393,
   "errores": 0,
   "avisos": 134
  },
@@ -1341,6 +1341,20 @@
      "publicacion": "PUBLICABLE"
     },
     {
+     "producto": "composicion",
+     "id": "composicion-congreso_alicante",
+     "run_id": "42495067503",
+     "vigente": true,
+     "sha256": "a5ad973976e0eb4519f6e1b57d32751e47c4755cb4027a7c2f5afd2f56a3a4e2",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_alicante.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "36416fd503d223fed8be1ebbe58731df80f3288e35514cb745eb6c6a06e1d443"
+    },
+    {
      "producto": "datos_abiertos",
      "id": "datos-abiertos-congreso_alicante",
      "run_id": "42495067503",
@@ -1893,6 +1907,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_barcelona",
+     "run_id": "42495069270",
+     "vigente": true,
+     "sha256": "583f6b3f24aea9c4194fea505686172a5501e019a32ed7735b2b0516d55db590",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_barcelona.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "617d479b38ed621f54892153dc14878701a98c9143feb0862631ded8a1a9780f"
     },
     {
      "producto": "datos_abiertos",
@@ -4061,6 +4089,20 @@
      },
      "copias_r2": [],
      "publicacion": "PUBLICABLE"
+    },
+    {
+     "producto": "composicion",
+     "id": "composicion-congreso_malaga",
+     "run_id": "42495070976",
+     "vigente": true,
+     "sha256": "d46f8cf9fbd4da91c023f661c20a7b31a3b260aecd39c29ce2652a4027acb7b0",
+     "copia_git": {
+      "blob_sha": null,
+      "ruta": "datos/composicion/congreso_malaga.csv"
+     },
+     "copias_r2": [],
+     "publicacion": "DATOS_ABIERTOS",
+     "origen_sha256": "360b9e270552c0f38a052c7fc9dea507148128832d9d0a4f7f72aed0cdfc8a7d"
     },
     {
      "producto": "datos_abiertos",
