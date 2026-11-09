@@ -3,12 +3,14 @@
 """Histórico de generales en el Gestor 2.0: plan y ejecución del paso A por provincia y elección (T-113).
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.0.0 · FECHA: 2026-11-08 · ESTADO: candidato
+VERSIÓN: 1.1.0 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS: 1.1.0 (T-123): soporta las cinco generales 2011-2023 (2011, 2015, 2016, 2019-04 y 2019-11) con el mismo paso A y
+  la misma puerta; `plan` añade `prueba` (primer territorio, lote de prueba antes del resto).
 CAMBIOS: 1.0.0: fichero nuevo.
 MOTIVO: D-10, D-12 y D-22 del propietario: la opción «histórico» del «0 Gestor de Campañas» ejecuta el paso A de T-83
   (reagregacion_historico.py --paquete + historico_m07m08.py) en las 52 provincias, una elección por campaña,
   empezando por 2019-11. Motor repetible: cada ejecución regenera desde fuentes con huella, nada se reutiliza.
-ANTERIOR: ninguna (fichero nuevo)
+ANTERIOR: legacy/herramientas/historico_campana_v1.0.0_20261109.py
 QUÉ HACE: `plan(ids, eleccion)` comprueba por territorio lo que el paso A necesita (elección soportada, M06 publicado en
   datos_abiertos/INDEX.json, composición en datos/composicion/, fichero del espejo T-89 en su manifiesto) y devuelve la
   matriz; lo pedido y no soportado falla con NoDisponible; con «todos» se omite y se informa.
@@ -32,7 +34,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOPORTADAS = ("201911",)
+SOPORTADAS = ("201111", "201512", "201606", "201904", "201911")
 CLAVES = {"histórico: generales 2019-11": "201911", "histórico: generales 2019-04": "201904",
           "histórico: generales 2016": "201606", "histórico: generales 2015": "201512",
           "histórico: generales 2011": "201111"}
@@ -82,8 +84,8 @@ def plan(eleccion: str, filas: list[dict], explicito: bool, root: Path = ROOT) -
     """filas = [{territory_id, codigo}] de la legislatura vigente (nacional). Devuelve la matriz del paso A."""
     clave = CLAVES[eleccion]
     if clave not in SOPORTADAS:
-        raise NoDisponible(f"«{eleccion}» aún no está soportado en el Gestor (T-113 empieza por 2019-11; "
-                           f"soportadas: {', '.join(SOPORTADAS)}). Elija «histórico: generales 2019-11».")
+        raise NoDisponible(f"«{eleccion}» aún no está soportado en el Gestor (soportadas: "
+                           f"{', '.join(SOPORTADAS)}).")
     ok, omitidos = [], {}
     for f in filas:
         falta = requisitos(f["territory_id"], f["codigo"], clave, root)
@@ -95,13 +97,14 @@ def plan(eleccion: str, filas: list[dict], explicito: bool, root: Path = ROOT) -
         raise NoDisponible("Histórico no disponible para: " + " · ".join(f"{t}: {m}" for t, m in omitidos.items()))
     if not ok:
         raise NoDisponible("Ningún territorio de la selección tiene lo necesario para el histórico.")
-    return {"clave": clave, "eleccion": eleccion, "include": ok, "omitidos": omitidos}
+    return {"clave": clave, "eleccion": eleccion, "prueba": ok[0], "include": ok, "omitidos": omitidos}
 
 
 def plan_markdown(p: dict) -> str:
     lines = [f"Histórico {p['eleccion']} (clave {p['clave']}), paso A por territorio: reagregación a la sección "
              "vigente → M07/M08 sobre el M06 publicado. Puerta: cuadre exacto, M07 PASS y mismo ganador que el paso B. "
-             "Resultado en el artefacto del run; no publica.", "",
+             "Resultado en el artefacto del run; no publica.",
+             f"Lote de prueba: {p['prueba']['territorio']} (el resto solo corre si pasa la puerta).", "",
              "| Territorio | Provincia |", "|---|---|"]
     lines += [f"| {r['territorio']} | {r['provincia']} |" for r in p["include"]]
     if p["omitidos"]:
