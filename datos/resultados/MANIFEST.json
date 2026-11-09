@@ -72,13 +72,6 @@
    "distritos": 99,
    "sha256_csv": "10734091a60de2422a293f8c8ec26bea0a87fd7b6b1f1abee105f1c8464eb016"
   },
-  "congreso350_valladolid": {
-   "run_id": "42613899978",
-   "blob_sha": "3908e509cc62e4a5c6f978ff87e42ae361d802ee",
-   "sha256_origen": "9701c8406dbbb2cd5d1db15d845cbf7ebec98934c2293732c7a1b77291dcde2e",
-   "distritos": 5,
-   "sha256_csv": "7f6ffec80059827a2096dfa41ad9faee91be7723207f870e27ae1633b958a236"
-  },
   "congreso_alava": {
    "run_id": "41346917857",
    "blob_sha": "d3fc88943f3b177aedc172a758785b7d9096c8e3",
