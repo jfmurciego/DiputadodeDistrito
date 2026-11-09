@@ -47,10 +47,10 @@
   }
  },
  "resumen": {
-  "territorios": 72,
-  "productos": 391,
+  "territorios": 71,
+  "productos": 390,
   "errores": 0,
-  "avisos": 133
+  "avisos": 136
  },
  "territorios": {
   "andalucia": {
@@ -1039,38 +1039,6 @@
      "copias_r2": [],
      "publicacion": "DATOS_ABIERTOS",
      "origen_sha256": "2cef147c94d5802443db75efaf0b67d2f87318433f076b1957ce14f221f07f6d"
-    }
-   ]
-  },
-  "congreso350_valladolid": {
-   "fuente_territorial": {
-    "run_id": "42601455862",
-    "package_sha256": "0e55a4f1cc392e9c46cda5b37012a9f0fd3da837b743ccff41a594335e52db79",
-    "artifact_sha256": "efa57a1a34568c313790f7ee16abb3418690cb55af99a2da77904fe1cd1d5552",
-    "territorial_identity_sha256": "d38c47effcb222b76e8749f71f9ff86930cdc27969883e7a35314321573c4b42",
-    "receipt_path": "territorios/congreso350_valladolid/evidencia/fuentes_territoriales/2025/d38c47effcb222b76e8749f71f9ff86930cdc27969883e7a35314321573c4b42/42601455862/receipt.json",
-    "population_year": 2023,
-    "section_year": 2023
-   },
-   "fuente_electoral": {
-    "receipt_path": "territorios/congreso350_valladolid/evidencia/fuentes_electorales/2025/3f250f3d3fd31e70c958889c081ed8e54fff0bc72258ae5685fb761c4e65d69b/42601455862/receipt.json",
-    "identity_sha256": "3f250f3d3fd31e70c958889c081ed8e54fff0bc72258ae5685fb761c4e65d69b"
-   },
-   "doi": null,
-   "productos": [
-    {
-     "producto": "resultados",
-     "id": "resultados-congreso350_valladolid",
-     "run_id": "42613899978",
-     "vigente": true,
-     "sha256": "7f6ffec80059827a2096dfa41ad9faee91be7723207f870e27ae1633b958a236",
-     "copia_git": {
-      "blob_sha": null,
-      "ruta": "datos/resultados/congreso350_valladolid.csv"
-     },
-     "copias_r2": [],
-     "publicacion": "DATOS_ABIERTOS",
-     "origen_sha256": "9701c8406dbbb2cd5d1db15d845cbf7ebec98934c2293732c7a1b77291dcde2e"
     }
    ]
   },
@@ -6805,13 +6773,6 @@
  "incoherencias": [
   {
    "nivel": "AVISO",
-   "territorio": "congreso350_valladolid",
-   "producto": "resultados",
-   "codigo": "ORIGEN_M08_NO_PUBLICADO",
-   "detalle": "run 42613899978 / blob 3908e509cc62e4a5c6f978ff87e42ae361d802ee no es un canonical_m08 del visor"
-  },
-  {
-   "nivel": "AVISO",
    "territorio": "congreso350_madrid",
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
@@ -6865,6 +6826,34 @@
    "producto": "r2",
    "codigo": "R2_SIN_PRODUCTO",
    "detalle": "congreso350_soria/42612579208/ddd-minimo-42612579208-M08.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42601455862/ddd-audit-42601455862.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42601455862/ddd-minimo-42601455862-M06.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42613899978/ddd-audit-electoral-42613899978.zip"
+  },
+  {
+   "nivel": "AVISO",
+   "territorio": "congreso350_valladolid",
+   "producto": "r2",
+   "codigo": "R2_SIN_PRODUCTO",
+   "detalle": "congreso350_valladolid/42613899978/ddd-minimo-42613899978-M08.zip"
   },
   {
    "nivel": "AVISO",
