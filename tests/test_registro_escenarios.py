@@ -36,6 +36,16 @@ def registry(*products):
 
 
 class RegistroEscenariosTests(unittest.TestCase):
+    def test_activo_duplicado_nombra_las_dos_entradas(self):
+        a = entry("canonical_m06", "m06-x-111")
+        b = entry("canonical_m08", "m08-x-111", asset_type="electoral_product",
+                  blob_sha=a["blob_sha"], immutable_location=a["immutable_location"])
+        with self.assertRaises(ValueError) as ctx:
+            reg.validate_registry(registry(a, b))
+        msg = str(ctx.exception)
+        self.assertIn("id=m06-x-111", msg)
+        self.assertIn("id=m08-x-111", msg)
+
     def test_par_de_escenario_valido_y_canonicos_intactos(self):
         reg.validate_registry(registry(entry("canonical_m06", "c6"), entry("canonical_m08", "c8"),
                                        scenario(), scenario("scenario_m08", "s8")))

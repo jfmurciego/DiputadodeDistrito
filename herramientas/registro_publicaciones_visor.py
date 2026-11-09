@@ -5,13 +5,14 @@ Los artefactos de Actions sólo pueden actuar como fuente transitoria de una
 promoción. El registro definitivo acepta únicamente activos persistentes con
 ubicación inmutable e integridad SHA-256 verificable.
 
-VERSIÓN: 1.2.0 · FECHA: 2026-11-02 · ESTADO: candidato
+VERSIÓN: 1.2.1 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS 1.2.1 (T-117): el error de activo inmutable duplicado nombra las dos entradas (id, kind, territorio, ejecución) que colisionan.
 CAMBIOS 1.2.0 (T-27 fase c): `describe-production --scenario-id --strategy` describe M06/M08 de una ejecución como `scenario_m06/m08` (solo adición, sin tocar canónicos).
 CAMBIOS 1.1.0 (T-27 fase a): escenarios no canónicos. Kinds `scenario_m06` y `scenario_m08` con `scenario_id`, `strategy`,
   `scenario_kind` ("alternative") y `canonical` falso; los `canonical_*` no cambian (si traen `canonical`, debe ser true).
   A lo sumo una entrada `canonical: true` por territorio y familia (m06/m08); un `scenario_m08` exige el `scenario_m06`
   del mismo `scenario_id`. El registro es de solo adición: la identidad de un escenario es territorio+kind+scenario_id.
-ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.1.0_20261102.py
+ANTERIOR: legacy/herramientas/registro_publicaciones_visor_v1.2.0_20261102.py
 """
 from __future__ import annotations
 
@@ -141,6 +142,11 @@ def _validate_entry(entry: dict) -> None:
             )
 
 
+def _describe(entry: dict) -> str:
+    return (f"id={entry['id']} kind={entry['kind']} territorio={entry.get('territory_id')} "
+            f"ejecución={entry.get('run_id') or entry.get('execution_id') or entry.get('ensemble_id')}")
+
+
 def validate_registry(registry: dict) -> None:
     if registry.get("schema") != SCHEMA:
         raise ValueError(f"Schema de registro no soportado: {registry.get('schema')}")
@@ -149,7 +155,7 @@ def validate_registry(registry: dict) -> None:
 
     ids: set[str] = set()
     identities: set[tuple[str, str, str]] = set()
-    locations: set[str] = set()
+    locations: dict[str, dict] = {}
     for entry in _entries(registry):
         _validate_entry(entry)
         entry_id = str(entry["id"])
@@ -164,8 +170,12 @@ def validate_registry(registry: dict) -> None:
 
         location = str(entry["immutable_location"])
         if location in locations:
-            raise ValueError(f"Activo inmutable duplicado en varias entradas: {location}")
-        locations.add(location)
+            other = locations[location]
+            raise ValueError(
+                f"Activo inmutable duplicado en varias entradas: {location}; "
+                f"{_describe(other)} y {_describe(entry)} (sha256 {other['sha256']} / {entry['sha256']})"
+            )
+        locations[location] = entry
 
     canonical_marked: set[tuple[str, str]] = set()
     scenario_m06: set[tuple[str, str]] = set()
