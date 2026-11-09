@@ -24,7 +24,7 @@ redactor y **debe confirmarse en las páginas «Submitting», «Paper format» y
 ## 2. Qué falta para poder enviarlo
 
 1. **Fichero `LICENSE`** (Apache-2.0 u otra OSI) coherente con `CITATION.cff` y `.zenodo.json` — decisión del propietario.
-2. **Versión etiquetada** (`CITATION.cff` dice 4.7.0, README 4.9.0: unificar) y **release**; lo publica el propietario.
+2. **Versión etiquetada** (versión 4.9.0, unificada en `CITATION.cff` por T-127) y **release**; lo publica el propietario.
 3. **DOI de Zenodo**: HUECO. No existe en ningún fichero; se obtiene al archivar la release. No inventado.
 4. **Autores y afiliación**: nombre y ORCID están en `CITATION.cff` (0009-0002-4434-959X); falta afiliación. ¿Coautores/colaboradores?
 5. **Historia pública**: confirmar el criterio de antigüedad de JOSS frente al historial desde 2026-11-07.
