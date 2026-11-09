@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Estado operativo del proyecto (README y JSON compartido).
 
-VERSIÓN: 2.3.5 · FECHA: 2026-11-01 · ESTADO: candidato
-CAMBIOS: 2.3.5: T-11, un fallo solo en la 05 (o en pasos posteriores sin fase) no cuenta como «parada» si la
+VERSIÓN: 2.3.6 · FECHA: 2026-11-09 · ESTADO: candidato
+CAMBIOS: 2.3.6: T-125, `latest_validated` ignora los territorios `congreso350_*` (mapa 350, D-18/D-19: nunca se publican); la 05 sin
+  run explícito ya no promueve el último run de un gemelo 350 (`elegir_latest`).
+  2.3.5: T-11, un fallo solo en la 05 (o en pasos posteriores sin fase) no cuenta como «parada» si la
   cadena está completa y el territorio ya figura en publicaciones_visor.json; queda en last_run.superseded_failure.
   2.3.4: name y display_name públicos («Nacional Huesca», T-05); territory_id no cambia.
   2.3.3: los territorios piloto (pilot_territories) entran en el estado con su pilot_code.
@@ -13,7 +15,7 @@ CAMBIOS: 2.3.5: T-11, un fallo solo en la 05 (o en pasos posteriores sin fase) n
   cada territorio informa de su última ejecución completa (run, fase donde se paró, motivo) y de la 05.
 MOTIVO: el README marcaba completo a Aragón con un M08 de otro linaje, dejaba en amarillo territorios
   con la 04 hecha y no decía dónde ni por qué se paró cada territorio.
-ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.4_20261101.py
+ANTERIOR: legacy/herramientas/generar_estado_operativo_v2.3.5_20261109.py
 """
 from __future__ import annotations
 
@@ -600,8 +602,7 @@ def build(root: Path, edition: str) -> dict:
     ready = [r for r in rows if r["ft"] == "green" and r["g"] != "green"]
     pending = [r for r in rows if (r["g"] == "yellow" or r["ft"] == "yellow") and r not in ready]
     blocked = [r for r in rows if r not in complete and r not in ready and r not in pending and r["g"] != "green"]
-    latest_pool = complete or territorial
-    latest = max((r for r in latest_pool if r.get("run_id")), key=lambda r: int(r["run_id"]), default=None)
+    latest = elegir_latest(complete, territorial)
 
     alerts, next_actions = [], []
     for r in rows:
@@ -666,6 +667,14 @@ def build(root: Path, edition: str) -> dict:
 
 
 ICON = {"green": "🟢", "yellow": "🟡", "red": "🔴", "gray": "⚪"}
+
+
+def elegir_latest(complete: list[dict], territorial: list[dict]) -> dict | None:
+    """Último run validado de un territorio publicable: los gemelos `congreso350_*` (mapa 350) quedan fuera."""
+    def publicable(r: dict) -> bool:
+        return bool(r.get("run_id")) and not str(r.get("territory_id", "")).startswith("congreso350_")
+    pool = [r for r in complete if publicable(r)] or [r for r in territorial if publicable(r)]
+    return max(pool, key=lambda r: int(r["run_id"]), default=None)
 
 
 def render_readme_block(state: dict) -> str:

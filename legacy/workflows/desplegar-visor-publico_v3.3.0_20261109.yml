@@ -1,0 +1,145 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz humana de publicación
+# VERSIÓN: 3.3.0
+# NOMBRE: Publicación manual desacoplada del cálculo territorial
+# ESTADO: candidato
+# QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
+# CAMBIOS 3.0.3: T-10, paso «Credencial de registro» antes de registrar en main: con los secretos
+#   DDD_REGISTRO_APP_ID/KEY empuja con la app propia (exenta del ruleset); sin ellos, github.token.
+# CAMBIOS 3.0.4: la credencial de registro borra también las entradas includeIf de actions/checkout v6;
+#   con ellas git enviaba dos Authorization (HTTP 400, run 41324108794).
+# CAMBIOS 3.1.0: T-27 fase c, `scenario_id` y `scenario_strategy` opcionales: la ejecución se promueve como escenario no canónico (solo adición).
+# CAMBIOS 3.2.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan. Solo si es la 05 directa (no la llamada desde la 00).
+# CAMBIOS 3.3.0: T-87, entrada `source_sha` (solo workflow_call, desde «05 Cadena de Publicación»): la promoción exige que
+#   ese commit sea ancestro del main vigente, el mismo sha que firma la versión del mapa.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.2.0_20261108.yml
+# CAMBIOS: sin run explícito, solo promueve latest_validated si conserva artefactos ddd-*; si caducaron publica el registro durable.
+# MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
+# FECHA: 2026-10-29
+name: 05 Publicación del Visor
+
+on:
+  workflow_call:
+    inputs:
+      pagina_publicar: {required: false, type: string, default: Sitio completo}
+      production_run_id: {required: false, type: string, default: ''}
+      scenario_id: {required: false, type: string, default: ''}
+      scenario_strategy: {required: false, type: string, default: ''}
+      source_sha: {required: false, type: string, default: ''}
+  workflow_dispatch:
+    inputs:
+      pagina_publicar:
+        description: Página a publicar
+        required: true
+        default: Dashboard operativo
+        type: choice
+        options:
+          - Dashboard operativo
+          - Visor territorial
+          - Sitio completo
+      production_run_id:
+        description: Run territorial certificado a promover sin recalcular
+        required: false
+        default: ''
+        type: string
+      scenario_id:
+        description: Opcional. Promueve el run como escenario no canónico con este identificador (p. ej. gerrychain-50-<run>)
+        required: false
+        default: ''
+        type: string
+      scenario_strategy:
+        description: Opcional, junto con scenario_id. Canónico, GerryChain, GerryChain 25 o GerryChain 50
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+
+jobs:
+  preparar_publicacion:
+    name: Preparar promoción web
+    environment: ${{ (github.event_name == 'workflow_dispatch' && github.actor != 'github-actions[bot]' && github.actor != 'ddd-registro[bot]' && github.workflow == '05 Publicación del Visor') && 'produccion' || '' }}  # T-41: clic del propietario solo en disparo manual humano
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-shared-operational-state
+      cancel-in-progress: false
+      queue: max
+    outputs:
+      source_ref: ${{ steps.resolve.outputs.source_ref }}
+      production_run_id: ${{ steps.resolve.outputs.production_run_id }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          token: ${{ github.token }}
+      - name: Credencial de registro
+        shell: bash
+        env:
+          APP_ID: ${{ secrets.DDD_REGISTRO_APP_ID }}
+          APP_KEY: ${{ secrets.DDD_REGISTRO_APP_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${APP_ID:-}" || -z "${APP_KEY:-}" ]]; then echo "Registro con github.token (sin app propia)."; exit 0; fi
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now="$(date +%s)"; key="$(mktemp)"; printf '%s\n' "$APP_KEY" > "$key"
+          unsigned="$(printf '{"alg":"RS256","typ":"JWT"}' | b64).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' $((now-60)) $((now+540)) "$APP_ID" | b64)"
+          jwt="$unsigned.$(printf '%s' "$unsigned" | openssl dgst -sha256 -sign "$key" | b64)"; rm -f "$key"
+          auth=(-H "Authorization: Bearer $jwt" -H "Accept: application/vnd.github+json")
+          inst="$(curl -fsS "${auth[@]}" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/installation" | jq -r .id)"
+          token="$(curl -fsS -X POST "${auth[@]}" "$GITHUB_API_URL/app/installations/$inst/access_tokens" | jq -r .token)"
+          [[ -n "$token" && "$token" != null ]] || { echo "::error::La app de registro no devolvió token."; exit 1; }
+          echo "::add-mask::$token"
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          for inc in $(git config --local --name-only --get-regexp '^includeIf\.gitdir:' || true); do git config --local --unset-all "$inc" || true; done
+          git config --local http.https://github.com/.extraheader "AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)"
+          echo "Registro con la app propia (exenta en el ruleset proteger-main)."
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: resolve
+        name: Regenerar promoción compartida desde el HEAD vigente
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_PAGE: ${{ inputs.pagina_publicar }}
+          PRODUCTION_RUN_ID_OVERRIDE: ${{ inputs.production_run_id }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${SOURCE_SHA:-}" ]]; then
+            rel="$(gh api "repos/$GITHUB_REPOSITORY/compare/$SOURCE_SHA...$(git rev-parse HEAD)" --jq .status 2>/dev/null || echo error)"
+            [[ "$rel" == ahead || "$rel" == identical ]] || { echo "::error::SOURCE_SHA_NO_ES_ANCESTRO_DE_MAIN=$SOURCE_SHA ($rel)"; exit 1; }
+          fi
+          mkdir -p .ddd-publication
+          source_ref="$(python -m herramientas.persistir_estado_operativo_compartido \
+            --root-dir . --edition 2025 --target-branch main --sync-dashboard-assets)"
+          cp orchestracion/estado_operativo.json .ddd-publication/status.json
+          production_run_id="$PRODUCTION_RUN_ID_OVERRIDE"
+          if [[ -z "$production_run_id" ]]; then
+            production_run_id="$(jq -r '.latest_validated.run_id // empty' .ddd-publication/status.json)"
+            if [[ -n "$production_run_id" ]]; then
+              live="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$production_run_id/artifacts?per_page=100" \
+                --jq '[.artifacts[] | select(.expired == false and (.name | startswith("ddd-")))] | length' 2>/dev/null || echo 0)"
+              if [[ "$live" == "0" ]]; then
+                echo "::warning::latest_validated $production_run_id sin artefactos vivos; se publica solo el registro durable."
+                production_run_id=""
+              fi
+            fi
+          fi
+          echo "source_ref=$source_ref" >> "$GITHUB_OUTPUT"
+          echo "production_run_id=$production_run_id" >> "$GITHUB_OUTPUT"
+
+  publicar:
+    name: Desplegar página seleccionada
+    needs: preparar_publicacion
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    secrets: inherit
+    with:
+      source_ref: ${{ needs.preparar_publicacion.outputs.source_ref }}
+      production_run_id: ${{ needs.preparar_publicacion.outputs.production_run_id }}
+      scenario_id: ${{ inputs.scenario_id }}
+      scenario_strategy: ${{ inputs.scenario_strategy }}
+      ensemble_release_tag: ''
+      target_page: ${{ inputs.pagina_publicar }}

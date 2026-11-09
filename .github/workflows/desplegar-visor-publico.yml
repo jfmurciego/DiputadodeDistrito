@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.3.0
+# VERSIÓN: 3.4.0
 # NOMBRE: Publicación manual desacoplada del cálculo territorial
 # ESTADO: candidato
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
@@ -12,7 +12,9 @@
 # CAMBIOS 3.2.0: T-41, el job de entrada declara environment produccion (revisor humano) solo en disparo manual de una persona; bots y app ddd-registro no esperan. Solo si es la 05 directa (no la llamada desde la 00).
 # CAMBIOS 3.3.0: T-87, entrada `source_sha` (solo workflow_call, desde «05 Cadena de Publicación»): la promoción exige que
 #   ese commit sea ancestro del main vigente, el mismo sha que firma la versión del mapa.
-# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.2.0_20261108.yml
+# CAMBIOS 3.4.0: T-125, sin production_run_id la 05 es «solo sitio»: despliega v1+v2 con el registro tal cual y NO resuelve latest_validated
+#   (promovía el último run de cualquier territorio, también de los gemelos congreso350_*); añadir entradas exige un run explícito.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v3.3.0_20261109.yml
 # CAMBIOS: sin run explícito, solo promueve latest_validated si conserva artefactos ddd-*; si caducaron publica el registro durable.
 # MOTIVO: latest_validated (Aragón M08 35710908574) ya no tiene artefactos y bloqueaba toda publicación con EXECUCION_SOLICITADA_SIN_EVIDENCIA_GENERADA.
 # FECHA: 2026-10-29
@@ -118,15 +120,7 @@ jobs:
           cp orchestracion/estado_operativo.json .ddd-publication/status.json
           production_run_id="$PRODUCTION_RUN_ID_OVERRIDE"
           if [[ -z "$production_run_id" ]]; then
-            production_run_id="$(jq -r '.latest_validated.run_id // empty' .ddd-publication/status.json)"
-            if [[ -n "$production_run_id" ]]; then
-              live="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$production_run_id/artifacts?per_page=100" \
-                --jq '[.artifacts[] | select(.expired == false and (.name | startswith("ddd-")))] | length' 2>/dev/null || echo 0)"
-              if [[ "$live" == "0" ]]; then
-                echo "::warning::latest_validated $production_run_id sin artefactos vivos; se publica solo el registro durable."
-                production_run_id=""
-              fi
-            fi
+            echo "Sin production_run_id: modo solo sitio (se despliega con el registro durable actual; no se añaden entradas)."
           fi
           echo "source_ref=$source_ref" >> "$GITHUB_OUTPUT"
           echo "production_run_id=$production_run_id" >> "$GITHUB_OUTPUT"
