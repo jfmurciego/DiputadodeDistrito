@@ -119,6 +119,38 @@ class Composicion(unittest.TestCase):
         self.assertEqual(e["secciones"], 4)
         self.assertEqual(e["sha256_csv"], ao.cm.sha256(ruta.read_bytes()))
 
+    def _registro(self, run):
+        reg = self.root / ao.cm.REGISTRO_VISOR.relative_to(ao.cm.ROOT)
+        reg.parent.mkdir(parents=True, exist_ok=True)
+        reg.write_text(json.dumps({"products": [{"kind": "canonical_m06", "territory_id": "congreso_huesca", "run_id": run,
+                                                  "blob_sha": "b" * 40, "sha256": "c" * 64}]}))
+
+    def test_run_vigente_se_promueve_a_canonico(self):
+        self._registro("77")
+        est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (2, 400)})
+        e = ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
+        canon = self.root / "datos/composicion/congreso_huesca.csv"
+        self.assertEqual(canon.read_bytes(), (self.root / e["ruta"]).read_bytes())
+        t = json.loads((self.root / "datos/composicion/MANIFEST.json").read_text())["territorios"]["congreso_huesca"]
+        self.assertEqual(t, {"run_id": "77", "blob_sha": "b" * 40, "sha256_m06": "c" * 64, "secciones": 4, "sha256_csv": e["sha256_csv"]})
+        self.assertFalse(ao.promover_canonica("congreso_huesca", "77", self.root))  # idempotente
+
+    def test_run_no_vigente_no_toca_el_canonico(self):
+        self._registro("99")
+        est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (2, 400)})
+        ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
+        self.assertFalse((self.root / "datos/composicion/congreso_huesca.csv").exists())
+
+    def test_csv_archivado_alterado_no_se_promueve(self):
+        self._registro("77")
+        est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (2, 400)})
+        e = ao.escribir_composicion(est, "congreso_huesca", "77", self.root)
+        (self.root / "datos/composicion/congreso_huesca.csv").unlink()
+        (self.root / e["ruta"]).write_text("seccion,distrito,poblacion\n2200101001,0,1\n")
+        with self.assertRaises(ValueError):
+            ao.promover_canonica("congreso_huesca", "77", self.root)
+        self.assertFalse((self.root / "datos/composicion/congreso_huesca.csv").exists())
+
     def test_no_cuadra_no_escribe(self):
         est = _estado(self.root / "est", trp.COMP, {0: (2, 500), 1: (3, 400)})
         with self.assertRaises(ValueError):
