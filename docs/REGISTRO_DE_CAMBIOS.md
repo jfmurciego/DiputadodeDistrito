@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.239
+Versión: 1.0.240
 Fecha: 2026-11-09
-Alcance: estado — Tabla verde/amarillo/rojo por tema en ESTADO.md
+Alcance: T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-09_estado-semaforo.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.238_registro_20261109.md
+Cambios/motivo: entrada docs/registro/2026-11-09_t134-plan-sin-shapely.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.239_registro_20261109.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.238_registro_20261109.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.240 · [2026-11-09 — T-134 — El plan del Gestor vuelve a funcionar con solo PyYAML](registro/2026-11-09_t134-plan-sin-shapely.md)
 - 1.0.239 · [2026-11-09 — estado — Tabla verde/amarillo/rojo por tema en ESTADO.md](registro/2026-11-09_estado-semaforo.md)
 - 1.0.238 · [2026-11-09 — T-133 — El Gestor lanza el histórico autonómico dentro de la campaña completa](registro/2026-11-09_t133-cablear-gestor.md)
 - 1.0.237 · [2026-11-09 — T-133 — Paso A del histórico autonómico con puerta (`historico_autonomico.py`)](registro/2026-11-09_t133-paso-a-autonomico.md)
