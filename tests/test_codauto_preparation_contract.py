@@ -158,16 +158,14 @@ class CodautoPreparationContractTests(unittest.TestCase):
             manual,
             [
                 "activacion-por-eleccion.yml",
-                "archivar-artefactos-r2.yml",  # T-47 archivista R2
                 "bateria-motor.yml",  # T-132 batería del motor
                 "cadena-publicacion.yml",  # T-87 cadena 05 + versión de mapa
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
-                "extraer-composicion-m06.yml",  # T-67 composición sección→distrito
                 "generar-alternativas-territoriales.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
-                "metricas-proceso.yml",
+                "mantenimiento-programado.yml",  # T-149: archivo R2, métricas y composición M06
                 "podar-r2.yml",  # T-145 poda R2 con lista aprobada
                 "preparacion-fuentes.yml",
                 "preparacion-legislatura-vigente.yml",
