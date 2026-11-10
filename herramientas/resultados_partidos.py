@@ -45,6 +45,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import datetime
 import hashlib
 import io
 import json
@@ -77,20 +78,35 @@ def sha256(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
 
 
+def _fecha_valida(valor: str, origen: str) -> str:
+    try:
+        if len(valor) != 10 or valor[4] != "-" or valor[7] != "-":
+            raise ValueError
+        datetime.date.fromisoformat(valor)
+    except ValueError:
+        raise ValueError(f"{origen}: fecha no válida {valor!r} (se espera AAAA-MM-DD real)") from None
+    return valor
+
+
 def fecha_generales_2026(ruta: Path = ELECCIONES_2026) -> str:
-    """election_date (AAAA-MM-DD) del universo de las generales de 2026."""
-    return str(yaml.safe_load(ruta.read_text(encoding="utf-8"))["election_date"])
+    """election_date (AAAA-MM-DD) del universo de las generales de 2026; error claro si falta o no es una fecha real."""
+    try:
+        datos = yaml.safe_load(ruta.read_text(encoding="utf-8"))
+    except OSError as e:
+        raise ValueError(f"{ruta.name}: no se puede leer {ruta} ({e})") from None
+    valor = datos.get("election_date") if isinstance(datos, dict) else None
+    if valor in (None, ""):
+        raise ValueError(f"{ruta.name}: falta la clave election_date en {ruta}")
+    return _fecha_valida(str(valor), f"{ruta.name}: election_date")
 
 
 def resolver_fecha(valor: str | None) -> str:
-    """None → FECHA; «2026» → la del YAML de 2026; cualquier otra cosa debe ser AAAA-MM-DD."""
+    """None → FECHA; «2026» → la del YAML de 2026; cualquier otra cosa debe ser una fecha real AAAA-MM-DD."""
     if valor in (None, ""):
         return FECHA
     if valor == "2026":
         return fecha_generales_2026()
-    if len(valor) != 10 or valor[4] != "-" or valor[7] != "-":
-        raise ValueError(f"fecha no válida: {valor!r} (AAAA-MM-DD o «2026»)")
-    return valor
+    return _fecha_valida(valor, "--fecha")
 
 
 def contratos(ruta: Path = CONTRATOS, fecha: str = FECHA) -> dict[str, dict]:

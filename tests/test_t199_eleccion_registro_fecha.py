@@ -7,6 +7,7 @@ import json
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -61,6 +62,28 @@ class Registro(unittest.TestCase):
         self.assertEqual(rpv.eleccion_de(rpv.load_registry(t)["products"][0]), "2026-11-29")
 
 
+class Descriptores(unittest.TestCase):
+    def _descriptores(self, **kw):
+        meta = {"territory_id": "congreso_huesca", "territory_label": "Huesca", "expected_districts": 2,
+                "production_status": {"decision": "PASS"}}
+        with mock.patch.object(rpv, "production_metadata", return_value=meta), \
+                mock.patch.object(rpv, "read_json", return_value={"decision": "PASS"}), \
+                mock.patch.object(rpv, "certification_status", return_value="CERTIFIED"), \
+                mock.patch.object(rpv, "first", side_effect=lambda root, pat: Path("x.zip") if "m08" in pat else None):
+            return rpv.production_descriptors(Path("."), "7", **kw)
+
+    def test_propaga_la_eleccion(self):
+        d = self._descriptores(election_date="2026-11-29", election_id="congreso_huesca_2026-11-29")
+        self.assertEqual((d[0]["election_date"], d[0]["election_id"]), ("2026-11-29", "congreso_huesca_2026-11-29"))
+
+    def test_sin_eleccion_no_añade_campos(self):
+        self.assertNotIn("election_date", self._descriptores()[0])
+
+    def test_eleccion_imposible_falla(self):
+        with self.assertRaises(ValueError):
+            self._descriptores(election_date="2026-99-99")
+
+
 class Fecha(unittest.TestCase):
     def test_fecha_2026_sale_del_yaml(self):
         self.assertEqual(rp.fecha_generales_2026(), "2026-11-29")
@@ -69,6 +92,21 @@ class Fecha(unittest.TestCase):
         self.assertEqual(rp.resolver_fecha("2019-11-10"), "2019-11-10")
         with self.assertRaises(ValueError):
             rp.resolver_fecha("ayer")
+
+    def test_yaml_sin_fecha_o_con_fecha_imposible(self):
+        d = Path(tempfile.mkdtemp())
+        sin, mala, ausente = d / "sin.yaml", d / "mala.yaml", d / "no_existe.yaml"
+        sin.write_text("schema: x\n", encoding="utf-8")
+        mala.write_text("election_date: '2026-99-99'\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "election_date"):
+            rp.fecha_generales_2026(sin)
+        with self.assertRaisesRegex(ValueError, "2026-99-99"):
+            rp.fecha_generales_2026(mala)
+        with self.assertRaisesRegex(ValueError, "no_existe.yaml"):
+            rp.fecha_generales_2026(ausente)
+        for malo in ("2026-99-99", "2026-02-30", "2026/11/29"):
+            with self.assertRaises(ValueError, msg=malo):
+                rp.resolver_fecha(malo)
 
     def test_contratos_por_fecha(self):
         d = Path(tempfile.mkdtemp()) / "c.yaml"
