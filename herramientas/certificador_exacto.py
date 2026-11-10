@@ -3,11 +3,16 @@
 """Certificador exacto (T-136): programación entera con contigüidad para una circunscripción.
 
 PROYECTO: Diputado de Distrito
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Certificador exacto con modelo ligero
+VERSIÓN: 1.3.0
+NOMBRE DE VERSIÓN: Certificador exacto con núcleos cerrados
 FECHA: 2026-11-10
 ESTADO: candidato (diagnóstico; no genera productos ni toca el motor)
-CAMBIOS: 1.2.0 — modelo ligero (T-164, D-48): --modelo ligero da dos cotas que no exigen resolver el modelo completo.
+CAMBIOS: 1.3.0 — R-NUCLEO (T-175): las secciones leen district_id y ddd_closed_urban; el adaptador de núcleos desde
+  las unidades (ddd_motor2.adaptadores.nucleos_desde_unidades, por unidad M04: cerrada si todas sus secciones lo son)
+  marca Unidad.nucleo_cerrado. En el modelo, cada núcleo es un solo grupo de átomos y su distrito no admite otros
+  átomos; los superátomos no mezclan núcleo y resto. La relajación fluida lo ignora (sigue siendo cota válida).
+  Sin ddd_closed_urban en la entrada (p. ej. M01) no hay núcleos y se avisa. --sin-nucleos para comparar.
+  1.2.0 — modelo ligero (T-164, D-48): --modelo ligero da dos cotas que no exigen resolver el modelo completo.
   Cota superior: agrega átomos contiguos en superátomos (población <= grano × objetivo, dentro de un mismo distrito de
   la pista si la hay) y resuelve ese modelo restringido; sus planes son válidos en el modelo completo (se juzgan con
   el núcleo) y, con pista, el plan de la pista sigue siendo factible, así que el óptimo restringido no la empeora.
@@ -21,10 +26,11 @@ CAMBIOS: 1.2.0 — modelo ligero (T-164, D-48): --modelo ligero da dos cotas que
   La atomicidad de las unidades M04 se aplica con unión-búsqueda (una unidad puede abarcar varios municipios).
   Exención por partición, max_mixed y tolerancia según el Criterio. Solo contigüidad por árbol (flujo y cortes se
   quitan: más lentos en el estudio 1.0.0).
-MOTIVO: 1.2.0 — Madrid (K=59, 3.603 átomos) no resuelve en el modelo monolítico (T-136); hace falta un modelo que
+MOTIVO: 1.3.0 — R-NUCLEO no se aplicaba: faltaba el adaptador de núcleos desde las unidades de partición.
+  1.2.0 — Madrid (K=59, 3.603 átomos) no resuelve en el modelo monolítico (T-136); hace falta un modelo que
   escale y, donde el exacto no llegue, una cota de calidad. 1.1.0 — fallos F1 (Canarias: infactibilidad falsa por leer la provincia del M01, sin DDD_PARTITION ni exenciones por
   partición) y F2 (Cádiz: unidades M04 partidas) que vio T-132; y acuerdo con T-160 de usar el núcleo único.
-ANTERIOR: legacy/herramientas/certificador_exacto_v1.1.0_20261110.py
+ANTERIOR: legacy/herramientas/certificador_exacto_v1.2.0_20261110.py
 QUÉ HACE: lee el contrato, las secciones de M04 y el grafo M03, y plantea en OR-Tools CP-SAT las reglas del núcleo:
   K, población en [suelo, techo] (exenciones), tolerancia dura si el criterio lo pide, contigüidad (árbol padre/nivel
   por átomo), provincia única y cuotas, disciplina municipal R012 con el campo y max_mixed del núcleo. Átomos:
@@ -55,9 +61,10 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from ddd_core.config import load_params_yaml, module_cfg  # noqa: E402
-from ddd_motor2.reglas import Criterio, Problema, Reglas, Unidad, evaluar  # noqa: E402
+from ddd_motor2.adaptadores import VERDADEROS, con_nucleos as con_nucleos_de, nucleos_desde_unidades  # noqa: E402
+from ddd_motor2.reglas import Criterio, ErrorDatos, Problema, Reglas, Unidad, evaluar  # noqa: E402
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 
 
 # --------------------------------------------------------------------------- datos -> núcleo
@@ -94,14 +101,16 @@ def _vacio(v) -> bool:
     return v is None or (isinstance(v, float) and math.isnan(v)) or str(v).strip() in ("", "nan", "None")
 
 
-def leer_secciones(path: str, cfg: dict, criterio: Criterio, con_unidades: bool = True):
-    """Unidades del núcleo (una por sección) y unidad M04 de cada sección (ddd_unit_id, si se pide)."""
+def leer_secciones(path: str, cfg: dict, criterio: Criterio, con_unidades: bool = True, con_nucleos: bool = True):
+    """Unidades del núcleo (una por sección) y unidad M04 de cada sección (ddd_unit_id, si se pide). Con `con_nucleos`
+    y las columnas district_id y ddd_closed_urban, las secciones de cada núcleo cerrado llevan nucleo_cerrado."""
     from ddd_core.m04_seed_engine_v7411 import load_geo  # lee ddd_unit_id escalar aunque OGR lo guarde como lista
 
     c = campos(cfg)
     g = load_geo(path)
     filas = g.drop(columns=[x for x in ("geometry",) if x in g.columns]).to_dict("records")
-    unidades, unidad_m04 = [], {}
+    unidades, unidad_m04, distrito_ref, cerrada_sec = [], {}, {}, {}
+    hay_nucleos = con_nucleos and "ddd_closed_urban" in g.columns and "district_id" in g.columns
     for r in filas:
         sid = str(r[c["id"]])
         mun = r.get(c["mun"])
@@ -117,7 +126,29 @@ def leer_secciones(path: str, cfg: dict, criterio: Criterio, con_unidades: bool 
                                unidad_r012=None if _vacio(r012) else str(r012)))
         if con_unidades and not _vacio(r.get("ddd_unit_id")):
             unidad_m04[sid] = str(r["ddd_unit_id"])
+        if hay_nucleos and not _vacio(r.get("district_id")):
+            distrito_ref[sid] = str(r["district_id"])
+            cerrada_sec[sid] = str(r.get("ddd_closed_urban")).strip().lower() in VERDADEROS
+    if hay_nucleos:
+        unidades = list(con_nucleos_de(unidades, nucleos_de_secciones(distrito_ref, cerrada_sec, unidad_m04)))
     return unidades, unidad_m04
+
+
+def nucleos_de_secciones(distrito_ref: dict[str, str], cerrada: dict[str, bool],
+                         unidad_m04: dict[str, str]) -> dict[str, str]:
+    """{sección: núcleo}: el adaptador del núcleo sobre las unidades de partición (unidad M04, o la sección si no
+    tiene). Una unidad es cerrada si todas sus secciones lo son; su distrito de referencia ha de ser único."""
+    dist_u: dict = defaultdict(set)
+    cerr_u: dict = defaultdict(lambda: True)
+    for s, d in distrito_ref.items():
+        u = unidad_m04.get(s, s)
+        dist_u[u].add(d)
+        cerr_u[u] = cerr_u[u] and bool(cerrada.get(s))
+    partidas = sorted(u for u, ds in dist_u.items() if len(ds) > 1)
+    if partidas:
+        raise ErrorDatos(f"unidades M04 en varios distritos de referencia: {len(partidas)} (p. ej. {partidas[0]})")
+    nuc_u = nucleos_desde_unidades({u: next(iter(ds)) for u, ds in dist_u.items()}, dict(cerr_u))
+    return {s: nuc_u[unidad_m04.get(s, s)] for s in distrito_ref if unidad_m04.get(s, s) in nuc_u}
 
 
 def leer_grafo(path: str, ids: set[str]) -> list[tuple[str, str]]:
@@ -187,6 +218,14 @@ def construir_atomos(problema: Problema, reglas: Reglas, unidad_m04: dict[str, s
     for ids in por_u.values():
         for s in ids[1:]:
             unir(ids[0], s)
+    if reglas.nucleos_cerrados:  # R-NUCLEO: todo el núcleo en un mismo distrito (y solo él: en resolver)
+        por_n: dict = defaultdict(list)
+        for u in problema.unidades:
+            if u.nucleo_cerrado is not None:
+                por_n[u.nucleo_cerrado].append(u.id)
+        for ids in por_n.values():
+            for s in ids[1:]:
+                unir(ids[0], s)
     grupos: dict = defaultdict(list)
     for u in problema.unidades:
         grupos[raiz(u.id)].append(u.id)
@@ -203,7 +242,8 @@ def construir_atomos(problema: Problema, reglas: Reglas, unidad_m04: dict[str, s
             atomo_de.update({s: len(atomos) for s in comp})
             atomos.append({"secs": comp, "pop": sum(u.poblacion for u in us), "grupo": g, "claves": dict(claves),
                            "provs": {u.provincia for u in us}, "parts": {u.particion for u in us},
-                           "muns": set().union(*(u.municipios() for u in us))})
+                           "muns": set().union(*(u.municipios() for u in us)),
+                           "nucleos": ({u.nucleo_cerrado for u in us} if reglas.nucleos_cerrados else {None})})
     aristas = sorted({tuple(sorted((atomo_de[a], atomo_de[b]))) for a, vs in adj.items() for b in vs
                       if atomo_de[a] != atomo_de[b]})
     return atomos, aristas
@@ -261,6 +301,17 @@ def resolver(problema: Problema, reglas: Reglas, unidad_m04: dict[str, str] | No
             for k in range(K):
                 if (idx[0], k) in x:
                     m.Add(x[j, k] == x[idx[0], k])
+    # R-NUCLEO: el distrito de un núcleo cerrado no admite átomos de fuera del núcleo (todo el núcleo ya va junto).
+    nucleos = sorted({nu for a in atomos for nu in a.get("nucleos", {None}) if nu is not None})
+    for nu in nucleos:
+        ancla = min(i for i, a in enumerate(atomos) if nu in a["nucleos"])
+        fuera = [j for j, a in enumerate(atomos) if a.get("nucleos", {None}) != {nu}]
+        for k in range(K):
+            if (ancla, k) in x:
+                xs = [x[j, k] for j in fuera if (j, k) in x]
+                if xs:
+                    m.Add(sum(xs) == 0).OnlyEnforceIf(x[ancla, k])
+    base["nucleos_cerrados"] = len(nucleos)
     total = problema.poblacion_total
 
     def tiene(pred, k):
@@ -491,7 +542,8 @@ def agregar_atomos(atomos: list[dict], aristas: list[tuple[int, int]], tope, pis
 
     def etiqueta(i):
         a = atomos[i]
-        return (tuple(sorted(map(str, a["provs"]))), pista.get(a["secs"][0]) if pista else None)
+        return (tuple(sorted(map(str, a["provs"]))), pista.get(a["secs"][0]) if pista else None,
+                tuple(sorted(map(str, a.get("nucleos", {None})))))
 
     sup_de, grupos = {}, []
     for i in range(len(atomos)):  # orden de índice: determinista
@@ -535,7 +587,8 @@ def agregar_atomos(atomos: list[dict], aristas: list[tuple[int, int]], tope, pis
                        "pop": sum(atomos[i]["pop"] for i in g), "grupo": f"S{raiz(j)}", "claves": dict(claves),
                        "provs": set().union(*(atomos[i]["provs"] for i in g)),
                        "parts": set().union(*(atomos[i]["parts"] for i in g)),
-                       "muns": set().union(*(atomos[i]["muns"] for i in g))})
+                       "muns": set().union(*(atomos[i]["muns"] for i in g)),
+                       "nucleos": set().union(*(atomos[i].get("nucleos", {None}) for i in g))})
     # Orden por primera sección (la ruptura de simetría usa el índice); aristas entre superátomos distintos.
     orden = sorted(range(len(nuevos)), key=lambda j: nuevos[j]["secs"][0])
     nuevo_idx = {j: t for t, j in enumerate(orden)}
@@ -786,6 +839,8 @@ def main(argv=None) -> int:
     ap.add_argument("--grafo", required=True)
     ap.add_argument("--secciones", required=True, help="GeoJSON de secciones del M04 (o M05/M06), con ddd_unit_id")
     ap.add_argument("--sin-unidades", action="store_true", help="ignora ddd_unit_id (solo reglas de la validación)")
+    ap.add_argument("--sin-nucleos", action="store_true",
+                    help="no marca núcleos cerrados (R-NUCLEO no se aplica; solo para comparar)")
     ap.add_argument("--perfil", choices=("nucleo", "produccion"), default="nucleo",
                     help="nucleo: Criterio aprobado (D-44); produccion: compatibilidad con validar_ejecucion 1.3.5")
     ap.add_argument("--referencia", action="append", default=[], help="composición a juzgar (nombre=ruta o ruta)")
@@ -813,11 +868,16 @@ def main(argv=None) -> int:
             cfg["validation"]["population_floor_ratio"] = a.suelo_ratio
     criterio = Criterio.compatibilidad_produccion() if a.perfil == "produccion" else Criterio()
     reglas = Reglas.desde_contrato(cfg, criterio)
-    unidades, unidad_m04 = leer_secciones(a.secciones, cfg, criterio, con_unidades=not a.sin_unidades)
+    unidades, unidad_m04 = leer_secciones(a.secciones, cfg, criterio, con_unidades=not a.sin_unidades,
+                                          con_nucleos=not a.sin_nucleos)
     problema = Problema(tuple(unidades), tuple(leer_grafo(a.grafo, {u.id for u in unidades})))
     reglas.comprobar_datos(problema)
     pista = leer_composicion(a.pista) if a.pista else None
-    res = {"version": VERSION, "params": a.params, "perfil": a.perfil, "unidades_m04": len(set(unidad_m04.values()))}
+    res = {"version": VERSION, "params": a.params, "perfil": a.perfil, "unidades_m04": len(set(unidad_m04.values())),
+           "nucleos_cerrados_entrada": len({u.nucleo_cerrado for u in unidades if u.nucleo_cerrado}),
+           "r_nucleo": bool(reglas.nucleos_cerrados and not a.sin_nucleos)}
+    if res["r_nucleo"] and not res["nucleos_cerrados_entrada"]:
+        res["aviso_nucleos"] = "la entrada no trae núcleos cerrados (sin district_id/ddd_closed_urban o ninguno)"
     if a.modelo == "ligero":
         res.update(certificar_ligero(problema, reglas, unidad_m04, tiempo=a.tiempo, hilos=a.hilos,
                                      objetivo=a.objetivo, pista=pista, grano=a.grano,
