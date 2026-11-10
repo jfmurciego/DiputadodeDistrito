@@ -92,27 +92,33 @@ class Interfaz(unittest.TestCase):
         self.assertIsNone(fila_guardada("sintetico", tmp, 3, cfg=e.cfg, funcion="A"))  # otra función: se recalcula
 
 
-class FueraPorCircunscripcion(unittest.TestCase):
-    """T-211: con cuotas de varias provincias, lo publicado (fuera_tolerancia, desvio_max) se mide como la clave:
-    contra el objetivo de cada circunscripción. A y B en la 22 (200 hab., 1 escaño); C y D en la 44 (120, 1 escaño).
-    Objetivo regional 160: los dos distritos quedan fuera (±25 %); por circunscripción, ninguno."""
+class FueraDelContrato(unittest.TestCase):
+    """T-211 (D-68): con cuotas de varias provincias, el primer término de D8 es el recuento del contrato (objetivo
+    regional, como reglas.evaluar), no el de la circunscripción. Provincia 22 (2 escaños, 400 hab.): A-B-C-D-E en línea;
+    provincia 44 (1 escaño): F, 230 hab. Objetivo regional 210 ± 21; de la 22, 200 ± 20.
+    Canónico: corte tras C (200/200, ninguno fuera). Cadena: corte tras B (186/214) por una frontera corta: dentro de
+    tolerancia de su circunscripción (−7 %), pero 186 queda fuera del contrato (−11,4 %). Con 1.3.0 ganaba la cadena."""
 
-    POB = {"A": 100, "B": 100, "C": 60, "D": 60}
-    PROV = {"A": "22", "B": "22", "C": "44", "D": "44"}
+    POB = {"A": 86, "B": 100, "C": 14, "D": 100, "E": 100, "F": 230}
+    PROV = {"A": "22", "B": "22", "C": "22", "D": "22", "E": "22", "F": "44"}
+    BORDE = {("A", "B"): 3000.0, ("B", "C"): 100.0, ("C", "D"): 3000.0, ("D", "E"): 3000.0, ("E", "F"): 3000.0}
+    CANONICO = {"A": "1", "B": "1", "C": "1", "D": "2", "E": "2", "F": "3"}
+    CADENA = {"A": "1", "B": "1", "C": "2", "D": "2", "E": "2", "F": "3"}
 
     def competir(self, funcion):
         tmp = Path(tempfile.mkdtemp())
-        cfg = {"validation": {**CFG["validation"], "population_floor_ratio": 0.5, "population_cap_ratio": 1.5,
-                              "province_districts": {"22": 1, "44": 1}}}
+        cfg = {"validation": {**CFG["validation"], "expected_districts": 3, "population_floor_ratio": 0.5,
+                              "population_cap_ratio": 1.5, "province_districts": {"22": 2, "44": 1}}}
         secc = {u: f"{self.PROV[u]}0010100{i}" for i, u in enumerate(sorted(self.POB))}
         g = tmp / "grafo.json"
         g.write_text(json.dumps({"nodes": list(secc.values()), "edges": [
-            {"u": secc[a], "v": secc[b], "edge_type": "geometric", "shared_border_m": 100.0}
-            for a, b in (("A", "B"), ("B", "C"), ("C", "D"))]}))
+            {"u": secc[a], "v": secc[b], "edge_type": "geometric", "shared_border_m": w}
+            for (a, b), w in self.BORDE.items()]}))
         pob, prov = self.POB, self.PROV
 
         class Gen:
-            nombre = "canonico"
+            def __init__(self, nombre, plan):
+                self.nombre, self.plan = nombre, plan
 
             def generar(self, entrada, semilla, destino):
                 ruta = Path(destino) / "comp.csv"
@@ -122,23 +128,26 @@ class FueraPorCircunscripcion(unittest.TestCase):
                     w.writerow(["CUSEC_KEY", "district_id", "section_pop", "CPRO", "CUMUN", "ddd_unit_id",
                                 "ddd_closed_urban"])
                     for u in sorted(pob):
-                        w.writerow([secc[u], "1" if prov[u] == "22" else "2", pob[u], prov[u], secc[u][:5], u, "0"])
+                        w.writerow([secc[u], self.plan[u], pob[u], prov[u], secc[u][:5], u, "0"])
                 return Salida(ruta)
-        return competir(EntradaTerritorio("sintetico", cfg, g), Gen(), Gen(), [], tmp / "out", exhaustivo=False,
-                        funcion=funcion)
+        return competir(EntradaTerritorio("sintetico", cfg, g), Gen("canonico", self.CANONICO),
+                        Gen("cadena", self.CADENA), [5], tmp / "out", exhaustivo=False, funcion=funcion)
 
-    def test_d8_publica_lo_que_elige(self):
+    def test_d8_no_elige_mas_fuera_que_el_canonico(self):
         r = self.competir("D8")
-        c = r.canonico
-        self.assertEqual(c.estado, "VALIDO", c.a_dict())
-        self.assertEqual((c.fuera_tolerancia, c.desvio_max), (0, 0))
-        self.assertEqual(c.natural[0], c.fuera_tolerancia)  # la clave y lo publicado, con la misma medida
-        self.assertEqual(c.extra["metricas_regionales"], {"fuera_tolerancia": 2, "desvio_max": 0.25})
+        cad = next(c for c in r.candidatos if c.id == "cadena-s5")
+        self.assertTrue(all(c.estado == "VALIDO" for c in r.candidatos), [c.a_dict() for c in r.candidatos])
+        self.assertEqual((r.canonico.fuera_tolerancia, cad.fuera_tolerancia), (0, 1))
+        self.assertEqual((r.canonico.natural[0], cad.natural[0]), (0, 1))  # primer término = recuento del contrato
+        self.assertLess(cad.natural[3], r.canonico.natural[3])  # la cadena corta menos frontera…
+        self.assertEqual(r.ganador.id, "canonico")  # …pero gana la población dentro de tolerancia
+        self.assertEqual(cad.extra["metricas_circunscripcion"]["fuera_tolerancia"], 0)
+        self.assertLessEqual(r.ganador.fuera_tolerancia, r.canonico.fuera_tolerancia)
 
-    def test_a_no_cambia(self):
-        c = self.competir("A").canonico
-        self.assertEqual((c.fuera_tolerancia, float(c.desvio_max)), (2, 0.25))
-        self.assertNotIn("metricas_regionales", c.extra)
+    def test_a_igual(self):
+        r = self.competir("A")
+        self.assertEqual(r.ganador.id, "canonico")
+        self.assertNotIn("metricas_circunscripcion", r.canonico.extra)
 
 
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "sin gerrychain")
@@ -212,8 +221,8 @@ class AutonomicaReal(unittest.TestCase):
         c = Candidato("canonico", "canonico", None, 0)
         juzgar(c, Salida(comp), e, Criterio(), comp, "D8")
         self.assertEqual(c.estado, "VALIDO", c.detalle)
-        self.assertEqual(c.fuera_tolerancia, c.natural[0])
-        self.assertNotEqual(c.extra["metricas_regionales"]["fuera_tolerancia"], c.fuera_tolerancia)
+        self.assertEqual(c.fuera_tolerancia, c.natural[0])  # publicado = primer término = contrato
+        self.assertNotEqual(c.extra["metricas_circunscripcion"]["fuera_tolerancia"], c.fuera_tolerancia)
 
 
 if __name__ == "__main__":
