@@ -170,9 +170,9 @@ jobs:
             if [[ "$files" == "todo" ]] || grep -qE "$propio" <<<"$files" || grep -qE "$2" <<<"$files"; then echo "$1=true" >> "$GITHUB_OUTPUT"; else echo "$1=false" >> "$GITHUB_OUTPUT"; fi
           }
           marca contratos "$contratos"; marca docs "$docs"; marca productos "$productos"
-          # Escritores de main: solo en push, con su base real y sin el disparo por el propio fichero.
+          # Escritores de main: solo en push, sin el disparo por el propio fichero; sin base comparable corren todos (son idempotentes).
           escribe() { # nombre regex
-            if [[ "$EVENTO" == "push" && "$files" != "todo" ]] && grep -qE "$2" <<<"$files"; then echo "$1=true" >> "$GITHUB_OUTPUT"; else echo "$1=false" >> "$GITHUB_OUTPUT"; fi
+            if [[ "$EVENTO" == "push" ]] && { [[ "$files" == "todo" ]] || grep -qE "$2" <<<"$files"; }; then echo "$1=true" >> "$GITHUB_OUTPUT"; else echo "$1=false" >> "$GITHUB_OUTPUT"; fi
           }
           escribe catalogo '^(orchestracion/(publicaciones_visor|archivo_r2|productos_publicos)\.json|datos_abiertos/INDEX\.json|fuentes/catalogo_oficial\.yaml|configuracion/(catalogo_preparacion|publicaciones)\.yaml|datos/(composicion|resultados)/MANIFEST\.json)$'
           escribe resultados '^(orchestracion/publicaciones_visor\.json|datos/composicion/MANIFEST\.json)$'
@@ -312,7 +312,7 @@ jobs:
   catalogo:
     name: Regenerar catálogo de procedencia
     needs: cambios
-    if: ${{ github.event_name == 'push' && needs.cambios.outputs.catalogo == 'true' }}
+    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.catalogo == 'true') }}
     continue-on-error: true
     concurrency:
       group: ddd-catalogo-procedencia
@@ -366,10 +366,18 @@ jobs:
           done
           exit 1
 
+      - name: Señal visible si el escritor falla (no pone main en rojo)
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          echo "::error title=Escritor de main fallido::Catálogo de procedencia falló en este push; el run sigue en verde por continue-on-error. Revisa el log del job."
+          { echo "### ❌ Catálogo de procedencia falló"; echo; echo "Push \`$GITHUB_SHA\` · el job tiene continue-on-error para no teñir de rojo la batería; el fallo es real."; } >> "$GITHUB_STEP_SUMMARY"
+
+
   resultados:
     name: Regenerar resultados ligeros
     needs: cambios
-    if: ${{ github.event_name == 'push' && needs.cambios.outputs.resultados == 'true' }}
+    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.resultados == 'true') }}
     continue-on-error: true
     concurrency:
       group: ddd-resultados-ligeros
@@ -425,10 +433,18 @@ jobs:
           done
           exit 1
 
+      - name: Señal visible si el escritor falla (no pone main en rojo)
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          echo "::error title=Escritor de main fallido::Resultados ligeros falló en este push; el run sigue en verde por continue-on-error. Revisa el log del job."
+          { echo "### ❌ Resultados ligeros falló"; echo; echo "Push \`$GITHUB_SHA\` · el job tiene continue-on-error para no teñir de rojo la batería; el fallo es real."; } >> "$GITHUB_STEP_SUMMARY"
+
+
   numeracion:
     name: Numerar el registro de cambios
     needs: cambios
-    if: ${{ github.event_name == 'push' && needs.cambios.outputs.numeracion == 'true' }}
+    if: ${{ always() && github.event_name == 'push' && (needs.cambios.result != 'success' || needs.cambios.outputs.numeracion == 'true') }}
     continue-on-error: true
     concurrency:
       group: ddd-registro-numeracion
@@ -485,3 +501,10 @@ jobs:
             sleep $((intento * 5))
           done
           echo "::error::No se pudo empujar la numeración tras 5 intentos."; exit 1
+
+      - name: Señal visible si el escritor falla (no pone main en rojo)
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          echo "::error title=Escritor de main fallido::Numeración del registro falló en este push; el run sigue en verde por continue-on-error. Revisa el log del job."
+          { echo "### ❌ Numeración del registro falló"; echo; echo "Push \`$GITHUB_SHA\` · el job tiene continue-on-error para no teñir de rojo la batería; el fallo es real."; } >> "$GITHUB_STEP_SUMMARY"
