@@ -134,7 +134,10 @@ def _orden_bfs(problema: Problema, adj) -> list[str]:
 def enumerar(problema: Problema, reglas: Reglas, presupuesto: int | None = None, max_planes: int = 1000) -> dict:
     """Recuento exacto de planes válidos si cabe en el presupuesto de nodos."""
     ctx = Contexto.de(problema, reglas)
-    presupuesto = presupuesto or reglas.criterio.presupuesto_nodos
+    if presupuesto is None:
+        presupuesto = reglas.criterio.presupuesto_nodos
+    if presupuesto < 1:
+        raise ValueError("presupuesto de nodos debe ser >= 1")
     orden = _orden_bfs(problema, ctx.adj)
     asig: dict[str, str] = {}
     estado = {"nodos": 0, "agotado": False}

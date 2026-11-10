@@ -406,6 +406,8 @@ class Enumeracion(unittest.TestCase):
         p = _rejilla(random.Random(1), cols=4)
         r = Reglas.desde_contrato(contrato(expected_districts=2, population_floor_ratio=0.1,
                                            population_cap_ratio=1.9, require_single_province_per_district=False))
+        with self.assertRaises(ValueError):
+            enumerar(p, r, presupuesto=0)  # 0 no es «usar el defecto»
         res = enumerar(p, r, presupuesto=5)
         self.assertEqual((res["completo"], res["huella"]), (False, ""))
         d = elegir_metodo(p, r, recuento=res)
