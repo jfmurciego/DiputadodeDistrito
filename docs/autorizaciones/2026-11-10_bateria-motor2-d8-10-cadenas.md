@@ -23,9 +23,9 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 17:33 | Soria (prueba) | batería motor2 D8 N=10, `territorios=congreso_soria` | 42855755112 | SUCCESS: aceptación PARCIAL (solo Soria), 0 no válidos, 0 peores, huella reproducible | 1 / 5 min | 0/1 |
-| 17:39 | los 71 | batería motor2 D8 N=10, `territorios` vacío | 42856811551 | EN_VUELO | 2 / 5 min + en curso | 0/1 |
+| 17:39 | los 71 | batería motor2 D8 N=10, `territorios` vacío | 42856811551 | SUCCESS: aceptación SÍ, 71/71, 0 no válidos, 0 peores, huellas reales correctas (Soria, Álava, Melilla) | 2 / 440 min | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO`. Último uso: —.
+Estado: `COMPLETADA`. 2 ejecuciones, ~440 min de jobs (tope 800). Último uso: 2026-11-10.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas tal como figura en la ficha.»
