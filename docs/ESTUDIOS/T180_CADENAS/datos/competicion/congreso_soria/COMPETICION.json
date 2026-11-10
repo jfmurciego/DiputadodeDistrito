@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_soria",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "b8175563281a6fb245a6ea0c9efe85959bad23bf9b89defab63a35770547c669",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_soria",
+    "ancla": {
+      "population": "c889c07f09a986118f9c2cef8857d3fef52203781efade685d2f45a8ff4e7564",
+      "target_sectioning": "a7cf90e4da32b7c71071dbdbc47c4352b4d6625fc6ee122277ffb5a00cd0eee7"
+    },
+    "n": 20,
+    "semillas": [
+      742637245,
+      1601958493,
+      1275101970,
+      1786713218,
+      1261929401,
+      1448144122,
+      351513364,
+      257098134,
+      1544587625,
+      1053278002,
+      2071354388,
+      94730005,
+      2021929448,
+      1746141924,
+      529919274,
+      990393550,
+      1250112972,
+      1983372306,
+      1918929965,
+      1842469175
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "17ec0461ae17846ae1053ac9f546c1b7b39e00f6a9d10dc809f88447c05e3dd6",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 137.346,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/canonico/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 3.706,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "M05": 1.0,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s742637245",
+      "generador": "gerrychain",
+      "semilla": 742637245,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s742637245/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.732,
+        "juzgar_s": 0.019
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.5,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1601958493",
+      "generador": "gerrychain",
+      "semilla": 1601958493,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1601958493/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.592,
+        "juzgar_s": 0.019
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.3,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1275101970",
+      "generador": "gerrychain",
+      "semilla": 1275101970,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1275101970/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.373,
+        "juzgar_s": 0.018
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 3.2,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1786713218",
+      "generador": "gerrychain",
+      "semilla": 1786713218,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1786713218/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.973,
+        "juzgar_s": 0.018
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.6,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1261929401",
+      "generador": "gerrychain",
+      "semilla": 1261929401,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1261929401/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.733,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.5,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1448144122",
+      "generador": "gerrychain",
+      "semilla": 1448144122,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1448144122/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.469,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 3.4,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s351513364",
+      "generador": "gerrychain",
+      "semilla": 351513364,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s351513364/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.812,
+        "juzgar_s": 0.028
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.5,
+          "M06": 0.7,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s257098134",
+      "generador": "gerrychain",
+      "semilla": 257098134,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s257098134/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.952,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.7,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1544587625",
+      "generador": "gerrychain",
+      "semilla": 1544587625,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1544587625/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.493,
+        "juzgar_s": 0.027
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 3.3,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1053278002",
+      "generador": "gerrychain",
+      "semilla": 1053278002,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1053278002/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.808,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.5,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2071354388",
+      "generador": "gerrychain",
+      "semilla": 2071354388,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s2071354388/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.742,
+        "juzgar_s": 0.017
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.3,
+          "baseline": 0.7,
+          "M05": 3.4,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s94730005",
+      "generador": "gerrychain",
+      "semilla": 94730005,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s94730005/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.475,
+        "juzgar_s": 0.016
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.3,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2021929448",
+      "generador": "gerrychain",
+      "semilla": 2021929448,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s2021929448/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.327,
+        "juzgar_s": 0.018
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.6,
+          "M05": 3.3,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1746141924",
+      "generador": "gerrychain",
+      "semilla": 1746141924,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1746141924/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.466,
+        "juzgar_s": 0.018
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 3.3,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s529919274",
+      "generador": "gerrychain",
+      "semilla": 529919274,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s529919274/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.824,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.5,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s990393550",
+      "generador": "gerrychain",
+      "semilla": 990393550,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s990393550/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.928,
+        "juzgar_s": 0.026
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 3.5,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1250112972",
+      "generador": "gerrychain",
+      "semilla": 1250112972,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1250112972/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.8,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 3.6,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1983372306",
+      "generador": "gerrychain",
+      "semilla": 1983372306,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1983372306/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.589,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.3,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1918929965",
+      "generador": "gerrychain",
+      "semilla": 1918929965,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1918929965/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.529,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.2,
+          "baseline": 0.7,
+          "M05": 3.3,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1842469175",
+      "generador": "gerrychain",
+      "semilla": 1842469175,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "96b1f0b090d6a3bfcc68c955c45e651d6e79821747fe70ac815d0300e957fb06",
+      "composicion": "bateria/competicion/congreso_soria/gerrychain-s1842469175/congreso_soria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "12acf24ba52a59312db7c9ea62c5a6cd013e9d60be5b2032a11e39177dd08e2e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 6.562,
+        "juzgar_s": 0.017
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.1,
+          "baseline": 0.7,
+          "M05": 3.5,
+          "M06": 0.7,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s742637245: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

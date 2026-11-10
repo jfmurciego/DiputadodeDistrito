@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_zaragoza",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "14b1cd7490f150b6bbcead23fe813d0f955e0b7c4b5f9fdd02c999f970a22dd3",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_zaragoza",
+    "ancla": {
+      "population": "3d669a10486999d6cd9fca35576102c0a8e85551e15c88d86daec4f7325cc878",
+      "target_sectioning": "bafe4c13895d071c99c4d0ffe68c77c3b2a93073dd44dc61b8d28dfd2a45056e"
+    },
+    "n": 20,
+    "semillas": [
+      2084566887,
+      2109567208,
+      1196526233,
+      1603807059,
+      187278795,
+      1934807520,
+      46759728,
+      937462444,
+      90056685,
+      1073144934,
+      2025622713,
+      1310830089,
+      2107516802,
+      1054084456,
+      1723421988,
+      126229961,
+      445547833,
+      858180238,
+      901837629,
+      1758718656
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "9367eed76559188a1dde56d46784b29f49501259c94d564696b91a8c1f0cff62",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 2209.758,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11437104654546569,
+      "ecm": 0.00783709840437326,
+      "huella_plan": "17f298548f76cdb8c4a7107fc9e442a326c403ef58af17c468072e5550015581",
+      "composicion": "bateria/competicion/congreso_zaragoza/canonico/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82450cdc80fd9e1fe66e8e8ed8e9ba5251a10cb339709690dc42f9fa5db3da0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.293,
+        "juzgar_s": 0.078
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "M05": 2.4,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1603807059",
+      "generador": "gerrychain",
+      "semilla": 1603807059,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11437104654546569,
+      "ecm": 0.00783709840437326,
+      "huella_plan": "17f298548f76cdb8c4a7107fc9e442a326c403ef58af17c468072e5550015581",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1603807059/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82450cdc80fd9e1fe66e8e8ed8e9ba5251a10cb339709690dc42f9fa5db3da0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 111.916,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 6.7,
+          "baseline": 1.5,
+          "M05": 101.3,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s46759728",
+      "generador": "gerrychain",
+      "semilla": 46759728,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11437104654546569,
+      "ecm": 0.00783709840437326,
+      "huella_plan": "17f298548f76cdb8c4a7107fc9e442a326c403ef58af17c468072e5550015581",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s46759728/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82450cdc80fd9e1fe66e8e8ed8e9ba5251a10cb339709690dc42f9fa5db3da0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 106.903,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.2,
+          "baseline": 1.4,
+          "M05": 95.8,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2025622713",
+      "generador": "gerrychain",
+      "semilla": 2025622713,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11437104654546569,
+      "ecm": 0.00783709840437326,
+      "huella_plan": "17f298548f76cdb8c4a7107fc9e442a326c403ef58af17c468072e5550015581",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s2025622713/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82450cdc80fd9e1fe66e8e8ed8e9ba5251a10cb339709690dc42f9fa5db3da0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 110.423,
+        "juzgar_s": 0.071
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.4,
+          "baseline": 1.3,
+          "M05": 99.3,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1310830089",
+      "generador": "gerrychain",
+      "semilla": 1310830089,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11437104654546569,
+      "ecm": 0.00783709840437326,
+      "huella_plan": "17f298548f76cdb8c4a7107fc9e442a326c403ef58af17c468072e5550015581",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1310830089/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82450cdc80fd9e1fe66e8e8ed8e9ba5251a10cb339709690dc42f9fa5db3da0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 109.681,
+        "juzgar_s": 0.07
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 6.9,
+          "baseline": 1.4,
+          "M05": 99.1,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1723421988",
+      "generador": "gerrychain",
+      "semilla": 1723421988,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11437104654546569,
+      "ecm": 0.00783709840437326,
+      "huella_plan": "17f298548f76cdb8c4a7107fc9e442a326c403ef58af17c468072e5550015581",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1723421988/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82450cdc80fd9e1fe66e8e8ed8e9ba5251a10cb339709690dc42f9fa5db3da0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 107.419,
+        "juzgar_s": 0.069
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 6.9,
+          "baseline": 1.3,
+          "M05": 96.8,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s858180238",
+      "generador": "gerrychain",
+      "semilla": 858180238,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11437104654546569,
+      "ecm": 0.00783709840437326,
+      "huella_plan": "17f298548f76cdb8c4a7107fc9e442a326c403ef58af17c468072e5550015581",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s858180238/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "82450cdc80fd9e1fe66e8e8ed8e9ba5251a10cb339709690dc42f9fa5db3da0f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 109.69,
+        "juzgar_s": 0.095
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.3,
+          "baseline": 1.4,
+          "M05": 98.6,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1144,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1934807520",
+      "generador": "gerrychain",
+      "semilla": 1934807520,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11446906924384678,
+      "ecm": 0.007837100706397595,
+      "huella_plan": "084375d66e6adcb1826cb4f7bea6a043c60055350f5bef9ffa4b5d7262cf0ad0",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1934807520/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "ef88e4ac93759f6ea0f32eae00ce8e23dbdf65354c8b9538c415a7b8f09bdb4b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 108.003,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.6,
+          "baseline": 1.3,
+          "M05": 96.6,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1145,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s901837629",
+      "generador": "gerrychain",
+      "semilla": 901837629,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11464060896601369,
+      "ecm": 0.007837167264927279,
+      "huella_plan": "c2018b2dd17ff61fa66a9bd236b04bfa08710b1e9f98f628c44d03038e4d2b46",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s901837629/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "75e5ea21d5cb5645652ae82635ca4d53a85d4298021030a3ca404d1714ecb486",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 111.411,
+        "juzgar_s": 0.07
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.0,
+          "baseline": 1.3,
+          "M05": 100.6,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1146,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1758718656",
+      "generador": "gerrychain",
+      "semilla": 1758718656,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11479581157178376,
+      "ecm": 0.007837166597673847,
+      "huella_plan": "def08b7d921fc00676268d2888f77266869abb7482084e677761f5bc947b9f97",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1758718656/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6ec898fa6f4f121323de18313402f3bde0936de0eb6b9eef47a8267d2878b12c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 105.051,
+        "juzgar_s": 0.068
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.0,
+          "baseline": 1.3,
+          "M05": 94.4,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2107516802",
+      "generador": "gerrychain",
+      "semilla": 2107516802,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11481214868818061,
+      "ecm": 0.007837166330772475,
+      "huella_plan": "9be925e1af405c10e7f64f23dd8927f758f11190a02523b5f098c868369df898",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s2107516802/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f4a289682c5d0ebb71d03b9fe282c4e8d597584a6636e970a950b9146456af8e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.356,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.0,
+          "baseline": 1.4,
+          "M05": 89.7,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1148,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1196526233",
+      "generador": "gerrychain",
+      "semilla": 1196526233,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11486116003737115,
+      "ecm": 0.007837188049871635,
+      "huella_plan": "001cf8b6327a24b004be3d251fddd9ce0f80582cde4ac55bbf9fe02367c2e0b5",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1196526233/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1f978cb3795493c61b58dcc6697c3ae8abfda421183e0562e25992e2efa6e57c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 117.907,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.4,
+          "M05": 106.7,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1149,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s937462444",
+      "generador": "gerrychain",
+      "semilla": 937462444,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11486932859556957,
+      "ecm": 0.00783721203763246,
+      "huella_plan": "cd3bf3d294e5686b1ff2a181e52bc6c0bde8dc2daad5098ecf8346c1219b6f66",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s937462444/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e90937393b7d69b6b416e9d2767399f8f81c802d376ed83b28c1e266d43fb26f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 108.43,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.0,
+          "baseline": 1.4,
+          "M05": 97.7,
+          "M06": 1.4,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1149,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s90056685",
+      "generador": "gerrychain",
+      "semilla": 90056685,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11490200282836327,
+      "ecm": 0.00783718221140412,
+      "huella_plan": "b086c9a0af015827bf171ca2acd076ccc36030923073c0ab6ffa3731737ef1a3",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s90056685/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "bc9b81f703746b354b3892606f81b4487feee7f44f5b3a081ef14a70309dd871",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 115.268,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.0,
+          "baseline": 1.4,
+          "M05": 103.4,
+          "M06": 1.6,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1149,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1054084456",
+      "generador": "gerrychain",
+      "semilla": 1054084456,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11496735129395068,
+      "ecm": 0.007837185013868528,
+      "huella_plan": "5e25373cda03e8e77d4d0500a4da502952e3ed94538070bcd223564a081db33e",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1054084456/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a3ed2ecdb475c9a1aa40999809aef84f7170079b56482d4d4d7ccf3cef97409a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 107.787,
+        "juzgar_s": 0.071
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 6.8,
+          "baseline": 1.3,
+          "M05": 97.4,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.115,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1073144934",
+      "generador": "gerrychain",
+      "semilla": 1073144934,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11496735129395068,
+      "ecm": 0.007837269821779532,
+      "huella_plan": "f5c10d940c1ef58bcd7c888c2dacfd2dc824103bf83e0027454ace664aa1e0fe",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s1073144934/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e89ecccb51212184340f3dcb2869560cd6cd39e1f6f93b557c78917b4b150cb2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 109.046,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.7,
+          "baseline": 1.3,
+          "M05": 97.6,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.115,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2084566887",
+      "generador": "gerrychain",
+      "semilla": 2084566887,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11496735129395068,
+      "ecm": 0.007837423556969899,
+      "huella_plan": "d177881e0b7c9aacc740b808b46d8f0faf4f85524f45a266853acc1cafc966c8",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s2084566887/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "48c682d3c76e3a555063fff8411dc26eed674ad99264be979a228d9cc03435f2",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 107.574,
+        "juzgar_s": 0.075
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.1,
+          "baseline": 1.4,
+          "M05": 96.6,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.115,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s187278795",
+      "generador": "gerrychain",
+      "semilla": 187278795,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.1149755198521491,
+      "ecm": 0.007837273158046684,
+      "huella_plan": "3a02cefedea74306dacec7466c95007b29c51d2966ff0cb735cbdf1252f36933",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s187278795/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8816320d6c335182a43d96fb1ec2dcb42e86605051410242b7357a6d498ab159",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 105.909,
+        "juzgar_s": 0.079
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.5,
+          "baseline": 1.3,
+          "M05": 94.7,
+          "M06": 1.5,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.115,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s126229961",
+      "generador": "gerrychain",
+      "semilla": 126229961,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11498368841034752,
+      "ecm": 0.007837253841059873,
+      "huella_plan": "03a7a4b81d712dd4d37bfce73dad4ddbeb4fdec0b85e507695680bd5fdebb3a7",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s126229961/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e1920a560cd674ef79150b4e8e5bebf6f36f0a3da09d2d0294f9589174548df7",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 112.902,
+        "juzgar_s": 0.068
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 7.0,
+          "baseline": 1.3,
+          "M05": 102.1,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.115,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s445547833",
+      "generador": "gerrychain",
+      "semilla": 445547833,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11498368841034752,
+      "ecm": 0.007837338181893479,
+      "huella_plan": "c32261fcaa22fb4c90fe26d384743807055a29a3bae69d999824e7c04669517f",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s445547833/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2414a72dd8fbafaa9f59e800ca83d4a349142263d8f9a267608b7c40dcb78b13",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 118.538,
+        "juzgar_s": 0.068
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 6.8,
+          "baseline": 1.4,
+          "M05": 107.9,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.115,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2109567208",
+      "generador": "gerrychain",
+      "semilla": 2109567208,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.11499185696854594,
+      "ecm": 0.007837234056995662,
+      "huella_plan": "41ecef993a28e439adcfa18641cc66d62922e88348417568212078536d5baa4c",
+      "composicion": "bateria/competicion/congreso_zaragoza/gerrychain-s2109567208/congreso_zaragoza_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "a51905d90c7d0ed7271308188ebf7399ba5ef6f256472128d999357d14494fa0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 111.695,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 6.8,
+          "baseline": 1.4,
+          "M05": 101.1,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.115,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1603807059: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

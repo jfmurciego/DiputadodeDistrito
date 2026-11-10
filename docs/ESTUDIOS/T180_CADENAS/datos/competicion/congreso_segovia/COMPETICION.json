@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_segovia",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "681233161e496c30049a475d4e9db6cccdab5d68c85b426bd2e2e0d3f9cb7db7",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_segovia",
+    "ancla": {
+      "population": "5774a78a5a6851a9af17f6a7e295c0abd79eb37024526713c4184598dd40e048",
+      "target_sectioning": "5d0799dccb377a72020401aed053dade6625142cae69d898e89b1d63ec9d4079"
+    },
+    "n": 20,
+    "semillas": [
+      1826810126,
+      2050349250,
+      840310098,
+      833113580,
+      363993469,
+      1711380953,
+      714492752,
+      1328229018,
+      1242216642,
+      1420544428,
+      1893283829,
+      1733204981,
+      1449353402,
+      1565625803,
+      2094167558,
+      2043011204,
+      627461918,
+      1188855534,
+      894829502,
+      56700831
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "d893f7ec0dc0fa4c0c85a8f5b9037bd406c7e5eccf6091d6e4af63012da1b02c",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 179.793,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/canonico/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 5.016,
+        "juzgar_s": 0.028
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "M05": 1.2,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1826810126",
+      "generador": "gerrychain",
+      "semilla": 1826810126,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1826810126/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.408,
+        "juzgar_s": 0.025
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.7,
+          "baseline": 0.9,
+          "M05": 4.9,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2050349250",
+      "generador": "gerrychain",
+      "semilla": 2050349250,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s2050349250/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.815,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 1.0,
+          "M05": 4.4,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s840310098",
+      "generador": "gerrychain",
+      "semilla": 840310098,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s840310098/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.376,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.9,
+          "M05": 4.2,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s833113580",
+      "generador": "gerrychain",
+      "semilla": 833113580,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s833113580/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.823,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 4.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s363993469",
+      "generador": "gerrychain",
+      "semilla": 363993469,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s363993469/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.638,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.9,
+          "M05": 4.4,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1711380953",
+      "generador": "gerrychain",
+      "semilla": 1711380953,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1711380953/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.096,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 1.1,
+          "M05": 4.7,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s714492752",
+      "generador": "gerrychain",
+      "semilla": 714492752,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s714492752/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.849,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 5.1,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1328229018",
+      "generador": "gerrychain",
+      "semilla": 1328229018,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1328229018/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.997,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 0.9,
+          "M05": 4.6,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1242216642",
+      "generador": "gerrychain",
+      "semilla": 1242216642,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1242216642/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.168,
+        "juzgar_s": 0.026
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 2.0,
+          "baseline": 0.8,
+          "M05": 4.7,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1420544428",
+      "generador": "gerrychain",
+      "semilla": 1420544428,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1420544428/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.93,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.9,
+          "M05": 4.9,
+          "M06": 0.8,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1893283829",
+      "generador": "gerrychain",
+      "semilla": 1893283829,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1893283829/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.378,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 1.0,
+          "M05": 5.0,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1733204981",
+      "generador": "gerrychain",
+      "semilla": 1733204981,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1733204981/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 9.263,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.8,
+          "baseline": 1.1,
+          "M05": 4.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1449353402",
+      "generador": "gerrychain",
+      "semilla": 1449353402,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1449353402/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.045,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.9,
+          "M05": 4.1,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1565625803",
+      "generador": "gerrychain",
+      "semilla": 1565625803,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1565625803/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.196,
+        "juzgar_s": 0.023
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.8,
+          "M05": 4.3,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2094167558",
+      "generador": "gerrychain",
+      "semilla": 2094167558,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s2094167558/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.408,
+        "juzgar_s": 0.021
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.5,
+          "baseline": 0.8,
+          "M05": 4.4,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2043011204",
+      "generador": "gerrychain",
+      "semilla": 2043011204,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s2043011204/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.157,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 4.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s627461918",
+      "generador": "gerrychain",
+      "semilla": 627461918,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s627461918/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.269,
+        "juzgar_s": 0.024
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.9,
+          "M05": 4.2,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1188855534",
+      "generador": "gerrychain",
+      "semilla": 1188855534,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s1188855534/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.859,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 0.8,
+          "M05": 4.8,
+          "M06": 0.9,
+          "validacion": 0.6
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s894829502",
+      "generador": "gerrychain",
+      "semilla": 894829502,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s894829502/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.556,
+        "juzgar_s": 0.022
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.6,
+          "baseline": 1.2,
+          "M05": 4.3,
+          "M06": 0.8,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s56700831",
+      "generador": "gerrychain",
+      "semilla": 56700831,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.0,
+      "ecm": 0.0,
+      "huella_plan": "5c08c086d66f42d6e208c44b617a73a4c7ecc499b8dd6b1b027bbd97a23a53a1",
+      "composicion": "bateria/competicion/congreso_segovia/gerrychain-s56700831/congreso_segovia_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5b38817755cefd7c8be554baac8d7b62f51f349b24df73d3bcfe2b995720db44",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 8.057,
+        "juzgar_s": 0.02
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 1.4,
+          "baseline": 0.9,
+          "M05": 4.3,
+          "M06": 0.9,
+          "validacion": 0.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.0,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 0
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1826810126: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

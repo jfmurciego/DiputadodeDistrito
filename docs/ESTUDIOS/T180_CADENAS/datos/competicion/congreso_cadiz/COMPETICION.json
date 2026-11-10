@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_cadiz",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "77f918a3c462d12f9df1991c39b68f90cc03ce28dc8c778830cced1a9688583f",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_cadiz",
+    "ancla": {
+      "population": "af594651d3c603ef61acea97299cfdab14c0cb429de1153104e35b7b4d21da71",
+      "target_sectioning": "9dac622d4e7849895bd0dd7b2bc95b835d96f81de5879e325c312ef503e95f5d"
+    },
+    "n": 20,
+    "semillas": [
+      1044817781,
+      1145308734,
+      919779279,
+      1367681566,
+      866122040,
+      1238017106,
+      330183143,
+      641927075,
+      704428900,
+      803099680,
+      1257955283,
+      1758305186,
+      477770260,
+      398347853,
+      1618567136,
+      1592159927,
+      171846921,
+      386164132,
+      1830459231,
+      2118890873
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "d04bf7e615b9db036d003ba9a7f763da61c36058194703da76b97b0e84843bbf",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 483.774,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/canonico/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 12.158,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.6,
+          "M05": 3.4,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1044817781",
+      "generador": "gerrychain",
+      "semilla": 1044817781,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1044817781/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 25.408,
+        "juzgar_s": 0.099
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.8,
+          "baseline": 0.8,
+          "semilla_canonica": 3.5,
+          "M05": 13.3,
+          "M06": 1.9,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1145308734",
+      "generador": "gerrychain",
+      "semilla": 1145308734,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1145308734/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 26.126,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.2,
+          "baseline": 0.9,
+          "semilla_canonica": 3.9,
+          "M05": 13.6,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s919779279",
+      "generador": "gerrychain",
+      "semilla": 919779279,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s919779279/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.285,
+        "juzgar_s": 0.094
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.6,
+          "baseline": 0.9,
+          "semilla_canonica": 3.3,
+          "M05": 12.5,
+          "M06": 1.8,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1367681566",
+      "generador": "gerrychain",
+      "semilla": 1367681566,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1367681566/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.568,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.6,
+          "baseline": 0.8,
+          "semilla_canonica": 3.2,
+          "M05": 13.0,
+          "M06": 1.8,
+          "validacion": 1.1
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s866122040",
+      "generador": "gerrychain",
+      "semilla": 866122040,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s866122040/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.517,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.5,
+          "baseline": 0.7,
+          "semilla_canonica": 2.9,
+          "M05": 12.5,
+          "M06": 1.9,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1238017106",
+      "generador": "gerrychain",
+      "semilla": 1238017106,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1238017106/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.161,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.8,
+          "baseline": 0.7,
+          "semilla_canonica": 3.0,
+          "M05": 12.2,
+          "M06": 2.4,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s330183143",
+      "generador": "gerrychain",
+      "semilla": 330183143,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s330183143/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.294,
+        "juzgar_s": 0.105
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.7,
+          "semilla_canonica": 3.0,
+          "M05": 11.0,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s641927075",
+      "generador": "gerrychain",
+      "semilla": 641927075,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s641927075/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.401,
+        "juzgar_s": 0.108
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.7,
+          "baseline": 0.8,
+          "semilla_canonica": 3.4,
+          "M05": 11.7,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s704428900",
+      "generador": "gerrychain",
+      "semilla": 704428900,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s704428900/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.939,
+        "juzgar_s": 0.114
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.3,
+          "baseline": 0.9,
+          "semilla_canonica": 2.9,
+          "M05": 12.1,
+          "M06": 1.5,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s803099680",
+      "generador": "gerrychain",
+      "semilla": 803099680,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s803099680/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.424,
+        "juzgar_s": 0.103
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.7,
+          "baseline": 1.1,
+          "semilla_canonica": 3.4,
+          "M05": 12.4,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1257955283",
+      "generador": "gerrychain",
+      "semilla": 1257955283,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1257955283/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.445,
+        "juzgar_s": 0.083
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.6,
+          "baseline": 0.7,
+          "semilla_canonica": 3.1,
+          "M05": 12.3,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1758305186",
+      "generador": "gerrychain",
+      "semilla": 1758305186,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1758305186/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.213,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.7,
+          "semilla_canonica": 2.9,
+          "M05": 10.9,
+          "M06": 1.7,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s477770260",
+      "generador": "gerrychain",
+      "semilla": 477770260,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s477770260/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.338,
+        "juzgar_s": 0.094
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.3,
+          "baseline": 0.7,
+          "semilla_canonica": 3.1,
+          "M05": 12.2,
+          "M06": 2.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s398347853",
+      "generador": "gerrychain",
+      "semilla": 398347853,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s398347853/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.36,
+        "juzgar_s": 0.086
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.7,
+          "baseline": 0.9,
+          "semilla_canonica": 2.9,
+          "M05": 11.8,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1618567136",
+      "generador": "gerrychain",
+      "semilla": 1618567136,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1618567136/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 23.831,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.6,
+          "baseline": 0.7,
+          "semilla_canonica": 3.3,
+          "M05": 12.3,
+          "M06": 2.0,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1592159927",
+      "generador": "gerrychain",
+      "semilla": 1592159927,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1592159927/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.463,
+        "juzgar_s": 0.073
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.6,
+          "baseline": 0.7,
+          "semilla_canonica": 2.9,
+          "M05": 11.5,
+          "M06": 1.9,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s171846921",
+      "generador": "gerrychain",
+      "semilla": 171846921,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s171846921/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 21.589,
+        "juzgar_s": 0.078
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 0.7,
+          "semilla_canonica": 2.9,
+          "M05": 11.1,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s386164132",
+      "generador": "gerrychain",
+      "semilla": 386164132,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s386164132/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 24.52,
+        "juzgar_s": 0.077
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 5.0,
+          "baseline": 0.7,
+          "semilla_canonica": 3.1,
+          "M05": 12.9,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1830459231",
+      "generador": "gerrychain",
+      "semilla": 1830459231,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s1830459231/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.927,
+        "juzgar_s": 0.074
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.2,
+          "baseline": 0.8,
+          "semilla_canonica": 3.1,
+          "M05": 11.9,
+          "M06": 2.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2118890873",
+      "generador": "gerrychain",
+      "semilla": 2118890873,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 1,
+      "desvio_max": 0.17537649438266714,
+      "ecm": 0.006303290720857869,
+      "huella_plan": "32dafde4865b2ece87a6d91b7f74f49782c4db4e10832d69ca5daef55bd8c2a6",
+      "composicion": "bateria/competicion/congreso_cadiz/gerrychain-s2118890873/congreso_cadiz_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "59aa84ba11ee3b6464afabb7eb40cad49e2f488f616a026e8df7360e1675ed77",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 22.907,
+        "juzgar_s": 0.096
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.3,
+          "baseline": 0.8,
+          "semilla_canonica": 3.0,
+          "M05": 12.2,
+          "M06": 1.5,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1754,
+          "fuera_tolerancia": 1,
+          "tolerancia": 0.16,
+          "municipios_partidos": 1
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s1044817781: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}

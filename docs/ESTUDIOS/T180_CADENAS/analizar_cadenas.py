@@ -12,9 +12,14 @@ MOTIVO: T-180: con UNA tanda de 20 cadenas por territorio (semillas públicas an
   a posteriori el ganador con las primeras N = 1, 2, 3, 5, 10, 15, 20 y su coste, con la función de calidad vigente
   (A) y con la función B de naturalidad (selección a posteriori sobre los mismos candidatos).
 ANTERIOR: ninguna (fichero nuevo)
-USO: python docs/ESTUDIOS/T180_CADENAS/analizar_cadenas.py --out bateria --seccionado-dir <dir con s2023/ s2024/ s2025/>
-       [--salida docs/ESTUDIOS/T180_CADENAS] [--sin-b]
-  Lee <out>/competicion/<t>/COMPETICION.json (ddd_motor2.competir --cadenas 20). Escribe CURVA.csv (territorio × N × función),
+USO: (1) desde la tanda local, calculando B con la geometría y guardando los datos para el repo:
+       python docs/ESTUDIOS/T180_CADENAS/analizar_cadenas.py --out bateria --seccionado-dir <dir con s2023/ s2024/ s2025/> \
+         --guardar-datos docs/ESTUDIOS/T180_CADENAS/datos [--reproducibilidad bateria_rep]
+     (2) desde el repo, sin geometría ni tanda (regenera las mismas tablas):
+       python docs/ESTUDIOS/T180_CADENAS/analizar_cadenas.py --out docs/ESTUDIOS/T180_CADENAS/datos \
+         --naturalidad-b docs/ESTUDIOS/T180_CADENAS/datos/NATURALIDAD_B.csv [--salida <dir>]
+  Lee <out>/competicion/<t>/COMPETICION.json (ddd_motor2.competir --cadenas 20). Si un territorio no tiene B (sin
+  geometría o con error), su fila de TERRITORIOS.csv lo dice en B_estado y no entra en la curva B. Escribe CURVA.csv (territorio × N × función),
   TIEMPOS.csv (por candidato) y TERRITORIOS.csv (resumen por territorio)
   y AGREGADO.csv (por función y N).
 FUNCIONES:
@@ -29,6 +34,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import shutil
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -66,7 +72,7 @@ def clave_b(c) -> tuple:
             c["huella_plan"], c["i"])
 
 
-def naturalidad(d: dict, secc_dir: Path, tablas: dict) -> None:
+def naturalidad(d: dict, secc_dir: Path, tablas: dict) -> str:
     """Añade b_partidas y b_corte_km a cada candidato evaluable (una geometría por territorio)."""
     from ddd_motor2 import naturalidad_mapas as nm
     asigs = {}
@@ -76,9 +82,10 @@ def naturalidad(d: dict, secc_dir: Path, tablas: dict) -> None:
                       encoding="utf-8") as fh:
                 asigs[c["id"]] = {r["CUSEC_KEY"]: str(r["district_id"]) for r in csv.DictReader(fh)}
     if not asigs:
-        return
+        return ""
     secciones = set(next(iter(asigs.values())))
-    geo = nm.Geometria(nm.shp_de(secc_dir, nm.anio_seccionado(d["territorio"])), secciones)
+    shp = nm.shp_de(secc_dir, nm.anio_seccionado(d["territorio"]))
+    geo = nm.Geometria(shp, secciones)
     aristas = geo.aristas()
     for c in d["candidatos"]:
         a = asigs.get(c["id"])
@@ -94,6 +101,7 @@ def naturalidad(d: dict, secc_dir: Path, tablas: dict) -> None:
             partidas += sum(1 for x in ds.values() if len(x) > 1)
         c["b_partidas"] = partidas
         c["b_corte_km"] = round(sum(w for x, y, w in aristas if x in a and y in a and a[x] != a[y]) / 1000, 3)
+    return nm.sha256(shp)
 
 
 def curva(d: dict, clave) -> list[dict]:
@@ -108,7 +116,8 @@ def curva(d: dict, clave) -> list[dict]:
                       "fuera_tolerancia": g["fuera_tolerancia"], "desvio_max": g["desvio_max"], "ecm": g["ecm"],
                       "b_partidas": g.get("b_partidas"), "b_corte_km": g.get("b_corte_km"),
                       "mejora_canonico": clave(g)[:-2] < clave(can)[:-2],
-                      "no_peor_que_n_anterior": prev is None or clave(g) <= prev})
+                      # cierto por construcción (mínimo sobre un conjunto creciente): comprobación de coherencia, no prueba
+                      "monotono": prev is None or clave(g) <= prev})
         prev = clave(g)
     return filas
 
@@ -124,7 +133,7 @@ def agregado(curvas: list[dict], terr: list[dict]) -> list[dict]:
     can = {t["territorio"]: t for t in terr}
     out = []
     for f in ("A", "B"):
-        sat = [t[f"{f}_saturacion_n"] for t in terr]
+        sat = [t[f"{f}_saturacion_n"] for t in terr if f"{f}_saturacion_n" in t]
         prev = {}
         for n in NS:
             fs = [r for r in curvas if r["funcion"] == f and r["n"] == n]
@@ -142,7 +151,7 @@ def agregado(curvas: list[dict], terr: list[dict]) -> list[dict]:
                                                          and prev[r["territorio"]] != r["ganador"]),
                         "saturados_en_n": sum(1 for x in sat if x <= n),
                         "saturacion_p50": percentil(sat, .5), "saturacion_p75": percentil(sat, .75),
-                        "saturacion_p90": percentil(sat, .9), "saturacion_max": max(sat)})
+                        "saturacion_p90": percentil(sat, .9), "saturacion_max": max(sat) if sat else None})
             prev = {r["territorio"]: r["ganador"] for r in fs}
     return out
 
@@ -152,35 +161,57 @@ def main(argv=None) -> int:
     ap.add_argument("--out", default="bateria")
     ap.add_argument("--seccionado-dir", type=Path)
     ap.add_argument("--salida", type=Path, default=Path(__file__).parent)
-    ap.add_argument("--sin-b", action="store_true")
+    ap.add_argument("--naturalidad-b", type=Path, help="B ya calculada (NATURALIDAD_B.csv); evita la geometría")
+    ap.add_argument("--guardar-datos", type=Path, help="copia COMPETICION.json y NATURALIDAD_B.csv para el repo")
+    ap.add_argument("--reproducibilidad", type=Path, help="otra tanda (<dir>/competicion/<t>) para comparar huellas")
     a = ap.parse_args(argv)
     from ddd_motor2 import naturalidad_mapas as nm
-    tablas = None if a.sin_b else nm.tablas_municipio()
-    curvas, tiempos, terr = [], [], []
+    tablas = nm.tablas_municipio() if a.seccionado_dir else None
+    b_guardada: dict[str, dict] = defaultdict(dict)
+    if a.naturalidad_b:
+        with open(a.naturalidad_b, encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                b_guardada[r["territorio"]][r["id"]] = (int(r["b_partidas"]), float(r["b_corte_km"]))
+    curvas, tiempos, terr, b_filas = [], [], [], []
     for f in sorted((Path(a.out) / "competicion").glob("*/COMPETICION.json")):
         d = cargar(f)
         t = d["territorio"]
         if len(d["candidatos"]) < 21:
             print(f"{t}: {len(d['candidatos']) - 1} cadenas (< 20), se omite", file=sys.stderr)
             continue
-        if not a.sin_b:
+        b_estado = "NO_EVALUABLE: sin geometría ni NATURALIDAD_B.csv"
+        if t in b_guardada:
+            for c in d["candidatos"]:
+                if c["id"] in b_guardada[t]:
+                    c["b_partidas"], c["b_corte_km"] = b_guardada[t][c["id"]]
+            b_estado = "OK"
+        elif a.seccionado_dir:
             try:
-                naturalidad(d, a.seccionado_dir, tablas)
-            except Exception as exc:  # sin geometría: B queda vacía, se dice
-                print(f"{t}: B no calculable: {type(exc).__name__}: {exc}", file=sys.stderr)
+                sha_shp = naturalidad(d, a.seccionado_dir, tablas)
+                b_estado = "OK"
+                b_filas += [{"territorio": t, "id": c["id"], "b_partidas": c["b_partidas"],
+                             "b_corte_km": c["b_corte_km"], "seccionado_sha256": sha_shp}
+                            for c in d["candidatos"] if c.get("b_partidas") is not None]
+            except Exception as exc:  # se dice en la salida: el territorio no entra en la curva B
+                b_estado = f"ERROR: {type(exc).__name__}: {exc}"
+        if b_estado == "OK" and any(evaluable(c) and c.get("b_partidas") is None for c in d["candidatos"]):
+            b_estado = "ERROR: candidatos evaluables sin B"
         can = d["candidatos"][0]
         fila_t = {"territorio": t, "k": None, "canonico_estado": can["estado"],
                   "canonico_fuera": can["fuera_tolerancia"], "canonico_desvio_max": can["desvio_max"],
                   "validos": sum(1 for c in d["candidatos"] if c["estado"] == "VALIDO"),
                   "huella_resultado": d["huella_resultado"]}
+        fila_t["B_estado"] = b_estado
         for nombre, clave in (("A", clave_a), ("B", clave_b)):
+            if nombre == "B" and b_estado != "OK":
+                continue
             cv = curva(d, clave)
             g20 = cv[-1]
             sat = 0 if g20["ganador_i"] == 0 else min(n for n in NS if n >= g20["ganador_i"])  # 0: ninguna cadena mejora
             fila_t[f"{nombre}_saturacion_n"] = sat
             fila_t[f"{nombre}_ganador_20"] = g20["ganador"]
             fila_t[f"{nombre}_mejora_20"] = g20["mejora_canonico"]
-            fila_t[f"{nombre}_anidamiento_ok"] = all(r["no_peor_que_n_anterior"] for r in cv)
+            fila_t[f"{nombre}_monotono"] = all(r["monotono"] for r in cv)
             for r in cv:
                 curvas.append({"territorio": t, "funcion": nombre, **r})
         try:
@@ -208,6 +239,40 @@ def main(argv=None) -> int:
             w = csv.DictWriter(fh, cols)
             w.writeheader()
             w.writerows(filas)
+    if a.guardar_datos:
+        for t in terr:
+            dst = a.guardar_datos / "competicion" / t["territorio"]
+            dst.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(Path(a.out) / "competicion" / t["territorio"] / "COMPETICION.json", dst / "COMPETICION.json")
+        if b_filas:
+            with open(a.guardar_datos / "NATURALIDAD_B.csv", "w", encoding="utf-8", newline="") as fh:
+                w = csv.DictWriter(fh, list(b_filas[0]))
+                w.writeheader()
+                w.writerows(b_filas)
+    if a.reproducibilidad:
+        rep = []
+        for f in sorted((a.reproducibilidad / "competicion").glob("*/COMPETICION.json")):
+            r2 = cargar(f)
+            r1 = cargar(Path(a.out) / "competicion" / r2["territorio"] / "COMPETICION.json")
+            c1 = {c["semilla"]: c for c in r1["candidatos"]}
+            s2 = r2["semilla_publica"]["semillas"]
+            for c in r2["candidatos"]:
+                o = c1.get(c["semilla"]) if c["i"] else r1["candidatos"][0]
+                rep.append({"territorio": r2["territorio"], "i": c["i"], "id": c["id"],
+                            "semilla_anidada": c["i"] == 0 or s2[c["i"] - 1] == r1["semilla_publica"]["semillas"][c["i"] - 1],
+                            "huella_plan_igual": o is not None and o["huella_plan"] == c["huella_plan"],
+                            "composicion_sha256_igual": o is not None and o["composicion_sha256"] == c["composicion_sha256"],
+                            "huella_plan": c["huella_plan"], "composicion_sha256": c["composicion_sha256"]})
+        if rep:
+            with open(a.salida / "REPRODUCIBILIDAD.csv", "w", encoding="utf-8", newline="") as fh:
+                w = csv.DictWriter(fh, list(rep[0]))
+                w.writeheader()
+                w.writerows(rep)
+            if a.guardar_datos:
+                for f in (a.reproducibilidad / "competicion").glob("*/COMPETICION.json"):
+                    dst = a.guardar_datos / "reproducibilidad" / f.parent.name
+                    dst.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(f, dst / "COMPETICION.json")
     print(f"{len(terr)} territorios")
     return 0
 

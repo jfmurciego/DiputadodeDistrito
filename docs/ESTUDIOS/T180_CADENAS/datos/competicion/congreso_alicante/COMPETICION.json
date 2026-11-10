@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "congreso_alicante",
+  "ganador": "gerrychain-s2038621578",
+  "valido": true,
+  "huella_resultado": "13bacdf627ea6716c6e1f337cbe30c92d16494d3cd0c15c9b93b0b17cbce2f3a",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "congreso_alicante",
+    "ancla": {
+      "population": "12428e08add46b2cbb66dca488441c6c83e0803a27739e1e69dadd58f1eab5c4",
+      "target_sectioning": "d89a8a03420e34d4eeb856e37902f0b1e28a97c8f7ef44d764b247096322998e"
+    },
+    "n": 20,
+    "semillas": [
+      2038621578,
+      2066179232,
+      223990505,
+      6556717,
+      2031864291,
+      1250916866,
+      515377764,
+      987891445,
+      686253032,
+      521747738,
+      639636668,
+      642067041,
+      2062739316,
+      2011629009,
+      257727643,
+      1855032435,
+      1568106829,
+      1442342273,
+      1276107698,
+      704229727
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "6896d323bd627ecf64f5746a0a9aeae73d0cfdd7458a93b6e5e4c1598a1062ea",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 2089.68,
+  "candidatos": [
+    {
+      "id": "gerrychain-s2038621578",
+      "generador": "gerrychain",
+      "semilla": 2038621578,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.005329408765867039,
+      "huella_plan": "73da73fe22cd9db49f0123f160fe5f0dbecc85459c057294d544ae802e9b9dd5",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s2038621578/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "fd57e3e8839ebc9a93660ef8663178e85e58245cd8f3054b34d673a9c78af117",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.396,
+        "juzgar_s": 0.088
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 0.8,
+          "semilla_canonica": 79.0,
+          "M05": 8.3,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s639636668",
+      "generador": "gerrychain",
+      "semilla": 639636668,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.0058493406026507554,
+      "huella_plan": "99ba36209e8baa23fdca64e20a9f53fc63d11d9c297f5c5e7cbbffa7ac4a4700",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s639636668/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2aad6e38f4d7c376fab1120e4ded418a9d56778b4fe4b3e2075a626292d4455f",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.578,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 0.9,
+          "semilla_canonica": 79.1,
+          "M05": 7.9,
+          "M06": 1.8,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s704229727",
+      "generador": "gerrychain",
+      "semilla": 704229727,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.0063948703312961255,
+      "huella_plan": "60d9ba4976fc958f9ddcda44f064ab61103f564a047f9e47e94837e5d1c76071",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s704229727/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "b2e37d4e18890dceeb83c62f155b7a006976dc13257a5d788d3baf4a5d63dcc5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 102.266,
+        "juzgar_s": 0.069
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 10.4,
+          "baseline": 0.7,
+          "semilla_canonica": 79.5,
+          "M05": 9.0,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2066179232",
+      "generador": "gerrychain",
+      "semilla": 2066179232,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.006573693569726307,
+      "huella_plan": "d3fa30639bba6dd27fd61ac4bfea9cf264646f12726a5094843f36d59f50c2e2",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s2066179232/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5ae204e318aa0a3728c661d421a663bc6112a80526cb534f4e5085eb99e6f1cd",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 98.52,
+        "juzgar_s": 0.093
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 0.7,
+          "semilla_canonica": 78.8,
+          "M05": 7.2,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s515377764",
+      "generador": "gerrychain",
+      "semilla": 515377764,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.0067649943655039724,
+      "huella_plan": "056ef06a3402b7fcf720acee7e7661c695d0f37e5d6ec029a0650d552b0ee6d0",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s515377764/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6b1e7c7cc5b580b5c595df062543776b1a379409854b4af612a387aa66266f2c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 98.801,
+        "juzgar_s": 0.09
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.9,
+          "baseline": 0.7,
+          "semilla_canonica": 78.7,
+          "M05": 7.9,
+          "M06": 1.7,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2062739316",
+      "generador": "gerrychain",
+      "semilla": 2062739316,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.006808723747628433,
+      "huella_plan": "f1b8d92768a85970997db824607b2432861c424808eb6d97ef0b287bc3acb241",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s2062739316/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d048261c323bd6a159adb01b1c0423fc000c6c703b774d6b7741393902671f00",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 97.767,
+        "juzgar_s": 0.103
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.6,
+          "baseline": 0.7,
+          "semilla_canonica": 78.6,
+          "M05": 7.4,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s642067041",
+      "generador": "gerrychain",
+      "semilla": 642067041,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.00684539024700379,
+      "huella_plan": "5f71ea5e74358212eee7e13f288624ee83b358e657c4af665223c168b7ac4159",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s642067041/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d68a1260287ce4b64f92d60163f2f5d21c3a9b8c47f2384c45b3c45b3674d993",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.02,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.6,
+          "baseline": 0.7,
+          "semilla_canonica": 78.8,
+          "M05": 7.2,
+          "M06": 1.7,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1442342273",
+      "generador": "gerrychain",
+      "semilla": 1442342273,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.007228385841503606,
+      "huella_plan": "1fe97001b4d8b565c0416ca07071cccb714055e44b057c5bf65ceba6331b432d",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s1442342273/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6c04879074452e30f2fac39c03cbda04cd575a5588eab3b33bce2143991cb02a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.026,
+        "juzgar_s": 0.072
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.0,
+          "baseline": 1.0,
+          "semilla_canonica": 78.9,
+          "M05": 7.7,
+          "M06": 1.5,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2031864291",
+      "generador": "gerrychain",
+      "semilla": 2031864291,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.007410534239605128,
+      "huella_plan": "08dfce8a7081da555923a319306247ed51199fe9d195023dc0a260cfb8980434",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s2031864291/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "8edbf62959aa0a08f01b69fc96cf50c47b096490e4ed160fb290f2be2948695b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 101.589,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.7,
+          "baseline": 0.7,
+          "semilla_canonica": 79.1,
+          "M05": 8.9,
+          "M06": 2.0,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2011629009",
+      "generador": "gerrychain",
+      "semilla": 2011629009,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.007414430335805148,
+      "huella_plan": "f2c097e70425ccee835b44315c54719a27d00af514f03d5e9f0074761ef915ab",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s2011629009/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f3eeabf86d1ead5f05bf3bee256a358b1ab229361f2b1d8ed03bb54b283e0b39",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.122,
+        "juzgar_s": 0.101
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.8,
+          "baseline": 0.7,
+          "semilla_canonica": 78.6,
+          "M05": 8.2,
+          "M06": 1.8,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s521747738",
+      "generador": "gerrychain",
+      "semilla": 521747738,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.007451188196764342,
+      "huella_plan": "56b05d7ef9ba7d048e8216070bfeb3def91e3939325ac679b1a4699cddb56eb2",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s521747738/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3837f9a7effadef5756310afdda41aae43885347b697c034ccf5983d16ddd121",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.437,
+        "juzgar_s": 0.085
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.2,
+          "baseline": 0.7,
+          "semilla_canonica": 78.7,
+          "M05": 7.9,
+          "M06": 2.0,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1276107698",
+      "generador": "gerrychain",
+      "semilla": 1276107698,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.007540598459740599,
+      "huella_plan": "c77e3f0a0ca3ce874c50d95bcd566e56ea3ea317d366b9cecf74d637f35997b6",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s1276107698/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d836ac0315ca5b116f731c698dda212a0f73a3b7e14187e2d8274fcd8786616a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.26,
+        "juzgar_s": 0.07
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.0,
+          "baseline": 0.7,
+          "semilla_canonica": 79.0,
+          "M05": 7.9,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1568106829",
+      "generador": "gerrychain",
+      "semilla": 1568106829,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.007853017359680803,
+      "huella_plan": "defbffdeafaec8d34959ac0338a0a55c22ac5bc81c2192b9df11e591334a49a1",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s1568106829/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "83a310bc3d855614871ba62274d7c2565bbfca24d1fc53b8e02692bb6660b0ef",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.095,
+        "juzgar_s": 0.07
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "baseline": 0.7,
+          "semilla_canonica": 78.8,
+          "M05": 8.8,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s257727643",
+      "generador": "gerrychain",
+      "semilla": 257727643,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.008096713868154568,
+      "huella_plan": "774df6d7b69868e6d4fb38420bff8cd2b05191885e5f81ee15b684eaa22bdf52",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s257727643/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "57a14e6795bfc2c1a87b782b155356d96e4a74da24075466e06acef902fc261a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.273,
+        "juzgar_s": 0.095
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.6,
+          "baseline": 0.7,
+          "semilla_canonica": 78.8,
+          "M05": 9.6,
+          "M06": 1.6,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1855032435",
+      "generador": "gerrychain",
+      "semilla": 1855032435,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.008450157907812592,
+      "huella_plan": "d265d9973ed91fc405eec047693d3e7a9d38d4363f61d4e82c239a8d8d669c49",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s1855032435/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "33cc9dbf8fa6212ab304496dd3893ec4a4e234b7f1dddf7dcde753f2ec05aeae",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.215,
+        "juzgar_s": 0.069
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 0.9,
+          "semilla_canonica": 78.9,
+          "M05": 7.8,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s6556717",
+      "generador": "gerrychain",
+      "semilla": 6556717,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.008713448234386077,
+      "huella_plan": "042bd75900b5f6e2ba30d79f2c5f4352594e8fa0c09683c515a79fbc4942631f",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s6556717/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f0622809dba999202d4164a91f63e2c2e97f16945bdb4d3d0a12ef5a01777fb5",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.564,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.8,
+          "baseline": 0.7,
+          "semilla_canonica": 79.0,
+          "M05": 8.3,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s223990505",
+      "generador": "gerrychain",
+      "semilla": 223990505,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.009184917717891497,
+      "huella_plan": "350a176c867c3b4889e4044951d0467fda5bf07acdbeafe4f93e2b6037cd75d6",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s223990505/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "547f715ed4724ee6c9f29fefa4529b0413b4460495e3c5b77c0223bd9998ec0c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 98.445,
+        "juzgar_s": 0.089
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.8,
+          "baseline": 0.8,
+          "semilla_canonica": 78.6,
+          "M05": 7.7,
+          "M06": 1.5,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s987891445",
+      "generador": "gerrychain",
+      "semilla": 987891445,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.009209007712291436,
+      "huella_plan": "422bdcff520ebe0a28138f7e7a82d84ae8534646cf3f845591e5db06547b502b",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s987891445/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e685ee4f25e0df0d0fbfdaade15c1a87613f67c1254a736e6bb02b4f8f4a6493",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 99.707,
+        "juzgar_s": 0.081
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 8.7,
+          "baseline": 0.8,
+          "semilla_canonica": 79.0,
+          "M05": 8.6,
+          "M06": 1.6,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1250916866",
+      "generador": "gerrychain",
+      "semilla": 1250916866,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.009980954426149451,
+      "huella_plan": "b56c21acf61528f371ee71b0077bc9caff8c659f929b1b9da3b2fe03f588ccf9",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s1250916866/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "f0750fc627f57ff4715b14f8cb35c31a9f4d04c16b6c10c6d22905390da0dd7b",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 101.018,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.8,
+          "baseline": 0.6,
+          "semilla_canonica": 78.7,
+          "M05": 8.6,
+          "M06": 2.2,
+          "validacion": 1.0
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s686253032",
+      "generador": "gerrychain",
+      "semilla": 686253032,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.010786549114194991,
+      "huella_plan": "4fbb91474a36afa9e193683e0e7b9ece81dd1bed782e1b61f44e9be67a7f8c46",
+      "composicion": "bateria/competicion/congreso_alicante/gerrychain-s686253032/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1fc45d944185045cb1da9b1867d58e52f0a1a70765b6a7ec1099a8e1d2069782",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 100.592,
+        "juzgar_s": 0.079
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.9,
+          "baseline": 0.7,
+          "semilla_canonica": 78.7,
+          "M05": 8.4,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 0,
+      "desvio_max": 0.14991653318112913,
+      "ecm": 0.011306273068469007,
+      "huella_plan": "804d6640250983b37c7a78becb421c26e7dd3772c731f61dae8f031e77da6426",
+      "composicion": "bateria/competicion/congreso_alicante/canonico/congreso_alicante_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3fe51a4b425f7ec0aebb353d65ae61b64b0741e053677c5c394ca63ce268435d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 92.204,
+        "juzgar_s": 0.091
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 9.3,
+          "M05": 79.8,
+          "M06": 1.8,
+          "validacion": 0.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.1499,
+          "fuera_tolerancia": 0,
+          "tolerancia": 0.15,
+          "municipios_partidos": 2
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s639636668: tiene menor error cuadrático medio (ecm)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menor error cuadrático medio (ecm)",
+  "mejora_al_canonico": true
+}

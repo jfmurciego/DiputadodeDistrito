@@ -1,0 +1,1074 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "cantabria",
+  "ganador": "gerrychain-s598047657",
+  "valido": true,
+  "huella_resultado": "f41dbce0b5dbfbb4e81e1dc789d48f6a8bf610e2baac4792353139260c788e1e",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "cantabria",
+    "ancla": {
+      "population": "6c528643ca8972c7fe013104e01e8197e5975d6db31a36dc86c271d5353d6edf",
+      "target_sectioning": "ced72ab1e438279ff02b932aef4e9582575ecdc308999fa22937c04b9d53c791"
+    },
+    "n": 20,
+    "semillas": [
+      55303744,
+      15855161,
+      1624826632,
+      1759291059,
+      598047657,
+      338450335,
+      588582932,
+      65892484,
+      291565873,
+      371243898,
+      1483859915,
+      1797647233,
+      1144481985,
+      826972764,
+      1918958179,
+      381398225,
+      1066020774,
+      1857051879,
+      473272880,
+      1150506875
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "1c4ece707eadde64df89b97680d7cbb38b44e45b7ad1ca1badaecd384520085d",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 1682.75,
+  "candidatos": [
+    {
+      "id": "gerrychain-s598047657",
+      "generador": "gerrychain",
+      "semilla": 598047657,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 8,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03321864583776469,
+      "huella_plan": "0389235b9311d26e4ba6fb20735094d1c90ca23292740d4e2b13b55b3aead4ae",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s598047657/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "67053ea2ed88088a65d4a106c22afdcab9895d57749b35e1bd2796ff0837ac0c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 72.362,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.0,
+          "baseline": 0.9,
+          "semilla_canonica": 1.5,
+          "M05": 64.0,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 8,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s588582932",
+      "generador": "gerrychain",
+      "semilla": 588582932,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s588582932/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "265cff3a95fe902a84aae320956e8de48d4ac4e07c6a06ead10e114de3c1cb79",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 84.548,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.9,
+          "semilla_canonica": 1.5,
+          "M05": 76.8,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s65892484",
+      "generador": "gerrychain",
+      "semilla": 65892484,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s65892484/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "abbea0f7eaa9668ef8052ad2309a7a756fe2bacf1e9bcd057d766d9f8ddd9b21",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 84.164,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.9,
+          "baseline": 1.1,
+          "semilla_canonica": 1.7,
+          "M05": 75.7,
+          "M06": 1.0,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s371243898",
+      "generador": "gerrychain",
+      "semilla": 371243898,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s371243898/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5f2b9d66908837a4be5f14ecb725a96bb13c8f8604af10e525876a78ff8770f0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 87.282,
+        "juzgar_s": 0.028
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.2,
+          "semilla_canonica": 1.6,
+          "M05": 78.9,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1483859915",
+      "generador": "gerrychain",
+      "semilla": 1483859915,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1483859915/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1208c1dcd299ab7cd8a87630737524798e043ef7f260a8c1be57e9c0068239b0",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 90.176,
+        "juzgar_s": 0.031
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 1.1,
+          "semilla_canonica": 1.6,
+          "M05": 81.7,
+          "M06": 1.4,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s826972764",
+      "generador": "gerrychain",
+      "semilla": 826972764,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s826972764/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "20e45adc4f187dbfea32565307cae331626e5166e2e84fb9fbbf3c07a93019d6",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 88.027,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.2,
+          "baseline": 1.0,
+          "semilla_canonica": 1.6,
+          "M05": 79.4,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1918958179",
+      "generador": "gerrychain",
+      "semilla": 1918958179,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1918958179/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "04cd9088a57832125af324b65aa02bdb2fb60125686c6b1835be0f46969d77a4",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 83.506,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.9,
+          "semilla_canonica": 1.5,
+          "M05": 75.6,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s381398225",
+      "generador": "gerrychain",
+      "semilla": 381398225,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s381398225/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "1053d9f9eae2eb4ce85d1defaebb602a36bb1248896fe12292195ffdbe1ff056",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 82.381,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 0.9,
+          "semilla_canonica": 1.4,
+          "M05": 74.6,
+          "M06": 1.3,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1066020774",
+      "generador": "gerrychain",
+      "semilla": 1066020774,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1066020774/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0df4430776218220f51825b677dfa0f23a83ed1b4dab3b49b6aa95be3788a51c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 77.025,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.2,
+          "baseline": 0.9,
+          "semilla_canonica": 1.5,
+          "M05": 69.4,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1857051879",
+      "generador": "gerrychain",
+      "semilla": 1857051879,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1857051879/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "e133eba6e5dbb3a773b911150b141ce59036f3ac6516b21c56ec6b78d2c40a7e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 78.632,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.2,
+          "baseline": 0.9,
+          "semilla_canonica": 1.4,
+          "M05": 71.3,
+          "M06": 1.0,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s473272880",
+      "generador": "gerrychain",
+      "semilla": 473272880,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.033439084031682394,
+      "huella_plan": "933d48f6cdae20b950c6686bb879a7285f79231a9ced92a3ba52dfdf60fdabcd",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s473272880/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "9b23c6b696f03ac275263aced8f4f7d8c48525c57710d3222c5b436b3775c0ae",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 84.888,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 1.1,
+          "semilla_canonica": 1.6,
+          "M05": 76.7,
+          "M06": 1.1,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s338450335",
+      "generador": "gerrychain",
+      "semilla": 338450335,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03343935699586931,
+      "huella_plan": "f56f1333f4d64cb83721f118e07b6ce57bca07498ae2c03b71858dc9b322d6ec",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s338450335/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "d26895513e345986bfb98205787c7974193c39c2546b7679029f18c2ce37c71c",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 85.441,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.5,
+          "baseline": 0.9,
+          "semilla_canonica": 1.5,
+          "M05": 76.5,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1797647233",
+      "generador": "gerrychain",
+      "semilla": 1797647233,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03343935699586931,
+      "huella_plan": "f56f1333f4d64cb83721f118e07b6ce57bca07498ae2c03b71858dc9b322d6ec",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1797647233/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "979476a99412434d8bc840c227cd844b1075ed290478fd1a0ae5a8b69c629bf9",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 86.266,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.6,
+          "baseline": 1.3,
+          "semilla_canonica": 2.3,
+          "M05": 77.2,
+          "M06": 1.1,
+          "validacion": 0.6
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1150506875",
+      "generador": "gerrychain",
+      "semilla": 1150506875,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03343935699586931,
+      "huella_plan": "f56f1333f4d64cb83721f118e07b6ce57bca07498ae2c03b71858dc9b322d6ec",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1150506875/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "5e53b9e2b0f7a15dde8917c8452ebbfd00ef4b710b71abc733d5fe89ed1d4236",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 84.858,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 4.1,
+          "baseline": 1.2,
+          "semilla_canonica": 1.6,
+          "M05": 76.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1624826632",
+      "generador": "gerrychain",
+      "semilla": 1624826632,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.0334404852478419,
+      "huella_plan": "d8106e85978368b3c636a06016e4556b1249ce7d3c909ec983b38bba1cb4b8a0",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1624826632/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3c63ac88e562b69969ec2da11a888c2ae937a0228c9c95289604db061c22aa1a",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 82.789,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.7,
+          "baseline": 1.0,
+          "semilla_canonica": 1.7,
+          "M05": 74.3,
+          "M06": 1.1,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1144481985",
+      "generador": "gerrychain",
+      "semilla": 1144481985,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.0334404852478419,
+      "huella_plan": "d8106e85978368b3c636a06016e4556b1249ce7d3c909ec983b38bba1cb4b8a0",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1144481985/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "84533b9b4dfd3d239e941410d89b00d71f3c3474d7adf2b6f987e4172882ef0e",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 84.924,
+        "juzgar_s": 0.03
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.4,
+          "baseline": 0.9,
+          "semilla_canonica": 1.6,
+          "M05": 76.9,
+          "M06": 1.2,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s15855161",
+      "generador": "gerrychain",
+      "semilla": 15855161,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03344069755332061,
+      "huella_plan": "8b706b33e45e054401181012bb935a757430d0205056f0f92a7704b364a3182b",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s15855161/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "3ecc41c68c517fcdda2bde3269bddd3577ecc70cd9722a4ac940fe7f98407b56",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 82.595,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.8,
+          "baseline": 1.1,
+          "semilla_canonica": 1.7,
+          "M05": 74.0,
+          "M06": 1.1,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s55303744",
+      "generador": "gerrychain",
+      "semilla": 55303744,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03344312187969182,
+      "huella_plan": "cd161641107c90cea306f316e793ae4d5d9cdfd4e726fb94c2078accd268d0da",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s55303744/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "68e2a8f99f7816ce5106b19c090f73796bf4a2f91e8932f6ab5fa7a3cab7fe52",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 83.245,
+        "juzgar_s": 0.033
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.2,
+          "M04": 4.0,
+          "baseline": 1.4,
+          "semilla_canonica": 2.2,
+          "M05": 73.5,
+          "M06": 1.1,
+          "validacion": 0.8
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1759291059",
+      "generador": "gerrychain",
+      "semilla": 1759291059,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03344312187969182,
+      "huella_plan": "cd161641107c90cea306f316e793ae4d5d9cdfd4e726fb94c2078accd268d0da",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s1759291059/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "2fe6c93c0fdb1d15b080a83be07ca0d391a117cafdb52a6aa648c14ff3cf8ef8",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 80.033,
+        "juzgar_s": 0.032
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.3,
+          "baseline": 0.9,
+          "semilla_canonica": 1.6,
+          "M05": 72.2,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s291565873",
+      "generador": "gerrychain",
+      "semilla": 291565873,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03344312187969182,
+      "huella_plan": "cd161641107c90cea306f316e793ae4d5d9cdfd4e726fb94c2078accd268d0da",
+      "composicion": "bateria/competicion/cantabria/gerrychain-s291565873/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "6f545ccf194103a967d7c4a73859653cf81535d41f673b1ef2bb05013650a45d",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 91.197,
+        "juzgar_s": 0.029
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "baseline": 0.9,
+          "semilla_canonica": 2.0,
+          "M05": 82.7,
+          "M06": 1.2,
+          "validacion": 0.7
+        },
+        "m04_admisible": false,
+        "semilla_inicial": "canonica",
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    },
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 9,
+      "desvio_max": 0.7229731452258462,
+      "ecm": 0.03344560322524874,
+      "huella_plan": "8175ff3207cac42094b47a193752fd545bb5ba8b3447a425eaf3c1fb2748ef19",
+      "composicion": "bateria/competicion/cantabria/canonico/cantabria_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "00cbb91f6ee472ec36bd08f8a411d207771efbc85eb761c48328011abf229005",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 7.772,
+        "juzgar_s": 0.042
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 3.5,
+          "M05": 1.5,
+          "M06": 1.1,
+          "validacion": 0.9
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.723,
+          "fuera_tolerancia": 9,
+          "tolerancia": 0.12,
+          "municipios_partidos": 4
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s588582932: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "motivo_frente_al_canonico": "frente a canonico: tiene menos distritos fuera de tolerancia (fuera_tolerancia)",
+  "mejora_al_canonico": true
+}

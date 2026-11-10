@@ -1,4 +1,4 @@
-territorio,funcion,n,ganador,ganador_i,estado,fuera_tolerancia,desvio_max,ecm,b_partidas,b_corte_km,mejora_canonico,no_peor_que_n_anterior
+territorio,funcion,n,ganador,ganador_i,estado,fuera_tolerancia,desvio_max,ecm,b_partidas,b_corte_km,mejora_canonico,monotono
 andalucia,A,1,gerrychain-s1545196287,1,VALIDO,16,0.7454740061126834,0.03484144986054766,107,7997.533,True,True
 andalucia,A,2,gerrychain-s1545196287,1,VALIDO,16,0.7454740061126834,0.03484144986054766,107,7997.533,True,True
 andalucia,A,3,gerrychain-s1545196287,1,VALIDO,16,0.7454740061126834,0.03484144986054766,107,7997.533,True,True

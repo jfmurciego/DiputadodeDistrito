@@ -1,0 +1,1034 @@
+{
+  "version_orquestador": "1.1.0",
+  "territorio": "canarias",
+  "ganador": "canonico",
+  "valido": true,
+  "huella_resultado": "31cb2d4fd80c958ab19cc912a56cac2fa757c08c18af67e92e0fdd8afd2b3141",
+  "semilla_publica": {
+    "esquema": "ddd-semilla-publica/1",
+    "territorio": "canarias",
+    "ancla": {
+      "population": "65555af58d6b04a7b27c081c065ca25cf297e3ea181e3404a72e648f8f9e9c99",
+      "target_sectioning": "205731ac8650e496cc8ffec5e2f6fcd62e3f8ac947dffeca343243102caffe8b"
+    },
+    "n": 20,
+    "semillas": [
+      386344115,
+      237568356,
+      1181652236,
+      1795529150,
+      801799464,
+      608835838,
+      1112911551,
+      1117781160,
+      1194518581,
+      1075205183,
+      2116202796,
+      272614098,
+      977001193,
+      1045650227,
+      954613469,
+      238587637,
+      1063142474,
+      1307604809,
+      1299224384,
+      1335840452
+    ],
+    "formula": "int(sha256('ddd-semilla-publica/1|<sha population>|<sha target_sectioning>|<territorio>|<i>')[:16], 16) mod (2^31-2) + 1"
+  },
+  "canonico": "canonico",
+  "huella_reglas": "00bd25c4c9a5a9ff4f925b18a5f396a24caf46f0851144fe84f5933023821b7a",
+  "criterio": {
+    "tolerancia": "metrica",
+    "max_mixtos": "contrato",
+    "provincia_defecto": "obligatoria",
+    "exencion_particion": "todas",
+    "metodo": "presupuesto",
+    "presupuesto_nodos": 200000,
+    "tamano_max_k": 3,
+    "tamano_max_unidades": 40,
+    "diagnostico_min_unicos": 0.1,
+    "diagnostico_max_bucles": 0.9,
+    "contiguidad_con_puentes": true,
+    "respaldo_municipio_cusec": false
+  },
+  "orden_calidad": [
+    "evaluable",
+    "violaciones_duras",
+    "fuera_tolerancia",
+    "desvio_max",
+    "ecm",
+    "huella_plan",
+    "orden"
+  ],
+  "tiempo_total_s": 1589.895,
+  "candidatos": [
+    {
+      "id": "canonico",
+      "generador": "canonico",
+      "semilla": null,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/canonico/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 55.814,
+        "juzgar_s": 0.425
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "M05": 22.9,
+          "M06": 5.7,
+          "validacion": 2.2
+        },
+        "m05_informe": {
+          "version": "7.4.1",
+          "engine_version": null,
+          "seed": 12345,
+          "population_baseline_status": "PASS"
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s386344115",
+      "generador": "gerrychain",
+      "semilla": 386344115,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s386344115/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 73.884,
+        "juzgar_s": 0.477
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.4,
+          "baseline": 3.5,
+          "M05": 41.0,
+          "M06": 5.6,
+          "validacion": 2.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s237568356",
+      "generador": "gerrychain",
+      "semilla": 237568356,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s237568356/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 78.076,
+        "juzgar_s": 0.457
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.6,
+          "baseline": 4.0,
+          "M05": 44.0,
+          "M06": 6.2,
+          "validacion": 2.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1181652236",
+      "generador": "gerrychain",
+      "semilla": 1181652236,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1181652236/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 74.826,
+        "juzgar_s": 0.393
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.5,
+          "baseline": 4.0,
+          "M05": 39.5,
+          "M06": 5.5,
+          "validacion": 2.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1795529150",
+      "generador": "gerrychain",
+      "semilla": 1795529150,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1795529150/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 74.183,
+        "juzgar_s": 0.414
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.5,
+          "baseline": 3.5,
+          "M05": 40.6,
+          "M06": 6.0,
+          "validacion": 2.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s801799464",
+      "generador": "gerrychain",
+      "semilla": 801799464,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s801799464/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 71.219,
+        "juzgar_s": 0.387
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.0,
+          "baseline": 3.7,
+          "M05": 38.3,
+          "M06": 6.0,
+          "validacion": 2.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s608835838",
+      "generador": "gerrychain",
+      "semilla": 608835838,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s608835838/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 76.41,
+        "juzgar_s": 0.39
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.3,
+          "baseline": 4.0,
+          "M05": 42.1,
+          "M06": 6.4,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1112911551",
+      "generador": "gerrychain",
+      "semilla": 1112911551,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1112911551/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 76.621,
+        "juzgar_s": 0.384
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.1,
+          "baseline": 3.6,
+          "M05": 41.3,
+          "M06": 7.0,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1117781160",
+      "generador": "gerrychain",
+      "semilla": 1117781160,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1117781160/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 79.879,
+        "juzgar_s": 0.442
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.8,
+          "baseline": 4.0,
+          "M05": 43.4,
+          "M06": 6.2,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1194518581",
+      "generador": "gerrychain",
+      "semilla": 1194518581,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1194518581/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 79.937,
+        "juzgar_s": 0.424
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.4,
+          "baseline": 3.9,
+          "M05": 43.2,
+          "M06": 5.7,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1075205183",
+      "generador": "gerrychain",
+      "semilla": 1075205183,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1075205183/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 81.706,
+        "juzgar_s": 0.433
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 24.5,
+          "baseline": 4.5,
+          "M05": 43.7,
+          "M06": 6.3,
+          "validacion": 2.5
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s2116202796",
+      "generador": "gerrychain",
+      "semilla": 2116202796,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s2116202796/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 76.694,
+        "juzgar_s": 0.439
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.9,
+          "baseline": 4.0,
+          "M05": 42.4,
+          "M06": 6.1,
+          "validacion": 2.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s272614098",
+      "generador": "gerrychain",
+      "semilla": 272614098,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s272614098/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 82.96,
+        "juzgar_s": 0.442
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 25.5,
+          "baseline": 4.5,
+          "M05": 44.2,
+          "M06": 6.1,
+          "validacion": 2.4
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s977001193",
+      "generador": "gerrychain",
+      "semilla": 977001193,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s977001193/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 77.949,
+        "juzgar_s": 0.379
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.1,
+          "baseline": 3.7,
+          "M05": 42.8,
+          "M06": 5.9,
+          "validacion": 2.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1045650227",
+      "generador": "gerrychain",
+      "semilla": 1045650227,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1045650227/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 77.039,
+        "juzgar_s": 0.451
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.4,
+          "baseline": 3.8,
+          "M05": 42.7,
+          "M06": 6.0,
+          "validacion": 2.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s954613469",
+      "generador": "gerrychain",
+      "semilla": 954613469,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s954613469/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 77.632,
+        "juzgar_s": 0.425
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 23.4,
+          "baseline": 4.4,
+          "M05": 41.0,
+          "M06": 6.2,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s238587637",
+      "generador": "gerrychain",
+      "semilla": 238587637,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s238587637/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 73.656,
+        "juzgar_s": 0.419
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.6,
+          "baseline": 3.6,
+          "M05": 39.5,
+          "M06": 5.8,
+          "validacion": 2.0
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1063142474",
+      "generador": "gerrychain",
+      "semilla": 1063142474,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1063142474/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 73.395,
+        "juzgar_s": 0.394
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.5,
+          "baseline": 3.7,
+          "M05": 40.0,
+          "M06": 5.9,
+          "validacion": 2.1
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1307604809",
+      "generador": "gerrychain",
+      "semilla": 1307604809,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1307604809/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 70.933,
+        "juzgar_s": 0.496
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.8,
+          "baseline": 3.7,
+          "M05": 37.5,
+          "M06": 5.6,
+          "validacion": 2.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1299224384",
+      "generador": "gerrychain",
+      "semilla": 1299224384,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1299224384/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 72.253,
+        "juzgar_s": 0.397
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 21.2,
+          "baseline": 3.4,
+          "M05": 39.1,
+          "M06": 6.1,
+          "validacion": 2.2
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    },
+    {
+      "id": "gerrychain-s1335840452",
+      "generador": "gerrychain",
+      "semilla": 1335840452,
+      "estado": "VALIDO",
+      "detalle": "",
+      "violaciones_duras": 0,
+      "fuera_tolerancia": 20,
+      "desvio_max": 0.9768144468905783,
+      "ecm": 0.0545843455751466,
+      "huella_plan": "db7ac60f5e2f18d9d3da78285edda19a207da042c50a1b60077149bb7e220d2c",
+      "composicion": "bateria/competicion/canarias/gerrychain-s1335840452/canarias_2025_m06_composicion_distritos.csv",
+      "composicion_sha256": "0ffa0c1b760377b7b11b045dac5dc11639e3cc439a883a2f8b9d80a8c3ec52ca",
+      "violaciones": [],
+      "tiempos": {
+        "generar_s": 75.949,
+        "juzgar_s": 0.411
+      },
+      "avisos": [],
+      "extra": {
+        "estado": "OK",
+        "validacion": "PASS",
+        "fallos": [],
+        "tiempos": {
+          "unidades": 0.1,
+          "M04": 22.3,
+          "baseline": 4.2,
+          "M05": 40.3,
+          "M06": 6.5,
+          "validacion": 2.3
+        },
+        "m04_admisible": true,
+        "m05_informe": {
+          "version": null,
+          "engine_version": null,
+          "seed": null,
+          "population_baseline_status": null
+        },
+        "metricas": {
+          "desvio_max": 0.9768,
+          "fuera_tolerancia": 20,
+          "tolerancia": 0.12,
+          "municipios_partidos": null
+        }
+      }
+    }
+  ],
+  "motivo": "frente a gerrychain-s386344115: mismo plan: se queda el primero (el canónico) (orden)",
+  "motivo_frente_al_canonico": "es el canónico",
+  "mejora_al_canonico": false
+}
