@@ -3,15 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — semilla pública de la competición
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: Competición · semilla pública
 FECHA: 2026-11-10
-ESTADO: candidato (motor 2; producción no lo importa). Ancla PROPUESTA, a confirmar por el propietario.
-CAMBIOS: fichero nuevo.
+ESTADO: candidato (motor 2; producción no lo importa). Ancla aprobada por el propietario (D-50, 10-11).
+CAMBIOS: 1.0.1 — el ancla deja de ser propuesta: la aprueba el propietario (D-50); sin cambio de fórmula ni de
+  semillas. 1.0.0 — fichero nuevo.
 MOTIVO: T-163 / D-48: las N semillas de GerryChain no se eligen: se derivan de un dato oficial fijado de antemano, de
   modo que cualquiera puede rehacerlas y la misma entrada da el mismo mapa.
-ANTERIOR: ninguna (fichero nuevo)
-ANCLA (propuesta): el sha256 que el contrato declara para el padrón (rol «population», tabla INE 65034) y para el
+ANTERIOR: legacy/ddd_motor2/semilla_v1.0.0_20261110.py
+ANCLA (D-50): el sha256 que el contrato declara para el padrón (rol «population», tabla INE 65034) y para el
   seccionado (rol «target_sectioning») en generation_state.source_inputs, más el identificador del territorio.
   Si falta alguna huella, falla (ErrorContrato): nunca se cae a una semilla fija.
 DERIVACIÓN (esquema ddd-semilla-publica/1):
