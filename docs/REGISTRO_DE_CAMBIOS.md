@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.323
+Versión: 1.0.324
 Fecha: 2026-11-10
-Alcance: T-209 — Plan 1.0.40: decisiones D-69 a D-73 y cola T-205 a T-209
+Alcance: T-208 — Batería del motor 2 en Actions (D-72)
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_claude-t209-plan-d69-d73.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.322_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t208-bateria-actions.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.323_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.322_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.324 · [2026-11-10 — T-208 — Batería del motor 2 en Actions (D-72)](registro/2026-11-10_claude-t208-bateria-actions.md)
 - 1.0.323 · [2026-11-10 — T-209 — Plan 1.0.40: decisiones D-69 a D-73 y cola T-205 a T-209](registro/2026-11-10_claude-t209-plan-d69-d73.md)
 - 1.0.322 · [2026-11-10 — T-207c — Histórico autonómico reagregado: Andalucía, Aragón y Baleares (12 elecciones)](registro/2026-11-10_t207c-reagregacion-andalucia-aragon-baleares.md)
 - 1.0.321 · [2026-11-10 — T-207 — Composición canónica de Andalucía y Aragón desde el M06 publicado](registro/2026-11-10_t207-composicion-andalucia-aragon.md)
