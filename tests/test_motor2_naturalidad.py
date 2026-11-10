@@ -71,6 +71,21 @@ class Forma(unittest.TestCase):
         self.assertLess(f["2"]["polsby_popper"], f["1"]["polsby_popper"])
 
 
+class Laboratorio(unittest.TestCase):
+    def test_huella_sin_etiquetas(self):
+        from ddd_motor2.naturalidad_competicion import huella_plan
+        self.assertEqual(huella_plan({"a": "1", "b": "2"}), huella_plan({"a": "7", "b": "3"}))
+        self.assertNotEqual(huella_plan({"a": "1", "b": "2"}), huella_plan({"a": "1", "b": "1"}))
+
+    def test_colores_emparejados(self):
+        from ddd_motor2.naturalidad_informe import colores
+        pob = {"a": 1, "b": 1, "c": 5}
+        c = colores({"A": {"a": "1", "b": "1", "c": "2"}, "B": {"a": "9", "b": "8", "c": "8"},
+                     "C": {"a": "1", "b": "1", "c": "2"}}, pob)
+        self.assertEqual(c["B"]["8"], c["A"]["2"])  # B-8 comparte más población con A-2
+        self.assertEqual(c["C"], c["A"])
+
+
 class Vigentes(unittest.TestCase):
     """Los indicadores de los mapas vigentes están en el repo con su manifiesto y cubren toda datos/composicion."""
 
