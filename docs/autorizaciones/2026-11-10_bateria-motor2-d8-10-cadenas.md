@@ -1,10 +1,10 @@
 # Autorización de campaña 2026-11-10_bateria-motor2-d8-10-cadenas
 
 - Decisión: D-52 (autorización por campaña). Chat del Operador: session_01KQDtFsAtHP9atzNnDthr9A.
-- Frase literal del propietario: (pendiente)
-- Fecha y hora de la frase (Europe/Madrid): (pendiente)
-- Estado de la ficha: BORRADOR. Requiere que esté fusionado en `main` el modo motor2 de la batería (T-208); el Planificador avisa al propietario cuando esté lista.
-- Caducidad: 72 h desde la frase del propietario.
+- Frase literal del propietario: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas tal como figura en la ficha.»
+- Fecha y hora de la frase (Europe/Madrid): 2026-11-10 17:33 (aprox.)
+- Estado de la ficha: ACEPTADA. T-208 en `main` (#678); entradas: `motor=motor2`, `funcion=D8`, `cadenas=10`.
+- Caducidad: 2026-11-13 17:33 (72 h desde la frase).
 - Gasto semanal al autorizar: se mide al recibir la frase (`herramientas/metricas_proceso.py`) y se anota aquí; tope 15.000 min/semana, aviso al 70 %.
 
 ## Límites
@@ -22,8 +22,9 @@
 ## Ejecutado
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
+| 17:33 | Soria (prueba) | batería motor2 D8 N=10, `territorios=congreso_soria` | 42855755112 | EN_VUELO | 1 / — | 0/1 |
 
 ## Cierre
-Estado: `BORRADOR` (espera la fusión de T-208 y la frase del propietario). Último uso: —.
+Estado: `EN_CURSO`. Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas tal como figura en la ficha.»
