@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.340
+Versión: 1.0.341
 Fecha: 2026-11-10
-Alcance: T-222 — La aceptación del motor 2 cuenta el vigente que compite
+Alcance: T-221 — Con motor2, la certificación lee el plan ganador del P30
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t222-aceptacion-cuenta-vigente.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.339_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_claude-t221-certificacion-motor2.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.340_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.339_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.341 · [2026-11-10 — T-221 — Con motor2, la certificación lee el plan ganador del P30](registro/2026-11-10_claude-t221-certificacion-motor2.md)
 - 1.0.340 · [2026-11-10 — T-222 — La aceptación del motor 2 cuenta el vigente que compite](registro/2026-11-10_t222-aceptacion-cuenta-vigente.md)
 - 1.0.339 · [2026-11-10 — T-217 + T-218 — El vigente compite y piezas finas con la atomicidad del contrato](registro/2026-11-10_claude-t217-vigente-piezas.md)
 - 1.0.338 · [2026-11-10 — T-216 — Motor 2 como P30 en la cadena de producción, detrás del interruptor `motor` (corte 5.0.0, paso 3)](registro/2026-11-10_claude-t216-motor2-p30.md)
