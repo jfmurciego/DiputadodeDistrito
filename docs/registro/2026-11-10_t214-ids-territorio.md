@@ -7,5 +7,6 @@
   - Lectura con ambos ids: `territory_contract` 1.4.0, `electoral_contract` 1.1.0 y `registrar_par_fuentes_legislatura` comparan por el resolutor (`madrid` nunca casa con `nac28`).
   - Prueba A (`docs/ESTUDIOS/T214_PRUEBA_A/`): canónico de `main` ejecutado (no editado) con id viejo y nuevo. Álava, Huesca, Cádiz, Madrid (NAC28) y Las Palmas: asignación unidad→distrito idéntica en M04 y M05 y GeoJSON idéntico salvo el propio id. Ceuta no ejecutable en la nube (sin volcado M01/M03).
   - Sin `git mv` de `territorios/`: falta Ceuta y el cambio rompería workflows y tests que nombran las carpetas (T-215).
+- Revisión independiente (PASS_WITH_EXCEPTIONS): `generar_provincias_congreso_350.py` 1.0.1 deriva el gemelo sin `notacion`/`id_legacy` del padre (el `k_rationale` final volvía a no casar; test que falla antes y pasa después). Latente, sin arreglar: `generar_provincias_congreso.py` daría de alta una provincia nueva sin `notacion` (las 52 ya existen; el test D lo detectaría).
 - Pruebas: `tests/test_resolver_territorio.py` (D, E y admisión con ambos ids); suites de catálogo y contratos; `GovernanceHeaders`.
 - Efectos: no invalida huellas M04/M05 ni checkpoints (no toca motor, política ni contratos de territorio). Sin ejecuciones.

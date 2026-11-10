@@ -127,5 +127,24 @@ class ContratosLeenAmbosIds(unittest.TestCase):
         self.assertTrue(any("no coincide" in e for e in cruce["errors"]))
 
 
+class Gemelo350SinNotacion(unittest.TestCase):
+    """Revisión T-214: el generador 350 deriva del padre (con notacion/id_legacy) la misma fila que ya hay."""
+
+    def test_master_line_reproduce_la_fila_existente(self):
+        sys.path.insert(0, str(ROOT / "herramientas"))
+        import generar_provincias_congreso_350 as g
+
+        csv_sha = g._sha(ROOT / "configuracion/resultados_oficiales_congreso_2023.csv")
+        catalogo = (ROOT / "configuracion/catalogo_territorios_espana_2025.yaml").read_text(encoding="utf-8")
+        for p in g.provinces(ROOT):
+            if p["source_id"] not in ("congreso_alava", "congreso_madrid", "congreso_ceuta"):
+                continue
+            linea = g._master_line(ROOT, p, csv_sha)
+            self.assertNotIn("notacion", linea)
+            self.assertNotIn("id_legacy", linea)
+            self.assertIn(f"parent_territory_id: {p['source_id']}}}", linea)
+            self.assertIn(linea, catalogo.splitlines())
+
+
 if __name__ == "__main__":
     unittest.main()
