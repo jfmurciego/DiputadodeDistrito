@@ -1,6 +1,6 @@
 ---
 name: lanzar-00
-description: Procedimiento para lanzar la 00 Ejecución Completa del Proyecto (ejecucion-completa-proyecto.yml) de un territorio. Úsala solo en el chat operador y con permiso explícito del propietario en ese mensaje.
+description: Procedimiento para lanzar la 00, «P00 Campaña» desde el corte 5.0.0 (ejecucion-completa-proyecto.yml) de un territorio. Úsala solo en el chat operador y con permiso explícito del propietario en ese mensaje.
 ---
 
 # Lanzar una 00
