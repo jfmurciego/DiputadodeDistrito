@@ -29,9 +29,11 @@ QUÉ HACE (en el job M06 de la generación territorial, tras M04 + M05 canónico
   huella     huella del motor 2 (sha256 de ddd_motor2/**/*.py y de las tablas de naturalidad que lee, función y N) para
              compatibility/motor.json (herramientas/huella_checkpoint_motor.py, capa `motor2`).
 NO HACE: tocar M04/M05/M06 ni ddd_core; decidir el relevo; lanzar nada.
-USO: PYTHONHASHSEED=0 python -m ddd_motor2.produccion competir --params <contrato> [--cadenas 10] [--funcion D8]
-     python -m ddd_motor2.produccion verificar --params <contrato>
-     python -m ddd_motor2.produccion huella [--cadenas 10] [--funcion D8]
+USO: PYTHONHASHSEED=0 python -m ddd_motor2.produccion competir --params <contrato> [--runs-dir <run>]
+     python -m ddd_motor2.produccion verificar --params <contrato> [--runs-dir <run>]
+     python -m ddd_motor2.produccion huella
+  Función y N: FUNCION y CADENAS (D8, 10), sin opción en la línea de órdenes: la huella motor2 del checkpoint los
+  incluye, así que un M06 de otra configuración nunca se reutiliza.
 """
 from __future__ import annotations
 
@@ -49,7 +51,7 @@ from typing import Mapping
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "1.0.0"
 ESQUEMA = "ddd.p30-motor2/1.0"
-FUNCION = "D8"
+FUNCION = "D8"  # única fuente de la función y N del P30: el flujo no los pasa y la huella motor2 los incluye
 CADENAS = 10
 # Tablas que lee la clave de naturalidad (naturalidad_mapas: partidos judiciales, comarcas agrarias, áreas de movilidad).
 RESPALDO = ".m05_original"  # copia temporal de la salida M05 mientras se rehace M06 (se borra al restaurar)
@@ -285,15 +287,13 @@ def main(argv=None) -> int:
         p = sub.add_parser(nombre)
         p.add_argument("--params", required=True, type=Path)
         p.add_argument("--runs-dir", type=Path, help="carpeta del run (RUNS_DIR del flujo); por defecto, la del contrato")
-    for p in (sub.choices["competir"], sub.add_parser("huella")):
-        p.add_argument("--cadenas", type=int, default=CADENAS)
-        p.add_argument("--funcion", default=FUNCION)
+    sub.add_parser("huella")  # siempre con FUNCION y CADENAS: es la huella que entra en compatibility/motor.json
     a = ap.parse_args(argv)
     if a.orden == "huella":
-        print(json.dumps(huella_motor(a.funcion, a.cadenas), indent=2))
+        print(json.dumps(huella_motor(), indent=2))
         return 0
     if a.orden == "competir":
-        s = competir(a.params, a.cadenas, a.funcion, runs_dir=a.runs_dir)
+        s = competir(a.params, runs_dir=a.runs_dir)
         print(f"P30 {s['territorio']}: {s['estado']} ganador={s['ganador']} válido={s['valido']} "
               f"candidatos válidos={s['candidatos_validos']}/{s['candidatos']} huella={s['huella_resultado']} "
               f"secciones cambiadas={s['secciones_cambiadas']} rehacer_m06={str(s['rehacer_m06']).lower()}")

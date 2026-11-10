@@ -206,5 +206,53 @@ class Flujos(unittest.TestCase):
         self.assertIn('-f "inputs[motor]=$MOTOR"', texto)
 
 
+class FlujoFallaCerrado(unittest.TestCase):
+    def setUp(self):
+        self.jobs = yaml.safe_load((WF / "_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))["jobs"]
+
+    def _resolver(self, motor_, algoritmo):
+        import subprocess  # noqa: PLC0415
+        paso = next(s for s in self.jobs["resolve"]["steps"] if "motor desconocido" in str(s.get("run", "")))
+        guion = paso["run"].replace("${{ inputs.motor }}", motor_).replace(
+            "${{ inputs.optimization_algorithm }}", algoritmo)
+        guion = guion.split("stage_num(){")[0]  # solo la comprobación del interruptor
+        return subprocess.run(["bash", "-c", guion], capture_output=True, text=True).returncode
+
+    def test_motor_desconocido_y_motor2_con_gerrychain_salen_con_20(self):
+        self.assertEqual(self._resolver("motor3", "Canónico"), 20)
+        self.assertEqual(self._resolver("motor2", "GerryChain 50"), 20)
+        self.assertEqual(self._resolver("motor2", "Canónico"), 0)
+        self.assertEqual(self._resolver("m05", "GerryChain 50"), 0)
+
+    def test_si_falla_el_rehecho_no_se_empaqueta(self):
+        pasos = self.jobs["m06"]["steps"]
+        nombres = [str(s.get("name", "")) for s in pasos]
+        i_emp = nombres.index("Empaquetar checkpoint acumulado del módulo")
+        for i, s in enumerate(pasos):
+            if nombres[i].startswith("P30"):
+                self.assertLess(i, i_emp)
+                self.assertNotIn("continue-on-error", s)
+        # empaquetar y subir corren solo si todo lo anterior acabó bien (sin always()/failure())
+        self.assertNotIn("if", pasos[i_emp])
+        subir = pasos[i_emp + 1]
+        self.assertTrue(str(subir.get("uses", "")).startswith("actions/upload-artifact"))
+        self.assertNotIn("if", subir)
+        rehacer = next(s for s in pasos if nombres[pasos.index(s)] == "P30 · rehacer M06 con el plan ganador")
+        self.assertIn("set -o pipefail", rehacer["run"])
+
+    def test_n_y_funcion_de_una_sola_constante(self):
+        competir_ = next(s for s in self.jobs["m06"]["steps"] if s.get("id") == "p30")
+        self.assertNotIn("--cadenas", competir_["run"])
+        self.assertNotIn("--funcion", competir_["run"])
+        h = p30.huella_motor()
+        self.assertEqual((h["funcion"], h["cadenas"]), (p30.FUNCION, p30.CADENAS))
+
+    def test_dependencias_no_cambian_el_entorno_base(self):
+        dep = next(s for s in self.jobs["m06"]["steps"] if s.get("name") == "P30 · dependencias del motor 2 (las de la batería)")
+        self.assertIn("comm -23", dep["run"])
+        self.assertIn("requirements.lock", dep["run"])
+        self.assertIn("--no-deps", dep["run"])
+
+
 if __name__ == "__main__":
     unittest.main()
