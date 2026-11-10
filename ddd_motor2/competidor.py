@@ -3,20 +3,25 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: motor 2 — la competición como sustituto de M05 (interfaz acordada con la batería T-132)
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Competición · sustituto de M05 · enumeración exacta
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Competición · núcleos desde el M04
 FECHA: 2026-11-10
 ESTADO: candidato (motor 2; producción no lo importa; no lanza nada en Actions)
-CAMBIOS: 1.1.0 — la competición incluye el candidato «exhaustivo» (enumeración exacta en territorios pequeños,
+CAMBIOS: 1.2.0 — R-NUCLEO se juzga contra el distrito inicial del M04 (modulo_05.in_geojson: district_id +
+  ddd_closed_urban), como el certificador y frozen_districts de GerryChain, no contra la composición del canónico:
+  un plan que rompe un núcleo se descarta aunque el canónico lo rompiera. Sin M04 o sin ningún district_id, la
+  referencia es la del canónico (motivo en log.txt); un M04 incompleto o ilegible es ERROR_DATOS (rc 2).
+  1.1.0 — la competición incluye el candidato «exhaustivo» (enumeración exacta en territorios pequeños,
   competicion 1.2.0); si gana, su M05 es el GeoJSON M05 del canónico con district_id reescrito por sección según la
   composición del exhaustivo (sin informe M05: se borra out_report); --sin-exhaustivo lo quita.
   1.0.1 — si el ganador no trae informe M05, se borra out_report (no queda el del último candidato);
   1.0.0 — fichero nuevo.
+MOTIVO: 1.2.0 — T-195: misma regla de núcleos que el certificador (T-175) al generar y descartar planes.
 MOTIVO: 1.1.0 — T-175: enumeración exacta en el competidor del motor nuevo.
   T-163 / D-48: que el banco de la batería (herramientas/banco_generadores.py, generador «competidor») juzgue la
   competición igual que cualquier otro generador: la batería hace unidades + M04, llama a esta orden en lugar de M05 y
   después M06, validación de producción, núcleo y calidad.
-ANTERIOR: legacy/ddd_motor2/competidor_v1.0.1_20261110.py
+ANTERIOR: legacy/ddd_motor2/competidor_v1.1.0_20261110.py
 USO: DDD_RUN_ID=<id> PYTHONHASHSEED=0 python -m ddd_motor2.competidor --params territorios/<t>/config/<t>_2025.yaml \
        --run-id <id> [--semilla <n>] [--cadenas 5] [--territorio <t>]
   Lee lo mismo que M05 (modulo_05: in_graph_json, in_geojson = M04) y deja en modulo_05.out_geojson y out_report el
@@ -35,6 +40,7 @@ import os
 import shutil
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,7 +48,7 @@ GC_PY = os.environ.get("DDD_GERRYCHAIN_PYTHON", "/opt/ddd-gerrychain/bin/python"
 
 from .competicion import EntradaTerritorio, Salida, competir_publico  # noqa: E402
 from .informe import escribir  # noqa: E402
-from .reglas import ErrorContrato  # noqa: E402
+from .reglas import ErrorContrato, ErrorDatos  # noqa: E402
 
 
 def rutas(params: str, run_id: str) -> tuple[dict, dict, dict]:
@@ -147,6 +153,24 @@ def m05_desde_composicion(base_m05: Path, composicion: Path, destino: Path, s6: 
     return destino
 
 
+def referencia_m04(s5: dict, cfg: dict, carpeta: Path) -> tuple[Path | None, str]:
+    """(referencia, motivo). Referencia de núcleos = distrito inicial del M04 (T-195). Solo vuelve al canónico (None)
+    si el M04 no existe o ninguna sección trae district_id; el motivo queda en log.txt. Un M04 incompleto o ilegible
+    lanza ErrorDatos: no se degrada en silencio."""
+    from .adaptadores import COLUMNAS, leer_atributos, referencia_desde_m04
+    from .reglas import ErrorDatos
+    m04 = s5.get("in_geojson")
+    if not m04 or not Path(m04).is_file():
+        return None, f"M04 ausente ({m04}): referencia de núcleos = composición del canónico"
+    try:
+        atributos = leer_atributos(m04, "CUSEC_KEY")
+    except (OSError, ValueError, zipfile.BadZipFile) as exc:
+        raise ErrorDatos(f"{m04}: M04 ilegible ({type(exc).__name__}: {exc})") from exc
+    if not any(str(p.get(COLUMNAS["distrito"]) or "").strip() for p in atributos.values()):
+        return None, f"el M04 no trae {COLUMNAS['distrito']}: referencia de núcleos = composición del canónico"
+    return referencia_desde_m04(m04, carpeta / "referencia_nucleos_m04.csv", cfg), "referencia de núcleos = M04"
+
+
 def parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="python -m ddd_motor2.competidor",
                                  description="Competición canónico + GerryChain en lugar de M05 (T-163).")
@@ -177,7 +201,13 @@ def main(argv=None) -> int:
     carpeta.mkdir(parents=True)
     paso = _Paso(str(params), a.run_id, s5, s6, carpeta / "log.txt")
     can = CanonicoM05(paso)
-    entrada = EntradaTerritorio(t, cfg, Path(s5["in_graph_json"]))
+    try:
+        referencia, motivo = referencia_m04(s5, cfg, carpeta)
+    except ErrorDatos as exc:
+        print(f"ERROR_DATOS: {exc}", file=sys.stderr)
+        return 2
+    paso.run(["echo", motivo])
+    entrada = EntradaTerritorio(t, cfg, Path(s5["in_graph_json"]), referencia_nucleos=referencia)
     try:
         r = competir_publico(entrada, can, GerryChainM05(paso, can), carpeta, n_cadenas=a.cadenas,
                              exhaustivo=not a.sin_exhaustivo)
