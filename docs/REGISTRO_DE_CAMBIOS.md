@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.308
+Versión: 1.0.309
 Fecha: 2026-11-10
-Alcance: T-197 — Ensayo de la noche electoral de las generales de 2026 (ZIP 2023 disfrazado)
+Alcance: T-198 — Guardas y equivalencias previas al corte 5.0.0
 Estado: vigente
-Cambios/motivo: entrada docs/registro/2026-11-10_t197-ensayo-generales-2026.md numerada al fusionar en main (herramientas/numerar_registro.py)
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.307_registro_20261110.md
+Cambios/motivo: entrada docs/registro/2026-11-10_t198-equivalencias-5-0-0.md numerada al fusionar en main (herramientas/numerar_registro.py)
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.308_registro_20261110.md
 -->
 
 ## Índice de entradas por fichero (numeración automática)
@@ -13,6 +13,7 @@ Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.307_registro_20261110.md
 Cada entrada vive en `docs/registro/`; el número lo asigna el job «Numeración del Registro» al fusionar en `main`.
 
 <!-- indice-registro:inicio -->
+- 1.0.309 · [2026-11-10 — T-198 — Guardas y equivalencias previas al corte 5.0.0](registro/2026-11-10_t198-equivalencias-5-0-0.md)
 - 1.0.308 · [2026-11-10 — T-197 — Ensayo de la noche electoral de las generales de 2026 (ZIP 2023 disfrazado)](registro/2026-11-10_t197-ensayo-generales-2026.md)
 - 1.0.307 · [2026-11-10 — T-195 — R-NUCLEO del motor nuevo contra el M04](registro/2026-11-10_t195-nucleo-motor2.md)
 - 1.0.306 · [2026-11-10 — T-194 — Criterio automatizado de aceptación del motor 2](registro/2026-11-10_t194-aceptacion-motor2.md)
