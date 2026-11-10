@@ -724,6 +724,16 @@
    "secciones": 2141,
    "sha256_csv": "f207453cf1fdf152b5b9e9cac54a0ed4ccdf5d590e5bc4de591dd7a8e68802ae"
   },
+  "illes_balears": {
+   "run_id": "41033500476",
+   "blob_sha": "45656210387ab6ffdcf62d7e10c11c060b6d8298",
+   "sha256_m06": "756dcb5076f6ea0b6a902b6163d3cc267d48ae57caea907f82a5b62d5535b633",
+   "secciones": 670,
+   "sha256_csv": "a040ccba6185af197d81d02479c3c3df3e41249d748c438c5531a10d57229afe",
+   "sha256_seccionado_ine": "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f",
+   "url_seccionado_ine": "https://www.ine.es/prodyser/cartografia/seccionado_2023.zip",
+   "anio_secciones": 2023
+  },
   "la_rioja": {
    "run_id": "40867456776",
    "blob_sha": "2bc4b066b871d7a4f51b2646e63432117f1648d8",

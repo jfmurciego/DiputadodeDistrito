@@ -48,10 +48,10 @@ galicia,201210,2012-10,por mesa,si,si,si,si,0.0,0.0,no,COMPLETA_Y_CUADRA,,si,sin
 galicia,201609,2016-09,por mesa,si,si,si,si,-1e-05,0.0,no,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 galicia,202007,2020-07,por mesa,si,si,si,si,0.0,0.0,no,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 galicia,202402,2024-02,por mesa,si,si,si,si,0.0,0.0,no,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
-illes_balears,201105,2011-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-illes_balears,201505,2015-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-illes_balears,201905,2019-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
-illes_balears,202305,2023-05,por mesa,si,no,no,,,,,HUECO,"dato por sección disponible, pero no hay composición M06 (distritos vigentes) de la comunidad",si,
+illes_balears,201105,2011-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+illes_balears,201505,2015-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+illes_balears,201905,2019-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
+illes_balears,202305,2023-05,por mesa,si,si,no,,,,,PENDIENTE_DE_REAGREGAR,dato por sección y composición disponibles: falta ejecutar la reagregación,si,
 la_rioja,201105,2011-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 la_rioja,201505,2015-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
 la_rioja,201905,2019-05,por mesa,si,si,si,si,0.0,0.0,si,COMPLETA_Y_CUADRA,,si,sin homologar (sigla tal cual)
