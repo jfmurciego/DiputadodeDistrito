@@ -25,9 +25,9 @@
 | Hora | Territorio | Workflow y modo | Run | Resultado | Ejecuciones/min acumulados | Reintento (n/R) |
 |---|---|---|---|---|---|---|
 | 20:22 | Soria + Barcelona (fase 1) | batería motor2 D8 N=10 | 42884601639 | SUCCESS, criterio cumplido: Soria 12/12 válidos (empata), Barcelona 11/11 válidos (mejora, gana una ponderada); canónico válido en ambos; 0 FALLO_GENERADOR; paso de dependencias sin tocar el lock base en verde (pandas 2.3.2, geopandas 1.1.1) | 1 / 9 min | 0/1 |
-| 20:31 | los 71 (fase 2) | batería motor2 D8 N=10, `territorios` vacío | 42886114842 | EN_VUELO | 2 / 9 min + en curso | 0/1 |
+| 20:31 | los 71 (fase 2) | batería motor2 D8 N=10, `territorios` vacío | 42886114842 | SUCCESS: aceptación SÍ, 71/71 válidos, 0 FALLO_GENERADOR, todos los candidatos evaluados; mejora 55, empata 16, empeora 0; huellas reales correctas (Soria, Álava, Melilla) | 2 / ~502 min | 0/1 |
 
 ## Cierre
-Estado: `EN_CURSO` (T-181b en `main`, #683). Último uso: —.
+Estado: `COMPLETADA`. 2 ejecuciones, ~502 min de jobs (tope 800). Último uso: 2026-11-10. Último uso: —.
 
 Frase propuesta: «Autorizo la campaña 2026-11-10_bateria-motor2-d8-10-cadenas-r3 tal como figura en la ficha.»
